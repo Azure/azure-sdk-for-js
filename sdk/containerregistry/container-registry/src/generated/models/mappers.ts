@@ -349,7 +349,7 @@ export const AcrManifests: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      manifestsAttributes: {
+      manifests: {
         serializedName: "manifests",
         type: {
           name: "Sequence",

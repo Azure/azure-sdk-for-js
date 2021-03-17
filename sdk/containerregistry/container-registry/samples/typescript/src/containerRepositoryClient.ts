@@ -41,6 +41,7 @@ async function listTags(client: ContainerRepositoryClient) {
       console.log(`    digest: ${tag.digest}`);
       console.log(`    created on: ${tag.createdOn}`);
       console.log(`    last updated on: ${tag.lastUpdatedOn}`);
+      console.log("");
     }
     result = await pages.next();
   }
@@ -64,6 +65,7 @@ async function listArtifacts(client: ContainerRepositoryClient) {
       console.log(`    digest: ${artifact.digest}`);
       console.log(`    created on: ${artifact.createdOn}`);
       console.log(`    last updated on: ${artifact.lastUpdatedOn}`);
+      console.log("");
     }
     result = await pages.next();
   }

@@ -911,7 +911,7 @@
           }
         },
         "x-ms-pageable": {
-          "itemName": "manifestsAttributes",
+          "itemName": "manifests",
           "nextLinkName": "link"
         },
         "parameters": [
@@ -1532,7 +1532,6 @@
           "description": "Image name"
         },
         "manifests": {
-          "x-ms-client-name": "ManifestsAttributes",
           "type": "array",
           "description": "List of manifests",
           "items": {

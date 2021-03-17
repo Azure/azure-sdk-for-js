@@ -440,13 +440,12 @@ export class ContainerRepositoryClient {
         this.repository,
         optionsComplete
       );
-      if (currentPage.manifestsAttributes?.length) {
-        // continuationState.continuationToken =
-        //   currentPage.manifestsAttributes[currentPage.manifestsAttributes.length - 1].digest;
-        continuationState.continuationToken = currentPage.link;
+      if (currentPage.manifests?.length) {
+        continuationState.continuationToken =
+          currentPage.manifests[currentPage.manifests.length - 1].digest;
       }
-      if (currentPage.manifestsAttributes) {
-        yield currentPage.manifestsAttributes.map((t) => {
+      if (currentPage.manifests) {
+        yield currentPage.manifests.map((t) => {
           return {
             ...t,
             registry: currentPage.registry,
@@ -455,24 +454,22 @@ export class ContainerRepositoryClient {
         });
       }
       while (continuationState.continuationToken) {
-        const currentPage = await this.client.containerRegistryRepository.getManifestsNext(
+        const currentPage = await this.client.containerRegistryRepository.getManifests(
           this.repository,
-          continuationState.continuationToken,
           {
             n: continuationState.maxPageSize,
             last: continuationState.continuationToken,
             ...optionsComplete
           }
         );
-        if (currentPage.manifestsAttributes?.length) {
-          // continuationState.continuationToken =
-          // currentPage.manifestsAttributes[currentPage.manifestsAttributes.length - 1].digest;
-          continuationState.continuationToken = currentPage.link;
+        if (currentPage.manifests?.length) {
+          continuationState.continuationToken =
+            currentPage.manifests[currentPage.manifests.length - 1].digest;
         } else {
           continuationState.continuationToken = undefined;
         }
-        if (currentPage.manifestsAttributes) {
-          yield currentPage.manifestsAttributes.map((t) => {
+        if (currentPage.manifests) {
+          yield currentPage.manifests.map((t) => {
             return {
               ...t,
               registry: currentPage.registry,

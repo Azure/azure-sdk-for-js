@@ -122,7 +122,7 @@ export interface AcrManifests {
   /** Image name */
   imageName?: string;
   /** List of manifests */
-  manifestsAttributes?: ManifestAttributesBase[];
+  manifests?: ManifestAttributesBase[];
 }
 
 /** Manifest details */

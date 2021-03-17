@@ -5,8 +5,7 @@
  * @summary Demonstrates the use of a ContainerRepositoryClient.
  */
 
-//const { ContainerRepositoryClient } = require("@azure/container-registry");
-const { ContainerRepositoryClient, ContainerRegistryUserCredential } = require("../../dist");
+const { ContainerRepositoryClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -14,16 +13,11 @@ async function main() {
   const endpoint = process.env.ENDPOINT || "<endpoint>";
   const repository = process.env.REPOSITORY_NAME || "<repository name>";
 
-  //const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
-  const client = new ContainerRepositoryClient(
-    endpoint,
-    repository,
-    new ContainerRegistryUserCredential(process.env.USERNAME, process.env.PASSWORD)
-  );
-  //await listTags(client);
-  //await listArtifacts(client);
+  const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
+  await listTags(client);
+  await listArtifacts(client);
   await getProperties(client);
-  //await getArtifactProperties(client);
+  await getArtifactProperties(client);
 }
 
 async function listTags(client) {
@@ -46,6 +40,7 @@ async function listTags(client) {
       console.log(`    digest: ${tag.digest}`);
       console.log(`    created on: ${tag.createdOn}`);
       console.log(`    last updated on: ${tag.lastUpdatedOn}`);
+      console.log("");
     }
     result = await pages.next();
   }
@@ -69,6 +64,7 @@ async function listArtifacts(client) {
       console.log(`    digest: ${artifact.digest}`);
       console.log(`    created on: ${artifact.createdOn}`);
       console.log(`    last updated on: ${artifact.lastUpdatedOn}`);
+      console.log("");
     }
     result = await pages.next();
   }
