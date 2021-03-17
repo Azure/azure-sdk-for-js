@@ -16,6 +16,11 @@ steps:
       {
         Write-Host "Reinstalling native dependency $($symlink)"
 
+        if(-not (Test-Path $symlink))
+        {
+          Write-Host "Path $($symlink) doesn't exist. Skipping reinstall of this dependency."
+          continue
+        }
         # Map from the symlink path to the target path (npm has issues installing into symlink dirs)
         # Example: common/temp/node_modules/.pnpm/keytar@5.6.0/node_modules/keytar
         $targetPath = (Get-Item $symlink).Target
