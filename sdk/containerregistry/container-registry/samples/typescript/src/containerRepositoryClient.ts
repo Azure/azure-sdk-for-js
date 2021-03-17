@@ -5,8 +5,7 @@
  * @summary Demonstrates the use of a ContainerRegistryClient.
  */
 
-//import { ContainerRepositoryClient } from "@azure/container-registry";
-import { ContainerRepositoryClient } from "../../../src";
+import { ContainerRepositoryClient } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -16,10 +15,10 @@ export async function main() {
   const repository = process.env.REPOSITORY_NAME ?? "<repository name>";
 
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
-  //await listTags(client);
-  //await listArtifacts(client);
+  await listTags(client);
+  await listArtifacts(client);
   await getProperties(client);
-  //await getArtifactProperties(client);
+  await getArtifactProperties(client);
 }
 
 async function listTags(client: ContainerRepositoryClient) {

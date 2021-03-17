@@ -52,6 +52,7 @@ export class ContainerRepositoryClient {
     // (undocumented)
     repository: string;
     setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<import("@azure/core-http").RestResponse>;
+    setPermissions(value?: ContentProperties, options?: SetPermissionsOptions): Promise<import("@azure/core-http").RestResponse>;
     setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<import("@azure/core-http").RestResponse>;
 }
 
@@ -117,6 +118,10 @@ export type RegistryArtifactProperties = ManifestAttributes;
 
 // @public
 export interface SetManifestPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface SetPermissionsOptions extends OperationOptions {
 }
 
 // @public

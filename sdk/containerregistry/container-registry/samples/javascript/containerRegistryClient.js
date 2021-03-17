@@ -5,18 +5,13 @@
  * @summary Demonstrates the use of a ContainerRegistryClient.
  */
 
-//const { ContainerRegistryClient } = require("@azure/container-registry");
-const { ContainerRegistryClient, ContainerRegistryUserCredential } = require("../../dist");
+const { ContainerRegistryClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 async function main() {
   const endpoint = process.env.ENDPOINT || "<endpoint>";
-  // const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
-  const client = new ContainerRegistryClient(
-    endpoint,
-    new ContainerRegistryUserCredential(process.env.USERNAME, process.env.PASSWORD)
-  );
+  const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
   await listRepositories(client);
   // await deleteRepository(client);
 }
