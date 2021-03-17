@@ -11,8 +11,6 @@ stages:
           Path: sdk/keyvault/keyvault-certificates/platform-matrix.json
           Selection: sparse
           GenerateVMJobs: true
-          EnvVars:
-            SERVICE_VERSIONS_TO_TEST: "7.0,7.1,7.2"
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
