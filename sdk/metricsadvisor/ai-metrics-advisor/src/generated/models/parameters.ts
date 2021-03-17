@@ -7,8 +7,8 @@
  */
 
 import {
-  OperationURLParameter,
   OperationParameter,
+  OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-http";
 import {
@@ -34,6 +34,18 @@ import {
   MetricDimensionQueryOptions as MetricDimensionQueryOptionsMapper,
   EnrichmentStatusQueryOption as EnrichmentStatusQueryOptionMapper
 } from "../models/mappers";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -194,7 +206,22 @@ export const dataSourceType: OperationQueryParameter = {
   mapper: {
     serializedName: "dataSourceType",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "AzureApplicationInsights",
+        "AzureBlob",
+        "AzureCosmosDB",
+        "AzureDataExplorer",
+        "AzureDataLakeStorageGen2",
+        "AzureTable",
+        "Elasticsearch",
+        "HttpRequest",
+        "InfluxDB",
+        "MongoDB",
+        "MySql",
+        "PostgreSql",
+        "SqlServer"
+      ]
     }
   }
 };
@@ -204,7 +231,17 @@ export const granularityName: OperationQueryParameter = {
   mapper: {
     serializedName: "granularityName",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "Yearly",
+        "Monthly",
+        "Weekly",
+        "Daily",
+        "Hourly",
+        "Minutely",
+        "Secondly",
+        "Custom"
+      ]
     }
   }
 };
@@ -214,7 +251,8 @@ export const status: OperationQueryParameter = {
   mapper: {
     serializedName: "status",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: ["Active", "Paused"]
     }
   }
 };
@@ -344,18 +382,6 @@ export const body20: OperationParameter = {
 };
 
 export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const nextLink1: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
     serializedName: "nextLink",

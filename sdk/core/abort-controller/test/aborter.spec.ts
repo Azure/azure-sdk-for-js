@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { AbortController, AbortSignal, AbortError } from "../src";
 
 describe("AbortController", () => {
-  function doAsyncOperation(aborter: AbortSignal, runningTimeinMs: number = 100): Promise<number> {
+  function doAsyncOperation(aborter: AbortSignal, runningTimeinMs: number = 100): Promise<void> {
     const s = Date.now();
     return new Promise((resolve, reject) => {
       // check status every 10 ms.
@@ -100,6 +100,35 @@ describe("AbortController", () => {
       assert.fail();
     } catch (err) {
       assert.deepEqual(s, ["aborted", "aborted"]);
+    }
+  });
+
+  // Test for the issue reported in https://github.com/Azure/azure-sdk-for-js/issues/13985
+  it("should invoke all abort listener callbacks when aborting even when listeners self-remove", async () => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const acks: string[] = [];
+    try {
+      const onAbortFoo = () => {
+        acks.push("foo");
+        signal.removeEventListener("abort", onAbortFoo);
+      };
+
+      const onAbortBar = () => {
+        acks.push("bar");
+        signal.removeEventListener("abort", onAbortBar);
+      };
+
+      signal.addEventListener("abort", onAbortFoo);
+      signal.addEventListener("abort", onAbortBar);
+
+      const response = doAsyncOperation(signal);
+      controller.abort();
+      await response;
+      assert.fail();
+    } catch (err) {
+      assert.deepEqual(acks, ["foo", "bar"]);
     }
   });
 

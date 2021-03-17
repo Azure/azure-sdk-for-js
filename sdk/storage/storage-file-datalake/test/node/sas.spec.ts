@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { UserDelegationKey } from "@azure/storage-blob";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
@@ -21,7 +24,9 @@ import {
   SASQueryParameters
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
+import { DirectorySASPermissions } from "../../src/sas/DirectorySASPermissions";
 import { SASProtocol } from "../../src/sas/SASQueryParameters";
+import { delay } from "../../src/utils/utils.common";
 import {
   getDataLakeServiceClient,
   getDataLakeServiceClientWithDefaultCredential,
@@ -394,7 +399,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     await fileSystemClient.delete();
   });
 
-  it("generateDataLakeSASQueryParameters should work for file with access policy", async () => {
+  it("generateDataLakeSASQueryParameters should work for fileSystem with access policy", async () => {
     const now = recorder.newDate("now");
     now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
 
@@ -425,9 +430,77 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       }
     ]);
 
+    /*
+     * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
+     * During this interval, a shared access signature that is associated with the stored access policy will
+     * fail with status code 403 (Forbidden), until the access policy becomes active.
+     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * Note: delay in recorder module only take effect in live and recording mode.
+     */
+    await delay(30 * 1000);
+
     const fileSAS = generateDataLakeSASQueryParameters(
       {
         fileSystemName,
+        identifier: id
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasClient = `${fileClient.url}?${fileSAS}`;
+    const fileClientWithSAS = new DataLakeFileClient(
+      sasClient,
+      newPipeline(new AnonymousCredential())
+    );
+
+    await fileClientWithSAS.getProperties();
+    await fileSystemClient.delete();
+  });
+
+  it("generateDataLakeSASQueryParameters should work for file with access policy", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (serviceClient as any).pipeline.factories;
+    const sharedKeyCredential = factories[factories.length - 1];
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const fileName = recorder.getUniqueName("file");
+    const fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create();
+
+    const id = "unique-id";
+    await fileSystemClient.setAccessPolicy(undefined, [
+      {
+        accessPolicy: {
+          expiresOn: tmr,
+          permissions: DataLakeSASPermissions.parse("racwd").toString(),
+          startsOn: now
+        },
+        id
+      }
+    ]);
+
+    /*
+     * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
+     * During this interval, a shared access signature that is associated with the stored access policy will
+     * fail with status code 403 (Forbidden), until the access policy becomes active.
+     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * Note: delay in recorder module only take effect in live and recording mode.
+     */
+    await delay(30 * 1000);
+
+    const fileSAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName,
+        pathName: fileName,
         identifier: id
       },
       sharedKeyCredential as StorageSharedKeyCredential
@@ -744,6 +817,91 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       "sv=2020-02-10&sp=permissions&sig=signature&sdd=2&saoid=preauthorizedAgentObjectId&scid=correlationId"
     );
   });
+
+  it("DataLakeServiceClient.generateAccountSasUrl() should work with all parameters set", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sasURL = serviceClient.generateAccountSasUrl(
+      tmr,
+      AccountSASPermissions.parse("rwdlacup"),
+      AccountSASResourceTypes.parse("sco").toString(),
+      {
+        version: "2016-05-31",
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" }
+      }
+    );
+    const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
+    await serviceClientWithSAS.listFileSystems().next();
+
+    // Should throw with client constructed with an Anonymous credential.
+    let exceptionCaught = false;
+    try {
+      serviceClientWithSAS.generateAccountSasUrl();
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("DataLakeServiceClient.generateAccountSasUrl() should work with default parameters", async () => {
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const sasURL = serviceClient.generateAccountSasUrl();
+    const serviceClientWithSAS = new DataLakeServiceClient(sasURL);
+    await serviceClientWithSAS.getFileSystemClient(fileSystemName).getProperties();
+
+    await fileSystemClient.delete();
+  });
+
+  it("DataLakeFileSystemClient.generateSasUrl() should work", async () => {
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    const fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    const sasURL = await fileSystemClient.generateSasUrl({
+      version: "2016-05-31",
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      expiresOn: tmr,
+      permissions: FileSystemSASPermissions.parse("racwdl"),
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override"
+    });
+
+    const fileSystemClientWithSAS = new DataLakeFileSystemClient(sasURL);
+    await fileSystemClientWithSAS.listPaths().next();
+
+    // Should throw with client constructed with an Anonymous credential.
+    let exceptionCaught = false;
+    try {
+      await fileSystemClientWithSAS.generateSasUrl({});
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    await fileSystemClient.delete();
+  });
 });
 
 describe("SAS generation Node.js only for directory SAS", () => {
@@ -797,9 +955,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     tmr = recorder.newDate("tmr");
     tmr.setDate(tmr.getDate() + 10);
 
-    // By default, credential is always the last element of pipeline factories
-    const factories = (serviceClient as any).pipeline.factories;
-    sharedKeyCredential = factories[factories.length - 1];
+    sharedKeyCredential = serviceClient.credential as StorageSharedKeyCredential;
   });
 
   afterEach(async function() {
@@ -816,7 +972,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         directoryDepth: 1,
         expiresOn: tmr,
         ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
-        permissions: DataLakeSASPermissions.parse("racwdmeop"),
+        permissions: DirectorySASPermissions.parse("racwdlmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: "2020-02-10"
@@ -836,6 +992,28 @@ describe("SAS generation Node.js only for directory SAS", () => {
     await directoryClientwithSAS.setPermissions(permissions);
   });
 
+  it("generateDataLakeSASQueryParameters for root directory should work", async () => {
+    const rootDirName = "";
+    const rootDirectoryClient = fileSystemClient.getDirectoryClient(rootDirName);
+
+    const directorySAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        pathName: rootDirectoryClient.name,
+        isDirectory: true,
+        directoryDepth: 1,
+        expiresOn: tmr,
+        permissions: DirectorySASPermissions.parse("racwdlmeop"),
+        version: "2020-02-10"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+    const sasURL = `${rootDirectoryClient.url}?${directorySAS}`;
+    const directoryClientwithSAS = new DataLakeDirectoryClient(sasURL);
+
+    await directoryClientwithSAS.getAccessControl();
+  });
+
   function getDefualtDirctorySAS(directoryName: string): SASQueryParameters {
     return generateDataLakeSASQueryParameters(
       {
@@ -843,7 +1021,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
         pathName: directoryName,
         isDirectory: true,
         expiresOn: tmr,
-        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
+        permissions: DirectorySASPermissions.parse("racwdlmeop"),
         protocol: SASProtocol.HttpsAndHttp,
         startsOn: now,
         version: "2020-02-10"
@@ -935,6 +1113,107 @@ describe("SAS generation Node.js only for directory SAS", () => {
     // p
     await directoryClientwithSAS.setPermissions(permissions);
   });
+
+  it("DataLakeDirectoryClient.generateSasUrl() should work", async () => {
+    const sasURL = await directoryClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: DirectorySASPermissions.parse("racwdlmeop")
+    });
+
+    const sas = generateDataLakeSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: DirectorySASPermissions.parse("racwdlmeop"),
+        fileSystemName: fileSystemClient.name,
+        pathName: directoryClient.name,
+        isDirectory: true
+      },
+      sharedKeyCredential
+    ).toString();
+    assert.deepStrictEqual(sasURL, directoryClient.url + "?" + sas);
+
+    const directoryClientWithSAS = new DataLakeDirectoryClient(sasURL);
+    await directoryClientWithSAS.getAccessControl();
+
+    // Should throw with client constructed with an Anonymous credential.
+    let exceptionCaught = false;
+    try {
+      await directoryClientWithSAS.generateSasUrl({});
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("DataLakeFileClient.generateSasUrl() should work", async () => {
+    const sasURL = await fileClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: DataLakeSASPermissions.parse("racwdmeop")
+    });
+
+    const sas = generateDataLakeSASQueryParameters(
+      {
+        expiresOn: tmr,
+        permissions: DirectorySASPermissions.parse("racwdmeop"),
+        fileSystemName: fileSystemClient.name,
+        pathName: fileClient.name
+      },
+      sharedKeyCredential
+    ).toString();
+    assert.deepStrictEqual(sasURL, fileClient.url + "?" + sas);
+
+    const fileClientWithSAS = new DataLakeFileClient(sasURL);
+    await fileClientWithSAS.getAccessControl();
+
+    // Should throw with client constructed with an Anonymous credential.
+    let exceptionCaught = false;
+    try {
+      await fileClientWithSAS.generateSasUrl({});
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+  });
+
+  it("generateDataLakeSASQueryParameters should work for directory with access policy", async () => {
+    const id = "unique-id";
+    await fileSystemClient.setAccessPolicy(undefined, [
+      {
+        accessPolicy: {
+          expiresOn: tmr,
+          permissions: DataLakeSASPermissions.parse("racwd").toString(),
+          startsOn: now
+        },
+        id
+      }
+    ]);
+
+    /*
+     * When you establish a stored access policy on a container, it may take up to 30 seconds to take effect.
+     * During this interval, a shared access signature that is associated with the stored access policy will
+     * fail with status code 403 (Forbidden), until the access policy becomes active.
+     * More details: https://docs.microsoft.com/en-us/rest/api/storageservices/set-container-acl
+     * Note: delay in recorder module only take effect in live and recording mode.
+     */
+    await delay(30 * 1000);
+
+    const directorySAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        pathName: directoryClient.name,
+        isDirectory: true,
+        identifier: id
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasClient = `${fileClient.url}?${directorySAS}`;
+    const fileClientWithSAS = new DataLakeFileClient(sasClient);
+
+    await fileClientWithSAS.getProperties();
+  });
 });
 
 describe("SAS generation Node.js only for delegation SAS", () => {
@@ -947,6 +1226,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
   let now: Date;
   let tmr: Date;
   let accountName: string;
+  let fileSystemName: string;
 
   const permissions: PathPermissions = {
     extendedAcls: false,
@@ -984,7 +1264,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     tmr.setDate(tmr.getDate() + 5);
     userDelegationKey = await oauthServiceClient.getUserDelegationKey(now, tmr);
 
-    const fileSystemName = recorder.getUniqueName("filesystem");
+    fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = oauthServiceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
 

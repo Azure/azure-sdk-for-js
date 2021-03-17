@@ -85,8 +85,8 @@ export class QueryIterator<T> {
           await this.createPipelinedExecutionContext();
           try {
             response = await this.queryExecutionContext.fetchMore();
-          } catch (error) {
-            this.handleSplitError(error);
+          } catch (queryError) {
+            this.handleSplitError(queryError);
           }
         } else {
           throw error;
@@ -104,9 +104,9 @@ export class QueryIterator<T> {
   }
 
   /**
-   * Determine if there are still remaining resources to processs based on the value of the continuation token or the\
+   * Determine if there are still remaining resources to processs based on the value of the continuation token or the
    * elements remaining on the current batch in the QueryIterator.
-   * @returns {Boolean} true if there is other elements to process in the QueryIterator.
+   * @returns true if there is other elements to process in the QueryIterator.
    */
   public hasMoreResults(): boolean {
     return this.queryExecutionContext.hasMoreResults();
@@ -149,8 +149,8 @@ export class QueryIterator<T> {
         await this.createPipelinedExecutionContext();
         try {
           response = await this.queryExecutionContext.fetchMore();
-        } catch (error) {
-          this.handleSplitError(error);
+        } catch (queryError) {
+          this.handleSplitError(queryError);
         }
       } else {
         throw error;
@@ -166,7 +166,7 @@ export class QueryIterator<T> {
   /**
    * Reset the QueryIterator to the beginning and clear all the resources inside it
    */
-  public reset() {
+  public reset(): void {
     this.queryPlanPromise = undefined;
     this.queryExecutionContext = new DefaultQueryExecutionContext(
       this.options,
@@ -206,7 +206,7 @@ export class QueryIterator<T> {
     );
   }
 
-  private async createPipelinedExecutionContext() {
+  private async createPipelinedExecutionContext(): Promise<void> {
     const queryPlanResponse = await this.queryPlanPromise;
 
     // We always coerce queryPlanPromise to resolved. So if it errored, we need to manually inspect the resolved value
@@ -228,7 +228,7 @@ export class QueryIterator<T> {
     );
   }
 
-  private async fetchQueryPlan() {
+  private async fetchQueryPlan(): Promise<any> {
     if (!this.queryPlanPromise && this.resourceType === ResourceType.item) {
       return this.clientContext
         .getQueryPlan(
@@ -243,12 +243,19 @@ export class QueryIterator<T> {
     return this.queryPlanPromise;
   }
 
-  private needsQueryPlan(error: any): error is ErrorResponse {
-    return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+  private needsQueryPlan(error: ErrorResponse): error is ErrorResponse {
+    if (
+      error.body?.additionalErrorInfo ||
+      error.message.includes("Cross partition query only supports")
+    ) {
+      return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
+    } else {
+      throw error;
+    }
   }
 
   private initPromise: Promise<void>;
-  private async init() {
+  private async init(): Promise<void> {
     if (this.isInitialized === true) {
       return;
     }
@@ -257,14 +264,14 @@ export class QueryIterator<T> {
     }
     return this.initPromise;
   }
-  private async _init() {
+  private async _init(): Promise<void> {
     if (this.options.forceQueryPlan === true && this.resourceType === ResourceType.item) {
       await this.createPipelinedExecutionContext();
     }
     this.isInitialized = true;
   }
 
-  private handleSplitError(err: any) {
+  private handleSplitError(err: any): void {
     if (err.code === 410) {
       const error = new Error(
         "Encountered partition split and could not recover. This request is retryable"

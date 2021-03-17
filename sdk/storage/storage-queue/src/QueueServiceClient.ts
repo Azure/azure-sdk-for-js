@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   TokenCredential,
@@ -9,7 +9,6 @@ import {
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import {
-  ListQueuesIncludeType,
   QueueCreateResponse,
   QueueDeleteResponse,
   QueueItem,
@@ -25,59 +24,50 @@ import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  appendToURLQuery,
+  extractConnectionStringParts
+} from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
 import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
+import { AccountSASPermissions } from "./AccountSASPermissions";
+import { generateAccountSASQueryParameters } from "./AccountSASSignatureValues";
+import { AccountSASServices } from "./AccountSASServices";
+import { SASProtocol } from "./SASQueryParameters";
+import { SasIPRange } from "./SasIPRange";
 
 /**
  * Options to configure {@link QueueServiceClient.getProperties} operation
- *
- * @export
- * @interface ServiceGetPropertiesOptions
  */
 export interface ServiceGetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueServiceClient.setProperties} operation
- *
- * @export
- * @interface ServiceSetPropertiesOptions
  */
 export interface ServiceSetPropertiesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceSetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
 }
 
 /**
  * Options to configure {@link QueueServiceClient.getStatistics} operation
- *
- * @export
- * @interface ServiceGetStatisticsOptions
  */
 export interface ServiceGetStatisticsOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceGetStatisticsOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -89,16 +79,11 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
  * - {@link QueueServiceClient.listSegments}
  * - {@link QueueServiceClient.listQueuesSegment}
  * - {@link QueueServiceClient.listItems}
- *
- * @interface ServiceListQueuesSegmentOptions
  */
 interface ServiceListQueuesSegmentOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceListQueuesSegmentOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -121,22 +106,16 @@ interface ServiceListQueuesSegmentOptions extends CommonOptions {
    * specify that the queue's metadata be returned as part of the response
    * body. Possible values include: 'metadata'
    */
-  include?: ListQueuesIncludeType;
+  include?: string;
 }
 
 /**
  * Options to configure {@link QueueServiceClient.listQueues} operation
- *
- * @export
- * @interface ServiceListQueuesOptions
  */
 export interface ServiceListQueuesOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceListQueuesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -152,25 +131,46 @@ export interface ServiceListQueuesOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure {@link QueueServiceClient.generateAccountSasUrl} operation.
+ */
+export interface ServiceGenerateAccountSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols allowed.
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   */
+  startsOn?: Date;
+  /**
+   * Optional. IP range allowed.
+   */
+  ipRange?: SasIPRange;
+}
+
+/**
  * A QueueServiceClient represents a URL to the Azure Storage Queue service allowing you
  * to manipulate queues.
- *
- * @export
- * @class QueueServiceClient
  */
 export class QueueServiceClient extends StorageClient {
   /**
    * Creates an instance of QueueServiceClient.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
    *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
    *                                  Account connection string example -
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
-   * @returns {QueueServiceClient} A new QueueServiceClient object from the given connection string.
-   * @memberof QueueServiceClient
+   * @param options - Options to configure the HTTP pipeline.
+   * @returns A new QueueServiceClient object from the given connection string.
    */
   public static fromConnectionString(
     connectionString: string,
@@ -202,22 +202,17 @@ export class QueueServiceClient extends StorageClient {
 
   /**
    * serviceContext provided by protocol layer.
-   *
-   * @private
-   * @type {Service}
-   * @memberof QueueServiceClient
    */
   private serviceContext: Service;
 
   /**
    * Creates an instance of QueueServiceClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage queue service, such as
+   * @param url - A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
-   * @param {StoragePipelineOptions} [options] Options to configure the HTTP pipeline.
-   * @memberof QueueServiceClient
+   * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
+   * @param options - Options to configure the HTTP pipeline.
    *
    * Example using DefaultAzureCredential from `@azure/identity`:
    *
@@ -257,12 +252,11 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Creates an instance of QueueServiceClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage queue service, such as
+   * @param url - A URL string pointing to Azure Storage queue service, such as
    *                     "https://myaccount.queue.core.windows.net". You can append a SAS
    *                     if using AnonymousCredential, such as "https://myaccount.queue.core.windows.net?sasString".
-   * @param {Pipeline} pipeline Call newPipeline() to create a default
+   * @param pipeline - Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
-   * @memberof QueueServiceClient
    */
   constructor(url: string, pipeline: Pipeline);
   constructor(
@@ -294,9 +288,8 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Creates a {@link QueueClient} object.
    *
-   * @param {string} queueName
-   * @returns {QueueClient} a new QueueClient
-   * @memberof QueueServiceClient
+   * @param queueName -
+   * @returns a new QueueClient
    *
    * Example usage:
    *
@@ -313,25 +306,21 @@ export class QueueServiceClient extends StorageClient {
    * Returns a list of the queues under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/list-queues1
    *
-   * @param {string} [marker] A string value that identifies the portion of
+   * @param marker - A string value that identifies the portion of
    *                        the list of queues to be returned with the next listing operation. The
    *                        operation returns the continuationToken value within the response body if the
    *                        listing operation did not return all queues remaining to be listed
    *                        with the current page. The continuationToken value can be used as the value for
    *                        the marker parameter in a subsequent call to request the next page of list
    *                        items. The marker value is opaque to the client.
-   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
-   * @returns {Promise<ServiceListQueuesSegmentResponse>} Response data for the list queues segment operation.
-   * @memberof QueueServiceClient
+   * @param options - Options to list queues operation.
+   * @returns Response data for the list queues segment operation.
    */
   private async listQueuesSegment(
     marker?: string,
     options: ServiceListQueuesSegmentOptions = {}
   ): Promise<ServiceListQueuesSegmentResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-listQueuesSegment",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-listQueuesSegment", options);
 
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -344,7 +333,7 @@ export class QueueServiceClient extends StorageClient {
         maxPageSize: options.maxPageSize,
         prefix: options.prefix,
         include: options.include === undefined ? undefined : [options.include],
-        spanOptions
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -360,17 +349,14 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for {@link ServiceListQueuesSegmentResponse} objects
    *
-   * @private
-   * @param {string} [marker] A string value that identifies the portion of
+   * @param marker - A string value that identifies the portion of
    *                        the list of queues to be returned with the next listing operation. The
    *                        operation returns the continuationToken value within the response body if the
    *                        listing operation did not return all queues remaining to be listed
    *                        with the current page. The continuationToken value can be used as the value for
    *                        the marker parameter in a subsequent call to request the next page of list
    *                        items. The marker value is opaque to the client.
-   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
-   * @returns {AsyncIterableIterator<ServiceListQueuesSegmentResponse>}
-   * @memberof QueueServiceClient
+   * @param options - Options to list queues operation.
    */
   private async *listSegments(
     marker?: string,
@@ -391,10 +377,7 @@ export class QueueServiceClient extends StorageClient {
   /**
    * Returns an AsyncIterableIterator for {@link QueueItem} objects
    *
-   * @private
-   * @param {ServiceListQueuesSegmentOptions} [options] Options to list queues operation.
-   * @returns {AsyncIterableIterator<QueueItem>}
-   * @memberof QueueServiceClient
+   * @param options - Options to list queues operation.
    */
   private async *listItems(
     options: ServiceListQueuesSegmentOptions = {}
@@ -405,7 +388,9 @@ export class QueueServiceClient extends StorageClient {
 
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
-      yield* segment.queueItems;
+      if (segment.queueItems) {
+        yield* segment.queueItems;
+      }
     }
   }
 
@@ -483,9 +468,8 @@ export class QueueServiceClient extends StorageClient {
    * }
    * ```
    *
-   * @param {ServiceListQueuesOptions} [options] Options to list queues operation.
-   * @memberof QueueServiceClient
-   * @returns {PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse>} An asyncIterableIterator that supports paging.
+   * @param options - Options to list queues operation.
+   * @returns An asyncIterableIterator that supports paging.
    */
   public listQueues(
     options: ServiceListQueuesOptions = {}
@@ -503,19 +487,19 @@ export class QueueServiceClient extends StorageClient {
     const iter = this.listItems(updatedOptions);
     return {
       /**
-       * @member {Promise} [next] The next method, part of the iteration protocol
+       * The next method, part of the iteration protocol
        */
       next() {
         return iter.next();
       },
       /**
-       * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
+       * The connection to the async iterator, part of the iteration protocol
        */
       [Symbol.asyncIterator]() {
         return this;
       },
       /**
-       * @member {Function} [byPage] Return an AsyncIterableIterator that works a page at a time
+       * Return an AsyncIterableIterator that works a page at a time
        */
       byPage: (settings: PageSettings = {}) => {
         return this.listSegments(settings.continuationToken, {
@@ -531,21 +515,17 @@ export class QueueServiceClient extends StorageClient {
    * for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-properties
    *
-   * @param {ServiceGetPropertiesOptions} [options] Options to get properties operation.
-   * @returns {Promise<ServiceGetPropertiesResponse>} Response data including the queue service properties.
-   * @memberof QueueServiceClient
+   * @param options - Options to get properties operation.
+   * @returns Response data including the queue service properties.
    */
   public async getProperties(
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceGetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-getProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-getProperties", options);
     try {
       return await this.serviceContext.getProperties({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -563,23 +543,19 @@ export class QueueServiceClient extends StorageClient {
    * for Storage Analytics, CORS (Cross-Origin Resource Sharing) rules and soft delete settings.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/set-queue-service-properties
    *
-   * @param {QueueServiceProperties} properties
-   * @param {ServiceGetPropertiesOptions} [options] Options to set properties operation.
-   * @returns {Promise<ServiceSetPropertiesResponse>} Response data for the Set Properties operation.
-   * @memberof QueueServiceClient
+   * @param properties -
+   * @param options - Options to set properties operation.
+   * @returns Response data for the Set Properties operation.
    */
   public async setProperties(
     properties: QueueServiceProperties,
     options: ServiceGetPropertiesOptions = {}
   ): Promise<ServiceSetPropertiesResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-setProperties",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-setProperties", options);
     try {
       return await this.serviceContext.setProperties(properties, {
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -598,21 +574,17 @@ export class QueueServiceClient extends StorageClient {
    * replication is enabled for the storage account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-queue-service-stats
    *
-   * @param {ServiceGetStatisticsOptions} [options] Options to get statistics operation.
-   * @returns {Promise<ServiceGetStatisticsResponse>} Response data for get statistics the operation.
-   * @memberof QueueServiceClient
+   * @param options - Options to get statistics operation.
+   * @returns Response data for get statistics the operation.
    */
   public async getStatistics(
     options: ServiceGetStatisticsOptions = {}
   ): Promise<ServiceGetStatisticsResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-getStatistics",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-getStatistics", options);
     try {
       return await this.serviceContext.getStatistics({
         abortSignal: options.abortSignal,
-        spanOptions
+        tracingOptions: updatedOptions.tracingOptions
       });
     } catch (e) {
       span.setStatus({
@@ -629,24 +601,17 @@ export class QueueServiceClient extends StorageClient {
    * Creates a new queue under the specified account.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-queue4
    *
-   * @param {string} queueName name of the queue to create
-   * @param {QueueCreateOptions} [options] Options to Queue create operation.
-   * @returns {Promise<QueueCreateResponse>} Response data for the Queue create operation.
-   * @memberof QueueServiceClient
+   * @param queueName - name of the queue to create
+   * @param options - Options to Queue create operation.
+   * @returns Response data for the Queue create operation.
    */
   public async createQueue(
     queueName: string,
     options: QueueCreateOptions = {}
   ): Promise<QueueCreateResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-createQueue",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-createQueue", options);
     try {
-      return await this.getQueueClient(queueName).create({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await this.getQueueClient(queueName).create(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -662,24 +627,17 @@ export class QueueServiceClient extends StorageClient {
    * Deletes the specified queue permanently.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-queue3
    *
-   * @param {string} queueName name of the queue to delete.
-   * @param {QueueDeleteOptions} [options] Options to Queue delete operation.
-   * @returns {Promise<QueueDeleteResponse>} Response data for the Queue delete operation.
-   * @memberof QueueServiceClient
+   * @param queueName - name of the queue to delete.
+   * @param options - Options to Queue delete operation.
+   * @returns Response data for the Queue delete operation.
    */
   public async deleteQueue(
     queueName: string,
     options: QueueDeleteOptions = {}
   ): Promise<QueueDeleteResponse> {
-    const { span, spanOptions } = createSpan(
-      "QueueServiceClient-deleteQueue",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("QueueServiceClient-deleteQueue", options);
     try {
-      return await this.getQueueClient(queueName).delete({
-        ...options,
-        tracingOptions: { ...options!.tracingOptions, spanOptions }
-      });
+      return await this.getQueueClient(queueName).delete(updatedOptions);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -689,5 +647,50 @@ export class QueueServiceClient extends StorageClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Only available for QueueServiceClient constructed with a shared key credential.
+   *
+   * Generates an account Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not specified.
+   * @param permissions - Specifies the list of permissions to be associated with the SAS.
+   * @param resourceTypes - Specifies the resource types associated with the shared access signature.
+   * @param options - Optional parameters.
+   * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateAccountSasUrl(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {}
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("q").toString(),
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }

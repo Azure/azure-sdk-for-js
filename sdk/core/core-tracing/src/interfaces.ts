@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { SpanKind } from "@opentelemetry/api";
+
 /**
  * Shorthand enum for common traceFlags values inside SpanContext
  */
@@ -30,6 +32,22 @@ export interface SpanContext {
 }
 
 /**
+ * Context for the linked span.
+ */
+export type LinkContext = {
+  traceId: string;
+  spanId: string;
+};
+
+/**
+ * Used to specify a span that is linked to another.
+ */
+export interface Link {
+  /** The {@link LinkContext} of a linked span. */
+  context: LinkContext;
+}
+
+/**
  * An interface that enables manual propagation of Spans
  */
 export interface SpanOptions {
@@ -43,6 +61,14 @@ export interface SpanOptions {
    * Attributes to set on the Span
    */
   attributes?: { [key: string]: unknown };
+
+  /** {@link Link}s span to other spans */
+  links?: Link[];
+
+  /**
+   * The type of Span. Default to SpanKind.INTERNAL
+   */
+  kind?: SpanKind;
 }
 
 /**

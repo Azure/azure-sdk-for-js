@@ -10,7 +10,7 @@ Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
-[API reference documentation](https://aka.ms/azsdk/js/formrecognizer/docs) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer) |
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/form-recognizer/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples)
 
@@ -160,7 +160,6 @@ async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, {
-    contentType: "application/pdf",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
@@ -260,7 +259,6 @@ async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeReceipts(readStream, {
-    contentType: "image/jpeg",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
@@ -437,14 +435,14 @@ main().catch((err) => {
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-You can set the following environment variable to see debug logs when using this library.
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure Form Recognizer client library
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   isNode,
@@ -15,31 +15,23 @@ import { SDK_VERSION } from "./utils/constants";
 
 /**
  * TelemetryPolicyFactory is a factory class helping generating {@link TelemetryPolicy} objects.
- *
- * @export
- * @class TelemetryPolicyFactory
- * @implements {RequestPolicyFactory}
  */
 export class TelemetryPolicyFactory implements RequestPolicyFactory {
   /**
    * @internal
-   * @ignore
    */
   public readonly telemetryString: string;
 
   /**
    * Creates an instance of TelemetryPolicyFactory.
-   * @param {UserAgentOptions} [telemetry]
-   * @memberof TelemetryPolicyFactory
+   * @param telemetry -
    */
   constructor(telemetry?: UserAgentOptions) {
     const userAgentInfo: string[] = [];
 
     if (isNode) {
       if (telemetry) {
-        // FIXME: replace() only replaces the first space. And we have no idea why we need to replace spaces in the first place.
-        // But fixing this would be a breaking change. Logged an issue here: https://github.com/Azure/azure-sdk-for-js/issues/10793
-        const telemetryString = (telemetry.userAgentPrefix || "").replace(" ", "");
+        const telemetryString = telemetry.userAgentPrefix || "";
         if (telemetryString.length > 0 && userAgentInfo.indexOf(telemetryString) === -1) {
           userAgentInfo.push(telemetryString);
         }
@@ -64,10 +56,8 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
   /**
    * Creates a TelemetryPolicy object.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @returns {TelemetryPolicy}
-   * @memberof TelemetryPolicyFactory
+   * @param nextPolicy -
+   * @param options -
    */
   public create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TelemetryPolicy {
     return new TelemetryPolicy(nextPolicy, options, this.telemetryString);

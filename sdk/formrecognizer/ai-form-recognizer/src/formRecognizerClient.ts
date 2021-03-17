@@ -9,8 +9,7 @@ import {
   operationOptionsToRequestOptionsBase,
   OperationOptions
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import {
   SDK_VERSION,
   DEFAULT_COGNITIVE_SCOPE,
@@ -205,7 +204,6 @@ export class FormRecognizerClient {
 
   /**
    * @internal
-   * @ignore
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -223,9 +221,9 @@ export class FormRecognizerClient {
    * );
    * ```
    *
-   * @param {string} endpointUrl Url to an Azure Form Recognizer service endpoint
-   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
-   * @param {FormRecognizerClientOptions} [options] Used to configure the Form Recognizer client.
+   * @param endpointUrl - Url to an Azure Form Recognizer service endpoint
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Form Recognizer client.
    */
   constructor(
     endpointUrl: string,
@@ -287,9 +285,9 @@ export class FormRecognizerClient {
    *
    * const pages = await poller.pollUntilDone();
    * ```
-   * @summary Recognizes content/layout information from a given document
-   * @param {FormRecognizerRequestBody} form Input document
-   * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
+   * Recognizes content/layout information from a given document
+   * @param form - Input document
+   * @param options - Options to start content recognition operation
    */
   public async beginRecognizeContent(
     form: FormRecognizerRequestBody,
@@ -330,9 +328,9 @@ export class FormRecognizerClient {
    * const pages = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes content/layout information from a url to a form document
-   * @param formUrl Url to a document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
-   * @param options Options for the content recognition operation
+   * Recognizes content/layout information from a url to a form document
+   * @param formUrl - Url to a document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the content recognition operation
    */
   public async beginRecognizeContentFromUrl(
     formUrl: string,
@@ -360,7 +358,7 @@ export class FormRecognizerClient {
 
   /**
    * Retrieves result of content recognition operation.
-   * @private
+   * @internal
    */
   private async getRecognizedContent(
     resultId: string,
@@ -411,10 +409,10 @@ export class FormRecognizerClient {
    * });
    * const forms = await poller.pollUntilDone();
    * ```
-   * @summary Recognizes form information from a given document using a custom form model.
-   * @param modelId Id of the custom form model to use
-   * @param form Input form document
-   * @param options Options to start the form recognition operation
+   * Recognizes form information from a given document using a custom form model.
+   * @param modelId - Id of the custom form model to use
+   * @param form - Input form document
+   * @param options - Options to start the form recognition operation
    */
   public async beginRecognizeCustomForms(
     modelId: string,
@@ -444,12 +442,12 @@ export class FormRecognizerClient {
           )
         );
       }),
-      getResult: span("getCustomForms", async (finalOptions, resultId, modelId) =>
+      getResult: span("getCustomForms", async (finalOptions, resultId, modelIdParam) =>
         // using the modelId from the parameter here is important, as we could be restoring from
         // a suspended LRO
         this.client.getAnalyzeFormResult(
           // Must be defined to have reached this point, but only for custom form recognition
-          modelId!,
+          modelIdParam!,
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
         )
@@ -481,10 +479,10 @@ export class FormRecognizerClient {
    * const forms = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes form information from a url to a document using a custom form model.
-   * @param modelId Id of the custom form model to use
-   * @param formUrl Url to a document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
-   * @param options Options for the recognition operation
+   * Recognizes form information from a url to a document using a custom form model.
+   * @param modelId - Id of the custom form model to use
+   * @param formUrl - Url to a document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeCustomFormsFromUrl(
     modelId: string,
@@ -512,12 +510,12 @@ export class FormRecognizerClient {
           })
         );
       }),
-      getResult: span("getCustomForms", async (finalOptions, resultId, modelId) =>
+      getResult: span("getCustomForms", async (finalOptions, resultId, modelIdParam) =>
         // using the modelId from the parameter here is important, as we could be restoring from
         // a suspended LRO
         this.client.getAnalyzeFormResult(
           // Must be defined to have reached this point, but only for custom form recognition
-          modelId!,
+          modelIdParam!,
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
         )
@@ -560,9 +558,9 @@ export class FormRecognizerClient {
    * const [businessCard] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes business card information from a given document
-   * @param businessCard Input document
-   * @param options Options for the recognition operation
+   * Recognizes business card information from a given document
+   * @param businessCard - Input document
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeBusinessCards(
     businessCard: FormRecognizerRequestBody,
@@ -624,9 +622,9 @@ export class FormRecognizerClient {
    * const [businessCard] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes business card information from a given accessible url to a document
-   * @param businessCardUrl Url to a business card document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
-   * @param options Options for the recognition operation
+   * Recognizes business card information from a given accessible url to a document
+   * @param businessCardUrl - Url to a business card document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeBusinessCardsFromUrl(
     businessCardUrl: string,
@@ -697,9 +695,9 @@ export class FormRecognizerClient {
    * const [invoice] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes invoice information from a given document
-   * @param invoice Input document
-   * @param options Options for the recognition operation
+   * Recognizes invoice information from a given document
+   * @param invoice - Input document
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeInvoices(
     invoice: FormRecognizerRequestBody,
@@ -761,9 +759,9 @@ export class FormRecognizerClient {
    * const [invoice] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes invoice information from a given accessible url to a document
-   * @param invoiceUrl Url to an invoice document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
-   * @param options Options for the recognition operation
+   * Recognizes invoice information from a given accessible url to a document
+   * @param invoiceUrl - Url to an invoice document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeInvoicesFromUrl(
     invoiceUrl: string,
@@ -834,9 +832,9 @@ export class FormRecognizerClient {
    * const [receipt] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes receipt information from a given document
-   * @param receipt Input document
-   * @param options Options for the recognition operation
+   * Recognizes receipt information from a given document
+   * @param receipt - Input document
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeReceipts(
     receipt: FormRecognizerRequestBody,
@@ -899,9 +897,9 @@ export class FormRecognizerClient {
    * const [receipt] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes receipt information from a given accessible url to a document
-   * @param receiptUrl Url to a receipt document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
-   * @param options Options for the recognition operation
+   * Recognizes receipt information from a given accessible url to a document
+   * @param receiptUrl - Url to a receipt document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeReceiptsFromUrl(
     receiptUrl: string,
@@ -958,8 +956,8 @@ interface RemoteOperation {
  * Validates a remote operation's location is defined and extracts the
  * result ID from it.
  *
- * @param remoteOperation the operation to process
- * @returns the remote operation ID
+ * @param remoteOperation - The operation to process
+ * @returns The remote operation ID
  *
  * @internal
  */
@@ -983,11 +981,11 @@ interface Spanner<Options> {
    * an argument will be inserted at the beginning of the arguments list
    * containing the `options` that may have been updated by the tracer.
    *
-   * @param name the name of this span, which will appear in the trace.
-   * @param handler the handler to run. Its first parameter will have the
+   * @param name - The name of this span, which will appear in the trace.
+   * @param handler - The handler to run. Its first parameter will have the
    *   type of `options` that were passed to `makeSpanner`
    *
-   * @returns a function that will wrap a call to the `handler` in tracing code, forwarding its parameters
+   * @returns A function that will wrap a call to the `handler` in tracing code, forwarding its parameters
    */
   span<Args extends unknown[], Result>(
     name: string,

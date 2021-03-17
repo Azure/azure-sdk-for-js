@@ -13,6 +13,30 @@
       "path": "sdk/appconfiguration/app-configuration"
     },
     {
+      "name": "communication-admin",
+      "path": "sdk/communication/communication-administration"
+    },
+    {
+      "name": "communication-chat",
+      "path": "sdk/communication/communication-chat"
+    },
+    {
+      "name": "communication-common",
+      "path": "sdk/communication/communication-common"
+    },
+    {
+      "name": "communication-identity",
+      "path": "sdk/communication/communication-identity"
+    },
+    {
+      "name": "communication-sms",
+      "path": "sdk/communication/communication-sms"
+    },
+    {
+      "name": "container-registry",
+      "path": "sdk/containerregistry/container-registry"
+    },
+    {
       "name": "core-amqp",
       "path": "sdk/core/core-amqp"
     },
@@ -29,12 +53,16 @@
       "path": "sdk/core/core-client"
     },
     {
+      "name": "core-crypto",
+      "path": "sdk/core/core-crypto"
+    },
+    {
       "name": "core-http",
       "path": "sdk/core/core-http"
     },
     {
-      "name": "core-https",
-      "path": "sdk/core/core-https"
+      "name": "core-rest-pipeline",
+      "path": "sdk/core/core-rest-pipeline"
     },
     {
       "name": "core-lro",
@@ -49,6 +77,10 @@
       "path": "sdk/core/core-tracing"
     },
     {
+      "name": "core-util",
+      "path": "sdk/core/core-util"
+    },
+    {
       "name": "core-xml",
       "path": "sdk/core/core-xml"
     },
@@ -58,7 +90,7 @@
     },
     {
       "name": "eventgrid",
-      "path": "sdk\\eventgrid\\eventgrid"
+      "path": "sdk/eventgrid/eventgrid"
     },
     {
       "name": "event-hubs",
@@ -85,6 +117,10 @@
       "path": "sdk/identity/identity"
     },
     {
+      "name": "keyvault-admin",
+      "path": "sdk/keyvault/keyvault-admin"
+    },
+    {
       "name": "keyvault-certificates",
       "path": "sdk/keyvault/keyvault-certificates"
     },
@@ -102,7 +138,15 @@
     },
     {
       "name": "metrics-advisor",
-      "path": "sdk\\metricsadvisor\\ai-metrics-advisor"
+      "path": "sdk/metricsadvisor/ai-metrics-advisor"
+    },
+    {
+      "name": "schema-registry",
+      "path": "sdk/schemaregistry/schema-registry"
+    },
+    {
+      "name": "schema-registry-avro",
+      "path": "sdk/schemaregistry/schema-registry-avro"
     },
     {
       "name": "search",
@@ -129,8 +173,32 @@
       "path": "sdk/storage/storage-file-share"
     },
     {
+      "name": "storage-internal-avro",
+      "path": "sdk/storage/storage-internal-avro"
+    },
+    {
       "name": "storage-queue",
       "path": "sdk/storage/storage-queue"
+    },
+    {
+      "name": "synapse-access-control",
+      "path": "sdk/synapse/synapse-access-control"
+    },
+    {
+      "name": "synapse-artifacts",
+      "path": "sdk/synapse/synapse-artifacts"
+    },
+    {
+      "name": "synapse-managed-private-endpoints",
+      "path": "sdk/synapse/synapse-managed-private-endpoints"
+    },
+    {
+      "name": "synapse-monitoring",
+      "path": "sdk/synapse/synapse-monitoring"
+    },
+    {
+      "name": "synapse-spark",
+      "path": "sdk/synapse/synapse-spark"
     },
     {
       "name": "tables",
@@ -142,7 +210,7 @@
     },
     {
       "name": "monitor",
-      "path": "sdk/monitor/opentelemetry-exporter-azure-monitor"
+      "path": "sdk/monitor/monitor-opentelemetry-exporter"
     },
     {
       "name": "test recorder",
@@ -157,11 +225,32 @@
       "path": "common/tools/eslint-plugin-azure-sdk"
     },
     {
+      "name": "dev tool",
+      "path": "common/tools/dev-tool"
+    },
+    {
       "name": "perfstress",
       "path": "sdk/test-utils/perfstress"
     },
     {
-      "path": "sdk\\digitaltwins\\digital-twins-core"
+      "name": "multi-version test",
+      "path": "sdk/test-utils/multi-version"
+    },
+    {
+      "name": "digital-twins-core",
+      "path": "sdk/digitaltwins/digital-twins-core"
+    },
+    {
+      "name": "mixedreality-authentication",
+      "path": "sdk/mixedreality/mixedreality-authentication"
+    },
+    {
+      "name": "attestation",
+      "path": "sdk/attestation/attestation"
+    },
+    {
+      "name": "iot-device-update",
+      "path": "sdk/deviceupdate/iot-device-update"
     }
   ],
   "settings": {
@@ -191,6 +280,9 @@
     "typescript.tsdk": "core-http/node_modules/typescript/lib"
   },
   "extensions": {
-    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode"
+    ]
   }
 }

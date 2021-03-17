@@ -20,20 +20,18 @@ import { PermissionResponse } from "./PermissionResponse";
 export class Permissions {
   /**
    * @hidden
-   * @param user The parent {@link User}.
+   * @param user - The parent {@link User}.
    */
   constructor(public readonly user: User, private readonly clientContext: ClientContext) {}
 
   /**
    * Query all permissions.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Query all permissions.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -54,7 +52,6 @@ export class Permissions {
 
   /**
    * Read all permissions.
-   * @param options
    * @example Read all permissions to array.
    * ```typescript
    * const {body: permissionList} = await user.permissions.readAll().fetchAll();
@@ -69,7 +66,7 @@ export class Permissions {
    *
    * A permission represents a per-User Permission to access a specific resource
    * e.g. Item or Container.
-   * @param body Represents the body of the permission.
+   * @param body - Represents the body of the permission.
    */
   public async create(
     body: PermissionDefinition,

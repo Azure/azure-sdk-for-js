@@ -6,11 +6,11 @@ let safeatob: any;
 // base64 character set, plus padding character (=)
 const b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 // Regular expression to check formal correctness of base64 encoded strings
-const b64re = /^(?:[A-Za-z\d+\/]{4})*?(?:[A-Za-z\d+\/]{2}(?:==)?|[A-Za-z\d+\/]{3}=?)?$/;
+const b64re = /^(?:[A-Za-z\d+/]{4})*?(?:[A-Za-z\d+/]{2}(?:==)?|[A-Za-z\d+/]{3}=?)?$/;
 
 if ("function" !== typeof atob) {
   // atob implementation for React Native
-  safeatob = (str: string) => {
+  safeatob = (str: string): string => {
     // atob can work with strings with whitespaces, even inside the encoded part,
     // but only \t, \n, \f, \r and ' ', which can be stripped.
     str = String(str).replace(/[\t\n\f\r ]+/g, "");

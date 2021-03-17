@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs",
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
+   "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"hello world\"},{\"id\":\"1\",\"text\":\"I did not like the hotel we stayed at.\"}]}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Request contains duplicated Ids. Make sure each document has a unique Id.\"}}}",
+   "responseHeaders": {
+    "apim-request-id": "4c5c6bb4-1d0e-4650-b1f4-7a7f76fc95ff",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 04 Mar 2021 20:58:39 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "4"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "fd07491e077d664a98fa00ed86c7e0f4"
+}

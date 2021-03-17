@@ -17,6 +17,7 @@ import { KeepAliveOptions } from '@azure/core-http';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ProxyOptions } from '@azure/core-http';
+import { RequestOptionsBase } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
@@ -164,7 +165,7 @@ export { HttpRequestBody }
 export { IHttpClient }
 
 // @public
-export type ListQueuesIncludeType = 'metadata';
+export type ListQueuesIncludeType = "metadata";
 
 // @public
 export interface ListQueuesSegmentResponse {
@@ -189,7 +190,6 @@ export const logger: import("@azure/logger").AzureLogger;
 export interface Logging {
     deleteProperty: boolean;
     read: boolean;
-    // (undocumented)
     retentionPolicy: RetentionPolicy;
     version: string;
     write: boolean;
@@ -199,7 +199,6 @@ export interface Logging {
 export interface MessageIdDeleteHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -216,7 +215,6 @@ export type MessageIdDeleteResponse = MessageIdDeleteHeaders & {
 export interface MessageIdUpdateHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     nextVisibleOn?: Date;
     popReceipt?: string;
@@ -235,7 +233,6 @@ export type MessageIdUpdateResponse = MessageIdUpdateHeaders & {
 export interface MessagesClearHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -252,14 +249,13 @@ export type MessagesClearResponse = MessagesClearHeaders & {
 export interface MessagesDequeueHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
 }
 
 // @public
-export interface MessagesDequeueOptionalParams extends coreHttp.RequestOptionsBase {
+export interface MessagesDequeueOptionalParams extends RequestOptionsBase {
     numberOfMessages?: number;
     requestId?: string;
     timeoutInSeconds?: number;
@@ -270,14 +266,13 @@ export interface MessagesDequeueOptionalParams extends coreHttp.RequestOptionsBa
 export interface MessagesEnqueueHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
 }
 
 // @public
-export interface MessagesEnqueueOptionalParams extends coreHttp.RequestOptionsBase {
+export interface MessagesEnqueueOptionalParams extends RequestOptionsBase {
     messageTimeToLive?: number;
     requestId?: string;
     timeoutInSeconds?: number;
@@ -288,14 +283,13 @@ export interface MessagesEnqueueOptionalParams extends coreHttp.RequestOptionsBa
 export interface MessagesPeekHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
 }
 
 // @public
-export interface MessagesPeekOptionalParams extends coreHttp.RequestOptionsBase {
+export interface MessagesPeekOptionalParams extends RequestOptionsBase {
     numberOfMessages?: number;
     requestId?: string;
     timeoutInSeconds?: number;
@@ -310,7 +304,6 @@ export interface Metadata {
 export interface Metrics {
     enabled: boolean;
     includeAPIs?: boolean;
-    // (undocumented)
     retentionPolicy?: RetentionPolicy;
     version?: string;
 }
@@ -362,6 +355,7 @@ export class QueueClient extends StorageClient {
     deleteIfExists(options?: QueueDeleteOptions): Promise<QueueDeleteIfExistsResponse>;
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
     exists(options?: QueueExistsOptions): Promise<boolean>;
+    generateSasUrl(options: QueueGenerateSasUrlOptions): string;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
     get name(): string;
@@ -377,7 +371,6 @@ export class QueueClient extends StorageClient {
 export interface QueueCreateHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -405,7 +398,6 @@ export type QueueCreateResponse = QueueCreateHeaders & {
 export interface QueueDeleteHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -442,10 +434,20 @@ export interface QueueExistsOptions extends CommonOptions {
 }
 
 // @public
+export interface QueueGenerateSasUrlOptions {
+    expiresOn?: Date;
+    identifier?: string;
+    ipRange?: SasIPRange;
+    permissions?: QueueSASPermissions;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface QueueGetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -472,7 +474,6 @@ export interface QueueGetPropertiesHeaders {
     approximateMessagesCount?: number;
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     // (undocumented)
     metadata?: {
@@ -496,7 +497,6 @@ export type QueueGetPropertiesResponse = QueueGetPropertiesHeaders & {
 
 // @public
 export interface QueueItem {
-    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -581,6 +581,7 @@ export class QueueServiceClient extends StorageClient {
     createQueue(queueName: string, options?: QueueCreateOptions): Promise<QueueCreateResponse>;
     deleteQueue(queueName: string, options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): QueueServiceClient;
+    generateAccountSasUrl(expiresOn?: Date, permissions?: AccountSASPermissions, resourceTypes?: string, options?: ServiceGenerateAccountSasUrlOptions): string;
     getProperties(options?: ServiceGetPropertiesOptions): Promise<ServiceGetPropertiesResponse>;
     getQueueClient(queueName: string): QueueClient;
     getStatistics(options?: ServiceGetStatisticsOptions): Promise<ServiceGetStatisticsResponse>;
@@ -605,7 +606,6 @@ export interface QueueServiceStatistics {
 export interface QueueSetAccessPolicyHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -627,7 +627,6 @@ export type QueueSetAccessPolicyResponse = QueueSetAccessPolicyHeaders & {
 export interface QueueSetMetadataHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -700,9 +699,16 @@ export class SASQueryParameters {
 }
 
 // @public
+export interface ServiceGenerateAccountSasUrlOptions {
+    ipRange?: SasIPRange;
+    protocol?: SASProtocol;
+    startsOn?: Date;
+    version?: string;
+}
+
+// @public
 export interface ServiceGetPropertiesHeaders {
     clientRequestId?: string;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -714,11 +720,11 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPropertiesHeaders & {
+export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & QueueServiceProperties & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: ServiceGetPropertiesHeaders;
         bodyAsText: string;
         parsedBody: QueueServiceProperties;
+        parsedHeaders: ServiceGetPropertiesHeaders;
     };
 };
 
@@ -726,7 +732,6 @@ export type ServiceGetPropertiesResponse = QueueServiceProperties & ServiceGetPr
 export interface ServiceGetStatisticsHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -738,11 +743,11 @@ export interface ServiceGetStatisticsOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceGetStatisticsResponse = QueueServiceStatistics & ServiceGetStatisticsHeaders & {
+export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders & QueueServiceStatistics & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: ServiceGetStatisticsHeaders;
         bodyAsText: string;
         parsedBody: QueueServiceStatistics;
+        parsedHeaders: ServiceGetStatisticsHeaders;
     };
 };
 
@@ -757,25 +762,23 @@ export interface ServiceListQueuesOptions extends CommonOptions {
 export interface ServiceListQueuesSegmentHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
 }
 
 // @public
-export type ServiceListQueuesSegmentResponse = ListQueuesSegmentResponse & ServiceListQueuesSegmentHeaders & {
+export type ServiceListQueuesSegmentResponse = ServiceListQueuesSegmentHeaders & ListQueuesSegmentResponse & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: ServiceListQueuesSegmentHeaders;
         bodyAsText: string;
         parsedBody: ListQueuesSegmentResponse;
+        parsedHeaders: ServiceListQueuesSegmentHeaders;
     };
 };
 
 // @public
 export interface ServiceSetPropertiesHeaders {
     clientRequestId?: string;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;

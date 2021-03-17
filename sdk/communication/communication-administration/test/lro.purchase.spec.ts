@@ -9,7 +9,10 @@ import {
   PhoneNumberAdministrationClient,
   PhoneNumberReservation
 } from "../src";
-import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
+import {
+  createRecordedPhoneNumberAdministrationClient,
+  testPollerOptions
+} from "./utils/recordedClient";
 
 describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function() {
   let recorder: Recorder;
@@ -17,7 +20,7 @@ describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function()
   let includePhoneNumberLiveTests: boolean;
   let reservationId: string;
   let areaCode: string;
-  let countryCode = "US";
+  const countryCode = "US";
   const phonePlanIds: string[] = [];
 
   beforeEach(function() {
@@ -41,7 +44,7 @@ describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function()
 
     let phonePlanGroupId: string = "";
     for await (const phonePlanGroup of client.listPhonePlanGroups(countryCode)) {
-      if (phonePlanGroup.phoneNumberType == "Geographic") {
+      if (phonePlanGroup.phoneNumberType === "Geographic") {
         assert.isString(phonePlanGroup.phonePlanGroupId);
         ({ phonePlanGroupId } = phonePlanGroup);
         break;
@@ -90,7 +93,10 @@ describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function()
       areaCode,
       quantity: 1
     };
-    const reservePoller = await client.beginReservePhoneNumbers(reservationRequest);
+    const reservePoller = await client.beginReservePhoneNumbers(
+      reservationRequest,
+      testPollerOptions
+    );
     assert.ok(reservePoller.getOperationState().isStarted);
 
     const reservation: PhoneNumberReservation = await reservePoller.pollUntilDone();
@@ -100,7 +106,7 @@ describe("PhoneNumber - LROs - Purchase Reservation [Playback/Live]", function()
     assert.equal(reservation.status, "Reserved");
     assert.equal(reservation.phoneNumbers?.length, 1);
 
-    const purchasePoller = await client.beginPurchaseReservation(reservationId);
+    const purchasePoller = await client.beginPurchaseReservation(reservationId, testPollerOptions);
     assert.ok(purchasePoller.getOperationState().isStarted);
 
     await purchasePoller.pollUntilDone();

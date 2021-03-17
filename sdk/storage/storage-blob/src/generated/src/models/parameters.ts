@@ -207,6 +207,21 @@ export const blobContentType: coreHttp.OperationParameter = {
     }
   }
 };
+export const blobDeleteType: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "blobDeleteType"
+  ],
+  mapper: {
+    serializedName: "deletetype",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "Permanent"
+      ]
+    }
+  }
+};
 export const blobSequenceNumber: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
@@ -333,7 +348,7 @@ export const comp10: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'expiry',
+    defaultValue: 'lease',
     type: {
       name: "String"
     }
@@ -345,7 +360,7 @@ export const comp11: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'snapshot',
+    defaultValue: 'expiry',
     type: {
       name: "String"
     }
@@ -357,7 +372,7 @@ export const comp12: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'copy',
+    defaultValue: 'snapshot',
     type: {
       name: "String"
     }
@@ -369,7 +384,7 @@ export const comp13: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'tier',
+    defaultValue: 'copy',
     type: {
       name: "String"
     }
@@ -381,7 +396,7 @@ export const comp14: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'query',
+    defaultValue: 'tier',
     type: {
       name: "String"
     }
@@ -393,7 +408,7 @@ export const comp15: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'tags',
+    defaultValue: 'query',
     type: {
       name: "String"
     }
@@ -405,7 +420,7 @@ export const comp16: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'page',
+    defaultValue: 'tags',
     type: {
       name: "String"
     }
@@ -417,7 +432,7 @@ export const comp17: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'pagelist',
+    defaultValue: 'page',
     type: {
       name: "String"
     }
@@ -429,7 +444,7 @@ export const comp18: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'incrementalcopy',
+    defaultValue: 'pagelist',
     type: {
       name: "String"
     }
@@ -441,7 +456,7 @@ export const comp19: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'appendblock',
+    defaultValue: 'incrementalcopy',
     type: {
       name: "String"
     }
@@ -465,7 +480,7 @@ export const comp20: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'seal',
+    defaultValue: 'appendblock',
     type: {
       name: "String"
     }
@@ -477,13 +492,25 @@ export const comp21: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'block',
+    defaultValue: 'seal',
     type: {
       name: "String"
     }
   }
 };
 export const comp22: coreHttp.OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "comp",
+    defaultValue: 'block',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const comp23: coreHttp.OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     required: true,
@@ -573,7 +600,7 @@ export const comp9: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'lease',
+    defaultValue: 'rename',
     type: {
       name: "String"
     }
@@ -670,6 +697,18 @@ export const copySource: coreHttp.OperationParameter = {
     serializedName: "x-ms-copy-source",
     type: {
       name: "String"
+    }
+  }
+};
+export const copySourceBlobProperties: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "copySourceBlobProperties"
+  ],
+  mapper: {
+    serializedName: "x-ms-copy-source-blob-properties",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -1456,6 +1495,16 @@ export const snapshot: coreHttp.OperationQueryParameter = {
     }
   }
 };
+export const sourceContainerName: coreHttp.OperationParameter = {
+  parameterPath: "sourceContainerName",
+  mapper: {
+    required: true,
+    serializedName: "x-ms-source-container-name",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const sourceContentCrc64: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
@@ -1680,7 +1729,7 @@ export const version: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2020-02-10',
+    defaultValue: '2020-06-12',
     type: {
       name: "String"
     }

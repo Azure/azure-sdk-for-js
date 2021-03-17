@@ -158,7 +158,7 @@ export class BeginCopyModelPoller extends Poller<BeginCopyModelPollState, Custom
 }
 /**
  * Creates a poll operation given the provided state.
- * @ignore
+ * @internal
  */
 function makeBeginCopyModelPollOperation(
   state: BeginCopyModelPollState
@@ -171,11 +171,11 @@ function makeBeginCopyModelPollOperation(
     },
 
     async update(options = {}): Promise<BeginCopyModelPollerOperation> {
-      const state = this.state;
-      const { client, modelId, copyAuthorization, copyModelOptions } = state;
+      const pollerState = this.state;
+      const { client, modelId, copyAuthorization, copyModelOptions } = pollerState;
 
-      if (!state.isStarted) {
-        state.isStarted = true;
+      if (!pollerState.isStarted) {
+        pollerState.isStarted = true;
         const result = await client.beginCopyModel(
           modelId,
           copyAuthorization,
@@ -185,34 +185,34 @@ function makeBeginCopyModelPollOperation(
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
         }
         const lastSlashIndex = result.operationLocation.lastIndexOf("/");
-        state.resultId = result.operationLocation.substring(lastSlashIndex + 1);
+        pollerState.resultId = result.operationLocation.substring(lastSlashIndex + 1);
       }
 
-      const response = await client.getCopyModelResult(modelId, state.resultId!, {
+      const response = await client.getCopyModelResult(modelId, pollerState.resultId!, {
         abortSignal: copyModelOptions?.abortSignal
       });
 
-      state.status = response.status;
-      if (!state.isCompleted) {
+      pollerState.status = response.status;
+      if (!pollerState.isCompleted) {
         if (
           (response.status === "running" || response.status === "notStarted") &&
           typeof options.fireProgress === "function"
         ) {
-          options.fireProgress(state);
+          options.fireProgress(pollerState);
         } else if (response.status === "succeeded") {
-          state.result = {
+          pollerState.result = {
             status: "ready",
             trainingStartedOn: response.createdOn,
             trainingCompletedOn: response.lastModified,
             modelId: copyAuthorization.modelId
           };
-          state.isCompleted = true;
+          pollerState.isCompleted = true;
         } else if (response.status === "failed") {
           throw new Error(`Copy model operation failed: ${response._response.bodyAsText}`);
         }
       }
 
-      return makeBeginCopyModelPollOperation(state);
+      return makeBeginCopyModelPollOperation(pollerState);
     },
 
     toString() {

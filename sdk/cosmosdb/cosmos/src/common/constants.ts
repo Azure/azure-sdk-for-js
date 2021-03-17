@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export interface PartitionKeyRangePropertiesNames {
+  // Partition Key Range Constants
+  MinInclusive: "minInclusive";
+  MaxExclusive: "maxExclusive";
+  Id: "id";
+}
+
 /**
- * @ignore
+ * @hidden
  */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
@@ -151,6 +158,7 @@ export const Constants = {
     // Bulk/Batch header
     IsBatchRequest: "x-ms-cosmos-is-batch-request",
     IsBatchAtomic: "x-ms-cosmos-batch-atomic",
+    BatchContinueOnError: "x-ms-cosmos-batch-continue-on-error",
 
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh"
@@ -202,7 +210,7 @@ export const Constants = {
     MinInclusive: "minInclusive",
     MaxExclusive: "maxExclusive",
     Id: "id"
-  },
+  } as PartitionKeyRangePropertiesNames,
 
   QueryRangeConstants: {
     // Partition Key Range Constants
@@ -218,7 +226,7 @@ export const Constants = {
 };
 
 /**
- * @ignore
+ * @hidden
  */
 export enum ResourceType {
   none = "",
@@ -236,7 +244,7 @@ export enum ResourceType {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export enum HTTPMethod {
   get = "GET",
@@ -246,7 +254,7 @@ export enum HTTPMethod {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export enum OperationType {
   Create = "create",

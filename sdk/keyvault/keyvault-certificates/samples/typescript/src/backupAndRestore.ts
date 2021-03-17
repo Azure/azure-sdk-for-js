@@ -11,7 +11,7 @@ dotenv.config();
 // This sample creates a self-signed certificate, then makes a backup from it,
 // then deletes it and purges it, and finally restores it.
 
-function delay<T>(t: number, value?: T): Promise<T> {
+function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
 }
 

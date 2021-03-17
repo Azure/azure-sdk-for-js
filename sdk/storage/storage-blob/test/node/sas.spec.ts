@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
 import {
@@ -17,7 +20,8 @@ import {
   BlobClient,
   Tags,
   SASProtocol,
-  UserDelegationKey
+  UserDelegationKey,
+  BlobBatch
 } from "../../src";
 import { getBSU, getTokenBSUWithDefaultCredential, recorderEnvSetup, sleep } from "../utils";
 import { delay, record, Recorder } from "@azure/test-utils-recorder";
@@ -669,7 +673,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("GenerateUserDelegationSAS should work for container with all configurations", async function() {
     // Try to get BlobServiceClient object with DefaultCredential
-    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
@@ -727,7 +731,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("GenerateUserDelegationSAS should work for container with minimum parameters", async function() {
     // Try to get BlobServiceClient object with DefaultCredential
-    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
@@ -781,7 +785,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("GenerateUserDelegationSAS should work for blob", async function() {
     // Try to get blobServiceClient object with DefaultCredential
-    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
@@ -850,7 +854,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("GenerateUserDelegationSAS should work for blob snapshot", async function() {
     // Try to get blobServiceClient object with DefaultCredential
-    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
@@ -1008,7 +1012,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
 
   it("GenerateUserDelegationSAS should work for blob version delete", async function() {
     // Try to get blobServiceClient object with DefaultCredential
-    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variable is set
+    // when AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET environment variables are set
     let blobServiceClientWithToken: BlobServiceClient | undefined;
     try {
       blobServiceClientWithToken = getTokenBSUWithDefaultCredential();
@@ -1173,10 +1177,12 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     // Wait for indexing tags
     await sleep(2);
 
+    const expectedTags1: Tags = {};
+    expectedTags1[key1] = tags1[key1];
     for await (const blob of serviceClientWithSAS.findBlobsByTags(`${key1}='${tags1[key1]}'`)) {
       assert.deepStrictEqual(blob.containerName, containerName);
       assert.deepStrictEqual(blob.name, blobName1);
-      assert.deepStrictEqual(blob.tagValue, tags1[key1]);
+      assert.deepStrictEqual(blob.tags, expectedTags1);
     }
     await containerClient.delete();
   });
@@ -1292,6 +1298,325 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
       .listBlobsFlat()
       .byPage()
       .next();
+  });
+
+  it("generateAccountSasUrl", async function() {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sasURL = blobServiceClient.generateAccountSasUrl(
+      tmr,
+      AccountSASPermissions.parse("r"),
+      AccountSASResourceTypes.parse("s").toString(),
+      {
+        protocol: SASProtocol.HttpsAndHttp,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        startsOn: now
+      }
+    );
+    const serviceClientWithSAS = new BlobServiceClient(sasURL);
+    await serviceClientWithSAS.getAccountInfo();
+
+    const defaultSasURL = blobServiceClient.generateAccountSasUrl();
+    const serviceClientWithDefaultSAS = new BlobServiceClient(defaultSasURL);
+    await serviceClientWithDefaultSAS.getProperties();
+  });
+
+  it("ContainerClient.generateSasUrl", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const sasURL = await containerClient.generateSasUrl({
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: ContainerSASPermissions.parse("racwdl"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now
+    });
+
+    const containerClientWithSAS = new ContainerClient(sasURL);
+    (
+      await containerClientWithSAS
+        .listBlobsFlat()
+        .byPage()
+        .next()
+    ).value;
+
+    try {
+      await containerClientWithSAS.generateSasUrl({});
+    } catch (err) {
+      assert.ok(err instanceof RangeError);
+    }
+
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const sasURL = await blobClient.generateSasUrl({
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override",
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: BlobSASPermissions.parse("racwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now
+    });
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+
+    const properties = await blobClientWithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob snapshot", async () => {
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const blobName = recorder.getUniqueName("blob");
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original"
+      }
+    });
+
+    const createSnapshotRes = await blobClient.createSnapshot();
+    const blobClientWithSnapshot = blobClient.withSnapshot(createSnapshotRes.snapshot!);
+
+    await blobClient.setHTTPHeaders({
+      blobContentType: "content-type-original1"
+    });
+
+    const sasURL = await blobClientWithSnapshot.generateSasUrl({
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override",
+      expiresOn: tmr,
+      ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+      permissions: BlobSASPermissions.parse("racwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now
+    });
+
+    const blobClientWithSnapshotAndSAS = new PageBlobClient(
+      sasURL,
+      newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await blobClientWithSnapshotAndSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+    assert.equal(properties.etag, createSnapshotRes.etag);
+
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob version", async () => {
+    // create versions
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.getUniqueName("blob");
+    const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+    const uploadRes = await blockBlobClient.upload(content, content.length);
+    await blockBlobClient.upload("", 0);
+    const blobClientWithVersion = blockBlobClient.withVersion(uploadRes.versionId!);
+
+    // generate SAS
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+    const sasURL = await blobClientWithVersion.generateSasUrl({
+      expiresOn: tmr,
+      permissions: BlobSASPermissions.parse("racwdx")
+    });
+    const blobClientWithVersionIdAndSAS = new PageBlobClient(
+      sasURL,
+      newPipeline(new AnonymousCredential())
+    );
+
+    const properties = await blobClientWithVersionIdAndSAS.getProperties();
+    assert.deepStrictEqual(properties.versionId, uploadRes.versionId);
+
+    // delete version
+    await blobClientWithVersionIdAndSAS.delete();
+    assert.ok(!(await blobClientWithVersionIdAndSAS.exists()));
+    assert.ok(await blockBlobClient.exists());
+    await containerClient.delete();
+  });
+
+  it("BlobClient.generateSasUrl should work for blob with special namings", async () => {
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const containerName = recorder.getUniqueName("container-with-dash");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
+    const blobName = recorder.getUniqueName(
+      "////Upper/blob/empty /another 汉字 ру́сский язы́к ру́сский язы́к عربي/عربى にっぽんご/にほんご . special ~!@#$%^&*()_+`1234567890-={}|[]\\:\";'<>?,/'+%2F'%25%"
+    );
+    const blobClient = containerClient.getPageBlobClient(blobName);
+    await blobClient.create(1024);
+
+    const sasURL = await blobClient.generateSasUrl({
+      expiresOn: tmr,
+      permissions: BlobSASPermissions.parse("racwd")
+    });
+    const blobClientWithSAS = new PageBlobClient(sasURL, newPipeline(new AnonymousCredential()));
+    await blobClientWithSAS.getProperties();
+
+    await containerClient.delete();
+  });
+
+  it("SAS permission parse from raw object should work", async () => {
+    const orderedBlobPermissionStr = "racwdxtme";
+    const blobPermission = BlobSASPermissions.parse(orderedBlobPermissionStr);
+    assert.deepStrictEqual(
+      BlobSASPermissions.from(blobPermission).toString(),
+      orderedBlobPermissionStr
+    );
+
+    const orderedContainerPermissionStr = "racwdxltme";
+    const containerPermission = ContainerSASPermissions.parse(orderedContainerPermissionStr);
+    assert.deepStrictEqual(
+      ContainerSASPermissions.from(containerPermission).toString(),
+      orderedContainerPermissionStr
+    );
+
+    const orderedAccountPermissionStr = "rwdxftlacup";
+    const accountPermission = AccountSASPermissions.parse(orderedAccountPermissionStr);
+    assert.deepStrictEqual(
+      AccountSASPermissions.from(accountPermission).toString(),
+      orderedAccountPermissionStr
+    );
+  });
+
+  it("Batch operation should work with container sas", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
+
+    // generate conatianer sas
+    const now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 5); // Skip clock skew with server
+    const tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 1);
+
+    const sharedKeyCredential = blobServiceClient.credential;
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    const containerSAS = generateBlobSASQueryParameters(
+      {
+        containerName: containerClient.containerName,
+        expiresOn: tmr,
+        permissions: ContainerSASPermissions.parse("racwdl")
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+
+    const sasClient = `${containerClient.url}?${containerSAS}`;
+    const containerClientWithSAS = new ContainerClient(sasClient);
+
+    // upload blobs
+    const blockBlobCount = 3;
+    const blockBlobClients = new Array(blockBlobCount);
+    const content = "Hello World";
+    for (let i = 0; i < blockBlobCount - 1; i++) {
+      const tmpBlobName = `blob${i}`;
+      const tmpBlockBlobClient = containerClientWithSAS.getBlockBlobClient(tmpBlobName);
+      blockBlobClients[i] = tmpBlockBlobClient;
+    }
+    const specialBlobName = `å ä ö`;
+    const tmpBlockBlobClient = containerClientWithSAS.getBlockBlobClient(specialBlobName);
+    blockBlobClients[blockBlobCount - 1] = tmpBlockBlobClient;
+    for (let i = 0; i < blockBlobCount; i++) {
+      await blockBlobClients[i].upload(content, content.length);
+    }
+
+    // Assemble batch delete request.
+    const batchDeleteRequest = new BlobBatch();
+    for (let i = 0; i < blockBlobCount; i++) {
+      await batchDeleteRequest.deleteBlob(blockBlobClients[i]);
+    }
+
+    // Submit batch request and verify response.
+    const containerScopedBatchClient = containerClientWithSAS.getBlobBatchClient();
+    const resp = await containerScopedBatchClient.submitBatch(batchDeleteRequest, {});
+    assert.equal(resp.subResponses.length, blockBlobCount);
+    assert.equal(resp.subResponsesSucceededCount, blockBlobCount);
+    assert.equal(resp.subResponsesFailedCount, 0);
+
+    for (let i = 0; i < blockBlobCount; i++) {
+      assert.equal(resp.subResponses[i].errorCode, undefined);
+      assert.equal(resp.subResponses[i].status, 202);
+      assert.ok(resp.subResponses[i].statusMessage != "");
+      assert.ok(resp.subResponses[i].headers.contains("x-ms-request-id"));
+      assert.equal(resp.subResponses[i]._request.url, blockBlobClients[i].url);
+    }
+
+    // Verify blobs deleted.
+    const resp2 = (
+      await containerClient
+        .listBlobsFlat({})
+        .byPage({ maxPageSize: 1 })
+        .next()
+    ).value;
+    assert.equal(resp2.segment.blobItems.length, 0);
+
+    await containerClient.delete();
   });
 });
 

@@ -19,13 +19,15 @@ import {
   EmailHookParameter,
   WebhookHookParameter,
   TopNGroupScope,
+  Severity,
   SeverityCondition,
   AlertSnoozeCondition,
-  DataFeedDetailStatus,
-  IngestionStatusType
+  IngestionStatusType,
+  Status as DataFeedDetailStatus
 } from "./generated/models";
 
 export {
+  Severity,
   SeverityCondition,
   AlertSnoozeCondition,
   SmartDetectionCondition,
@@ -292,6 +294,10 @@ export type DataFeed = {
    */
   schema: DataFeedSchema;
   /**
+   * Map of metric names to metric ids for quick lookup
+   */
+  metricIds: Map<string, string>;
+  /**
    * Granularity of the data feed.
    */
   granularity: DataFeedGranularity;
@@ -510,8 +516,8 @@ export interface DetectionConditionsCommon {
  *
  * For a metric with two dimensions: city and category, Examples include
  *
- *   { { city: "Tokyo", category: "Handmade" } } - identifies one time series
- *   { { city: "Karachi" } }                     - identifies all time series with city === "Karachi"
+ *   `{ { city: "Tokyo", category: "Handmade" } }` - identifies one time series
+ *   `{ { city: "Karachi" } }`                     - identifies all time series with city === "Karachi"
  */
 export type DimensionKey = Record<string, string>;
 

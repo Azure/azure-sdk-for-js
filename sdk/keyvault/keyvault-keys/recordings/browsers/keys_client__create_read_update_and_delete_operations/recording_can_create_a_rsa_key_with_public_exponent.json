@@ -1,0 +1,290 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-/create",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "87",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:47 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "401",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "24f25a11-931f-466e-8344-35bf368ec031",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1315",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:47 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11496.5 - NCUS ProdSlices",
+    "x-ms-request-id": "3c8bfc9d-c82b-4c1c-8eee-c068f9b90301"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-/create",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": "{\"kty\":\"RSA\",\"public_exponent\":3,\"attributes\":{}}",
+   "status": 200,
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-/dec2a3084a8e4cbcaca91ba3826f7eaa\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"4-ZJglbjCthu0CUw_hv80Xabb_qPR07DgOJlawuappZSUu435uzDhPw8OrtaCEu5b8wPGlBepOZNryxDmadDJ1r4yHB2XlLnr-mdYRuZq2cL-5781CrdmGj7l4H6cb3rViBNqhCXTlNRK2V-K2P0eRuO3kqXroZaB7GcnzG1IQO19bIOXlZyKvdj99QAQy4F4fuM-cRnefyk3Bqzg9JuQ1MqHiyxhmWdOrZCme8eUE67Kt7e7pgVRhYg1FZQFRtOxf__h6bLyigf92Cx_AI4xYqQlwD46QngEBtdl5qk8MIcfeAM0GWgGCTqElbt-vKfjssqJoNqQuGlvrhiJheeRQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1613499768,\"updated\":1613499768,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "738",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:48 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "1de81b30-7e37-4d59-8833-5ccdb4b40574",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-\",\"deletedDate\":1613499768,\"scheduledPurgeDate\":1614104568,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-/dec2a3084a8e4cbcaca91ba3826f7eaa\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"4-ZJglbjCthu0CUw_hv80Xabb_qPR07DgOJlawuappZSUu435uzDhPw8OrtaCEu5b8wPGlBepOZNryxDmadDJ1r4yHB2XlLnr-mdYRuZq2cL-5781CrdmGj7l4H6cb3rViBNqhCXTlNRK2V-K2P0eRuO3kqXroZaB7GcnzG1IQO19bIOXlZyKvdj99QAQy4F4fuM-cRnefyk3Bqzg9JuQ1MqHiyxhmWdOrZCme8eUE67Kt7e7pgVRhYg1FZQFRtOxf__h6bLyigf92Cx_AI4xYqQlwD46QngEBtdl5qk8MIcfeAM0GWgGCTqElbt-vKfjssqJoNqQuGlvrhiJheeRQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1613499768,\"updated\":1613499768,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "921",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:48 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "b4fd1873-3574-448d-99bc-7905af3e8dc4",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-cancreateaRSAkeywithpublicexponent-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "132",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:48 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "3193fbb7-12b9-483e-9c1b-ef37b1e37bbb",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-cancreateaRSAkeywithpublicexponent-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "132",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:48 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "e8aa2875-170e-45eb-853b-4d48743bb393",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-cancreateaRSAkeywithpublicexponent-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "132",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:51 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "1d44fe31-41b6-49c4-a24a-8f701ad34431",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-cancreateaRSAkeywithpublicexponent-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "132",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:52 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "9cc2e46a-a34c-4aef-94aa-8c875d068970",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-cancreateaRSAkeywithpublicexponent-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "132",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:55 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "03f8ec63-86c6-4e03-9215-f53753a291df",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-\",\"deletedDate\":1613499768,\"scheduledPurgeDate\":1614104568,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-/dec2a3084a8e4cbcaca91ba3826f7eaa\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"4-ZJglbjCthu0CUw_hv80Xabb_qPR07DgOJlawuappZSUu435uzDhPw8OrtaCEu5b8wPGlBepOZNryxDmadDJ1r4yHB2XlLnr-mdYRuZq2cL-5781CrdmGj7l4H6cb3rViBNqhCXTlNRK2V-K2P0eRuO3kqXroZaB7GcnzG1IQO19bIOXlZyKvdj99QAQy4F4fuM-cRnefyk3Bqzg9JuQ1MqHiyxhmWdOrZCme8eUE67Kt7e7pgVRhYg1FZQFRtOxf__h6bLyigf92Cx_AI4xYqQlwD46QngEBtdl5qk8MIcfeAM0GWgGCTqElbt-vKfjssqJoNqQuGlvrhiJheeRQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1613499768,\"updated\":1613499768,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "921",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 18:22:57 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "4d2e10cd-9697-4e96-b2fc-a8d572cda5e1",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkeywithpublicexponent-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "date": "Tue, 16 Feb 2021 18:22:57 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "204",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "a5136b77-c993-4b4e-bf26-1899010d0e56",
+    "x-powered-by": "ASP.NET"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "84cc5954add884dc386d56c7429f6c26"
+}

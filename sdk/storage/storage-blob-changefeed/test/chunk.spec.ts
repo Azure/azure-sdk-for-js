@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { Chunk } from "../src/Chunk";
 import * as sinon from "sinon";

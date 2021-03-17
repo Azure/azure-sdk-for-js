@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -52,6 +55,46 @@ describe("BlobClient", () => {
       await containerClient.delete();
       await recorder.stop();
     }
+  });
+
+  it("Set and get blob tags should work with lease condition", async function() {
+    const guid = "ca761232ed4211cebacd00aa0057b223";
+    const leaseClient = blockBlobClient.getBlobLeaseClient(guid);
+    await leaseClient.acquireLease(-1);
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+    await blockBlobClient.setTags(tags, { conditions: { leaseId: leaseClient.leaseId } });
+    const response = await blockBlobClient.getTags({
+      conditions: { leaseId: leaseClient.leaseId }
+    });
+    assert.deepStrictEqual(response.tags, tags);
+
+    const tags1 = {
+      tag1: "val"
+    };
+    try {
+      await blockBlobClient.setTags(tags1);
+      assert.fail(
+        "Should have failed when setting tags without the right lease condition of a leased blob"
+      );
+    } catch (err) {
+      assert.deepStrictEqual(err.code, "LeaseIdMissing", err.msg);
+    }
+
+    try {
+      const newGuid = "3c7e72ebb4304526bc53d8ecef03798f";
+      await blockBlobClient.getTags({ conditions: { leaseId: newGuid } });
+      assert.fail(
+        "Should have failed when setting tags without the right lease condition of a leased blob"
+      );
+    } catch (err) {
+      assert.deepStrictEqual(err.code, "LeaseIdMismatchWithBlobOperation");
+    }
+
+    await leaseClient.releaseLease();
   });
 
   it("Set blob tags should work", async function() {
@@ -169,7 +212,7 @@ describe("BlobClient", () => {
       rangeGetContentCrc64: true
     });
     assert.ok(result1.clientRequestId);
-    //assert.ok(result1.contentCrc64!);
+    // assert.ok(result1.contentCrc64!);
     assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
     assert.ok(result1.clientRequestId);
 
@@ -177,7 +220,7 @@ describe("BlobClient", () => {
       rangeGetContentMD5: true
     });
     assert.ok(result2.clientRequestId);
-    //assert.ok(result2.contentMD5!);
+    // assert.ok(result2.contentMD5!);
 
     let exceptionCaught = false;
     try {
@@ -590,7 +633,7 @@ describe("BlobClient", () => {
     const csResp = await blobClient.createSnapshot({
       customerProvidedKey: Test_CPK_INFO
     });
-    //assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
+    // assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
     assert.ok(csResp.snapshot);
 
     const blobSnapshotURL = blobClient.withSnapshot(csResp.snapshot!);

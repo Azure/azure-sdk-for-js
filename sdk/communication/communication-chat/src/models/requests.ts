@@ -1,36 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ChatThreadMember } from "./models";
-import {
-  CreateChatThreadRequest as RestCreateChatThreadRequest,
-  SendChatMessageRequest as RestSendMessageRequest,
-  AddChatThreadMembersRequest as RestAddMembersRequest
-} from "../generated/src/models";
-export { RestCreateChatThreadRequest, RestSendMessageRequest, RestAddMembersRequest };
+import { ChatParticipant } from "./models";
 
-/**
- * An interface representing CreateMessageRequest.
- */
-export interface SendMessageRequest
-  extends Omit<RestSendMessageRequest, "priority" | "senderDisplayName"> {}
+export { SendReadReceiptRequest } from "../generated/src/models";
 
-/**
- * Request payload for creating a chat thread.
- */
-export interface CreateChatThreadRequest extends Omit<RestCreateChatThreadRequest, "members"> {
-  /**
-   * Members to add to a chat thread.
-   */
-  members: ChatThreadMember[];
+/** Participants to be added to the thread. */
+export interface AddParticipantsRequest {
+  /** Participants to add to a chat thread. */
+  participants: ChatParticipant[];
 }
 
-/**
- * Thread members to be added to the thread.
- */
-export interface AddMembersRequest extends Omit<RestAddMembersRequest, "members"> {
-  /**
-   * Members to add to a chat thread.
-   */
-  members: ChatThreadMember[];
+/** Request payload for creating a chat thread. */
+export interface CreateChatThreadRequest {
+  /** The chat thread topic. */
+  topic: string;
+  /** Participants to be added to the chat thread. */
+  participants?: ChatParticipant[];
+}
+
+/** Details of the message to send. */
+export interface SendMessageRequest {
+  /** Chat message content. */
+  content: string;
 }

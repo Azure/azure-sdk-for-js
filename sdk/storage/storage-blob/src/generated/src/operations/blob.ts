@@ -815,7 +815,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.snapshot,
     Parameters.versionId,
-    Parameters.timeoutInSeconds
+    Parameters.timeoutInSeconds,
+    Parameters.blobDeleteType
   ],
   headerParameters: [
     Parameters.deleteSnapshots,
@@ -991,7 +992,7 @@ const setExpiryOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp11
   ],
   headerParameters: [
     Parameters.version,
@@ -1097,7 +1098,7 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.duration,
@@ -1132,7 +1133,7 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -1166,7 +1167,7 @@ const renewLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -1200,7 +1201,7 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -1235,7 +1236,7 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.breakPeriod,
@@ -1269,7 +1270,7 @@ const createSnapshotOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp11
+    Parameters.comp12
   ],
   headerParameters: [
     Parameters.metadata,
@@ -1393,7 +1394,7 @@ const abortCopyFromURLOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.copyId,
     Parameters.timeoutInSeconds,
-    Parameters.comp12
+    Parameters.comp13
   ],
   headerParameters: [
     Parameters.version,
@@ -1424,7 +1425,7 @@ const setTierOperationSpec: coreHttp.OperationSpec = {
     Parameters.snapshot,
     Parameters.versionId,
     Parameters.timeoutInSeconds,
-    Parameters.comp13
+    Parameters.comp14
   ],
   headerParameters: [
     Parameters.tier1,
@@ -1485,7 +1486,7 @@ const queryOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.snapshot,
     Parameters.timeoutInSeconds,
-    Parameters.comp14
+    Parameters.comp15
   ],
   headerParameters: [
     Parameters.version,
@@ -1546,12 +1547,13 @@ const getTagsOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.snapshot,
     Parameters.versionId,
-    Parameters.comp15
+    Parameters.comp16
   ],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.ifTags
+    Parameters.ifTags,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -1576,14 +1578,15 @@ const setTagsOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.timeoutInSeconds,
     Parameters.versionId,
-    Parameters.comp15
+    Parameters.comp16
   ],
   headerParameters: [
     Parameters.version,
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64,
     Parameters.requestId,
-    Parameters.ifTags
+    Parameters.ifTags,
+    Parameters.leaseId0
   ],
   requestBody: {
     parameterPath: [

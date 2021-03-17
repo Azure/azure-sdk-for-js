@@ -9,6 +9,7 @@ import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
@@ -203,6 +204,7 @@ export type DataFeed = {
     creator: string;
     source: DataFeedSource;
     schema: DataFeedSchema;
+    metricIds: Map<string, string>;
     granularity: DataFeedGranularity;
     ingestionSettings: DataFeedIngestionSettings;
 } & DataFeedOptions;
@@ -478,7 +480,7 @@ export type GetIngestionProgressResponse = {
 };
 
 // @public
-export type GetMetricEnrichedSeriesDataOptions = {} & OperationOptions;
+export type GetMetricEnrichedSeriesDataOptions = OperationOptions;
 
 // @public
 export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
@@ -489,7 +491,7 @@ export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnriche
 }
 
 // @public
-export type GetMetricSeriesDataOptions = {} & OperationOptions;
+export type GetMetricSeriesDataOptions = OperationOptions;
 
 // @public
 export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
@@ -608,6 +610,12 @@ export type ListAnomaliesForDetectionConfigurationOptions = {
 } & OperationOptions;
 
 // @public
+export type ListAnomalyDimensionValuesOptions = {
+    skip?: number;
+    dimensionFilter?: DimensionKey;
+} & OperationOptions;
+
+// @public
 export type ListDataFeedIngestionStatusOptions = {
     skip?: number;
 } & OperationOptions;
@@ -622,12 +630,6 @@ export type ListDataFeedsOptions = {
         status?: DataFeedStatus;
         creator?: string;
     };
-} & OperationOptions;
-
-// @public
-export type ListDimensionValuesForDetectionConfigOptions = {
-    skip?: number;
-    dimensionFilter?: DimensionKey;
 } & OperationOptions;
 
 // @public
@@ -802,7 +804,7 @@ export type MetricPeriodFeedback = {
 
 // @public
 export class MetricsAdvisorAdministrationClient {
-    constructor(endpointUrl: string, credential: MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
     createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
@@ -823,10 +825,10 @@ export class MetricsAdvisorAdministrationClient {
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
-    updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
-    updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<GetDataFeedResponse>;
-    updateDetectionConfig(id: string, patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
-    updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<GetHookResponse>;
+    updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<RestResponse>;
+    updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<RestResponse>;
+    updateDetectionConfig(id: string, patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>, options?: OperationOptions): Promise<RestResponse>;
+    updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<RestResponse>;
 }
 
 // @public
@@ -835,7 +837,7 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 
 // @public
 export class MetricsAdvisorClient {
-    constructor(endpointUrl: string, credential: MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
     createFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
     readonly endpointUrl: string;
     getFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
@@ -845,7 +847,7 @@ export class MetricsAdvisorClient {
     listAlerts(alertConfigId: string, startTime: Date | string, endTime: Date | string, timeMode: AlertQueryTimeMode, options?: ListAlertsOptions): PagedAsyncIterableIterator<AnomalyAlert, AlertsPageResponse>;
     listAnomalies(alert: AnomalyAlert, options?: ListAnomaliesForAlertConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
     listAnomalies(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListAnomaliesForDetectionConfigurationOptions): PagedAsyncIterableIterator<DataPointAnomaly, AnomaliesPageResponse>;
-    listDimensionValuesForDetectionConfig(detectionConfigId: string, startTime: Date | string, endTime: Date | string, dimensionName: string, options?: ListDimensionValuesForDetectionConfigOptions): PagedAsyncIterableIterator<string, DimensionValuesPageResponse>;
+    listAnomalyDimensionValues(detectionConfigId: string, startTime: Date | string, endTime: Date | string, dimensionName: string, options?: ListAnomalyDimensionValuesOptions): PagedAsyncIterableIterator<string, DimensionValuesPageResponse>;
     listFeedback(metricId: string, options?: ListFeedbackOptions): PagedAsyncIterableIterator<MetricFeedbackUnion, MetricFeedbackPageResponse>;
     listIncidents(alert: AnomalyAlert, options?: ListIncidentsForAlertOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
     listIncidents(detectionConfigId: string, startTime: Date | string, endTime: Date | string, options?: ListIncidentsForDetectionConfigurationOptions): PagedAsyncIterableIterator<AnomalyIncident, IncidentsPageResponse>;
@@ -861,10 +863,10 @@ export interface MetricsAdvisorClientOptions extends PipelineOptions {
 // @public
 export class MetricsAdvisorKeyCredential {
     constructor(subscriptionKey: string, apiKey: string);
-    // (undocumented)
-    readonly apiKey: string;
-    // (undocumented)
-    readonly subscriptionKey: string;
+    get apiKey(): string;
+    get subscriptionKey(): string;
+    updateApiKey(apiKey: string): void;
+    updateSubscriptionKey(subscriptionKey: string): void;
 }
 
 // @public
@@ -943,10 +945,12 @@ export type PostgreSqlDataFeedSource = {
     dataSourceParameter: SqlSourceParameter;
 };
 
+// @public
+export type Severity = "Low" | "Medium" | "High";
+
 // @public (undocumented)
 export interface SeverityCondition {
     maxAlertSeverity: Severity;
-    // Warning: (ae-forgotten-export) The symbol "Severity" needs to be exported by the entry point index.d.ts
     minAlertSeverity: Severity;
 }
 

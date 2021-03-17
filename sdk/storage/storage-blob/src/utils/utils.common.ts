@@ -1,8 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { HttpHeaders, isNode, URLBuilder, TokenCredential } from "@azure/core-http";
 
 import {
   BlobQueryArrowConfiguration,
@@ -68,9 +68,7 @@ import {
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-shares--directories--files--and-metadata
  *
- * @export
- * @param {string} url
- * @returns {string}
+ * @param url -
  */
 export function escapeURLPath(url: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -131,9 +129,8 @@ export function getValueInConnString(
 /**
  * Extracts the parts of an Azure Storage account connection string.
  *
- * @export
- * @param {string} connectionString Connection string.
- * @returns {ConnectionString}  String key value pairs of the storage account's url and credentials.
+ * @param connectionString - Connection string.
+ * @returns String key value pairs of the storage account's url and credentials.
  */
 export function extractConnectionStringParts(connectionString: string): ConnectionString {
   let proxyUri = "";
@@ -200,8 +197,8 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    let accountName = getAccountNameFromUrl(blobEndpoint);
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountName = getAccountNameFromUrl(blobEndpoint);
     if (!blobEndpoint) {
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -215,8 +212,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 /**
  * Internal escape method implemented Strategy Two mentioned in escapeURL() description.
  *
- * @param {string} text
- * @returns {string}
+ * @param text -
  */
 function escape(text: string): string {
   return encodeURIComponent(text)
@@ -230,10 +226,9 @@ function escape(text: string): string {
  * Append a string to URL path. Will remove duplicated "/" in front of the string
  * when URL path ends with a "/".
  *
- * @export
- * @param {string} url Source URL string
- * @param {string} name String to be appended to URL
- * @returns {string} An updated URL string
+ * @param url - Source URL string
+ * @param name - String to be appended to URL
+ * @returns An updated URL string
  */
 export function appendToURLPath(url: string, name: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -249,11 +244,10 @@ export function appendToURLPath(url: string, name: string): string {
  * Set URL parameter name and value. If name exists in URL parameters, old value
  * will be replaced by name key. If not provide value, the parameter will be deleted.
  *
- * @export
- * @param {string} url Source URL string
- * @param {string} name Parameter name
- * @param {string} [value] Parameter value
- * @returns {string} An updated URL string
+ * @param url - Source URL string
+ * @param name - Parameter name
+ * @param value - Parameter value
+ * @returns An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -264,10 +258,8 @@ export function setURLParameter(url: string, name: string, value?: string): stri
 /**
  * Get URL parameter by name.
  *
- * @export
- * @param {string} url
- * @param {string} name
- * @returns {(string | string[] | undefined)}
+ * @param url -
+ * @param name -
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -277,9 +269,8 @@ export function getURLParameter(url: string, name: string): string | string[] | 
 /**
  * Set URL host.
  *
- * @export
- * @param {string} url Source URL string
- * @param {string} host New host string
+ * @param url - Source URL string
+ * @param host - New host string
  * @returns An updated URL string
  */
 export function setURLHost(url: string, host: string): string {
@@ -291,9 +282,7 @@ export function setURLHost(url: string, host: string): string {
 /**
  * Get URL path from an URL string.
  *
- * @export
- * @param {string} url Source URL string
- * @returns {(string | undefined)}
+ * @param url - Source URL string
  */
 export function getURLPath(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -303,9 +292,7 @@ export function getURLPath(url: string): string | undefined {
 /**
  * Get URL scheme from an URL string.
  *
- * @export
- * @param {string} url Source URL string
- * @returns {(string | undefined)}
+ * @param url - Source URL string
  */
 export function getURLScheme(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -315,9 +302,7 @@ export function getURLScheme(url: string): string | undefined {
 /**
  * Get URL path and query from an URL string.
  *
- * @export
- * @param {string} url Source URL string
- * @returns {(string | undefined)}
+ * @param url - Source URL string
  */
 export function getURLPathAndQuery(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -338,9 +323,7 @@ export function getURLPathAndQuery(url: string): string | undefined {
 /**
  * Get URL query key value pairs from an URL string.
  *
- * @export
- * @param {string} url
- * @returns {{[key: string]: string}}
+ * @param url -
  */
 export function getURLQueries(url: string): { [key: string]: string } {
   let queryString = URLBuilder.parse(url).getQuery();
@@ -372,13 +355,33 @@ export function getURLQueries(url: string): { [key: string]: string } {
 }
 
 /**
+ * Append a string to URL query.
+ *
+ * @param url - Source URL string.
+ * @param queryParts - String to be appended to the URL query.
+ * @returns An updated URL string.
+ */
+export function appendToURLQuery(url: string, queryParts: string): string {
+  const urlParsed = URLBuilder.parse(url);
+
+  let query = urlParsed.getQuery();
+  if (query) {
+    query += "&" + queryParts;
+  } else {
+    query = queryParts;
+  }
+
+  urlParsed.setQuery(query);
+  return urlParsed.toString();
+}
+
+/**
  * Rounds a date off to seconds.
  *
- * @export
- * @param {Date} date
- * @param {boolean} [withMilliseconds=true] If true, YYYY-MM-DDThh:mm:ss.fffffffZ will be returned;
+ * @param date -
+ * @param withMilliseconds - If true, YYYY-MM-DDThh:mm:ss.fffffffZ will be returned;
  *                                          If false, YYYY-MM-DDThh:mm:ssZ will be returned.
- * @returns {string} Date string in ISO8061 format, with or without 7 milliseconds component
+ * @returns Date string in ISO8061 format, with or without 7 milliseconds component
  */
 export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = true): string {
   // Date.toISOString() will return like "2018-10-29T06:34:36.139Z"
@@ -392,9 +395,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
 /**
  * Base64 encode.
  *
- * @export
- * @param {string} content
- * @returns {string}
+ * @param content -
  */
 export function base64encode(content: string): string {
   return !isNode ? btoa(content) : Buffer.from(content).toString("base64");
@@ -403,9 +404,7 @@ export function base64encode(content: string): string {
 /**
  * Base64 decode.
  *
- * @export
- * @param {string} encodedString
- * @returns {string}
+ * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
   return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
@@ -414,9 +413,7 @@ export function base64decode(encodedString: string): string {
 /**
  * Generate a 64 bytes base64 block ID string.
  *
- * @export
- * @param {number} blockIndex
- * @returns {string}
+ * @param blockIndex -
  */
 export function generateBlockID(blockIDPrefix: string, blockIndex: number): string {
   // To generate a 64 bytes base64 string, source string should be 48
@@ -439,13 +436,12 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
 /**
  * Delay specified time interval.
  *
- * @export
- * @param {number} timeInMs
- * @param {AbortSignalLike} [aborter]
- * @param {Error} [abortError]
+ * @param timeInMs -
+ * @param aborter -
+ * @param abortError -
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     let timeout: any;
 
     const abortHandler = () => {
@@ -472,11 +468,9 @@ export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortEr
 /**
  * String.prototype.padStart()
  *
- * @export
- * @param {string} currentString
- * @param {number} targetLength
- * @param {string} [padString=" "]
- * @returns {string}
+ * @param currentString -
+ * @param targetLength -
+ * @param padString -
  */
 export function padStart(
   currentString: string,
@@ -527,10 +521,8 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
 /**
  * If two strings are equal when compared case insensitive.
  *
- * @export
- * @param {string} str1
- * @param {string} str2
- * @returns {boolean}
+ * @param str1 -
+ * @param str2 -
  */
 export function iEqual(str1: string, str2: string): boolean {
   return str1.toLocaleLowerCase() === str2.toLocaleLowerCase();
@@ -538,8 +530,8 @@ export function iEqual(str1: string, str2: string): boolean {
 
 /**
  * Extracts account name from the url
- * @param {string} url url to extract the account name from
- * @returns {string} with the account name
+ * @param url - url to extract the account name from
+ * @returns with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
   const parsedUrl: URLBuilder = URLBuilder.parse(url);
@@ -583,9 +575,7 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
 /**
  * Convert Tags to encoded string.
  *
- * @export
- * @param {Tags} tags
- * @returns {string | undefined}
+ * @param tags -
  */
 export function toBlobTagsString(tags?: Tags): string | undefined {
   if (tags === undefined) {
@@ -606,9 +596,7 @@ export function toBlobTagsString(tags?: Tags): string | undefined {
 /**
  * Convert Tags type to BlobTags.
  *
- * @export
- * @param {Tags} [tags]
- * @returns {(BlobTags | undefined)}
+ * @param tags -
  */
 export function toBlobTags(tags?: Tags): BlobTags | undefined {
   if (tags === undefined) {
@@ -634,9 +622,7 @@ export function toBlobTags(tags?: Tags): BlobTags | undefined {
 /**
  * Covert BlobTags to Tags type.
  *
- * @export
- * @param {BlobTags} [tags]
- * @returns {(Tags | undefined)}
+ * @param tags -
  */
 export function toTags(tags?: BlobTags): Tags | undefined {
   if (tags === undefined) {
@@ -653,9 +639,7 @@ export function toTags(tags?: BlobTags): Tags | undefined {
 /**
  * Convert BlobQueryTextConfiguration to QuerySerialization type.
  *
- * @export
- * @param {(BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryArrowConfiguration)} [textConfiguration]
- * @returns {(QuerySerialization | undefined)}
+ * @param textConfiguration -
  */
 export function toQuerySerialization(
   textConfiguration?:
@@ -718,7 +702,7 @@ export function parseObjectReplicationRecord(
     return undefined;
   }
 
-  let orProperties: ObjectReplicationPolicy[] = [];
+  const orProperties: ObjectReplicationPolicy[] = [];
   for (const key in objectReplicationRecord) {
     const ids = key.split("_");
     const policyPrefix = "or-";
@@ -740,4 +724,15 @@ export function parseObjectReplicationRecord(
     }
   }
   return orProperties;
+}
+
+/**
+ * Attach a TokenCredential to an object.
+ *
+ * @param thing -
+ * @param credential -
+ */
+export function attachCredential<T>(thing: T, credential: TokenCredential): T {
+  (thing as any).credential = credential;
+  return thing;
 }

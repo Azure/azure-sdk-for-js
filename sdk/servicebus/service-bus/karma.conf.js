@@ -20,7 +20,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-istanbul",
+      "karma-sourcemap-loader",
       "karma-junit-reporter"
     ],
 
@@ -58,22 +58,17 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit"],
+    reporters: ["mocha", "coverage", "junit"],
 
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
-    },
-
-    remapIstanbulReporter: {
-      src: "coverage-browser/coverage.json",
-      reports: {
-        lcovonly: "coverage-browser/lcov.info",
-        html: "coverage-browser/html/report",
-        "text-summary": null,
-        cobertura: "./coverage-browser/cobertura-coverage.xml"
-      }
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {

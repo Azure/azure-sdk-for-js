@@ -1,37 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions } from "../client/identityClient";
+import { credentialLogger, formatError } from "../util/logging";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
-import { EnvironmentCredential } from "./environmentCredential";
-import { ManagedIdentityCredential } from "./managedIdentityCredential";
-import { AzureCliCredential } from "./azureCliCredential";
-import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
+
+const BrowserNotSupportedError = new Error(
+  "DefaultAzureCredential is not supported in the browser. Use InteractiveBrowserCredential instead."
+);
+const logger = credentialLogger("DefaultAzureCredential");
 
 /**
  * Provides a default {@link ChainedTokenCredential} configuration for
- * applications that will be deployed to Azure.  The following credential
- * types will be tried, in order:
+ * applications that will be deployed to Azure.
  *
- * - {@link EnvironmentCredential}
- * - {@link ManagedIdentityCredential}
- *
- * Consult the documentation of these credential types for more information
- * on how they attempt authentication.
+ * Only available in NodeJS.
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
    * Creates an instance of the DefaultAzureCredential class.
    *
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
-  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
-    const credentials = [];
-    credentials.push(new EnvironmentCredential(tokenCredentialOptions));
-    credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
-    credentials.push(new AzureCliCredential());
-    credentials.push(new VisualStudioCodeCredential(tokenCredentialOptions));
+  constructor(_tokenCredentialOptions?: TokenCredentialOptions) {
+    super();
+    logger.info(formatError("", BrowserNotSupportedError));
+    throw BrowserNotSupportedError;
+  }
 
-    super(...credentials);
+  public getToken(): Promise<AccessToken | null> {
+    logger.getToken.info(formatError("", BrowserNotSupportedError));
+    throw BrowserNotSupportedError;
   }
 }

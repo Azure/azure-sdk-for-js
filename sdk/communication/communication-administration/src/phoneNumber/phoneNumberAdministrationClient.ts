@@ -3,11 +3,11 @@
 /// <reference lib="esnext.asynciterable" />
 
 import {
-  createCommunicationAccessKeyCredentialPolicy,
   parseClientArguments,
-  isKeyCredential
+  isKeyCredential,
+  createCommunicationAuthPolicy
 } from "@azure/communication-common";
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   PipelineOptions,
   InternalPipelineOptions,
@@ -98,27 +98,39 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class.
-   * @param connectionString Connection string to connect to an Azure Communication Service resource.
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using an Azure KeyCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
-    url: string,
+    endpoint: string,
     credential: KeyCredential,
+    options?: PhoneNumberAdministrationClientOptions
+  );
+
+  /**
+   * Initializes a new instance of the PhoneNumberAdministrationClient class using a TokenCredential.
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - TokenCredential that is used to authenticate requests to the service.
+   * @param options - Optional. Options to configure the HTTP pipeline.
+   */
+  public constructor(
+    endpoint: string,
+    credential: TokenCredential,
     options?: PhoneNumberAdministrationClientOptions
   );
 
   public constructor(
     connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | PhoneNumberAdministrationClientOptions,
+    credentialOrOptions?: KeyCredential | TokenCredential | PhoneNumberAdministrationClientOptions,
     maybeOptions: PhoneNumberAdministrationClientOptions = {}
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
@@ -146,15 +158,15 @@ export class PhoneNumberAdministrationClient {
       }
     };
 
-    const authPolicy = createCommunicationAccessKeyCredentialPolicy(credential);
+    const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new PhoneNumberRestClient(url, pipeline).phoneNumberAdministration;
   }
 
   /**
    * Configures a phone number, for example to assign a callbackUrl.
-   * @param config The configuration details
-   * @param options Additional request options.
+   * @param config - The configuration details
+   * @param options - Additional request options.
    */
   public async configurePhoneNumber(
     config: ConfigurePhoneNumberRequest,
@@ -190,8 +202,8 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Unconfigure a phone number, resetting its' configuration.
-   * @param phoneNumber Phone Number to unconfigure.
-   * @param options Additional request options.
+   * @param phoneNumber - Phone Number to unconfigure.
+   * @param options - Additional request options.
    */
   public async unconfigurePhoneNumber(
     phoneNumber: string,
@@ -222,8 +234,8 @@ export class PhoneNumberAdministrationClient {
    * Updates the capabilities for a list of phone numbers.
    * The response includes the id of the created update capabilities request,
    * remember that id for subsequent calls to getCapabilitiesUpdate.
-   * @param phoneNumberCapabilitiesUpdates Dictionary containing a list of phone numbers and their capabilities updates.
-   * @param options Additional request options.
+   * @param phoneNumberCapabilitiesUpdates - Dictionary containing a list of phone numbers and their capabilities updates.
+   * @param options - Additional request options.
    */
   public async updatePhoneNumbersCapabilities(
     phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates,
@@ -257,8 +269,8 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Get the update capabilities request associated with a given id.
-   * @param capabilitiesUpdateId  The id associated with the request.
-   * @param options Additional request options.
+   * @param capabilitiesUpdateId -  The id associated with the request.
+   * @param options - Additional request options.
    */
   public async getCapabilitiesUpdate(
     capabilitiesUpdateId: string,
@@ -287,8 +299,8 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Gets a list of the supported area codes based on location.
-   * @param request Request properties to constraint the search scope.
-   * @param options Additional request options.
+   * @param request - Request properties to constraint the search scope.
+   * @param options - Additional request options.
    */
   public async getAreaCodes(
     request: GetAreaCodesRequest,
@@ -321,8 +333,8 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Gets the configuration for a given phone number.
-   * @param phoneNumber The E.164 representation of the phone number whose configuration is requested.
-   * @param options Additional request options.
+   * @param phoneNumber - The E.164 representation of the phone number whose configuration is requested.
+   * @param options - Additional request options.
    */
   public async getPhoneNumberConfiguration(
     phoneNumber: string,
@@ -351,8 +363,8 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Gets the location options for a given phone plan.
-   * @param request Request properties to constraint the search scope.
-   * @param options Additional request options.
+   * @param request - Request properties to constraint the search scope.
+   * @param options - Additional request options.
    */
   public async getPhonePlanLocationOptions(
     request: GetPhonePlanLocationOptionsRequest,
@@ -385,8 +397,8 @@ export class PhoneNumberAdministrationClient {
   /**
    * Gets the reservation associated with a given id.
    * Use this function to query the status of a phone number reservation.
-   * @param reservationId The id of the reservation returned by createReservation.
-   * @param options Additional request options.
+   * @param reservationId - The id of the reservation returned by createReservation.
+   * @param options - Additional request options.
    */
   public async getReservation(
     reservationId: string,
@@ -415,8 +427,8 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Cancels the reservation associated with a given id.
-   * @param reservationId The id of the reservation returned by createReservation.
-   * @param options Additional request options.
+   * @param reservationId - The id of the reservation returned by createReservation.
+   * @param options - Additional request options.
    */
   public async cancelReservation(
     reservationId: string,
@@ -445,10 +457,10 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listSearches.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listSearchesPage(
     continuationState: PageSettings,
@@ -478,9 +490,9 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listSearches.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listSearchesAll(
     options: PageableOptions = {}
@@ -501,7 +513,7 @@ export class PhoneNumberAdministrationClient {
    * }
    * ```
    * Gets all searches created by the Azure resource.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   public listSearches(
     options: PageableOptions = {}
@@ -526,10 +538,10 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listReleases.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listReleasesPage(
     continuationState: PageSettings,
@@ -559,9 +571,9 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listReleases.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listReleasesAll(
     options: PageableOptions = {}
@@ -582,7 +594,7 @@ export class PhoneNumberAdministrationClient {
    * }
    * ```
    * Gets all releases created by the Azure resource.
-   * @param {PageableOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   public listReleases(
     options: PageableOptions = {}
@@ -607,10 +619,10 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listSupportedCountries.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListSupportedCountriesOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listSupportedCountriesPage(
     continuationState: PageSettings,
@@ -640,9 +652,9 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listSupportedCountries.
-   * @param {ListSupportedCountriesOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listSupportedCountriesAll(
     options: ListSupportedCountriesOptions = {}
@@ -662,8 +674,7 @@ export class PhoneNumberAdministrationClient {
    *   console.log("country name: ", country.localizedName);
    * }
    * ```
-   * @summary List all supported countries.
-   * @param {ListSupportedCountriesOptions} [options] The optional parameters.
+   * @param options - The optional parameters.
    */
   public listSupportedCountries(
     options: ListSupportedCountriesOptions = {}
@@ -689,10 +700,10 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listPhoneNumbers.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListPhoneNumbersOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPhoneNumbersPage(
     continuationState: PageSettings,
@@ -722,9 +733,9 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listPhoneNumbers.
-   * @param {ListPhoneNumbersOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPhoneNumbersAll(
     options: ListPhoneNumbersOptions = {}
@@ -744,8 +755,7 @@ export class PhoneNumberAdministrationClient {
    *   console.log("phone number: ", acquired.phoneNumber);
    * }
    * ```
-   * @summary List all acquired phone numbers.
-   * @param {ListPhoneNumbersOptions} [options] The optional parameters.
+   * @param options - The optional parameters.
    */
   public listPhoneNumbers(
     options: ListPhoneNumbersOptions = {}
@@ -770,11 +780,11 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listPhonePlanGroups.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param countryCode The ISO 3166-2 country code, for example "FR" or "CN".
-   * @param {ListPhonePlanGroupsOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param countryCode - The ISO 3166-2 country code, for example "FR" or "CN".
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPhonePlanGroupsPage(
     continuationState: PageSettings,
@@ -806,10 +816,10 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listPhonePlanGroups.
-   * @param countryCode The ISO 3166-2 country code, for example "FR" or "CN".
-   * @param {ListPlansForCountryOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param countryCode - The ISO 3166-2 country code, for example "FR" or "CN".
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPhonePlanGroupsAll(
     countryCode: string,
@@ -830,8 +840,7 @@ export class PhoneNumberAdministrationClient {
    *   console.log("plan group id: ", phonePlanGroup.phonePlanGroupId);
    * }
    * ```
-   * @summary List all available phone plan groups for a country.
-   * @param {ListPhonePlanGroupsOptions} [options] The optional parameters.
+   * @param options - The optional parameters.
    */
   public listPhonePlanGroups(
     countryCode: string,
@@ -858,11 +867,11 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the pagination of listPhonePlans.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param planGroupInfo Information need to search for plans.
-   * @param {GetPhonePlansOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param continuationState - An object that indicates the position of the paginated request.
+   * @param planGroupInfo - Information need to search for plans.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPhonePlansPage(
     continuationState: PageSettings,
@@ -899,10 +908,10 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * @internal
-   * @ignore
+   *
    * Deals with the iteration of all the available results of listPhonePlans.
-   * @param planGroupInfo Information need to search for plans.
-   * @param {ListPhonePlansOptions} [options] Optional parameters for the underlying HTTP request.
+   * @param planGroupInfo - Information need to search for plans.
+   * @param options - Optional parameters for the underlying HTTP request.
    */
   private async *listPhonePlansAll(
     planGroupInfo: ListPhonePlansRequest,
@@ -922,10 +931,10 @@ export class PhoneNumberAdministrationClient {
    * for await (const phonePlan of client.listPhonePlanGroups(PLAN_GROUP_INFO)) {
    *   console.log("plan id: ", phonePlan.phonePlanId);
    * }
-   *
+   * ```
    * Gets all available phone plans for a given plan group.
-   * @param planGroupInfo Information need to search for plans.
-   * @param options Additional request options.
+   * @param planGroupInfo - Information need to search for plans.
+   * @param options - Additional request options.
    */
   public listPhonePlans(
     planGroupInfo: ListPhonePlansRequest,
@@ -967,17 +976,20 @@ export class PhoneNumberAdministrationClient {
    * const results = await releasePoller.pollUntilDone();
    * console.log(results);
    * ```
-   * @param {string[]} phoneNumbers The phone numbers to be released.
-   * @param {BeginReleasePhoneNumbersOptions} options Additional request options.
+   * @param phoneNumbers - The phone numbers to be released.
+   * @param options - Additional request options.
    */
   public async beginReleasePhoneNumbers(
     phoneNumbers: string[],
     options: BeginReleasePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberRelease>, PhoneNumberRelease>> {
+    const { pollInterval, resumeFrom, ...requestOptions } = options;
     const poller = new ReleasePhoneNumbersPoller({
       phoneNumbers,
       client: this.client,
-      requestOptions: options
+      pollInterval,
+      resumeFrom,
+      requestOptions
     });
 
     await poller.poll();
@@ -1003,17 +1015,20 @@ export class PhoneNumberAdministrationClient {
    * console.log(results);
    * ```
    *
-   * @param {CreateReservationRequest} reservationRequest Request properties to constraint the search scope.
-   * @param {BeginReservePhoneNumbersOptions} options Additional request options.
+   * @param reservationRequest - Request properties to constraint the search scope.
+   * @param options - Additional request options.
    */
   public async beginReservePhoneNumbers(
     reservationRequest: CreateReservationRequest,
     options: BeginReservePhoneNumbersOptions = {}
   ): Promise<PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>> {
+    const { pollInterval, resumeFrom, ...requestOptions } = options;
     const poller = new ReservePhoneNumbersPoller({
       reservationRequest,
       client: this.client,
-      requestOptions: options
+      pollInterval,
+      resumeFrom,
+      requestOptions
     });
 
     await poller.poll();
@@ -1038,17 +1053,20 @@ export class PhoneNumberAdministrationClient {
    * console.log(results);
    * ```
    *
-   * @param {string} reservationId The id of the reservation to purchase.
-   * @param {BeginPurchaseReservationOptions} options Additional request options.
+   * @param reservationId - The id of the reservation to purchase.
+   * @param options - Additional request options.
    */
   public async beginPurchaseReservation(
     reservationId: string,
     options: BeginPurchaseReservationOptions = {}
   ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const { pollInterval, resumeFrom, ...requestOptions } = options;
     const poller = new PurchaseReservationPoller({
       reservationId,
       client: this.client,
-      requestOptions: options
+      pollInterval,
+      resumeFrom,
+      requestOptions
     });
 
     await poller.poll();

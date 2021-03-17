@@ -110,7 +110,7 @@ export class BeginTrainingPoller extends Poller<BeginTrainingPollState, CustomFo
 
 /**
  * Creates a poll operation given the provided state.
- * @ignore
+ * @internal
  */
 function makeBeginTrainingPollOperation(
   client: TrainPollerClient,
@@ -124,11 +124,11 @@ function makeBeginTrainingPollOperation(
     },
 
     async update(options = {}): Promise<BeginTrainingPollerOperation> {
-      const state = this.state;
+      const pollerState = this.state;
       const { trainingInputs, trainModelOptions } = state;
 
-      if (!state.isStarted) {
-        state.isStarted = true;
+      if (!pollerState.isStarted) {
+        pollerState.isStarted = true;
         const result = await client.trainCustomModelInternal(
           trainingInputs,
           false,
@@ -138,23 +138,23 @@ function makeBeginTrainingPollOperation(
           throw new Error("Expect a valid 'operationLocation' to retrieve analyze results");
         }
         const lastSlashIndex = result.location.lastIndexOf("/");
-        state.modelId = result.location.substring(lastSlashIndex + 1);
+        pollerState.modelId = result.location.substring(lastSlashIndex + 1);
       }
 
-      const model = await client.getCustomModel(state.modelId!, {
+      const model = await client.getCustomModel(pollerState.modelId!, {
         abortSignal: trainModelOptions?.abortSignal
       });
 
-      state.status = model.status;
+      pollerState.status = model.status;
 
-      if (!state.isCompleted) {
+      if (!pollerState.isCompleted) {
         if (typeof options.fireProgress === "function") {
-          options.fireProgress(state);
+          options.fireProgress(pollerState);
         }
 
         if (model.status === "ready") {
-          state.result = model;
-          state.isCompleted = true;
+          pollerState.result = model;
+          pollerState.isCompleted = true;
         } else if (model.status === "invalid") {
           const errors = model.errors
             ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
@@ -168,7 +168,7 @@ function makeBeginTrainingPollOperation(
             )
             .join("\n");
           const message = `Model training failed. Invalid model was created with id '${
-            state.modelId
+            pollerState.modelId
           }'.
 Error(s):
 ${errors || ""}
@@ -179,7 +179,7 @@ ${additionalInfo || ""}
         }
       }
 
-      return makeBeginTrainingPollOperation(client, state);
+      return makeBeginTrainingPollOperation(client, pollerState);
     },
 
     toString() {

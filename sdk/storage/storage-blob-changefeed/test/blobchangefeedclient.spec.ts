@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
@@ -140,7 +143,7 @@ describe("BlobChangeFeedClient", async () => {
     const telemetryString = fetchTelemetryString(blobServiceClient.pipeline);
     assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
 
-    const userAgentPrefix = "test/1";
+    const userAgentPrefix = "test/1 a b";
     const changeFeedClient2 = new BlobChangeFeedClient(
       blobServiceClient.url,
       blobServiceClient.credential,
@@ -154,7 +157,6 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   it("tracing", async () => {
-    // recorder.skip(undefined, "recorder issue not understood. #10009");
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");

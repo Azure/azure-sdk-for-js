@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.FileStorage/preview/2020-02-10/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.FileStorage/preview/2020-04-08/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -300,6 +300,15 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $.properties.Code = { "type": "string" };
+```
+
+### Update service version from "2020-04-08" to "2020-06-12"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2020-06-12" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-file-share%2Fswagger%2FREADME.png)

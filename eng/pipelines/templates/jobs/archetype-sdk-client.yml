@@ -1,28 +1,44 @@
 parameters:
-  Artifacts: []
-  TestPipeline: false
-  ServiceDirectory: not-specified
-  Matrix:
-    Linux_Node8:
-      OSVmImage: "ubuntu-18.04"
-      NodeTestVersion: "8.x"
-      TestType: "node"
-    Windows_Node10:
-      OSVmImage: "windows-2019"
-      NodeTestVersion: "10.x"
-      TestType: "node"
-    macOS_Node12:
-      OSVmImage: "macOS-10.15"
-      NodeTestVersion: "12.x"
-      TestType: "node"
-    Browser_Linux_Node12:
-      OSVmImage: "ubuntu-18.04"
-      NodeTestVersion: "$(NodeVersion)"
-      TestType: "browser"
-    Linux_Node14:
-      OSVmImage: "ubuntu-18.04"
-      NodeTestVersion: "14.x"
-      TestType: "node"
+  - name: Artifacts
+    type: object
+    default: []
+  - name: TestPipeline
+    type: boolean
+    default: false
+  - name: ServiceDirectory
+    type: string
+    default: not-specified
+  - name: RunUnitTests
+    type: boolean
+    default: true
+  - name: Matrix
+    type: object
+    default:
+      Linux_Node8:
+        Pool: azsdk-pool-mms-ubuntu-1804-general
+        OSVmImage: MMSUbuntu18.04
+        NodeTestVersion: "8.x"
+        TestType: "node"
+      Windows_Node10:
+        Pool: azsdk-pool-mms-win-2019-general
+        OSVmImage: MMS2019
+        NodeTestVersion: "10.x"
+        TestType: "node"
+      macOS_Node12:
+        Pool: Azure Pipelines
+        OSVmImage: "macOS-10.15"
+        NodeTestVersion: "12.x"
+        TestType: "node"
+      Browser_Linux_Node12:
+        Pool: azsdk-pool-mms-ubuntu-1804-general
+        OSVmImage: MMSUbuntu18.04
+        NodeTestVersion: "$(NodeVersion)"
+        TestType: "browser"
+      Linux_Node14:
+        Pool: azsdk-pool-mms-ubuntu-1804-general
+        OSVmImage: MMSUbuntu18.04
+        NodeTestVersion: "14.x"
+        TestType: "node"
 
 jobs:
   - job: "Build"
@@ -30,7 +46,8 @@ jobs:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: "$(OSVmImage)"
+      name: azsdk-pool-mms-ubuntu-1804-general
+      vmImage: MMSUbuntu18.04
 
     steps:
       - script: |
@@ -46,13 +63,19 @@ jobs:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           TestPipeline: ${{ parameters.TestPipeline }}
 
+      - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+        parameters:
+          Artifacts: ${{ parameters.Artifacts }}
+          ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
+
   - job: "Analyze"
     dependsOn: "Build"
     variables:
       - template: ../variables/globals.yml
 
     pool:
-      vmImage: "$(OSVmImage)"
+      name: azsdk-pool-mms-ubuntu-1804-general
+      vmImage: MMSUbuntu18.04
 
     steps:
       - template: ../steps/common.yml
@@ -61,24 +84,26 @@ jobs:
         parameters:
           Artifacts: ${{ parameters.Artifacts }}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          TestPipeline: ${{ parameters.TestPipeline }}
 
   # Only run tests if the matrix has entries
   - ${{ if ne(parameters.RunUnitTests, false) }}:
-    - job: "UnitTest"
+      - job: "UnitTest"
 
-      strategy:
-        matrix: ${{parameters.Matrix}}
+        strategy:
+          matrix: ${{parameters.Matrix}}
 
-      pool:
-        vmImage: "$(OSVmImage)"
+        pool:
+          name: $(Pool)
+          vmImage: $(OSVmImage)
 
-      variables:
-        - template: ../variables/globals.yml
+        variables:
+          - template: ../variables/globals.yml
 
-      steps:
-        - template: ../steps/common.yml
+        steps:
+          - template: ../steps/common.yml
 
-        - template: ../steps/test.yml
-          parameters:
-            Artifacts: ${{parameters.Artifacts}}
-            ServiceDirectory: ${{parameters.ServiceDirectory}}
+          - template: ../steps/test.yml
+            parameters:
+              Artifacts: ${{parameters.Artifacts}}
+              ServiceDirectory: ${{parameters.ServiceDirectory}}

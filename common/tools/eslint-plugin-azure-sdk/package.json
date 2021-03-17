@@ -21,7 +21,7 @@
     }
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/common/tools/eslint-plugin-azure-sdk",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/common/tools/eslint-plugin-azure-sdk/",
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git",
@@ -37,6 +37,7 @@
   ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json && prettier --write dist/**/*.{js,json,md}",
+    "build:samples": "echo Skipped.",
     "build:test": "npm run clean && tsc -p tsconfig.json",
     "clean": "rimraf dist/",
     "format": "prettier --write \"./**/*.{ts,json,md}\"",
@@ -50,44 +51,49 @@
     "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test": "npm run clean && npm run build:test && npm run unit-test"
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "engines": {
     "node": ">=8.0.0"
   },
   "prettier": "./prettier.json",
   "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
-    "eslint": ">=6.0.0",
-    "eslint-plugin-no-only-tests": "^2.0.0",
-    "eslint-plugin-promise": "^4.0.0"
+    "@typescript-eslint/eslint-plugin": "4.13.0",
+    "@typescript-eslint/parser": "4.13.0",
+    "eslint": "^7.15.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-no-only-tests": "^2.4.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-tsdoc": "^0.2.10"
   },
   "dependencies": {
-    "eslint-config-prettier": "^6.0.0",
+    "@typescript-eslint/typescript-estree": "4.13.0",
+    "@types/eslint": "7.2.6",
+    "@types/estree": "0.0.46",
+    "eslint-config-prettier": "^7.0.0",
     "glob": "^7.1.2",
-    "typescript": "~3.9.3",
+    "json-schema": "^0.3.0",
+    "typescript": "4.1.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.27",
     "@types/chai": "^4.1.6",
-    "@types/eslint": "^4.16.8",
-    "@types/estree": "0.0.39",
     "@types/glob": "^7.1.1",
+    "@types/json-schema": "^7.0.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
-    "@typescript-eslint/eslint-plugin": "^2.0.0",
-    "@typescript-eslint/experimental-utils": "^2.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
-    "@typescript-eslint/typescript-estree": "^2.0.0",
-    "bluebird": "^3.5.5",
+    "@typescript-eslint/eslint-plugin": "4.13.0",
+    "@typescript-eslint/experimental-utils": "4.13.0",
+    "@typescript-eslint/parser": "4.13.0",
     "chai": "^4.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "mocha": "^7.1.1",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "mocha-junit-reporter": "^1.18.0"
+    "mocha-junit-reporter": "^1.18.0",
+    "typescript": "4.1.2",
+    "typedoc": "0.15.2"
   }
 }

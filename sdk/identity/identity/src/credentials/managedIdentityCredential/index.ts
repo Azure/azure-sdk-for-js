@@ -38,19 +38,19 @@ export class ManagedIdentityCredential implements TokenCredential {
    * Creates an instance of ManagedIdentityCredential with the client ID of a
    * user-assigned identity.
    *
-   * @param clientId The client ID of the user-assigned identity.
-   * @param options Options for configuring the client which makes the access token request.
+   * @param clientId - The client ID of the user-assigned identity.
+   * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
    *
-   * @param options Options for configuring the client which makes the access token request.
+   * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(options?: TokenCredentialOptions);
   /**
    * @internal
-   * @ignore
+   * @hidden
    */
   constructor(
     clientIdOrOptions: string | TokenCredentialOptions | undefined,
@@ -97,16 +97,16 @@ export class ManagedIdentityCredential implements TokenCredential {
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const resource = mapScopesToResource(scopes);
-    const { span, options } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ManagedIdentityCredential-authenticateManagedIdentity",
       getTokenOptions
     );
 
     try {
       // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
-      const availableMSI = await this.cachedAvailableMSI(resource, clientId, options);
+      const availableMSI = await this.cachedAvailableMSI(resource, clientId, updatedOptions);
 
-      return availableMSI.getToken(this.identityClient, resource, clientId, options);
+      return availableMSI.getToken(this.identityClient, resource, clientId, updatedOptions);
     } catch (err) {
       const code =
         err.name === AuthenticationErrorName
@@ -128,8 +128,8 @@ export class ManagedIdentityCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(
@@ -138,14 +138,14 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     let result: AccessToken | null = null;
 
-    const { span, options: newOptions } = createSpan("ManagedIdentityCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ManagedIdentityCredential-getToken", options);
 
     try {
       // isEndpointAvailable can be true, false, or null,
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
-        result = await this.authenticateManagedIdentity(scopes, this.clientId, newOptions);
+        result = await this.authenticateManagedIdentity(scopes, this.clientId, updatedOptions);
 
         if (result === null) {
           // If authenticateManagedIdentity returns null,
@@ -196,7 +196,20 @@ export class ManagedIdentityCredential implements TokenCredential {
         message: err.message
       });
 
+      // If either the network is unreachable,
+      // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
+        const error = new CredentialUnavailable(
+          "ManagedIdentityCredential is unavailable. Network unreachable."
+        );
+
+        logger.getToken.info(formatError(scopes, error));
+        throw error;
+      }
+
+      // If either the host was unreachable,
+      // we can safely assume the credential is unavailable.
+      if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailable(
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
@@ -213,6 +226,15 @@ export class ManagedIdentityCredential implements TokenCredential {
         );
       }
 
+      // If the error has no status code, we can assume there was no available identity.
+      // This will throw silently during any ChainedTokenCredential.
+      if (err.statusCode === undefined) {
+        throw new CredentialUnavailable(
+          `ManagedIdentityCredential authentication failed. Message ${err.message}`
+        );
+      }
+
+      // Any other error should break the chain.
       throw new AuthenticationError(err.statusCode, {
         error: "ManagedIdentityCredential authentication failed.",
         error_description: err.message

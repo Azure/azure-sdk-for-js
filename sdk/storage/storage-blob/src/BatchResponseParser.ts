@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { HttpHeaders } from "@azure/core-http";
 
 import { ServiceSubmitBatchResponseModel } from "./generatedModels";
@@ -10,6 +13,7 @@ import {
 import { getBodyAsText } from "./BatchUtils";
 import { BatchSubRequest } from "./BlobBatch";
 import { BatchSubResponse, ParsedBatchResponse } from "./BatchResponse";
+import { logger } from "./log";
 
 const HTTP_HEADER_DELIMITER = ": ";
 const SPACE_DELIMITER = " ";
@@ -56,13 +60,13 @@ export class BatchResponseParser {
       );
     }
 
-    let responseBodyAsText = await getBodyAsText(this.batchResponse);
+    const responseBodyAsText = await getBodyAsText(this.batchResponse);
 
-    let subResponses = responseBodyAsText
+    const subResponses = responseBodyAsText
       .split(this.batchResponseEnding)[0] // string after ending is useless
       .split(this.perResponsePrefix)
       .slice(1); // string before first response boundary is useless
-    let subResponseCount = subResponses.length;
+    const subResponseCount = subResponses.length;
 
     // Defensive coding in case of potential error parsing.
     // Note: subResponseCount == 1 is special case where sub request is invalid.
@@ -72,18 +76,17 @@ export class BatchResponseParser {
       throw new Error("Invalid state: sub responses' count is not equal to sub requests' count.");
     }
 
-    let deserializedSubResponses: Array<BatchSubResponse> = new Array(subResponseCount);
+    const deserializedSubResponses: Array<BatchSubResponse> = new Array(subResponseCount);
     let subResponsesSucceededCount: number = 0;
     let subResponsesFailedCount: number = 0;
 
     // Parse sub subResponses.
     for (let index = 0; index < subResponseCount; index++) {
       const subResponse = subResponses[index];
-      deserializedSubResponses[index] = {} as BatchSubResponse;
-      let deserializedSubResponse = deserializedSubResponses[index];
+      const deserializedSubResponse = {} as BatchSubResponse;
       deserializedSubResponse.headers = new HttpHeaders();
 
-      let responseLines = subResponse.split(`${HTTP_LINE_ENDING}`);
+      const responseLines = subResponse.split(`${HTTP_LINE_ENDING}`);
       let subRespHeaderStartFound = false;
       let subRespHeaderEndFound = false;
       let subRespFailed = false;
@@ -101,7 +104,7 @@ export class BatchResponseParser {
           if (responseLine.startsWith(HTTP_VERSION_1_1)) {
             subRespHeaderStartFound = true;
 
-            let tokens = responseLine.split(SPACE_DELIMITER);
+            const tokens = responseLine.split(SPACE_DELIMITER);
             deserializedSubResponse.status = parseInt(tokens[1]);
             deserializedSubResponse.statusMessage = tokens.slice(2).join(SPACE_DELIMITER);
           }
@@ -128,7 +131,7 @@ export class BatchResponseParser {
           }
 
           // Parse headers of sub response.
-          let tokens = responseLine.split(HTTP_HEADER_DELIMITER);
+          const tokens = responseLine.split(HTTP_HEADER_DELIMITER);
           deserializedSubResponse.headers.set(tokens[0], tokens[1]);
           if (tokens[0] === HeaderConstants.X_MS_ERROR_CODE) {
             deserializedSubResponse.errorCode = tokens[1];
@@ -144,8 +147,23 @@ export class BatchResponseParser {
         }
       } // Inner for end
 
-      if (contentId != NOT_FOUND) {
+      // The response will contain the Content-ID header for each corresponding subrequest response to use for tracking.
+      // The Content-IDs are set to a valid index in the subrequests we sent. In the status code 202 path, we could expect it
+      // to be 1-1 mapping from the [0, subRequests.size) to the Content-IDs returned. If not, we simply don't return that
+      // unexpected subResponse in the parsed reponse and we can always look it up in the raw response for debugging purpose.
+      if (
+        contentId != NOT_FOUND &&
+        Number.isInteger(contentId) &&
+        contentId >= 0 &&
+        contentId < this.subRequests.size &&
+        deserializedSubResponses[contentId] === undefined
+      ) {
         deserializedSubResponse._request = this.subRequests.get(contentId)!;
+        deserializedSubResponses[contentId] = deserializedSubResponse;
+      } else {
+        logger.error(
+          `subResponses[${index}] is dropped as the Content-ID is not found or invalid, Content-ID: ${contentId}`
+        );
       }
 
       if (subRespFailed) {

@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "azure-storage-blob";
-const packageVersion = "12.3.0";
+const packageVersion = "12.5.0";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
@@ -39,7 +39,7 @@ export class StorageClientContext extends coreHttp.ServiceClient {
 
     super(undefined, options);
 
-    this.version = "2020-02-10";
+    this.version = '2020-06-12';
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
     this.url = url;

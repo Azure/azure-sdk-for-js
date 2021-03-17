@@ -3,24 +3,17 @@
 
 import { assert } from "chai";
 
-import {
-  TextAnalyticsClient,
-  DetectLanguageResultArray,
-  DetectLanguageSuccessResult,
-  AzureKeyCredential
-} from "../../src";
-import { testEnv } from "../utils/recordedClient";
+import { DetectLanguageResultArray, DetectLanguageSuccessResult } from "../../src";
+import { createClient } from "./utils/recordedClient";
 
-import { WebResource, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
+import { PipelineRequest, PipelineResponse, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
-  const credential = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
-
   it("use custom HTTPClient", async () => {
     const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
-      const client = new TextAnalyticsClient(testEnv.ENDPOINT, credential, {
+      const client = createClient("APIKey", {
         httpClient: {
-          sendRequest: async (request: WebResource): Promise<HttpOperationResponse> => ({
+          sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => ({
             status: 200,
             request,
             bodyAsText: JSON.stringify({
@@ -30,7 +23,7 @@ describe("TextAnalyticsClient Custom PipelineOptions", function() {
               errors: [],
               modelVersion: "2019-10-01"
             }),
-            headers: new HttpHeaders({})
+            headers: createHttpHeaders()
           })
         }
       });

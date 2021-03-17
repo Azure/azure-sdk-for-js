@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import * as dotenv from "dotenv";
@@ -233,8 +236,8 @@ describe("QueueClient", () => {
 });
 
 describe("QueueClient - Verify Name Properties", () => {
-  let queueName = "queueName";
-  let accountName = "myAccount";
+  const queueName = "queueName";
+  const accountName = "myAccount";
 
   function verifyNameProperties(url: string, accountName: string, queueName: string) {
     const newClient = new QueueClient(url);

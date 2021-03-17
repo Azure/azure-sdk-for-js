@@ -1,0 +1,40 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+
+trigger:
+  branches:
+    include:
+      - master
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/synapse/
+
+pr:
+  branches:
+    include:
+      - master
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/synapse/
+
+extends:
+  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: synapse
+    Artifacts:
+      - name: azure-synapse-access-control
+        safeName: azuresynapseaccesscontrol
+      - name: azure-synapse-artifacts
+        safeName: azuresynapseartifacts
+      - name: azure-synapse-managed-private-endpoints
+        safeName: azuresynapsemanagedprivateendpoints
+      - name: azure-synapse-monitoring
+        safeName: azuresynapsemonitoring
+      - name: azure-synapse-spark
+        safeName: azuresynapsespark

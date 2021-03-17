@@ -50,10 +50,10 @@ export class ClientCertificateCredential implements TokenCredential {
    * Creates an instance of the ClientCertificateCredential with the details
    * needed to authenticate against Azure Active Directory with a certificate.
    *
-   * @param tenantId The Azure Active Directory tenant (directory) ID.
-   * @param clientId The client (application) ID of an App Registration in the tenant.
-   * @param certificatePath The path to a PEM-encoded public/private key certificate on the filesystem.
-   * @param options Options for configuring the client which makes the authentication request.
+   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param clientId - The client (application) ID of an App Registration in the tenant.
+   * @param certificatePath - The path to a PEM-encoded public/private key certificate on the filesystem.
+   * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string,
@@ -106,18 +106,15 @@ export class ClientCertificateCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan(
-      "ClientCertificateCredential-getToken",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ClientCertificateCredential-getToken", options);
     try {
       const tokenId = uuidV4();
       const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
@@ -172,7 +169,7 @@ export class ClientCertificateCredential implements TokenCredential {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         abortSignal: options && options.abortSignal,
-        spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
+        spanOptions: updatedOptions?.tracingOptions?.spanOptions
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);

@@ -1,7 +1,7 @@
 {
   "name": "@azure/logger",
   "sdk-type": "client",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Microsoft Azure SDK for JavaScript - Logger",
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -36,7 +36,9 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --no-timeouts test/*.spec.ts",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "build:samples": "echo Skipped.",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "types": "./types/logger.d.ts",
   "engine": {
@@ -87,8 +89,8 @@
     "cross-env": "^7.0.2",
     "delay": "^4.2.0",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
-    "karma": "^5.1.0",
+    "eslint": "^7.15.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -98,7 +100,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
@@ -110,6 +112,7 @@
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3"
+    "typescript": "4.1.2",
+    "typedoc": "0.15.2"
   }
 }

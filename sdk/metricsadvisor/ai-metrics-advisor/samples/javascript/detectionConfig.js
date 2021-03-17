@@ -37,11 +37,11 @@ async function main() {
 
   const created = await createDetectionConfig(adminClient, metricId);
 
-  const updated = await updateDetectionConfig(adminClient, created.id);
+  await updateDetectionConfig(adminClient, created.id);
 
   await listDetectionConfig(adminClient, metricId);
 
-  await deleteDetectionConfig(adminClient, updated.id);
+  await deleteDetectionConfig(adminClient, created.id);
 }
 
 async function getDetectionConfig(adminClient, detectionConfigId) {

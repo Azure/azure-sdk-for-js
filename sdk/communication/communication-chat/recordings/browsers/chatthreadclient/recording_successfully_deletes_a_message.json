@@ -1,0 +1,20 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/chat/threads/19%3A1cb5e8212f0047c1a0ba2b908fee301a%40thread.v2/messages/1615253274036",
+   "query": {
+    "api-version": "2021-03-01-preview5"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {}
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "686b31ba5694682918295afb722fc715"
+}

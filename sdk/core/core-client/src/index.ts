@@ -2,13 +2,8 @@
 // Licensed under the MIT license.
 
 export { createSerializer, MapperTypeNames } from "./serializer";
-export { createSpanFunction } from "./createSpan";
-export {
-  ServiceClient,
-  ServiceClientOptions,
-  createClientPipeline,
-  ClientPipelineOptions
-} from "./serviceClient";
+export { ServiceClient, ServiceClientOptions } from "./serviceClient";
+export { createClientPipeline, InternalClientPipelineOptions } from "./pipeline";
 export {
   OperationSpec,
   OperationArguments,
@@ -36,14 +31,15 @@ export {
   OperationRequestInfo,
   QueryCollectionFormat,
   ParameterPath,
-  OperationResponse,
   FullOperationResponse,
   PolymorphicDiscriminator,
   SpanConfig,
   XML_ATTRKEY,
   XML_CHARKEY,
   XmlOptions,
-  SerializerOptions
+  SerializerOptions,
+  RawResponseCallback,
+  CommonClientOptions
 } from "./interfaces";
 export {
   deserializationPolicy,
@@ -51,3 +47,9 @@ export {
   DeserializationPolicyOptions,
   DeserializationContentTypes
 } from "./deserializationPolicy";
+export {
+  serializationPolicy,
+  serializationPolicyName,
+  SerializationPolicyOptions
+} from "./serializationPolicy";
+import "@azure/core-asynciterator-polyfill";

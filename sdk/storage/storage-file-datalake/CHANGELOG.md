@@ -1,7 +1,34 @@
 # Release History
 
-## 12.2.1 (Unreleased)
+## 12.4.1 (Unreleased)
 
+
+## 12.4.0 (2021-03-10)
+
+- Includes all features released in 12.4.0-beta.1.
+
+## 12.4.0-beta.1 (2021-02-09)
+
+- Added support for Container Soft Delete. You can restore a deleted filesystem via `DataLakeServiceClient.undeleteFileSystem()`. And the `DataLakeServiceClient.listFileSystems()` now support an `includeDeleted` option to include soft deleted filesystems in the response.
+- Added `fromConnectionString` to `DataLakeServiceClient` to support construction from a connection string. Fixed bug [13396](https://github.com/Azure/azure-sdk-for-js/issues/13396).
+
+## 12.3.1 (2021-02-03)
+
+- Fixed a bug where `generateDataLakeSASQueryParameters()` won't correctly set the resource type if `DataLakeSASSignatureValues.permissions` is not specified. Fixed issue [13223](https://github.com/Azure/azure-sdk-for-js/issues/13223).
+- Fixed a compile failure due to "Can't resolve 'crypto'" in Angular. [Issue #13267](https://github.com/Azure/azure-sdk-for-js/issues/13267).
+- The `"Unclosed root tag"` XML parser error is now retriable. [PR #13076](https://github.com/Azure/azure-sdk-for-js/pull/13076).
+
+## 12.3.0 (2021-01-12)
+
+- Bug fix - `DataLakePathClient.move()` now supports source and destination authenticated with SAS. Fixed bug [12758](https://github.com/Azure/azure-sdk-for-js/issues/12758).
+- Now you can get the functionality of the root directory via the `DataLakeDirectoryClient` created via `FileSystemClient.getDirectoryClient("")`. Fixed bug [12813](https://github.com/Azure/azure-sdk-for-js/issues/12813).
+
+## 12.3.0-beta.1 (2020-12-09)
+
+- Updated Azure Storage Service API version to 2020-04-08.
+- Added `generateSasUrl` to `DataLakeFileSystemClient`, `DataLakeDirectoryClient` and `DataLakeFileClient` to generate a service-level SAS URI for the client.
+- Added `generateAccountSasUrl` to `DataLakeServiceClient` to generate an account-level SAS URI for the client.
+- Won't remove the first space in the `userAgentOptions.userAgentPrefix` passed to the `newPipeline()` now. Fixed bug [7536](https://github.com/Azure/azure-sdk-for-js/issues/7536).
 
 ## 12.2.0 (2020-11-10)
 

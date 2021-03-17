@@ -10,8 +10,9 @@ import * as coreHttp from "@azure/core-http";
 import { GeneratedClientOptionalParams } from "./models";
 
 const packageName = "@azure/ai-metrics-advisor";
-const packageVersion = "1.0.0-beta.3";
+const packageVersion = "1.0.0-beta.4";
 
+/** @hidden */
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
 

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { PartitionKeyRange, Resource } from "../client";
 import { ClientContext } from "../ClientContext";
 import {
   Constants,
@@ -14,13 +15,13 @@ import { Response } from "../request";
 import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
-import { FetchFunctionCallback, SqlQuerySpec } from "./index";
+import { SqlQuerySpec } from "./index";
 
 /** @hidden */
 export class DocumentProducer {
   private collectionLink: string;
   private query: string | SqlQuerySpec;
-  public targetPartitionKeyRange: any; // TODO: any partitionkeyrange
+  public targetPartitionKeyRange: PartitionKeyRange;
   public fetchResults: FetchResult[];
   public allFetched: boolean;
   private err: Error;
@@ -32,18 +33,17 @@ export class DocumentProducer {
 
   /**
    * Provides the Target Partition Range Query Execution Context.
-   * @constructor DocumentProducer
-   * @param {ClientContext} clientContext        - The service endpoint to use to create the client.
-   * @param {String} collectionLink                - Represents collection link
-   * @param {SqlQuerySpec | string} query          - A SQL query.
-   * @param {object} targetPartitionKeyRange       - Query Target Partition key Range
-   * @ignore
+   * @param clientContext  - The service endpoint to use to create the client.
+   * @param collectionLink - Represents collection link
+   * @param query          - A SQL query.
+   * @param targetPartitionKeyRange - Query Target Partition key Range
+   * @hidden
    */
   constructor(
     private clientContext: ClientContext,
     collectionLink: string,
     query: SqlQuerySpec,
-    targetPartitionKeyRange: any, // TODO: any partition key range
+    targetPartitionKeyRange: PartitionKeyRange,
     options: FeedOptions
   ) {
     // TODO: any options
@@ -59,15 +59,14 @@ export class DocumentProducer {
     this.continuationToken = undefined;
     this.respHeaders = getInitialHeader();
 
-    // tslint:disable-next-line:no-shadowed-variable
     this.internalExecutionContext = new DefaultQueryExecutionContext(options, this.fetchFunction);
   }
   /**
    * Synchronously gives the contiguous buffered results (stops at the first non result) if any
-   * @returns {Object}       - buffered current items if any
-   * @ignore
+   * @returns buffered current items if any
+   * @hidden
    */
-  public peekBufferedItems() {
+  public peekBufferedItems(): any[] {
     const bufferedResults = [];
     for (let i = 0, done = false; i < this.fetchResults.length && !done; i++) {
       const fetchResult = this.fetchResults[i];
@@ -86,26 +85,31 @@ export class DocumentProducer {
     return bufferedResults;
   }
 
-  public fetchFunction: FetchFunctionCallback = async (options: any) => {
+  public fetchFunction = async (options: FeedOptions): Promise<Response<Resource>> => {
+    // eslint-disable-next-line no-invalid-this
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
+    // eslint-disable-next-line no-invalid-this
     const id = getIdFromLink(this.collectionLink);
 
+    // eslint-disable-next-line no-invalid-this
     return this.clientContext.queryFeed({
       path,
       resourceType: ResourceType.item,
       resourceId: id,
       resultFn: (result: any) => result.Documents,
+      // eslint-disable-next-line no-invalid-this
       query: this.query,
       options,
+      // eslint-disable-next-line no-invalid-this
       partitionKeyRangeId: this.targetPartitionKeyRange["id"]
     });
   };
 
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return this.internalExecutionContext.hasMoreResults() || this.fetchResults.length !== 0;
   }
 
-  public gotSplit() {
+  public gotSplit(): boolean {
     const fetchResult = this.fetchResults[0];
     if (fetchResult.fetchResultType === FetchResultType.Exception) {
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(fetchResult.error)) {
@@ -116,13 +120,13 @@ export class DocumentProducer {
     return false;
   }
 
-  private _getAndResetActiveResponseHeaders() {
+  private _getAndResetActiveResponseHeaders(): CosmosHeaders {
     const ret = this.respHeaders;
     this.respHeaders = getInitialHeader();
     return ret;
   }
 
-  private _updateStates(err: any, allFetched: boolean) {
+  private _updateStates(err: any, allFetched: boolean): void {
     // TODO: any Error
     if (err) {
       this.err = err;
@@ -139,7 +143,7 @@ export class DocumentProducer {
     this.continuationToken = this.internalExecutionContext.continuationToken;
   }
 
-  private static _needPartitionKeyRangeCacheRefresh(error: any) {
+  private static _needPartitionKeyRangeCacheRefresh(error: any): boolean {
     // TODO: error
     return (
       error.code === StatusCodes.Gone &&
@@ -150,8 +154,6 @@ export class DocumentProducer {
 
   /**
    * Fetches and bufferes the next page of results and executes the given callback
-   * @memberof DocumentProducer
-   * @instance
    */
   public async bufferMore(): Promise<Response<any>> {
     if (this.err) {
@@ -204,19 +206,15 @@ export class DocumentProducer {
 
   /**
    * Synchronously gives the bufferend current item if any
-   * @returns {Object}       - buffered current item if any
-   * @ignore
+   * @returns buffered current item if any
+   * @hidden
    */
-  public getTargetParitionKeyRange() {
+  public getTargetParitionKeyRange(): PartitionKeyRange {
     return this.targetPartitionKeyRange;
   }
 
   /**
-   * Execute a provided function on the next element in the DocumentProducer.
-   * @memberof DocumentProducer
-   * @instance
-   * @param {callback} callback - Function to execute for each element. the function \
-   * takes two parameters error, element.
+   * Fetches the next element in the DocumentProducer.
    */
   public async nextItem(): Promise<Response<any>> {
     if (this.err) {
@@ -249,10 +247,6 @@ export class DocumentProducer {
 
   /**
    * Retrieve the current element on the DocumentProducer.
-   * @memberof DocumentProducer
-   * @instance
-   * @param {callback} callback - Function to execute for the current element. \
-   * the function takes two parameters error, element.
    */
   public async current(): Promise<Response<any>> {
     // If something is buffered just give that

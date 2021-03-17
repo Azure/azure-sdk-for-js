@@ -2,11 +2,14 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
+import { RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { GetKeyResponse, RecoverDeletedKeyResponse } from "../../generated/models";
+import {
+  KeyVaultClientGetKeyResponse,
+  KeyVaultClientRecoverDeletedKeyResponse
+} from "../../generated/models";
 import { KeyVaultKey, GetKeyOptions, RecoverDeletedKeyOptions } from "../../keysModels";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
+import { createSpan } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
 
@@ -14,12 +17,12 @@ import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyV
  * An interface representing the state of a delete key's poll operation
  */
 export interface RecoverDeletedKeyPollOperationState
-  extends KeyVaultKeyPollOperationState<KeyVaultKey> { }
+  extends KeyVaultKeyPollOperationState<KeyVaultKey> {}
 
 export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
   RecoverDeletedKeyPollOperationState,
   KeyVaultKey
-  > {
+> {
   constructor(
     public state: RecoverDeletedKeyPollOperationState,
     private vaultUrl: string,
@@ -34,16 +37,15 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
    * This operation requires the keys/get permission.
    */
   private async getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getKey", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.getKey", options);
 
-    let response: GetKeyResponse;
+    let response: KeyVaultClientGetKeyResponse;
     try {
       response = await this.client.getKey(
         this.vaultUrl,
         name,
         options && options.version ? options.version : "",
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -60,16 +62,11 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     name: string,
     options: RecoverDeletedKeyOptions = {}
   ): Promise<KeyVaultKey> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.recoverDeletedKey", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.recoverDeletedKey", options);
 
-    let response: RecoverDeletedKeyResponse;
+    let response: KeyVaultClientRecoverDeletedKeyResponse;
     try {
-      response = await this.client.recoverDeletedKey(
-        this.vaultUrl,
-        name,
-        setParentSpan(span, requestOptions)
-      );
+      response = await this.client.recoverDeletedKey(this.vaultUrl, name, updatedOptions);
     } finally {
       span.end();
     }

@@ -2,23 +2,26 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
+import { RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { DeleteKeyResponse, GetDeletedKeyResponse } from "../../generated/models";
+import {
+  KeyVaultClientDeleteKeyResponse,
+  KeyVaultClientGetDeletedKeyResponse
+} from "../../generated/models";
 import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
+import { createSpan } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
 
 /**
  * An interface representing the state of a delete key's poll operation
  */
-export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> { }
+export interface DeleteKeyPollOperationState extends KeyVaultKeyPollOperationState<DeletedKey> {}
 
 export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
   DeleteKeyPollOperationState,
   DeletedKey
-  > {
+> {
   constructor(
     public state: DeleteKeyPollOperationState,
     private vaultUrl: string,
@@ -33,16 +36,11 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
    * Since the Key Vault Key won't be immediately deleted, we have {@link beginDeleteKey}.
    */
   private async deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.deleteKey", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.deleteKey", options);
 
-    let response: DeleteKeyResponse;
+    let response: KeyVaultClientDeleteKeyResponse;
     try {
-      response = await this.client.deleteKey(
-        this.vaultUrl,
-        name,
-        setParentSpan(span, requestOptions)
-      );
+      response = await this.client.deleteKey(this.vaultUrl, name, updatedOptions);
     } finally {
       span.end();
     }
@@ -58,16 +56,11 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     name: string,
     options: GetDeletedKeyOptions = {}
   ): Promise<DeletedKey> {
-    const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getDeletedKey", responseOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.getDeletedKey", options);
 
-    let response: GetDeletedKeyResponse;
+    let response: KeyVaultClientGetDeletedKeyResponse;
     try {
-      response = await this.client.getDeletedKey(
-        this.vaultUrl,
-        name,
-        setParentSpan(span, responseOptions)
-      );
+      response = await this.client.getDeletedKey(this.vaultUrl, name, updatedOptions);
     } finally {
       span.end();
     }

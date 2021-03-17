@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 export * from "./DataLakeServiceClient";
 export * from "./DataLakeFileSystemClient";
@@ -29,3 +29,4 @@ export { SasIPRange } from "./sas/SasIPRange";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 export { RestError } from "@azure/core-http";
 export { logger } from "./log";
+export * from "./sas/DirectorySASPermissions";

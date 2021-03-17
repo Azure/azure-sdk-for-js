@@ -4,13 +4,12 @@
 import { TableServiceClientOptions } from "..";
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
-import { createPipelineFromOptions } from "@azure/core-http";
 
 /**
  * Gets client parameters from an Account Connection String
  * Only supported in Node.js not supported for Browsers
- * @param extractedCreds parsed connection string
- * @param options TablesServiceClient options
+ * @param extractedCreds - parsed connection string
+ * @param options - TablesServiceClient options
  */
 export function fromAccountConnectionString(
   extractedCreds: ConnectionString,
@@ -23,7 +22,7 @@ export function fromAccountConnectionString(
 
   return {
     url: extractedCreds.url,
-    options: createPipelineFromOptions(options),
+    options,
     credential: sharedKeyCredential
   };
 }

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
+import { RequestOptionsBase } from "@azure/core-http";
 import {
   DeletedSecret,
   GetSecretOptions,
@@ -14,8 +14,8 @@ import {
   KeyVaultSecretPollOperationState
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
-import { GetSecretResponse } from "../../generated/models";
+import { createSpan } from "../../tracing";
+import { KeyVaultClientGetSecretResponse } from "../../generated/models";
 import { getSecretFromSecretBundle } from "../../transformations";
 
 /**
@@ -45,16 +45,15 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
    * This operation requires the secrets/get permission.
    */
   private async getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
-    const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getSecret", responseOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.getSecret", options);
 
-    let response: GetSecretResponse;
+    let response: KeyVaultClientGetSecretResponse;
     try {
       response = await this.client.getSecret(
         this.vaultUrl,
         name,
         options && options.version ? options.version : "",
-        setParentSpan(span, responseOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -71,16 +70,11 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     name: string,
     options: GetSecretOptions = {}
   ): Promise<DeletedSecret> {
-    const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.recoverDeletedSecret", responseOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.recoverDeletedSecret", options);
 
-    let response: GetSecretResponse;
+    let response: KeyVaultClientGetSecretResponse;
     try {
-      response = await this.client.recoverDeletedSecret(
-        this.vaultUrl,
-        name,
-        setParentSpan(span, responseOptions)
-      );
+      response = await this.client.recoverDeletedSecret(this.vaultUrl, name, updatedOptions);
     } finally {
       span.end();
     }

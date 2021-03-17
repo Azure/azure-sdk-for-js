@@ -88,11 +88,13 @@ const getPackageGraph = (baseDir) => {
 
 const getLeafPackages = (packageGraph, packageNames) => {
   // Return a set of packages that are dependent on other packages but not a dependency for any package
-  // Adding these leaf packages with --to <package-name> ensures to build all required packages
   let leafPackages = new Set();
   for (let pkgName of packageNames) {
     // if current package is added as dependent by other packages then find leaf packages recursively
     if (packageGraph.has(pkgName)) {
+      // Rush doesn't build transitive dependency if package version is beta
+      // Passing this package explicitly as a work around we can upgrade rush to latest version 5.38 or higher
+      leafPackages.add(pkgName);
       for (const dependentPackage of getLeafPackages(packageGraph, packageGraph.get(pkgName))) {
         leafPackages.add(dependentPackage);
       }
@@ -105,7 +107,7 @@ const getLeafPackages = (packageGraph, packageNames) => {
 };
 
 const getPackagesToBuild = (packageNames, packageGraph) => {
-  // Find all packages that takes current pacakge as dependency recursively and add leaf packages into list to build
+  // Find all packages that takes current package as dependency recursively and add leaf packages into list to build
   // This will ensure all transitive dependencies are built
   // A -> D, C -> D. When A is built, it will build D and C also just by adding --to D
   for (const dependentPackage of getLeafPackages(packageGraph, packageNames)) {
@@ -116,11 +118,23 @@ const getPackagesToBuild = (packageNames, packageGraph) => {
 };
 
 const getPackageJsons = (searchDir) => {
-  return fs
+  // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level excluding "arm-" packages
+  const sdkDirectories = fs
     .readdirSync(searchDir)
     .filter((f) => !f.startsWith("arm-")) // exclude libraries starting with "arm-"
-    .map((f) => path.join(searchDir, f, "package.json")) // turn potential directory names into package.json paths
-    .filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
+    .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
+
+  // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>/perf-tests` level excluding "-track-1" perf test packages
+  let perfTestDirectories = [];
+  const searchPerfTestDir = path.join(searchDir, "perf-tests");
+  if (fs.existsSync(searchPerfTestDir)) {
+    perfTestDirectories = fs
+      .readdirSync(searchPerfTestDir)
+      .filter((f) => !f.endsWith("-track-1")) // exclude libraries ending with "-track-1" (perf test projects)
+      .map((f) => path.join(searchPerfTestDir, f, "package.json")); // turn potential directory names into package.json paths
+  }
+
+  return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
 };
 
 const getServicePackages = (baseDir, serviceDirs) => {
@@ -151,6 +165,7 @@ const spawnNode = (cwd, ...args) => {
     // should ever happen, but if it does it's safer to fail.
     process.exitCode = proc.status || 1;
   }
+  return proc.status
 };
 
 const flatMap = (arr, f) => {
@@ -163,21 +178,39 @@ const pkgGraph = getPackageGraph(baseDir);
 
 const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs);
 
+/**
+ * Helper function to provide the rush logic that is used frequently below
+ *
+ * @param direction string which kind of rush tree selector to run (either "--from" or "--to")
+ * @param packages string[] the names of the packages to run the action on
+ */
+function rushRunAll(direction, packages) {
+  const params = flatMap(packages, (p) => [direction, p]);
+  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+}
+
+/**
+ * Helper function to get the relative path of a package directory from an absolute
+ * one
+ * 
+ * @param {string} absolutePath absolute path to a package 
+ * @returns either the relative path of the package starting from the "sdk" directory
+ *          or the just the absolute path itself if "sdk" if not found
+ */
+function tryGetPkgRelativePath(absolutePath) {
+  const sdkDirectoryPathStartIndex = absolutePath.lastIndexOf("sdk");
+  return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
+}
+
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
-  let params = [];
-  switch (action.toLowerCase().split(":")[0]) {
-    // case 'build':
-    //   params = flatMap(packageNames, (p) => [`--to`, p, `--from`, p]);
-    //   spawnNode(baseDir, 'common/scripts/install-run-rush.js', action, ...params, ...rushParams);
-    //   break;
-
+  const actionComponents = action.toLowerCase().split(":");
+  switch (actionComponents[0]) {
     case "test":
     case "unit-test":
     case "integration-test":
-      params = flatMap(packageNames, (p) => [`--from`, p]);
-      spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+      rushRunAll("--from", packageNames);
       break;
 
     case "lint":
@@ -185,14 +218,31 @@ if (serviceDirs.length === 0) {
         spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
       }
       break;
+    case "check-format":
+      for (const packageDir of packageDirs) {
+        if (spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action) !== 0) {
+          console.log(`\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`);
+        }
+      }
+      break;
+
+    case "build":
+      if (actionComponents[1] === "samples") {
+        // For sample builds, we use --from to run sample builds on dependents
+        rushRunAll("--from", packageNames);
+      } else {
+        // For other builds, we use the transitive dependency logic if required, and build dependencies
+        // using --to
+        const requiredPackageNames = buildTransitiveDep
+          ? getPackagesToBuild(packageNames, pkgGraph)
+          : packageNames;
+
+        rushRunAll("--to", requiredPackageNames);
+      }
+      break;
 
     default:
-      let requiredPackageNames = packageNames;
-      if (buildTransitiveDep) {
-        requiredPackageNames = getPackagesToBuild(packageNames, pkgGraph);
-      }
-      params = flatMap(requiredPackageNames, (p) => [`--to`, p]);
-      spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+      rushRunAll("--to", packageNames);
       break;
   }
 }

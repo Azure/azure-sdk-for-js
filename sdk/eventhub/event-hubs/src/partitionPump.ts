@@ -9,15 +9,15 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
-import { OperationOptions, getParentSpan } from "./util/operationOptions";
-import { getTracer } from "@azure/core-tracing";
+import { OperationOptions } from "./util/operationOptions";
 import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
+import { createEventHubSpan } from "./diagnostics/tracing";
+import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
 
 /**
- * @ignore
  * @internal
  */
 export class PartitionPump {
@@ -61,8 +61,8 @@ export class PartitionPump {
 
   /**
    * Creates a new `EventHubReceiver` and replaces any existing receiver.
-   * @param partitionId The partition the receiver should read messages from.
-   * @param lastSeenSequenceNumber The sequence number to begin receiving messages from (exclusive).
+   * @param partitionId - The partition the receiver should read messages from.
+   * @param lastSeenSequenceNumber - The sequence number to begin receiving messages from (exclusive).
    * If `-1`, then the PartitionPump's startPosition will be used instead.
    */
   private _setOrReplaceReceiver(
@@ -132,10 +132,7 @@ export class PartitionPump {
 
         const span = createProcessingSpan(
           receivedEvents,
-          {
-            eventHubName: this._context.config.entityPath,
-            host: this._context.config.host
-          },
+          this._context.config,
           this._processorOptions
         );
 
@@ -155,9 +152,9 @@ export class PartitionPump {
         // forward error to user's processError and swallow errors they may throw
         try {
           await this._partitionProcessor.processError(err);
-        } catch (err) {
+        } catch (errorFromUser) {
           // Using verbose over warning because this error is swallowed.
-          logger.verbose("An error was thrown by user's processError method: ", err);
+          logger.verbose("An error was thrown by user's processError method: ", errorFromUser);
         }
 
         // close the partition processor if a non-retryable error was encountered
@@ -170,11 +167,11 @@ export class PartitionPump {
             }
             // this will close the pump and will break us out of the while loop
             return await this.stop(CloseReason.Shutdown);
-          } catch (err) {
+          } catch (errorFromStop) {
             // Using verbose over warning because this error is swallowed.
             logger.verbose(
               `An error occurred while closing the receiver with reason ${CloseReason.Shutdown}: `,
-              err
+              errorFromStop
             );
           }
         }
@@ -209,11 +206,10 @@ export class PartitionPump {
 
 /**
  * @internal
- * @ignore
  */
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
-  eventHubProperties: { eventHubName: string; host: string },
+  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">,
   options?: OperationOptions
 ): Span {
   const links: Link[] = [];
@@ -233,23 +229,15 @@ export function createProcessingSpan(
     });
   }
 
-  const span = getTracer().startSpan("Azure.EventHubs.process", {
+  const { span } = createEventHubSpan("process", options, eventHubProperties, {
     kind: SpanKind.CONSUMER,
-    links,
-    parent: getParentSpan(options?.tracingOptions)
-  });
-
-  span.setAttributes({
-    "az.namespace": "Microsoft.EventHub",
-    "message_bus.destination": eventHubProperties.eventHubName,
-    "peer.address": eventHubProperties.host
+    links
   });
 
   return span;
 }
 
 /**
- * @ignore
  * @internal
  */
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {

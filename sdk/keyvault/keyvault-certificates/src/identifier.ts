@@ -37,15 +37,16 @@ export interface KeyVaultCertificateId {
  *   https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>
  *
  * On parsing the above Id, this function returns:
- *
+ *```ts
  *   {
  *      sourceId: "https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>",
  *      vaultUrl: "https://<keyvault-name>.vault.azure.net",
  *      version: "<unique-version-id>",
  *      name: "<certificate-name>"
  *   }
- *
- * @param id The Id of the Key Vault Certificate.
+ *```
+ * @param id - The Id of the Key Vault Certificate.
+ * @internal
  */
 export function parseKeyVaultCertificateId(id: string): KeyVaultCertificateId {
   const urlParts = id.split("/");

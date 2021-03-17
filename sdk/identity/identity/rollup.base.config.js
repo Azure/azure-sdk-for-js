@@ -35,7 +35,12 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/test/public/*.spec.js", "dist-esm/test/internal/**/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/public/node/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/internal/node/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -78,6 +83,7 @@ export function browserConfig(test = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
+      json(),
       cjs({
         namedExports: {
           events: ["EventEmitter"],
@@ -89,7 +95,12 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = "dist-esm/test/internal/*.spec.js";
+    baseConfig.input = [
+      "dist-esm/test/public/*.spec.js",
+      "dist-esm/test/public/browser/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/internal/browser/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
 

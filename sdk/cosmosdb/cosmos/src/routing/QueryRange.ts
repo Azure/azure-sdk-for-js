@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
 import { Constants } from "../common";
+import { QueryRange as ResponseQueryRange } from "../request/ErrorResponse";
 
 /** @hidden */
 export class QueryRange {
@@ -11,12 +13,12 @@ export class QueryRange {
 
   /**
    * Represents a QueryRange.
-   * @constructor QueryRange
-   * @param {string} rangeMin                - min
-   * @param {string} rangeMin                - max
-   * @param {boolean} isMinInclusive         - isMinInclusive
-   * @param {boolean} isMaxInclusive         - isMaxInclusive
-   * @ignore
+   *
+   * @param rangeMin                - min
+   * @param rangeMin                - max
+   * @param isMinInclusive         - isMinInclusive
+   * @param isMaxInclusive         - isMaxInclusive
+   * @hidden
    */
   constructor(
     rangeMin: string,
@@ -29,9 +31,8 @@ export class QueryRange {
     this.isMinInclusive = isMinInclusive;
     this.isMaxInclusive = isMaxInclusive;
   }
-  public overlaps(other: QueryRange) {
-    // tslint:disable-next-line:no-this-assignment
-    const range1 = this;
+  public overlaps(other: QueryRange): boolean {
+    const range1 = this; // eslint-disable-line @typescript-eslint/no-this-alias
     const range2 = other;
     if (range1 === undefined || range2 === undefined) {
       return false;
@@ -52,7 +53,7 @@ export class QueryRange {
     return false;
   }
 
-  public isFullRange() {
+  public isFullRange(): boolean {
     return (
       this.min === Constants.EffectiveParitionKeyConstants.MinimumInclusiveEffectivePartitionKey &&
       this.max === Constants.EffectiveParitionKeyConstants.MaximumExclusiveEffectivePartitionKey &&
@@ -61,16 +62,15 @@ export class QueryRange {
     );
   }
 
-  public isEmpty() {
+  public isEmpty(): boolean {
     return !(this.isMinInclusive && this.isMaxInclusive) && this.min === this.max;
   }
   /**
    * Parse a QueryRange from a partitionKeyRange
    * @returns QueryRange
-   * @ignore
+   * @hidden
    */
-  public static parsePartitionKeyRange(partitionKeyRange: any) {
-    // TODO: paritionkeyrange
+  public static parsePartitionKeyRange(partitionKeyRange: PartitionKeyRange): QueryRange {
     return new QueryRange(
       partitionKeyRange[Constants.PartitionKeyRange.MinInclusive],
       partitionKeyRange[Constants.PartitionKeyRange.MaxExclusive],
@@ -81,10 +81,9 @@ export class QueryRange {
   /**
    * Parse a QueryRange from a dictionary
    * @returns QueryRange
-   * @ignore
+   * @hidden
    */
-  public static parseFromDict(queryRangeDict: any) {
-    // TODO: queryRangeDictionary
+  public static parseFromDict(queryRangeDict: ResponseQueryRange): QueryRange {
     return new QueryRange(
       queryRangeDict.min,
       queryRangeDict.max,

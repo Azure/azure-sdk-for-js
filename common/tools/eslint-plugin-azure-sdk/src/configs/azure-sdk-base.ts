@@ -11,7 +11,7 @@ export default {
     sourceType: "module",
     extraFileExtensions: [".json"]
   },
-  plugins: ["@typescript-eslint", "no-only-tests", "promise"],
+  plugins: ["@typescript-eslint", "no-only-tests", "promise", "eslint-plugin-tsdoc", "import"],
   extends: [
     "plugin:@typescript-eslint/recommended",
     "eslint:recommended",
@@ -29,12 +29,20 @@ export default {
     curly: ["error", "multi-line"],
     "eol-last": ["error", "always"],
     eqeqeq: ["error", "always", { null: "ignore" }],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        devDependencies: ["test/**/*.ts", "samples/**", "**/karma.conf.js", "**/.eslintrc.js"],
+        optionalDependencies: false,
+        peerDependencies: false
+      }
+    ],
     "no-console": "off",
     "no-dupe-class-members": "off",
     "no-empty": "error",
     "no-fallthrough": "error",
     "no-invalid-this": "error",
-    "no-redeclare": ["error", { builtinGlobals: true }],
+    "@typescript-eslint/no-require-imports": "error",
     "no-restricted-imports": ["error", { paths: ["rhea", "rhea/.*"] }],
     "no-return-await": "error",
     "no-undef": "off",
@@ -42,7 +50,8 @@ export default {
     "no-unused-vars": "off",
     "no-unused-expressions": "error",
     "no-useless-constructor": "off",
-    "no-use-before-define": ["error", { functions: false, classes: false }],
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error", { functions: false, classes: false }],
     "no-var": "error",
     "one-var-declaration-per-line": "error",
     "prefer-const": "error",
@@ -50,8 +59,23 @@ export default {
     "space-infix-ops": ["error", { int32Hint: false }],
     "use-isnan": "error",
     "no-only-tests/no-only-tests": "error",
+    "@typescript-eslint/explicit-module-boundary-types": ["error"],
+    "no-redeclare": "off",
+    "@typescript-eslint/no-redeclare": ["error", { builtinGlobals: true }],
     "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/class-name-casing": "error",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      { selector: "default", format: null },
+      { selector: ["class", "interface"], format: ["PascalCase"] },
+      {
+        selector: "interface",
+        format: ["PascalCase"],
+        custom: {
+          regex: "^I[A-Z]",
+          match: false
+        }
+      }
+    ],
     "@typescript-eslint/no-angle-bracket-type-assertion": "off",
     "@typescript-eslint/no-array-constructor": "off",
     "@typescript-eslint/no-explicit-any": "off",
@@ -63,13 +87,13 @@ export default {
     "@typescript-eslint/no-inferrable-types": "off",
     // We use empty extends and empty interface for shimming and renaming extensively
     "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/interface-name-prefix": ["error", "never"],
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-useless-constructor": "error",
-    "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error", { ignoreTypeValueShadow: true }],
     // https://github.com/Azure/azure-sdk-for-js/issues/7608
     // "@typescript-eslint/member-ordering": [
     //   "error",
@@ -96,6 +120,7 @@ export default {
     // https://github.com/Azure/azure-sdk-for-js/issues/7609
     "@azure/azure-sdk/ts-pagination-list": "off",
     // https://github.com/Azure/azure-sdk-for-js/issues/7610
-    "@azure/azure-sdk/ts-doc-internal": "off"
+    "@azure/azure-sdk/ts-doc-internal": "off",
+    "tsdoc/syntax": "error"
   }
 };

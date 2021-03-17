@@ -5,26 +5,28 @@ import { MapperTypeNames } from "./serializer";
 import { OperationSpec, OperationParameter } from "./interfaces";
 
 /**
- * @internal @ignore
+ * Gets the list of status codes for streaming responses.
+ * @internal
  */
-export function isStreamOperation(operationSpec: OperationSpec): boolean {
+export function getStreamingResponseStatusCodes(operationSpec: OperationSpec): Set<number> {
+  const result = new Set<number>();
   for (const statusCode in operationSpec.responses) {
     const operationResponse = operationSpec.responses[statusCode];
     if (
       operationResponse.bodyMapper &&
       operationResponse.bodyMapper.type.name === MapperTypeNames.Stream
     ) {
-      return true;
+      result.add(Number(statusCode));
     }
   }
-  return false;
+  return result;
 }
 
 /**
  * Get the path to this parameter's value as a dotted string (a.b.c).
- * @param parameter The parameter to get the path string for.
+ * @param parameter - The parameter to get the path string for.
  * @returns The path to this parameter's value as a dotted string.
- * @internal @ignore
+ * @internal
  */
 export function getPathStringFromParameter(parameter: OperationParameter): string {
   const { parameterPath, mapper } = parameter;

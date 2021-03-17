@@ -6,7 +6,6 @@ import {
   CertificateContentType,
   CertificateOperation,
   CertificateIssuer,
-  CertificateKeyType,
   CertificatePolicy,
   CertificateProperties,
   DeletedCertificate,
@@ -26,7 +25,8 @@ import {
   SubjectAlternativeNames as CoreSubjectAlternativeNames,
   X509CertificateProperties,
   CertificateOperation as CoreCertificateOperation,
-  Contacts as CoreContacts
+  Contacts as CoreContacts,
+  JsonWebKeyType as CertificateKeyType
 } from "./generated/models";
 import { parseKeyVaultCertificateId } from "./identifier";
 
@@ -201,10 +201,10 @@ export function getCertificateFromCertificateBundle(
     updatedOn: attributes.updated,
     expiresOn: attributes.expires,
     id: certificateBundle.id,
-    name: parsedId.name,
     enabled: attributes.enabled,
     notBefore: attributes.notBefore,
     recoveryLevel: attributes.recoveryLevel,
+    name: parsedId.name,
     vaultUrl: parsedId.vaultUrl,
     version: parsedId.version,
     tags: certificateBundle.tags,
@@ -234,10 +234,10 @@ export function getCertificateWithPolicyFromCertificateBundle(
     updatedOn: attributes.updated,
     expiresOn: attributes.expires,
     id: certificateBundle.id,
-    name: parsedId.name,
     enabled: attributes.enabled,
     notBefore: attributes.notBefore,
     recoveryLevel: attributes.recoveryLevel,
+    name: parsedId.name,
     vaultUrl: parsedId.vaultUrl,
     version: parsedId.version,
     tags: certificateBundle.tags,
@@ -263,7 +263,13 @@ export function getDeletedCertificateFromDeletedCertificateBundle(
   );
 
   return {
-    ...certificate,
+    policy: certificate.policy,
+    cer: certificate.cer,
+    id: certificate.id,
+    keyId: certificate.keyId,
+    secretId: certificate.secretId,
+    name: certificate.name,
+    properties: certificate.properties,
     recoveryId: certificateBundle.recoveryId,
     scheduledPurgeDate: certificateBundle.scheduledPurgeDate,
     deletedOn: certificateBundle.deletedDate
@@ -275,30 +281,27 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
 
   const attributes: any = item.attributes || {};
 
-  const abstractProperties: any = {
+  const abstractProperties: CertificateProperties = {
     createdOn: attributes.created,
     updatedOn: attributes.updated,
     expiresOn: attributes.expires,
-    ...parsedId,
-    ...item,
-    ...item.attributes
+
+    vaultUrl: parsedId.vaultUrl,
+    version: parsedId.version,
+    name: parsedId.name,
+
+    id: item.id,
+    tags: item.tags,
+    x509Thumbprint: item.x509Thumbprint,
+
+    recoverableDays: item.attributes?.recoverableDays,
+    recoveryLevel: item.attributes?.recoveryLevel
   };
 
-  if (abstractProperties.deletedDate) {
-    delete abstractProperties.deletedDate;
-  }
-
-  if (abstractProperties.expires) {
-    delete abstractProperties.expires;
-  }
-  if (abstractProperties.created) {
-    delete abstractProperties.created;
-  }
-  if (abstractProperties.updated) {
-    delete abstractProperties.updated;
-  }
-
   return {
+    deletedOn: item.deletedDate,
+    recoveryId: item.recoveryId,
+    scheduledPurgeDate: item.scheduledPurgeDate,
     name: parsedId.name,
     properties: abstractProperties
   };

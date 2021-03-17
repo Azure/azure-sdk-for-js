@@ -27,29 +27,30 @@ import {
   UpsertEntityResponse,
   DeleteTableEntityResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
+import {
+  GeneratedClientOptionalParams,
+  QueryOptions as GeneratedQueryOptions
+} from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   TablesSharedKeyCredential,
   TablesSharedKeyCredentialLike
 } from "./TablesSharedKeyCredential";
+import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import {
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  ServiceClientOptions
-} from "@azure/core-http";
+import { FullOperationResponse } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
 import { InternalBatchClientOptions } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -68,11 +69,11 @@ export class TableClient {
   /**
    * Creates a new instance of the TableClient class.
    *
-   * @param {string} url The URL of the service account that is the target of the desired operation., such as
+   * @param url - The URL of the service account that is the target of the desired operation., such as
    *                     "https://myaccount.table.core.windows.net".
-   * @param {string} tableName the name of the table
-   * @param {TablesSharedKeyCredential} credential  TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
-   * @param {TableClientOptions} options Optional. Options to configure the HTTP pipeline.
+   * @param tableName - the name of the table
+   * @param credential - TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param options - Optional. Options to configure the HTTP pipeline.
    *
    * Example using an account name/key:
    *
@@ -97,11 +98,11 @@ export class TableClient {
   /**
    * Creates an instance of TableClient.
    *
-   * @param {string} url A Client string pointing to Azure Storage table service, such as
-   *                     "https://myaccount.table.core.windows.net". You can append a SAS,
-   *                      such as "https://myaccount.table.core.windows.net?sasString".
-   * @param {string} tableName the name of the table
-   * @param {TableClientOptions} options Optional. Options to configure the HTTP pipeline.
+   * @param url - A Client string pointing to Azure Storage table service, such as
+   *              "https://myaccount.table.core.windows.net". You can append a SAS,
+   *              such as "https://myaccount.table.core.windows.net?sasString".
+   * @param tableName - the name of the table
+   * @param options - Options to configure the HTTP pipeline.
    *
    * Example appending a SAS token:
    *
@@ -132,6 +133,7 @@ export class TableClient {
         ? credentialOrOptions
         : options) || {};
 
+    clientOptions.endpoint = clientOptions.endpoint || url;
     if (!clientOptions.userAgentOptions) {
       clientOptions.userAgentOptions = {};
     }
@@ -142,35 +144,43 @@ export class TableClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    let pipeline: ServiceClientOptions;
+    let generatedClientOptions: GeneratedClientOptionalParams = {};
 
     if (isInternalClientOptions(clientOptions)) {
       // The client is meant to be an intercept client, so we need to create only the intercepting
       // pipelines.
-      pipeline = { requestPolicyFactories: clientOptions.innerBatchRequest?.createPipeline() };
+      generatedClientOptions.pipeline = clientOptions.innerBatchRequest.createPipeline();
     } else {
       // The client is meant to be a regular service client, so we need to create the regular set of pipelines
-      const internalPipelineOptions: InternalPipelineOptions = {
+      generatedClientOptions = {
         ...clientOptions,
         ...{
           loggingOptions: {
             logger: logger.info,
-            allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+            additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+          },
+          deserializationOptions: {
+            parseXML
+          },
+          serializationOptions: {
+            stringifyXML
           }
         }
       };
-      pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
     }
 
     this.tableName = tableName;
     this.credential = credential;
-    const { table } = new GeneratedClient(url, pipeline);
-    this.table = table;
+    const generatedClient = new GeneratedClient(url, generatedClientOptions);
+    if (credential) {
+      generatedClient.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+    }
+    this.table = generatedClient.table;
   }
 
   /**
    * Permanently deletes the current table with all of its entities.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async delete(options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
@@ -187,7 +197,7 @@ export class TableClient {
 
   /**
    *  Creates the current table it it doesn't exist
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async create(options: CreateTableOptions = {}): Promise<CreateTableItemResponse> {
@@ -204,9 +214,9 @@ export class TableClient {
 
   /**
    * Returns a single entity in the table.
-   * @param partitionKey The partition key of the entity.
-   * @param rowKey The row key of the entity.
-   * @param options The options parameters.
+   * @param partitionKey - The partition key of the entity.
+   * @param rowKey - The row key of the entity.
+   * @param options - The options parameters.
    */
   public async getEntity<T extends object>(
     partitionKey: string,
@@ -216,20 +226,24 @@ export class TableClient {
   ): Promise<GetTableEntityResponse<TableEntityResult<T>>> {
     const { span, updatedOptions } = createSpan("TableClient-getEntity", options);
 
+    let parsedBody: any;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      parsedBody = rawResponse.parsedBody;
+      if (updatedOptions.onResponse) {
+        updatedOptions.onResponse(rawResponse, flatResponse);
+      }
+    }
+
     try {
       const { queryOptions, ...getEntityOptions } = updatedOptions || {};
-      const { _response } = await this.table.queryEntitiesWithPartitionAndRowKey(
-        this.tableName,
-        partitionKey,
-        rowKey,
-        { ...getEntityOptions, queryOptions: this.convertQueryOptions(queryOptions || {}) }
-      );
-      const tableEntity = deserialize<TableEntity<T>>(_response.parsedBody);
-
-      return Object.defineProperty({ ...tableEntity }, "_response", {
-        enumerable: false,
-        value: _response
+      await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
+        ...getEntityOptions,
+        queryOptions: this.convertQueryOptions(queryOptions || {}),
+        onResponse
       });
+      const tableEntity = deserialize<TableEntityResult<T>>(parsedBody);
+
+      return tableEntity;
     } catch (e) {
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
       throw e;
@@ -240,8 +254,8 @@ export class TableClient {
 
   /**
    * Queries entities in a table.
-   * @param tableName The name of the table.
-   * @param options The options parameters.
+   * @param tableName - The name of the table.
+   * @param options - The options parameters.
    */
   public listEntities<T extends object>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -258,7 +272,7 @@ export class TableClient {
         return this;
       },
       byPage: (settings) => {
-        const pageOptions = {
+        const pageOptions: InternalListTableEntitiesOptions = {
           ...options,
           queryOptions: { ...options.queryOptions, top: settings?.maxPageSize }
         };
@@ -325,30 +339,24 @@ export class TableClient {
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,
       xMsContinuationNextRowKey: nextRowKey,
-      value,
-      _response
+      value
     } = await this.table.queryEntities(tableName, {
       ...options,
       queryOptions
     });
 
-    const tableEntities = deserializeObjectsArray<TableEntity<T>>(value || []);
+    const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(value || []);
 
-    const resultArray = Object.assign([...tableEntities], {
+    return Object.assign([...tableEntities], {
       nextPartitionKey,
       nextRowKey
-    });
-
-    return Object.defineProperty(resultArray, "_response", {
-      enumerable: false,
-      value: _response
     });
   }
 
   /**
    * Insert entity in the table.
-   * @param entity The properties for the table entity.
-   * @param options The options parameters.
+   * @param entity - The properties for the table entity.
+   * @param options - The options parameters.
    */
   public async createEntity<T extends object>(
     entity: TableEntity<T>,
@@ -375,9 +383,9 @@ export class TableClient {
 
   /**
    * Deletes the specified entity in the table.
-   * @param partitionKey The partition key of the entity.
-   * @param rowKey The row key of the entity.
-   * @param options The options parameters.
+   * @param partitionKey - The partition key of the entity.
+   * @param rowKey - The row key of the entity.
+   * @param options - The options parameters.
    */
   public async deleteEntity(
     partitionKey: string,
@@ -410,11 +418,11 @@ export class TableClient {
 
   /**
    * Update an entity in the table.
-   * @param entity The properties of the entity to be updated.
-   * @param mode The different modes for updating the entity:
-   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *             - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options The options parameters.
+   * @param entity - The properties of the entity to be updated.
+   * @param mode - The different modes for updating the entity:
+   *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *               - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options - The options parameters.
    */
   public async updateEntity<T extends object>(
     entity: TableEntity<T>,
@@ -456,12 +464,12 @@ export class TableClient {
 
   /**
    * Upsert an entity in the table.
-   * @param tableName The name of the table.
-   * @param entity The properties for the table entity.
-   * @param mode The different modes for updating the entity:
-   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *             - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options The options parameters.
+   * @param tableName - The name of the table.
+   * @param entity - The properties for the table entity.
+   * @param mode - The different modes for updating the entity:
+   *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *               - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options - The options parameters.
    */
   public async upsertEntity<T extends object>(
     entity: TableEntity<T>,
@@ -503,7 +511,7 @@ export class TableClient {
 
   /**
    * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
-   * @param partitionKey partitionKey to which the batch operations will be targetted to
+   * @param partitionKey - partitionKey to which the batch operations will be targetted to
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createBatch(partitionKey: string): TableBatch {
@@ -535,14 +543,14 @@ export class TableClient {
    *
    * Creates an instance of TableClient from connection string.
    *
-   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
-   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
-   *                                  Account connection string example -
-   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
-   *                                  SAS connection string example -
-   *                                  `BlobEndpoint=https://myaccount.table.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {TableClientOptions} [options] Options to configure the HTTP pipeline.
-   * @returns {TableClient} A new TableClient from the given connection string.
+   * @param connectionString - Account connection string or a SAS connection string of an Azure storage account.
+   *                           [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                           Account connection string example -
+   *                           `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                           SAS connection string example -
+   *                           `BlobEndpoint=https://myaccount.table.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+   * @param options - Options to configure the HTTP pipeline.
+   * @returns A new TableClient from the given connection string.
    */
   public static fromConnectionString(
     connectionString: string,
@@ -562,10 +570,11 @@ export class TableClient {
   }
 }
 
+type InternalQueryOptions = TableEntityQueryOptions & { top?: number };
+interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
+  queryOptions?: InternalQueryOptions;
+}
+
 function isInternalClientOptions(options: any): options is InternalBatchClientOptions {
   return Boolean(options.innerBatchRequest);
 }
-
-type InternalListTableEntitiesOptions = ListTableEntitiesOptions & {
-  queryOptions?: TableEntityQueryOptions & { top?: number };
-};

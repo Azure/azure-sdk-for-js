@@ -101,7 +101,8 @@ export const AnomalyAlertingConfiguration: coreHttp.CompositeMapper = {
       crossMetricsOperator: {
         serializedName: "crossMetricsOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR", "XOR"]
         }
       },
       hookIds: {
@@ -112,7 +113,11 @@ export const AnomalyAlertingConfiguration: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Uuid" } }
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
         }
       },
       metricAlertingConfigurations: {
@@ -151,7 +156,8 @@ export const MetricAlertingConfiguration: coreHttp.CompositeMapper = {
         serializedName: "anomalyScopeType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["All", "Dimension", "TopN"]
         }
       },
       negationOperation: {
@@ -255,14 +261,16 @@ export const SeverityCondition: coreHttp.CompositeMapper = {
         serializedName: "minAlertSeverity",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       maxAlertSeverity: {
         serializedName: "maxAlertSeverity",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       }
     }
@@ -285,7 +293,8 @@ export const AlertSnoozeCondition: coreHttp.CompositeMapper = {
         serializedName: "snoozeScope",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Metric", "Series"]
         }
       },
       onlyForSuccessive: {
@@ -320,7 +329,8 @@ export const ValueCondition: coreHttp.CompositeMapper = {
         serializedName: "direction",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Both", "Down", "Up"]
         }
       },
       metricId: {
@@ -359,7 +369,8 @@ export const AnomalyAlertingConfigurationPatch: coreHttp.CompositeMapper = {
       crossMetricsOperator: {
         serializedName: "crossMetricsOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR", "XOR"]
         }
       },
       hookIds: {
@@ -369,7 +380,11 @@ export const AnomalyAlertingConfigurationPatch: coreHttp.CompositeMapper = {
         serializedName: "hookIds",
         type: {
           name: "Sequence",
-          element: { type: { name: "Uuid" } }
+          element: {
+            type: {
+              name: "Uuid"
+            }
+          }
         }
       },
       metricAlertingConfigurations: {
@@ -414,7 +429,8 @@ export const AlertingResultQuery: coreHttp.CompositeMapper = {
         serializedName: "timeMode",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AnomalyTime", "CreatedTime", "ModifiedTime"]
         }
       }
     }
@@ -438,7 +454,12 @@ export const AlertResultList: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "AlertResult" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "AlertResult"
+            }
+          }
         }
       }
     }
@@ -499,7 +520,12 @@ export const AnomalyResultList: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "AnomalyResult" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "AnomalyResult"
+            }
+          }
         }
       }
     }
@@ -574,14 +600,16 @@ export const AnomalyProperty: coreHttp.CompositeMapper = {
         serializedName: "anomalySeverity",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       anomalyStatus: {
         serializedName: "anomalyStatus",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Active", "Resolved"]
         }
       }
     }
@@ -605,7 +633,12 @@ export const IncidentResultList: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "IncidentResult" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "IncidentResult"
+            }
+          }
         }
       }
     }
@@ -696,14 +729,16 @@ export const IncidentProperty: coreHttp.CompositeMapper = {
         serializedName: "maxSeverity",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       incidentStatus: {
         serializedName: "incidentStatus",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Active", "Resolved"]
         }
       }
     }
@@ -772,7 +807,10 @@ export const AnomalyDetectionConfiguration: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SeriesConfiguration" }
+            type: {
+              name: "Composite",
+              className: "SeriesConfiguration"
+            }
           }
         }
       }
@@ -788,7 +826,8 @@ export const WholeMetricConfiguration: coreHttp.CompositeMapper = {
       conditionOperator: {
         serializedName: "conditionOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR"]
         }
       },
       smartDetectionCondition: {
@@ -832,7 +871,8 @@ export const SmartDetectionCondition: coreHttp.CompositeMapper = {
         serializedName: "anomalyDetectorDirection",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Both", "Down", "Up"]
         }
       },
       suppressCondition: {
@@ -890,7 +930,8 @@ export const HardThresholdCondition: coreHttp.CompositeMapper = {
         serializedName: "anomalyDetectorDirection",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Both", "Down", "Up"]
         }
       },
       suppressCondition: {
@@ -934,7 +975,8 @@ export const ChangeThresholdCondition: coreHttp.CompositeMapper = {
         serializedName: "anomalyDetectorDirection",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Both", "Down", "Up"]
         }
       },
       suppressCondition: {
@@ -963,7 +1005,8 @@ export const DimensionGroupConfiguration: coreHttp.CompositeMapper = {
       conditionOperator: {
         serializedName: "conditionOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR"]
         }
       },
       smartDetectionCondition: {
@@ -1006,7 +1049,8 @@ export const SeriesConfiguration: coreHttp.CompositeMapper = {
       conditionOperator: {
         serializedName: "conditionOperator",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["AND", "OR"]
         }
       },
       smartDetectionCondition: {
@@ -1081,7 +1125,10 @@ export const AnomalyDetectionConfigurationPatch: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SeriesConfiguration" }
+            type: {
+              name: "Composite",
+              className: "SeriesConfiguration"
+            }
           }
         }
       }
@@ -1138,7 +1185,12 @@ export const DetectionSeriesQuery: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "SeriesIdentity" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "SeriesIdentity"
+            }
+          }
         }
       }
     }
@@ -1155,7 +1207,12 @@ export const SeriesResultList: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "SeriesResult" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "SeriesResult"
+            }
+          }
         }
       }
     }
@@ -1179,7 +1236,11 @@ export const SeriesResult: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "DateTime" } }
+          element: {
+            type: {
+              name: "DateTime"
+            }
+          }
         }
       },
       valueList: {
@@ -1187,7 +1248,11 @@ export const SeriesResult: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       isAnomalyList: {
@@ -1195,7 +1260,11 @@ export const SeriesResult: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Boolean" } }
+          element: {
+            type: {
+              name: "Boolean"
+            }
+          }
         }
       },
       periodList: {
@@ -1203,7 +1272,11 @@ export const SeriesResult: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       expectedValueList: {
@@ -1211,7 +1284,11 @@ export const SeriesResult: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       lowerBoundaryList: {
@@ -1219,7 +1296,11 @@ export const SeriesResult: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       },
       upperBoundaryList: {
@@ -1227,7 +1308,11 @@ export const SeriesResult: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       }
     }
@@ -1277,7 +1362,10 @@ export const DetectionAnomalyFilterCondition: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DimensionGroupIdentity" }
+            type: {
+              name: "Composite",
+              className: "DimensionGroupIdentity"
+            }
           }
         }
       },
@@ -1301,14 +1389,16 @@ export const SeverityFilterCondition: coreHttp.CompositeMapper = {
         serializedName: "min",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       },
       max: {
         serializedName: "max",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Low", "Medium", "High"]
         }
       }
     }
@@ -1369,7 +1459,11 @@ export const AnomalyDimensionList: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1419,7 +1513,10 @@ export const DetectionIncidentFilterCondition: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "DimensionGroupIdentity" }
+            type: {
+              name: "Composite",
+              className: "DimensionGroupIdentity"
+            }
           }
         }
       }
@@ -1437,7 +1534,12 @@ export const RootCauseList: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "RootCause" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "RootCause"
+            }
+          }
         }
       }
     }
@@ -1461,7 +1563,11 @@ export const RootCause: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       score: {
@@ -1499,7 +1605,12 @@ export const DataFeedList: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "DataFeedDetail" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataFeedDetail"
+            }
+          }
         }
       }
     }
@@ -1520,7 +1631,22 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         serializedName: "dataSourceType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "AzureApplicationInsights",
+            "AzureBlob",
+            "AzureCosmosDB",
+            "AzureDataExplorer",
+            "AzureDataLakeStorageGen2",
+            "AzureTable",
+            "Elasticsearch",
+            "HttpRequest",
+            "InfluxDB",
+            "MongoDB",
+            "MySql",
+            "PostgreSql",
+            "SqlServer"
+          ]
         }
       },
       dataFeedId: {
@@ -1547,7 +1673,17 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         serializedName: "granularityName",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "Yearly",
+            "Monthly",
+            "Weekly",
+            "Daily",
+            "Hourly",
+            "Minutely",
+            "Secondly",
+            "Custom"
+          ]
         }
       },
       granularityAmount: {
@@ -1564,7 +1700,12 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Metric" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Metric"
+            }
+          }
         }
       },
       dimension: {
@@ -1574,7 +1715,12 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         serializedName: "dimension",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Dimension" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "Dimension"
+            }
+          }
         }
       },
       timestampColumn: {
@@ -1621,13 +1767,15 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         defaultValue: "NeedRollup",
         serializedName: "needRollup",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["NoRollup", "NeedRollup", "AlreadyRollup"]
         }
       },
       rollUpMethod: {
         serializedName: "rollUpMethod",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["None", "Sum", "Max", "Min", "Avg", "Count"]
         }
       },
       rollUpColumns: {
@@ -1637,7 +1785,11 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         serializedName: "rollUpColumns",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       allUpIdentification: {
@@ -1647,10 +1799,15 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         }
       },
       fillMissingPointType: {
-        defaultValue: "SmartFilling",
         serializedName: "fillMissingPointType",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "SmartFilling",
+            "PreviousValue",
+            "CustomValue",
+            "NoFilling"
+          ]
         }
       },
       fillMissingPointValue: {
@@ -1660,10 +1817,10 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         }
       },
       viewMode: {
-        defaultValue: "Private",
         serializedName: "viewMode",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Private", "Public"]
         }
       },
       admins: {
@@ -1673,7 +1830,11 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         serializedName: "admins",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       viewers: {
@@ -1683,7 +1844,11 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         serializedName: "viewers",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       isAdmin: {
@@ -1701,11 +1866,11 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         }
       },
       status: {
-        defaultValue: "Active",
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Active", "Paused"]
         }
       },
       createdTime: {
@@ -1802,7 +1967,22 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
         serializedName: "dataSourceType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "AzureApplicationInsights",
+            "AzureBlob",
+            "AzureCosmosDB",
+            "AzureDataExplorer",
+            "AzureDataLakeStorageGen2",
+            "AzureTable",
+            "Elasticsearch",
+            "HttpRequest",
+            "InfluxDB",
+            "MongoDB",
+            "MySql",
+            "PostgreSql",
+            "SqlServer"
+          ]
         }
       },
       dataFeedName: {
@@ -1856,13 +2036,15 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
       needRollup: {
         serializedName: "needRollup",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["NoRollup", "NeedRollup", "AlreadyRollup"]
         }
       },
       rollUpMethod: {
         serializedName: "rollUpMethod",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["None", "Sum", "Max", "Min", "Avg", "Count"]
         }
       },
       rollUpColumns: {
@@ -1872,7 +2054,11 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
         serializedName: "rollUpColumns",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       allUpIdentification: {
@@ -1884,7 +2070,13 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
       fillMissingPointType: {
         serializedName: "fillMissingPointType",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "SmartFilling",
+            "PreviousValue",
+            "CustomValue",
+            "NoFilling"
+          ]
         }
       },
       fillMissingPointValue: {
@@ -1896,7 +2088,8 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
       viewMode: {
         serializedName: "viewMode",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Private", "Public"]
         }
       },
       admins: {
@@ -1906,7 +2099,11 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
         serializedName: "admins",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       viewers: {
@@ -1916,13 +2113,18 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
         serializedName: "viewers",
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Active", "Paused"]
         }
       },
       actionLinkTemplate: {
@@ -1949,7 +2151,8 @@ export const MetricFeedback: coreHttp.CompositeMapper = {
         serializedName: "feedbackType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Anomaly", "ChangePoint", "Period", "Comment"]
         }
       },
       feedbackId: {
@@ -2030,7 +2233,8 @@ export const MetricFeedbackFilter: coreHttp.CompositeMapper = {
       feedbackType: {
         serializedName: "feedbackType",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Anomaly", "ChangePoint", "Period", "Comment"]
         }
       },
       startTime: {
@@ -2048,7 +2252,8 @@ export const MetricFeedbackFilter: coreHttp.CompositeMapper = {
       timeMode: {
         serializedName: "timeMode",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["MetricTimestamp", "FeedbackCreatedTime"]
         }
       }
     }
@@ -2072,7 +2277,12 @@ export const MetricFeedbackList: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "MetricFeedback" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricFeedback"
+            }
+          }
         }
       }
     }
@@ -2099,7 +2309,12 @@ export const HookList: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "HookInfo" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "HookInfo"
+            }
+          }
         }
       }
     }
@@ -2120,7 +2335,8 @@ export const HookInfo: coreHttp.CompositeMapper = {
         serializedName: "hookType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Webhook", "Email"]
         }
       },
       id: {
@@ -2157,7 +2373,11 @@ export const HookInfo: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2178,7 +2398,8 @@ export const HookInfoPatch: coreHttp.CompositeMapper = {
         serializedName: "hookType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["Webhook", "Email"]
         }
       },
       hookName: {
@@ -2207,7 +2428,11 @@ export const HookInfoPatch: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2254,7 +2479,12 @@ export const IngestionStatusList: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "IngestionStatus" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "IngestionStatus"
+            }
+          }
         }
       }
     }
@@ -2277,7 +2507,17 @@ export const IngestionStatus: coreHttp.CompositeMapper = {
         serializedName: "status",
         readOnly: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "NotStarted",
+            "Scheduled",
+            "Running",
+            "Succeeded",
+            "Failed",
+            "NoData",
+            "Error",
+            "Paused"
+          ]
         }
       },
       message: {
@@ -2362,7 +2602,10 @@ export const MetricDataQueryOptions: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Dictionary", value: { type: { name: "String" } } }
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "String" } }
+            }
           }
         }
       }
@@ -2380,7 +2623,12 @@ export const MetricDataList: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "MetricDataItem" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "MetricDataItem"
+            }
+          }
         }
       }
     }
@@ -2404,7 +2652,11 @@ export const MetricDataItem: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "DateTime" } }
+          element: {
+            type: {
+              name: "DateTime"
+            }
+          }
         }
       },
       valueList: {
@@ -2412,7 +2664,11 @@ export const MetricDataItem: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Number" } }
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       }
     }
@@ -2486,7 +2742,10 @@ export const MetricSeriesList: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "MetricSeriesItem" }
+            type: {
+              name: "Composite",
+              className: "MetricSeriesItem"
+            }
           }
         }
       }
@@ -2536,7 +2795,11 @@ export const MetricDimensionList: coreHttp.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -2606,7 +2869,10 @@ export const EnrichmentStatusList: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "EnrichmentStatus" }
+            type: {
+              name: "Composite",
+              className: "EnrichmentStatus"
+            }
           }
         }
       }
@@ -2681,26 +2947,6 @@ export const AzureApplicationInsightsParameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureApplicationInsightsDataFeed: coreHttp.CompositeMapper = {
-  serializedName: "AzureApplicationInsights",
-  type: {
-    name: "Composite",
-    className: "AzureApplicationInsightsDataFeed",
-    uberParent: "DataFeedDetail",
-    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DataFeedDetail.type.modelProperties,
-      dataSourceParameter: {
-        serializedName: "dataSourceParameter",
-        type: {
-          name: "Composite",
-          className: "AzureApplicationInsightsParameter"
-        }
-      }
-    }
-  }
-};
-
 export const AzureBlobParameter: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2725,26 +2971,6 @@ export const AzureBlobParameter: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureBlobDataFeed: coreHttp.CompositeMapper = {
-  serializedName: "AzureBlob",
-  type: {
-    name: "Composite",
-    className: "AzureBlobDataFeed",
-    uberParent: "DataFeedDetail",
-    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DataFeedDetail.type.modelProperties,
-      dataSourceParameter: {
-        serializedName: "dataSourceParameter",
-        type: {
-          name: "Composite",
-          className: "AzureBlobParameter"
         }
       }
     }
@@ -2788,26 +3014,6 @@ export const AzureCosmosDBParameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureCosmosDBDataFeed: coreHttp.CompositeMapper = {
-  serializedName: "AzureCosmosDB",
-  type: {
-    name: "Composite",
-    className: "AzureCosmosDBDataFeed",
-    uberParent: "DataFeedDetail",
-    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DataFeedDetail.type.modelProperties,
-      dataSourceParameter: {
-        serializedName: "dataSourceParameter",
-        type: {
-          name: "Composite",
-          className: "AzureCosmosDBParameter"
-        }
-      }
-    }
-  }
-};
-
 export const SqlSourceParameter: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2825,26 +3031,6 @@ export const SqlSourceParameter: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureDataExplorerDataFeed: coreHttp.CompositeMapper = {
-  serializedName: "AzureDataExplorer",
-  type: {
-    name: "Composite",
-    className: "AzureDataExplorerDataFeed",
-    uberParent: "DataFeedDetail",
-    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DataFeedDetail.type.modelProperties,
-      dataSourceParameter: {
-        serializedName: "dataSourceParameter",
-        type: {
-          name: "Composite",
-          className: "SqlSourceParameter"
         }
       }
     }
@@ -2895,26 +3081,6 @@ export const AzureDataLakeStorageGen2Parameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const AzureDataLakeStorageGen2DataFeed: coreHttp.CompositeMapper = {
-  serializedName: "AzureDataLakeStorageGen2",
-  type: {
-    name: "Composite",
-    className: "AzureDataLakeStorageGen2DataFeed",
-    uberParent: "DataFeedDetail",
-    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DataFeedDetail.type.modelProperties,
-      dataSourceParameter: {
-        serializedName: "dataSourceParameter",
-        type: {
-          name: "Composite",
-          className: "AzureDataLakeStorageGen2Parameter"
-        }
-      }
-    }
-  }
-};
-
 export const AzureTableParameter: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2939,26 +3105,6 @@ export const AzureTableParameter: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureTableDataFeed: coreHttp.CompositeMapper = {
-  serializedName: "AzureTable",
-  type: {
-    name: "Composite",
-    className: "AzureTableDataFeed",
-    uberParent: "DataFeedDetail",
-    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DataFeedDetail.type.modelProperties,
-      dataSourceParameter: {
-        serializedName: "dataSourceParameter",
-        type: {
-          name: "Composite",
-          className: "AzureTableParameter"
         }
       }
     }
@@ -3002,26 +3148,6 @@ export const ElasticsearchParameter: coreHttp.CompositeMapper = {
   }
 };
 
-export const ElasticsearchDataFeed: coreHttp.CompositeMapper = {
-  serializedName: "Elasticsearch",
-  type: {
-    name: "Composite",
-    className: "ElasticsearchDataFeed",
-    uberParent: "DataFeedDetail",
-    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DataFeedDetail.type.modelProperties,
-      dataSourceParameter: {
-        serializedName: "dataSourceParameter",
-        type: {
-          name: "Composite",
-          className: "ElasticsearchParameter"
-        }
-      }
-    }
-  }
-};
-
 export const HttpRequestParameter: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3053,26 +3179,6 @@ export const HttpRequestParameter: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const HttpRequestDataFeed: coreHttp.CompositeMapper = {
-  serializedName: "HttpRequest",
-  type: {
-    name: "Composite",
-    className: "HttpRequestDataFeed",
-    uberParent: "DataFeedDetail",
-    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...DataFeedDetail.type.modelProperties,
-      dataSourceParameter: {
-        serializedName: "dataSourceParameter",
-        type: {
-          name: "Composite",
-          className: "HttpRequestParameter"
         }
       }
     }
@@ -3117,6 +3223,341 @@ export const InfluxDBParameter: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MongoDBParameter: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MongoDBParameter",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      database: {
+        serializedName: "database",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      command: {
+        serializedName: "command",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyFeedbackValue: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyFeedbackValue",
+    modelProperties: {
+      anomalyValue: {
+        serializedName: "anomalyValue",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["AutoDetect", "Anomaly", "NotAnomaly"]
+        }
+      }
+    }
+  }
+};
+
+export const ChangePointFeedbackValue: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChangePointFeedbackValue",
+    modelProperties: {
+      changePointValue: {
+        serializedName: "changePointValue",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["AutoDetect", "ChangePoint", "NotChangePoint"]
+        }
+      }
+    }
+  }
+};
+
+export const CommentFeedbackValue: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CommentFeedbackValue",
+    modelProperties: {
+      commentValue: {
+        serializedName: "commentValue",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PeriodFeedbackValue: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PeriodFeedbackValue",
+    modelProperties: {
+      periodType: {
+        serializedName: "periodType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["AutoDetect", "AssignValue"]
+        }
+      },
+      periodValue: {
+        serializedName: "periodValue",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const EmailHookParameter: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EmailHookParameter",
+    modelProperties: {
+      toList: {
+        constraints: {
+          UniqueItems: true
+        },
+        serializedName: "toList",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const WebhookHookParameter: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WebhookHookParameter",
+    modelProperties: {
+      endpoint: {
+        serializedName: "endpoint",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      username: {
+        serializedName: "username",
+        type: {
+          name: "String"
+        }
+      },
+      password: {
+        serializedName: "password",
+        type: {
+          name: "String"
+        }
+      },
+      headers: {
+        serializedName: "headers",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      certificateKey: {
+        serializedName: "certificateKey",
+        type: {
+          name: "String"
+        }
+      },
+      certificatePassword: {
+        serializedName: "certificatePassword",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureApplicationInsightsDataFeed: coreHttp.CompositeMapper = {
+  serializedName: "AzureApplicationInsights",
+  type: {
+    name: "Composite",
+    className: "AzureApplicationInsightsDataFeed",
+    uberParent: "DataFeedDetail",
+    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetail.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "AzureApplicationInsightsParameter"
+        }
+      }
+    }
+  }
+};
+
+export const AzureBlobDataFeed: coreHttp.CompositeMapper = {
+  serializedName: "AzureBlob",
+  type: {
+    name: "Composite",
+    className: "AzureBlobDataFeed",
+    uberParent: "DataFeedDetail",
+    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetail.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "AzureBlobParameter"
+        }
+      }
+    }
+  }
+};
+
+export const AzureCosmosDBDataFeed: coreHttp.CompositeMapper = {
+  serializedName: "AzureCosmosDB",
+  type: {
+    name: "Composite",
+    className: "AzureCosmosDBDataFeed",
+    uberParent: "DataFeedDetail",
+    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetail.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "AzureCosmosDBParameter"
+        }
+      }
+    }
+  }
+};
+
+export const AzureDataExplorerDataFeed: coreHttp.CompositeMapper = {
+  serializedName: "AzureDataExplorer",
+  type: {
+    name: "Composite",
+    className: "AzureDataExplorerDataFeed",
+    uberParent: "DataFeedDetail",
+    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetail.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "SqlSourceParameter"
+        }
+      }
+    }
+  }
+};
+
+export const AzureDataLakeStorageGen2DataFeed: coreHttp.CompositeMapper = {
+  serializedName: "AzureDataLakeStorageGen2",
+  type: {
+    name: "Composite",
+    className: "AzureDataLakeStorageGen2DataFeed",
+    uberParent: "DataFeedDetail",
+    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetail.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "AzureDataLakeStorageGen2Parameter"
+        }
+      }
+    }
+  }
+};
+
+export const AzureTableDataFeed: coreHttp.CompositeMapper = {
+  serializedName: "AzureTable",
+  type: {
+    name: "Composite",
+    className: "AzureTableDataFeed",
+    uberParent: "DataFeedDetail",
+    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetail.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "AzureTableParameter"
+        }
+      }
+    }
+  }
+};
+
+export const ElasticsearchDataFeed: coreHttp.CompositeMapper = {
+  serializedName: "Elasticsearch",
+  type: {
+    name: "Composite",
+    className: "ElasticsearchDataFeed",
+    uberParent: "DataFeedDetail",
+    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetail.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "ElasticsearchParameter"
+        }
+      }
+    }
+  }
+};
+
+export const HttpRequestDataFeed: coreHttp.CompositeMapper = {
+  serializedName: "HttpRequest",
+  type: {
+    name: "Composite",
+    className: "HttpRequestDataFeed",
+    uberParent: "DataFeedDetail",
+    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetail.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "HttpRequestParameter"
         }
       }
     }
@@ -3197,36 +3638,6 @@ export const SQLServerDataFeed: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SqlSourceParameter"
-        }
-      }
-    }
-  }
-};
-
-export const MongoDBParameter: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MongoDBParameter",
-    modelProperties: {
-      connectionString: {
-        serializedName: "connectionString",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      database: {
-        serializedName: "database",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      command: {
-        serializedName: "command",
-        required: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -3513,22 +3924,6 @@ export const MongoDBDataFeedPatch: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnomalyFeedbackValue: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AnomalyFeedbackValue",
-    modelProperties: {
-      anomalyValue: {
-        serializedName: "anomalyValue",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AnomalyFeedback: coreHttp.CompositeMapper = {
   serializedName: "Anomaly",
   type: {
@@ -3576,22 +3971,6 @@ export const AnomalyFeedback: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChangePointFeedbackValue: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChangePointFeedbackValue",
-    modelProperties: {
-      changePointValue: {
-        serializedName: "changePointValue",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ChangePointFeedback: coreHttp.CompositeMapper = {
   serializedName: "ChangePoint",
   type: {
@@ -3620,22 +3999,6 @@ export const ChangePointFeedback: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ChangePointFeedbackValue"
-        }
-      }
-    }
-  }
-};
-
-export const CommentFeedbackValue: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CommentFeedbackValue",
-    modelProperties: {
-      commentValue: {
-        serializedName: "commentValue",
-        required: true,
-        type: {
-          name: "String"
         }
       }
     }
@@ -3674,29 +4037,6 @@ export const CommentFeedback: coreHttp.CompositeMapper = {
   }
 };
 
-export const PeriodFeedbackValue: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PeriodFeedbackValue",
-    modelProperties: {
-      periodType: {
-        serializedName: "periodType",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      periodValue: {
-        serializedName: "periodValue",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const PeriodFeedback: coreHttp.CompositeMapper = {
   serializedName: "Period",
   type: {
@@ -3717,26 +4057,6 @@ export const PeriodFeedback: coreHttp.CompositeMapper = {
   }
 };
 
-export const EmailHookParameter: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EmailHookParameter",
-    modelProperties: {
-      toList: {
-        constraints: {
-          UniqueItems: true
-        },
-        serializedName: "toList",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: { type: { name: "String" } }
-        }
-      }
-    }
-  }
-};
-
 export const EmailHookInfo: coreHttp.CompositeMapper = {
   serializedName: "Email",
   type: {
@@ -3751,53 +4071,6 @@ export const EmailHookInfo: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "EmailHookParameter"
-        }
-      }
-    }
-  }
-};
-
-export const WebhookHookParameter: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WebhookHookParameter",
-    modelProperties: {
-      endpoint: {
-        serializedName: "endpoint",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      username: {
-        serializedName: "username",
-        type: {
-          name: "String"
-        }
-      },
-      password: {
-        serializedName: "password",
-        type: {
-          name: "String"
-        }
-      },
-      headers: {
-        serializedName: "headers",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      certificateKey: {
-        serializedName: "certificateKey",
-        type: {
-          name: "String"
-        }
-      },
-      certificatePassword: {
-        serializedName: "certificatePassword",
-        type: {
-          name: "String"
         }
       }
     }

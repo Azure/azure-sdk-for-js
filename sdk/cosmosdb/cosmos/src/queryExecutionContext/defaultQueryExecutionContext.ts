@@ -29,7 +29,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   private fetchFunctions: FetchFunctionCallback[];
   private options: FeedOptions; // TODO: any options
   public continuationToken: string; // TODO: any continuation
-  public get continuation() {
+  public get continuation(): string {
     return this.continuationToken;
   }
   private state: STATES;
@@ -37,16 +37,18 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Provides the basic Query Execution Context.
    * This wraps the internal logic query execution using provided fetch functions
-   * @constructor DefaultQueryExecutionContext
-   * @param {ClientContext} clientContext          - Is used to read the partitionKeyRanges for split proofing
-   * @param {SqlQuerySpec | string} query          - A SQL query.
-   * @param {FeedOptions} [options]                - Represents the feed options.
-   * @param {callback | callback[]} fetchFunctions - A function to retrieve each page of data.
+   *
+   * @param clientContext  - Is used to read the partitionKeyRanges for split proofing
+   * @param query          - A SQL query.
+   * @param options        - Represents the feed options.
+   * @param fetchFunctions - A function to retrieve each page of data.
    *                          An array of functions may be used to query more than one partition.
-   * @ignore
+   * @hidden
    */
-  constructor(options: any, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]) {
-    // TODO: any options
+  constructor(
+    options: FeedOptions,
+    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
+  ) {
     this.resources = [];
     this.currentIndex = 0;
     this.currentPartitionIndex = 0;
@@ -58,8 +60,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
   /**
    * Execute a provided callback on the next element in the execution context.
-   * @memberof DefaultQueryExecutionContext
-   * @instance
    */
   public async nextItem(): Promise<Response<any>> {
     ++this.currentIndex;
@@ -69,8 +69,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
   /**
    * Retrieve the current element on the execution context.
-   * @memberof DefaultQueryExecutionContext
-   * @instance
    */
   public async current(): Promise<Response<any>> {
     if (this.currentIndex < this.resources.length) {
@@ -101,11 +99,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Determine if there are still remaining resources to processs based on
    * the value of the continuation token or the elements remaining on the current batch in the execution context.
-   * @memberof DefaultQueryExecutionContext
-   * @instance
-   * @returns {Boolean} true if there is other elements to process in the DefaultQueryExecutionContext.
+   *
+   * @returns true if there is other elements to process in the DefaultQueryExecutionContext.
    */
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return (
       this.state === DefaultQueryExecutionContext.STATES.start ||
       this.continuationToken !== undefined ||
@@ -116,13 +113,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
 
   /**
    * Fetches the next batch of the feed and pass them as an array to a callback
-   * @memberof DefaultQueryExecutionContext
-   * @instance
-   */
-  /**
-   * Fetches the next batch of the feed and pass them as an array to a callback
-   * @memberof DefaultQueryExecutionContext
-   * @instance
    */
   public async fetchMore(): Promise<Response<any>> {
     if (this.currentPartitionIndex >= this.fetchFunctions.length) {
@@ -211,7 +201,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     return { result: resources, headers: responseHeaders };
   }
 
-  private _canFetchMore() {
+  private _canFetchMore(): boolean {
     const res =
       this.state === DefaultQueryExecutionContext.STATES.start ||
       (this.continuationToken && this.state === DefaultQueryExecutionContext.STATES.inProgress) ||

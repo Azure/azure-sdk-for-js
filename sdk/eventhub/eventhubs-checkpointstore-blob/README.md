@@ -140,7 +140,7 @@ main();
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
 You can set the `AZURE_LOG_LEVEL` environment variable to one of the following values to enable logging to `stderr`:
 

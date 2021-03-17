@@ -4,19 +4,23 @@ trigger:
   branches:
     include:
       - master
+      - main
       - release/*
       - hotfix/*
   paths:
     include:
       - sdk/core/
       - eng/
-      - common/config/rush/
+      - common/
       - rush.json
+    exclude:
+      - common/smoke-test/
 
 pr:
   branches:
     include:
       - master
+      - main
       - feature/*
       - release/*
       - hotfix/*
@@ -44,10 +48,12 @@ extends:
         safeName: azurecoreauth
       - name: azure-core-client
         safeName: azurecoreclient
+      - name: azure-core-crypto
+        safeName: azurecorecrypto
       - name: azure-core-http
         safeName: azurecorehttp
-      - name: azure-core-https
-        safeName: azurecorehttps
+      - name: azure-core-rest-pipeline
+        safeName: azurecorerestpipeline
       - name: azure-core-lro
         safeName: azurecorelro
       - name: azure-core-paging

@@ -15,12 +15,12 @@ export class FetchResult {
   /**
    * Wraps fetch results for the document producer.
    * This allows the document producer to buffer exceptions so that actual results don't get flushed during splits.
-   * @constructor DocumentProducer
-   * @param {object} feedReponse                  - The response the document producer got back on a successful fetch
-   * @param {object} error                        - The exception meant to be buffered on an unsuccessful fetch
-   * @ignore
+   *
+   * @param feedReponse - The response the document producer got back on a successful fetch
+   * @param error - The exception meant to be buffered on an unsuccessful fetch
+   * @hidden
    */
-  constructor(feedResponse: any, error: any) {
+  constructor(feedResponse: unknown, error: unknown) {
     // TODO: feedResponse/error
     if (feedResponse) {
       this.feedResponse = feedResponse;

@@ -8,7 +8,7 @@ Use the client library `@azure/service-bus` in your application to
 - Receive messages from an Azure Service Bus Queue or Subscription
 - Create/Get/Delete/Update/List Queues/Topics/Subscriptions/Rules in an Azure Service Bus namespace.
 
-Resources for the v7.0.0 of `@azure/service-bus`:
+Resources for `@azure/service-bus` version 7:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) |
 [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) |
@@ -60,7 +60,7 @@ the connection string from the Azure portal.
 ```javascript
 const { ServiceBusClient } = require("@azure/service-bus");
 
-const serviceBusClient = new ServiceBusClient(connectionString);
+const serviceBusClient = new ServiceBusClient("<connectionString>");
 ```
 
 More information about this constructor is available in the [API documentation][sbclient_constructor].
@@ -366,7 +366,7 @@ await serviceBusAdministrationClient.deleteQueue(queueName);
 
 The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
-### Enable logs
+### Logging
 
 You can set the following environment variable to get the debug logs when using this library.
 
@@ -391,7 +391,7 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message,-azure:core-amqp:datatransform
 - If you are interested only in **errors**, then you can set the `DEBUG` environment variable as follows:
 
 ```bash
-export DEBUG=azure:service-bus:error,azure-core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
+export DEBUG=azure:service-bus:error,azure:core-amqp:error,rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
 ### Logging to a file

@@ -1,7 +1,38 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 2.0.0-beta.1 (Unreleased)
 
+This release continues with the changes from `1.2.4` and `1.2.4-beta.1`.
+
+- `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
+- Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
+- Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
+- Replaced the use of the 'express' module with a Node-native http server, shrinking the resulting identity module considerably
+
+## 1.2.4 (2021-03-08)
+
+This release doesn't have the changes from `1.2.4-beta.1`.
+
+- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13872](https://github.com/Azure/azure-sdk-for-js/issues/13872).
+- Bug fix: `ManagedIdentityCredential` now also properly handles `EHOSTUNREACH` errors. Fixes issue [13894](https://github.com/Azure/azure-sdk-for-js/issues/13894).
+
+## 1.2.4-beta.1 (2021-02-12)
+
+- Breaking Change: Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
+
+## 1.2.3 (2021-02-09)
+
+- Fixed Azure Stack support for the NodeJS version of the `InteractiveBrowserCredential`. Fixes issue [11220](https://github.com/Azure/azure-sdk-for-js/issues/11220).
+- The 'keytar' dependency has been updated to the latest version.
+- No longer overrides global Axios defaults. This includes an update in `@azure/identity`'s source, and an update of the `@azure/msal-node` dependency. Fixes issue [13343](https://github.com/Azure/azure-sdk-for-js/issues/13343).
+
+## 1.2.2 (2021-01-12)
+
+- Upgrading to the msal-node dependency due to a severe vulnerability in Axios. Link to the documented vulnerability: [link](https://npmjs.com/advisories/1594). Fixes issue [13088](https://github.com/Azure/azure-sdk-for-js/issues/13088).
+
+## 1.2.1 (2021-01-07)
+
+- Upgrading to Axios 0.21.1 due to a severe vulnerability in Axios. Link to the documented vulnerability: [link](https://npmjs.com/advisories/1594). Fixes issue [13088](https://github.com/Azure/azure-sdk-for-js/issues/13088).
 
 ## 1.2.0 (2020-11-11)
 

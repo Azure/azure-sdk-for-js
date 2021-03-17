@@ -16,22 +16,17 @@ import { getUniqueName } from "../util/utils";
 import { ProcessErrorArgs, ReceiveMode, SubscribeOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
-import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
+import {
+  onMessageSettled,
+  DeferredPromiseAndTimer,
+  ReceiverHandlers,
+  createReceiverOptions
+} from "./shared";
 import { LockRenewer } from "./autoLockRenewer";
 import { translateServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
- * @ignore
- */
-export type ReceiverHandlers = Pick<
-  ReceiverOptions,
-  "onMessage" | "onError" | "onClose" | "onSessionError" | "onSessionClose"
->;
-
-/**
- * @internal
- * @ignore
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
@@ -39,11 +34,10 @@ export interface OnAmqpEventAsPromise extends OnAmqpEvent {
 
 /**
  * @internal
- * @ignore
  */
 export interface ReceiveOptions extends SubscribeOptions {
   /**
-   * @property {number} [receiveMode] The mode in which messages should be received.
+   * The mode in which messages should be received.
    */
   receiveMode: ReceiveMode;
   /**
@@ -62,7 +56,6 @@ export interface ReceiveOptions extends SubscribeOptions {
 /**
  * Describes the signature of the message handler passed to `registerMessageHandler` method.
  * @internal
- * @ignore
  */
 export interface OnMessage {
   /**
@@ -75,7 +68,6 @@ export interface OnMessage {
  * Describes the signature of the error handler passed to `registerMessageHandler` method.
  *
  * @internal
- * @ignore
  */
 export interface OnError {
   /**
@@ -92,7 +84,6 @@ export interface OnError {
  * with an implicit ProcessErrorContext. Used by LockRenewer.
  *
  * @internal
- * @ignore
  */
 export interface OnErrorNoContext {
   (error: MessagingError | Error): void;
@@ -100,28 +91,26 @@ export interface OnErrorNoContext {
 
 /**
  * @internal
- * @ignore
  * Describes the MessageReceiver that will receive messages from ServiceBus.
- * @class MessageReceiver
  */
 export abstract class MessageReceiver extends LinkEntity<Receiver> {
   /**
-   * @property {string} receiverType The type of receiver: "batching" or "streaming".
+   * The type of receiver: "batching" or "streaming".
    */
   receiverType: ReceiverType;
   /**
-   * @property {number} [receiveMode] The mode in which messages should be received.
+   * The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
   receiveMode: ReceiveMode;
   /**
-   * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
+   * Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
    * Default: false.
    */
   autoComplete: boolean;
   /**
-   * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
+   * Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
    */
@@ -130,12 +119,12 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     DeferredPromiseAndTimer
   >();
   /**
-   * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
+   * The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
    */
   protected _onMessage!: OnMessage;
   /**
-   * @property {OnMessage} _onError The error handler provided by the user that will be wrapped
+   * The error handler provided by the user that will be wrapped
    * inside _onAmqpError.
    */
   protected _onError?: OnError;
@@ -174,30 +163,25 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     useNewName: boolean,
     handlers: ReceiverHandlers
   ): ReceiverOptions {
-    const rcvrOptions: ReceiverOptions = {
-      name: useNewName ? getUniqueName(this.baseName) : this.name,
-      autoaccept: this.receiveMode === "receiveAndDelete" ? true : false,
-      // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === "receiveAndDelete" ? 0 : 1,
-      // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === "receiveAndDelete" ? 1 : 0,
-      source: {
+    const rcvrOptions: ReceiverOptions = createReceiverOptions(
+      useNewName ? getUniqueName(this.baseName) : this.name,
+      this.receiveMode,
+      {
         address: this.address
       },
-      credit_window: 0,
-      onSettled: (context) => {
-        return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
-      },
-      ...handlers
-    };
+      {
+        onSettled: (context: EventContext) => {
+          return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
+        },
+        ...handlers
+      }
+    );
 
     return rcvrOptions;
   }
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   *
-   * @returns {Promise<void>} Promise<void>.
    */
   protected async _init(options: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
     try {
@@ -207,15 +191,20 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       // Thus make sure that the receiver is present in the client cache.
       this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
-      err = translateServiceBusError(err);
-      logger.logError(err, "%s An error occured while creating the receiver", this.logPrefix);
+      const translatedError = translateServiceBusError(err);
+      logger.logError(
+        translatedError,
+        "%s An error occured while creating the receiver",
+        this.logPrefix
+      );
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((err as MessagingError).code === "OperationTimeoutError") {
-        err.message = "Failed to create a receiver within allocated time and retry attempts.";
+      if ((translatedError as MessagingError).code === "OperationTimeoutError") {
+        translatedError.message =
+          "Failed to create a receiver within allocated time and retry attempts.";
       }
 
-      throw err;
+      throw translatedError;
     }
   }
 
@@ -229,14 +218,14 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   /**
    * React to receiver being detached due to given error.
    * You may want to set up retries to recover the broken link and/or report error to user.
-   * @param error The error accompanying the receiver/session error or connection disconnected events
+   * @param error - The error accompanying the receiver/session error or connection disconnected events
    */
   abstract onDetached(error?: AmqpError | Error): Promise<void>;
 
   /**
    * Clears lock renewal timers on all active messages, clears token remewal for current receiver,
    * removes current MessageReceiver instance from cache, and closes the underlying AMQP receiver.
-   * @return {Promise<void>} Promise<void>.
+   * @returns Promise<void>.
    */
   async close(): Promise<void> {
     this._lockRenewer?.stopAll(this);
@@ -245,9 +234,9 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
 
   /**
    * Settles the message with the specified disposition.
-   * @param message The ServiceBus Message that needs to be settled.
-   * @param operation The disposition type.
-   * @param options Optional parameters that can be provided while disposing the message.
+   * @param message - The ServiceBus Message that needs to be settled.
+   * @param operation - The disposition type.
+   * @param options - Optional parameters that can be provided while disposing the message.
    */
   async settleMessage(
     message: ServiceBusMessageImpl,

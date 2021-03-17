@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   AnalyzeBatchInput as AnalyzeBatchInputMapper,
   MultiLanguageBatchInput as MultiLanguageBatchInputMapper,
@@ -56,18 +56,6 @@ export const endpoint: OperationURLParameter = {
     }
   },
   skipEncoding: true
-};
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json, text/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const jobId: OperationURLParameter = {
@@ -148,7 +136,6 @@ export const modelVersion: OperationQueryParameter = {
 export const stringIndexType: OperationQueryParameter = {
   parameterPath: ["options", "stringIndexType"],
   mapper: {
-    defaultValue: "TextElements_v8",
     serializedName: "stringIndexType",
     type: {
       name: "String"
@@ -164,6 +151,25 @@ export const domain: OperationQueryParameter = {
       name: "String"
     }
   }
+};
+
+export const piiCategories: OperationQueryParameter = {
+  parameterPath: ["options", "piiCategories"],
+  mapper: {
+    constraints: {
+      UniqueItems: true
+    },
+    serializedName: "piiCategories",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: "CSV"
 };
 
 export const input1: OperationParameter = {

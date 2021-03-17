@@ -11,8 +11,7 @@ import {
   operationOptionsToRequestOptionsBase,
   RestResponse
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
 import {
@@ -177,19 +176,16 @@ export class FormTrainingClient {
 
   /**
    * @internal
-   * @ignore
    */
   private readonly credential: TokenCredential | KeyCredential;
 
   /**
    * @internal
-   * @ignore
    */
   private readonly clientOptions: FormRecognizerClientOptions;
 
   /**
    * @internal
-   * @ignore
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -206,9 +202,9 @@ export class FormTrainingClient {
    *    new AzureKeyCredential("<api key>")
    * );
    * ```
-   * @param {string} endpointUrl Url to an Azure Form Recognizer service endpoint
-   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
-   * @param {FormRecognizerClientOptions} [options] Used to configure the client.
+   * @param endpointUrl - Url to an Azure Form Recognizer service endpoint
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the client.
    */
   constructor(
     endpointUrl: string,
@@ -253,7 +249,7 @@ export class FormTrainingClient {
   /**
    * Retrieves summary information about the cognitive service account
    *
-   * @param {GetAccountPropertiesOptions} options Options to GetSummary operation
+   * @param options - Options to GetSummary operation
    */
   public async getAccountProperties(
     options?: GetAccountPropertiesOptions
@@ -295,8 +291,8 @@ export class FormTrainingClient {
   /**
    * Mark model for deletion. Model artifacts will be permanently removed within 48 hours.
    *
-   * @param {string} modelId Id of the model to mark for deletion
-   * @param {DeleteModelOptions} options Options to the Delete Model operation
+   * @param modelId - Id of the model to mark for deletion
+   * @param options - Options to the Delete Model operation
    */
   public async deleteModel(modelId: string, options?: DeleteModelOptions): Promise<RestResponse> {
     const realOptions = options || {};
@@ -324,8 +320,8 @@ export class FormTrainingClient {
   /**
    * Get detailed information about a custom model from training.
    *
-   * @param {string} modelId Id of the model to get information
-   * @param {GetModelOptions} options Options to the Get Model operation
+   * @param modelId - Id of the model to get information
+   * @param options - Options to the Get Model operation
    */
   public async getCustomModel(
     modelId: string,
@@ -423,7 +419,7 @@ export class FormTrainingClient {
    *  }
    * ```
    *
-   * @param {ListModelOptions} options Options to the List Models operation
+   * @param options - Options to the List Models operation
    */
   public listCustomModels(
     options: ListModelsOptions = {}
@@ -525,10 +521,10 @@ export class FormTrainingClient {
    * const model = await poller.pollUntilDone();
    * ```
    *
-   * @summary Creates and trains a custom form model.
-   * @param trainingFilesUrl accessible url to an Azure Storage Blob container storing the training documents and optional label files
-   * @param useTrainingLabels specifies whether or not to search for and train using label files
-   * @param options options to start the model training operation
+   * Creates and trains a custom form model.
+   * @param trainingFilesUrl - Accessible url to an Azure Storage Blob container storing the training documents and optional label files
+   * @param useTrainingLabels - Specifies whether or not to search for and train using label files
+   * @param options - Options to start the model training operation
    */
   public async beginTraining(
     trainingFilesUrl: string,
@@ -536,13 +532,13 @@ export class FormTrainingClient {
     options: BeginTrainingOptions = {}
   ): Promise<PollerLike<TrainingOperationState, CustomFormModel>> {
     const trainPollerClient: TrainPollerClient = {
-      getCustomModel: (modelId: string, options: GetModelOptions) =>
-        this.getCustomModel(modelId, options),
+      getCustomModel: (modelId: string, optionsParam: GetModelOptions) =>
+        this.getCustomModel(modelId, optionsParam),
       trainCustomModelInternal: (
         source: string | string[],
         _useLabelFile?: boolean,
-        options?: BeginTrainingOptions
-      ) => trainCustomModelInternal(this.client, source as string, useTrainingLabels, options)
+        optionsParam?: BeginTrainingOptions
+      ) => trainCustomModelInternal(this.client, source as string, useTrainingLabels, optionsParam)
     };
 
     const poller = new BeginTrainingPoller({
@@ -588,21 +584,21 @@ export class FormTrainingClient {
    * const composedModel = await poller.pollUntilDone();
    * ```
    *
-   * @summary Combines pre-existing models with labels into a single composed model.
-   * @param modelIds an array of model IDs within the Form Recognizer resouce to compose
-   * @param options Options to start the create composed model operation
+   * Combines pre-existing models with labels into a single composed model.
+   * @param modelIds - An array of model IDs within the Form Recognizer resouce to compose
+   * @param options - Options to start the create composed model operation
    */
   public async beginCreateComposedModel(
     modelIds: string[],
     options: BeginCreateComposedModelOptions
   ): Promise<PollerLike<TrainingOperationState, CustomFormModel>> {
     const composePollerClient: TrainPollerClient = {
-      getCustomModel: (modelId, options) => this.getCustomModel(modelId, options),
+      getCustomModel: (modelId, optionsParam) => this.getCustomModel(modelId, optionsParam),
       trainCustomModelInternal: (
         sources: string | string[],
         _?: boolean,
-        options?: BeginTrainingOptions
-      ) => composeModelInternal(this.client, sources as string[], options)
+        optionsParam?: BeginTrainingOptions
+      ) => composeModelInternal(this.client, sources as string[], optionsParam)
     };
 
     const poller = new BeginTrainingPoller({
@@ -627,10 +623,10 @@ export class FormTrainingClient {
    *
    * The required `resourceId` and `resourceRegion` are properties of an Azure Form Recognizer resource and their values can be found in the Azure Portal.
    *
-   * @param {string} resourceId Id of the Azure Form Recognizer resource where a custom model will be copied to
-   * @param {string} resourceRegion Location of the Azure Form Recognizer resource, must be a valid region name supported by Azure Cognitive Services. See https://aka.ms/azsdk/cognitiveservices/regionalavailability for information about the regional availability of Azure Cognitive Services.
-   * @param {GetCopyAuthorizationOptions} [options={}] Options to get copy authorization operation
-   * @returns {Promise<CopyAuthorization>} The authorization to copy a custom model
+   * @param resourceId - Id of the Azure Form Recognizer resource where a custom model will be copied to
+   * @param resourceRegion - Location of the Azure Form Recognizer resource, must be a valid region name supported by Azure Cognitive Services. See https://aka.ms/azsdk/cognitiveservices/regionalavailability for information about the regional availability of Azure Cognitive Services.
+   * @param options - Options to get copy authorization operation
+   * @returns The authorization to copy a custom model
    */
   public async getCopyAuthorization(
     resourceId: string,
@@ -684,10 +680,10 @@ export class FormTrainingClient {
    * });
    * const result = await poller.pollUntilDone();
    * ```
-   * @summary Copies custom model to target resource
-   * @param {string} modelId Id of the custom model in this resource to be copied to the target Form Recognizer resource
-   * @param {CopyAuthorization} target Copy authorization produced by calling `targetTrainingClient.getCopyAuthorization()`
-   * @param {BeginTrainingOptions} [options] Options to copy model operation
+   * Copies custom model to target resource
+   * @param modelId - Id of the custom model in this resource to be copied to the target Form Recognizer resource
+   * @param target - Copy authorization produced by calling `targetTrainingClient.getCopyAuthorization()`
+   * @param options - Options to copy model operation
    */
   public async beginCopyModel(
     modelId: string,

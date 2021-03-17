@@ -1,0 +1,68 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:41:19 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11419.13 - SEASLR2 ProdSlices",
+    "x-ms-request-id": "213ab2cd-155f-4592-b756-98347da30300"
+   }
+  },
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/afab8be4-b99e-4ad0-bf44-f5b054a5cadb",
+   "query": {},
+   "requestBody": "{\"dataSourceType\":\"AzureBlob\",\"dataFeedName\":\"Updated-Azure-Blob-data-feed-161116808041207936\",\"dataFeedDescription\":\"Updated Azure Blob description\",\"timestampColumn\":\"UpdatedTimestampeColumn\",\"dataStartFrom\":\"2020-08-01T00:00:00.000Z\",\"startOffsetInSeconds\":2,\"maxConcurrency\":3,\"minRetryIntervalInSeconds\":4,\"stopRetryAfterInSeconds\":5,\"needRollup\":\"AlreadyRollup\",\"allUpIdentification\":\"__Existing__\",\"fillMissingPointType\":\"PreviousValue\",\"viewMode\":\"Public\",\"viewers\":[\"viewer1@example.com\"],\"actionLinkTemplate\":\"Updated Azure Blob action link template\",\"dataSourceParameter\":{\"connectionString\":\"Updated Azure Blob connection string\",\"container\":\"Updated Azure Blob container\",\"blobTemplate\":\"Updated Azure Blob template\"}}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "2a74bbb9-2f71-4d1c-865f-9bcbf291c6c2",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:41:20 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "857",
+    "x-request-id": "2a74bbb9-2f71-4d1c-865f-9bcbf291c6c2"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/dataFeeds/afab8be4-b99e-4ad0-bf44-f5b054a5cadb",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"dataFeedId\":\"afab8be4-b99e-4ad0-bf44-f5b054a5cadb\",\"dataFeedName\":\"Updated-Azure-Blob-data-feed-161116808041207936\",\"metrics\":[{\"metricId\":\"409807b1-e770-4b11-b91e-f2269e70d13f\",\"metricName\":\"cost\",\"metricDisplayName\":\"cost\",\"metricDescription\":\"\"},{\"metricId\":\"ba86f832-83ba-4f3f-ba25-17b326f178da\",\"metricName\":\"revenue\",\"metricDisplayName\":\"revenue\",\"metricDescription\":\"\"}],\"dimension\":[{\"dimensionName\":\"category\",\"dimensionDisplayName\":\"category\"},{\"dimensionName\":\"city\",\"dimensionDisplayName\":\"city\"}],\"dataStartFrom\":\"2020-08-01T00:00:00Z\",\"dataSourceType\":\"AzureBlob\",\"timestampColumn\":\"UpdatedTimestampeColumn\",\"startOffsetInSeconds\":2,\"maxQueryPerMinute\":30.0,\"granularityName\":\"Daily\",\"granularityAmount\":null,\"allUpIdentification\":\"__Existing__\",\"needRollup\":\"AlreadyRollup\",\"fillMissingPointType\":\"PreviousValue\",\"fillMissingPointValue\":555.0,\"rollUpMethod\":\"Sum\",\"rollUpColumns\":[],\"dataFeedDescription\":\"Updated Azure Blob description\",\"stopRetryAfterInSeconds\":5,\"minRetryIntervalInSeconds\":4,\"maxConcurrency\":3,\"viewMode\":\"Public\",\"admins\":[\"azure_client_id\"],\"viewers\":[\"viewer1@example.com\"],\"creator\":\"azure_client_id\",\"status\":\"Active\",\"createdTime\":\"2021-01-20T18:41:18Z\",\"isAdmin\":true,\"actionLinkTemplate\":\"Updated Azure Blob action link template\",\"dataSourceParameter\":{\"container\":\"Updated Azure Blob container\",\"connectionString\":\"Updated Azure Blob connection string\",\"blobTemplate\":\"Updated Azure Blob template\"}}",
+   "responseHeaders": {
+    "apim-request-id": "3ea7e1ab-21c3-4c76-9142-cbcb2bf0b452",
+    "content-length": "1488",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:41:21 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "616",
+    "x-request-id": "3ea7e1ab-21c3-4c76-9142-cbcb2bf0b452"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "Updated-Azure-Blob-data-feed-": "Updated-Azure-Blob-data-feed-161116808041207936"
+  },
+  "newDate": {}
+ },
+ "hash": "c1f00c6166e04617b2eba847f720d660"
+}

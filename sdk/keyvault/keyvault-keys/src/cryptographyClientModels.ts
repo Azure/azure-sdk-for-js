@@ -1,60 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CryptographyOptions } from "./keysModels";
+import { CryptographyOptions, KeyVaultKey } from "./keysModels";
 
-/**
- * Defines values for SignatureAlgorithm.
- * @readonly
- * @enum {string}
- */
-export type SignatureAlgorithm =
-  | "PS256"
-  | "PS384"
-  | "PS512"
-  | "RS256"
-  | "RS384"
-  | "RS512"
-  | "ES256"
-  | "ES384"
-  | "ES512"
-  | "ES256K";
+import {
+  JsonWebKey,
+  JsonWebKeyCurveName as KeyCurveName,
+  KnownJsonWebKeyCurveName as KnownKeyCurveNames,
+  JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
+  KnownJsonWebKeyEncryptionAlgorithm as KnownEncryptionAlgorithms,
+  JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
+  KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms
+} from "./generated/models";
 
-/**
- * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW', 'A128CBC', 'A192CBC', 'A256CBC', 'A128CBCPAD', 'A192CBCPAD', 'A256CBCPAD'
- * @readonly
- * @enum {string}
- */
-export type EncryptionAlgorithm =
-  | "RSA-OAEP"
-  | "RSA-OAEP-256"
-  | "RSA1_5"
-  | "A128GCM"
-  | "A192GCM"
-  | "A256GCM"
-  | "A128KW"
-  | "A192KW"
-  | "A256KW"
-  | "A128CBC"
-  | "A192CBC"
-  | "A256CBC"
-  | "A128CBCPAD"
-  | "A192CBCPAD"
-  | "A256CBCPAD";
-
-/**
- * Defines values for KeyCurveName.
- * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
- * @readonly
- * @enum {string}
- */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export {
+  KeyCurveName,
+  KnownKeyCurveNames,
+  EncryptionAlgorithm,
+  KnownEncryptionAlgorithms,
+  SignatureAlgorithm,
+  KnownSignatureAlgorithms
+};
 
 /**
  * Supported algorithms for key wrapping/unwrapping
  */
-export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type KeyWrapAlgorithm =
+  | "A128KW"
+  | "A192KW"
+  | "A256KW"
+  | "RSA-OAEP"
+  | "RSA-OAEP-256"
+  | "RSA1_5";
 
 /**
  * Result of the {@link encrypt} operation.
@@ -72,6 +49,18 @@ export interface EncryptResult {
    * The ID of the Key Vault Key used to encrypt the data.
    */
   keyID?: string;
+  /**
+   * The initialization vector used for encryption.
+   */
+  iv?: Uint8Array;
+  /**
+   * The authentication tag resulting from encryption with a symmetric key including A128GCM, A192GCM, and A256GCM.
+   */
+  authenticationTag?: Uint8Array;
+  /**
+   * Additional data that is authenticated during decryption but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
 }
 
 /**
@@ -104,6 +93,10 @@ export interface UnwrapResult {
    * The ID of the Key Vault Key used to unwrap the data.
    */
   keyID?: string;
+  /**
+   * The {@link KeyWrapAlgorithm} used to unwrap the data.
+   */
+  algorithm: KeyWrapAlgorithm;
 }
 /**
  * Result of the {@link decrypt} operation.
@@ -158,21 +151,7 @@ export interface VerifyResult {
 /**
  * Common optional properties for encrypt, decrypt, wrap and unwrap.
  */
-export interface KeyOperationsOptions extends CryptographyOptions {
-  /**
-   * Initialization vector for symmetric algorithms.
-   */
-  iv?: Uint8Array;
-  /**
-   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
-   * algorithms.
-   */
-  additionalAuthenticatedData?: Uint8Array;
-  /**
-   * The tag to authenticate when performing decryption with an authenticated algorithm.
-   */
-  tag?: Uint8Array;
-}
+export interface KeyOperationsOptions extends CryptographyOptions {}
 
 /**
  * Options for {@link encrypt}.
@@ -195,6 +174,11 @@ export interface SignOptions extends CryptographyOptions {}
 export interface VerifyOptions extends CryptographyOptions {}
 
 /**
+ * Options for {@link verifyData}
+ */
+export interface VerifyDataOptions extends CryptographyOptions {}
+
+/**
  * Options for {@link wrapKey}.
  */
 export interface WrapKeyOptions extends KeyOperationsOptions {}
@@ -203,3 +187,173 @@ export interface WrapKeyOptions extends KeyOperationsOptions {}
  * Options for {@link unwrapKey}.
  */
 export interface UnwrapKeyOptions extends KeyOperationsOptions {}
+
+/**
+ * A union type representing all supported RSA encryption algorithms.
+ */
+export type RsaEncryptionAlgorithm = "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+
+/**
+ * Encryption parameters for RSA encryption algorithms.
+ */
+export interface RsaEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: RsaEncryptionAlgorithm;
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+}
+
+/**
+ * A union type representing all supported AES-GCM encryption algorithms.
+ */
+export type AesGcmEncryptionAlgorithm = "A128GCM" | "A192GCM" | "A256GCM";
+
+/**
+ * Encryption parameters for AES-GCM encryption algorithms.
+ */
+export interface AesGcmEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: AesGcmEncryptionAlgorithm;
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+  /**
+   * Optional data that is authenticated but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
+}
+
+/**
+ * A union type representing all supported AES-CBC encryption algorithms.
+ */
+export type AesCbcEncryptionAlgorithm =
+  | "A128CBC"
+  | "A192CBC"
+  | "A256CBC"
+  | "A128CBCPAD"
+  | "A192CBCPAD"
+  | "A256CBCPAD";
+
+/**
+ * Encryption parameters for AES-CBC encryption algorithms.
+ */
+export interface AesCbcEncryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: AesCbcEncryptionAlgorithm;
+  /**
+   * The plain text to encrypt.
+   */
+  plaintext: Uint8Array;
+  /**
+   * The initialization vector used for encryption. If omitted we will attempt to generate an IV using crypto's `randomBytes` functionality.
+   * An error will be thrown if creating an IV fails, and you may recover by passing in your own cryptographically secure IV.
+   */
+  iv?: Uint8Array;
+}
+
+/**
+ * A type representing all currently supported encryption parameters as they apply to different encryption algorithms.
+ */
+export type EncryptParameters =
+  | RsaEncryptParameters
+  | AesGcmEncryptParameters
+  | AesCbcEncryptParameters;
+
+/**
+ * Decryption parameters for RSA encryption algorithms.
+ */
+export interface RsaDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: RsaEncryptionAlgorithm;
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+}
+
+/**
+ * Decryption parameters for AES-GCM encryption algorithms.
+ */
+export interface AesGcmDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: AesGcmEncryptionAlgorithm;
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+  /**
+   * The initialization vector (or nonce) generated during encryption.
+   */
+  iv: Uint8Array;
+  /**
+   * The authentication tag generated during encryption.
+   */
+  authenticationTag?: Uint8Array;
+  /**
+   * Optional data that is authenticated but not encrypted.
+   */
+  additionalAuthenticatedData?: Uint8Array;
+}
+
+/**
+ * Decryption parameters for AES-CBC encryption algorithms.
+ */
+export interface AesCbcDecryptParameters {
+  /**
+   * The encryption algorithm to use.
+   */
+  algorithm: AesCbcEncryptionAlgorithm;
+  /**
+   * The initialization vector used during encryption.
+   */
+  /**
+   * The ciphertext to decrypt.
+   */
+  ciphertext: Uint8Array;
+  /**
+   * The initialization vector generated during encryption.
+   */
+  iv: Uint8Array;
+}
+
+/**
+ * A type representing all currently supported decryption parameters as they apply to different encryption algorithms.
+ */
+export type DecryptParameters =
+  | RsaDecryptParameters
+  | AesGcmDecryptParameters
+  | AesCbcDecryptParameters;
+
+/**
+ * The various key types a {@link CryptographyClient} can hold.
+ * The key may be an identifier (URL) to a KeyVault key, the actual KeyVault key,
+ * or a local-only JsonWebKey.
+ *
+ * If an identifier is used, it will be exchanged for a {@link KeyVaultKey} during the first operation call.
+ */
+export type CryptographyClientKey =
+  | {
+      kind: "identifier";
+      value: string;
+    }
+  | {
+      kind: "KeyVaultKey";
+      value: KeyVaultKey;
+    }
+  | {
+      kind: "JsonWebKey";
+      value: JsonWebKey;
+    };

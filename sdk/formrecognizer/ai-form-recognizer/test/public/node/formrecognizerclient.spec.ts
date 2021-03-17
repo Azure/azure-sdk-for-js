@@ -12,10 +12,10 @@ import { matrix } from "../../utils/matrix";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 
-function makeTestUrl(path: string): string {
+function makeTestUrl(urlPath: string): string {
   const testingContainerUrl = env.FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL;
   const parts = testingContainerUrl.split("?");
-  return `${parts[0]}${path}?${parts[1]}`;
+  return `${parts[0]}${urlPath}?${parts[1]}`;
 }
 
 type MaybeTypedFormField<T extends FormField["valueType"]> =
@@ -186,8 +186,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid language.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
 
@@ -215,8 +216,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid pages.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -232,9 +234,9 @@ matrix([[true, false]] as const, async (useAad) => {
       // TODO: this is used in formtrainingclient as well, abstract to a helper
       async function requireModel(): Promise<CustomFormModel> {
         if (!_model) {
-          const client = new FormTrainingClient(endpoint(), makeCredential(useAad));
+          const formTrainingClient = new FormTrainingClient(endpoint(), makeCredential(useAad));
           modelName = recorder.getUniqueName("customFormModelName");
-          const poller = await client.beginTraining(
+          const poller = await formTrainingClient.beginTraining(
             env.FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL,
             true,
             {
@@ -376,8 +378,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -475,8 +478,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -572,8 +576,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });

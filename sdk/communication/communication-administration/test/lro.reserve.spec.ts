@@ -10,7 +10,10 @@ import {
   PhoneNumberAdministrationClient,
   PhoneNumberReservation
 } from "../src";
-import { createRecordedPhoneNumberAdministrationClient } from "./utils/recordedClient";
+import {
+  createRecordedPhoneNumberAdministrationClient,
+  testPollerOptions
+} from "./utils/recordedClient";
 
 describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", function() {
   let recorder: Recorder;
@@ -19,7 +22,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
   let reservationId: string;
   let areaCode: string;
   let poller: PollerLike<PollOperationState<PhoneNumberReservation>, PhoneNumberReservation>;
-  let countryCode = "US";
+  const countryCode = "US";
   const phonePlanIds: string[] = [];
 
   beforeEach(function() {
@@ -43,7 +46,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
 
     let phonePlanGroupId: string = "";
     for await (const phonePlanGroup of client.listPhonePlanGroups(countryCode)) {
-      if (phonePlanGroup.phoneNumberType == "Geographic") {
+      if (phonePlanGroup.phoneNumberType === "Geographic") {
         assert.isString(phonePlanGroup.phonePlanGroupId);
         ({ phonePlanGroupId } = phonePlanGroup);
         assert.isString(phonePlanGroupId);
@@ -93,7 +96,7 @@ describe("PhoneNumber - LROs - Phone Number Reservations [Playback/Live]", funct
       areaCode,
       quantity: 1
     };
-    poller = await client.beginReservePhoneNumbers(reservationRequest);
+    poller = await client.beginReservePhoneNumbers(reservationRequest, testPollerOptions);
     assert.ok(poller.getOperationState().isStarted);
 
     const reservation: PhoneNumberReservation = await poller.pollUntilDone();

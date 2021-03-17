@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
 import {
@@ -9,7 +12,7 @@ import {
 } from "./utils";
 import { record, delay, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { ShareServiceClient, ShareItem } from "../src";
+import { ShareServiceClient, ShareItem, ShareRootSquash } from "../src";
 dotenv.config();
 
 describe("FileServiceClient", () => {
@@ -484,6 +487,7 @@ describe("FileServiceClient Premium", () => {
     try {
       serviceClient = getGenericBSU("PREMIUM_FILE_");
     } catch (error) {
+      console.log(error);
       this.skip();
     }
   });
@@ -502,5 +506,51 @@ describe("FileServiceClient Premium", () => {
     });
     const propertiesSet = await serviceClient.getProperties();
     assert.ok(propertiesSet.protocol?.smb?.multichannel);
+  });
+
+  it("Share Enable Protocol & Share Squash Root", async function() {
+    if (isLiveMode()) {
+      // Skipped for now as this feature is not available in our test account's region yet.
+      this.skip();
+    }
+
+    const shareName = recorder.getUniqueName("share");
+    const shareClient = serviceClient.getShareClient(shareName);
+
+    // create share
+    let rootSquash: ShareRootSquash = "RootSquash";
+    await shareClient.create({
+      protocols: {
+        smbEnabled: true,
+        nfsEnabled: true
+      },
+      rootSquash
+    });
+
+    // get properties
+    const expectedProtocols = { nfsEnabled: true };
+    const getRes = await shareClient.getProperties();
+    assert.deepStrictEqual(getRes.protocols, expectedProtocols);
+    assert.deepStrictEqual(getRes.rootSquash, rootSquash);
+
+    // set properties
+    rootSquash = "AllSquash";
+    await shareClient.setProperties({ rootSquash });
+
+    // list share
+    const shareName1 = recorder.getUniqueName("share1");
+    const protocols = { smbEnabled: true };
+    await serviceClient.createShare(shareName1, {
+      protocols
+    });
+
+    for await (const share of serviceClient.listShares()) {
+      if (share.name === shareName) {
+        assert.deepStrictEqual(share.properties.protocols, expectedProtocols);
+        assert.deepStrictEqual(share.properties.rootSquash, rootSquash);
+      } else if (share.name === shareName1) {
+        assert.deepStrictEqual(share.properties.protocols, protocols);
+      }
+    }
   });
 });

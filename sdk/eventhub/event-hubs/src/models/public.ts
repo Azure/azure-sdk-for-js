@@ -61,11 +61,9 @@ export interface SendBatchOptions extends OperationOptions {
  * ```
  *
  * @internal
- * @ignore
  */
 export interface SendOptions extends OperationOptions {
   /**
-   * @property
    * A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
    * Specifying this will throw an error if the producer was created using a `paritionId`.
@@ -98,6 +96,14 @@ export enum CloseReason {
  *    - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
  * over a WebSocket.
  * - `retryOptions`     : The retry options for all the operations on the client/producer/consumer.
+ *    - `maxRetries` : The number of times the operation can be retried in case of a retryable error.
+ *    - `maxRetryDelayInMs`: The maximum delay between retries. Applicable only when performing exponential retries.
+ *    - `mode`: Which retry mode to apply, specified by the `RetryMode` enum. Options are `Exponential` and `Fixed`. Defaults to `Fixed`.
+ *    - `retryDelayInMs`: Amount of time to wait in milliseconds before making the next attempt. When `mode` is set to `Exponential`,
+ *       this is used to compute the exponentially increasing delays between retries. Default: 30000 milliseconds.
+ *    - `timeoutInMs`: Amount of time in milliseconds to wait before the operation times out. This will trigger a retry if there are any
+ *       retry attempts remaining. Minimum value: 60000 milliseconds.
+ *
  * A simple usage can be `{ "maxRetries": 4 }`.
  *
  * Example usage:
@@ -111,18 +117,25 @@ export enum CloseReason {
  */
 export interface EventHubClientOptions {
   /**
-   * @property
+   * A custom endpoint to use when connecting to the Event Hubs service.
+   * This can be useful when your network does not allow connecting to the
+   * standard Azure Event Hubs endpoint address, but does allow connecting
+   * through an intermediary.
+   *
+   * Example: "https://my.custom.endpoint:100/"
+   */
+  customEndpointAddress?: string;
+  /**
    * Options to configure the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
+   *
    */
   retryOptions?: RetryOptions;
   /**
-   * @property
    * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
   webSocketOptions?: WebSocketOptions;
   /**
-   * @property
    * Value that is appended to the built in user agent string that is passed to the Event Hubs service.
    */
   userAgent?: string;
@@ -138,7 +151,15 @@ export interface EventHubClientOptions {
  * over a WebSocket.
  *    - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
  * over a WebSocket.
- * - `retryOptions`     : The retry options for all the operations on the EventHubConsumerClient.
+ * - `retryOptions`     : The retry options for all the operations on the client/producer/consumer.
+ *    - `maxRetries` : The number of times the operation can be retried in case of a retryable error.
+ *    - `maxRetryDelayInMs`: The maximum delay between retries. Applicable only when performing exponential retries.
+ *    - `mode`: Which retry mode to apply, specified by the `RetryMode` enum. Options are `Exponential` and `Fixed`. Defaults to `Fixed`.
+ *    - `retryDelayInMs`: Amount of time to wait in milliseconds before making the next attempt. When `mode` is set to `Exponential`,
+ *       this is used to compute the exponentially increasing delays between retries. Default: 30000 milliseconds.
+ *    - `timeoutInMs`: Amount of time in milliseconds to wait before the operation times out. This will trigger a retry if there are any
+ *       retry attempts remaining. Minimum value: 60000 milliseconds.
+ *
  * A simple usage can be `{ "maxRetries": 4 }`.
  *
  * Example usage:
@@ -218,7 +239,6 @@ export interface CreateBatchOptions extends OperationOptions {
    */
   partitionId?: string;
   /**
-   * @property
    * The upper limit for the size of batch. The `tryAdd` function will return `false` after this limit is reached.
    */
   maxSizeInBytes?: number;

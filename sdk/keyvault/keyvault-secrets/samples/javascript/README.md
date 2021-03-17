@@ -12,13 +12,13 @@ urlFragment: keyvault-secrets-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Secrets in some common scenarios.
 
-| **File Name**                           | **Description**                                                                                                                                                                       |
-| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [backupAndRestore.js][backupandrestore] | creates a secret, then makes a backup from it, then deletes it and purges it, and finally restores it                                                                                 |
+| **File Name**                           | **Description**                                                                                                                                                                 |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [backupAndRestore.js][backupandrestore] | creates a secret, then makes a backup from it, then deletes it and purges it, and finally restores it                                                                           |
 | [deleteAndRecover.js][deleteandrecover] | creates a secret, then deletes it, then recovers it (soft-delete is required for this sample to run, see: https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete) |
-| [helloWorld.js][helloworld]             | creates, reads, updates, and deletes a secret                                                                                                                                         |
-| [listOperations.js][listoperations]     | creates a secret and shows various ways to iterate over the secret and its versions                                                                                                   |
-| [purgeAllSecrets.js][purgeallsecrets]   | purges all the secrets of a Key Vault (useful for repeated tests)                                                                                                                     |
+| [helloWorld.js][helloworld]             | creates, reads, updates, and deletes a secret                                                                                                                                   |
+| [listOperations.js][listoperations]     | creates a secret and shows various ways to iterate over the secret and its versions                                                                                             |
+| [purgeAllSecrets.js][purgeallsecrets]   | purges all the secrets of a Key Vault (useful for repeated tests)                                                                                                               |
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ The samples are compatible with Node.js >= 8.0.0.
 
 You need [an Azure subscription][freesub] and [an Azure Key Vault][azkeyvault] to run these sample programs. To quickly create the needed Key Vault resources in Azure and to receive a connection string for them, you can deploy our sample template by clicking:
 
-[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Fkeyvault-secrets%2Ftests-resources.json)
+[![](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-sdk-for-js%2Fmaster%2Fsdk%2Fkeyvault%2Ftest-resources.json)
 
 If creating the Key Vault manually using the Azure Portal, be aware that the samples require that the soft-delete feature be enabled. Our template above will enable this feature automatically, but it is possible to enable it manually using the Azure CLI. See [this page][kvsoftdelete] for more information.
 

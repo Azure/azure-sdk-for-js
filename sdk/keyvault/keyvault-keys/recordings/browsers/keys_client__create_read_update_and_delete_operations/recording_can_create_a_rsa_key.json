@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkey-/create",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "",
    "status": 401,
@@ -13,18 +13,17 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:12 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "cee9e2a9-278e-465d-9d4f-639be408ac7c",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "fe403716-da95-4404-a7ae-24c5c71b6d14",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -36,44 +35,43 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
+    "cache-control": "no-store, no-cache",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:13 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:27 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10761.12 - EUS ProdSlices",
-    "x-ms-request-id": "82ee5666-ae66-46b6-9b24-74b55bd70c00"
+    "x-ms-ests-server": "2.1.11496.5 - NCUS ProdSlices",
+    "x-ms-request-id": "d2c4eeae-d94d-4295-9cbf-76c6334aec00"
    }
   },
   {
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkey-/create",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "{\"kty\":\"RSA\"}",
    "status": 200,
-   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkey-/90797dce6a1f4725b5dca9b411ef74f9\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"kp4vo_R83mKv3ZxyU6NVxtBFj_o3vbGJ83V5zSuTSXLHS5zyK0i8bpuIriGrQk2Hr2wDG80_mrzriyDB3SPtTy9GLOnYearr2q0GLa-O2xgAM10h_-iEt5NhUn7X_K_Jr1h-Q_EjGkduDUFFfkCrHsSYWRK_C0VvpjqcwqWOt6RnKRNWKI3V4FXop4xPONeX8MFWRqwKAa05Js9pIIid8eEN80DWDFnWZR9hO6ccx3mE6Kpe_QWdngcoV9AGiPrXkuDMizpbSg2bXjbs9ugy0HxlgBLPWNreoI_fVeoznMXIZHUL5d3BKzJtOe-Kj2TE15EfaFK9sGQ_qOR--kC3aQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593222913,\"updated\":1593222913,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkey-/01e70a89ac3d4740ac641ddb97fd6482\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"xFo4hsV2LfdiAXomUDWnTPzlTmaNpaShMg8wT5DF4F_cwhvPrNQHxfHK7ZIM2022Bk05UPj_7HQHWl3swK5wQDE206ebqCfVc9gEtPRmI81_2XqH13g4DaGiycbMFeT9RcU1acjZD-CiTTpdJWpwhtw_NoiyqI8e01u1mw5oK71hL4wiMLRXn2DHu5ozaMBlaihSViEYxt2kNTf8QJUXJK_ygH2zbZkMLxaUj_K542KQO7-_Wpnt2NjM1a6rk3UmZcXHHBjgI-PtKt9TRG7-2QJmz3oSJakL9Ro9E8bqJ6lek4Ihr7NvIasgiApa12G01F77-fMfxTOG_Apj8-7jwQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1613499747,\"updated\":1613499747,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
     "content-length": "719",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:13 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "9cc48230-e52e-4c3e-bdc5-2a32a776d6d5",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "27f2545a-0c19-4494-97e5-a6bf7d676f4d",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -81,26 +79,25 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkey-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-\",\"deletedDate\":1593222913,\"scheduledPurgeDate\":1600998913,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkey-/90797dce6a1f4725b5dca9b411ef74f9\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"kp4vo_R83mKv3ZxyU6NVxtBFj_o3vbGJ83V5zSuTSXLHS5zyK0i8bpuIriGrQk2Hr2wDG80_mrzriyDB3SPtTy9GLOnYearr2q0GLa-O2xgAM10h_-iEt5NhUn7X_K_Jr1h-Q_EjGkduDUFFfkCrHsSYWRK_C0VvpjqcwqWOt6RnKRNWKI3V4FXop4xPONeX8MFWRqwKAa05Js9pIIid8eEN80DWDFnWZR9hO6ccx3mE6Kpe_QWdngcoV9AGiPrXkuDMizpbSg2bXjbs9ugy0HxlgBLPWNreoI_fVeoznMXIZHUL5d3BKzJtOe-Kj2TE15EfaFK9sGQ_qOR--kC3aQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593222913,\"updated\":1593222913,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-\",\"deletedDate\":1613499748,\"scheduledPurgeDate\":1614104548,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkey-/01e70a89ac3d4740ac641ddb97fd6482\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"xFo4hsV2LfdiAXomUDWnTPzlTmaNpaShMg8wT5DF4F_cwhvPrNQHxfHK7ZIM2022Bk05UPj_7HQHWl3swK5wQDE206ebqCfVc9gEtPRmI81_2XqH13g4DaGiycbMFeT9RcU1acjZD-CiTTpdJWpwhtw_NoiyqI8e01u1mw5oK71hL4wiMLRXn2DHu5ozaMBlaihSViEYxt2kNTf8QJUXJK_ygH2zbZkMLxaUj_K542KQO7-_Wpnt2NjM1a6rk3UmZcXHHBjgI-PtKt9TRG7-2QJmz3oSJakL9Ro9E8bqJ6lek4Ihr7NvIasgiApa12G01F77-fMfxTOG_Apj8-7jwQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1613499747,\"updated\":1613499747,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "892",
+    "content-length": "883",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:14 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "7becfda0-b40c-4402-933e-ad1e7f14786c",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "c1c31910-943e-40a1-8b37-a036f9c29e0f",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -108,7 +105,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
@@ -117,17 +114,16 @@
     "cache-control": "no-cache",
     "content-length": "113",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:15 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "cdd28e68-1c80-4fa9-8b8c-189d493b30c0",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "11542874-55fc-4b14-8728-05a35f84f3aa",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -135,7 +131,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
@@ -144,17 +140,16 @@
     "cache-control": "no-cache",
     "content-length": "113",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:15 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "656588e8-8c20-42b2-b220-700bc49ebc18",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "34840639-9074-47b0-b74e-cac1834df96b",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -162,7 +157,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
@@ -171,17 +166,16 @@
     "cache-control": "no-cache",
     "content-length": "113",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:17 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:29 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "4d60a794-e8c1-4dee-9854-cce7fb26ac7d",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "04b12a55-3067-479a-888b-ee84f9442e3e",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -189,7 +183,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
@@ -198,17 +192,16 @@
     "cache-control": "no-cache",
     "content-length": "113",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:19 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:31 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "979086ec-6cb0-4682-b6fb-f9e834cb883b",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "4690b0ca-2ecc-4d63-93c6-31537089e385",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -216,7 +209,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
@@ -225,17 +218,16 @@
     "cache-control": "no-cache",
     "content-length": "113",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:21 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:34 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "8b9f2ebc-62e2-4bb5-9180-40216b4c75ea",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "db768b46-e8a7-42ee-bab8-a354907f96ef",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -243,107 +235,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
    "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-cancreateaRSAkey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "113",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:23 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "c338bcbf-c578-44fc-a04c-41c4ff63535f",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-cancreateaRSAkey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "113",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:25 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "0435c581-66ad-46f6-b67b-2cc5559ee6f5",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"KeyNotFound\",\"message\":\"Deleted Key not found: CRUDKeyName-cancreateaRSAkey-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "113",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:27 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "873bc5d9-3588-4b35-8a9e-20243eeba9d7",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
-   "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-\",\"deletedDate\":1593222913,\"scheduledPurgeDate\":1600998913,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkey-/90797dce6a1f4725b5dca9b411ef74f9\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"kp4vo_R83mKv3ZxyU6NVxtBFj_o3vbGJ83V5zSuTSXLHS5zyK0i8bpuIriGrQk2Hr2wDG80_mrzriyDB3SPtTy9GLOnYearr2q0GLa-O2xgAM10h_-iEt5NhUn7X_K_Jr1h-Q_EjGkduDUFFfkCrHsSYWRK_C0VvpjqcwqWOt6RnKRNWKI3V4FXop4xPONeX8MFWRqwKAa05Js9pIIid8eEN80DWDFnWZR9hO6ccx3mE6Kpe_QWdngcoV9AGiPrXkuDMizpbSg2bXjbs9ugy0HxlgBLPWNreoI_fVeoznMXIZHUL5d3BKzJtOe-Kj2TE15EfaFK9sGQ_qOR--kC3aQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1593222913,\"updated\":1593222913,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-\",\"deletedDate\":1613499748,\"scheduledPurgeDate\":1614104548,\"key\":{\"kid\":\"https://keyvault_name.vault.azure.net/keys/CRUDKeyName-cancreateaRSAkey-/01e70a89ac3d4740ac641ddb97fd6482\",\"kty\":\"RSA\",\"key_ops\":[\"encrypt\",\"decrypt\",\"sign\",\"verify\",\"wrapKey\",\"unwrapKey\"],\"n\":\"xFo4hsV2LfdiAXomUDWnTPzlTmaNpaShMg8wT5DF4F_cwhvPrNQHxfHK7ZIM2022Bk05UPj_7HQHWl3swK5wQDE206ebqCfVc9gEtPRmI81_2XqH13g4DaGiycbMFeT9RcU1acjZD-CiTTpdJWpwhtw_NoiyqI8e01u1mw5oK71hL4wiMLRXn2DHu5ozaMBlaihSViEYxt2kNTf8QJUXJK_ygH2zbZkMLxaUj_K542KQO7-_Wpnt2NjM1a6rk3UmZcXHHBjgI-PtKt9TRG7-2QJmz3oSJakL9Ro9E8bqJ6lek4Ihr7NvIasgiApa12G01F77-fMfxTOG_Apj8-7jwQ\",\"e\":\"AQAB\"},\"attributes\":{\"enabled\":true,\"created\":1613499747,\"updated\":1613499747,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "892",
+    "content-length": "883",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 27 Jun 2020 01:55:29 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:36 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "01bdf80e-205e-4653-a389-748531b20959",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "de830046-ec1b-49a2-8a7d-abd17a8a461d",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -351,24 +261,23 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedkeys/CRUDKeyName-cancreateaRSAkey-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "date": "Sat, 27 Jun 2020 01:55:29 GMT",
+    "date": "Tue, 16 Feb 2021 18:22:36 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "204",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.158.224.108;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "44816cb9-ae9a-4579-b15e-4b1f1b290759",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "14eceba6-72db-4af5-b129-aef640b5b39b",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -377,5 +286,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "705322ac7b62bb28dc963717eddfb8eb"
+ "hash": "8e625c910e3e2009435d88565911e0ce"
 }

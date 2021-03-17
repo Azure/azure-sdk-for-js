@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 export {
   AccessPolicy,
@@ -93,7 +93,8 @@ export {
   ListBlobsIncludeItem,
   ListContainersIncludeType,
   ListContainersSegmentResponse,
-  FilterBlobSegment,
+  FilterBlobItem as FilterBlobItemModel,
+  FilterBlobSegment as FilterBlobSegmentModel,
   ServiceFilterBlobsHeaders,
   Logging,
   Metrics,
@@ -143,10 +144,12 @@ export {
   SignedIdentifier as SignedIdentifierModel,
   UserDelegationKey as UserDelegationKeyModel,
   ContainerEncryptionScope,
-  ServiceFilterBlobsResponse as ServiceFindBlobsByTagsSegmentResponse,
-  FilterBlobItem,
   BlobQueryHeaders,
   BlobQueryResponse as BlobQueryResponseModel,
   ContainerRestoreResponse as ContainerUndeleteResponse,
-  ContainerRestoreHeaders as ContainerUndeleteHeaders
+  ContainerRestoreHeaders as ContainerUndeleteHeaders,
+  BlockBlobPutBlobFromUrlResponse,
+  BlockBlobPutBlobFromUrlHeaders,
+  ContainerRenameResponse,
+  ContainerRenameHeaders
 } from "./generated/src/models";

@@ -1,14 +1,22 @@
 {
   "name": "@azure/storage-internal-avro",
-  "sideEffect": false,
+  "sideEffects": false,
   "private": true,
   "author": "Microsoft Corporation",
   "version": "1.0.0",
   "description": "internal avro parser",
   "license": "MIT",
   "repository": "github:Azure/azure-sdk-for-js",
-  "main": "./srt/index.ts",
-  "module": "dist-esm/index.js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-internal-avro/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "main": "./dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
   "browser": {
     "./dist-esm/storage-internal-avro/src/index.js": "./dist-esm/storage-internal-avro/src/index.browser.js",
     "./dist-esm/storage-internal-avro/src/utils/utils.node.js": "./dist-esm/storage-internal-avro/src/utils/utils.browser.js",
@@ -17,24 +25,28 @@
     "os": false,
     "process": false
   },
-  "types": "./types/index.d.ts",
+  "types": "./types/latest/storage-internal-avro.d.ts",
   "engines": {
     "node": ">=8.0.0"
   },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/latest",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:es6": "tsc -p tsconfig.json",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "npm run clean && npm run build:es6 && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run build:prep-samples",
-    "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
+    "build:samples": "echo Skipped.",
     "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
-    "build:types": "downlevel-dts typings/latest typings/3.1",
+    "build:types": "downlevel-dts types/latest types/3.1",
     "build": "npm run build:es6 && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test typings temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
-    "clean:samples": "rimraf samples/javascript/node_modules samples/typescript/node_modules samples/typescript/dist samples/typescript/package-lock.json samples/javascript/package-lock.json",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/storage-internal-avro/dist-samples/typescript/src/",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/storage-internal-avro/test/*.spec.js dist-esm/storage-internal-avro/test/node/*.spec.js",
@@ -48,7 +60,8 @@
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "echo Skipped."
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
@@ -67,10 +80,10 @@
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
     "es6-promise": "^4.2.5",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "inherits": "^2.0.3",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -82,7 +95,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "nyc": "^14.0.0",
@@ -98,7 +111,7 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "util": "^0.12.1"
   }
 }

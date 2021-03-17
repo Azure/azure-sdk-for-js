@@ -30,7 +30,9 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "build:samples": "echo Skipped.",
+    "docs": "echo Skipped."
   },
   "dependencies": {
     "@azure/event-hubs": "^2.1.4",
@@ -41,11 +43,14 @@
     "async-lock": "^1.1.3",
     "death": "^1.1.0",
     "debug": "^4.1.1",
-    "rhea": "^1.0.21",
+    "rhea": "^1.0.24",
     "rimraf": "^3.0.0",
     "tslib": "^2.0.0",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "uuid": "^8.3.0",
     "yargs": "^15.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.15.0"
   }
 }

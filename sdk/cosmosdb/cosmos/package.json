@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.9.3",
+  "version": "3.10.4",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -32,17 +32,17 @@
     "README.md",
     "LICENSE"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos#readme",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/cosmosdb/cosmos/README.md",
   "sideEffects": false,
-  "types": "./dist/types/latest/index.d.ts",
+  "types": "./dist/types/latest/cosmos.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "./dist/types/3.1/index.d.ts"
+        "./dist/types/3.1/cosmos.d.ts"
       ]
     }
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "scripts": {
@@ -52,38 +52,41 @@
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",
     "build:test": "tsc",
     "build:types": "downlevel-dts dist/types/latest dist/types/3.1",
-    "build": "npm run clean && tslint --project ./tsconfig.json && npm run extract-api && npm run build:types && node writeSDKVersion.js && npm run bundle",
+    "build": "npm run clean && npm run extract-api && npm run build:types && node writeSDKVersion.js && npm run bundle",
     "bundle": "rollup -c",
     "bundle-types": "node bundle-types.js",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
-    "docs": "typedoc --excludePrivate --mode file --out ./dist/docs ./src",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src",
     "execute:samples": " cd samples && npm run all-samples",
     "extract-api": "npm run check:src:strict && npm run build:src && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "mocha -r test/mocha.env.ts -r ts-node/register -r esm -r dotenv/config -r ./test/common/setup.ts \"./test/**/*.spec.ts\" --timeout 100000",
+    "integration-test:node": "mocha -r test/mocha.env.ts -r ts-node/register -r esm -r dotenv/config -r ./test/public/common/setup.ts \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json src test samples --ext .ts -f html -o cosmos-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json api-extractor.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test samples --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test-consumer": "node consumer-test.js 2>&1",
+    "test-consumer": "rimraf consumer-test/node_modules consumer-test/package-lock.json && node consumer-test.js 2>&1",
     "test": "npm run unit-test && npm run integration-test",
-    "test:signoff": "mocha -r esm -r dotenv/config -r ./test/common/setup.js \"./test/**/*.spec.js\" --timeout 100000 --grep \"#nosignoff\" --invert",
+    "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "tsdoc": {
     "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
-    "@types/debug": "^4.1.4",
+    "@azure/core-auth": "^1.2.0",
     "debug": "^4.1.1",
     "fast-json-stable-stringify": "^2.0.0",
     "jsbi": "^3.1.3",
@@ -96,10 +99,13 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^1.1.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
+    "@types/debug": "^4.1.4",
     "@types/fast-json-stable-stringify": "^2.0.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
@@ -110,11 +116,10 @@
     "@types/tunnel": "^0.0.1",
     "@types/underscore": "^1.8.8",
     "@types/uuid": "^8.0.0",
-    "@typescript-eslint/eslint-plugin-tslint": "^4.8.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "downlevel-dts": "~0.4.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "execa": "^3.3.0",
     "mocha": "^7.1.1",
@@ -129,9 +134,7 @@
     "snap-shot-it": "^7.9.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^8.3.0",
-    "tslint": "^5.0.0",
-    "tslint-config-prettier": "^1.14.0",
-    "typedoc": "^0.15.0",
-    "typescript": "~3.9.3"
+    "typedoc": "0.15.2",
+    "typescript": "4.1.2"
   }
 }

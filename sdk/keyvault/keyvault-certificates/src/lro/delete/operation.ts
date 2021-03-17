@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
+import { RequestOptionsBase } from "@azure/core-http";
 import {
   DeleteCertificateOptions,
   DeletedCertificate,
@@ -14,8 +14,11 @@ import {
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";
-import { DeleteCertificateResponse, GetDeletedCertificateResponse } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common";
+import {
+  KeyVaultClientDeleteCertificateResponse,
+  KeyVaultClientGetDeletedCertificateResponse
+} from "../../generated/models";
+import { createSpan } from "../../tracing";
 
 /**
  * The public representation of the DeleteCertificatePoller operation state.
@@ -52,16 +55,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options: DeleteCertificateOptions = {}
   ): Promise<DeletedCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const { span, updatedOptions } = createSpan("generatedClient.deleteCertificate", options);
 
-    const span = createSpan("generatedClient.deleteCertificate", requestOptions);
-
-    let response: DeleteCertificateResponse;
+    let response: KeyVaultClientDeleteCertificateResponse;
     try {
       response = await this.client.deleteCertificate(
         this.vaultUrl,
         certificateName,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();
@@ -78,15 +79,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options: GetDeletedCertificateOptions = {}
   ): Promise<DeletedCertificate> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getDeletedCertificate", requestOptions);
+    const { span, updatedOptions } = createSpan("generatedClient.getDeletedCertificate", options);
 
-    let result: GetDeletedCertificateResponse;
+    let result: KeyVaultClientGetDeletedCertificateResponse;
     try {
       result = await this.client.getDeletedCertificate(
         this.vaultUrl,
         certificateName,
-        setParentSpan(span, requestOptions)
+        updatedOptions
       );
     } finally {
       span.end();

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -9,19 +9,13 @@
  * the values are set, this should be serialized with toString and set as the permissions field on a
  * {@link DataLakeSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
- *
- * @export
- * @class DataLakeSASPermissions
  */
 export class DataLakeSASPermissions {
   /**
    * Creates a {@link DataLakeSASPermissions} from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
-   * @static
-   * @param {string} permissions
-   * @returns {DataLakeSASPermissions}
-   * @memberof DataLakeSASPermissions
+   * @param permissions -
    */
   public static parse(permissions: string): DataLakeSASPermissions {
     const blobSASPermissions = new DataLakeSASPermissions();
@@ -65,57 +59,36 @@ export class DataLakeSASPermissions {
 
   /**
    * Specifies Read access granted.
-   *
-   * @type {boolean}
-   * @memberof DataLakeSASPermissions
    */
   public read: boolean = false;
 
   /**
    * Specifies Add access granted.
-   *
-   * @type {boolean}
-   * @memberof DataLakeSASPermissions
    */
   public add: boolean = false;
 
   /**
    * Specifies Create access granted.
-   *
-   * @type {boolean}
-   * @memberof DataLakeSASPermissions
    */
   public create: boolean = false;
 
   /**
    * Specifies Write access granted.
-   *
-   * @type {boolean}
-   * @memberof DataLakeSASPermissions
    */
   public write: boolean = false;
 
   /**
    * Specifies Delete access granted.
-   *
-   * @type {boolean}
-   * @memberof DataLakeSASPermissions
    */
   public delete: boolean = false;
 
   /**
    * Specifies Move access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public move: boolean = false;
 
   /**
    * Specifies Execute access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public execute: boolean = false;
 
@@ -123,18 +96,12 @@ export class DataLakeSASPermissions {
    * Specifies Ownership access granted, which allows the caller to set owner, owning group,
    * or act as the owner when renaming or deleting a blob (file or directory) within a folder
    * that has the sticky bit set.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public manageOwnership: boolean = false;
 
   /**
    * Specifies Permission access granted, which allows the caller to set permissions and
    * POSIX ACLs on blobs (files and directories).
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
    */
   public manageAccessControl: boolean = false;
 
@@ -142,8 +109,7 @@ export class DataLakeSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returns {string} A string which represents the DataLakeSASPermissions
-   * @memberof DataLakeSASPermissions
+   * @returns A string which represents the DataLakeSASPermissions
    */
   public toString(): string {
     const permissions: string[] = [];

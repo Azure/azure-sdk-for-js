@@ -16,19 +16,34 @@
 /sdk/core/core-amqp/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Core
-/sdk/core/core-auth/ @daviwil @xirzec @bterlson
+/sdk/core/core-asynciterator-polyfill/ @xirzec @bterlson @chradek @jeremymeng
+
+# PRLabel: %Azure.Core
+/sdk/core/core-auth/ @sadasant @daviwil @xirzec @bterlson
+
+# PRLabel: %Azure.Core
+/sdk/core/core-client/ @xirzec @bterlson @chradek @jeremymeng
+
+# PRLabel: %Azure.Core
+/sdk/core/core-crypto/ @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
 /sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
-/sdk/core/core-lro/ @sadasant @xirzec @bterlson
+/sdk/core/core-rest-pipeline/ @xirzec @bterlson @chradek @jeremymeng
+
+# PRLabel: %Azure.Core
+/sdk/core/core-lro/ @sadasant @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
 /sdk/core/core-paging/ @daviwil @xirzec @bterlson
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @bterlson @chradek
+/sdk/core/core-tracing/ @xirzec @bterlson @chradek @richardpark-msft
+
+# PRLabel: %Azure.Core
+/sdk/core/core-xml/ @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
 /sdk/core/logger @xirzec @bterlson @chradek
@@ -41,7 +56,10 @@
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication
-/sdk/communication/ @RezaJooyandeh @DominikMe @0rland0Wats0n @ankitarorabit @Azure/azure-sdk-communication-code-reviewers
+/sdk/communication/ @acsdevx-msft
+
+# PRLabel: %Container Registry
+/sdk/containerregistry/ @jeremymeng
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
@@ -59,13 +77,13 @@
 /sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
+/sdk/identity/ @sadasant @maorleger @schaabs @daviwil 
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @jonathandturner @sadasant
+/sdk/keyvault/ @maorleger @sadasant 
 
 # PRLabel: %Storage
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377 @EmmaZhu
 
 # PRLabel: %Synapse
 /sdk/synapse/ @jonathandturner
@@ -79,10 +97,10 @@
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @deyaaeldeen @xirzec @willmtemple
+/sdk/textanalytics/ @deyaaeldeen @xirzec @witemple-msft
 
 # PRLabel: %Cognitive - Form Recognizer
-/sdk/formrecognizer/ @jeremymeng @willmtemple
+/sdk/formrecognizer/ @jeremymeng @witemple-msft
 
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @jeremymeng @KarishmaGhiya
@@ -100,14 +118,14 @@
 /common/smoke-test/ @ramya-rao-a @chradek @jonathandturner @sadasant @jeremymeng @southpolesteve
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec
+/sdk/**/review/*api.md @bterlson @xirzec @chradek
 
 # Management Plane
 # PRLabel: %Mgmt
 /sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor
-/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners
+/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
 
 ###########
 # Eng Sys

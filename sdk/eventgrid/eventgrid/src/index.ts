@@ -1,51 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { AzureKeyCredential } from "@azure/core-auth";
+export { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
-export {
-  CloudEvent,
-  CustomEventDataDeserializer,
-  EventGridEvent,
-  SendCloudEventInput,
-  SendEventGridEventInput
-} from "./models";
+export { CloudEvent, EventGridEvent, SendCloudEventInput, SendEventGridEventInput } from "./models";
 
 export {
   EventGridPublisherClient,
   EventGridPublisherClientOptions,
-  SendEventsOptions,
-  SendCloudEventsOptions,
-  SendCustomSchemaEventsOptions
+  SendOptions,
+  InputSchema,
+  InputSchemaToInputTypeMap
 } from "./eventGridClient";
-
-export {
-  SignatureCredential,
-  EventGridSharedAccessSignatureCredential
-} from "./sharedAccessSignitureCredential";
-
-export { EventGridConsumer, EventGridConsumerOptions } from "./consumer";
 
 export {
   generateSharedAccessSignature,
   GenerateSharedAccessSignatureOptions
 } from "./generateSharedAccessSignature";
 
+export { EventGridDeserializer } from "./consumer";
+
 export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates";
 
 export {
-  ACSChatEventBase,
-  ACSChatMemberAddedToThreadWithUserEventData,
-  ACSChatMemberRemovedFromThreadWithUserEventData,
-  ACSChatMessageDeletedEventData,
-  ACSChatMessageEditedEventData,
-  ACSChatMessageEventBase,
-  ACSChatMessageReceivedEventData,
-  ACSChatThreadCreatedWithUserEventData,
-  ACSChatThreadEventBase,
-  ACSChatThreadMember,
-  ACSChatThreadPropertiesUpdatedPerUserEventData,
-  ACSChatThreadWithUserDeletedEventData,
+  AcsChatEventBase,
+  AcsChatEventInThreadBase,
+  AcsChatMessageDeletedEventData,
+  AcsChatMessageEditedEventData,
+  AcsChatMessageReceivedEventData,
+  AcsChatMessageEventBase,
+  AcsChatThreadCreatedWithUserEventData,
+  AcsChatThreadPropertiesUpdatedPerUserEventData,
+  AcsChatThreadWithUserDeletedEventData,
+  AcsChatThreadEventBase,
+  AcsChatParticipantAddedToThreadEventData,
+  AcsChatParticipantAddedToThreadWithUserEventData,
+  AcsChatParticipantRemovedFromThreadEventData,
+  AcsChatParticipantRemovedFromThreadWithUserEventData,
+  CommunicationIdentifierModel,
+  CommunicationUserIdentifierModel,
+  CommunicationCloudEnvironmentModel,
+  MicrosoftTeamsUserIdentifierModel,
+  PhoneNumberIdentifierModel,
+  AcsChatThreadParticipant,
   AcsSmsDeliveryAttempt,
   AcsSmsDeliveryReportReceivedEventData,
   AcsSmsEventBase,
@@ -87,7 +84,7 @@ export {
   MachineLearningServicesModelRegisteredEventData,
   MachineLearningServicesRunCompletedEventData,
   MachineLearningServicesRunStatusChangedEventData,
-  MapsGeofenceEventProperties,
+  MapsGeofenceEvent,
   MapsGeofenceEnteredEventData,
   MapsGeofenceExitedEventData,
   MapsGeofenceResultEventData,
@@ -139,6 +136,7 @@ export {
   StorageDirectoryCreatedEventData,
   StorageDirectoryDeletedEventData,
   StorageDirectoryRenamedEventData,
+  StorageLifecyclePolicyActionSummaryDetail,
   StorageLifecyclePolicyCompletedEventData,
   WebAppUpdatedEventData,
   WebBackupOperationStartedEventData,
@@ -155,19 +153,24 @@ export {
   WebAppServicePlanUpdatedEventData,
   WebAppServicePlanUpdatedEventDataSku,
   AppAction,
+  KnownAppAction,
   StampKind,
+  KnownStampKind,
   AsyncStatus,
+  KnownAsyncStatus,
   ContainerRegistryArtifactEventData,
   ContainerRegistryEventActor,
   ContainerRegistryEventRequest,
   ContainerRegistryEventSource,
   ContainerRegistryEventTarget,
-  DeviceConnectionStateEventProperties,
-  DeviceLifeCycleEventProperties,
-  DeviceTelemetryEventProperties,
+  DeviceConnectionStateEvent,
+  DeviceLifeCycleEvent,
+  DeviceTelemetryEvent,
   MapsGeofenceGeometry,
   MediaJobOutput,
   MediaJobOutputAsset,
-  DeviceTwinProperties,
-  DeviceTwinMetadata
+  DeviceTwin,
+  DeviceTwinMetadata,
+  AppServicePlanAction,
+  KnownAppServicePlanAction
 } from "./generated/models";

@@ -90,8 +90,12 @@ export class CbsClient {
     connection: Connection;
     readonly connectionLock: string;
     readonly endpoint: string;
-    init(): Promise<void>;
-    negotiateClaim(audience: string, token: string, tokenType: TokenType): Promise<CbsResponse>;
+    init(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<void>;
+    negotiateClaim(audience: string, token: string, tokenType: TokenType, options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<CbsResponse>;
     remove(): void;
     readonly replyTo: string;
 }
@@ -159,10 +163,12 @@ export enum ConditionErrorNameMapper {
 
 // @public
 export interface ConnectionConfig {
+    amqpHostname?: string;
     connectionString: string;
     endpoint: string;
     entityPath?: string;
     host: string;
+    port?: number;
     sharedAccessKey: string;
     sharedAccessKeyName: string;
     webSocket?: WebSocketImpl;
@@ -336,7 +342,7 @@ export interface CreateConnectionContextBaseParameters {
 export const defaultLock: AsyncLock;
 
 // @public
-export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T>;
+export function delay<T>(delayInMs: number, abortSignal?: AbortSignalLike, abortErrorMsg?: string, value?: T): Promise<T | void>;
 
 // @public
 export enum ErrorNameConditionMapper {
@@ -391,7 +397,7 @@ export enum ErrorNameConditionMapper {
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
 // @public
-export function isSystemError(err: any): err is NetworkSystemError;
+export function isSystemError(err: unknown): err is NetworkSystemError;
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
@@ -444,7 +450,9 @@ export class RequestResponseLink implements ReqResLink {
     constructor(session: Session, sender: Sender, receiver: Receiver);
     close(): Promise<void>;
     get connection(): Connection;
-    static create(connection: Connection, senderOptions: SenderOptions, receiverOptions: ReceiverOptions): Promise<RequestResponseLink>;
+    static create(connection: Connection, senderOptions: SenderOptions, receiverOptions: ReceiverOptions, createOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<RequestResponseLink>;
     isOpen(): boolean;
     // (undocumented)
     receiver: Receiver;

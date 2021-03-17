@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import chai from "chai";
 import sinon from "sinon";
@@ -37,7 +37,7 @@ describe("ThrottlingRetryPolicy", () => {
     response: HttpOperationResponse = defaultResponse,
     nextPolicyCreator: (response: HttpOperationResponse) => RequestPolicy = (response) =>
       new PassThroughPolicy(response)
-  ) {
+  ): ThrottlingRetryPolicy {
     return new ThrottlingRetryPolicy(nextPolicyCreator(response), new RequestPolicyOptions());
   }
 
@@ -65,8 +65,8 @@ describe("ThrottlingRetryPolicy", () => {
       const policy = createDefaultThrottlingRetryPolicy();
       const response = await policy.sendRequest(request);
       // requestId is unique, even across retries.
-      delete response.request.requestId;
-      delete request.requestId;
+      delete (response.request as any).requestId;
+      delete (request as any).requestId;
       chai.assert.deepEqual(response.request, request);
     });
 

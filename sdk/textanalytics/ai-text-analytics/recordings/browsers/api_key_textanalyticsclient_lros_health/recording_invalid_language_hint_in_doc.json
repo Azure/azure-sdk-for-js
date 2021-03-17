@@ -1,0 +1,123 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs",
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
+   "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"This should fail because we're passing in an invalid language hint\",\"language\":\"notalanguage\"}]}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "90a0eb50-0a0b-4ba3-8c0c-4e2b2856a757",
+    "date": "Thu, 04 Mar 2021 20:58:27 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/434e1e9a-5b1d-4519-9391-0153a836d274",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "88"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/434e1e9a-5b1d-4519-9391-0153a836d274",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"434e1e9a-5b1d-4519-9391-0153a836d274\",\"lastUpdateDateTime\":\"2021-03-04T20:58:28Z\",\"createdDateTime\":\"2021-03-04T20:58:28Z\",\"expirationDateTime\":\"2021-03-05T20:58:28Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "bdd75a27-2157-4ac0-9b85-5c6bf9ff3128",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 04 Mar 2021 20:58:27 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "6"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/434e1e9a-5b1d-4519-9391-0153a836d274",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"434e1e9a-5b1d-4519-9391-0153a836d274\",\"lastUpdateDateTime\":\"2021-03-04T20:58:28Z\",\"createdDateTime\":\"2021-03-04T20:58:28Z\",\"expirationDateTime\":\"2021-03-05T20:58:28Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "cb61dfec-4b75-4e12-a488-efd332bf2534",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 04 Mar 2021 20:58:27 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "7"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/434e1e9a-5b1d-4519-9391-0153a836d274",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"434e1e9a-5b1d-4519-9391-0153a836d274\",\"lastUpdateDateTime\":\"2021-03-04T20:58:28Z\",\"createdDateTime\":\"2021-03-04T20:58:28Z\",\"expirationDateTime\":\"2021-03-05T20:58:28Z\",\"status\":\"notStarted\",\"errors\":[]}",
+   "responseHeaders": {
+    "apim-request-id": "7240a34d-6178-4493-adea-c8cbdc76ab4e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 04 Mar 2021 20:58:29 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "8"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/434e1e9a-5b1d-4519-9391-0153a836d274",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"434e1e9a-5b1d-4519-9391-0153a836d274\",\"lastUpdateDateTime\":\"2021-03-04T20:58:32Z\",\"createdDateTime\":\"2021-03-04T20:58:28Z\",\"expirationDateTime\":\"2021-03-05T20:58:28Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[],\"errors\":[{\"id\":\"1\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en. For additional details see https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support\"}}}],\"modelVersion\":\"2021-03-01\"}}",
+   "responseHeaders": {
+    "apim-request-id": "88b656ff-0eeb-4cec-a8e5-88ddfb118cce",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 04 Mar 2021 20:58:31 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "31"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/entities/health/jobs/434e1e9a-5b1d-4519-9391-0153a836d274",
+   "query": {
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"434e1e9a-5b1d-4519-9391-0153a836d274\",\"lastUpdateDateTime\":\"2021-03-04T20:58:32Z\",\"createdDateTime\":\"2021-03-04T20:58:28Z\",\"expirationDateTime\":\"2021-03-05T20:58:28Z\",\"status\":\"succeeded\",\"errors\":[],\"results\":{\"documents\":[],\"errors\":[{\"id\":\"1\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: en. For additional details see https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support\"}}}],\"modelVersion\":\"2021-03-01\"}}",
+   "responseHeaders": {
+    "apim-request-id": "787a21f5-16d0-4098-a2ab-b569c25cba38",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 04 Mar 2021 20:58:31 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "35"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "0641fc54f2fe5df899ff918a659bffde"
+}

@@ -1,0 +1,35 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/identities",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"createTokenWithScopes\":[\"chat\"]}",
+   "status": 201,
+   "response": "{\"identity\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-a96c-9806-113a0d00fa29\"},\"accessToken\":{\"token\":\"token\",\"expiresOn\":\"2021-03-10T01:27:55.4606413+00:00\"}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/chat/threads/19%3A1cb5e8212f0047c1a0ba2b908fee301a%40thread.v2/participants/:add",
+   "query": {
+    "api-version": "2021-03-01-preview5"
+   },
+   "requestBody": "{\"participants\":[{\"communicationIdentifier\":{\"communicationUser\":{\"id\":\"8:acs:fac4607d-d2d0-40e5-84df-6f32ebd1251a_00000008-b47a-a96c-9806-113a0d00fa29\"}}}]}",
+   "status": 201,
+   "response": "{}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "3baf472ac677417b8a106dc2089d3603"
+}

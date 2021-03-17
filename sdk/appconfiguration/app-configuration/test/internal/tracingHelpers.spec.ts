@@ -1,58 +1,184 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { Spanner } from "../../src/internal/tracingHelpers";
-import { RestError } from "@azure/core-http";
-import { getTracer } from "@azure/core-tracing";
-import { SpanKind, CanonicalCode } from "@opentelemetry/api";
-import { SpanOptions } from "@azure/core-tracing";
+import { createSpan, trace } from "../../src/internal/tracingHelpers";
+import { Span, Status, CanonicalCode } from "@opentelemetry/api";
 
 import * as assert from "assert";
-
-interface FakeOptions {
-  name: string;
-  spanOptions: SpanOptions;
-}
+import sinon from "sinon";
+import { AppConfigurationClient } from "../../src/appConfigurationClient";
+import { AbortSignalLike, OperationOptions } from "@azure/core-http";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 describe("tracingHelpers", () => {
-  it("addParentToOptions", () => {
-    const fakeOptions: FakeOptions = {
-      name: "fakeName",
-      spanOptions: {
-        attributes: {
-          testAttribute: "testAttributeValue"
-        }
+  it("trace OK", async () => {
+    let setStatusStub: sinon.SinonStub<[Status], Span> | undefined;
+    let endStub: sinon.SinonStub | undefined;
+
+    const fakeCreateSpan = <
+      T extends {
+        tracingOptions?: OperationTracingOptions | undefined;
       }
+    >(
+      operationName: string,
+      operationOptions: T | undefined
+    ): {
+      span: Span;
+      updatedOptions: T;
+    } => {
+      assert.deepEqual(operationName, "addConfigurationSetting");
+
+      const createdSpan = createSpan(operationName, operationOptions);
+
+      setStatusStub = sinon.stub(createdSpan.span, "setStatus");
+      endStub = sinon.stub(createdSpan.span, "end");
+
+      return createdSpan;
     };
 
-    const parentSpan = getTracer().startSpan("test", {
-      kind: SpanKind.PRODUCER
-    });
+    await trace(
+      "addConfigurationSetting",
+      {
+        tracingOptions: {}
+      },
+      async (_newOptions, _span) => {},
+      fakeCreateSpan
+    );
 
-    const newOptions = Spanner["addParentToOptions"](fakeOptions, parentSpan);
+    assert.equal(setStatusStub?.called, true);
 
-    assert.equal("fakeName", newOptions.name);
-    assert.deepEqual(parentSpan.context(), newOptions.spanOptions.parent);
-    assert.ok(newOptions.spanOptions.attributes, "Should have attributes set");
-    if (newOptions.spanOptions.attributes) {
-      assert.equal("Microsoft.AppConfiguration", newOptions.spanOptions.attributes["az.namespace"]);
-      assert.equal("testAttributeValue", newOptions.spanOptions.attributes["testAttribute"]);
-    }
+    const [status] = setStatusStub!.args[0];
+
+    assert.equal(status.code, CanonicalCode.OK);
+    assert.equal(endStub?.called, true);
   });
 
-  it("getCanonicalCode", () => {
+  it("trace ERROR", async () => {
+    let setStatusStub: sinon.SinonStub<[Status], Span> | undefined;
+    let endStub: sinon.SinonStub | undefined;
+
+    try {
+      await trace(
+        "addConfigurationSetting",
+        {
+          tracingOptions: {}
+        },
+        async (_options: any, _span: Span) => {
+          throw new Error("Purposefully thrown error");
+        },
+        <
+          T extends {
+            tracingOptions?: OperationTracingOptions | undefined;
+          }
+        >(
+          operationName: string,
+          operationOptions: T | undefined
+        ): {
+          span: Span;
+          updatedOptions: T;
+        } => {
+          assert.deepEqual(operationName, "addConfigurationSetting");
+
+          const createdSpan = createSpan(operationName, operationOptions);
+
+          setStatusStub = sinon.stub(createdSpan.span, "setStatus");
+          endStub = sinon.stub(createdSpan.span, "end");
+
+          return createdSpan;
+        }
+      );
+
+      assert.fail("Exception should have been thrown from `trace` since the inner action threw");
+    } catch (err) {
+      assert.equal(err.message, "Purposefully thrown error");
+    }
+
+    assert.ok(setStatusStub, "setStatus should have been called");
     assert.equal(
-      CanonicalCode.PERMISSION_DENIED,
-      Spanner.getCanonicalCode(new RestError("hello", "", 401))
+      setStatusStub?.args[0][0].code,
+      CanonicalCode.INTERNAL,
+      "Any thrown exception causes the span status to be set to an error"
     );
-    assert.equal(
-      CanonicalCode.NOT_FOUND,
-      Spanner.getCanonicalCode(new RestError("hello", "", 404))
+
+    assert.equal(endStub?.called, true);
+  });
+
+  it("tracing is set up for all methods", async () => {
+    const appConfigurationClient = new AppConfigurationClient(
+      "Endpoint=endpoint;Id=id;Secret=secret"
     );
-    assert.equal(CanonicalCode.UNKNOWN, Spanner.getCanonicalCode(new RestError("hello", "", 409)));
-    assert.equal(
-      CanonicalCode.FAILED_PRECONDITION,
-      Spanner.getCanonicalCode(new RestError("hello", "", 412))
+
+    let traceData = {
+      operationName: "",
+      options: undefined as OperationOptions | undefined
+    };
+
+    appConfigurationClient["_trace"] = async (operationName, options, _fn) => {
+      traceData.operationName = operationName;
+      traceData.options = options;
+      return {} as any;
+    };
+
+    const operationOptions: OperationOptions = {
+      abortSignal: ({} as any) as AbortSignalLike,
+      tracingOptions: {
+        hello: "world"
+      } as OperationTracingOptions
+    };
+
+    await appConfigurationClient.addConfigurationSetting(
+      { key: "ignored", value: "ignored" },
+      operationOptions
     );
+    assert.deepEqual(traceData, {
+      operationName: "addConfigurationSetting",
+      options: operationOptions
+    });
+
+    await appConfigurationClient.setConfigurationSetting(
+      { key: "ignored", value: "ignored" },
+      operationOptions
+    );
+    assert.deepEqual(traceData, {
+      operationName: "setConfigurationSetting",
+      options: operationOptions
+    });
+
+    await appConfigurationClient.getConfigurationSetting({ key: "ignored" }, operationOptions);
+    assert.deepEqual(traceData, {
+      operationName: "getConfigurationSetting",
+      options: operationOptions
+    });
+
+    await appConfigurationClient.setReadOnly({ key: "ignored" }, true, operationOptions);
+    assert.deepEqual(traceData, {
+      operationName: "setReadOnly",
+      options: operationOptions
+    });
+
+    await appConfigurationClient.deleteConfigurationSetting({ key: "ignored" }, operationOptions);
+    assert.deepEqual(traceData, {
+      operationName: "deleteConfigurationSetting",
+      options: operationOptions
+    });
+
+    const it = appConfigurationClient.listConfigurationSettings({
+      keyFilter: "ignored",
+      ...operationOptions
+    });
+    await it.next();
+
+    assert.deepEqual(traceData, {
+      operationName: "listConfigurationSettings",
+      options: { ...operationOptions, keyFilter: "ignored" }
+    });
+
+    const it2 = appConfigurationClient.listRevisions({ keyFilter: "ignored", ...operationOptions });
+    await it2.next();
+
+    assert.deepEqual(traceData, {
+      operationName: "listRevisions",
+      options: { ...operationOptions, keyFilter: "ignored" }
+    });
   });
 });

@@ -1,44 +1,46 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { truncatedISO8061Date } from "./utils/utils.common";
+import { logger } from "./log";
+
 export interface Metadata {
   [propertyName: string]: string;
 }
 
 export interface FileHttpHeaders {
   /**
-   * @member {string} [fileCacheControl] Optional. Sets the file's cache
+   * Optional. Sets the file's cache
    * control. If specified, this property is stored with the file and returned
    * with a read request.
    */
   fileCacheControl?: string;
   /**
-   * @member {string} [fileContentType] Optional. Sets the file's content type.
+   * Optional. Sets the file's content type.
    * If specified, this property is stored with the file and returned with a
    * read request.
    */
   fileContentType?: string;
   /**
-   * @member {Uint8Array} [fileContentMD5] Optional. An MD5 hash of the file
+   * Optional. An MD5 hash of the file
    * content. Note that this hash is not validated, as the hashes for the
    * individual blocks were validated when each was uploaded.
    */
   fileContentMD5?: Uint8Array;
   /**
-   * @member {string} [fileContentEncoding] Optional. Sets the file's content
+   * Optional. Sets the file's content
    * encoding. If specified, this property is stored with the file and returned
    * with a read request.
    */
   fileContentEncoding?: string;
   /**
-   * @member {string} [fileContentLanguage] Optional. Set the file's content
+   * Optional. Set the file's content
    * language. If specified, this property is stored with the file and returned
    * with a read request.
    */
   fileContentLanguage?: string;
   /**
-   * @member {string} [fileContentDisposition] Optional. Sets the file's
+   * Optional. Sets the file's
    * Content-Disposition header.
    */
   fileContentDisposition?: string;
@@ -150,9 +152,6 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
 
 /**
  * Close handles result information.
- *
- * @export
- * @interface CloseHandlesInfo
  */
 export interface CloseHandlesInfo {
   closedHandlesCount: number;
@@ -160,6 +159,62 @@ export interface CloseHandlesInfo {
    * Contains count of number of handles that failed to close.
    */
   closeFailureCount?: number;
+}
+
+/**
+ * Protocols to enable on the share. For now, only support SMB or NFS.
+ */
+export interface ShareProtocols {
+  /**
+   * The share can be accessed by SMBv3.0, SMBv2.1 and REST.
+   */
+  smbEnabled?: boolean;
+  /**
+   * The share can be accessed by NFSv4.1.
+   */
+  nfsEnabled?: boolean;
+}
+
+/**
+ * Convert protocols from joined string to ShareProtocols.
+ *
+ * @param protocolsString -
+ */
+export function toShareProtocols(protocolsString?: string): ShareProtocols | undefined {
+  if (protocolsString === undefined) {
+    return undefined;
+  }
+
+  const protocolStrArray = protocolsString.split(";");
+  const protocols: ShareProtocols = {};
+  for (const protocol of protocolStrArray) {
+    if (protocol === "SMB") {
+      protocols.smbEnabled = true;
+    } else if (protocol === "NFS") {
+      protocols.nfsEnabled = true;
+    }
+  }
+  return protocols;
+}
+
+/**
+ * Convert ShareProtocols to joined string.
+ *
+ * @param protocols -
+ */
+export function toShareProtocolsString(protocols: ShareProtocols = {}): string | undefined {
+  let protocolStr = undefined;
+
+  if (protocols.smbEnabled === true) {
+    protocolStr = "SMB";
+  }
+  if (protocols.nfsEnabled === true) {
+    logger.info(
+      `Using "NFS" in favor of "SMB" for the share protocol as currently they can't be supported at the same time.`
+    );
+    protocolStr = "NFS";
+  }
+  return protocolStr;
 }
 
 export function validateFilePermissionOptions(filePermission?: string, filePermissionKey?: string) {

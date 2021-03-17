@@ -30,19 +30,29 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
   }
 }
 
-let errorNS = "";
-try {
-  errorNS = parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
-    .namespaceURI!;
-} catch (ignored) {
-  // Most browsers will return a document containing <parsererror>, but IE will throw.
+let errorNS: string | undefined;
+
+function getErrorNamespace(): string {
+  if (errorNS === undefined) {
+    try {
+      errorNS =
+        parser.parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
+          .namespaceURI! ?? "";
+    } catch (ignored) {
+      // Most browsers will return a document containing <parsererror>, but IE will throw.
+      errorNS = "";
+    }
+  }
+  return errorNS;
 }
 
 function throwIfError(dom: Document): void {
-  if (errorNS) {
-    const parserErrors = dom.getElementsByTagNameNS(errorNS, "parsererror");
-    if (parserErrors.length) {
-      throw new Error(parserErrors.item(0)!.innerHTML);
+  const parserErrors = dom.getElementsByTagName("parsererror");
+  if (parserErrors.length > 0 && getErrorNamespace()) {
+    for (let i = 0; i < parserErrors.length; i++) {
+      if (parserErrors[i].namespaceURI === errorNS) {
+        throw new Error(parserErrors[i].innerHTML);
+      }
     }
   }
 }
@@ -112,7 +122,7 @@ function domToObject(node: Node, options: Required<SerializerOptions>): any {
 
 const serializer = new XMLSerializer();
 
-export function stringifyXML(content: any, opts: SerializerOptions = {}): string {
+export function stringifyXML(content: unknown, opts: SerializerOptions = {}): string {
   const updatedOptions: Required<SerializerOptions> = {
     rootName: opts.rootName ?? "root",
     includeRoot: opts.includeRoot ?? false,

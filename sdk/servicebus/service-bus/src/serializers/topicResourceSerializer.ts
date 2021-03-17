@@ -25,11 +25,9 @@ import {
 
 /**
  * @internal
- * @ignore
  * Builds the topic options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param topic
  */
 export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptions {
   return {
@@ -51,12 +49,10 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
 
 /**
  * @internal
- * @ignore
  * Builds the topic object from the raw json object gotten after deserializing the
  * response from the service
- * @param rawTopic
  */
-export function buildTopic(rawTopic: any): TopicProperties {
+export function buildTopic(rawTopic: Record<string, any>): TopicProperties {
   return {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     maxSizeInMegabytes: getInteger(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
@@ -96,12 +92,10 @@ export function buildTopic(rawTopic: any): TopicProperties {
 
 /**
  * @internal
- * @ignore
  * Builds the topic runtime info object from the raw json object gotten after deserializing the
  * response from the service
- * @param rawTopic
  */
-export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperties {
+export function buildTopicRuntimeProperties(rawTopic: Record<string, any>): TopicRuntimeProperties {
   return {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
@@ -212,8 +206,6 @@ export interface CreateTopicOptions extends OperationOptions {
 /**
  * Represents the input for updateTopic.
  *
- * @export
- * @interface TopicProperties
  */
 export interface TopicProperties {
   /**
@@ -314,7 +306,6 @@ export interface TopicProperties {
 
 /**
  * @internal
- * @ignore
  * Internal representation of settable options on a topic
  */
 export interface InternalTopicOptions {
@@ -453,7 +444,6 @@ export interface TopicRuntimeProperties {
 
 /**
  * @internal
- * @ignore
  * TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {

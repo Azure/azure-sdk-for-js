@@ -3,12 +3,12 @@
 
 import { logErrorStackTrace, logger } from "../log";
 import { ConnectionContext } from "../connectionContext";
+import { isDefined } from "./typeGuards";
 
 /**
  * @internal
- * @ignore
  * Logs and throws Error if the current AMQP connection is closed.
- * @param context The ConnectionContext associated with the current AMQP connection.
+ * @param context - The ConnectionContext associated with the current AMQP connection.
  */
 export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
   if (context && context.wasConnectionCloseCalled) {
@@ -22,20 +22,19 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
 
 /**
  * @internal
- * @ignore
  * Logs and Throws TypeError if given parameter is undefined or null
- * @param connectionId Id of the underlying AMQP connection used for logging
- * @param methodName Name of the method that was passed the parameter
- * @param parameterName Name of the parameter to check
- * @param parameterValue Value of the parameter to check
+ * @param connectionId - Id of the underlying AMQP connection used for logging
+ * @param methodName - Name of the method that was passed the parameter
+ * @param parameterName - Name of the parameter to check
+ * @param parameterValue - Value of the parameter to check
  */
 export function throwTypeErrorIfParameterMissing(
   connectionId: string,
   methodName: string,
   parameterName: string,
-  parameterValue: any
+  parameterValue: unknown
 ): void {
-  if (parameterValue === undefined || parameterValue === null) {
+  if (!isDefined(parameterValue)) {
     const error = new TypeError(
       `${methodName} called without required argument "${parameterName}"`
     );

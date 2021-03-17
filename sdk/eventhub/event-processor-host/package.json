@@ -5,7 +5,7 @@
   "description": "Azure Event Processor Host (Event Hubs) SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "homepage": "http://github.com/azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventhub/event-processor-host/",
   "repository": "github:Azure/azure-sdk-for-js",
   "sideEffects": false,
   "keywords": [
@@ -16,12 +16,12 @@
     "events"
   ],
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./typings/event-processor-host.d.ts",
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
   "files": [
@@ -35,9 +35,9 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "cd samples && tsc -p .",
+    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api",
+    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
     "execute:samples": "echo skipped",
@@ -55,7 +55,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "//metadata": {
     "constantPaths": [
@@ -63,6 +64,15 @@
         "path": "src/util/constants.ts",
         "prefix": "version"
       }
+    ]
+  },
+  "//sampleConfiguration": {
+    "skip": [
+      "iothubEph.js",
+      "multiEph.js",
+      "sendBatch.js",
+      "singleEph.js",
+      "websockets.js"
     ]
   },
   "dependencies": {
@@ -76,6 +86,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -97,7 +108,7 @@
     "chai-string": "^1.5.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^6.1.0",
+    "eslint": "^7.15.0",
     "esm": "^3.2.18",
     "https-proxy-agent": "^5.0.0",
     "mocha": "^7.1.1",
@@ -107,9 +118,9 @@
     "rimraf": "^3.0.0",
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
-    "rollup-plugin-uglify": "^6.0.0",
     "ts-node": "^8.3.0",
-    "typescript": "~3.9.3",
-    "ws": "^7.1.1"
+    "typescript": "4.1.2",
+    "ws": "^7.1.1",
+    "typedoc": "0.15.2"
   }
 }

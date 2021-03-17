@@ -6,15 +6,17 @@ import {
   OperationParameter,
   Mapper,
   CompositeMapper,
-  ParameterPath
+  ParameterPath,
+  OperationRequestInfo,
+  OperationRequest
 } from "./interfaces";
 
 /**
- * @internal @ignore
+ * @internal
  * Retrieves the value to use for a given operation argument
- * @param operationArguments The arguments passed from the generated client
- * @param parameter The parameter description
- * @param fallbackObject If something isn't found in the arguments bag, look here.
+ * @param operationArguments - The arguments passed from the generated client
+ * @param parameter - The parameter description
+ * @param fallbackObject - If something isn't found in the arguments bag, look here.
  *  Generally used to look at the service client properties.
  */
 export function getOperationArgumentValueFromParameter(
@@ -102,4 +104,16 @@ function getPropertyFromParameterPath(
     result.propertyFound = true;
   }
   return result;
+}
+
+const operationRequestMap = new WeakMap<OperationRequest, OperationRequestInfo>();
+
+export function getOperationRequestInfo(request: OperationRequest): OperationRequestInfo {
+  let info = operationRequestMap.get(request);
+
+  if (!info) {
+    info = {};
+    operationRequestMap.set(request, info);
+  }
+  return info;
 }

@@ -28,6 +28,7 @@ const defaultAllowedHeaderNames = [
   "x-ms-correlation-request-id",
   "x-ms-request-id",
   "client-request-id",
+  "ms-cv",
   "return-client-request-id",
   "traceparent",
 
@@ -81,7 +82,7 @@ export class Sanitizer {
     this.allowedQueryParameters = new Set(allowedQueryParameters.map((p) => p.toLowerCase()));
   }
 
-  public sanitize(obj: object): string {
+  public sanitize(obj: unknown): string {
     return JSON.stringify(obj, this.replacer.bind(this), 2);
   }
 
@@ -95,11 +96,11 @@ export class Sanitizer {
       };
     }
     if (key === "_headersMap") {
-      return this.sanitizeHeaders(key, value as {});
+      return this.sanitizeHeaders(key, value as Record<string, any>);
     } else if (key === "url") {
       return this.sanitizeUrl(value as string);
     } else if (key === "query") {
-      return this.sanitizeQuery(value as {});
+      return this.sanitizeQuery(value as Record<string, string>);
     } else if (key === "body") {
       // Don't log the request body
       return undefined;

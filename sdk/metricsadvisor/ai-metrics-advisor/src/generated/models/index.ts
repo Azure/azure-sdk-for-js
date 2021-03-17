@@ -53,22 +53,27 @@ export type HookInfoPatchUnion =
 export interface UsageStats {
   /**
    * The timestamp of the stats
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timestamp?: Date;
   /**
    * The active series count
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly activeSeriesCount?: number;
   /**
    * All series count under non deleted data feed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allSeriesCount?: number;
   /**
    * The metrics count under non deleted data feed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricsCount?: number;
   /**
    * The count of non deleted data feed
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly datafeedCount?: number;
 }
@@ -81,44 +86,31 @@ export interface ErrorCode {
 export interface AnomalyAlertingConfiguration {
   /**
    * anomaly alerting configuration unique id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly anomalyAlertingConfigurationId?: string;
-  /**
-   * anomaly alerting configuration name
-   */
+  /** anomaly alerting configuration name */
   name: string;
-  /**
-   * anomaly alerting configuration description
-   */
+  /** anomaly alerting configuration description */
   description?: string;
   /**
    * cross metrics operator
    *
    * should be specified when setting up multiple metric alerting configurations
    */
-  crossMetricsOperator?: AnomalyAlertingConfigurationCrossMetricsOperator;
-  /**
-   * hook unique ids
-   */
+  crossMetricsOperator?: CrossMetricsOperator;
+  /** hook unique ids */
   hookIds: string[];
-  /**
-   * Anomaly alerting configurations
-   */
+  /** Anomaly alerting configurations */
   metricAlertingConfigurations: MetricAlertingConfiguration[];
 }
 
 export interface MetricAlertingConfiguration {
-  /**
-   * Anomaly detection configuration unique id
-   */
+  /** Anomaly detection configuration unique id */
   anomalyDetectionConfigurationId: string;
-  /**
-   * Anomaly scope
-   */
+  /** Anomaly scope */
   anomalyScopeType: AnomalyScope;
-  /**
-   * Negation operation
-   */
+  /** Negation operation */
   negationOperation?: boolean;
   dimensionAnomalyScope?: DimensionGroupIdentity;
   topNAnomalyScope?: TopNGroupScope;
@@ -128,20 +120,14 @@ export interface MetricAlertingConfiguration {
 }
 
 export interface DimensionGroupIdentity {
-  /**
-   * dimension specified for series group
-   */
+  /** dimension specified for series group */
   dimension: { [propertyName: string]: string };
 }
 
 export interface TopNGroupScope {
-  /**
-   * top N, value range : [1, +∞)
-   */
+  /** top N, value range : [1, +∞) */
   top: number;
-  /**
-   * point count used to look back, value range : [1, +∞)
-   */
+  /** point count used to look back, value range : [1, +∞) */
   period: number;
   /**
    * min count should be in top N, value range : [1, +∞)
@@ -152,28 +138,18 @@ export interface TopNGroupScope {
 }
 
 export interface SeverityCondition {
-  /**
-   * min alert severity
-   */
+  /** min alert severity */
   minAlertSeverity: Severity;
-  /**
-   * max alert severity
-   */
+  /** max alert severity */
   maxAlertSeverity: Severity;
 }
 
 export interface AlertSnoozeCondition {
-  /**
-   * snooze point count, value range : [0, +∞)
-   */
+  /** snooze point count, value range : [0, +∞) */
   autoSnooze: number;
-  /**
-   * snooze scope
-   */
+  /** snooze scope */
   snoozeScope: SnoozeScope;
-  /**
-   * only snooze for successive anomalies
-   */
+  /** only snooze for successive anomalies */
   onlyForSuccessive: boolean;
 }
 
@@ -190,13 +166,9 @@ export interface ValueCondition {
    * should be specified when direction is Both or Up
    */
   upper?: number;
-  /**
-   * value filter direction
-   */
+  /** value filter direction */
   direction: Direction;
-  /**
-   * the other metric unique id used for value filter
-   */
+  /** the other metric unique id used for value filter */
   metricId?: string;
   /**
    * trigger alert when the corresponding point is missing in the other metric
@@ -207,40 +179,24 @@ export interface ValueCondition {
 }
 
 export interface AnomalyAlertingConfigurationPatch {
-  /**
-   * Anomaly alerting configuration name
-   */
+  /** Anomaly alerting configuration name */
   name?: string;
-  /**
-   * anomaly alerting configuration description
-   */
+  /** anomaly alerting configuration description */
   description?: string;
-  /**
-   * cross metrics operator
-   */
-  crossMetricsOperator?: AnomalyAlertingConfigurationPatchCrossMetricsOperator;
-  /**
-   * hook unique ids
-   */
+  /** cross metrics operator */
+  crossMetricsOperator?: CrossMetricsOperator;
+  /** hook unique ids */
   hookIds?: string[];
-  /**
-   * Anomaly alerting configurations
-   */
+  /** Anomaly alerting configurations */
   metricAlertingConfigurations?: MetricAlertingConfiguration[];
 }
 
 export interface AlertingResultQuery {
-  /**
-   * start time
-   */
+  /** start time */
   startTime: Date;
-  /**
-   * end time
-   */
+  /** end time */
   endTime: Date;
-  /**
-   * time mode
-   */
+  /** time mode */
   timeMode: TimeMode;
 }
 
@@ -252,18 +208,22 @@ export interface AlertResultList {
 export interface AlertResult {
   /**
    * alert id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly alertId?: string;
   /**
    * anomaly time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timestamp?: Date;
   /**
    * created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTime?: Date;
   /**
    * modified time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly modifiedTime?: Date;
 }
@@ -278,48 +238,47 @@ export interface AnomalyResult {
    * metric unique id
    *
    * only return for alerting anomaly result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricId?: string;
   /**
    * anomaly detection configuration unique id
    *
    * only return for alerting anomaly result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly anomalyDetectionConfigurationId?: string;
-  /**
-   * anomaly time
-   */
+  /** anomaly time */
   timestamp: Date;
   /**
    * created time
    *
    * only return for alerting result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTime?: Date;
   /**
    * modified time
    *
    * only return for alerting result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly modifiedTime?: Date;
-  /**
-   * dimension specified for series
-   */
+  /** dimension specified for series */
   dimension: { [propertyName: string]: string };
   property: AnomalyProperty;
 }
 
 export interface AnomalyProperty {
-  /**
-   * anomaly severity
-   */
+  /** anomaly severity */
   anomalySeverity: Severity;
   /**
    * anomaly status
    *
    * only return for alerting anomaly result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly anomalyStatus?: AnomalyPropertyAnomalyStatus;
+  readonly anomalyStatus?: AnomalyStatus;
 }
 
 export interface IncidentResultList {
@@ -332,75 +291,59 @@ export interface IncidentResult {
    * metric unique id
    *
    * only return for alerting incident result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricId?: string;
   /**
    * anomaly detection configuration unique id
    *
    * only return for alerting incident result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly anomalyDetectionConfigurationId?: string;
-  /**
-   * incident id
-   */
+  /** incident id */
   incidentId: string;
-  /**
-   * incident start time
-   */
+  /** incident start time */
   startTime: Date;
-  /**
-   * incident last time
-   */
+  /** incident last time */
   lastTime: Date;
   rootNode: SeriesIdentity;
   property: IncidentProperty;
 }
 
 export interface SeriesIdentity {
-  /**
-   * dimension specified for series
-   */
+  /** dimension specified for series */
   dimension: { [propertyName: string]: string };
 }
 
 export interface IncidentProperty {
-  /**
-   * max severity of latest anomalies in the incident
-   */
+  /** max severity of latest anomalies in the incident */
   maxSeverity: Severity;
   /**
    * incident status
    *
    * only return for alerting incident result
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly incidentStatus?: IncidentPropertyIncidentStatus;
+  readonly incidentStatus?: IncidentStatus;
 }
 
 export interface AnomalyDetectionConfiguration {
   /**
    * anomaly detection configuration unique id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly anomalyDetectionConfigurationId?: string;
-  /**
-   * anomaly detection configuration name
-   */
+  /** anomaly detection configuration name */
   name: string;
-  /**
-   * anomaly detection configuration description
-   */
+  /** anomaly detection configuration description */
   description?: string;
-  /**
-   * metric unique id
-   */
+  /** metric unique id */
   metricId: string;
   wholeMetricConfiguration: WholeMetricConfiguration;
-  /**
-   * detection configuration for series group
-   */
+  /** detection configuration for series group */
   dimensionGroupOverrideConfigurations?: DimensionGroupConfiguration[];
-  /**
-   * detection configuration for specific series
-   */
+  /** detection configuration for specific series */
   seriesOverrideConfigurations?: SeriesConfiguration[];
 }
 
@@ -410,32 +353,24 @@ export interface WholeMetricConfiguration {
    *
    * should be specified when combining multiple detection conditions
    */
-  conditionOperator?: WholeMetricConfigurationConditionOperator;
+  conditionOperator?: ConditionOperator;
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
 }
 
 export interface SmartDetectionCondition {
-  /**
-   * sensitivity, value range : (0, 100]
-   */
+  /** sensitivity, value range : (0, 100] */
   sensitivity: number;
-  /**
-   * detection direction
-   */
+  /** detection direction */
   anomalyDetectorDirection: AnomalyDetectorDirection;
   suppressCondition: SuppressCondition;
 }
 
 export interface SuppressCondition {
-  /**
-   * min point number, value range : [1, +∞)
-   */
+  /** min point number, value range : [1, +∞) */
   minNumber: number;
-  /**
-   * min point ratio, value range : (0, 100]
-   */
+  /** min point ratio, value range : (0, 100] */
   minRatio: number;
 }
 
@@ -452,30 +387,22 @@ export interface HardThresholdCondition {
    * should be specified when anomalyDetectorDirection is Both or Up
    */
   upperBound?: number;
-  /**
-   * detection direction
-   */
+  /** detection direction */
   anomalyDetectorDirection: AnomalyDetectorDirection;
   suppressCondition: SuppressCondition;
 }
 
 export interface ChangeThresholdCondition {
-  /**
-   * change percentage, value range : [0, +∞)
-   */
+  /** change percentage, value range : [0, +∞) */
   changePercentage: number;
-  /**
-   * shift point, value range : [1, +∞)
-   */
+  /** shift point, value range : [1, +∞) */
   shiftPoint: number;
   /**
    * if the withinRange = true, detected data is abnormal when the value falls in the range, in this case anomalyDetectorDirection must be Both
    * if the withinRange = false, detected data is abnormal when the value falls out of the range
    */
   withinRange: boolean;
-  /**
-   * detection direction
-   */
+  /** detection direction */
   anomalyDetectorDirection: AnomalyDetectorDirection;
   suppressCondition: SuppressCondition;
 }
@@ -487,7 +414,7 @@ export interface DimensionGroupConfiguration {
    *
    * should be specified when combining multiple detection conditions
    */
-  conditionOperator?: DimensionGroupConfigurationConditionOperator;
+  conditionOperator?: ConditionOperator;
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -500,29 +427,21 @@ export interface SeriesConfiguration {
    *
    * should be specified when combining multiple detection conditions
    */
-  conditionOperator?: SeriesConfigurationConditionOperator;
+  conditionOperator?: ConditionOperator;
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
 }
 
 export interface AnomalyDetectionConfigurationPatch {
-  /**
-   * anomaly detection configuration name
-   */
+  /** anomaly detection configuration name */
   name?: string;
-  /**
-   * anomaly detection configuration description
-   */
+  /** anomaly detection configuration description */
   description?: string;
   wholeMetricConfiguration?: WholeMetricConfiguration;
-  /**
-   * detection configuration for series group
-   */
+  /** detection configuration for series group */
   dimensionGroupOverrideConfigurations?: DimensionGroupConfiguration[];
-  /**
-   * detection configuration for specific series
-   */
+  /** detection configuration for specific series */
   seriesOverrideConfigurations?: SeriesConfiguration[];
 }
 
@@ -531,17 +450,11 @@ export interface AnomalyAlertingConfigurationList {
 }
 
 export interface DetectionSeriesQuery {
-  /**
-   * start time
-   */
+  /** start time */
   startTime: Date;
-  /**
-   * end time
-   */
+  /** end time */
   endTime: Date;
-  /**
-   * series
-   */
+  /** series */
   series: SeriesIdentity[];
 }
 
@@ -551,79 +464,49 @@ export interface SeriesResultList {
 
 export interface SeriesResult {
   series: SeriesIdentity;
-  /**
-   * timestamps of the series
-   */
+  /** timestamps of the series */
   timestampList: Date[];
-  /**
-   * values of the series
-   */
+  /** values of the series */
   valueList: number[];
-  /**
-   * whether points of the series are anomalies
-   */
+  /** whether points of the series are anomalies */
   isAnomalyList: boolean[];
-  /**
-   * period calculated on each point of the series
-   */
+  /** period calculated on each point of the series */
   periodList: number[];
-  /**
-   * expected values of the series given by smart detector
-   */
+  /** expected values of the series given by smart detector */
   expectedValueList: number[];
-  /**
-   * lower boundary list of the series given by smart detector
-   */
+  /** lower boundary list of the series given by smart detector */
   lowerBoundaryList: number[];
-  /**
-   * upper boundary list of the series given by smart detector
-   */
+  /** upper boundary list of the series given by smart detector */
   upperBoundaryList: number[];
 }
 
 export interface DetectionAnomalyResultQuery {
-  /**
-   * start time
-   */
+  /** start time */
   startTime: Date;
-  /**
-   * end time
-   */
+  /** end time */
   endTime: Date;
   filter?: DetectionAnomalyFilterCondition;
 }
 
 export interface DetectionAnomalyFilterCondition {
-  /**
-   * dimension filter
-   */
+  /** dimension filter */
   dimensionFilter?: DimensionGroupIdentity[];
   severityFilter?: SeverityFilterCondition;
 }
 
 export interface SeverityFilterCondition {
-  /**
-   * min severity
-   */
+  /** min severity */
   min: Severity;
-  /**
-   * max severity
-   */
+  /** max severity */
   max: Severity;
 }
 
 export interface AnomalyDimensionQuery {
-  /**
-   * start time
-   */
+  /** start time */
   startTime: Date;
-  /**
-   * end time
-   */
+  /** end time */
   endTime: Date;
-  /**
-   * dimension to query
-   */
+  /** dimension to query */
   dimensionName: string;
   dimensionFilter?: DimensionGroupIdentity;
 }
@@ -634,21 +517,15 @@ export interface AnomalyDimensionList {
 }
 
 export interface DetectionIncidentResultQuery {
-  /**
-   * start time
-   */
+  /** start time */
   startTime: Date;
-  /**
-   * end time
-   */
+  /** end time */
   endTime: Date;
   filter?: DetectionIncidentFilterCondition;
 }
 
 export interface DetectionIncidentFilterCondition {
-  /**
-   * dimension filter
-   */
+  /** dimension filter */
   dimensionFilter?: DimensionGroupIdentity[];
 }
 
@@ -658,29 +535,23 @@ export interface RootCauseList {
 
 export interface RootCause {
   rootCause: DimensionGroupIdentity;
-  /**
-   * drilling down path from query anomaly to root cause
-   */
+  /** drilling down path from query anomaly to root cause */
   path: string[];
-  /**
-   * score
-   */
+  /** score */
   score: number;
-  /**
-   * description
-   */
+  /** description */
   description: string;
 }
 
 export interface DataFeedList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly value?: DataFeedDetailUnion[];
 }
 
 export interface DataFeedDetail {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType:
     | "AzureApplicationInsights"
     | "AzureBlob"
@@ -697,154 +568,100 @@ export interface DataFeedDetail {
     | "MongoDB";
   /**
    * data feed unique id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dataFeedId?: string;
-  /**
-   * data feed name
-   */
+  /** data feed name */
   dataFeedName: string;
-  /**
-   * data feed description
-   */
+  /** data feed description */
   dataFeedDescription?: string;
-  /**
-   * granularity of the time series
-   */
+  /** granularity of the time series */
   granularityName: Granularity;
-  /**
-   * if granularity is custom,it is required.
-   */
+  /** if granularity is custom,it is required. */
   granularityAmount?: number;
-  /**
-   * measure list
-   */
+  /** measure list */
   metrics: Metric[];
-  /**
-   * dimension list
-   */
+  /** dimension list */
   dimension?: Dimension[];
-  /**
-   * user-defined timestamp column. if timestampColumn is null, start time of every time slice will be used as default value.
-   */
+  /** user-defined timestamp column. if timestampColumn is null, start time of every time slice will be used as default value. */
   timestampColumn?: string;
-  /**
-   * ingestion start time
-   */
+  /** ingestion start time */
   dataStartFrom: Date;
-  /**
-   * the time that the beginning of data ingestion task will delay for every data slice according to this offset.
-   */
+  /** the time that the beginning of data ingestion task will delay for every data slice according to this offset. */
   startOffsetInSeconds?: number;
-  /**
-   * the max concurrency of data ingestion queries against user data source. 0 means no limitation.
-   */
+  /** the max concurrency of data ingestion queries against user data source. 0 means no limitation. */
   maxConcurrency?: number;
-  /**
-   * the min retry interval for failed data ingestion tasks.
-   */
+  /** the min retry interval for failed data ingestion tasks. */
   minRetryIntervalInSeconds?: number;
-  /**
-   * stop retry data ingestion after the data slice first schedule time in seconds.
-   */
+  /** stop retry data ingestion after the data slice first schedule time in seconds. */
   stopRetryAfterInSeconds?: number;
-  /**
-   * mark if the data feed need rollup
-   */
+  /** mark if the data feed need rollup */
   needRollup?: NeedRollupEnum;
-  /**
-   * roll up method
-   */
-  rollUpMethod?: DataFeedDetailRollUpMethod;
-  /**
-   * roll up columns
-   */
+  /** roll up method */
+  rollUpMethod?: RollUpMethod;
+  /** roll up columns */
   rollUpColumns?: string[];
-  /**
-   * the identification value for the row of calculated all-up value.
-   */
+  /** the identification value for the row of calculated all-up value. */
   allUpIdentification?: string;
-  /**
-   * the type of fill missing point for anomaly detection
-   */
+  /** the type of fill missing point for anomaly detection */
   fillMissingPointType?: FillMissingPointType;
-  /**
-   * the value of fill missing point for anomaly detection
-   */
+  /** the value of fill missing point for anomaly detection */
   fillMissingPointValue?: number;
-  /**
-   * data feed access mode, default is Private
-   */
+  /** data feed access mode, default is Private */
   viewMode?: ViewMode;
-  /**
-   * data feed administrator
-   */
+  /** data feed administrator */
   admins?: string[];
-  /**
-   * data feed viewer
-   */
+  /** data feed viewer */
   viewers?: string[];
   /**
    * the query user is one of data feed administrator or not
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isAdmin?: boolean;
   /**
    * data feed creator
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly creator?: string;
   /**
    * data feed status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: DataFeedDetailStatus;
+  readonly status?: Status;
   /**
    * data feed created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTime?: Date;
-  /**
-   * action link for alert
-   */
+  /** action link for alert */
   actionLinkTemplate?: string;
 }
 
-/**
- * Represents a metric of an ingested data feed
- */
+/** Represents a metric of an ingested data feed */
 export interface Metric {
   /**
    * metric id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /**
-   * metric name
-   */
+  /** metric name */
   name: string;
-  /**
-   * metric display name
-   */
+  /** metric display name */
   displayName?: string;
-  /**
-   * metric description
-   */
+  /** metric description */
   description?: string;
 }
 
-/**
- * Represents a dimension of an ingested data feed
- */
+/** Represents a dimension of an ingested data feed */
 export interface Dimension {
-  /**
-   * dimension name
-   */
+  /** dimension name */
   name: string;
-  /**
-   * dimension display name
-   */
+  /** dimension display name */
   displayName?: string;
 }
 
 export interface DataFeedDetailPatch {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType:
     | "AzureApplicationInsights"
     | "AzureBlob"
@@ -859,238 +676,175 @@ export interface DataFeedDetailPatch {
     | "PostgreSql"
     | "SqlServer"
     | "MongoDB";
-  /**
-   * data feed name
-   */
+  /** data feed name */
   dataFeedName?: string;
-  /**
-   * data feed description
-   */
+  /** data feed description */
   dataFeedDescription?: string;
-  /**
-   * user-defined timestamp column. if timestampColumn is null, start time of every time slice will be used as default value.
-   */
+  /** user-defined timestamp column. if timestampColumn is null, start time of every time slice will be used as default value. */
   timestampColumn?: string;
-  /**
-   * ingestion start time
-   */
+  /** ingestion start time */
   dataStartFrom?: Date;
-  /**
-   * the time that the beginning of data ingestion task will delay for every data slice according to this offset.
-   */
+  /** the time that the beginning of data ingestion task will delay for every data slice according to this offset. */
   startOffsetInSeconds?: number;
-  /**
-   * the max concurrency of data ingestion queries against user data source. 0 means no limitation.
-   */
+  /** the max concurrency of data ingestion queries against user data source. 0 means no limitation. */
   maxConcurrency?: number;
-  /**
-   * the min retry interval for failed data ingestion tasks.
-   */
+  /** the min retry interval for failed data ingestion tasks. */
   minRetryIntervalInSeconds?: number;
-  /**
-   * stop retry data ingestion after the data slice first schedule time in seconds.
-   */
+  /** stop retry data ingestion after the data slice first schedule time in seconds. */
   stopRetryAfterInSeconds?: number;
-  /**
-   * mark if the data feed need rollup
-   */
-  needRollup?: DataFeedDetailPatchNeedRollup;
-  /**
-   * roll up method
-   */
-  rollUpMethod?: DataFeedDetailPatchRollUpMethod;
-  /**
-   * roll up columns
-   */
+  /** mark if the data feed need rollup */
+  needRollup?: NeedRollup;
+  /** roll up method */
+  rollUpMethod?: RollUpMethod;
+  /** roll up columns */
   rollUpColumns?: string[];
-  /**
-   * the identification value for the row of calculated all-up value.
-   */
+  /** the identification value for the row of calculated all-up value. */
   allUpIdentification?: string;
-  /**
-   * the type of fill missing point for anomaly detection
-   */
-  fillMissingPointType?: DataFeedDetailPatchFillMissingPointType;
-  /**
-   * the value of fill missing point for anomaly detection
-   */
+  /** the type of fill missing point for anomaly detection */
+  fillMissingPointType?: FillMissingPointType;
+  /** the value of fill missing point for anomaly detection */
   fillMissingPointValue?: number;
-  /**
-   * data feed access mode, default is Private
-   */
-  viewMode?: DataFeedDetailPatchViewMode;
-  /**
-   * data feed administrator
-   */
+  /** data feed access mode, default is Private */
+  viewMode?: ViewMode;
+  /** data feed administrator */
   admins?: string[];
-  /**
-   * data feed viewer
-   */
+  /** data feed viewer */
   viewers?: string[];
-  /**
-   * data feed status
-   */
-  status?: DataFeedDetailPatchStatus;
-  /**
-   * action link for alert
-   */
+  /** data feed status */
+  status?: Status;
+  /** action link for alert */
   actionLinkTemplate?: string;
 }
 
 export interface MetricFeedback {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   feedbackType: "Anomaly" | "ChangePoint" | "Comment" | "Period";
   /**
    * feedback unique id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly feedbackId?: string;
   /**
    * feedback created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdTime?: Date;
   /**
    * user who gives this feedback
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userPrincipal?: string;
-  /**
-   * metric unique id
-   */
+  /** metric unique id */
   metricId: string;
   dimensionFilter: FeedbackDimensionFilter;
 }
 
 export interface FeedbackDimensionFilter {
-  /**
-   * metric dimension filter
-   */
+  /** metric dimension filter */
   dimension: { [propertyName: string]: string };
 }
 
 export interface MetricFeedbackFilter {
-  /**
-   * filter feedbacks by metric id
-   */
+  /** filter feedbacks by metric id */
   metricId: string;
   dimensionFilter?: FeedbackDimensionFilter;
-  /**
-   * filter feedbacks by type
-   */
+  /** filter feedbacks by type */
   feedbackType?: FeedbackType;
-  /**
-   * start time filter under chosen time mode
-   */
+  /** start time filter under chosen time mode */
   startTime?: Date;
-  /**
-   * end time filter under chosen time mode
-   */
+  /** end time filter under chosen time mode */
   endTime?: Date;
-  /**
-   * time mode to filter feedback
-   */
+  /** time mode to filter feedback */
   timeMode?: FeedbackQueryTimeMode;
 }
 
 export interface MetricFeedbackList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly value?: MetricFeedbackUnion[];
 }
 
 export interface HookList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly value?: HookInfoUnion[];
 }
 
 export interface HookInfo {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   hookType: "Email" | "Webhook";
   /**
    * Hook unique id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
-  /**
-   * hook unique name
-   */
+  /** hook unique name */
   name: string;
-  /**
-   * hook description
-   */
+  /** hook description */
   description?: string;
-  /**
-   * hook external link
-   */
+  /** hook external link */
   externalLink?: string;
   /**
    * hook administrators
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly admins?: string[];
 }
 
 export interface HookInfoPatch {
-  /**
-   * Polymorphic discriminator, which specifies the different types this object can be
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
   hookType: "Email" | "Webhook";
-  /**
-   * hook unique name
-   */
+  /** hook unique name */
   hookName?: string;
-  /**
-   * hook description
-   */
+  /** hook description */
   description?: string;
-  /**
-   * hook external link
-   */
+  /** hook external link */
   externalLink?: string;
   /**
    * hook administrators
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly admins?: string[];
 }
 
 export interface IngestionStatusQueryOptions {
-  /**
-   * the start point of time range to query data ingestion status.
-   */
+  /** the start point of time range to query data ingestion status. */
   startTime: Date;
-  /**
-   * the end point of time range to query data ingestion status.
-   */
+  /** the end point of time range to query data ingestion status. */
   endTime: Date;
 }
 
 export interface IngestionStatusList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly value?: IngestionStatus[];
 }
 
 export interface IngestionStatus {
   /**
    * data slice timestamp.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timestamp?: Date;
   /**
    * latest ingestion task status for this data slice.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: IngestionStatusType;
   /**
    * the trimmed message of last ingestion job.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
 }
 
 export interface IngestionProgressResetOptions {
-  /**
-   * the start point of time range to reset data ingestion status.
-   */
+  /** the start point of time range to reset data ingestion status. */
   startTime: Date;
-  /**
-   * the end point of time range to reset data ingestion status.
-   */
+  /** the end point of time range to reset data ingestion status. */
   endTime: Date;
 }
 
@@ -1098,31 +852,28 @@ export interface DataFeedIngestionProgress {
   /**
    * the timestamp of lastest success ingestion job.
    * null indicates not available
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly latestSuccessTimestamp?: Date;
   /**
    * the timestamp of lastest ingestion job with status update.
    * null indicates not available
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly latestActiveTimestamp?: Date;
 }
 
 export interface MetricDataQueryOptions {
-  /**
-   * start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ
-   */
+  /** start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ */
   startTime: Date;
-  /**
-   * start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ
-   */
+  /** start time of query a time series data, and format should be yyyy-MM-ddThh:mm:ssZ */
   endTime: Date;
-  /**
-   * query specific series
-   */
+  /** query specific series */
   series: { [propertyName: string]: string }[];
 }
 
 export interface MetricDataList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly value?: MetricDataItem[];
 }
 
@@ -1130,10 +881,12 @@ export interface MetricDataItem {
   id?: MetricSeriesItem;
   /**
    * timestamps of the data related to this time series
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timestampList?: Date[];
   /**
    * values of the data related to this time series
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly valueList?: number[];
 }
@@ -1141,43 +894,41 @@ export interface MetricDataItem {
 export interface MetricSeriesItem {
   /**
    * metric unique id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metricId?: string;
   /**
    * dimension name and value pair
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dimension?: { [propertyName: string]: string };
 }
 
 export interface MetricSeriesQueryOptions {
-  /**
-   * query series ingested after this time, the format should be yyyy-MM-ddTHH:mm:ssZ
-   */
+  /** query series ingested after this time, the format should be yyyy-MM-ddTHH:mm:ssZ */
   activeSince: Date;
-  /**
-   * filter specfic dimension name and values
-   */
+  /** filter specfic dimension name and values */
   dimensionFilter?: { [propertyName: string]: string[] };
 }
 
 export interface MetricSeriesList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly value?: MetricSeriesItem[];
 }
 
 export interface MetricDimensionQueryOptions {
-  /**
-   * dimension name
-   */
+  /** dimension name */
   dimensionName: string;
-  /**
-   * dimension value to be filtered
-   */
+  /** dimension value to be filtered */
   dimensionValueFilter?: string;
 }
 
 export interface MetricDimensionList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly value?: string[];
 }
 
@@ -1186,535 +937,451 @@ export interface AnomalyDetectionConfigurationList {
 }
 
 export interface EnrichmentStatusQueryOption {
-  /**
-   * the start point of time range to query anomaly detection status.
-   */
+  /** the start point of time range to query anomaly detection status. */
   startTime: Date;
-  /**
-   * the end point of time range to query anomaly detection status.
-   */
+  /** the end point of time range to query anomaly detection status. */
   endTime: Date;
 }
 
 export interface EnrichmentStatusList {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly value?: EnrichmentStatus[];
 }
 
 export interface EnrichmentStatus {
   /**
    * data slice timestamp.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timestamp?: Date;
   /**
    * latest enrichment status for this data slice.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly status?: string;
   /**
    * the trimmed message describes details of the enrichment status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
 }
 
 export interface AzureApplicationInsightsParameter {
-  /**
-   * Azure cloud environment
-   */
+  /** Azure cloud environment */
   azureCloud: string;
-  /**
-   * Azure Application Insights ID
-   */
+  /** Azure Application Insights ID */
   applicationId: string;
-  /**
-   * API Key
-   */
+  /** API Key */
   apiKey: string;
-  /**
-   * Query
-   */
+  /** Query */
   query: string;
 }
 
-export type AzureApplicationInsightsDataFeed = DataFeedDetail & {
-  dataSourceParameter: AzureApplicationInsightsParameter;
-};
-
 export interface AzureBlobParameter {
-  /**
-   * Azure Blob connection string
-   */
+  /** Azure Blob connection string */
   connectionString: string;
-  /**
-   * Container
-   */
+  /** Container */
   container: string;
-  /**
-   * Blob Template
-   */
+  /** Blob Template */
   blobTemplate: string;
 }
 
-export type AzureBlobDataFeed = DataFeedDetail & {
-  dataSourceParameter: AzureBlobParameter;
-};
-
 export interface AzureCosmosDBParameter {
-  /**
-   * Azure CosmosDB connection string
-   */
+  /** Azure CosmosDB connection string */
   connectionString: string;
-  /**
-   * Query script
-   */
+  /** Query script */
   sqlQuery: string;
-  /**
-   * Database name
-   */
+  /** Database name */
   database: string;
-  /**
-   * Collection id
-   */
+  /** Collection id */
   collectionId: string;
 }
 
-export type AzureCosmosDBDataFeed = DataFeedDetail & {
-  dataSourceParameter: AzureCosmosDBParameter;
-};
-
 export interface SqlSourceParameter {
-  /**
-   * Database connection string
-   */
+  /** Database connection string */
   connectionString: string;
-  /**
-   * Query script
-   */
+  /** Query script */
   query: string;
 }
 
-export type AzureDataExplorerDataFeed = DataFeedDetail & {
-  dataSourceParameter: SqlSourceParameter;
-};
-
 export interface AzureDataLakeStorageGen2Parameter {
-  /**
-   * Account name
-   */
+  /** Account name */
   accountName: string;
-  /**
-   * Account key
-   */
+  /** Account key */
   accountKey: string;
-  /**
-   * File system name (Container)
-   */
+  /** File system name (Container) */
   fileSystemName: string;
-  /**
-   * Directory template
-   */
+  /** Directory template */
   directoryTemplate: string;
-  /**
-   * File template
-   */
+  /** File template */
   fileTemplate: string;
 }
 
-export type AzureDataLakeStorageGen2DataFeed = DataFeedDetail & {
-  dataSourceParameter: AzureDataLakeStorageGen2Parameter;
-};
-
 export interface AzureTableParameter {
-  /**
-   * Azure Table connection string
-   */
+  /** Azure Table connection string */
   connectionString: string;
-  /**
-   * Table name
-   */
+  /** Table name */
   table: string;
-  /**
-   * Query script
-   */
+  /** Query script */
   query: string;
 }
-
-export type AzureTableDataFeed = DataFeedDetail & {
-  dataSourceParameter: AzureTableParameter;
-};
 
 export interface ElasticsearchParameter {
-  /**
-   * Host
-   */
+  /** Host */
   host: string;
-  /**
-   * Port
-   */
+  /** Port */
   port: string;
-  /**
-   * Authorization header
-   */
+  /** Authorization header */
   authHeader: string;
-  /**
-   * Query
-   */
+  /** Query */
   query: string;
 }
 
-export type ElasticsearchDataFeed = DataFeedDetail & {
-  dataSourceParameter: ElasticsearchParameter;
-};
-
 export interface HttpRequestParameter {
-  /**
-   * HTTP URL
-   */
+  /** HTTP URL */
   url: string;
-  /**
-   * HTTP header
-   */
+  /** HTTP header */
   httpHeader: string;
-  /**
-   * HTTP method
-   */
+  /** HTTP method */
   httpMethod: string;
-  /**
-   * HTTP reuqest body
-   */
+  /** HTTP reuqest body */
   payload: string;
 }
 
-export type HttpRequestDataFeed = DataFeedDetail & {
-  dataSourceParameter: HttpRequestParameter;
-};
-
 export interface InfluxDBParameter {
-  /**
-   * InfluxDB connection string
-   */
+  /** InfluxDB connection string */
   connectionString: string;
-  /**
-   * Database name
-   */
+  /** Database name */
   database: string;
-  /**
-   * Database access user
-   */
+  /** Database access user */
   userName: string;
-  /**
-   * Database access password
-   */
+  /** Database access password */
   password: string;
-  /**
-   * Query script
-   */
+  /** Query script */
   query: string;
 }
 
-export type InfluxDBDataFeed = DataFeedDetail & {
-  dataSourceParameter: InfluxDBParameter;
-};
-
-export type MySqlDataFeed = DataFeedDetail & {
-  dataSourceParameter: SqlSourceParameter;
-};
-
-export type PostgreSqlDataFeed = DataFeedDetail & {
-  dataSourceParameter: SqlSourceParameter;
-};
-
-export type SQLServerDataFeed = DataFeedDetail & {
-  dataSourceParameter: SqlSourceParameter;
-};
-
 export interface MongoDBParameter {
-  /**
-   * MongoDB connection string
-   */
+  /** MongoDB connection string */
   connectionString: string;
-  /**
-   * Database name
-   */
+  /** Database name */
   database: string;
-  /**
-   * Query script
-   */
+  /** Query script */
   command: string;
 }
-
-export type MongoDBDataFeed = DataFeedDetail & {
-  dataSourceParameter: MongoDBParameter;
-};
-
-export type AzureApplicationInsightsDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: AzureApplicationInsightsParameter;
-};
-
-export type AzureBlobDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: AzureBlobParameter;
-};
-
-export type AzureCosmosDBDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: AzureCosmosDBParameter;
-};
-
-export type AzureDataExplorerDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: SqlSourceParameter;
-};
-
-export type AzureDataLakeStorageGen2DataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: AzureDataLakeStorageGen2Parameter;
-};
-
-export type AzureTableDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: AzureTableParameter;
-};
-
-export type ElasticsearchDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: ElasticsearchParameter;
-};
-
-export type HttpRequestDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: HttpRequestParameter;
-};
-
-export type InfluxDBDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: InfluxDBParameter;
-};
-
-export type MySqlDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: SqlSourceParameter;
-};
-
-export type PostgreSqlDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: SqlSourceParameter;
-};
-
-export type SQLServerDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: SqlSourceParameter;
-};
-
-export type MongoDBDataFeedPatch = DataFeedDetailPatch & {
-  dataSourceParameter?: MongoDBParameter;
-};
 
 export interface AnomalyFeedbackValue {
   anomalyValue: AnomalyValue;
 }
 
-export type AnomalyFeedback = MetricFeedback & {
-  /**
-   * the start timestamp of feedback timerange
-   */
-  startTime: Date;
-  /**
-   * the end timestamp of feedback timerange, when equals to startTime means only one timestamp
-   */
-  endTime: Date;
-  value: AnomalyFeedbackValue;
-  /**
-   * the corresponding anomaly detection configuration of this feedback
-   */
-  anomalyDetectionConfigurationId?: string;
-  anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
-};
-
 export interface ChangePointFeedbackValue {
   changePointValue: ChangePointValue;
 }
 
-export type ChangePointFeedback = MetricFeedback & {
-  /**
-   * the start timestamp of feedback timerange
-   */
+export interface CommentFeedbackValue {
+  /** the comment string */
+  commentValue: string;
+}
+
+export interface PeriodFeedbackValue {
+  /** the type of setting period */
+  periodType: PeriodType;
+  /** the number of intervals a period contains, when no period set to 0 */
+  periodValue: number;
+}
+
+export interface EmailHookParameter {
+  /** Email TO: list. */
+  toList: string[];
+}
+
+export interface WebhookHookParameter {
+  /** API address, will be called when alert is triggered, only support POST method via SSL */
+  endpoint: string;
+  /** basic authentication */
+  username?: string;
+  /** basic authentication */
+  password?: string;
+  /** custom headers in api call */
+  headers?: { [propertyName: string]: string };
+  /** client certificate */
+  certificateKey?: string;
+  /** client certificate password */
+  certificatePassword?: string;
+}
+
+export type AzureApplicationInsightsDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureApplicationInsights";
+  dataSourceParameter: AzureApplicationInsightsParameter;
+};
+
+export type AzureBlobDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureBlob";
+  dataSourceParameter: AzureBlobParameter;
+};
+
+export type AzureCosmosDBDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureCosmosDB";
+  dataSourceParameter: AzureCosmosDBParameter;
+};
+
+export type AzureDataExplorerDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureDataExplorer";
+  dataSourceParameter: SqlSourceParameter;
+};
+
+export type AzureDataLakeStorageGen2DataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureDataLakeStorageGen2";
+  dataSourceParameter: AzureDataLakeStorageGen2Parameter;
+};
+
+export type AzureTableDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureTable";
+  dataSourceParameter: AzureTableParameter;
+};
+
+export type ElasticsearchDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "Elasticsearch";
+  dataSourceParameter: ElasticsearchParameter;
+};
+
+export type HttpRequestDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "HttpRequest";
+  dataSourceParameter: HttpRequestParameter;
+};
+
+export type InfluxDBDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "InfluxDB";
+  dataSourceParameter: InfluxDBParameter;
+};
+
+export type MySqlDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "MySql";
+  dataSourceParameter: SqlSourceParameter;
+};
+
+export type PostgreSqlDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "PostgreSql";
+  dataSourceParameter: SqlSourceParameter;
+};
+
+export type SQLServerDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "SqlServer";
+  dataSourceParameter: SqlSourceParameter;
+};
+
+export type MongoDBDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "MongoDB";
+  dataSourceParameter: MongoDBParameter;
+};
+
+export type AzureApplicationInsightsDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureApplicationInsights";
+  dataSourceParameter?: AzureApplicationInsightsParameter;
+};
+
+export type AzureBlobDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureBlob";
+  dataSourceParameter?: AzureBlobParameter;
+};
+
+export type AzureCosmosDBDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureCosmosDB";
+  dataSourceParameter?: AzureCosmosDBParameter;
+};
+
+export type AzureDataExplorerDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureDataExplorer";
+  dataSourceParameter?: SqlSourceParameter;
+};
+
+export type AzureDataLakeStorageGen2DataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureDataLakeStorageGen2";
+  dataSourceParameter?: AzureDataLakeStorageGen2Parameter;
+};
+
+export type AzureTableDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureTable";
+  dataSourceParameter?: AzureTableParameter;
+};
+
+export type ElasticsearchDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "Elasticsearch";
+  dataSourceParameter?: ElasticsearchParameter;
+};
+
+export type HttpRequestDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "HttpRequest";
+  dataSourceParameter?: HttpRequestParameter;
+};
+
+export type InfluxDBDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "InfluxDB";
+  dataSourceParameter?: InfluxDBParameter;
+};
+
+export type MySqlDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "MySql";
+  dataSourceParameter?: SqlSourceParameter;
+};
+
+export type PostgreSqlDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "PostgreSql";
+  dataSourceParameter?: SqlSourceParameter;
+};
+
+export type SQLServerDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "SqlServer";
+  dataSourceParameter?: SqlSourceParameter;
+};
+
+export type MongoDBDataFeedPatch = DataFeedDetailPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "MongoDB";
+  dataSourceParameter?: MongoDBParameter;
+};
+
+export type AnomalyFeedback = MetricFeedback & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  feedbackType: "Anomaly";
+  /** the start timestamp of feedback timerange */
   startTime: Date;
-  /**
-   * the end timestamp of feedback timerange, when equals to startTime means only one timestamp
-   */
+  /** the end timestamp of feedback timerange, when equals to startTime means only one timestamp */
+  endTime: Date;
+  value: AnomalyFeedbackValue;
+  /** the corresponding anomaly detection configuration of this feedback */
+  anomalyDetectionConfigurationId?: string;
+  anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
+};
+
+export type ChangePointFeedback = MetricFeedback & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  feedbackType: "ChangePoint";
+  /** the start timestamp of feedback timerange */
+  startTime: Date;
+  /** the end timestamp of feedback timerange, when equals to startTime means only one timestamp */
   endTime: Date;
   value: ChangePointFeedbackValue;
 };
 
-export interface CommentFeedbackValue {
-  /**
-   * the comment string
-   */
-  commentValue: string;
-}
-
 export type CommentFeedback = MetricFeedback & {
-  /**
-   * the start timestamp of feedback timerange
-   */
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  feedbackType: "Comment";
+  /** the start timestamp of feedback timerange */
   startTime?: Date;
-  /**
-   * the end timestamp of feedback timerange, when equals to startTime means only one timestamp
-   */
+  /** the end timestamp of feedback timerange, when equals to startTime means only one timestamp */
   endTime?: Date;
   value: CommentFeedbackValue;
 };
 
-export interface PeriodFeedbackValue {
-  /**
-   * the type of setting period
-   */
-  periodType: PeriodType;
-  /**
-   * the number of intervals a period contains, when no period set to 0
-   */
-  periodValue: number;
-}
-
 export type PeriodFeedback = MetricFeedback & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  feedbackType: "Period";
   value: PeriodFeedbackValue;
 };
 
-export interface EmailHookParameter {
-  /**
-   * Email TO: list.
-   */
-  toList: string[];
-}
-
 export type EmailHookInfo = HookInfo & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  hookType: "Email";
   hookParameter: EmailHookParameter;
 };
 
-export interface WebhookHookParameter {
-  /**
-   * API address, will be called when alert is triggered, only support POST method via SSL
-   */
-  endpoint: string;
-  /**
-   * basic authentication
-   */
-  username?: string;
-  /**
-   * basic authentication
-   */
-  password?: string;
-  /**
-   * custom headers in api call
-   */
-  headers?: { [propertyName: string]: string };
-  /**
-   * client certificate
-   */
-  certificateKey?: string;
-  /**
-   * client certificate password
-   */
-  certificatePassword?: string;
-}
-
 export type WebhookHookInfo = HookInfo & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  hookType: "Webhook";
   hookParameter: WebhookHookParameter;
 };
 
 export type EmailHookInfoPatch = HookInfoPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  hookType: "Email";
   hookParameter?: EmailHookParameter;
 };
 
 export type WebhookHookInfoPatch = HookInfoPatch & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  hookType: "Webhook";
   hookParameter?: WebhookHookParameter;
 };
 
-/**
- * Defines headers for GeneratedClient_createAnomalyAlertingConfiguration operation.
- */
+/** Defines headers for GeneratedClient_createAnomalyAlertingConfiguration operation. */
 export interface GeneratedClientCreateAnomalyAlertingConfigurationHeaders {
+  /** Location of the newly created resource. */
   location?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_createAnomalyDetectionConfiguration operation.
- */
+/** Defines headers for GeneratedClient_createAnomalyDetectionConfiguration operation. */
 export interface GeneratedClientCreateAnomalyDetectionConfigurationHeaders {
+  /** Location of the newly created resource. */
   location?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_createDataFeed operation.
- */
+/** Defines headers for GeneratedClient_createDataFeed operation. */
 export interface GeneratedClientCreateDataFeedHeaders {
+  /** Location of the newly created resource. */
   location?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_createMetricFeedback operation.
- */
+/** Defines headers for GeneratedClient_createMetricFeedback operation. */
 export interface GeneratedClientCreateMetricFeedbackHeaders {
+  /** Location of the newly created resource. */
   location?: string;
 }
 
-/**
- * Defines headers for GeneratedClient_createHook operation.
- */
+/** Defines headers for GeneratedClient_createHook operation. */
 export interface GeneratedClientCreateHookHeaders {
+  /** Location of the newly created resource. */
   location?: string;
 }
 
-/**
- * Defines values for AnomalyAlertingConfigurationCrossMetricsOperator.
- */
-export type AnomalyAlertingConfigurationCrossMetricsOperator =
-  | "AND"
-  | "OR"
-  | "XOR";
-/**
- * Defines values for AnomalyScope.
- */
+/** Defines values for CrossMetricsOperator. */
+export type CrossMetricsOperator = "AND" | "OR" | "XOR";
+/** Defines values for AnomalyScope. */
 export type AnomalyScope = "All" | "Dimension" | "TopN";
-/**
- * Defines values for Severity.
- */
+/** Defines values for Severity. */
 export type Severity = "Low" | "Medium" | "High";
-/**
- * Defines values for SnoozeScope.
- */
+/** Defines values for SnoozeScope. */
 export type SnoozeScope = "Metric" | "Series";
-/**
- * Defines values for Direction.
- */
+/** Defines values for Direction. */
 export type Direction = "Both" | "Down" | "Up";
-/**
- * Defines values for AnomalyAlertingConfigurationPatchCrossMetricsOperator.
- */
-export type AnomalyAlertingConfigurationPatchCrossMetricsOperator =
-  | "AND"
-  | "OR"
-  | "XOR";
-/**
- * Defines values for TimeMode.
- */
+/** Defines values for TimeMode. */
 export type TimeMode = "AnomalyTime" | "CreatedTime" | "ModifiedTime";
-/**
- * Defines values for AnomalyPropertyAnomalyStatus.
- */
-export type AnomalyPropertyAnomalyStatus = "Active" | "Resolved";
-/**
- * Defines values for IncidentPropertyIncidentStatus.
- */
-export type IncidentPropertyIncidentStatus = "Active" | "Resolved";
-/**
- * Defines values for WholeMetricConfigurationConditionOperator.
- */
-export type WholeMetricConfigurationConditionOperator = "AND" | "OR";
-/**
- * Defines values for AnomalyDetectorDirection.
- */
+/** Defines values for AnomalyStatus. */
+export type AnomalyStatus = "Active" | "Resolved";
+/** Defines values for IncidentStatus. */
+export type IncidentStatus = "Active" | "Resolved";
+/** Defines values for ConditionOperator. */
+export type ConditionOperator = "AND" | "OR";
+/** Defines values for AnomalyDetectorDirection. */
 export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
-/**
- * Defines values for DimensionGroupConfigurationConditionOperator.
- */
-export type DimensionGroupConfigurationConditionOperator = "AND" | "OR";
-/**
- * Defines values for SeriesConfigurationConditionOperator.
- */
-export type SeriesConfigurationConditionOperator = "AND" | "OR";
-/**
- * Defines values for DataSourceType.
- */
+/** Defines values for DataSourceType. */
 export type DataSourceType =
   | "AzureApplicationInsights"
   | "AzureBlob"
@@ -1729,9 +1396,7 @@ export type DataSourceType =
   | "MySql"
   | "PostgreSql"
   | "SqlServer";
-/**
- * Defines values for Granularity.
- */
+/** Defines values for Granularity. */
 export type Granularity =
   | "Yearly"
   | "Monthly"
@@ -1741,109 +1406,31 @@ export type Granularity =
   | "Minutely"
   | "Secondly"
   | "Custom";
-/**
- * Defines values for EntityStatus.
- */
+/** Defines values for EntityStatus. */
 export type EntityStatus = "Active" | "Paused";
-/**
- * Defines values for NeedRollupEnum.
- */
+/** Defines values for NeedRollupEnum. */
 export type NeedRollupEnum = "NoRollup" | "NeedRollup" | "AlreadyRollup";
-/**
- * Defines values for DataFeedDetailRollUpMethod.
- */
-export type DataFeedDetailRollUpMethod =
-  | "None"
-  | "Sum"
-  | "Max"
-  | "Min"
-  | "Avg"
-  | "Count";
-/**
- * Defines values for FillMissingPointType.
- */
+/** Defines values for RollUpMethod. */
+export type RollUpMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
+/** Defines values for FillMissingPointType. */
 export type FillMissingPointType =
   | "SmartFilling"
   | "PreviousValue"
   | "CustomValue"
   | "NoFilling";
-/**
- * Defines values for ViewMode.
- */
+/** Defines values for ViewMode. */
 export type ViewMode = "Private" | "Public";
-/**
- * Defines values for DataFeedDetailStatus.
- */
-export type DataFeedDetailStatus = "Active" | "Paused";
-/**
- * Defines values for DataFeedDetailPatchDataSourceType.
- */
-export type DataFeedDetailPatchDataSourceType =
-  | "AzureApplicationInsights"
-  | "AzureBlob"
-  | "AzureCosmosDB"
-  | "AzureDataExplorer"
-  | "AzureDataLakeStorageGen2"
-  | "AzureTable"
-  | "Elasticsearch"
-  | "HttpRequest"
-  | "InfluxDB"
-  | "MongoDB"
-  | "MySql"
-  | "PostgreSql"
-  | "SqlServer";
-/**
- * Defines values for DataFeedDetailPatchNeedRollup.
- */
-export type DataFeedDetailPatchNeedRollup =
-  | "NoRollup"
-  | "NeedRollup"
-  | "AlreadyRollup";
-/**
- * Defines values for DataFeedDetailPatchRollUpMethod.
- */
-export type DataFeedDetailPatchRollUpMethod =
-  | "None"
-  | "Sum"
-  | "Max"
-  | "Min"
-  | "Avg"
-  | "Count";
-/**
- * Defines values for DataFeedDetailPatchFillMissingPointType.
- */
-export type DataFeedDetailPatchFillMissingPointType =
-  | "SmartFilling"
-  | "PreviousValue"
-  | "CustomValue"
-  | "NoFilling";
-/**
- * Defines values for DataFeedDetailPatchViewMode.
- */
-export type DataFeedDetailPatchViewMode = "Private" | "Public";
-/**
- * Defines values for DataFeedDetailPatchStatus.
- */
-export type DataFeedDetailPatchStatus = "Active" | "Paused";
-/**
- * Defines values for FeedbackType.
- */
+/** Defines values for Status. */
+export type Status = "Active" | "Paused";
+/** Defines values for NeedRollup. */
+export type NeedRollup = "NoRollup" | "NeedRollup" | "AlreadyRollup";
+/** Defines values for FeedbackType. */
 export type FeedbackType = "Anomaly" | "ChangePoint" | "Period" | "Comment";
-/**
- * Defines values for FeedbackQueryTimeMode.
- */
+/** Defines values for FeedbackQueryTimeMode. */
 export type FeedbackQueryTimeMode = "MetricTimestamp" | "FeedbackCreatedTime";
-/**
- * Defines values for HookType.
- */
+/** Defines values for HookType. */
 export type HookType = "Webhook" | "Email";
-/**
- * Defines values for HookInfoPatchHookType.
- */
-export type HookInfoPatchHookType = "Webhook" | "Email";
-/**
- * Defines values for IngestionStatusType.
- */
+/** Defines values for IngestionStatusType. */
 export type IngestionStatusType =
   | "NotStarted"
   | "Scheduled"
@@ -1853,1127 +1440,703 @@ export type IngestionStatusType =
   | "NoData"
   | "Error"
   | "Paused";
-/**
- * Defines values for AnomalyValue.
- */
+/** Defines values for AnomalyValue. */
 export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
-/**
- * Defines values for ChangePointValue.
- */
+/** Defines values for ChangePointValue. */
 export type ChangePointValue = "AutoDetect" | "ChangePoint" | "NotChangePoint";
-/**
- * Defines values for PeriodType.
- */
+/** Defines values for PeriodType. */
 export type PeriodType = "AutoDetect" | "AssignValue";
 
-/**
- * Contains response data for the getActiveSeriesCount operation.
- */
+/** Contains response data for the getActiveSeriesCount operation. */
 export type GeneratedClientGetActiveSeriesCountResponse = UsageStats & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: UsageStats;
   };
 };
 
-/**
- * Contains response data for the getAnomalyAlertingConfiguration operation.
- */
+/** Contains response data for the getAnomalyAlertingConfiguration operation. */
 export type GeneratedClientGetAnomalyAlertingConfigurationResponse = AnomalyAlertingConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyAlertingConfiguration;
   };
 };
 
-/**
- * Contains response data for the createAnomalyAlertingConfiguration operation.
- */
+/** Contains response data for the createAnomalyAlertingConfiguration operation. */
 export type GeneratedClientCreateAnomalyAlertingConfigurationResponse = GeneratedClientCreateAnomalyAlertingConfigurationHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientCreateAnomalyAlertingConfigurationHeaders;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetAlertsByAnomalyAlertingConfigurationOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getAlertsByAnomalyAlertingConfiguration operation.
- */
+/** Contains response data for the getAlertsByAnomalyAlertingConfiguration operation. */
 export type GeneratedClientGetAlertsByAnomalyAlertingConfigurationResponse = AlertResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AlertResultList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurationOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfiguration operation.
- */
+/** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfiguration operation. */
 export type GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurationResponse = AnomalyResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyResultList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurationOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfiguration operation.
- */
+/** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfiguration operation. */
 export type GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurationResponse = IncidentResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IncidentResultList;
   };
 };
 
-/**
- * Contains response data for the getAnomalyDetectionConfiguration operation.
- */
+/** Contains response data for the getAnomalyDetectionConfiguration operation. */
 export type GeneratedClientGetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyDetectionConfiguration;
   };
 };
 
-/**
- * Contains response data for the createAnomalyDetectionConfiguration operation.
- */
+/** Contains response data for the createAnomalyDetectionConfiguration operation. */
 export type GeneratedClientCreateAnomalyDetectionConfigurationResponse = GeneratedClientCreateAnomalyDetectionConfigurationHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientCreateAnomalyDetectionConfigurationHeaders;
   };
 };
 
-/**
- * Contains response data for the getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration operation.
- */
+/** Contains response data for the getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration operation. */
 export type GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationResponse = AnomalyAlertingConfigurationList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyAlertingConfigurationList;
   };
 };
 
-/**
- * Contains response data for the getSeriesByAnomalyDetectionConfiguration operation.
- */
+/** Contains response data for the getSeriesByAnomalyDetectionConfiguration operation. */
 export type GeneratedClientGetSeriesByAnomalyDetectionConfigurationResponse = SeriesResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: SeriesResultList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetAnomaliesByAnomalyDetectionConfigurationOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getAnomaliesByAnomalyDetectionConfiguration operation.
- */
+/** Contains response data for the getAnomaliesByAnomalyDetectionConfiguration operation. */
 export type GeneratedClientGetAnomaliesByAnomalyDetectionConfigurationResponse = AnomalyResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyResultList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetDimensionOfAnomaliesByAnomalyDetectionConfigurationOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getDimensionOfAnomaliesByAnomalyDetectionConfiguration operation.
- */
+/** Contains response data for the getDimensionOfAnomaliesByAnomalyDetectionConfiguration operation. */
 export type GeneratedClientGetDimensionOfAnomaliesByAnomalyDetectionConfigurationResponse = AnomalyDimensionList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyDimensionList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationOptionalParams
   extends coreHttp.OperationOptions {
   top?: number;
 }
 
-/**
- * Contains response data for the getIncidentsByAnomalyDetectionConfiguration operation.
- */
+/** Contains response data for the getIncidentsByAnomalyDetectionConfiguration operation. */
 export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationResponse = IncidentResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IncidentResultList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesOptionalParams
   extends coreHttp.OperationOptions {
   top?: number;
   token?: string;
 }
 
-/**
- * Contains response data for the getIncidentsByAnomalyDetectionConfigurationNextPages operation.
- */
+/** Contains response data for the getIncidentsByAnomalyDetectionConfigurationNextPages operation. */
 export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesResponse = IncidentResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IncidentResultList;
   };
 };
 
-/**
- * Contains response data for the getRootCauseOfIncidentByAnomalyDetectionConfiguration operation.
- */
+/** Contains response data for the getRootCauseOfIncidentByAnomalyDetectionConfiguration operation. */
 export type GeneratedClientGetRootCauseOfIncidentByAnomalyDetectionConfigurationResponse = RootCauseList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: RootCauseList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientListDataFeedsOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
-  /**
-   * filter data feed by its name
-   */
+  /** filter data feed by its name */
   dataFeedName?: string;
-  /**
-   * filter data feed by its source type
-   */
+  /** filter data feed by its source type */
   dataSourceType?: DataSourceType;
-  /**
-   * filter data feed by its granularity
-   */
+  /** filter data feed by its granularity */
   granularityName?: Granularity;
-  /**
-   * filter data feed by its status
-   */
+  /** filter data feed by its status */
   status?: EntityStatus;
-  /**
-   * filter data feed by its creator
-   */
+  /** filter data feed by its creator */
   creator?: string;
 }
 
-/**
- * Contains response data for the listDataFeeds operation.
- */
+/** Contains response data for the listDataFeeds operation. */
 export type GeneratedClientListDataFeedsResponse = DataFeedList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DataFeedList;
   };
 };
 
-/**
- * Contains response data for the createDataFeed operation.
- */
+/** Contains response data for the createDataFeed operation. */
 export type GeneratedClientCreateDataFeedResponse = GeneratedClientCreateDataFeedHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientCreateDataFeedHeaders;
   };
 };
 
-/**
- * Contains response data for the getDataFeedById operation.
- */
+/** Contains response data for the getDataFeedById operation. */
 export type GeneratedClientGetDataFeedByIdResponse = DataFeedDetailUnion & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DataFeedDetailUnion;
   };
 };
 
-/**
- * Contains response data for the getMetricFeedback operation.
- */
+/** Contains response data for the getMetricFeedback operation. */
 export type GeneratedClientGetMetricFeedbackResponse = MetricFeedbackUnion & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: MetricFeedbackUnion;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientListMetricFeedbacksOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the listMetricFeedbacks operation.
- */
+/** Contains response data for the listMetricFeedbacks operation. */
 export type GeneratedClientListMetricFeedbacksResponse = MetricFeedbackList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: MetricFeedbackList;
   };
 };
 
-/**
- * Contains response data for the createMetricFeedback operation.
- */
+/** Contains response data for the createMetricFeedback operation. */
 export type GeneratedClientCreateMetricFeedbackResponse = GeneratedClientCreateMetricFeedbackHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientCreateMetricFeedbackHeaders;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientListHooksOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
-  /**
-   * filter hook by its name
-   */
+  /** filter hook by its name */
   hookName?: string;
 }
 
-/**
- * Contains response data for the listHooks operation.
- */
+/** Contains response data for the listHooks operation. */
 export type GeneratedClientListHooksResponse = HookList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: HookList;
   };
 };
 
-/**
- * Contains response data for the createHook operation.
- */
+/** Contains response data for the createHook operation. */
 export type GeneratedClientCreateHookResponse = GeneratedClientCreateHookHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
+    /** The parsed HTTP response headers. */
     parsedHeaders: GeneratedClientCreateHookHeaders;
   };
 };
 
-/**
- * Contains response data for the getHook operation.
- */
+/** Contains response data for the getHook operation. */
 export type GeneratedClientGetHookResponse = HookInfoUnion & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: HookInfoUnion;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetDataFeedIngestionStatusOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getDataFeedIngestionStatus operation.
- */
+/** Contains response data for the getDataFeedIngestionStatus operation. */
 export type GeneratedClientGetDataFeedIngestionStatusResponse = IngestionStatusList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IngestionStatusList;
   };
 };
 
-/**
- * Contains response data for the getIngestionProgress operation.
- */
+/** Contains response data for the getIngestionProgress operation. */
 export type GeneratedClientGetIngestionProgressResponse = DataFeedIngestionProgress & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DataFeedIngestionProgress;
   };
 };
 
-/**
- * Contains response data for the getMetricData operation.
- */
+/** Contains response data for the getMetricData operation. */
 export type GeneratedClientGetMetricDataResponse = MetricDataList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: MetricDataList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetMetricSeriesOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getMetricSeries operation.
- */
+/** Contains response data for the getMetricSeries operation. */
 export type GeneratedClientGetMetricSeriesResponse = MetricSeriesList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: MetricSeriesList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetMetricDimensionOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getMetricDimension operation.
- */
+/** Contains response data for the getMetricDimension operation. */
 export type GeneratedClientGetMetricDimensionResponse = MetricDimensionList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: MetricDimensionList;
   };
 };
 
-/**
- * Contains response data for the getAnomalyDetectionConfigurationsByMetric operation.
- */
+/** Contains response data for the getAnomalyDetectionConfigurationsByMetric operation. */
 export type GeneratedClientGetAnomalyDetectionConfigurationsByMetricResponse = AnomalyDetectionConfigurationList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyDetectionConfigurationList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetEnrichmentStatusByMetricOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getEnrichmentStatusByMetric operation.
- */
+/** Contains response data for the getEnrichmentStatusByMetric operation. */
 export type GeneratedClientGetEnrichmentStatusByMetricResponse = EnrichmentStatusList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: EnrichmentStatusList;
   };
 };
 
-/**
- * Contains response data for the getAlertsByAnomalyAlertingConfigurationNext operation.
- */
+/** Contains response data for the getAlertsByAnomalyAlertingConfigurationNext operation. */
 export type GeneratedClientGetAlertsByAnomalyAlertingConfigurationNextResponse = AlertResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AlertResultList;
   };
 };
 
-/**
- * Contains response data for the getAnomaliesByAnomalyDetectionConfigurationNext operation.
- */
+/** Contains response data for the getAnomaliesByAnomalyDetectionConfigurationNext operation. */
 export type GeneratedClientGetAnomaliesByAnomalyDetectionConfigurationNextResponse = AnomalyResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyResultList;
   };
 };
 
-/**
- * Contains response data for the getDimensionOfAnomaliesByAnomalyDetectionConfigurationNext operation.
- */
+/** Contains response data for the getDimensionOfAnomaliesByAnomalyDetectionConfigurationNext operation. */
 export type GeneratedClientGetDimensionOfAnomaliesByAnomalyDetectionConfigurationNextResponse = AnomalyDimensionList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyDimensionList;
   };
 };
 
-/**
- * Contains response data for the listMetricFeedbacksNext operation.
- */
+/** Contains response data for the listMetricFeedbacksNext operation. */
 export type GeneratedClientListMetricFeedbacksNextResponse = MetricFeedbackList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: MetricFeedbackList;
   };
 };
 
-/**
- * Contains response data for the getDataFeedIngestionStatusNext operation.
- */
+/** Contains response data for the getDataFeedIngestionStatusNext operation. */
 export type GeneratedClientGetDataFeedIngestionStatusNextResponse = IngestionStatusList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IngestionStatusList;
   };
 };
 
-/**
- * Contains response data for the getMetricSeriesNext operation.
- */
+/** Contains response data for the getMetricSeriesNext operation. */
 export type GeneratedClientGetMetricSeriesNextResponse = MetricSeriesList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: MetricSeriesList;
   };
 };
 
-/**
- * Contains response data for the getMetricDimensionNext operation.
- */
+/** Contains response data for the getMetricDimensionNext operation. */
 export type GeneratedClientGetMetricDimensionNextResponse = MetricDimensionList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: MetricDimensionList;
   };
 };
 
-/**
- * Contains response data for the getEnrichmentStatusByMetricNext operation.
- */
+/** Contains response data for the getEnrichmentStatusByMetricNext operation. */
 export type GeneratedClientGetEnrichmentStatusByMetricNextResponse = EnrichmentStatusList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: EnrichmentStatusList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurationNextOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfigurationNext operation.
- */
+/** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfigurationNext operation. */
 export type GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurationNextResponse = AnomalyResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: AnomalyResultList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurationNextOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
 }
 
-/**
- * Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfigurationNext operation.
- */
+/** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfigurationNext operation. */
 export type GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurationNextResponse = IncidentResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IncidentResultList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextOptionalParams
   extends coreHttp.OperationOptions {
   top?: number;
 }
 
-/**
- * Contains response data for the getIncidentsByAnomalyDetectionConfigurationNext operation.
- */
+/** Contains response data for the getIncidentsByAnomalyDetectionConfigurationNext operation. */
 export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextResponse = IncidentResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IncidentResultList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesNextOptionalParams
   extends coreHttp.OperationOptions {
   top?: number;
   token?: string;
 }
 
-/**
- * Contains response data for the getIncidentsByAnomalyDetectionConfigurationNextPagesNext operation.
- */
+/** Contains response data for the getIncidentsByAnomalyDetectionConfigurationNextPagesNext operation. */
 export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesNextResponse = IncidentResultList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: IncidentResultList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientListDataFeedsNextOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
-  /**
-   * filter data feed by its name
-   */
+  /** filter data feed by its name */
   dataFeedName?: string;
-  /**
-   * filter data feed by its source type
-   */
+  /** filter data feed by its source type */
   dataSourceType?: DataSourceType;
-  /**
-   * filter data feed by its granularity
-   */
+  /** filter data feed by its granularity */
   granularityName?: Granularity;
-  /**
-   * filter data feed by its status
-   */
+  /** filter data feed by its status */
   status?: EntityStatus;
-  /**
-   * filter data feed by its creator
-   */
+  /** filter data feed by its creator */
   creator?: string;
 }
 
-/**
- * Contains response data for the listDataFeedsNext operation.
- */
+/** Contains response data for the listDataFeedsNext operation. */
 export type GeneratedClientListDataFeedsNextResponse = DataFeedList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: DataFeedList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientListHooksNextOptionalParams
   extends coreHttp.OperationOptions {
   skip?: number;
   top?: number;
-  /**
-   * filter hook by its name
-   */
+  /** filter hook by its name */
   hookName?: string;
 }
 
-/**
- * Contains response data for the listHooksNext operation.
- */
+/** Contains response data for the listHooksNext operation. */
 export type GeneratedClientListHooksNextResponse = HookList & {
-  /**
-   * The underlying HTTP response.
-   */
+  /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
+    /** The response body as text (string format) */
     bodyAsText: string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
+    /** The response body as parsed JSON or XML */
     parsedBody: HookList;
   };
 };
 
-/**
- * Optional parameters.
- */
+/** Optional parameters. */
 export interface GeneratedClientOptionalParams
   extends coreHttp.ServiceClientOptions {
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

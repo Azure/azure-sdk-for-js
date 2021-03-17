@@ -23,3 +23,8 @@ export function uint8ArrayToString(ab: Uint8Array): string {
     return decoder.decode(ab);
   }
 }
+
+export function getKey(size: number): Uint8Array {
+  const result = new Uint8Array(size);
+  return result.map((_val, i) => i);
+}
