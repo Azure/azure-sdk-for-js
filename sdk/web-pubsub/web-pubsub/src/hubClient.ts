@@ -18,6 +18,7 @@ import { webPubSubAzureKeyCredentialPolicyFactory } from "./webPubSubCredentialP
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { parseConnectionString } from "./parseConnectionString";
+import jwt from "jsonwebtoken";
 
 /**
  * Options for closing a connection to a hub.
@@ -78,6 +79,40 @@ export interface HubSendToUserOptions extends OperationOptions {}
  * Options for checking if the service is healthy.
  */
 export interface HubIsServiceHealthyOptions extends OperationOptions {}
+
+/**
+ * Options for auth a client
+ */
+export interface GetAuthenticationTokenOptions {
+  /**
+   * The userId for the client
+   */
+  userId?: string;
+  /**
+   * The custom claims for the client, e.g. role
+   */
+  claims?: { [key: string]: string[] };
+}
+
+/**
+ * Response for the authed client, including the url and the jwt token
+ */
+export interface GetAuthenticationTokenResponse {
+  /**
+   * The URL client connects to
+   */
+  baseUrl: string;
+
+  /**
+   * The JWT token the client uses to connect
+   */
+  token: string;
+
+  /**
+   * The URL client connects to with access_token query string
+   */
+  url: string;
+}
 
 /**
  * Client for connecting to a Web PubSub hub
@@ -179,6 +214,37 @@ export class WebPubsubServiceClient {
     );
 
     this.client = new GeneratedClient(this.endpoint, pipeline);
+  }
+
+  /**
+   * Auth the client connection with userId and custom claims if any
+   * @param options The options that the client has
+   */
+  public async getAuthenticationToken(
+    options?: GetAuthenticationTokenOptions
+  ): Promise<GetAuthenticationTokenResponse> {
+    const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
+    const key = this.credential.key;
+    const hub = this.hubName;
+    var clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
+    var clientUrl = `${clientEndpoint}client/hubs/${hub}`;
+    const audience = `${endpoint}client/hubs/${hub}`;
+    var payload = options?.claims ?? {};
+    var signOptions: jwt.SignOptions = {
+      audience: audience,
+      expiresIn: "1h",
+      algorithm: "HS256"
+    };
+    if (options?.userId) {
+      signOptions.subject = options?.userId;
+    }
+    const token = jwt.sign(payload, key, signOptions);
+    const url = `${clientUrl}?access_token=${token}`;
+    return {
+      baseUrl: clientUrl,
+      token: jwt.sign(payload, key, signOptions),
+      url: url
+    };
   }
 
   /**
