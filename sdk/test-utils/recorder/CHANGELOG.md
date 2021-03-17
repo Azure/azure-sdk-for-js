@@ -5,9 +5,11 @@
 ## 2021-03-17
 
 - Adds an internal helper method to mask "access_token" in the recorder rather than expecting users to provide it through the custom config `customizationsOnRecordings` from `RecorderEnvironmentSetup`. [#12759](https://github.com/Azure/azure-sdk-for-js/pull/12759)
-With this change, users don't have to add callbacks(to mask `access_token`) in the `customizationsOnRecordings` array such as below.
+  With this change, users don't have to add callbacks(to mask `access_token`) in the `customizationsOnRecordings` array such as below.
   ```ts
-    customizationsOnRecordings: [ recording => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`) ]
+  customizationsOnRecordings: [
+    (recording) => recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+  ];
   ```
 
 ## 2020-01-28
