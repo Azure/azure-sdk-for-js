@@ -10,9 +10,9 @@ steps:
   - pwsh: |
       $nativeDependencySymlinkPaths = "common/temp/node_modules/.pnpm/node_modules/keytar,common/temp/node_modules/.pnpm/node_modules/@azure/msal-node-extensions"
       $currentLocation = Get-Location
-      $dependencySynlinks = $nativeDependencySymlinkPaths.Split(",")
+      $dependencySymlinks = $nativeDependencySymlinkPaths.Split(",")
 
-      foreach ($symlink in $dependencySynlinks)
+      foreach ($symlink in $dependencySymlinks)
       {
         Write-Host "Reinstalling native dependency $($symlink)"
 
