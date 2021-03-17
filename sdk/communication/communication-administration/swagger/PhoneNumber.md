@@ -13,7 +13,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/phoneNumber/generated
 tag: package-2020-07-20-preview1
-require: https://github.com/Azure/azure-rest-api-specs/blob/257f060be8b60d8468584682aa2d71b1faa5f82c/specification/communication/data-plane/readme.md
+require: https://github.com/Azure/azure-rest-api-specs/blob/e5a57e87f16c7fd9a6eaeb3c6049293d1334f6c6/specification/communication/data-plane/Microsoft.CommunicationServicesAdministration/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
