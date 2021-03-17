@@ -7,6 +7,7 @@
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public (undocumented)
@@ -40,20 +41,20 @@ export class ContainerRegistryUserCredential {
 export class ContainerRepositoryClient {
     constructor(endpointUrl: string, repository: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
     delete(options?: DeleteOptions): Promise<DeletedRepositoryResult>;
-    deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<import("@azure/core-http").RestResponse>;
-    deleteTag(tag: string, options?: DeleteTagOptions): Promise<import("@azure/core-http").RestResponse>;
-    getProperties(options?: GetPropertiesOptions): Promise<import("./generated").ContainerRegistryGetRepositoryAttributesResponse>;
-    getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<import("./generated").ContainerRegistryRepositoryGetManifestAttributesResponse>;
-    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<import("./generated").ContainerRegistryRepositoryGetTagAttributesResponse>;
+    deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<RestResponse>;
+    deleteTag(tag: string, options?: DeleteTagOptions): Promise<RestResponse>;
+    getProperties(options?: GetPropertiesOptions): Promise<RepositoryAttributes>;
+    getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<RegistryArtifactProperties>;
+    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<TagAttributes>;
     listRegistryArtifacts(options?: ListRegistryArtifactsOptions): PagedAsyncIterableIterator<RegistryArtifactProperties>;
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
     // (undocumented)
     registry: string;
     // (undocumented)
     repository: string;
-    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<import("@azure/core-http").RestResponse>;
-    setPermissions(value?: ContentProperties, options?: SetPermissionsOptions): Promise<import("@azure/core-http").RestResponse>;
-    setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<import("@azure/core-http").RestResponse>;
+    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<RestResponse>;
+    setPermissions(value?: ContentProperties, options?: SetPermissionsOptions): Promise<RestResponse>;
+    setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<RestResponse>;
 }
 
 // @public
@@ -111,10 +112,38 @@ export interface ListTagsOptions extends OperationOptions {
     orderby?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ManifestAttributes" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface ManifestAttributes {
+    configMediaType?: string;
+    cpuArchitecture?: string;
+    createdOn?: Date;
+    digest?: string;
+    lastUpdatedOn?: Date;
+    manifestMediaType?: string;
+    manifestProperties?: ChangeableAttributes;
+    operatingSystem?: string;
+    registry?: string;
+    repository?: string;
+    size?: number;
+    tags?: string[];
+}
+
 // @public (undocumented)
 export type RegistryArtifactProperties = ManifestAttributes;
+
+// @public
+export interface RepositoryAttributes {
+    createdOn?: Date;
+    lastUpdatedOn?: Date;
+    name?: string;
+    registry?: string;
+    registryArtifactCount?: number;
+    tagCount?: number;
+    writeableProperties?: ChangeableAttributes;
+}
+
+// @public
+export type RepositoryProperties = RepositoryAttributes;
 
 // @public
 export interface SetManifestPropertiesOptions extends OperationOptions {
@@ -126,6 +155,17 @@ export interface SetPermissionsOptions extends OperationOptions {
 
 // @public
 export interface SetTagPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface TagAttributes {
+    createdOn?: Date;
+    digest?: string;
+    lastUpdatedOn?: Date;
+    modifiableProperties?: ChangeableAttributes;
+    name?: string;
+    registry?: string;
+    repository?: string;
 }
 
 // @public

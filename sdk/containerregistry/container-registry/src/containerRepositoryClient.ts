@@ -18,19 +18,16 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import {
-  GeneratedClient,
-  ManifestAttributes,
-  RepositoryAttributes,
-  TagAttributes
-} from "./generated";
+import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
 import {
   ContainerRegistryClientOptions,
   ContentProperties,
   DeletedRepositoryResult,
   RegistryArtifactProperties,
-  TagProperties
+  TagProperties,
+  RepositoryAttributes,
+  TagAttributes
 } from "./model";
 import {
   ContainerRegistryUserCredential,
@@ -268,7 +265,7 @@ export class ContainerRepositoryClient {
   public async getRegistryArtifactProperties(
     tagOrDigest: string,
     options: GetRegistryArtifactPropertiesOptions = {}
-  ): Promise<ManifestAttributes> {
+  ): Promise<RegistryArtifactProperties> {
     const { span, updatedOptions } = createSpan(
       "ContainerRepositoryClient-getRegistryArtifactProperties",
       options
