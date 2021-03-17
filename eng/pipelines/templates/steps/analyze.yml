@@ -49,7 +49,7 @@ steps:
     displayName: "Build ESLint Plugin and Lint Libraries"
 
   - pwsh: |
-      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}"
+      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" --verbose
     displayName: "Check Format in Libraries"
 
   - script: |

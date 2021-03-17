@@ -177,6 +177,19 @@ function rushRunAll(direction, packages) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
 }
 
+/**
+ * Helper function to get the relative path of a package directory from an absolute
+ * one
+ * 
+ * @param {string} absolutePath absolute path to a package 
+ * @returns either the relative path of the package starting from the "sdk" directory
+ *          or the just the absolute path itself if "sdk" if not found
+ */
+function tryGetPkgRelativePath(absolutePath) {
+  const sdkDirectoryPathStartIndex = absolutePath.lastIndexOf("sdk");
+  return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
+}
+
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
@@ -196,7 +209,7 @@ if (serviceDirs.length === 0) {
     case "check-format":
       for (const packageDir of packageDirs) {
         if (spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action) !== 0) {
-          console.log(`Invoke "rushx format" inside ${packageDir} to fix formatting`);
+          console.log(`\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`);
         }
       }
       break;
