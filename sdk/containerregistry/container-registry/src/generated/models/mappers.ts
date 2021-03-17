@@ -97,10 +97,10 @@ export const Repositories: coreHttp.CompositeMapper = {
   }
 };
 
-export const RepositoryAttributes: coreHttp.CompositeMapper = {
+export const RepositoryProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RepositoryAttributes",
+    className: "RepositoryProperties",
     modelProperties: {
       registry: {
         serializedName: "registry",
@@ -142,17 +142,17 @@ export const RepositoryAttributes: coreHttp.CompositeMapper = {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }
   }
 };
 
-export const ChangeableAttributes: coreHttp.CompositeMapper = {
+export const ContentProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChangeableAttributes",
+    className: "ContentProperties",
     modelProperties: {
       canDelete: {
         serializedName: "deleteEnabled",
@@ -182,10 +182,10 @@ export const ChangeableAttributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeletedRepository: coreHttp.CompositeMapper = {
+export const DeletedRepositoryResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DeletedRepository",
+    className: "DeletedRepositoryResult",
     modelProperties: {
       deletedRegistryArtifactDigests: {
         serializedName: "manifestsDeleted",
@@ -285,17 +285,17 @@ export const TagAttributesBase: coreHttp.CompositeMapper = {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }
   }
 };
 
-export const TagAttributes: coreHttp.CompositeMapper = {
+export const TagProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TagAttributes",
+    className: "TagProperties",
     modelProperties: {
       registry: {
         serializedName: "registry",
@@ -337,7 +337,7 @@ export const TagAttributes: coreHttp.CompositeMapper = {
         serializedName: "tag.changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }
@@ -451,17 +451,17 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }
   }
 };
 
-export const ManifestAttributes: coreHttp.CompositeMapper = {
+export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ManifestAttributes",
+    className: "RegistryArtifactProperties",
     modelProperties: {
       registry: {
         serializedName: "registry",
@@ -538,7 +538,7 @@ export const ManifestAttributes: coreHttp.CompositeMapper = {
         serializedName: "manifest.changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }

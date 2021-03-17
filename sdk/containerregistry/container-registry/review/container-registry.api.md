@@ -10,14 +10,6 @@ import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
-// @public (undocumented)
-export interface ChangeableAttributes {
-    canDelete?: boolean;
-    canList?: boolean;
-    canRead?: boolean;
-    canWrite?: boolean;
-}
-
 // @public
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
@@ -43,9 +35,9 @@ export class ContainerRepositoryClient {
     delete(options?: DeleteOptions): Promise<DeletedRepositoryResult>;
     deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<RestResponse>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<RestResponse>;
-    getProperties(options?: GetPropertiesOptions): Promise<RepositoryAttributes>;
+    getProperties(options?: GetPropertiesOptions): Promise<RepositoryProperties>;
     getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<RegistryArtifactProperties>;
-    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<TagAttributes>;
+    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<TagProperties>;
     listRegistryArtifacts(options?: ListRegistryArtifactsOptions): PagedAsyncIterableIterator<RegistryArtifactProperties>;
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
     // (undocumented)
@@ -57,17 +49,19 @@ export class ContainerRepositoryClient {
     setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<RestResponse>;
 }
 
-// @public
-export type ContentProperties = ChangeableAttributes;
-
-// @public
-export interface DeletedRepository {
-    deletedRegistryArtifactDigests?: string[];
-    deletedTags?: string[];
+// @public (undocumented)
+export interface ContentProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
 }
 
 // @public
-export type DeletedRepositoryResult = DeletedRepository;
+export interface DeletedRepositoryResult {
+    deletedRegistryArtifactDigests?: string[];
+    deletedTags?: string[];
+}
 
 // @public
 export interface DeleteOptions extends OperationOptions {
@@ -113,14 +107,14 @@ export interface ListTagsOptions extends OperationOptions {
 }
 
 // @public
-export interface ManifestAttributes {
+export interface RegistryArtifactProperties {
     configMediaType?: string;
     cpuArchitecture?: string;
     createdOn?: Date;
     digest?: string;
     lastUpdatedOn?: Date;
     manifestMediaType?: string;
-    manifestProperties?: ChangeableAttributes;
+    manifestProperties?: ContentProperties;
     operatingSystem?: string;
     registry?: string;
     repository?: string;
@@ -128,22 +122,16 @@ export interface ManifestAttributes {
     tags?: string[];
 }
 
-// @public (undocumented)
-export type RegistryArtifactProperties = ManifestAttributes;
-
 // @public
-export interface RepositoryAttributes {
+export interface RepositoryProperties {
     createdOn?: Date;
     lastUpdatedOn?: Date;
     name?: string;
     registry?: string;
     registryArtifactCount?: number;
     tagCount?: number;
-    writeableProperties?: ChangeableAttributes;
+    writeableProperties?: ContentProperties;
 }
-
-// @public
-export type RepositoryProperties = RepositoryAttributes;
 
 // @public
 export interface SetManifestPropertiesOptions extends OperationOptions {
@@ -158,25 +146,14 @@ export interface SetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface TagAttributes {
-    createdOn?: Date;
-    digest?: string;
-    lastUpdatedOn?: Date;
-    modifiableProperties?: ChangeableAttributes;
-    name?: string;
-    registry?: string;
-    repository?: string;
-}
-
-// @public
 export interface TagProperties {
     createdOn?: Date;
     digest?: string;
     lastUpdatedOn?: Date;
     modifiableProperties?: ContentProperties;
     name?: string;
-    registry: string;
-    repository: string;
+    registry?: string;
+    repository?: string;
 }
 
 

@@ -178,7 +178,7 @@ const getRepositoryAttributesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RepositoryAttributes
+      bodyMapper: Mappers.RepositoryProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -193,7 +193,7 @@ const deleteRepositoryOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     202: {
-      bodyMapper: Mappers.DeletedRepository
+      bodyMapper: Mappers.DeletedRepositoryResult
     },
     default: {
       bodyMapper: Mappers.AcrErrors

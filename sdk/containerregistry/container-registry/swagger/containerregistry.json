@@ -1241,6 +1241,7 @@
   },
   "definitions": {
     "RepositoryAttributes": {
+      "x-ms-client-name": "RepositoryProperties",
       "type": "object",
       "description": "Repository attributes",
       "properties": {
@@ -1352,6 +1353,7 @@
       }
     },
     "TagAttributes": {
+      "x-ms-client-name": "TagProperties",
       "description": "Tag attributes",
       "properties": {
         "registry": {
@@ -1501,6 +1503,7 @@
       }
     },
     "ManifestAttributes": {
+      "x-ms-client-name": "RegistryArtifactProperties",
       "description": "Manifest attributes details",
       "properties": {
         "registry": {
@@ -1775,6 +1778,7 @@
       }
     },
     "DeletedRepository": {
+      "x-ms-client-name": "DeletedRepositoryResult",
       "description": "Deleted repository",
       "properties": {
         "manifestsDeleted": {
@@ -1861,6 +1865,7 @@
       }
     },
     "ChangeableAttributes": {
+      "x-ms-client-name": "ContentProperties",
       "properties": {
         "deleteEnabled": {
           "type": "boolean",

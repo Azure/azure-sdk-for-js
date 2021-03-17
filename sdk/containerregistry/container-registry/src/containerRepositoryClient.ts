@@ -25,9 +25,8 @@ import {
   ContentProperties,
   DeletedRepositoryResult,
   RegistryArtifactProperties,
-  TagProperties,
-  RepositoryAttributes,
-  TagAttributes
+  RepositoryProperties,
+  TagProperties
 } from "./model";
 import {
   ContainerRegistryUserCredential,
@@ -240,7 +239,7 @@ export class ContainerRepositoryClient {
    * Retrieves properties of this repository.
    * @param options -
    */
-  public async getProperties(options: GetPropertiesOptions = {}): Promise<RepositoryAttributes> {
+  public async getProperties(options: GetPropertiesOptions = {}): Promise<RepositoryProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-getProperties", options);
 
     try {
@@ -294,7 +293,7 @@ export class ContainerRepositoryClient {
   public async getTagProperties(
     tag: string,
     options: GetTagPropertiesOptions = {}
-  ): Promise<TagAttributes> {
+  ): Promise<TagProperties> {
     const { span, updatedOptions } = createSpan(
       "ContainerRepositoryClient-getTagProperties",
       options

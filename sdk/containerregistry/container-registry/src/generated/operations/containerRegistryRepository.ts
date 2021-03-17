@@ -379,7 +379,7 @@ const getTagAttributesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagAttributes
+      bodyMapper: Mappers.TagProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -439,7 +439,7 @@ const getManifestAttributesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManifestAttributes
+      bodyMapper: Mappers.RegistryArtifactProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors

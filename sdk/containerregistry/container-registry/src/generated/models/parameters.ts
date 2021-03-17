@@ -12,7 +12,7 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
-  ChangeableAttributes as ChangeableAttributesMapper,
+  ContentProperties as ContentPropertiesMapper,
   Manifest as ManifestMapper,
   Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema as Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper,
   PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema as PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
@@ -87,7 +87,7 @@ export const contentType: OperationParameter = {
 
 export const value: OperationParameter = {
   parameterPath: ["options", "value"],
-  mapper: ChangeableAttributesMapper
+  mapper: ContentPropertiesMapper
 };
 
 export const nextLink: OperationURLParameter = {

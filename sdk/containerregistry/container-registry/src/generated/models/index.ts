@@ -38,7 +38,7 @@ export interface Repositories {
 }
 
 /** Repository attributes */
-export interface RepositoryAttributes {
+export interface RepositoryProperties {
   /** Registry name */
   registry?: string;
   /** Image name */
@@ -52,10 +52,10 @@ export interface RepositoryAttributes {
   /** Number of the tags */
   tagCount?: number;
   /** Changeable attributes */
-  writeableProperties?: ChangeableAttributes;
+  writeableProperties?: ContentProperties;
 }
 
-export interface ChangeableAttributes {
+export interface ContentProperties {
   /** Delete enabled */
   canDelete?: boolean;
   /** Write enabled */
@@ -67,7 +67,7 @@ export interface ChangeableAttributes {
 }
 
 /** Deleted repository */
-export interface DeletedRepository {
+export interface DeletedRepositoryResult {
   /** SHA of the deleted image */
   deletedRegistryArtifactDigests?: string[];
   /** Tag of the deleted image */
@@ -96,11 +96,11 @@ export interface TagAttributesBase {
   /** Tag last update time */
   lastUpdatedOn?: Date;
   /** Changeable attributes */
-  modifiableProperties?: ChangeableAttributes;
+  modifiableProperties?: ContentProperties;
 }
 
 /** Tag attributes */
-export interface TagAttributes {
+export interface TagProperties {
   /** Registry name */
   registry?: string;
   /** Image name */
@@ -114,7 +114,7 @@ export interface TagAttributes {
   /** Tag last update time */
   lastUpdatedOn?: Date;
   /** Changeable attributes */
-  modifiableProperties?: ChangeableAttributes;
+  modifiableProperties?: ContentProperties;
 }
 
 /** Manifest attributes */
@@ -149,11 +149,11 @@ export interface ManifestAttributesBase {
   /** List of tags */
   tags?: string[];
   /** Changeable attributes */
-  manifestProperties?: ChangeableAttributes;
+  manifestProperties?: ContentProperties;
 }
 
 /** Manifest attributes details */
-export interface ManifestAttributes {
+export interface RegistryArtifactProperties {
   /** Registry name */
   registry?: string;
   /** Image name */
@@ -177,7 +177,7 @@ export interface ManifestAttributes {
   /** List of tags */
   tags?: string[];
   /** Changeable attributes */
-  manifestProperties?: ChangeableAttributes;
+  manifestProperties?: ContentProperties;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
@@ -630,26 +630,26 @@ export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepos
   };
 
 /** Contains response data for the getRepositoryAttributes operation. */
-export type ContainerRegistryGetRepositoryAttributesResponse = RepositoryAttributes & {
+export type ContainerRegistryGetRepositoryAttributesResponse = RepositoryProperties & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: RepositoryAttributes;
+    parsedBody: RepositoryProperties;
   };
 };
 
 /** Contains response data for the deleteRepository operation. */
-export type ContainerRegistryDeleteRepositoryResponse = DeletedRepository & {
+export type ContainerRegistryDeleteRepositoryResponse = DeletedRepositoryResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: DeletedRepository;
+    parsedBody: DeletedRepositoryResult;
   };
 };
 
@@ -657,7 +657,7 @@ export type ContainerRegistryDeleteRepositoryResponse = DeletedRepository & {
 export interface ContainerRegistryUpdateRepositoryAttributesOptionalParams
   extends coreHttp.OperationOptions {
   /** Repository attribute value */
-  value?: ChangeableAttributes;
+  value?: ContentProperties;
 }
 
 /** Optional parameters. */
@@ -749,14 +749,14 @@ export type ContainerRegistryRepositoryGetTagsResponse = ContainerRegistryReposi
   };
 
 /** Contains response data for the getTagAttributes operation. */
-export type ContainerRegistryRepositoryGetTagAttributesResponse = TagAttributes & {
+export type ContainerRegistryRepositoryGetTagAttributesResponse = TagProperties & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: TagAttributes;
+    parsedBody: TagProperties;
   };
 };
 
@@ -764,7 +764,7 @@ export type ContainerRegistryRepositoryGetTagAttributesResponse = TagAttributes 
 export interface ContainerRegistryRepositoryUpdateTagAttributesOptionalParams
   extends coreHttp.OperationOptions {
   /** Repository attribute value */
-  value?: ChangeableAttributes;
+  value?: ContentProperties;
 }
 
 /** Optional parameters. */
@@ -794,14 +794,14 @@ export type ContainerRegistryRepositoryGetManifestsResponse = ContainerRegistryR
   };
 
 /** Contains response data for the getManifestAttributes operation. */
-export type ContainerRegistryRepositoryGetManifestAttributesResponse = ManifestAttributes & {
+export type ContainerRegistryRepositoryGetManifestAttributesResponse = RegistryArtifactProperties & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: ManifestAttributes;
+    parsedBody: RegistryArtifactProperties;
   };
 };
 
@@ -809,7 +809,7 @@ export type ContainerRegistryRepositoryGetManifestAttributesResponse = ManifestA
 export interface ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams
   extends coreHttp.OperationOptions {
   /** Repository attribute value */
-  value?: ChangeableAttributes;
+  value?: ContentProperties;
 }
 
 /** Optional parameters. */
