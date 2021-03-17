@@ -34,6 +34,7 @@ export interface Manifest {
 export interface Repositories {
   /** Repository names */
   repositories?: string[];
+  link?: string;
 }
 
 /** Repository attributes */
@@ -81,6 +82,7 @@ export interface TagList {
   imageName?: string;
   /** List of tag attribute details */
   tags?: TagAttributesBase[];
+  link?: string;
 }
 
 /** Tag attribute details */
@@ -123,6 +125,7 @@ export interface AcrManifests {
   imageName?: string;
   /** List of manifests */
   manifests?: ManifestAttributesBase[];
+  link?: string;
 }
 
 /** Manifest details */

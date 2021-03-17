@@ -1405,6 +1405,9 @@
           "items": {
             "$ref": "#/definitions/TagAttributesBase"
           }
+        },
+        "link": {
+          "type": "string"
         }
       },
       "example": {
@@ -1538,6 +1541,9 @@
             "$ref": "#/definitions/ManifestAttributesBase",
             "description": "Manifest details"
           }
+        },
+        "link": {
+          "type": "string"
         }
       },
       "x-accessibility": "internal",
@@ -1864,6 +1870,9 @@
           "items": {
             "type": "string"
           }
+        },
+        "link": {
+          "type": "string"
         }
       },
       "x-accessibility": "internal",

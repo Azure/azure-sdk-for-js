@@ -86,6 +86,12 @@ export const Repositories: coreHttp.CompositeMapper = {
             }
           }
         }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -235,6 +241,12 @@ export const TagList: coreHttp.CompositeMapper = {
             }
           }
         }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -359,6 +371,12 @@ export const AcrManifests: coreHttp.CompositeMapper = {
               className: "ManifestAttributesBase"
             }
           }
+        }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
         }
       }
     }
