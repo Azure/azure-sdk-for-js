@@ -125,12 +125,12 @@ export class ChatClient {
     const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
 
     try {
-      // We generate an UUID if user not provides idempotencyToken.
+      // We generate an UUID if the user does not provide an idempotencyToken value
       updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
       const { _response, ...result } = await this.client.chat.createChatThread(
         {
           topic: request.topic,
-          participants: request.participants?.map((participant) =>
+          participants: options.participants?.map((participant) =>
             mapToChatParticipantRestModel(participant)
           )
         },

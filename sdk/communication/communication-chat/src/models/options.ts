@@ -10,6 +10,7 @@ import {
   ChatCreateChatThreadOptionalParams as RestCreateChatThreadOptions,
   ChatMessageType
 } from "../generated/src/models";
+import { ChatParticipant } from "./models";
 
 export {
   RestCreateChatThreadOptions,
@@ -63,7 +64,10 @@ export type ListMessagesOptions = RestListMessagesOptions;
 /**
  * Options to create a chat thread.
  */
-export type CreateChatThreadOptions = RestCreateChatThreadOptions;
+export interface CreateChatThreadOptions extends RestCreateChatThreadOptions {
+  /** Participants to be added to the chat thread. */
+  participants?: ChatParticipant[];
+}
 
 /**
  * Options to get a chat thread.
