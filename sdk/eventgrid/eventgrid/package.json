@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Event Grid service.",
-  "version": "3.0.0-beta.4",
+  "version": "4.0.0",
   "keywords": [
     "node",
     "azure",
@@ -78,8 +78,8 @@
   "autoPublish": false,
   "dependencies": {
     "@azure/core-auth": "^1.2.0",
-    "@azure/core-client": "1.0.0-beta.2",
-    "@azure/core-rest-pipeline": "1.0.0-beta.2",
+    "@azure/core-client": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.10",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
