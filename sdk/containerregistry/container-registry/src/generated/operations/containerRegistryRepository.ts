@@ -92,7 +92,7 @@ export class ContainerRegistryRepository {
    * Delete the manifest identified by `name` and `reference`. Note that a manifest can _only_ be deleted
    * by `digest`.
    * @param name Name of the image (including the namespace)
-   * @param reference A tag or a digest, pointing to a specific image
+   * @param reference Digest of a BLOB
    * @param options The options parameters.
    */
   deleteManifest(

@@ -176,7 +176,7 @@
             "$ref": "#/parameters/ImageName"
           },
           {
-            "$ref": "#/parameters/ImageReference"
+            "$ref": "#/parameters/DigestReference"
           }
         ],
         "responses": {
@@ -2404,6 +2404,14 @@
     },
     "Digest": {
       "name": "digest",
+      "in": "path",
+      "description": "Digest of a BLOB",
+      "required": true,
+      "type": "string",
+      "x-ms-parameter-location": "method"
+    },
+    "DigestReference": {
+      "name": "reference",
       "in": "path",
       "description": "Digest of a BLOB",
       "required": true,
