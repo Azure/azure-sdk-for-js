@@ -594,7 +594,7 @@
         "description": "List repositories",
         "operationId": "ContainerRegistry_GetRepositories",
         "x-ms-pageable": {
-          "itemName": "names",
+          "itemName": "repositories",
           "nextLinkName": "link"
         },
         "x-ms-examples": {
@@ -1861,7 +1861,6 @@
       "properties": {
         "repositories": {
           "type": "array",
-          "x-ms-client-name": "Names",
           "description": "Repository names",
           "items": {
             "type": "string"

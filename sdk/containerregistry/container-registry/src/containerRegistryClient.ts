@@ -170,9 +170,10 @@ export class ContainerRegistryClient {
       const currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
       // TODO: (jeremymeng) nextLink not working as expected
       // continuationState.continuationToken = currentPage.link;
-      if (currentPage.names) {
-        continuationState.continuationToken = currentPage.names[currentPage.names.length - 1];
-        yield currentPage.names;
+      if (currentPage.repositories) {
+        continuationState.continuationToken =
+          currentPage.repositories[currentPage.repositories.length - 1];
+        yield currentPage.repositories;
       } else {
         continuationState.continuationToken = undefined;
       }
@@ -192,9 +193,10 @@ export class ContainerRegistryClient {
         });
         // TODO: (jeremymeng) nextLink not working as expected
         // continuationState.continuationToken = currentPage.link;
-        if (currentPage.names) {
-          continuationState.continuationToken = currentPage.names[currentPage.names.length - 1];
-          yield currentPage.names;
+        if (currentPage.repositories) {
+          continuationState.continuationToken =
+            currentPage.repositories[currentPage.repositories.length - 1];
+          yield currentPage.repositories;
         } else {
           continuationState.continuationToken = undefined;
         }

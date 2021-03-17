@@ -76,7 +76,7 @@ export const Repositories: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "Repositories",
     modelProperties: {
-      names: {
+      repositories: {
         serializedName: "repositories",
         type: {
           name: "Sequence",

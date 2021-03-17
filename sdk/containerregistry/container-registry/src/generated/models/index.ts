@@ -33,7 +33,7 @@ export interface Manifest {
 /** List of repositories */
 export interface Repositories {
   /** Repository names */
-  names?: string[];
+  repositories?: string[];
 }
 
 /** Repository attributes */
