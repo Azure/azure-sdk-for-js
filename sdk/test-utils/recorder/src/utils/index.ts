@@ -452,7 +452,6 @@ export function maskAccessTokenInNockFixture(fixture: string): string {
     // Matches the nock's reply from the fixture
     const matches = fixture.match(/\.reply\((.*), (.*), .*/);
     if (matches && matches[2]) {
-      // TODO: Only replace if the "token_type" is "Bearer"??
       const accessToken = JSON.parse(matches[2])["access_token"];
       const updatedFixture = fixture.replace(accessToken, "access_token");
       return updatedFixture;
