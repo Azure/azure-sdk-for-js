@@ -167,7 +167,7 @@ export class ContainerRegistryClient {
         n: continuationState.maxPageSize,
         ...options
       };
-      const currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
+      let currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
       // TODO: (jeremymeng) nextLink not working as expected
       // continuationState.continuationToken = currentPage.link;
       if (currentPage.repositories) {
@@ -179,14 +179,14 @@ export class ContainerRegistryClient {
       }
       while (continuationState.continuationToken) {
         // TODO: (jeremymeng) nextLink not working as expected
-        // const currentPage = await this.client.containerRegistry.getRepositoriesNext(
+        // currentPage = await this.client.containerRegistry.getRepositoriesNext(
         //   continuationState.continuationToken,
         //   {
         //     n: continuationState.maxPageSize,
         //     ...options
         //   }
         // );
-        const currentPage = await this.client.containerRegistry.getRepositories({
+        currentPage = await this.client.containerRegistry.getRepositories({
           last: continuationState.continuationToken,
           n: continuationState.maxPageSize,
           ...options
