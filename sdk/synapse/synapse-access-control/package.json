@@ -68,6 +68,8 @@
     "test": "echo skip",
     "build:test": "echo skip",
     "lint": "echo skip",
+    "format": "echo skip format as this package has only auto generated code",
+    "check-format": "echo skip format check as this package has only auto generated code",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",

@@ -15,6 +15,7 @@
     "build:node": "tsc -p . && rollup -c 2>&1",
     "build": "npm run build:node && npm run build:browser && api-extractor run --local",
     "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o telemetry-exporter-lintReport.html || exit 0",
     "test": "npm run test:node && npm run test:browser",
