@@ -43,7 +43,6 @@ export class DeviceCodeCredential implements TokenCredential {
    *                   By default we will try to use the Azure CLI's client ID to authenticate.
    * @param userPromptCallback - A callback function that will be invoked to show
    *                             {@link DeviceCodeInfo} to the user. If left unassigned, we will automatically log the device code information and the authentication instructions in the console.
-   *                             Users can also pass the options as the third parameter, and skip the prompt callback entirely.
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(options?: DeviceCodeCredentialOptions);

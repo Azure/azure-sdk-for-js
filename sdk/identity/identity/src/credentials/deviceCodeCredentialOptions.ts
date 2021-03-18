@@ -46,4 +46,10 @@ export interface DeviceCodeCredentialOptions extends InteractiveCredentialOption
    * The client (application) ID of an App Registration in the tenant.
    */
   clientId?: string;
+  /**
+   * A callback function that will be invoked to show {@link DeviceCodeInfo} to the user.
+   * If left unassigned, we will automatically log the device code information
+   * and the authentication instructions in the console.
+   */
+  userPromptCallback?: DeviceCodePromptCallback;
 }

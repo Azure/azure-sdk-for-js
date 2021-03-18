@@ -135,6 +135,7 @@ export class DeviceCodeCredential implements TokenCredential {
 export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions {
     clientId?: string;
     tenantId?: string;
+    userPromptCallback?: DeviceCodePromptCallback;
 }
 
 // @public
