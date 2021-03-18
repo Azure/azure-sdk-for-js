@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { FileInfo } from "./findMatchingFiles";
+import {FileInfo} from "./findMatchingFiles";
 
 /**
  * An interface for the sample configuration metadata within an Azure SDK for
@@ -29,6 +29,12 @@ export interface SampleConfiguration {
    * Disable generation of docs.microsoft.com publication metadata.
    */
   disableDocsMs?: boolean;
+  /**
+   * Link to the API reference documentation. If this is not provided, we
+   * assume the API reference is located at
+   * `docs.microsoft.com/javascript/api/<packageName>`.
+   */
+  apiRefLink?: string;
   /**
    * Override sample dependency versions. These dependency versions will be
    * preferred when publishing samples package.json files rather than the

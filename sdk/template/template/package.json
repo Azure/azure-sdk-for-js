@@ -133,6 +133,7 @@
     "skipFolder": false,
     "disableDocsMs": true,
     "productName": "Azure Template",
-    "productSlugs": []
+    "productSlugs": [],
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/"
   }
 }
