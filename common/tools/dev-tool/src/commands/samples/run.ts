@@ -28,12 +28,12 @@ export const commandInfo = makeCommandInfo(
 async function runSingle(name: string, accumulatedErrors: Array<[string, string]>) {
   log("Running", name);
   try {
-    if (/.*[\\\/]samples[\\\/].*/.exec(name)) {
+    if (/.*[\\\/]samples(-dev)?[\\\/].*/.exec(name)) {
       // This is an un-prepared sample, so just require it and it will run.
       await import(name);
     } else if (!/.*[\\\/]dist-samples[\\\/].*/.exec(name)) {
       // This is not an unprepared or a prepared sample
-      log.warn("Executing a file that is neither in samples nor dist-samples.");
+      log.error("Skipped. This file is not in any samples folder.");
     } else {
       const { main: sampleMain } = await import(name);
       await sampleMain();
@@ -84,7 +84,7 @@ export default leafCommand(commandInfo, async (options) => {
     } else if (stats.isDirectory()) {
       for await (const fileName of findMatchingFiles(
         sample,
-        (name, entry) => entry.isFile() && name.endsWith(".js"),
+        (name, entry) => entry.isFile() && /\.[jt]s$/.exec(name) !== null,
         {
           ignore: IGNORE,
           skips

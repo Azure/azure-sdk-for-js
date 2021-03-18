@@ -2,10 +2,15 @@
 // Licensed under the MIT license.
 
 /**
- * This file loads our monkey patch for module resolution
- * in samples and tests. We use this to make sure that TS/ES
- * loading is supported and that path-mapped imports work
- * without rewriting them.
+ * This file loads our monkey patch for module resolution in samples and
+ * tests. We use this to make sure that TS/ES loading is supported and that
+ * path-mapped imports work without rewriting them.
+ *
+ * As a forewarning to anyone who comes to this module and thinks: "Why can't
+ * we rewrite this in TypeScript," keep in mind that this module is used to
+ * bootstrap loading of typescript code at runtime within dev-tool. Rewriting
+ * this module in TypeScript is likely possible, but challenging. In plain
+ * old JavaScript, it is simple enough.
  */
 
 const path = require("path");
@@ -20,8 +25,21 @@ const main = module.parent;
 // We need to know which package name to monkey patch
 const { name: hostPackageName } = main.require("./package.json");
 
+// If we're bootstrapping a dev-tool command, we need to patch the package from
+// CWD instead.  This will still end up being dev-tool if we end up in a
+// self-hosting situation where dev-tool calls itself from its own scripts.
+const packageNameToPatch =
+  hostPackageName === "@azure/dev-tool"
+    ? require(path.join(cwd, "package.json")).name
+    : hostPackageName;
+
 if (process.env.DEBUG) {
-  console.info("Azure SDK for JS dev-tool: patching module loader from:", __dirname);
+  console.info(
+    "[dev-tool/register] patching module loader from:",
+    __dirname,
+    "; package:",
+    packageNameToPatch
+  );
 }
 
 require("dotenv").config();
@@ -38,9 +56,9 @@ const makeTransformers = () => ({
       ts.visitEachChild(
         sourceFile,
         (node) => {
-          // If the sample or test program is trying to import the host package, we'll rewrite
-          // it on the fly to make the import work.
-          if (ts.isImportDeclaration(node) && node.moduleSpecifier.text === hostPackageName) {
+          // If the sample or test program is trying to import the host
+          // package, we'll rewrite it on the fly to make the import work.
+          if (ts.isImportDeclaration(node) && node.moduleSpecifier.text === packageNameToPatch) {
             // rewrite the import to use a relative path
             const oldName = node.moduleSpecifier.text;
             const base = sourceFile.path.includes("dist-esm") ? path.join(cwd, "dist-esm") : cwd;
@@ -51,7 +69,7 @@ const makeTransformers = () => ({
               path.join(base, "src", "index")
             );
             console.log(
-              `[dev-tool] Rewrote import of "${oldName}" to "${node.moduleSpecifier.text}".`
+              `[dev-tool/register] Rewrote import of "${oldName}" to "${node.moduleSpecifier.text}".`
             );
           }
           return node;
@@ -65,11 +83,13 @@ require("ts-node").register({
   skipProject: true,
   transpileOnly: true,
   compilerOptions: {
+    ...require("../../../tsconfig.json").compilerOptions,
     target: "es6",
     module: "commonjs",
     allowJs: true,
+    esModuleInterop: true,
     paths: {
-      [hostPackageName]: ["./src/index"]
+      [packageNameToPatch]: ["./src/index"]
     }
   },
   transformers: makeTransformers()
