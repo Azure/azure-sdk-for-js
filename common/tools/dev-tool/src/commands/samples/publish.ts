@@ -14,14 +14,14 @@ import path from "path";
 import nodeBuiltins from "builtin-modules";
 import ts from "typescript";
 
-import {leafCommand, makeCommandInfo} from "../../framework/command";
-import {copy, dir, file, temp, FileTreeFactory} from "../../util/fileTree";
-import {createPrinter} from "../../util/printer";
-import {ProjectInfo, resolveProject} from "../../util/resolveProject";
-import {getSampleConfiguration, SampleConfiguration} from "../../util/sampleConfiguration";
+import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { copy, dir, file, temp, FileTreeFactory } from "../../util/fileTree";
+import { createPrinter } from "../../util/printer";
+import { ProjectInfo, resolveProject } from "../../util/resolveProject";
+import { getSampleConfiguration, SampleConfiguration } from "../../util/sampleConfiguration";
 
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
-import {convert} from "./tsToJs";
+import { convert } from "./tsToJs";
 
 const log = createPrinter("publish");
 
@@ -122,12 +122,12 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     },
     ...(outputKind === OutputKind.TypeScript
       ? {
-        // We only include these in TypeScript
-        scripts: {
-          build: "tsc",
-          prebuild: "rimraf dist/"
+          // We only include these in TypeScript
+          scripts: {
+            build: "tsc",
+            prebuild: "rimraf dist/"
+          }
         }
-      }
       : {}),
     repository: {
       type: "git",
@@ -301,7 +301,7 @@ async function processSources(
         const tags = ts.getJSDocTags(node);
 
         // Look for the @summary jsdoc tag block as well
-        if (summary === undefined && tags.some(({tagName: {text}}) => text === "summary")) {
+        if (summary === undefined && tags.some(({ tagName: { text } }) => text === "summary")) {
           for (const tag of tags) {
             if (tag.tagName.text === "summary") {
               log.debug("Found summary tag on node:", node.getText(sourceFile));
@@ -392,7 +392,7 @@ async function getSampleGenerationInfo(
     dotenv: "latest"
   };
 
-  const {packageJson} = projectInfo;
+  const { packageJson } = projectInfo;
 
   if (!sampleConfiguration.productSlugs && !sampleConfiguration.disableDocsMs) {
     log.error("No extra product slugs provided (`productSlugs` in the sample configuration).");
@@ -455,13 +455,13 @@ async function getSampleGenerationInfo(
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
           ? {
-            // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
-            // in the package scripts.
-            devDependencies: {
-              typescript: "~4.1.0",
-              rimraf: "latest"
+              // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
+              // in the package scripts.
+              devDependencies: {
+                typescript: "~4.1.0",
+                rimraf: "latest"
+              }
             }
-          }
           : {})
       };
     }
@@ -479,11 +479,11 @@ function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): strin
     frontmatter: info.disableDocsMs
       ? undefined
       : {
-        page_type: "sample",
-        languages: [fullOutputKind],
-        products: info.productSlugs,
-        urlFragment: `${info.baseName}-${fullOutputKind}`
-      },
+          page_type: "sample",
+          languages: [fullOutputKind],
+          products: info.productSlugs,
+          urlFragment: `${info.baseName}-${fullOutputKind}`
+        },
     publicationDirectory: PUBLIC_SAMPLES_BASE + "/" + info.topLevelDirectory,
     useTypeScript: outputKind === OutputKind.TypeScript,
     ...info
@@ -543,7 +543,7 @@ async function makeSamplesFactory(
         // We copy the samples sources in to the `src` folder on the typescript side
         dir(
           "src",
-          info.moduleInfos.map(({filePath}) =>
+          info.moduleInfos.map(({ filePath }) =>
             file(path.basename(filePath), () => postProcess(fs.readFileSync(filePath)))
           )
         )
@@ -553,7 +553,7 @@ async function makeSamplesFactory(
         file("package.json", () => jsonify(createPackageJson(info, OutputKind.JavaScript))),
         copy("sample.env", path.join(projectInfo.path, "sample.env")),
         // Extract the JS Module Text from the module info structures
-        ...info.moduleInfos.map(({filePath, jsModuleText}) =>
+        ...info.moduleInfos.map(({ filePath, jsModuleText }) =>
           file(path.basename(filePath).replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
         )
       ])

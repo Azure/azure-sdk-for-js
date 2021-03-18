@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {FileInfo} from "./findMatchingFiles";
+import { FileInfo } from "./findMatchingFiles";
 
 /**
  * An interface for the sample configuration metadata within an Azure SDK for
