@@ -121,7 +121,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogAgreementResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -151,7 +151,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogAgreementResource
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -175,7 +175,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogAgreementResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

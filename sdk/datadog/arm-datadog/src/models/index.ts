@@ -50,6 +50,38 @@ export interface DatadogAgreementProperties {
 }
 
 /**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
+}
+
+/**
  * An interface representing DatadogAgreementResource.
  */
 export interface DatadogAgreementResource extends BaseResource {
@@ -72,6 +104,10 @@ export interface DatadogAgreementResource extends BaseResource {
    * Represents the properties of the resource.
    */
   properties?: DatadogAgreementProperties;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -94,23 +130,6 @@ export interface DatadogApiKey {
    * The time of creation of the API key.
    */
   created?: string;
-}
-
-/**
- * An interface representing ErrorResponseBody.
- */
-export interface ErrorResponseBody {
-  code?: string;
-  message?: string;
-  target?: string;
-  details?: ErrorResponseBody[];
-}
-
-/**
- * An interface representing ResourceProviderDefaultErrorResponse.
- */
-export interface ResourceProviderDefaultErrorResponse {
-  error?: ErrorResponseBody;
 }
 
 /**
@@ -387,6 +406,10 @@ export interface DatadogMonitorResource extends BaseResource {
   identity?: IdentityProperties;
   tags?: { [propertyName: string]: string };
   location: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -507,6 +530,10 @@ export interface MonitoringTagRules extends BaseResource {
    */
   readonly type?: string;
   properties?: MonitoringTagRulesProperties;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
 }
 
 /**
@@ -553,6 +580,69 @@ export interface DatadogSingleSignOnResource extends BaseResource {
    */
   readonly type?: string;
   properties?: DatadogSingleSignOnProperties;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemData?: SystemData;
+}
+
+/**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The error detail.
+ */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.).
+ * @summary Error response
+ */
+export interface ErrorResponse {
+  /**
+   * The error object.
+   */
+  error?: ErrorDetail;
 }
 
 /**
@@ -725,6 +815,14 @@ export interface DatadogSingleSignOnResourceListResponse extends Array<DatadogSi
    */
   nextLink?: string;
 }
+
+/**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
 
 /**
  * Defines values for ProvisioningState.

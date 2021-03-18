@@ -12,17 +12,17 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-datadog";
-const packageVersion = "0.1.0";
+const packageVersion = "1.0.0";
 
 export class MicrosoftDatadogClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  subscriptionId: string;
   apiVersion?: string;
+  subscriptionId: string;
 
   /**
    * Initializes a new instance of the MicrosoftDatadogClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The Microsoft Azure subscription ID.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.MicrosoftDatadogClientOptions) {
@@ -36,14 +36,14 @@ export class MicrosoftDatadogClientContext extends msRestAzure.AzureServiceClien
     if (!options) {
       options = {};
     }
-    if(!options.userAgent) {
+    if (!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
     super(credentials, options);
 
-    this.apiVersion = '2020-02-01-preview';
+    this.apiVersion = '2021-03-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
@@ -51,10 +51,10 @@ export class MicrosoftDatadogClientContext extends msRestAzure.AzureServiceClien
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

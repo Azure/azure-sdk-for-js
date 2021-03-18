@@ -28,20 +28,20 @@ export class Monitors {
 
   /**
    * @summary List the api keys for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListApiKeysResponse>
    */
   listApiKeys(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListApiKeysResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   listApiKeys(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogApiKeyListResponse>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -60,20 +60,20 @@ export class Monitors {
 
   /**
    * @summary Get the default api key.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsGetDefaultKeyResponse>
    */
   getDefaultKey(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsGetDefaultKeyResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   getDefaultKey(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogApiKey>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -92,20 +92,20 @@ export class Monitors {
 
   /**
    * @summary Set the default api key.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   setDefaultKey(resourceGroupName: string, monitorName: string, options?: Models.MonitorsSetDefaultKeyOptionalParams): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   setDefaultKey(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -124,20 +124,20 @@ export class Monitors {
 
   /**
    * @summary List the hosts for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListHostsResponse>
    */
   listHosts(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListHostsResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   listHosts(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogHostListResponse>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -157,20 +157,20 @@ export class Monitors {
   /**
    * @summary List all Azure resources associated to the same Datadog organization as the target
    * resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListLinkedResourcesResponse>
    */
   listLinkedResources(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListLinkedResourcesResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   listLinkedResources(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.LinkedResourceListResponse>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -189,20 +189,20 @@ export class Monitors {
 
   /**
    * @summary List the resources currently being monitored by the Datadog monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListMonitoredResourcesResponse>
    */
   listMonitoredResources(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListMonitoredResourcesResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   listMonitoredResources(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.MonitoredResourceListResponse>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -245,18 +245,18 @@ export class Monitors {
 
   /**
    * @summary List all monitors under the specified resource group.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DatadogMonitorResourceListResponse>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -273,20 +273,20 @@ export class Monitors {
 
   /**
    * @summary Get the properties of a specific monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsGetResponse>
    */
   get(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   get(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogMonitorResource>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -305,7 +305,7 @@ export class Monitors {
 
   /**
    * @summary Create a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsCreateResponse>
@@ -317,20 +317,20 @@ export class Monitors {
 
   /**
    * @summary Update a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsUpdateResponse>
    */
   update(resourceGroupName: string, monitorName: string, options?: Models.MonitorsUpdateOptionalParams): Promise<Models.MonitorsUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   update(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogMonitorResource>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -349,7 +349,7 @@ export class Monitors {
 
   /**
    * @summary Delete a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -361,20 +361,20 @@ export class Monitors {
 
   /**
    * @summary Refresh the set password link and return a latest one.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.MonitorsRefreshSetPasswordLinkResponse>
    */
   refreshSetPasswordLink(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.MonitorsRefreshSetPasswordLinkResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   refreshSetPasswordLink(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogSetPasswordLink>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -393,7 +393,7 @@ export class Monitors {
 
   /**
    * @summary Create a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -411,7 +411,7 @@ export class Monitors {
 
   /**
    * @summary Delete a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -618,7 +618,7 @@ const listApiKeysOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogApiKeyListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -643,7 +643,7 @@ const getDefaultKeyOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogApiKey
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -673,7 +673,7 @@ const setDefaultKeyOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -698,7 +698,7 @@ const listHostsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogHostListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -723,7 +723,7 @@ const listLinkedResourcesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LinkedResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -748,7 +748,7 @@ const listMonitoredResourcesOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.MonitoredResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -771,7 +771,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogMonitorResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -795,7 +795,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogMonitorResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -820,7 +820,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogMonitorResource
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -852,7 +852,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogMonitorResource
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -877,7 +877,7 @@ const refreshSetPasswordLinkOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogSetPasswordLink
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -912,7 +912,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogMonitorResource
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -937,7 +937,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -961,7 +961,7 @@ const listApiKeysNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogApiKeyListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -985,7 +985,7 @@ const listHostsNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogHostListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -1009,7 +1009,7 @@ const listLinkedResourcesNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.LinkedResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -1033,7 +1033,7 @@ const listMonitoredResourcesNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.MonitoredResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -1057,7 +1057,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogMonitorResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -1081,7 +1081,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogMonitorResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

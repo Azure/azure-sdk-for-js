@@ -14,7 +14,9 @@ export {
   DatadogOrganizationProperties,
   DatadogSingleSignOnProperties,
   DatadogSingleSignOnResource,
-  ErrorResponseBody,
+  ErrorAdditionalInfo,
+  ErrorDetail,
+  ErrorResponse,
   FilteringTag,
   IdentityProperties,
   LogRules,
@@ -23,7 +25,7 @@ export {
   MonitoringTagRulesListResponse,
   MonitoringTagRulesProperties,
   MonitorProperties,
-  ResourceProviderDefaultErrorResponse,
   ResourceSku,
+  SystemData,
   UserInfo
 } from "../models/mappers";

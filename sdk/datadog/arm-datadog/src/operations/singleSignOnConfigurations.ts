@@ -28,20 +28,20 @@ export class SingleSignOnConfigurations {
 
   /**
    * @summary List the single sign-on configurations for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.SingleSignOnConfigurationsListResponse>
    */
   list(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.SingleSignOnConfigurationsListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   list(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.DatadogSingleSignOnResourceListResponse>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -60,7 +60,7 @@ export class SingleSignOnConfigurations {
 
   /**
    * @summary Configures single-sign-on for this resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param configurationName Configuration name
    * @param [options] The optional parameters
@@ -73,7 +73,7 @@ export class SingleSignOnConfigurations {
 
   /**
    * @summary Gets the datadog single sign-on resource for the given Monitor.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param configurationName Configuration name
    * @param [options] The optional parameters
@@ -81,14 +81,14 @@ export class SingleSignOnConfigurations {
    */
   get(resourceGroupName: string, monitorName: string, configurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.SingleSignOnConfigurationsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param configurationName Configuration name
    * @param callback The callback
    */
   get(resourceGroupName: string, monitorName: string, configurationName: string, callback: msRest.ServiceCallback<Models.DatadogSingleSignOnResource>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param configurationName Configuration name
    * @param options The optional parameters
@@ -109,7 +109,7 @@ export class SingleSignOnConfigurations {
 
   /**
    * @summary Configures single-sign-on for this resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param configurationName Configuration name
    * @param [options] The optional parameters
@@ -177,7 +177,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -203,7 +203,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogSingleSignOnResource
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -239,7 +239,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogSingleSignOnResource
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -263,7 +263,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DatadogSingleSignOnResourceListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

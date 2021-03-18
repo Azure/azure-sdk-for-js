@@ -26,8 +26,7 @@ export class Operations {
   }
 
   /**
-   * @summary List all operations provided by Microsoft.Datadog for the 2020-02-01-preview api
-   * version.
+   * @summary List all operations provided by Microsoft.Datadog for the 2021-03-01 api version.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */
@@ -51,8 +50,7 @@ export class Operations {
   }
 
   /**
-   * @summary List all operations provided by Microsoft.Datadog for the 2020-02-01-preview api
-   * version.
+   * @summary List all operations provided by Microsoft.Datadog for the 2021-03-01 api version.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListNextResponse>
@@ -96,7 +94,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.OperationListResult
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -120,7 +118,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.OperationListResult
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

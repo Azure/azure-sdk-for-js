@@ -7,9 +7,10 @@
  */
 
 export {
-  ErrorResponseBody,
+  ErrorAdditionalInfo,
+  ErrorDetail,
+  ErrorResponse,
   OperationDisplay,
   OperationListResult,
-  OperationResult,
-  ResourceProviderDefaultErrorResponse
+  OperationResult
 } from "../models/mappers";

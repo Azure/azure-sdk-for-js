@@ -27,20 +27,20 @@ export class TagRules {
 
   /**
    * @summary List the tag rules for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param [options] The optional parameters
    * @returns Promise<Models.TagRulesListResponse>
    */
   list(resourceGroupName: string, monitorName: string, options?: msRest.RequestOptionsBase): Promise<Models.TagRulesListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param callback The callback
    */
   list(resourceGroupName: string, monitorName: string, callback: msRest.ServiceCallback<Models.MonitoringTagRulesListResponse>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The optional parameters
    * @param callback The callback
@@ -59,7 +59,7 @@ export class TagRules {
 
   /**
    * @summary Create or update a tag rule set for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Rule set name
    * @param [options] The optional parameters
@@ -67,14 +67,14 @@ export class TagRules {
    */
   createOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: Models.TagRulesCreateOrUpdateOptionalParams): Promise<Models.TagRulesCreateOrUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Rule set name
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, monitorName: string, ruleSetName: string, callback: msRest.ServiceCallback<Models.MonitoringTagRules>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Rule set name
    * @param options The optional parameters
@@ -95,7 +95,7 @@ export class TagRules {
 
   /**
    * @summary Get a tag rule set for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Rule set name
    * @param [options] The optional parameters
@@ -103,14 +103,14 @@ export class TagRules {
    */
   get(resourceGroupName: string, monitorName: string, ruleSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.TagRulesGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Rule set name
    * @param callback The callback
    */
   get(resourceGroupName: string, monitorName: string, ruleSetName: string, callback: msRest.ServiceCallback<Models.MonitoringTagRules>): void;
   /**
-   * @param resourceGroupName The name of the resource group to which the Datadog resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Rule set name
    * @param options The optional parameters
@@ -179,7 +179,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.MonitoringTagRulesListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -212,7 +212,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.MonitoringTagRules
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -238,7 +238,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.MonitoringTagRules
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -262,7 +262,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.MonitoringTagRulesListResponse
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
