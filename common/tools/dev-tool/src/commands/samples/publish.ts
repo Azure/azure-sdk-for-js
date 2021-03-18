@@ -46,16 +46,10 @@ export const commandInfo = makeCommandInfo(
       shortName: "f",
       default: false
     },
-    "set-major-version": {
+    "override-major-version": {
       kind: "string",
       description:
         "override the major version used for publication (ordinarily the version in package.json)"
-    },
-    "document-major-version": {
-      kind: "boolean",
-      description:
-        "include the major version in the samples title and description (useful for publishing multiple major versions)",
-      default: false
     }
   } as const
 );
@@ -570,7 +564,7 @@ export default leafCommand(commandInfo, async (options) => {
   const projectInfo = await resolveProject(process.cwd());
 
   // This will become the name of the directory
-  const majorVersion = `v${options["set-major-version"] ?? projectInfo.version.split(".")[0]}`;
+  const majorVersion = `v${options["override-major-version"] ?? projectInfo.version.split(".")[0]}`;
 
   log.info(`Creating camera-ready samples for ${projectInfo.name}@${projectInfo.version}`);
 

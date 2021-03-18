@@ -124,10 +124,12 @@ function filterModules(info: SampleReadmeConfiguration): SampleReadmeConfigurati
  * Renders the sample file table.
  */
 function table(info: SampleReadmeConfiguration) {
-  const contents = filterModules(info).map(
-    ({ filePath, summary, relativeSourcePath }) =>
-      `| [${relativeSourcePath}][${sampleLinkTag(filePath)}] | ${summary} |`
-  );
+  const contents = filterModules(info).map(({ filePath, summary, relativeSourcePath }) => {
+    const fileName = info.useTypeScript
+      ? relativeSourcePath
+      : relativeSourcePath.replace(/\.ts$/, ".js");
+    return `| [${fileName}][${sampleLinkTag(filePath)}] | ${summary} |`;
+  });
 
   return [
     "| **File Name** | **Description** |",
@@ -163,7 +165,9 @@ export default (info: SampleReadmeConfiguration) => {
     `${formatFrontmatter(info.frontmatter)}\
 # ${info.productName} client library samples for ${language}
 
-These sample programs show how to use the ${language} client libraries for Azure Template in some common scenarios.
+These sample programs show how to use the ${language} client libraries for ${
+      info.productName
+    } in some common scenarios.
 
 ${table(info)}
 
