@@ -38,6 +38,29 @@ export function isValidUuid(uuid: string): boolean {
 }
 
 /**
+ * Returns null if the raw response is empty. Otherwise returns the intended response.
+ *
+ * @param isNullable - whether the mapper allows nullable body
+ * @param checkedForEmpty - the raw response including headers
+ * @param response - the response that will be returned to the user
+ * @returns the response that will return to the user which can be null
+ *
+ * @internal
+ */
+function returnNullResponse(
+  isNullable: boolean,
+  checkedForEmpty: unknown,
+  response: unknown,
+  isPrimitive: boolean = false
+): unknown | null {
+  return isNullable && Object.getOwnPropertyNames(checkedForEmpty).length === 0
+    ? isPrimitive
+      ? { body: null }
+      : null
+    : response;
+}
+
+/**
  * Take a `FullOperationResponse` and turn it into a flat
  * response object to hand back to the consumer.
  * @param fullResponse - The processed response from the operation request
@@ -51,6 +74,7 @@ export function flattenResponse(
 ): unknown {
   const parsedHeaders = fullResponse.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
+  const isNullable = bodyMapper?.nullable ?? false;
 
   if (bodyMapper) {
     const typeName = bodyMapper.type.name;
@@ -68,8 +92,9 @@ export function flattenResponse(
       (k) => modelProperties[k].serializedName === ""
     );
     if (typeName === "Sequence" || isPageableResponse) {
-      const arrayResponse: { [key: string]: unknown } =
-        fullResponse.parsedBody ?? (([] as unknown) as { [key: string]: unknown });
+      const isNull = !fullResponse.parsedBody && isNullable;
+      const emptyArray = ([] as unknown) as { [key: string]: unknown };
+      const arrayResponse: { [key: string]: unknown } = fullResponse.parsedBody ?? emptyArray;
 
       for (const key of Object.keys(modelProperties)) {
         if (modelProperties[key].serializedName) {
@@ -82,30 +107,38 @@ export function flattenResponse(
           arrayResponse[key] = parsedHeaders[key];
         }
       }
-      return arrayResponse;
+      return isNull && arrayResponse === emptyArray ? null : arrayResponse;
     }
 
     if (typeName === "Composite" || typeName === "Dictionary") {
-      return {
+      const response = {
         ...parsedHeaders,
         ...fullResponse.parsedBody
       };
+      return returnNullResponse(isNullable, response, response);
     }
   }
+
+  const response = {
+    ...parsedHeaders,
+    ...fullResponse.parsedBody
+  };
 
   if (
     bodyMapper ||
     fullResponse.request.method === "HEAD" ||
     isPrimitiveType(fullResponse.parsedBody)
   ) {
-    return {
-      ...parsedHeaders,
-      body: fullResponse.parsedBody
-    };
+    return returnNullResponse(
+      isNullable,
+      response,
+      {
+        ...parsedHeaders,
+        body: fullResponse.parsedBody
+      },
+      true /** is primitive */
+    );
   }
 
-  return {
-    ...parsedHeaders,
-    ...fullResponse.parsedBody
-  };
+  return returnNullResponse(isNullable, response, response);
 }

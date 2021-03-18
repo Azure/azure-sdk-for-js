@@ -31,6 +31,7 @@ import {
 import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
 import { getCachedDefaultHttpClient } from "../src/httpClientCache";
+import { assertServiceClientResponse } from "./utils/serviceClient";
 
 describe("ServiceClient", function() {
   describe("Auth scopes", () => {
@@ -380,6 +381,164 @@ describe("ServiceClient", function() {
 
     assert.strictEqual(rawResponse?.status, 200);
     assert.deepStrictEqual(res.slice(), [1, 2, 3]);
+  });
+
+  it("should deserialize array response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      "",
+      {
+        bodyMapper: {
+          nullable: true,
+          type: {
+            name: MapperTypeNames.Sequence,
+            element: {
+              type: {
+                name: "Number"
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize array response as empty array if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      "",
+      {
+        bodyMapper: {
+          nullable: false,
+          type: {
+            name: MapperTypeNames.Sequence,
+            element: {
+              type: {
+                name: "Number"
+              }
+            }
+          }
+        }
+      },
+      []
+    );
+  });
+
+  it("should deserialize dictionary response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      "",
+      {
+        bodyMapper: {
+          nullable: true,
+          type: {
+            name: MapperTypeNames.Dictionary,
+            value: {
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize dictionary response as empty if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      "",
+      {
+        bodyMapper: {
+          nullable: false,
+          type: {
+            name: MapperTypeNames.Dictionary,
+            value: {
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      },
+      {}
+    );
+  });
+
+  it("should deserialize object response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      "",
+      {
+        bodyMapper: {
+          nullable: true,
+          type: {
+            name: MapperTypeNames.Composite,
+            modelProperties: {
+              message: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize object response as empty if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      "",
+      {
+        bodyMapper: {
+          nullable: false,
+          type: {
+            name: MapperTypeNames.Composite,
+            modelProperties: {
+              message: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      {}
+    );
+  });
+
+  it("should deserialize primitive response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      "",
+      {
+        bodyMapper: {
+          nullable: true,
+          type: {
+            name: MapperTypeNames.Boolean
+          }
+        }
+      },
+      {
+        body: null
+      }
+    );
+  });
+
+  it("should deserialize primitive response as undefined if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      "",
+      {
+        bodyMapper: {
+          nullable: false,
+          type: {
+            name: MapperTypeNames.Boolean
+          }
+        }
+      },
+      {
+        body: undefined
+      }
+    );
   });
 
   describe("getOperationArgumentValueFromParameter()", () => {
