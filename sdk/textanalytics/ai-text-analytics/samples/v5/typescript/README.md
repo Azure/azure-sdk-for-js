@@ -37,7 +37,7 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 npm install -g typescript
 ```
 
-You need [an Azure subscription][freesub] to run these sample programs. Samples retrieve credentials to access the endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables / credentials it requires to function.
+You need [an Azure subscription][freesub] to run these sample programs. Samples retrieve credentials to access the endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
 Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
 
@@ -75,17 +75,17 @@ npx cross-env ENDPOINT="<endpoint>" TEXT_ANALYTICS_API_KEY="<text analytics api 
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[analyzesentiment]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/analyzeSentiment.ts
-[detectlanguage]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/detectLanguage.ts
-[extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/extractKeyPhrases.ts
-[recognizeentities]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/recognizeEntities.ts
-[recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/recognizeLinkedEntities.ts
-[beginanalyzehealthcareentities]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/beginAnalyzeHealthcareEntities.ts
-[recognizepii]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/recognizePii.ts
-[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/authenticationMethods.ts
-[beginanalyzebatchactions]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/beginAnalyzeBatchActions.ts
-[alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/alternativeDocumentInput.ts
-[analyzesentimentwithopinionmining]: https://github.com/Azure/azure-sdk-for-js/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/analyzeSentimentWithOpinionMining.ts
+[analyzesentiment]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/analyzeSentiment.ts
+[detectlanguage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/detectLanguage.ts
+[extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/extractKeyPhrases.ts
+[recognizeentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/recognizeEntities.ts
+[recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/recognizeLinkedEntities.ts
+[beginanalyzehealthcareentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/beginAnalyzeHealthcareEntities.ts
+[recognizepii]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/recognizePii.ts
+[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/authenticationMethods.ts
+[beginanalyzebatchactions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/beginAnalyzeBatchActions.ts
+[alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/alternativeDocumentInput.ts
+[analyzesentimentwithopinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/analyzeSentimentWithOpinionMining.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/README.md

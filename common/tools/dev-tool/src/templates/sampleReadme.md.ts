@@ -29,6 +29,11 @@ interface SampleReadmeConfiguration {
    */
   productName: string;
   /**
+   * Optional link to API reference that overrides the default
+   * docs.microsoft.com link.
+   */
+  apiRefLink?: string;
+  /**
    * The path within the repo to the package for this README.
    */
   projectRepoPath: string;
@@ -94,12 +99,14 @@ function links(info: SampleReadmeConfiguration) {
   ].join("/");
 
   return filterModules(info)
-    .map(
-      ({ filePath, relativeSourcePath }) =>
-        `[${sampleLinkTag(
-          filePath
-        )}]: https://github.com/Azure/azure-sdk-for-js/${packageSamplesPathFragment}/${relativeSourcePath}`
-    )
+    .map(({ filePath, relativeSourcePath }) => {
+      const sourcePath = info.useTypeScript
+        ? relativeSourcePath
+        : relativeSourcePath.replace(/\.ts$/, ".js");
+      return `[${sampleLinkTag(
+        filePath
+      )}]: https://github.com/Azure/azure-sdk-for-js/blob/master/${packageSamplesPathFragment}/${sourcePath}`;
+    })
     .join("\n");
 }
 
@@ -187,7 +194,7 @@ ${(() => {
     return "";
   }
 })()}\
-You need [an Azure subscription][freesub] to run these sample programs. Samples retrieve credentials to access the endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables / credentials it requires to function.
+You need [an Azure subscription][freesub] to run these sample programs. Samples retrieve credentials to access the endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
 Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
 
@@ -215,7 +222,13 @@ ${step(
 
 ${fence(
   "bash",
-  `node ${info.useTypeScript ? "dist/" : ""}${filterModules(info)[0].relativeSourcePath}`
+  `node ${(() => {
+    const firstSource = filterModules(info)[0].relativeSourcePath;
+    const fileName = info.useTypeScript
+      ? "dist/" + firstSource
+      : firstSource.replace(/\.ts$/, ".js");
+    return fileName;
+  })()}`
 )}
 
 Alternatively, run a single sample with the correct environment variables set (setting up the \`.env\` file is not required if you do this), for example (cross-platform):
@@ -227,7 +240,7 @@ ${fence("bash", `npx cross-env ${exampleNodeInvocation(info)}`)}
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 ${links(info)}
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/${info.baseName}
+[apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/${info.projectRepoPath}/README.md
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
