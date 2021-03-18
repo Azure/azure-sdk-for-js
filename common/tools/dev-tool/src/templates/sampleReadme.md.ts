@@ -6,7 +6,16 @@ import YAML from "yaml";
 
 import prettier from "prettier";
 
+import { AzSdkMetaTags } from "../commands/samples/publish";
+
+/**
+ * Options to control the generation of the sample package README.
+ */
 interface SampleReadmeConfiguration {
+  /**
+   * The base package name.
+   */
+  baseName: string;
   /**
    * YAML frontmatter used for publication on docs.microsoft.com.
    */
@@ -34,9 +43,14 @@ interface SampleReadmeConfiguration {
     filePath: string;
     relativeSourcePath: string;
     summary: string;
+    usedEnvironmentVariables: string[];
+    azSdkTags: AzSdkMetaTags;
   }>;
 }
 
+/**
+ * Renders the frontmatter of the sample README.
+ */
 function formatFrontmatter(frontmatter: unknown): string {
   if (!frontmatter) return "";
 
@@ -48,10 +62,19 @@ ${YAML.stringify(frontmatter, { indent: 2 })}\
 `;
 }
 
+/**
+ * A helper for rendering code fences. (Useful because of the multi-line
+ * string literal using the same grave accent mark as its delimiter.
+ */
 function fence(language: string, ...contents: string[]): string {
   return `\`\`\`${language}\n${contents.join("\n\n")}\n\`\`\``;
 }
 
+/**
+ * Renders a sample file name into a simple linkable tag.
+ *
+ * Ex. recognizePii.ts -> recognizepii
+ */
 function sampleLinkTag(filePath: string): string {
   return path
     .basename(filePath)
@@ -60,6 +83,9 @@ function sampleLinkTag(filePath: string): string {
     .toLowerCase();
 }
 
+/**
+ * Renders the sample file links.
+ */
 function links(info: SampleReadmeConfiguration) {
   const packageSamplesPathFragment = [
     info.projectRepoPath,
@@ -67,7 +93,7 @@ function links(info: SampleReadmeConfiguration) {
     info.useTypeScript ? "typescript/src" : "javascript"
   ].join("/");
 
-  return info.moduleInfos
+  return filterModules(info)
     .map(
       ({ filePath, relativeSourcePath }) =>
         `[${sampleLinkTag(
@@ -77,8 +103,28 @@ function links(info: SampleReadmeConfiguration) {
     .join("\n");
 }
 
+/**
+ * Helper function for filtering the modules that are relevant to the sample README.
+ */
+function filterModules(info: SampleReadmeConfiguration): SampleReadmeConfiguration["moduleInfos"] {
+  // In JavaScript mode, we may have to skip a sample that specified "skip-javascript"
+  const modules = info.useTypeScript
+    ? info.moduleInfos
+    : info.moduleInfos.filter(({ azSdkTags: { "skip-javascript": skipJs } }) => !skipJs);
+
+  return modules
+    .filter(({ azSdkTags: { ignore } }) => !ignore)
+    .sort((left, right) => {
+      // Descending order, default 0
+      return (right.azSdkTags.weight ?? 0) - (left.azSdkTags.weight ?? 0);
+    });
+}
+
+/**
+ * Renders the sample file table.
+ */
 function table(info: SampleReadmeConfiguration) {
-  const contents = info.moduleInfos.map(
+  const contents = filterModules(info).map(
     ({ filePath, summary, relativeSourcePath }) =>
       `| [${relativeSourcePath}][${sampleLinkTag(filePath)}] | ${summary} |`
   );
@@ -90,6 +136,23 @@ function table(info: SampleReadmeConfiguration) {
   ].join("\n");
 }
 
+/**
+ * Renders an example node invocation for the README.
+ */
+function exampleNodeInvocation(info: SampleReadmeConfiguration) {
+  const firstModule = filterModules(info)[0];
+  const envVars = firstModule.usedEnvironmentVariables
+    .map((envVar) => `${envVar}="<${envVar.replace(/_/g, " ").toLowerCase()}>"`)
+    .join(" ");
+
+  return `${envVars} node ${
+    info.useTypeScript ? "dist/" : ""
+  }${firstModule.relativeSourcePath.replace(/\.ts$/, ".js")}`;
+}
+
+/**
+ * Creates a README for a sample package from a SampleReadmeConfiguration.
+ */
 export default (info: SampleReadmeConfiguration) => {
   let stepCount = 1;
   const step = (content: string) => `${stepCount++}. ${content}`;
@@ -106,7 +169,7 @@ ${table(info)}
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 10.0.0.
+The sample programs are compatible with Node.js >= 12.0.0.
 
 ${(() => {
   if (info.useTypeScript) {
@@ -146,23 +209,21 @@ ${step(
   "Run whichever samples you like (note that some samples may require additional setup, see the table above):"
 )}
 
-${fence("bash", `node ${info.useTypeScript ? "dist/" : ""}getConfigurationSetting.js`)}
+${fence(
+  "bash",
+  `node ${info.useTypeScript ? "dist/" : ""}${filterModules(info)[0].relativeSourcePath}`
+)}
 
 Alternatively, run a single sample with the correct environment variables set (setting up the \`.env\` file is not required if you do this), for example (cross-platform):
 
-${fence(
-  "bash",
-  `npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node ${
-    info.useTypeScript ? "dist/" : ""
-  }getConfigurationSetting.js`
-)}
+${fence("bash", `npx cross-env ${exampleNodeInvocation(info)}`)}
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 ${links(info)}
-[apiref]: https://docs.microsoft.com/javascript/api
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/${info.baseName}
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/${info.projectRepoPath}/README.md
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\

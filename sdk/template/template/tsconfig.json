@@ -7,5 +7,5 @@
       "@azure/template": ["./src/index"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

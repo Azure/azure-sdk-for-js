@@ -8,7 +8,7 @@ import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
-import { getSampleConfiguration } from "../../util/shouldSkip";
+import { getSampleConfiguration } from "../../util/sampleConfiguration";
 
 const log = createPrinter("run-samples");
 

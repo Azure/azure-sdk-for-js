@@ -1,24 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/*const path = require("path");
-
-if (process.env.DEBUG) {
-  console.info("Azure SDK for JS dev-tool: bootstrapping from", __dirname);
-}
-
-// Shim to invoke true typescript source
-require("ts-node").register({
-  transpileOnly: true,
-  skipProject: true,
-  preferTsExts: true,
-  compilerOptions: {
-    target: "es6",
-    module: "commonjs"
-  }
-});
-require(path.join(__dirname, "src", "register.ts"));*/
-
 /**
  * This file loads our monkey patch for module resolution
  * in samples and tests. We use this to make sure that TS/ES

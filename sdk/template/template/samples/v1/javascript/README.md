@@ -8,7 +8,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 10.0.0.
+The sample programs are compatible with Node.js >= 12.0.0.
 
 You need [an Azure subscription][freesub] to run these sample programs. Samples retrieve credentials to access the endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables / credentials it requires to function.
 
@@ -29,20 +29,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node getConfigurationSetting.js
+node getConfigurationSetting.ts
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node getConfigurationSetting.js
+npx cross-env APPCONFIG_ENDPOINT="<appconfig endpoint>" APPCONFIG_TEST_SETTING_KEY="<appconfig test setting key>" node getConfigurationSetting.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/sdk/template/template/samples-public/v1/javascript/getConfigurationSetting.ts
-[apiref]: https://docs.microsoft.com/javascript/api
+[getconfigurationsetting]: https://github.com/Azure/azure-sdk-for-js/sdk/template/template/samples/v1/javascript/getConfigurationSetting.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/template
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md

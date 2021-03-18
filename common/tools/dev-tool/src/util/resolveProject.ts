@@ -8,8 +8,43 @@ import { createPrinter } from "./printer";
 
 const { debug } = createPrinter("resolve-project");
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type PackageJson = any;
+/**
+ * This is the base definition of PackageJson for our
+ * packages. Other modules in this project may extend
+ * this definition on their own by declaring an interface
+ * to merge with this one:
+ *
+ * ```typescript
+ * declare global {
+ *   interface PackageJson {
+ *     [MY_CUSTOM_PACKAGE_JSON_KEY]?: CustomType;
+ *   }
+ * }
+ * ```
+ */
+declare global {
+  interface PackageJson {
+    name: string;
+    version: string;
+    description: string;
+    bin?: Record<string, string>;
+    files: string[];
+    scripts: Record<string, string>;
+    repository: string;
+    author: string;
+    keywords?: string[];
+    license: string;
+    bugs: {
+      url: string;
+    };
+    homepage: string;
+    sideEffects: boolean;
+    private: boolean;
+
+    dependencies: Record<string, string>;
+    devDependencies: Record<string, string>;
+  }
+}
 
 /**
  * Information about an Azure SDK for JS package

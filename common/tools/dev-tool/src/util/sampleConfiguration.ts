@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 import { FileInfo } from "./findMatchingFiles";
-import { PackageJson } from "./resolveProject";
 
 /**
  * An interface for the sample configuration metadata within an Azure SDK for
- * JavaScript package.json file
+ * JavaScript package.json file.
  */
 export interface SampleConfiguration {
   /**
@@ -30,9 +29,26 @@ export interface SampleConfiguration {
    * Disable generation of docs.microsoft.com publication metadata.
    */
   disableDocsMs?: boolean;
+  /**
+   * Override sample dependency versions. These dependency versions will be
+   * preferred when publishing samples package.json files rather than the
+   * versions listed in the package's own dependencies or devDependencies.
+   */
+  dependencyOverrides?: Record<string, string>;
 }
 
 export const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
+
+declare global {
+  interface PackageJson {
+    /**
+     * The sample configuration for the package.
+     *
+     * Will be undefined for internal and non-client packages.
+     */
+    [SAMPLE_CONFIGURATION_KEY]?: SampleConfiguration;
+  }
+}
 
 export function getSampleConfiguration(packageJson: PackageJson): SampleConfiguration {
   return packageJson[SAMPLE_CONFIGURATION_KEY] ?? {};

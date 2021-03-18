@@ -1,32 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This module is the core of the samples publication system.
+ *
+ * It handles collecting, checking, and processing all of the package's data
+ * that are eventually used to generate a coherent set of sample programs.
+ */
+
 import fs from "fs-extra";
 import path from "path";
-import os from "os";
 
+import nodeBuiltins from "builtin-modules";
 import ts from "typescript";
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { copy, dir, file, temp, FileTreeFactory } from "../../util/fileTree";
 import { createPrinter } from "../../util/printer";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
-import { getSampleConfiguration, SampleConfiguration } from "../../util/shouldSkip";
+import { getSampleConfiguration, SampleConfiguration } from "../../util/sampleConfiguration";
 
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { convert } from "./tsToJs";
 
 const log = createPrinter("publish");
 
-/**
- * A helper that allows for wrapping a value in an expression that will yield a
- * warning at runtime.
- */
-function withWarning<T>(messageValues: unknown[], v: T): T {
-  log.warn(...messageValues, v);
-  return v;
-}
+const DEV_SAMPLES_BASE = "samples-dev";
+const PUBLIC_SAMPLES_BASE = "samples";
 
-const PUBLIC_SAMPLES_BASE = "samples-public";
+const AZSDK_META_TAG_PREFIX = "azsdk-";
 
 export const commandInfo = makeCommandInfo(
   "publish",
@@ -44,76 +46,19 @@ export const commandInfo = makeCommandInfo(
       shortName: "f",
       default: false
     },
-    "use-major-version": {
+    "set-major-version": {
       kind: "string",
       description:
         "override the major version used for publication (ordinarily the version in package.json)"
+    },
+    "document-major-version": {
+      kind: "boolean",
+      description:
+        "include the major version in the samples title and description (useful for publishing multiple major versions)",
+      default: false
     }
   } as const
 );
-
-/**
- * Provides a way to instantiate a file tree.
- *
- * @param basePath - the ABSOLUTE base of the file tree
- * @returns - a promise that will resolve if the instantiation is successful and reject otherwise.
- */
-type FileTreeFactory = (basePath: string) => Promise<void>;
-
-function isAsyncIterable<T>(it: Iterable<T> | AsyncIterable<T>): it is AsyncIterable<T> {
-  return (it as AsyncIterable<unknown>)[Symbol.asyncIterator] !== undefined;
-}
-
-/**
- * Runs a file tree factory in a temporary directory before copying it for safety.
- */
-function temp(worker: FileTreeFactory): FileTreeFactory {
-  return async (basePath) => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "devtool"));
-    log.debug("Working in temp directory:", tmp);
-    await worker(tmp);
-    // Now copy and remove the temp
-    await fs.copy(tmp, basePath);
-    await fs.remove(tmp);
-  };
-}
-
-function dir(
-  name: string,
-  contents: Iterable<FileTreeFactory> | AsyncIterable<FileTreeFactory>
-): FileTreeFactory {
-  return async (basePath) => {
-    // Create the directory for this model
-    const selfPath = path.join(basePath, name);
-    await fs.ensureDir(selfPath);
-
-    if (isAsyncIterable(contents)) {
-      for await (const model of contents) {
-        await model(selfPath);
-      }
-    } else {
-      for (const model of contents) {
-        await model(selfPath);
-      }
-    }
-  };
-}
-
-function copy(name: string, source: string): FileTreeFactory {
-  return (basePath) => fs.copy(source, path.join(basePath, name));
-}
-
-type FileContents = Buffer | string | (() => Buffer | string);
-
-function file(name: string, contentsOrProvider: FileContents): FileTreeFactory {
-  const getContentsAsBuffer = (): Buffer => {
-    const contents =
-      typeof contentsOrProvider === "function" ? contentsOrProvider() : contentsOrProvider;
-    return Buffer.isBuffer(contents) ? contents : Buffer.from(contents, "utf8");
-  };
-
-  return async (basePath) => fs.writeFile(path.join(basePath, name), getContentsAsBuffer());
-}
 
 const enum OutputKind {
   TypeScript = "ts",
@@ -218,12 +163,6 @@ const defaultTypeScriptConfig = {
   include: ["src/**.ts"]
 };
 
-function capitalize(s: string): string {
-  return s.charAt(0).toUpperCase() + s.slice(1);
-}
-
-const defaultKeywords = ["azure", "cloud", "typescript"];
-
 interface ModuleInfo {
   /**
    * The absolute path to the source.
@@ -250,107 +189,185 @@ interface ModuleInfo {
    * source file.
    */
   importedModules: string[];
+  /**
+   * A list of the environment variables that the source file uses.
+   *
+   * These are determined by analyzing the source code for syntactic forms
+   * like:
+   *
+   * `process.env.<Identifier>` and `process.env[<StringLiteral>]`
+   */
+  usedEnvironmentVariables: string[];
+  /**
+   * The contents of any `azsdk` JSDoc directives encountered in the module header.
+   *
+   * {@see AzSdkMetaTags}
+   */
+  azSdkTags: AzSdkMetaTags;
 }
 
-async function processSources(projectInfo: ProjectInfo, sources: string[]): Promise<ModuleInfo[]> {
-  return Promise.all(
-    sources.map(async (source) => {
-      const sourceText = (await fs.readFile(source)).toString("utf8");
+/**
+ * Metainformation tags supported through `azsdk`-prefixed jsdoc tags.
+ */
+export interface AzSdkMetaTags {
+  /**
+   * The weight of the sample when generating its entry in the table.
+   *
+   * Weighted entries are sorted in decreasing order, and unweighted entries
+   * are assigned a default value of zero.
+   *
+   * This field is used to control the ordering of samples, to force certain
+   * samples to appear first when they would ordinarily appear later in the
+   * table alphabetically.
+   */
+  weight?: number;
+  /**
+   * Causes the sample file to be ignored entirely (will skip publication).
+   */
+  ignore?: boolean;
+  /**
+   * Causes the sample file to skip JavaScript output.
+   */
+  "skip-javascript"?: boolean;
+}
 
-      let summary: string | undefined = undefined;
+const validAzSdkTags: Array<keyof AzSdkMetaTags> = ["weight", "ignore", "skip-javascript"];
 
-      const importedModules: string[] = [];
+async function processSources(
+  projectInfo: ProjectInfo,
+  sources: string[],
+  fail: (...values: unknown[]) => never
+): Promise<ModuleInfo[]> {
+  const jobs = sources.map(async (source) => {
+    const sourceText = (await fs.readFile(source)).toString("utf8");
 
-      const relativeSourcePath = path.relative(path.join(projectInfo.path, "samples"), source);
+    let summary: string | undefined = undefined;
 
-      const sourceProcessor: ts.TransformerFactory<ts.SourceFile> = (context) => (
-        sourceFile: ts.SourceFile
-      ) => {
-        const visitor: ts.Visitor = (node: ts.Node) => {
-          if (ts.isImportDeclaration(node)) {
-            importedModules.push((node.moduleSpecifier as ts.StringLiteral).text);
-          } else if (ts.isImportEqualsDeclaration(node)) {
-            log.error(
-              `${relativeSourcePath}: unsupported \`import =\` declaration: \`${node.getText(
-                sourceFile
-              )}\`.`
-            );
-            log.error(
-              "`import =` is not supported when targetting ECMAScript modules. This dependency will NOT be included."
-            );
-          } else if (ts.isCallExpression(node)) {
-            const {
-              expression,
-              arguments: [firstArgument]
-            } = node;
-            if (
-              (ts.isIdentifier(expression) && expression.text === "require") ||
-              expression.kind === ts.SyntaxKind.ImportKeyword
-            ) {
-              if (ts.isStringLiteralLike(firstArgument)) {
-                importedModules.push(firstArgument.text);
-              } else {
-                log.error(
-                  `${relativeSourcePath}: unsupported dynamic import: \`${node.getText(
-                    sourceFile
-                  )}\``
-                );
-                log.error(
-                  "Dynamic imports (`import` expressions or `require` calls) cannot be statically analyzed."
-                );
-              }
-            }
-          }
+    const importedModules: string[] = [];
+    const usedEnvironmentVariables: string[] = [];
+    const azSdkTags: AzSdkMetaTags = {};
 
-          const tags = ts.getJSDocTags(node);
+    const relativeSourcePath = path.relative(path.join(projectInfo.path, DEV_SAMPLES_BASE), source);
 
-          // Look for the @summary jsdoc tag as well
-          if (summary === undefined && tags.length > 0) {
-            for (const tag of tags) {
-              if (tag.tagName.text === "summary") {
-                summary = tag.comment;
-                break;
-              }
-            }
-          }
-
-          ts.visitEachChild(node, visitor, context);
-          return node;
-        };
-
-        ts.visitNode(sourceFile, visitor);
-        return sourceFile;
-      };
-
-      return {
-        filePath: source,
-        relativeSourcePath,
-        text: sourceText,
-        jsModuleText: convert(sourceText, {
-          fileName: source,
-          transformers: {
-            before: [sourceProcessor]
-          }
-        }),
-        summary:
-          summary ??
-          withWarning(
+    const sourceProcessor: ts.TransformerFactory<ts.SourceFile> = (context) => (
+      sourceFile: ts.SourceFile
+    ) => {
+      const visitor: ts.Visitor = (node: ts.Node) => {
+        if (ts.isImportDeclaration(node)) {
+          importedModules.push((node.moduleSpecifier as ts.StringLiteral).text);
+        } else if (ts.isImportEqualsDeclaration(node)) {
+          log.error(
+            `${relativeSourcePath}: unsupported \`import =\` declaration: \`${node.getText(
+              sourceFile
+            )}\`.`
+          );
+          fail(
             [
-              `${relativeSourcePath} does not include an @summary tag, so it will have an empty table entry.`
-            ],
-            "<undefined>"
-          ),
-        importedModules
+              "`import =` is not supported when targetting ECMAScript modules.",
+              "This dependency will NOT be included in your package's dependencies."
+            ].join(" ")
+          );
+        } else if (ts.isCallExpression(node)) {
+          const {
+            expression,
+            arguments: [firstArgument]
+          } = node;
+          if (
+            (ts.isIdentifier(expression) && expression.text === "require") ||
+            expression.kind === ts.SyntaxKind.ImportKeyword
+          ) {
+            if (ts.isStringLiteralLike(firstArgument)) {
+              importedModules.push(firstArgument.text);
+            } else {
+              log.error(
+                `${relativeSourcePath}: unsupported dynamic import: \`${node.getText(sourceFile)}\``
+              );
+              fail(
+                "Dynamic imports (`import` expressions or `require` calls) cannot be statically analyzed."
+              );
+            }
+          }
+        } else if (
+          ts.isPropertyAccessExpression(node) ||
+          (ts.isElementAccessExpression(node) && ts.isStringLiteral(node.argumentExpression))
+        ) {
+          // Magic that finds out what environment variables you're using in the sources.
+          if (node.expression.getText(sourceFile) === "process.env") {
+            const value: string = ts.isElementAccessExpression(node)
+              ? (node.argumentExpression as ts.StringLiteral).text
+              : node.name.text;
+
+            usedEnvironmentVariables.push(value);
+          }
+        }
+        const tags = ts.getJSDocTags(node);
+
+        // Look for the @summary jsdoc tag block as well
+        if (summary === undefined && tags.some(({ tagName: { text } }) => text === "summary")) {
+          for (const tag of tags) {
+            if (tag.tagName.text === "summary") {
+              log.debug("Found summary tag on node:", node.getText(sourceFile));
+              // Replace is required due to multi-line splitting messing with table formatting
+              summary = tag.comment?.replace(/\s*\n\s*/, " ");
+            } else if (
+              tag.tagName.text.startsWith(`${AZSDK_META_TAG_PREFIX}`) &&
+              tag.comment !== undefined
+            ) {
+              // We ran into an `azsdk` directive in the metadata
+              const metaTag = tag.tagName.text.replace(
+                new RegExp(`^${AZSDK_META_TAG_PREFIX}`),
+                ""
+              ) as keyof AzSdkMetaTags;
+              if (validAzSdkTags.includes(metaTag)) {
+                azSdkTags[metaTag as keyof AzSdkMetaTags] = JSON.parse(tag.comment);
+              } else {
+                log.warn(`Invalid azsdk tag ${metaTag}. Valid tags include ${validAzSdkTags}`);
+              }
+            }
+          }
+        }
+
+        ts.visitEachChild(node, visitor, context);
+        return node;
       };
-    })
-  );
+
+      ts.visitNode(sourceFile, visitor);
+      return sourceFile;
+    };
+
+    return {
+      filePath: source,
+      relativeSourcePath,
+      text: sourceText,
+      jsModuleText: convert(sourceText, {
+        fileName: source,
+        transformers: {
+          before: [sourceProcessor]
+        }
+      }),
+      summary: summary ?? fail(`${relativeSourcePath} does not include an @summary tag.`),
+      importedModules: importedModules.filter((name) => !nodeBuiltins.includes(name)),
+      usedEnvironmentVariables,
+      azSdkTags
+    };
+  });
+
+  return Promise.all(jobs);
 }
 
+/**
+ * Extracts the sample generation metainformation from the sample sources and
+ * configuration in package.json.
+ *
+ * This is the function that assembles all the information that the templates
+ * use to generate good output.
+ */
 async function getSampleGenerationInfo(
   projectInfo: ProjectInfo,
-  topLevelDirectory: string
+  topLevelDirectory: string,
+  onError: () => void
 ): Promise<SampleGenerationInfo> {
-  const sampleSourcesPath = path.join(projectInfo.path, "samples");
+  const sampleSourcesPath = path.join(projectInfo.path, DEV_SAMPLES_BASE);
   const sampleSources = (await fs.readdir(sampleSourcesPath))
     .filter((name) => name.endsWith(".ts"))
     .map((name) => path.join(sampleSourcesPath, name));
@@ -361,7 +378,14 @@ async function getSampleGenerationInfo(
 
   log.debug("Determined project baseName:", baseName);
 
-  const moduleInfos = await processSources(projectInfo, sampleSources);
+  // A helper to handle configuration errors.
+  function fail(...values: unknown[]): never {
+    log.error(...values);
+    onError();
+    return undefined as never;
+  }
+
+  const moduleInfos = await processSources(projectInfo, sampleSources, fail);
 
   const defaultDependencies: Record<string, string> = {
     // If we are a beta package, use "next", otherwise we will use "latest"
@@ -372,17 +396,23 @@ async function getSampleGenerationInfo(
 
   const { packageJson } = projectInfo;
 
+  if (!sampleConfiguration.productSlugs && !sampleConfiguration.disableDocsMs) {
+    log.error("No extra product slugs provided (`productSlugs` in the sample configuration).");
+    log.warn(
+      "There is probably a more specific product that applies to this package! Reach out for help with the docs platform."
+    );
+    log.warn(
+      'If you do not want to publish samples to docs.microsoft.com, set `"disableDocsMs": true` in the sample configuration.'
+    );
+    onError();
+  }
+
   return {
     ...sampleConfiguration,
     baseName,
     packageKeywords:
-      (projectInfo.packageJson.keywords as string[]) ??
-      withWarning(
-        [
-          "The package.json does not specify keywords (this is a bug!), so default keywords will be used for samples:"
-        ],
-        defaultKeywords
-      ),
+      projectInfo.packageJson.keywords ??
+      fail(`The package.json for ${projectInfo.name} does not specify "keywords".`),
     projectRepoPath:
       "sdk/" +
       projectInfo.path
@@ -393,13 +423,7 @@ async function getSampleGenerationInfo(
     // too adjust using the sample configuration.
     productName:
       sampleConfiguration.productName ??
-      withWarning(
-        ["The sample configuration does not specify a `productName`, so one was generated:"],
-        `Azure ${baseName
-          .split("-")
-          .map(capitalize)
-          .join(" ")}`
-      ),
+      fail(`The sample configuration does not specify a "productName".`),
     sampleSourcesPath,
     topLevelDirectory,
     moduleInfos,
@@ -410,7 +434,9 @@ async function getSampleGenerationInfo(
           for (const dependency of source.importedModules) {
             if (prev[dependency] === undefined) {
               const dependencyVersion =
-                packageJson.devDependencies[dependency] ?? packageJson.dependencies[dependency];
+                sampleConfiguration.dependencyOverrides?.[dependency] ??
+                packageJson.devDependencies[dependency] ??
+                packageJson.dependencies[dependency];
               if (dependencyVersion === undefined) {
                 log.error(
                   `Dependency "${dependency}", imported by ${source.filePath}, has an unknown version.`
@@ -418,7 +444,6 @@ async function getSampleGenerationInfo(
                 log.error(
                   "Specify a version for it by including it in the package's `devDependencies`."
                 );
-                log.warn('Using `"latest"` as a default version.');
               }
 
               current[dependency] = dependencyVersion;
@@ -431,7 +456,7 @@ async function getSampleGenerationInfo(
         }, defaultDependencies),
         ...(outputKind === OutputKind.TypeScript
           ? {
-              // In TypeScript samples, we include TypeScript and `rimraf`, because it's used
+              // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
               // in the package scripts.
               devDependencies: {
                 typescript: "~4.1.0",
@@ -444,20 +469,12 @@ async function getSampleGenerationInfo(
   };
 }
 
+/**
+ * Calls the template to instantiate the sample README for this configuration
+ * and output kind.
+ */
 function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): string {
   const fullOutputKind = outputKind === OutputKind.TypeScript ? "typescript" : "javascript";
-
-  if (!info.productSlugs && !info.disableDocsMs) {
-    log.warn(
-      'No extra product slugs provided (`productSlugs` in the sample configuration). Only "azure" will be used!'
-    );
-    log.warn(
-      "There is probably a more specific product that applies to this package! Reach out for help with the docs platform."
-    );
-    log.warn(
-      'If you do not want to publish samples to docs.microsoft.com, set `"disableDocsMs": true` in the sample configuration.'
-    );
-  }
 
   return instantiateSampleReadme({
     frontmatter: info.disableDocsMs
@@ -465,7 +482,7 @@ function createReadme(outputKind: OutputKind, info: SampleGenerationInfo): strin
       : {
           page_type: "sample",
           languages: [fullOutputKind],
-          products: ["azure", ...(info.productSlugs ?? [])],
+          products: info.productSlugs,
           urlFragment: `${info.baseName}-${fullOutputKind}`
         },
     publicationDirectory: PUBLIC_SAMPLES_BASE + "/" + info.topLevelDirectory,
@@ -486,7 +503,17 @@ async function makeSamplesFactory(
   projectInfo: ProjectInfo,
   topLevelDirectory: string
 ): Promise<FileTreeFactory> {
-  const info = await getSampleGenerationInfo(projectInfo, topLevelDirectory);
+  let hadError = false;
+
+  const onError = () => {
+    hadError = true;
+  };
+
+  const info = await getSampleGenerationInfo(projectInfo, topLevelDirectory, onError);
+
+  if (hadError) {
+    throw new Error("Instantiation of sample metadata information failed with errors.");
+  }
 
   // Helper for writing JSON files with a terminating newline
   const jsonify = (value: unknown) => {
@@ -496,6 +523,14 @@ async function makeSamplesFactory(
     }
     return output;
   };
+
+  /**
+   * Helper to remove azsdk- directives from the resulting module code.
+   */
+  function postProcess(moduleText: string | Buffer): string {
+    const content = Buffer.isBuffer(moduleText) ? moduleText.toString("utf8") : moduleText;
+    return content.replace(new RegExp(`^\\s*\\*\\s*@${AZSDK_META_TAG_PREFIX}.*\n`, "gm"), "");
+  }
 
   // We use a tempdir at the outer layer to avoid creating dirty trees
   return temp(
@@ -509,7 +544,9 @@ async function makeSamplesFactory(
         // We copy the samples sources in to the `src` folder on the typescript side
         dir(
           "src",
-          info.moduleInfos.map(({ filePath }) => copy(path.basename(filePath), filePath))
+          info.moduleInfos.map(({ filePath }) =>
+            file(path.basename(filePath), () => postProcess(fs.readFileSync(filePath)))
+          )
         )
       ]),
       dir("javascript", [
@@ -518,7 +555,7 @@ async function makeSamplesFactory(
         copy("sample.env", path.join(projectInfo.path, "sample.env")),
         // Extract the JS Module Text from the module info structures
         ...info.moduleInfos.map(({ filePath, jsModuleText }) =>
-          file(path.basename(filePath), jsModuleText)
+          file(path.basename(filePath).replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
         )
       ])
     ])
@@ -533,7 +570,7 @@ export default leafCommand(commandInfo, async (options) => {
   const projectInfo = await resolveProject(process.cwd());
 
   // This will become the name of the directory
-  const majorVersion = `v${options["use-major-version"] ?? projectInfo.version.split(".")[0]}`;
+  const majorVersion = `v${options["set-major-version"] ?? projectInfo.version.split(".")[0]}`;
 
   log.info(`Creating camera-ready samples for ${projectInfo.name}@${projectInfo.version}`);
 
@@ -561,14 +598,16 @@ export default leafCommand(commandInfo, async (options) => {
     }
   }
 
-  const createCameraReadySamples = await makeSamplesFactory(projectInfo, majorVersion);
-
   // This creates the samples output
   try {
-    await createCameraReadySamples(basePath);
+    // Gather sample metainformation and use it to assemble a template
+    await makeSamplesFactory(projectInfo, majorVersion).then((factory) => {
+      // This is where the actual magic of creating the output from the template happens
+      return factory(basePath);
+    });
   } catch (ex) {
-    log.error("An exception was encountered while instantiating the samples configuration.");
-    throw ex;
+    log.error(ex.message);
+    return false;
   }
 
   log.success("Created camera-ready samples at", outputDirectory);
