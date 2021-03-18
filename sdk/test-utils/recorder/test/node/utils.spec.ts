@@ -7,8 +7,8 @@ import {
   testHasChanged,
   isContentTypeInNockFixture,
   decodeHexEncodingIfExistsInNockFixture,
-  maskAccessTokenInNockFixture,
-  handleSingleQuotesInUrlPath
+  handleSingleQuotesInUrlPath,
+  maskAccessTokenInRecording
 } from "../../src/utils";
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
 import chai, { expect } from "chai";
@@ -541,7 +541,7 @@ describe("NodeJS utils", () => {
     ].forEach((test) => {
       it(test.name, () => {
         chai.assert.equal(
-          maskAccessTokenInNockFixture(test.input),
+          maskAccessTokenInRecording(test.input),
           test.output,
           `Unexpected result - access_token is not masked`
         );

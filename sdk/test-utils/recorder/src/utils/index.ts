@@ -364,6 +364,29 @@ export function isContentTypeInNockFixture(
 }
 
 /**
+ * Meant for browser recordings only!
+ *
+ * Returns true if the content-type in the `fixture` matches with
+ * any of the strings provided in the expected content types.
+ *
+ * @private
+ * @param {string} fixture
+ * @param {string} expectedContentTypes
+ * @returns {boolean}
+ */
+export function isContentTypeInBrowserRecording(
+  fixture: string,
+  expectedContentTypes: string[]
+): boolean {
+  for (const contentType of expectedContentTypes) {
+    if (fixture.replace(/(\r\n|\n|\r|\s)/gm, "").includes(`"content-type":"${contentType}"`)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
  * Meant for node recordings only!
  * Decodes "hex" strings in the response from the recorded fixture if any exists.
  * For example, the following part of the nock fixture/recording would be updated.
@@ -446,7 +469,7 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
  *
  * @param {string} fixture
  */
-export function maskAccessTokenInNockFixture(fixture: string): string {
+function maskAccessTokenInNockFixture(fixture: string): string {
   if (isBrowser()) {
     throw new Error(
       `"maskAccessTokenInNockFixture" method is not meant to be used in the browsers`
@@ -462,6 +485,42 @@ export function maskAccessTokenInNockFixture(fixture: string): string {
     }
   }
   return fixture;
+}
+
+/**
+ * Meant for browser recordings only!
+ *
+ * Masks access tokens in the json recordings of the browser.
+ * For example, the following part of the nock fixture/recording would be updated.
+ * from `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"e6z-9_g"}, [`
+ * to   `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"access_token"}, [`
+ *
+ * @param {string} fixture
+ */
+function maskAccessTokenInBrowserRecording(fixture: string): string {
+  if (!isBrowser()) {
+    throw new Error(
+      `"maskAccessTokenInBrowserRecording" method is meant to be used in the browsers only`
+    );
+  }
+  // Replaces only if the content-type is json
+  if (isContentTypeInBrowserRecording(fixture, jsonContentTypes)) {
+    // Matches the response from the browser recording such as below
+    //    `"response": "{"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"e6z-9_g"}",`
+    const matches = fixture.match(/"response"\s*:\s*"\{.*"access_token"\s*:\s*"(.*)".*\}"/);
+    if (matches && matches[1]) {
+      return fixture.replace(/"access_token"\s*:\s*"(.+?)"/, `"access_token":"access_token"`);
+    }
+  }
+  return fixture;
+}
+
+export function maskAccessTokenInRecording(fixture: string): string {
+  if (isBrowser()) {
+    return maskAccessTokenInBrowserRecording(fixture);
+  } else {
+    return maskAccessTokenInNockFixture(fixture);
+  }
 }
 
 /**

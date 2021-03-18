@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { defaultCustomizationsOnRecordings } from "./defaultCustomizations";
 import {
-  isBrowser,
   TestInfo,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
-  generateTestRecordingFilePath,
-  decodeHexEncodingIfExistsInNockFixture,
-  maskAccessTokenInNockFixture,
-  handleSingleQuotesInUrlPath
+  generateTestRecordingFilePath
 } from "./utils";
 
 /**
@@ -40,18 +37,7 @@ export abstract class BaseRecorder {
     queryParametersToSkip: []
   };
   protected hash: string;
-  private defaultCustomizationsOnRecordings = !isBrowser()
-    ? [
-        // Decodes "hex" strings in the response from the recorded fixture if any exists.
-        decodeHexEncodingIfExistsInNockFixture,
-        // Masks access tokens in the json response from the recorded fixture if any exists.
-        maskAccessTokenInNockFixture,
-        // Nock bug: Single quotes in the path of the url are not handled by nock.
-        // (Link to the bug 🐛: https://github.com/nock/nock/issues/2136)
-        // The following is the workaround we use in the recorder until nock fixes it.
-        handleSingleQuotesInUrlPath
-      ]
-    : [];
+  private defaultCustomizationsOnRecordings = defaultCustomizationsOnRecordings;
 
   constructor(
     platform: "node" | "browsers",
