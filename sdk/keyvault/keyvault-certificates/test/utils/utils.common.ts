@@ -36,10 +36,19 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
   }
 }
 
-export function getVersionsToTest(): Array<string> {
-  if (env.SERVICE_VERSIONS === "all") {
-    return ["7.0", "7.1", "7.2"];
-  } else {
-    return [LATEST_API_VERSION];
+/**
+ * A helper method to set the service versions we want to test against.
+ *
+ * It will always return at least the version defined in {@link LATEST_API_VERSION}
+ * but may return additional versions if they are set in a `SERVICE_VERSIONS` environment variable (comma separated).
+ * @returns An array of service versions to test against.
+ */
+export const getVersionsToTest = () => {
+  const serviceVersions: Array<string> = env.SERVICE_VERSIONS?.split(",") || [];
+  if (!serviceVersions.includes(LATEST_API_VERSION)) {
+    serviceVersions.push(LATEST_API_VERSION);
   }
-}
+
+  console.log("Returning service versions: ", serviceVersions);
+  return serviceVersions;
+};
