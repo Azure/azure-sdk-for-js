@@ -61,6 +61,11 @@ describe("ClientSecretCredential (internal)", function() {
     if (isNode8) {
       this.skip();
     }
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    if (process.platform === "darwin") {
+      this.skip();
+    }
+
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
       allowUnencryptedStorage: true
@@ -89,6 +94,11 @@ describe("ClientSecretCredential (internal)", function() {
     if (isNode8) {
       this.skip();
     }
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    if (process.platform === "darwin") {
+      this.skip();
+    }
+
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
       allowUnencryptedStorage: true

@@ -81,6 +81,10 @@ describe("ClientCertificateCredential (internal)", function() {
       // and I'm trying to avoid having to generate one ourselves.
       this.skip();
     }
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    if (process.platform === "darwin") {
+      this.skip();
+    }
 
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
@@ -110,6 +114,10 @@ describe("ClientCertificateCredential (internal)", function() {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
       // and I'm trying to avoid having to generate one ourselves.
+      this.skip();
+    }
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    if (process.platform === "darwin") {
       this.skip();
     }
 

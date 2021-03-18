@@ -90,6 +90,10 @@ describe("UsernamePasswordCredential (internal)", function() {
     if (isNode8) {
       this.skip();
     }
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    if (process.platform === "darwin") {
+      this.skip();
+    }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -121,6 +125,10 @@ describe("UsernamePasswordCredential (internal)", function() {
   it("Authenticates silently with tokenCachePersistenceOptions", async function() {
     // msal-node-extensions does not currently support Node 8.
     if (isNode8) {
+      this.skip();
+    }
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    if (process.platform === "darwin") {
       this.skip();
     }
     // These tests should not run live because this credential requires user interaction.
@@ -163,6 +171,10 @@ describe("UsernamePasswordCredential (internal)", function() {
   it("allows passing an authenticationRecord to avoid further manual authentications", async function() {
     // msal-node-extensions does not currently support Node 8.
     if (isNode8) {
+      this.skip();
+    }
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    if (process.platform === "darwin") {
       this.skip();
     }
     // These tests should not run live because this credential requires user interaction.
@@ -219,6 +231,10 @@ describe("UsernamePasswordCredential (internal)", function() {
   it("allows working with an authenticationRecord that is serialized", async function() {
     // msal-node-extensions does not currently support Node 8.
     if (isNode8) {
+      this.skip();
+    }
+    // OSX asks for passwords on CI, so we need to skip these tests from our automation
+    if (process.platform === "darwin") {
       this.skip();
     }
     // These tests should not run live because this credential requires user interaction.
