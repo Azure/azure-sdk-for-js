@@ -3,20 +3,21 @@
 
 /**
  * @summary detects personally-identifiable information
+ * @azsdk-weight 40
  */
 
-const {
+import {
   TextAnalyticsClient,
   AzureKeyCredential,
   PiiEntityDomainType
-} = require("@azure/ai-text-analytics");
-const { assert } = require("console");
+} from "@azure/ai-text-analytics";
+import { assert } from "console";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+export async function main() {
   console.log(`Running recognizePii sample`);
 
   // You will need to set these environment variables or edit the following values

@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use object inputs as alternatives to
- * string arrays in client methods
+ * @summary uses object document inputs with attached metadata rather than simple strings for more flexibility
  */
 
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");

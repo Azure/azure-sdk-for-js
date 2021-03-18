@@ -6,16 +6,17 @@
  * API Key to authenticate a TextAnalyticsClient
  *
  * @summary authenticates a service client using both Azure Active Directory and an API key
+ * @azsdk-weight 20
  */
 
 // To use an API Key, import `AzureKeyCredential` from the Text Analytics package
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
 
 // To use Azure AD, import `DefaultAzureCredential` from the `@azure/identity` package
-const { DefaultAzureCredential } = require("@azure/identity");
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
@@ -56,7 +57,7 @@ async function useApiKey() {
   }
 }
 
-async function main() {
+export async function main() {
   console.log("== Client Authentication Methods Sample ==");
 
   await useAad();

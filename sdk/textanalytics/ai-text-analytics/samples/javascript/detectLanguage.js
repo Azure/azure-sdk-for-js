@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * detects the language of a piece of text
+ * @summary detects the language of a piece of text
  */
 
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");

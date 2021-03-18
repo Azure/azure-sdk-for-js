@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * @summary detects entities that have links to more information on the web
+ * @summary detects entites in a piece of text and prints them along with the
+ * entity type
+ * @azsdk-weight 50
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
@@ -16,35 +18,26 @@ const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
-  "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
-  "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
+  "Microsoft was founded by Bill Gates and Paul Allen.",
+  "I had a wonderful trip to Seattle last week.",
+  "I visited the Space Needle 2 times."
 ];
 
 export async function main() {
-  console.log("== Recognize Linked Entities Sample ==");
+  console.log("== Recognize Entities Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const results = await client.recognizeLinkedEntities(documents);
+  const results = await client.recognizeEntities(documents);
 
   for (const result of results) {
     console.log(`- Document ${result.id}`);
     if (!result.error) {
-      console.log("\tEntities:");
+      console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
-        console.log(
-          `\t- Entity ${entity.name}; link ${entity.url}; datasource: ${entity.dataSource}`
-        );
-        console.log("\t\tMatches:");
-        for (const match of entity.matches) {
-          console.log(
-            `\t\t- Entity appears as "${match.text}" (confidence: ${match.confidenceScore}`
-          );
-        }
+        console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
       }
-    } else {
-      console.error("  Error:", result.error);
-    }
+    } else console.error("\tError:", result.error);
   }
 }
 

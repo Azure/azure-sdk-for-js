@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * detects the language of a piece of text
+ * @summary detects the language of a piece of text
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";

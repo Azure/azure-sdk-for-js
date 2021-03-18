@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * detects personally-identifiable information
+ * @summary detects personally-identifiable information
  */
 
 import {

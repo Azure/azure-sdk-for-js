@@ -4,6 +4,8 @@
 /**
  * Demonstrates how to use either an Azure Active Directory (RBAC) or an
  * API Key to authenticate a TextAnalyticsClient
+ *
+ * @summary authenticates a service client using both Azure Active Directory and an API key
  */
 
 // To use an API Key, import `AzureKeyCredential` from the Text Analytics package

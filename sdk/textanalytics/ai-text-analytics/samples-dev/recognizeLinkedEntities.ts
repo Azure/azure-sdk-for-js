@@ -3,12 +3,13 @@
 
 /**
  * @summary detects entities that have links to more information on the web
+ * @azsdk-weight 50
  */
 
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -20,7 +21,7 @@ const documents = [
   "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
 ];
 
-async function main() {
+export async function main() {
   console.log("== Recognize Linked Entities Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));

@@ -3,6 +3,7 @@
 
 /**
  * @summary detects healthcare entities in a piece of text and prints them
+ * @azsdk-weight 40
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";

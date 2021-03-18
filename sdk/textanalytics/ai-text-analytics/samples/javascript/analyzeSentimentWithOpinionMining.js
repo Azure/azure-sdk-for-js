@@ -8,6 +8,8 @@
  *
  * In this sample, a bunch of reviews about a hotel are being analyzed for
  * sentiment and different assessments about targets in the reviews are shown.
+ *
+ * @summary analyzes the sentiment of a piece of text and mine opinions about different targets
  */
 
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");

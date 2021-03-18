@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * extracts key phrases from a piece of text
+ * @summary extracts key phrases from a piece of text
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";

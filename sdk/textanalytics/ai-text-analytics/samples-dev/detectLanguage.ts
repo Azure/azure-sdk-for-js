@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * @summary detects entites in a piece of text and prints them along with the
- * entity type
+ * @summary detects the language of a piece of text
+ * @azsdk-weight 50
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
@@ -17,26 +17,30 @@ const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
-  "Microsoft was founded by Bill Gates and Paul Allen.",
-  "I had a wonderful trip to Seattle last week.",
-  "I visited the Space Needle 2 times."
+  "This document is written in English.",
+  "Este es un document escrito en Español.",
+  "这是一个用中文写的文件",
+  "Dies ist ein Dokument in deutsche Sprache.",
+  "Detta är ett dokument skrivet på engelska."
 ];
 
 export async function main() {
-  console.log("== Recognize Entities Sample ==");
+  console.log("== Detect Language Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));
 
-  const results = await client.recognizeEntities(documents);
+  const results = await client.detectLanguage(documents);
 
   for (const result of results) {
     console.log(`- Document ${result.id}`);
     if (!result.error) {
-      console.log("\tRecognized Entities:");
-      for (const entity of result.entities) {
-        console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
-      }
-    } else console.error("\tError:", result.error);
+      const primaryLanguage = result.primaryLanguage;
+      console.log(
+        `\tDetected language: ${primaryLanguage.name} (ISO 6391 code: ${primaryLanguage.iso6391Name})`
+      );
+    } else {
+      console.error("\tError:", result.error);
+    }
   }
 }
 

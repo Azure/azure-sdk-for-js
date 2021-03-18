@@ -3,6 +3,7 @@
 
 /**
  * @summary analyzes the sentiment of a piece of text
+ * @azsdk-weight 50
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";

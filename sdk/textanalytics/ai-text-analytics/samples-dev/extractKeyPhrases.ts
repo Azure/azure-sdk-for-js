@@ -3,12 +3,13 @@
 
 /**
  * @summary extracts key phrases from a piece of text
+ * @azsdk-weight 50
  */
 
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
@@ -21,7 +22,7 @@ const documents = [
   "I will travel to South America in the summer."
 ];
 
-async function main() {
+export async function main() {
   console.log("== Extract Key Phrases Sample ==");
 
   const client = new TextAnalyticsClient(endpoint, new AzureKeyCredential(apiKey));

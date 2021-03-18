@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * extracts key phrases, entities, and pii entities from a piece of text
+ * @summary extracts key phrases, entities, and pii entities from a piece of text
  */
 
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
@@ -36,20 +36,21 @@ async function main() {
   const poller = await client.beginAnalyzeBatchActions(documents, actions, "en", {
     includeStatistics: true
   });
+  const resultPages = await poller.pollUntilDone();
   poller.onProgress(() => {
     console.log(
       `Number of actions still in progress: ${poller.getOperationState().actionsInProgressCount}`
     );
   });
   console.log(
-    `The analyze batch actions operation was created on ${poller.getOperationState().createdOn}`
+    `The analyze batch actions operation created on ${poller.getOperationState().createdOn}`
   );
   console.log(
     `The analyze batch actions operation results will expire on ${
       poller.getOperationState().expiresOn
     }`
   );
-  const resultPages = await poller.pollUntilDone();
+
   for await (const page of resultPages) {
     const keyPhrasesAction = page.extractKeyPhrasesResults[0];
     if (!keyPhrasesAction.error) {

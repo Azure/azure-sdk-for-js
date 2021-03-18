@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to analyze sentiment in documents.
- * An overall and per-sentence sentiment is returned.
+ * @summary analyzes the sentiment of a piece of text
  */
 
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
@@ -39,10 +38,10 @@ async function main() {
       for (const { sentiment, confidenceScores, text } of result.sentences) {
         console.log(`\t- Sentence text: ${text}`);
         console.log(`\t  Sentence sentiment: ${sentiment}`);
-        console.log("\t  Confidence scores: ", confidenceScores);
+        console.log("\t  Confidence scores:", confidenceScores);
       }
     } else {
-      console.error(`\tError: ${result.error}`);
+      console.error(`  Error: ${result.error}`);
     }
   }
 }

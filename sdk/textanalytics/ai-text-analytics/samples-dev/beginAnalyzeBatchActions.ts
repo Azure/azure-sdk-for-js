@@ -3,6 +3,7 @@
 
 /**
  * @summary extracts key phrases, entities, and pii entities from a piece of text
+ * @azsdk-weight 10
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";

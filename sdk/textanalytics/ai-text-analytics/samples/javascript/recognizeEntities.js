@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * detects entites in a piece of text and prints them along with the entity type
+ * @summary detects entites in a piece of text and prints them along with the
+ * entity type
  */
 
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
