@@ -43,12 +43,12 @@ describe("ChatClient", function() {
 
       testUser2 = (await createTestUser()).user;
 
-      const request = {
-        topic: "test topic",
+      const request = { topic: "test topic" };
+      const options = {
         participants: [{ id: testUser }, { id: testUser2 }]
       };
 
-      const chatThreadResult = await chatClient.createChatThread(request);
+      const chatThreadResult = await chatClient.createChatThread(request, options);
 
       const chatThread = chatThreadResult.chatThread;
       if (chatThread) {
@@ -92,6 +92,11 @@ describe("ChatClient", function() {
     beforeEach(async function() {
       // Start notifications
       await chatClient.startRealtimeNotifications();
+    });
+
+    afterEach(async function() {
+      // Stop notifications
+      await chatClient.stopRealtimeNotifications();
     });
 
     it("successfully stops realtime notifications", async function() {

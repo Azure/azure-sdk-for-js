@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -98,6 +98,7 @@
     "@opentelemetry/api": "^0.10.2",
     "form-data": "^3.0.0",
     "tslib": "^2.0.0",
+    "http-proxy-agent": "^4.0.1",
     "https-proxy-agent": "^5.0.0",
     "uuid": "^8.3.0"
   },

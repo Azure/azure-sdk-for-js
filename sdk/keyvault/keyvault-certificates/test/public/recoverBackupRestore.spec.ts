@@ -103,7 +103,10 @@ describe("Certificates client - restore certificates and recover backups", () =>
       // This test implementation of a restore poller only applies for backups that have been recently deleted.
       // Backups might not be ready to be restored in an unknown amount of time.
       // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
-      const restorePoller = await testClient.beginRestoreCertificateBackup(backup as Uint8Array);
+      const restorePoller = await testClient.beginRestoreCertificateBackup(
+        backup as Uint8Array,
+        testPollerProperties
+      );
       const restoredCertificate = await restorePoller.pollUntilDone();
 
       assert.equal(restoredCertificate.name, certificateName);

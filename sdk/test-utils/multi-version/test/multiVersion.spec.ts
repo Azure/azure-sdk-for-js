@@ -41,7 +41,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       console.log(`creating test client for service version ${serviceVersion}`);
     });
 
-    afterEach(async function() {});
+    afterEach(async function() { /** empty */});
 
     it("test case 2", function() {
       if (serviceVersion === "7.0") {
@@ -50,7 +50,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     });
 
     describe("nested test suite 3a", function() {
-      it("nested test 4a", function() {});
+      it("nested test 4a", function() { /** empty */});
     });
 
     onVersions(["7.0"]).describe("nested test suite 3b", function() {
