@@ -79,7 +79,7 @@ export interface TagList {
   /** Registry name */
   registry?: string;
   /** Image name */
-  imageName?: string;
+  repository?: string;
   /** List of tag attribute details */
   tags?: TagAttributesBase[];
   link?: string;
@@ -122,7 +122,7 @@ export interface AcrManifests {
   /** Registry name */
   registry?: string;
   /** Image name */
-  imageName?: string;
+  repository?: string;
   /** List of manifests */
   manifests?: ManifestAttributesBase[];
   link?: string;

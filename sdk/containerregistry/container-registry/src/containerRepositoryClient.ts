@@ -460,7 +460,7 @@ export class ContainerRepositoryClient {
           return {
             ...t,
             registry: currentPage.registry,
-            repository: currentPage.imageName
+            repository: currentPage.repository
           };
         });
       }
@@ -481,7 +481,7 @@ export class ContainerRepositoryClient {
             return {
               ...t,
               registry: currentPage.registry,
-              repository: currentPage.imageName
+              repository: currentPage.repository
             };
           });
         }
@@ -543,8 +543,8 @@ export class ContainerRepositoryClient {
         yield currentPage.tags.map((t) => {
           return {
             ...t,
-            registry: this.registry,
-            repository: this.repository
+            registry: currentPage.registry,
+            repository: currentPage.repository
           };
         });
       }
@@ -563,8 +563,8 @@ export class ContainerRepositoryClient {
           yield currentPage.tags.map((t) => {
             return {
               ...t,
-              registry: this.registry,
-              repository: this.repository
+              registry: currentPage.registry,
+              repository: currentPage.repository
             };
           });
         }

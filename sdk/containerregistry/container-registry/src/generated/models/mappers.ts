@@ -224,7 +224,7 @@ export const TagList: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      imageName: {
+      repository: {
         serializedName: "imageName",
         type: {
           name: "String"
@@ -355,7 +355,7 @@ export const AcrManifests: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      imageName: {
+      repository: {
         serializedName: "imageName",
         type: {
           name: "String"

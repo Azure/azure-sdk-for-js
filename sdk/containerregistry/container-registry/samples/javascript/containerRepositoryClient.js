@@ -91,8 +91,14 @@ async function getProperties(client) {
 }
 
 async function getArtifactProperties(client, digest) {
+  console.log("Retrieving registry artifact properties");
   const properties = await client.getRegistryArtifactProperties(digest);
-  console.dir(properties);
+  console.log(`  digest : ${properties.digest}`);
+  console.log(`  created on: ${properties.createdOn}`);
+  console.log(`  last updated on: ${properties.lastUpdatedOn}`);
+  console.log(`  arch : ${properties.cpuArchitecture}`);
+  console.log(`  os : ${properties.operatingSystem}`);
+  console.log(`  size : ${properties.size} bytes`);
 }
 
 async function deleteArtifact(client, digest) {

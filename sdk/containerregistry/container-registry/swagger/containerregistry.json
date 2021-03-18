@@ -1306,7 +1306,8 @@
         },
         "imageName": {
           "type": "string",
-          "description": "Image name"
+          "description": "Image name",
+          "x-ms-client-name": "repository"
         },
         "tags": {
           "type": "array",
@@ -1442,7 +1443,8 @@
         },
         "imageName": {
           "type": "string",
-          "description": "Image name"
+          "description": "Image name",
+          "x-ms-client-name": "repository"
         },
         "manifests": {
           "type": "array",
@@ -1581,11 +1583,13 @@
           "x-ms-client-name": "operatingSystem"
         },
         "mediaType": {
+          "x-accessibility": "internal",
           "type": "string",
           "description": "Media type",
           "x-ms-client-name": "manifestMediaType"
         },
         "configMediaType": {
+          "x-accessibility": "internal",
           "type": "string",
           "description": "Config blob media type"
         },
@@ -1655,6 +1659,7 @@
     },
     "RepositoryTags": {
       "description": "Result of the request to list tags of the image",
+      "x-accessibility": "internal",
       "properties": {
         "name": {
           "type": "string",
@@ -1963,6 +1968,7 @@
     },
     "ManifestChangeableAttributes": {
       "description": "Changeable attributes",
+      "x-accessibility": "internal",
       "properties": {
         "deleteEnabled": {
           "type": "boolean",
