@@ -67,8 +67,8 @@ export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
-    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>>;
-    beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>>;
+    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
+    beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
     getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
@@ -115,12 +115,17 @@ export interface PurchasedPhoneNumber {
 }
 
 // @public
-export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
-    countryCode: string;
+export interface PurchasePhoneNumbersResult {
 }
 
 // @public
-export type VoidResult = {};
+export interface ReleasePhoneNumberResult {
+}
+
+// @public
+export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
+    countryCode: string;
+}
 
 
 // (No @packageDocumentation comment for this package)
