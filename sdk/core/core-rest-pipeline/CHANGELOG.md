@@ -2,6 +2,7 @@
 
 ## 1.0.1 (Unreleased)
 
+- Fixed an issue where `timeout` and `abortSignal` of requests was not honored on Node after requests had already been issued to the server.
 
 ## 1.0.0 (2021-03-15)
 
