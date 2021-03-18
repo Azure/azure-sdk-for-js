@@ -156,10 +156,8 @@ class NodeHttpClient implements HttpClient {
           reject(new RestError(err.message, { code: RestError.REQUEST_SEND_ERROR, request }));
         });
         abortController.signal.addEventListener("abort", () => {
-          if (!req.finished) {
-            req.abort();
-            reject(new AbortError("The operation was aborted."));
-          }
+          req.abort();
+          reject(new AbortError("The operation was aborted."));
         });
         if (body && isReadableStream(body)) {
           body.pipe(req);
