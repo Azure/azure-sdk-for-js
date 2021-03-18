@@ -22,6 +22,7 @@ import { RequestContext } from "./request/RequestContext";
 import { request as executeRequest } from "./request/RequestHandler";
 import { SessionContainer } from "./session/sessionContainer";
 import { SessionContext } from "./session/SessionContext";
+import { BulkOptions } from "./utils/batch";
 
 /** @hidden */
 const log = logger("ClientContext");
@@ -207,7 +208,7 @@ export class ClientContext {
     collectionLink: string,
     query?: string | SqlQuerySpec,
     options?: FeedOptions
-  ) {
+  ): QueryIterator<PartitionKeyRange> {
     const path = getPathFromLink(collectionLink, ResourceType.pkranges);
     const id = getIdFromLink(collectionLink);
     const cb: FetchFunctionCallback = (innerOptions) => {
@@ -334,7 +335,7 @@ export class ClientContext {
     }
   }
 
-  private applySessionToken(requestContext: RequestContext) {
+  private applySessionToken(requestContext: RequestContext): void {
     const request = this.getSessionParams(requestContext.path);
 
     if (requestContext.headers && requestContext.headers[Constants.HttpHeaders.SessionToken]) {
@@ -546,16 +547,18 @@ export class ClientContext {
   public async bulk<T>({
     body,
     path,
-    resourceId,
     partitionKeyRangeId,
+    resourceId,
+    bulkOptions = {},
     options = {}
   }: {
     body: T;
     path: string;
     partitionKeyRangeId: string;
     resourceId: string;
+    bulkOptions?: BulkOptions;
     options?: RequestOptions;
-  }) {
+  }): Promise<Response<any>> {
     try {
       const request: RequestContext = {
         globalEndpointManager: this.globalEndpointManager,
@@ -576,6 +579,8 @@ export class ClientContext {
       request.headers[Constants.HttpHeaders.IsBatchRequest] = true;
       request.headers[Constants.HttpHeaders.PartitionKeyRangeID] = partitionKeyRangeId;
       request.headers[Constants.HttpHeaders.IsBatchAtomic] = false;
+      request.headers[Constants.HttpHeaders.BatchContinueOnError] =
+        bulkOptions.continueOnError || false;
 
       this.applySessionToken(request);
 
@@ -597,7 +602,7 @@ export class ClientContext {
     path: string,
     operationType: OperationType,
     resHeaders: CosmosHeaders
-  ) {
+  ): void {
     const request = this.getSessionParams(path);
     request.operationType = operationType;
     if (
@@ -612,7 +617,7 @@ export class ClientContext {
     }
   }
 
-  public clearSessionToken(path: string) {
+  public clearSessionToken(path: string): void {
     const request = this.getSessionParams(path);
     this.sessionContainer.remove(request);
   }
@@ -650,7 +655,7 @@ export class ClientContext {
     return false;
   }
 
-  private buildHeaders(requestContext: RequestContext) {
+  private buildHeaders(requestContext: RequestContext): Promise<CosmosHeaders> {
     return getHeaders({
       clientOptions: this.cosmosClientOptions,
       defaultHeaders: {

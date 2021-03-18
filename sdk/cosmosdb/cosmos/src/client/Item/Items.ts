@@ -20,7 +20,8 @@ import {
   getPartitionKeyToHash,
   decorateOperation,
   OperationResponse,
-  OperationInput
+  OperationInput,
+  BulkOptions
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -305,7 +306,10 @@ export class Items {
    * @param body - Represents the body of the item. Can contain any number of user defined properties.
    * @param options - Used for modifying the request (for instance, specifying the partition key).
    */
-  public async upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
+  public async upsert(
+    body: unknown,
+    options?: RequestOptions
+  ): Promise<ItemResponse<ItemDefinition>>;
   /**
    * Upsert an item.
    *
@@ -387,14 +391,16 @@ export class Items {
    *    }
    * ]
    *
-   * await database.container.items.bulk(operation)
+   * await database.container.items.bulk(operations)
    * ```
    *
    * @param operations - List of operations. Limit 100
+   * @param bulkOptions - Optional options object to modify bulk behavior. Pass \{ continueOnError: true \} to continue executing operations when one fails. (Defaults to false) ** NOTE: THIS WILL DEFAULT TO TRUE IN THE 4.0 RELEASE
    * @param options - Used for modifying the request.
    */
   public async bulk(
     operations: OperationInput[],
+    bulkOptions?: BulkOptions,
     options?: RequestOptions
   ): Promise<OperationResponse[]> {
     const {
@@ -440,6 +446,7 @@ export class Items {
               partitionKeyRangeId: batch.rangeId,
               path,
               resourceId: this.container.url,
+              bulkOptions,
               options
             });
             response.result.forEach((operationResponse: OperationResponse, index: number) => {

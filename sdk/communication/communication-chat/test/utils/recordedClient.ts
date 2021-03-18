@@ -40,7 +40,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export async function createTestUser(): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING);
-  return await identityClient.createUserWithToken(["chat"]);
+  return await identityClient.createUserAndToken(["chat"]);
 }
 
 export async function deleteTestUser(testUser: CommunicationUserIdentifier) {

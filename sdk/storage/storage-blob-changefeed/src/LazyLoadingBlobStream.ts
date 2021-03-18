@@ -71,14 +71,11 @@ export class LazyLoadingBlobStream extends Readable {
   }
 
   private async downloadBlock(options: LazyLoadingBlobStreamDownloadBlockOptions = {}) {
-    const { span, spanOptions } = createSpan(
-      "LazyLoadingBlobStream-downloadBlock",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("LazyLoadingBlobStream-downloadBlock", options);
     try {
       const properties = await this.blobClient.getProperties({
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       this.blobLength = properties.contentLength!;
 
@@ -93,7 +90,7 @@ export class LazyLoadingBlobStream extends Readable {
         this.lastDownloadBytes,
         {
           abortSignal: options.abortSignal,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         }
       );
       this.offset += this.lastDownloadBytes;
@@ -114,10 +111,7 @@ export class LazyLoadingBlobStream extends Readable {
    * @param size - Optional. The size of data to be read
    */
   public async _read(size?: number) {
-    const { span, spanOptions } = createSpan(
-      "LazyLoadingBlobStream-read",
-      this.options?.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("LazyLoadingBlobStream-read", this.options);
 
     try {
       if (!size) {
@@ -130,7 +124,7 @@ export class LazyLoadingBlobStream extends Readable {
         if (this.lastDownloadData === undefined || this.lastDownloadData?.byteLength === 0) {
           await this.downloadBlock({
             abortSignal: this.options?.abortSignal,
-            tracingOptions: { ...this.options?.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions?.tracingOptions
           });
         }
         if (this.lastDownloadData?.byteLength) {

@@ -29,6 +29,18 @@ describe("Utility Helpers", () => {
         });
       });
 
+      it("should handle case-insensitive string without TableEndpoint", () => {
+        const validConnectionString =
+          "deFaultEndpointsPROTOcol=https;accoUNTNAme=testaccount;ACCOUNTkey=REDACTED;endPOintSuffiX=core.windows.net";
+        const result = extractConnectionStringParts(validConnectionString);
+        assert.deepEqual(result, {
+          accountName: "testaccount",
+          accountKey: Buffer.from([68, 64, 192, 9, 49, 3]),
+          kind: "AccountConnString",
+          url: "https://testaccount.table.core.windows.net"
+        });
+      });
+
       it("should handle connection string with TableEndpoint", () => {
         const validConnectionString =
           "DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=REDACTED;EndpointSuffix=core.windows.net;TableEndpoint=https://myAccount.table.core.windows.net/";
@@ -66,9 +78,12 @@ describe("Utility Helpers", () => {
 
       it("should handle format 'protocol://accountName.table.endpointSuffix'", () => {
         const validSAS =
-          "BlobEndpoint=https://teststorageaccount.blob.core.windows.net/;QueueEndpoint=https://teststorageaccount.queue.core.windows.net/;FileEndpoint=https://teststorageaccount.file.core.windows.net/;TableEndpoint=https://teststorageaccount.table.core.windows.net/;SharedAccessSignature=REDACTED";
+          "BlobEndpoint=https://teststorageaccount.blob.core.windows.net/;QueueEndpoint=https://teststorageaccount.queue.core.windows.net/;FileEndpoint=https://teststorageaccount.file.core.windows.net/;TableEndpoint=https://teststorageaccount.table.core.windows.net/;SharedAccessSignature=sv=2020-02-10&ss=bfqt";
         const connectionStringParts = extractConnectionStringParts(validSAS);
-        assert.deepEqual(connectionStringParts, expectedConenctionStringParts);
+        assert.deepEqual(connectionStringParts, {
+          ...expectedConenctionStringParts,
+          accountSas: "sv=2020-02-10&ss=bfqt"
+        });
       });
 
       it("should handle IPv4/6 format ", () => {

@@ -238,7 +238,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @throws Error if the underlying connection or receiver is closed.
    * @throws `ServiceBusError` if the service returns an error while setting the session state.
    */
-  async setSessionState(state: any, options: OperationOptionsBase = {}): Promise<void> {
+  async setSessionState(state: unknown, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
     const setSessionStateOperationPromise = async (): Promise<void> => {
@@ -305,7 +305,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
       if (options.fromSequenceNumber) {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
             options.fromSequenceNumber,
@@ -314,7 +314,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
             managementRequestOptions
           );
       } else {
-        return await this._context
+        return this._context
           .getManagementClient(this.entityPath)
           .peekMessagesBySession(this.sessionId, maxMessageCount, managementRequestOptions);
       }

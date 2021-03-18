@@ -19,7 +19,7 @@
 /sdk/core/core-asynciterator-polyfill/ @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
-/sdk/core/core-auth/ @daviwil @xirzec @bterlson
+/sdk/core/core-auth/ @sadasant @daviwil @xirzec @bterlson
 
 # PRLabel: %Azure.Core
 /sdk/core/core-client/ @xirzec @bterlson @chradek @jeremymeng
@@ -31,7 +31,7 @@
 /sdk/core/core-http/ @daviwil @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
-/sdk/core/core-https/ @xirzec @bterlson @chradek @jeremymeng
+/sdk/core/core-rest-pipeline/ @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
 /sdk/core/core-lro/ @sadasant @xirzec @bterlson @chradek @jeremymeng
@@ -58,6 +58,9 @@
 # PRLabel: %Communication
 /sdk/communication/ @acsdevx-msft
 
+# PRLabel: %Container Registry
+/sdk/containerregistry/ @jeremymeng
+
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
 
@@ -74,10 +77,10 @@
 /sdk/servicebus/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @schaabs @daviwil @jonathandturner @sadasant
+/sdk/identity/ @sadasant @maorleger @schaabs @daviwil 
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @jonathandturner @sadasant @maorleger
+/sdk/keyvault/ @maorleger @sadasant 
 
 # PRLabel: %Storage
 /sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377 @EmmaZhu

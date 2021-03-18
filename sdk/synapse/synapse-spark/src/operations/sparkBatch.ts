@@ -35,12 +35,9 @@ export class SparkBatch {
   async getSparkBatchJobs(
     options?: SparkBatchGetSparkBatchJobsOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "SparkClient-getSparkBatchJobs",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("SparkClient-getSparkBatchJobs", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -68,13 +65,10 @@ export class SparkBatch {
     sparkBatchJobOptions: SparkBatchJobOptions,
     options?: SparkBatchCreateSparkBatchJobOptionalParams
   ): Promise<SparkBatchCreateSparkBatchJobResponse> {
-    const { span, updatedOptions } = createSpan(
-      "SparkClient-createSparkBatchJob",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("SparkClient-createSparkBatchJob", options);
     const operationArguments: coreHttp.OperationArguments = {
       sparkBatchJobOptions,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -102,13 +96,10 @@ export class SparkBatch {
     batchId: number,
     options?: SparkBatchGetSparkBatchJobOptionalParams
   ): Promise<SparkBatchGetSparkBatchJobResponse> {
-    const { span, updatedOptions } = createSpan(
-      "SparkClient-getSparkBatchJob",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("SparkClient-getSparkBatchJob", options);
     const operationArguments: coreHttp.OperationArguments = {
       batchId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -136,13 +127,10 @@ export class SparkBatch {
     batchId: number,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "SparkClient-cancelSparkBatchJob",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("SparkClient-cancelSparkBatchJob", options);
     const operationArguments: coreHttp.OperationArguments = {
       batchId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(

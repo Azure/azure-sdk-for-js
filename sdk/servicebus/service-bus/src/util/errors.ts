@@ -6,6 +6,7 @@ import Long from "long";
 import { ConnectionContext } from "../connectionContext";
 import { isServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
 import { ReceiveMode } from "../models";
+import { isDefined } from "./typeGuards";
 
 /**
  * Error message to use when EntityPath in connection string does not match the
@@ -57,7 +58,7 @@ export function getSenderClosedErrorMsg(entityPath: string): string {
  * @param sessionId - If using session receiver, then the id of the session
  */
 export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string): string {
-  if (sessionId == undefined) {
+  if (!isDefined(sessionId)) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
       `Please create a new receiver using the "createReceiver" method on the ServiceBusClient.`
@@ -75,7 +76,7 @@ export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string
  * @param sessionId - If using session receiver, then the id of the session
  */
 export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: string): string {
-  if (sessionId == undefined) {
+  if (!isDefined(sessionId)) {
     return `The receiver for "${entityPath}" is already receiving messages.`;
   }
   return `The receiver for session "${sessionId}" for "${entityPath}" is already receiving messages.`;
@@ -91,7 +92,7 @@ export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: stri
 export function throwTypeErrorIfParameterMissing(
   connectionId: string,
   parameterName: string,
-  parameterValue: any
+  parameterValue: unknown
 ): void {
   if (parameterValue === undefined || parameterValue === null) {
     const error = new TypeError(`Missing parameter "${parameterName}"`);
@@ -112,7 +113,7 @@ export function throwTypeErrorIfParameterMissing(
 export function throwTypeErrorIfParameterTypeMismatch(
   connectionId: string,
   parameterName: string,
-  parameterValue: any,
+  parameterValue: unknown,
   expectedType: string
 ): void {
   if (typeof parameterValue !== expectedType) {
@@ -134,7 +135,7 @@ export function throwTypeErrorIfParameterTypeMismatch(
 export function throwTypeErrorIfParameterNotLong(
   connectionId: string,
   parameterName: string,
-  parameterValue: any
+  parameterValue: unknown
 ): TypeError | undefined {
   if (Array.isArray(parameterValue)) {
     return throwTypeErrorIfParameterNotLongArray(connectionId, parameterName, parameterValue);
@@ -239,7 +240,6 @@ export function throwErrorIfInvalidOperationOnMessage(
  * Error message for when the ServiceBusMessage provided by the user has different values
  * for partitionKey and sessionId.
  * @internal
- * @throw
  */
 export const PartitionKeySessionIdMismatchError =
   "The fields 'partitionKey' and 'sessionId' cannot have different values.";
@@ -249,7 +249,10 @@ export const PartitionKeySessionIdMismatchError =
  * @param msg - The object that needs to be validated as a ServiceBusMessage
  * @param errorMessageForWrongType - The error message to use when given object is not a ServiceBusMessage
  */
-export function throwIfNotValidServiceBusMessage(msg: any, errorMessageForWrongType: string): void {
+export function throwIfNotValidServiceBusMessage(
+  msg: unknown,
+  errorMessageForWrongType: string
+): void {
   if (!isServiceBusMessage(msg)) {
     throw new TypeError(errorMessageForWrongType);
   }

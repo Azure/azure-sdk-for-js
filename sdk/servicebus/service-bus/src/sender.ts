@@ -15,14 +15,11 @@ import {
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateMessageBatchOptions } from "./models";
 import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
-import {
-  createSendSpan,
-  getParentSpan,
-  OperationOptionsBase
-} from "./modelsToBeSharedWithEventHubs";
-import { CanonicalCode } from "@opentelemetry/api";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+import { CanonicalCode, Link, SpanKind } from "@opentelemetry/api";
 import { senderLogger as logger } from "./log";
 import { ServiceBusError } from "./serviceBusError";
+import { createServiceBusSpan } from "./diagnostics/tracing";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -187,7 +184,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       batch = await this.createMessageBatch(options);
       for (const message of messages) {
         throwIfNotValidServiceBusMessage(message, invalidTypeErrMsg);
-        if (!batch.tryAddMessage(message, { parentSpan: getParentSpan(options?.tracingOptions) })) {
+        if (!batch.tryAddMessage(message, options)) {
           // this is too big - throw an error
           throw new ServiceBusError(
             "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
@@ -197,11 +194,21 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       }
     }
 
-    const sendSpan = createSendSpan(
-      getParentSpan(options?.tracingOptions),
-      batch._messageSpanContexts,
+    const links: Link[] = batch._messageSpanContexts.map((context) => {
+      return {
+        context
+      };
+    });
+
+    const { span: sendSpan } = createServiceBusSpan(
+      "send",
+      options,
       this.entityPath,
-      this._context.config.host
+      this._context.config.host,
+      {
+        kind: SpanKind.CLIENT,
+        links
+      }
     );
 
     try {
@@ -336,7 +343,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
  * @internal
  */
 export function isServiceBusMessageBatch(
-  messageBatchOrAnything: any
+  messageBatchOrAnything: unknown
 ): messageBatchOrAnything is ServiceBusMessageBatch {
   if (messageBatchOrAnything == null) {
     return false;

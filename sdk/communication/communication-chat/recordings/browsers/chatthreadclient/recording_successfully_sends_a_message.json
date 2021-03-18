@@ -2,16 +2,16 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/chat/threads/19%3A18dfab168a9245feb44837c918781d14%40thread.v2/messages",
+   "url": "https://endpoint/chat/threads/19%3A1cb5e8212f0047c1a0ba2b908fee301a%40thread.v2/messages",
    "query": {
-    "api-version": "2020-11-01-preview3"
+    "api-version": "2021-03-01-preview5"
    },
    "requestBody": "{\"content\":\"content\"}",
    "status": 201,
-   "response": "{\"id\":\"1612470112922\"}",
+   "response": "{\"id\":\"1615253274036\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8",
-    "location": "https://endpoint/chat/threads/19%3A18dfab168a9245feb44837c918781d14@thread.v2/messages/1612470112922"
+    "location": "https://endpoint/chat/threads/19%3A1cb5e8212f0047c1a0ba2b908fee301a@thread.v2/messages/1615253274036"
    }
   }
  ],
@@ -19,5 +19,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "a0bb074fd826cece9ca8c15fb35b01eb"
+ "hash": "660e3f96557e4bf75d30810408a70f5c"
 }

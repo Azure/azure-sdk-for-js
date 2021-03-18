@@ -8,6 +8,7 @@ import {
   isResourceValid,
   ResourceType
 } from "../../common";
+import { PartitionKey } from "../../documents/PartitionKey";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, ResourceResponse } from "../../request";
 import { Container } from "../Container";
@@ -23,7 +24,7 @@ export class StoredProcedure {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createStoredProcedureUri(this.container.database.id, this.container.id, this.id);
   }
   /**
@@ -110,7 +111,7 @@ export class StoredProcedure {
    * @param options - Additional options, such as the partition key to invoke the {@link StoredProcedure} on.
    */
   public async execute<T = any>(
-    partitionKey: any,
+    partitionKey: PartitionKey,
     params?: any[],
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {

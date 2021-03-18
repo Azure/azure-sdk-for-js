@@ -1,8 +1,15 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
+  TestPipeline: false
 
 steps:
+  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+    parameters:
+      PackageName: "@azure/template"
+      ServiceDirectory: "template"
+      TestPipeline: ${{ parameters.TestPipeline }}
+
   - task: PublishPipelineArtifact@1
     condition: succeededOrFailed()
     displayName: "Publish Report Artifacts"
@@ -47,6 +54,10 @@ steps:
       node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
       node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
     displayName: "Build ESLint Plugin and Lint Libraries"
+
+  - pwsh: |
+      node eng/tools/rush-runner.js check-format "${{parameters.ServiceDirectory}}" --verbose
+    displayName: "Check Format in Libraries"
 
   - script: |
       node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
