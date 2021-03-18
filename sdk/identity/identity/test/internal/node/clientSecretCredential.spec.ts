@@ -11,6 +11,7 @@ import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../s
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
+import { isNode8 } from "../../../src/tokenCache/node8";
 
 describe("ClientSecretCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -56,6 +57,10 @@ describe("ClientSecretCredential (internal)", function() {
   });
 
   it("Accepts tokenCachePersistenceOptions", async function() {
+    // msal-node-extensions does not currently support Node 8.
+    if (isNode8) {
+      this.skip();
+    }
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
       allowUnencryptedStorage: true
@@ -80,6 +85,10 @@ describe("ClientSecretCredential (internal)", function() {
   });
 
   it("Authenticates silently with tokenCachePersistenceOptions", async function() {
+    // msal-node-extensions does not currently support Node 8.
+    if (isNode8) {
+      this.skip();
+    }
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
       allowUnencryptedStorage: true

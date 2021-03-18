@@ -49,10 +49,7 @@ export function msalNodeTestSetup(
           `client-request-id=${playbackValues.correlationId}`
         ),
       (recording: string): string =>
-        recording.replace(
-          /client_assertion=[a-zA-Z0-9-\._]*/g,
-          `client_assertion=client_assertion`
-        ),
+        recording.replace(/client_assertion=[a-zA-Z0-9-._]*/g, `client_assertion=client_assertion`),
       (recording: string): string => recording.replace(/esctx=[a-zA-Z0-9-_]*/g, `esctx=esctx`),
       (recording: string): string => recording.replace(/'fpc=[^;]*/g, `'fpc=fpc;`),
       // Device code specific

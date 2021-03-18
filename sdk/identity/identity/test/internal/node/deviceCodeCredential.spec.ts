@@ -5,12 +5,13 @@
 
 import Sinon from "sinon";
 import assert from "assert";
+import { PublicClientApplication } from "@azure/msal-node";
 import { env, isLiveMode } from "@azure/test-utils-recorder";
 import { DeviceCodeCredential, TokenCachePersistenceOptions } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { PublicClientApplication } from "@azure/msal-node";
+import { isNode8 } from "../../../src/tokenCache/node8";
 
 describe("DeviceCodeCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -52,6 +53,10 @@ describe("DeviceCodeCredential (internal)", function() {
   });
 
   it("Accepts tokenCachePersistenceOptions", async function() {
+    // msal-node-extensions does not currently support Node 8.
+    if (isNode8) {
+      this.skip();
+    }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -79,6 +84,10 @@ describe("DeviceCodeCredential (internal)", function() {
   });
 
   it("Authenticates silently with tokenCachePersistenceOptions", async function() {
+    // msal-node-extensions does not currently support Node 8.
+    if (isNode8) {
+      this.skip();
+    }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -115,6 +124,10 @@ describe("DeviceCodeCredential (internal)", function() {
   });
 
   it("allows passing an authenticationRecord to avoid further manual authentications", async function() {
+    // msal-node-extensions does not currently support Node 8.
+    if (isNode8) {
+      this.skip();
+    }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();

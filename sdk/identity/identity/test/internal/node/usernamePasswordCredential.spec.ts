@@ -6,6 +6,7 @@
 import Sinon from "sinon";
 import assert from "assert";
 import { env, isLiveMode } from "@azure/test-utils-recorder";
+import { PublicClientApplication } from "@azure/msal-node";
 import {
   UsernamePasswordCredential,
   TokenCachePersistenceOptions,
@@ -14,7 +15,7 @@ import {
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { PublicClientApplication } from "@azure/msal-node";
+import { isNode8, Node8NotSupportedError } from "../../../src/tokenCache/node8";
 
 describe("UsernamePasswordCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -61,7 +62,34 @@ describe("UsernamePasswordCredential (internal)", function() {
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 
+  it("Persistence throws on Node 8, as expected", async function() {
+    if (!isNode8) {
+      this.skip();
+    }
+
+    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+      allowUnencryptedStorage: true
+    };
+
+    // Emptying the token cache before we start.
+    const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
+
+    let error: Error | undefined;
+    try {
+      await tokenCache.getPersistence();
+    } catch (e) {
+      error = e;
+    }
+
+    assert.equal(error?.message, Node8NotSupportedError.message);
+  });
+
   it("Accepts tokenCachePersistenceOptions", async function() {
+    // msal-node-extensions does not currently support Node 8.
+    if (isNode8) {
+      this.skip();
+    }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -91,6 +119,10 @@ describe("UsernamePasswordCredential (internal)", function() {
   });
 
   it("Authenticates silently with tokenCachePersistenceOptions", async function() {
+    // msal-node-extensions does not currently support Node 8.
+    if (isNode8) {
+      this.skip();
+    }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -129,6 +161,10 @@ describe("UsernamePasswordCredential (internal)", function() {
   });
 
   it("allows passing an authenticationRecord to avoid further manual authentications", async function() {
+    // msal-node-extensions does not currently support Node 8.
+    if (isNode8) {
+      this.skip();
+    }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -181,6 +217,10 @@ describe("UsernamePasswordCredential (internal)", function() {
   });
 
   it("allows working with an authenticationRecord that is serialized", async function() {
+    // msal-node-extensions does not currently support Node 8.
+    if (isNode8) {
+      this.skip();
+    }
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();

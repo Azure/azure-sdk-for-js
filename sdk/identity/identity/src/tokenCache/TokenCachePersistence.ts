@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  PersistenceCachePlugin,
-  IPersistence as MsalIPersistence
-} from "@azure/msal-node-extensions";
+import { isNode8, Node8NotSupportedError } from "./node8";
 import { msalPersistencePlatforms, TokenCachePersistenceOptions } from "./persistencePlatforms";
 import { MsalPersistence, CachePlugin, TokenCacheRegisterOptions } from "./types";
 
@@ -34,11 +31,18 @@ export class TokenCachePersistence {
       retryDelay: 50
     };
 
-    const persistence = await this.getPersistence();
-    if (!persistence) {
-      throw new Error("No persistence implementations available.");
-    }
+    if (isNode8) {
+      throw Node8NotSupportedError;
+    } else {
+      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+      const { PersistenceCachePlugin } = require("@azure/msal-node-extensions");
 
-    return new PersistenceCachePlugin(persistence as MsalIPersistence, lockOptions);
+      const persistence = await this.getPersistence();
+      if (!persistence) {
+        throw new Error("No persistence implementations available.");
+      }
+
+      return new PersistenceCachePlugin(persistence, lockOptions);
+    }
   }
 }

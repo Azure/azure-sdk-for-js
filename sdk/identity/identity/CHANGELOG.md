@@ -14,14 +14,15 @@ This release continues with the changes from `1.2.4` and `1.2.4-beta.1`.
 - Migrated the `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` to the latest MSAL.
   - This update improves caching of tokens, significantly reducing the number of network requests.
 - Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential` and `UsernamePasswordCredential` now can:
+  - Receive a `tokenCachePersistenceOptions` parameter to specify persitence caching of the credentials used to authenticate. This feature will not have support for Node 8 as part of this beta. This feature uses PNPM on Windows, it tries to use the Keychain on OSX and the Keyring on Linux, and if the user sets `allowUnencryptedStorage` to true in the `tokenCachePersistenceOptions`, it allows to fall back to an unprotected file if neither the Keychain nor the Keyring are available.
   - Receive an `authenticationRecord` from a previous authentication on their constructors, which skips the initial request altogether.
   - Receive a `disableAutomaticAuthentication` setting on the constructor, which stops `getToken` from requesting the user to authenticate manually.
   - An `authenticate()` method has been added besides the `getToken()` method.
   - The `authenticate()` method returns an `AuthenticationRecord` which can be serialized into strings with their property `serialize()`. To later deserialize from string into an `AuthenticationRecord`, use the new function `deserializeAuthenticationRecord()`.
   - If `disableAutomaticAuthentication` is set on the constructor of these credentials, developers can now control when to manually authenticate by calling to these credential's `authenticate()` method.
 - `DeviceCodeCredential` now can receive its optional parameters as a single parameter object.
-- `InteractiveBrowserCredential` now only has `loginStyle` and `flow` in the optional parameters when the credential is bundled for browsers. This reflects the intended behavior.
-- Removed the `postLogoutRedirectUri` from the optional properties of the `InteractiveBrowserCredential`.
+- Breaking change: `InteractiveBrowserCredential` now only has `loginStyle` and `flow` in the optional parameters when the credential is bundled for browsers. This reflects the intended behavior.
+- Breaking change: Removed the `postLogoutRedirectUri` from the optional properties of the `InteractiveBrowserCredential`.
 
 ## 1.2.4 (2021-03-08)
 
