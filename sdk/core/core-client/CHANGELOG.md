@@ -1,5 +1,12 @@
 # Release History
 
+## 1.0.1 (Unreleased)
+
+
+## 1.0.0 (2021-03-15)
+
+GA release of this package.
+
 ## 1.0.0-beta.2 (2021-03-10)
 
 - [Breaking] Removed `createSpanFunction` and `SpanConfig`. These have been moved into

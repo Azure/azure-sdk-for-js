@@ -5,32 +5,17 @@
 ## Configuration
 
 ```yaml
+require: "https://github.com/Azure/azure-rest-api-specs/blob/bd75cbc7ae9c997f39362ac9d19d557219720bbd/specification/eventgrid/data-plane/readme.md"
 package-name: "@azure/eventgrid"
-package-version: "3.0.0-beta.3"
+package-version: "4.0.0"
 title: GeneratedClient
 description: EventGrid Client
 generate-metadata: false
 add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
+save-inputs: true
 source-code-folder-path: ./src/generated
-input-file:
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Storage/stable/2018-01-01/Storage.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.EventHub/stable/2018-01-01/EventHub.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Resources/stable/2018-01-01/Resources.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.EventGrid/stable/2018-01-01/EventGrid.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Devices/stable/2018-01-01/IotHub.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.ContainerRegistry/stable/2018-01-01/ContainerRegistry.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.ServiceBus/stable/2018-01-01/ServiceBus.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Media/stable/2018-01-01/MediaServices.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Maps/stable/2018-01-01/Maps.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.AppConfiguration/stable/2018-01-01/AppConfiguration.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.SignalRService/stable/2018-01-01/SignalRService.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.KeyVault/stable/2018-01-01/KeyVault.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.MachineLearningServices/stable/2018-01-01/MachineLearningServices.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Cache/stable/2018-01-01/RedisCache.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Web/stable/2018-01-01/Web.json
-  - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Communication/stable/2018-01-01/AzureCommunicationServices.json
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210121.2"
 hide-clients: true
@@ -54,16 +39,61 @@ directive:
       });
 ```
 
-### Remove the "Properties" suffix from some Azure Communication Services types
+### Remove the "Properties" suffix from some object types.
+
+It's obvious they are properties and the type names read better without the suffix.
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.definitions
     transform: >
-      ["ACSChatThreadEventBase", "ACSChatMessageEventBase", "ACSChatEventBase", "ACSChatThreadMember",  "AcsSmsEventBase", "AcsSmsDeliveryAttempt"].forEach(cleanName => {
-        if ($[`${cleanName}Properties`]) {
-          $[`${cleanName}Properties`]["x-ms-client-name"] = cleanName;
+      for (const definition in $) {
+        if (definition.endsWith("Properties") && $[definition].properties !== undefined) {
+          const cleanName = definition.substring(0, definition.length - "Properties".length);
+          $[definition]["x-ms-client-name"] = cleanName;
         }
-      });
+      }
+```
+
+### Remove type: "date-time" for properties of event data models. We want to generate interfaces that match the JSON structure (i.e. `string`s instead of `Date`s)
+
+We want to expose the correct view over the raw JSON of the event, not some version after it's run through AutoRest mapping.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      for (const definition in $) {
+        if (definition !== "EventGridEvent" && definition !== "CloudEventEvent") {
+          for (const property in $[definition].properties) {
+            if ($[definition].properties[property].format === "date-time") {
+              delete $[definition].properties[property].format;
+            }
+          }
+        }
+      }
+```
+
+### Mark properties of event data as "required" if they were not annotated
+
+For schemas for events which don't define a set of required properties, assume they are all required, so we don't generate shapes where every property is optional. That does not reflect what the service is doing.
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      for (const definition in $) {
+        if ($[definition].properties && $[definition].required === undefined) {
+          const properties = Object.keys($[definition].properties);
+          if (properties.length > 0) {
+            $[definition].required = properties;
+          }
+        }
+      }
+
+      // Fix up CommunicationIdentifierModel where this huristic is wrong.
+      $["CommunicationIdentifierModel"].required = ["rawId"];
 ```

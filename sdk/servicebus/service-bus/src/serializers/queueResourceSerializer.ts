@@ -57,7 +57,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
  * Builds the queue object from the raw json object gotten after deserializing the
  * response from the service
  */
-export function buildQueue(rawQueue: any): QueueProperties {
+export function buildQueue(rawQueue: Record<string, any>): QueueProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
@@ -113,7 +113,7 @@ export function buildQueue(rawQueue: any): QueueProperties {
  * Builds the queue runtime info object from the raw json object gotten after deserializing the
  * response from the service
  */
-export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperties {
+export function buildQueueRuntimeProperties(rawQueue: Record<string, any>): QueueRuntimeProperties {
   const messageCountDetails = getMessageCountDetails(rawQueue[Constants.COUNT_DETAILS]);
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),

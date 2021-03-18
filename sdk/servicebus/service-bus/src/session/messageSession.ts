@@ -35,6 +35,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
+import { isDefined } from "../util/typeGuards";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -367,7 +368,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     }));
     if (!options) options = {};
     this.autoComplete = false;
-    if (this._providedSessionId != undefined) this.sessionId = this._providedSessionId;
+    if (isDefined(this._providedSessionId)) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
     this.maxAutoRenewDurationInMs =
       options.maxAutoLockRenewalDurationInMs != null

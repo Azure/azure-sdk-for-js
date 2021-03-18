@@ -13,31 +13,19 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AcquiredPhoneNumber {
-    assignmentType: PhoneNumberAssignmentType;
-    capabilities: PhoneNumberCapabilities;
-    cost: PhoneNumberCost;
-    countryCode: string;
-    id: string;
-    phoneNumber: string;
-    phoneNumberType: PhoneNumberType;
-    purchaseDate: Date;
+export interface BeginPurchasePhoneNumbersOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface BeginPurchasePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginReleasePhoneNumberOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface BeginReleasePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginSearchAvailablePhoneNumbersOptions extends OperationOptions {
 }
 
-// @public (undocumented)
-export interface BeginSearchAvailablePhoneNumbersOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
-}
-
-// @public (undocumented)
-export interface BeginUpdatePhoneNumberOptions extends PhoneNumberPollerOptionsBase, OperationOptions {
+// @public
+export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOptions {
 }
 
 // @public
@@ -74,25 +62,17 @@ export interface PhoneNumberCost {
     currencyCode: string;
 }
 
-// @public (undocumented)
-export interface PhoneNumberPollerOptionsBase {
-    // (undocumented)
-    pollInterval?: number;
-    // (undocumented)
-    resumeFrom?: string;
-}
-
 // @public
 export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
-    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>>;
-    beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>>;
+    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
+    beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
-    beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberOptions): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>>;
-    getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<AcquiredPhoneNumber>;
-    listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
+    beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
+    getPurchasedPhoneNumber(phoneNumber: string, options?: GetPurchasedPhoneNumberOptions): Promise<PurchasedPhoneNumber>;
+    listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
 }
 
 // @public
@@ -123,12 +103,29 @@ export interface PhoneNumberSearchResult {
 export type PhoneNumberType = "geographic" | "tollFree";
 
 // @public
-export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
+export interface PurchasedPhoneNumber {
+    assignmentType: PhoneNumberAssignmentType;
+    capabilities: PhoneNumberCapabilities;
+    cost: PhoneNumberCost;
     countryCode: string;
+    id: string;
+    phoneNumber: string;
+    phoneNumberType: PhoneNumberType;
+    purchaseDate: Date;
 }
 
 // @public
-export type VoidResult = {};
+export interface PurchasePhoneNumbersResult {
+}
+
+// @public
+export interface ReleasePhoneNumberResult {
+}
+
+// @public
+export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
+    countryCode: string;
+}
 
 
 // (No @packageDocumentation comment for this package)

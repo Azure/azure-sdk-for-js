@@ -12,114 +12,135 @@ import { OperationOptions } from '@azure/core-client';
 import { SASCredential } from '@azure/core-auth';
 
 // @public
-export interface ACSChatEventBase {
-    recipientId?: string;
-    threadId?: string;
-    transactionId?: string;
+export interface AcsChatEventBase {
+    recipientCommunicationIdentifier: CommunicationIdentifierModel;
+    threadId: string;
+    transactionId: string;
 }
 
 // @public
-export type ACSChatMemberAddedToThreadWithUserEventData = ACSChatThreadEventBase & {
-    time?: Date;
-    addedBy?: string;
-    memberAdded?: ACSChatThreadMember;
-};
-
-// @public
-export type ACSChatMemberRemovedFromThreadWithUserEventData = ACSChatThreadEventBase & {
-    time?: Date;
-    removedBy?: string;
-    memberRemoved?: ACSChatThreadMember;
-};
-
-// @public
-export type ACSChatMessageDeletedEventData = ACSChatMessageEventBase & {
-    deleteTime?: Date;
-};
-
-// @public
-export type ACSChatMessageEditedEventData = ACSChatMessageEventBase & {
-    messageBody?: string;
-    editTime?: Date;
-};
-
-// @public
-export type ACSChatMessageEventBase = ACSChatEventBase & {
-    messageId?: string;
-    senderId?: string;
-    senderDisplayName?: string;
-    composeTime?: Date;
-    type?: string;
-    version?: number;
-};
-
-// @public
-export type ACSChatMessageReceivedEventData = ACSChatMessageEventBase & {
-    messageBody?: string;
-};
-
-// @public
-export type ACSChatThreadCreatedWithUserEventData = ACSChatThreadEventBase & {
-    createdBy?: string;
-    properties?: {
-        [propertyName: string]: any;
-    };
-    members?: ACSChatThreadMember[];
-};
-
-// @public
-export type ACSChatThreadEventBase = ACSChatEventBase & {
-    createTime?: Date;
-    version?: number;
-};
-
-// @public
-export interface ACSChatThreadMember {
-    displayName?: string;
-    memberId?: string;
+export interface AcsChatEventInThreadBase {
+    threadId: string;
 }
 
 // @public
-export type ACSChatThreadPropertiesUpdatedPerUserEventData = ACSChatThreadEventBase & {
-    editedBy?: string;
-    editTime?: Date;
-    properties?: {
+export type AcsChatMessageDeletedEventData = AcsChatMessageEventBase & {
+    deleteTime: string;
+};
+
+// @public
+export type AcsChatMessageEditedEventData = AcsChatMessageEventBase & {
+    messageBody: string;
+    editTime: string;
+};
+
+// @public
+export type AcsChatMessageEventBase = AcsChatEventBase & {
+    messageId: string;
+    senderCommunicationIdentifier: CommunicationIdentifierModel;
+    senderDisplayName: string;
+    composeTime: string;
+    type: string;
+    version: number;
+};
+
+// @public
+export type AcsChatMessageReceivedEventData = AcsChatMessageEventBase & {
+    messageBody: string;
+};
+
+// @public
+export type AcsChatParticipantAddedToThreadEventData = AcsChatEventInThreadBase & {
+    time: string;
+    addedByCommunicationIdentifier: CommunicationIdentifierModel;
+    participantAdded: AcsChatThreadParticipant;
+    version: number;
+};
+
+// @public
+export type AcsChatParticipantAddedToThreadWithUserEventData = AcsChatThreadEventBase & {
+    time: string;
+    addedByCommunicationIdentifier: CommunicationIdentifierModel;
+    participantAdded: AcsChatThreadParticipant;
+};
+
+// @public
+export type AcsChatParticipantRemovedFromThreadEventData = AcsChatEventInThreadBase & {
+    time: string;
+    removedByCommunicationIdentifier: CommunicationIdentifierModel;
+    participantRemoved: AcsChatThreadParticipant;
+    version: number;
+};
+
+// @public
+export type AcsChatParticipantRemovedFromThreadWithUserEventData = AcsChatThreadEventBase & {
+    time: string;
+    removedByCommunicationIdentifier: CommunicationIdentifierModel;
+    participantRemoved: AcsChatThreadParticipant;
+};
+
+// @public
+export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
+    createdByCommunicationIdentifier: CommunicationIdentifierModel;
+    properties: {
+        [propertyName: string]: any;
+    };
+    participants: AcsChatThreadParticipant[];
+};
+
+// @public
+export type AcsChatThreadEventBase = AcsChatEventBase & {
+    createTime: string;
+    version: number;
+};
+
+// @public
+export interface AcsChatThreadParticipant {
+    displayName: string;
+    participantCommunicationIdentifier: CommunicationIdentifierModel;
+}
+
+// @public
+export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventBase & {
+    editedByCommunicationIdentifier: CommunicationIdentifierModel;
+    editTime: string;
+    properties: {
         [propertyName: string]: any;
     };
 };
 
 // @public
-export type ACSChatThreadWithUserDeletedEventData = ACSChatThreadEventBase & {
-    deletedBy?: string;
-    deleteTime?: Date;
+export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
+    deletedByCommunicationIdentifier: CommunicationIdentifierModel;
+    deleteTime: string;
 };
 
 // @public
 export interface AcsSmsDeliveryAttempt {
-    segmentsFailed?: number;
-    segmentsSucceeded?: number;
-    timestamp?: Date;
+    segmentsFailed: number;
+    segmentsSucceeded: number;
+    timestamp: string;
 }
 
 // @public
 export type AcsSmsDeliveryReportReceivedEventData = AcsSmsEventBase & {
-    deliveryStatus?: string;
-    deliveryStatusDetails?: string;
-    deliveryAttempts?: AcsSmsDeliveryAttempt[];
-    receivedTimestamp?: Date;
+    deliveryStatus: string;
+    deliveryStatusDetails: string;
+    deliveryAttempts: AcsSmsDeliveryAttempt[];
+    receivedTimestamp: string;
 };
 
 // @public
 export interface AcsSmsEventBase {
-    from?: string;
-    messageId?: string;
-    to?: string;
+    from: string;
+    messageId: string;
+    to: string;
 }
 
 // @public
 export type AcsSmsReceivedEventData = AcsSmsEventBase & {
-    message?: string;
-    receivedTimestamp?: Date;
+    message: string;
+    receivedTimestamp: string;
 };
 
 // @public
@@ -127,23 +148,23 @@ export type AppAction = string;
 
 // @public
 export interface AppConfigurationKeyValueDeletedEventData {
-    etag?: string;
-    key?: string;
-    label?: string;
-    syncToken?: string;
+    etag: string;
+    key: string;
+    label: string;
+    syncToken: string;
 }
 
 // @public
 export interface AppConfigurationKeyValueModifiedEventData {
-    etag?: string;
-    key?: string;
-    label?: string;
-    syncToken?: string;
+    etag: string;
+    key: string;
+    label: string;
+    syncToken: string;
 }
 
 // @public
 export interface AppEventTypeDetail {
-    action?: AppAction;
+    action: AppAction;
 }
 
 // @public
@@ -151,9 +172,9 @@ export type AppServicePlanAction = string;
 
 // @public
 export interface AppServicePlanEventTypeDetail {
-    action?: AppServicePlanAction;
-    stampKind?: StampKind;
-    status?: AsyncStatus;
+    action: AppServicePlanAction;
+    stampKind: StampKind;
+    status: AsyncStatus;
 }
 
 // @public
@@ -177,22 +198,38 @@ export interface CloudEvent<T> {
 }
 
 // @public
+export type CommunicationCloudEnvironmentModel = string;
+
+// @public
+export interface CommunicationIdentifierModel {
+    communicationUser?: CommunicationUserIdentifierModel;
+    microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
+    phoneNumber?: PhoneNumberIdentifierModel;
+    rawId: string;
+}
+
+// @public
+export interface CommunicationUserIdentifierModel {
+    id: string;
+}
+
+// @public
 export interface ContainerRegistryArtifactEventData {
-    action?: string;
-    id?: string;
-    target?: ContainerRegistryArtifactEventTarget;
-    timestamp?: Date;
+    action: string;
+    id: string;
+    target: ContainerRegistryArtifactEventTarget;
+    timestamp: string;
 }
 
 // @public
 export interface ContainerRegistryArtifactEventTarget {
-    digest?: string;
-    mediaType?: string;
-    name?: string;
-    repository?: string;
-    size?: number;
-    tag?: string;
-    version?: string;
+    digest: string;
+    mediaType: string;
+    name: string;
+    repository: string;
+    size: number;
+    tag: string;
+    version: string;
 }
 
 // @public
@@ -203,44 +240,44 @@ export type ContainerRegistryChartPushedEventData = ContainerRegistryArtifactEve
 
 // @public
 export interface ContainerRegistryEventActor {
-    name?: string;
+    name: string;
 }
 
 // @public
 export interface ContainerRegistryEventData {
-    action?: string;
-    actor?: ContainerRegistryEventActor;
-    id?: string;
-    request?: ContainerRegistryEventRequest;
-    source?: ContainerRegistryEventSource;
-    target?: ContainerRegistryEventTarget;
-    timestamp?: Date;
+    action: string;
+    actor: ContainerRegistryEventActor;
+    id: string;
+    request: ContainerRegistryEventRequest;
+    source: ContainerRegistryEventSource;
+    target: ContainerRegistryEventTarget;
+    timestamp: string;
 }
 
 // @public
 export interface ContainerRegistryEventRequest {
-    addr?: string;
-    host?: string;
-    id?: string;
-    method?: string;
-    useragent?: string;
+    addr: string;
+    host: string;
+    id: string;
+    method: string;
+    useragent: string;
 }
 
 // @public
 export interface ContainerRegistryEventSource {
-    addr?: string;
-    instanceID?: string;
+    addr: string;
+    instanceID: string;
 }
 
 // @public
 export interface ContainerRegistryEventTarget {
-    digest?: string;
-    length?: number;
-    mediaType?: string;
-    repository?: string;
-    size?: number;
-    tag?: string;
-    url?: string;
+    digest: string;
+    length: number;
+    mediaType: string;
+    repository: string;
+    size: number;
+    tag: string;
+    url: string;
 }
 
 // @public
@@ -250,55 +287,61 @@ export type ContainerRegistryImageDeletedEventData = ContainerRegistryEventData 
 export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData & {};
 
 // @public
+export interface DeviceConnectionStateEvent {
+    deviceConnectionStateEventInfo: DeviceConnectionStateEventInfo;
+    deviceId: string;
+    hubName: string;
+    moduleId: string;
+}
+
+// @public
 export interface DeviceConnectionStateEventInfo {
-    sequenceNumber?: string;
+    sequenceNumber: string;
 }
 
 // @public
-export interface DeviceConnectionStateEventProperties {
-    deviceConnectionStateEventInfo?: DeviceConnectionStateEventInfo;
-    deviceId?: string;
-    hubName?: string;
-    moduleId?: string;
+export interface DeviceLifeCycleEvent {
+    deviceId: string;
+    hubName: string;
+    twin: DeviceTwinInfo;
 }
 
 // @public
-export interface DeviceLifeCycleEventProperties {
-    deviceId?: string;
-    hubName?: string;
-    twin?: DeviceTwinInfo;
-}
-
-// @public
-export interface DeviceTelemetryEventProperties {
-    body?: any;
-    properties?: {
+export interface DeviceTelemetryEvent {
+    body: any;
+    properties: {
         [propertyName: string]: string;
     };
-    systemProperties?: {
+    systemProperties: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface DeviceTwin {
+    metadata: DeviceTwinMetadata;
+    version: number;
 }
 
 // @public
 export interface DeviceTwinInfo {
-    authenticationType?: string;
-    cloudToDeviceMessageCount?: number;
-    connectionState?: string;
-    deviceId?: string;
-    etag?: string;
-    lastActivityTime?: string;
-    properties?: DeviceTwinInfoProperties;
-    status?: string;
-    statusUpdateTime?: string;
-    version?: number;
-    x509Thumbprint?: DeviceTwinInfoX509Thumbprint;
+    authenticationType: string;
+    cloudToDeviceMessageCount: number;
+    connectionState: string;
+    deviceId: string;
+    etag: string;
+    lastActivityTime: string;
+    properties: DeviceTwinInfoProperties;
+    status: string;
+    statusUpdateTime: string;
+    version: number;
+    x509Thumbprint: DeviceTwinInfoX509Thumbprint;
 }
 
 // @public
 export interface DeviceTwinInfoProperties {
-    desired?: DeviceTwinProperties;
-    reported?: DeviceTwinProperties;
+    desired?: DeviceTwin;
+    reported?: DeviceTwin;
 }
 
 // @public
@@ -309,13 +352,7 @@ export interface DeviceTwinInfoX509Thumbprint {
 
 // @public
 export interface DeviceTwinMetadata {
-    lastUpdated?: string;
-}
-
-// @public
-export interface DeviceTwinProperties {
-    metadata?: DeviceTwinMetadata;
-    version?: number;
+    lastUpdated: string;
 }
 
 // @public
@@ -350,15 +387,15 @@ export type EventGridPublisherClientOptions = CommonClientOptions;
 
 // @public
 export interface EventHubCaptureFileCreatedEventData {
-    eventCount?: number;
-    fileType?: string;
-    fileurl?: string;
-    firstEnqueueTime?: Date;
-    firstSequenceNumber?: number;
-    lastEnqueueTime?: Date;
-    lastSequenceNumber?: number;
-    partitionId?: string;
-    sizeInBytes?: number;
+    eventCount: number;
+    fileType: string;
+    fileurl: string;
+    firstEnqueueTime: string;
+    firstSequenceNumber: number;
+    lastEnqueueTime: string;
+    lastSequenceNumber: number;
+    partitionId: string;
+    sizeInBytes: number;
 }
 
 // @public
@@ -380,19 +417,19 @@ export interface InputSchemaToInputTypeMap {
 }
 
 // @public
-export type IotHubDeviceConnectedEventData = DeviceConnectionStateEventProperties & {};
+export type IotHubDeviceConnectedEventData = DeviceConnectionStateEvent & {};
 
 // @public
-export type IotHubDeviceCreatedEventData = DeviceLifeCycleEventProperties & {};
+export type IotHubDeviceCreatedEventData = DeviceLifeCycleEvent & {};
 
 // @public
-export type IotHubDeviceDeletedEventData = DeviceLifeCycleEventProperties & {};
+export type IotHubDeviceDeletedEventData = DeviceLifeCycleEvent & {};
 
 // @public
-export type IotHubDeviceDisconnectedEventData = DeviceConnectionStateEventProperties & {};
+export type IotHubDeviceDisconnectedEventData = DeviceConnectionStateEvent & {};
 
 // @public
-export type IotHubDeviceTelemetryEventData = DeviceTelemetryEventProperties & {};
+export type IotHubDeviceTelemetryEventData = DeviceTelemetryEvent & {};
 
 // @public
 export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: EventGridEvent<unknown>): event is EventGridEvent<SystemEventNameToEventData[T]>;
@@ -402,112 +439,112 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, eve
 
 // @public
 export interface KeyVaultAccessPolicyChangedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultCertificateNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultKeyNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretExpiredEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretNearExpiryEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
 export interface KeyVaultSecretNewVersionCreatedEventData {
-    exp?: number;
-    id?: string;
-    nbf?: number;
-    objectName?: string;
-    objectType?: string;
-    vaultName?: string;
-    version?: string;
+    exp: number;
+    id: string;
+    nbf: number;
+    objectName: string;
+    objectType: string;
+    vaultName: string;
+    version: string;
 }
 
 // @public
@@ -540,88 +577,88 @@ export const enum KnownStampKind {
 }
 
 // @public
-export type KnownSystemEventTypes = "Microsoft.AppConfiguration.KeyValueDeleted" | "Microsoft.AppConfiguration.KeyValueModified" | "Microsoft.Communication.ChatMessageReceived" | "Microsoft.Communication.ChatMessageEdited" | "Microsoft.Communication.ChatMessageDeleted" | "Microsoft.Communication.ChatThreadCreatedWithUser" | "Microsoft.Communication.ChatThreadWithUserDeleted" | "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" | "Microsoft.Communication.ChatMemberAddedToThreadWithUser" | "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser" | "Microsoft.Communication.SMSDeliveryReportReceived" | "Microsoft.Communication.SMSReceived" | "Microsoft.ContainerRegistry.ImagePushed" | "Microsoft.ContainerRegistry.ImageDeleted" | "Microsoft.ContainerRegistry.ChartDeleted" | "Microsoft.ContainerRegistry.ChartPushed" | "Microsoft.Devices.DeviceCreated" | "Microsoft.Devices.DeviceDeleted" | "Microsoft.Devices.DeviceConnected" | "Microsoft.Devices.DeviceDisconnected" | "Microsoft.Devices.DeviceTelemetry" | "Microsoft.EventGrid.SubscriptionValidationEvent" | "Microsoft.EventGrid.SubscriptionDeletedEvent" | "Microsoft.EventHub.CaptureFileCreated" | "Microsoft.KeyVault.CertificateNewVersionCreated" | "Microsoft.KeyVault.CertificateNearExpiry" | "Microsoft.KeyVault.CertificateExpired" | "Microsoft.KeyVault.KeyNewVersionCreated" | "Microsoft.KeyVault.KeyNearExpiry" | "Microsoft.KeyVault.KeyExpired" | "Microsoft.KeyVault.SecretNewVersionCreated" | "Microsoft.KeyVault.SecretNearExpiry" | "Microsoft.KeyVault.SecretExpired" | "Microsoft.KeyVault.VaultAccessPolicyChanged" | "Microsoft.MachineLearningServices.DatasetDriftDetected" | "Microsoft.MachineLearningServices.ModelDeployed" | "Microsoft.MachineLearningServices.ModelRegistered" | "Microsoft.MachineLearningServices.RunCompleted" | "Microsoft.MachineLearningServices.RunStatusChanged" | "Microsoft.Maps.GeofenceEntered" | "Microsoft.Maps.GeofenceExited" | "Microsoft.Maps.GeofenceResult" | "Microsoft.Media.JobStateChange" | "Microsoft.Media.JobOutputStateChange" | "Microsoft.Media.JobScheduled" | "Microsoft.Media.JobProcessing" | "Microsoft.Media.JobCanceling" | "Microsoft.Media.JobFinished" | "Microsoft.Media.JobCanceled" | "Microsoft.Media.JobErrored" | "Microsoft.Media.JobOutputCanceled" | "Microsoft.Media.JobOutputCanceling" | "Microsoft.Media.JobOutputErrored" | "Microsoft.Media.JobOutputFinished" | "Microsoft.Media.JobOutputProcessing" | "Microsoft.Media.JobOutputScheduled" | "Microsoft.Media.JobOutputProgress" | "Microsoft.Media.LiveEventEncoderConnected" | "Microsoft.Media.LiveEventConnectionRejected" | "Microsoft.Media.LiveEventEncoderDisconnected" | "Microsoft.Media.LiveEventIncomingStreamReceived" | "Microsoft.Media.LiveEventIncomingStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingDataChunkDropped" | "Microsoft.Media.LiveEventIngestHeartbeat" | "Microsoft.Media.LiveEventTrackDiscontinuityDetected" | "Microsoft.Resources.ResourceWriteSuccess" | "Microsoft.Resources.ResourceWriteFailure" | "Microsoft.Resources.ResourceWriteCancel" | "Microsoft.Resources.ResourceDeleteSuccess" | "Microsoft.Resources.ResourceDeleteFailure" | "Microsoft.Resources.ResourceDeleteCancel" | "Microsoft.Resources.ResourceActionSuccess" | "Microsoft.Resources.ResourceActionFailure" | "Microsoft.Resources.ResourceActionCancel" | "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners" | "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener" | "Microsoft.Storage.BlobCreated" | "Microsoft.Storage.BlobDeleted" | "Microsoft.Storage.BlobRenamed" | "Microsoft.Storage.DirectoryCreated" | "Microsoft.Storage.DirectoryDeleted" | "Microsoft.Storage.DirectoryRenamed" | "Microsoft.Storage.LifecyclePolicyCompleted" | "Microsoft.Web.AppUpdated" | "Microsoft.Web.BackupOperationStarted" | "Microsoft.Web.BackupOperationCompleted" | "Microsoft.Web.BackupOperationFailed" | "Microsoft.Web.RestoreOperationStarted" | "Microsoft.Web.RestoreOperationCompleted" | "Microsoft.Web.RestoreOperationFailed" | "Microsoft.Web.SlotSwapStarted" | "Microsoft.Web.SlotSwapCompleted" | "Microsoft.Web.SlotSwapFailed" | "Microsoft.Web.SlotSwapWithPreviewStarted" | "Microsoft.Web.SlotSwapWithPreviewCancelled" | "Microsoft.Web.AppServicePlanUpdated";
+export type KnownSystemEventTypes = keyof SystemEventNameToEventData;
 
 // @public
 export interface MachineLearningServicesDatasetDriftDetectedEventData {
-    baseDatasetId?: string;
-    dataDriftId?: string;
-    dataDriftName?: string;
-    driftCoefficient?: number;
-    endTime?: Date;
-    runId?: string;
-    startTime?: Date;
-    targetDatasetId?: string;
+    baseDatasetId: string;
+    dataDriftId: string;
+    dataDriftName: string;
+    driftCoefficient: number;
+    endTime: string;
+    runId: string;
+    startTime: string;
+    targetDatasetId: string;
 }
 
 // @public
 export interface MachineLearningServicesModelDeployedEventData {
-    modelIds?: string;
-    serviceComputeType?: string;
-    serviceName?: string;
-    serviceProperties?: any;
-    serviceTags?: any;
+    modelIds: string;
+    serviceComputeType: string;
+    serviceName: string;
+    serviceProperties: any;
+    serviceTags: any;
 }
 
 // @public
 export interface MachineLearningServicesModelRegisteredEventData {
-    modelName?: string;
-    modelProperties?: any;
-    modelTags?: any;
-    modelVersion?: string;
+    modelName: string;
+    modelProperties: any;
+    modelTags: any;
+    modelVersion: string;
 }
 
 // @public
 export interface MachineLearningServicesRunCompletedEventData {
-    experimentId?: string;
-    experimentName?: string;
-    runId?: string;
-    runProperties?: any;
-    runTags?: any;
-    runType?: string;
+    experimentId: string;
+    experimentName: string;
+    runId: string;
+    runProperties: any;
+    runTags: any;
+    runType: string;
 }
 
 // @public
 export interface MachineLearningServicesRunStatusChangedEventData {
-    experimentId?: string;
-    experimentName?: string;
-    runId?: string;
-    runProperties?: any;
-    runStatus?: string;
-    runTags?: any;
-    runType?: string;
+    experimentId: string;
+    experimentName: string;
+    runId: string;
+    runProperties: any;
+    runStatus: string;
+    runTags: any;
+    runType: string;
 }
 
 // @public
-export type MapsGeofenceEnteredEventData = MapsGeofenceEventProperties & {};
+export type MapsGeofenceEnteredEventData = MapsGeofenceEvent & {};
 
 // @public
-export interface MapsGeofenceEventProperties {
-    expiredGeofenceGeometryId?: string[];
-    geometries?: MapsGeofenceGeometry[];
-    invalidPeriodGeofenceGeometryId?: string[];
-    isEventPublished?: boolean;
+export interface MapsGeofenceEvent {
+    expiredGeofenceGeometryId: string[];
+    geometries: MapsGeofenceGeometry[];
+    invalidPeriodGeofenceGeometryId: string[];
+    isEventPublished: boolean;
 }
 
 // @public
-export type MapsGeofenceExitedEventData = MapsGeofenceEventProperties & {};
+export type MapsGeofenceExitedEventData = MapsGeofenceEvent & {};
 
 // @public
 export interface MapsGeofenceGeometry {
-    deviceId?: string;
-    distance?: number;
-    geometryId?: string;
-    nearestLat?: number;
-    nearestLon?: number;
-    udId?: string;
+    deviceId: string;
+    distance: number;
+    geometryId: string;
+    nearestLat: number;
+    nearestLon: number;
+    udId: string;
 }
 
 // @public
-export type MapsGeofenceResultEventData = MapsGeofenceEventProperties & {};
+export type MapsGeofenceResultEventData = MapsGeofenceEvent & {};
 
 // @public
 export type MediaJobCanceledEventData = MediaJobStateChangeEventData & {
-    outputs?: MediaJobOutputUnion[];
+    outputs: MediaJobOutputUnion[];
 };
 
 // @public
@@ -629,11 +666,11 @@ export type MediaJobCancelingEventData = MediaJobStateChangeEventData & {};
 
 // @public
 export interface MediaJobError {
-    readonly category?: MediaJobErrorCategory;
-    readonly code?: MediaJobErrorCode;
-    readonly details?: MediaJobErrorDetail[];
-    readonly message?: string;
-    readonly retry?: MediaJobRetry;
+    readonly category: MediaJobErrorCategory;
+    readonly code: MediaJobErrorCode;
+    readonly details: MediaJobErrorDetail[];
+    readonly message: string;
+    readonly retry: MediaJobRetry;
 }
 
 // @public
@@ -644,18 +681,18 @@ export type MediaJobErrorCode = "ServiceError" | "ServiceTransientError" | "Down
 
 // @public
 export interface MediaJobErrorDetail {
-    readonly code?: string;
-    readonly message?: string;
+    readonly code: string;
+    readonly message: string;
 }
 
 // @public
 export type MediaJobErroredEventData = MediaJobStateChangeEventData & {
-    outputs?: MediaJobOutputUnion[];
+    outputs: MediaJobOutputUnion[];
 };
 
 // @public
 export type MediaJobFinishedEventData = MediaJobStateChangeEventData & {
-    outputs?: MediaJobOutputUnion[];
+    outputs: MediaJobOutputUnion[];
 };
 
 // @public
@@ -670,7 +707,7 @@ export interface MediaJobOutput {
 // @public
 export type MediaJobOutputAsset = MediaJobOutput & {
     odataType: "#Microsoft.Media.JobOutputAsset";
-    assetName?: string;
+    assetName: string;
 };
 
 // @public
@@ -690,11 +727,11 @@ export type MediaJobOutputProcessingEventData = MediaJobOutputStateChangeEventDa
 
 // @public
 export interface MediaJobOutputProgressEventData {
-    jobCorrelationData?: {
+    jobCorrelationData: {
         [propertyName: string]: string;
     };
-    label?: string;
-    progress?: number;
+    label: string;
+    progress: number;
 }
 
 // @public
@@ -702,11 +739,11 @@ export type MediaJobOutputScheduledEventData = MediaJobOutputStateChangeEventDat
 
 // @public
 export interface MediaJobOutputStateChangeEventData {
-    jobCorrelationData?: {
+    jobCorrelationData: {
         [propertyName: string]: string;
     };
-    output?: MediaJobOutputUnion;
-    readonly previousState?: MediaJobState;
+    output: MediaJobOutputUnion;
+    readonly previousState: MediaJobState;
 }
 
 // @public (undocumented)
@@ -726,241 +763,253 @@ export type MediaJobState = "Canceled" | "Canceling" | "Error" | "Finished" | "P
 
 // @public
 export interface MediaJobStateChangeEventData {
-    correlationData?: {
+    correlationData: {
         [propertyName: string]: string;
     };
-    readonly previousState?: MediaJobState;
-    readonly state?: MediaJobState;
+    readonly previousState: MediaJobState;
+    readonly state: MediaJobState;
 }
 
 // @public
 export interface MediaLiveEventConnectionRejectedEventData {
-    readonly encoderIp?: string;
-    readonly encoderPort?: string;
-    readonly ingestUrl?: string;
-    readonly resultCode?: string;
-    readonly streamId?: string;
+    readonly encoderIp: string;
+    readonly encoderPort: string;
+    readonly ingestUrl: string;
+    readonly resultCode: string;
+    readonly streamId: string;
 }
 
 // @public
 export interface MediaLiveEventEncoderConnectedEventData {
-    readonly encoderIp?: string;
-    readonly encoderPort?: string;
-    readonly ingestUrl?: string;
-    readonly streamId?: string;
+    readonly encoderIp: string;
+    readonly encoderPort: string;
+    readonly ingestUrl: string;
+    readonly streamId: string;
 }
 
 // @public
 export interface MediaLiveEventEncoderDisconnectedEventData {
-    readonly encoderIp?: string;
-    readonly encoderPort?: string;
-    readonly ingestUrl?: string;
-    readonly resultCode?: string;
-    readonly streamId?: string;
+    readonly encoderIp: string;
+    readonly encoderPort: string;
+    readonly ingestUrl: string;
+    readonly resultCode: string;
+    readonly streamId: string;
 }
 
 // @public
 export interface MediaLiveEventIncomingDataChunkDroppedEventData {
-    readonly bitrate?: number;
-    readonly resultCode?: string;
-    readonly timescale?: string;
-    readonly timestamp?: string;
-    readonly trackName?: string;
-    readonly trackType?: string;
+    readonly bitrate: number;
+    readonly resultCode: string;
+    readonly timescale: string;
+    readonly timestamp: string;
+    readonly trackName: string;
+    readonly trackType: string;
 }
 
 // @public
 export interface MediaLiveEventIncomingStreamReceivedEventData {
-    readonly bitrate?: number;
-    readonly duration?: string;
-    readonly encoderIp?: string;
-    readonly encoderPort?: string;
-    readonly ingestUrl?: string;
-    readonly timescale?: string;
-    readonly timestamp?: string;
-    readonly trackName?: string;
-    readonly trackType?: string;
+    readonly bitrate: number;
+    readonly duration: string;
+    readonly encoderIp: string;
+    readonly encoderPort: string;
+    readonly ingestUrl: string;
+    readonly timescale: string;
+    readonly timestamp: string;
+    readonly trackName: string;
+    readonly trackType: string;
 }
 
 // @public
 export interface MediaLiveEventIncomingStreamsOutOfSyncEventData {
-    readonly maxLastTimestamp?: string;
-    readonly minLastTimestamp?: string;
-    readonly timescaleOfMaxLastTimestamp?: string;
-    readonly timescaleOfMinLastTimestamp?: string;
-    readonly typeOfStreamWithMaxLastTimestamp?: string;
-    readonly typeOfStreamWithMinLastTimestamp?: string;
+    readonly maxLastTimestamp: string;
+    readonly minLastTimestamp: string;
+    readonly timescaleOfMaxLastTimestamp: string;
+    readonly timescaleOfMinLastTimestamp: string;
+    readonly typeOfStreamWithMaxLastTimestamp: string;
+    readonly typeOfStreamWithMinLastTimestamp: string;
 }
 
 // @public
 export interface MediaLiveEventIncomingVideoStreamsOutOfSyncEventData {
-    readonly firstDuration?: string;
-    readonly firstTimestamp?: string;
-    readonly secondDuration?: string;
-    readonly secondTimestamp?: string;
-    readonly timescale?: string;
+    readonly firstDuration: string;
+    readonly firstTimestamp: string;
+    readonly secondDuration: string;
+    readonly secondTimestamp: string;
+    readonly timescale: string;
 }
 
 // @public
 export interface MediaLiveEventIngestHeartbeatEventData {
-    readonly bitrate?: number;
-    readonly discontinuityCount?: number;
-    readonly healthy?: boolean;
-    readonly incomingBitrate?: number;
-    readonly lastTimestamp?: string;
-    readonly nonincreasingCount?: number;
-    readonly overlapCount?: number;
-    readonly state?: string;
-    readonly timescale?: string;
-    readonly trackName?: string;
-    readonly trackType?: string;
-    readonly unexpectedBitrate?: boolean;
+    readonly bitrate: number;
+    readonly discontinuityCount: number;
+    readonly healthy: boolean;
+    readonly incomingBitrate: number;
+    readonly lastTimestamp: string;
+    readonly nonincreasingCount: number;
+    readonly overlapCount: number;
+    readonly state: string;
+    readonly timescale: string;
+    readonly trackName: string;
+    readonly trackType: string;
+    readonly unexpectedBitrate: boolean;
 }
 
 // @public
 export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
-    readonly bitrate?: number;
-    readonly discontinuityGap?: string;
-    readonly newTimestamp?: string;
-    readonly previousTimestamp?: string;
-    readonly timescale?: string;
-    readonly trackName?: string;
-    readonly trackType?: string;
+    readonly bitrate: number;
+    readonly discontinuityGap: string;
+    readonly newTimestamp: string;
+    readonly previousTimestamp: string;
+    readonly timescale: string;
+    readonly trackName: string;
+    readonly trackType: string;
+}
+
+// @public
+export interface MicrosoftTeamsUserIdentifierModel {
+    cloud?: CommunicationCloudEnvironmentModel;
+    isAnonymous?: boolean;
+    userId: string;
+}
+
+// @public
+export interface PhoneNumberIdentifierModel {
+    value: string;
 }
 
 // @public
 export interface ResourceActionCancelEventData {
-    authorization?: string;
-    claims?: string;
-    correlationId?: string;
-    httpRequest?: string;
-    operationName?: string;
-    resourceGroup?: string;
-    resourceProvider?: string;
-    resourceUri?: string;
-    status?: string;
-    subscriptionId?: string;
-    tenantId?: string;
+    authorization: string;
+    claims: string;
+    correlationId: string;
+    httpRequest: string;
+    operationName: string;
+    resourceGroup: string;
+    resourceProvider: string;
+    resourceUri: string;
+    status: string;
+    subscriptionId: string;
+    tenantId: string;
 }
 
 // @public
 export interface ResourceActionFailureEventData {
-    authorization?: string;
-    claims?: string;
-    correlationId?: string;
-    httpRequest?: string;
-    operationName?: string;
-    resourceGroup?: string;
-    resourceProvider?: string;
-    resourceUri?: string;
-    status?: string;
-    subscriptionId?: string;
-    tenantId?: string;
+    authorization: string;
+    claims: string;
+    correlationId: string;
+    httpRequest: string;
+    operationName: string;
+    resourceGroup: string;
+    resourceProvider: string;
+    resourceUri: string;
+    status: string;
+    subscriptionId: string;
+    tenantId: string;
 }
 
 // @public
 export interface ResourceActionSuccessEventData {
-    authorization?: string;
-    claims?: string;
-    correlationId?: string;
-    httpRequest?: string;
-    operationName?: string;
-    resourceGroup?: string;
-    resourceProvider?: string;
-    resourceUri?: string;
-    status?: string;
-    subscriptionId?: string;
-    tenantId?: string;
+    authorization: string;
+    claims: string;
+    correlationId: string;
+    httpRequest: string;
+    operationName: string;
+    resourceGroup: string;
+    resourceProvider: string;
+    resourceUri: string;
+    status: string;
+    subscriptionId: string;
+    tenantId: string;
 }
 
 // @public
 export interface ResourceDeleteCancelEventData {
-    authorization?: string;
-    claims?: string;
-    correlationId?: string;
-    httpRequest?: string;
-    operationName?: string;
-    resourceGroup?: string;
-    resourceProvider?: string;
-    resourceUri?: string;
-    status?: string;
-    subscriptionId?: string;
-    tenantId?: string;
+    authorization: string;
+    claims: string;
+    correlationId: string;
+    httpRequest: string;
+    operationName: string;
+    resourceGroup: string;
+    resourceProvider: string;
+    resourceUri: string;
+    status: string;
+    subscriptionId: string;
+    tenantId: string;
 }
 
 // @public
 export interface ResourceDeleteFailureEventData {
-    authorization?: string;
-    claims?: string;
-    correlationId?: string;
-    httpRequest?: string;
-    operationName?: string;
-    resourceGroup?: string;
-    resourceProvider?: string;
-    resourceUri?: string;
-    status?: string;
-    subscriptionId?: string;
-    tenantId?: string;
+    authorization: string;
+    claims: string;
+    correlationId: string;
+    httpRequest: string;
+    operationName: string;
+    resourceGroup: string;
+    resourceProvider: string;
+    resourceUri: string;
+    status: string;
+    subscriptionId: string;
+    tenantId: string;
 }
 
 // @public
 export interface ResourceDeleteSuccessEventData {
-    authorization?: string;
-    claims?: string;
-    correlationId?: string;
-    httpRequest?: string;
-    operationName?: string;
-    resourceGroup?: string;
-    resourceProvider?: string;
-    resourceUri?: string;
-    status?: string;
-    subscriptionId?: string;
-    tenantId?: string;
+    authorization: string;
+    claims: string;
+    correlationId: string;
+    httpRequest: string;
+    operationName: string;
+    resourceGroup: string;
+    resourceProvider: string;
+    resourceUri: string;
+    status: string;
+    subscriptionId: string;
+    tenantId: string;
 }
 
 // @public
 export interface ResourceWriteCancelEventData {
-    authorization?: string;
-    claims?: string;
-    correlationId?: string;
-    httpRequest?: string;
-    operationName?: string;
-    resourceGroup?: string;
-    resourceProvider?: string;
-    resourceUri?: string;
-    status?: string;
-    subscriptionId?: string;
-    tenantId?: string;
+    authorization: string;
+    claims: string;
+    correlationId: string;
+    httpRequest: string;
+    operationName: string;
+    resourceGroup: string;
+    resourceProvider: string;
+    resourceUri: string;
+    status: string;
+    subscriptionId: string;
+    tenantId: string;
 }
 
 // @public
 export interface ResourceWriteFailureEventData {
-    authorization?: string;
-    claims?: string;
-    correlationId?: string;
-    httpRequest?: string;
-    operationName?: string;
-    resourceGroup?: string;
-    resourceProvider?: string;
-    resourceUri?: string;
-    status?: string;
-    subscriptionId?: string;
-    tenantId?: string;
+    authorization: string;
+    claims: string;
+    correlationId: string;
+    httpRequest: string;
+    operationName: string;
+    resourceGroup: string;
+    resourceProvider: string;
+    resourceUri: string;
+    status: string;
+    subscriptionId: string;
+    tenantId: string;
 }
 
 // @public
 export interface ResourceWriteSuccessEventData {
-    authorization?: string;
-    claims?: string;
-    correlationId?: string;
-    httpRequest?: string;
-    operationName?: string;
-    resourceGroup?: string;
-    resourceProvider?: string;
-    resourceUri?: string;
-    status?: string;
-    subscriptionId?: string;
-    tenantId?: string;
+    authorization: string;
+    claims: string;
+    correlationId: string;
+    httpRequest: string;
+    operationName: string;
+    resourceGroup: string;
+    resourceProvider: string;
+    resourceUri: string;
+    status: string;
+    subscriptionId: string;
+    tenantId: string;
 }
 
 // @public
@@ -992,22 +1041,22 @@ export type SendOptions = OperationOptions;
 
 // @public
 export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
-    entityType?: string;
-    namespaceName?: string;
-    queueName?: string;
-    requestUri?: string;
-    subscriptionName?: string;
-    topicName?: string;
+    entityType: string;
+    namespaceName: string;
+    queueName: string;
+    requestUri: string;
+    subscriptionName: string;
+    topicName: string;
 }
 
 // @public
 export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
-    entityType?: string;
-    namespaceName?: string;
-    queueName?: string;
-    requestUri?: string;
-    subscriptionName?: string;
-    topicName?: string;
+    entityType: string;
+    namespaceName: string;
+    queueName: string;
+    requestUri: string;
+    subscriptionName: string;
+    topicName: string;
 }
 
 // @public
@@ -1015,119 +1064,121 @@ export type StampKind = string;
 
 // @public
 export interface StorageBlobCreatedEventData {
-    api?: string;
-    blobType?: string;
-    clientRequestId?: string;
-    contentLength?: number;
-    contentOffset?: number;
-    contentType?: string;
-    eTag?: string;
-    identity?: string;
-    requestId?: string;
-    sequencer?: string;
-    storageDiagnostics?: any;
-    url?: string;
+    api: string;
+    blobType: string;
+    clientRequestId: string;
+    contentLength: number;
+    contentOffset: number;
+    contentType: string;
+    eTag: string;
+    identity: string;
+    requestId: string;
+    sequencer: string;
+    storageDiagnostics: any;
+    url: string;
 }
 
 // @public
 export interface StorageBlobDeletedEventData {
-    api?: string;
-    blobType?: string;
-    clientRequestId?: string;
-    contentType?: string;
-    identity?: string;
-    requestId?: string;
-    sequencer?: string;
-    storageDiagnostics?: any;
-    url?: string;
+    api: string;
+    blobType: string;
+    clientRequestId: string;
+    contentType: string;
+    identity: string;
+    requestId: string;
+    sequencer: string;
+    storageDiagnostics: any;
+    url: string;
 }
 
 // @public
 export interface StorageBlobRenamedEventData {
-    api?: string;
-    clientRequestId?: string;
-    destinationUrl?: string;
-    identity?: string;
-    requestId?: string;
-    sequencer?: string;
-    sourceUrl?: string;
-    storageDiagnostics?: any;
+    api: string;
+    clientRequestId: string;
+    destinationUrl: string;
+    identity: string;
+    requestId: string;
+    sequencer: string;
+    sourceUrl: string;
+    storageDiagnostics: any;
 }
 
 // @public
 export interface StorageDirectoryCreatedEventData {
-    api?: string;
-    clientRequestId?: string;
-    eTag?: string;
-    identity?: string;
-    requestId?: string;
-    sequencer?: string;
-    storageDiagnostics?: any;
-    url?: string;
+    api: string;
+    clientRequestId: string;
+    eTag: string;
+    identity: string;
+    requestId: string;
+    sequencer: string;
+    storageDiagnostics: any;
+    url: string;
 }
 
 // @public
 export interface StorageDirectoryDeletedEventData {
-    api?: string;
-    clientRequestId?: string;
-    identity?: string;
-    recursive?: boolean;
-    requestId?: string;
-    sequencer?: string;
-    storageDiagnostics?: any;
-    url?: string;
+    api: string;
+    clientRequestId: string;
+    identity: string;
+    recursive: boolean;
+    requestId: string;
+    sequencer: string;
+    storageDiagnostics: any;
+    url: string;
 }
 
 // @public
 export interface StorageDirectoryRenamedEventData {
-    api?: string;
-    clientRequestId?: string;
-    destinationUrl?: string;
-    identity?: string;
-    requestId?: string;
-    sequencer?: string;
-    sourceUrl?: string;
-    storageDiagnostics?: any;
+    api: string;
+    clientRequestId: string;
+    destinationUrl: string;
+    identity: string;
+    requestId: string;
+    sequencer: string;
+    sourceUrl: string;
+    storageDiagnostics: any;
 }
 
 // @public
 export interface StorageLifecyclePolicyActionSummaryDetail {
-    errorList?: string;
-    successCount?: number;
-    totalObjectsCount?: number;
+    errorList: string;
+    successCount: number;
+    totalObjectsCount: number;
 }
 
 // @public
 export interface StorageLifecyclePolicyCompletedEventData {
-    deleteSummary?: StorageLifecyclePolicyActionSummaryDetail;
-    scheduleTime?: string;
-    tierToArchiveSummary?: StorageLifecyclePolicyActionSummaryDetail;
-    tierToCoolSummary?: StorageLifecyclePolicyActionSummaryDetail;
+    deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
+    scheduleTime: string;
+    tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
+    tierToCoolSummary: StorageLifecyclePolicyActionSummaryDetail;
 }
 
 // @public
 export interface SubscriptionDeletedEventData {
-    readonly eventSubscriptionId?: string;
+    readonly eventSubscriptionId: string;
 }
 
 // @public
 export interface SubscriptionValidationEventData {
-    readonly validationCode?: string;
-    readonly validationUrl?: string;
+    readonly validationCode: string;
+    readonly validationUrl: string;
 }
 
 // @public
 export interface SystemEventNameToEventData {
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
-    "Microsoft.Communication.ChatMemberAddedToThreadWithUser": ACSChatMemberAddedToThreadWithUserEventData;
-    "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser": ACSChatMemberRemovedFromThreadWithUserEventData;
-    "Microsoft.Communication.ChatMessageDeleted": ACSChatMessageDeletedEventData;
-    "Microsoft.Communication.ChatMessageEdited": ACSChatMessageEditedEventData;
-    "Microsoft.Communication.ChatMessageReceived": ACSChatMessageReceivedEventData;
-    "Microsoft.Communication.ChatThreadCreatedWithUser": ACSChatThreadCreatedWithUserEventData;
-    "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": ACSChatThreadPropertiesUpdatedPerUserEventData;
-    "Microsoft.Communication.ChatThreadWithUserDeleted": ACSChatThreadWithUserDeletedEventData;
+    "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
+    "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
+    "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
+    "Microsoft.Communication.ChatParticipantAddedToThread": AcsChatParticipantAddedToThreadEventData;
+    "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
+    "Microsoft.Communication.ChatParticipantRemovedFromThread": AcsChatParticipantRemovedFromThreadEventData;
+    "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
+    "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
+    "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
+    "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
     "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
@@ -1219,14 +1270,14 @@ export interface SystemEventNameToEventData {
 
 // @public
 export interface WebAppServicePlanUpdatedEventData {
-    address?: string;
-    appServicePlanEventTypeDetail?: AppServicePlanEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    sku?: WebAppServicePlanUpdatedEventDataSku;
-    verb?: string;
+    address: string;
+    appServicePlanEventTypeDetail: AppServicePlanEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    sku: WebAppServicePlanUpdatedEventDataSku;
+    verb: string;
 }
 
 // @public
@@ -1240,134 +1291,134 @@ export interface WebAppServicePlanUpdatedEventDataSku {
 
 // @public
 export interface WebAppUpdatedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebBackupOperationCompletedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebBackupOperationFailedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebBackupOperationStartedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebRestoreOperationCompletedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebRestoreOperationFailedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebRestoreOperationStartedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebSlotSwapCompletedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebSlotSwapFailedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebSlotSwapStartedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebSlotSwapWithPreviewCancelledEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 // @public
 export interface WebSlotSwapWithPreviewStartedEventData {
-    address?: string;
-    appEventTypeDetail?: AppEventTypeDetail;
-    clientRequestId?: string;
-    correlationRequestId?: string;
-    name?: string;
-    requestId?: string;
-    verb?: string;
+    address: string;
+    appEventTypeDetail: AppEventTypeDetail;
+    clientRequestId: string;
+    correlationRequestId: string;
+    name: string;
+    requestId: string;
+    verb: string;
 }
 
 

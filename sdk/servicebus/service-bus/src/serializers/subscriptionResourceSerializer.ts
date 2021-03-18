@@ -64,7 +64,7 @@ export function buildSubscriptionOptions(
  * Builds the subscription object from the raw json object gotten after deserializing
  * the response from the service
  */
-export function buildSubscription(rawSubscription: any): SubscriptionProperties {
+export function buildSubscription(rawSubscription: Record<string, any>): SubscriptionProperties {
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
@@ -114,7 +114,7 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
  * the response from the service
  */
 export function buildSubscriptionRuntimeProperties(
-  rawSubscription: any
+  rawSubscription: Record<string, any>
 ): SubscriptionRuntimeProperties {
   const messageCountDetails = getMessageCountDetails(rawSubscription[Constants.COUNT_DETAILS]);
   return {

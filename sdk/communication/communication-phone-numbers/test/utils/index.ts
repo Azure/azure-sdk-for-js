@@ -3,17 +3,6 @@
 
 import { PhoneNumberCapabilitiesRequest, PhoneNumberCapabilityType } from "../../src";
 
-export const buildCapabilityUpdate = (
-  capabilities: PhoneNumberCapabilitiesRequest
-): PhoneNumberCapabilitiesRequest => {
-  const values: PhoneNumberCapabilityType[] = ["none", "inbound", "outbound", "inbound+outbound"];
-
-  return {
-    sms: shuffle(values).find((val) => val != capabilities.sms),
-    calling: shuffle(values).find((val) => val != capabilities.calling)
-  };
-};
-
 // Fisher-Yates Shuffle algo implementation
 const shuffle = <T>(list: T[]): T[] => {
   for (let i = list.length - 1; i > 0; i--) {
@@ -24,4 +13,15 @@ const shuffle = <T>(list: T[]): T[] => {
   }
 
   return list;
+};
+
+export const buildCapabilityUpdate = (
+  capabilities: PhoneNumberCapabilitiesRequest
+): PhoneNumberCapabilitiesRequest => {
+  const values: PhoneNumberCapabilityType[] = ["none", "inbound", "outbound", "inbound+outbound"];
+
+  return {
+    sms: shuffle(values).find((val) => val !== capabilities.sms),
+    calling: shuffle(values).find((val) => val !== capabilities.calling)
+  };
 };

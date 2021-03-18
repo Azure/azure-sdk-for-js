@@ -5,7 +5,7 @@ import { isPlaybackMode, Recorder, env } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { SearchAvailablePhoneNumbersRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { createRecordedClient, testPollerOptions } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient";
 
 describe("PhoneNumbersClient - lro - search", function() {
   let recorder: Recorder;
@@ -45,10 +45,7 @@ describe("PhoneNumbersClient - lro - search", function() {
   }).timeout(20000);
 
   it("can cancel search", async function() {
-    const searchPoller = await client.beginSearchAvailablePhoneNumbers(
-      searchRequest,
-      testPollerOptions
-    );
+    const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
     await searchPoller.cancelOperation();
     assert.ok(searchPoller.isStopped);

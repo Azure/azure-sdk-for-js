@@ -81,8 +81,7 @@ const updateDependencySection = (rushPackages, dependencySection, buildId) => {
       if (
         parsedDepMinVersion.major == parsedPackageVersion.major &&
         parsedDepMinVersion.minor == parsedPackageVersion.minor &&
-        parsedDepMinVersion.patch == parsedPackageVersion.patch &&
-        !rushPackages[depName].json["private"]
+        parsedDepMinVersion.patch == parsedPackageVersion.patch
       ) {
         rushPackages = updatePackageVersion(rushPackages, depName, buildId);
       }
@@ -98,6 +97,13 @@ const updateInternalDependencyVersions = (rushPackages, package, buildId) => {
   rushPackages = updateDependencySection(
     rushPackages,
     rushPackages[package].json.dependencies,
+    buildId
+  );
+
+  console.log("checking devDependencies ..");
+  rushPackages = updateDependencySection(
+    rushPackages,
+    rushPackages[package].json.devDependencies,
     buildId
   );
 
@@ -135,13 +141,12 @@ const makeDependencySectionConsistentForPackage = (rushPackages, dependencySecti
       parsedDepMinVersion.major == parsedPackageVersion.major &&
       parsedDepMinVersion.minor == parsedPackageVersion.minor &&
       parsedDepMinVersion.patch == parsedPackageVersion.patch &&
-      rushPackages[depName].newVer !== undefined &&
-      !rushPackages[depName].json["private"]
+      rushPackages[depName].newVer !== undefined
     ) {
 
       // Setting version to ^[major.minor.patch]-alpha so that this automatically matches 
       // with the latest dev version published on npm
-      dependencySection[depName] = `dev`;
+      dependencySection[depName] = `^${parsedPackageVersion.major}.${parsedPackageVersion.minor}.${parsedPackageVersion.patch}-alpha`;
     }
   }
   return rushPackages;

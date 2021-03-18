@@ -1,5 +1,13 @@
 # Release History
 
+## 1.0.1 (2021-03-18)
+
+- Fixed an issue where `timeout` and `abortSignal` of requests was not honored on Node after requests had already been issued to the server. [PR 14359](https://github.com/Azure/azure-sdk-for-js/pull/14359)
+
+## 1.0.0 (2021-03-15)
+
+GA release of this package.
+
 ## 1.0.0-beta.2 (2021-03-10)
 
 - Renamed interfaces with `HTTPS` in the name to have `HTTP` instead.

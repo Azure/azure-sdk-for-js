@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "12.0.0-beta.1",
+  "version": "12.0.0-beta.2",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -67,8 +67,8 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-client": "1.0.0-beta.2",
-    "@azure/core-rest-pipeline": "1.0.0-beta.2",
+    "@azure/core-client": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.0.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-xml": "1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
@@ -96,7 +96,7 @@
     "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
     "inherits": "^2.0.3",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
