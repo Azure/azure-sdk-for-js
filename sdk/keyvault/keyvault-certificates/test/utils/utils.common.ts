@@ -44,13 +44,15 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
  * @returns An array of service versions to test against.
  */
 export function getVersionsToTest(): Array<string> {
+  const serviceVersions: Array<string> = [];
   console.log("env.SERVICE_VERSIONS", env.SERVICE_VERSIONS);
-  const serviceVersions: Array<string> = env.SERVICE_VERSIONS?.split(",") || [];
-  console.log("serviceVersions", serviceVersions);
+  if (env.SERVICE_VERSIONS) {
+    serviceVersions.concat(env.SERVICE_VERSIONS.split(","));
+  }
+
   if (!serviceVersions.includes(LATEST_API_VERSION)) {
     serviceVersions.push(LATEST_API_VERSION);
   }
-
   console.log("Returning service versions: ", serviceVersions);
   return serviceVersions;
 }
