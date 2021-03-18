@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.1 (2021-03-18)
 
 - Fixed an issue where `timeout` and `abortSignal` of requests was not honored on Node after requests had already been issued to the server.
 
