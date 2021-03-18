@@ -43,7 +43,7 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
  * but may return additional versions if they are set in a `SERVICE_VERSIONS` environment variable (comma separated).
  * @returns An array of service versions to test against.
  */
-export const getVersionsToTest = () => {
+export function getVersionsToTest(): Array<string> {
   console.log("env.SERVICE_VERSIONS", env.SERVICE_VERSIONS);
   const serviceVersions: Array<string> = env.SERVICE_VERSIONS?.split(",") || [];
   console.log("serviceVersions", serviceVersions);
@@ -53,4 +53,4 @@ export const getVersionsToTest = () => {
 
   console.log("Returning service versions: ", serviceVersions);
   return serviceVersions;
-};
+}
