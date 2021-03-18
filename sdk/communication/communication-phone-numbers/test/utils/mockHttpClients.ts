@@ -4,7 +4,10 @@
 import { HttpClient, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
 import { PurchasedPhoneNumber } from "../../src";
 
-export const createMockHttpClient = <T = Record<string, unknown>>(status: number = 200, parsedBody?: T): HttpClient => {
+export const createMockHttpClient = <T = Record<string, unknown>>(
+  status: number = 200,
+  parsedBody?: T
+): HttpClient => {
   return {
     async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
       return {
