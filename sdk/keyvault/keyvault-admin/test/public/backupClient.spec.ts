@@ -115,7 +115,7 @@ describe("KeyVaultBackupClient", () => {
       const folderName = getFolderName(backupURI.backupFolderUri!);
 
       // Delete the key (purging it is required), then restore and ensure it's restored
-      await (await keyClient.beginDeleteKey(keyName)).pollUntilDone();
+      await (await keyClient.beginDeleteKey(keyName, testPollerProperties)).pollUntilDone();
       await keyClient.purgeDeletedKey(keyName);
 
       const selectiveRestorePoller = await client.beginSelectiveRestore(

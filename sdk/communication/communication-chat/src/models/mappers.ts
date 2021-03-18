@@ -113,7 +113,7 @@ export const mapToChatParticipantSdkModel = (
  * @internal
  * Mapping chat thread REST model to chat thread SDK model
  */
-export const mapToChatThreadSdkModel = (
+export const mapToChatThreadPropertiesSdkModel = (
   chatThread: RestModel.ChatThreadProperties
 ): ChatThreadProperties => {
   const { createdByCommunicationIdentifier, ...rest } = chatThread;
@@ -140,7 +140,7 @@ export const mapToCreateChatThreadResultSdkModel = (
   if (chatThread)
     return {
       ...rest,
-      chatThread: mapToChatThreadSdkModel(chatThread)
+      chatThread: mapToChatThreadPropertiesSdkModel(chatThread)
     };
   else {
     return { ...rest };
