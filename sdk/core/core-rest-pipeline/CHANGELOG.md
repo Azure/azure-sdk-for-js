@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.2 (Unreleased)
+
+
 ## 1.0.1 (2021-03-18)
 
 - Fixed an issue where `timeout` and `abortSignal` of requests was not honored on Node after requests had already been issued to the server. [PR 14359](https://github.com/Azure/azure-sdk-for-js/pull/14359)
