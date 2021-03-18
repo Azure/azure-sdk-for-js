@@ -9123,7 +9123,7 @@ packages:
       '@types/glob': 7.1.3
       '@types/json-schema': 7.0.7
       '@types/mocha': 7.0.2
-      '@types/node': 8.10.66
+      '@types/node': 10.17.55
       '@typescript-eslint/eslint-plugin': 4.13.0_01b3bfb19f42ed087655aa69bb24f4f9
       '@typescript-eslint/experimental-utils': 4.13.0_eslint@7.21.0+typescript@4.1.2
       '@typescript-eslint/parser': 4.13.0_eslint@7.21.0+typescript@4.1.2
@@ -9148,7 +9148,7 @@ packages:
     dev: false
     name: '@rush-temp/eslint-plugin-azure-sdk'
     resolution:
-      integrity: sha512-JNWQRRsexu1eih1J4kcqkFiMNA9PrhDapMiKfw3oCS4VMKIbI0YMFaftO+mQ7KyD5umGMRLI2H39oryCgbtdpQ==
+      integrity: sha512-+mmkqBqcZQYcRW6KtAufghyDYXK6DCyV0Ajn5ibQI+FewbbEWTf1plrWXThmhCvNUfeWN1uwkAd1WSh4cROAoA==
       tarball: file:projects/eslint-plugin-azure-sdk.tgz
     version: 0.0.0
   file:projects/event-hubs.tgz:

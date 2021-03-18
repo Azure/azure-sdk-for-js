@@ -55,7 +55,7 @@
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": "^10.12.0 || >=12.0.0"
   },
   "prettier": "./prettier.json",
   "peerDependencies": {
@@ -82,7 +82,7 @@
     "@types/glob": "^7.1.1",
     "@types/json-schema": "^7.0.6",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^8.0.0",
+    "@types/node": "^10.12.0",
     "@typescript-eslint/eslint-plugin": "4.13.0",
     "@typescript-eslint/experimental-utils": "4.13.0",
     "@typescript-eslint/parser": "4.13.0",
