@@ -2,10 +2,11 @@
   "name": "@azure/arm-compute",
   "author": "Microsoft Corporation",
   "description": "ComputeManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "16.0.0",
+  "version": "16.1.0",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^2.0.1",
-    "@azure/ms-rest-js": "^2.0.4",
+    "@azure/ms-rest-azure-js": "^2.1.0",
+    "@azure/ms-rest-js": "^2.2.0",
+    "@azure/core-auth": "^1.1.4",
     "tslib": "^1.10.0"
   },
   "keywords": [
@@ -20,7 +21,7 @@
   "module": "./esm/computeManagementClient.js",
   "types": "./esm/computeManagementClient.d.ts",
   "devDependencies": {
-    "typescript": "^3.5.3",
+    "typescript": "^3.6.0",
     "rollup": "^1.18.0",
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
