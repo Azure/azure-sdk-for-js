@@ -3,13 +3,13 @@
 
 import qs from "qs";
 import assert from "assert";
+import { WebResource, AccessToken, HttpHeaders, RestError } from "@azure/core-http";
 import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   imdsEndpoint,
   imdsApiVersion
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
-import { WebResource, AccessToken, HttpHeaders, RestError } from "@azure/core-http";
 import { OAuthErrorResponse } from "../../../src/client/errors";
 
 interface AuthRequestDetails {
@@ -18,12 +18,27 @@ interface AuthRequestDetails {
 }
 
 describe("ManagedIdentityCredential", function() {
-  afterEach(() => {
+  // There are no types available for this dependency, at least at the time this test file was written.
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const mockFs = require("mock-fs");
+
+  let envCopy: string = "";
+  beforeEach(() => {
+    envCopy = JSON.stringify(process.env);
     delete process.env.IDENTITY_ENDPOINT;
     delete process.env.IDENTITY_HEADER;
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
+  });
+  afterEach(() => {
+    mockFs.restore();
+    const env = JSON.parse(envCopy);
+    process.env.IDENTITY_ENDPOINT = env.IDENTITY_ENDPOINT;
+    process.env.IDENTITY_HEADER = env.IDENTITY_HEADER;
+    process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
+    process.env.MSI_SECRET = env.MSI_SECRET;
+    process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -254,8 +269,6 @@ describe("ManagedIdentityCredential", function() {
     process.env.IMDS_ENDPOINT = "https://endpoint";
     process.env.IDENTITY_ENDPOINT = "https://endpoint";
 
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const mockFs = require("mock-fs");
     const filePath = "path/to/file";
     const key = "challenge key";
 
