@@ -429,7 +429,7 @@ describe("SessionReceiver - disconnects", function(): void {
     return serviceBusClient.test.after();
   });
 
-  it.only("calls processError and closes the link", async function(): Promise<void> {
+  it("calls processError and closes the link", async function(): Promise<void> {
     const testMessage = TestMessage.getSessionSample();
     // Create the sender and receiver.
     const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
