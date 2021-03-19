@@ -4,7 +4,7 @@
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
 
-import { EventGridDeserializer } from "../src";
+import { EventGridDeserializer } from "../../src";
 import * as testData from "./utils/testData";
 
 chaiUse(chaiPromises);

@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { dateToServiceTimeString } from "../src/util";
+import { dateToServiceTimeString } from "../../src/util";
 
 describe("util", function() {
   describe("dateToServiceTimeString", () => {
