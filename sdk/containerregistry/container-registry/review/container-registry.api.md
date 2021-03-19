@@ -150,10 +150,10 @@ export interface TagProperties {
     createdOn?: Date;
     digest?: string;
     lastUpdatedOn?: Date;
-    modifiableProperties?: ContentProperties;
     name?: string;
     registry?: string;
     repository?: string;
+    writeableProperties?: ContentProperties;
 }
 
 

@@ -281,7 +281,7 @@ export const TagAttributesBase: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      modifiableProperties: {
+      writeableProperties: {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
@@ -333,7 +333,7 @@ export const TagProperties: coreHttp.CompositeMapper = {
           name: "DateTime"
         }
       },
-      modifiableProperties: {
+      writeableProperties: {
         serializedName: "tag.changeableAttributes",
         type: {
           name: "Composite",

@@ -1417,7 +1417,7 @@
         "changeableAttributes": {
           "$ref": "#/definitions/ChangeableAttributes",
           "description": "Changeable attributes",
-          "x-ms-client-name": "modifiableProperties"
+          "x-ms-client-name": "writeableProperties"
         }
       },
       "example": {

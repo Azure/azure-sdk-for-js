@@ -96,7 +96,7 @@ export interface TagAttributesBase {
   /** Tag last update time */
   lastUpdatedOn?: Date;
   /** Changeable attributes */
-  modifiableProperties?: ContentProperties;
+  writeableProperties?: ContentProperties;
 }
 
 /** Tag attributes */
@@ -114,7 +114,7 @@ export interface TagProperties {
   /** Tag last update time */
   lastUpdatedOn?: Date;
   /** Changeable attributes */
-  modifiableProperties?: ContentProperties;
+  writeableProperties?: ContentProperties;
 }
 
 /** Manifest attributes */
