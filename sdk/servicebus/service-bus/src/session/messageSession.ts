@@ -270,6 +270,9 @@ export class MessageSession extends LinkEntity<Receiver> {
         // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
         errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
       } else if (this._providedSessionId != null && receivedSessionId !== this._providedSessionId) {
+        console.log(
+          `receivedSessionId: ${receivedSessionId}, _providedSessionId: ${this._providedSessionId}`
+        );
         // This code path is reached if the session is already locked by another receiver.
         // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
         errorMessage = `Failed to create a receiver for the requested session '${this._providedSessionId}'. It may be locked by another receiver.`;
