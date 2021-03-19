@@ -462,7 +462,11 @@ describe("SessionReceiver - disconnects", function(): void {
           (receiver as any)["_context"].connection["_connection"].idle();
         },
         async processError(err) {
-          err.error.message && (err.error as ServiceBusError).code.should.equal("SessionLockLost");
+          should.equal(
+            (err.error as ServiceBusError).code,
+            "SessionLockLost",
+            "error code is not SessionLockLost"
+          );
           errorIsThrownResolver();
         }
       },
