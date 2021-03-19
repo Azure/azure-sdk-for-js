@@ -451,6 +451,8 @@ describe("SessionReceiver - disconnects", function(): void {
     });
 
     const sender = serviceBusClient.createSender(entityName.queue!);
+    should.equal(receiver.isClosed, false, "Receiver should not have been closed");
+
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(testMessage);
     receiver.subscribe(
@@ -468,6 +470,7 @@ describe("SessionReceiver - disconnects", function(): void {
     );
 
     await errorIsThrown;
+    should.equal(receiver.isClosed, true, "Receiver should have been closed");
 
     const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
