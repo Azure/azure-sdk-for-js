@@ -19,9 +19,8 @@ export const LATEST_API_VERSION = "7.2";
  */
 export interface CertificateClientOptions extends coreHttp.PipelineOptions {
   /**
-   * The Key Vault API version. By default requests will be sent to the latest API version.
-   * You may specify a different API version to make requests against by providing a valid
-   * value here.
+   * The Key Vault API version. By default requests will be sent to the latest API version we currently support.
+   * You may specify a different API version to make requests against by providing a valid value here.
    */
   serviceVersion?: string;
 }
