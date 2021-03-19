@@ -163,19 +163,10 @@ export function flattenResponse(
     }
   }
 
-  if (isPrimitiveType(fullResponse.parsedBody)) {
-    return handleNullableResponseAndWrappableBody({
-      body: fullResponse.parsedBody,
-      headers: parsedHeaders,
-      hasNullableType: isNullable,
-      shouldWrapBody: true
-    });
-  }
-
   return handleNullableResponseAndWrappableBody({
     body: fullResponse.parsedBody,
     headers: parsedHeaders,
     hasNullableType: isNullable,
-    shouldWrapBody: false
+    shouldWrapBody: isPrimitiveType(fullResponse.parsedBody)
   });
 }
