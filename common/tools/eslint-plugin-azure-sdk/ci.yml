@@ -1,7 +1,9 @@
 pr:
   branches:
     include:
-      - '*'
+      - master
+      - main
+      
   paths:
     include:
       - common/tools/eslint-plugin-azure-sdk
