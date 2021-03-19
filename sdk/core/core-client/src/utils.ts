@@ -47,7 +47,7 @@ export function isValidUuid(uuid: string): boolean {
  *
  * @internal
  */
-function returnNullResponse(
+function returnNullResponseIfApplicable(
   isNullable: boolean,
   checkedForEmpty: unknown,
   response: unknown,
@@ -115,7 +115,7 @@ export function flattenResponse(
         ...parsedHeaders,
         ...fullResponse.parsedBody
       };
-      return returnNullResponse(isNullable, response, response);
+      return returnNullResponseIfApplicable(isNullable, response, response);
     }
   }
 
@@ -129,7 +129,7 @@ export function flattenResponse(
     fullResponse.request.method === "HEAD" ||
     isPrimitiveType(fullResponse.parsedBody)
   ) {
-    return returnNullResponse(
+    return returnNullResponseIfApplicable(
       isNullable,
       response,
       {
@@ -140,5 +140,5 @@ export function flattenResponse(
     );
   }
 
-  return returnNullResponse(isNullable, response, response);
+  return returnNullResponseIfApplicable(isNullable, response, response);
 }
