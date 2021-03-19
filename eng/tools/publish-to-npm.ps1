@@ -7,7 +7,8 @@ param (
   $npmToken,
   $filterArg="",
   $basicDeployment=$false,
-  $devopsFeed=$false
+  $devopsFeed=$false,
+  $skipDiff=$false
 )
 
 function replaceText($oldText,$newText,$filePath){
@@ -42,7 +43,7 @@ function extractPackage($package) {
     $devVersion = $json.version
     popd
     $publish = $true
-    if ($tag -eq "dev")
+    if (($tag -eq "dev") -and (-not $skipDiff))
     {
         mkdir $lastDevDirTgz
         pushd $lastDevDirTgz
