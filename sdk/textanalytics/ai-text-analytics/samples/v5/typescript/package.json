@@ -35,7 +35,7 @@
     "@azure/identity": "latest"
   },
   "devDependencies": {
-    "typescript": "~4.1.0",
+    "typescript": "4.1.2",
     "rimraf": "latest"
   }
 }

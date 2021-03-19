@@ -23,6 +23,8 @@ import { getSampleConfiguration, SampleConfiguration } from "../../util/sampleCo
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { convert } from "./tsToJs";
 
+import devToolPackageJson from "../../../package.json";
+
 const log = createPrinter("publish");
 
 const DEV_SAMPLES_BASE = "samples-dev";
@@ -458,7 +460,7 @@ async function getSampleGenerationInfo(
               // In TypeScript samples, we include TypeScript and `rimraf`, because they're used
               // in the package scripts.
               devDependencies: {
-                typescript: "~4.1.0",
+                typescript: devToolPackageJson.dependencies.typescript,
                 rimraf: "latest"
               }
             }
