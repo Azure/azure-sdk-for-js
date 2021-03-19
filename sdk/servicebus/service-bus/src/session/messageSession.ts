@@ -771,15 +771,24 @@ export class MessageSession extends LinkEntity<Receiver> {
       translateServiceBusError(connectionError),
       `${this.logPrefix} onDetached: closing link (session receiver will not reconnect)`
     );
-
-    // Notifying so that the streaming receiver knows about the error
-    this._notifyError({
-      entityPath: this.entityPath,
-      fullyQualifiedNamespace: this._context.config.host,
-      error: translateServiceBusError(connectionError),
-      errorSource: "receive"
-    });
-
+    try {
+      // Notifying so that the streaming receiver knows about the error
+      this._notifyError({
+        entityPath: this.entityPath,
+        fullyQualifiedNamespace: this._context.config.host,
+        error: translateServiceBusError(connectionError),
+        errorSource: "receive"
+      });
+    } catch (error) {
+      logger.error(
+        translateServiceBusError(error),
+        `${
+          this.logPrefix
+        } onDetached: unexpected error seen when tried calling "_notifyError" with ${translateServiceBusError(
+          connectionError
+        )}`
+      );
+    }
     await this.close(connectionError);
   }
 
