@@ -38,26 +38,53 @@ export function isValidUuid(uuid: string): boolean {
 }
 
 /**
+ * Representation of parsed response headers and body coupled with information
+ * about how to map them:
+ * - whether the response is of a primitive type so it has to be wrapped.
+ * - whether the response is nullable so it can be null if the combination of
+ *   the headers and the body is empty.
+ */
+interface ResponseObjectWithMetadata {
+  /** whether the mapper allows nullable body */
+  hasNullableType: boolean;
+  /** whether the type of the response body is primitive */
+  hasPrimitiveType: boolean;
+  /** parsed headers of the response */
+  headers:
+    | {
+        [key: string]: unknown;
+      }
+    | undefined;
+  /** parsed body of the response */
+  body: any;
+}
+
+/**
  * Returns null if the raw response is empty. Otherwise returns the intended response.
  *
- * @param isNullable - whether the mapper allows nullable body
- * @param checkedForEmpty - the raw response including headers
- * @param response - the response that will be returned to the user
- * @returns the response that will return to the user which can be null
+ * @param responseObject - a representation of the parsed response
+ * @returns the response that will be returned to the user which can be null and/or wrapped
  *
  * @internal
  */
 function returnNullResponseIfApplicable(
-  isNullable: boolean,
-  checkedForEmpty: unknown,
-  response: unknown,
-  isPrimitive: boolean = false
+  responseObject: ResponseObjectWithMetadata
 ): unknown | null {
-  return isNullable && Object.getOwnPropertyNames(checkedForEmpty).length === 0
-    ? isPrimitive
+  const combinedHeadersAndBody = {
+    ...responseObject.headers,
+    ...responseObject.body
+  };
+  return responseObject.hasNullableType &&
+    Object.getOwnPropertyNames(combinedHeadersAndBody).length === 0
+    ? responseObject.hasPrimitiveType
       ? { body: null }
       : null
-    : response;
+    : responseObject.hasPrimitiveType
+    ? {
+        ...responseObject.headers,
+        body: responseObject.body
+      }
+    : combinedHeadersAndBody;
 }
 
 /**
@@ -111,34 +138,32 @@ export function flattenResponse(
     }
 
     if (typeName === "Composite" || typeName === "Dictionary") {
-      const response = {
-        ...parsedHeaders,
-        ...fullResponse.parsedBody
-      };
-      return returnNullResponseIfApplicable(isNullable, response, response);
+      return returnNullResponseIfApplicable({
+        body: fullResponse.parsedBody,
+        headers: parsedHeaders,
+        hasNullableType: isNullable,
+        hasPrimitiveType: false
+      });
     }
   }
-
-  const response = {
-    ...parsedHeaders,
-    ...fullResponse.parsedBody
-  };
 
   if (
     bodyMapper ||
     fullResponse.request.method === "HEAD" ||
     isPrimitiveType(fullResponse.parsedBody)
   ) {
-    return returnNullResponseIfApplicable(
-      isNullable,
-      response,
-      {
-        ...parsedHeaders,
-        body: fullResponse.parsedBody
-      },
-      true /** is primitive */
-    );
+    return returnNullResponseIfApplicable({
+      body: fullResponse.parsedBody,
+      headers: parsedHeaders,
+      hasNullableType: isNullable,
+      hasPrimitiveType: true
+    });
   }
 
-  return returnNullResponseIfApplicable(isNullable, response, response);
+  return returnNullResponseIfApplicable({
+    body: fullResponse.parsedBody,
+    headers: parsedHeaders,
+    hasNullableType: isNullable,
+    hasPrimitiveType: false
+  });
 }
