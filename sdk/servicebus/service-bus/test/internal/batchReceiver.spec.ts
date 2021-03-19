@@ -1218,7 +1218,7 @@ describe("Batching Receiver", () => {
       // Send a message so we can be sure when the receiver is open and active.
       await sender.sendMessages(TestMessage.getSessionSample());
 
-      const messages1 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+      const messages1 = await receiver.receiveMessages(1);
       should.equal(
         messages1.length,
         1,
@@ -1250,7 +1250,7 @@ describe("Batching Receiver", () => {
 
       // Purposefully request more messages than what's available
       // so that the receiver will have to drain.
-      const messages2 = await receiver.receiveMessages(10, { maxWaitTimeInMs: 5000 });
+      const messages2 = await receiver.receiveMessages(10);
 
       didRequestDrain.should.equal(true, "Drain was not requested.");
       messages2.length.should.equal(
@@ -1271,11 +1271,10 @@ describe("Batching Receiver", () => {
           "Unexpected error thrown"
         );
         // wait for the 2nd message to be received.
-        await receiver.close();
         receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
           entityNames
         )) as ServiceBusSessionReceiver;
-        const messages3 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+        const messages3 = await receiver.receiveMessages(1);
 
         messages3.length.should.equal(
           1,
@@ -1291,9 +1290,7 @@ describe("Batching Receiver", () => {
       // Send a message so we can be sure when the receiver is open and active.
       await sender.sendMessages(TestMessage.getSessionSample());
 
-      const messages1 = await receiver.receiveMessages(1, {
-        maxWaitTimeInMs: 5000
-      });
+      const messages1 = await receiver.receiveMessages(1);
       should.equal(
         messages1.length,
         1,
@@ -1347,7 +1344,7 @@ describe("Batching Receiver", () => {
       // Send a message so we can be sure when the receiver is open and active.
       await sender.sendMessages(TestMessage.getSessionSample());
 
-      const messages1 = await receiver.receiveMessages(1, { maxWaitTimeInMs: 5000 });
+      const messages1 = await receiver.receiveMessages(1);
       should.equal(
         messages1.length,
         1,
@@ -1370,7 +1367,7 @@ describe("Batching Receiver", () => {
 
       // Purposefully request more messages than what's available
       // so that the receiver will have to drain.
-      const messages2 = await receiver.receiveMessages(10, { maxWaitTimeInMs: 5000 });
+      const messages2 = await receiver.receiveMessages(10);
 
       messages2.length.should.equal(
         1,
@@ -1410,9 +1407,7 @@ describe("Batching Receiver", () => {
       // Send a message so we can be sure when the receiver is open and active.
       await sender.sendMessages(TestMessage.getSessionSample());
 
-      const messages1 = await receiver.receiveMessages(1, {
-        maxWaitTimeInMs: 5000
-      });
+      const messages1 = await receiver.receiveMessages(1);
       should.equal(
         messages1.length,
         1,
