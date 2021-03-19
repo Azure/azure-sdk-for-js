@@ -498,7 +498,11 @@ describe("Send Batch", () => {
     assert.deepEqual(
       {
         messageId: receivedMessage.messageId,
-        applicationProperties: receivedMessage.applicationProperties
+        applicationProperties: {
+          nullProperty: receivedMessage.applicationProperties?.nullProperty,
+          undefinedProperty: receivedMessage.applicationProperties?.undefinedProperty,
+          canary: receivedMessage.applicationProperties?.canary
+        }
       },
       {
         messageId,
