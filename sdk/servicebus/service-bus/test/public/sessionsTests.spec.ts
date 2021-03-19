@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
+import chai, { assert } from "chai";
 import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
@@ -25,6 +25,8 @@ import {
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
+import sinon from "sinon";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 
 let unexpectedError: Error | undefined;
 
@@ -452,6 +454,10 @@ describe("SessionReceiver - disconnects", function(): void {
 
     const sender = serviceBusClient.createSender(entityName.queue!);
     should.equal(receiver.isClosed, false, "Receiver should not have been closed");
+    const isCloseCalledSpy = sinon.spy(
+      (receiver as ServiceBusSessionReceiverImpl)["_messageSession"],
+      "close"
+    );
 
     // Send a message so we can be sure when the receiver is open and active.
     await sender.sendMessages(testMessage);
@@ -474,7 +480,8 @@ describe("SessionReceiver - disconnects", function(): void {
     );
 
     await errorIsThrown;
-    should.equal(receiver.isClosed, true, "Receiver should have been closed");
+
+    assert.isTrue(isCloseCalledSpy.called, "Close should have been called on the message session");
 
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSessionSample());
