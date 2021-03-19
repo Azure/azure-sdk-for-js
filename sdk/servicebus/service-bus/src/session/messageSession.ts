@@ -769,19 +769,24 @@ export class MessageSession extends LinkEntity<Receiver> {
    * To be called when connection is disconnected to gracefully close ongoing receive request.
    * @param connectionError - The connection error if any.
    */
-  async onDetached(connectionError: AmqpError | Error | undefined): Promise<void> {
-    if (this._batchingReceiverLite.isReceivingMessages) {
-      if (connectionError == null) {
-        connectionError = new Error(
-          "Unknown error occurred on the AMQP connection while receiving messages."
-        );
-      }
+  async onDetached(connectionError: AmqpError | Error): Promise<void> {
+    logger.error(
+      translateServiceBusError(connectionError),
+      `${this.logPrefix} onDetached: closing link (session receiver will not reconnect)`
+    );
 
-      // .close() calls terminate() with the error
-      await this.close(connectionError); // TODO: Based on how the streaming receivers will be handled, this `.close` call can be called conditionally or moved around accordingly
-    } else {
-      // TODO: Not implemented for streaming yet... Come up with a plan for streaming
-    }
+    // Notifying so that the streaming receiver knows about the error
+    this._notifyError({
+      entityPath: this.entityPath,
+      fullyQualifiedNamespace: this._context.config.host,
+      error: translateServiceBusError(connectionError),
+      errorSource: "receive"
+    });
+    // .close()
+    // - calls terminate() with the error, which handles
+    //     resolving the messages in receiveAndDelete mode and throwing an error in peekLock mode
+    // - clears the token renewal timer, closes the link and its session if they are open.
+    await this.close(connectionError);
   }
 
   /**
