@@ -47,7 +47,7 @@ export function isValidUuid(uuid: string): boolean {
 interface ResponseObjectWithMetadata {
   /** whether the mapper allows nullable body */
   hasNullableType: boolean;
-  /** whether the type of the response body is primitive */
+  /** whether the response's body should be wrapped */
   shouldWrapBody: boolean;
   /** parsed headers of the response */
   headers:
