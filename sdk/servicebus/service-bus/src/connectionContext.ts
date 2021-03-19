@@ -520,9 +520,6 @@ export namespace ConnectionContext {
           connectionError || contextError,
           "streaming"
         );
-        // TODO: What to do for "disconnect" on sessions streaming receiver?
-        //       re-initialize the link?
-        //       close the link and throw like batching receiver?
       }
     };
 
