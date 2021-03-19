@@ -1,8 +1,6 @@
 ## Azure GraphRbacManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK for GraphRbacManagementClient to work with the Azure Active Directory Graph API which is now deprecated. Starting June 30th 2022, we will end support for Azure AD Graph and will no longer provide technical support or security updates. Apps using Azure AD Graph after this time will no longer receive responses from the Azure Active Directory Graph endpoint.
-
-We recommend you move to using the newer [Microsoft Graph API](https://developer.microsoft.com/graph) instead.
+> **Warning**: This package is used to work with the Azure Active Directory Graph API which is deprecated and has been replaced by the [Microsoft Graph API](https://developer.microsoft.com/graph). Beginning on June 30th, 2022, apps using Azure AD Graph will no longer receive responses from the Azure Active Directory Graph endpoint.
 
 Helpful links:
 
