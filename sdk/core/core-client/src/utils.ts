@@ -77,17 +77,19 @@ function handleNullableResponseAndWrappableBody(
     ...responseObject.headers,
     ...responseObject.body
   };
-  return responseObject.hasNullableType &&
+  if (
+    responseObject.hasNullableType &&
     Object.getOwnPropertyNames(combinedHeadersAndBody).length === 0
-    ? responseObject.shouldWrapBody
-      ? { body: null }
-      : null
-    : responseObject.shouldWrapBody
-    ? {
-        ...responseObject.headers,
-        body: responseObject.body
-      }
-    : combinedHeadersAndBody;
+  ) {
+    return responseObject.shouldWrapBody ? { body: null } : null;
+  } else {
+    return responseObject.shouldWrapBody
+      ? {
+          ...responseObject.headers,
+          body: responseObject.body
+        }
+      : combinedHeadersAndBody;
+  }
 }
 
 /**
