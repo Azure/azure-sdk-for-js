@@ -882,7 +882,7 @@ describe("Batching Receiver", () => {
       }
     );
   });
-  
+
   describe("Batch Receiver - disconnects", () => {
     describe(noSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
       before(() => {
@@ -1018,9 +1018,9 @@ describe("Batching Receiver", () => {
           // This makes sure the receiveMessages doesn't end because of draining before the disconnect is triggered
           // Meaning.. the "resolving the messages" can only happen through the onDetached triggered by disconnect
           batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
-          didRequestDrain = true;
           addCredit.call(this, credits);
           if (batchingReceiver["link"]!.drain) {
+            didRequestDrain = true;
             // Simulate a disconnect being called with a non-retryable error.
             receiverContext.connection["_connection"].idle();
           }
