@@ -560,7 +560,7 @@ describe("ServiceClient", function() {
   it("should deserialize a head request with no body even if the mapper says the body is nullable", async function() {
     await assertServiceClientResponse(
       {
-        httpRequestMethod: "HEAD",
+        requestMethod: "HEAD",
         responseBodyAsText: "",
         responseMapper: {
           bodyMapper: {

@@ -24,7 +24,7 @@ import {
  */
 export interface ServiceClientTestSpec {
   /** The HTTP request method */
-  httpRequestMethod?: HttpMethods;
+  requestMethod?: HttpMethods;
   /** The request headers */
   requestHeaders?: HttpHeaders;
   /** The request serializer */
@@ -48,7 +48,7 @@ export async function assertServiceClientResponse(
       return Promise.resolve({
         request,
         status: 200,
-        headers: createHttpHeaders(),
+        headers: testSpec.responseHeaders ?? createHttpHeaders(),
         bodyAsText: testSpec.responseBodyAsText
       });
     }
@@ -72,7 +72,7 @@ export async function assertServiceClientResponse(
     },
     {
       serializer: testSpec.requestSerializer ?? createSerializer(),
-      httpMethod: testSpec.httpRequestMethod ?? "GET",
+      httpMethod: testSpec.requestMethod ?? "GET",
       baseUrl: "https://example.com",
       responses: {
         200: testSpec.responseMapper
