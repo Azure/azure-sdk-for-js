@@ -44,13 +44,13 @@ export interface RepositoryProperties {
   /** Image name */
   name?: string;
   /** Image created time */
-  createdOn?: Date;
+  createdOn: Date;
   /** Image last update time */
   lastUpdatedOn?: Date;
   /** Number of the manifests */
-  registryArtifactCount?: number;
+  registryArtifactCount: number;
   /** Number of the tags */
-  tagCount?: number;
+  tagCount: number;
   /** Changeable attributes */
   writeableProperties?: ContentProperties;
 }
@@ -92,9 +92,9 @@ export interface TagAttributesBase {
   /** Tag digest */
   digest?: string;
   /** Tag created time */
-  createdOn?: Date;
+  createdOn: Date;
   /** Tag last update time */
-  lastUpdatedOn?: Date;
+  lastUpdatedOn: Date;
   /** Changeable attributes */
   writeableProperties?: ContentProperties;
 }
@@ -131,7 +131,7 @@ export interface AcrManifests {
 /** Manifest details */
 export interface ManifestAttributesBase {
   /** Manifest */
-  digest?: string;
+  digest: string;
   /** Image size */
   size?: number;
   /** Created time */
@@ -139,15 +139,15 @@ export interface ManifestAttributesBase {
   /** Last update time */
   lastUpdatedOn?: Date;
   /** CPU architecture */
-  cpuArchitecture?: string;
+  cpuArchitecture: string;
   /** Operating system */
-  operatingSystem?: string;
+  operatingSystem: string;
   /** Media type */
   manifestMediaType?: string;
   /** Config blob media type */
   configMediaType?: string;
   /** List of tags */
-  tags?: string[];
+  tags: string[];
   /** Changeable attributes */
   manifestProperties?: ContentProperties;
 }
@@ -155,9 +155,9 @@ export interface ManifestAttributesBase {
 /** Manifest attributes details */
 export interface RegistryArtifactProperties {
   /** Registry name */
-  registry?: string;
+  registry: string;
   /** Image name */
-  repository?: string;
+  repository: string;
   /** Manifest */
   digest?: string;
   /** Image size */

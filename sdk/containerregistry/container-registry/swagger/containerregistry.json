@@ -1241,6 +1241,12 @@
   },
   "definitions": {
     "RepositoryAttributes": {
+      "required": [
+        "createdTime",
+        "lastUpdatetime",
+        "manifestCount",
+        "tagCount"
+      ],
       "x-ms-client-name": "RepositoryProperties",
       "type": "object",
       "description": "Repository attributes",
@@ -1391,6 +1397,10 @@
       }
     },
     "TagAttributesBase": {
+      "required": [
+        "createdTime",
+        "lastUpdateTime"
+      ],
       "description": "Tag attribute details",
       "x-accessibility": "internal",
       "properties": {
@@ -1505,6 +1515,10 @@
       }
     },
     "ManifestAttributes": {
+      "required": [
+        "registry",
+        "imageName"
+      ],
       "x-ms-client-name": "RegistryArtifactProperties",
       "description": "Manifest attributes details",
       "properties": {
@@ -1546,6 +1560,12 @@
       }
     },
     "ManifestAttributesBase": {
+      "required": [
+        "digest",
+        "architecture",
+        "os",
+        "tags"
+      ],
       "type": "object",
       "description": "Manifest details",
       "x-accessibility": "internal",

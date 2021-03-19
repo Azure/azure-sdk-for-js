@@ -116,6 +116,7 @@ export const RepositoryProperties: coreHttp.CompositeMapper = {
       },
       createdOn: {
         serializedName: "createdTime",
+        required: true,
         type: {
           name: "DateTime"
         }
@@ -128,12 +129,14 @@ export const RepositoryProperties: coreHttp.CompositeMapper = {
       },
       registryArtifactCount: {
         serializedName: "manifestCount",
+        required: true,
         type: {
           name: "Number"
         }
       },
       tagCount: {
         serializedName: "tagCount",
+        required: true,
         type: {
           name: "Number"
         }
@@ -271,12 +274,14 @@ export const TagAttributesBase: coreHttp.CompositeMapper = {
       },
       createdOn: {
         serializedName: "createdTime",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       lastUpdatedOn: {
         serializedName: "lastUpdateTime",
+        required: true,
         type: {
           name: "DateTime"
         }
@@ -390,6 +395,7 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
     modelProperties: {
       digest: {
         serializedName: "digest",
+        required: true,
         type: {
           name: "String"
         }
@@ -414,12 +420,14 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
       },
       cpuArchitecture: {
         serializedName: "architecture",
+        required: true,
         type: {
           name: "String"
         }
       },
       operatingSystem: {
         serializedName: "os",
+        required: true,
         type: {
           name: "String"
         }
@@ -438,6 +446,7 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
       },
       tags: {
         serializedName: "tags",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -465,12 +474,14 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
     modelProperties: {
       registry: {
         serializedName: "registry",
+        required: true,
         type: {
           name: "String"
         }
       },
       repository: {
         serializedName: "imageName",
+        required: true,
         type: {
           name: "String"
         }
