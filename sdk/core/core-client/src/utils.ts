@@ -40,7 +40,7 @@ export function isValidUuid(uuid: string): boolean {
 /**
  * Representation of parsed response headers and body coupled with information
  * about how to map them:
- * - whether the response is of a primitive type so it has to be wrapped.
+ * - whether the response body should be wrapped (typically if its type is primitive).
  * - whether the response is nullable so it can be null if the combination of
  *   the headers and the body is empty.
  */
@@ -48,7 +48,7 @@ interface ResponseObjectWithMetadata {
   /** whether the mapper allows nullable body */
   hasNullableType: boolean;
   /** whether the type of the response body is primitive */
-  hasPrimitiveType: boolean;
+  shouldWrapBody: boolean;
   /** parsed headers of the response */
   headers:
     | {
@@ -60,14 +60,17 @@ interface ResponseObjectWithMetadata {
 }
 
 /**
- * Returns null if the raw response is empty. Otherwise returns the intended response.
+ * Maps the response as follows:
+ * - wraps the response body if needed (typically if its type is primitive).
+ * - returns null if the combination of the headers and the body is empty.
+ * - otherwise, returns the combination of the headers and the body.
  *
  * @param responseObject - a representation of the parsed response
  * @returns the response that will be returned to the user which can be null and/or wrapped
  *
  * @internal
  */
-function returnNullResponseIfApplicable(
+function handleNullableResponseAndWrappableBody(
   responseObject: ResponseObjectWithMetadata
 ): unknown | null {
   const combinedHeadersAndBody = {
@@ -76,10 +79,10 @@ function returnNullResponseIfApplicable(
   };
   return responseObject.hasNullableType &&
     Object.getOwnPropertyNames(combinedHeadersAndBody).length === 0
-    ? responseObject.hasPrimitiveType
+    ? responseObject.shouldWrapBody
       ? { body: null }
       : null
-    : responseObject.hasPrimitiveType
+    : responseObject.shouldWrapBody
     ? {
         ...responseObject.headers,
         body: responseObject.body
@@ -100,9 +103,19 @@ export function flattenResponse(
   responseSpec: OperationResponseMap | undefined
 ): unknown {
   const parsedHeaders = fullResponse.parsedHeaders;
+
+  /**
+   * If body is not asked for, we return the response headers only. If the response
+   * has a body anyway, that body must be ignored.
+   */
+  if (fullResponse.request.method === "HEAD") {
+    return parsedHeaders;
+  }
+
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
   const isNullable = bodyMapper?.nullable ?? false;
 
+  /** If the body is asked for, we look at the mapper to deserialize it */
   if (bodyMapper) {
     const typeName = bodyMapper.type.name;
     if (typeName === "Stream") {
@@ -119,7 +132,6 @@ export function flattenResponse(
       (k) => modelProperties[k].serializedName === ""
     );
     if (typeName === "Sequence" || isPageableResponse) {
-      const isNull = !fullResponse.parsedBody && isNullable;
       const emptyArray = ([] as unknown) as { [key: string]: unknown };
       const arrayResponse: { [key: string]: unknown } = fullResponse.parsedBody ?? emptyArray;
 
@@ -134,36 +146,34 @@ export function flattenResponse(
           arrayResponse[key] = parsedHeaders[key];
         }
       }
-      return isNull && arrayResponse === emptyArray ? null : arrayResponse;
+      return !fullResponse.parsedBody && isNullable && arrayResponse === emptyArray
+        ? null
+        : arrayResponse;
     }
 
     if (typeName === "Composite" || typeName === "Dictionary") {
-      return returnNullResponseIfApplicable({
+      return handleNullableResponseAndWrappableBody({
         body: fullResponse.parsedBody,
         headers: parsedHeaders,
         hasNullableType: isNullable,
-        hasPrimitiveType: false
+        shouldWrapBody: false
       });
     }
   }
 
-  if (
-    bodyMapper ||
-    fullResponse.request.method === "HEAD" ||
-    isPrimitiveType(fullResponse.parsedBody)
-  ) {
-    return returnNullResponseIfApplicable({
+  if (isPrimitiveType(fullResponse.parsedBody)) {
+    return handleNullableResponseAndWrappableBody({
       body: fullResponse.parsedBody,
       headers: parsedHeaders,
       hasNullableType: isNullable,
-      hasPrimitiveType: true
+      shouldWrapBody: true
     });
   }
 
-  return returnNullResponseIfApplicable({
+  return handleNullableResponseAndWrappableBody({
     body: fullResponse.parsedBody,
     headers: parsedHeaders,
     hasNullableType: isNullable,
-    hasPrimitiveType: false
+    shouldWrapBody: false
   });
 }

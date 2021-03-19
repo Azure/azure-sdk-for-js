@@ -2,20 +2,44 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createEmptyPipeline, createHttpHeaders, HttpClient } from "@azure/core-rest-pipeline";
+import {
+  createEmptyPipeline,
+  createHttpHeaders,
+  HttpClient,
+  HttpHeaders,
+  HttpMethods
+} from "@azure/core-rest-pipeline";
 import {
   createSerializer,
   deserializationPolicy,
   FullOperationResponse,
   OperationRequest,
   OperationResponseMap,
+  Serializer,
   ServiceClient
 } from "../../src";
 
+/**
+ * Representation of a Service Client test case where the response status is 200.
+ */
+export interface ServiceClientTestSpec {
+  /** The HTTP request method */
+  httpRequestMethod?: HttpMethods;
+  /** The request headers */
+  requestHeaders?: HttpHeaders;
+  /** The request serializer */
+  requestSerializer?: Serializer;
+  /** The response headers */
+  responseHeaders?: HttpHeaders;
+  /** The response body */
+  responseBodyAsText: string;
+  /** The response mapper */
+  responseMapper: OperationResponseMap;
+}
+
 export async function assertServiceClientResponse(
-  bodyAsText: string,
-  mapper: OperationResponseMap,
-  expectedResult: unknown
+  testSpec: ServiceClientTestSpec,
+  expectedResponse: unknown
 ): Promise<void> {
   let request: OperationRequest;
   const httpClient: HttpClient = {
@@ -25,7 +49,7 @@ export async function assertServiceClientResponse(
         request,
         status: 200,
         headers: createHttpHeaders(),
-        bodyAsText: bodyAsText
+        bodyAsText: testSpec.responseBodyAsText
       });
     }
   };
@@ -47,15 +71,15 @@ export async function assertServiceClientResponse(
       }
     },
     {
-      serializer: createSerializer(),
-      httpMethod: "GET",
+      serializer: testSpec.requestSerializer ?? createSerializer(),
+      httpMethod: testSpec.httpRequestMethod ?? "GET",
       baseUrl: "https://example.com",
       responses: {
-        200: mapper
+        200: testSpec.responseMapper
       }
     }
   );
 
   assert.strictEqual(rawResponse?.status, 200);
-  assert.deepStrictEqual(res, expectedResult);
+  assert.deepStrictEqual(res, expectedResponse);
 }

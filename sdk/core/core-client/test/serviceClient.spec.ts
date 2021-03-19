@@ -385,15 +385,17 @@ describe("ServiceClient", function() {
 
   it("should deserialize array response as null if it is empty and nullable", async function() {
     await assertServiceClientResponse(
-      "",
       {
-        bodyMapper: {
-          nullable: true,
-          type: {
-            name: MapperTypeNames.Sequence,
-            element: {
-              type: {
-                name: "Number"
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Sequence,
+              element: {
+                type: {
+                  name: "Number"
+                }
               }
             }
           }
@@ -405,15 +407,17 @@ describe("ServiceClient", function() {
 
   it("should deserialize array response as empty array if it is empty and not nullable", async function() {
     await assertServiceClientResponse(
-      "",
       {
-        bodyMapper: {
-          nullable: false,
-          type: {
-            name: MapperTypeNames.Sequence,
-            element: {
-              type: {
-                name: "Number"
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Sequence,
+              element: {
+                type: {
+                  name: "Number"
+                }
               }
             }
           }
@@ -425,15 +429,17 @@ describe("ServiceClient", function() {
 
   it("should deserialize dictionary response as null if it is empty and nullable", async function() {
     await assertServiceClientResponse(
-      "",
       {
-        bodyMapper: {
-          nullable: true,
-          type: {
-            name: MapperTypeNames.Dictionary,
-            value: {
-              type: {
-                name: "String"
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Dictionary,
+              value: {
+                type: {
+                  name: "String"
+                }
               }
             }
           }
@@ -445,15 +451,17 @@ describe("ServiceClient", function() {
 
   it("should deserialize dictionary response as empty if it is empty and not nullable", async function() {
     await assertServiceClientResponse(
-      "",
       {
-        bodyMapper: {
-          nullable: false,
-          type: {
-            name: MapperTypeNames.Dictionary,
-            value: {
-              type: {
-                name: "String"
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Dictionary,
+              value: {
+                type: {
+                  name: "String"
+                }
               }
             }
           }
@@ -465,16 +473,18 @@ describe("ServiceClient", function() {
 
   it("should deserialize object response as null if it is empty and nullable", async function() {
     await assertServiceClientResponse(
-      "",
       {
-        bodyMapper: {
-          nullable: true,
-          type: {
-            name: MapperTypeNames.Composite,
-            modelProperties: {
-              message: {
-                type: {
-                  name: "String"
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Composite,
+              modelProperties: {
+                message: {
+                  type: {
+                    name: "String"
+                  }
                 }
               }
             }
@@ -487,16 +497,18 @@ describe("ServiceClient", function() {
 
   it("should deserialize object response as empty if it is empty and not nullable", async function() {
     await assertServiceClientResponse(
-      "",
       {
-        bodyMapper: {
-          nullable: false,
-          type: {
-            name: MapperTypeNames.Composite,
-            modelProperties: {
-              message: {
-                type: {
-                  name: "String"
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Composite,
+              modelProperties: {
+                message: {
+                  type: {
+                    name: "String"
+                  }
                 }
               }
             }
@@ -509,12 +521,14 @@ describe("ServiceClient", function() {
 
   it("should deserialize primitive response as null if it is empty and nullable", async function() {
     await assertServiceClientResponse(
-      "",
       {
-        bodyMapper: {
-          nullable: true,
-          type: {
-            name: MapperTypeNames.Boolean
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
           }
         }
       },
@@ -526,18 +540,38 @@ describe("ServiceClient", function() {
 
   it("should deserialize primitive response as undefined if it is empty and not nullable", async function() {
     await assertServiceClientResponse(
-      "",
       {
-        bodyMapper: {
-          nullable: false,
-          type: {
-            name: MapperTypeNames.Boolean
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
           }
         }
       },
       {
         body: undefined
       }
+    );
+  });
+
+  it("should deserialize a head request with no body even if the mapper says the body is nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        httpRequestMethod: "HEAD",
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      {}
     );
   });
 
