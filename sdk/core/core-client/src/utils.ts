@@ -115,7 +115,7 @@ export function flattenResponse(
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
   const isNullable = bodyMapper?.nullable ?? false;
 
-  /** If the body is asked for, we look at the mapper to deserialize it */
+  /** If the body is asked for, we look at the mapper to handle it */
   if (bodyMapper) {
     const typeName = bodyMapper.type.name;
     if (typeName === "Stream") {
