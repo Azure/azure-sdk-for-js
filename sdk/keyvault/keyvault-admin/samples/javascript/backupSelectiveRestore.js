@@ -32,9 +32,6 @@ async function main() {
   // The folder name should be at the end of the backupFolderUri, as in: https://<blob-storage-endpoint>/<folder-name>
   const folderName = backupResult.backupFolderUri.split("/").pop();
 
-  // The folder name should be at the end of the blobStorageUri, as in: https://<blob-storage-endpoint>/<folder-name>
-  const folderName = "backup";
-
   const selectiveRestorePoller = await client.beginSelectiveRestore(
     blobStorageUri,
     sasToken,
