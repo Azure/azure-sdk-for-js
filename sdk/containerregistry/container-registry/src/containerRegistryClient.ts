@@ -24,6 +24,7 @@ import {
   ContainerRegistryUserCredential,
   createContainerRegistryUserCredentialPolicy
 } from "./containerRegistryUserCredentialPolicy";
+import { extractNextLink } from "./utils";
 
 /**
  * Options for the `deleteRepository` method of `ContainerRegistryClient`.
@@ -176,14 +177,7 @@ export class ContainerRegistryClient {
       if (currentPage.repositories) {
         yield currentPage.repositories;
       }
-      if (currentPage.link) {
-        continuationState.continuationToken = currentPage.link.substr(
-          1,
-          currentPage.link.indexOf(">") - 1
-        );
-      } else {
-        continuationState.continuationToken = undefined;
-      }
+      continuationState.continuationToken = extractNextLink(currentPage.link);
       while (continuationState.continuationToken) {
         currentPage = await this.client.containerRegistry.getRepositoriesNext(
           continuationState.continuationToken,
@@ -192,14 +186,7 @@ export class ContainerRegistryClient {
         if (currentPage.repositories) {
           yield currentPage.repositories;
         }
-        if (currentPage.link) {
-          continuationState.continuationToken = currentPage.link.substr(
-            1,
-            currentPage.link.indexOf(">") - 1
-          );
-        } else {
-          continuationState.continuationToken = undefined;
-        }
+        continuationState.continuationToken = extractNextLink(currentPage.link);
       }
     }
   }

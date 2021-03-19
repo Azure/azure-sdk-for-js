@@ -32,6 +32,7 @@ import {
   ContainerRegistryUserCredential,
   createContainerRegistryUserCredentialPolicy
 } from "./containerRegistryUserCredentialPolicy";
+import { extractNextLink } from "./utils";
 
 /**
  * Options for the `getProperties` method of `ContainerRepositoryClient`.
@@ -551,14 +552,7 @@ export class ContainerRepositoryClient {
         this.repository,
         optionsComplete
       );
-      if (currentPage.link) {
-        continuationState.continuationToken = currentPage.link.substr(
-          1,
-          currentPage.link.indexOf(">") - 1
-        );
-      } else {
-        continuationState.continuationToken = undefined;
-      }
+      continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.tags) {
         yield currentPage.tags.map((t) => {
           return {
@@ -573,14 +567,7 @@ export class ContainerRepositoryClient {
           continuationState.continuationToken,
           options
         );
-        if (currentPage.link) {
-          continuationState.continuationToken = currentPage.link.substr(
-            1,
-            currentPage.link.indexOf(">") - 1
-          );
-        } else {
-          continuationState.continuationToken = undefined;
-        }
+        continuationState.continuationToken = extractNextLink(currentPage.link);
         if (currentPage.tags) {
           yield currentPage.tags.map((t) => {
             return {
