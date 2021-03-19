@@ -26,6 +26,7 @@ import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
 import { NonSessionReceiverType, ReceiverType } from "./core/linkEntity";
+import { ServiceBusError } from "./serviceBusError";
 
 /**
  * @internal
@@ -177,17 +178,34 @@ async function callOnDetachedOnSessionReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined
 ): Promise<void[]> {
+  const getSessionError = (sessionId: string, entityPath: string) => {
+    const sessionInfo =
+      `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no longer be used. ` +
+      `Please create a new receiver using the "acceptSession" or "acceptNextSession" method on the ServiceBusClient.`;
+
+    const errorMessage =
+      contextOrConnectionError == null
+        ? `Unknown error occurred on the AMQP connection while receiving messages. ` + sessionInfo
+        : `Error occurred on the AMQP connection while receiving messages. ` +
+          sessionInfo +
+          `\nMore info - \n${contextOrConnectionError}`;
+
+    const error = new ServiceBusError(errorMessage, "SessionLockLost");
+    error.retryable = false;
+    return error;
+  };
+
   const detachCalls: Promise<void>[] = [];
 
   for (const receiverName of Object.keys(connectionContext.messageSessions)) {
     const receiver = connectionContext.messageSessions[receiverName];
     logger.verbose(
-      "[%s] calling detached on %s receiver(sessions) '%s'.",
+      "[%s] calling detached on %s receiver(sessions).",
       connectionContext.connection.id,
       receiver.name
     );
     detachCalls.push(
-      receiver.onDetached(contextOrConnectionError).catch((err) => {
+      receiver.onDetached(getSessionError(receiver.sessionId, receiver.entityPath)).catch((err) => {
         logger.logError(
           err,
           "[%s] An error occurred while calling onDetached() on the session receiver(sessions) '%s'",
