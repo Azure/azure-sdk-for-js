@@ -779,10 +779,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       error: translateServiceBusError(connectionError),
       errorSource: "receive"
     });
-    // .close()
-    // - calls terminate() with the error, which handles
-    //     resolving the messages in receiveAndDelete mode and throwing an error in peekLock mode
-    // - clears the token renewal timer, closes the link and its session if they are open.
+
     await this.close(connectionError);
   }
 
