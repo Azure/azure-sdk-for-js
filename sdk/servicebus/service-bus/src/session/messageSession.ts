@@ -773,7 +773,6 @@ export class MessageSession extends LinkEntity<Receiver> {
     );
 
     // Notifying so that the streaming receiver knows about the error
-    // TODO: How to gracefully end the streaming receiver?
     this._notifyError({
       entityPath: this.entityPath,
       fullyQualifiedNamespace: this._context.config.host,
