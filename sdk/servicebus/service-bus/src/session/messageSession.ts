@@ -766,14 +766,8 @@ export class MessageSession extends LinkEntity<Receiver> {
    * To be called when connection is disconnected to gracefully close ongoing receive request.
    * @param connectionError - The connection error if any.
    */
-  async onDetached(connectionError: AmqpError | Error | undefined): Promise<void> {
+  async onDetached(connectionError: AmqpError | Error): Promise<void> {
     if (this._batchingReceiverLite.isReceivingMessages) {
-      if (connectionError == null) {
-        connectionError = new Error(
-          "Unknown error occurred on the AMQP connection while receiving messages."
-        );
-      }
-
       // .close() calls terminate() with the error
       await this.close(connectionError); // TODO: Based on how the streaming receivers will be handled, this `.close` call can be called conditionally or moved around accordingly
     } else {
