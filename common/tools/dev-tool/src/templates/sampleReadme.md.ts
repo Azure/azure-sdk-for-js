@@ -7,6 +7,7 @@ import YAML from "yaml";
 import prettier from "prettier";
 
 import { AzSdkMetaTags } from "../commands/samples/publish";
+import { MIN_SUPPORTED_NODE_VERSION } from "../util/sampleConfiguration";
 
 /**
  * Options to control the generation of the sample package README.
@@ -180,7 +181,7 @@ ${table(info)}
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >= 12.0.0.
+The sample programs are compatible with Node.js >=${MIN_SUPPORTED_NODE_VERSION}.
 
 ${(() => {
   if (info.useTypeScript) {

@@ -18,7 +18,11 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { copy, dir, file, temp, FileTreeFactory } from "../../util/fileTree";
 import { createPrinter } from "../../util/printer";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
-import { getSampleConfiguration, SampleConfiguration } from "../../util/sampleConfiguration";
+import {
+  getSampleConfiguration,
+  MIN_SUPPORTED_NODE_VERSION,
+  SampleConfiguration
+} from "../../util/sampleConfiguration";
 
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { convert } from "./tsToJs";
@@ -120,7 +124,7 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     version: "0.1.0",
     description: `${info.productName} client library samples for ${fullOutputKind}`,
     engine: {
-      node: ">=8.0.0"
+      node: `>=${MIN_SUPPORTED_NODE_VERSION}`
     },
     ...(outputKind === OutputKind.TypeScript
       ? {
