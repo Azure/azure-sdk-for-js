@@ -39,8 +39,6 @@ export interface Repositories {
 
 /** Repository attributes */
 export interface RepositoryProperties {
-  /** Registry name */
-  registry?: string;
   /** Image name */
   name?: string;
   /** Image created time */
@@ -76,8 +74,6 @@ export interface DeleteRepositoryResult {
 
 /** List of tag details */
 export interface TagList {
-  /** Registry name */
-  registry?: string;
   /** Image name */
   repository?: string;
   /** List of tag attribute details */
@@ -101,8 +97,6 @@ export interface TagAttributesBase {
 
 /** Tag attributes */
 export interface TagProperties {
-  /** Registry name */
-  registry?: string;
   /** Image name */
   repository?: string;
   /** Tag name */
@@ -119,8 +113,6 @@ export interface TagProperties {
 
 /** Manifest attributes */
 export interface AcrManifests {
-  /** Registry name */
-  registry?: string;
   /** Image name */
   repository?: string;
   /** List of manifests */
@@ -154,8 +146,6 @@ export interface ManifestAttributesBase {
 
 /** Manifest attributes details */
 export interface RegistryArtifactProperties {
-  /** Registry name */
-  registry: string;
   /** Image name */
   repository: string;
   /** Manifest */

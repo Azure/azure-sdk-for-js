@@ -39,6 +39,10 @@ export interface ListRepositoriesOptions extends OperationOptions {}
  * The client class used to interact with the Container Registry service.
  */
 export class ContainerRegistryClient {
+  /**
+   * The Azure Container Registry endpoint.
+   */
+  public endpoint: string;
   private client: GeneratedClient;
 
   /**
@@ -63,6 +67,7 @@ export class ContainerRegistryClient {
     credential: TokenCredential | ContainerRegistryUserCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
+    this.endpoint = endpointUrl;
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
     if (!options.userAgentOptions) {

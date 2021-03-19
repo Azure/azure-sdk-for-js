@@ -100,7 +100,17 @@ export interface ListTagsOptions extends OperationOptions {
  */
 export class ContainerRepositoryClient {
   private client: GeneratedClient;
+  /**
+   * The Azure Container Registry endpoint.
+   */
+  public endpoint: string;
+  /**
+   * Repository name.
+   */
   public repository: string;
+  /**
+   * Registry name.
+   */
   public registry: string;
 
   /**
@@ -128,6 +138,7 @@ export class ContainerRepositoryClient {
     credential: TokenCredential | ContainerRegistryUserCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
+    this.endpoint = endpointUrl;
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
     this.repository = repository;
@@ -463,8 +474,7 @@ export class ContainerRepositoryClient {
         yield currentPage.manifests.map((t) => {
           return {
             ...t,
-            registry: currentPage.registry,
-            repository: currentPage.repository
+            repository: currentPage.repository!
           };
         });
       }
@@ -486,8 +496,7 @@ export class ContainerRepositoryClient {
           yield currentPage.manifests.map((t) => {
             return {
               ...t,
-              registry: currentPage.registry,
-              repository: currentPage.repository
+              repository: currentPage.repository!
             };
           });
         }
@@ -554,7 +563,6 @@ export class ContainerRepositoryClient {
         yield currentPage.tags.map((t) => {
           return {
             ...t,
-            registry: currentPage.registry,
             repository: currentPage.repository
           };
         });
@@ -577,7 +585,6 @@ export class ContainerRepositoryClient {
           yield currentPage.tags.map((t) => {
             return {
               ...t,
-              registry: currentPage.registry,
               repository: currentPage.repository
             };
           });

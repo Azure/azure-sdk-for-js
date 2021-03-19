@@ -102,12 +102,6 @@ export const RepositoryProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "RepositoryProperties",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "imageName",
         type: {
@@ -221,12 +215,6 @@ export const TagList: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TagList",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
       repository: {
         serializedName: "imageName",
         type: {
@@ -302,12 +290,6 @@ export const TagProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TagProperties",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
       repository: {
         serializedName: "imageName",
         type: {
@@ -354,12 +336,6 @@ export const AcrManifests: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AcrManifests",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
       repository: {
         serializedName: "imageName",
         type: {
@@ -472,13 +448,6 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "RegistryArtifactProperties",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
       repository: {
         serializedName: "imageName",
         required: true,

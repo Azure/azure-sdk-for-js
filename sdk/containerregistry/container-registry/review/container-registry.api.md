@@ -14,6 +14,7 @@ import { TokenCredential } from '@azure/core-http';
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
     deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
+    endpoint: string;
     listRepositories(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
     }
 
@@ -35,14 +36,13 @@ export class ContainerRepositoryClient {
     delete(options?: DeleteOptions): Promise<DeleteRepositoryResult>;
     deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<RestResponse>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<RestResponse>;
+    endpoint: string;
     getProperties(options?: GetPropertiesOptions): Promise<RepositoryProperties>;
     getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<RegistryArtifactProperties>;
     getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<TagProperties>;
     listRegistryArtifacts(options?: ListRegistryArtifactsOptions): PagedAsyncIterableIterator<RegistryArtifactProperties>;
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
-    // (undocumented)
     registry: string;
-    // (undocumented)
     repository: string;
     setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<RestResponse>;
     setPermissions(value?: ContentProperties, options?: SetPermissionsOptions): Promise<RestResponse>;
@@ -116,20 +116,18 @@ export interface RegistryArtifactProperties {
     manifestMediaType?: string;
     manifestProperties?: ContentProperties;
     operatingSystem?: string;
-    registry?: string;
-    repository?: string;
+    repository: string;
     size?: number;
     tags?: string[];
 }
 
 // @public
 export interface RepositoryProperties {
-    createdOn?: Date;
+    createdOn: Date;
     lastUpdatedOn?: Date;
     name?: string;
-    registry?: string;
-    registryArtifactCount?: number;
-    tagCount?: number;
+    registryArtifactCount: number;
+    tagCount: number;
     writeableProperties?: ContentProperties;
 }
 
@@ -151,7 +149,6 @@ export interface TagProperties {
     digest?: string;
     lastUpdatedOn?: Date;
     name?: string;
-    registry?: string;
     repository?: string;
     writeableProperties?: ContentProperties;
 }
