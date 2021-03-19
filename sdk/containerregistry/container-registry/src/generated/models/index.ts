@@ -67,7 +67,7 @@ export interface ContentProperties {
 }
 
 /** Deleted repository */
-export interface DeletedRepositoryResult {
+export interface DeleteRepositoryResult {
   /** SHA of the deleted image */
   deletedRegistryArtifactDigests?: string[];
   /** Tag of the deleted image */
@@ -629,36 +629,17 @@ export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepos
     };
   };
 
-/** Contains response data for the getRepositoryAttributes operation. */
-export type ContainerRegistryGetRepositoryAttributesResponse = RepositoryProperties & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RepositoryProperties;
-  };
-};
-
 /** Contains response data for the deleteRepository operation. */
-export type ContainerRegistryDeleteRepositoryResponse = DeletedRepositoryResult & {
+export type ContainerRegistryDeleteRepositoryResponse = DeleteRepositoryResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: DeletedRepositoryResult;
+    parsedBody: DeleteRepositoryResult;
   };
 };
-
-/** Optional parameters. */
-export interface ContainerRegistryUpdateRepositoryAttributesOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Repository attribute value */
-  value?: ContentProperties;
-}
 
 /** Optional parameters. */
 export interface ContainerRegistryGetRepositoriesNextOptionalParams
@@ -720,6 +701,25 @@ export type ContainerRegistryRepositoryCreateManifestResponse = ContainerRegistr
   };
 };
 
+/** Contains response data for the getProperties operation. */
+export type ContainerRegistryRepositoryGetPropertiesResponse = RepositoryProperties & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: RepositoryProperties;
+  };
+};
+
+/** Optional parameters. */
+export interface ContainerRegistryRepositorySetPropertiesOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Repository attribute value */
+  value?: ContentProperties;
+}
+
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryGetTagsOptionalParams
   extends coreHttp.OperationOptions {
@@ -748,8 +748,8 @@ export type ContainerRegistryRepositoryGetTagsResponse = ContainerRegistryReposi
     };
   };
 
-/** Contains response data for the getTagAttributes operation. */
-export type ContainerRegistryRepositoryGetTagAttributesResponse = TagProperties & {
+/** Contains response data for the getTagProperties operation. */
+export type ContainerRegistryRepositoryGetTagPropertiesResponse = TagProperties & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -793,8 +793,8 @@ export type ContainerRegistryRepositoryGetManifestsResponse = ContainerRegistryR
     };
   };
 
-/** Contains response data for the getManifestAttributes operation. */
-export type ContainerRegistryRepositoryGetManifestAttributesResponse = RegistryArtifactProperties & {
+/** Contains response data for the getRegistryArtifactProperties operation. */
+export type ContainerRegistryRepositoryGetRegistryArtifactPropertiesResponse = RegistryArtifactProperties & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */

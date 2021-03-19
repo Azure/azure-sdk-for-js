@@ -19,7 +19,7 @@ import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
-import { ContainerRegistryClientOptions, DeletedRepositoryResult } from "./model";
+import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model";
 import {
   ContainerRegistryUserCredential,
   createContainerRegistryUserCredentialPolicy
@@ -102,7 +102,7 @@ export class ContainerRegistryClient {
   public async deleteRepository(
     name: string,
     options: DeleteRepositoryOptions = {}
-  ): Promise<DeletedRepositoryResult> {
+  ): Promise<DeleteRepositoryResult> {
     const { span, updatedOptions } = createSpan(
       "ContainerRegistryClient-deleteRepository",
       options

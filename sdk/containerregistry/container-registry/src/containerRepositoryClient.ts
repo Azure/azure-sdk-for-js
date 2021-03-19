@@ -23,7 +23,7 @@ import { createSpan } from "./tracing";
 import {
   ContainerRegistryClientOptions,
   ContentProperties,
-  DeletedRepositoryResult,
+  DeleteRepositoryResult,
   RegistryArtifactProperties,
   RepositoryProperties,
   TagProperties
@@ -166,7 +166,7 @@ export class ContainerRepositoryClient {
    *
    * @param options - optional configuration for the operation
    */
-  public async delete(options: DeleteOptions = {}): Promise<DeletedRepositoryResult> {
+  public async delete(options: DeleteOptions = {}): Promise<DeleteRepositoryResult> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-delete", options);
 
     try {
@@ -243,7 +243,7 @@ export class ContainerRepositoryClient {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-getProperties", options);
 
     try {
-      const result = await this.client.containerRegistry.getRepositoryAttributes(
+      const result = await this.client.containerRegistryRepository.getProperties(
         this.repository,
         updatedOptions
       );
@@ -271,7 +271,7 @@ export class ContainerRepositoryClient {
     );
 
     try {
-      const result = await this.client.containerRegistryRepository.getManifestAttributes(
+      const result = await this.client.containerRegistryRepository.getRegistryArtifactProperties(
         this.repository,
         tagOrDigest,
         updatedOptions
@@ -299,7 +299,7 @@ export class ContainerRepositoryClient {
       options
     );
     try {
-      const result = await this.client.containerRegistryRepository.getTagAttributes(
+      const result = await this.client.containerRegistryRepository.getTagProperties(
         this.repository,
         tag,
         updatedOptions
@@ -357,7 +357,7 @@ export class ContainerRepositoryClient {
     });
 
     try {
-      const result = await this.client.containerRegistry.updateRepositoryAttributes(
+      const result = await this.client.containerRegistryRepository.setProperties(
         this.repository,
         updatedOptions
       );

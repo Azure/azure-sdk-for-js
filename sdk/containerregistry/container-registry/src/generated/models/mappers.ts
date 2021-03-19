@@ -182,10 +182,10 @@ export const ContentProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeletedRepositoryResult: coreHttp.CompositeMapper = {
+export const DeleteRepositoryResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DeletedRepositoryResult",
+    className: "DeleteRepositoryResult",
     modelProperties: {
       deletedRegistryArtifactDigests: {
         serializedName: "manifestsDeleted",

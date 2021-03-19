@@ -15,13 +15,15 @@ import {
   ContainerRegistryRepositoryGetManifestResponse,
   Manifest,
   ContainerRegistryRepositoryCreateManifestResponse,
+  ContainerRegistryRepositoryGetPropertiesResponse,
+  ContainerRegistryRepositorySetPropertiesOptionalParams,
   ContainerRegistryRepositoryGetTagsOptionalParams,
   ContainerRegistryRepositoryGetTagsResponse,
-  ContainerRegistryRepositoryGetTagAttributesResponse,
+  ContainerRegistryRepositoryGetTagPropertiesResponse,
   ContainerRegistryRepositoryUpdateTagAttributesOptionalParams,
   ContainerRegistryRepositoryGetManifestsOptionalParams,
   ContainerRegistryRepositoryGetManifestsResponse,
-  ContainerRegistryRepositoryGetManifestAttributesResponse,
+  ContainerRegistryRepositoryGetRegistryArtifactPropertiesResponse,
   ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams,
   ContainerRegistryRepositoryGetTagsNextOptionalParams,
   ContainerRegistryRepositoryGetTagsNextResponse,
@@ -112,6 +114,44 @@ export class ContainerRegistryRepository {
   }
 
   /**
+   * Get repository attributes
+   * @param name Name of the image (including the namespace)
+   * @param options The options parameters.
+   */
+  getProperties(
+    name: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<ContainerRegistryRepositoryGetPropertiesResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      name,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getPropertiesOperationSpec
+    ) as Promise<ContainerRegistryRepositoryGetPropertiesResponse>;
+  }
+
+  /**
+   * Update the attribute identified by `name` where `reference` is the name of the repository.
+   * @param name Name of the image (including the namespace)
+   * @param options The options parameters.
+   */
+  setProperties(
+    name: string,
+    options?: ContainerRegistryRepositorySetPropertiesOptionalParams
+  ): Promise<coreHttp.RestResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      name,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      setPropertiesOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
    * List tags of a repository
    * @param name Name of the image (including the namespace)
    * @param options The options parameters.
@@ -136,11 +176,11 @@ export class ContainerRegistryRepository {
    * @param reference Tag name
    * @param options The options parameters.
    */
-  getTagAttributes(
+  getTagProperties(
     name: string,
     reference: string,
     options?: coreHttp.OperationOptions
-  ): Promise<ContainerRegistryRepositoryGetTagAttributesResponse> {
+  ): Promise<ContainerRegistryRepositoryGetTagPropertiesResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       reference,
@@ -148,8 +188,8 @@ export class ContainerRegistryRepository {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getTagAttributesOperationSpec
-    ) as Promise<ContainerRegistryRepositoryGetTagAttributesResponse>;
+      getTagPropertiesOperationSpec
+    ) as Promise<ContainerRegistryRepositoryGetTagPropertiesResponse>;
   }
 
   /**
@@ -221,11 +261,11 @@ export class ContainerRegistryRepository {
    * @param digest Digest of a BLOB
    * @param options The options parameters.
    */
-  getManifestAttributes(
+  getRegistryArtifactProperties(
     name: string,
     digest: string,
     options?: coreHttp.OperationOptions
-  ): Promise<ContainerRegistryRepositoryGetManifestAttributesResponse> {
+  ): Promise<ContainerRegistryRepositoryGetRegistryArtifactPropertiesResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       name,
       digest,
@@ -233,8 +273,10 @@ export class ContainerRegistryRepository {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getManifestAttributesOperationSpec
-    ) as Promise<ContainerRegistryRepositoryGetManifestAttributesResponse>;
+      getRegistryArtifactPropertiesOperationSpec
+    ) as Promise<
+      ContainerRegistryRepositoryGetRegistryArtifactPropertiesResponse
+    >;
   }
 
   /**
@@ -335,7 +377,7 @@ const createManifestOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.payload,
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -350,6 +392,36 @@ const deleteManifestOperationSpec: coreHttp.OperationSpec = {
   },
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const getPropertiesOperationSpec: coreHttp.OperationSpec = {
+  path: "/acr/v1/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RepositoryProperties
+    },
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  urlParameters: [Parameters.url, Parameters.name],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const setPropertiesOperationSpec: coreHttp.OperationSpec = {
+  path: "/acr/v1/{name}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  requestBody: Parameters.value,
+  urlParameters: [Parameters.url, Parameters.name],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
   serializer
 };
 const getTagsOperationSpec: coreHttp.OperationSpec = {
@@ -374,7 +446,7 @@ const getTagsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getTagAttributesOperationSpec: coreHttp.OperationSpec = {
+const getTagPropertiesOperationSpec: coreHttp.OperationSpec = {
   path: "/acr/v1/{name}/_tags/{reference}",
   httpMethod: "GET",
   responses: {
@@ -400,7 +472,7 @@ const updateTagAttributesOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.value,
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
@@ -434,7 +506,7 @@ const getManifestsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getManifestAttributesOperationSpec: coreHttp.OperationSpec = {
+const getRegistryArtifactPropertiesOperationSpec: coreHttp.OperationSpec = {
   path: "/acr/v1/{name}/_manifests/{digest}",
   httpMethod: "GET",
   responses: {
@@ -460,7 +532,7 @@ const updateManifestAttributesOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.value,
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
   serializer
 };

@@ -13,7 +13,7 @@ import { TokenCredential } from '@azure/core-http';
 // @public
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
-    deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeletedRepositoryResult>;
+    deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     listRepositories(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
     }
 
@@ -32,7 +32,7 @@ export class ContainerRegistryUserCredential {
 // @public
 export class ContainerRepositoryClient {
     constructor(endpointUrl: string, repository: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
-    delete(options?: DeleteOptions): Promise<DeletedRepositoryResult>;
+    delete(options?: DeleteOptions): Promise<DeleteRepositoryResult>;
     deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<RestResponse>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<RestResponse>;
     getProperties(options?: GetPropertiesOptions): Promise<RepositoryProperties>;
@@ -58,12 +58,6 @@ export interface ContentProperties {
 }
 
 // @public
-export interface DeletedRepositoryResult {
-    deletedRegistryArtifactDigests?: string[];
-    deletedTags?: string[];
-}
-
-// @public
 export interface DeleteOptions extends OperationOptions {
 }
 
@@ -73,6 +67,12 @@ export interface DeleteRegistryArtifactOptions extends OperationOptions {
 
 // @public
 export interface DeleteRepositoryOptions extends OperationOptions {
+}
+
+// @public
+export interface DeleteRepositoryResult {
+    deletedRegistryArtifactDigests?: string[];
+    deletedTags?: string[];
 }
 
 // @public

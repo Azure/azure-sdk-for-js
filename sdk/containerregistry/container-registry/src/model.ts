@@ -4,7 +4,7 @@
 import { PipelineOptions } from "@azure/core-http";
 import {
   ContentProperties,
-  DeletedRepositoryResult,
+  DeleteRepositoryResult,
   RegistryArtifactProperties,
   RepositoryProperties,
   TagProperties
@@ -15,7 +15,7 @@ import {
  */
 export {
   ContentProperties,
-  DeletedRepositoryResult,
+  DeleteRepositoryResult,
   RegistryArtifactProperties,
   RepositoryProperties,
   TagProperties

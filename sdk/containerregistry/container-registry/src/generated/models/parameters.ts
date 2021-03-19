@@ -12,8 +12,8 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
-  ContentProperties as ContentPropertiesMapper,
   Manifest as ManifestMapper,
+  ContentProperties as ContentPropertiesMapper,
   Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema as Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper,
   PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema as PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 } from "../models/mappers";
@@ -73,23 +73,6 @@ export const name: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const value: OperationParameter = {
-  parameterPath: ["options", "value"],
-  mapper: ContentPropertiesMapper
-};
-
 export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
@@ -123,7 +106,7 @@ export const accept1: OperationParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
+export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/vnd.docker.distribution.manifest.v2+json",
@@ -138,6 +121,23 @@ export const contentType1: OperationParameter = {
 export const payload: OperationParameter = {
   parameterPath: "payload",
   mapper: ManifestMapper
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const value: OperationParameter = {
+  parameterPath: ["options", "value"],
+  mapper: ContentPropertiesMapper
 };
 
 export const orderby: OperationQueryParameter = {
