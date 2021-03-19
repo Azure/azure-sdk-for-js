@@ -153,9 +153,11 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
 
 const defaultTypeScriptConfig = {
   compilerOptions: {
+    target: "ES6",
     module: "commonjs",
     moduleResolution: "node",
 
+    esModuleInterop: true,
     allowSyntheticDefaultImports: true,
 
     strict: true,
