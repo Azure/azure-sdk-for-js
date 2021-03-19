@@ -164,39 +164,34 @@ export class ContainerRegistryClient {
   ): AsyncIterableIterator<string[]> {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
-        n: continuationState.maxPageSize,
-        ...options
+        ...options,
+        n: continuationState.maxPageSize
       };
       let currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
-      // TODO: (jeremymeng) nextLink not working as expected
-      // continuationState.continuationToken = currentPage.link;
       if (currentPage.repositories) {
-        continuationState.continuationToken =
-          currentPage.repositories[currentPage.repositories.length - 1];
         yield currentPage.repositories;
+      }
+      if (currentPage.link) {
+        continuationState.continuationToken = currentPage.link.substr(
+          1,
+          currentPage.link.indexOf(">") - 1
+        );
       } else {
         continuationState.continuationToken = undefined;
       }
       while (continuationState.continuationToken) {
-        // TODO: (jeremymeng) nextLink not working as expected
-        // currentPage = await this.client.containerRegistry.getRepositoriesNext(
-        //   continuationState.continuationToken,
-        //   {
-        //     n: continuationState.maxPageSize,
-        //     ...options
-        //   }
-        // );
-        currentPage = await this.client.containerRegistry.getRepositories({
-          last: continuationState.continuationToken,
-          n: continuationState.maxPageSize,
-          ...options
-        });
-        // TODO: (jeremymeng) nextLink not working as expected
-        // continuationState.continuationToken = currentPage.link;
+        currentPage = await this.client.containerRegistry.getRepositoriesNext(
+          continuationState.continuationToken,
+          options
+        );
         if (currentPage.repositories) {
-          continuationState.continuationToken =
-            currentPage.repositories[currentPage.repositories.length - 1];
           yield currentPage.repositories;
+        }
+        if (currentPage.link) {
+          continuationState.continuationToken = currentPage.link.substr(
+            1,
+            currentPage.link.indexOf(">") - 1
+          );
         } else {
           continuationState.continuationToken = undefined;
         }

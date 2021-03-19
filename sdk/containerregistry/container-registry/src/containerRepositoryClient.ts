@@ -444,16 +444,20 @@ export class ContainerRepositoryClient {
   ): AsyncIterableIterator<RegistryArtifactProperties[]> {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
-        n: continuationState.maxPageSize,
-        ...options
+        ...options,
+        n: continuationState.maxPageSize
       };
       let currentPage = await this.client.containerRegistryRepository.getManifests(
         this.repository,
         optionsComplete
       );
-      if (currentPage.manifests?.length) {
-        continuationState.continuationToken =
-          currentPage.manifests[currentPage.manifests.length - 1].digest;
+      if (currentPage.link) {
+        continuationState.continuationToken = currentPage.link.substr(
+          1,
+          currentPage.link.indexOf(">") - 1
+        );
+      } else {
+        continuationState.continuationToken = undefined;
       }
       if (currentPage.manifests) {
         yield currentPage.manifests.map((t) => {
@@ -465,14 +469,16 @@ export class ContainerRepositoryClient {
         });
       }
       while (continuationState.continuationToken) {
-        currentPage = await this.client.containerRegistryRepository.getManifests(this.repository, {
-          n: continuationState.maxPageSize,
-          last: continuationState.continuationToken,
-          ...optionsComplete
-        });
-        if (currentPage.manifests?.length) {
-          continuationState.continuationToken =
-            currentPage.manifests[currentPage.manifests.length - 1].digest;
+        currentPage = await this.client.containerRegistryRepository.getManifestsNext(
+          this.repository,
+          continuationState.continuationToken,
+          options
+        );
+        if (currentPage.link) {
+          continuationState.continuationToken = currentPage.link.substr(
+            1,
+            currentPage.link.indexOf(">") - 1
+          );
         } else {
           continuationState.continuationToken = undefined;
         }
@@ -529,15 +535,20 @@ export class ContainerRepositoryClient {
   ): AsyncIterableIterator<TagProperties[]> {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
-        n: continuationState.maxPageSize,
-        ...options
+        ...options,
+        n: continuationState.maxPageSize
       };
       let currentPage = await this.client.containerRegistryRepository.getTags(
         this.repository,
         optionsComplete
       );
-      if (currentPage.tags?.length) {
-        continuationState.continuationToken = currentPage.tags[currentPage.tags.length - 1].name;
+      if (currentPage.link) {
+        continuationState.continuationToken = currentPage.link.substr(
+          1,
+          currentPage.link.indexOf(">") - 1
+        );
+      } else {
+        continuationState.continuationToken = undefined;
       }
       if (currentPage.tags) {
         yield currentPage.tags.map((t) => {
@@ -549,13 +560,16 @@ export class ContainerRepositoryClient {
         });
       }
       while (continuationState.continuationToken) {
-        currentPage = await this.client.containerRegistryRepository.getTags(this.repository, {
-          n: continuationState.maxPageSize,
-          last: continuationState.continuationToken,
-          ...optionsComplete
-        });
-        if (currentPage.tags?.length) {
-          continuationState.continuationToken = currentPage.tags[currentPage.tags.length - 1].name;
+        currentPage = await this.client.containerRegistryRepository.getTagsNext(
+          this.repository,
+          continuationState.continuationToken,
+          options
+        );
+        if (currentPage.link) {
+          continuationState.continuationToken = currentPage.link.substr(
+            1,
+            currentPage.link.indexOf(">") - 1
+          );
         } else {
           continuationState.continuationToken = undefined;
         }
