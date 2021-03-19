@@ -163,7 +163,7 @@ export function browserConfig(test = false) {
       ...[shim({ path: `export function join() {}`, dotenv: `export function config() { }` })]
     );
 
-    baseConfig.output.file = "test-browser/index.js";
+    baseConfig.output.file = "dist-test/index.browser.js";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
