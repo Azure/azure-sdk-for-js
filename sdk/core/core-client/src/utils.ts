@@ -134,8 +134,8 @@ export function flattenResponse(
       (k) => modelProperties[k].serializedName === ""
     );
     if (typeName === "Sequence" || isPageableResponse) {
-      const emptyArray = ([] as unknown) as { [key: string]: unknown };
-      const arrayResponse: { [key: string]: unknown } = fullResponse.parsedBody ?? emptyArray;
+      const arrayResponse: { [key: string]: unknown } =
+        fullResponse.parsedBody ?? (([] as unknown) as { [key: string]: unknown });
 
       for (const key of Object.keys(modelProperties)) {
         if (modelProperties[key].serializedName) {
@@ -148,7 +148,7 @@ export function flattenResponse(
           arrayResponse[key] = parsedHeaders[key];
         }
       }
-      return !fullResponse.parsedBody && isNullable && arrayResponse === emptyArray
+      return isNullable && Object.getOwnPropertyNames(arrayResponse).length === 0
         ? null
         : arrayResponse;
     }
