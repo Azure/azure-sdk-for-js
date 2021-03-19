@@ -1134,7 +1134,7 @@ describe("Batching Receiver", () => {
     });
   });
 
-  describe.only(withSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
+  describe(withSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
     let serviceBusClient: ServiceBusClientForTests;
     let sender: ServiceBusSender;
     let receiver: ServiceBusSessionReceiver;
