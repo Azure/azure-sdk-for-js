@@ -1327,10 +1327,12 @@ describe("Batching Receiver", () => {
       // so that the receiver will have to drain.
       const testFailureMessage = "Test failure";
       try {
-        await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
+        await receiver.receiveMessages(10, { maxWaitTimeInMs: 5000 });
         throw new Error(testFailureMessage);
       } catch (err) {
-        err.message && err.message.should.not.equal(testFailureMessage);
+        err.message &&
+          err.code.should.equal("SessionLockLost") &&
+          err.message.should.not.equal(testFailureMessage);
       }
 
       didRequestDrain.should.equal(true, "Drain was not requested.");
@@ -1435,12 +1437,12 @@ describe("Batching Receiver", () => {
       // so that the receiver will have to drain.
       const testFailureMessage = "Test failure";
       try {
-        await receiver.receiveMessages(10, {
-          maxWaitTimeInMs: 1000
-        });
+        await receiver.receiveMessages(10, { maxWaitTimeInMs: 5000 });
         throw new Error(testFailureMessage);
       } catch (err) {
-        err.message && err.message.should.not.equal(testFailureMessage);
+        err.message &&
+          err.code.should.equal("SessionLockLost") &&
+          err.message.should.not.equal(testFailureMessage);
       }
     });
   });
