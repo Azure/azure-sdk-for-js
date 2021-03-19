@@ -113,7 +113,7 @@ export function flattenResponse(
   }
 
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
-  const isNullable = bodyMapper?.nullable ?? false;
+  const isNullable = Boolean(bodyMapper?.nullable);
 
   /** If the body is asked for, we look at the mapper to handle it */
   if (bodyMapper) {
