@@ -445,7 +445,7 @@ describe("SessionReceiver - disconnects", function(): void {
 
     let receiverSecondMessageResolver: Function;
     let errorIsThrownResolver: Function;
-    const errorIsThrown = new Promise((resolve) => {
+    const errorIsThrown = new Promise<ProcessErrorArgs>((resolve) => {
       errorIsThrownResolver = resolve;
     });
     const receiverSecondMessage = new Promise((resolve) => {
@@ -468,19 +468,19 @@ describe("SessionReceiver - disconnects", function(): void {
           (receiver as any)["_context"].connection["_connection"].idle();
         },
         async processError(err) {
-          should.equal(
-            (err.error as ServiceBusError).code,
-            "SessionLockLost",
-            "error code is not SessionLockLost"
-          );
-          errorIsThrownResolver();
+          errorIsThrownResolver(err);
         }
       },
       { autoCompleteMessages: false }
     );
 
-    await errorIsThrown;
+    const err = await errorIsThrown;
 
+    should.equal(
+      (err.error as ServiceBusError).code,
+      "SessionLockLost",
+      "error code is not SessionLockLost"
+    );
     assert.isTrue(isCloseCalledSpy.called, "Close should have been called on the message session");
 
     // send a second message to trigger the message handler again.
