@@ -128,7 +128,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     const requestOptions = { ...options, ...params };
 
     return withTrace(
-      `${RemoteCryptographyProvider.name}.encrypt`,
+      "RemoteCryptographyProvider.encrypt",
       requestOptions,
       async (updatedOptions) => {
         const result = await this.client.encrypt(
@@ -152,7 +152,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     );
   }
 
-  async decrypt(
+  decrypt(
     decryptParameters: DecryptParameters,
     options: DecryptOptions = {}
   ): Promise<DecryptResult> {
@@ -160,7 +160,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     const requestOptions = { ...options, ...params };
 
     return withTrace(
-      `${RemoteCryptographyProvider.name}.decrypt`,
+      "RemoteCryptographyProvider.decrypt",
       requestOptions,
       async (updatedOptions) => {
         const result = await this.client.decrypt(
@@ -180,66 +180,54 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     );
   }
 
-  async wrapKey(
+  wrapKey(
     algorithm: KeyWrapAlgorithm,
     keyToWrap: Uint8Array,
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
-    return withTrace(
-      `${RemoteCryptographyProvider.name}.wrapKey`,
-      options,
-      async (updatedOptions) => {
-        const result = await this.client.wrapKey(
-          this.vaultUrl,
-          this.name,
-          this.version,
-          algorithm,
-          keyToWrap,
-          updatedOptions
-        );
+    return withTrace("RemoteCryptographyProvider.wrapKey", options, async (updatedOptions) => {
+      const result = await this.client.wrapKey(
+        this.vaultUrl,
+        this.name,
+        this.version,
+        algorithm,
+        keyToWrap,
+        updatedOptions
+      );
 
-        return {
-          result: result.result!,
-          algorithm,
-          keyID: this.getKeyID()
-        };
-      }
-    );
+      return {
+        result: result.result!,
+        algorithm,
+        keyID: this.getKeyID()
+      };
+    });
   }
 
-  async unwrapKey(
+  unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    return withTrace(
-      `${RemoteCryptographyProvider.name}.unwrapKey`,
-      options,
-      async (updatedOptions) => {
-        const result = await this.client.unwrapKey(
-          this.vaultUrl,
-          this.name,
-          this.version,
-          algorithm,
-          encryptedKey,
-          updatedOptions
-        );
+    return withTrace("RemoteCryptographyProvider.unwrapKey", options, async (updatedOptions) => {
+      const result = await this.client.unwrapKey(
+        this.vaultUrl,
+        this.name,
+        this.version,
+        algorithm,
+        encryptedKey,
+        updatedOptions
+      );
 
-        return {
-          result: result.result!,
-          algorithm,
-          keyID: this.getKeyID()
-        };
-      }
-    );
+      return {
+        result: result.result!,
+        algorithm,
+        keyID: this.getKeyID()
+      };
+    });
   }
 
-  async sign(
-    algorithm: string,
-    digest: Uint8Array,
-    options: SignOptions = {}
-  ): Promise<SignResult> {
-    return withTrace(`${RemoteCryptographyProvider.name}.sign`, options, async (updatedOptions) => {
+  sign(algorithm: string, digest: Uint8Array, options: SignOptions = {}): Promise<SignResult> {
+    return withTrace("RemoteCryptographyProvider.sign", options, async (updatedOptions) => {
       const result = await this.client.sign(
         this.vaultUrl,
         this.name,
@@ -253,70 +241,54 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     });
   }
 
-  async verifyData(
+  verifyData(
     algorithm: string,
     data: Uint8Array,
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    return withTrace(
-      `${RemoteCryptographyProvider.name}.verifyData`,
-      options,
-      async (updatedOptions) => {
-        const hash = await createHash(algorithm, data);
-        return this.verify(algorithm, hash, signature, updatedOptions);
-      }
-    );
+    return withTrace("RemoteCryptographyProvider.verifyData", options, async (updatedOptions) => {
+      const hash = await createHash(algorithm, data);
+      return this.verify(algorithm, hash, signature, updatedOptions);
+    });
   }
 
-  async verify(
+  verify(
     algorithm: string,
     digest: Uint8Array,
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    return withTrace(
-      `${RemoteCryptographyProvider.name}.verify`,
-      options,
-      async (updatedOptions) => {
-        const response = await this.client.verify(
-          this.vaultUrl,
-          this.name,
-          this.version,
-          algorithm,
-          digest,
-          signature,
-          updatedOptions
-        );
-        return {
-          result: response.value ? response.value : false,
-          keyID: this.getKeyID()
-        };
-      }
-    );
+    return withTrace("RemoteCryptographyProvider.verify", options, async (updatedOptions) => {
+      const response = await this.client.verify(
+        this.vaultUrl,
+        this.name,
+        this.version,
+        algorithm,
+        digest,
+        signature,
+        updatedOptions
+      );
+      return {
+        result: response.value ? response.value : false,
+        keyID: this.getKeyID()
+      };
+    });
   }
 
-  async signData(
-    algorithm: string,
-    data: Uint8Array,
-    options: SignOptions = {}
-  ): Promise<SignResult> {
-    return withTrace(
-      `${RemoteCryptographyProvider.name}.signData`,
-      options,
-      async (updatedOptions) => {
-        const digest = await createHash(algorithm, data);
-        const result = await this.client.sign(
-          this.vaultUrl,
-          this.name,
-          this.version,
-          algorithm,
-          digest,
-          updatedOptions
-        );
-        return { result: result.result!, algorithm, keyID: this.getKeyID() };
-      }
-    );
+  signData(algorithm: string, data: Uint8Array, options: SignOptions = {}): Promise<SignResult> {
+    return withTrace("RemoteCryptographyProvider.signData", options, async (updatedOptions) => {
+      const digest = await createHash(algorithm, data);
+      const result = await this.client.sign(
+        this.vaultUrl,
+        this.name,
+        this.version,
+        algorithm,
+        digest,
+        updatedOptions
+      );
+      return { result: result.result!, algorithm, keyID: this.getKeyID() };
+    });
   }
 
   /**
@@ -336,26 +308,22 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
    * from KeyVault if necessary.
    * @param options - Additional options.
    */
-  async getKey(options: GetKeyOptions = {}): Promise<KeyVaultKey> {
-    return withTrace(
-      `${RemoteCryptographyProvider.name}.getKey`,
-      options,
-      async (updatedOptions) => {
-        if (typeof this.key === "string") {
-          if (!this.name || this.name === "") {
-            throw new Error("getKey requires a key with a name");
-          }
-          const response = await this.client.getKey(
-            this.vaultUrl,
-            this.name,
-            options && options.version ? options.version : this.version ? this.version : "",
-            updatedOptions
-          );
-          this.key = getKeyFromKeyBundle(response);
+  getKey(options: GetKeyOptions = {}): Promise<KeyVaultKey> {
+    return withTrace("RemoteCryptographyProvider.getKey", options, async (updatedOptions) => {
+      if (typeof this.key === "string") {
+        if (!this.name || this.name === "") {
+          throw new Error("getKey requires a key with a name");
         }
-        return this.key;
+        const response = await this.client.getKey(
+          this.vaultUrl,
+          this.name,
+          options && options.version ? options.version : this.version ? this.version : "",
+          updatedOptions
+        );
+        this.key = getKeyFromKeyBundle(response);
       }
-    );
+      return this.key;
+    });
   }
 
   /**

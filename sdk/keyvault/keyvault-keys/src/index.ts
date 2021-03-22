@@ -273,7 +273,7 @@ export class KeyClient {
    * @param keyType - The type of the key. One of the following: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'.
    * @param options - The optional parameters.
    */
-  public async createKey(
+  public createKey(
     name: string,
     keyType: KeyType,
     options?: CreateKeyOptions
@@ -371,7 +371,7 @@ export class KeyClient {
    * @param key - The JSON web key.
    * @param options - The optional parameters.
    */
-  public async importKey(
+  public importKey(
     name: string,
     key: JsonWebKey,
     options?: ImportKeyOptions
@@ -467,7 +467,7 @@ export class KeyClient {
    * @param keyVersion - The version of the key.
    * @param options - The optional parameters.
    */
-  public async updateKeyProperties(
+  public updateKeyProperties(
     name: string,
     keyVersion: string,
     options: UpdateKeyPropertiesOptions = {}

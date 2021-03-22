@@ -31,7 +31,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
    * Sends a delete request for the given Key Vault Key's name to the Key Vault service.
    * Since the Key Vault Key won't be immediately deleted, we have {@link beginDeleteKey}.
    */
-  private async deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
+  private deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
     return withTrace("generatedClient.deleteKey", options, async (updatedOptions) => {
       const response = await this.client.deleteKey(this.vaultUrl, name, updatedOptions);
       return getKeyFromKeyBundle(response);
@@ -42,10 +42,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
    * The getDeletedKey method returns the specified deleted key along with its properties.
    * This operation requires the keys/get permission.
    */
-  private async getDeletedKey(
-    name: string,
-    options: GetDeletedKeyOptions = {}
-  ): Promise<DeletedKey> {
+  private getDeletedKey(name: string, options: GetDeletedKeyOptions = {}): Promise<DeletedKey> {
     return withTrace("generatedClient.getDeletedKey", options, async (updatedOptions) => {
       const response = await this.client.getDeletedKey(this.vaultUrl, name, updatedOptions);
       return getKeyFromKeyBundle(response);

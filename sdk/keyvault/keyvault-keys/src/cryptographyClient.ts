@@ -180,7 +180,7 @@ export class CryptographyClient {
    * @param options - Additional options.
    * @deprecated Use `encrypt({ algorithm, plaintext }, options)` instead.
    */
-  public async encrypt(
+  public encrypt(
     algorithm: EncryptionAlgorithm,
     plaintext: Uint8Array,
     options?: EncryptOptions
@@ -192,7 +192,7 @@ export class CryptographyClient {
   ): Promise<EncryptResult> {
     const [parameters, options] = this.disambiguateEncryptArguments(args);
 
-    return withTrace(`${CryptographyClient.name}.encrypt`, options, async (updatedOptions) => {
+    return withTrace(`CryptographyClient.encrypt`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Encrypt);
       this.initializeIV(parameters);
       const provider = await this.getProvider("encrypt", parameters.algorithm);
@@ -277,7 +277,7 @@ export class CryptographyClient {
    * @param options - Additional options.
    * @deprecated Use `decrypt({ algorithm, ciphertext }, options)` instead.
    */
-  public async decrypt(
+  public decrypt(
     algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
     options?: DecryptOptions
@@ -289,7 +289,7 @@ export class CryptographyClient {
   ): Promise<DecryptResult> {
     const [parameters, options] = this.disambiguateDecryptArguments(args);
 
-    return withTrace(`${CryptographyClient.name}.decrypt`, options, async (updatedOptions) => {
+    return withTrace(`CryptographyClient.decrypt`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Decrypt);
       const provider = await this.getProvider("decrypt", parameters.algorithm);
       const result = await provider.decrypt(parameters, updatedOptions);
@@ -331,12 +331,12 @@ export class CryptographyClient {
    * @param key - The key to wrap.
    * @param options - Additional options.
    */
-  public async wrapKey(
+  public wrapKey(
     algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
-    return withTrace(`${CryptographyClient.name}.wrapKey`, options, async (updatedOptions) => {
+    return withTrace(`CryptographyClient.wrapKey`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.WrapKey);
       const provider = await this.getProvider("wrapKey", algorithm);
       return await provider.wrapKey(algorithm, key, updatedOptions);
@@ -355,12 +355,12 @@ export class CryptographyClient {
    * @param encryptedKey - The encrypted key to unwrap.
    * @param options - Additional options.
    */
-  public async unwrapKey(
+  public unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    return withTrace(`${CryptographyClient.name}.unwrapKey`, options, async (updatedOptions) => {
+    return withTrace(`CryptographyClient.unwrapKey`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.UnwrapKey);
       const provider = await this.getProvider("unwrapKey", algorithm);
       return await provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
@@ -379,12 +379,12 @@ export class CryptographyClient {
    * @param digest - The digest of the data to sign.
    * @param options - Additional options.
    */
-  public async sign(
+  public sign(
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    return withTrace(`${CryptographyClient.name}.sign`, options, async (updatedOptions) => {
+    return withTrace(`CryptographyClient.sign`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
       const provider = await this.getProvider("sign", algorithm);
       return await provider.sign(algorithm, digest, updatedOptions);
@@ -404,13 +404,13 @@ export class CryptographyClient {
    * @param signature - The signature to verify the digest against.
    * @param options - Additional options.
    */
-  public async verify(
+  public verify(
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    return withTrace(`${CryptographyClient.name}.verify`, options, async (updatedOptions) => {
+    return withTrace(`CryptographyClient.verify`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verify", algorithm);
       return await provider.verify(algorithm, digest, signature, updatedOptions);
@@ -429,12 +429,12 @@ export class CryptographyClient {
    * @param data - The data to sign.
    * @param options - Additional options.
    */
-  public async signData(
+  public signData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    return withTrace(`${CryptographyClient.name}.signData`, options, async (updatedOptions) => {
+    return withTrace(`CryptographyClient.signData`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
       const provider = await this.getProvider("signData", algorithm);
       const digest = await createHash(algorithm, data);
@@ -455,13 +455,13 @@ export class CryptographyClient {
    * @param signature - The signature to verify the block against.
    * @param options - Additional options.
    */
-  public async verifyData(
+  public verifyData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    return withTrace(`${CryptographyClient.name}.verifyData`, options, async (updatedOptions) => {
+    return withTrace(`CryptographyClient.verifyData`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verifyData", algorithm);
       return await provider.verifyData(algorithm, data, signature, updatedOptions);
