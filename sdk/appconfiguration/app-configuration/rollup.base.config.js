@@ -76,7 +76,7 @@ export function nodeConfig(test = false) {
     );
 
     // different output file
-    baseConfig.output.file = "test-dist/index.node.js";
+    baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert packages we use as external
     baseConfig.external.push("assert");
