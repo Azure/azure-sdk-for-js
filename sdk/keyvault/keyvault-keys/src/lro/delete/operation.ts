@@ -3,13 +3,9 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { RequestOptionsBase } from "@azure/core-http";
+import { withTrace } from "../../../../keyvault-common/src/tracingHelpers";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import {
-  KeyVaultClientDeleteKeyResponse,
-  KeyVaultClientGetDeletedKeyResponse
-} from "../../generated/models";
 import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
-import { createSpan } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
 
@@ -36,16 +32,10 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
    * Since the Key Vault Key won't be immediately deleted, we have {@link beginDeleteKey}.
    */
   private async deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
-    const { span, updatedOptions } = createSpan("generatedClient.deleteKey", options);
-
-    let response: KeyVaultClientDeleteKeyResponse;
-    try {
-      response = await this.client.deleteKey(this.vaultUrl, name, updatedOptions);
-    } finally {
-      span.end();
-    }
-
-    return getKeyFromKeyBundle(response);
+    return withTrace("generatedClient.deleteKey", options, async (updatedOptions) => {
+      const response = await this.client.deleteKey(this.vaultUrl, name, updatedOptions);
+      return getKeyFromKeyBundle(response);
+    });
   }
 
   /**
@@ -56,16 +46,10 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     name: string,
     options: GetDeletedKeyOptions = {}
   ): Promise<DeletedKey> {
-    const { span, updatedOptions } = createSpan("generatedClient.getDeletedKey", options);
-
-    let response: KeyVaultClientGetDeletedKeyResponse;
-    try {
-      response = await this.client.getDeletedKey(this.vaultUrl, name, updatedOptions);
-    } finally {
-      span.end();
-    }
-
-    return getKeyFromKeyBundle(response);
+    return withTrace("generatedClient.getDeletedKey", options, async (updatedOptions) => {
+      const response = await this.client.getDeletedKey(this.vaultUrl, name, updatedOptions);
+      return getKeyFromKeyBundle(response);
+    });
   }
 
   /**
