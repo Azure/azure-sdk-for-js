@@ -47,7 +47,7 @@ function sampleLinkTag(filePath: string): string {
 /**
  * Renders the sample file links.
  */
-function links(info: SampleReadmeConfiguration) {
+function fileLinks(info: SampleReadmeConfiguration) {
   const packageSamplesPathFragment = [
     info.projectRepoPath,
     info.publicationDirectory,
@@ -64,6 +64,34 @@ function links(info: SampleReadmeConfiguration) {
       )}]: https://github.com/Azure/azure-sdk-for-js/blob/master/${packageSamplesPathFragment}/${sourcePath}`;
     })
     .join("\n");
+}
+
+function resourceNameToLinkSlug(name: string) {
+  return `createinstance_${name.toLowerCase().replace(/\s+/g, "")}`;
+}
+
+/**
+ * Renders the resource creation links.
+ */
+function resourceLinks(info: SampleReadmeConfiguration) {
+  const resources = Object.entries(info.requiredResources ?? {});
+
+  return resources.map(([name, link]) => `[${resourceNameToLinkSlug(name)}]: ${link}`).join("\n");
+}
+
+/**
+ * Renders the text describing and linking to the required Azure resources.
+ */
+function resources(info: SampleReadmeConfiguration) {
+  const resources = Object.entries(info.requiredResources ?? {});
+
+  const header = `You need [an Azure subscription][freesub] ${
+    resources.length > 0 ? "and the following Azure resources " : ""
+  }to run these sample programs${resources.length > 0 ? ":\n\n" : "."}`;
+
+  return (
+    header + resources.map(([name]) => `- [${name}][${resourceNameToLinkSlug(name)}]`).join("\n")
+  );
 }
 
 /**
@@ -150,7 +178,9 @@ ${(() => {
     return "";
   }
 })()}\
-You need [an Azure subscription][freesub] to run these sample programs. Samples retrieve credentials to access the endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+${resources(info)}
+
+Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
 Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
 
@@ -195,9 +225,10 @@ ${fence("bash", `npx cross-env ${exampleNodeInvocation(info)}`)}
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-${links(info)}
+${fileLinks(info)}
 [apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
 [freesub]: https://azure.microsoft.com/free/
+${resourceLinks(info)}
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/${info.projectRepoPath}/README.md
 ${info.useTypeScript ? "[typescript]: https://www.typescriptlang.org/docs/home.html\n" : ""}\
 `,

@@ -47,6 +47,15 @@ export interface SampleConfiguration {
    * versions listed in the package's own dependencies or devDependencies.
    */
   dependencyOverrides?: Record<string, string>;
+  /**
+   * Specify Azure resources that must exist in order to run the samples. This
+   * object is a map from resource name (should be a noun, e.g. "Azure
+   * Cognitive Services instance") to URL providing documentation about how to
+   * instantiate that resource. You do not need to specify an "Azure
+   * Subscription" as a required resource, as this resource is _always_
+   * included.
+   */
+  requiredResources?: Record<string, string>;
 }
 
 export const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
