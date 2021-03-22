@@ -1281,7 +1281,6 @@ describe("Batching Receiver", () => {
         // wait for the 2nd message to be received.
         await receiver.close();
         console.log("3. receiver.close() done");
-        await delay(2000);
         receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
           entityNames
         )) as ServiceBusSessionReceiver;
