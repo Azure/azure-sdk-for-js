@@ -229,7 +229,7 @@ describe("Browser utils", () => {
         ]
       }
     ].forEach((test) => {
-      it.only(test.name, () => {
+      it(test.name, () => {
         expect(maskAccessTokenInBrowserRecording(test.input as any)).to.deep.equal(
           test.output,
           `Unexpected result - access_token is not masked`
