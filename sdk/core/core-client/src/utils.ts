@@ -148,7 +148,10 @@ export function flattenResponse(
           arrayResponse[key] = parsedHeaders[key];
         }
       }
-      return isNullable && Object.getOwnPropertyNames(arrayResponse).length === 0
+      return isNullable &&
+        !fullResponse.parsedBody &&
+        !parsedHeaders &&
+        Object.getOwnPropertyNames(modelProperties).length === 0
         ? null
         : arrayResponse;
     }
