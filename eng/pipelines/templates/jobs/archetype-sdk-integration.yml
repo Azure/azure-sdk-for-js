@@ -146,8 +146,9 @@ jobs:
       - ${{ parameters.PostSteps }}
 
       - script: |
-          node common/scripts/npm-run-project.js "${{parameters.PackageName}}" execute:samples
+          node ../../../common/scripts/install-run-rushx.js execute:samples
         displayName: "Execute Samples"
+        workingDirectory: ${PackagePath}
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
