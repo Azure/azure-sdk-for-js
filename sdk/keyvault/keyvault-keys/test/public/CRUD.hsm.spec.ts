@@ -16,7 +16,7 @@ describe("Keys client - create, read, update and delete operations for managed H
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(/** @this */ async function() {
     const authentication = await authenticate(this);
     recorder = authentication.recorder;
 
@@ -35,7 +35,7 @@ describe("Keys client - create, read, update and delete operations for managed H
     await recorder.stop();
   });
 
-  it("can create an OCT key with options", async function() {
+  it("can create an OCT key with options", /** @this */ async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const options: CreateOctKeyOptions = {
       hsm: true

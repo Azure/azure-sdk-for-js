@@ -4,7 +4,7 @@ import assert from "assert";
 import { UserDefinition } from "../../../src";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", /** @this*/ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

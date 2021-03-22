@@ -20,8 +20,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
+      beforeEach(/** @this*/ function() {
         ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
       });
 

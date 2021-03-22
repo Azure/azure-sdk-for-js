@@ -77,9 +77,8 @@ describe("IdentityClient", function() {
     );
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function() {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", /** @this*/ async function() {
     if (!isNode) {
-      // eslint-disable-next-line no-invalid-this
       return this.skip();
     }
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";

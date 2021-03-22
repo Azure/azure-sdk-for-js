@@ -21,7 +21,7 @@ describe("Secret client - list secrets in various ways", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(/** @this */ async function() {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -38,7 +38,7 @@ describe("Secret client - list secrets in various ways", () => {
   // Use this while recording to make sure the target keyvault is clean.
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
-  it("can purge all secrets", async function(): Promise<void> {
+  it("can purge all secrets", /** @this */ async function(): Promise<void> {
     // WARNING: When TEST_MODE equals "record", all of the secrets in the indicated KEYVAULT_URI will be deleted as part of this test.
     if (!isRecordMode()) {
       return this.skip();
@@ -59,7 +59,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can list secret properties", async function() {
+  it("can list secret properties", /** @this */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -83,7 +83,7 @@ describe("Secret client - list secrets in various ways", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can get secret properties with requestOptions timeout", async function() {
+  it("can get secret properties with requestOptions timeout", /** @this */ async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const iter = client.listPropertiesOfSecrets({
       requestOptions: { timeout: 1 }
@@ -93,7 +93,7 @@ describe("Secret client - list secrets in various ways", () => {
     });
   });
 
-  it("can list deleted secrets", async function() {
+  it("can list deleted secrets", /** @this */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -132,7 +132,7 @@ describe("Secret client - list secrets in various ways", () => {
     });
   });
 
-  it("can retrieve all versions of a secret", async function() {
+  it("can retrieve all versions of a secret", /** @this */ async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
@@ -175,7 +175,7 @@ describe("Secret client - list secrets in various ways", () => {
     });
   });
 
-  it("can list secret versions (non existing)", async function() {
+  it("can list secret versions (non existing)", /** @this */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -191,7 +191,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
   });
 
-  it("can list secrets by page", async function() {
+  it("can list secrets by page", /** @this */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -213,7 +213,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can list deleted secrets by page", async function() {
+  it("can list deleted secrets by page", /** @this */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -240,7 +240,7 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can retrieve all versions of a secret by page", async function() {
+  it("can retrieve all versions of a secret by page", /** @this */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -273,7 +273,7 @@ describe("Secret client - list secrets in various ways", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can list secret versions by page (non existing)", async function() {
+  it("can list secret versions by page (non existing)", /** @this */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );

@@ -14,8 +14,7 @@ import { verifyAttestationToken } from "../utils/helpers";
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(/** @this*/ function() {
     recorder = createRecorder(this);
   });
 

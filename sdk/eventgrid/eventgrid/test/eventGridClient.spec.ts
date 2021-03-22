@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
 
 import { assert } from "chai";
 
@@ -19,7 +18,7 @@ import {
 import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 
-describe("EventGridPublisherClient", function() {
+describe("EventGridPublisherClient", /** @this*/ function() {
   let recorder: Recorder;
   let res: FullOperationResponse | undefined;
 
@@ -32,7 +31,7 @@ describe("EventGridPublisherClient", function() {
   describe("#send (EventGrid schema)", function() {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(function() {
+    beforeEach(/** @this*/ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT,
@@ -99,7 +98,7 @@ describe("EventGridPublisherClient", function() {
   describe("#send error cases (EventGrid schema)", function() {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(function() {
+    beforeEach(/** @this*/ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
@@ -142,7 +141,7 @@ describe("EventGridPublisherClient", function() {
   describe("#send (CloudEvent schema)", function() {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(function() {
+    beforeEach(/** @this*/ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT,
@@ -251,7 +250,7 @@ describe("EventGridPublisherClient", function() {
   describe("#send error cases (CloudEvent schema)", function() {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(function() {
+    beforeEach(/** @this*/ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         removeApiEventsSuffix(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT),
@@ -292,7 +291,7 @@ describe("EventGridPublisherClient", function() {
   describe("#send (Custom Event Schema)", function() {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(function() {
+    beforeEach(/** @this*/ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT,
@@ -353,7 +352,7 @@ describe("EventGridPublisherClient", function() {
   describe("#send error cases (Custom Event Schema)", function() {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(function() {
+    beforeEach(/** @this*/ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),

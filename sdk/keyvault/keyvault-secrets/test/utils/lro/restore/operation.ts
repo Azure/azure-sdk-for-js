@@ -54,6 +54,7 @@ export interface RestoreSecretBackupPollOperation
 /**
  * Reaches to the service and updates the restore secret's poll operation.
  * @param options - The optional parameters, which are an abortSignal from \@azure/abort-controller and a function that triggers the poller's onProgress function.
+ * @this
  */
 async function update(
   this: RestoreSecretBackupPollOperation,
@@ -92,6 +93,7 @@ async function cancel(this: RestoreSecretBackupPollOperation): Promise<never> {
 
 /**
  * Serializes the create secret's poll operation
+ * @this
  */
 function toString(this: RestoreSecretBackupPollOperation): string {
   return JSON.stringify({

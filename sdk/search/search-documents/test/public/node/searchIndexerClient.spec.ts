@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-invalid-this */
 import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import {
@@ -28,14 +27,14 @@ import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test2";
 
-describe("SearchIndexerClient", function() {
+describe("SearchIndexerClient", /** @this */ function() {
   let recorder: Recorder;
   let indexerClient: SearchIndexerClient;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(async function() {
+  beforeEach(/** @this */ async function() {
     ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createDataSourceConnections(indexerClient);

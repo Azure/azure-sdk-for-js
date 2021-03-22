@@ -26,9 +26,8 @@ describe("batch operations", () => {
   // which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(async function() {
+  beforeEach(/** @this*/ async function() {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    // eslint-disable-next-line no-invalid-this
     recorder = record(this, recordedEnvironmentSetup);
     client = createTableClient(tableName, authMode);
 

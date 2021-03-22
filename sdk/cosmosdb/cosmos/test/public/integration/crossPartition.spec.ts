@@ -26,7 +26,7 @@ function compare(key: string) {
   };
 }
 
-describe("Cross Partition", function() {
+describe("Cross Partition", /** @this*/ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   describe("Validate Query", function() {

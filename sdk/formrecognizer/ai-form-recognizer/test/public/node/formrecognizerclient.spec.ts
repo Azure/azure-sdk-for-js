@@ -28,8 +28,7 @@ matrix([[true, false]] as const, async (useAad) => {
     let client: FormRecognizerClient;
     let recorder: Recorder;
 
-    beforeEach(function() {
-      // eslint-disable-next-line no-invalid-this
+    beforeEach(/** @this*/ function() {
       recorder = createRecorder(this);
       client = new FormRecognizerClient(endpoint(), makeCredential(useAad));
     });

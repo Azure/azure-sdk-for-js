@@ -13,8 +13,7 @@ import { Buffer } from "../utils/Buffer";
 describe("TokenCertTests", function() {
   let recorder: Recorder;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(/** @this*/ function() {
     recorder = createRecorder(this);
   });
 

@@ -10,10 +10,9 @@ import { ConnectionString } from "../../src/utils/internalModels";
 describe("Utility Helpers", () => {
   describe("extractConnectionStringParts", () => {
     describe("Account Connection String", () => {
-      beforeEach(function() {
+      beforeEach(/** @this*/ function() {
         if (!isNode) {
           // Account connection string is not supported for Browsers
-          // eslint-disable-next-line no-invalid-this
           this.skip();
         }
       });

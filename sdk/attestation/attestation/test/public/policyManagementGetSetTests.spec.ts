@@ -13,8 +13,7 @@ import { verifyAttestationToken } from "../utils/helpers";
 describe("PolicyManagementTests ", function() {
   let recorder: Recorder;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(/** @this*/ function() {
     recorder = createRecorder(this);
   });
 

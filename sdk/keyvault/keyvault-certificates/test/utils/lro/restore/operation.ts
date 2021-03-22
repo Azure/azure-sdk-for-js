@@ -54,6 +54,7 @@ export interface RestoreCertificateBackupPollOperation
 /**
  * Reaches to the service and updates the restore certificate's poll operation.
  * @param options - The optional parameters, which are an abortSignal from \@azure/abort-controller and a function that triggers the poller's onProgress function.
+ * @this
  */
 async function update(
   this: RestoreCertificateBackupPollOperation,
@@ -92,6 +93,7 @@ async function cancel(this: RestoreCertificateBackupPollOperation): Promise<neve
 
 /**
  * Serializes the create certificate's poll operation
+ * @this
  */
 function toString(this: RestoreCertificateBackupPollOperation): string {
   return JSON.stringify({

@@ -52,7 +52,7 @@ if (!isBrowser()) {
       });
     });
 
-    it("nativeApi Client Should execute request in error while the proxy setting is not correct", async function() {
+    it("nativeApi Client Should execute request in error while the proxy setting is not correct", /** @this*/ async function() {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
       return new Promise((resolve, reject) => {
         proxy.listen(proxyPort + 1, "127.0.0.1", async () => {

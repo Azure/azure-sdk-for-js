@@ -62,8 +62,7 @@ describe("SchemaRegistryClient", function() {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(/** @this*/ function() {
     ({ client, recorder } = createRecordedClient(this));
   });
 

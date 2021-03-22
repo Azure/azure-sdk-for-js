@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-invalid-this */
-
 import { assert } from "chai";
 
 import { Recorder, record, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
@@ -20,14 +18,14 @@ import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test1";
 
-describe("SearchClient", function() {
+describe("SearchClient", /** @this*/ function() {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(async function() {
+  beforeEach(/** @this*/ async function() {
     ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createIndex(indexClient, TEST_INDEX_NAME);

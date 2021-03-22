@@ -18,7 +18,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(/** @this */ async function() {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -32,7 +32,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
 
   // The tests follow
 
-  it("can wait until a secret is recovered", async function() {
+  it("can wait until a secret is recovered", /** @this */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -57,7 +57,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", /** @this */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -96,7 +96,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can attempt to recover a deleted secret with requestOptions timeout", async function() {
+  it("can attempt to recover a deleted secret with requestOptions timeout", /** @this */ async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`

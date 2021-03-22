@@ -21,7 +21,7 @@ describe("Certificates client - LRO - certificate operation", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(/** @this */ async function() {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -35,7 +35,7 @@ describe("Certificates client - LRO - certificate operation", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function() {
+  it("can wait until a certificate is created by getting the poller from getCertificateOperation", /** @this */ async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -64,7 +64,7 @@ describe("Certificates client - LRO - certificate operation", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", /** @this */ async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );

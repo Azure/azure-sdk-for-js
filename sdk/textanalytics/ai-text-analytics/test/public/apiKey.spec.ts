@@ -19,15 +19,13 @@ const testDataEn = [
   "I didn't like the last book I read at all."
 ];
 
-describe("[API Key] TextAnalyticsClient", function() {
+describe("[API Key] TextAnalyticsClient", /** @this*/ function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
-  // eslint-disable-next-line no-invalid-this
   const CLITimeout = this.timeout();
   const fastTimeout = 10000;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(/** @this*/ function() {
     recorder = createRecorder(this);
     client = createClient("APIKey");
   });
@@ -37,8 +35,7 @@ describe("[API Key] TextAnalyticsClient", function() {
   });
 
   describe("fast tests", function() {
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
+    before(/** @this */ function() {
       this.timeout(fastTimeout);
     });
 
@@ -88,8 +85,7 @@ describe("[API Key] TextAnalyticsClient", function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
+    before(/** @this*/ function() {
       this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
     });
 

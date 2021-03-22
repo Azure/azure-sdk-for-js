@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-invalid-this */
-
 import { assert } from "chai";
 import { Context } from "mocha";
 
@@ -29,7 +27,7 @@ matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] FormTrainingClient`, () => {
     let recorder: Recorder;
 
-    beforeEach(function(this: Context) {
+    beforeEach(/** @this*/ function(this: Context) {
       recorder = createRecorder(this);
     });
 

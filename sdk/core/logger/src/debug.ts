@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-invalid-this */
-
 import { log } from "./log";
 
 /**
@@ -157,6 +155,7 @@ function createDebugger(namespace: string): Debugger {
   return newDebugger;
 }
 
+/** @this*/
 function destroy(this: Debugger): boolean {
   const index = debuggers.indexOf(this);
   if (index >= 0) {
@@ -166,6 +165,7 @@ function destroy(this: Debugger): boolean {
   return false;
 }
 
+/** @this*/
 function extend(this: Debugger, namespace: string): Debugger {
   const newDebugger = createDebugger(`${this.namespace}:${namespace}`);
   newDebugger.log = this.log;

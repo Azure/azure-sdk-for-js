@@ -17,7 +17,7 @@ describe("Keys client - Long Running Operations - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(/** @this */ async function() {
     const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -31,7 +31,7 @@ describe("Keys client - Long Running Operations - delete", () => {
 
   // The tests follow
 
-  it("can wait until a key is deleted", async function() {
+  it("can wait until a key is deleted", /** @this */ async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
@@ -50,7 +50,7 @@ describe("Keys client - Long Running Operations - delete", () => {
     await testClient.purgeKey(keyName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", /** @this */ async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);

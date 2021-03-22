@@ -11,7 +11,7 @@ async function sleep(time: number): Promise<unknown> {
   });
 }
 
-describe("Container TTL", function() {
+describe("Container TTL", /** @this*/ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 600000);
   beforeEach(async function() {
     await removeAllDatabases();

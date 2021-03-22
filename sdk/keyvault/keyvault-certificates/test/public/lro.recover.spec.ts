@@ -18,7 +18,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(/** @this */ async function() {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -32,7 +32,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is recovered", async function() {
+  it("can wait until a certificate is recovered", /** @this */ async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -65,7 +65,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", /** @this */ async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -112,7 +112,7 @@ describe("Certificates client - LRO - recoverDelete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can recover a deleted certificate with requestOptions timeout", async function() {
+  it("can recover a deleted certificate with requestOptions timeout", /** @this */ async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`

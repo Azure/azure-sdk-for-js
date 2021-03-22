@@ -77,8 +77,7 @@ describe("[AccountKey] MixedRealityStsClient functional tests", function() {
   let client: MixedRealityStsClient;
   let recorder: Recorder;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(/** @this*/ function() {
     recorder = createRecorder(this);
     client = createClient();
   });

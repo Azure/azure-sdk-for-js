@@ -18,6 +18,7 @@ import {
 import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "./util/matrix";
+import { Context } from "mocha";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -36,8 +37,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let mySqlFeedName: string;
       let postgreSqlFeedName: string;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
+      beforeEach(/** @this*/ function() {
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
         if (recorder && !feedName) {
           feedName = recorder.getUniqueName("js-test-datafeed-");
@@ -233,7 +233,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("retrieves an Azure Blob datafeed", async function() {
+        it("retrieves an Azure Blob datafeed", /** @this*/ async function() {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
@@ -245,7 +245,6 @@ matrix([[true, false]] as const, async (useAad) => {
           };
 
           if (!createdAzureBlobDataFeedId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
 
@@ -273,9 +272,8 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("updates an Azure Blob datafeed", async function() {
+        it("updates an Azure Blob datafeed", /** @this*/ async function() {
           if (!createdAzureBlobDataFeedId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
           const expectedSourceParameter = {
@@ -338,7 +336,7 @@ matrix([[true, false]] as const, async (useAad) => {
               applicationId: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID,
               apiKey: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY,
               query:
-                "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+                "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
             }
           };
           const actual = await client.createDataFeed({
@@ -365,7 +363,7 @@ matrix([[true, false]] as const, async (useAad) => {
             );
             assert.equal(
               actual.source.dataSourceParameter.query,
-              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
             );
           }
         });
@@ -808,15 +806,14 @@ matrix([[true, false]] as const, async (useAad) => {
   });
 });
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+/** @this*/
 export async function verifyDataFeedDeletion(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  this: any,
+  this: Context,
   client: MetricsAdvisorAdministrationClient,
   createdDataFeedId: string
 ): Promise<void> {
   if (!createdDataFeedId) {
-    // eslint-disable-next-line no-invalid-this
     this.skip();
   }
 
