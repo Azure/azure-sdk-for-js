@@ -87,7 +87,6 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/msal-common": "~4.0.1",
     "@azure/msal-node": "^1.0.0",
-    "@azure/msal-node-extensions": "~1.0.0-alpha.6",
     "@azure/msal-browser": "2.9.0",
     "@opentelemetry/api": "^0.10.2",
     "@types/stoppable": "^1.1.0",
