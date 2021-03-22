@@ -11,14 +11,14 @@ import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../s
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { isNode8 } from "../../../src/tokenCache/node8";
+import { isNode15, isNode8 } from "../../../src/tokenCache/nodeVersion";
 
-describe("ClientSecretCredential (internal)", function() {
+describe("ClientSecretCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function() {
+  beforeEach(function () {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -30,13 +30,13 @@ describe("ClientSecretCredential (internal)", function() {
       "acquireTokenByClientCredential"
     );
   });
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Authenticates silently after the initial request", async function() {
+  it("Authenticates silently after the initial request", async function () {
     const credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -56,9 +56,9 @@ describe("ClientSecretCredential (internal)", function() {
     assert.equal(doGetTokenSpy.callCount, 2);
   });
 
-  it("Accepts tokenCachePersistenceOptions", async function() {
+  it("Accepts tokenCachePersistenceOptions", async function () {
     // msal-node-extensions does not currently support Node 8.
-    if (isNode8) {
+    if (isNode8 || isNode15) {
       this.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
@@ -89,9 +89,9 @@ describe("ClientSecretCredential (internal)", function() {
     assert.ok(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async function() {
+  it("Authenticates silently with tokenCachePersistenceOptions", async function () {
     // msal-node-extensions does not currently support Node 8.
-    if (isNode8) {
+    if (isNode8 || isNode15) {
       this.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation

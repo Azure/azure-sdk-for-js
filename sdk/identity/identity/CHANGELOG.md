@@ -4,7 +4,7 @@
 
 This release continues with the changes from `1.2.4` and `1.2.4-beta.1`.
 
-- The `getToken` methods will now never return `null`. If a token is not available, we will throw.
+- The `getToken` methods will now never return `null`. If a token is not available, we will return a rejected promise.
 - `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
 - Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
 - Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
@@ -14,7 +14,8 @@ This release continues with the changes from `1.2.4` and `1.2.4-beta.1`.
 - Migrated the `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` to the latest MSAL.
   - This update improves caching of tokens, significantly reducing the number of network requests.
 - Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential` and `UsernamePasswordCredential` now can:
-  - Receive a `tokenCachePersistenceOptions` parameter to specify persitence caching of the credentials used to authenticate. This feature will not have support for Node 8 as part of this beta. This feature uses DPAPI on Windows, it tries to use the Keychain on OSX and the Keyring on Linux, and if the user sets `allowUnencryptedStorage` to true in the `tokenCachePersistenceOptions`, it allows to fall back to an unprotected file if neither the Keychain nor the Keyring are available.
+  - Receive a `tokenCachePersistenceOptions` parameter to specify persitence caching of the credentials used to authenticate. This feature uses DPAPI on Windows, it tries to use the Keychain on OSX and the Keyring on Linux, and if the user sets `allowUnencryptedStorage` to true in the `tokenCachePersistenceOptions`, it allows to fall back to an unprotected file if neither the Keychain nor the Keyring are available.
+    - As part of this beta, this feature is only supported in Node 10, 12 and 14.
   - Receive an `authenticationRecord` from a previous authentication on their constructors, which skips the initial request altogether.
   - Receive a `disableAutomaticAuthentication` setting on the constructor, which stops `getToken` from requesting the user to authenticate manually.
   - An `authenticate()` method has been added besides the `getToken()` method.

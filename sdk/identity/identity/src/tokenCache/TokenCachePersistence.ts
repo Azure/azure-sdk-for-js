@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode8, Node8NotSupportedError } from "./node8";
+import { isNode15, isNode8, Node15NotSupportedError, Node8NotSupportedError } from "./nodeVersion";
 import { msalPersistencePlatforms, TokenCachePersistenceOptions } from "./persistencePlatforms";
 import { MsalPersistence, CachePlugin, TokenCacheRegisterOptions } from "./types";
 
@@ -31,8 +31,8 @@ export class TokenCachePersistence {
       retryDelay: 50
     };
 
-    if (isNode8) {
-      throw Node8NotSupportedError;
+    if (isNode8 || isNode15) {
+      throw isNode8 ? Node8NotSupportedError : Node15NotSupportedError;
     } else {
       /* eslint-disable-next-line @typescript-eslint/no-require-imports */
       const { PersistenceCachePlugin } = require("@azure/msal-node-extensions");

@@ -15,7 +15,12 @@ import {
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { isNode8, Node8NotSupportedError } from "../../../src/tokenCache/node8";
+import {
+  isNode15,
+  isNode8,
+  Node15NotSupportedError,
+  Node8NotSupportedError
+} from "../../../src/tokenCache/nodeVersion";
 
 describe("UsernamePasswordCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -85,9 +90,32 @@ describe("UsernamePasswordCredential (internal)", function() {
     assert.equal(error?.message, Node8NotSupportedError.message);
   });
 
+  it("Persistence throws on Node 15, as expected", async function() {
+    if (!isNode15) {
+      this.skip();
+    }
+
+    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+      allowUnencryptedStorage: true
+    };
+
+    // Emptying the token cache before we start.
+    const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
+
+    let error: Error | undefined;
+    try {
+      await tokenCache.getPersistence();
+    } catch (e) {
+      error = e;
+    }
+
+    assert.equal(error?.message, Node15NotSupportedError.message);
+  });
+
   it("Accepts tokenCachePersistenceOptions", async function() {
     // msal-node-extensions does not currently support Node 8.
-    if (isNode8) {
+    if (isNode8 || isNode15) {
       this.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
@@ -124,7 +152,7 @@ describe("UsernamePasswordCredential (internal)", function() {
 
   it("Authenticates silently with tokenCachePersistenceOptions", async function() {
     // msal-node-extensions does not currently support Node 8.
-    if (isNode8) {
+    if (isNode8 || isNode15) {
       this.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
@@ -170,7 +198,7 @@ describe("UsernamePasswordCredential (internal)", function() {
 
   it("allows passing an authenticationRecord to avoid further manual authentications", async function() {
     // msal-node-extensions does not currently support Node 8.
-    if (isNode8) {
+    if (isNode8 || isNode15) {
       this.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
@@ -230,7 +258,7 @@ describe("UsernamePasswordCredential (internal)", function() {
 
   it("allows working with an authenticationRecord that is serialized", async function() {
     // msal-node-extensions does not currently support Node 8.
-    if (isNode8) {
+    if (isNode8 || isNode15) {
       this.skip();
     }
     // OSX asks for passwords on CI, so we need to skip these tests from our automation

@@ -22,6 +22,8 @@ import { DefaultAuthorityHost } from "../constants";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
 
+const noCorrelationId = "noCorrelationId";
+
 /**
  * An internal type used to communicate details of a token request's
  * response that should not be sent back as part of the access token.
@@ -208,7 +210,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
   generateAbortSignal(correlationId?: string): AbortSignalLike {
     const controller = new AbortController();
-    const key = correlationId || "noCorrelationId";
+    const key = correlationId || noCorrelationId;
 
     const controllers = this.abortControllers.get(key) || [];
     controllers.push(controller);
@@ -217,12 +219,12 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     return controller.signal;
   }
 
-  abortRequests(correlationId?: string): void {
-    const key = correlationId || "noCorrelationId";
+  abortRequests(correlationId: string = noCorrelationId): void {
+    const key = correlationId || noCorrelationId;
     const controllers = [
       ...(this.abortControllers.get(key) || []),
       // MSAL passes no correlation ID to the get requests...
-      ...(this.abortControllers.get("noCorrelationId") || [])
+      ...(this.abortControllers.get(noCorrelationId) || [])
     ];
     if (!controllers.length) {
       return;
@@ -231,6 +233,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       controller.abort();
     }
     this.abortControllers.set(key, undefined);
+    this.abortControllers.set(noCorrelationId, undefined);
   }
 
   getCorrelationId(options?: NetworkRequestOptions): string | undefined {
@@ -238,7 +241,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       ?.split("&")
       .map((part) => part.split("="))
       .find(([key]) => key === "client-request-id");
-    return parameter && parameter.length ? parameter[1] : undefined;
+    return parameter && parameter.length ? parameter[1] : noCorrelationId;
   }
 
   // The MSAL network module methods follow

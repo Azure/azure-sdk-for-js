@@ -69,7 +69,7 @@ export class UsernamePasswordCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
-      const arrayScopes = typeof scopes === "object" ? scopes : [scopes];
+      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, {
         ...newOptions,
         disableAutomaticAuthentication: this.disableAutomaticAuthentication
@@ -94,7 +94,7 @@ export class UsernamePasswordCredential implements TokenCredential {
     options: GetTokenOptions = {}
   ): Promise<AuthenticationRecord | undefined> {
     return trace(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
-      const arrayScopes = typeof scopes === "object" ? scopes : [scopes];
+      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       await this.msalFlow.getToken(arrayScopes, newOptions);
       return this.msalFlow.getActiveAccount();
     });

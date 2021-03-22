@@ -169,11 +169,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       this.account = msalToPublic(accountsByTenant[0]);
     } else {
       this.logger
-        .info(`More than one account was found authenticated for this Client ID and Tenant ID.",
-However, no "authenticationRecord" has been provided for this credential,",
-therefore we're unable to pick between these accounts.",
-A new login attempt will be requested, to ensure the correct account is picked.",
-To work with multiple accounts for the same Client ID and Tenant ID, please provide an "authenticationRecord" when initializing "InteractiveBrowserCredential".`);
+        .info(`More than one account was found authenticated for this Client ID and Tenant ID.
+However, no "authenticationRecord" has been provided for this credential,
+therefore we're unable to pick between these accounts.
+A new login attempt will be requested, to ensure the correct account is picked.
+To work with multiple accounts for the same Client ID and Tenant ID, please provide an "authenticationRecord" when initializing a credential to prevent this from happening.`);
       return;
     }
 
