@@ -1650,9 +1650,8 @@
     "ManifestAttributesBase": {
       "required": [
         "digest",
-        "architecture",
-        "os",
-        "tags"
+        "tags",
+        "changeableAttributes"
       ],
       "type": "object",
       "description": "Manifest details",
@@ -1700,6 +1699,15 @@
           "x-accessibility": "internal",
           "type": "string",
           "description": "Config blob media type"
+        },
+        "references": {
+          "x-ms-client-name": "registryArtifacts",
+          "type": "array",
+          "description": "List of manifest attributes details",
+          "items": {
+            "$ref": "#/definitions/ManifestAttributes_manifest_references",
+            "description": "Manifest attributes details"
+          }
         },
         "tags": {
           "type": "array",
@@ -2030,6 +2038,11 @@
       }
     },
     "ManifestAttributes_manifest_references": {
+      "required": [
+        "digest",
+        "architecture",
+        "os"
+      ],
       "description": "Manifest attributes details",
       "properties": {
         "digest": {
@@ -2038,11 +2051,13 @@
         },
         "architecture": {
           "type": "string",
-          "description": "CPU architecture"
+          "description": "CPU architecture",
+          "x-ms-client-name": "cpuArchitecture"
         },
         "os": {
           "type": "string",
-          "description": "Operating system"
+          "description": "Operating system",
+          "x-ms-client-name": "operatingSystem"
         }
       },
       "example": {

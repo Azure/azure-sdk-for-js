@@ -131,17 +131,29 @@ export interface ManifestAttributesBase {
   /** Last update time */
   lastUpdatedOn?: Date;
   /** CPU architecture */
-  cpuArchitecture: string;
+  cpuArchitecture?: string;
   /** Operating system */
-  operatingSystem: string;
+  operatingSystem?: string;
   /** Media type */
   manifestMediaType?: string;
   /** Config blob media type */
   configMediaType?: string;
+  /** List of manifest attributes details */
+  registryArtifacts?: ManifestAttributesManifestReferences[];
   /** List of tags */
   tags: string[];
   /** Changeable attributes */
-  manifestProperties?: ContentProperties;
+  manifestProperties: ContentProperties;
+}
+
+/** Manifest attributes details */
+export interface ManifestAttributesManifestReferences {
+  /** Manifest digest */
+  digest: string;
+  /** CPU architecture */
+  cpuArchitecture: string;
+  /** Operating system */
+  operatingSystem: string;
 }
 
 /** Manifest attributes details */
@@ -157,17 +169,19 @@ export interface RegistryArtifactProperties {
   /** Last update time */
   lastUpdatedOn?: Date;
   /** CPU architecture */
-  cpuArchitecture: string;
+  cpuArchitecture?: string;
   /** Operating system */
-  operatingSystem: string;
+  operatingSystem?: string;
   /** Media type */
   manifestMediaType?: string;
   /** Config blob media type */
   configMediaType?: string;
+  /** List of manifest attributes details */
+  registryArtifacts?: ManifestAttributesManifestReferences[];
   /** List of tags */
   tags: string[];
   /** Changeable attributes */
-  manifestProperties?: ContentProperties;
+  manifestProperties: ContentProperties;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
@@ -304,16 +318,6 @@ export interface Annotations {
 export interface TagAttributesTag {
   /** SignatureRecord value */
   signatureRecord?: string;
-}
-
-/** Manifest attributes details */
-export interface ManifestAttributesManifestReferences {
-  /** Manifest digest */
-  digest?: string;
-  /** CPU architecture */
-  architecture?: string;
-  /** Operating system */
-  os?: string;
 }
 
 /** List of manifest attributes */

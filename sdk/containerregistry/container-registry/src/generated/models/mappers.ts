@@ -400,14 +400,12 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
       },
       cpuArchitecture: {
         serializedName: "architecture",
-        required: true,
         type: {
           name: "String"
         }
       },
       operatingSystem: {
         serializedName: "os",
-        required: true,
         type: {
           name: "String"
         }
@@ -422,6 +420,18 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
         serializedName: "configMediaType",
         type: {
           name: "String"
+        }
+      },
+      registryArtifacts: {
+        serializedName: "references",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManifestAttributesManifestReferences"
+            }
+          }
         }
       },
       tags: {
@@ -441,6 +451,36 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ContentProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ManifestAttributesManifestReferences: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManifestAttributesManifestReferences",
+    modelProperties: {
+      digest: {
+        serializedName: "digest",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      cpuArchitecture: {
+        serializedName: "architecture",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operatingSystem: {
+        serializedName: "os",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -486,14 +526,12 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
       },
       cpuArchitecture: {
         serializedName: "manifest.architecture",
-        required: true,
         type: {
           name: "String"
         }
       },
       operatingSystem: {
         serializedName: "manifest.os",
-        required: true,
         type: {
           name: "String"
         }
@@ -508,6 +546,18 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
         serializedName: "manifest.configMediaType",
         type: {
           name: "String"
+        }
+      },
+      registryArtifacts: {
+        serializedName: "manifest.references",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManifestAttributesManifestReferences"
+            }
+          }
         }
       },
       tags: {
@@ -923,33 +973,6 @@ export const TagAttributesTag: coreHttp.CompositeMapper = {
     modelProperties: {
       signatureRecord: {
         serializedName: "signatureRecord",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManifestAttributesManifestReferences: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManifestAttributesManifestReferences",
-    modelProperties: {
-      digest: {
-        serializedName: "digest",
-        type: {
-          name: "String"
-        }
-      },
-      architecture: {
-        serializedName: "architecture",
-        type: {
-          name: "String"
-        }
-      },
-      os: {
-        serializedName: "os",
         type: {
           name: "String"
         }
