@@ -118,6 +118,6 @@
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {
-    "skipFolder": false
+    "skipFolder": true
   }
 }

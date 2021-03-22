@@ -82,7 +82,7 @@ export const imdsMsi: MSI = {
         await identityClient.sendRequest(webResource);
       } catch (err) {
         if (
-          (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) ||
+          (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
           err.name === "AbortError" ||
           err.code === "ECONNREFUSED" || // connection refused
           err.code === "EHOSTDOWN" // host is down
