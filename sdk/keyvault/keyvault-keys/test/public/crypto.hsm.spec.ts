@@ -4,7 +4,6 @@
 import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-// import { isNode } from "@azure/core-http";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";

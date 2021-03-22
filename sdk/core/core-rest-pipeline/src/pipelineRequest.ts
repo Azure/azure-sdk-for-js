@@ -95,6 +95,9 @@ export interface PipelineRequestOptions {
 
   /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /** Set to true if the request is sent over HTTP instead of HTTPS */
+  allowInsecureConnection?: boolean;
 }
 
 class PipelineRequestImpl implements PipelineRequest {
@@ -111,6 +114,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public abortSignal?: AbortSignalLike;
   public requestId: string;
   public tracingOptions?: OperationTracingOptions;
+  public allowInsecureConnection?: boolean;
   public onUploadProgress?: (progress: TransferProgressEvent) => void;
   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
 
@@ -130,6 +134,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.onUploadProgress = options.onUploadProgress;
     this.onDownloadProgress = options.onDownloadProgress;
     this.requestId = options.requestId || generateUuid();
+    this.allowInsecureConnection = options.allowInsecureConnection ?? false;
   }
 }
 

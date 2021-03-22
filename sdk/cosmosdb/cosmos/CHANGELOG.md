@@ -1,7 +1,10 @@
 # Release History
 
-## 3.10.4 (Unreleased)
+## 3.10.5 (Unreleased)
 
+## 3.10.4 (2021-03-12)
+
+- FEATURE: Adds Bulk continueOnError option
 
 ## 3.10.3 (2021-03-12)
 

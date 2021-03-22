@@ -59,7 +59,8 @@
     "@opentelemetry/api": ["^0.17.0"],
     // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
     // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
-    "@types/node": ["^10.0.0"],
+    // eslint v7.15 needs node v10.12
+    "@types/node": ["^10.0.0", "^10.12.0"],
     // @azure/test-utils-perfstress should depend on lowest version of @azure/core-http for maximum compatibility, allowing test
     // projects to choose a higher version if desired.
     "@azure/core-http": ["^1.0.0"]

@@ -7,10 +7,10 @@ import {
   SerializedCommunicationIdentifier
 } from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
-import { AddChatParticipantsRequest } from "./requests";
+import { AddParticipantsRequest } from "./requests";
 import {
   ChatMessage,
-  ChatThread,
+  ChatThreadProperties,
   ChatParticipant,
   ChatMessageReadReceipt,
   ChatMessageContent,
@@ -36,7 +36,7 @@ export const mapToChatParticipantRestModel = (
  * Mapping add participants request to add chat participants request REST model
  */
 export const mapToAddChatParticipantsRequestRestModel = (
-  addParticipantsRequest: AddChatParticipantsRequest
+  addParticipantsRequest: AddParticipantsRequest
 ): RestModel.AddChatParticipantsRequest => {
   return {
     participants: addParticipantsRequest.participants?.map((participant) =>
@@ -113,7 +113,9 @@ export const mapToChatParticipantSdkModel = (
  * @internal
  * Mapping chat thread REST model to chat thread SDK model
  */
-export const mapToChatThreadSdkModel = (chatThread: RestModel.ChatThread): ChatThread => {
+export const mapToChatThreadPropertiesSdkModel = (
+  chatThread: RestModel.ChatThreadProperties
+): ChatThreadProperties => {
   const { createdByCommunicationIdentifier, ...rest } = chatThread;
   if (createdByCommunicationIdentifier)
     return {
@@ -138,7 +140,7 @@ export const mapToCreateChatThreadResultSdkModel = (
   if (chatThread)
     return {
       ...rest,
-      chatThread: mapToChatThreadSdkModel(chatThread)
+      chatThread: mapToChatThreadPropertiesSdkModel(chatThread)
     };
   else {
     return { ...rest };

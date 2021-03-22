@@ -15,19 +15,19 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
     "execute:js-samples": "dev-tool samples run dist-samples/javascript",
     "execute:ts-samples": "dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write \"recordings/**/*.{js,json}\" \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "generate-doc": "api-documenter markdown -i temp -o docGen",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/test/*.spec.js dist-esm/test/node/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts -f html -o communication-phone-numbers-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o communication-phone-numbers-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test": "rimraf dist-test && npm run build:test && npm run unit-test && npm run integration-test",
@@ -64,7 +64,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/communication-common": "1.0.0-beta.7",
+    "@azure/communication-common": "1.0.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
     "@azure/core-http": "^1.2.0",
@@ -122,12 +122,16 @@
     "rollup-plugin-shim": "^1.0.0",
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
-    "typescript": "4.1.2",
+    "typescript": "~4.2.0",
     "typedoc": "0.15.2"
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
-      "purchasePhoneNumber.js"
+      "getPurchasedPhoneNumber.js",
+      "getPurchasedPhoneNumbers.js",
+      "purchasePhoneNumber.js",
+      "releasePhoneNumber.js",
+      "updatePhoneNumberCapabilities.js"
     ]
   }
 }

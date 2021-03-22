@@ -135,6 +135,9 @@ export interface PipelineRequest {
 
   /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /** Set to true if the request is sent over HTTP instead of HTTPS */
+  allowInsecureConnection?: boolean;
 }
 
 /**

@@ -16,7 +16,6 @@ import {
   ChatCreateChatThreadResponse,
   ChatListChatThreadsOptionalParams,
   ChatListChatThreadsResponse,
-  ChatGetChatThreadResponse,
   ChatListChatThreadsNextOptionalParams,
   ChatListChatThreadsNextResponse
 } from "../models";
@@ -66,25 +65,6 @@ export class Chat {
       operationArguments,
       listChatThreadsOperationSpec
     ) as Promise<ChatListChatThreadsResponse>;
-  }
-
-  /**
-   * Gets a chat thread.
-   * @param chatThreadId Id of the thread.
-   * @param options The options parameters.
-   */
-  getChatThread(
-    chatThreadId: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<ChatGetChatThreadResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      chatThreadId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getChatThreadOperationSpec
-    ) as Promise<ChatGetChatThreadResponse>;
   }
 
   /**
@@ -155,7 +135,7 @@ const createChatThreadOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.createChatThreadRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.repeatabilityRequestId],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.idempotencyToken],
   mediaType: "json",
   serializer
 };
@@ -164,7 +144,7 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatThreadsInfoCollection
+      bodyMapper: Mappers.ChatThreadsItemCollection
     },
     401: {
       bodyMapper: Mappers.CommunicationErrorResponse,
@@ -185,35 +165,6 @@ const listChatThreadsOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getChatThreadOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ChatThread
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -249,7 +200,7 @@ const listChatThreadsNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChatThreadsInfoCollection
+      bodyMapper: Mappers.ChatThreadsItemCollection
     },
     401: {
       bodyMapper: Mappers.CommunicationErrorResponse,
