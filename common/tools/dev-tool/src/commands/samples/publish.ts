@@ -18,11 +18,16 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { copy, dir, file, temp, FileTreeFactory } from "../../util/fileTree";
 import { createPrinter } from "../../util/printer";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
+import { getSampleConfiguration, MIN_SUPPORTED_NODE_VERSION } from "../../util/sampleConfiguration";
 import {
-  getSampleConfiguration,
-  MIN_SUPPORTED_NODE_VERSION,
-  SampleConfiguration
-} from "../../util/sampleConfiguration";
+  AzSdkMetaTags,
+  AZSDK_META_TAG_PREFIX,
+  DEFAULT_TYPESCRIPT_CONFIG,
+  ModuleInfo,
+  OutputKind,
+  SampleGenerationInfo,
+  VALID_AZSDK_META_TAGS
+} from "../../util/sampleGenerationInfo";
 
 import instantiateSampleReadme from "../../templates/sampleReadme.md";
 import { convert } from "./tsToJs";
@@ -33,8 +38,6 @@ const log = createPrinter("publish");
 
 const DEV_SAMPLES_BASE = "samples-dev";
 const PUBLIC_SAMPLES_BASE = "samples";
-
-const AZSDK_META_TAG_PREFIX = "azsdk-";
 
 export const commandInfo = makeCommandInfo(
   "publish",
@@ -59,62 +62,6 @@ export const commandInfo = makeCommandInfo(
     }
   } as const
 );
-
-const enum OutputKind {
-  TypeScript = "ts",
-  JavaScript = "js"
-}
-
-interface SampleGenerationInfo extends SampleConfiguration {
-  /**
-   * The base part of the package name. For example, the base part of "@azure/template" is "template".
-   */
-  baseName: string;
-  /**
-   * The product name that should be used for prose rendering. For example, the product name for
-   * @azure/template is "Azure Template", and the product name for @azure/ai-text-analytics is
-   * "Azure Text Analytics".
-   */
-  productName: string;
-  /**
-   * Optional link to the API reference. If not provided, one will be generated.
-   */
-  apiRefLink?: string;
-  /**
-   * The path to the project in the azure-sdk-for-js repo. For example, the repo path for
-   * @azure/template is "sdk/template/template". This should _NOT_ include a leading slash.
-   */
-  projectRepoPath: string;
-  /**
-   * The keywords associated with the project. For example ["azure", "cloud", "textanalytics", "typescript"];
-   */
-  packageKeywords: string[];
-  /**
-   * The path to the sample source files
-   */
-  sampleSourcesPath: string;
-  /**
-   * The top-level directory used for generating samples.
-   */
-  topLevelDirectory: string;
-  /**
-   * Information about each of the sample sources, including their text in TypeScript and JavaScript,
-   * as well as their dependencies.
-   */
-  moduleInfos: ModuleInfo[];
-  /**
-   * A function for computing the dependencies to include in a sample package.
-   *
-   * @param outputKind - the kind of the samples, either "ts" for TypeScript or "js" for JavaScript
-   * @returns - an object with `dependencies` and `devDependencies` keys containing the samples' dependencies
-   */
-  computeSampleDependencies(
-    outputKind: OutputKind
-  ): {
-    dependencies: Record<string, string>;
-    devDependencies?: Record<string, string>;
-  };
-}
 
 function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): unknown {
   const fullOutputKind = outputKind === OutputKind.TypeScript ? "TypeScript" : "JavaScript";
@@ -150,94 +97,6 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
     ...info.computeSampleDependencies(outputKind)
   };
 }
-
-const defaultTypeScriptConfig = {
-  compilerOptions: {
-    target: "ES6",
-    module: "commonjs",
-    moduleResolution: "node",
-
-    esModuleInterop: true,
-    allowSyntheticDefaultImports: true,
-
-    strict: true,
-    alwaysStrict: true,
-
-    outDir: "dist",
-    rootDir: "src"
-  },
-  include: ["src/**.ts"]
-};
-
-interface ModuleInfo {
-  /**
-   * The absolute path to the source.
-   */
-  filePath: string;
-  /**
-   * The relative path to the source within the samples tree.
-   */
-  relativeSourcePath: string;
-  /**
-   * The contents of the source file.
-   */
-  text: string;
-  /**
-   * The transpiled JavaScript Module
-   */
-  jsModuleText: string;
-  /**
-   * The description provided by the first doc comment.
-   */
-  summary: string;
-  /**
-   * A list of module specifiers that are imported by this
-   * source file.
-   */
-  importedModules: string[];
-  /**
-   * A list of the environment variables that the source file uses.
-   *
-   * These are determined by analyzing the source code for syntactic forms
-   * like:
-   *
-   * `process.env.<Identifier>` and `process.env[<StringLiteral>]`
-   */
-  usedEnvironmentVariables: string[];
-  /**
-   * The contents of any `azsdk` JSDoc directives encountered in the module header.
-   *
-   * {@see AzSdkMetaTags}
-   */
-  azSdkTags: AzSdkMetaTags;
-}
-
-/**
- * Metainformation tags supported through `azsdk`-prefixed jsdoc tags.
- */
-export interface AzSdkMetaTags {
-  /**
-   * The weight of the sample when generating its entry in the table.
-   *
-   * Weighted entries are sorted in decreasing order, and unweighted entries
-   * are assigned a default value of zero.
-   *
-   * This field is used to control the ordering of samples, to force certain
-   * samples to appear first when they would ordinarily appear later in the
-   * table alphabetically.
-   */
-  weight?: number;
-  /**
-   * Causes the sample file to be ignored entirely (will skip publication).
-   */
-  ignore?: boolean;
-  /**
-   * Causes the sample file to skip JavaScript output.
-   */
-  "skip-javascript"?: boolean;
-}
-
-const validAzSdkTags: Array<keyof AzSdkMetaTags> = ["weight", "ignore", "skip-javascript"];
 
 async function processSources(
   projectInfo: ProjectInfo,
@@ -324,10 +183,12 @@ async function processSources(
                 new RegExp(`^${AZSDK_META_TAG_PREFIX}`),
                 ""
               ) as keyof AzSdkMetaTags;
-              if (validAzSdkTags.includes(metaTag)) {
+              if (VALID_AZSDK_META_TAGS.includes(metaTag)) {
                 azSdkTags[metaTag as keyof AzSdkMetaTags] = JSON.parse(tag.comment);
               } else {
-                log.warn(`Invalid azsdk tag ${metaTag}. Valid tags include ${validAzSdkTags}`);
+                log.warn(
+                  `Invalid azsdk tag ${metaTag}. Valid tags include ${VALID_AZSDK_META_TAGS}`
+                );
               }
             }
           }
@@ -368,7 +229,7 @@ async function processSources(
  * This is the function that assembles all the information that the templates
  * use to generate good output.
  */
-async function getSampleGenerationInfo(
+async function makeSampleGenerationInfo(
   projectInfo: ProjectInfo,
   topLevelDirectory: string,
   onError: () => void
@@ -516,7 +377,7 @@ async function makeSamplesFactory(
     hadError = true;
   };
 
-  const info = await getSampleGenerationInfo(projectInfo, topLevelDirectory, onError);
+  const info = await makeSampleGenerationInfo(projectInfo, topLevelDirectory, onError);
 
   if (hadError) {
     throw new Error("Instantiation of sample metadata information failed with errors.");
@@ -546,7 +407,7 @@ async function makeSamplesFactory(
         file("README.md", () => createReadme(OutputKind.TypeScript, info)),
         file("package.json", () => jsonify(createPackageJson(info, OutputKind.TypeScript))),
         // All of the tsconfigs we use for samples should be the same.
-        file("tsconfig.json", () => jsonify(defaultTypeScriptConfig)),
+        file("tsconfig.json", () => jsonify(DEFAULT_TYPESCRIPT_CONFIG)),
         copy("sample.env", path.join(projectInfo.path, "sample.env")),
         // We copy the samples sources in to the `src` folder on the typescript side
         dir(

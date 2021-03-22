@@ -6,53 +6,8 @@ import YAML from "yaml";
 
 import prettier from "prettier";
 
-import { AzSdkMetaTags } from "../commands/samples/publish";
 import { MIN_SUPPORTED_NODE_VERSION } from "../util/sampleConfiguration";
-
-/**
- * Options to control the generation of the sample package README.
- */
-interface SampleReadmeConfiguration {
-  /**
-   * The base package name.
-   */
-  baseName: string;
-  /**
-   * YAML frontmatter used for publication on docs.microsoft.com.
-   */
-  frontmatter: unknown;
-  /**
-   * Whether or not to add the TypeScript-specific bits.
-   */
-  useTypeScript: boolean;
-  /**
-   * The Azure product name to use
-   */
-  productName: string;
-  /**
-   * Optional link to API reference that overrides the default
-   * docs.microsoft.com link.
-   */
-  apiRefLink?: string;
-  /**
-   * The path within the repo to the package for this README.
-   */
-  projectRepoPath: string;
-  /**
-   * The camera-ready samples directory name
-   */
-  publicationDirectory: string;
-  /**
-   * Sample information from the TypeScript compiler.
-   */
-  moduleInfos: Array<{
-    filePath: string;
-    relativeSourcePath: string;
-    summary: string;
-    usedEnvironmentVariables: string[];
-    azSdkTags: AzSdkMetaTags;
-  }>;
-}
+import { SampleReadmeConfiguration } from "../util/sampleGenerationInfo";
 
 /**
  * Renders the frontmatter of the sample README.
