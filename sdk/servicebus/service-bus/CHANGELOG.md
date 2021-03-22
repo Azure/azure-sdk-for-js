@@ -8,6 +8,8 @@
 - When receiving messages from sessions using the `ServiceBusSessionReceiver.receiveMessages` method, errors on the AMQP link or session were being handled well, but an error on the AMQP connection like a network disconnect was not being handled at all. This results in the promise returned by the above method never getting fulfilled.
   This is now fixed in [#13956](https://github.com/Azure/azure-sdk-for-js/pull/13956) to throw `SessionLockLostError` when in `peekLock` mode and to return the messages collected so far when in `receiveAndDelete` mode.
 
+- Allow null as a value for the properties in `ServiceBusMessage.applicationProperties`.
+  Fixes [#14329](https://github.com/Azure/azure-sdk-for-js/issues/14329)
 
 ### Tracing updates
 
