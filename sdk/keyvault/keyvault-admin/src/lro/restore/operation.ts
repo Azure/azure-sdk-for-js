@@ -9,7 +9,7 @@ import {
   KeyVaultClientRestoreStatusResponse,
   RestoreOperation
 } from "../../generated/models";
-import { createSpan } from "../../tracing";
+import { withTrace } from "../../tracing";
 import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
 import {
   KeyVaultAdminPollOperation,
@@ -62,15 +62,12 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the fullRestore operation
    */
-  private async fullRestore(
+  private fullRestore(
     options: KeyVaultClientFullRestoreOperationOptionalParams
   ): Promise<KeyVaultClientFullRestoreOperationResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.fullRestore", options);
-    try {
+    return withTrace("generatedClient.fullRestore", options, async (updatedOptions) => {
       return await this.client.fullRestoreOperation(this.vaultUrl, updatedOptions);
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -80,12 +77,9 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.restoreStatus", options);
-    try {
+    return withTrace("generatedClient.restoreStatus", options, async (updatedOptions) => {
       return await this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions);
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**

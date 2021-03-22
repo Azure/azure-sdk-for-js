@@ -10,7 +10,7 @@ import {
   KeyVaultClientFullBackupResponse,
   KeyVaultClientFullBackupStatusResponse
 } from "../../generated/models";
-import { createSpan } from "../../tracing";
+import { withTrace } from "../../tracing";
 import { BackupResult, BeginBackupOptions } from "../../backupClientModels";
 import {
   KeyVaultAdminPollOperation,
@@ -55,30 +55,24 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the fullBackup operation
    */
-  private async fullBackup(
+  private fullBackup(
     options: KeyVaultClientFullBackupOptionalParams
   ): Promise<KeyVaultClientFullBackupResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.fullBackup", options);
-    try {
+    return withTrace("generatedClient.fullBackup", options, async (updatedOptions) => {
       return await this.client.fullBackup(this.vaultUrl, updatedOptions);
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
    * Tracing the fullBackupStatus operation
    */
-  private async fullBackupStatus(
+  private fullBackupStatus(
     jobId: string,
     options: BeginBackupOptions
   ): Promise<KeyVaultClientFullBackupStatusResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.fullBackupStatus", options);
-    try {
+    return withTrace("generatedClient.fullBackupStatus", options, async (updatedOptions) => {
       return await this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions);
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**

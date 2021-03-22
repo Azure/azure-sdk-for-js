@@ -10,7 +10,7 @@ import {
   KeyVaultClientSelectiveKeyRestoreOperationResponse,
   RestoreOperation
 } from "../../generated/models";
-import { createSpan } from "../../tracing";
+import { withTrace } from "../../tracing";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
@@ -65,31 +65,25 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the selectiveRestore operation
    */
-  private async selectiveRestore(
+  private selectiveRestore(
     keyName: string,
     options: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
   ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.selectiveRestore", options);
-    try {
+    return withTrace("generatedClient.selectiveRestore", options, async (updatedOptions) => {
       return await this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions);
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
    * Tracing the restoreStatus operation.
    */
-  private async restoreStatus(
+  private restoreStatus(
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.restoreStatus", options);
-    try {
+    return withTrace("generatedClient.restoreStatus", options, async (updatedOptions) => {
       return await this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions);
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
