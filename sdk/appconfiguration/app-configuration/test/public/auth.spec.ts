@@ -39,7 +39,7 @@ describe("Authentication", () => {
     // it doesn't matter if any data comes in so long as we were
     // able to connect and call the service
     await client.addConfigurationSetting({
-      key: `token-authentication-test-${recorder.newDate("label-1")}`,
+      key: `token-authentication-test-${recorder.newDate("label-1").valueOf()}`,
       value: "hello"
     });
   });
