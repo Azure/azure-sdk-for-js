@@ -24,8 +24,6 @@ export async function authenticate(that: Context, version?: string): Promise<any
     },
     customizationsOnRecordings: [
       (recording: any): any =>
-        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
-      (recording: any): any =>
         keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), "")
     ],
     queryParametersToSkip: []
