@@ -55,6 +55,12 @@ function Submit-APIReview($packagename, $filePath, $uri, $apiKey, $apiLabel)
 
 
 . (Join-Path $PSScriptRoot common.ps1)
+
+Write-Host "Artifact path: $($ArtifactPath)"
+Write-Host "Package Name: $($PackageName)"
+Write-Host "Source branch: $($SourceBranch)"
+Write-Host "Config File directory: $($ConfigFileDir)"
+
 $packages = @{}
 if ($FindArtifactForApiReviewFn -and (Test-Path "Function:$FindArtifactForApiReviewFn"))
 {
@@ -76,9 +82,10 @@ if (-not $ConfigFileDir)
 
 if ($packages)
 {
-    foreach($pkg in $packages.Keys)
+    foreach($pkgPath in $packages.Values)
     {
-        $pkgPropPath = Join-Path -Path $ConfigFileDir "$pkg.json"
+        $pkg = Split-Path -Leaf $pkgPath
+        $pkgPropPath = Join-Path -Path $ConfigFileDir "$PackageName.json"
         if (-Not (Test-Path $pkgPropPath))
         {
             Write-Host " Package property file path $($pkgPropPath) is invalid."
@@ -87,7 +94,6 @@ if ($packages)
         # Get package info from json file created before updating version to daily dev
         $pkgInfo = Get-Content $pkgPropPath | ConvertFrom-Json
         $version = [AzureEngSemanticVersion]::ParseVersionString($pkgInfo.Version)
-        Write-Host "Package name: $($PackageName)"
         Write-Host "Version: $($version)"
         Write-Host "SDK Type: $($pkgInfo.SdkType)"
 
@@ -96,13 +102,13 @@ if ($packages)
         if ( ($SourceBranch -eq "master") -or (-not $version.IsPrerelease))
         {
             Write-Host "Submitting API Review for package $($pkg)"
-            $response = Submit-APIReview -packagename $pkg -filePath $packages[$pkg] -uri $APIViewUri -apiKey $APIKey -apiLabel $APILabel
+            $response = Submit-APIReview -packagename $pkg -filePath $pkgPath -uri $APIViewUri -apiKey $APIKey -apiLabel $APILabel
             # HTTP status 200 means API is in approved status
             if ($respCode -eq '200')
             {
                 Write-Host "API review is in approved status."
             }
-            elseif ($version.IsPrerelease)
+            elseif ($version.IsPrerelease -or ($version.Major -eq 0))
             {
                 # Ignore API review status for prerelease version
                 Write-Host "Package version is not GA. Ignoring API view approval status"
