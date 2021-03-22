@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { createSpanFunction, OperationTracingOptions } from "@azure/core-tracing";
-import { withTrace as commonTrace } from "../../keyvault-common/src/tracingHelpers";
+import { trace } from "../../keyvault-common/src/tracingHelpers";
 import { Span } from "@opentelemetry/api";
 
 const packagePrefix = "Azure.KeyVault.Keys";
@@ -11,7 +11,7 @@ const namespace = "Microsoft.KeyVault";
 /**
  * @internal
  */
-export const withTrace = commonTrace(packagePrefix);
+export const withTrace = trace(packagePrefix);
 
 /*
  * @internal

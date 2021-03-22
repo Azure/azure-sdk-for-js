@@ -7,15 +7,13 @@ import { OperationOptions } from "@azure/core-http";
 import { createSpanFunction } from "@azure/core-tracing";
 
 /**
- * Traces an operation and properly handles reporting start, end and errors for a given span
+ * Returns a function that can be used for tracing options.
  *
- * @param operationName - Name of a method in the TClient type
- * @param options - An options class, typically derived from \@azure/core-http/RequestOptionsBase
- * @param fn - The function to call with an options class that properly propagates the span context
+ * @param packagePrefix - The package prefix
  *
  * @internal
  */
-export function withTrace(packagePrefix: string) {
+export function trace(packagePrefix: string) {
   const createSpan = createSpanFunction({
     namespace: "Microsoft.KeyVault",
     packagePrefix: packagePrefix
