@@ -148,7 +148,7 @@ jobs:
       - script: |
           node ../../../common/scripts/install-run-rushx.js execute:samples
         displayName: "Execute Samples"
-        workingDirectory: ${PackagePath}
+        workingDirectory: $(PackagePath)
         env:
           TEST_MODE: "live"
           ${{ insert }}: ${{ parameters.EnvVars }}
