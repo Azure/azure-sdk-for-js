@@ -55,6 +55,11 @@ steps:
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
+  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}
+      ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
+
   # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
   # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
   - task: CopyFiles@2
