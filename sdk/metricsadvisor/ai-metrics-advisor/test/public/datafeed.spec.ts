@@ -36,44 +36,43 @@ matrix([[true, false]] as const, async (useAad) => {
       let mySqlFeedName: string;
       let postgreSqlFeedName: string;
 
-      beforeEach(
-        /** @this Mocha.Context */ function() {
-          ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
-          if (recorder && !feedName) {
-            feedName = recorder.getUniqueName("js-test-datafeed-");
-          }
-          if (recorder && !appInsightsFeedName) {
-            appInsightsFeedName = recorder.getUniqueName("js-test-appInsightsFeed-");
-          }
-          if (recorder && !sqlServerFeedName) {
-            sqlServerFeedName = recorder.getUniqueName("js-test-sqlServerFeed-");
-          }
-          if (recorder && !cosmosFeedName) {
-            cosmosFeedName = recorder.getUniqueName("js-test-cosmosFeed-");
-          }
-          if (recorder && !dataExplorerFeedName) {
-            dataExplorerFeedName = recorder.getUniqueName("js-test-dataExplorerFeed-");
-          }
-          if (recorder && !azureTableFeedName) {
-            azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
-          }
-          if (recorder && !httpRequestFeedName) {
-            httpRequestFeedName = recorder.getUniqueName("js-test-httpRequestFeed-");
-          }
-          if (recorder && !influxDbFeedName) {
-            influxDbFeedName = recorder.getUniqueName("js-test-influxdbFeed-");
-          }
-          if (recorder && !mongoDbFeedName) {
-            mongoDbFeedName = recorder.getUniqueName("js-test-mongoDbFeed-");
-          }
-          if (recorder && !mySqlFeedName) {
-            mySqlFeedName = recorder.getUniqueName("js-test-mySqlFeed-");
-          }
-          if (recorder && !postgreSqlFeedName) {
-            postgreSqlFeedName = recorder.getUniqueName("js-test-postgreSqlFeed-");
-          }
+      beforeEach(function() {
+        // eslint-disable-next-line no-invalid-this
+        ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
+        if (recorder && !feedName) {
+          feedName = recorder.getUniqueName("js-test-datafeed-");
         }
-      );
+        if (recorder && !appInsightsFeedName) {
+          appInsightsFeedName = recorder.getUniqueName("js-test-appInsightsFeed-");
+        }
+        if (recorder && !sqlServerFeedName) {
+          sqlServerFeedName = recorder.getUniqueName("js-test-sqlServerFeed-");
+        }
+        if (recorder && !cosmosFeedName) {
+          cosmosFeedName = recorder.getUniqueName("js-test-cosmosFeed-");
+        }
+        if (recorder && !dataExplorerFeedName) {
+          dataExplorerFeedName = recorder.getUniqueName("js-test-dataExplorerFeed-");
+        }
+        if (recorder && !azureTableFeedName) {
+          azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
+        }
+        if (recorder && !httpRequestFeedName) {
+          httpRequestFeedName = recorder.getUniqueName("js-test-httpRequestFeed-");
+        }
+        if (recorder && !influxDbFeedName) {
+          influxDbFeedName = recorder.getUniqueName("js-test-influxdbFeed-");
+        }
+        if (recorder && !mongoDbFeedName) {
+          mongoDbFeedName = recorder.getUniqueName("js-test-mongoDbFeed-");
+        }
+        if (recorder && !mySqlFeedName) {
+          mySqlFeedName = recorder.getUniqueName("js-test-mySqlFeed-");
+        }
+        if (recorder && !postgreSqlFeedName) {
+          postgreSqlFeedName = recorder.getUniqueName("js-test-postgreSqlFeed-");
+        }
+      });
 
       afterEach(async function() {
         if (recorder) {
@@ -234,7 +233,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("retrieves an Azure Blob datafeed", /** @this Mocha.Context */ async function() {
+        it("retrieves an Azure Blob datafeed", async function() {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
@@ -246,6 +245,7 @@ matrix([[true, false]] as const, async (useAad) => {
           };
 
           if (!createdAzureBlobDataFeedId) {
+            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
 
@@ -273,8 +273,9 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("updates an Azure Blob datafeed", /** @this Mocha.Context */ async function() {
+        it("updates an Azure Blob datafeed", async function() {
           if (!createdAzureBlobDataFeedId) {
+            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
           const expectedSourceParameter = {
@@ -337,7 +338,7 @@ matrix([[true, false]] as const, async (useAad) => {
               applicationId: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID,
               apiKey: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY,
               query:
-                "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+                "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
             }
           };
           const actual = await client.createDataFeed({
@@ -364,7 +365,7 @@ matrix([[true, false]] as const, async (useAad) => {
             );
             assert.equal(
               actual.source.dataSourceParameter.query,
-              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
             );
           }
         });
@@ -807,10 +808,7 @@ matrix([[true, false]] as const, async (useAad) => {
   });
 });
 
-/**
- * @this Mocha.Context
- * eslint-disable-next-line \@typescript-eslint/explicit-module-boundary-types
- */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export async function verifyDataFeedDeletion(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   this: any,
@@ -818,6 +816,7 @@ export async function verifyDataFeedDeletion(
   createdDataFeedId: string
 ): Promise<void> {
   if (!createdDataFeedId) {
+    // eslint-disable-next-line no-invalid-this
     this.skip();
   }
 
