@@ -35,7 +35,7 @@ import {
   mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
   mapToChatParticipantSdkModel,
-  mapToChatThreadSdkModel,
+  mapToChatThreadPropertiesSdkModel,
   mapToReadReceiptSdkModel
 } from "./models/mappers";
 import {
@@ -115,14 +115,14 @@ export class ChatThreadClient {
    * @param options -  Operation options.
    */
   public async getProperties(options: GetPropertiesOptions = {}): Promise<ChatThreadProperties> {
-    const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
+    const { span, updatedOptions } = createSpan("ChatClient-GetProperties", options);
 
     try {
       const { _response, ...result } = await this.client.chatThread.getChatThreadProperties(
         this.threadId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return mapToChatThreadSdkModel(result);
+      return mapToChatThreadPropertiesSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

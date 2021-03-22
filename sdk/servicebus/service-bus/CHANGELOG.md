@@ -5,6 +5,8 @@
 - Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
   in `ServiceBusClientOptions`.
   Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
+- Allow null as a value for the properties in `ServiceBusMessage.applicationProperties`.
+  Fixes [#14329](https://github.com/Azure/azure-sdk-for-js/issues/14329)
 
 ### Tracing updates
 

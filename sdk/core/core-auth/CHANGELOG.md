@@ -1,7 +1,8 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 1.3.0 (Unreleased)
 
+- Adds the `AzureNamedKeyCredential` class which supports credential rotation and a corresponding `NamedKeyCredential` interface to support the use of static string-based names and keys in Azure clients.
 
 ## 1.2.0 (2021-02-08)
 

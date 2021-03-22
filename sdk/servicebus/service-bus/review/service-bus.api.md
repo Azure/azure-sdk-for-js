@@ -373,7 +373,7 @@ export type ServiceBusErrorCode =
 // @public
 export interface ServiceBusMessage {
     applicationProperties?: {
-        [key: string]: number | boolean | string | Date;
+        [key: string]: number | boolean | string | Date | null;
     };
     body: any;
     contentType?: string;
