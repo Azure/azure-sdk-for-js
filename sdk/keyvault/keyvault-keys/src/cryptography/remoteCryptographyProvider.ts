@@ -38,7 +38,7 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { logger } from "../log";
-import { withTrace } from "../../../keyvault-common/src/tracingHelpers";
+import { withTrace } from "../tracing";
 
 /**
  * The remote cryptography provider is used to run crypto operations against KeyVault.

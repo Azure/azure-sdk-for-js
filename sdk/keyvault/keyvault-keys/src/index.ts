@@ -104,7 +104,7 @@ import {
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
 import { LocalSupportedAlgorithmName } from "./cryptography/models";
 import { getKeyFromKeyBundle } from "./transformations";
-import { createSpan, withTrace } from "../../keyvault-common/src/tracingHelpers";
+import { createSpan, withTrace } from "./tracing";
 
 export {
   CryptographyClientOptions,

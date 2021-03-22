@@ -3,9 +3,9 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { RequestOptionsBase } from "@azure/core-http";
-import { withTrace } from "../../../../keyvault-common/src/tracingHelpers";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
+import { withTrace } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
 
