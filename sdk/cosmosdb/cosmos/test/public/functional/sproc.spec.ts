@@ -13,14 +13,14 @@ import {
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", /** @this*/ function() {
+describe("NodeJS CRUD Tests", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
   describe("Validate sproc CRUD", function() {
     let container: Container;
-    beforeEach(/** @this*/ async function() {
+    beforeEach(/** @this */ async function() {
       container = await getTestContainer(this.test.fullTitle());
     });
 
@@ -92,7 +92,7 @@ describe("NodeJS CRUD Tests", /** @this*/ function() {
 
   describe("Validate stored procedure functionality", function() {
     let container: Container;
-    beforeEach(/** @this*/ async function() {
+    beforeEach(/** @this */ async function() {
       container = await getTestContainer(this.test.fullTitle());
     });
 

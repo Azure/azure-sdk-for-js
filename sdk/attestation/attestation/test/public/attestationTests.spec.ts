@@ -14,7 +14,7 @@ import { verifyAttestationToken } from "../utils/helpers";
 describe("[AAD] Attestation Client", function() {
   let recorder: Recorder;
 
-  beforeEach(/** @this*/ function() {
+  beforeEach(/** @this */ function() {
     recorder = createRecorder(this);
   });
 

@@ -10,7 +10,7 @@ const notFoundErrorCode = 404;
 // Mock for trigger function bodies
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", /** @this*/ function() {
+describe("NodeJS CRUD Tests", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   let container: Container;
 

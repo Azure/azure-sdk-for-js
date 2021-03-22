@@ -24,7 +24,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let emailHookName: string;
       let webHookName: string;
 
-      beforeEach(/** @this*/ function() {
+      beforeEach(/** @this */ function() {
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
         if (recorder && !emailHookName) {
           emailHookName = recorder.getUniqueName("js-test-emailHook-");

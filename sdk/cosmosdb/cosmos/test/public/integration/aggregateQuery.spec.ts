@@ -9,7 +9,7 @@ import { FeedOptions } from "../../../src";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-describe("Aggregate Query", /** @this*/ function() {
+describe("Aggregate Query", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const partitionKey = "key";
   const uniquePartitionKey = "uniquePartitionKey";

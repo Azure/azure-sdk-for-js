@@ -25,7 +25,7 @@ describe("TablesSharedKeyCredential", () => {
     Date.prototype.toUTCString = originalToUTCString;
   });
 
-  it("It should sign", /** @this*/ async function() {
+  it("It should sign", /** @this */ async function() {
     if (!isNode) {
       // TablesSharedKeyCredential auth is not supported in Browser
       this.skip();

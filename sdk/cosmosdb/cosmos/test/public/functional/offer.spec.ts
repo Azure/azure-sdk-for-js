@@ -15,10 +15,10 @@ const validateOfferResponseBody = function(offer: any): void {
   assert(offer._self.indexOf(offer.id) !== -1, "Offer id not contained in offer self link.");
 };
 
-describe("NodeJS CRUD Tests", /** @this*/ function() {
+describe("NodeJS CRUD Tests", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  beforeEach(/** @this*/ async function() {
+  beforeEach(/** @this */ async function() {
     this.timeout(process.env.MOCHA_TIMEOUT || 10000);
     await removeAllDatabases();
   });

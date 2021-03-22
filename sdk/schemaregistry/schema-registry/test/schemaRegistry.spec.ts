@@ -62,7 +62,7 @@ describe("SchemaRegistryClient", function() {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
 
-  beforeEach(/** @this*/ function() {
+  beforeEach(/** @this */ function() {
     ({ client, recorder } = createRecordedClient(this));
   });
 

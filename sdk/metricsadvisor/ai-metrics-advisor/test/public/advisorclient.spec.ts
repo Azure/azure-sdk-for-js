@@ -20,7 +20,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
 
-      beforeEach(/** @this*/ function() {
+      beforeEach(/** @this */ function() {
         ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
       });
 

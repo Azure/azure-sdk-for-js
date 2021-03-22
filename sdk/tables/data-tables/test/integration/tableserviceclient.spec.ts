@@ -14,7 +14,7 @@ describe("TableServiceClient", () => {
   const suffix = isNode ? "node" : "browser";
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(/** @this*/ function() {
+  beforeEach(/** @this */ function() {
     recorder = record(this, recordedEnvironmentSetup);
     client = createTableServiceClient(authMode);
   });
@@ -49,7 +49,7 @@ describe("TableServiceClient", () => {
   describe("listTables", () => {
     const tableNames: string[] = [];
     const expectedTotalItems = 20;
-    before(/** @this*/ async function() {
+    before(/** @this */ async function() {
       // Create tables to be listed
       if (!isPlaybackMode()) {
         this.timeout(10000);
@@ -61,7 +61,7 @@ describe("TableServiceClient", () => {
       }
     });
 
-    after(/** @this*/ async function() {
+    after(/** @this */ async function() {
       // Cleanup tables
       if (!isPlaybackMode()) {
         this.timeout(10000);

@@ -107,7 +107,7 @@ const collectionResponse = {
   code: 200
 };
 
-describe("Multi-region tests", /** @this*/ function() {
+describe("Multi-region tests", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   it("Preferred locations should be honored for readEndpoint", async function() {

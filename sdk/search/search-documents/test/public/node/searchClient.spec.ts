@@ -18,14 +18,14 @@ import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test1";
 
-describe("SearchClient", /** @this*/ function() {
+describe("SearchClient", /** @this */ function() {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(/** @this*/ async function() {
+  beforeEach(/** @this */ async function() {
     ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createIndex(indexClient, TEST_INDEX_NAME);

@@ -21,7 +21,7 @@ export interface TestOperationState extends PollOperationState<string> {
 
 export interface TestOperation extends PollOperation<TestOperationState, string> {}
 
-/** @this*/
+/** @this */
 async function update(
   this: TestOperation,
   options: {
@@ -70,7 +70,7 @@ async function update(
   return makeOperation(newState);
 }
 
-/** @this*/
+/** @this */
 async function cancel(
   this: TestOperation,
   options: { abortSignal?: AbortSignal } = {}
@@ -101,7 +101,7 @@ async function cancel(
   });
 }
 
-/** @this*/
+/** @this */
 function toString(this: TestOperation): string {
   return JSON.stringify({
     state: this.state

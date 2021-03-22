@@ -14,7 +14,7 @@ if (!Symbol || !Symbol.asyncIterator) {
   (Symbol as any).asyncIterator = Symbol.for("Symbol.asyncIterator");
 }
 
-describe("Queries", /** @this*/ function() {
+describe("Queries", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   before(async function() {
     await removeAllDatabases();
@@ -47,7 +47,7 @@ describe("Queries", /** @this*/ function() {
     });
   });
 
-  describe("QueryIterator", /** @this*/ function() {
+  describe("QueryIterator", /** @this */ function() {
     this.timeout(process.env.MOCHA_TIMEOUT || 30000);
     let resources: { container: Container; doc1: any; doc2: any; doc3: any };
 
@@ -143,7 +143,7 @@ describe("Queries", /** @this*/ function() {
       }
     });
 
-    describe("SUM query iterator", /** @this*/ function() {
+    describe("SUM query iterator", /** @this */ function() {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("returns undefined sum with null value in aggregator", async function() {

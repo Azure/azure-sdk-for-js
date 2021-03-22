@@ -6,7 +6,7 @@ import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common
 
 const doc = { id: "myId", pk: "pk" };
 
-describe("ResourceLink Trimming of leading and trailing slashes", /** @this*/ function() {
+describe("ResourceLink Trimming of leading and trailing slashes", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   const containerId = "testcontainer";
 
@@ -39,7 +39,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", /** @this*/ fu
   });
 });
 
-describe("Test Query Metrics", /** @this*/ function() {
+describe("Test Query Metrics", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const collectionId = "testCollection2";
 
@@ -84,7 +84,7 @@ describe("Test Query Metrics", /** @this*/ function() {
   });
 });
 
-describe("Partition key in FeedOptions", /** @this*/ function() {
+describe("Partition key in FeedOptions", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   beforeEach(async function() {

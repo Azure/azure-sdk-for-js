@@ -13,7 +13,7 @@ import { Buffer } from "../utils/Buffer";
 describe("TokenCertTests", function() {
   let recorder: Recorder;
 
-  beforeEach(/** @this*/ function() {
+  beforeEach(/** @this */ function() {
     recorder = createRecorder(this);
   });
 

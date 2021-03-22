@@ -6,9 +6,9 @@ import { endpoint, masterKey } from "../common/_testConfig";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
-describe("NodeJS CRUD Tests", /** @this*/ function() {
+describe("NodeJS CRUD Tests", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(/** @this*/ async function() {
+  beforeEach(/** @this */ async function() {
     this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   });
 

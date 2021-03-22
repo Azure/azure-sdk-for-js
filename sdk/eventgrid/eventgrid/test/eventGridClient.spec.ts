@@ -18,7 +18,7 @@ import {
 import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 
-describe("EventGridPublisherClient", /** @this*/ function() {
+describe("EventGridPublisherClient", /** @this */ function() {
   let recorder: Recorder;
   let res: FullOperationResponse | undefined;
 
@@ -31,7 +31,7 @@ describe("EventGridPublisherClient", /** @this*/ function() {
   describe("#send (EventGrid schema)", function() {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(/** @this*/ function() {
+    beforeEach(/** @this */ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT,
@@ -98,7 +98,7 @@ describe("EventGridPublisherClient", /** @this*/ function() {
   describe("#send error cases (EventGrid schema)", function() {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(/** @this*/ function() {
+    beforeEach(/** @this */ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
@@ -141,7 +141,7 @@ describe("EventGridPublisherClient", /** @this*/ function() {
   describe("#send (CloudEvent schema)", function() {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(/** @this*/ function() {
+    beforeEach(/** @this */ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT,
@@ -250,7 +250,7 @@ describe("EventGridPublisherClient", /** @this*/ function() {
   describe("#send error cases (CloudEvent schema)", function() {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(/** @this*/ function() {
+    beforeEach(/** @this */ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         removeApiEventsSuffix(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT),
@@ -291,7 +291,7 @@ describe("EventGridPublisherClient", /** @this*/ function() {
   describe("#send (Custom Event Schema)", function() {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(/** @this*/ function() {
+    beforeEach(/** @this */ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT,
@@ -352,7 +352,7 @@ describe("EventGridPublisherClient", /** @this*/ function() {
   describe("#send error cases (Custom Event Schema)", function() {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(/** @this*/ function() {
+    beforeEach(/** @this */ function() {
       ({ client, recorder } = createRecordedClient(
         this,
         removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),

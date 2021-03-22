@@ -13,7 +13,7 @@ import { verifyAttestationToken } from "../utils/helpers";
 describe("PolicyManagementTests ", function() {
   let recorder: Recorder;
 
-  beforeEach(/** @this*/ function() {
+  beforeEach(/** @this */ function() {
     recorder = createRecorder(this);
   });
 

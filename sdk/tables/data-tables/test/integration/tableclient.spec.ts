@@ -18,7 +18,7 @@ describe("TableClient", () => {
   // which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(/** @this*/ function() {
+  beforeEach(/** @this */ function() {
     recorder = record(this, recordedEnvironmentSetup);
 
     client = createTableClient(tableName, authMode);
@@ -43,7 +43,7 @@ describe("TableClient", () => {
 
   describe("listEntities", () => {
     // Create required entities for testing list operations
-    before(/** @this*/ async function() {
+    before(/** @this */ async function() {
       if (!isPlaybackMode()) {
         this.timeout(10000);
         await client.createEntity({

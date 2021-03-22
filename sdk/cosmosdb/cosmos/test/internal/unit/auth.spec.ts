@@ -4,7 +4,7 @@
 import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth";
 import assert from "assert";
 
-describe("NodeJS CRUD Tests", /** @this*/ function() {
+describe("NodeJS CRUD Tests", /** @this */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   it("should find exact match", async function() {

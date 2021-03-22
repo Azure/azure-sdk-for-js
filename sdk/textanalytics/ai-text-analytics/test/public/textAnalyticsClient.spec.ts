@@ -926,7 +926,7 @@ describe("[AAD] TextAnalyticsClient", /** @this */ function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(/** @this*/ function() {
+    before(/** @this */ function() {
       this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
     });
 
