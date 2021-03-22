@@ -63,11 +63,22 @@ export abstract class BaseRecorder {
    * @memberof BaseRecorder
    */
   protected filterSecrets(content: any): any {
+    let updatedContent = content;
+    if (typeof content !== "string") {
+      // For the recording as a whole...
+      // Methods such as maskAccessTokenInBrowserRecording may have effects here
+      for (const customization of this.defaultCustomizationsOnRecordings) {
+        updatedContent = customization(updatedContent);
+      }
+    }
+
     const recordingFilterMethod =
-      typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
+      typeof updatedContent === "string"
+        ? filterSecretsFromStrings
+        : filterSecretsRecursivelyFromJSON;
 
     return recordingFilterMethod(
-      content,
+      updatedContent,
       this.environmentSetup.replaceableVariables,
       this.defaultCustomizationsOnRecordings.concat(
         this.environmentSetup.customizationsOnRecordings

@@ -25,6 +25,6 @@ export const defaultCustomizationsForBrowserRecordings = [
 /**
  * Provides the default customizations that need to be applied on the generated recordings
  */
-export const defaultCustomizationsOnRecordings = !isBrowser()
+export const defaultCustomizationsOnRecordings: ((fixture: any) => any)[] = !isBrowser()
   ? defaultCustomizationsForNodeRecordings
   : defaultCustomizationsForBrowserRecordings;
