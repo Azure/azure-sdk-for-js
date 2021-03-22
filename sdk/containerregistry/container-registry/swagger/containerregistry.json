@@ -1391,6 +1391,9 @@
       }
     },
     "TagList": {
+      "required": [
+        "imageName"
+      ],
       "description": "List of tag details",
       "x-accessibility": "internal",
       "properties": {
@@ -1444,6 +1447,10 @@
       }
     },
     "TagAttributes": {
+      "required": [
+        "imageName",
+        "tag"
+      ],
       "x-ms-client-name": "TagProperties",
       "description": "Tag attributes",
       "properties": {
@@ -1599,7 +1606,8 @@
     "ManifestAttributes": {
       "required": [
         "registry",
-        "imageName"
+        "imageName",
+        "manifest"
       ],
       "x-ms-client-name": "RegistryArtifactProperties",
       "description": "Manifest attributes details",

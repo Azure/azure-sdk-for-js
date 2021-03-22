@@ -217,6 +217,7 @@ export const TagList: coreHttp.CompositeMapper = {
     modelProperties: {
       repository: {
         serializedName: "imageName",
+        required: true,
         type: {
           name: "String"
         }
@@ -292,6 +293,7 @@ export const TagProperties: coreHttp.CompositeMapper = {
     modelProperties: {
       repository: {
         serializedName: "imageName",
+        required: true,
         type: {
           name: "String"
         }
@@ -310,12 +312,14 @@ export const TagProperties: coreHttp.CompositeMapper = {
       },
       createdOn: {
         serializedName: "tag.createdTime",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       lastUpdatedOn: {
         serializedName: "tag.lastUpdateTime",
+        required: true,
         type: {
           name: "DateTime"
         }
@@ -457,6 +461,7 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
       },
       digest: {
         serializedName: "manifest.digest",
+        required: true,
         type: {
           name: "String"
         }
@@ -481,12 +486,14 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
       },
       cpuArchitecture: {
         serializedName: "manifest.architecture",
+        required: true,
         type: {
           name: "String"
         }
       },
       operatingSystem: {
         serializedName: "manifest.os",
+        required: true,
         type: {
           name: "String"
         }
@@ -505,6 +512,7 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
       },
       tags: {
         serializedName: "manifest.tags",
+        required: true,
         type: {
           name: "Sequence",
           element: {

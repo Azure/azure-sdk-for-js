@@ -75,7 +75,7 @@ export interface DeleteRepositoryResult {
 /** List of tag details */
 export interface TagList {
   /** Image name */
-  repository?: string;
+  repository: string;
   /** List of tag attribute details */
   tags?: TagAttributesBase[];
   link?: string;
@@ -98,15 +98,15 @@ export interface TagAttributesBase {
 /** Tag attributes */
 export interface TagProperties {
   /** Image name */
-  repository?: string;
+  repository: string;
   /** Tag name */
   name?: string;
   /** Tag digest */
   digest?: string;
   /** Tag created time */
-  createdOn?: Date;
+  createdOn: Date;
   /** Tag last update time */
-  lastUpdatedOn?: Date;
+  lastUpdatedOn: Date;
   /** Changeable attributes */
   writeableProperties?: ContentProperties;
 }
@@ -149,7 +149,7 @@ export interface RegistryArtifactProperties {
   /** Image name */
   repository: string;
   /** Manifest */
-  digest?: string;
+  digest: string;
   /** Image size */
   size?: number;
   /** Created time */
@@ -157,15 +157,15 @@ export interface RegistryArtifactProperties {
   /** Last update time */
   lastUpdatedOn?: Date;
   /** CPU architecture */
-  cpuArchitecture?: string;
+  cpuArchitecture: string;
   /** Operating system */
-  operatingSystem?: string;
+  operatingSystem: string;
   /** Media type */
   manifestMediaType?: string;
   /** Config blob media type */
   configMediaType?: string;
   /** List of tags */
-  tags?: string[];
+  tags: string[];
   /** Changeable attributes */
   manifestProperties?: ContentProperties;
 }

@@ -109,16 +109,16 @@ export interface ListTagsOptions extends OperationOptions {
 // @public
 export interface RegistryArtifactProperties {
     configMediaType?: string;
-    cpuArchitecture?: string;
+    cpuArchitecture: string;
     createdOn?: Date;
-    digest?: string;
+    digest: string;
     lastUpdatedOn?: Date;
     manifestMediaType?: string;
     manifestProperties?: ContentProperties;
-    operatingSystem?: string;
+    operatingSystem: string;
     repository: string;
     size?: number;
-    tags?: string[];
+    tags: string[];
 }
 
 // @public
@@ -145,11 +145,11 @@ export interface SetTagPropertiesOptions extends OperationOptions {
 
 // @public
 export interface TagProperties {
-    createdOn?: Date;
+    createdOn: Date;
     digest?: string;
-    lastUpdatedOn?: Date;
+    lastUpdatedOn: Date;
     name?: string;
-    repository?: string;
+    repository: string;
     writeableProperties?: ContentProperties;
 }
 
