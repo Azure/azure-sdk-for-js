@@ -18,7 +18,6 @@ import {
 import { createRecordedAdminClient, testEnv, makeCredential } from "./util/recordedClients";
 import { Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "./util/matrix";
-import { Context } from "mocha";
 
 matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}]`, () => {
@@ -806,10 +805,13 @@ matrix([[true, false]] as const, async (useAad) => {
   });
 });
 
-/** @this*/
+/**
+ * @this
+ * eslint-disable-next-line \@typescript-eslint/explicit-module-boundary-types 
+ */
 export async function verifyDataFeedDeletion(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  this: Context,
+  this: any,
   client: MetricsAdvisorAdministrationClient,
   createdDataFeedId: string
 ): Promise<void> {
