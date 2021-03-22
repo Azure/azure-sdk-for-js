@@ -134,10 +134,6 @@ export interface ManifestAttributesBase {
   cpuArchitecture?: string;
   /** Operating system */
   operatingSystem?: string;
-  /** Media type */
-  manifestMediaType?: string;
-  /** Config blob media type */
-  configMediaType?: string;
   /** List of manifest attributes details */
   registryArtifacts?: ManifestAttributesManifestReferences[];
   /** List of tags */
@@ -172,10 +168,6 @@ export interface RegistryArtifactProperties {
   cpuArchitecture?: string;
   /** Operating system */
   operatingSystem?: string;
-  /** Media type */
-  manifestMediaType?: string;
-  /** Config blob media type */
-  configMediaType?: string;
   /** List of manifest attributes details */
   registryArtifacts?: ManifestAttributesManifestReferences[];
   /** List of tags */

@@ -410,18 +410,6 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      manifestMediaType: {
-        serializedName: "mediaType",
-        type: {
-          name: "String"
-        }
-      },
-      configMediaType: {
-        serializedName: "configMediaType",
-        type: {
-          name: "String"
-        }
-      },
       registryArtifacts: {
         serializedName: "references",
         type: {
@@ -532,18 +520,6 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
       },
       operatingSystem: {
         serializedName: "manifest.os",
-        type: {
-          name: "String"
-        }
-      },
-      manifestMediaType: {
-        serializedName: "manifest.mediaType",
-        type: {
-          name: "String"
-        }
-      },
-      configMediaType: {
-        serializedName: "manifest.configMediaType",
         type: {
           name: "String"
         }

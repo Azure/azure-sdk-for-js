@@ -108,12 +108,10 @@ export interface ListTagsOptions extends OperationOptions {
 
 // @public
 export interface RegistryArtifactProperties {
-    configMediaType?: string;
     cpuArchitecture?: string;
     createdOn?: Date;
     digest: string;
     lastUpdatedOn?: Date;
-    manifestMediaType?: string;
     manifestProperties: ContentProperties;
     operatingSystem?: string;
     // Warning: (ae-forgotten-export) The symbol "ManifestAttributesManifestReferences" needs to be exported by the entry point index.d.ts

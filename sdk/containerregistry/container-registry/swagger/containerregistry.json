@@ -1689,17 +1689,6 @@
           "description": "Operating system",
           "x-ms-client-name": "operatingSystem"
         },
-        "mediaType": {
-          "x-accessibility": "internal",
-          "type": "string",
-          "description": "Media type",
-          "x-ms-client-name": "manifestMediaType"
-        },
-        "configMediaType": {
-          "x-accessibility": "internal",
-          "type": "string",
-          "description": "Config blob media type"
-        },
         "references": {
           "x-ms-client-name": "registryArtifacts",
           "type": "array",
