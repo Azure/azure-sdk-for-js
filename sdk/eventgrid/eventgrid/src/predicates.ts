@@ -127,12 +127,22 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser" event. */
   "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
-  /** An interface for the event data of a "Microsoft.Communication.ChatParticipantAddedToThread" event. */
+  /** An interface for the event data of a "Microsoft.Communication.ChatParticipantAddedToThread" event.
+   *
+   * @deprecated since 4.0.1. Azure Communication Services no longer uses this event name. Please use Microsoft.Communication.ChatThreadParticipantAdded instead.
+   */
   "Microsoft.Communication.ChatParticipantAddedToThread": AcsChatParticipantAddedToThreadEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadParticipantAdded" event. */
+  "Microsoft.Communication.ChatThreadParticipantAdded": AcsChatParticipantAddedToThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatParticipantAddedToThreadWithUser" event. */
   "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
-  /** An interface for the event data of a "Microsoft.Communication.ChatParticipantRemovedFromThread" event. */
+  /** An interface for the event data of a "Microsoft.Communication.ChatParticipantRemovedFromThread" event.
+   *
+   * @deprecated since 4.0.1. Azure Communication Services no longer uses this event name. Please use Microsoft.Communication.ChatThreadParticipantRemoved instead.
+   */
   "Microsoft.Communication.ChatParticipantRemovedFromThread": AcsChatParticipantRemovedFromThreadEventData;
+  /** An interface for the event data of a "Microsoft.Communication.ChatThreadParticipantRemoved" event. */
+  "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser" event. */
   "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
   /** An interface for the event data of a "Microsoft.Communication.SMSDeliveryReportReceived" event. */
