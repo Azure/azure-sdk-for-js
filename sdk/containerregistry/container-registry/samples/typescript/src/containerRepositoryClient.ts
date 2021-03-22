@@ -77,7 +77,6 @@ async function getProperties(client: ContainerRepositoryClient) {
   console.log("Retrieving repository properties...");
   const properties = await client.getProperties();
   console.log(`  name: ${properties.name}`);
-  console.log(`  registry: ${properties.registry}`);
   console.log(`  created on: ${properties.createdOn}`);
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);
   console.log(`  artifact count: ${properties.registryArtifactCount}`);
