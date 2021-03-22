@@ -20,9 +20,11 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
 
-      beforeEach(/** @this Mocha.Context */ function() {
-        ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
-      });
+      beforeEach(
+        /** @this Mocha.Context */ function() {
+          ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
+        }
+      );
 
       afterEach(async function() {
         if (recorder) {

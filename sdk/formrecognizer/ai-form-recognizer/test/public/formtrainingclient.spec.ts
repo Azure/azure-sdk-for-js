@@ -27,9 +27,11 @@ matrix([[true, false]] as const, async (useAad) => {
   describe(`[${useAad ? "AAD" : "API Key"}] FormTrainingClient`, () => {
     let recorder: Recorder;
 
-    beforeEach(/** @this Mocha.Context */ function(this: Context) {
-      recorder = createRecorder(this);
-    });
+    beforeEach(
+      /** @this Mocha.Context */ function(this: Context) {
+        recorder = createRecorder(this);
+      }
+    );
 
     afterEach(async function() {
       await recorder.stop();

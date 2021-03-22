@@ -32,13 +32,15 @@ describe("Challenge based authentication tests", () => {
     subject: "cn=MyCert"
   };
 
-  beforeEach(/** @this Mocha.Context */ async function() {
-    const authentication = await authenticate(this);
-    certificateSuffix = authentication.suffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      certificateSuffix = authentication.suffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();

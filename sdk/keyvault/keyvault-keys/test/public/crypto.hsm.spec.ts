@@ -20,22 +20,24 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
 
-  beforeEach(/** @this Mocha.Context */ async function() {
-    const authentication = await authenticate(this);
-    recorder = authentication.recorder;
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      recorder = authentication.recorder;
 
-    if (!authentication.hsmClient) {
-      // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
-      // This is only necessary while Managed HSM is in preview.
-      this.skip();
+      if (!authentication.hsmClient) {
+        // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
+        // This is only necessary while Managed HSM is in preview.
+        this.skip();
+      }
+
+      hsmClient = authentication.hsmClient;
+      testClient = new TestClient(authentication.hsmClient);
+      credential = authentication.credential;
+      keySuffix = authentication.keySuffix;
+      keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     }
-
-    hsmClient = authentication.hsmClient;
-    testClient = new TestClient(authentication.hsmClient);
-    credential = authentication.credential;
-    keySuffix = authentication.keySuffix;
-    keyName = testClient.formatName("cryptography-client-test" + keySuffix);
-  });
+  );
 
   afterEach(async function() {
     await testClient?.flushKey(keyName);

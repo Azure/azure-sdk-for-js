@@ -18,11 +18,13 @@ describe("TableClient", () => {
   // which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(/** @this Mocha.Context */ function() {
-    recorder = record(this, recordedEnvironmentSetup);
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      recorder = record(this, recordedEnvironmentSetup);
 
-    client = createTableClient(tableName, authMode);
-  });
+      client = createTableClient(tableName, authMode);
+    }
+  );
 
   before(async () => {
     if (!isPlaybackMode()) {
@@ -43,24 +45,26 @@ describe("TableClient", () => {
 
   describe("listEntities", () => {
     // Create required entities for testing list operations
-    before(/** @this Mocha.Context */ async function() {
-      if (!isPlaybackMode()) {
-        this.timeout(10000);
-        await client.createEntity({
-          partitionKey: listPartitionKey,
-          rowKey: "binary1",
-          foo: new Uint8Array([66, 97, 114])
-        });
-
-        for (let i = 0; i < 20; i++) {
+    before(
+      /** @this Mocha.Context */ async function() {
+        if (!isPlaybackMode()) {
+          this.timeout(10000);
           await client.createEntity({
             partitionKey: listPartitionKey,
-            rowKey: `${i}`,
-            foo: "testEntity"
+            rowKey: "binary1",
+            foo: new Uint8Array([66, 97, 114])
           });
+
+          for (let i = 0; i < 20; i++) {
+            await client.createEntity({
+              partitionKey: listPartitionKey,
+              rowKey: `${i}`,
+              foo: "testEntity"
+            });
+          }
         }
       }
-    });
+    );
     type StringEntity = { foo: string };
     type NumberEntity = { foo: number };
     type DateEntity = { foo: Date };

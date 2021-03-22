@@ -36,42 +36,44 @@ matrix([[true, false]] as const, async (useAad) => {
       let mySqlFeedName: string;
       let postgreSqlFeedName: string;
 
-      beforeEach(/** @this Mocha.Context */ function() {
-        ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
-        if (recorder && !feedName) {
-          feedName = recorder.getUniqueName("js-test-datafeed-");
+      beforeEach(
+        /** @this Mocha.Context */ function() {
+          ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
+          if (recorder && !feedName) {
+            feedName = recorder.getUniqueName("js-test-datafeed-");
+          }
+          if (recorder && !appInsightsFeedName) {
+            appInsightsFeedName = recorder.getUniqueName("js-test-appInsightsFeed-");
+          }
+          if (recorder && !sqlServerFeedName) {
+            sqlServerFeedName = recorder.getUniqueName("js-test-sqlServerFeed-");
+          }
+          if (recorder && !cosmosFeedName) {
+            cosmosFeedName = recorder.getUniqueName("js-test-cosmosFeed-");
+          }
+          if (recorder && !dataExplorerFeedName) {
+            dataExplorerFeedName = recorder.getUniqueName("js-test-dataExplorerFeed-");
+          }
+          if (recorder && !azureTableFeedName) {
+            azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
+          }
+          if (recorder && !httpRequestFeedName) {
+            httpRequestFeedName = recorder.getUniqueName("js-test-httpRequestFeed-");
+          }
+          if (recorder && !influxDbFeedName) {
+            influxDbFeedName = recorder.getUniqueName("js-test-influxdbFeed-");
+          }
+          if (recorder && !mongoDbFeedName) {
+            mongoDbFeedName = recorder.getUniqueName("js-test-mongoDbFeed-");
+          }
+          if (recorder && !mySqlFeedName) {
+            mySqlFeedName = recorder.getUniqueName("js-test-mySqlFeed-");
+          }
+          if (recorder && !postgreSqlFeedName) {
+            postgreSqlFeedName = recorder.getUniqueName("js-test-postgreSqlFeed-");
+          }
         }
-        if (recorder && !appInsightsFeedName) {
-          appInsightsFeedName = recorder.getUniqueName("js-test-appInsightsFeed-");
-        }
-        if (recorder && !sqlServerFeedName) {
-          sqlServerFeedName = recorder.getUniqueName("js-test-sqlServerFeed-");
-        }
-        if (recorder && !cosmosFeedName) {
-          cosmosFeedName = recorder.getUniqueName("js-test-cosmosFeed-");
-        }
-        if (recorder && !dataExplorerFeedName) {
-          dataExplorerFeedName = recorder.getUniqueName("js-test-dataExplorerFeed-");
-        }
-        if (recorder && !azureTableFeedName) {
-          azureTableFeedName = recorder.getUniqueName("js-test-tableFeed-");
-        }
-        if (recorder && !httpRequestFeedName) {
-          httpRequestFeedName = recorder.getUniqueName("js-test-httpRequestFeed-");
-        }
-        if (recorder && !influxDbFeedName) {
-          influxDbFeedName = recorder.getUniqueName("js-test-influxdbFeed-");
-        }
-        if (recorder && !mongoDbFeedName) {
-          mongoDbFeedName = recorder.getUniqueName("js-test-mongoDbFeed-");
-        }
-        if (recorder && !mySqlFeedName) {
-          mySqlFeedName = recorder.getUniqueName("js-test-mySqlFeed-");
-        }
-        if (recorder && !postgreSqlFeedName) {
-          postgreSqlFeedName = recorder.getUniqueName("js-test-postgreSqlFeed-");
-        }
-      });
+      );
 
       afterEach(async function() {
         if (recorder) {
@@ -807,7 +809,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
 /**
  * @this
- * eslint-disable-next-line \@typescript-eslint/explicit-module-boundary-types 
+ * eslint-disable-next-line \@typescript-eslint/explicit-module-boundary-types
  */
 export async function verifyDataFeedDeletion(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types

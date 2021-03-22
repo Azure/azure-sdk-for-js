@@ -16,13 +16,15 @@ describe("Keys client - import keys", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(/** @this Mocha.Context */ async function() {
-    const authentication = await authenticate(this);
-    suffix = authentication.keySuffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      suffix = authentication.keySuffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();

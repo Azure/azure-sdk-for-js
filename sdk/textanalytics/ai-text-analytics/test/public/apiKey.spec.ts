@@ -25,19 +25,23 @@ describe("[API Key] TextAnalyticsClient", /** @this Mocha.Context */ function() 
   const CLITimeout = this.timeout();
   const fastTimeout = 10000;
 
-  beforeEach(/** @this Mocha.Context */ function() {
-    recorder = createRecorder(this);
-    client = createClient("APIKey");
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      recorder = createRecorder(this);
+      client = createClient("APIKey");
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
   });
 
   describe("fast tests", function() {
-    before(/** @this Mocha.Context */ function() {
-      this.timeout(fastTimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(fastTimeout);
+      }
+    );
 
     it("#analyzeSentiment", async function() {
       const results = await client.analyzeSentiment(testDataEn);
@@ -85,9 +89,11 @@ describe("[API Key] TextAnalyticsClient", /** @this Mocha.Context */ function() 
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(/** @this Mocha.Context */ function() {
-      this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
+      }
+    );
 
     describe("#health", function() {
       it("input strings", async function() {

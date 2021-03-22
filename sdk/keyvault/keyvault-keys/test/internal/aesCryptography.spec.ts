@@ -43,19 +43,21 @@ describe("AesCryptographyProvider internal tests", function() {
     const encryptionAlgorithm = `A${keySize}CBCPAD` as AesCbcEncryptionAlgorithm;
     let jwk: JsonWebKey;
 
-    beforeEach(/** @this Mocha.Context */ function() {
-      if (!isNode) {
-        this.skip();
+    beforeEach(
+      /** @this Mocha.Context */ function() {
+        if (!isNode) {
+          this.skip();
+        }
+
+        jwk = {
+          keyOps: ["encrypt", "decrypt", "wrapKey", "unwrapKey"],
+          k: getKey(keySize >> 3), // Generate a symmetric key for testing
+          kty: "oct"
+        };
+
+        cryptoClient = new CryptographyClient(jwk);
       }
-
-      jwk = {
-        keyOps: ["encrypt", "decrypt", "wrapKey", "unwrapKey"],
-        k: getKey(keySize >> 3), // Generate a symmetric key for testing
-        kty: "oct"
-      };
-
-      cryptoClient = new CryptographyClient(jwk);
-    });
+    );
 
     describe(`AES-CBC with PKCS padding (${keySize})`, () => {
       describe("local-only tests", async function() {
@@ -132,21 +134,23 @@ describe("AesCryptographyProvider internal tests", function() {
         let keyVaultKey: KeyVaultKey;
         let remoteProvider: RemoteCryptographyProvider;
 
-        beforeEach(/** @this Mocha.Context */ async function() {
-          const authentication = await authenticate(this);
-          recorder = authentication.recorder;
+        beforeEach(
+          /** @this Mocha.Context */ async function() {
+            const authentication = await authenticate(this);
+            recorder = authentication.recorder;
 
-          if (!authentication.hsmClient) {
-            // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
-            // This is only necessary while Managed HSM is in preview.
-            this.skip();
+            if (!authentication.hsmClient) {
+              // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
+              // This is only necessary while Managed HSM is in preview.
+              this.skip();
+            }
+
+            client = authentication.hsmClient;
+            credential = authentication.credential;
+            testClient = new TestClient(authentication.hsmClient);
+            keySuffix = authentication.keySuffix;
           }
-
-          client = authentication.hsmClient;
-          credential = authentication.credential;
-          testClient = new TestClient(authentication.hsmClient);
-          keySuffix = authentication.keySuffix;
-        });
+        );
 
         afterEach(async function() {
           await recorder.stop();

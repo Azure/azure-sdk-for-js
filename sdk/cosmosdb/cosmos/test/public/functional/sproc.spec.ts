@@ -20,9 +20,11 @@ describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
   });
   describe("Validate sproc CRUD", function() {
     let container: Container;
-    beforeEach(/** @this Mocha.Context */ async function() {
-      container = await getTestContainer(this.test.fullTitle());
-    });
+    beforeEach(
+      /** @this Mocha.Context */ async function() {
+        container = await getTestContainer(this.test.fullTitle());
+      }
+    );
 
     it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function() {
       // read sprocs
@@ -92,9 +94,11 @@ describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
 
   describe("Validate stored procedure functionality", function() {
     let container: Container;
-    beforeEach(/** @this Mocha.Context */ async function() {
-      container = await getTestContainer(this.test.fullTitle());
-    });
+    beforeEach(
+      /** @this Mocha.Context */ async function() {
+        container = await getTestContainer(this.test.fullTitle());
+      }
+    );
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function() {
       const sproc1: StoredProcedureDefinition = {

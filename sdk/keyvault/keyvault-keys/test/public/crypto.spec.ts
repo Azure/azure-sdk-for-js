@@ -29,24 +29,28 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     return;
   }
 
-  beforeEach(/** @this Mocha.Context */ async function() {
-    const authentication = await authenticate(this);
-    client = authentication.client;
-    recorder = authentication.recorder;
-    testClient = authentication.testClient;
-    credential = authentication.credential;
-    keySuffix = authentication.keySuffix;
-    keyName = testClient.formatName("cryptography-client-test" + keySuffix);
-    keyVaultKey = await client.createKey(keyName, "RSA");
-    cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
-  });
-
-  afterEach(/** @this Mocha.Context */ async function() {
-    if (!this.currentTest?.isPending()) {
-      await testClient.flushKey(keyName);
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      client = authentication.client;
+      recorder = authentication.recorder;
+      testClient = authentication.testClient;
+      credential = authentication.credential;
+      keySuffix = authentication.keySuffix;
+      keyName = testClient.formatName("cryptography-client-test" + keySuffix);
+      keyVaultKey = await client.createKey(keyName, "RSA");
+      cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
     }
-    await recorder.stop();
-  });
+  );
+
+  afterEach(
+    /** @this Mocha.Context */ async function() {
+      if (!this.currentTest?.isPending()) {
+        await testClient.flushKey(keyName);
+      }
+      await recorder.stop();
+    }
+  );
 
   // The tests follow
 
@@ -233,7 +237,9 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     await testClient.flushKey(hsmKeyName);
   });
 
-  it("sign and verify with RS256 through an RSA-HSM key", /** @this Mocha.Context */ async function(): Promise<void> {
+  it("sign and verify with RS256 through an RSA-HSM key", /** @this Mocha.Context */ async function(): Promise<
+    void
+  > {
     const hsmKeyName = keyName + "2";
     const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
     const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
@@ -264,7 +270,9 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     await testClient.flushKey(hsmKeyName);
   });
 
-  it("sign and verify with RS384 through an RSA-HSM key", /** @this Mocha.Context */ async function(): Promise<void> {
+  it("sign and verify with RS384 through an RSA-HSM key", /** @this Mocha.Context */ async function(): Promise<
+    void
+  > {
     const hsmKeyName = keyName + "2";
     const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
     const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);

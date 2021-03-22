@@ -26,13 +26,15 @@ describe("Certificates client - list certificates in various ways", () => {
     subject: "cn=MyCert"
   };
 
-  beforeEach(/** @this Mocha.Context */ async function() {
-    const authentication = await authenticate(this);
-    suffix = authentication.suffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      suffix = authentication.suffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();

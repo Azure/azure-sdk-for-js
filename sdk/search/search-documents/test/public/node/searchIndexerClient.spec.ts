@@ -34,19 +34,21 @@ describe("SearchIndexerClient", /** @this Mocha.Context */ function() {
 
   this.timeout(99999);
 
-  beforeEach(/** @this Mocha.Context */ async function() {
-    ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
-    if (!isPlaybackMode()) {
-      await createDataSourceConnections(indexerClient);
-      await createSkillsets(indexerClient);
-      await createIndex(indexClient, TEST_INDEX_NAME);
-      await delay(5000);
-      await createIndexers(indexerClient, TEST_INDEX_NAME);
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
+      if (!isPlaybackMode()) {
+        await createDataSourceConnections(indexerClient);
+        await createSkillsets(indexerClient);
+        await createIndex(indexClient, TEST_INDEX_NAME);
+        await delay(5000);
+        await createIndexers(indexerClient, TEST_INDEX_NAME);
+      }
+      recorder = record(this, environmentSetup);
+      // create the clients again, but hooked up to the recorder
+      ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
     }
-    recorder = record(this, environmentSetup);
-    // create the clients again, but hooked up to the recorder
-    ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
-  });
+  );
 
   afterEach(async function() {
     if (recorder) {

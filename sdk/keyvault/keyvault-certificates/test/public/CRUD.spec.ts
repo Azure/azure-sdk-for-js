@@ -32,16 +32,18 @@ describe("Certificates client - create, read, update and delete", () => {
     subject: "cn=MyCert"
   };
 
-  beforeEach(/** @this Mocha.Context */ async function() {
-    const authentication = await authenticate(this);
-    suffix = authentication.suffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-    keyVaultUrl = authentication.keyVaultUrl;
-    credential = authentication.credential;
-    secretClient = new SecretClient(keyVaultUrl, credential);
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      suffix = authentication.suffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+      keyVaultUrl = authentication.keyVaultUrl;
+      credential = authentication.credential;
+      secretClient = new SecretClient(keyVaultUrl, credential);
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();

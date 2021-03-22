@@ -18,10 +18,12 @@ const validateOfferResponseBody = function(offer: any): void {
 describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  beforeEach(/** @this Mocha.Context */ async function() {
-    this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-    await removeAllDatabases();
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+      await removeAllDatabases();
+    }
+  );
 
   describe("Validate Offer CRUD", function() {
     it("nativeApi Should do offer read and query operations successfully name based single partition collection", async function() {

@@ -43,24 +43,28 @@ describe("[AAD] TextAnalyticsClient", /** @this Mocha.Context */ function() {
 
   let getId: () => string;
 
-  beforeEach(/** @this Mocha.Context */ function() {
-    recorder = createRecorder(this);
-    client = createClient("AAD");
-    let nextId = 0;
-    getId = function() {
-      nextId += 1;
-      return nextId.toString();
-    };
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      recorder = createRecorder(this);
+      client = createClient("AAD");
+      let nextId = 0;
+      getId = function() {
+        nextId += 1;
+        return nextId.toString();
+      };
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
   });
 
   describe("fast tests", function() {
-    before(/** @this Mocha.Context */ function() {
-      this.timeout(fastTimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(fastTimeout);
+      }
+    );
 
     describe("#analyzeSentiment", function() {
       it("client throws on empty list", async function() {
@@ -926,9 +930,11 @@ describe("[AAD] TextAnalyticsClient", /** @this Mocha.Context */ function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(/** @this Mocha.Context */ function() {
-      this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
+      }
+    );
 
     describe("#analyze", function() {
       it("single entity recognition action", async function() {
