@@ -50,8 +50,8 @@
       "azure-cognitive-services",
       "azure-text-analytics"
     ],
-    "dependencyOverrides": {
-      "@azure/identity": "latest"
+    "requiredResources": {
+      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     }
   },
   "browser": {

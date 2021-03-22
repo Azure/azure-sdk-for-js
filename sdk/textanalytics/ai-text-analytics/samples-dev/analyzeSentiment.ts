@@ -2,8 +2,13 @@
 // Licensed under the MIT License.
 
 /**
+ * In this sample, we use the sentiment analysis endpoint to retrieve
+ * estimations of document sentiment (positive, negative, or mixed) within some
+ * example text. The endpoint allows us to analyze sentiment on a per-sentence
+ * or overall (per-document) basis.
+ *
  * @summary analyzes the sentiment of a piece of text
- * @azsdk-weight 50
+ * @azsdk-weight 100
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";

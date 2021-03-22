@@ -2,9 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * @summary detects entites in a piece of text and prints them along with the
- * entity type
- * @azsdk-weight 50
+ * Uses the entity recognition endpoint to detect entities in a document using
+ * Named Entity Recognition (NER) and prints them along with their recognized
+ * entity type.
+ *
+ * @summary detects entites in a piece of text
+ * @azsdk-weight 100
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";

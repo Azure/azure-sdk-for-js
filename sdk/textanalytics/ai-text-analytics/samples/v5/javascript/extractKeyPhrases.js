@@ -2,6 +2,9 @@
 // Licensed under the MIT License.
 
 /**
+ * This sample uses the key-phrase extraction endpoint to determine which
+ * words or phrases in a document are of particular importance.
+ *
  * @summary extracts key phrases from a piece of text
  */
 

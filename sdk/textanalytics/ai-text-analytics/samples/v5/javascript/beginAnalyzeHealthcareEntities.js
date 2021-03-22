@@ -2,7 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * @summary detects healthcare entities in a piece of text and prints them
+ * This sample program uses the Text Analytics for Healthcare API to detect
+ * healthcare-related entities in some documents and prints them to the
+ * console.
+ *
+ * @summary detects healthcare entities in a piece of text
  */
 
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");

@@ -2,8 +2,14 @@
 // Licensed under the MIT License.
 
 /**
+ * This sample uses the PII-recognition endpoint to detect sensitive
+ * personally identifiable information in documents (such as social security
+ * numbers, addresses, and more). The API returns information about the
+ * location of the sensitive information in the text, which we use to perform
+ * redaction of the PII text.
+ *
  * @summary detects personally-identifiable information
- * @azsdk-weight 40
+ * @azsdk-weight 100
  */
 
 import {

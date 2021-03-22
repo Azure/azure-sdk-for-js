@@ -13,25 +13,29 @@ urlFragment: ai-text-analytics-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Text Analytics in some common scenarios.
 
-| **File Name**                                                             | **Description**                                                                                    |
-| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [analyzeSentiment.js][analyzesentiment]                                   | analyzes the sentiment of a piece of text                                                          |
-| [detectLanguage.js][detectlanguage]                                       | detects the language of a piece of text                                                            |
-| [extractKeyPhrases.js][extractkeyphrases]                                 | extracts key phrases from a piece of text                                                          |
-| [recognizeEntities.js][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
-| [recognizeLinkedEntities.js][recognizelinkedentities]                     | detects entities that have links to more information on the web                                    |
-| [beginAnalyzeHealthcareEntities.js][beginanalyzehealthcareentities]       | detects healthcare entities in a piece of text and prints them                                     |
-| [recognizePii.js][recognizepii]                                           | detects personally-identifiable information                                                        |
-| [authenticationMethods.js][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
-| [beginAnalyzeBatchActions.js][beginanalyzebatchactions]                   | extracts key phrases, entities, and pii entities from a piece of text                              |
-| [alternativeDocumentInput.js][alternativedocumentinput]                   | uses object document inputs with attached metadata rather than simple strings for more flexibility |
-| [analyzeSentimentWithOpinionMining.js][analyzesentimentwithopinionmining] | analyzes the sentiment of a piece of text and mine opinions about different targets                |
+| **File Name**                                                             | **Description**                                                                         |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| [analyzeSentiment.js][analyzesentiment]                                   | analyzes the sentiment of a piece of text                                               |
+| [detectLanguage.js][detectlanguage]                                       | detects the language of a piece of text                                                 |
+| [extractKeyPhrases.js][extractkeyphrases]                                 | extracts key phrases from a piece of text                                               |
+| [recognizeEntities.js][recognizeentities]                                 | detects entites in a piece of text                                                      |
+| [recognizeLinkedEntities.js][recognizelinkedentities]                     | detects entities that have links to more information on the web                         |
+| [recognizePii.js][recognizepii]                                           | detects personally-identifiable information                                             |
+| [analyzeSentimentWithOpinionMining.js][analyzesentimentwithopinionmining] | analyzes the sentiment of a piece of text and mine opinions about different targets     |
+| [beginAnalyzeHealthcareEntities.js][beginanalyzehealthcareentities]       | detects healthcare entities in a piece of text                                          |
+| [alternativeDocumentInput.js][alternativedocumentinput]                   | uses objects with attached metadata instead of simple strings as inputs for flexibility |
+| [authenticationMethods.js][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key         |
+| [beginAnalyzeBatchActions.js][beginanalyzebatchactions]                   | applies multiple Text Analytics actions per document                                    |
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >= 12.0.0.
+The sample programs are compatible with Node.js >=12.0.0.
 
-You need [an Azure subscription][freesub] to run these sample programs. Samples retrieve credentials to access the endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
+
+- [Azure Cognitive Services instance][createinstance_azurecognitiveservicesinstance]
+
+Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
 Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
 
@@ -68,12 +72,13 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/extractKeyPhrases.js
 [recognizeentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/recognizeEntities.js
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/recognizeLinkedEntities.js
-[beginanalyzehealthcareentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/beginAnalyzeHealthcareEntities.js
 [recognizepii]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/recognizePii.js
+[analyzesentimentwithopinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/analyzeSentimentWithOpinionMining.js
+[beginanalyzehealthcareentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/beginAnalyzeHealthcareEntities.js
+[alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/alternativeDocumentInput.js
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/authenticationMethods.js
 [beginanalyzebatchactions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/beginAnalyzeBatchActions.js
-[alternativedocumentinput]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/alternativeDocumentInput.js
-[analyzesentimentwithopinionmining]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/javascript/analyzeSentimentWithOpinionMining.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [freesub]: https://azure.microsoft.com/free/
+[createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/README.md

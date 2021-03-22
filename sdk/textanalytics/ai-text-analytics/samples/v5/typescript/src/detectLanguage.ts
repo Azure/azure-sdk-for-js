@@ -2,6 +2,11 @@
 // Licensed under the MIT License.
 
 /**
+ * In this sample, we use the language detection endpoint to determine the
+ * written language of several documents written in different languages. The
+ * endpoint provides a primary language as well as a score representing the
+ * service's confidence in the correctness of its assessment.
+ *
  * @summary detects the language of a piece of text
  */
 

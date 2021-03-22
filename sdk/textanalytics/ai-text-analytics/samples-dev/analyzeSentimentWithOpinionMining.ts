@@ -4,12 +4,12 @@
 /**
  * This sample demonstrates how to analyze sentiment on a more granular level,
  * mining individual assessments from reviews (also known as aspect-based
- * sentiment analysis).
+ * sentiment analysis). In the example below, we analyze reviews about a hotel
+ * for sentiment and different assessments about targets in the reviews.
  *
- * In this sample, a bunch of reviews about a hotel are being analyzed for
- * sentiment and different assessments about targets in the reviews are shown.
- *
- * @summary analyzes the sentiment of a piece of text and mine opinions about different targets
+ * @summary analyzes the sentiment of a piece of text and mine opinions about
+ * different targets
+ * @azsdk-weight 50
  */
 
 import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";

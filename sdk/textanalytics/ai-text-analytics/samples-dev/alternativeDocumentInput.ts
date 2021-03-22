@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * @summary uses object document inputs with attached metadata rather than simple strings for more flexibility
+ * This sample demonstrates how to use objects with additional metadata as
+ * inputs to the Text Analytics service as an alternative to passing arrays of
+ * simple strings in the client methods.
+ *
+ * @summary uses objects with attached metadata instead of simple strings as
+ * inputs for flexibility
+ * @azsdk-weight 40
  */
 
 import {
