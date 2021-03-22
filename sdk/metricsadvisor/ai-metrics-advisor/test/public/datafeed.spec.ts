@@ -808,7 +808,7 @@ matrix([[true, false]] as const, async (useAad) => {
 });
 
 /**
- * @this
+ * @this Mocha.Context
  * eslint-disable-next-line \@typescript-eslint/explicit-module-boundary-types
  */
 export async function verifyDataFeedDeletion(
