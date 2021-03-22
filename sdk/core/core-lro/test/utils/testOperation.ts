@@ -21,7 +21,7 @@ export interface TestOperationState extends PollOperationState<string> {
 
 export interface TestOperation extends PollOperation<TestOperationState, string> {}
 
-/** @this Mocha.Context */
+/** @this TestOperation */
 async function update(
   this: TestOperation,
   options: {
