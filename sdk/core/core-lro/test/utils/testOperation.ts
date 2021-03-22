@@ -70,7 +70,7 @@ async function update(
   return makeOperation(newState);
 }
 
-/** @this Mocha.Context */
+/** @this TestOperation */
 async function cancel(
   this: TestOperation,
   options: { abortSignal?: AbortSignal } = {}
@@ -101,7 +101,7 @@ async function cancel(
   });
 }
 
-/** @this Mocha.Context */
+/** @this TestOperation */
 function toString(this: TestOperation): string {
   return JSON.stringify({
     state: this.state
