@@ -117,6 +117,26 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 };
 
 // @public
+export interface AcsRecordingChunkInfo {
+    documentId: string;
+    endReason: string;
+    index: number;
+}
+
+// @public
+export interface AcsRecordingFileStatusUpdatedEventData {
+    recordingDurationMs: number;
+    recordingStartTime: string;
+    recordingStorageInfo: AcsRecordingStorageInfo;
+    sessionEndReason: string;
+}
+
+// @public
+export interface AcsRecordingStorageInfo {
+    recordingChunks: AcsRecordingChunkInfo[];
+}
+
+// @public
 export interface AcsSmsDeliveryAttempt {
     segmentsFailed: number;
     segmentsSucceeded: number;
@@ -1185,6 +1205,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
     "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
     "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
+    "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
     "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;

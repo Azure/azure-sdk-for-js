@@ -1,10 +1,11 @@
 # Release History
 
-## 4.0.1 (Unreleased)
+## 4.1.0 (Unreleased)
 
 - Add `Microsoft.Communication.ChatThreadParticipantAdded` and `Microsoft.Communication.ChatThreadParticipantRemoved` to the list of System Event types. These replace
   `Microsoft.Communication.ChatParticipantAddedToThread` and `Microsoft.Communication.ChatParticipantRemovedFromThread` respectively. Azure Communication Services no
   longer sends events with these older names.
+- Add `Microsoft.Communications.RecordingFileStatusUpdated` system event.
 
 ## 4.0.0 (2021-03-17)
 
