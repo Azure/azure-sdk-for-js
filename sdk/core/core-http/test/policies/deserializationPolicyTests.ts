@@ -129,6 +129,30 @@ describe("deserializationPolicy", function() {
     assert.deepEqual(response.parsedBody, [123, 456, 789]);
   });
 
+  it("should parse an XML response body with a missing Content-Type", async function() {
+    const request: WebResource = createRequest();
+    const mockClient: HttpClient = {
+      sendRequest: (req) =>
+        Promise.resolve({
+          request: req,
+          status: 200,
+          headers: new HttpHeaders(),
+          bodyAsText: `<fruit><apples tasty="yes">3</apples></fruit>`
+        })
+    };
+
+    const policy = createDeserializationPolicy().create(mockClient, new RequestPolicyOptions());
+    const response = await policy.sendRequest(request);
+    assert.deepEqual(response.parsedBody, {
+      apples: {
+        $: {
+          tasty: "yes"
+        },
+        _: "3"
+      }
+    });
+  });
+
   describe(`parse(HttpOperationResponse)`, () => {
     it(`with no response headers or body`, async function() {
       const response: HttpOperationResponse = {

@@ -353,15 +353,28 @@ function parse(
     const contentComponents: string[] = !contentType
       ? []
       : contentType.split(";").map((component) => component.toLowerCase());
-    if (
-      contentComponents.length === 0 ||
-      contentComponents.some((component) => jsonContentTypes.indexOf(component) !== -1)
-    ) {
+    let isJSONResponse = contentComponents.some(
+      (component) => jsonContentTypes.indexOf(component) !== -1
+    );
+    let isXMLResponse = contentComponents.some(
+      (component) => xmlContentTypes.indexOf(component) !== -1
+    );
+    // Attempt to parse the response body as JSON when the content-type doesn't match any known JSON/XML types
+    if (contentComponents.length === 0 || (!isJSONResponse && !isXMLResponse)) {
+      try {
+        JSON.parse(text);
+        isJSONResponse = true;
+      } catch (error) {
+        // If fail to parse as JSON, assume the response body is XML
+        isXMLResponse = true;
+      }
+    }
+    if (isJSONResponse) {
       return new Promise<HttpOperationResponse>((resolve) => {
         operationResponse.parsedBody = JSON.parse(text);
         resolve(operationResponse);
       }).catch(errorHandler);
-    } else if (contentComponents.some((component) => xmlContentTypes.indexOf(component) !== -1)) {
+    } else if (isXMLResponse) {
       return parseXML(text, opts)
         .then((body) => {
           operationResponse.parsedBody = body;
