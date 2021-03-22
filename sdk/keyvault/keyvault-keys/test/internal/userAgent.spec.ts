@@ -13,7 +13,7 @@ describe("Keys client's user agent (only in Node, because of fs)", () => {
     assert.equal(SDK_VERSION, packageVersion);
   });
 
-  it("the version should also match with the one available in the package.json  (only in Node, because of fs)", /** @this */ async function() {
+  it("the version should also match with the one available in the package.json  (only in Node, because of fs)", /** @this Mocha.Context */ async function() {
     if (!isNode) {
       this.skip();
       return;

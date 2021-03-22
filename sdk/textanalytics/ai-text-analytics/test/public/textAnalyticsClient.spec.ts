@@ -35,7 +35,7 @@ const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
-describe("[AAD] TextAnalyticsClient", /** @this */ function() {
+describe("[AAD] TextAnalyticsClient", /** @this Mocha.Context */ function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
   const CLITimeout = this.timeout();
@@ -43,7 +43,7 @@ describe("[AAD] TextAnalyticsClient", /** @this */ function() {
 
   let getId: () => string;
 
-  beforeEach(/** @this */ function() {
+  beforeEach(/** @this Mocha.Context */ function() {
     recorder = createRecorder(this);
     client = createClient("AAD");
     let nextId = 0;
@@ -58,7 +58,7 @@ describe("[AAD] TextAnalyticsClient", /** @this */ function() {
   });
 
   describe("fast tests", function() {
-    before(/** @this */ function() {
+    before(/** @this Mocha.Context */ function() {
       this.timeout(fastTimeout);
     });
 
@@ -926,7 +926,7 @@ describe("[AAD] TextAnalyticsClient", /** @this */ function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(/** @this */ function() {
+    before(/** @this Mocha.Context */ function() {
       this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
     });
 

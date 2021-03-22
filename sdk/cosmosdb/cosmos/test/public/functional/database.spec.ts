@@ -13,7 +13,7 @@ import { DatabaseRequest } from "../../../src";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
-describe("NodeJS CRUD Tests", /** @this */ function() {
+describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

@@ -26,7 +26,7 @@ interface TestItem {
   replace?: string;
 }
 
-describe("Item CRUD", /** @this */ function() {
+describe("Item CRUD", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

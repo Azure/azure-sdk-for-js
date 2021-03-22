@@ -36,7 +36,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let mySqlFeedName: string;
       let postgreSqlFeedName: string;
 
-      beforeEach(/** @this */ function() {
+      beforeEach(/** @this Mocha.Context */ function() {
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
         if (recorder && !feedName) {
           feedName = recorder.getUniqueName("js-test-datafeed-");
@@ -232,7 +232,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("retrieves an Azure Blob datafeed", /** @this */ async function() {
+        it("retrieves an Azure Blob datafeed", /** @this Mocha.Context */ async function() {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
@@ -271,7 +271,7 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("updates an Azure Blob datafeed", /** @this */ async function() {
+        it("updates an Azure Blob datafeed", /** @this Mocha.Context */ async function() {
           if (!createdAzureBlobDataFeedId) {
             this.skip();
           }

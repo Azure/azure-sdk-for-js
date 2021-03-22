@@ -20,7 +20,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
 
-  beforeEach(/** @this */ async function() {
+  beforeEach(/** @this Mocha.Context */ async function() {
     const authentication = await authenticate(this);
     recorder = authentication.recorder;
 
@@ -43,7 +43,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
   });
 
   describe("with AES crypto algorithms", async function() {
-    it("encrypts and decrypts using AES-GCM", /** @this */ async function() {
+    it("encrypts and decrypts using AES-GCM", /** @this Mocha.Context */ async function() {
       keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
       cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
       const text = this.test!.title;
@@ -63,7 +63,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
       assert.equal(text, uint8ArrayToString(decryptResult.result));
     });
 
-    it("encrypts and decrypts using AES-CBC", /** @this */ async function() {
+    it("encrypts and decrypts using AES-CBC", /** @this Mocha.Context */ async function() {
       keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
       cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
       const text = this.test!.title;

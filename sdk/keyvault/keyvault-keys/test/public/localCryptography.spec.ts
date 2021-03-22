@@ -33,7 +33,7 @@ describe("Local cryptography public tests", () => {
     return;
   }
 
-  beforeEach(/** @this */ async function() {
+  beforeEach(/** @this Mocha.Context */ async function() {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
@@ -51,7 +51,7 @@ describe("Local cryptography public tests", () => {
     let customKeyVaultKey: KeyVaultKey;
     let cryptoClientFromKey: CryptographyClient;
 
-    beforeEach(/** @this */ async function() {
+    beforeEach(/** @this Mocha.Context */ async function() {
       customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       customKeyVaultKey = await client.createKey(customKeyName, "RSA");
       cryptoClientFromKey = new CryptographyClient(customKeyVaultKey.key!);
@@ -123,7 +123,7 @@ describe("Local cryptography public tests", () => {
     });
   });
 
-  it("encrypt & decrypt RSA1_5", /** @this */ async function() {
+  it("encrypt & decrypt RSA1_5", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
@@ -137,7 +137,7 @@ describe("Local cryptography public tests", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("encrypt & decrypt RSA-OAEP", /** @this */ async function() {
+  it("encrypt & decrypt RSA-OAEP", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
@@ -151,7 +151,7 @@ describe("Local cryptography public tests", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("wrapKey & unwrapKey RSA1_5", /** @this */ async function() {
+  it("wrapKey & unwrapKey RSA1_5", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
@@ -168,7 +168,7 @@ describe("Local cryptography public tests", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("wrapKey & unwrapKey RSA-OAEP", /** @this */ async function() {
+  it("wrapKey & unwrapKey RSA-OAEP", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
@@ -190,7 +190,7 @@ describe("Local cryptography public tests", () => {
     const localSupportedAlgorithmNames = Object.keys(rsaProvider.signatureAlgorithmToHashAlgorithm);
 
     for (const localAlgorithmName of localSupportedAlgorithmNames) {
-      it(localAlgorithmName, /** @this */ async function(): Promise<void> {
+      it(localAlgorithmName, /** @this Mocha.Context */ async function(): Promise<void> {
         recorder.skip(
           "browser",
           `Local sign of algorithm ${localAlgorithmName} is only supported in NodeJS`

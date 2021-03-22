@@ -10,7 +10,7 @@ import { ConnectionString } from "../../src/utils/internalModels";
 describe("Utility Helpers", () => {
   describe("extractConnectionStringParts", () => {
     describe("Account Connection String", () => {
-      beforeEach(/** @this */ function() {
+      beforeEach(/** @this Mocha.Context */ function() {
         if (!isNode) {
           // Account connection string is not supported for Browsers
           this.skip();

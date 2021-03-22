@@ -26,7 +26,7 @@ describe("Challenge based authentication tests", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(/** @this */ async function() {
+  beforeEach(/** @this Mocha.Context */ async function() {
     const authentication = await authenticate(this);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
@@ -40,7 +40,7 @@ describe("Challenge based authentication tests", () => {
 
   // The tests follow
 
-  it("Authentication should work for parallel requests", /** @this */ async function() {
+  it("Authentication should work for parallel requests", /** @this Mocha.Context */ async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
@@ -71,7 +71,7 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it("Once authenticated, new requests should not authenticate again", /** @this */ async function() {
+  it("Once authenticated, new requests should not authenticate again", /** @this Mocha.Context */ async function() {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.

@@ -77,7 +77,7 @@ describe("IdentityClient", function() {
     );
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", /** @this */ async function() {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", /** @this Mocha.Context */ async function() {
     if (!isNode) {
       return this.skip();
     }

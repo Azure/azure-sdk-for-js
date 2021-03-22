@@ -14,7 +14,7 @@ import { verifyAttestationToken } from "../utils/helpers";
 describe("PolicyGetSetTests ", function() {
   let recorder: Recorder;
 
-  beforeEach(/** @this */ function() {
+  beforeEach(/** @this Mocha.Context */ function() {
     recorder = createRecorder(this);
   });
 

@@ -77,7 +77,7 @@ describe("[AccountKey] MixedRealityStsClient functional tests", function() {
   let client: MixedRealityStsClient;
   let recorder: Recorder;
 
-  beforeEach(/** @this */ function() {
+  beforeEach(/** @this Mocha.Context */ function() {
     recorder = createRecorder(this);
     client = createClient();
   });

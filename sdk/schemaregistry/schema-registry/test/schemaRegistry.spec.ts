@@ -62,7 +62,7 @@ describe("SchemaRegistryClient", function() {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
 
-  beforeEach(/** @this */ function() {
+  beforeEach(/** @this Mocha.Context */ function() {
     ({ client, recorder } = createRecordedClient(this));
   });
 

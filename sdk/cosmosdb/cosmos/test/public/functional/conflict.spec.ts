@@ -3,7 +3,7 @@
 import assert from "assert";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 
-describe("Conflicts", /** @this */ function() {
+describe("Conflicts", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

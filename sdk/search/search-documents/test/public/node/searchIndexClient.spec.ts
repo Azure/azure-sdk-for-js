@@ -17,13 +17,13 @@ import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";
 
-describe("SearchIndexClient", /** @this */ function() {
+describe("SearchIndexClient", /** @this Mocha.Context */ function() {
   let recorder: Recorder;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(/** @this */ async function() {
+  beforeEach(/** @this Mocha.Context */ async function() {
     ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createSynonymMaps(indexClient);

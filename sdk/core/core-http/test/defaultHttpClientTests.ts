@@ -236,7 +236,7 @@ describe("defaultHttpClient", function() {
     }
   });
 
-  it("should give a graceful error for nonexistent hosts", /** @this */ async function() {
+  it("should give a graceful error for nonexistent hosts", /** @this Mocha.Context */ async function() {
     // Increase timeout to give the request time to fail
     this.timeout(10000);
     const requestUrl = "http://fake.domain";

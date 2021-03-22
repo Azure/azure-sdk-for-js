@@ -11,7 +11,7 @@ import {
   removeAllDatabases
 } from "../common/TestHelpers";
 
-describe("NodeJS CRUD Tests", /** @this */ function() {
+describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

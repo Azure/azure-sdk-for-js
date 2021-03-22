@@ -16,7 +16,7 @@ describe("Keys client - import keys", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(/** @this */ async function() {
+  beforeEach(/** @this Mocha.Context */ async function() {
     const authentication = await authenticate(this);
     suffix = authentication.keySuffix;
     client = authentication.client;
@@ -30,7 +30,7 @@ describe("Keys client - import keys", () => {
 
   // The tests follow
 
-  it("can import a key", /** @this */ async function() {
+  it("can import a key", /** @this Mocha.Context */ async function() {
     const keyName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     function toBytes(hex: string): Uint8Array {
       if (hex.length % 2) {

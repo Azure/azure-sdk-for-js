@@ -19,7 +19,7 @@ describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.ANOMALY_DETECTOR_API_KEY);
 
-  beforeEach(/** @this */ function() {
+  beforeEach(/** @this Mocha.Context */ function() {
     ({ recorder, client } = createRecordedAnomalyDetectorClient(this, apiKey));
   });
 

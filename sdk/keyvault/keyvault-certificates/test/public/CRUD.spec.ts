@@ -32,7 +32,7 @@ describe("Certificates client - create, read, update and delete", () => {
     subject: "cn=MyCert"
   };
 
-  beforeEach(/** @this */ async function() {
+  beforeEach(/** @this Mocha.Context */ async function() {
     const authentication = await authenticate(this);
     suffix = authentication.suffix;
     client = authentication.client;
@@ -49,7 +49,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
   // The tests follow
 
-  it("can create a certificate", /** @this */ async function() {
+  it("can create a certificate", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const poller = await client.beginCreateCertificate(
       certificateName,
@@ -65,7 +65,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can abort creating a certificate", /** @this */ async function() {
+  it("can abort creating a certificate", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const controller = new AbortController();
 
@@ -80,7 +80,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work - in browsers
-  it("can create a certificate with requestOptions timeout", /** @this */ async function() {
+  it("can create a certificate with requestOptions timeout", /** @this Mocha.Context */ async function() {
     recorder.skip("browser", "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
@@ -114,7 +114,7 @@ describe("Certificates client - create, read, update and delete", () => {
     );
   });
 
-  it("can update the tags of a certificate", /** @this */ async function() {
+  it("can update the tags of a certificate", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await client.beginCreateCertificate(
@@ -137,7 +137,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can disable a certificate", /** @this */ async function() {
+  it("can disable a certificate", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
@@ -160,7 +160,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can disable a certificate version", /** @this */ async function() {
+  it("can disable a certificate version", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     const poller = await client.beginCreateCertificate(
@@ -186,7 +186,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can update certificate with requestOptions timeout", /** @this */ async function() {
+  it("can update certificate with requestOptions timeout", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
@@ -207,7 +207,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("can get a certificate", /** @this */ async function() {
+  it("can get a certificate", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -223,7 +223,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can get a certificate's secret in PKCS 12 format", /** @this */ async function() {
+  it("can get a certificate's secret in PKCS 12 format", /** @this Mocha.Context */ async function() {
     recorder.skip("browser", "This test uses the file system.");
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
@@ -272,7 +272,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can get a certificate's secret in PEM format", /** @this */ async function() {
+  it("can get a certificate's secret in PEM format", /** @this Mocha.Context */ async function() {
     recorder.skip("browser", "This test uses the file system.");
     // Skipping this test from the live browser test runs, because we use the file system.
     if (!isNode) {
@@ -308,7 +308,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can get a certificate with requestOptions timeout", /** @this */ async function() {
+  it("can get a certificate with requestOptions timeout", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
@@ -321,7 +321,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("can retrieve the latest version of a certificate value", /** @this */ async function() {
+  it("can retrieve the latest version of a certificate value", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -339,7 +339,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can get a certificate (Non Existing)", /** @this */ async function() {
+  it("can get a certificate (Non Existing)", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
@@ -352,7 +352,7 @@ describe("Certificates client - create, read, update and delete", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("can delete a certificate", /** @this */ async function() {
+  it("can delete a certificate", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,
@@ -382,7 +382,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can delete a certificate with requestOptions timeout", /** @this */ async function() {
+  it("can delete a certificate with requestOptions timeout", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
@@ -400,7 +400,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("can delete a certificate (Non Existing)", /** @this */ async function() {
+  it("can delete a certificate (Non Existing)", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
@@ -414,7 +414,7 @@ describe("Certificates client - create, read, update and delete", () => {
   });
 
   describe("can get a deleted certificate", () => {
-    it("using beginDeleteCertificate's poller", /** @this */ async function() {
+    it("using beginDeleteCertificate's poller", /** @this Mocha.Context */ async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       await client.beginCreateCertificate(
         certificateName,
@@ -436,7 +436,7 @@ describe("Certificates client - create, read, update and delete", () => {
       await testClient.purgeCertificate(certificateName);
     });
 
-    it("using getDeletedCertificate", /** @this */ async function() {
+    it("using getDeletedCertificate", /** @this Mocha.Context */ async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       await client.beginCreateCertificate(
         certificateName,
@@ -460,7 +460,7 @@ describe("Certificates client - create, read, update and delete", () => {
       await testClient.purgeCertificate(certificateName);
     });
 
-    it("can not get a certificate that never existed", /** @this */ async function() {
+    it("can not get a certificate that never existed", /** @this Mocha.Context */ async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       let error;
       try {
@@ -474,7 +474,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("can create, read, and delete a certificate issuer", /** @this */ async function() {
+  it("can create, read, and delete a certificate issuer", /** @this Mocha.Context */ async function() {
     const issuerName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
@@ -540,7 +540,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can update a certificate's policy", /** @this */ async function() {
+  it("can update a certificate's policy", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
 
     await client.beginCreateCertificate(
@@ -562,7 +562,7 @@ describe("Certificates client - create, read, update and delete", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can read, cancel and delete a certificate's operation", /** @this */ async function() {
+  it("can read, cancel and delete a certificate's operation", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     await client.beginCreateCertificate(
       certificateName,

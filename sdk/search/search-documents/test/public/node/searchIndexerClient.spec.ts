@@ -27,14 +27,14 @@ import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test2";
 
-describe("SearchIndexerClient", /** @this */ function() {
+describe("SearchIndexerClient", /** @this Mocha.Context */ function() {
   let recorder: Recorder;
   let indexerClient: SearchIndexerClient;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(/** @this */ async function() {
+  beforeEach(/** @this Mocha.Context */ async function() {
     ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createDataSourceConnections(indexerClient);

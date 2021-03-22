@@ -19,13 +19,13 @@ const testDataEn = [
   "I didn't like the last book I read at all."
 ];
 
-describe("[API Key] TextAnalyticsClient", /** @this */ function() {
+describe("[API Key] TextAnalyticsClient", /** @this Mocha.Context */ function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
   const CLITimeout = this.timeout();
   const fastTimeout = 10000;
 
-  beforeEach(/** @this */ function() {
+  beforeEach(/** @this Mocha.Context */ function() {
     recorder = createRecorder(this);
     client = createClient("APIKey");
   });
@@ -35,7 +35,7 @@ describe("[API Key] TextAnalyticsClient", /** @this */ function() {
   });
 
   describe("fast tests", function() {
-    before(/** @this */ function() {
+    before(/** @this Mocha.Context */ function() {
       this.timeout(fastTimeout);
     });
 
@@ -85,7 +85,7 @@ describe("[API Key] TextAnalyticsClient", /** @this */ function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(/** @this */ function() {
+    before(/** @this Mocha.Context */ function() {
       this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
     });
 
