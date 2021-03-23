@@ -104,6 +104,7 @@ export const RepositoryProperties: coreHttp.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "imageName",
+        required: true,
         type: {
           name: "String"
         }
@@ -566,8 +567,9 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
       "Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
     modelProperties: {
       grantType: {
+        defaultValue: "access_token",
+        isConstant: true,
         serializedName: "grant_type",
-        required: true,
         type: {
           name: "String"
         }
@@ -581,18 +583,14 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
       },
       tenant: {
         serializedName: "tenant",
+        required: true,
         type: {
           name: "String"
         }
       },
-      refreshToken: {
-        serializedName: "refresh_token",
-        type: {
-          name: "String"
-        }
-      },
-      accessToken: {
+      aadAccesstoken: {
         serializedName: "access_token",
+        required: true,
         type: {
           name: "String"
         }
@@ -601,10 +599,10 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
   }
 };
 
-export const RefreshToken: coreHttp.CompositeMapper = {
+export const AcrRefreshToken: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RefreshToken",
+    className: "AcrRefreshToken",
     modelProperties: {
       refreshToken: {
         serializedName: "refresh_token",
@@ -644,7 +642,7 @@ export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrle
           name: "String"
         }
       },
-      refreshToken: {
+      acrRefreshToken: {
         serializedName: "refresh_token",
         required: true,
         type: {
@@ -655,10 +653,10 @@ export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrle
   }
 };
 
-export const AccessToken: coreHttp.CompositeMapper = {
+export const AcrAccessToken: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AccessToken",
+    className: "AcrAccessToken",
     modelProperties: {
       accessToken: {
         serializedName: "access_token",

@@ -11,17 +11,18 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClient } from "../generatedClient";
 import {
-  AccessTokensGetOptionalParams,
-  AccessTokensGetResponse,
-  AccessTokensGetFromLoginResponse
+  AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams,
+  AuthenticationExchangeAadTokenForAcrRefreshTokenResponse,
+  AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams,
+  AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse
 } from "../models";
 
-/** Class representing a AccessTokens. */
-export class AccessTokens {
+/** Class representing a Authentication. */
+export class Authentication {
   private readonly client: GeneratedClient;
 
   /**
-   * Initialize a new instance of the class AccessTokens class.
+   * Initialize a new instance of the class Authentication class.
    * @param client Reference to the service client
    */
   constructor(client: GeneratedClient) {
@@ -29,76 +30,71 @@ export class AccessTokens {
   }
 
   /**
-   * Exchange ACR Refresh token for an ACR Access Token
+   * Exchange AAD tokens for an ACR refresh Token
    * @param options The options parameters.
    */
-  get(
-    options?: AccessTokensGetOptionalParams
-  ): Promise<AccessTokensGetResponse> {
+  exchangeAadTokenForAcrRefreshToken(
+    options?: AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams
+  ): Promise<AuthenticationExchangeAadTokenForAcrRefreshTokenResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getOperationSpec
-    ) as Promise<AccessTokensGetResponse>;
+      exchangeAadTokenForAcrRefreshTokenOperationSpec
+    ) as Promise<AuthenticationExchangeAadTokenForAcrRefreshTokenResponse>;
   }
 
   /**
-   * Exchange Username, Password and Scope an ACR Access Token
-   * @param service Indicates the name of your Azure container registry.
-   * @param scope Expected to be a valid scope, and can be specified more than once for multiple scope
-   *              requests. You can obtain this from the Www-Authenticate response header from the challenge.
+   * Exchange ACR Refresh token for an ACR Access Token
    * @param options The options parameters.
    */
-  getFromLogin(
-    service: string,
-    scope: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<AccessTokensGetFromLoginResponse> {
+  exchangeAcrRefreshTokenForAcrAccessToken(
+    options?: AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams
+  ): Promise<AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      service,
-      scope,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      getFromLoginOperationSpec
-    ) as Promise<AccessTokensGetFromLoginResponse>;
+      exchangeAcrRefreshTokenForAcrAccessTokenOperationSpec
+    ) as Promise<
+      AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse
+    >;
   }
 }
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const getOperationSpec: coreHttp.OperationSpec = {
-  path: "/oauth2/token",
+const exchangeAadTokenForAcrRefreshTokenOperationSpec: coreHttp.OperationSpec = {
+  path: "/oauth2/exchange",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessToken
+      bodyMapper: Mappers.AcrRefreshToken
     },
     default: {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  formDataParameters: [Parameters.refreshToken],
+  formDataParameters: [Parameters.aadAccesstoken],
   urlParameters: [Parameters.url],
   headerParameters: [Parameters.contentType3, Parameters.accept4],
   serializer
 };
-const getFromLoginOperationSpec: coreHttp.OperationSpec = {
+const exchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: coreHttp.OperationSpec = {
   path: "/oauth2/token",
-  httpMethod: "GET",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessToken
+      bodyMapper: Mappers.AcrAccessToken
     },
     default: {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [Parameters.service, Parameters.scope],
+  formDataParameters: [Parameters.acrRefreshToken],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.contentType3, Parameters.accept4],
   serializer
 };

@@ -40,7 +40,7 @@ export interface Repositories {
 /** Repository attributes */
 export interface RepositoryProperties {
   /** Image name */
-  name?: string;
+  name: string;
   /** Image created time */
   createdOn: Date;
   /** Image last update time */
@@ -50,7 +50,7 @@ export interface RepositoryProperties {
   /** Number of the tags */
   tagCount: number;
   /** Changeable attributes */
-  writeableProperties?: ContentProperties;
+  writeableProperties: ContentProperties;
 }
 
 export interface ContentProperties {
@@ -177,19 +177,17 @@ export interface RegistryArtifactProperties {
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Can take a value of access_token_refresh_token, or access_token, or refresh_token */
-  grantType: PostContentSchemaGrantType;
+  /** Can take a value of access_token */
+  grantType: "access_token";
   /** Indicates the name of your Azure container registry. */
   service: string;
   /** AAD tenant associated to the AAD credentials. */
-  tenant?: string;
-  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
-  refreshToken?: string;
+  tenant: string;
   /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
-  accessToken?: string;
+  aadAccesstoken: string;
 }
 
-export interface RefreshToken {
+export interface AcrRefreshToken {
   /** The refresh token to be used for generating access tokens */
   refreshToken?: string;
 }
@@ -202,10 +200,10 @@ export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwForm
   /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
   scope: string;
   /** Must be a valid ACR refresh token */
-  refreshToken: string;
+  acrRefreshToken: string;
 }
 
-export interface AccessToken {
+export interface AcrAccessToken {
   /** The access token for performing authenticated requests */
   accessToken?: string;
 }
@@ -572,24 +570,6 @@ export interface ContainerRegistryBlobCheckChunkExistsHeaders {
   /** Content range of blob chunk. */
   contentRange?: string;
 }
-
-/** Known values of {@link PostContentSchemaGrantType} that the service accepts. */
-export const enum KnownPostContentSchemaGrantType {
-  AccessTokenRefreshToken = "access_token_refresh_token",
-  AccessToken = "access_token",
-  RefreshToken = "refresh_token"
-}
-
-/**
- * Defines values for PostContentSchemaGrantType. \
- * {@link KnownPostContentSchemaGrantType} can be used interchangeably with PostContentSchemaGrantType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **access_token_refresh_token** \
- * **access_token** \
- * **refresh_token**
- */
-export type PostContentSchemaGrantType = string;
 
 /** Optional parameters. */
 export interface ContainerRegistryGetRepositoriesOptionalParams
@@ -988,50 +968,38 @@ export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlo
 };
 
 /** Optional parameters. */
-export interface RefreshTokensGetFromExchangeOptionalParams
+export interface AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams
   extends coreHttp.OperationOptions {
-  accessToken?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
+  aadAccesstoken?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
 }
 
-/** Contains response data for the getFromExchange operation. */
-export type RefreshTokensGetFromExchangeResponse = RefreshToken & {
+/** Contains response data for the exchangeAadTokenForAcrRefreshToken operation. */
+export type AuthenticationExchangeAadTokenForAcrRefreshTokenResponse = AcrRefreshToken & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: RefreshToken;
+    parsedBody: AcrRefreshToken;
   };
 };
 
 /** Optional parameters. */
-export interface AccessTokensGetOptionalParams
+export interface AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams
   extends coreHttp.OperationOptions {
-  refreshToken?: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
+  acrRefreshToken?: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
 }
 
-/** Contains response data for the get operation. */
-export type AccessTokensGetResponse = AccessToken & {
+/** Contains response data for the exchangeAcrRefreshTokenForAcrAccessToken operation. */
+export type AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse = AcrAccessToken & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: AccessToken;
-  };
-};
-
-/** Contains response data for the getFromLogin operation. */
-export type AccessTokensGetFromLoginResponse = AccessToken & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AccessToken;
+    parsedBody: AcrAccessToken;
   };
 };
 

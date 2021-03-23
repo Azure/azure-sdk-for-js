@@ -1030,7 +1030,7 @@
           "RefreshToken"
         ],
         "description": "Exchange AAD tokens for an ACR refresh Token",
-        "operationId": "RefreshTokens_GetFromExchange",
+        "operationId": "Authentication_ExchangeAadTokenForAcrRefreshToken",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -1045,15 +1045,12 @@
             "$ref": "#/parameters/Tenant"
           },
           {
-            "$ref": "#/parameters/RefreshToken"
-          },
-          {
             "$ref": "#/parameters/AccessToken"
           }
         ],
         "responses": {
           "200": {
-            "description": "Refresh token acquired",
+            "description": "ACR refresh token acquired",
             "schema": {
               "$ref": "#/definitions/RefreshToken"
             }
@@ -1080,7 +1077,7 @@
           "AccessToken"
         ],
         "description": "Exchange ACR Refresh token for an ACR Access Token",
-        "operationId": "AccessTokens_Get",
+        "operationId": "Authentication_ExchangeAcrRefreshTokenForAcrAccessToken",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -1107,6 +1104,7 @@
           },
           {
             "name": "refresh_token",
+            "x-ms-client-name": "acrRefreshToken",
             "in": "formData",
             "required": true,
             "description": "Must be a valid ACR refresh token",
@@ -1115,7 +1113,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Access token acquired",
+            "description": "ACR access token acquired",
             "schema": {
               "$ref": "#/definitions/AccessToken"
             }
@@ -1131,55 +1129,6 @@
         "x-ms-examples": {
           "Get Access Token with Refresh Token": {
             "$ref": "./examples/PostAccessToken.json"
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "AcrToken",
-          "AccessToken",
-          "userLogin"
-        ],
-        "description": "Exchange Username, Password and Scope an ACR Access Token",
-        "operationId": "AccessTokens_GetFromLogin",
-        "parameters": [
-          {
-            "name": "service",
-            "in": "query",
-            "required": true,
-            "description": "Indicates the name of your Azure container registry.",
-            "type": "string"
-          },
-          {
-            "name": "scope",
-            "in": "query",
-            "required": true,
-            "description": "Expected to be a valid scope, and can be specified more than once for multiple scope requests. You can obtain this from the Www-Authenticate response header from the challenge.",
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Access token acquired",
-            "schema": {
-              "$ref": "#/definitions/AccessToken"
-            }
-          },
-          "default": {
-            "description": "ACR error response describing why the operation failed.",
-            "schema": {
-              "$ref": "#/definitions/AcrErrors"
-            }
-          }
-        },
-        "security": [
-          {
-            "registry_auth": []
-          }
-        ],
-        "x-ms-examples": {
-          "Get Access Token with username and password": {
-            "$ref": "./examples/GetAccessToken.json"
           }
         }
       }
@@ -1334,10 +1283,12 @@
   "definitions": {
     "RepositoryAttributes": {
       "required": [
+        "imageName",
         "createdTime",
         "lastUpdatetime",
         "manifestCount",
-        "tagCount"
+        "tagCount",
+        "changeableAttributes"
       ],
       "x-ms-client-name": "RepositoryProperties",
       "type": "object",
@@ -1741,7 +1692,8 @@
           "type": "string"
         }
       },
-      "x-accessibility": "internal"
+      "x-accessibility": "internal",
+      "x-ms-client-name": "AcrRefreshToken"
     },
     "AccessToken": {
       "type": "object",
@@ -1751,7 +1703,8 @@
           "type": "string"
         }
       },
-      "x-accessibility": "internal"
+      "x-accessibility": "internal",
+      "x-ms-client-name": "AcrAccessToken"
     },
     "AcrErrors": {
       "description": "Acr error response describing why the operation failed",
@@ -2597,14 +2550,12 @@
     },
     "Grant_type": {
       "name": "grant_type",
-      "description": "Can take a value of access_token_refresh_token, or access_token, or refresh_token",
+      "description": "Can take a value of access_token",
       "type": "string",
       "in": "formData",
       "required": true,
       "enum": [
-        "access_token_refresh_token",
-        "access_token",
-        "refresh_token"
+        "access_token"
       ],
       "x-ms-parameter-location": "method",
       "x-accessibility": "internal"
@@ -2620,7 +2571,7 @@
     "Tenant": {
       "name": "tenant",
       "in": "formData",
-      "required": false,
+      "required": true,
       "description": "AAD tenant associated to the AAD credentials.",
       "type": "string",
       "x-ms-parameter-location": "method"
@@ -2643,8 +2594,9 @@
     },
     "AccessToken": {
       "name": "access_token",
+      "x-ms-client-name": "aadAccesstoken",
       "in": "formData",
-      "required": false,
+      "required": true,
       "description": "AAD access token, mandatory when grant_type is access_token_refresh_token or access_token.",
       "type": "string",
       "x-ms-parameter-location": "method"

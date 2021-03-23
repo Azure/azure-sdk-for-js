@@ -286,8 +286,8 @@ export const contentType3: OperationParameter = {
   }
 };
 
-export const accessToken: OperationParameter = {
-  parameterPath: ["options", "accessToken"],
+export const aadAccesstoken: OperationParameter = {
+  parameterPath: ["options", "aadAccesstoken"],
   mapper: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 };
 
@@ -303,29 +303,7 @@ export const accept4: OperationParameter = {
   }
 };
 
-export const refreshToken: OperationParameter = {
-  parameterPath: ["options", "refreshToken"],
+export const acrRefreshToken: OperationParameter = {
+  parameterPath: ["options", "acrRefreshToken"],
   mapper: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
-};
-
-export const service: OperationQueryParameter = {
-  parameterPath: "service",
-  mapper: {
-    serializedName: "service",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const scope: OperationQueryParameter = {
-  parameterPath: "scope",
-  mapper: {
-    serializedName: "scope",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };
