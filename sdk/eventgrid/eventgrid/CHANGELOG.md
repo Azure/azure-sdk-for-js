@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.0 (Unreleased)
+## 4.1.0 (2021-03-23)
 
 - The system event names `Microsoft.Communication.ChatParticipantAddedToThread` and `Microsoft.Communication.ChatParticipantRemovedFromThread` have been removed, and
   `Microsoft.Communication.ChatThreadParticipantAdded` and `Microsoft.Communication.ChatThreadParticipantRemoved` have been added. The old names did not match the
