@@ -8,7 +8,7 @@
 - Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
 - After we identified that the default client ID used for Node JS was not viable for the browser, we've made the client ID parameter required on the browser version of `InteractiveBrowserCredential`.
 - While the NodeJS version of `InteractiveBrowserCredential` allowed the `loginStyle` and `flow` optional properties to be passed through, these are only useful in the browser version of the credential. For that purpose, we've removed these parameters from the Node JS version of this credential.
-- Removed the `postLogoutRedirectUri` from the optional properties of the `InteractiveBrowserCredential`, to align with other languages.
+- Removed the `postLogoutRedirectUri` from the optional properties of the `InteractiveBrowserCredential`. This property is not required by our dependencies and it's not provided by the Identity SDKs in other languages.
 
 ### New updates and features
 
@@ -17,7 +17,7 @@
 - `DefaultAzureCredential`'s implementation for browsers is simplified to throw the `BrowserNotSupportedError` in its constructor. Previously, we relied on getting the same error from trying to instantiate the different  credentials that `DefaultAzureCredential` supports in Node JS.
   - To use Identity in the browser, please use the `InteractiveBrowserCredential` directly.
 - For the `InteractiveBrowserCredential` for node, replaced the use of the `express` module with a native http server for Node, shrinking the resulting identity module considerably.
-- `DeviceCodeCredential` now can receive its optional parameters as a single parameter object.
+- `DeviceCodeCredential` now receives it parameters as a single parameter object. This is specially practical since all of the previous parameters where optional anyway.
 - Refactored our use of MSAL to better centralize the handling of inputs, outputs and errors.
 - Migrated the `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` to the latest MSAL.
   - This update improves caching of tokens, significantly reducing the number of network requests.
