@@ -250,11 +250,7 @@ export class KeyVaultAccessControlClient {
         "KeyVaultAccessControlClient.listRoleAssignmentPage",
         optionsComplete,
         async (updatedOptions) => {
-          return await this.client.roleAssignments.listForScope(
-            this.vaultUrl,
-            roleScope,
-            updatedOptions
-          );
+          return this.client.roleAssignments.listForScope(this.vaultUrl, roleScope, updatedOptions);
         }
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -267,7 +263,7 @@ export class KeyVaultAccessControlClient {
         "KeyVaultAccessControlClient.listRoleAssignmentsPage",
         options || {},
         async (updatedOptions) => {
-          return await this.client.roleAssignments.listForScopeNext(
+          return this.client.roleAssignments.listForScopeNext(
             this.vaultUrl,
             roleScope,
             continuationState.continuationToken!,

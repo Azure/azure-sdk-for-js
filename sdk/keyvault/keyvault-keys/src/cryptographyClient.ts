@@ -196,7 +196,7 @@ export class CryptographyClient {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Encrypt);
       this.initializeIV(parameters);
       const provider = await this.getProvider("encrypt", parameters.algorithm);
-      return await provider.encrypt(parameters, updatedOptions);
+      return provider.encrypt(parameters, updatedOptions);
     });
   }
 
@@ -339,7 +339,7 @@ export class CryptographyClient {
     return withTrace(`CryptographyClient.wrapKey`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.WrapKey);
       const provider = await this.getProvider("wrapKey", algorithm);
-      return await provider.wrapKey(algorithm, key, updatedOptions);
+      return provider.wrapKey(algorithm, key, updatedOptions);
     });
   }
 
@@ -363,7 +363,7 @@ export class CryptographyClient {
     return withTrace(`CryptographyClient.unwrapKey`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.UnwrapKey);
       const provider = await this.getProvider("unwrapKey", algorithm);
-      return await provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
+      return provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
     });
   }
 
@@ -387,7 +387,7 @@ export class CryptographyClient {
     return withTrace(`CryptographyClient.sign`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
       const provider = await this.getProvider("sign", algorithm);
-      return await provider.sign(algorithm, digest, updatedOptions);
+      return provider.sign(algorithm, digest, updatedOptions);
     });
   }
 
@@ -413,7 +413,7 @@ export class CryptographyClient {
     return withTrace(`CryptographyClient.verify`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verify", algorithm);
-      return await provider.verify(algorithm, digest, signature, updatedOptions);
+      return provider.verify(algorithm, digest, signature, updatedOptions);
     });
   }
 
@@ -438,7 +438,7 @@ export class CryptographyClient {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
       const provider = await this.getProvider("signData", algorithm);
       const digest = await createHash(algorithm, data);
-      return await provider.sign(algorithm, digest, updatedOptions);
+      return provider.sign(algorithm, digest, updatedOptions);
     });
   }
 
@@ -464,7 +464,7 @@ export class CryptographyClient {
     return withTrace(`CryptographyClient.verifyData`, options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verifyData", algorithm);
-      return await provider.verifyData(algorithm, data, signature, updatedOptions);
+      return provider.verifyData(algorithm, data, signature, updatedOptions);
     });
   }
 

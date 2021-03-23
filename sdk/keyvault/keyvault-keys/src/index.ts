@@ -673,8 +673,7 @@ export class KeyClient {
       const currentSetResponse = await withTrace(
         "KeyClient.listPropertiesOfKeyVersionsPage",
         optionsComplete,
-        async (updatedOptions) =>
-          await this.client.getKeyVersions(this.vaultUrl, name, updatedOptions)
+        async (updatedOptions) => this.client.getKeyVersions(this.vaultUrl, name, updatedOptions)
       );
 
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -687,11 +686,7 @@ export class KeyClient {
         "KeyClient.listPropertiesOfKeyVersionsPage",
         options || {},
         async (updatedOptions) =>
-          await this.client.getKeyVersions(
-            continuationState.continuationToken!,
-            name,
-            updatedOptions
-          )
+          this.client.getKeyVersions(continuationState.continuationToken!, name, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -774,7 +769,7 @@ export class KeyClient {
       const currentSetResponse = await withTrace(
         "KeyClient.listPropertiesOfKeysPage",
         optionsComplete,
-        async (updatedOptions) => await this.client.getKeys(this.vaultUrl, updatedOptions)
+        async (updatedOptions) => this.client.getKeys(this.vaultUrl, updatedOptions)
       );
 
       continuationState.continuationToken = currentSetResponse.nextLink;
@@ -787,7 +782,7 @@ export class KeyClient {
         "KeysClient.listPropertiesOfKeysPage",
         options || {},
         async (updatedOptions) =>
-          await this.client.getKeys(continuationState.continuationToken!, updatedOptions)
+          this.client.getKeys(continuationState.continuationToken!, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -866,7 +861,7 @@ export class KeyClient {
       const currentSetResponse = await withTrace(
         "KeyClient.listDeletedKeysPage",
         optionsComplete,
-        async (updatedOptions) => await this.client.getDeletedKeys(this.vaultUrl, updatedOptions)
+        async (updatedOptions) => this.client.getDeletedKeys(this.vaultUrl, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -878,7 +873,7 @@ export class KeyClient {
         "KeyClient.listDeletedKeysPage",
         options || {},
         async (updatedOptions) =>
-          await this.client.getDeletedKeys(continuationState.continuationToken!, updatedOptions)
+          this.client.getDeletedKeys(continuationState.continuationToken!, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {

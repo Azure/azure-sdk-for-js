@@ -70,7 +70,7 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     options: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
   ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
     return withTrace("generatedClient.selectiveRestore", options, async (updatedOptions) => {
-      return await this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions);
+      return this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions);
     });
   }
 
@@ -82,7 +82,7 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
     return withTrace("generatedClient.restoreStatus", options, async (updatedOptions) => {
-      return await this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions);
+      return this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions);
     });
   }
 
