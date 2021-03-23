@@ -4,7 +4,7 @@ import assert from "assert";
 import { Database, DataType, IndexKind } from "../../../src";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
-describe("Spatial Indexes", function() {
+describe("Spatial Indexes", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

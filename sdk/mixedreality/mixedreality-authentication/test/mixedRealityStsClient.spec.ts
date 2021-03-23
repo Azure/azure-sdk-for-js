@@ -77,11 +77,12 @@ describe("[AccountKey] MixedRealityStsClient functional tests", function() {
   let client: MixedRealityStsClient;
   let recorder: Recorder;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    recorder = createRecorder(this);
-    client = createClient();
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      recorder = createRecorder(this);
+      client = createClient();
+    }
+  );
 
   afterEach(async function() {
     // Stop the recording.

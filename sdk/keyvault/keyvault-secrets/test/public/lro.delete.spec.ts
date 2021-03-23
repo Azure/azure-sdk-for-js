@@ -18,13 +18,15 @@ describe("Secrets client - Long Running Operations - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
-    secretSuffix = authentication.secretSuffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      secretSuffix = authentication.secretSuffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
@@ -32,7 +34,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
   // The tests follow
 
-  it("can wait until a secret is deleted", async function() {
+  it("can wait until a secret is deleted", /** @this Mocha.Context */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -53,7 +55,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
     await testClient.purgeSecret(secretName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", /** @this Mocha.Context */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -87,7 +89,7 @@ describe("Secrets client - Long Running Operations - delete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can attempt to delete a secret with requestOptions timeout", async function() {
+  it("can attempt to delete a secret with requestOptions timeout", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`

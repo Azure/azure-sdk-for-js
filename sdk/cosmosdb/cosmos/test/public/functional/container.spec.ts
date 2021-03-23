@@ -14,7 +14,7 @@ import {
 import { SpatialType } from "../../../src";
 import { GeospatialType } from "../../../src";
 
-describe("Containers", function() {
+describe("Containers", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

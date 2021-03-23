@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-invalid-this */
 import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { SearchIndexClient, SynonymMap, SearchIndex } from "../../../src";
@@ -18,23 +17,25 @@ import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";
 
-describe("SearchIndexClient", function() {
+describe("SearchIndexClient", /** @this Mocha.Context */ function() {
   let recorder: Recorder;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(async function() {
-    ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
-    if (!isPlaybackMode()) {
-      await createSynonymMaps(indexClient);
-      await createSimpleIndex(indexClient, TEST_INDEX_NAME);
-      await delay(WAIT_TIME);
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
+      if (!isPlaybackMode()) {
+        await createSynonymMaps(indexClient);
+        await createSimpleIndex(indexClient, TEST_INDEX_NAME);
+        await delay(WAIT_TIME);
+      }
+      recorder = record(this, environmentSetup);
+      // create the clients again, but hooked up to the recorder
+      ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     }
-    recorder = record(this, environmentSetup);
-    // create the clients again, but hooked up to the recorder
-    ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
-  });
+  );
 
   afterEach(async function() {
     if (recorder) {
