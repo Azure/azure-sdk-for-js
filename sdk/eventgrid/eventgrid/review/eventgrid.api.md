@@ -1194,11 +1194,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
     "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
-    // @deprecated
-    "Microsoft.Communication.ChatParticipantAddedToThread": AcsChatParticipantAddedToThreadEventData;
     "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
-    // @deprecated
-    "Microsoft.Communication.ChatParticipantRemovedFromThread": AcsChatParticipantRemovedFromThreadEventData;
     "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
     "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
     "Microsoft.Communication.ChatThreadParticipantAdded": AcsChatParticipantAddedToThreadEventData;
