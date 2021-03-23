@@ -65,7 +65,7 @@ export class AzureCliCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     return new Promise((resolve, reject) => {
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       logger.getToken.info(`Using the scope ${scope}`);

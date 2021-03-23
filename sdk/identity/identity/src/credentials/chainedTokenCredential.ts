@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { AggregateAuthenticationError } from "../client/errors";
+import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
@@ -54,7 +54,7 @@ export class ChainedTokenCredential implements TokenCredential {
   async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     let token = null;
     const errors = [];
 
@@ -86,6 +86,10 @@ export class ChainedTokenCredential implements TokenCredential {
     span.end();
 
     logger.getToken.info(formatSuccess(scopes));
+
+    if (token === null) {
+      throw new CredentialUnavailable("Failed to retrieve a valid token");
+    }
     return token;
   }
 }

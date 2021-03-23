@@ -3,7 +3,7 @@
 
 import qs from "qs";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
+import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -134,7 +134,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
       let tokenResponse: TokenResponse | null = null;
@@ -184,7 +184,12 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
       this.lastTokenResponse = tokenResponse;
       logger.getToken.info(formatSuccess(scopes));
-      return (tokenResponse && tokenResponse.accessToken) || null;
+      const token = (tokenResponse && tokenResponse.accessToken) || null;
+
+      if (token === null) {
+        throw new CredentialUnavailable("Failed to retrieve a valid token");
+      }
+      return token;
     } catch (err) {
       const code =
         err.name === AuthenticationErrorName

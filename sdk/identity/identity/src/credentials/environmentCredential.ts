@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
-import { AuthenticationError } from "../client/errors";
+import { AuthenticationError, CredentialUnavailable } from "../client/errors";
 import { checkTenantId } from "../util/checkTenantId";
 import { trace } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
@@ -112,12 +112,15 @@ export class EnvironmentCredential implements TokenCredential {
   async getToken(
     scopes: string | string[],
     options: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     return trace("EnvironmentCredential.getToken", options, async (newOptions) => {
       if (this._credential) {
         try {
           const result = await this._credential.getToken(scopes, newOptions);
           logger.getToken.info(formatSuccess(scopes));
+          if (result === null) {
+            throw new CredentialUnavailable("The credential couldn't retrieve a token.");
+          }
           return result;
         } catch (err) {
           const authenticationError = new AuthenticationError(400, {
@@ -131,7 +134,7 @@ export class EnvironmentCredential implements TokenCredential {
           throw authenticationError;
         }
       }
-      return null;
+      throw new CredentialUnavailable("No underlying credential could be used.");
     });
   }
 }
