@@ -84,5 +84,4 @@ steps:
   - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)/Documentation'
-      CustomCondition: ${{ parameters.BuildDocs }}
       ArtifactName: 'documentation'
