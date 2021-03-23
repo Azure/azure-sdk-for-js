@@ -184,9 +184,9 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
       this.lastTokenResponse = tokenResponse;
       logger.getToken.info(formatSuccess(scopes));
-      const token = (tokenResponse && tokenResponse.accessToken) || null;
+      const token = tokenResponse && tokenResponse.accessToken;
 
-      if (token === null) {
+      if (!token) {
         throw new CredentialUnavailable("Failed to retrieve a valid token");
       }
       return token;

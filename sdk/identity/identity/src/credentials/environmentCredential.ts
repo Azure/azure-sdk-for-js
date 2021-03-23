@@ -42,7 +42,10 @@ const logger = credentialLogger("EnvironmentCredential");
  * documentation of that class for more details.
  */
 export class EnvironmentCredential implements TokenCredential {
-  private _credential?: TokenCredential = undefined;
+  private _credential?:
+    | ClientSecretCredential
+    | ClientCertificateCredential
+    | UsernamePasswordCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and reads
    * client secret details from environment variables.  If the expected
@@ -115,9 +118,6 @@ export class EnvironmentCredential implements TokenCredential {
         try {
           const result = await this._credential.getToken(scopes, newOptions);
           logger.getToken.info(formatSuccess(scopes));
-          if (result === null) {
-            throw new CredentialUnavailable("The credential couldn't retrieve a token.");
-          }
           return result;
         } catch (err) {
           const authenticationError = new AuthenticationError(400, {
