@@ -7,7 +7,7 @@
 - If a token is not available, the promise returned by the `getToken` method on credentials will be rejected. Previously, the promise resolved with `null`.
 - Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
 - After we identified that the default client ID used for Node JS was not viable for the browser, we've made the client ID parameter required on the browser version of `InteractiveBrowserCredential`.
-- While the NodeJS version of `InteractiveBrowserCredential` allowed the `loginStyle` and `flow` optional properties to be passed through, these are only useful in the browser version of the credential. For that purpose, we've removed these parameters from the Node JS version of this credential.
+- The `loginStyle` and `flow` options to the constructor for `InteractiveBrowserCredential` will now be applicable only when used in browser as this does not apply to Node JS.
 - Removed the `postLogoutRedirectUri` from the optional properties of the `InteractiveBrowserCredential`. This property is not required by our dependencies and it's not provided by the Identity SDKs in other languages.
 
 ### New updates and features
