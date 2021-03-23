@@ -72,20 +72,17 @@ steps:
       flattenFolders: true
     displayName: "Copy packages"
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish artifacts"
-    inputs:
-      artifactName: packages
-      path: $(Build.ArtifactStagingDirectory)
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'packages'
 
   - template: ../steps/generate-doc.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish artifacts"
-    inputs:
-      artifactName: documentation
-      path: $(Build.ArtifactStagingDirectory)/Documentation
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)/Documentation'
+      CustomCondition: ${{ parameters.BuildDocs }}
+      ArtifactName: 'documentation'
