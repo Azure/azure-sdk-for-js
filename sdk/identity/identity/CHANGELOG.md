@@ -6,15 +6,15 @@
 
 - If a token is not available, the promise returned by the `getToken` method on credentials will be rejected. Previously, the promise resolved with `null`.
 - Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
-- After we identified that the default client ID used for Node JS was not viable for the browser, we've made the client ID parameter required on the browser version of `InteractiveBrowserCredential`.
-- The `loginStyle` and `flow` options to the constructor for `InteractiveBrowserCredential` will now be applicable only when used in browser as this does not apply to Node JS.
+- After we identified that the default client ID used for Node.js was not viable for the browser, we've made the client ID parameter required on the browser version of `InteractiveBrowserCredential`.
+- The `loginStyle` and `flow` options to the constructor for `InteractiveBrowserCredential` will now be applicable only when used in browser as this does not apply to Node.js
 - Removed the `postLogoutRedirectUri` from the optional properties of the `InteractiveBrowserCredential`. This property is not required by our dependencies and it's not provided by the Identity SDKs in other languages.
 
 ### New updates and features
 
 - Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`: [documentation link](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
 - Updated the `@azure/msal-node` dependency to `^1.0.0`.
-- `DefaultAzureCredential`'s implementation for browsers is simplified to throw the `BrowserNotSupportedError` in its constructor. Previously, we relied on getting the same error from trying to instantiate the different  credentials that `DefaultAzureCredential` supports in Node JS.
+- `DefaultAzureCredential`'s implementation for browsers is simplified to throw the `BrowserNotSupportedError` in its constructor. Previously, we relied on getting the same error from trying to instantiate the different  credentials that `DefaultAzureCredential` supports in Node.js
   - To use Identity in the browser, please use the `InteractiveBrowserCredential` directly.
 - For the `InteractiveBrowserCredential` for node, replaced the use of the `express` module with a native http server for Node, shrinking the resulting identity module considerably.
 - `DeviceCodeCredential` now receives it parameters as a single parameter object. This is specially practical since all of the previous parameters where optional.
