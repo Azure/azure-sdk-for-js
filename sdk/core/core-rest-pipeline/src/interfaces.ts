@@ -57,6 +57,34 @@ export type RequestBodyType =
   | null;
 
 /**
+ * An interface compatible with NodeJS's `http.Agent`.
+ * We want to avoid publicly re-exporting the actual interface,
+ * since it might vary across runtime versions.
+ */
+export interface Agent {
+  /**
+   * Destroy any sockets that are currently in use by the agent.
+   */
+  destroy(): void;
+  /**
+   * For agents with keepAlive enabled, this sets the maximum number of sockets that will be left open in the free state.
+   */
+  maxFreeSockets: number;
+  /**
+   * Determines how many concurrent sockets the agent can have open per origin.
+   */
+  maxSockets: number;
+  /**
+   * An object which contains queues of requests that have not yet been assigned to sockets.
+   */
+  requests: unknown;
+  /**
+   * An object which contains arrays of sockets currently in use by the agent.
+   */
+  sockets: unknown;
+}
+
+/**
  * Metadata about a request being made by the pipeline.
  */
 export interface PipelineRequest {
@@ -138,6 +166,14 @@ export interface PipelineRequest {
 
   /** Set to true if the request is sent over HTTP instead of HTTPS */
   allowInsecureConnection?: boolean;
+
+  /**
+   * NODEJS ONLY
+   *
+   * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
+   * Does nothing when running in the browser.
+   */
+  customAgent?: Agent;
 }
 
 /**
