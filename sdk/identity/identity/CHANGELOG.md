@@ -17,7 +17,7 @@
 - `DefaultAzureCredential`'s implementation for browsers is simplified to throw the `BrowserNotSupportedError` in its constructor. Previously, we relied on getting the same error from trying to instantiate the different  credentials that `DefaultAzureCredential` supports in Node JS.
   - To use Identity in the browser, please use the `InteractiveBrowserCredential` directly.
 - For the `InteractiveBrowserCredential` for node, replaced the use of the `express` module with a native http server for Node, shrinking the resulting identity module considerably.
-- `DeviceCodeCredential` now receives it parameters as a single parameter object. This is specially practical since all of the previous parameters where optional anyway.
+- `DeviceCodeCredential` now receives it parameters as a single parameter object. This is specially practical since all of the previous parameters where optional.
 - Refactored our use of MSAL to better centralize the handling of inputs, outputs and errors.
 - Migrated the `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` to the latest MSAL.
   - This update improves caching of tokens, significantly reducing the number of network requests.
