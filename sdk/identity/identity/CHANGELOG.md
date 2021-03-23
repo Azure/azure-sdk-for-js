@@ -2,37 +2,45 @@
 
 ## 2.0.0-beta.1 (2021-03-23)
 
+This update marks the preview for the first major version update of the `@azure/identity` package since the first stable version was released in October, 2019. This is mainly driven by the improvements we are making for the `InteractiveBrowserCredential` when used in browser applications by updating it to use the new `@azure/msal-browser` which is replacing the older `msal` package.
+
 ### Breaking changes
 
-- If a token is not available, the promise returned by the `getToken` method on credentials will be rejected. Previously, the promise resolved with `null`.
-- Updated `InteractiveBrowserCredential` to use the Auth Code Flow with PKCE rather than Implicit Grant Flow by default in the browser, to better support browsers with enhanced security restrictions. A new file was added to provide more information about this credential [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
-- After we identified that the default client ID used for Node.js was not viable for the browser, we've made the client ID parameter required on the browser version of `InteractiveBrowserCredential`.
-- The `loginStyle` and `flow` options to the constructor for `InteractiveBrowserCredential` will now be applicable only when used in browser as this does not apply to Node.js
-- Removed the `postLogoutRedirectUri` from the optional properties of the `InteractiveBrowserCredential`. This property is not required by our dependencies and it's not provided by the Identity SDKs in other languages.
+- Changes to `InteractiveBrowserCredential` 
+  - When used in browser applications, the `InteractiveBrowserCredential` has been updated to use the [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with [PKCE](https://tools.ietf.org/html/rfc7636) rather than [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) by default to better support browsers with enhanced security restrictions. Read more on this in our [docs on Interactive Browser Credential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
+  - The default client ID used for `InteractiveBrowserCredential` in Node.js was not viable for the browser. Therefore, client Id is now a required parameter when constructing this credential in browser applications.
+  - The `loginStyle` and `flow` options to the constructor for `InteractiveBrowserCredential` will now show up only when used in browser applications as these were never applicable to Node.js
+  - Removed the `postLogoutRedirectUri` from the options to the constructor for `InteractiveBrowserCredential`. This property is not required by our dependencies and it's not provided by the Identity SDKs in other languages.
+- When a token is not available, some credentials had the promise returned by the `getToken` method resolve with `null`, others had the `getToken` method throw the `CredentialUnavailable` error. This behavior is now made consistent across all credentials to throw the `CredentialUnavailable` error.
+  - This change has no bearing on the user if all they ever did was create the credentials and pass it to the Azure SDKs.
+  - This change affects only those users who called the `getToken()` method directly and did not handle resulting errors.
+- The constructor for `DeviceCodeCredential` always had multiple optional parameters and no required ones. As per our guidelines, this has now been simplifed to take a single optional bag of parameters.
 
-### New updates and features
+### New features
 
-- Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`: [documentation link](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/interactive-browser-credential.md).
+- Changes to `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential`:
+  - Migrated to use the latest MSAL. This update improves caching of tokens, significantly reducing the number of network requests.
+  - Added the feature of persistence caching of credentials. This is driven by the new `tokenCachePersistenceOptions` option available in the options you pass to the credential constructors.
+     - For now, to use this feature, users will need to install `@azure/msal-node-extensions` [1.0.0-alpha.6](https://www.npmjs.com/package/@azure/msal-node-extensions/v/1.0.0-alpha.6) on their own. This experience will be improved in the next update.
+    - This feature uses DPAPI on Windows, it tries to use the Keychain on OSX and the Keyring on Linux.
+    - To learn more on the usage, please refer to our docs on the `TokenCachePersistenceOptions` interface.
+    - **IMPORTANT:** As part of this beta, this feature is only supported in Node 10, 12 and 14.
+- Changes to `InteractiveBrowserCredential`, `DeviceCodeCredential`, and `UsernamePasswordCredential`:
+  - You can now control when the credential requests user input with the new `disableAutomaticAuthentication` option added to the options you pass to the credential constructors.
+    - When enabled, this option stops the `getToken()` method from requesting user input in case the credential is unable to authenticate silently.
+  - A new method `authenticate()` is added to these credentials which is similar to `getToken()`, but it does not read the `disableAutomaticAuthentication` option described above.
+    - Use this to get an `AuthenticationRecord` which you can then use to create new credentials that will re-use the token information.
+    - The `AuthenticationRecord` object has a `serialize()` method that allows an authenticated account to be stored as a string and re-used in another credential at any time. Use the new helper function `deserializeAuthenticationRecord` to de-serialize this string.
+    - `authenticate()` might succeed and still return `undefined` if we're unable to pick just one account record from the cache. This might happen if the cache is being used by more than one credential, or if multiple users have authenticated using the same Client ID and Tenant ID. To ensure consistency on a program with many users, please keep track of the `AuthenticationRecord` and provide them in the constructors of the credentials on initialization.
+
+### Other changes
+
 - Updated the `@azure/msal-node` dependency to `^1.0.0`.
-- `DefaultAzureCredential`'s implementation for browsers is simplified to throw the `BrowserNotSupportedError` in its constructor. Previously, we relied on getting the same error from trying to instantiate the different  credentials that `DefaultAzureCredential` supports in Node.js
-  - To use Identity in the browser, please use the `InteractiveBrowserCredential` directly.
+- `DefaultAzureCredential`'s implementation for browsers is simplified to throw the `BrowserNotSupportedError` in its constructor. Previously, we relied on getting the same error from trying to instantiate the different  credentials that `DefaultAzureCredential` supports in Node.js.
+  - As before, please use only the `InteractiveBrowserCredential` in your browser applications.
 - For the `InteractiveBrowserCredential` for node, replaced the use of the `express` module with a native http server for Node, shrinking the resulting identity module considerably.
-- `DeviceCodeCredential` now receives it parameters as a single parameter object. This is specially practical since all of the previous parameters where optional.
-- Refactored our use of MSAL to better centralize the handling of inputs, outputs and errors.
-- Migrated the `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` to the latest MSAL.
-  - This update improves caching of tokens, significantly reducing the number of network requests.
-- A new parameter named `tokenCachePersistenceOptions` can be specified on the credentials `InteractiveBrowserCredential`, `DeviceCodeCredential` and `UsernamePasswordCredential` to enable the persistence caching.
-  - To use this feature, users will need to install `@azure/msal-node-extensions` [~1.0.0-alpha.6](https://www.npmjs.com/package/@azure/msal-node-extensions/v/1.0.0-alpha.6) on their own.
-  - This feature uses DPAPI on Windows, it tries to use the Keychain on OSX and the Keyring on Linux.
-  - If provided, the `tokenCachePersistenceOptions` object allows passing two properties, a required unique `name` to identify the cached information for that credential, and an optional boolean property `allowUnencryptedStorage`, which determines whether it's allowed to fall back to an unprotected file if neither the Keychain nor the Keyring are available.
-  - **IMPORTANT:** As part of this beta, this feature is only supported in Node 10, 12 and 14.
-- These credentials now can also receive a `disableAutomaticAuthentication` setting on their constructors, to stop `getToken` from requesting user input in case the credential is unable to authenticate silently.
-- An `authenticate()` method has been added to `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential`.
-  - This method behaves similar to `getToken()`, but it does not obey to the `disableAutomaticAuthentication` setting, which allows developers to control when to request user input.
-  - `authenticate()` returns an `AuthenticationRecord` which has a `serialize()` method that allows an authenticated account to be stored as a string and re-used in another credential at any time.
-  - `authenticate()` might succeed and still return `undefined` if we're unable to pick just one account record from the cache. This might happen if the cache is being used by more than one credential, or if multiple users have authenticated using the same Client ID and Tenant ID. To ensure consistency on a program with many users, please keep track of the `AuthenticationRecord` and provide them in the constructors of the credentials on initialization.
-- A new function is provided: `deserializeAuthenticationRecord()`, which allows to de-serialize a string containing an `AuthenticationRecord`. 
-- `InteractiveBrowserCredential`, `DeviceCodeCredential` and `UsernamePasswordCredential` can also receive an `authenticationRecord` on their constructors from a previous successful `authenticate()` call, which skips the initial authentication altogether.
+
+
 
 ## 1.2.4 (2021-03-08)
 
