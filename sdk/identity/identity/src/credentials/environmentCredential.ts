@@ -131,7 +131,9 @@ export class EnvironmentCredential implements TokenCredential {
           throw authenticationError;
         }
       }
-      throw new CredentialUnavailable("No underlying credential could be used.");
+      throw new CredentialUnavailable(
+        "EnvironmentCredential is unavailable. No underlying credential could be used."
+      );
     });
   }
 }
