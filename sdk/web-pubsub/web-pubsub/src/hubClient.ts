@@ -11,8 +11,8 @@ import {
   PipelineOptions
 } from "@azure/core-http";
 import { AzureWebPubSubServiceRestAPI as GeneratedClient } from "./generated/azureWebPubSubServiceRestAPI";
-import { GroupAdminClient } from "./groupClient";
-import normalizeBroadcastOptions from "./normalizeOptions";
+import { WebPubsubGroup } from "./groupClient";
+import normalizeSendToAllOptions from "./normalizeOptions";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { webPubSubAzureKeyCredentialPolicyFactory } from "./webPubSubCredentialPolicy";
 import { createSpan } from "./tracing";
@@ -32,7 +32,7 @@ export interface CloseConnectionOptions extends OperationOptions {
 /**
  * Options for sending messages to hubs, groups, users, or connections.
  */
-export interface HubBroadcastOptions extends OperationOptions {
+export interface HubSendToAllOptions extends OperationOptions {
   /**
    * Connection ids to exclude from receiving this message.
    */
@@ -79,8 +79,6 @@ export interface HubSendToUserOptions extends OperationOptions {}
  */
 export interface HubIsServiceHealthyOptions extends OperationOptions {}
 
-export const DEFAULT_HUB_NAME = "_default";
-
 /**
  * Client for connecting to a Web PubSub hub
  *
@@ -89,7 +87,7 @@ export const DEFAULT_HUB_NAME = "_default";
  *   C   C
  *   ()_()
  */
-export class HubAdminClient {
+export class WebPubsubServiceClient {
   private readonly client: GeneratedClient;
   private credential!: AzureKeyCredential;
   private readonly clientOptions?: HubAdminClientOptions;
@@ -110,21 +108,6 @@ export class HubAdminClient {
 
   /**
    * Creates an instance of a HubClient for sending messages and managing groups, connections, and users.
-   * Connects to the default hub named `_default`.
-   *
-   * Example usage:
-   * ```ts
-   * import { HubClient } from "@azure/web-pubsub-management";
-   * const connectionString = process.env['WEB_PUBSUB_CONNECTION_STRING'];
-   * const client = new HubClient(connectionString, 'chat');
-   * ```
-   *
-   * @param connectionString The connection string
-   * @param options Options to configure the http pipeline
-   */
-  constructor(connectionString: string, options?: HubAdminClientOptions);
-  /**
-   * Creates an instance of a HubClient for sending messages and managing groups, connections, and users.
    *
    * Example usage:
    * ```ts
@@ -138,23 +121,6 @@ export class HubAdminClient {
    * @param options Options to configure the http pipeline
    */
   constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
-  /**
-   * Creates an instance of a HubClient for sending messages and managing groups, connections, and users.
-   * Connects to the default hub named `_default`.
-   *
-   * Example usage:
-   * ```ts
-   * import { HubClient, AzureKeyCredential } from "@azure/web-pubsub-management";
-   * const cred = new AzureKeyCredential("<your web pubsub api key>");
-   * const endpoint = "https://xxxx.webpubsubdev.azure.com"
-   * const client = new HubClient(endpoint, cred, 'chat');
-   * ```
-   *
-   * @param endpoint The endpoint to connect to
-   * @param credential An AzureKeyCredential holding your service key
-   * @param options Options to configure the http pipeline
-   */
-  constructor(endpoint: string, credential: AzureKeyCredential, options?: HubAdminClientOptions);
 
   /**
    * Creates an instance of a HubClient for sending messages and managing groups, connections, and users.
@@ -169,7 +135,7 @@ export class HubAdminClient {
    *
    * @param endpoint The endpoint to connect to
    * @param credential An AzureKeyCredential holding your service key
-   * @param hubName The name of the hub to connect to. If omitted, '_default' is used.
+   * @param hubName The name of the hub to connect to.
    * @param options Options to configure the http pipeline
    */
   constructor(
@@ -180,38 +146,22 @@ export class HubAdminClient {
   );
   constructor(
     epOrCs: string,
-    optsCredsOrHubName?: HubAdminClientOptions | AzureKeyCredential | string,
+    credsOrHubName?: AzureKeyCredential | string,
     hubNameOrOpts?: string | HubAdminClientOptions,
     opts?: HubAdminClientOptions
   ) {
     // unpack constructor arguments
-    if (typeof optsCredsOrHubName === "object" && "key" in optsCredsOrHubName) {
-      // overload 3 or 4, passing in a credential.
+    if (typeof credsOrHubName === "object" && "key" in credsOrHubName) {
       this.endpoint = epOrCs;
-      this.credential = optsCredsOrHubName;
-
-      if (typeof hubNameOrOpts === "string") {
-        this.hubName = hubNameOrOpts;
-        this.clientOptions = opts;
-      } else {
-        this.hubName = DEFAULT_HUB_NAME;
-        this.clientOptions = hubNameOrOpts;
-      }
+      this.credential = credsOrHubName;
+      this.hubName = hubNameOrOpts as string;
+      this.clientOptions = opts;
     } else {
-      // overload 1 or 2, assign endpoint and credentials from the connection string
       const parsedCs = parseConnectionString(epOrCs);
       this.endpoint = parsedCs.endpoint;
       this.credential = parsedCs.credential;
-
-      if (typeof optsCredsOrHubName === "string") {
-        this.hubName = optsCredsOrHubName;
-
-        // if we're in overload 1, hubNameOrOpts is either undefined or options.
-        this.clientOptions = hubNameOrOpts as PipelineOptions;
-      } else {
-        this.hubName = DEFAULT_HUB_NAME;
-        this.clientOptions = optsCredsOrHubName;
-      }
+      this.hubName = credsOrHubName as string;
+      this.clientOptions = hubNameOrOpts as PipelineOptions;
     }
 
     const internalPipelineOptions: InternalPipelineOptions = {
@@ -235,36 +185,10 @@ export class HubAdminClient {
    * Get a client for a group
    * @param groupName The name of the group to connect to.
    */
-  public getGroupClient(groupName: string): GroupAdminClient {
-    const client = new GroupAdminClient(
-      this.endpoint,
-      this.credential,
-      groupName,
-      this.clientOptions
-    );
-
+  public group(groupName: string): WebPubsubGroup {
+    const client = new WebPubsubGroup(this.hubName, groupName);
+    client["client"] = this.client;
     return client;
-  }
-
-  /**
-   * Check if the service is healthy
-   *
-   * @param options Additional options
-   */
-  public async isServiceHealthy(options: HubIsServiceHealthyOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-isServiceHealthy",
-      options
-    );
-
-    try {
-      await this.client.healthApi.getHealthStatus(updatedOptions);
-      return true;
-    } catch {
-      return false;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -273,38 +197,32 @@ export class HubAdminClient {
    * @param message The message to send
    * @param options Additional options
    */
-  public async broadcast(message: string, options?: HubBroadcastOptions): Promise<RestResponse>;
+  public async sendToAll(message: string, options?: HubSendToAllOptions): Promise<RestResponse>;
   /**
    * Broadcast a binary message to all connections on this hub.
    *
    * @param message The message to send
    * @param options Additional options
    */
-  public async broadcast(
+  public async sendToAll(
     message: HttpRequestBody,
-    options?: HubBroadcastOptions
+    options?: HubSendToAllOptions
   ): Promise<RestResponse>;
 
-  public async broadcast(
+  public async sendToAll(
     message: string | HttpRequestBody,
-    options: HubBroadcastOptions = {}
+    options: HubSendToAllOptions = {}
   ): Promise<RestResponse> {
-    const normalizedOptions = normalizeBroadcastOptions(options);
+    const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-hub-broadcast",
+      "WebPubSubManagementClient-hub-sendToAll",
       normalizedOptions
     );
     try {
       if (typeof message === "string") {
-        return this.client.webPubSubApi.broadcast("text/plain", message, {
-          hub: this.hubName,
-          ...updatedOptions
-        });
+        return this.client.webPubSub.sendToAll(this.hubName, "text/plain", message, updatedOptions);
       } else {
-        return this.client.webPubSubApi.broadcast("application/octet-stream", message, {
-          hub: this.hubName,
-          ...updatedOptions
-        });
+        return this.client.webPubSub.sendToAll(this.hubName, "application/octet-stream", message, updatedOptions);
       }
     } finally {
       span.end();
@@ -348,15 +266,9 @@ export class HubAdminClient {
 
     try {
       if (typeof message === "string") {
-        return this.client.webPubSubApi.sendToUser(username, "text/plain", message, {
-          hub: this.hubName,
-          ...updatedOptions
-        });
+        return this.client.webPubSub.sendToUser(this.hubName, username, "text/plain", message, updatedOptions);
       } else {
-        return this.client.webPubSubApi.sendToUser(username, "application/octet-stream", message, {
-          hub: this.hubName,
-          ...updatedOptions
-        });
+        return this.client.webPubSub.sendToUser(this.hubName, username, "application/octet-stream", message, updatedOptions);
       }
     } finally {
       span.end();
@@ -399,16 +311,14 @@ export class HubAdminClient {
 
     try {
       if (typeof message === "string") {
-        return this.client.webPubSubApi.sendToConnection(connectionId, "text/plain", message, {
-          hub: this.hubName,
-          ...updatedOptions
-        });
+        return this.client.webPubSub.sendToConnection(this.hubName, connectionId, "text/plain", message, updatedOptions);
       } else {
-        return this.client.webPubSubApi.sendToConnection(
+        return this.client.webPubSub.sendToConnection(
+          this.hubName,
           connectionId,
           "application/octet-stream",
           message,
-          { hub: this.hubName, ...updatedOptions }
+          updatedOptions
         );
       }
     } finally {
@@ -432,10 +342,7 @@ export class HubAdminClient {
     );
 
     try {
-      const res = await this.client.webPubSubApi.checkConnectionExistence(connectionId, {
-        hub: this.hubName,
-        ...updatedOptions
-      });
+      const res = await this.client.webPubSub.checkConnectionExistence(this.hubName, connectionId, updatedOptions);
 
       if (res._response.status === 200) {
         return true;
@@ -472,10 +379,7 @@ export class HubAdminClient {
     );
 
     try {
-      return this.client.webPubSubApi.closeClientConnection(connectionId, {
-        hub: this.hubName,
-        ...updatedOptions
-      });
+      return this.client.webPubSub.closeClientConnection(this.hubName, connectionId, updatedOptions);
     } finally {
       span.end();
     }
@@ -496,10 +400,7 @@ export class HubAdminClient {
     );
 
     try {
-      return this.client.webPubSubApi.removeUserFromAllGroups(userId, {
-        hub: this.hubName,
-        ...updatedOptions
-      });
+      return this.client.webPubSub.removeUserFromAllGroups(this.hubName, userId, updatedOptions);
     } finally {
       span.end();
     }
@@ -515,10 +416,7 @@ export class HubAdminClient {
     const { span, updatedOptions } = createSpan("WebPubSubManagementClient-hub-hasGroup", options);
 
     try {
-      const res = await this.client.webPubSubApi.checkGroupExistence(groupName, {
-        hub: this.hubName,
-        ...updatedOptions
-      });
+      const res = await this.client.webPubSub.checkGroupExistence(this.hubName, groupName, updatedOptions);
 
       if (res._response.status === 200) {
         return true;
@@ -548,10 +446,7 @@ export class HubAdminClient {
     const { span, updatedOptions } = createSpan("WebPubSubManagementClient-hub-hasUser", options);
 
     try {
-      const res = await this.client.webPubSubApi.checkUserExistence(username, {
-        hub: this.hubName,
-        ...updatedOptions
-      });
+      const res = await this.client.webPubSub.checkUserExistence(this.hubName, username, updatedOptions);
 
       if (res._response.status === 200) {
         return true;

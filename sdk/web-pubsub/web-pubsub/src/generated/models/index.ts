@@ -1,141 +1,107 @@
 import * as coreHttp from "@azure/core-http";
 
+/** Known values of {@link Enum0} that the service accepts. */
+export const enum KnownEnum0 {
+  SendToGroup = "sendToGroup",
+  JoinLeaveGroup = "joinLeaveGroup"
+}
+
+/**
+ * Defines values for Enum0. \
+ * {@link KnownEnum0} can be used interchangeably with Enum0,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **sendToGroup** \
+ * **joinLeaveGroup**
+ */
+export type Enum0 = string;
+
+/** Known values of {@link Enum1} that the service accepts. */
+export const enum KnownEnum1 {
+  SendToGroup = "sendToGroup",
+  JoinLeaveGroup = "joinLeaveGroup"
+}
+
+/**
+ * Defines values for Enum1. \
+ * {@link KnownEnum1} can be used interchangeably with Enum1,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **sendToGroup** \
+ * **joinLeaveGroup**
+ */
+export type Enum1 = string;
+
+/** Known values of {@link Enum2} that the service accepts. */
+export const enum KnownEnum2 {
+  SendToGroup = "sendToGroup",
+  JoinLeaveGroup = "joinLeaveGroup"
+}
+
+/**
+ * Defines values for Enum2. \
+ * {@link KnownEnum2} can be used interchangeably with Enum2,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **sendToGroup** \
+ * **joinLeaveGroup**
+ */
+export type Enum2 = string;
+
 /** Optional parameters. */
-export interface WebPubSubApiBroadcast$binaryOptionalParams
+export interface WebPubSubSendToAll$binaryOptionalParams
   extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-  /** Excluded connection Ids */
+  /** Excluded connection Ids. */
   excluded?: string[];
 }
 
 /** Optional parameters. */
-export interface WebPubSubApiBroadcast$textOptionalParams
+export interface WebPubSubSendToAll$textOptionalParams
   extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-  /** Excluded connection Ids */
+  /** Excluded connection Ids. */
   excluded?: string[];
 }
 
 /** Optional parameters. */
-export interface WebPubSubApiSendToUser$binaryOptionalParams
+export interface WebPubSubCloseClientConnectionOptionalParams
   extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiSendToUser$textOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiSendToConnection$binaryOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiSendToConnection$textOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiGroupBroadcast$binaryOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-  /** Excluded connection Ids */
-  excluded?: string[];
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiGroupBroadcast$textOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-  /** Excluded connection Ids */
-  excluded?: string[];
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiCheckConnectionExistenceOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiCloseClientConnectionOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-  /** The reason closing the client connection */
+  /** The reason closing the client connection. */
   reason?: string;
 }
 
 /** Optional parameters. */
-export interface WebPubSubApiCheckGroupExistenceOptionalParams
+export interface WebPubSubSendToGroup$binaryOptionalParams
   extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
+  /** Excluded connection Ids */
+  excluded?: string[];
 }
 
 /** Optional parameters. */
-export interface WebPubSubApiCheckUserExistenceOptionalParams
+export interface WebPubSubSendToGroup$textOptionalParams
   extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
+  /** Excluded connection Ids */
+  excluded?: string[];
 }
 
 /** Optional parameters. */
-export interface WebPubSubApiAddConnectionToGroupOptionalParams
+export interface WebPubSubGrantPermissionOptionalParams
   extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
+  /** Optional. If not set, grant the permission to all the targets. If set, grant the permission to the specific target. The meaning of the target depends on the specific permission. */
+  targetName?: string;
 }
 
 /** Optional parameters. */
-export interface WebPubSubApiRemoveConnectionFromGroupOptionalParams
+export interface WebPubSubRevokePermissionOptionalParams
   extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
+  /** Optional. If not set, revoke the permission for all targets. If set, revoke the permission for the specific target. The meaning of the target depends on the specific permission. */
+  targetName?: string;
 }
 
 /** Optional parameters. */
-export interface WebPubSubApiCheckUserExistenceInGroupOptionalParams
+export interface WebPubSubCheckPermissionOptionalParams
   extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiAddUserToGroupOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-  /** Specifies the seconds that the user exists in the group. If not set, the user lives in the group forever. */
-  ttl?: number;
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiRemoveUserFromGroupOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
-}
-
-/** Optional parameters. */
-export interface WebPubSubApiRemoveUserFromAllGroupsOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Target hub name, which should start with alphabetic characters and only contain alpha-numeric characters or underscore. When it is not set, it uses the default hub */
-  hub?: string;
+  /** Optional. If not set, get the permission for all targets. If set, get the permission for the specific target. The meaning of the target depends on the specific permission. */
+  targetName?: string;
 }
 
 /** Optional parameters. */

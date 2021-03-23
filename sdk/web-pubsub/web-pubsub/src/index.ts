@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 export { AzureKeyCredential } from "@azure/core-auth";
 export {
-  HubAdminClient,
-  HubBroadcastOptions,
+  WebPubsubServiceClient,
+  HubSendToAllOptions as HubBroadcastOptions,
   CloseConnectionOptions,
   HasConnectionOptions,
   HubHasGroupOptions,
@@ -15,7 +15,7 @@ export {
   HubSendToUserOptions
 } from "./hubClient";
 export {
-  GroupAdminClient,
+  WebPubsubGroup,
   GroupAddConnectionOptions,
   GroupAddUserOptions,
   GroupAdminClientOptions,

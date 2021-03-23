@@ -75,10 +75,11 @@ export const payloadMessage1: OperationParameter = {
   }
 };
 
-export const hub: OperationQueryParameter = {
-  parameterPath: ["options", "hub"],
+export const hub: OperationURLParameter = {
+  parameterPath: "hub",
   mapper: {
     serializedName: "hub",
+    required: true,
     type: {
       name: "String"
     }
@@ -101,45 +102,9 @@ export const excluded: OperationQueryParameter = {
   collectionFormat: QueryCollectionFormat.Multi
 };
 
-export const id: OperationURLParameter = {
-  parameterPath: "id",
-  mapper: {
-    serializedName: "id",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const connectionId: OperationURLParameter = {
   parameterPath: "connectionId",
   mapper: {
-    serializedName: "connectionId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const group: OperationURLParameter = {
-  parameterPath: "group",
-  mapper: {
-    serializedName: "group",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const connectionId1: OperationURLParameter = {
-  parameterPath: "connectionId",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9_`,.[\\]]{0,127}$")
-    },
     serializedName: "connectionId",
     required: true,
     type: {
@@ -158,12 +123,9 @@ export const reason: OperationQueryParameter = {
   }
 };
 
-export const group1: OperationURLParameter = {
+export const group: OperationURLParameter = {
   parameterPath: "group",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9_`,.[\\]]{0,127}$")
-    },
     serializedName: "group",
     required: true,
     type: {
@@ -172,13 +134,10 @@ export const group1: OperationURLParameter = {
   }
 };
 
-export const user: OperationURLParameter = {
-  parameterPath: "user",
+export const userId: OperationURLParameter = {
+  parameterPath: "userId",
   mapper: {
-    constraints: {
-      Pattern: new RegExp("^[A-Za-z][A-Za-z0-9_`,.[\\]]{0,127}$")
-    },
-    serializedName: "user",
+    serializedName: "userId",
     required: true,
     type: {
       name: "String"
@@ -186,10 +145,10 @@ export const user: OperationURLParameter = {
   }
 };
 
-export const user1: OperationURLParameter = {
-  parameterPath: "user",
+export const permission: OperationURLParameter = {
+  parameterPath: "permission",
   mapper: {
-    serializedName: "user",
+    serializedName: "permission",
     required: true,
     type: {
       name: "String"
@@ -197,12 +156,34 @@ export const user1: OperationURLParameter = {
   }
 };
 
-export const ttl: OperationQueryParameter = {
-  parameterPath: ["options", "ttl"],
+export const targetName: OperationQueryParameter = {
+  parameterPath: ["options", "targetName"],
   mapper: {
-    serializedName: "ttl",
+    serializedName: "targetName",
     type: {
-      name: "Number"
+      name: "String"
+    }
+  }
+};
+
+export const permission1: OperationURLParameter = {
+  parameterPath: "permission",
+  mapper: {
+    serializedName: "permission",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const permission2: OperationURLParameter = {
+  parameterPath: "permission",
+  mapper: {
+    serializedName: "permission",
+    required: true,
+    type: {
+      name: "String"
     }
   }
 };

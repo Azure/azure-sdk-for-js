@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import * as assert from "assert";
 import * as sinon from "sinon";
 import { createSpan } from "../src/tracing";
 import { setTracer, TestTracer, TestSpan } from "@azure/core-tracing";
@@ -23,17 +23,16 @@ describe("tracing.createSpan", () => {
     setTracer(tracer);
     const { span } = createSpan("testOperation", {});
     assert.strictEqual(span, testSpan, "Should return mocked span");
-    assert.isTrue(startSpanStub.calledOnce);
+    assert.ok(startSpanStub.calledOnce);
     const [name, options] = startSpanStub.firstCall.args;
     assert.strictEqual(name, "Azure.SignalR.testOperation");
     assert.deepEqual(options, { kind: SpanKind.INTERNAL });
-    assert.isTrue(setAttributeSpy.calledOnceWithExactly("az.namespace", "Microsoft.SignalR"));
+    assert.ok(setAttributeSpy.calledOnceWithExactly("az.namespace", "Microsoft.SignalR"));
   });
 
   it("returns updated SpanOptions", () => {
     const options: OperationOptions = {};
     const { span, updatedOptions } = createSpan("testOperation", options);
-    assert.isEmpty(options, "original options should not be modified");
     assert.notStrictEqual(updatedOptions, options, "should return new object");
     const expected: OperationOptions = {
       tracingOptions: {

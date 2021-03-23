@@ -1,4 +1,4 @@
-import { HealthApi, WebPubSubApi } from "./operations";
+import { HealthApi, WebPubSub } from "./operations";
 import { AzureWebPubSubServiceRestAPIContext } from "./azureWebPubSubServiceRestAPIContext";
 import { AzureWebPubSubServiceRestAPIOptionalParams } from "./models";
 
@@ -14,9 +14,9 @@ export class AzureWebPubSubServiceRestAPI extends AzureWebPubSubServiceRestAPICo
   ) {
     super($host, options);
     this.healthApi = new HealthApi(this);
-    this.webPubSubApi = new WebPubSubApi(this);
+    this.webPubSub = new WebPubSub(this);
   }
 
   healthApi: HealthApi;
-  webPubSubApi: WebPubSubApi;
+  webPubSub: WebPubSub;
 }

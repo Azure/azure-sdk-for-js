@@ -2,28 +2,28 @@
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
 import { env, Recorder, record } from "@azure/test-utils-recorder";
-import { HubAdminClient, GroupAdminClient } from "../src";
-import { assert } from "chai";
+import { WebPubsubServiceClient, WebPubsubGroup } from "../src";
+import * as assert from "assert";
 import environmentSetup from "./testEnv";
 import { RestError } from "@azure/core-http";
 
 describe("Group client working with a group", function() {
   let recorder: Recorder;
-  let client: GroupAdminClient;
+  let client: WebPubsubGroup;
   this.timeout(30000);
 
   beforeEach(function() {
     recorder = record(this, environmentSetup);
-    const hubClient = new HubAdminClient(env.SIGNALR_CONNECTION_STRING, "simplechat");
-    client = hubClient.getGroupClient("group");
+    const hubClient = new WebPubsubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
+    client = hubClient.group("group");
   });
 
   it("can broadcast to groups", async () => {
-    let res = await client.broadcast("hello");
+    let res = await client.sendToAll("hello");
     assert.equal(res._response.status, 202);
 
     const binaryMessage = new Uint8Array(10);
-    res = await client.broadcast(binaryMessage.buffer);
+    res = await client.sendToAll(binaryMessage.buffer);
     assert.equal(res._response.status, 202);
   });
 
@@ -36,7 +36,7 @@ describe("Group client working with a group", function() {
       error = e;
     }
 
-    assert.isDefined(error!);
+    assert.notStrictEqual(error!, undefined);
     assert.equal(error!.name, "RestError");
 
     // this endpoint just returns 200 if the connection isn't present
@@ -46,19 +46,19 @@ describe("Group client working with a group", function() {
 
   it("can manage users", async () => {
     const res = await client.addUser("brian");
-    assert.equal(res._response.status, 202);
+    assert.equal(res._response.status, 200);
 
     const hasBrian = await client.hasUser("brian");
-    assert.isTrue(hasBrian);
+    assert.ok(hasBrian);
 
     const hasJeff = await client.hasUser("jeff");
-    assert.isFalse(hasJeff);
+    assert.ok(!hasJeff);
 
     const res2 = await client.removeUser("brian");
-    assert.equal(res2._response.status, 202);
+    assert.equal(res2._response.status, 200);
 
     const hasBrianNow = await client.hasUser("brian");
-    assert.isFalse(hasBrianNow);
+    assert.ok(!hasBrianNow);
   });
 
   afterEach(async function() {
