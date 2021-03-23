@@ -107,6 +107,13 @@ export interface ListTagsOptions extends OperationOptions {
 }
 
 // @public
+export interface ManifestAttributesManifestReferences {
+    cpuArchitecture: string;
+    digest: string;
+    operatingSystem: string;
+}
+
+// @public
 export interface RegistryArtifactProperties {
     cpuArchitecture?: string;
     createdOn?: Date;
@@ -114,7 +121,6 @@ export interface RegistryArtifactProperties {
     lastUpdatedOn?: Date;
     manifestProperties: ContentProperties;
     operatingSystem?: string;
-    // Warning: (ae-forgotten-export) The symbol "ManifestAttributesManifestReferences" needs to be exported by the entry point index.d.ts
     registryArtifacts?: ManifestAttributesManifestReferences[];
     repository: string;
     size?: number;
