@@ -222,7 +222,12 @@ export class WebPubsubServiceClient {
       if (typeof message === "string") {
         return this.client.webPubSub.sendToAll(this.hubName, "text/plain", message, updatedOptions);
       } else {
-        return this.client.webPubSub.sendToAll(this.hubName, "application/octet-stream", message, updatedOptions);
+        return this.client.webPubSub.sendToAll(
+          this.hubName,
+          "application/octet-stream",
+          message,
+          updatedOptions
+        );
       }
     } finally {
       span.end();
@@ -266,9 +271,21 @@ export class WebPubsubServiceClient {
 
     try {
       if (typeof message === "string") {
-        return this.client.webPubSub.sendToUser(this.hubName, username, "text/plain", message, updatedOptions);
+        return this.client.webPubSub.sendToUser(
+          this.hubName,
+          username,
+          "text/plain",
+          message,
+          updatedOptions
+        );
       } else {
-        return this.client.webPubSub.sendToUser(this.hubName, username, "application/octet-stream", message, updatedOptions);
+        return this.client.webPubSub.sendToUser(
+          this.hubName,
+          username,
+          "application/octet-stream",
+          message,
+          updatedOptions
+        );
       }
     } finally {
       span.end();
@@ -311,7 +328,13 @@ export class WebPubsubServiceClient {
 
     try {
       if (typeof message === "string") {
-        return this.client.webPubSub.sendToConnection(this.hubName, connectionId, "text/plain", message, updatedOptions);
+        return this.client.webPubSub.sendToConnection(
+          this.hubName,
+          connectionId,
+          "text/plain",
+          message,
+          updatedOptions
+        );
       } else {
         return this.client.webPubSub.sendToConnection(
           this.hubName,
@@ -342,7 +365,11 @@ export class WebPubsubServiceClient {
     );
 
     try {
-      const res = await this.client.webPubSub.checkConnectionExistence(this.hubName, connectionId, updatedOptions);
+      const res = await this.client.webPubSub.checkConnectionExistence(
+        this.hubName,
+        connectionId,
+        updatedOptions
+      );
 
       if (res._response.status === 200) {
         return true;
@@ -379,7 +406,11 @@ export class WebPubsubServiceClient {
     );
 
     try {
-      return this.client.webPubSub.closeClientConnection(this.hubName, connectionId, updatedOptions);
+      return this.client.webPubSub.closeClientConnection(
+        this.hubName,
+        connectionId,
+        updatedOptions
+      );
     } finally {
       span.end();
     }
@@ -416,7 +447,11 @@ export class WebPubsubServiceClient {
     const { span, updatedOptions } = createSpan("WebPubSubManagementClient-hub-hasGroup", options);
 
     try {
-      const res = await this.client.webPubSub.checkGroupExistence(this.hubName, groupName, updatedOptions);
+      const res = await this.client.webPubSub.checkGroupExistence(
+        this.hubName,
+        groupName,
+        updatedOptions
+      );
 
       if (res._response.status === 200) {
         return true;
@@ -446,7 +481,11 @@ export class WebPubsubServiceClient {
     const { span, updatedOptions } = createSpan("WebPubSubManagementClient-hub-hasUser", options);
 
     try {
-      const res = await this.client.webPubSub.checkUserExistence(this.hubName, username, updatedOptions);
+      const res = await this.client.webPubSub.checkUserExistence(
+        this.hubName,
+        username,
+        updatedOptions
+      );
 
       if (res._response.status === 200) {
         return true;

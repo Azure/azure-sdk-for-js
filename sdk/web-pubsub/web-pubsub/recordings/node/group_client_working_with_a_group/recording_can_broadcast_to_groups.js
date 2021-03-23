@@ -1,14 +1,15 @@
 let nock = require('nock');
 
-module.exports.hash = "187a963cb634808670402393c76a7682";
+module.exports.hash = "d44ec7f0f86ff976f42b0193d1264554";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/ws/api/v1/hubs/simplechat/groups/group', "hello")
+nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
+  .post('/api/hubs/group/groups/simplechat/:send', "hello")
+  .query(true)
   .reply(202, "", [
   'Date',
-  'Mon, 11 May 2020 21:55:32 GMT',
+  'Tue, 23 Mar 2021 01:43:44 GMT',
   'Content-Length',
   '0',
   'Connection',
@@ -17,11 +18,12 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'max-age=15724800; includeSubDomains'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/ws/api/v1/hubs/simplechat/groups/group', "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000")
+nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
+  .post('/api/hubs/group/groups/simplechat/:send', "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000")
+  .query(true)
   .reply(202, "", [
   'Date',
-  'Mon, 11 May 2020 21:55:32 GMT',
+  'Tue, 23 Mar 2021 01:43:44 GMT',
   'Content-Length',
   '0',
   'Connection',

@@ -77,7 +77,6 @@ describe("HubClient", () => {
       assert.ok(!res);
     });
 
-
     afterEach(async function() {
       if (recorder) {
         recorder.stop();

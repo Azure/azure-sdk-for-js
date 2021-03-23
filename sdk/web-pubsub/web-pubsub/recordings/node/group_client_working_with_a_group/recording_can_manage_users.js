@@ -1,27 +1,15 @@
 let nock = require('nock');
 
-module.exports.hash = "0d5b7d5c33cf6d52ec1243e93f8dbc04";
+module.exports.hash = "4e60ac6ee2ad28a116e3843b0788971c";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .put('/ws/api/v1/hubs/simplechat/groups/group/users/brian')
-  .reply(202, "", [
-  'Date',
-  'Mon, 11 May 2020 21:55:33 GMT',
-  'Content-Length',
-  '0',
-  'Connection',
-  'keep-alive',
-  'Strict-Transport-Security',
-  'max-age=15724800; includeSubDomains'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/ws/api/v1/hubs/simplechat/groups/group/users/brian')
+nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
+  .put('/api/hubs/group/users/brian/groups/simplechat')
+  .query(true)
   .reply(200, "", [
   'Date',
-  'Mon, 11 May 2020 21:55:33 GMT',
+  'Tue, 23 Mar 2021 01:43:44 GMT',
   'Content-Length',
   '0',
   'Connection',
@@ -30,24 +18,36 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'max-age=15724800; includeSubDomains'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/ws/api/v1/hubs/simplechat/groups/group/users/jeff')
+nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
+  .head('/api/hubs/group/users/brian/groups/simplechat')
+  .query(true)
+  .reply(200, "", [
+  'Date',
+  'Tue, 23 Mar 2021 01:43:44 GMT',
+  'Connection',
+  'keep-alive',
+  'Strict-Transport-Security',
+  'max-age=15724800; includeSubDomains'
+]);
+
+nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
+  .head('/api/hubs/group/users/jeff/groups/simplechat')
+  .query(true)
   .reply(404, "", [
   'Date',
-  'Mon, 11 May 2020 21:55:33 GMT',
-  'Content-Length',
-  '0',
+  'Tue, 23 Mar 2021 01:43:45 GMT',
   'Connection',
   'keep-alive',
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/ws/api/v1/hubs/simplechat/groups/group/users/brian')
-  .reply(202, "", [
+nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
+  .delete('/api/hubs/group/users/brian/groups/simplechat')
+  .query(true)
+  .reply(200, "", [
   'Date',
-  'Mon, 11 May 2020 21:55:33 GMT',
+  'Tue, 23 Mar 2021 01:43:45 GMT',
   'Content-Length',
   '0',
   'Connection',
@@ -56,13 +56,12 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'max-age=15724800; includeSubDomains'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/ws/api/v1/hubs/simplechat/groups/group/users/brian')
+nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
+  .head('/api/hubs/group/users/brian/groups/simplechat')
+  .query(true)
   .reply(404, "", [
   'Date',
-  'Mon, 11 May 2020 21:55:33 GMT',
-  'Content-Length',
-  '0',
+  'Tue, 23 Mar 2021 01:43:45 GMT',
   'Connection',
   'keep-alive',
   'Strict-Transport-Security',

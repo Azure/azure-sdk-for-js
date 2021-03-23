@@ -10,7 +10,7 @@ import {
 } from "@azure/core-http";
 import { AzureWebPubSubServiceRestAPI as GeneratedClient } from "./generated/azureWebPubSubServiceRestAPI";
 import { createSpan } from "./tracing";
-import { HubSendToAllOptions as HubSendToAllOptions } from "./hubClient";
+import { HubSendToAllOptions } from "./hubClient";
 import normalizeSendToAllOptions from "./normalizeOptions";
 
 /**
@@ -155,7 +155,12 @@ export class WebPubsubGroup {
     const { span, updatedOptions } = createSpan("WebPubSubManagementClient-group-addUser", options);
 
     try {
-      return this.client.webPubSub.addUserToGroup(this.hubName, this.groupName, username, updatedOptions);
+      return this.client.webPubSub.addUserToGroup(
+        this.hubName,
+        this.groupName,
+        username,
+        updatedOptions
+      );
     } finally {
       span.end();
     }
@@ -210,7 +215,12 @@ export class WebPubsubGroup {
     );
 
     try {
-      return this.client.webPubSub.removeUserFromGroup(this.hubName, this.groupName, username, updatedOptions);
+      return this.client.webPubSub.removeUserFromGroup(
+        this.hubName,
+        this.groupName,
+        username,
+        updatedOptions
+      );
     } finally {
       span.end();
     }
@@ -246,9 +256,21 @@ export class WebPubsubGroup {
 
     try {
       if (typeof message === "string") {
-        return this.client.webPubSub.sendToGroup(this.hubName, this.groupName, "text/plain", message, updatedOptions);
+        return this.client.webPubSub.sendToGroup(
+          this.hubName,
+          this.groupName,
+          "text/plain",
+          message,
+          updatedOptions
+        );
       } else {
-        return this.client.webPubSub.sendToGroup(this.hubName, this.groupName, "application/octet-stream", message, updatedOptions);
+        return this.client.webPubSub.sendToGroup(
+          this.hubName,
+          this.groupName,
+          "application/octet-stream",
+          message,
+          updatedOptions
+        );
       }
     } finally {
       span.end();

@@ -1,16 +1,15 @@
 let nock = require('nock');
 
-module.exports.hash = "9e02cbdf04d3a7a3a3b64a5c664ec9c1";
+module.exports.hash = "2ab947064d8d64d2878c071972f75afb";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/ws/api/v1/hubs/xxx/connections/simplechat')
+nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
+  .head('/api/hubs/simplechat/connections/xxx')
+  .query(true)
   .reply(404, "", [
   'Date',
-  'Mon, 11 May 2020 21:55:35 GMT',
-  'Content-Length',
-  '0',
+  'Tue, 23 Mar 2021 01:43:46 GMT',
   'Connection',
   'keep-alive',
   'Strict-Transport-Security',
