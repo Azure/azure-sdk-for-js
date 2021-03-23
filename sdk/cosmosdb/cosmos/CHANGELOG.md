@@ -1,6 +1,6 @@
 # Release History
 
-## 3.10.4 (2021-03-12)
+## 3.10.4 (2021-03-23)
 
 - FEATURE: Adds Bulk continueOnError option
 
