@@ -6,7 +6,6 @@ import { assert } from "chai";
 import {
   SearchIndexClient,
   SearchIndexerClient,
-  SearchIndexerDataSourceConnection,
   SearchIndexerSkillset,
   SearchIndexer
 } from "../../../src";
@@ -14,7 +13,6 @@ import { Hotel } from "../utils/interfaces";
 import { createClients, environmentSetup } from "../utils/recordedClient";
 import {
   createIndex,
-  createDataSourceConnections,
   deleteDataSourceConnections,
   createSkillsets,
   deleteSkillsets,
@@ -38,7 +36,6 @@ describe("SearchIndexerClient", /** @this Mocha.Context */ function() {
     /** @this Mocha.Context */ async function() {
       ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
       if (!isPlaybackMode()) {
-        await createDataSourceConnections(indexerClient);
         await createSkillsets(indexerClient);
         await createIndex(indexClient, TEST_INDEX_NAME);
         await delay(5000);
@@ -131,26 +128,6 @@ describe("SearchIndexerClient", /** @this Mocha.Context */ function() {
   });
 
   describe("#datasourceconnections", function() {
-    it("gets the list of datasourceconnections", async function() {
-      const dataSourceConnections = await indexerClient.listDataSourceConnections();
-      assert.equal(dataSourceConnections.length, 2);
-    });
-
-    it("gets the list of datasourceconnection names", async function() {
-      const dataSourceConnectionNames = await indexerClient.listDataSourceConnectionsNames();
-      assert.isAtLeast(dataSourceConnectionNames.length, 2);
-      for (let i = 1; i <= 2; i++) {
-        assert.include(dataSourceConnectionNames, `my-data-source-${i}`);
-      }
-    });
-
-    it("gets the correct datasourceconnection object", async function() {
-      const dataSourceConnection = await indexerClient.getDataSourceConnection("my-data-source-1");
-      assert.equal(dataSourceConnection.name, "my-data-source-1");
-      assert.equal(dataSourceConnection.type, "cosmosdb");
-      assert.equal(dataSourceConnection.container.name, "hotels");
-    });
-
     it("throws error for invalid datasourceconnection object", async function() {
       let retrievalError: boolean = false;
       try {
@@ -159,35 +136,6 @@ describe("SearchIndexerClient", /** @this Mocha.Context */ function() {
         retrievalError = true;
       }
       assert.isTrue(retrievalError);
-    });
-
-    it("creates the datasourceconnection object using createOrUpdateDataSourceConnection", async function() {
-      let dataSourceConnection: SearchIndexerDataSourceConnection = {
-        name: "my-data-source-3",
-        type: "cosmosdb",
-        container: {
-          name: "hotels"
-        },
-        connectionString:
-          "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData"
-      };
-      await indexerClient.createOrUpdateDataSourceConnection(dataSourceConnection);
-      try {
-        dataSourceConnection = await indexerClient.getDataSourceConnection("my-data-source-3");
-        assert.equal(dataSourceConnection.name, "my-data-source-3");
-        assert.equal(dataSourceConnection.type, "cosmosdb");
-        assert.equal(dataSourceConnection.container.name, "hotels");
-      } finally {
-        await indexerClient.deleteDataSourceConnection(dataSourceConnection);
-      }
-    });
-
-    it("modify and updates the datasourceconnection object", async function() {
-      let dataSourceConnection = await indexerClient.getDataSourceConnection("my-data-source-1");
-      dataSourceConnection.container.name = "my-container-2";
-      await indexerClient.createOrUpdateDataSourceConnection(dataSourceConnection);
-      dataSourceConnection = await indexerClient.getDataSourceConnection("my-data-source-1");
-      assert.equal(dataSourceConnection.container.name, "my-container-2");
     });
   });
 

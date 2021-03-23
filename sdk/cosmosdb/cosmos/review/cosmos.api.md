@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AbortSignal } from 'node-abort-controller';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
