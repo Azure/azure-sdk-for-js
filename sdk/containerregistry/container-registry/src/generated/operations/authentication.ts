@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
+import { GeneratedClientContext } from "../generatedClientContext";
 import {
   AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams,
   AuthenticationExchangeAadTokenForAcrRefreshTokenResponse,
@@ -19,13 +19,13 @@ import {
 
 /** Class representing a Authentication. */
 export class Authentication {
-  private readonly client: GeneratedClient;
+  private readonly client: GeneratedClientContext;
 
   /**
    * Initialize a new instance of the class Authentication class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: GeneratedClientContext) {
     this.client = client;
   }
 
@@ -36,13 +36,10 @@ export class Authentication {
   exchangeAadTokenForAcrRefreshToken(
     options?: AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams
   ): Promise<AuthenticationExchangeAadTokenForAcrRefreshTokenResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       exchangeAadTokenForAcrRefreshTokenOperationSpec
-    ) as Promise<AuthenticationExchangeAadTokenForAcrRefreshTokenResponse>;
+    );
   }
 
   /**
@@ -52,21 +49,16 @@ export class Authentication {
   exchangeAcrRefreshTokenForAcrAccessToken(
     options?: AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams
   ): Promise<AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { options },
       exchangeAcrRefreshTokenForAcrAccessTokenOperationSpec
-    ) as Promise<
-      AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse
-    >;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const exchangeAadTokenForAcrRefreshTokenOperationSpec: coreHttp.OperationSpec = {
+const exchangeAadTokenForAcrRefreshTokenOperationSpec: coreClient.OperationSpec = {
   path: "/oauth2/exchange",
   httpMethod: "POST",
   responses: {
@@ -82,7 +74,7 @@ const exchangeAadTokenForAcrRefreshTokenOperationSpec: coreHttp.OperationSpec = 
   headerParameters: [Parameters.contentType3, Parameters.accept4],
   serializer
 };
-const exchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: coreHttp.OperationSpec = {
+const exchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: coreClient.OperationSpec = {
   path: "/oauth2/token",
   httpMethod: "POST",
   responses: {

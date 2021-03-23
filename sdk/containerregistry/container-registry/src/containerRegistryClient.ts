@@ -3,14 +3,13 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
-  TokenCredential,
-  OperationOptions,
   bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  isTokenCredential
-} from "@azure/core-http";
+  InternalPipelineOptions
+} from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
+
 import { CanonicalCode } from "@opentelemetry/api";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -83,7 +82,7 @@ export class ContainerRegistryClient {
     // The AAD scope for an API is usually the baseUri + "/.default", but it
     // may be different for your service.
     const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, `${endpointUrl}/.default`)
+      ? bearerTokenAuthenticationPolicy({ credential, scopes: `${endpointUrl}/.default` })
       : createContainerRegistryUserCredentialPolicy(credential);
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
@@ -91,12 +90,12 @@ export class ContainerRegistryClient {
         logger: logger.info,
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-        allowedHeaderNames: ["x-ms-correlation-request-id"]
+        additionalAllowedHeaderNames: ["x-ms-correlation-request-id"]
       }
     };
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new GeneratedClient(endpointUrl, pipeline);
+    this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions } from "@azure/core-http";
+import { PipelineOptions } from "@azure/core-rest-pipeline";
 import {
   ContentProperties,
   DeleteRepositoryResult,
