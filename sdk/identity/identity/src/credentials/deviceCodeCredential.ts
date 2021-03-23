@@ -7,11 +7,7 @@ import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
 import { MsalFlow } from "../msal/flows";
 import { AuthenticationRecord } from "../msal/types";
 import { trace } from "../util/tracing";
-import {
-  DeviceCodeCredentialOptions,
-  DeviceCodeInfo,
-  DeviceCodePromptCallback
-} from "./deviceCodeCredentialOptions";
+import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
 
 const logger = credentialLogger("DeviceCodeCredential");
 
@@ -35,41 +31,13 @@ export class DeviceCodeCredential implements TokenCredential {
    * Creates an instance of DeviceCodeCredential with the details needed
    * to initiate the device code authorization flow with Azure Active Directory.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
-   *                   The default value is 'organizations'.
-   *                   'organizations' may be used when dealing with multi-tenant scenarios.
-   *                   Users can also pass the options as the first parameter, and skip the other parammeters entirely.
-   * @param clientId - The client (application) ID of an App Registration in the tenant.
-   *                   By default we will try to use the Azure CLI's client ID to authenticate.
-   * @param userPromptCallback - A callback function that will be invoked to show
-   *                             {@link DeviceCodeInfo} to the user. If left unassigned, we will automatically log the device code information and the authentication instructions in the console.
    * @param options - Options for configuring the client which makes the authentication requests.
    */
-  constructor(options?: DeviceCodeCredentialOptions);
-  constructor(
-    tenantId?: string,
-    clientId?: string,
-    userPromptCallback?: DeviceCodePromptCallback,
-    options?: DeviceCodeCredentialOptions
-  );
-  constructor(
-    tenantIdOrOptions?: string | DeviceCodeCredentialOptions,
-    clientId?: string,
-    userPromptCallback?: DeviceCodePromptCallback,
-    options?: DeviceCodeCredentialOptions
-  ) {
-    let tenantId: string | undefined;
-    if (typeof tenantIdOrOptions === "string") {
-      tenantId = tenantIdOrOptions;
-    } else {
-      options = tenantIdOrOptions;
-    }
+  constructor(options?: DeviceCodeCredentialOptions) {
     this.msalFlow = new MsalDeviceCode({
       ...options,
       logger,
-      clientId,
-      tenantId,
-      userPromptCallback: userPromptCallback || defaultDeviceCodePromptCallback,
+      userPromptCallback: options?.userPromptCallback || defaultDeviceCodePromptCallback,
       tokenCredentialOptions: options || {}
     });
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
