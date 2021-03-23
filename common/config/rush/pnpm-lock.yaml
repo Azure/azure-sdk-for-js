@@ -390,18 +390,6 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-EihnqHh2EE6xcB0Dh2LF30jE1Ga9cgh9PyRkX4fj+KpvYfL4ae57hvQwJGkynUgpf3V1xQxU5yaJVXOElfXiGw==
-  /@azure/msal-node-extensions/1.0.0-alpha.6:
-    dependencies:
-      '@azure/msal-common': 1.7.2
-      bindings: 1.5.0
-      keytar: 7.0.0
-      nan: 2.14.2
-    dev: false
-    engines:
-      node: '>=10'
-    requiresBuild: true
-    resolution:
-      integrity: sha512-fVufHc02C+daYOMAHBnE998abB4qUIeJ9gmTxmSelHhGfBGvvzMbCohCu4sTlSVDKUndF3yD/Nxvw/cEtpcZKg==
   /@azure/msal-node/1.0.0-beta.6:
     dependencies:
       '@azure/msal-common': 4.0.3
@@ -9453,7 +9441,6 @@ packages:
       '@azure/msal-browser': 2.9.0
       '@azure/msal-common': 4.0.3
       '@azure/msal-node': 1.0.1
-      '@azure/msal-node-extensions': 1.0.0-alpha.6
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
