@@ -1247,6 +1247,7 @@ describe("Batching Receiver", () => {
             `The session lock has expired on the session with id ${TestMessage.sessionId}`,
             "Unexpected error thrown"
           );
+          await delay(2000); // Adding a delay of 2 sec to make sure the flaky ness goes away
           // wait for the 2nd message to be received.
           receiver = (await serviceBusClient.test.createReceiveAndDeleteReceiver(
             entityNames
