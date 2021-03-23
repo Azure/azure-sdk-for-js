@@ -329,7 +329,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(updated.actionLinkTemplate, "Updated Azure Blob action link template");
         });
 
-        it("creates an Azure Application Insights feed", async () => {
+        it.only("creates an Azure Application Insights feed", async () => {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureApplicationInsights",
@@ -338,7 +338,7 @@ matrix([[true, false]] as const, async (useAad) => {
               applicationId: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID,
               apiKey: testEnv.METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY,
               query:
-                "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+                "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
             }
           };
           const actual = await client.createDataFeed({
@@ -365,7 +365,7 @@ matrix([[true, false]] as const, async (useAad) => {
             );
             assert.equal(
               actual.source.dataSourceParameter.query,
-              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
             );
           }
         });
