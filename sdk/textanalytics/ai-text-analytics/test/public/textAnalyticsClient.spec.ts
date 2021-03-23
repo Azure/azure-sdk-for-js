@@ -35,35 +35,36 @@ const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
-describe("[AAD] TextAnalyticsClient", function() {
+describe("[AAD] TextAnalyticsClient", /** @this Mocha.Context */ function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
-  // eslint-disable-next-line no-invalid-this
   const CLITimeout = this.timeout();
   const fastTimeout = 10000;
 
   let getId: () => string;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    recorder = createRecorder(this);
-    client = createClient("AAD");
-    let nextId = 0;
-    getId = function() {
-      nextId += 1;
-      return nextId.toString();
-    };
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      recorder = createRecorder(this);
+      client = createClient("AAD");
+      let nextId = 0;
+      getId = function() {
+        nextId += 1;
+        return nextId.toString();
+      };
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
   });
 
   describe("fast tests", function() {
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
-      this.timeout(fastTimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(fastTimeout);
+      }
+    );
 
     describe("#analyzeSentiment", function() {
       it("client throws on empty list", async function() {
@@ -929,10 +930,11 @@ describe("[AAD] TextAnalyticsClient", function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
-      this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
+      }
+    );
 
     describe("#analyze", function() {
       it("single entity recognition action", async function() {

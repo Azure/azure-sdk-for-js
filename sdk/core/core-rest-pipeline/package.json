@@ -52,7 +52,7 @@
     "test:node": "npm run build:test:node && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && npm run build:ts && npm run bundle:test:node && npm run unit-test:node && npm run bundle:test:browser && npm run unit-test:browser && npm run integration-test:node && npm run integration-test:browser",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -141,7 +141,7 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.1.2",
+    "typescript": "~4.2.0",
     "util": "^0.12.1",
     "typedoc": "0.15.2"
   }

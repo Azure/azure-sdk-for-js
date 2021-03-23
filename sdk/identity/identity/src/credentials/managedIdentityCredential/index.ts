@@ -181,7 +181,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     } catch (err) {
       // CredentialUnavailable errors are expected to reach here.
       // We intend them to bubble up, so that DefaultAzureCredential can catch them.
-      if (err instanceof CredentialUnavailable) {
+      if (err.name === "AuthenticationRequired") {
         throw err;
       }
 

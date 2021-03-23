@@ -14,11 +14,12 @@ describe("TableServiceClient", () => {
   const suffix = isNode ? "node" : "browser";
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    recorder = record(this, recordedEnvironmentSetup);
-    client = createTableServiceClient(authMode);
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      recorder = record(this, recordedEnvironmentSetup);
+      client = createTableServiceClient(authMode);
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
@@ -50,33 +51,35 @@ describe("TableServiceClient", () => {
   describe("listTables", () => {
     const tableNames: string[] = [];
     const expectedTotalItems = 20;
-    before(async function() {
-      // Create tables to be listed
-      if (!isPlaybackMode()) {
-        // eslint-disable-next-line no-invalid-this
-        this.timeout(10000);
-        for (let i = 0; i < 20; i++) {
-          const tableName = `ListTableTest${suffix}${i}`;
-          await client.createTable(tableName);
-          tableNames.push(tableName);
-        }
-      }
-    });
-
-    after(async function() {
-      // Cleanup tables
-      if (!isPlaybackMode()) {
-        // eslint-disable-next-line no-invalid-this
-        this.timeout(10000);
-        try {
-          for (const table of tableNames) {
-            await client.deleteTable(table);
+    before(
+      /** @this Mocha.Context */ async function() {
+        // Create tables to be listed
+        if (!isPlaybackMode()) {
+          this.timeout(10000);
+          for (let i = 0; i < 20; i++) {
+            const tableName = `ListTableTest${suffix}${i}`;
+            await client.createTable(tableName);
+            tableNames.push(tableName);
           }
-        } catch (error) {
-          console.warn(`Failed to delete a table during cleanup`);
         }
       }
-    });
+    );
+
+    after(
+      /** @this Mocha.Context */ async function() {
+        // Cleanup tables
+        if (!isPlaybackMode()) {
+          this.timeout(10000);
+          try {
+            for (const table of tableNames) {
+              await client.deleteTable(table);
+            }
+          } catch (error) {
+            console.warn(`Failed to delete a table during cleanup`);
+          }
+        }
+      }
+    );
 
     it("should list all", async () => {
       const tables = client.listTables();

@@ -19,10 +19,11 @@ describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.ANOMALY_DETECTOR_API_KEY);
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    ({ recorder, client } = createRecordedAnomalyDetectorClient(this, apiKey));
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      ({ recorder, client } = createRecordedAnomalyDetectorClient(this, apiKey));
+    }
+  );
 
   afterEach(async function() {
     if (recorder) {
