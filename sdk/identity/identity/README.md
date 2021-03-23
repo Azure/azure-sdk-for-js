@@ -30,12 +30,8 @@ npm install --save @azure/identity
 - An Azure subscription.
   - You can sign up for a [free account](https://azure.microsoft.com/free/).
 - The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment, creating accounts, and managing account roles.
-- [node-gyp](https://github.com/nodejs/node-gyp/blob/master/README.md#installation), which means:
-  - On Linux: Python v3.6, v3.7, v3.8, or v3.9, `make` and `GCC`.
-  - On MacOS:  Python v3.6, v3.7, v3.8, or v3.9 and XCode.
-  - On Windows: Python and a Visual C++ Build Environment.
 
-Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` allow specifying `tokenCachePersistenceOptions` to enable persistent caching. To use this feature on Linux, developers will also need to install `libsecret`, which can be installed with `sudo apt-get install libsecret-1-dev`.
+Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` allow specifying `tokenCachePersistenceOptions` to enable persistent caching. To use this feature on Linux, developers will also need to install [@azure/msal-node-extensions](https://www.npmjs.com/package/@azure/msal-node-extensions).
 
 ### Authenticate the client in development environment
 
