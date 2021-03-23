@@ -13,7 +13,7 @@ import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersist
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { isNode15, isNode8 } from "../../../src/tokenCache/nodeVersion";
 
-describe.only("DeviceCodeCredential (internal)", function() {
+describe("DeviceCodeCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
