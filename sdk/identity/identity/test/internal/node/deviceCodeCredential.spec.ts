@@ -41,7 +41,10 @@ describe("DeviceCodeCredential (internal)", function() {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID);
+    const credential = new DeviceCodeCredential({
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID
+    });
 
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1);
