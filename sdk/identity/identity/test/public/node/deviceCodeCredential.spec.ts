@@ -37,7 +37,10 @@ describe("DeviceCodeCredential", function() {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID);
+    const credential = new DeviceCodeCredential({
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID
+    });
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -52,7 +55,11 @@ describe("DeviceCodeCredential", function() {
     const callback: DeviceCodePromptCallback = (info) => {
       console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
     };
-    const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, callback);
+    const credential = new DeviceCodeCredential({
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID,
+      userPromptCallback: callback
+    });
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -61,7 +68,10 @@ describe("DeviceCodeCredential", function() {
 
   // Setting the MSAL options to cancel doesn't seem to be cancelling MSAL. I'm waiting for them to mention how to do this.
   it.skip("allows cancelling the authentication", async function() {
-    const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID);
+    const credential = new DeviceCodeCredential({
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID
+    });
 
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
@@ -114,7 +124,10 @@ describe("DeviceCodeCredential", function() {
     }
     await testTracing({
       test: async (spanOptions) => {
-        const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID);
+        const credential = new DeviceCodeCredential({
+          tenantId: env.AZURE_TENANT_ID,
+          clientId: env.AZURE_CLIENT_ID
+        });
 
         await credential.getToken(scope, {
           tracingOptions: {
