@@ -159,7 +159,8 @@ export interface ChatThreadProperties {
 }
 
 // @public
-export interface CreateChatThreadOptions extends RestCreateChatThreadOptions {
+export interface CreateChatThreadOptions extends OperationOptions {
+    idempotencyToken?: string;
     participants?: ChatParticipant[];
 }
 
@@ -205,11 +206,6 @@ export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
 
 // @public
 export type RemoveParticipantOptions = OperationOptions;
-
-// @public
-export interface RestCreateChatThreadOptions extends coreHttp.OperationOptions {
-    idempotencyToken?: string;
-}
 
 // @public
 export interface RestListChatThreadsOptions extends coreHttp.OperationOptions {
