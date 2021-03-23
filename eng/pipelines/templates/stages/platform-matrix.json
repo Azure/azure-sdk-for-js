@@ -11,7 +11,7 @@
     "NodeTestVersion": [ "8.x", "10.x", "12.x", "14.x" ],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml",
-    "ServiceVersion": ""
+    "ServiceVersion": "latest"
   },
   "include": [
     {
