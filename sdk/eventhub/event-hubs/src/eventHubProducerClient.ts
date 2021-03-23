@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
@@ -20,7 +20,7 @@ import {
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { isDefined } from "./util/typeGuards";
+import { isCredential, isDefined } from "./util/typeGuards";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
 
@@ -101,7 +101,9 @@ export class EventHubProducerClient {
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param credential - An credential object used by the client to get the token to authenticate the connection
-   * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
+   * with the Azure Event Hubs service.
+   * See &commat;azure/identity for creating credentials that support AAD auth.
+   * See &commat;azure/core-auth for creating `AzureNamedKeyCredential` or `AzureSASCredential`.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
@@ -111,13 +113,17 @@ export class EventHubProducerClient {
   constructor(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential | SASCredential,
     options?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
-    credentialOrOptions3?: TokenCredential | EventHubClientOptions,
+    credentialOrOptions3?:
+      | TokenCredential
+      | NamedKeyCredential
+      | SASCredential
+      | EventHubClientOptions,
     options4?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ) {
     this._context = createConnectionContext(
@@ -128,7 +134,7 @@ export class EventHubProducerClient {
     );
     if (typeof eventHubNameOrOptions2 !== "string") {
       this._clientOptions = eventHubNameOrOptions2 || {};
-    } else if (!isTokenCredential(credentialOrOptions3)) {
+    } else if (!isCredential(credentialOrOptions3)) {
       this._clientOptions = credentialOrOptions3 || {};
     } else {
       this._clientOptions = options4 || {};

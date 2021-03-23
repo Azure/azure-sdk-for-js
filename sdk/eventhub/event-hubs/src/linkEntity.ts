@@ -7,7 +7,7 @@ import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
 import { logger } from "./log";
-import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
+import { isTokenProvider } from "./util/typeGuards";
 
 /**
  * @hidden
@@ -132,12 +132,12 @@ export class LinkEntity {
     });
     let tokenObject: AccessToken;
     let tokenType: TokenType;
-    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+    if (isTokenProvider(this._context.tokenCredential)) {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
 
       // expiresOnTimestamp can be 0 if the token is not meant to be renewed
-      // (ie, SharedAccessSignatureCredential)
+      // (ie, SharedAccessSignatureTokenProvider)
       if (tokenObject.expiresOnTimestamp > 0) {
         // renew sas token in every 45 minutess
         this._tokenTimeoutInMs = (3600 - 900) * 1000;

@@ -31,9 +31,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { CanonicalCode } from "@opentelemetry/api";
 import { OperationOptions } from "./util/operationOptions";
-import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
 import { createEventHubSpan } from "./diagnostics/tracing";
 import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
+import { isTokenProvider } from "./util/typeGuards";
 
 /**
  * Describes the runtime information of an Event Hub.
@@ -138,7 +138,7 @@ export class ManagementClient extends LinkEntity {
    * @internal
    */
   async getSecurityToken(): Promise<AccessToken | null> {
-    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+    if (isTokenProvider(this._context.tokenCredential)) {
       // the security_token has the $management address removed from the end of the audience
       // expected audience: sb://fully.qualified.namespace/event-hub-name/$management
       const audienceParts = this.audience.split("/");

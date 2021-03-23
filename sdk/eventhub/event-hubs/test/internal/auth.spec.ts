@@ -8,18 +8,23 @@ import {
 } from "../../src";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import chai from "chai";
-import { SharedKeyCredential } from "../../src/eventhubSharedKeyCredential";
+import { createTokenProvider } from "../../src/tokenProvider";
+import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
 const should = chai.should();
 const env = getEnvVars();
 
-describe("Authentication via SAS", () => {
+describe("Authentication via", () => {
+  const {
+    endpoint,
+    fullyQualifiedNamespace,
+    sharedAccessKey,
+    sharedAccessKeyName
+  } = parseEventHubConnectionString(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]);
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME],
-    endpoint: parseEventHubConnectionString(
-      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]
-    ).endpoint.replace(/\/+$/, "")
+    endpoint: endpoint.replace(/\/+$/, "")
   };
 
   before(() => {
@@ -33,37 +38,143 @@ describe("Authentication via SAS", () => {
     );
   });
 
-  it("EventHubConsumerClient", async () => {
-    const sasConnectionString = getSasConnectionString();
+  describe("Keys", () => {
+    describe("using connection string", () => {
+      it("EventHubConsumerClient", async () => {
+        const consumerClient = new EventHubConsumerClient(
+          "$Default",
+          service.connectionString,
+          service.path
+        );
 
-    const consumerClient = new EventHubConsumerClient(
-      "$Default",
-      sasConnectionString,
-      service.path
-    );
+        const properties = await consumerClient.getEventHubProperties();
+        should.exist(properties);
 
-    const properties = await consumerClient.getEventHubProperties();
-    should.exist(properties);
+        await consumerClient.close();
+      });
 
-    await consumerClient.close();
+      it("EventHubProducerClient", async () => {
+        const producerClient = new EventHubProducerClient(service.connectionString, service.path);
+
+        const properties = await producerClient.getEventHubProperties();
+        should.exist(properties);
+
+        await producerClient.close();
+      });
+    });
+
+    describe("using NamedKeyCredential", () => {
+      it("EventHubConsumerClient", async () => {
+        const namedKeyCredential = new AzureNamedKeyCredential(
+          sharedAccessKeyName!,
+          sharedAccessKey!
+        );
+
+        const consumerClient = new EventHubConsumerClient(
+          "$Default",
+          fullyQualifiedNamespace,
+          service.path,
+          namedKeyCredential
+        );
+
+        const properties = await consumerClient.getEventHubProperties();
+        should.exist(properties);
+
+        await consumerClient.close();
+      });
+
+      it("EventHubProducerClient", async () => {
+        const namedKeyCredential = new AzureNamedKeyCredential(
+          sharedAccessKeyName!,
+          sharedAccessKey!
+        );
+
+        const producerClient = new EventHubProducerClient(
+          fullyQualifiedNamespace,
+          service.path,
+          namedKeyCredential
+        );
+
+        const properties = await producerClient.getEventHubProperties();
+        should.exist(properties);
+
+        await producerClient.close();
+      });
+    });
   });
 
-  it("EventHubProducerClient", async () => {
-    const sasConnectionString = getSasConnectionString();
+  describe("SAS", () => {
+    function getSas(): string {
+      return createTokenProvider(service.connectionString).getToken(
+        `${service.endpoint}/${service.path}`
+      ).token;
+    }
 
-    const producerClient = new EventHubProducerClient(sasConnectionString, service.path);
+    describe("using connection string", () => {
+      function getSasConnectionString(): string {
+        const sas = getSas();
 
-    const properties = await producerClient.getEventHubProperties();
-    should.exist(properties);
+        return `Endpoint=${service.endpoint}/;SharedAccessSignature=${sas}`;
+      }
 
-    await producerClient.close();
+      it("EventHubConsumerClient", async () => {
+        const sasConnectionString = getSasConnectionString();
+
+        const consumerClient = new EventHubConsumerClient(
+          "$Default",
+          sasConnectionString,
+          service.path
+        );
+
+        const properties = await consumerClient.getEventHubProperties();
+        should.exist(properties);
+
+        await consumerClient.close();
+      });
+
+      it("EventHubProducerClient", async () => {
+        const sasConnectionString = getSasConnectionString();
+
+        const producerClient = new EventHubProducerClient(sasConnectionString, service.path);
+
+        const properties = await producerClient.getEventHubProperties();
+        should.exist(properties);
+
+        await producerClient.close();
+      });
+    });
+
+    describe("using SASCredential", () => {
+      it("EventHubConsumerClient", async () => {
+        const sasCredential = new AzureSASCredential(getSas());
+
+        const consumerClient = new EventHubConsumerClient(
+          "$Default",
+          fullyQualifiedNamespace,
+          service.path,
+          sasCredential
+        );
+
+        const properties = await consumerClient.getEventHubProperties();
+        should.exist(properties);
+
+        await consumerClient.close();
+      });
+
+      it("EventHubProducerClient", async () => {
+        const sasCredential = new AzureSASCredential(getSas());
+
+        const producerClient = new EventHubProducerClient(
+          fullyQualifiedNamespace,
+          service.path,
+          sasCredential
+        );
+
+        const properties = await producerClient.getEventHubProperties();
+        should.exist(properties);
+
+        await producerClient.close();
+      });
+    });
   });
-
-  function getSasConnectionString(): string {
-    const sas = SharedKeyCredential.fromConnectionString(service.connectionString).getToken(
-      `${service.endpoint}/${service.path}`
-    ).token;
-
-    return `Endpoint=${service.endpoint}/;SharedAccessSignature=${sas}`;
-  }
 });

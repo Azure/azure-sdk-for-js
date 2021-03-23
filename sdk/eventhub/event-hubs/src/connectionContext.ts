@@ -16,12 +16,18 @@ import {
   CreateConnectionContextBaseParameters,
   ConnectionConfig
 } from "@azure/core-amqp";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./models/public";
 import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
+import {
+  createTokenProvider,
+  NamedKeyTokenProvider,
+  SharedAccessSignatureTokenProvider,
+  TokenProvider
+} from "./tokenProvider";
+import { isCredential, isNamedKeyCredential, isSASCredential } from "./util/typeGuards";
 
 /**
  * @internal
@@ -36,9 +42,9 @@ export interface ConnectionContext extends ConnectionContextBase {
   readonly config: EventHubConnectionConfig;
   /**
    * The credential to be used for Authentication.
-   * Default value: SharedKeyCredentials.
+   * Default value: TokenProvider.
    */
-  tokenCredential: SharedKeyCredential | TokenCredential;
+  tokenCredential: TokenProvider | TokenCredential;
   /**
    * Indicates whether the close() method was
    * called on theconnection object.
@@ -150,7 +156,7 @@ export namespace ConnectionContext {
 
   export function create(
     config: EventHubConnectionConfig,
-    tokenCredential: SharedKeyCredential | TokenCredential,
+    tokenCredential: TokenProvider | TokenCredential,
     options?: ConnectionContextOptions
   ): ConnectionContext {
     if (!options) options = {};
@@ -436,15 +442,19 @@ export namespace ConnectionContext {
 export function createConnectionContext(
   hostOrConnectionString: string,
   eventHubNameOrOptions?: string | EventHubClientOptions,
-  credentialOrOptions?: TokenCredential | EventHubClientOptions,
+  credentialOrOptions?:
+    | TokenCredential
+    | NamedKeyCredential
+    | SASCredential
+    | EventHubClientOptions,
   options?: EventHubClientOptions
 ): ConnectionContext {
   let connectionString;
   let config;
-  let credential: TokenCredential | SharedKeyCredential;
+  let credential: TokenCredential | TokenProvider;
   hostOrConnectionString = String(hostOrConnectionString);
 
-  if (!isTokenCredential(credentialOrOptions)) {
+  if (!isCredential(credentialOrOptions)) {
     const parsedCS = parseEventHubConnectionString(hostOrConnectionString);
     if (
       !(
@@ -480,13 +490,19 @@ export function createConnectionContext(
       options = credentialOrOptions;
     }
 
-    // Since connectionstring was passed, create a SharedKeyCredential
-    credential = SharedKeyCredential.fromConnectionString(connectionString);
+    // Since connectionString was passed, create a TokenProvider.
+    credential = createTokenProvider(connectionString);
   } else {
     // host, eventHubName, a TokenCredential and/or options were passed to constructor
     const eventHubName = eventHubNameOrOptions;
     let host = hostOrConnectionString;
-    credential = credentialOrOptions;
+    if (isNamedKeyCredential(credentialOrOptions)) {
+      credential = new NamedKeyTokenProvider(credentialOrOptions);
+    } else if (isSASCredential(credentialOrOptions)) {
+      credential = new SharedAccessSignatureTokenProvider(credentialOrOptions);
+    } else {
+      credential = credentialOrOptions;
+    }
     if (!eventHubName) {
       throw new TypeError(`"eventHubName" is missing`);
     }
