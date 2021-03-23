@@ -12,13 +12,13 @@ import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
-import { assertThrowsAbortError, serviceVersions } from "../utils/utils.common";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { versionsToTest } from "@azure/test-utils-multi-version";
 
-versionsToTest(serviceVersions, {}, (serviceVersion: string) => {
+versionsToTest(getServiceVersion(), {}, (serviceVersion: string) => {
   describe("Certificates client - create, read, update and delete", () => {
     const prefix = `CRUD${env.CERTIFICATE_NAME || "CertificateName"}`;
     let suffix: string;

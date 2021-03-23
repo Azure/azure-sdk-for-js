@@ -14,9 +14,9 @@ import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { versionsToTest } from "@azure/test-utils-multi-version";
-import { serviceVersions } from "../utils/utils.common";
+import { getServiceVersion } from "../utils/utils.common";
 
-versionsToTest(serviceVersions, {}, (serviceVersion) => {
+versionsToTest(getServiceVersion(), {}, (serviceVersion) => {
   describe("Certificates client - merge and import certificates", () => {
     const prefix = `merge${env.CERTIFICATE_NAME || "CertificateName"}`;
     let suffix: string;

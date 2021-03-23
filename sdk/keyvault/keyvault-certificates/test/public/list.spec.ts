@@ -7,7 +7,7 @@ import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure/test-utils-r
 import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
-import { assertThrowsAbortError, serviceVersions } from "../utils/utils.common";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
@@ -15,7 +15,7 @@ import { versionsToTest } from "@azure/test-utils-multi-version";
 
 const { expect } = chai;
 
-versionsToTest(serviceVersions, {}, (serviceVersion) => {
+versionsToTest(getServiceVersion(), {}, (serviceVersion) => {
   describe("Certificates client - list certificates in various ways", () => {
     const prefix = `list${env.CERTIFICATE_NAME || "CertificateName"}`;
     let suffix: string;

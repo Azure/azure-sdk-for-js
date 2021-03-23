@@ -9,9 +9,9 @@ import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from 
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
 import { versionsToTest } from "@azure/test-utils-multi-version";
-import { serviceVersions } from "../utils/utils.common";
+import { getServiceVersion } from "../utils/utils.common";
 
-versionsToTest(serviceVersions, {}, (serviceVersion) => {
+versionsToTest(getServiceVersion(), {}, (serviceVersion) => {
   describe("The Certificates client should set the serviceVersion", () => {
     const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
 

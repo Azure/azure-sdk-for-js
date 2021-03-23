@@ -7,12 +7,12 @@ import { isNode } from "@azure/core-http";
 
 import { CertificateClient } from "../../src";
 import { testPollerProperties } from "../utils/recorderUtils";
-import { assertThrowsAbortError, serviceVersions } from "../utils/utils.common";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { versionsToTest } from "@azure/test-utils-multi-version";
 
-versionsToTest(serviceVersions, {}, (serviceVersion) => {
+versionsToTest(getServiceVersion(), {}, (serviceVersion) => {
   describe("Certificates client - restore certificates and recover backups", () => {
     const prefix = `backupRestore${env.CERTIFICATE_NAME || "CertificateName"}`;
     let suffix: string;

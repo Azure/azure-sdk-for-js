@@ -36,4 +36,7 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
   }
 }
 
-export const serviceVersions = ["7.0", "7.1", LATEST_API_VERSION];
+export function getServiceVersion(): readonly [string] {
+  console.log("env.SERVICE_VERSION", env.SERVICE_VERSION);
+  return [env.SERVICE_VERSION || LATEST_API_VERSION] as const;
+}

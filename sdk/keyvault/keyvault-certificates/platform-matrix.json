@@ -1,0 +1,26 @@
+{
+  "include": [
+    {
+      "Agent": {
+        "ubuntu-18.04_7_0": {
+          "OSVmImage": "MMSUbuntu18.04",
+          "Pool": "azsdk-pool-mms-ubuntu-1804-general",
+          "ArmTemplateParameters": "@{ enableHsm = $true }"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "10.x"
+    },
+    {
+      "Agent": {
+        "ubuntu-18.04_7_1": {
+          "OSVmImage": "MMSUbuntu18.04",
+          "Pool": "azsdk-pool-mms-ubuntu-1804-general",
+          "ArmTemplateParameters": "@{ enableHsm = $true }"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "10.x"
+    }
+  ]
+}
