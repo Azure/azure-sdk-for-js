@@ -8,6 +8,7 @@ import {
   KeyVaultCertificatePollerOptions,
   cleanState
 } from "../keyVaultCertificatePoller";
+import { createTraceFunction } from "../../../../keyvault-common/src/tracingHelpers";
 
 export interface CertificateOperationPollerOptions extends KeyVaultCertificatePollerOptions {}
 
@@ -59,3 +60,7 @@ export class CertificateOperationPoller extends KeyVaultCertificatePoller<
     };
   }
 }
+
+export const withTrace = createTraceFunction(
+  "Azure.KeyVault.Certificates.CertificateOperationPoller"
+);

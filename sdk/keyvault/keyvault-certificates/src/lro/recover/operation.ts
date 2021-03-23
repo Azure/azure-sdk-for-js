@@ -3,22 +3,18 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { RequestOptionsBase } from "@azure/core-http";
-import { createSpan } from "../../tracing";
 import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
   RecoverDeletedCertificateOptions
 } from "../../certificatesModels";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import {
-  KeyVaultClientGetCertificateResponse,
-  KeyVaultClientRecoverDeletedCertificateResponse
-} from "../../generated/models";
 import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
 import {
   KeyVaultCertificatePollOperation,
   KeyVaultCertificatePollOperationState
 } from "../keyVaultCertificatePoller";
+import { withTrace } from "./poller";
 
 /**
  * Deprecated: Public representation of the recovery of a deleted certificate poll operation
@@ -38,7 +34,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     public state: RecoverDeletedCertificateState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private requestOptions: RequestOptionsBase = {} // TODO: what to do with this RequestOptionsBase?
   ) {
     super(state, {
       cancelMessage: "Canceling the recovery of a deleted certificate is not supported."
@@ -48,49 +44,37 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
   /**
    * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
    */
-  private async getCertificate(
+  private getCertificate(
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    const { span, updatedOptions } = createSpan("generatedClient.getCertificate", options);
-
-    let result: KeyVaultClientGetCertificateResponse;
-
-    try {
-      result = await this.client.getCertificate(this.vaultUrl, certificateName, "", updatedOptions);
-    } finally {
-      span.end();
-    }
-
-    return getCertificateWithPolicyFromCertificateBundle(result);
+    return withTrace("getCertificate", options, async (updatedOptions) => {
+      const result = await this.client.getCertificate(
+        this.vaultUrl,
+        certificateName,
+        "",
+        updatedOptions
+      );
+      return getCertificateWithPolicyFromCertificateBundle(result);
+    });
   }
 
   /**
    * Recovers the deleted certificate in the specified vault. This operation can only be performed on a soft-delete enabled vault. This operation
    * requires the certificate/recover permission.
    */
-  private async recoverDeletedCertificate(
+  private recoverDeletedCertificate(
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    const { span, updatedOptions } = createSpan(
-      "generatedClient.recoverDeletedCertificate",
-      options
-    );
-
-    let result: KeyVaultClientRecoverDeletedCertificateResponse;
-
-    try {
-      result = await this.client.recoverDeletedCertificate(
+    return withTrace("recoverDeletedCertificate", options, async (updatedOptions) => {
+      const result = await this.client.recoverDeletedCertificate(
         this.vaultUrl,
         certificateName,
         updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+      return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+    });
   }
 
   /**

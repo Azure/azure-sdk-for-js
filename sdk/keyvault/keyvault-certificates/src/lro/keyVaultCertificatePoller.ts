@@ -12,7 +12,7 @@ export interface KeyVaultCertificatePollerOptions {
   certificateName: string;
   vaultUrl: string;
   client: KeyVaultClient;
-  requestOptions?: RequestOptionsBase;
+  requestOptions?: RequestOptionsBase; // TODO: this should be operationsOptions
   intervalInMs?: number;
   resumeFrom?: string;
 }

@@ -11,13 +11,7 @@ import {
   GetPlainCertificateOperationOptions,
   CancelCertificateOperationOptions
 } from "../../certificatesModels";
-import {
-  CertificateOperation,
-  KeyVaultClientCreateCertificateResponse,
-  KeyVaultClientGetCertificateOperationResponse,
-  KeyVaultClientGetCertificateResponse,
-  KeyVaultClientUpdateCertificateOperationResponse
-} from "../../generated/models";
+import { CertificateOperation } from "../../generated/models";
 import {
   KeyVaultCertificatePollOperation,
   KeyVaultCertificatePollOperationState
@@ -29,7 +23,7 @@ import {
   toCoreAttributes,
   toCorePolicy
 } from "../../transformations";
-import { createSpan } from "../../tracing";
+import { withTrace } from "./poller";
 
 /**
  * The public representation of the CreateCertificatePoller operation state.
@@ -76,112 +70,85 @@ export class CreateCertificatePollOperation extends KeyVaultCertificatePollOpera
   /**
    * Creates a new certificate. If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.
    */
-  private async createCertificate(
+  private createCertificate(
     certificateName: string,
     certificatePolicy: CertificatePolicy,
     options: CreateCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    const { span, updatedOptions } = createSpan("generatedClient.createCertificate", options);
-
-    const id = options.id;
-    const certificateAttributes = toCoreAttributes(options);
-    const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
-
-    let result: KeyVaultClientCreateCertificateResponse;
-
-    try {
-      result = await this.client.createCertificate(this.vaultUrl, certificateName, {
+    return withTrace("createCertificate", options, async (updatedOptions) => {
+      const id = options.id;
+      const certificateAttributes = toCoreAttributes(options);
+      const corePolicy = toCorePolicy(id, certificatePolicy, certificateAttributes);
+      const result = await this.client.createCertificate(this.vaultUrl, certificateName, {
         ...updatedOptions,
         certificatePolicy: corePolicy,
         certificateAttributes
       });
-    } finally {
-      span.end();
-    }
 
-    return getCertificateWithPolicyFromCertificateBundle(result);
+      return getCertificateWithPolicyFromCertificateBundle(result);
+    });
   }
 
   /**
    * Gets the latest information available from a specific certificate, including the certificate's policy. This operation requires the certificates/get permission.
    */
-  private async getCertificate(
+  private getCertificate(
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    const { span, updatedOptions } = createSpan("generatedClient.getCertificate", options);
+    return withTrace("getCertificate", options, async (updatedOptions) => {
+      const result = await this.client.getCertificate(
+        this.vaultUrl,
+        certificateName,
+        "",
+        updatedOptions
+      );
 
-    let result: KeyVaultClientGetCertificateResponse;
-
-    try {
-      result = await this.client.getCertificate(this.vaultUrl, certificateName, "", updatedOptions);
-    } finally {
-      span.end();
-    }
-
-    return getCertificateWithPolicyFromCertificateBundle(result);
+      return getCertificateWithPolicyFromCertificateBundle(result);
+    });
   }
 
   /**
    * Gets the certificate operation.
    */
-  private async getPlainCertificateOperation(
+  private getPlainCertificateOperation(
     certificateName: string,
-    options?: GetPlainCertificateOperationOptions
+    options: GetPlainCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    const { span, updatedOptions } = createSpan(
-      "generatedClient.getPlainCertificateOperation",
-      options
-    );
-
-    let result: KeyVaultClientGetCertificateOperationResponse;
-
-    try {
-      result = await this.client.getCertificateOperation(
+    return withTrace("getPlainCertificateOperation", options, async (updatedOptions) => {
+      const result = await this.client.getCertificateOperation(
         this.vaultUrl,
         certificateName,
         updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getCertificateOperationFromCoreOperation(
-      certificateName,
-      this.vaultUrl,
-      result._response.parsedBody
-    );
+      return getCertificateOperationFromCoreOperation(
+        certificateName,
+        this.vaultUrl,
+        result._response.parsedBody
+      );
+    });
   }
 
   /**
    * Cancels a certificate creation operation that is already in progress. This operation requires the certificates/update permission.
    */
-  private async cancelCertificateOperation(
+  private cancelCertificateOperation(
     certificateName: string,
     options: CancelCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    const { span, updatedOptions } = createSpan(
-      "generatedClient.cancelCertificateOperation",
-      options
-    );
-
-    let result: KeyVaultClientUpdateCertificateOperationResponse;
-    try {
-      result = await this.client.updateCertificateOperation(
+    return withTrace("cancelCertificateOperation", options, async (updatedOptions) => {
+      const result = await this.client.updateCertificateOperation(
         this.vaultUrl,
         certificateName,
         true,
         updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getCertificateOperationFromCoreOperation(
-      certificateName,
-      this.vaultUrl,
-      result._response.parsedBody
-    );
+      return getCertificateOperationFromCoreOperation(
+        certificateName,
+        this.vaultUrl,
+        result._response.parsedBody
+      );
+    });
   }
 
   /**

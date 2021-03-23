@@ -7,6 +7,7 @@ import {
   KeyVaultCertificatePoller,
   KeyVaultCertificatePollerOptions
 } from "../keyVaultCertificatePoller";
+import { createTraceFunction } from "../../../../keyvault-common/src/tracingHelpers";
 
 export interface DeleteCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
 
@@ -49,3 +50,5 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
     this.intervalInMs = intervalInMs;
   }
 }
+
+export const withTrace = createTraceFunction("Azure.KeyVault.Certificates.DeleteCertificatePoller");

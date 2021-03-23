@@ -11,6 +11,7 @@ import {
   KeyVaultCertificatePoller,
   KeyVaultCertificatePollerOptions
 } from "../keyVaultCertificatePoller";
+import { createTraceFunction } from "../../../../keyvault-common/src/tracingHelpers";
 
 export interface CreateCertificatePollerOptions extends KeyVaultCertificatePollerOptions {
   certificatePolicy?: CertificatePolicy;
@@ -59,3 +60,5 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
     this.intervalInMs = intervalInMs;
   }
 }
+
+export const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CreateCertificatePoller");
