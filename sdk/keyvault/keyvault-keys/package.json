@@ -55,8 +55,8 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/**/*.spec.js",
-    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/**/*.spec.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/**/*.spec.js\"",
+    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-esm/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
@@ -67,8 +67,8 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
-    "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-test/index.node.js",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-test/index.node.js\"",
+    "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -147,7 +147,7 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "4.1.2",
+    "typescript": "~4.2.0",
     "url": "^0.11.0",
     "typedoc": "0.15.2"
   }

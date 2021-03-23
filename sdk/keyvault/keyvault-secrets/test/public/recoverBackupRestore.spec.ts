@@ -18,13 +18,15 @@ describe("Secret client - restore secrets and recover backups", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
-    secretSuffix = authentication.secretSuffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      secretSuffix = authentication.secretSuffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
@@ -32,7 +34,7 @@ describe("Secret client - restore secrets and recover backups", () => {
 
   // The tests follow
 
-  it("can recover a deleted secret", async function() {
+  it("can recover a deleted secret", /** @this Mocha.Context */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -62,7 +64,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can recover a deleted secret (non existing)", async function() {
+  it("can recover a deleted secret (non existing)", /** @this Mocha.Context */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -83,7 +85,7 @@ describe("Secret client - restore secrets and recover backups", () => {
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can recover a deleted a secret with requestOptions timeout", async function() {
+    it("can recover a deleted a secret with requestOptions timeout", /** @this Mocha.Context */ async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
       );
@@ -101,7 +103,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     });
   }
 
-  it("can backup a secret", async function() {
+  it("can backup a secret", /** @this Mocha.Context */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -119,7 +121,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can backup a secret (non existing)", async function() {
+  it("can backup a secret (non existing)", /** @this Mocha.Context */ async function() {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -137,7 +139,7 @@ describe("Secret client - restore secrets and recover backups", () => {
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a secret", async function() {
+    it("can restore a secret", /** @this Mocha.Context */ async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
       );
@@ -182,7 +184,7 @@ describe("Secret client - restore secrets and recover backups", () => {
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can timeout deleting a secret", async function() {
+    it("can timeout deleting a secret", /** @this Mocha.Context */ async function() {
       const secretName = testClient.formatName(
         `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
       );

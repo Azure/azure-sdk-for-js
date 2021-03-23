@@ -19,28 +19,29 @@ const testDataEn = [
   "I didn't like the last book I read at all."
 ];
 
-describe("[API Key] TextAnalyticsClient", function() {
+describe("[API Key] TextAnalyticsClient", /** @this Mocha.Context */ function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
-  // eslint-disable-next-line no-invalid-this
   const CLITimeout = this.timeout();
   const fastTimeout = 10000;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    recorder = createRecorder(this);
-    client = createClient("APIKey");
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      recorder = createRecorder(this);
+      client = createClient("APIKey");
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
   });
 
   describe("fast tests", function() {
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
-      this.timeout(fastTimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(fastTimeout);
+      }
+    );
 
     it("#analyzeSentiment", async function() {
       const results = await client.analyzeSentiment(testDataEn);
@@ -88,10 +89,11 @@ describe("[API Key] TextAnalyticsClient", function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
-      this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
+      }
+    );
 
     describe("#health", function() {
       it("input strings", async function() {

@@ -117,14 +117,14 @@ export const mapToChatThreadPropertiesSdkModel = (
   chatThread: RestModel.ChatThreadProperties
 ): ChatThreadProperties => {
   const { createdByCommunicationIdentifier, ...rest } = chatThread;
-  if (createdByCommunicationIdentifier)
+  if (createdByCommunicationIdentifier) {
     return {
       ...rest,
       createdBy: deserializeCommunicationIdentifier(
         createdByCommunicationIdentifier as SerializedCommunicationIdentifier
       )
     };
-  else {
+  } else {
     return { ...rest };
   }
 };
@@ -137,12 +137,12 @@ export const mapToCreateChatThreadResultSdkModel = (
   result: RestModel.CreateChatThreadResult
 ): CreateChatThreadResult => {
   const { chatThread, ...rest } = result;
-  if (chatThread)
+  if (chatThread) {
     return {
       ...rest,
       chatThread: mapToChatThreadPropertiesSdkModel(chatThread)
     };
-  else {
+  } else {
     return { ...rest };
   }
 };

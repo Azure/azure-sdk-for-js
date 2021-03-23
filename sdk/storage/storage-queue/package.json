@@ -40,7 +40,7 @@
     "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-esm/test/*.spec.js dist-esm/test/node/*.spec.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 \"dist-esm/test/*.spec.js\" \"dist-esm/test/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o storage-queue-lintReport.html || exit 0",
@@ -50,7 +50,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
@@ -158,9 +158,9 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "source-map-support": "^0.5.9",
-    "ts-node": "^8.3.0",
-    "typescript": "4.1.2",
-    "util": "^0.12.1",
-    "typedoc": "0.15.2"
+    "ts-node": "^9.0.0",
+    "typescript": "~4.2.0",
+    "typedoc": "0.15.2",
+    "util": "^0.12.1"
   }
 }
