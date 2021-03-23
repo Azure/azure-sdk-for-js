@@ -23,9 +23,8 @@ This release continues with the changes from `1.2.4` and `1.2.4-beta.1`.
 - `DeviceCodeCredential` now can receive its optional parameters as a single parameter object.
 - Refactored our use of MSAL to better centralize the handling of inputs, outputs and errors.
 - Migrated the `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` to the latest MSAL.
-  - These credentials will appear unchanged for existing use cases.
-  - However, this update improves caching of tokens, significantly reducing the number of network requests.
-- A new parameter named `tokenCachePersistenceOptions` can be specified on the credentials `InteractiveBrowserCredential`, `DeviceCodeCredential` and `UsernamePasswordCredential` to aneable the persitence caching.
+  - This update improves caching of tokens, significantly reducing the number of network requests.
+- A new parameter named `tokenCachePersistenceOptions` can be specified on the credentials `InteractiveBrowserCredential`, `DeviceCodeCredential` and `UsernamePasswordCredential` to enable the persistence caching.
   - This feature uses DPAPI on Windows, it tries to use the Keychain on OSX and the Keyring on Linux.
   - If provided, the `tokenCachePersistenceOptions` object allows passing two properties, a required unique `name` to identify the cached information for that credential, and an optional boolean property `allowUnencryptedStorage`, which determines whether it's allowed to fall back to an unprotected file if neither the Keychain nor the Keyring are available.
   - **IMPORTANT:** As part of this beta, this feature is only supported in Node 10, 12 and 14.
