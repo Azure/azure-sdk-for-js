@@ -26,7 +26,7 @@ export interface RecordedClient<T> {
 }
 
 const replaceableVariables: { [k: string]: string } = {
-  COMMUNICATION_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
+  AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: "endpoint=https://endpoint/;accesskey=banana",
   INCLUDE_PHONENUMBER_LIVE_TESTS: "false",
   COMMUNICATION_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "SomeClientId",
@@ -38,7 +38,7 @@ const replaceableVariables: { [k: string]: string } = {
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
-    (recording: string): string => recording.replace(/(https:\/\/)([^\/'",}]*)/, "$1endpoint"),
+    (recording: string): string => recording.replace(/(https:\/\/)([^/'",}]*)/, "$1endpoint"),
     (recording: string): string => recording.replace(/\d{1}\d{3}\d{3}\d{4}/g, "14155550100"),
     (recording: string): string =>
       recording.replace(/[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}/gi, "sanitized")
@@ -54,9 +54,9 @@ export function createRecordedClient(
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new PhoneNumbersClient(env.COMMUNICATION_CONNECTION_STRING),
+    client: new PhoneNumbersClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING),
     recorder,
-    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
+    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true"
   };
 }
 
@@ -69,7 +69,8 @@ export function createRecordedClientWithToken(
   | undefined {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
+  const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
+    .endpoint;
   if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes) => {
@@ -80,7 +81,7 @@ export function createRecordedClientWithToken(
     return {
       client: new PhoneNumbersClient(endpoint, credential),
       recorder,
-      includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
+      includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true"
     };
   }
 
@@ -93,7 +94,7 @@ export function createRecordedClientWithToken(
   return {
     client: new PhoneNumbersClient(endpoint, credential),
     recorder,
-    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true"
+    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true"
   };
 }
 

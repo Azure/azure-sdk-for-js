@@ -20,6 +20,14 @@ export class AzureKeyCredential implements KeyCredential {
 }
 
 // @public
+export class AzureNamedKeyCredential implements NamedKeyCredential {
+    constructor(name: string, key: string);
+    get key(): string;
+    get name(): string;
+    update(newName: string, newKey: string): void;
+}
+
+// @public
 export class AzureSASCredential implements SASCredential {
     constructor(signature: string);
     get signature(): string;
@@ -43,6 +51,12 @@ export function isTokenCredential(credential: unknown): credential is TokenCrede
 // @public
 export interface KeyCredential {
     readonly key: string;
+}
+
+// @public
+export interface NamedKeyCredential {
+    readonly key: string;
+    readonly name: string;
 }
 
 // @public

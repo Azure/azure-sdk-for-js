@@ -13,19 +13,21 @@ import {
   isNode
 } from "@azure/core-http";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
-
 import { CanonicalCode } from "@opentelemetry/api";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
-import { createSpan } from "../util/tracing";
-import { logger } from "../util/logging";
 import { getAuthorityHostEnvironment } from "../util/authHostEnv";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { DefaultAuthorityHost } from "../constants";
+import { createSpan } from "../util/tracing";
+import { logger } from "../util/logging";
 
-const DefaultAuthorityHost = "https://login.microsoftonline.com";
+const noCorrelationId = "noCorrelationId";
 
 /**
  * An internal type used to communicate details of a token request's
  * response that should not be sent back as part of the access token.
+ * @internal
  */
 export interface TokenResponse {
   /**
@@ -39,14 +41,27 @@ export interface TokenResponse {
   refreshToken?: string;
 }
 
+/**
+ * The network module used by the Identity credentials.
+ *
+ * It allows for credentials to abort any pending request independently of the MSAL flow,
+ * by calling to the `abortRequests()` method.
+ *
+ * @internal
+ */
 export class IdentityClient extends ServiceClient implements INetworkModule {
   public authorityHost: string;
+  private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
     if (isNode) {
       options = options || getAuthorityHostEnvironment();
     }
-    options = options || IdentityClient.getDefaultOptions();
+    // Only if the authorityHost is not provided, we use the default one.
+    options = {
+      authorityHost: DefaultAuthorityHost,
+      ...options
+    };
     super(
       undefined,
       createPipelineFromOptions({
@@ -64,6 +79,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     if (!this.baseUri.startsWith("https:")) {
       throw new Error("The authorityHost address must use the 'https' protocol.");
     }
+
+    this.abortControllers = new Map();
   }
 
   createWebResource(requestOptions: RequestPrepareOptions): WebResource {
@@ -188,11 +205,62 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     }
   }
 
+  // Here is a custom layer that allows us to abort requests that go through MSAL,
+  // since MSAL doesn't allow us to pass options all the way through.
+
+  generateAbortSignal(correlationId?: string): AbortSignalLike {
+    const controller = new AbortController();
+    const key = correlationId || noCorrelationId;
+
+    const controllers = this.abortControllers.get(key) || [];
+    controllers.push(controller);
+    this.abortControllers.set(key, controllers);
+
+    return controller.signal;
+  }
+
+  abortRequests(correlationId: string = noCorrelationId): void {
+    const key = correlationId || noCorrelationId;
+    const controllers = [
+      ...(this.abortControllers.get(key) || []),
+      // MSAL passes no correlation ID to the get requests...
+      ...(this.abortControllers.get(noCorrelationId) || [])
+    ];
+    if (!controllers.length) {
+      return;
+    }
+    for (const controller of controllers) {
+      controller.abort();
+    }
+    this.abortControllers.set(key, undefined);
+    this.abortControllers.set(noCorrelationId, undefined);
+  }
+
+  getCorrelationId(options?: NetworkRequestOptions): string | undefined {
+    const parameter = options?.body
+      ?.split("&")
+      .map((part) => part.split("="))
+      .find(([key]) => key === "client-request-id");
+    return parameter && parameter.length ? parameter[1] : noCorrelationId;
+  }
+
+  // The MSAL network module methods follow
+
   sendGetRequestAsync<T>(
     url: string,
     options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
-    const webResource = new WebResource(url, "GET", options?.body, {}, options?.headers);
+    const webResource = new WebResource(
+      url,
+      "GET",
+      options?.body,
+      {},
+      options?.headers,
+      false,
+      false,
+      // MSAL doesn't send the correlation ID on the get requests.
+      this.generateAbortSignal()
+    );
 
     return this.sendRequest(webResource).then((response) => {
       return {
@@ -207,7 +275,17 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     url: string,
     options?: NetworkRequestOptions
   ): Promise<NetworkResponse<T>> {
-    const webResource = new WebResource(url, "POST", options?.body, {}, options?.headers);
+    const webResource = new WebResource(
+      url,
+      "POST",
+      options?.body,
+      {},
+      options?.headers,
+      false,
+      false,
+      // MSAL doesn't send the correlation ID on the get requests.
+      this.generateAbortSignal(this.getCorrelationId(options))
+    );
 
     return this.sendRequest(webResource).then((response) => {
       return {
@@ -217,12 +295,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       };
     });
   }
-
-  static getDefaultOptions(): TokenCredentialOptions {
-    return {
-      authorityHost: DefaultAuthorityHost
-    };
-  }
 }
 
 /**
@@ -231,8 +303,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
  */
 export interface TokenCredentialOptions extends PipelineOptions {
   /**
-   * The authority host to use for authentication requests.  The default is
-   * "https://login.microsoftonline.com".
+   * The authority host to use for authentication requests.
+   * The default is "https://login.microsoftonline.com".
    */
   authorityHost?: string;
 }

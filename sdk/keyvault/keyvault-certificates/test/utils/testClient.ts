@@ -6,6 +6,7 @@ import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
 import { RestoreCertificateBackupPoller } from "./lro/restore/poller";
 import { BeginRestoreCertificateBackupOptions } from "./lro/restore/operation";
+import { testPollerProperties } from "./recorderUtils";
 
 export default class TestClient {
   public readonly client: CertificateClient;
@@ -20,7 +21,7 @@ export default class TestClient {
   }
   public async flushCertificate(certificateName: string): Promise<void> {
     const that = this;
-    const poller = await that.client.beginDeleteCertificate(certificateName);
+    const poller = await that.client.beginDeleteCertificate(certificateName, testPollerProperties);
     await poller.pollUntilDone();
     await this.purgeCertificate(certificateName);
   }

@@ -1,5 +1,10 @@
 # Release History
 
+## 4.2.0-beta.5 (Unreleased)
+
+- Added local cryptography support for encryption / decryption for `A128CBCPAD`, `A192CBCPAD`, and `A256CBCPAD`.
+- For AES-CBC encryption we will now generate an IV if the user did not pass it in, making `iv` optional for those parameters.
+
 ## 4.2.0-beta.4 (2021-03-09)
 
 - Updated the Latest service version to 7.2.
@@ -38,19 +43,21 @@
 
 4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.
 
-### Changes since 4.0.4
+- Added the optional serviceVersion property to the KeyClient and CryptographyClient optional parameters to control the version of the Key Vault service being used by the clients.
+  - It defaults to the latest supported API version, which currently is 7.1.
+  - Other supported service version at the moment is 7.0.
+- Added import to the list of possible values for KeyOperation.
+- Added recoverableDays as an optional property to KeyProperties which denotes the number of days in which the key can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
+- Fixed bug 10352, which caused cryptography operations on RSA-HSM keys to fail.
+- Renamed the apiVersion property to the KeyClient constructor as serviceVersion.
+- Moved from service version 7.1-preview to 7.1.
 
-- Added the optional `serviceVersion` property to the `KeyClient` and `CryptographyClient` optional parameters to control the version of the Key Vault service being used by the clients.
-  - It defaults to the latest supported API version, which currently is `7.1`.
-  - Other supported service version at the moment is `7.0`.
+## 4.1.0-preview.1 (2020-03-10)
+
+- Added the optional `apiVersion` property to the `KeyClient` and `CryptographyClient` optional parameters.
+  It defaults to the latest supported API version, which currently is `7.1-preview`.
 - Added `import` to the list of possible values for `KeyOperation`.
-- Added `recoverableDays` as an optional property to `KeyProperties` which denotes the number of days in which the key can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
-- Fixed [bug 10352](https://github.com/Azure/azure-sdk-for-js/issues/10352), which caused cryptography operations on RSA-HSM keys to fail.
-
-### Changes since 4.1.0-preview.1
-
-- Renamed the `apiVersion` property to the `KeyClient` constructor as `serviceVersion`.
-- Moved from service version `7.1-preview` to `7.1`.
+- Added `recoverableDays` as an optional property to `KeyProperties`.
 
 ## 4.0.4 (2020-06-01)
 
@@ -59,13 +66,6 @@
 ## 4.0.3 (2020-05-13)
 
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
-
-## 4.1.0-preview.1 (2020-03-10)
-
-- Added the optional `apiVersion` property to the `KeyClient` and `CryptographyClient` optional parameters.
-  It defaults to the latest supported API version, which currently is `7.1-preview`.
-- Added `import` to the list of possible values for `KeyOperation`.
-- Added `recoverableDays` as an optional property to `KeyProperties`.
 
 ## 4.0.2 (2019-12-03)
 

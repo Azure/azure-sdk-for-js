@@ -1,8 +1,8 @@
 # Release History
 
-## 1.0.0 (2021-03-08)
+## 1.0.0 (2021-03-15)
 
-- GA release of package.
+GA release of this package.
 
 ## 1.0.0-beta.1 (2021-02-04)
 

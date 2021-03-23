@@ -13,7 +13,7 @@ import {
 import AbortController from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   describe("Validate client request timeout", function() {

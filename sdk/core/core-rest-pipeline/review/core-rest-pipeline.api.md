@@ -153,6 +153,7 @@ export interface PipelinePolicy {
 // @public
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
+    allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;
@@ -172,6 +173,7 @@ export interface PipelineRequest {
 // @public
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
+    allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;

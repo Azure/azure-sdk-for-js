@@ -18,6 +18,7 @@ import {
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
+import { isDefined } from "./util/typeGuards";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -89,7 +90,7 @@ export class ServiceBusClient {
 
     const timeoutInMs = this._clientOptions.retryOptions.timeoutInMs;
     if (
-      timeoutInMs != undefined &&
+      isDefined(timeoutInMs) &&
       (typeof timeoutInMs !== "number" || !isFinite(timeoutInMs) || timeoutInMs <= 0)
     ) {
       throw new Error(`${timeoutInMs} is an invalid value for retryOptions.timeoutInMs`);
@@ -123,6 +124,7 @@ export class ServiceBusClient {
    * @param options - Options to pass the receiveMode, defaulted to peekLock.
    * @returns A receiver that can be used to receive, peek and settle messages.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   createReceiver(queueName: string, options?: ServiceBusReceiverOptions): ServiceBusReceiver;
   /**
    * Creates a receiver for an Azure Service Bus subscription. No connection is made
@@ -155,11 +157,13 @@ export class ServiceBusClient {
   createReceiver(
     topicName: string,
     subscriptionName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ServiceBusReceiverOptions
   ): ServiceBusReceiver;
   createReceiver(
     queueOrTopicName1: string,
     optionsOrSubscriptionName2?: ServiceBusReceiverOptions | string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options3?: ServiceBusReceiverOptions
   ): ServiceBusReceiver {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
@@ -224,6 +228,7 @@ export class ServiceBusClient {
   acceptSession(
     queueName: string,
     sessionId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver>;
   /**
@@ -250,12 +255,14 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     sessionId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver>;
   async acceptSession(
     queueOrTopicName1: string,
     optionsOrSubscriptionNameOrSessionId2?: ServiceBusSessionReceiverOptions | string,
     optionsOrSessionId3?: ServiceBusSessionReceiverOptions | string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options4?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver> {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
@@ -339,6 +346,7 @@ export class ServiceBusClient {
    */
   acceptNextSession(
     queueName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver>;
   /**
@@ -363,11 +371,13 @@ export class ServiceBusClient {
   acceptNextSession(
     topicName: string,
     subscriptionName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver>;
   async acceptNextSession(
     queueOrTopicName1: string,
     optionsOrSubscriptionName2?: ServiceBusSessionReceiverOptions | string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options3?: ServiceBusSessionReceiverOptions
   ): Promise<ServiceBusSessionReceiver> {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
@@ -456,7 +466,7 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
     options = optionsOrSubscriptionName2;
   }
   let receiveMode: ReceiveMode;
-  if (options?.receiveMode == undefined || options.receiveMode === "peekLock") {
+  if (!options || !isDefined(options.receiveMode) || options.receiveMode === "peekLock") {
     receiveMode = "peekLock";
   } else if (options.receiveMode === "receiveAndDelete") {
     receiveMode = "receiveAndDelete";

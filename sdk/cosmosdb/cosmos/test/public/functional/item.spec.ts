@@ -26,7 +26,7 @@ interface TestItem {
   replace?: string;
 }
 
-describe("Item CRUD", function() {
+describe("Item CRUD", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
@@ -409,7 +409,8 @@ describe("bulk item operations", function() {
         {
           operationType: BulkOperationType.Create,
           resourceBody: {
-            ttl: -10
+            ttl: -10,
+            key: "A"
           }
         },
         {
@@ -423,6 +424,27 @@ describe("bulk item operations", function() {
       ];
       const response = await v2Container.items.bulk(operations);
       assert.equal(response[1].statusCode, 424);
+    });
+    it("Continues after errors with continueOnError true", async function() {
+      const operations = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            ttl: -10,
+            key: "A"
+          }
+        },
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            key: "A",
+            licenseType: "B",
+            id: "o239uroihndsf"
+          }
+        }
+      ];
+      const response = await v2Container.items.bulk(operations, { continueOnError: true });
+      assert.equal(response[1].statusCode, 201);
     });
     it("autogenerates IDs for Create operations", async function() {
       const operations = [

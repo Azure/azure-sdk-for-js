@@ -12,8 +12,8 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
-  Manifest as ManifestMapper,
   ChangeableAttributes as ChangeableAttributesMapper,
+  Manifest as ManifestMapper,
   Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema as Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper,
   PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema as PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 } from "../models/mappers";
@@ -42,6 +42,26 @@ export const url: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const last: OperationQueryParameter = {
+  parameterPath: ["options", "last"],
+  mapper: {
+    serializedName: "last",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const n: OperationQueryParameter = {
+  parameterPath: ["options", "n"],
+  mapper: {
+    serializedName: "n",
+    type: {
+      name: "Number"
+    }
+  }
+};
+
 export const name: OperationURLParameter = {
   parameterPath: "name",
   mapper: {
@@ -51,6 +71,23 @@ export const name: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const value: OperationParameter = {
+  parameterPath: ["options", "value"],
+  mapper: ChangeableAttributesMapper
 };
 
 export const reference: OperationURLParameter = {
@@ -74,7 +111,7 @@ export const accept1: OperationParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
+export const contentType1: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/vnd.docker.distribution.manifest.v2+json",
@@ -91,26 +128,6 @@ export const payload: OperationParameter = {
   mapper: ManifestMapper
 };
 
-export const last: OperationQueryParameter = {
-  parameterPath: ["options", "last"],
-  mapper: {
-    serializedName: "last",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const n: OperationQueryParameter = {
-  parameterPath: ["options", "n"],
-  mapper: {
-    serializedName: "n",
-    type: {
-      name: "Number"
-    }
-  }
-};
-
 export const orderby: OperationQueryParameter = {
   parameterPath: ["options", "orderby"],
   mapper: {
@@ -121,21 +138,25 @@ export const orderby: OperationQueryParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const digest: OperationQueryParameter = {
+  parameterPath: ["options", "digest"],
   mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
+    serializedName: "digest",
     type: {
       name: "String"
     }
   }
 };
 
-export const value: OperationParameter = {
-  parameterPath: ["options", "value"],
-  mapper: ChangeableAttributesMapper
+export const digest1: OperationURLParameter = {
+  parameterPath: "digest",
+  mapper: {
+    serializedName: "digest",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const accept2: OperationParameter = {
@@ -144,17 +165,6 @@ export const accept2: OperationParameter = {
     defaultValue: "application/octet-stream",
     isConstant: true,
     serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const digest: OperationURLParameter = {
-  parameterPath: "digest",
-  mapper: {
-    serializedName: "digest",
-    required: true,
     type: {
       name: "String"
     }
@@ -230,7 +240,7 @@ export const accept3: OperationParameter = {
   }
 };
 
-export const digest1: OperationQueryParameter = {
+export const digest2: OperationQueryParameter = {
   parameterPath: "digest",
   mapper: {
     serializedName: "digest",
@@ -246,16 +256,6 @@ export const range: OperationParameter = {
   mapper: {
     serializedName: "Range",
     required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const digest2: OperationQueryParameter = {
-  parameterPath: ["options", "digest"],
-  mapper: {
-    serializedName: "digest",
     type: {
       name: "String"
     }

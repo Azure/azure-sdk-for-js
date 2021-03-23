@@ -3,7 +3,7 @@
 
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
 import { publicEncrypt } from "crypto";
-import { createVerify } from "./hash";
+import { createVerify } from "./crypto";
 import {
   JsonWebKey,
   DecryptOptions,
@@ -27,8 +27,7 @@ import { convertJWKtoPEM } from "./conversions";
 import {
   CryptographyProvider,
   CryptographyProviderOperation,
-  LocalCryptographyUnsupportedError,
-  LocalSupportedAlgorithmName
+  LocalCryptographyUnsupportedError
 } from "./models";
 
 /**
@@ -39,12 +38,10 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     this.key = key;
   }
 
-  supportsAlgorithm(algorithm: LocalSupportedAlgorithmName): boolean {
-    return this.applicableAlgorithms.includes(algorithm);
-  }
-
-  supportsOperation(operation: CryptographyProviderOperation): boolean {
-    return this.applicableOperations.includes(operation);
+  isSupported(algorithm: string, operation: CryptographyProviderOperation): boolean {
+    return (
+      this.applicableAlgorithms.includes(algorithm) && this.applicableOperations.includes(operation)
+    );
   }
 
   encrypt(encryptParameters: EncryptParameters, _options?: EncryptOptions): Promise<EncryptResult> {
@@ -157,7 +154,7 @@ export class RsaCryptographyProvider implements CryptographyProvider {
    * The set of algorithms this provider supports
    * @internal
    */
-  private applicableAlgorithms: LocalSupportedAlgorithmName[] = [
+  private applicableAlgorithms: string[] = [
     "RSA1_5",
     "RSA-OAEP",
     "PS256",
@@ -191,8 +188,12 @@ export class RsaCryptographyProvider implements CryptographyProvider {
     RS512: "SHA512"
   };
 
-  private ensureValid() {
-    if (this.key && this.key.kty! !== "RSA" && this.key.kty! !== "RSA-HSM") {
+  private ensureValid(): void {
+    if (
+      this.key &&
+      this.key.kty?.toUpperCase() !== "RSA" &&
+      this.key.kty?.toUpperCase() !== "RSA-HSM"
+    ) {
       throw new Error("Key type does not match the algorithm RSA");
     }
   }

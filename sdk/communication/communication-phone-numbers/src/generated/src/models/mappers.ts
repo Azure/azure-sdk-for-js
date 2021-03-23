@@ -323,10 +323,33 @@ export const PhoneNumberOperation: coreHttp.CompositeMapper = {
   }
 };
 
-export const AcquiredPhoneNumber: coreHttp.CompositeMapper = {
+export const PhoneNumberCapabilitiesRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcquiredPhoneNumber",
+    className: "PhoneNumberCapabilitiesRequest",
+    modelProperties: {
+      calling: {
+        serializedName: "calling",
+        type: {
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
+        }
+      },
+      sms: {
+        serializedName: "sms",
+        type: {
+          name: "Enum",
+          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
+        }
+      }
+    }
+  }
+};
+
+export const PurchasedPhoneNumber: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PurchasedPhoneNumber",
     modelProperties: {
       id: {
         serializedName: "id",
@@ -390,10 +413,10 @@ export const AcquiredPhoneNumber: coreHttp.CompositeMapper = {
   }
 };
 
-export const AcquiredPhoneNumbers: coreHttp.CompositeMapper = {
+export const PurchasedPhoneNumbers: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AcquiredPhoneNumbers",
+    className: "PurchasedPhoneNumbers",
     modelProperties: {
       phoneNumbers: {
         serializedName: "phoneNumbers",
@@ -403,7 +426,7 @@ export const AcquiredPhoneNumbers: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AcquiredPhoneNumber"
+              className: "PurchasedPhoneNumber"
             }
           }
         }
@@ -412,29 +435,6 @@ export const AcquiredPhoneNumbers: coreHttp.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PhoneNumberCapabilitiesRequest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PhoneNumberCapabilitiesRequest",
-    modelProperties: {
-      calling: {
-        serializedName: "calling",
-        type: {
-          name: "Enum",
-          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
-        }
-      },
-      sms: {
-        serializedName: "sms",
-        type: {
-          name: "Enum",
-          allowedValues: ["none", "inbound", "outbound", "inbound+outbound"]
         }
       }
     }
@@ -516,33 +516,6 @@ export const PhoneNumbersGetOperationHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const PhoneNumbersReleasePhoneNumberHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PhoneNumbersReleasePhoneNumberHeaders",
-    modelProperties: {
-      operationLocation: {
-        serializedName: "operation-location",
-        type: {
-          name: "String"
-        }
-      },
-      operationId: {
-        serializedName: "operation-id",
-        type: {
-          name: "String"
-        }
-      },
-      releaseId: {
-        serializedName: "release-id",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const PhoneNumbersUpdateCapabilitiesHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -568,6 +541,33 @@ export const PhoneNumbersUpdateCapabilitiesHeaders: coreHttp.CompositeMapper = {
       },
       capabilitiesId: {
         serializedName: "capabilities-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PhoneNumbersReleasePhoneNumberHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PhoneNumbersReleasePhoneNumberHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      },
+      operationId: {
+        serializedName: "operation-id",
+        type: {
+          name: "String"
+        }
+      },
+      releaseId: {
+        serializedName: "release-id",
         type: {
           name: "String"
         }

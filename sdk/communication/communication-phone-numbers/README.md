@@ -2,7 +2,7 @@
 
 The phone numbers library provides capabilities for phone number administration.
 
-Acquired phone numbers can come with many capabilities, depending on the country, number type and assignment type. Examples of capabilities are SMS inbound and outbound usage, PSTN inbound and outbound usage. Phone numbers can also be assigned to a bot via a webhook URL.
+Purchased phone numbers can come with many capabilities, depending on the country, number type and assignment type. Examples of capabilities are SMS inbound and outbound usage, PSTN inbound and outbound usage. Phone numbers can also be assigned to a bot via a webhook URL.
 
 ## Getting started
 
@@ -16,6 +16,12 @@ Acquired phone numbers can come with many capabilities, depending on the country
 ```bash
 npm install @azure/communication-phone-numbers
 ```
+
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
 
 ## Key concepts
 
@@ -92,10 +98,10 @@ The following sections provide code snippets that cover some of the common tasks
 
 - [Search for available phone numbers](#search-for-available-phone-numbers)
 - [Purchase phone numbers from a search](#purchase-phone-numbers-from-a-search)
-- [Release an acquired phone number](#release-an-acquired-phone-number)
+- [Release a purchased phone number](#release-a-purchased-phone-number)
 - [Update phone number capabilities](#update-phone-number-capabilities)
-- [Get an acquired phone number](#get-an-acquired-phone-number)
-- [List acquired phone numbers](#list-acquired-phone-numbers)
+- [Get a purchased phone number](#get-a-purchased-phone-number)
+- [List purchased phone numbers](#list-purchased-phone-numbers)
 
 ### Search for available phone numbers
 
@@ -156,7 +162,7 @@ async function main() {
     quantity: 1
   };
 
-  const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, searchRequest);
+  const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
   // The search is underway. Wait to receive searchId.
   const { searchId, phoneNumbers } = searchPoller.pollUntilDone();
@@ -171,9 +177,9 @@ async function main() {
 main();
 ```
 
-### Release an acquired phone number
+### Release a purchased phone number
 
-Use the `beginReleasePhoneNumber` method to release a previously acquired phone number. Released phone numbers will no longer be associated with the Communication Services resource, and will not be available for use with other operations (eg. SMS) of the resource. The phone number being released is required.
+Use the `beginReleasePhoneNumber` method to release a previously purchased phone number. Released phone numbers will no longer be associated with the Communication Services resource, and will not be available for use with other operations (eg. SMS) of the resource. The phone number being released is required.
 
 `beginReleasePhoneNumber` is a long running operation and returns a poller.
 
@@ -198,7 +204,7 @@ main();
 
 ### Update phone number capabilities
 
-Use the `beginUpdatePhoneNumberCapabilities` method to update the capabilities of an acquired phone number. Phone numbers can be configured to support inbound and/or outbound calling and sms, or neither.
+Use the `beginUpdatePhoneNumberCapabilities` method to update the capabilities of a purchased phone number. Phone numbers can be configured to support inbound and/or outbound calling and sms, or neither.
 
 `beginUpdatePhoneNumberCapabilities` is a long running operation and returns a poller.
 
@@ -230,9 +236,9 @@ async function main() {
 main();
 ```
 
-### Get an acquired phone number
+### Get a purchased phone number
 
-Use the `getPhoneNumber` method to get information about an acquired phone number. This information includes the phone number's type, capabilities, cost, and purchase date.
+Use the `getPurchasedPhoneNumber` method to get information about a purchased phone number. This information includes the phone number's type, capabilities, cost, and purchase date.
 
 ```typescript
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
@@ -243,18 +249,18 @@ const client = new PhoneNumbersClient(connectionString);
 async main function() {
   const phoneNumberToGet = "<phone-number-to-get>";
 
-  const phoneNumber = await client.getPhoneNumber(phoneNumberToGet);
+  const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);
 
   console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
-  console.log(`Phone number type is ${phoneNumber.type}`);
+  console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
 }
 
 main();
 ```
 
-### List acquired phone numbers
+### List purchased phone numbers
 
-Use the `listPhoneNumbers` method to page through all acquired phone numbers.
+Use the `listPurchasedPhoneNumbers` method to page through all purchased phone numbers.
 
 ```typescript
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
@@ -263,11 +269,11 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new PhoneNumbersClient(connectionString);
 
 async main function() {
-  const phoneNumbers = await client.listPhoneNumbers();
+  const phoneNumbers = await client.listPurchasedPhoneNumbers();
 
   for await (const phoneNumber of phoneNumbers) {
     console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
-    console.log(`Phone number type is ${phoneNumber.type}`);
+    console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
   }
 }
 

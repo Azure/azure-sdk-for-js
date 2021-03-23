@@ -4,6 +4,10 @@
     {
       "tagName": "@hidden",
       "syntaxKind": "modifier"
+    },
+    {
+      "tagName": "@this",
+      "syntaxKind": "modifier"
     }
   ]
 }

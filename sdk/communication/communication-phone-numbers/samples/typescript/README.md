@@ -7,14 +7,17 @@ products:
 urlFragment: communication-phone-numbers-typescript
 ---
 
-# Azure Communication Service Phone Numbers client library sample for TypeScript
+# Azure Communication Service Phone Numbers client library samples for TypeScript
 
 These sample programs show how to use the JavaScript client library for Azure Communication Service Phone Numbers.
 
-| **File Name**                                 | **Description**                                                     |
-| --------------------------------------------- | ------------------------------------------------------------------- |
-| [purchasePhoneNumber.ts][purchasephonenumber] | uses the PhoneNumberAdministrationClient to purchase a phone number |
-| [releasePhoneNumbers.ts][releasephonenumbers] | uses the PhoneNumberAdministrationClient to release phone numbers.  |
+| **File Name**                                                            | **Description**                                                                    |
+| ------------------------------------------------------------------------ | ---------------------------------------------------------------------------------- |
+| [purchasePhoneNumber.ts][purchasephonenumber]                            | uses the PhoneNumbersClient to purchase a phone number                             |
+| [releasePhoneNumber.ts]<!--[releasephonenumber]-->                       | uses the PhoneNumbersClient to release a purchased phone number                    |
+| [updatePhoneNumberCapabilities.ts]<!--[updatephonenumbercapabilities]--> | uses the PhoneNumbersClient to update the capabilities of a purchased phone number |
+| [getPurchasedPhoneNumber.ts]<!--[getpurchasedphonenumber]-->             | uses the PhoneNumbersClient to get a purchased phone number                        |
+| [getPurchasedPhoneNumbers.ts]<!--[getpurchasedphonenumbers]-->           | uses the PhoneNumbersClient to list all purchased phone numbers                    |
 
 ## Prerequisites
 
@@ -59,7 +62,10 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/pu
 Take a look at our [API Documentation],<!--[apiref]--> for more information about the APIs that are available in the clients.
 
 [purchasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/purchasePhoneNumber.ts
-[releasephonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/releasePhoneNumbers.ts
+[releasephonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/releasePhoneNumber.ts
+[updatephonenumbercapabilities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/updatePhoneNumberCapabilities.ts
+[getpurchasedphonenumber]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/getPurchasedPhoneNumber.ts
+[getpurchasedphonenumbers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/typescript/src/getPurchasedPhoneNumbers.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-phone-numbers
 [azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
 [freesub]: https://azure.microsoft.com/free/

@@ -6,10 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./v2Support";
-export * from "./manifests";
-export * from "./blob";
-export * from "./repository";
-export * from "./tag";
+export * from "./containerRegistry";
+export * from "./containerRegistryRepository";
+export * from "./containerRegistryBlob";
 export * from "./refreshTokens";
 export * from "./accessTokens";

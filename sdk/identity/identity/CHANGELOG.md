@@ -1,14 +1,35 @@
 # Release History
 
-## 1.2.4 (Unreleased)
+## 2.0.0-beta.1 (Unreleased)
 
-## 1.2.4-beta.2 (Unreleased)
+This release continues with the changes from `1.2.4` and `1.2.4-beta.1`.
 
-- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13973](https://github.com/Azure/azure-sdk-for-js/pull/13973).
+- The `getToken` methods will now never return `null`. If a token is not available, we will return a rejected promise.
 - `DefaultAzureCredential`'s implementation for browsers was simplified to throw a simple error instead of trying credentials that were already not supported for the browser.
 - Breaking Change: `InteractiveBrowserCredential` for the browser now requires the client ID to be provided.
 - Documentation was added to elaborate on how to configure an AAD application to support `InteractiveBrowserCredential`.
 - Replaced the use of the 'express' module with a Node-native http server, shrinking the resulting identity module considerably
+- Updated `@azure/msal-node-extensions` to [1.0.0-alpha.6](https://www.npmjs.com/package/@azure/msal-node-extensions/v/1.0.0-alpha.6).
+- Refactored our use of MSAL to better centralize the handling of inputs, outputs and errors.
+- Migrated the `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` to the latest MSAL.
+  - This update improves caching of tokens, significantly reducing the number of network requests.
+- Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential` and `UsernamePasswordCredential` now can:
+  - Receive a `tokenCachePersistenceOptions` parameter to specify persitence caching of the credentials used to authenticate. This feature uses DPAPI on Windows, it tries to use the Keychain on OSX and the Keyring on Linux, and if the user sets `allowUnencryptedStorage` to true in the `tokenCachePersistenceOptions`, it allows to fall back to an unprotected file if neither the Keychain nor the Keyring are available.
+    - As part of this beta, this feature is only supported in Node 10, 12 and 14.
+  - Receive an `authenticationRecord` from a previous authentication on their constructors, which skips the initial request altogether.
+  - Receive a `disableAutomaticAuthentication` setting on the constructor, which stops `getToken` from requesting the user to authenticate manually.
+  - An `authenticate()` method has been added besides the `getToken()` method.
+  - The `authenticate()` method returns an `AuthenticationRecord` which can be serialized into strings with their property `serialize()`. To later deserialize from string into an `AuthenticationRecord`, use the new function `deserializeAuthenticationRecord()`.
+  - If `disableAutomaticAuthentication` is set on the constructor of these credentials, developers can now control when to manually authenticate by calling to these credential's `authenticate()` method.
+- `DeviceCodeCredential` now can receive its optional parameters as a single parameter object.
+- Breaking change: `InteractiveBrowserCredential` now only has `loginStyle` and `flow` in the optional parameters when the credential is bundled for browsers. This reflects the intended behavior.
+- Breaking change: Removed the `postLogoutRedirectUri` from the optional properties of the `InteractiveBrowserCredential`.
+
+## 1.2.4 (2021-03-08)
+
+This release doesn't have the changes from `1.2.4-beta.1`.
+
+- Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13872](https://github.com/Azure/azure-sdk-for-js/issues/13872).
 - Bug fix: `ManagedIdentityCredential` now also properly handles `EHOSTUNREACH` errors. Fixes issue [13894](https://github.com/Azure/azure-sdk-for-js/issues/13894).
 
 ## 1.2.4-beta.1 (2021-02-12)
