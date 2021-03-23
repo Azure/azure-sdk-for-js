@@ -329,7 +329,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(updated.actionLinkTemplate, "Updated Azure Blob action link template");
         });
 
-        it.only("creates an Azure Application Insights feed", async () => {
+        it("creates an Azure Application Insights feed", async () => {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureApplicationInsights",
