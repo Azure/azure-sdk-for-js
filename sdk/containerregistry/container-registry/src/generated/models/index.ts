@@ -181,8 +181,6 @@ export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWww
   grantType: "access_token";
   /** Indicates the name of your Azure container registry. */
   service: string;
-  /** AAD tenant associated to the AAD credentials. */
-  tenant: string;
   /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
   aadAccesstoken: string;
 }
@@ -968,13 +966,13 @@ export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlo
 };
 
 /** Optional parameters. */
-export interface AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams
+export interface AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams
   extends coreHttp.OperationOptions {
   aadAccesstoken?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
 }
 
-/** Contains response data for the exchangeAadTokenForAcrRefreshToken operation. */
-export type AuthenticationExchangeAadTokenForAcrRefreshTokenResponse = AcrRefreshToken & {
+/** Contains response data for the exchangeAadAccessTokenForAcrRefreshToken operation. */
+export type AuthenticationExchangeAadAccessTokenForAcrRefreshTokenResponse = AcrRefreshToken & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */

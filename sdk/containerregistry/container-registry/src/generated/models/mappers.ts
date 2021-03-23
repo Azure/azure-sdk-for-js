@@ -581,13 +581,6 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
           name: "String"
         }
       },
-      tenant: {
-        serializedName: "tenant",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
       aadAccesstoken: {
         serializedName: "access_token",
         required: true,

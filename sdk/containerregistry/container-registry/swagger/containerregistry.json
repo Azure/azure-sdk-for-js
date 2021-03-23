@@ -1030,7 +1030,7 @@
           "RefreshToken"
         ],
         "description": "Exchange AAD tokens for an ACR refresh Token",
-        "operationId": "Authentication_ExchangeAadTokenForAcrRefreshToken",
+        "operationId": "Authentication_ExchangeAadAccessTokenForAcrRefreshToken",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -1040,9 +1040,6 @@
           },
           {
             "$ref": "#/parameters/Service"
-          },
-          {
-            "$ref": "#/parameters/Tenant"
           },
           {
             "$ref": "#/parameters/AccessToken"
@@ -2571,7 +2568,7 @@
     "Tenant": {
       "name": "tenant",
       "in": "formData",
-      "required": true,
+      "required": false,
       "description": "AAD tenant associated to the AAD credentials.",
       "type": "string",
       "x-ms-parameter-location": "method"

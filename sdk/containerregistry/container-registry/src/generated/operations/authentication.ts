@@ -11,8 +11,8 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClient } from "../generatedClient";
 import {
-  AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams,
-  AuthenticationExchangeAadTokenForAcrRefreshTokenResponse,
+  AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams,
+  AuthenticationExchangeAadAccessTokenForAcrRefreshTokenResponse,
   AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams,
   AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse
 } from "../models";
@@ -33,16 +33,18 @@ export class Authentication {
    * Exchange AAD tokens for an ACR refresh Token
    * @param options The options parameters.
    */
-  exchangeAadTokenForAcrRefreshToken(
-    options?: AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams
-  ): Promise<AuthenticationExchangeAadTokenForAcrRefreshTokenResponse> {
+  exchangeAadAccessTokenForAcrRefreshToken(
+    options?: AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams
+  ): Promise<AuthenticationExchangeAadAccessTokenForAcrRefreshTokenResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      exchangeAadTokenForAcrRefreshTokenOperationSpec
-    ) as Promise<AuthenticationExchangeAadTokenForAcrRefreshTokenResponse>;
+      exchangeAadAccessTokenForAcrRefreshTokenOperationSpec
+    ) as Promise<
+      AuthenticationExchangeAadAccessTokenForAcrRefreshTokenResponse
+    >;
   }
 
   /**
@@ -66,7 +68,7 @@ export class Authentication {
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const exchangeAadTokenForAcrRefreshTokenOperationSpec: coreHttp.OperationSpec = {
+const exchangeAadAccessTokenForAcrRefreshTokenOperationSpec: coreHttp.OperationSpec = {
   path: "/oauth2/exchange",
   httpMethod: "POST",
   responses: {
