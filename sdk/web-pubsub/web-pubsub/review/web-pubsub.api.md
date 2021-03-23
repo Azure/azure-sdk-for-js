@@ -18,6 +18,21 @@ export interface CloseConnectionOptions extends OperationOptions {
 }
 
 // @public
+export interface GetAuthenticationTokenOptions {
+    claims?: {
+        [key: string]: string[];
+    };
+    userId?: string;
+}
+
+// @public
+export interface GetAuthenticationTokenResponse {
+    baseUrl: string;
+    token: string;
+    url: string;
+}
+
+// @public
 export interface GroupAddConnectionOptions extends OperationOptions {
 }
 
@@ -50,11 +65,6 @@ export interface HubAdminClientOptions extends PipelineOptions {
 }
 
 // @public
-export interface HubBroadcastOptions extends OperationOptions {
-    excludedConnections?: string[];
-}
-
-// @public
 export interface HubHasGroupOptions extends OperationOptions {
 }
 
@@ -68,6 +78,11 @@ export interface HubIsServiceHealthyOptions extends OperationOptions {
 
 // @public
 export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions {
+}
+
+// @public
+export interface HubSendToAllOptions extends OperationOptions {
+    excludedConnections?: string[];
 }
 
 // @public
@@ -91,8 +106,8 @@ export class WebPubsubGroup {
     readonly hubName: string;
     removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<RestResponse>;
     removeUser(username: string, options?: GroupRemoveUserOptions): Promise<RestResponse>;
-    sendToAll(message: string, options?: HubBroadcastOptions): Promise<RestResponse>;
-    sendToAll(message: HttpRequestBody, options?: HubBroadcastOptions): Promise<RestResponse>;
+    sendToAll(message: string, options?: HubSendToAllOptions): Promise<RestResponse>;
+    sendToAll(message: HttpRequestBody, options?: HubSendToAllOptions): Promise<RestResponse>;
 }
 
 // @public
@@ -102,14 +117,15 @@ export class WebPubsubServiceClient {
     readonly apiVersion: string;
     closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
     endpoint: string;
+    getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
     group(groupName: string): WebPubsubGroup;
     hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
     hasGroup(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
     hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
     removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
-    sendToAll(message: string, options?: HubBroadcastOptions): Promise<RestResponse>;
-    sendToAll(message: HttpRequestBody, options?: HubBroadcastOptions): Promise<RestResponse>;
+    sendToAll(message: string, options?: HubSendToAllOptions): Promise<RestResponse>;
+    sendToAll(message: HttpRequestBody, options?: HubSendToAllOptions): Promise<RestResponse>;
     sendToConnection(connectionId: string, message: string, options?: HubSendToConnectionOptions): Promise<RestResponse>;
     sendToConnection(connectionId: string, message: HttpRequestBody, options?: HubSendToConnectionOptions): Promise<RestResponse>;
     sendToUser(username: string, message: string, options?: HubSendToUserOptions): Promise<RestResponse>;
