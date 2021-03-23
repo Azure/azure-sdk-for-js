@@ -2,7 +2,6 @@
   "extends": ["../.eslintrc.json"],
   "rules": {
     "no-console": "off",
-    "no-invalid-this": "off",
     "space-before-function-paren": "off"
   }
 }

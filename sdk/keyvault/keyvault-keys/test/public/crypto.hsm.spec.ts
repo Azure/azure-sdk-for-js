@@ -20,22 +20,24 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
-    recorder = authentication.recorder;
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      recorder = authentication.recorder;
 
-    if (!authentication.hsmClient) {
-      // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
-      // This is only necessary while Managed HSM is in preview.
-      this.skip();
+      if (!authentication.hsmClient) {
+        // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
+        // This is only necessary while Managed HSM is in preview.
+        this.skip();
+      }
+
+      hsmClient = authentication.hsmClient;
+      testClient = new TestClient(authentication.hsmClient);
+      credential = authentication.credential;
+      keySuffix = authentication.keySuffix;
+      keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     }
-
-    hsmClient = authentication.hsmClient;
-    testClient = new TestClient(authentication.hsmClient);
-    credential = authentication.credential;
-    keySuffix = authentication.keySuffix;
-    keyName = testClient.formatName("cryptography-client-test" + keySuffix);
-  });
+  );
 
   afterEach(async function() {
     await testClient?.flushKey(keyName);
@@ -43,7 +45,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
   });
 
   describe("with AES crypto algorithms", async function() {
-    it("encrypts and decrypts using AES-GCM", async function() {
+    it("encrypts and decrypts using AES-GCM", /** @this Mocha.Context */ async function() {
       keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
       cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
       const text = this.test!.title;
@@ -63,7 +65,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
       assert.equal(text, uint8ArrayToString(decryptResult.result));
     });
 
-    it("encrypts and decrypts using AES-CBC", async function() {
+    it("encrypts and decrypts using AES-CBC", /** @this Mocha.Context */ async function() {
       keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
       cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
       const text = this.test!.title;

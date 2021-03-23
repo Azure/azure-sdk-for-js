@@ -23,13 +23,15 @@ describe("Certificates client - restore certificates and recover backups", () =>
     subject: "cn=MyCert"
   };
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
-    suffix = authentication.suffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      suffix = authentication.suffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
@@ -37,7 +39,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   // The tests follow
 
-  it("can recover a deleted certificate", async function() {
+  it("can recover a deleted certificate", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
@@ -65,7 +67,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can recover a deleted certificate (non existing)", async function() {
+  it("can recover a deleted certificate (non existing)", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
@@ -81,7 +83,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a certificate", async function() {
+    it("can restore a certificate", /** @this Mocha.Context */ async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,
@@ -141,7 +143,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can restore a key with requestOptions timeout", async function() {
+    it("can restore a key with requestOptions timeout", /** @this Mocha.Context */ async function() {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,

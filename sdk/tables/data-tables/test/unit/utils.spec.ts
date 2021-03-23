@@ -10,13 +10,14 @@ import { ConnectionString } from "../../src/utils/internalModels";
 describe("Utility Helpers", () => {
   describe("extractConnectionStringParts", () => {
     describe("Account Connection String", () => {
-      beforeEach(function() {
-        if (!isNode) {
-          // Account connection string is not supported for Browsers
-          // eslint-disable-next-line no-invalid-this
-          this.skip();
+      beforeEach(
+        /** @this Mocha.Context */ function() {
+          if (!isNode) {
+            // Account connection string is not supported for Browsers
+            this.skip();
+          }
         }
-      });
+      );
       it("should handle connection string without TableEndpoint", () => {
         const validConnectionString =
           "DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=REDACTED;EndpointSuffix=core.windows.net";
