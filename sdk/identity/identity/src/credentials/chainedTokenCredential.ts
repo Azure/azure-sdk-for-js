@@ -51,10 +51,7 @@ export class ChainedTokenCredential implements TokenCredential {
    * @param options - The options used to configure any requests this
    *                `TokenCredential` implementation might make.
    */
-  async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken> {
+  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
     let token = null;
     const errors = [];
 
