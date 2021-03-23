@@ -519,7 +519,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.diskAccessName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -543,7 +543,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -566,7 +566,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -591,7 +591,7 @@ const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
     Parameters.diskAccessName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -617,7 +617,7 @@ const getAPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
     Parameters.privateEndpointConnectionName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -642,7 +642,7 @@ const listPrivateEndpointConnectionsOperationSpec: msRest.OperationSpec = {
     Parameters.diskAccessName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -667,7 +667,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.diskAccessName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -702,7 +702,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.diskAccessName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -737,7 +737,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.diskAccessName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -763,7 +763,7 @@ const beginUpdateAPrivateEndpointConnectionOperationSpec: msRest.OperationSpec =
     Parameters.privateEndpointConnectionName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -799,7 +799,7 @@ const beginDeleteAPrivateEndpointConnectionOperationSpec: msRest.OperationSpec =
     Parameters.privateEndpointConnectionName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -823,7 +823,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -847,7 +847,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -871,7 +871,7 @@ const listPrivateEndpointConnectionsNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
