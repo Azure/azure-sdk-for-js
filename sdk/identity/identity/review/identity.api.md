@@ -126,7 +126,6 @@ export function deserializeAuthenticationRecord(serializedRecord: string): Authe
 // @public
 export class DeviceCodeCredential implements TokenCredential {
     constructor(options?: DeviceCodeCredentialOptions);
-    constructor(tenantId?: string, clientId?: string, userPromptCallback?: DeviceCodePromptCallback, options?: DeviceCodeCredentialOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
