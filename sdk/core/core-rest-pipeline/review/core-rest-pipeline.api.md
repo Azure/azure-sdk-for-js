@@ -18,6 +18,15 @@ export interface AddPipelineOptions {
 }
 
 // @public
+export interface Agent {
+    destroy(): void;
+    maxFreeSockets: number;
+    maxSockets: number;
+    requests: unknown;
+    sockets: unknown;
+}
+
+// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
@@ -155,6 +164,7 @@ export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
+    customAgent?: Agent;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;
