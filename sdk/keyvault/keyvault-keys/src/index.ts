@@ -104,7 +104,7 @@ import {
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
 import { LocalSupportedAlgorithmName } from "./cryptography/models";
 import { getKeyFromKeyBundle } from "./transformations";
-import { createSpan, withTrace } from "./tracing";
+import { withTrace } from "./tracing";
 
 export {
   CryptographyClientOptions,
@@ -670,21 +670,28 @@ export class KeyClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getKeyVersions(
-        this.vaultUrl,
-        name,
-        optionsComplete
+      const currentSetResponse = await withTrace(
+        "KeyClient.listPropertiesOfKeyVersionsPage",
+        optionsComplete,
+        async (updatedOptions) =>
+          await this.client.getKeyVersions(this.vaultUrl, name, updatedOptions)
       );
+
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getKeyVersions(
-        continuationState.continuationToken,
-        name,
-        options
+      const currentSetResponse = await withTrace(
+        "KeyClient.listPropertiesOfKeyVersionsPage",
+        options || {},
+        async (updatedOptions) =>
+          await this.client.getKeyVersions(
+            continuationState.continuationToken!,
+            name,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -734,10 +741,8 @@ export class KeyClient {
     name: string,
     options: ListPropertiesOfKeyVersionsOptions = {}
   ): PagedAsyncIterableIterator<KeyProperties> {
-    const { span, updatedOptions } = createSpan("listPropertiesOfKeyVersions", options);
-    const iter = this.listPropertiesOfKeyVersionsAll(name, updatedOptions);
+    const iter = this.listPropertiesOfKeyVersionsAll(name, options);
 
-    span.end();
     return {
       next() {
         return iter.next();
@@ -746,7 +751,7 @@ export class KeyClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfKeyVersionsPage(name, settings, updatedOptions)
+        this.listPropertiesOfKeyVersionsPage(name, settings, options)
     };
   }
 
@@ -766,16 +771,23 @@ export class KeyClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getKeys(this.vaultUrl, optionsComplete);
+      const currentSetResponse = await withTrace(
+        "KeyClient.listPropertiesOfKeysPage",
+        optionsComplete,
+        async (updatedOptions) => await this.client.getKeys(this.vaultUrl, updatedOptions)
+      );
+
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(this.getKeyPropertiesFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getKeys(
-        continuationState.continuationToken,
-        options
+      const currentSetResponse = await withTrace(
+        "KeysClient.listPropertiesOfKeysPage",
+        options || {},
+        async (updatedOptions) =>
+          await this.client.getKeys(continuationState.continuationToken!, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -822,10 +834,8 @@ export class KeyClient {
   public listPropertiesOfKeys(
     options: ListPropertiesOfKeysOptions = {}
   ): PagedAsyncIterableIterator<KeyProperties> {
-    const { span, updatedOptions } = createSpan("listPropertiesOfKeys", options);
-    const iter = this.listPropertiesOfKeysAll(updatedOptions);
+    const iter = this.listPropertiesOfKeysAll(options);
 
-    span.end();
     return {
       next() {
         return iter.next();
@@ -833,8 +843,7 @@ export class KeyClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfKeysPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) => this.listPropertiesOfKeysPage(settings, options)
     };
   }
 
@@ -854,16 +863,22 @@ export class KeyClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getDeletedKeys(this.vaultUrl, optionsComplete);
+      const currentSetResponse = await withTrace(
+        "KeyClient.listDeletedKeysPage",
+        optionsComplete,
+        async (updatedOptions) => await this.client.getDeletedKeys(this.vaultUrl, updatedOptions)
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(this.getDeletedKeyFromKeyItem, this);
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getDeletedKeys(
-        continuationState.continuationToken,
-        options
+      const currentSetResponse = await withTrace(
+        "KeyClient.listDeletedKeysPage",
+        options || {},
+        async (updatedOptions) =>
+          await this.client.getDeletedKeys(continuationState.continuationToken!, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -909,10 +924,8 @@ export class KeyClient {
   public listDeletedKeys(
     options: ListDeletedKeysOptions = {}
   ): PagedAsyncIterableIterator<DeletedKey> {
-    const { span, updatedOptions } = createSpan("listDeletedKeys", options);
-    const iter = this.listDeletedKeysAll(updatedOptions);
+    const iter = this.listDeletedKeysAll(options);
 
-    span.end();
     return {
       next() {
         return iter.next();
@@ -920,7 +933,7 @@ export class KeyClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) => this.listDeletedKeysPage(settings, options)
     };
   }
 

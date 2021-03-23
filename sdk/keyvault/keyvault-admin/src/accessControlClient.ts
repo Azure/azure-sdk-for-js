@@ -39,7 +39,7 @@ import {
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
 import { mappings } from "./mappings";
 import { logger } from "./log";
-import { createSpan, withTrace } from "./tracing";
+import { withTrace } from "./tracing";
 
 /**
  * The KeyVaultAccessControlClient provides methods to manage
@@ -246,10 +246,16 @@ export class KeyVaultAccessControlClient {
   ): AsyncIterableIterator<KeyVaultRoleAssignment[]> {
     if (!continuationState.continuationToken) {
       const optionsComplete: RoleAssignmentsListForScopeOptionalParams = options || {};
-      const currentSetResponse = await this.client.roleAssignments.listForScope(
-        this.vaultUrl,
-        roleScope,
-        optionsComplete
+      const currentSetResponse = await withTrace(
+        "KeyVaultAccessControlClient.listRoleAssignmentPage",
+        optionsComplete,
+        async (updatedOptions) => {
+          return await this.client.roleAssignments.listForScope(
+            this.vaultUrl,
+            roleScope,
+            updatedOptions
+          );
+        }
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -257,11 +263,17 @@ export class KeyVaultAccessControlClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.roleAssignments.listForScopeNext(
-        this.vaultUrl,
-        roleScope,
-        continuationState.continuationToken,
-        options
+      const currentSetResponse = await withTrace(
+        "KeyVaultAccessControlClient.listRoleAssignmentsPage",
+        options || {},
+        async (updatedOptions) => {
+          return await this.client.roleAssignments.listForScopeNext(
+            this.vaultUrl,
+            roleScope,
+            continuationState.continuationToken!,
+            updatedOptions
+          );
+        }
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -305,11 +317,8 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     options: ListRoleAssignmentsOptions = {}
   ): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {
-    const { span, updatedOptions } = createSpan("listRoleAssignments", options);
+    const iter = this.listRoleAssignmentsAll(roleScope, options);
 
-    const iter = this.listRoleAssignmentsAll(roleScope, updatedOptions);
-
-    span.end();
     return {
       next() {
         return iter.next();
@@ -318,7 +327,7 @@ export class KeyVaultAccessControlClient {
         return this;
       },
       byPage: (settings: ListRoleAssignmentsPageSettings = {}) =>
-        this.listRoleAssignmentsPage(roleScope, settings, updatedOptions)
+        this.listRoleAssignmentsPage(roleScope, settings, options)
     };
   }
 
@@ -395,11 +404,8 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     options: ListRoleDefinitionsOptions = {}
   ): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {
-    const { span, updatedOptions } = createSpan("listRoleDefinitions", options);
+    const iter = this.listRoleDefinitionsAll(roleScope, options);
 
-    const iter = this.listRoleDefinitionsAll(roleScope, updatedOptions);
-
-    span.end();
     return {
       next() {
         return iter.next();
@@ -408,7 +414,7 @@ export class KeyVaultAccessControlClient {
         return this;
       },
       byPage: (settings: ListRoleDefinitionsPageSettings = {}) =>
-        this.listRoleDefinitionsPage(roleScope, settings, updatedOptions)
+        this.listRoleDefinitionsPage(roleScope, settings, options)
     };
   }
 

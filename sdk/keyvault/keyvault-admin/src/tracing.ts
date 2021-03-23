@@ -1,30 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSpanFunction, OperationTracingOptions } from "@azure/core-tracing";
-import { trace } from "../../keyvault-common/src/tracingHelpers";
-import { Span } from "@opentelemetry/api";
+import { createTraceFunction, TracedFunction } from "../../keyvault-common/src/tracingHelpers";
 
 const packagePrefix = "Azure.KeyVault.Admin";
-const namespace = "Microsoft.KeyVault";
 
 /**
  * @internal
  */
-export const withTrace = trace(packagePrefix);
-
-/*
- * @internal
- */
-export const createSpan: <T extends {
-  tracingOptions?: OperationTracingOptions | undefined;
-}>(
-  operationName: string,
-  operationOptions: T | undefined
-) => {
-  span: Span;
-  updatedOptions: T;
-} = createSpanFunction({
-  packagePrefix: packagePrefix,
-  namespace: namespace
-});
+export const withTrace: TracedFunction = createTraceFunction(packagePrefix);
