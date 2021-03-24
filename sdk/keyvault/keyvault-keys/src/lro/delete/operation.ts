@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
 import { withTrace } from "../../tracing";
@@ -22,7 +22,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     public state: DeleteKeyPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private operationOptions: OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the deletion of a key is not supported." });
   }
@@ -62,11 +62,11 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     const { name } = state;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.operationOptions.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
-      const deletedKey = await this.deleteKey(name, this.requestOptions);
+      const deletedKey = await this.deleteKey(name, this.operationOptions);
       state.isStarted = true;
       state.result = deletedKey;
       if (!deletedKey.properties.recoveryId) {
@@ -76,9 +76,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
 
     if (!state.isCompleted) {
       try {
-        state.result = await this.getDeletedKey(name, {
-          requestOptions: this.requestOptions
-        });
+        state.result = await this.getDeletedKey(name, this.operationOptions);
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {

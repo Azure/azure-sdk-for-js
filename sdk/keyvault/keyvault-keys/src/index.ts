@@ -8,8 +8,7 @@ import {
   TokenCredential,
   createPipelineFromOptions,
   isTokenCredential,
-  signingPolicy,
-  operationOptionsToRequestOptionsBase
+  signingPolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -434,14 +433,13 @@ export class KeyClient {
     name: string,
     options: BeginDeleteKeyOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteKeyPoller({
       name,
       vaultUrl: this.vaultUrl,
       client: this.client,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions
+      operationOptions: options
     });
 
     // This will initialize the poller's operation (the deletion of the key).
@@ -592,15 +590,13 @@ export class KeyClient {
     name: string,
     options: BeginRecoverDeletedKeyOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
     const poller = new RecoverDeletedKeyPoller({
       name,
       vaultUrl: this.vaultUrl,
       client: this.client,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions: requestOptions
+      operationOptions: options
     });
     // This will initialize the poller's operation (the deletion of the key).
     await poller.poll();
