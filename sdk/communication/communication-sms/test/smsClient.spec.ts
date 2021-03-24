@@ -36,7 +36,7 @@ describe("SmsClient [Playback/Live]", async () => {
     }
   });
 
-  //helper functions
+  // helper functions
   const expectSuccessResult = (actualSmsResult: SmsSendResult, expectedRecipient: string) => {
     assert.equal(actualSmsResult.httpStatusCode, 202);
     assert.equal(actualSmsResult.to, expectedRecipient);
@@ -117,7 +117,7 @@ describe("SmsClient [Playback/Live]", async () => {
   it("can send an SMS message to multiple recipients", async () => {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
-    const invalidToNumber = "+1425555012345"; //invalid number that's too long
+    const invalidToNumber = "+1425555012345"; // invalid number that's too long
     const recipients = [validToNumber, invalidToNumber];
 
     const results = await smsClient.send({
@@ -158,7 +158,7 @@ describe("SmsClient [Playback/Live]", async () => {
   });
 
   it("throws an exception when sending from an invalid number", async () => {
-    const fromNumber = "+1425555012345"; //invalid number that's too long
+    const fromNumber = "+1425555012345"; // invalid number that's too long
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     try {
       await smsClient.send(

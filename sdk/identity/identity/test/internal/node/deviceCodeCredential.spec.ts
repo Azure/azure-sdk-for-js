@@ -41,7 +41,10 @@ describe("DeviceCodeCredential (internal)", function() {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID);
+    const credential = new DeviceCodeCredential({
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID
+    });
 
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1);
@@ -86,8 +89,6 @@ describe("DeviceCodeCredential (internal)", function() {
       persistence?.save("");
 
       const credential = new DeviceCodeCredential({
-        tenantId: env.AZURE_TENANT_ID,
-        clientId: env.AZURE_CLIENT_ID,
         tokenCachePersistenceOptions
       });
 
@@ -122,8 +123,6 @@ describe("DeviceCodeCredential (internal)", function() {
       persistence?.save("");
 
       const credential = new DeviceCodeCredential({
-        tenantId: env.AZURE_TENANT_ID,
-        clientId: env.AZURE_CLIENT_ID,
         tokenCachePersistenceOptions
       });
 
@@ -165,8 +164,6 @@ describe("DeviceCodeCredential (internal)", function() {
       persistence?.save("");
 
       const credential = new DeviceCodeCredential({
-        tenantId: env.AZURE_TENANT_ID,
-        clientId: env.AZURE_CLIENT_ID,
         // To be able to re-use the account, the Token Cache must also have been provided.
         // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
         tokenCachePersistenceOptions
@@ -178,8 +175,6 @@ describe("DeviceCodeCredential (internal)", function() {
       assert.equal(doGetTokenSpy.callCount, 1);
 
       const credential2 = new DeviceCodeCredential({
-        tenantId: env.AZURE_TENANT_ID,
-        clientId: env.AZURE_CLIENT_ID,
         authenticationRecord: account,
         // To be able to re-use the account, the Token Cache must also have been provided.
         // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?

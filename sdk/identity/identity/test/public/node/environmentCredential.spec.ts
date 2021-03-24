@@ -217,7 +217,7 @@ describe("EnvironmentCredential", function() {
       credential.getToken(scope),
       (error: CredentialUnavailable) =>
         error.message.indexOf(
-          "EnvironmentCredential is unavailable. Environment variables are not fully configured."
+          "EnvironmentCredential is unavailable. No underlying credential could be used."
         ) > -1
     );
   });

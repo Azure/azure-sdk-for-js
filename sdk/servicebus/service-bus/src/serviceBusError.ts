@@ -156,7 +156,7 @@ export class ServiceBusError extends MessagingError {
 
 /**
  * Translates an error into either an Error or a ServiceBusError which provides a `reason` code that
- * can be used by clients to programatically react to errors.
+ * can be used by clients to programmatically react to errors.
  *
  * If you are calling `@azure/core-amqp/translate` you should swap to using this function instead since it provides
  * Service Bus specific handling of the error (falling back to default translate behavior otherwise).

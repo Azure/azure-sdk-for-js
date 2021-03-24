@@ -21,6 +21,7 @@ export interface AcsChatEventBase {
 // @public
 export interface AcsChatEventInThreadBase {
     threadId: string;
+    transactionId: string;
 }
 
 // @public
@@ -116,6 +117,26 @@ export type AcsChatThreadWithUserDeletedEventData = AcsChatThreadEventBase & {
 };
 
 // @public
+export interface AcsRecordingChunkInfo {
+    documentId: string;
+    endReason: string;
+    index: number;
+}
+
+// @public
+export interface AcsRecordingFileStatusUpdatedEventData {
+    recordingDurationMs: number;
+    recordingStartTime: string;
+    recordingStorageInfo: AcsRecordingStorageInfo;
+    sessionEndReason: string;
+}
+
+// @public
+export interface AcsRecordingStorageInfo {
+    recordingChunks: AcsRecordingChunkInfo[];
+}
+
+// @public
 export interface AcsSmsDeliveryAttempt {
     segmentsFailed: number;
     segmentsSucceeded: number;
@@ -128,6 +149,7 @@ export type AcsSmsDeliveryReportReceivedEventData = AcsSmsEventBase & {
     deliveryStatusDetails: string;
     deliveryAttempts: AcsSmsDeliveryAttempt[];
     receivedTimestamp: string;
+    tag: string;
 };
 
 // @public
@@ -1172,13 +1194,14 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
     "Microsoft.Communication.ChatMessageReceived": AcsChatMessageReceivedEventData;
-    "Microsoft.Communication.ChatParticipantAddedToThread": AcsChatParticipantAddedToThreadEventData;
     "Microsoft.Communication.ChatParticipantAddedToThreadWithUser": AcsChatParticipantAddedToThreadWithUserEventData;
-    "Microsoft.Communication.ChatParticipantRemovedFromThread": AcsChatParticipantRemovedFromThreadEventData;
     "Microsoft.Communication.ChatParticipantRemovedFromThreadWithUser": AcsChatParticipantRemovedFromThreadWithUserEventData;
     "Microsoft.Communication.ChatThreadCreatedWithUser": AcsChatThreadCreatedWithUserEventData;
+    "Microsoft.Communication.ChatThreadParticipantAdded": AcsChatParticipantAddedToThreadEventData;
+    "Microsoft.Communication.ChatThreadParticipantRemoved": AcsChatParticipantRemovedFromThreadEventData;
     "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": AcsChatThreadPropertiesUpdatedPerUserEventData;
     "Microsoft.Communication.ChatThreadWithUserDeleted": AcsChatThreadWithUserDeletedEventData;
+    "Microsoft.Communication.RecordingFileStatusUpdated": AcsRecordingFileStatusUpdatedEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
     "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
