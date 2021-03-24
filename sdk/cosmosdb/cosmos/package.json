@@ -133,8 +133,8 @@
     "sinon": "^9.0.2",
     "snap-shot-it": "^7.9.1",
     "source-map-support": "^0.5.9",
-    "ts-node": "^8.3.0",
+    "ts-node": "^9.0.0",
     "typedoc": "0.15.2",
-    "typescript": "~4.1.2"
+    "typescript": "~4.2.0"
   }
 }

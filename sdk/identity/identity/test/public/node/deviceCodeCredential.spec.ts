@@ -97,8 +97,6 @@ describe("DeviceCodeCredential", function() {
       this.skip();
     }
     const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
       disableAutomaticAuthentication: true
     });
 

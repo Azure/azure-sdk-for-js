@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-common",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -112,7 +112,7 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "rollup": "^1.16.3",
     "sinon": "^9.0.2",
-    "typescript": "~4.1.2",
+    "typescript": "~4.2.0",
     "util": "^0.12.1",
     "typedoc": "0.15.2"
   }

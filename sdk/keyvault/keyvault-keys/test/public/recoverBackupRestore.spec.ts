@@ -17,13 +17,15 @@ describe("Keys client - restore keys and recover backups", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
-    keySuffix = authentication.keySuffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      keySuffix = authentication.keySuffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
@@ -31,7 +33,7 @@ describe("Keys client - restore keys and recover backups", () => {
 
   // The tests follow
 
-  it("can recover a deleted key", async function() {
+  it("can recover a deleted key", /** @this Mocha.Context */ async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
@@ -52,7 +54,7 @@ describe("Keys client - restore keys and recover backups", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("fails if one tries to recover a non-existing deleted key", async function() {
+  it("fails if one tries to recover a non-existing deleted key", /** @this Mocha.Context */ async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
@@ -66,7 +68,7 @@ describe("Keys client - restore keys and recover backups", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("can generate a backup of a key", async function() {
+  it("can generate a backup of a key", /** @this Mocha.Context */ async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const result = await client.backupKey(keyName);
@@ -87,7 +89,7 @@ describe("Keys client - restore keys and recover backups", () => {
     });
   });
 
-  it("fails to generate a backup of a non-existing key", async function() {
+  it("fails to generate a backup of a non-existing key", /** @this Mocha.Context */ async function() {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     let error;
     try {
@@ -103,7 +105,7 @@ describe("Keys client - restore keys and recover backups", () => {
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a key with a given backup", async function() {
+    it("can restore a key with a given backup", /** @this Mocha.Context */ async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       await client.createKey(keyName, "RSA");
       const backup = await client.backupKey(keyName);
@@ -126,7 +128,7 @@ describe("Keys client - restore keys and recover backups", () => {
   }
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can restore a key with requestOptions timeout", async function() {
+  it("can restore a key with requestOptions timeout", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");

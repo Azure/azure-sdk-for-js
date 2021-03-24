@@ -128,6 +128,13 @@
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
 
 ###########
+# Tools
+###########
+
+# PRLabel: %dev-tool
+/common/tools/dev-tool/ @witemple-msft
+
+###########
 # Eng Sys
 ###########
 /eng/   @weshaggard @praveenkuttappan @mikeharder @mitchdenny @danieljurek

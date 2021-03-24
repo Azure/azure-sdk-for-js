@@ -309,7 +309,8 @@ export const enum KnownChatMessageType {
 export type ChatMessageType = string;
 
 /** Optional parameters. */
-export interface ChatThreadListChatReadReceiptsOptionalParams extends coreHttp.OperationOptions {
+export interface ChatThreadListChatReadReceiptsOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of chat message read receipts to be returned per page. */
   maxPageSize?: number;
   /** Skips chat message read receipts up to a specified position in response. */
@@ -341,7 +342,8 @@ export type ChatThreadSendChatMessageResponse = SendChatMessageResult & {
 };
 
 /** Optional parameters. */
-export interface ChatThreadListChatMessagesOptionalParams extends coreHttp.OperationOptions {
+export interface ChatThreadListChatMessagesOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of messages to be returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
@@ -373,7 +375,8 @@ export type ChatThreadGetChatMessageResponse = ChatMessage & {
 };
 
 /** Optional parameters. */
-export interface ChatThreadListChatParticipantsOptionalParams extends coreHttp.OperationOptions {
+export interface ChatThreadListChatParticipantsOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of participants to be returned per page. */
   maxPageSize?: number;
   /** Skips participants up to a specified position in response. */
@@ -438,7 +441,8 @@ export type ChatThreadListChatReadReceiptsNextResponse = ChatMessageReadReceipts
 };
 
 /** Optional parameters. */
-export interface ChatThreadListChatMessagesNextOptionalParams extends coreHttp.OperationOptions {
+export interface ChatThreadListChatMessagesNextOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of messages to be returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
@@ -479,9 +483,10 @@ export type ChatThreadListChatParticipantsNextResponse = ChatParticipantsCollect
 };
 
 /** Optional parameters. */
-export interface ChatCreateChatThreadOptionalParams extends coreHttp.OperationOptions {
-  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Idempotency-Token and get back an appropriate response without the server executing the request multiple times. The value of the Idempotency-Token is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
-  idempotencyToken?: string;
+export interface ChatCreateChatThreadOptionalParams
+  extends coreHttp.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
+  repeatabilityRequestId?: string;
 }
 
 /** Contains response data for the createChatThread operation. */
@@ -497,7 +502,8 @@ export type ChatCreateChatThreadResponse = CreateChatThreadResult & {
 };
 
 /** Optional parameters. */
-export interface ChatListChatThreadsOptionalParams extends coreHttp.OperationOptions {
+export interface ChatListChatThreadsOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of chat threads returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
@@ -517,7 +523,8 @@ export type ChatListChatThreadsResponse = ChatThreadsItemCollection & {
 };
 
 /** Optional parameters. */
-export interface ChatListChatThreadsNextOptionalParams extends coreHttp.OperationOptions {
+export interface ChatListChatThreadsNextOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of chat threads returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
@@ -537,7 +544,8 @@ export type ChatListChatThreadsNextResponse = ChatThreadsItemCollection & {
 };
 
 /** Optional parameters. */
-export interface ChatApiClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface ChatApiClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

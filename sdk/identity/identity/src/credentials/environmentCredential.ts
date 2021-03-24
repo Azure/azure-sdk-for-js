@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
-import { AuthenticationError } from "../client/errors";
+import { AuthenticationError, CredentialUnavailable } from "../client/errors";
 import { checkTenantId } from "../util/checkTenantId";
 import { trace } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
@@ -42,7 +42,10 @@ const logger = credentialLogger("EnvironmentCredential");
  * documentation of that class for more details.
  */
 export class EnvironmentCredential implements TokenCredential {
-  private _credential?: TokenCredential = undefined;
+  private _credential?:
+    | ClientSecretCredential
+    | ClientCertificateCredential
+    | UsernamePasswordCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and reads
    * client secret details from environment variables.  If the expected
@@ -109,10 +112,7 @@ export class EnvironmentCredential implements TokenCredential {
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - Optional parameters. See {@link GetTokenOptions}.
    */
-  async getToken(
-    scopes: string | string[],
-    options: GetTokenOptions = {}
-  ): Promise<AccessToken | null> {
+  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return trace("EnvironmentCredential.getToken", options, async (newOptions) => {
       if (this._credential) {
         try {
@@ -131,7 +131,9 @@ export class EnvironmentCredential implements TokenCredential {
           throw authenticationError;
         }
       }
-      return null;
+      throw new CredentialUnavailable(
+        "EnvironmentCredential is unavailable. No underlying credential could be used."
+      );
     });
   }
 }

@@ -4,12 +4,8 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import {
-  KeyVaultClientGetKeyResponse,
-  KeyVaultClientRecoverDeletedKeyResponse
-} from "../../generated/models";
 import { KeyVaultKey, GetKeyOptions, RecoverDeletedKeyOptions } from "../../keysModels";
-import { createSpan } from "../../tracing";
+import { withTrace } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
 
@@ -36,22 +32,16 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
    * The getKey method gets a specified key and is applicable to any key stored in Azure Key Vault.
    * This operation requires the keys/get permission.
    */
-  private async getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
-    const { span, updatedOptions } = createSpan("generatedClient.getKey", options);
-
-    let response: KeyVaultClientGetKeyResponse;
-    try {
-      response = await this.client.getKey(
+  private getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
+    return withTrace("generatedClient.getKey", options, async (updatedOptions) => {
+      const response = await this.client.getKey(
         this.vaultUrl,
         name,
-        options && options.version ? options.version : "",
+        updatedOptions?.version || "",
         updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getKeyFromKeyBundle(response);
+      return getKeyFromKeyBundle(response);
+    });
   }
 
   /**
@@ -62,16 +52,10 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     name: string,
     options: RecoverDeletedKeyOptions = {}
   ): Promise<KeyVaultKey> {
-    const { span, updatedOptions } = createSpan("generatedClient.recoverDeletedKey", options);
-
-    let response: KeyVaultClientRecoverDeletedKeyResponse;
-    try {
-      response = await this.client.recoverDeletedKey(this.vaultUrl, name, updatedOptions);
-    } finally {
-      span.end();
-    }
-
-    return getKeyFromKeyBundle(response);
+    return withTrace("generatedClient.recoverDeleteKey", options, async (updatedOptions) => {
+      const response = await this.client.recoverDeletedKey(this.vaultUrl, name, updatedOptions);
+      return getKeyFromKeyBundle(response);
+    });
   }
 
   /**
