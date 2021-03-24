@@ -8,7 +8,7 @@ import {
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-  HttpsClient,
+  HttpClient,
   PipelineResponse
 } from "../../src";
 import { BearerTokenChallengeResult } from "../../src/policies/bearerTokenAuthenticationPolicy";
@@ -140,7 +140,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
     const finalSendRequestHeaders: (string | undefined)[] = [];
 
-    const testHttpsClient: HttpsClient = {
+    const testHttpsClient: HttpClient = {
       sendRequest: async (req) => {
         finalSendRequestHeaders.push(req.headers.get("Authorization"));
         if (responses.length) {
@@ -239,7 +239,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
     const finalSendRequestHeaders: (string | undefined)[] = [];
 
-    const testHttpsClient: HttpsClient = {
+    const testHttpsClient: HttpClient = {
       sendRequest: async (req) => {
         finalSendRequestHeaders.push(req.headers.get("Authorization"));
         if (responses.length) {

@@ -80,7 +80,7 @@ export function bearerTokenAuthenticationPolicy(
       claims: context?.claims,
       abortSignal: request.abortSignal,
       tracingOptions: {
-        spanOptions: request.spanOptions
+        spanOptions: request.tracingOptions?.spanOptions
       }
     };
     if (accessToken === undefined) {
