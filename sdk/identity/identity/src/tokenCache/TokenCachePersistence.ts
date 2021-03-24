@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CredentialUnavailable } from "../client/errors";
 import { isNode15, isNode8, Node15NotSupportedError, Node8NotSupportedError } from "./nodeVersion";
 import { msalPersistencePlatforms, TokenCachePersistenceOptions } from "./persistencePlatforms";
 import { MsalPersistence, CachePlugin, TokenCacheRegisterOptions } from "./types";
@@ -31,11 +32,20 @@ export class TokenCachePersistence {
       retryDelay: 50
     };
 
+    let extensions: any;
+    try {
+      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+      extensions = require("@azure/msal-node-extensions");
+    } catch (e) {
+      throw new CredentialUnavailable(
+        "To use the token cache persistence feature, please install the package '@azure/msal-node-extensions@1.0.0-alpha.6'."
+      );
+    }
+
     if (isNode8 || isNode15) {
       throw isNode8 ? Node8NotSupportedError : Node15NotSupportedError;
     } else {
-      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
-      const { PersistenceCachePlugin } = require("@azure/msal-node-extensions");
+      const { PersistenceCachePlugin } = extensions;
 
       const persistence = await this.getPersistence();
       if (!persistence) {
