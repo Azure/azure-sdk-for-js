@@ -93,7 +93,7 @@ export class CustomModelRecognitionTest extends PerfStressTest<BeginRecognizeCus
       modelId,
       this.documentUrl,
       {
-        updateIntervalInMs: this.parsedOptions.updateIntervalInMs.value
+        updateIntervalInMs: this.parsedOptions.updateIntervalInMs?.value
       }
     );
 
