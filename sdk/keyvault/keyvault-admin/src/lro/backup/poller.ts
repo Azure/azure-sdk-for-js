@@ -4,11 +4,17 @@
 import { BackupPollOperation, BackupOperationState, BackupPollOperationState } from "./operation";
 import { KeyVaultAdminPollerOptions, KeyVaultAdminPoller } from "../keyVaultAdminPoller";
 import { BackupResult } from "../../backupClientModels";
+import {
+  createTraceFunction,
+  TracedFunction
+} from "../../../../keyvault-common/src/tracingHelpers";
 
 export interface BackupPollerOptions extends KeyVaultAdminPollerOptions {
   blobStorageUri: string;
   sasToken: string;
 }
+
+export const withTrace: TracedFunction = createTraceFunction("Azure.KeyVault.Admin.BackupPoller");
 
 /**
  * Class that creates a poller that waits until the backup of a Key Vault ends up being generated.

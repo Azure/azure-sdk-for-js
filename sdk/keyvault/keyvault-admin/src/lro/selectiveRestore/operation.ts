@@ -10,12 +10,12 @@ import {
   KeyVaultClientSelectiveKeyRestoreOperationResponse,
   RestoreOperation
 } from "../../generated/models";
-import { withTrace } from "../../tracing";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
 import { RestoreResult } from "../../backupClientModels";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.

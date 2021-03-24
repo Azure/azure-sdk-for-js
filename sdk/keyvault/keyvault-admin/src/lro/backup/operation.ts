@@ -10,12 +10,12 @@ import {
   KeyVaultClientFullBackupResponse,
   KeyVaultClientFullBackupStatusResponse
 } from "../../generated/models";
-import { withTrace } from "../../tracing";
 import { BackupResult, BeginBackupOptions } from "../../backupClientModels";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
