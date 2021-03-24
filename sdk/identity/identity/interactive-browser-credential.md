@@ -1,8 +1,8 @@
 # Interactive Browser Credential
 
-The `InteractiveBrowserCredential` uses [Authorization Code Flow][AuthCodeFlow], which uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) both on the browser and on NodeJS. Under the hood it uses [@azure/msal-node](https://www.npmjs.com/package/@azure/msal-node) for NodeJS.
+The `InteractiveBrowserCredential` uses [Authorization Code Flow][AuthCodeFlow], which uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) both on the browser and on NodeJS. Under the hood it uses [@azure/msal-node](https://www.npmjs.com/package/@azure/msal-node) for Node.js and [@azure/msal-browser](https://www.npmjs.com/package/@azure/msal-browser) in browsers.
 
-For the browser it uses [MSAL v2.x](https://github.com/AzureAD/microsoft-authentication-library-for-js) by default (which also uses Authorization Code Flow), while it also allows switching back to the older [Implicit Grant Flow][ImplicitGrantFlow] by passing the `flow` property with the value `implicit-grant` through to the constructor of the `InteractiveBrowserCredential`, as follows:
+For the browser, we allow switching back to the older [Implicit Grant Flow][ImplicitGrantFlow] (which was the only option in v1 of this package for this credential) by passing the `flow` property with the value `implicit-grant` through to the constructor of the `InteractiveBrowserCredential`, as follows:
 
 ```ts
 const credential = new InteractiveBrowserCredential({
