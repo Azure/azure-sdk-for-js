@@ -637,8 +637,8 @@ export class DigitalTwinsClient {
     try {
       return this.client.digitalTwins.sendTelemetry(
         digitalTwinId,
-        payload,
         messageId,
+        payload,
         updatedOptions
       );
     } catch (e) {
