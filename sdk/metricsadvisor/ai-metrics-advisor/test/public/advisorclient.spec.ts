@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 
 import {
   MetricAnomalyFeedback,
@@ -20,11 +21,9 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
 
-      beforeEach(
-        /** @this Mocha.Context */ function() {
-          ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
-        }
-      );
+      beforeEach(function(this: Context) {
+        ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
+      });
 
       afterEach(async function() {
         if (recorder) {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableClient, TableEntity, Edm, odata } from "../../src";
+import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
@@ -18,13 +19,11 @@ describe("TableClient", () => {
   // which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(
-    /** @this Mocha.Context */ function() {
-      recorder = record(this, recordedEnvironmentSetup);
+  beforeEach(function(this: Context) {
+    recorder = record(this, recordedEnvironmentSetup);
 
-      client = createTableClient(tableName, authMode);
-    }
-  );
+    client = createTableClient(tableName, authMode);
+  });
 
   before(async () => {
     if (!isPlaybackMode()) {
@@ -45,26 +44,24 @@ describe("TableClient", () => {
 
   describe("listEntities", () => {
     // Create required entities for testing list operations
-    before(
-      /** @this Mocha.Context */ async function() {
-        if (!isPlaybackMode()) {
-          this.timeout(10000);
+    before(async function(this: Context) {
+      if (!isPlaybackMode()) {
+        this.timeout(10000);
+        await client.createEntity({
+          partitionKey: listPartitionKey,
+          rowKey: "binary1",
+          foo: new Uint8Array([66, 97, 114])
+        });
+
+        for (let i = 0; i < 20; i++) {
           await client.createEntity({
             partitionKey: listPartitionKey,
-            rowKey: "binary1",
-            foo: new Uint8Array([66, 97, 114])
+            rowKey: `${i}`,
+            foo: "testEntity"
           });
-
-          for (let i = 0; i < 20; i++) {
-            await client.createEntity({
-              partitionKey: listPartitionKey,
-              rowKey: `${i}`,
-              foo: "testEntity"
-            });
-          }
         }
       }
-    );
+    });
     type StringEntity = { foo: string };
     type NumberEntity = { foo: number };
     type DateEntity = { foo: Date };

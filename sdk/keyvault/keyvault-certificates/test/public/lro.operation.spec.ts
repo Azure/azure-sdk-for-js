@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 import {
@@ -21,15 +22,13 @@ describe("Certificates client - LRO - certificate operation", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(
-    /** @this Mocha.Context */ async function() {
-      const authentication = await authenticate(this);
-      certificateSuffix = authentication.suffix;
-      client = authentication.client;
-      testClient = authentication.testClient;
-      recorder = authentication.recorder;
-    }
-  );
+  beforeEach(async function(this: Context) {
+    const authentication = await authenticate(this);
+    certificateSuffix = authentication.suffix;
+    client = authentication.client;
+    testClient = authentication.testClient;
+    recorder = authentication.recorder;
+  });
 
   afterEach(async function() {
     await recorder.stop();
@@ -37,7 +36,7 @@ describe("Certificates client - LRO - certificate operation", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is created by getting the poller from getCertificateOperation", /** @this Mocha.Context */ async function() {
+  it("can wait until a certificate is created by getting the poller from getCertificateOperation", async function(this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -66,7 +65,7 @@ describe("Certificates client - LRO - certificate operation", () => {
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can resume from a stopped poller", /** @this Mocha.Context */ async function() {
+  it("can resume from a stopped poller", async function(this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );

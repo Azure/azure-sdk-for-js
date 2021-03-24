@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
+
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
@@ -12,13 +12,14 @@ import { ClientCertificateCredential, TokenCachePersistenceOptions } from "../..
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
+import { Context } from "mocha";
 
 describe("ClientCertificateCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -47,7 +48,7 @@ describe("ClientCertificateCredential (internal)", function() {
     });
   });
 
-  it("Authenticates silently after the initial request", async function() {
+  it("Authenticates silently after the initial request", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -83,7 +84,7 @@ describe("ClientCertificateCredential (internal)", function() {
       return;
     }
 
-    it("Accepts tokenCachePersistenceOptions", async function() {
+    it("Accepts tokenCachePersistenceOptions", async function(this: Context) {
       if (isPlaybackMode()) {
         // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
         // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -118,7 +119,7 @@ describe("ClientCertificateCredential (internal)", function() {
       assert.ok(parsedResult.AccessToken);
     });
 
-    it("Authenticates silently with tokenCachePersistenceOptions", async function() {
+    it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Context) {
       if (isPlaybackMode()) {
         // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
         // This assertion could be provided as parameters, but we don't have that in the public API yet,
