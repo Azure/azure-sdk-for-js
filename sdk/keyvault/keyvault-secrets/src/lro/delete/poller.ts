@@ -4,6 +4,10 @@
 import { DeleteSecretPollOperation, DeleteSecretPollOperationState } from "./operation";
 import { DeletedSecret } from "../../secretsModels";
 import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
+import {
+  createTraceFunction,
+  TracedFunction
+} from "../../../../keyvault-common/src/tracingHelpers";
 
 /**
  * Class that creates a poller that waits until a secret finishes being deleted.
@@ -36,3 +40,7 @@ export class DeleteSecretPoller extends KeyVaultSecretPoller<
     this.intervalInMs = intervalInMs;
   }
 }
+
+export const withTrace: TracedFunction = createTraceFunction(
+  "Azure.KeyVault.Certificates.DeleteSecretPoller"
+);

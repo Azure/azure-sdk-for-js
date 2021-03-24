@@ -7,6 +7,10 @@ import {
 } from "./operation";
 import { SecretProperties } from "../../secretsModels";
 import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
+import {
+  createTraceFunction,
+  TracedFunction
+} from "../../../../keyvault-common/src/tracingHelpers";
 
 /**
  * Class that deletes a poller that waits until a secret finishes being deleted
@@ -39,3 +43,7 @@ export class RecoverDeletedSecretPoller extends KeyVaultSecretPoller<
     this.intervalInMs = intervalInMs;
   }
 }
+
+export const withTrace: TracedFunction = createTraceFunction(
+  "Azure.KeyVault.Certificates.RecoverDeletedSecretPoller"
+);

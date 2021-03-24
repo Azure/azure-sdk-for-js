@@ -21,20 +21,12 @@ import {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
   KeyVaultClientGetSecretsOptionalParams,
-  KeyVaultClientSetSecretResponse,
-  KeyVaultClientUpdateSecretResponse,
-  KeyVaultClientGetSecretResponse,
-  KeyVaultClientGetDeletedSecretResponse,
-  KeyVaultClientBackupSecretResponse,
-  KeyVaultClientRestoreSecretResponse,
   SecretBundle,
   DeletedSecretBundle
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
-
-import { createSpan } from "./tracing";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -61,6 +53,7 @@ import {
 } from "./secretsModels";
 import { KeyVaultSecretId } from "./identifier";
 import { getSecretFromSecretBundle } from "./transformations";
+import { createTraceFunction, TracedFunction } from "../../keyvault-common/src/tracingHelpers";
 
 export {
   SecretClientOptions,
@@ -90,6 +83,8 @@ export {
   UpdateSecretPropertiesOptions,
   logger
 };
+
+const withTrace: TracedFunction = createTraceFunction("Azure.KeyVault.Certificates.SecretClient");
 
 /**
  * The SecretClient provides methods to manage {@link KeyVaultSecret} in
@@ -184,14 +179,16 @@ export class SecretClient {
    * @param value - The value of the secret.
    * @param options - The optional parameters.
    */
-  public async setSecret(
+  public setSecret(
     secretName: string,
     value: string,
     options: SetSecretOptions = {}
   ): Promise<KeyVaultSecret> {
+    let unflattenedOptions = {};
+
     if (options) {
       const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
-      const unflattenedOptions = {
+      unflattenedOptions = {
         ...remainingOptions,
         secretAttributes: {
           enabled,
@@ -199,21 +196,16 @@ export class SecretClient {
           expires
         }
       };
-
-      const { span, updatedOptions } = createSpan("setSecret", unflattenedOptions);
-
-      let response: KeyVaultClientSetSecretResponse;
-      try {
-        response = await this.client.setSecret(this.vaultUrl, secretName, value, updatedOptions);
-      } finally {
-        span.end();
-      }
-
-      return getSecretFromSecretBundle(response);
-    } else {
-      const response = await this.client.setSecret(this.vaultUrl, secretName, value, options);
-      return getSecretFromSecretBundle(response);
     }
+    return withTrace("setSecret", unflattenedOptions, async (updatedOptions) => {
+      const response = await this.client.setSecret(
+        this.vaultUrl,
+        secretName,
+        value,
+        updatedOptions
+      );
+      return getSecretFromSecretBundle(response);
+    });
   }
 
   /**
@@ -282,9 +274,10 @@ export class SecretClient {
     secretVersion: string,
     options: UpdateSecretPropertiesOptions = {}
   ): Promise<SecretProperties> {
+    let unflattenedOptions = {};
     if (options) {
       const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = options;
-      const unflattenedOptions = {
+      unflattenedOptions = {
         ...remainingOptions,
         secretAttributes: {
           enabled,
@@ -292,32 +285,17 @@ export class SecretClient {
           expires
         }
       };
+    }
 
-      const { span, updatedOptions } = createSpan("updateSecretProperties", unflattenedOptions);
-
-      let response: KeyVaultClientUpdateSecretResponse;
-
-      try {
-        response = await this.client.updateSecret(
-          this.vaultUrl,
-          secretName,
-          secretVersion,
-          updatedOptions
-        );
-      } finally {
-        span.end();
-      }
-
-      return getSecretFromSecretBundle(response).properties;
-    } else {
+    return withTrace("updateSecretProperties", unflattenedOptions, async (updatedOptions) => {
       const response = await this.client.updateSecret(
         this.vaultUrl,
         secretName,
         secretVersion,
-        options
+        updatedOptions
       );
       return getSecretFromSecretBundle(response).properties;
-    }
+    });
   }
 
   /**
@@ -333,25 +311,16 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public async getSecret(
-    secretName: string,
-    options: GetSecretOptions = {}
-  ): Promise<KeyVaultSecret> {
-    const { span, updatedOptions } = createSpan("getSecret", options);
-
-    let response: KeyVaultClientGetSecretResponse;
-    try {
-      response = await this.client.getSecret(
+  public getSecret(secretName: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
+    return withTrace("getSecret", options, async (updatedOptions) => {
+      const response = await this.client.getSecret(
         this.vaultUrl,
         secretName,
         options && options.version ? options.version : "",
         updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getSecretFromSecretBundle(response);
+      return getSecretFromSecretBundle(response);
+    });
   }
 
   /**
@@ -367,21 +336,18 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public async getDeletedSecret(
+  public getDeletedSecret(
     secretName: string,
     options: GetDeletedSecretOptions = {}
   ): Promise<DeletedSecret> {
-    const { span, updatedOptions } = createSpan("getDeletedSecret", options);
-
-    let response: KeyVaultClientGetDeletedSecretResponse;
-
-    try {
-      response = await this.client.getDeletedSecret(this.vaultUrl, secretName, updatedOptions);
-    } finally {
-      span.end();
-    }
-
-    return getSecretFromSecretBundle(response);
+    return withTrace("getDeletedSecret", options, async (updatedOptions) => {
+      const response = await this.client.getDeletedSecret(
+        this.vaultUrl,
+        secretName,
+        updatedOptions
+      );
+      return getSecretFromSecretBundle(response);
+    });
   }
 
   /**
@@ -400,17 +366,13 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public async purgeDeletedSecret(
+  public purgeDeletedSecret(
     secretName: string,
     options: PurgeDeletedSecretOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("purgeDeletedSecret", options);
-
-    try {
+    return withTrace("purgeDeletedSecret", options, async (updatedOptions) => {
       await this.client.purgeDeletedSecret(this.vaultUrl, secretName, updatedOptions);
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -475,20 +437,15 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public async backupSecret(
+  public backupSecret(
     secretName: string,
     options: BackupSecretOptions = {}
   ): Promise<Uint8Array | undefined> {
-    const { span, updatedOptions } = createSpan("backupSecret", options);
+    return withTrace("backupSecret", options, async (updatedOptions) => {
+      const response = await this.client.backupSecret(this.vaultUrl, secretName, updatedOptions);
 
-    let response: KeyVaultClientBackupSecretResponse;
-
-    try {
-      response = await this.client.backupSecret(this.vaultUrl, secretName, updatedOptions);
-    } finally {
-      span.end();
-    }
-    return response.value;
+      return response.value;
+    });
   }
 
   /**
@@ -506,21 +463,18 @@ export class SecretClient {
    * @param secretBundleBackup - The backup blob associated with a secret bundle.
    * @param options - The optional parameters.
    */
-  public async restoreSecretBackup(
+  public restoreSecretBackup(
     secretBundleBackup: Uint8Array,
     options: RestoreSecretBackupOptions = {}
   ): Promise<SecretProperties> {
-    const { span, updatedOptions } = createSpan("restoreSecretBackup", options);
-
-    let response: KeyVaultClientRestoreSecretResponse;
-
-    try {
-      response = await this.client.restoreSecret(this.vaultUrl, secretBundleBackup, updatedOptions);
-    } finally {
-      span.end();
-    }
-
-    return getSecretFromSecretBundle(response).properties;
+    return withTrace("restoreSecretBackup", options, async (updatedOptions) => {
+      const response = await this.client.restoreSecret(
+        this.vaultUrl,
+        secretBundleBackup,
+        updatedOptions
+      );
+      return getSecretFromSecretBundle(response).properties;
+    });
   }
 
   /**
@@ -541,10 +495,10 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getSecretVersions(
-        this.vaultUrl,
-        secretName,
-        optionsComplete
+      const currentSetResponse = await withTrace(
+        "listPropertiesOfSecretVersions",
+        optionsComplete,
+        (updatedOptions) => this.client.getSecretVersions(this.vaultUrl, secretName, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -555,10 +509,15 @@ export class SecretClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getSecretVersions(
-        continuationState.continuationToken,
-        secretName,
-        options
+      const currentSetResponse = await withTrace(
+        "listPropertiesOfSecretVersions",
+        options,
+        (updatedOptions) =>
+          this.client.getSecretVersions(
+            continuationState.continuationToken!,
+            secretName,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -611,10 +570,8 @@ export class SecretClient {
     secretName: string,
     options: ListPropertiesOfSecretVersionsOptions = {}
   ): PagedAsyncIterableIterator<SecretProperties> {
-    const { span, updatedOptions } = createSpan("listPropertiesOfSecretVersions", options);
-    const iter = this.listPropertiesOfSecretVersionsAll(secretName, updatedOptions);
+    const iter = this.listPropertiesOfSecretVersionsAll(secretName, options);
 
-    span.end();
     return {
       next() {
         return iter.next();
@@ -623,7 +580,7 @@ export class SecretClient {
         return this;
       },
       byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfSecretVersionsPage(secretName, settings, updatedOptions)
+        this.listPropertiesOfSecretVersionsPage(secretName, settings, options)
     };
   }
 
@@ -643,7 +600,11 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getSecrets(this.vaultUrl, optionsComplete);
+      const currentSetResponse = await withTrace(
+        "listPropertiesOfSecrets",
+        optionsComplete,
+        (updatedOptions) => this.client.getSecrets(this.vaultUrl, updatedOptions)
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(
@@ -653,9 +614,11 @@ export class SecretClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getSecrets(
-        continuationState.continuationToken,
-        options
+      const currentSetResponse = await withTrace(
+        "listPropertiesOfSecrets",
+        options,
+        (updatedOptions) =>
+          this.client.getSecrets(continuationState.continuationToken!, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -705,10 +668,8 @@ export class SecretClient {
   public listPropertiesOfSecrets(
     options: ListPropertiesOfSecretsOptions = {}
   ): PagedAsyncIterableIterator<SecretProperties> {
-    const { span, updatedOptions } = createSpan("listPropertiesOfSecrets", options);
-    const iter = this.listPropertiesOfSecretsAll(updatedOptions);
+    const iter = this.listPropertiesOfSecretsAll(options);
 
-    span.end();
     return {
       next() {
         return iter.next();
@@ -716,8 +677,7 @@ export class SecretClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) =>
-        this.listPropertiesOfSecretsPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) => this.listPropertiesOfSecretsPage(settings, options)
     };
   }
 
@@ -737,9 +697,10 @@ export class SecretClient {
         maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.getDeletedSecrets(
-        this.vaultUrl,
-        optionsComplete
+      const currentSetResponse = await withTrace(
+        "listDeletedSecrets",
+        optionsComplete,
+        (updatedOptions) => this.client.getDeletedSecrets(this.vaultUrl, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -749,9 +710,8 @@ export class SecretClient {
       }
     }
     while (continuationState.continuationToken) {
-      const currentSetResponse = await this.client.getDeletedSecrets(
-        continuationState.continuationToken,
-        options
+      const currentSetResponse = await withTrace("lisDeletedSecrets", options, (updatedOptions) =>
+        this.client.getDeletedSecrets(continuationState.continuationToken!, updatedOptions)
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -799,10 +759,8 @@ export class SecretClient {
   public listDeletedSecrets(
     options: ListDeletedSecretsOptions = {}
   ): PagedAsyncIterableIterator<DeletedSecret> {
-    const { span, updatedOptions } = createSpan("listDeletedSecrets", options);
-    const iter = this.listDeletedSecretsAll(updatedOptions);
+    const iter = this.listDeletedSecretsAll(options);
 
-    span.end();
     return {
       next() {
         return iter.next();
@@ -810,7 +768,7 @@ export class SecretClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) => this.listDeletedSecretsPage(settings, updatedOptions)
+      byPage: (settings: PageSettings = {}) => this.listDeletedSecretsPage(settings, options)
     };
   }
 }

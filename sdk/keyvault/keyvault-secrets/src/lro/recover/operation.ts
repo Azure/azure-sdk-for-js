@@ -14,9 +14,8 @@ import {
   KeyVaultSecretPollOperationState
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { createSpan } from "../../tracing";
-import { KeyVaultClientGetSecretResponse } from "../../generated/models";
 import { getSecretFromSecretBundle } from "../../transformations";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the state of a delete secret's poll operation
@@ -44,42 +43,30 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
    * The getSecret method returns the specified secret along with its properties.
    * This operation requires the secrets/get permission.
    */
-  private async getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
-    const { span, updatedOptions } = createSpan("generatedClient.getSecret", options);
-
-    let response: KeyVaultClientGetSecretResponse;
-    try {
-      response = await this.client.getSecret(
+  private getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
+    return withTrace("getSecret", options, async (updatedOptions) => {
+      const response = await this.client.getSecret(
         this.vaultUrl,
         name,
         options && options.version ? options.version : "",
         updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getSecretFromSecretBundle(response);
+      return getSecretFromSecretBundle(response);
+    });
   }
 
   /**
    * The recoverDeletedSecret method recovers the specified deleted secret along with its properties.
    * This operation requires the secrets/recover permission.
    */
-  private async recoverDeletedSecret(
+  private recoverDeletedSecret(
     name: string,
     options: GetSecretOptions = {}
   ): Promise<DeletedSecret> {
-    const { span, updatedOptions } = createSpan("generatedClient.recoverDeletedSecret", options);
-
-    let response: KeyVaultClientGetSecretResponse;
-    try {
-      response = await this.client.recoverDeletedSecret(this.vaultUrl, name, updatedOptions);
-    } finally {
-      span.end();
-    }
-
-    return getSecretFromSecretBundle(response);
+    return withTrace("recoverDeletedSecret", options, async (updatedOptions) => {
+      const response = await this.client.recoverDeletedSecret(this.vaultUrl, name, updatedOptions);
+      return getSecretFromSecretBundle(response);
+    });
   }
 
   /**
