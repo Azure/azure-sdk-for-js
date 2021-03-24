@@ -14,7 +14,7 @@ This update marks the preview for the first major version update of the `@azure/
 - When a token is not available, some credentials had the promise returned by the `getToken` method resolve with `null`, others had the `getToken` method throw the `CredentialUnavailable` error. This behavior is now made consistent across all credentials to throw the `CredentialUnavailable` error.
   - This change has no bearing on the user if all they ever did was create the credentials and pass it to the Azure SDKs.
   - This change affects only those users who called the `getToken()` method directly and did not handle resulting errors.
-- The constructor for `DeviceCodeCredential` always had multiple optional parameters and no required ones. As per our guidelines, this has now been simplifed to take a single optional bag of parameters.
+- The constructor for `DeviceCodeCredential` always had multiple optional parameters and no required ones. As per our guidelines, this has now been simplified to take a single optional bag of parameters.
 
 ### New features
 
