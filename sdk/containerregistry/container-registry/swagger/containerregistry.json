@@ -1282,7 +1282,7 @@
       "required": [
         "imageName",
         "createdTime",
-        "lastUpdatetime",
+        "lastUpdateTime",
         "manifestCount",
         "tagCount",
         "changeableAttributes"

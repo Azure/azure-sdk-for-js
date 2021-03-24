@@ -118,6 +118,7 @@ export const RepositoryProperties: coreHttp.CompositeMapper = {
       },
       lastUpdatedOn: {
         serializedName: "lastUpdateTime",
+        required: true,
         type: {
           name: "DateTime"
         }

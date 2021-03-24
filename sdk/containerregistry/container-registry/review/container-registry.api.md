@@ -130,7 +130,7 @@ export interface RegistryArtifactProperties {
 // @public
 export interface RepositoryProperties {
     createdOn: Date;
-    lastUpdatedOn?: Date;
+    lastUpdatedOn: Date;
     name: string;
     registryArtifactCount: number;
     tagCount: number;

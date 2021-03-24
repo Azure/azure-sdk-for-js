@@ -44,7 +44,7 @@ export interface RepositoryProperties {
   /** Image created time */
   createdOn: Date;
   /** Image last update time */
-  lastUpdatedOn?: Date;
+  lastUpdatedOn: Date;
   /** Number of the manifests */
   registryArtifactCount: number;
   /** Number of the tags */
