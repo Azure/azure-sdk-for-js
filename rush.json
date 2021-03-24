@@ -648,6 +648,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tests/perf-ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/perf-tests/ai-form-recognizer",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-eventgrid",
       "projectFolder": "sdk/eventgrid/perf-tests/eventgrid",
       "versionPolicyName": "test"
