@@ -79,9 +79,7 @@ export function bearerTokenAuthenticationPolicy(
     const getTokenOptions: GetTokenOptions = {
       claims: context?.claims,
       abortSignal: request.abortSignal,
-      tracingOptions: {
-        spanOptions: request.tracingOptions?.spanOptions
-      }
+      tracingOptions: request.tracingOptions
     };
     if (accessToken === undefined) {
       accessToken =
