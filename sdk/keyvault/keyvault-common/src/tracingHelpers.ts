@@ -6,6 +6,17 @@ import { Span, CanonicalCode } from "@opentelemetry/api";
 import { OperationOptions } from "@azure/core-http";
 import { createSpanFunction } from "@azure/core-tracing";
 
+/**
+ * An interface representing a function that is traced.
+ *
+ * A traced function will automatically create and close tracing '
+ * spans as needed and will handle setting the status / errors as a
+ * result of calling the underlying callback.
+ *
+ * use {@link createTraceFunction} to add tracing to a block of code.
+ *
+ * @internal
+ */
 export interface TracedFunction {
   <TOptions extends OperationOptions, TReturn>(
     operationName: string,
@@ -13,24 +24,21 @@ export interface TracedFunction {
     cb: (options: TOptions, span: Span) => Promise<TReturn>
   ): Promise<TReturn>;
 }
+
 /**
  * Returns a function that can be used for tracing options.
  *
- * @param packagePrefix - The package prefix
+ * @param prefix - The prefix to use, likely the name of the class / client.
  *
  * @internal
  */
-export function createTraceFunction(packagePrefix: string): TracedFunction {
+export function createTraceFunction(prefix: string): TracedFunction {
   const createSpan = createSpanFunction({
     namespace: "Microsoft.KeyVault",
-    packagePrefix: packagePrefix
+    packagePrefix: prefix
   });
 
-  return async function<TOptions extends OperationOptions, TReturn>(
-    operationName: string,
-    options: TOptions,
-    cb: (options: TOptions, span: Span) => Promise<TReturn>
-  ): Promise<TReturn> {
+  return async function(operationName, options, cb) {
     const { updatedOptions, span } = createSpan(operationName, options);
 
     try {
