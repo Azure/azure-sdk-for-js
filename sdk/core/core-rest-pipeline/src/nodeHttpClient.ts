@@ -5,8 +5,6 @@ import * as http from "http";
 import * as https from "https";
 import * as zlib from "zlib";
 import { Transform } from "stream";
-import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
-import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import {
   HttpClient,
@@ -14,8 +12,7 @@ import {
   PipelineResponse,
   TransferProgressEvent,
   HttpHeaders,
-  RequestBodyType,
-  ProxySettings
+  RequestBodyType
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
@@ -67,9 +64,7 @@ class ReportTransform extends Transform {
  */
 class NodeHttpClient implements HttpClient {
   private httpsKeepAliveAgent?: https.Agent;
-  private httpsProxyAgent?: https.Agent;
   private httpKeepAliveAgent?: http.Agent;
-  private httpProxyAgent?: http.Agent;
 
   /**
    * Makes a request over an underlying transport layer and returns the response.
@@ -205,7 +200,7 @@ class NodeHttpClient implements HttpClient {
       throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
     }
 
-    const agent = this.getOrCreateAgent(request, isInsecure);
+    const agent = request.agent ?? this.getOrCreateAgent(request, isInsecure);
     const options: http.RequestOptions = {
       agent,
       hostname: url.hostname,
@@ -221,66 +216,25 @@ class NodeHttpClient implements HttpClient {
     }
   }
 
-  private getProxyAgentOptions(
-    proxySettings: ProxySettings,
-    requestHeaders: HttpHeaders
-  ): HttpProxyAgentOptions {
-    let parsedProxyUrl: URL;
-    try {
-      parsedProxyUrl = new URL(proxySettings.host);
-    } catch (_error) {
-      throw new Error(
-        `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`
-      );
-    }
-
-    const proxyAgentOptions: HttpsProxyAgentOptions = {
-      hostname: parsedProxyUrl.hostname,
-      port: proxySettings.port,
-      protocol: parsedProxyUrl.protocol,
-      headers: requestHeaders.toJSON()
-    };
-    if (proxySettings.username && proxySettings.password) {
-      proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
-    }
-    return proxyAgentOptions;
-  }
-
   private getOrCreateAgent(request: PipelineRequest, isInsecure: boolean): http.Agent {
-    // At the moment, proxy settings and keepAlive are mutually
-    // exclusive because the proxy library currently lacks the
-    // ability to create a proxy with keepAlive turned on.
-    const proxySettings = request.proxySettings;
-    if (proxySettings) {
+    if (!request.disableKeepAlive) {
       if (isInsecure) {
-        if (!this.httpProxyAgent) {
-          const proxyAgentOptions = this.getProxyAgentOptions(proxySettings, request.headers);
-          this.httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
+        if (!this.httpKeepAliveAgent) {
+          this.httpKeepAliveAgent = new http.Agent({
+            keepAlive: true
+          });
         }
-        return this.httpProxyAgent;
+
+        return this.httpKeepAliveAgent;
       } else {
-        if (!this.httpsProxyAgent) {
-          const proxyAgentOptions = this.getProxyAgentOptions(proxySettings, request.headers);
-          this.httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
+        if (!this.httpsKeepAliveAgent) {
+          this.httpsKeepAliveAgent = new https.Agent({
+            keepAlive: true
+          });
         }
-        return this.httpsProxyAgent;
-      }
-    } else if (!request.disableKeepAlive && !isInsecure) {
-      if (!this.httpsKeepAliveAgent) {
-        this.httpsKeepAliveAgent = new https.Agent({
-          keepAlive: true
-        });
-      }
 
-      return this.httpsKeepAliveAgent;
-    } else if (!request.disableKeepAlive && isInsecure) {
-      if (!this.httpKeepAliveAgent) {
-        this.httpKeepAliveAgent = new http.Agent({
-          keepAlive: true
-        });
+        return this.httpsKeepAliveAgent;
       }
-
-      return this.httpKeepAliveAgent;
     } else if (isInsecure) {
       return http.globalAgent;
     } else {
