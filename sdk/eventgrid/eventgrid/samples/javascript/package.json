@@ -24,7 +24,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/sdk/eventgrid/samples/javascript/#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/eventgrid": "next",
+    "@azure/eventgrid": "latest",
     "@azure/service-bus": "^7.0.0",
     "dotenv": "^8.2.0"
   },
