@@ -11,16 +11,14 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* test-dist temp types *.tgz *.log",
-    "execute:js-samples": "npm run build:samples && dev-tool samples run dist-samples/javascript",
-    "execute:ts-samples": "npm run build:samples && dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-esm/test/**/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -60,6 +58,16 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry-avro/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//sampleConfiguration": {
+    "productName": "Azure Schema Registry",
+    "productSlugs": [
+      "azure",
+      "azure-schema-registry-avro"
+    ],
+    "requiredResources": {
+      "Azure Schema Registry resource": "https://aka.ms/schemaregistry"
+    }
+  },
   "dependencies": {
     "@azure/schema-registry": "1.0.0-beta.2",
     "@azure/core-http": "^1.2.0",

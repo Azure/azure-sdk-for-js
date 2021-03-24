@@ -1,0 +1,39 @@
+{
+  "name": "azure-schema-registry-avro-samples-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Schema Registry client library samples for TypeScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/schemaregistry/schema-registry-avro"
+  },
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro",
+  "dependencies": {
+    "@azure/schema-registry-avro": "next",
+    "dotenv": "latest",
+    "@azure/identity": "^1.1.0",
+    "@azure/schema-registry": "1.0.0-beta.2"
+  },
+  "devDependencies": {
+    "typescript": "~4.2.0",
+    "rimraf": "latest"
+  }
+}
