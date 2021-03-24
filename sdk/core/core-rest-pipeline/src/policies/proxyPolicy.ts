@@ -157,13 +157,13 @@ function setProxyAgentOnRequest(request: PipelineRequest): void {
         const proxyAgentOptions = getProxyAgentOptions(proxySettings, request.headers);
         httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
       }
-      request.customAgent = httpProxyAgent;
+      request.agent = httpProxyAgent;
     } else {
       if (!httpsProxyAgent) {
         const proxyAgentOptions = getProxyAgentOptions(proxySettings, request.headers);
         httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
       }
-      request.customAgent = httpsProxyAgent;
+      request.agent = httpsProxyAgent;
     }
   }
 }

@@ -162,9 +162,9 @@ export interface PipelinePolicy {
 // @public
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
+    agent?: Agent;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
-    customAgent?: Agent;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;
     headers: HttpHeaders;

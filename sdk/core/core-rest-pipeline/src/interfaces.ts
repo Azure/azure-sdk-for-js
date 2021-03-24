@@ -173,7 +173,7 @@ export interface PipelineRequest {
    * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
    * Does nothing when running in the browser.
    */
-  customAgent?: Agent;
+  agent?: Agent;
 }
 
 /**
