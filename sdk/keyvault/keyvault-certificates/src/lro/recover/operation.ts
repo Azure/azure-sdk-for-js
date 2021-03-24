@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
@@ -34,7 +34,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     public state: RecoverDeletedCertificateState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {} // TODO: what to do with this RequestOptionsBase?
+    private operationOptions: OperationOptions = {}
   ) {
     super(state, {
       cancelMessage: "Canceling the recovery of a deleted certificate is not supported."
@@ -90,25 +90,25 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     const { certificateName } = state;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.operationOptions.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
       try {
-        state.result = await this.getCertificate(certificateName, this.requestOptions);
+        state.result = await this.getCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
       } catch (e) {
         // getCertificate will only work once the LRO is completed.
       }
       if (!state.isCompleted) {
-        state.result = await this.recoverDeletedCertificate(certificateName, this.requestOptions);
+        state.result = await this.recoverDeletedCertificate(certificateName, this.operationOptions);
         state.isStarted = true;
       }
     }
 
     if (!state.isCompleted) {
       try {
-        state.result = await this.getCertificate(certificateName, this.requestOptions);
+        state.result = await this.getCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {

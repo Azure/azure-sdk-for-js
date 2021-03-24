@@ -493,6 +493,7 @@ describe("Certificates client - create, read, update and delete", () => {
       ]
     });
     assert.equal(createResponse.administratorContacts![0].email, "admin@microsoft.com");
+    assert.equal(createResponse.accountId, "keyvaultuser");
 
     // Creating a certificate with that issuer
     await client.beginCreateCertificate(

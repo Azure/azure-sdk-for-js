@@ -3,7 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import { KeyVaultCertificate, CertificatePollerOptions } from "../../../../src/certificatesModels";
 
 /**
@@ -38,7 +38,7 @@ export interface RestoreCertificateBackupPollOperationState
   /**
    * Options for the core-http requests.
    */
-  requestOptions?: RequestOptionsBase;
+  operationOptions?: OperationOptions;
   /**
    * An interface representing a CertificateClient. For internal use.
    */
@@ -64,10 +64,10 @@ async function update(
   } = {}
 ): Promise<RestoreCertificateBackupPollOperation> {
   const state = this.state;
-  const { backup, client, requestOptions = {} } = state;
+  const { backup, client, operationOptions = {} } = state;
 
   if (options.abortSignal) {
-    requestOptions.abortSignal = options.abortSignal;
+    operationOptions.abortSignal = options.abortSignal;
   }
 
   if (!state.isStarted) {
@@ -75,7 +75,7 @@ async function update(
   }
 
   try {
-    state.result = await client.restoreCertificateBackup(backup, { requestOptions });
+    state.result = await client.restoreCertificateBackup(backup, operationOptions);
     state.isCompleted = true;
   } catch {
     // Nothing to do here.

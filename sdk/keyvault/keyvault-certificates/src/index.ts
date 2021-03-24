@@ -12,9 +12,7 @@
 import {
   TokenCredential,
   isTokenCredential,
-  operationOptionsToRequestOptionsBase,
   signingPolicy,
-  RequestOptionsBase,
   PipelineOptions,
   createPipelineFromOptions,
   InternalPipelineOptions
@@ -334,7 +332,7 @@ export class CertificateClient {
   }
 
   private async *listPropertiesOfCertificatesAll(
-    options: RequestOptionsBase = {}
+    options: ListPropertiesOfCertificatesOptions = {}
   ): AsyncIterableIterator<CertificateProperties> {
     const f = {};
 
@@ -514,13 +512,12 @@ export class CertificateClient {
     certificateName: string,
     options: BeginDeleteCertificateOptions = {}
   ): Promise<PollerLike<DeleteCertificateState, DeletedCertificate>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteCertificatePoller({
       certificateName,
       client: this.client,
       vaultUrl: this.vaultUrl,
       ...options,
-      requestOptions
+      operationOptions: options
     });
     // This will initialize the poller's operation (the deletion of the secret).
     await poller.poll();
@@ -790,17 +787,14 @@ export class CertificateClient {
     options: UpdateIssuerOptions = {}
   ): Promise<CertificateIssuer> {
     return withTrace("updateIssuer", options, async (updatedOptions) => {
-      // TODO: add IssuerCredentials to the options bag  and remove this conversion
-      const requestOptions = operationOptionsToRequestOptionsBase(updatedOptions);
-      const credentials: IssuerCredentials = requestOptions.credentials || {};
+      const { accountId, password } = options;
 
       const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
-        ...updatedOptions
-      };
-
-      generatedOptions.credentials = {
-        accountId: credentials.accountId || updatedOptions.accountId,
-        password: credentials.password || updatedOptions.password
+        ...updatedOptions,
+        credentials: {
+          accountId,
+          password
+        }
       };
 
       if (
@@ -931,14 +925,13 @@ export class CertificateClient {
     policy: CertificatePolicy,
     options: BeginCreateCertificateOptions = {}
   ): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CreateCertificatePoller({
       vaultUrl: this.vaultUrl,
       client: this.client,
       certificateName,
       certificatePolicy: policy,
       createCertificateOptions: options,
-      requestOptions,
+      operationOptions: options,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom
     });
@@ -1181,14 +1174,13 @@ export class CertificateClient {
     certificateName: string,
     options: GetCertificateOperationOptions = {}
   ): Promise<PollerLike<CertificateOperationState, KeyVaultCertificateWithPolicy>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new CertificateOperationPoller({
       certificateName,
       client: this.client,
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions
+      operationOptions: options
     });
     // This will initialize the poller's operation, which pre-populates some necessary properties.
     await poller.poll();
@@ -1514,13 +1506,12 @@ export class CertificateClient {
     certificateName: string,
     options: BeginRecoverDeletedCertificateOptions = {}
   ): Promise<PollerLike<RecoverDeletedCertificateState, KeyVaultCertificateWithPolicy>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RecoverDeletedCertificatePoller({
       certificateName,
       client: this.client,
       vaultUrl: this.vaultUrl,
       ...options,
-      requestOptions
+      operationOptions: options
     });
     // This will initialize the poller's operation (the recovery of the deleted secret).
     await poller.poll();

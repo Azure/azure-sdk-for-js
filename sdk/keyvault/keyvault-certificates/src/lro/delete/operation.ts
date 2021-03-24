@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import {
   DeleteCertificateOptions,
   DeletedCertificate,
@@ -38,7 +38,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     public state: DeleteCertificatePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private operationOptions: OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the deletion of a certificate is not supported." });
   }
@@ -93,11 +93,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     const { certificateName } = state;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.operationOptions.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
-      const deletedCertificate = await this.deleteCertificate(certificateName, this.requestOptions);
+      const deletedCertificate = await this.deleteCertificate(
+        certificateName,
+        this.operationOptions
+      );
       state.isStarted = true;
       state.result = deletedCertificate;
       if (!deletedCertificate.recoveryId) {
@@ -107,7 +110,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
 
     if (!state.isCompleted) {
       try {
-        state.result = await this.getDeletedCertificate(certificateName, this.requestOptions);
+        state.result = await this.getDeletedCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {

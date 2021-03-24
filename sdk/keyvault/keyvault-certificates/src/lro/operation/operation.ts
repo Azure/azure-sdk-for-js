@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import {
   CancelCertificateOperationOptions,
   CertificateOperation,
@@ -45,7 +45,7 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     public state: CertificateOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private operationOptions: OperationOptions = {}
   ) {
     super(state);
   }
@@ -124,26 +124,26 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     const certificateName = state.certificateName!;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.operationOptions.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
       state.isStarted = true;
-      state.result = await this.getCertificate(certificateName, this.requestOptions);
+      state.result = await this.getCertificate(certificateName, this.operationOptions);
       state.certificateOperation = await this.getPlainCertificateOperation(
         certificateName,
-        this.requestOptions
+        this.operationOptions
       );
     } else if (!state.isCompleted) {
       state.certificateOperation = await this.getPlainCertificateOperation(
         certificateName,
-        this.requestOptions
+        this.operationOptions
       );
     }
 
     if (state.certificateOperation && state.certificateOperation.status !== "inProgress") {
       state.isCompleted = true;
-      state.result = await this.getCertificate(certificateName, this.requestOptions);
+      state.result = await this.getCertificate(certificateName, this.operationOptions);
       if (state.certificateOperation.error) {
         state.error = new Error(state.certificateOperation.error.message);
       }
@@ -163,12 +163,12 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     const certificateName = state.certificateName!;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.operationOptions.abortSignal = options.abortSignal;
     }
 
     state.certificateOperation = await this.cancelCertificateOperation(
       certificateName,
-      this.requestOptions
+      this.operationOptions
     );
 
     this.state.isCancelled = true;
