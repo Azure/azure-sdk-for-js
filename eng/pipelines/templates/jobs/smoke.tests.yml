@@ -78,6 +78,12 @@ jobs:
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "15.x"
+        Linux Node15 (AzureCloud):
+          Pool: Azure Pipelines
+          OSVmImage: "ubuntu-18.04"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "15.x"
 #        Linux Node10 (AzureUSGovernment):
 #          Pool: Azure Pipelines
 #          OSVmImage: "ubuntu-18.04"
