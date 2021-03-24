@@ -38,7 +38,7 @@ export class TokenCachePersistence {
       extensions = require("@azure/msal-node-extensions");
     } catch (e) {
       throw new CredentialUnavailable(
-        "Token cache persistence requires the optional dependency '@azure/msal-node-extensions' to work correctly"
+        "To use the token cache persistence feature, please install the package '@azure/msal-node-extensions@1.0.0-alpha.6'."
       );
     }
 
