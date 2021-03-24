@@ -14,6 +14,7 @@ import {
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
+import { isObjectWithProperties } from "./util/typeGuards";
 import { reorderLockToken } from "./util/utils";
 
 /**
@@ -209,7 +210,7 @@ export interface ServiceBusMessage {
    * The application specific properties which can be
    * used for custom message metadata.
    */
-  applicationProperties?: { [key: string]: number | boolean | string | Date };
+  applicationProperties?: { [key: string]: number | boolean | string | Date | null };
 }
 
 /**
@@ -557,8 +558,8 @@ export function fromRheaMessage(
 /**
  * @internal
  */
-export function isServiceBusMessage(possible: any): possible is ServiceBusMessage {
-  return possible != null && typeof possible === "object" && "body" in possible;
+export function isServiceBusMessage(possible: unknown): possible is ServiceBusMessage {
+  return isObjectWithProperties(possible, ["body"]);
 }
 
 /**

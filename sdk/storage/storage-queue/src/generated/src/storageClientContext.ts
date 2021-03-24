@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { StorageClientOptionalParams } from "./models";
 
 const packageName = "azure-storage-queue";
-const packageVersion = "12.3.2";
+const packageVersion = "12.4.1";
 
 export class StorageClientContext extends coreHttp.ServiceClient {
   url: string;
@@ -43,6 +43,6 @@ export class StorageClientContext extends coreHttp.ServiceClient {
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2020-04-08";
+    this.version = options.version || "2020-06-12";
   }
 }

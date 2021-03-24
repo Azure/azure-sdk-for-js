@@ -28,11 +28,12 @@ matrix([[true, false]] as const, async (useAad) => {
     let client: FormRecognizerClient;
     let recorder: Recorder;
 
-    beforeEach(function() {
-      // eslint-disable-next-line no-invalid-this
-      recorder = createRecorder(this);
-      client = new FormRecognizerClient(endpoint(), makeCredential(useAad));
-    });
+    beforeEach(
+      /** @this Mocha.Context */ function() {
+        recorder = createRecorder(this);
+        client = new FormRecognizerClient(endpoint(), makeCredential(useAad));
+      }
+    );
 
     afterEach(async function() {
       if (recorder) {
@@ -186,8 +187,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid language.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
 
@@ -215,8 +217,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid pages.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -376,8 +379,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -475,8 +479,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -572,8 +577,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });

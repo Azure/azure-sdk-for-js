@@ -67,7 +67,7 @@
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0",
-    "@azure/core-tracing": "1.0.0-beta.1"
+    "@azure/core-tracing": "1.0.0-preview.10"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -88,7 +88,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
     "inherits": "^2.0.3",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -109,7 +109,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
-    "typescript": "4.1.2",
+    "typescript": "~4.2.0",
     "util": "^0.12.1",
     "@azure/test-utils-recorder": "^1.0.0",
     "typedoc": "0.15.2"

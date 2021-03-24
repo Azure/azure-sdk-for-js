@@ -5,7 +5,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { CommunicationIdentifier } from "@azure/communication-common";
 
 describe("ChatThreadClient", function() {
   let messageId: string;
@@ -14,9 +14,9 @@ describe("ChatThreadClient", function() {
   let chatThreadClient: ChatThreadClient;
   let threadId: string;
 
-  let testUser: CommunicationUserIdentifier;
-  let testUser2: CommunicationUserIdentifier;
-  let testUser3: CommunicationUserIdentifier;
+  let testUser: CommunicationIdentifier;
+  let testUser2: CommunicationIdentifier;
+  let testUser3: CommunicationIdentifier;
 
   beforeEach(async function() {
     recorder = createRecorder(this);
@@ -40,16 +40,30 @@ describe("ChatThreadClient", function() {
     testUser2 = (await createTestUser()).user;
 
     // Create a thread
-    const threadRequest = {
-      topic: "test topic",
-      participants: [{ user: testUser }, { user: testUser2 }]
+    const request = { topic: "test topic" };
+    const options = {
+      participants: [{ id: testUser }, { id: testUser2 }]
     };
 
-    const chatThreadResult = await chatClient.createChatThread(threadRequest);
+    const chatThreadResult = await chatClient.createChatThread(request, options);
     threadId = chatThreadResult.chatThread?.id!;
 
     // Create ChatThreadClient
     chatThreadClient = await chatClient.getChatThreadClient(threadId);
+  }).timeout(8000);
+
+  it("successfully gets the thread properties", async function() {
+    const thread = await chatThreadClient.getProperties();
+
+    assert.equal(threadId, thread.id);
+  });
+
+  it("successfully updates the thread topic", async function() {
+    const topic = "new topic";
+    await chatThreadClient.updateTopic(topic);
+
+    const thread = await chatThreadClient.getProperties();
+    assert.equal(topic, thread.topic);
   });
 
   it("successfully sends a message", async function() {
@@ -91,21 +105,19 @@ describe("ChatThreadClient", function() {
   it("successfully adds participants", async function() {
     testUser3 = (await createTestUser()).user;
 
-    const request = { participants: [{ user: testUser3 }] };
+    const request = { participants: [{ id: testUser3 }] };
     await chatThreadClient.addParticipants(request);
   });
 
   it("successfully lists participants", async function() {
     const list: string[] = [];
     for await (const participant of chatThreadClient.listParticipants()) {
-      list.push(participant.user.communicationUserId!);
+      list.push((participant.id as any).communicationUserId);
     }
   });
 
   it("successfully remove a participant", async function() {
-    await chatThreadClient.removeParticipant({
-      communicationUserId: testUser2.communicationUserId
-    });
+    await chatThreadClient.removeParticipant(testUser2);
   });
 
   it("successfully lists read receipts", async function() {

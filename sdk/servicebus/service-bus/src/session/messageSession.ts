@@ -35,6 +35,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { translateServiceBusError } from "../serviceBusError";
 import { abandonMessage, completeMessage } from "../receivers/shared";
+import { isDefined } from "../util/typeGuards";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -367,7 +368,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     }));
     if (!options) options = {};
     this.autoComplete = false;
-    if (this._providedSessionId != undefined) this.sessionId = this._providedSessionId;
+    if (isDefined(this._providedSessionId)) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
     this.maxAutoRenewDurationInMs =
       options.maxAutoLockRenewalDurationInMs != null
@@ -533,7 +534,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Closes the underlying AMQP receiver link.
    */
-  async close(): Promise<void> {
+  async close(error?: Error | AmqpError): Promise<void> {
     try {
       this._isReceivingMessagesForSubscriber = false;
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
@@ -545,7 +546,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       await super.close();
 
-      await this._batchingReceiverLite.terminate();
+      this._batchingReceiverLite.terminate(error);
     } catch (err) {
       logger.logError(
         err,
@@ -759,6 +760,36 @@ export class MessageSession extends LinkEntity<Receiver> {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);
       throw error;
     }
+  }
+
+  /**
+   * To be called when connection is disconnected to gracefully close ongoing receive request.
+   * @param connectionError - The connection error if any.
+   */
+  async onDetached(connectionError: AmqpError | Error): Promise<void> {
+    logger.error(
+      translateServiceBusError(connectionError),
+      `${this.logPrefix} onDetached: closing link (session receiver will not reconnect)`
+    );
+    try {
+      // Notifying so that the streaming receiver knows about the error
+      this._notifyError({
+        entityPath: this.entityPath,
+        fullyQualifiedNamespace: this._context.config.host,
+        error: translateServiceBusError(connectionError),
+        errorSource: "receive"
+      });
+    } catch (error) {
+      logger.error(
+        translateServiceBusError(error),
+        `${
+          this.logPrefix
+        } onDetached: unexpected error seen when tried calling "_notifyError" with ${translateServiceBusError(
+          connectionError
+        )}`
+      );
+    }
+    await this.close(connectionError);
   }
 
   /**

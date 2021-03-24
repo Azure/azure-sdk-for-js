@@ -17,7 +17,7 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { localSupportedAlgorithms } from "../../src/localCryptography/algorithms";
+import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {
@@ -33,14 +33,16 @@ describe("Local cryptography public tests", () => {
     return;
   }
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
-    client = authentication.client;
-    recorder = authentication.recorder;
-    testClient = authentication.testClient;
-    credential = authentication.credential;
-    keySuffix = authentication.keySuffix;
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      client = authentication.client;
+      recorder = authentication.recorder;
+      testClient = authentication.testClient;
+      credential = authentication.credential;
+      keySuffix = authentication.keySuffix;
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
@@ -51,11 +53,13 @@ describe("Local cryptography public tests", () => {
     let customKeyVaultKey: KeyVaultKey;
     let cryptoClientFromKey: CryptographyClient;
 
-    beforeEach(async function() {
-      customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-      customKeyVaultKey = await client.createKey(customKeyName, "RSA");
-      cryptoClientFromKey = new CryptographyClient(customKeyVaultKey.key!);
-    });
+    beforeEach(
+      /** @this Mocha.Context */ async function() {
+        customKeyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+        customKeyVaultKey = await client.createKey(customKeyName, "RSA");
+        cryptoClientFromKey = new CryptographyClient(customKeyVaultKey.key!);
+      }
+    );
 
     it("the CryptographyClient can be created from a local JsonWebKey object", async function() {
       assert.isEmpty(cryptoClientFromKey.vaultUrl);
@@ -63,26 +67,45 @@ describe("Local cryptography public tests", () => {
     });
 
     describe("when using an unsupported algorithm", function() {
-      const expectedErrorMessage = "Algorithm foo is not supported for a local JsonWebKey.";
-
       it("throws on encrypt", async function() {
         await assert.isRejected(
           cryptoClientFromKey.encrypt("foo", Buffer.from("bar")),
-          expectedErrorMessage
+          /using a local JsonWebKey/
         );
       });
 
       it("throws on wrapKey", async function() {
         await assert.isRejected(
           cryptoClientFromKey.wrapKey("A128KW", Buffer.from("bar")),
-          "Algorithm A128KW is not supported for a local JsonWebKey."
+          /using a local JsonWebKey/
+        );
+      });
+
+      it("throws on sign", async function() {
+        await assert.isRejected(
+          cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar")),
+          /using a local JsonWebKey/
+        );
+      });
+
+      it("throws on signData", async function() {
+        await assert.isRejected(
+          cryptoClientFromKey.signData("PS360", Buffer.from("bar")),
+          /using a local JsonWebKey/
+        );
+      });
+
+      it("throws on verify", async function() {
+        await assert.isRejected(
+          cryptoClientFromKey.verify("PS360", Buffer.from("bar"), Buffer.from("baz")),
+          /using a local JsonWebKey/
         );
       });
 
       it("throws on verifyData", async function() {
         await assert.isRejected(
-          cryptoClientFromKey.verifyData("foo", Buffer.from("bar"), Buffer.from("baz")),
-          expectedErrorMessage
+          cryptoClientFromKey.verifyData("PS360", Buffer.from("bar"), Buffer.from("baz")),
+          /using a local JsonWebKey/
         );
       });
     });
@@ -91,41 +114,20 @@ describe("Local cryptography public tests", () => {
       it("throws on decrypt", async function() {
         await assert.isRejected(
           cryptoClientFromKey.decrypt("RSA1_5", Buffer.from("bar")),
-          "Decrypting using a local JsonWebKey is not supported."
+          /using a local JsonWebKey/
         );
       });
 
       it("throws on unwrapKey", async function() {
         await assert.isRejected(
           cryptoClientFromKey.unwrapKey("RSA1_5", Buffer.from("bar")),
-          "Unwrapping a key using a local JsonWebKey is not supported."
-        );
-      });
-
-      it("throws on sign", async function() {
-        await assert.isRejected(
-          cryptoClientFromKey.sign("RSA1_5", Buffer.from("bar")),
-          "Signing a digest using a local JsonWebKey is not supported."
-        );
-      });
-
-      it("throws on verify", async function() {
-        await assert.isRejected(
-          cryptoClientFromKey.verify("RSA1_5", Buffer.from("bar"), Buffer.from("baz")),
-          "Verifying a digest using a local JsonWebKey is not supported."
-        );
-      });
-
-      it("throws on signData", async function() {
-        await assert.isRejected(
-          cryptoClientFromKey.signData("RSA1_5", Buffer.from("bar")),
-          "Signing data using a local JsonWebKey is not supported."
+          /using a local JsonWebKey/
         );
       });
     });
   });
 
-  it("encrypt & decrypt RSA1_5", async function() {
+  it("encrypt & decrypt RSA1_5", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
@@ -139,7 +141,7 @@ describe("Local cryptography public tests", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("encrypt & decrypt RSA-OAEP", async function() {
+  it("encrypt & decrypt RSA-OAEP", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
@@ -153,7 +155,7 @@ describe("Local cryptography public tests", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("wrapKey & unwrapKey RSA1_5", async function() {
+  it("wrapKey & unwrapKey RSA1_5", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
@@ -170,7 +172,7 @@ describe("Local cryptography public tests", () => {
     await testClient.flushKey(keyName);
   });
 
-  it("wrapKey & unwrapKey RSA-OAEP", async function() {
+  it("wrapKey & unwrapKey RSA-OAEP", /** @this Mocha.Context */ async function() {
     recorder.skip(undefined, "Local encryption can't be tested on playback");
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyVaultKey = await client.createKey(keyName, "RSA");
@@ -188,44 +190,47 @@ describe("Local cryptography public tests", () => {
   });
 
   describe("verify", () => {
-    const localSupportedAlgorithmNames = Object.keys(localSupportedAlgorithms);
+    const rsaProvider = new RsaCryptographyProvider({});
+    const localSupportedAlgorithmNames = Object.keys(rsaProvider.signatureAlgorithmToHashAlgorithm);
 
     for (const localAlgorithmName of localSupportedAlgorithmNames) {
-      const algorithm = localSupportedAlgorithms[localAlgorithmName as LocalSupportedAlgorithmName];
-      const signAlgorithm = algorithm?.signAlgorithm;
-      if (!signAlgorithm) {
-        continue;
-      }
+      it(
+        localAlgorithmName,
+        /** @this Mocha.Context */ async function(): Promise<void> {
+          recorder.skip(
+            "browser",
+            `Local sign of algorithm ${localAlgorithmName} is only supported in NodeJS`
+          );
 
-      it(localAlgorithmName, async function(): Promise<void> {
-        recorder.skip(
-          "browser",
-          `Local sign of algorithm ${localAlgorithmName} is only supported in NodeJS`
-        );
+          const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+          const keyVaultKey = await client.createKey(keyName, "RSA");
+          const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
 
-        const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-        const keyVaultKey = await client.createKey(keyName, "RSA");
-        const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+          // Sign is not implemented yet.
+          // This boils down to the JWK to PEM conversion, which doesn't support private keys at the moment.
+          const signatureValue = this.test!.title;
+          const hash = createHash(
+            rsaProvider.signatureAlgorithmToHashAlgorithm[localAlgorithmName]
+          );
+          hash.update(signatureValue);
+          const digest = hash.digest();
+          const signature = await cryptoClient.sign(
+            localAlgorithmName as SignatureAlgorithm,
+            digest
+          );
 
-        // Sign is not implemented yet.
-        // This boils down to the JWK to PEM conversion, which doesn't support private keys at the moment.
-        const signatureValue = this.test!.title;
-        const hash = createHash(signAlgorithm);
-        hash.update(signatureValue);
-        const digest = hash.digest();
-        const signature = await cryptoClient.sign(localAlgorithmName as SignatureAlgorithm, digest);
+          // Local Cryptography Client part
+          const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
+          const verifyResult = await localCryptoClient.verifyData(
+            localAlgorithmName as LocalSupportedAlgorithmName,
+            digest,
+            signature.result
+          );
+          assert.ok(verifyResult);
 
-        // Local Cryptography Client part
-        const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
-        const verifyResult = await localCryptoClient.verifyData(
-          localAlgorithmName as LocalSupportedAlgorithmName,
-          digest,
-          signature.result
-        );
-        assert.ok(verifyResult);
-
-        await testClient.flushKey(keyName);
-      });
+          await testClient.flushKey(keyName);
+        }
+      );
     }
   });
 });

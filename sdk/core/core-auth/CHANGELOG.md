@@ -1,8 +1,10 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 1.3.0 (Unreleased)
 
+- Adds the `AzureNamedKeyCredential` class which supports credential rotation and a corresponding `NamedKeyCredential` interface to support the use of static string-based names and keys in Azure clients.
 - Added "claims" to the `GetTokenOptions`, which allows passing the OAuth 2 claims parameter to the credential's `getToken` method.
+
 ## 1.2.0 (2021-02-08)
 
 - Add `AzureSASCredential` and `SASCredential` for use by service clients which allow authenticiation using a shared access signature.

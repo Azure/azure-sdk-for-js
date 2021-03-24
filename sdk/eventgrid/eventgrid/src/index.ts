@@ -13,28 +13,39 @@ export {
   InputSchemaToInputTypeMap
 } from "./eventGridClient";
 
-export { EventGridDeserializer } from "./consumer";
-
 export {
   generateSharedAccessSignature,
   GenerateSharedAccessSignatureOptions
 } from "./generateSharedAccessSignature";
 
+export { EventGridDeserializer } from "./consumer";
+
 export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates";
 
 export {
-  ACSChatEventBase,
-  ACSChatMemberAddedToThreadWithUserEventData,
-  ACSChatMemberRemovedFromThreadWithUserEventData,
-  ACSChatMessageDeletedEventData,
-  ACSChatMessageEditedEventData,
-  ACSChatMessageEventBase,
-  ACSChatMessageReceivedEventData,
-  ACSChatThreadCreatedWithUserEventData,
-  ACSChatThreadEventBase,
-  ACSChatThreadMember,
-  ACSChatThreadPropertiesUpdatedPerUserEventData,
-  ACSChatThreadWithUserDeletedEventData,
+  AcsChatEventBase,
+  AcsChatEventInThreadBase,
+  AcsChatMessageDeletedEventData,
+  AcsChatMessageEditedEventData,
+  AcsChatMessageReceivedEventData,
+  AcsChatMessageEventBase,
+  AcsChatThreadCreatedWithUserEventData,
+  AcsChatThreadPropertiesUpdatedPerUserEventData,
+  AcsChatThreadWithUserDeletedEventData,
+  AcsChatThreadEventBase,
+  AcsChatParticipantAddedToThreadEventData,
+  AcsChatParticipantAddedToThreadWithUserEventData,
+  AcsChatParticipantRemovedFromThreadEventData,
+  AcsChatParticipantRemovedFromThreadWithUserEventData,
+  AcsRecordingFileStatusUpdatedEventData,
+  AcsRecordingStorageInfo,
+  AcsRecordingChunkInfo,
+  CommunicationIdentifierModel,
+  CommunicationUserIdentifierModel,
+  CommunicationCloudEnvironmentModel,
+  MicrosoftTeamsUserIdentifierModel,
+  PhoneNumberIdentifierModel,
+  AcsChatThreadParticipant,
   AcsSmsDeliveryAttempt,
   AcsSmsDeliveryReportReceivedEventData,
   AcsSmsEventBase,
@@ -76,7 +87,7 @@ export {
   MachineLearningServicesModelRegisteredEventData,
   MachineLearningServicesRunCompletedEventData,
   MachineLearningServicesRunStatusChangedEventData,
-  MapsGeofenceEventProperties,
+  MapsGeofenceEvent,
   MapsGeofenceEnteredEventData,
   MapsGeofenceExitedEventData,
   MapsGeofenceResultEventData,
@@ -155,13 +166,13 @@ export {
   ContainerRegistryEventRequest,
   ContainerRegistryEventSource,
   ContainerRegistryEventTarget,
-  DeviceConnectionStateEventProperties,
-  DeviceLifeCycleEventProperties,
-  DeviceTelemetryEventProperties,
+  DeviceConnectionStateEvent,
+  DeviceLifeCycleEvent,
+  DeviceTelemetryEvent,
   MapsGeofenceGeometry,
   MediaJobOutput,
   MediaJobOutputAsset,
-  DeviceTwinProperties,
+  DeviceTwin,
   DeviceTwinMetadata,
   AppServicePlanAction,
   KnownAppServicePlanAction

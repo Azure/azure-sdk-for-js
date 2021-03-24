@@ -24,7 +24,8 @@ import { getSignalingClient } from "./signaling/signalingClient";
 import {
   InternalPipelineOptions,
   createPipelineFromOptions,
-  operationOptionsToRequestOptionsBase
+  operationOptionsToRequestOptionsBase,
+  generateUuid
 } from "@azure/core-http";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -34,17 +35,18 @@ import { ChatThreadClient } from "./chatThreadClient";
 import {
   ChatClientOptions,
   CreateChatThreadOptions,
-  GetChatThreadOptions,
   ListChatThreadsOptions,
   DeleteChatThreadOptions
 } from "./models/options";
-import { ChatThread, CreateChatThreadResult, ListPageSettings } from "./models/models";
-import { mapToChatThreadSdkModel, mapToChatParticipantRestModel } from "./models/mappers";
-import { ChatThreadInfo, ChatApiClient } from "./generated/src";
-import { CreateChatThreadRequest } from "./models/requests";
+import {
+  mapToChatParticipantRestModel,
+  mapToCreateChatThreadOptionsRestModel,
+  mapToCreateChatThreadResultSdkModel
+} from "./models/mappers";
+import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-
-export { ChatThreadInfo } from "./generated/src";
+import { ChatApiClient } from "./generated/src";
+import { CreateChatThreadRequest } from "./models/requests";
 
 /**
  * The client to do chat operations
@@ -61,12 +63,12 @@ export class ChatClient {
   /**
    * Creates an instance of the ChatClient for a given resource and user.
    *
-   * @param url - The url of the Communication Services resouce.
+   * @param endpoint - The url of the Communication Services resouce.
    * @param credential - The token credential. Use AzureCommunicationTokenCredential from \@azure/communication-common to create a credential.
    * @param options - Additional client options.
    */
   constructor(
-    private readonly url: string,
+    private readonly endpoint: string,
     credential: CommunicationTokenCredential,
     options: ChatClientOptions = {}
   ) {
@@ -98,7 +100,7 @@ export class ChatClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new ChatApiClient(this.url, pipeline);
+    this.client = new ChatApiClient(this.endpoint, pipeline);
 
     this.signalingClient = getSignalingClient(credential, logger);
   }
@@ -107,8 +109,8 @@ export class ChatClient {
    * Returns ChatThreadClient with the specific thread id.
    * @param threadId - Thread ID for the ChatThreadClient
    */
-  public async getChatThreadClient(threadId: string): Promise<ChatThreadClient> {
-    return new ChatThreadClient(threadId, this.url, this.tokenCredential, this.clientOptions);
+  public getChatThreadClient(threadId: string): ChatThreadClient {
+    return new ChatThreadClient(this.endpoint, threadId, this.tokenCredential, this.clientOptions);
   }
 
   /**
@@ -124,45 +126,20 @@ export class ChatClient {
     const { span, updatedOptions } = createSpan("ChatClient-CreateChatThread", options);
 
     try {
+      // We generate an UUID if the user does not provide an idempotencyToken value
+      updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
+      const updatedRestModelOptions = mapToCreateChatThreadOptionsRestModel(updatedOptions);
+
       const { _response, ...result } = await this.client.chat.createChatThread(
         {
           topic: request.topic,
-          participants: request.participants?.map((participant) =>
+          participants: options.participants?.map((participant) =>
             mapToChatParticipantRestModel(participant)
           )
         },
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        operationOptionsToRequestOptionsBase(updatedRestModelOptions)
       );
-      return result;
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Gets a chat thread.
-   * Returns the chat thread.
-   * @param threadId - The ID of the thread to get.
-   * @param options -  Operation options.
-   */
-  public async getChatThread(
-    threadId: string,
-    options: GetChatThreadOptions = {}
-  ): Promise<ChatThread> {
-    const { span, updatedOptions } = createSpan("ChatClient-GetChatThread", options);
-
-    try {
-      const { _response, ...result } = await this.client.chat.getChatThread(
-        threadId,
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      return mapToChatThreadSdkModel(result);
+      return mapToCreateChatThreadResultSdkModel(result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -177,7 +154,7 @@ export class ChatClient {
   private async *listChatThreadsPage(
     continuationState: ListPageSettings,
     options: ListChatThreadsOptions = {}
-  ): AsyncIterableIterator<ChatThreadInfo[]> {
+  ): AsyncIterableIterator<ChatThreadItem[]> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     if (!continuationState.continuationToken) {
       const currentSetResponse = await this.client.chat.listChatThreads(requestOptions);
@@ -203,7 +180,7 @@ export class ChatClient {
 
   private async *listChatThreadsAll(
     options: ListChatThreadsOptions
-  ): AsyncIterableIterator<ChatThreadInfo> {
+  ): AsyncIterableIterator<ChatThreadItem> {
     for await (const page of this.listChatThreadsPage({}, options)) {
       yield* page;
     }
@@ -215,7 +192,7 @@ export class ChatClient {
    */
   public listChatThreads(
     options: ListChatThreadsOptions = {}
-  ): PagedAsyncIterableIterator<ChatThreadInfo> {
+  ): PagedAsyncIterableIterator<ChatThreadItem> {
     const { span, updatedOptions } = createSpan("ChatClient-ListChatThreads", options);
     try {
       const iter = this.listChatThreadsAll(updatedOptions);

@@ -4,7 +4,7 @@ import assert from "assert";
 import { UserDefinedFunctionDefinition, Container } from "../../../src";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 
-describe("User Defined Function", function() {
+describe("User Defined Function", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   let container: Container;
 

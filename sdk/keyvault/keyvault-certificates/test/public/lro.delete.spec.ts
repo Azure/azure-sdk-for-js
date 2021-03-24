@@ -17,13 +17,15 @@ describe("Certificates client - lro - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
-    certificateSuffix = authentication.suffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      certificateSuffix = authentication.suffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
@@ -31,7 +33,7 @@ describe("Certificates client - lro - delete", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is deleted", async function() {
+  it("can wait until a certificate is deleted", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -61,7 +63,7 @@ describe("Certificates client - lro - delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );

@@ -15,11 +15,7 @@ import {
   Message as RheaMessage
 } from "rhea-promise";
 import { SpanContext } from "@opentelemetry/api";
-import {
-  instrumentServiceBusMessage,
-  TRACEPARENT_PROPERTY
-} from "./diagnostics/instrumentServiceBusMessage";
-import { createMessageSpan } from "./diagnostics/tracing";
+import { convertTryAddOptionsForCompatibility, instrumentMessage } from "./diagnostics/tracing";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 import { defaultDataTransformer } from "./dataTransformer";
 
@@ -230,32 +226,24 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next message.
    *
-   * @param message - An individual service bus message.
+   * @param originalMessage - An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
+  public tryAddMessage(originalMessage: ServiceBusMessage, options: TryAddOptions = {}): boolean {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "message", originalMessage);
     throwIfNotValidServiceBusMessage(
-      message,
+      originalMessage,
       "Provided value for 'message' must be of type ServiceBusMessage."
     );
 
-    // check if the event has already been instrumented
-    const previouslyInstrumented = Boolean(
-      message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]
-    );
-    let spanContext: SpanContext | undefined;
-    if (!previouslyInstrumented) {
-      const { span: messageSpan } = createMessageSpan(
-        options,
-        this._context.config.entityPath!,
-        this._context.config.host
-      );
+    options = convertTryAddOptionsForCompatibility(options);
 
-      message = instrumentServiceBusMessage(message, messageSpan);
-      spanContext = messageSpan.context();
-      messageSpan.end();
-    }
+    const { message, spanContext } = instrumentMessage(
+      originalMessage,
+      options,
+      this._context.config.entityPath!,
+      this._context.config.host
+    );
 
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toRheaMessage(message);

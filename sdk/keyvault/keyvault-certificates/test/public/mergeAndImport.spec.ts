@@ -24,16 +24,18 @@ describe("Certificates client - merge and import certificates", () => {
   let credential: ClientSecretCredential;
   let secretClient: SecretClient;
 
-  beforeEach(async function() {
-    const authentication = await authenticate(this);
-    suffix = authentication.suffix;
-    client = authentication.client;
-    testClient = authentication.testClient;
-    recorder = authentication.recorder;
-    keyVaultUrl = authentication.keyVaultUrl;
-    credential = authentication.credential;
-    secretClient = new SecretClient(keyVaultUrl, credential);
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      const authentication = await authenticate(this);
+      suffix = authentication.suffix;
+      client = authentication.client;
+      testClient = authentication.testClient;
+      recorder = authentication.recorder;
+      keyVaultUrl = authentication.keyVaultUrl;
+      credential = authentication.credential;
+      secretClient = new SecretClient(keyVaultUrl, credential);
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
@@ -41,7 +43,7 @@ describe("Certificates client - merge and import certificates", () => {
 
   // The tests follow
 
-  it("can import a certificate from a certificate's non base64 secret value", async function() {
+  it("can import a certificate from a certificate's non base64 secret value", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     const createPoller = await client.beginCreateCertificate(
@@ -65,7 +67,7 @@ describe("Certificates client - merge and import certificates", () => {
     }
   });
 
-  it("can import a certificate from a certificate's base64 secret value", async function() {
+  it("can import a certificate from a certificate's base64 secret value", /** @this Mocha.Context */ async function() {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const certificateNames = [`${certificateName}0`, `${certificateName}1`];
     const createPoller = await client.beginCreateCertificate(
@@ -95,7 +97,9 @@ describe("Certificates client - merge and import certificates", () => {
 
   // The signed certificate will never be the same, so we can't play it back.
   // This test is only designed to work on NodeJS, since we use child_process to interact with openssl.
-  it("can merge a self signed certificate", async function(): Promise<void> {
+  it("can merge a self signed certificate", /** @this Mocha.Context */ async function(): Promise<
+    void
+  > {
     recorder.skip(
       undefined,
       "The signed certificate will never be the same, so we can't play it back."

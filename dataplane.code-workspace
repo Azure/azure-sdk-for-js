@@ -33,6 +33,10 @@
       "path": "sdk/communication/communication-sms"
     },
     {
+      "name": "container-registry",
+      "path": "sdk/containerregistry/container-registry"
+    },
+    {
       "name": "core-amqp",
       "path": "sdk/core/core-amqp"
     },
@@ -57,8 +61,8 @@
       "path": "sdk/core/core-http"
     },
     {
-      "name": "core-https",
-      "path": "sdk/core/core-https"
+      "name": "core-rest-pipeline",
+      "path": "sdk/core/core-rest-pipeline"
     },
     {
       "name": "core-lro",
@@ -71,6 +75,10 @@
     {
       "name": "core-tracing",
       "path": "sdk/core/core-tracing"
+    },
+    {
+      "name": "core-util",
+      "path": "sdk/core/core-util"
     },
     {
       "name": "core-xml",
@@ -239,6 +247,10 @@
     {
       "name": "attestation",
       "path": "sdk/attestation/attestation"
+    },
+    {
+      "name": "iot-device-update",
+      "path": "sdk/deviceupdate/iot-device-update"
     }
   ],
   "settings": {

@@ -9,7 +9,9 @@ import {
   TextDocumentBatchStatistics,
   HealthcareEntity as GeneratedHealthcareEntity,
   TextAnalyticsError,
-  HealthcareAssertion
+  HealthcareAssertion,
+  RelationType,
+  HealthcareRelationEntity
 } from "./generated/models";
 import {
   makeTextAnalyticsErrorResult,
@@ -40,6 +42,10 @@ export interface EntityDataSource {
  */
 export interface HealthcareEntity extends Entity {
   /**
+   * Normalized name for the entity. For example, the normalized text for "histologically" is "histologic".
+   */
+  normalizedText?: string;
+  /**
    * Whether the entity is negated.
    */
   assertion?: HealthcareAssertion;
@@ -47,12 +53,39 @@ export interface HealthcareEntity extends Entity {
    * Entity references in known data sources.
    */
   dataSources: EntityDataSource[];
+}
+
+/**
+ * The type of different roles a healthcare entity can play in a relation.
+ */
+export type HealthcareEntityRelationRoleType = string;
+
+/**
+ * A healthcare entity that plays a specific role in a relation.
+ */
+export interface HealthcareEntityRelationRole {
   /**
-   * Other healthcare entities related to the current one. It is a directed
-   * relationship where the current entity is the source and the entities in
-   * the map are the target.
+   * A healthcare entity
    */
-  relatedEntities: Map<HealthcareEntity, string>;
+  entity: HealthcareEntity;
+  /**
+   * The role of the healthcare entity in a particular relation.
+   */
+  name: HealthcareEntityRelationRoleType;
+}
+
+/**
+ * A relationship between two or more healthcare entities.
+ */
+export interface HealthcareEntityRelation {
+  /**
+   * The type of the healthcare relation.
+   */
+  relationType: RelationType;
+  /**
+   * The list of healthcare entities and their roles in the healthcare relation.
+   */
+  roles: HealthcareEntityRelationRole[];
 }
 
 /**
@@ -63,6 +96,10 @@ export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuc
    * Healthcare entities.
    */
   entities: HealthcareEntity[];
+  /**
+   * Relations between healthcare entities.
+   */
+  entityRelations: HealthcareEntityRelation[];
 }
 
 /**
@@ -121,7 +158,17 @@ export interface PagedAnalyzeHealthcareEntitiesResult
 function makeHealthcareEntitiesWithoutNeighbors(
   entity: GeneratedHealthcareEntity
 ): HealthcareEntity {
-  const { category, confidenceScore, assertion, offset, text, links, subCategory, length } = entity;
+  const {
+    category,
+    confidenceScore,
+    assertion,
+    offset,
+    text,
+    links,
+    subCategory,
+    length,
+    name
+  } = entity;
   return {
     category,
     confidenceScore,
@@ -129,49 +176,32 @@ function makeHealthcareEntitiesWithoutNeighbors(
     offset,
     length,
     text,
+    normalizedText: name,
     subCategory,
     dataSources:
       links?.map(({ dataSource, id }): EntityDataSource => ({ name: dataSource, entityId: id })) ??
-      [],
-    // initialize the neighbors map to be filled later.
-    relatedEntities: new Map()
+      []
   };
 }
 
 /**
- * Connects input healthcare entities as a graph according to the relationship
- * information the service sent.
- * @param entities - healthcare entities represented as isolated nodes
- * @param relations - relationship information between pairs of healthcare entities
- *                  - using JSON pointers
  * @internal
  */
-function makeHealthcareEntitiesGraph(
+function makeHealthcareRelations(
   entities: HealthcareEntity[],
   relations: HealthcareRelation[]
-): void {
-  for (const relation of relations) {
-    const attributeEntities: HealthcareEntity[] = [];
-    const targetEntities: HealthcareEntity[] = [];
-    for (const entity of relation.entities) {
-      const index = parseHealthcareEntityIndex(entity.ref);
-      if (entity.role === "Attribute") {
-        attributeEntities.push(entities[index]);
-      } else {
-        targetEntities.push(entities[index]);
-      }
-    }
-    // Entities with the role Attribute are the source of the relation (causation)
-    // and other entities in the relation are caused by them.
-    // For example: "High blood sugar leads to high blood pressure" – In this
-    // case two symptoms are related to one another, but one is an attribute
-    // (or causation) that leads to another.
-    targetEntities.map((targetEntity: HealthcareEntity) => {
-      attributeEntities.map((attributeEntity: HealthcareEntity) => {
-        attributeEntity.relatedEntities.set(targetEntity, relation.relationType);
-      });
-    });
-  }
+): HealthcareEntityRelation[] {
+  return relations.map(
+    (relation: HealthcareRelation): HealthcareEntityRelation => ({
+      relationType: relation.relationType,
+      roles: relation.entities.map(
+        (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
+          entity: entities[parseHealthcareEntityIndex(role.ref)],
+          name: role.role
+        })
+      )
+    })
+  );
 }
 
 /**
@@ -184,10 +214,10 @@ export function makeHealthcareEntitiesResult(
 ): AnalyzeHealthcareEntitiesSuccessResult {
   const { id, entities, relations, warnings, statistics } = document;
   const newEntities = entities.map(makeHealthcareEntitiesWithoutNeighbors);
-  makeHealthcareEntitiesGraph(newEntities, relations);
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    entities: newEntities
+    entities: newEntities,
+    entityRelations: makeHealthcareRelations(newEntities, relations)
   };
 }
 

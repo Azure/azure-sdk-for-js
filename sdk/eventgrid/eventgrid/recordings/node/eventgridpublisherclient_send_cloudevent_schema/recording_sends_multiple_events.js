@@ -2,10 +2,10 @@ let nock = require('nock');
 
 module.exports.hash = "270107bc3f163d9770cce18126db6e06";
 
-module.exports.testInfo = {"uniqueName":{"cloudMultiEventId1":"cloudMultiEventId1161257785274707186","cloudMultiEventId2":"cloudMultiEventId2161257785274703951"},"newDate":{"cloudMultiEventDate1":"2021-02-06T02:17:32.747Z","cloudMultiEventDate2":"2021-02-06T02:17:32.747Z"}}
+module.exports.testInfo = {"uniqueName":{"cloudMultiEventId1":"cloudMultiEventId1161541017721004340","cloudMultiEventId2":"cloudMultiEventId2161541017721002759"},"newDate":{"cloudMultiEventDate1":"2021-03-10T21:02:57.210Z","cloudMultiEventDate2":"2021-03-10T21:02:57.210Z"}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/api/events', [{"id":"cloudMultiEventId1161257785274707186","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2021-02-06T02:17:32.747Z","specversion":"1.0","datacontenttype":"application/json","subject":"Multiple 1"},{"id":"cloudMultiEventId2161257785274703951","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2021-02-06T02:17:32.747Z","specversion":"1.0","datacontenttype":"application/json","subject":"Multiple 2"}])
+  .post('/api/events', [{"id":"cloudMultiEventId1161541017721004340","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2021-03-10T21:02:57.210Z","specversion":"1.0","datacontenttype":"application/json","subject":"Multiple 1"},{"id":"cloudMultiEventId2161541017721002759","source":"/earth/unitedstates/washington/kirkland/finnhill","data":{"hello":"world"},"type":"Azure.Sdk.TestEvent1","time":"2021-03-10T21:02:57.210Z","specversion":"1.0","datacontenttype":"application/json","subject":"Multiple 2"}])
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2018-01-01',
   'x-ms-request-id',
-  '4434f3a2-1c00-420c-bb19-05610c23d0b3',
+  '606b2375-30ee-43ad-93da-87194bfd387c',
   'Date',
-  'Sat, 06 Feb 2021 02:17:32 GMT'
+  'Wed, 10 Mar 2021 21:02:56 GMT'
 ]);
