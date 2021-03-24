@@ -1,7 +1,8 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0 (2021-03-29)
 
+- Updated `@azure/communication-sms` version.
 
 ## 1.0.0-beta.4 (2020-03-09)
 
