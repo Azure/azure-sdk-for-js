@@ -4,6 +4,12 @@
 import { DeleteKeyPollOperation, DeleteKeyPollOperationState } from "./operation";
 import { DeletedKey } from "../../keysModels";
 import { KeyVaultKeyPoller, KeyVaultKeyPollerOptions } from "../keyVaultKeyPoller";
+import {
+  createTraceFunction,
+  TracedFunction
+} from "../../../../keyvault-common/src/tracingHelpers";
+
+export const withTrace: TracedFunction = createTraceFunction("Azure.KeyVault.Keys.DeleteKeyPoller");
 
 /**
  * Class that creates a poller that waits until a key finishes being deleted.

@@ -37,7 +37,9 @@ import { createHash, randomBytes } from "./cryptography/crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
-import { withTrace } from "./tracing";
+import { createTraceFunction, TracedFunction } from "../../keyvault-common/src/tracingHelpers";
+
+const withTrace: TracedFunction = createTraceFunction("Azure.KeyVault.Keys.CryptographyClient");
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key

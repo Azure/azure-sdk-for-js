@@ -5,9 +5,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { KeyVaultKey, GetKeyOptions, RecoverDeletedKeyOptions } from "../../keysModels";
-import { withTrace } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the state of a delete key's poll operation

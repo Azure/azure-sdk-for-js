@@ -65,7 +65,7 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
   private fullRestore(
     options: KeyVaultClientFullRestoreOperationOptionalParams
   ): Promise<KeyVaultClientFullRestoreOperationResponse> {
-    return withTrace("generatedClient.fullRestore", options, (updatedOptions) =>
+    return withTrace("fullRestore", options, (updatedOptions) =>
       this.client.fullRestoreOperation(this.vaultUrl, updatedOptions)
     );
   }
@@ -77,7 +77,7 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    return withTrace("generatedClient.restoreStatus", options, (updatedOptions) =>
+    return withTrace("restoreStatus", options, (updatedOptions) =>
       this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );
   }

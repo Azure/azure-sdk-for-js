@@ -103,7 +103,7 @@ import {
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
 import { LocalSupportedAlgorithmName } from "./cryptography/models";
 import { getKeyFromKeyBundle } from "./transformations";
-import { withTrace } from "./tracing";
+import { createTraceFunction, TracedFunction } from "../../keyvault-common/src/tracingHelpers";
 
 export {
   CryptographyClientOptions,
@@ -178,6 +178,8 @@ export {
   WrapResult,
   logger
 };
+
+const withTrace: TracedFunction = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
 
 /**
  * The KeyClient provides methods to manage {@link KeyVaultKey} in the
