@@ -48,10 +48,14 @@ export interface RequestResponseLinkOptions {
 /**
  * @internal
  */
-export type ReceiverType =
+export type NonSessionReceiverType =
   | "batching" // batching receiver
-  | "streaming" // streaming receiver;
-  | "session"; // message session
+  | "streaming"; // streaming receiver
+
+/**
+ * @internal
+ */
+export type ReceiverType = NonSessionReceiverType | "session"; // message session
 
 /**
  * @internal

@@ -8,6 +8,7 @@ import {
 } from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
 import { AddParticipantsRequest } from "./requests";
+import { CreateChatThreadOptions } from "./options";
 import {
   ChatMessage,
   ChatThreadProperties,
@@ -16,6 +17,16 @@ import {
   ChatMessageContent,
   CreateChatThreadResult
 } from "./models";
+
+export const mapToCreateChatThreadOptionsRestModel = (
+  options: CreateChatThreadOptions
+): RestModel.ChatCreateChatThreadOptionalParams => {
+  const { participants, idempotencyToken, ...rest } = options;
+  return {
+    repeatabilityRequestId: idempotencyToken,
+    ...rest
+  };
+};
 
 /**
  * @internal

@@ -44,7 +44,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace test-dist/**/*.js",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"test-dist/**/*.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -87,7 +87,6 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/msal-common": "~4.0.1",
     "@azure/msal-node": "^1.0.0",
-    "@azure/msal-node-extensions": "~1.0.0-alpha.6",
     "@azure/msal-browser": "2.9.0",
     "@opentelemetry/api": "^0.10.2",
     "@types/stoppable": "^1.1.0",

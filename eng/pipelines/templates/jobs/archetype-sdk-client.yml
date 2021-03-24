@@ -68,11 +68,6 @@ jobs:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           TestPipeline: ${{ parameters.TestPipeline }}
 
-      - template: /eng/common/pipelines/templates/steps/create-apireview.yml
-        parameters:
-          Artifacts: ${{ parameters.Artifacts }}
-          ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
-
   - job: "Analyze"
     dependsOn: "Build"
     variables:

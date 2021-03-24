@@ -41,7 +41,10 @@ describe("DeviceCodeCredential (internal)", function() {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID);
+    const credential = new DeviceCodeCredential({
+      tenantId: env.AZURE_TENANT_ID,
+      clientId: env.AZURE_CLIENT_ID
+    });
 
     await credential.getToken(scope);
     assert.equal(getTokenSilentSpy.callCount, 1);
@@ -52,140 +55,142 @@ describe("DeviceCodeCredential (internal)", function() {
     assert.equal(doGetTokenSpy.callCount, 1);
   });
 
-  it("Accepts tokenCachePersistenceOptions", async function() {
-    // msal-node-extensions does not currently support Node 8.
-    if (isNode8 || isNode15) {
-      this.skip();
-    }
-    // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      this.skip();
-    }
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      this.skip();
+  // To test this, please install @azure/msal-node-extensions and un-skip these tests.
+  describe("Persistent tests", function() {
+    try {
+      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+      require("@azure/msal-node-extensions");
+    } catch (e) {
+      return;
     }
 
-    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      allowUnencryptedStorage: true
-    };
+    it("Accepts tokenCachePersistenceOptions", async function() {
+      // msal-node-extensions does not currently support Node 8.
+      if (isNode8 || isNode15) {
+        this.skip();
+      }
+      // OSX asks for passwords on CI, so we need to skip these tests from our automation
+      if (process.platform === "darwin") {
+        this.skip();
+      }
+      // These tests should not run live because this credential requires user interaction.
+      if (isLiveMode()) {
+        this.skip();
+      }
 
-    // Emptying the token cache before we start.
-    const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
-    const persistence = await tokenCache.getPersistence();
-    persistence?.save("");
+      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+        name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+        allowUnencryptedStorage: true
+      };
 
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-      tokenCachePersistenceOptions
+      // Emptying the token cache before we start.
+      const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
+      const persistence = await tokenCache.getPersistence();
+      persistence?.save("");
+
+      const credential = new DeviceCodeCredential({
+        tokenCachePersistenceOptions
+      });
+
+      await credential.getToken(scope);
+      const result = await persistence?.load();
+      const parsedResult = JSON.parse(result!);
+      assert.ok(parsedResult.AccessToken);
     });
 
-    await credential.getToken(scope);
-    const result = await persistence?.load();
-    const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
-  });
+    it("Authenticates silently with tokenCachePersistenceOptions", async function() {
+      // msal-node-extensions does not currently support Node 8.
+      if (isNode8 || isNode15) {
+        this.skip();
+      }
+      // OSX asks for passwords on CI, so we need to skip these tests from our automation
+      if (process.platform === "darwin") {
+        this.skip();
+      }
+      // These tests should not run live because this credential requires user interaction.
+      if (isLiveMode()) {
+        this.skip();
+      }
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async function() {
-    // msal-node-extensions does not currently support Node 8.
-    if (isNode8 || isNode15) {
-      this.skip();
-    }
-    // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      this.skip();
-    }
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      this.skip();
-    }
+      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+        name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+        allowUnencryptedStorage: true
+      };
 
-    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      allowUnencryptedStorage: true
-    };
+      // Emptying the token cache before we start.
+      const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
+      const persistence = await tokenCache.getPersistence();
+      persistence?.save("");
 
-    // Emptying the token cache before we start.
-    const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
-    const persistence = await tokenCache.getPersistence();
-    persistence?.save("");
+      const credential = new DeviceCodeCredential({
+        tokenCachePersistenceOptions
+      });
 
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-      tokenCachePersistenceOptions
+      await credential.getToken(scope);
+      assert.equal(getTokenSilentSpy.callCount, 1);
+      assert.equal(doGetTokenSpy.callCount, 1);
+
+      // The cache should have a token a this point
+      const result = await persistence?.load();
+      const parsedResult = JSON.parse(result!);
+      assert.ok(parsedResult.AccessToken);
+
+      await credential.getToken(scope);
+      assert.equal(getTokenSilentSpy.callCount, 2);
+      assert.equal(doGetTokenSpy.callCount, 1);
     });
 
-    await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
+    it("allows passing an authenticationRecord to avoid further manual authentications", async function() {
+      // msal-node-extensions does not currently support Node 8.
+      if (isNode8 || isNode15) {
+        this.skip();
+      }
+      // OSX asks for passwords on CI, so we need to skip these tests from our automation
+      if (process.platform === "darwin") {
+        this.skip();
+      }
+      // These tests should not run live because this credential requires user interaction.
+      if (isLiveMode()) {
+        this.skip();
+      }
+      const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
+        name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
+        allowUnencryptedStorage: true
+      };
 
-    // The cache should have a token a this point
-    const result = await persistence?.load();
-    const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
+      // Emptying the token cache before we start.
+      const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
+      const persistence = await tokenCache.getPersistence();
+      persistence?.save("");
 
-    await credential.getToken(scope);
-    assert.equal(getTokenSilentSpy.callCount, 2);
-    assert.equal(doGetTokenSpy.callCount, 1);
-  });
+      const credential = new DeviceCodeCredential({
+        // To be able to re-use the account, the Token Cache must also have been provided.
+        // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
+        tokenCachePersistenceOptions
+      });
 
-  it("allows passing an authenticationRecord to avoid further manual authentications", async function() {
-    // msal-node-extensions does not currently support Node 8.
-    if (isNode8 || isNode15) {
-      this.skip();
-    }
-    // OSX asks for passwords on CI, so we need to skip these tests from our automation
-    if (process.platform === "darwin") {
-      this.skip();
-    }
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      this.skip();
-    }
-    const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
-      name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      allowUnencryptedStorage: true
-    };
+      const account = await credential.authenticate(scope);
+      assert.ok(account);
+      assert.equal(getTokenSilentSpy.callCount, 1);
+      assert.equal(doGetTokenSpy.callCount, 1);
 
-    // Emptying the token cache before we start.
-    const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
-    const persistence = await tokenCache.getPersistence();
-    persistence?.save("");
+      const credential2 = new DeviceCodeCredential({
+        authenticationRecord: account,
+        // To be able to re-use the account, the Token Cache must also have been provided.
+        // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
+        tokenCachePersistenceOptions
+      });
 
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-      // To be able to re-use the account, the Token Cache must also have been provided.
-      // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
-      tokenCachePersistenceOptions
+      // The cache should have a token a this point
+      const result = await persistence?.load();
+      const parsedResult = JSON.parse(result!);
+      assert.ok(parsedResult.AccessToken);
+
+      const token = await credential2.getToken(scope);
+      assert.ok(token?.token);
+      assert.ok(token?.expiresOnTimestamp! > Date.now());
+      assert.equal(getTokenSilentSpy.callCount, 2);
+      assert.equal(doGetTokenSpy.callCount, 1);
     });
-
-    const account = await credential.authenticate(scope);
-    assert.ok(account);
-    assert.equal(getTokenSilentSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.callCount, 1);
-
-    const credential2 = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-      authenticationRecord: account,
-      // To be able to re-use the account, the Token Cache must also have been provided.
-      // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
-      tokenCachePersistenceOptions
-    });
-
-    // The cache should have a token a this point
-    const result = await persistence?.load();
-    const parsedResult = JSON.parse(result!);
-    assert.ok(parsedResult.AccessToken);
-
-    const token = await credential2.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
-    assert.equal(getTokenSilentSpy.callCount, 2);
-    assert.equal(doGetTokenSpy.callCount, 1);
   });
 });

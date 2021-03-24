@@ -112,7 +112,6 @@ export class BatchingReceiver extends MessageReceiver {
     options: OperationOptionsBase
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context);
-
     try {
       logger.verbose(
         "[%s] Receiver '%s', setting max concurrent calls to 0.",

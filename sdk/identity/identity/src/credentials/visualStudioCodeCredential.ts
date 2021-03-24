@@ -169,7 +169,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     _options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     await this.prepareOnce();
     if (!keytar) {
       throw new CredentialUnavailable(
