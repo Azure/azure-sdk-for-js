@@ -17,7 +17,7 @@ export class DeleteSecretPoller extends KeyVaultSecretPoller<
   DeletedSecret
 > {
   constructor(options: KeyVaultSecretPollerOptions) {
-    const { vaultUrl, client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { vaultUrl, client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: DeleteSecretPollOperationState | undefined;
 
@@ -32,7 +32,7 @@ export class DeleteSecretPoller extends KeyVaultSecretPoller<
       },
       vaultUrl,
       client,
-      requestOptions
+      operationOptions
     );
 
     super(operation);

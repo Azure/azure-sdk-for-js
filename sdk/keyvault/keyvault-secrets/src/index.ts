@@ -7,7 +7,6 @@ import {
   TokenCredential,
   isTokenCredential,
   signingPolicy,
-  operationOptionsToRequestOptionsBase,
   PipelineOptions,
   createPipelineFromOptions
 } from "@azure/core-http";
@@ -239,13 +238,12 @@ export class SecretClient {
     name: string,
     options: BeginDeleteSecretOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteSecretPoller({
       name,
       client: this.client,
       vaultUrl: this.vaultUrl,
       ...options,
-      requestOptions
+      operationOptions: options
     });
     // This will initialize the poller's operation (the deletion of the secret).
     await poller.poll();
@@ -409,14 +407,12 @@ export class SecretClient {
     name: string,
     options: BeginRecoverDeletedSecretOptions = {}
   ): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
     const poller = new RecoverDeletedSecretPoller({
       name,
       client: this.client,
       vaultUrl: this.vaultUrl,
       ...options,
-      requestOptions
+      operationOptions: options
     });
 
     // This will initialize the poller's operation (the recovery of the deleted secret).

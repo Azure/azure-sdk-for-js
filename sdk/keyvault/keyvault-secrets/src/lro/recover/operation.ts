@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
 import {
   DeletedSecret,
   GetSecretOptions,
@@ -34,7 +34,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     public state: RecoverDeletedSecretPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private options: coreHttp.OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the recovery of a deleted secret is not supported." });
   }
@@ -83,25 +83,25 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     const { name } = state;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.options.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
       try {
-        state.result = (await this.getSecret(name, this.requestOptions)).properties;
+        state.result = (await this.getSecret(name, this.options)).properties;
         state.isCompleted = true;
       } catch {
         // Nothing to do here.
       }
       if (!state.isCompleted) {
-        state.result = (await this.recoverDeletedSecret(name, this.requestOptions)).properties;
+        state.result = (await this.recoverDeletedSecret(name, this.options)).properties;
         state.isStarted = true;
       }
     }
 
     if (!state.isCompleted) {
       try {
-        state.result = (await this.getSecret(name, this.requestOptions)).properties;
+        state.result = (await this.getSecret(name, this.options)).properties;
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
 import { DeletedSecret, DeleteSecretOptions, GetDeletedSecretOptions } from "../../secretsModels";
 import {
   KeyVaultSecretPollOperation,
@@ -11,6 +10,7 @@ import {
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getSecretFromSecretBundle } from "../../transformations";
 import { withTrace } from "./poller";
+import { OperationOptions } from "@azure/core-http";
 
 /**
  * An interface representing the state of a delete secret's poll operation
@@ -29,7 +29,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     public state: DeleteSecretPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private operationOptions: OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the deletion of a secret is not supported." });
   }
@@ -72,11 +72,11 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     const { name } = state;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.operationOptions.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
-      const deletedSecret = await this.deleteSecret(name, this.requestOptions);
+      const deletedSecret = await this.deleteSecret(name, this.operationOptions);
       state.isStarted = true;
       state.result = deletedSecret;
       if (!deletedSecret.properties.recoveryId) {
@@ -86,7 +86,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
 
     if (!state.isCompleted) {
       try {
-        state.result = await this.getDeletedSecret(name, this.requestOptions);
+        state.result = await this.getDeletedSecret(name, this.operationOptions);
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {
