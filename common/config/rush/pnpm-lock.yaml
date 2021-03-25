@@ -6,7 +6,6 @@ dependencies:
   '@rush-temp/ai-text-analytics': file:projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:projects/app-configuration.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
-  '@rush-temp/communication-administration': file:projects/communication-administration.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
@@ -264,7 +263,7 @@ packages:
     engines:
       node: '>=8.0.0'
     optionalDependencies:
-      keytar: 7.4.0
+      keytar: 7.5.0
     resolution:
       integrity: sha512-C9mZL700fMvw9xxCGT5V0QHI8KsykZjSjhiFO9ySIiaMYvRCqKyWAXUvxI2ON9FL/n7v0x677n8UhmgrB9BYTA==
   /@azure/identity/1.2.4_debug@4.3.1:
@@ -286,7 +285,7 @@ packages:
     engines:
       node: '>=8.0.0'
     optionalDependencies:
-      keytar: 7.4.0
+      keytar: 7.5.0
     peerDependencies:
       debug: '*'
     resolution:
@@ -383,9 +382,17 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-EihnqHh2EE6xcB0Dh2LF30jE1Ga9cgh9PyRkX4fj+KpvYfL4ae57hvQwJGkynUgpf3V1xQxU5yaJVXOElfXiGw==
+  /@azure/msal-common/4.1.0:
+    dependencies:
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>=0.8.0'
+    resolution:
+      integrity: sha512-8uzXEQJaESmhBVrxwkjwJREibVvGm/uiS3c6ZC7ttbFtrAJEtssJaPO/GL1I2gMJwogefukMdT7SVjPehSvuhA==
   /@azure/msal-node/1.0.0-beta.6:
     dependencies:
-      '@azure/msal-common': 4.0.3
+      '@azure/msal-common': 4.1.0
       axios: 0.21.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -394,7 +401,7 @@ packages:
       integrity: sha512-ZQI11Uz1j0HJohb9JZLRD8z0moVcPks1AFW4Q/Gcl67+QvH4aKEJti7fjCcipEEZYb/qzLSO8U6IZgPYytsiJQ==
   /@azure/msal-node/1.0.0-beta.6_debug@4.3.1:
     dependencies:
-      '@azure/msal-common': 4.0.3
+      '@azure/msal-common': 4.1.0
       axios: 0.21.1_debug@4.3.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -968,7 +975,7 @@ packages:
       integrity: sha512-Q1y515GcOdTHgagaVFhHnIFQ38ygs/kmxdNpvpou+raI9UO3YZcHDngBSYKQklcKlvA7iuQlmIKbzvmxcOE9CQ==
   /@types/eslint/7.2.7:
     dependencies:
-      '@types/estree': 0.0.46
+      '@types/estree': 0.0.47
       '@types/json-schema': 7.0.7
     dev: false
     resolution:
@@ -977,10 +984,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
-  /@types/estree/0.0.46:
+  /@types/estree/0.0.47:
     dev: false
     resolution:
-      integrity: sha512-laIjwTQaD+5DukBZaygQ79K1Z0jb1bPEMRrkXSLjtCcZm+abyp5YbrqpSLzD42FwWW6gK/aS4NYpJ804nG2brg==
+      integrity: sha512-c5ciR06jK8u9BstrmJyO97m+klJrrhCf9u3rLu3DEAJBirxRqSCvDQoYKmxuYwQI5SZChAWu+tq9oVlGRuzPAg==
   /@types/express-serve-static-core/4.17.19:
     dependencies:
       '@types/node': 8.10.66
@@ -1010,7 +1017,7 @@ packages:
       integrity: sha512-TcUlBem321DFQzBNuz8p0CLLKp0VvF/XH9E4KHNmgwyp4E3AfgI5cjiIVZWlbfThBop2qxFIh4+LeY6hVWWZ2w==
   /@types/glob/7.1.3:
     dependencies:
-      '@types/minimatch': 3.0.3
+      '@types/minimatch': 3.0.4
       '@types/node': 8.10.66
     dev: false
     resolution:
@@ -1061,6 +1068,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-tHq6qdbT9U1IRSGf14CL0pUlULksvY9OZ+5eEgl1N7t+OA3tGvNpxJCzuKQlsNgCVwbAs670L1vcVQi8j9HjnA==
+  /@types/minimatch/3.0.4:
+    dev: false
+    resolution:
+      integrity: sha512-1z8k4wzFnNjVK/tlxvrWuK5WMt6mydWWP7+zvH5eFep4oj+UkrfiJTRtjCeBXNpwaA/FYqqtb4/QS4ianFpIRA==
   /@types/minimist/1.2.1:
     dev: false
     resolution:
@@ -1126,7 +1137,7 @@ packages:
       integrity: sha512-ewFXqrQHlFsgc09MK5jP5iR7vumV/BYayNC6PgJO2LPe8vrnNFyjQjSppfEngITi0qvfKtzFvgKymGheFM9UOA==
   /@types/resolve/1.17.1:
     dependencies:
-      '@types/node': 10.17.13
+      '@types/node': 8.10.66
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
@@ -1766,7 +1777,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001204
       colorette: 1.2.2
-      electron-to-chromium: 1.3.699
+      electron-to-chromium: 1.3.700
       escalade: 3.1.1
       node-releases: 1.1.71
     dev: false
@@ -2536,10 +2547,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.699:
+  /electron-to-chromium/1.3.700:
     dev: false
     resolution:
-      integrity: sha512-fjt43CPXdPYwD9ybmKbNeLwZBmCVdLY2J5fGZub7/eMPuiqQznOGNXv/wurnpXIlE7ScHnvG9Zi+H4/i6uMKmw==
+      integrity: sha512-wQtaxVZzpOeCjW1CGuC5W3bYjE2jglvk076LcTautBOB9UtHztty7wNzjVsndiMcSsdUsdMy5w76w5J1U7OPTQ==
   /emoji-regex/7.0.3:
     dev: false
     resolution:
@@ -4001,7 +4012,7 @@ packages:
       integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
   /is-reference/1.2.1:
     dependencies:
-      '@types/estree': 0.0.46
+      '@types/estree': 0.0.47
     dev: false
     resolution:
       integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==
@@ -4596,7 +4607,7 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-Is71g0f1dIpbLTXA+ULpev1i1soczQ1Dr8oum3zSmBFsDl3IWUlTLytsCb9os4v9xvUVWGDz0sCmLO4veANnSw==
-  /keytar/7.4.0:
+  /keytar/7.5.0:
     dependencies:
       node-addon-api: 3.1.0
       prebuild-install: 6.0.1
@@ -4604,7 +4615,7 @@ packages:
     optional: true
     requiresBuild: true
     resolution:
-      integrity: sha512-nELmc35YjSE4ZNSFaID/743CgDt/MdV4JLX7rRewAh9mKvU72RtF3uJMY0MdMpwdDYZhmD8FSdRCD1J97lEyVg==
+      integrity: sha512-g3GPp8abi7FE8mlE16LdxLVXZ8cLLq8O/gYrjxy1IGTNVYycHnsElXIKFS/Qj+AfbCyz59H+1j6ehkv6RU6HMA==
   /lazy-ass/1.6.0:
     dev: false
     engines:
@@ -6146,14 +6157,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+6uilZXSJGyiqVeHQI3Krv6NTAd8cWRCY2uyCxmzR4/5IFtBqqFem1HV2OiwSj0Gu7OFChIJDfH2JyjN7J0vRA==
-  /rhea-promise/1.1.0:
+  /rhea-promise/1.2.0:
     dependencies:
       debug: 3.2.7
       rhea: 1.0.24
       tslib: 1.14.1
     dev: false
     resolution:
-      integrity: sha512-LKcyeh7Df4q4wApcsi5+HhMI7T636y0hz+5qVI9ESZi0D6SnFPRbefWzYQXCZmqvLgWeTOyKQbjJaJFSYp2kAA==
+      integrity: sha512-92Bi1bQ5RfbYZW3880F+RkUvu5RTYCtM2tvMaAAj1fyAqi9FTPifmg5gvn69CaOPV63Kn9MOvUyXXDAtiIWILw==
   /rhea/1.0.24:
     dependencies:
       debug: 3.2.7
@@ -6240,7 +6251,7 @@ packages:
       integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
   /rollup/1.32.1:
     dependencies:
-      '@types/estree': 0.0.46
+      '@types/estree': 0.0.47
       '@types/node': 8.10.66
       acorn: 7.4.1
     dev: false
@@ -7967,60 +7978,6 @@ packages:
       integrity: sha512-SazCe6W5MFh0qH9wbphB8GpN/z5KIqeuktcJ5BENwEqNCxau8DvwG/hszXdtf5ZM5aiot5IMTCR2pNUib0TMvg==
       tarball: file:projects/attestation.tgz
     version: 0.0.0
-  file:projects/communication-administration.tgz:
-    dependencies:
-      '@azure/identity': 1.2.4
-      '@microsoft/api-extractor': 7.7.11
-      '@opentelemetry/api': 0.10.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
-      '@rollup/plugin-replace': 2.4.1_rollup@1.32.1
-      '@types/chai': 4.2.15
-      '@types/mocha': 7.0.2
-      '@types/node': 8.10.66
-      '@types/sinon': 9.0.11
-      assert: 1.5.0
-      chai: 4.3.4
-      cross-env: 7.0.3
-      dotenv: 8.2.0
-      eslint: 7.22.0
-      events: 3.3.0
-      inherits: 2.0.4
-      karma: 6.3.1
-      karma-chrome-launcher: 3.1.0
-      karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.3.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.1
-      karma-json-preprocessor: 0.3.3_karma@6.3.1
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.1
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.1
-      karma-sourcemap-loader: 0.3.8
-      mocha: 7.2.0
-      mocha-junit-reporter: 1.23.3_mocha@7.2.0
-      nyc: 14.1.1
-      prettier: 1.19.1
-      rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-shim: 1.0.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
-      sinon: 9.2.4
-      tslib: 2.1.0
-      typedoc: 0.15.2
-      typescript: 4.2.3
-    dev: false
-    name: '@rush-temp/communication-administration'
-    resolution:
-      integrity: sha512-bwg48piipP/wbkdWa3hnC8OQhLtik9BNygtFyJygAuBjzhvs0AteLPo4utcEyCFoPX10CoUk4YLH6h5sK2ohnQ==
-      tarball: file:projects/communication-administration.tgz
-    version: 0.0.0
   file:projects/communication-chat.tgz:
     dependencies:
       '@azure/communication-identity': 1.0.0-beta.5
@@ -8377,7 +8334,7 @@ packages:
       process: 0.11.10
       puppeteer: 3.3.0
       rhea: 1.0.24
-      rhea-promise: 1.1.0
+      rhea-promise: 1.2.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9059,7 +9016,7 @@ packages:
     dependencies:
       '@types/chai': 4.2.15
       '@types/eslint': 7.2.7
-      '@types/estree': 0.0.46
+      '@types/estree': 0.0.47
       '@types/glob': 7.1.3
       '@types/json-schema': 7.0.7
       '@types/mocha': 7.0.2
@@ -9145,7 +9102,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea-promise: 1.1.0
+      rhea-promise: 1.2.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9386,7 +9343,7 @@ packages:
     dev: false
     name: '@rush-temp/identity'
     optionalDependencies:
-      keytar: 7.4.0
+      keytar: 7.5.0
     resolution:
       integrity: sha512-fVT4dTN9DKVQuy28zBkyJGdXJbAiLvYd+AL5+Ueg2wNxP+AkxuRjenkaEG1y1zsUfuBz9CZ6cqnNh6BEHpPBRQ==
       tarball: file:projects/identity.tgz
@@ -10170,7 +10127,7 @@ packages:
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 3.3.0
-      rhea-promise: 1.1.0
+      rhea-promise: 1.2.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10807,7 +10764,6 @@ specifiers:
   '@rush-temp/ai-text-analytics': file:./projects/ai-text-analytics.tgz
   '@rush-temp/app-configuration': file:./projects/app-configuration.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
-  '@rush-temp/communication-administration': file:./projects/communication-administration.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
