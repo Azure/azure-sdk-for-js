@@ -81,6 +81,10 @@ async function httpRequest(
 
   try {
     response = await httpsClient.sendRequest(pipelineRequest);
+    if (requestContext.body) {
+      const parsed = JSON.parse(response.bodyAsText)
+      console.log({ postResponse: (parsed.content?.match(/€/g) || []).length })
+    }
   } catch (error) {
     if (error.name === "AbortError") {
       // If the user passed signal caused the abort, cancel the timeout and rethrow the error
