@@ -281,7 +281,11 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
     const buffer: Buffer[] = [];
 
     stream.on("data", (chunk) => {
-      buffer.push(Buffer.from(chunk));
+      if (Buffer.isBuffer(chunk)) {
+        buffer.push(chunk);
+      } else {
+        buffer.push(Buffer.from(chunk));
+      }
     });
     stream.on("end", () => {
       resolve(Buffer.concat(buffer).toString("utf8"));
