@@ -5,7 +5,8 @@ import os from "os";
 import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
-import * as assert from "assert";
+import { assert } from "chai";
+
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { SecretClient } from "@azure/keyvault-secrets";
@@ -17,6 +18,7 @@ import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { setTracer, TestTracer } from "@azure/core-tracing";
 
 describe("Certificates client - create, read, update and delete", () => {
   const prefix = `CRUD${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -93,6 +95,26 @@ describe("Certificates client - create, read, update and delete", () => {
         }
       });
     });
+  });
+
+  it("supports tracing", async function(this: Context) {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const poller = await client.beginCreateCertificate(
+      certificateName,
+      basicCertificatePolicy,
+      testPollerProperties
+    );
+    await poller.pollUntilDone();
+
+    const span = tracer
+      .getKnownSpans()
+      .find((s) => s.name.includes("CreateCertificatePoller.getCertificate"));
+
+    assert.exists(span);
+    assert.isTrue(span!.endCalled);
+    await testClient.flushCertificate(certificateName);
   });
 
   it("cannot create a certificate with an empty name", async function() {
@@ -300,7 +322,8 @@ describe("Certificates client - create, read, update and delete", () => {
       .slice(0, -2) // Removing -----END CERTIFICATE-----
       .join("")
       .split("-----BEGIN CERTIFICATE-----") // Removing the PEM header
-      .slice(-1);
+      .slice(-1)
+      .join("");
 
     // The PEM encoded public certificate should be the same as the Base64 encoded CER
     assert.equal(base64CER, base64PublicCertificate);
@@ -492,6 +515,7 @@ describe("Certificates client - create, read, update and delete", () => {
       ]
     });
     assert.equal(createResponse.administratorContacts![0].email, "admin@microsoft.com");
+    assert.equal(createResponse.accountId, "keyvaultuser");
 
     // Creating a certificate with that issuer
     await client.beginCreateCertificate(
@@ -522,10 +546,12 @@ describe("Certificates client - create, read, update and delete", () => {
           email: "admin@microsoft.com",
           phone: "4255555555"
         }
-      ]
+      ],
+      accountId: "keyvaultuser2"
     });
     getResponse = await client.getIssuer(issuerName);
     assert.equal(getResponse.administratorContacts![0].email, "admin@microsoft.com");
+    assert.equal(getResponse.accountId, "keyvaultuser2");
 
     // Delete
     await client.deleteIssuer(issuerName);
