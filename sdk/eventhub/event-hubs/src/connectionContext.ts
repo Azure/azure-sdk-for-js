@@ -494,8 +494,8 @@ export function createConnectionContext(
     }
 
     const parsed = parseEventHubConnectionString(connectionString) as Required<
-      Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName"> |
-      Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
+      | Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
+      | Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
     >;
     // Since connectionString was passed, create a TokenProvider.
     credential = createTokenProvider(parsed);
