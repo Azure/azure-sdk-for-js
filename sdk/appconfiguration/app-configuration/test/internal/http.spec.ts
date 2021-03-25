@@ -301,23 +301,23 @@ describe("http request related tests", function() {
         { syncTokens } as InternalAppConfigurationClientOptions
       );
       assert.equal(
-        client["_syncTokens"]["_currentSyncTokens"].size,
+        syncTokens["_currentSyncTokens"].size,
         1,
         "Unexpected number of syncTokens before the `update` call"
       );
       client.updateSyncToken("b=value;sn=3");
       assert.equal(
-        client["_syncTokens"]["_currentSyncTokens"].size,
+        syncTokens["_currentSyncTokens"].size,
         2,
         "Unexpected number of syncTokens after the `update` call"
       );
       assert.deepEqual(
-        client["_syncTokens"]["_currentSyncTokens"].get("a"),
+        syncTokens["_currentSyncTokens"].get("a"),
         { id: "a", value: "value", sequenceNumber: 0 },
         "Unexpected object present for key `a`"
       );
       assert.deepEqual(
-        client["_syncTokens"]["_currentSyncTokens"].get("b"),
+        syncTokens["_currentSyncTokens"].get("b"),
         { id: "b", value: "value", sequenceNumber: 3 },
         "Unexpected object present for key `b`"
       );
