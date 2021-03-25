@@ -2,9 +2,8 @@
 
 ## 1.2.0-beta.1 (Unreleased)
 
-- Fix issues with `select`ing fields to be returned from `listConfigurationSettings`, `listConfigurationRevisions`
-  and `getConfigurationSetting` where `last_modified` and `content_type` could not properly be passed in.
-  [PR #13258](https://github.com/Azure/azure-sdk-for-js/pull/13258)
+- Added `updateSyncToken` method to `AppConfigurationClient` to be able to provide external synchronization tokens.
+  [PR #14507](https://github.com/Azure/azure-sdk-for-js/pull/14507)
 
 ## 1.1.1 (Unreleased)
 
