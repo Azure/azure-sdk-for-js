@@ -12,6 +12,7 @@ import {
   PipelineResponse
 } from "../../src";
 import { BearerTokenChallengeResult } from "../../src/policies/bearerTokenAuthenticationPolicy";
+import { TextDecoder } from "util";
 
 export interface TestChallenge {
   scope: string;
