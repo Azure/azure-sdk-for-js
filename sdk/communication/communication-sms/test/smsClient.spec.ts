@@ -9,6 +9,7 @@ import * as dotenv from "dotenv";
 import * as sinon from "sinon";
 import { Uuid } from "../src/utils/uuid";
 import { recorderConfiguration } from "./utils/recordedClient";
+import { Context } from "mocha";
 
 if (isNode) {
   dotenv.config();
@@ -18,7 +19,7 @@ describe("SmsClient [Playback/Live]", async () => {
   let recorder: Recorder;
   let smsClient: SmsClient;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderConfiguration);
     smsClient = new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string);
     if (isPlaybackMode()) {
@@ -27,7 +28,7 @@ describe("SmsClient [Playback/Live]", async () => {
     }
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
@@ -37,7 +38,7 @@ describe("SmsClient [Playback/Live]", async () => {
   });
 
   // helper functions
-  const expectSuccessResult = (actualSmsResult: SmsSendResult, expectedRecipient: string) => {
+  const expectSuccessResult = (actualSmsResult: SmsSendResult, expectedRecipient: string): void => {
     assert.equal(actualSmsResult.httpStatusCode, 202);
     assert.equal(actualSmsResult.to, expectedRecipient);
     assert.isString(actualSmsResult.messageId);
@@ -49,7 +50,7 @@ describe("SmsClient [Playback/Live]", async () => {
     actualSmsResult: SmsSendResult,
     expectedRecipient: string,
     expectedErrorMessage: string
-  ) => {
+  ): void => {
     assert.equal(actualSmsResult.httpStatusCode, 400);
     assert.equal(actualSmsResult.to, expectedRecipient);
     assert.notExists(actualSmsResult.messageId, "no message id for errors");
@@ -89,7 +90,7 @@ describe("SmsClient [Playback/Live]", async () => {
     expectSuccessResult(results[0], validToNumber);
   });
 
-  it("sends a new message each time send is called", async function() {
+  it("sends a new message each time send is called", async function(this: Context) {
     if (isPlaybackMode()) {
       this.skip();
     }
