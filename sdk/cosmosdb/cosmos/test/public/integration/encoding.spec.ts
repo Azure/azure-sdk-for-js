@@ -45,7 +45,18 @@ describe.only("Create And Read Validation", /** @this Mocha.Context */ function(
     const { resource: resultDoc } = await container
       .item(doc.id, undefined)
       .read<{ id: string; content: string }>();
-    console.log({ testDoc: (testDoc.content.match(/€/g) || []).length , result: (resultDoc.content.match(/€/g) || []).length  })
+    let euroCount = 0
+    let otherCharCount = 0
+    resultDoc.content.split('').map(char => {
+      if (char === "€") {
+        euroCount += 1
+      } else {
+        console.log(char)
+        console.log(char.charCodeAt(0))
+        otherCharCount += 1
+      }
+    })
+    console.log({ originalEuroCount: testDoc.content.length, euroCount, otherCharCount, })
     assert.equal(
       testDoc.content,
       resultDoc.content,
