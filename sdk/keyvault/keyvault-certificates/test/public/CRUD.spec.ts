@@ -108,9 +108,14 @@ describe("Certificates client - create, read, update and delete", () => {
       testPollerProperties
     );
     await poller.pollUntilDone();
-    const span = tracer.getKnownSpans().find((s) => s.name.includes("CertificateClientPoller"));
+
+    const span = tracer
+      .getKnownSpans()
+      .find((s) => s.name.includes("CreateCertificatePoller.getCertificate"));
+
     assert.exists(span);
     assert.isTrue(span!.endCalled);
+    await testClient.flushCertificate(certificateName);
   });
 
   it("cannot create a certificate with an empty name", async function() {
