@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.11-beta.2 (Unreleased)
+
+
 ## 1.0.10-beta.1 (2020-11-16)
 
 - Test Release Pipeline
@@ -30,10 +33,6 @@
 
 - Test Release Pipeline
 
-## 1.0.4 (2020-03-245
-
-- Test Release Pipeline
-
 ## 1.0.3 (2020-03-24)
 
 - Test Release Pipeline
@@ -45,3 +44,7 @@
 ## 1.0.1 (2020-03-24)
 
 - Test Release Pipeline
+## 1.0.4 
+
+- Test Release Pipeline
+
