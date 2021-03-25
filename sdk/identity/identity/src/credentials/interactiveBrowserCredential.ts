@@ -11,9 +11,10 @@ import { Socket } from "net";
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
 import { AuthorizationCodeRequest } from "@azure/msal-node";
 
-import express from "express";
 import open from "open";
 import http from "http";
+import stoppable from "stoppable";
+
 import { checkTenantId } from "../util/checkTenantId";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
@@ -26,6 +27,7 @@ const logger = credentialLogger("InteractiveBrowserCredential");
 export class InteractiveBrowserCredential implements TokenCredential {
   private redirectUri: string;
   private port: number;
+  private hostname: string;
   private msalClient: MsalClient;
 
   constructor(options?: InteractiveBrowserCredentialOptions) {
@@ -52,6 +54,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
     if (isNaN(this.port)) {
       this.port = 80;
     }
+
+    this.hostname = url.hostname;
 
     let authorityHost;
     if (options && options.authorityHost) {
@@ -112,74 +116,111 @@ export class InteractiveBrowserCredential implements TokenCredential {
     await open(response);
   }
 
-  private async acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
-    // eslint-disable-next-line
-    return new Promise<AccessToken | null>(async (resolve, reject) => {
-      // eslint-disable-next-line
-      let listen: http.Server | undefined;
-      let socketToDestroy: Socket | undefined;
+  private acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
+    return new Promise<AccessToken | null>((resolve, reject) => {
+      const socketToDestroy: Socket[] = [];
 
-      function cleanup(): void {
-        if (listen) {
-          listen.close();
+      const requestListener = (req: http.IncomingMessage, res: http.ServerResponse) => {
+        if (!req.url) {
+          reject(
+            new Error(
+              `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
+            )
+          );
+          return;
         }
-        if (socketToDestroy) {
-          socketToDestroy.destroy();
+        let url: URL;
+        try {
+          url = new URL(req.url, this.redirectUri);
+        } catch (e) {
+          reject(
+            new Error(
+              `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
+            )
+          );
+          return;
         }
-      }
-
-      // Create Express App and Routes
-      const app = express();
-
-      app.get("/", async (req, res) => {
         const tokenRequest: AuthorizationCodeRequest = {
-          code: req.query.code as string,
+          code: url.searchParams.get("code")!,
           redirectUri: this.redirectUri,
           scopes: scopeArray
         };
 
-        try {
-          const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
-          const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
-          if (authResponse && authResponse.expiresOn) {
-            const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
-            res.status(200).send(successMessage);
-            logger.getToken.info(formatSuccess(scopeArray));
+        this.msalClient
+          .acquireTokenByCode(tokenRequest)
+          .then((authResponse) => {
+            const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
+            if (authResponse && authResponse.expiresOn) {
+              const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
+              res.writeHead(200);
+              res.end(successMessage);
+              logger.getToken.info(formatSuccess(scopeArray));
 
-            resolve({
-              expiresOnTimestamp,
-              token: authResponse.accessToken
-            });
-          } else {
+              resolve({
+                expiresOnTimestamp,
+                token: authResponse.accessToken
+              });
+            } else {
+              const errorMessage = formatError(
+                scopeArray,
+                `${url.searchParams.get("error")}. ${url.searchParams.get("error_description")}`
+              );
+              res.writeHead(500);
+              res.end(errorMessage);
+              logger.getToken.info(errorMessage);
+
+              reject(
+                new Error(
+                  `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
+                )
+              );
+            }
+            cleanup();
+            return;
+          })
+          .catch(() => {
+            const errorMessage = formatError(
+              scopeArray,
+              `${url.searchParams.get("error")}. ${url.searchParams.get("error_description")}`
+            );
+            res.writeHead(500);
+            res.end(errorMessage);
+            logger.getToken.info(errorMessage);
+
             reject(
               new Error(
                 `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
               )
             );
-          }
-        } catch (error) {
-          const errorMessage = formatError(
-            scopeArray,
-            `${req.query["error"]}. ${req.query["error_description"]}`
-          );
-          res.status(500).send(errorMessage);
-          logger.getToken.info(errorMessage);
-          reject(new Error(errorMessage));
-        } finally {
-          cleanup();
-        }
+            cleanup();
+          });
+      };
+      const app = http.createServer(requestListener);
+
+      const listen = app.listen(this.port, this.hostname, () =>
+        logger.info(`InteractiveBrowerCredential listening on port ${this.port}!`)
+      );
+      app.on("connection", (socket) => socketToDestroy.push(socket));
+      const server = stoppable(app);
+
+      this.openAuthCodeUrl(scopeArray).catch((e) => {
+        cleanup();
+        reject(e);
       });
 
-      listen = app.listen(this.port, () =>
-        logger.info(`Msal Node Auth Code Sample app listening on port ${this.port}!`)
-      );
-      listen.on("connection", (socket) => (socketToDestroy = socket));
+      function cleanup(): void {
+        if (listen) {
+          listen.close();
+        }
 
-      try {
-        await this.openAuthCodeUrl(scopeArray);
-      } catch (e) {
-        cleanup();
-        throw e;
+        for (const socket of socketToDestroy) {
+          socket.destroy();
+        }
+
+        if (server) {
+          server.close();
+          server.stop();
+        }
       }
     });
   }
