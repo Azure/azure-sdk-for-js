@@ -2,6 +2,7 @@
 
 ## 4.2.0-beta.3 (Unreleased)
 
+- Refactored tracing logic to ensure consistency in how we name tracing spans, reporting errors correctly, and ensure spans are closed consistently
 - Updated the Latest service version to 7.2.
 - Added a sample demonstrating how to import PFX / PEM certificates.
 - Fixed an issue where importing a certificate incorrectly required a Subject or Subject Alternative Name.

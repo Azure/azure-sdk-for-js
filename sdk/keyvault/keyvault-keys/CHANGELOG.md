@@ -2,6 +2,7 @@
 
 ## 4.2.0-beta.5 (Unreleased)
 
+- Refactored tracing logic to ensure consistency in how we name tracing spans, reporting errors correctly, and ensure spans are closed consistently
 - Added local cryptography support for encryption / decryption for `A128CBCPAD`, `A192CBCPAD`, and `A256CBCPAD`.
 - For AES-CBC encryption we will now generate an IV if the user did not pass it in, making `iv` optional for those parameters.
 

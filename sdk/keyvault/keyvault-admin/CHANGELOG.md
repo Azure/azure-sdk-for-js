@@ -2,6 +2,7 @@
 
 ## 4.0.0-beta.3 (Unreleased)
 
+- Refactored tracing logic to ensure consistency in how we name tracing spans, reporting errors correctly, and ensure spans are closed consistently
 - Updated the Latest service version to 7.2.
 - Long Running Operations will now use the `status` field to determine whether the operation failed.
 

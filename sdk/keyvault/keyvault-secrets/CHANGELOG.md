@@ -2,6 +2,7 @@
 
 ## 4.2.0-beta.4 (Unreleased)
 
+- Refactored tracing logic to ensure consistency in how we name tracing spans, reporting errors correctly, and ensure spans are closed consistently
 
 ## 4.2.0-beta.3 (2021-03-09)
 
