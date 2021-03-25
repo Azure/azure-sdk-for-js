@@ -86,9 +86,10 @@ function buildGraphInstance(graphTopologyName: string) {
 
 export async function main() {
   console.log("== Sample Template ==");
-  const device_id = "deviceId";
-  const module_id = "moduleId";
-  const connectionString = "";
+  const device_id = "lva-sample-device";
+  const module_id = "lvaEdge";
+  const connectionString =
+    "connectionString";
   const iotHubClient = Client.fromConnectionString(connectionString);
 
   const invokeMethodHelper = async (methodRequest: Request) => {
