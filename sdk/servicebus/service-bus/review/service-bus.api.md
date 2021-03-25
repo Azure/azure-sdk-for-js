@@ -569,7 +569,7 @@ export interface TopicRuntimeProperties {
 // @public
 export interface TryAddOptions {
     // @deprecated (undocumented)
-    parentSpan?: Span | SpanContext;
+    parentSpan?: Span | SpanContext | null;
     tracingOptions?: OperationTracingOptions;
 }
 

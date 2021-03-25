@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { isNode, TokenCredential } from "@azure/core-http";
+import { Context } from "mocha";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -135,7 +136,7 @@ describe("internal crypto tests", () => {
     });
 
     describe("Encrypt parameter mapping", async function() {
-      it("maps parameters correctly when using the previous API", /** @this Mocha.Context */ async function() {
+      it("maps parameters correctly when using the previous API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
         await client.encrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
@@ -146,7 +147,7 @@ describe("internal crypto tests", () => {
         );
       });
 
-      it("maps parameters correctly when using the current API", /** @this Mocha.Context */ async function() {
+      it("maps parameters correctly when using the current API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.encrypt(
@@ -163,7 +164,7 @@ describe("internal crypto tests", () => {
     });
 
     describe("Decrypt parameter mapping", async function() {
-      it("maps parameters correctly when using the previous API", /** @this Mocha.Context */ async function() {
+      it("maps parameters correctly when using the previous API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
         await client.decrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
@@ -174,7 +175,7 @@ describe("internal crypto tests", () => {
         );
       });
 
-      it("maps parameters correctly when using the current API", /** @this Mocha.Context */ async function() {
+      it("maps parameters correctly when using the current API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.decrypt(
@@ -192,7 +193,7 @@ describe("internal crypto tests", () => {
   });
 
   describe("RSA local cryptography tests", function() {
-    it("throws a validation error when the key is invalid", /** @this Mocha.Context */ function() {
+    it("throws a validation error when the key is invalid", function(this: Context) {
       if (!isNode) {
         // Local cryptography is not supported in the browser
         this.skip();
@@ -204,7 +205,7 @@ describe("internal crypto tests", () => {
       );
     });
 
-    it("uses the browser replacement when running in the browser", /** @this Mocha.Context */ function() {
+    it("uses the browser replacement when running in the browser", function(this: Context) {
       if (isNode) {
         this.skip();
       }

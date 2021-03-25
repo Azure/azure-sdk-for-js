@@ -10,12 +10,12 @@ import {
   KeyVaultClientSelectiveKeyRestoreOperationResponse,
   RestoreOperation
 } from "../../generated/models";
-import { withTrace } from "../../tracing";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
 import { RestoreResult } from "../../backupClientModels";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
@@ -69,7 +69,7 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     keyName: string,
     options: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
   ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
-    return withTrace("generatedClient.selectiveRestore", options, (updatedOptions) =>
+    return withTrace("selectiveRestore", options, (updatedOptions) =>
       this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions)
     );
   }
@@ -81,7 +81,7 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    return withTrace("generatedClient.restoreStatus", options, (updatedOptions) =>
+    return withTrace("restoreStatus", options, (updatedOptions) =>
       this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );
   }

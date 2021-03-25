@@ -3,7 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import { SecretPollerOptions, SecretProperties } from "../../../../src/secretsModels";
 
 /**
@@ -38,7 +38,7 @@ export interface RestoreSecretBackupPollOperationState
   /**
    * Options for the core-http requests.
    */
-  requestOptions?: RequestOptionsBase;
+  operationOptions?: OperationOptions;
   /**
    * An interface representing a SecretClient. For internal use.
    */
@@ -54,7 +54,6 @@ export interface RestoreSecretBackupPollOperation
 /**
  * Reaches to the service and updates the restore secret's poll operation.
  * @param options - The optional parameters, which are an abortSignal from \@azure/abort-controller and a function that triggers the poller's onProgress function.
- * @this RestoreSecretBackupPollOperation
  */
 async function update(
   this: RestoreSecretBackupPollOperation,
@@ -64,10 +63,10 @@ async function update(
   } = {}
 ): Promise<RestoreSecretBackupPollOperation> {
   const state = this.state;
-  const { backup, client, requestOptions = {} } = state;
+  const { backup, client, operationOptions = {} } = state;
 
   if (options.abortSignal) {
-    requestOptions.abortSignal = options.abortSignal;
+    operationOptions.abortSignal = options.abortSignal;
   }
 
   if (!state.isStarted) {
@@ -75,7 +74,7 @@ async function update(
   }
 
   try {
-    state.result = await client.restoreSecretBackup(backup, { requestOptions });
+    state.result = await client.restoreSecretBackup(backup, operationOptions);
     state.isCompleted = true;
   } catch {
     // Nothing to do here.
@@ -93,7 +92,6 @@ async function cancel(this: RestoreSecretBackupPollOperation): Promise<never> {
 
 /**
  * Serializes the create secret's poll operation
- * @this RestoreSecretBackupPollOperation
  */
 function toString(this: RestoreSecretBackupPollOperation): string {
   return JSON.stringify({

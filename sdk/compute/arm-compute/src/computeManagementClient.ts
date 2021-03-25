@@ -49,6 +49,11 @@ class ComputeManagementClient extends ComputeManagementClientContext {
   galleryImageVersions: operations.GalleryImageVersions;
   galleryApplications: operations.GalleryApplications;
   galleryApplicationVersions: operations.GalleryApplicationVersions;
+  cloudServiceRoleInstances: operations.CloudServiceRoleInstances;
+  cloudServiceRoles: operations.CloudServiceRoles;
+  cloudServices: operations.CloudServices;
+  cloudServicesUpdateDomain: operations.CloudServicesUpdateDomain;
+  cloudServiceOperatingSystems: operations.CloudServiceOperatingSystems;
 
   /**
    * Initializes a new instance of the ComputeManagementClient class.
@@ -92,6 +97,11 @@ class ComputeManagementClient extends ComputeManagementClientContext {
     this.galleryImageVersions = new operations.GalleryImageVersions(this);
     this.galleryApplications = new operations.GalleryApplications(this);
     this.galleryApplicationVersions = new operations.GalleryApplicationVersions(this);
+    this.cloudServiceRoleInstances = new operations.CloudServiceRoleInstances(this);
+    this.cloudServiceRoles = new operations.CloudServiceRoles(this);
+    this.cloudServices = new operations.CloudServices(this);
+    this.cloudServicesUpdateDomain = new operations.CloudServicesUpdateDomain(this);
+    this.cloudServiceOperatingSystems = new operations.CloudServiceOperatingSystems(this);
   }
 }
 

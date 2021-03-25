@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.1.1 (2021-03-25)
 
 - Fix issues with `select`ing fields to be returned from `listConfigurationSettings`, `listConfigurationRevisions`
   and `getConfigurationSetting` where `last_modified` and `content_type` could not properly be passed in.

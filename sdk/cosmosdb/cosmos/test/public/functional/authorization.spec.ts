@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { CosmosClient, PermissionMode } from "../../../src";
 import { PermissionDefinition } from "../../../src/";
 import { endpoint, masterKey } from "../common/_testConfig";
@@ -11,7 +12,7 @@ import {
   removeAllDatabases
 } from "../common/TestHelpers";
 
-describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
