@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-//@@TS-MAGIC-NEWLINE@@
+
 /**
  * @summary Demonstrates the use of a SchemaRegistryClient to register and retrieve schema.
  */
-//@@TS-MAGIC-NEWLINE@@
+
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
-//@@TS-MAGIC-NEWLINE@@
+
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
-//@@TS-MAGIC-NEWLINE@@
+
 // Set these environment variables or edit the following values
 const endpoint = process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
 const group = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
-//@@TS-MAGIC-NEWLINE@@
+
 // Sample Avro Schema for user with first and last names
 const schemaObject = {
   type: "record",
@@ -32,7 +32,7 @@ const schemaObject = {
     }
   ]
 };
-//@@TS-MAGIC-NEWLINE@@
+
 // Description of the schema for registration
 const schemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
@@ -40,25 +40,25 @@ const schemaDescription = {
   serializationType: "avro",
   content: JSON.stringify(schemaObject)
 };
-//@@TS-MAGIC-NEWLINE@@
+
 async function main() {
   // Create a new client
   const client = new SchemaRegistryClient(endpoint, new DefaultAzureCredential());
-  //@@TS-MAGIC-NEWLINE@@
+
   // Register a schema and get back its ID.
   const registered = await client.registerSchema(schemaDescription);
   console.log(`Registered schema with ID=${registered.id}`);
-  //@@TS-MAGIC-NEWLINE@@
+
   // Get ID for exisiting schema by its description.
   // Note that this would throw if it had not been previously registered.
   const found = await client.getSchemaId(schemaDescription);
   console.log(`Got schema ID=${found.id}`);
-  //@@TS-MAGIC-NEWLINE@@
+
   // Get content of existing schema by its ID
   const foundSchema = await client.getSchemaById(registered.id);
   console.log(`Got schema content=${foundSchema.content}`);
 }
-//@@TS-MAGIC-NEWLINE@@
+
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
