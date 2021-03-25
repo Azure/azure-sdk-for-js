@@ -15,6 +15,11 @@ output-folder: ../src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-06-12/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
+v3: true
+disable-async-iterators: true
+add-credentials: false
+use-extension:
+  "@autorest/typescript": "6.0.0-dev.20210223.1"
 ```
 
 ## Customizations for Track 2 Generator
@@ -131,4 +136,95 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $.properties.Code = { "type": "string" };
+```
+
+### Add ErrorCode to Path_Create response headers
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}/{path}"]["put"]["responses"]["201"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add ErrorCode to Path_Delete response headers
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}/{path}"]["delete"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add ErrorCode to Path_SetExpiry response headers
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}/{path}?comp=expiry"]["put"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add ErrorCode to FileSystem_ListPaths response headers
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}?resource=filesystem"]["get"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add ErrorCode to Path_Update response headers
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}/{path}"]["patch"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add ErrorCode to Path_Update response headers
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}/{path}"]["patch"]["responses"]["202"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
+```
+
+### Add ErrorCode to Path_GetProperties response headers
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{filesystem}/{path}"]["head"]["responses"]["200"]["headers"]
+    transform: >
+      $["x-ms-error-code"] = {};
+      $["x-ms-error-code"]["x-ms-client-name"] = "ErrorCode";
+      $["x-ms-error-code"]["type"] = "string";
+      $["x-ms-error-code"]["description"] = "Error Code";
 ```

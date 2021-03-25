@@ -412,7 +412,7 @@ export interface FileCreateResponse extends PathCreateResponse {
 }
 
 // @public
-export type FileExpiryMode = 'NeverExpire' | 'RelativeToCreation' | 'RelativeToNow' | 'Absolute';
+export type FileExpiryMode = string;
 
 // @public (undocumented)
 export interface FileFlushOptions extends CommonOptions {
@@ -586,7 +586,6 @@ export interface FileReadToBufferOptions extends CommonOptions {
 export interface FileSetExpiryHeaders {
     clientRequestId?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -788,7 +787,6 @@ export interface FileSystemItem {
 export interface FileSystemListPathsHeaders {
     continuation?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -982,11 +980,11 @@ export interface ListPathsSegmentOptions extends ListPathsOptions {
 }
 
 // @public
-export type ListPathsSegmentResponse = PathListModel & FileSystemListPathsHeaders & {
+export type ListPathsSegmentResponse = FileSystemListPathsHeaders & PathListModel & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileSystemListPathsHeaders;
         bodyAsText: string;
         parsedBody: PathListModel;
+        parsedHeaders: FileSystemListPathsHeaders;
     };
 };
 
@@ -1078,7 +1076,6 @@ export interface PathCreateHeaders {
     contentLength?: number;
     continuation?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1146,7 +1143,6 @@ export type PathCreateResponse = PathCreateHeaders & {
 export interface PathDeleteHeaders {
     continuation?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -1243,7 +1239,7 @@ export enum PathGetPropertiesAction {
 }
 
 // @public
-export type PathGetPropertiesActionModel = 'getAccessControl' | 'getStatus';
+export type PathGetPropertiesActionModel = "getAccessControl" | "getStatus";
 
 // @public (undocumented)
 export interface PathGetPropertiesHeaders {
@@ -1329,7 +1325,6 @@ export interface PathGetPropertiesHeadersModel {
     contentRange?: string;
     contentType?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     group?: string;
@@ -1382,13 +1377,13 @@ export interface PathList {
     pathItems?: Path[];
 }
 
-// @public
+// @public (undocumented)
 export interface PathListModel {
     // (undocumented)
     paths?: PathModel[];
 }
 
-// @public
+// @public (undocumented)
 export interface PathModel {
     // (undocumented)
     contentLength?: number;
@@ -1396,6 +1391,7 @@ export interface PathModel {
     etag?: string;
     // (undocumented)
     group?: string;
+    // (undocumented)
     isDirectory?: boolean;
     // (undocumented)
     lastModified?: Date;
@@ -1463,7 +1459,7 @@ export enum PathRenameMode {
 }
 
 // @public
-export type PathRenameModeModel = 'legacy' | 'posix';
+export type PathRenameModeModel = "legacy" | "posix";
 
 // @public
 export enum PathResourceType {
@@ -1474,7 +1470,7 @@ export enum PathResourceType {
 }
 
 // @public
-export type PathResourceTypeModel = 'directory' | 'file';
+export type PathResourceTypeModel = "directory" | "file";
 
 // @public
 export interface PathSetAccessControlHeaders {
@@ -1599,7 +1595,6 @@ export interface PathUpdateHeaders {
     contentRange?: string;
     contentType?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
