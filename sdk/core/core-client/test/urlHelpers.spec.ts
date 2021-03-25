@@ -115,4 +115,31 @@ describe("getRequestUrl", function() {
     );
     assert.strictEqual(result, "https://test.com/path?stringQuery=");
   });
+
+  it("should work with replacement having both path and search part", function() {
+    const result = getRequestUrl(
+      "https://test.com/",
+      {
+        path: "{nextLink}",
+        httpMethod: "GET",
+        responses: {},
+        serializer,
+        urlParameters: [
+          {
+            parameterPath: "nextLink",
+            mapper: {
+              serializedName: "nextLink",
+              required: true,
+              type: {
+                name: "String"
+              }
+            }
+          }
+        ]
+      },
+      { nextLink: "/path?abc=def" },
+      {}
+    );
+    assert.strictEqual(result, "https://test.com/path?abc=def");
+  });
 });
