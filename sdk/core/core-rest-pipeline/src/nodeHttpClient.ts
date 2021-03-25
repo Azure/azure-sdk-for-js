@@ -278,17 +278,13 @@ function getDecodedResponseStream(
 
 function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
   return new Promise<string>((resolve, reject) => {
-    const buffer: string[] = [];
+    const buffer: Buffer[] = [];
 
     stream.on("data", (chunk) => {
-      if (typeof chunk === "string") {
-        buffer.push(chunk);
-      } else {
-        buffer.push(chunk.toString());
-      }
+      buffer.push(Buffer.from(chunk));
     });
     stream.on("end", () => {
-      resolve(buffer.join(""));
+      resolve(Buffer.concat(buffer).toString("utf8"));
     });
     stream.on("error", (e) => {
       reject(
