@@ -8,258 +8,271 @@
 
 import * as coreHttp from "@azure/core-http";
 
+export type SourceUnion = Source | RtspSource | IotHubMessageSource;
+export type ProcessorUnion =
+  | Processor
+  | MotionDetectionProcessor
+  | ObjectTrackingProcessor
+  | LineCrossingProcessor
+  | ExtensionProcessorBaseUnion
+  | SignalGateProcessor;
+export type SinkUnion = Sink | IotHubMessageSink | FileSink | AssetSink;
+export type EndpointUnion = Endpoint | UnsecuredEndpoint | TlsEndpoint;
+export type CredentialsUnion =
+  | Credentials
+  | UsernamePasswordCredentials
+  | HttpHeaderCredentials
+  | SymmetricKeyCredentials;
+export type CertificateSourceUnion = CertificateSource | PemCertificateList;
+export type ImageFormatUnion =
+  | ImageFormat
+  | ImageFormatRaw
+  | ImageFormatJpeg
+  | ImageFormatBmp
+  | ImageFormatPng;
 export type MethodRequestUnion =
   | MethodRequest
-  | MediaGraphTopologySetRequest
-  | MediaGraphTopologySetRequestBody
-  | MediaGraphInstanceSetRequest
-  | MediaGraphInstanceSetRequestBody
+  | PipelineTopologySetRequest
+  | PipelineTopologySetRequestBody
+  | LivePipelineSetRequest
+  | LivePipelineSetRequestBody
   | ItemNonSetRequestBaseUnion
-  | MediaGraphTopologyListRequest
-  | MediaGraphInstanceListRequest;
-export type MediaGraphSourceUnion =
-  | MediaGraphSource
-  | MediaGraphRtspSource
-  | MediaGraphIoTHubMessageSource;
-export type MediaGraphProcessorUnion =
-  | MediaGraphProcessor
-  | MediaGraphMotionDetectionProcessor
-  | MediaGraphExtensionProcessorBaseUnion
-  | MediaGraphSignalGateProcessor;
-export type MediaGraphSinkUnion =
-  | MediaGraphSink
-  | MediaGraphIoTHubMessageSink
-  | MediaGraphFileSink
-  | MediaGraphAssetSink;
-export type MediaGraphEndpointUnion =
-  | MediaGraphEndpoint
-  | MediaGraphUnsecuredEndpoint
-  | MediaGraphTlsEndpoint;
-export type MediaGraphCredentialsUnion =
-  | MediaGraphCredentials
-  | MediaGraphUsernamePasswordCredentials
-  | MediaGraphHttpHeaderCredentials;
-export type MediaGraphCertificateSourceUnion =
-  | MediaGraphCertificateSource
-  | MediaGraphPemCertificateList;
-export type MediaGraphImageFormatUnion =
-  | MediaGraphImageFormat
-  | MediaGraphImageFormatRaw
-  | MediaGraphImageFormatJpeg
-  | MediaGraphImageFormatBmp
-  | MediaGraphImageFormatPng;
+  | PipelineTopologyListRequest
+  | LivePipelineListRequest;
+export type ExtensionProcessorBaseUnion =
+  | ExtensionProcessorBase
+  | CognitiveServicesVisionExtension
+  | GrpcExtension
+  | HttpExtension;
 export type ItemNonSetRequestBaseUnion =
   | ItemNonSetRequestBase
-  | MediaGraphTopologyGetRequest
-  | MediaGraphTopologyDeleteRequest
-  | MediaGraphInstanceGetRequest
-  | MediaGraphInstanceActivateRequest
-  | MediaGraphInstanceDeActivateRequest
-  | MediaGraphInstanceDeleteRequest;
-export type MediaGraphExtensionProcessorBaseUnion =
-  | MediaGraphExtensionProcessorBase
-  | MediaGraphCognitiveServicesVisionExtension
-  | MediaGraphGrpcExtension
-  | MediaGraphHttpExtension;
+  | PipelineTopologyGetRequest
+  | PipelineTopologyDeleteRequest
+  | LivePipelineGetRequest
+  | LivePipelineActivateRequest
+  | LivePipelineDeactivateRequest
+  | LivePipelineDeleteRequest;
 
-/** Base Class for Method Requests. */
-export interface MethodRequest {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName:
-    | "GraphTopologySet"
-    | "MediaGraphTopologySetRequestBody"
-    | "GraphInstanceSet"
-    | "MediaGraphInstanceSetRequestBody"
-    | "ItemNonSetRequestBase"
-    | "GraphTopologyList"
-    | "GraphTopologyGet"
-    | "GraphTopologyDelete"
-    | "GraphInstanceList"
-    | "GraphInstanceGet"
-    | "GraphInstanceActivate"
-    | "GraphInstanceDeactivate"
-    | "GraphInstanceDelete";
-  /** api version */
-  apiVersion?: "2.0";
-}
-
-/** The definition of a media graph topology. */
-export interface MediaGraphTopology {
-  /** The identifier for the media graph topology. */
+/** Represents a unique live pipeline. */
+export interface LivePipeline {
+  /** The identifier for the live pipeline. */
   name: string;
-  /** The system data for a resource. This is used by both topologies and instances. */
-  systemData?: MediaGraphSystemData;
-  /** A description of the properties of a media graph topology. */
-  properties?: MediaGraphTopologyProperties;
+  /** The system data for a resource. */
+  systemData?: SystemData;
+  /** The properties of the live pipeline. */
+  properties?: LivePipelineProperties;
 }
 
-/** The system data for a resource. This is used by both topologies and instances. */
-export interface MediaGraphSystemData {
+/** The system data for a resource. This is used by both pipeline topologies and live pipelines. */
+export interface SystemData {
   /** The timestamp of resource creation (UTC). */
   createdAt?: Date;
   /** The timestamp of resource last modification (UTC). */
   lastModifiedAt?: Date;
 }
 
-/** A description of the properties of a media graph topology. */
-export interface MediaGraphTopologyProperties {
-  /** A description of a media graph topology. It is recommended to use this to describe the expected use of the topology. */
+/** Properties of a live pipeline. */
+export interface LivePipelineProperties {
+  /** An optional description for the live pipeline. */
   description?: string;
-  /** The list of parameters defined in the topology. The value for these parameters are supplied by instances of this topology. */
-  parameters?: MediaGraphParameterDeclaration[];
-  /** The list of source nodes in this topology. */
-  sources?: MediaGraphSourceUnion[];
-  /** The list of processor nodes in this topology. */
-  processors?: MediaGraphProcessorUnion[];
-  /** The list of sink nodes in this topology. */
-  sinks?: MediaGraphSinkUnion[];
+  /** The name of the pipeline topology that this live pipeline will run. A pipeline topology with this name should already have been set in the Edge module. */
+  topologyName?: string;
+  /** List of one or more live pipeline parameters. */
+  parameters?: ParameterDefinition[];
+  /** Allowed states for a live pipeline. */
+  state?: LivePipelineState;
 }
 
-/** The declaration of a parameter in the media graph topology. A media graph topology can be authored with parameters. Then, during graph instance creation, the value for those parameters can be specified. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters. */
-export interface MediaGraphParameterDeclaration {
+/** A key-value pair. A pipeline topology allows certain values to be parameterized. When a live pipeline is created, the parameters are supplied with arguments specific to that instance. This allows the same pipeline topology to be used as a blueprint for multiple streams with different values for the parameters. */
+export interface ParameterDefinition {
+  /** The name of the parameter defined in the pipeline topology. */
+  name: string;
+  /** The value to supply for the named parameter defined in the pipeline topology. */
+  value?: string;
+}
+
+/** A collection of streams. */
+export interface LivePipelineCollection {
+  /** A collection of live pipelines. */
+  value?: LivePipeline[];
+  /** A continuation token to use in subsequent calls to enumerate through the live pipeline collection. This is used when the collection contains too many results to return in one response. */
+  continuationToken?: string;
+}
+
+/** A collection of pipeline topologies. */
+export interface PipelineTopologyCollection {
+  /** A collection of pipeline topologies. */
+  value?: PipelineTopology[];
+  /** A continuation token to use in subsequent calls to enumerate through the pipeline topology collection. This is used when the collection contains too many results to return in one response. */
+  continuationToken?: string;
+}
+
+/** The definition of a pipeline topology. */
+export interface PipelineTopology {
+  /** The identifier for the pipeline topology. */
+  name: string;
+  /** The system data for a resource. */
+  systemData?: SystemData;
+  /** The properties of the pipeline topology. */
+  properties?: PipelineTopologyProperties;
+}
+
+/** A description of the properties of a pipeline topology. */
+export interface PipelineTopologyProperties {
+  /** A description of a pipeline topology. It is recommended to use this to describe the expected use of the pipeline topology. */
+  description?: string;
+  /** The list of parameters defined in the pipeline topology. The value for these parameters are supplied by streams of this pipeline topology. */
+  parameters?: ParameterDeclaration[];
+  /** The list of source nodes in this pipeline topology. */
+  sources?: SourceUnion[];
+  /** The list of processor nodes in this pipeline topology. */
+  processors?: ProcessorUnion[];
+  /** The list of sink nodes in this pipeline topology. */
+  sinks?: SinkUnion[];
+}
+
+/** The declaration of a parameter in the pipeline topology. A topology can be authored with parameters. Then, during live pipeline creation, the value for those parameters can be specified. This allows the same pipeline topology to be used as a blueprint for multiple live pipelines with different values for the parameters. */
+export interface ParameterDeclaration {
   /** The name of the parameter. */
   name: string;
   /** The type of the parameter. */
-  type: MediaGraphParameterType;
+  type: ParameterType;
   /** Description of the parameter. */
   description?: string;
-  /** The default value for the parameter to be used if the media graph instance does not specify a value. */
+  /** The default value for the parameter to be used if the live pipeline does not specify a value. */
   default?: string;
 }
 
-/** A source node in a media graph. */
-export interface MediaGraphSource {
+/** A source node in a pipeline topology. */
+export interface Source {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
-    | "#Microsoft.Media.MediaGraphRtspSource"
-    | "#Microsoft.Media.MediaGraphIoTHubMessageSource";
+    | "#Microsoft.VideoAnalyzer.RtspSource"
+    | "#Microsoft.VideoAnalyzer.IotHubMessageSource";
   /** The name to be used for this source node. */
   name: string;
 }
 
-/** A node that represents the desired processing of media in a graph. Takes media and/or events as inputs, and emits media and/or event as output. */
-export interface MediaGraphProcessor {
+/** A node that represents the desired processing of media in a topology. Takes media and/or events as inputs, and emits media and/or event as output. */
+export interface Processor {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
-    | "#Microsoft.Media.MediaGraphMotionDetectionProcessor"
-    | "#Microsoft.Media.MediaGraphExtensionProcessorBase"
-    | "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension"
-    | "#Microsoft.Media.MediaGraphGrpcExtension"
-    | "#Microsoft.Media.MediaGraphHttpExtension"
-    | "#Microsoft.Media.MediaGraphSignalGateProcessor";
+    | "#Microsoft.VideoAnalyzer.MotionDetectionProcessor"
+    | "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor"
+    | "#Microsoft.VideoAnalyzer.LineCrossingProcessor"
+    | "#Microsoft.VideoAnalyzer.ExtensionProcessorBase"
+    | "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension"
+    | "#Microsoft.VideoAnalyzer.GrpcExtension"
+    | "#Microsoft.VideoAnalyzer.HttpExtension"
+    | "#Microsoft.VideoAnalyzer.SignalGateProcessor";
   /** The name for this processor node. */
   name: string;
-  /** An array of the names of the other nodes in the media graph, the outputs of which are used as input for this processor node. */
-  inputs: MediaGraphNodeInput[];
+  /** An array of the names of the other nodes in the topology, the outputs of which are used as input for this processor node. */
+  inputs: NodeInput[];
 }
 
-/** Represents the input to any node in a media graph. */
-export interface MediaGraphNodeInput {
-  /** The name of another node in the media graph, the output of which is used as input to this node. */
+/** Represents the input to any node in a topology. */
+export interface NodeInput {
+  /** The name of another node in the pipeline topology, the output of which is used as input to this node. */
   nodeName: string;
   /** Allows for the selection of particular streams from another node. */
-  outputSelectors?: MediaGraphOutputSelector[];
+  outputSelectors?: OutputSelector[];
 }
 
 /** Allows for the selection of particular streams from another node. */
-export interface MediaGraphOutputSelector {
+export interface OutputSelector {
   /** The stream property to compare with. */
-  property?: MediaGraphOutputSelectorProperty;
+  property?: OutputSelectorProperty;
   /** The operator to compare streams by. */
-  operator?: MediaGraphOutputSelectorOperator;
+  operator?: OutputSelectorOperator;
   /** Value to compare against. */
   value?: string;
 }
 
-/** Enables a media graph to write media data to a destination outside of the Live Video Analytics IoT Edge module. */
-export interface MediaGraphSink {
+/** Enables a pipeline topology to write media data to a destination outside of the Azure Video Analyzer IoT Edge module. */
+export interface Sink {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
-    | "#Microsoft.Media.MediaGraphIoTHubMessageSink"
-    | "#Microsoft.Media.MediaGraphFileSink"
-    | "#Microsoft.Media.MediaGraphAssetSink";
-  /** The name to be used for the media graph sink. */
+    | "#Microsoft.VideoAnalyzer.IotHubMessageSink"
+    | "#Microsoft.VideoAnalyzer.FileSink"
+    | "#Microsoft.VideoAnalyzer.AssetSink";
+  /** The name to be used for the topology sink. */
   name: string;
-  /** An array of the names of the other nodes in the media graph, the outputs of which are used as input for this sink node. */
-  inputs: MediaGraphNodeInput[];
-}
-
-/** Represents an instance of a media graph. */
-export interface MediaGraphInstance {
-  /** The identifier for the media graph instance. */
-  name: string;
-  /** The system data for a resource. This is used by both topologies and instances. */
-  systemData?: MediaGraphSystemData;
-  /** Properties of a media graph instance. */
-  properties?: MediaGraphInstanceProperties;
-}
-
-/** Properties of a media graph instance. */
-export interface MediaGraphInstanceProperties {
-  /** An optional description for the instance. */
-  description?: string;
-  /** The name of the media graph topology that this instance will run. A topology with this name should already have been set in the Edge module. */
-  topologyName?: string;
-  /** List of one or more graph instance parameters. */
-  parameters?: MediaGraphParameterDefinition[];
-  /** Allowed states for a graph instance. */
-  state?: MediaGraphInstanceState;
-}
-
-/** A key-value pair. A media graph topology allows certain values to be parameterized. When an instance is created, the parameters are supplied with arguments specific to that instance. This allows the same graph topology to be used as a blueprint for multiple graph instances with different values for the parameters. */
-export interface MediaGraphParameterDefinition {
-  /** The name of the parameter defined in the media graph topology. */
-  name: string;
-  /** The value to supply for the named parameter defined in the media graph topology. */
-  value: string;
+  /** An array of the names of the other nodes in the pipeline topology, the outputs of which are used as input for this sink node. */
+  inputs: NodeInput[];
 }
 
 /** Base class for endpoints. */
-export interface MediaGraphEndpoint {
+export interface Endpoint {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
-    | "#Microsoft.Media.MediaGraphUnsecuredEndpoint"
-    | "#Microsoft.Media.MediaGraphTlsEndpoint";
+    | "#Microsoft.VideoAnalyzer.UnsecuredEndpoint"
+    | "#Microsoft.VideoAnalyzer.TlsEndpoint";
   /** Polymorphic credentials to be presented to the endpoint. */
-  credentials?: MediaGraphCredentialsUnion;
+  credentials?: CredentialsUnion;
   /** Url for the endpoint. */
   url: string;
 }
 
 /** Credentials to present during authentication. */
-export interface MediaGraphCredentials {
+export interface Credentials {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
-    | "#Microsoft.Media.MediaGraphUsernamePasswordCredentials"
-    | "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
+    | "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials"
+    | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials"
+    | "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
 }
 
 /** Base class for certificate sources. */
-export interface MediaGraphCertificateSource {
+export interface CertificateSource {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphPemCertificateList";
+  "@type": "#Microsoft.VideoAnalyzer.PemCertificateList";
 }
 
 /** Options for controlling the authentication of TLS endpoints. */
-export interface MediaGraphTlsValidationOptions {
+export interface TlsValidationOptions {
   /** Boolean value ignoring the host name (common name) during validation. */
   ignoreHostname?: string;
   /** Boolean value ignoring the integrity of the certificate chain at the current time. */
   ignoreSignature?: string;
 }
 
+/** Describes the properties of a line. */
+export interface Line {
+  /** Sets the properties of the line. */
+  line: LineCoordinates;
+  /** The name of the line. */
+  name: string;
+}
+
+/** Describes the start point and end point of a line in the frame. */
+export interface LineCoordinates {
+  /** Sets the coordinates of the starting point for the line. */
+  start: Point;
+  /** Sets the coordinates of the ending point for the line. */
+  end: Point;
+}
+
+/** Describes the x and y value of a point in the frame. */
+export interface Point {
+  /** The X value of the point ranging from 0 to 1 starting from the left side of the frame. */
+  x: string;
+  /** The Y value of the point ranging from 0 to 1 starting from the upper side of the frame. */
+  y: string;
+}
+
 /** Describes the properties of an image frame. */
-export interface MediaGraphImage {
+export interface Image {
   /** The scaling mode for the image. */
-  scale?: MediaGraphImageScale;
+  scale?: ImageScale;
   /** Encoding settings for an image. */
-  format?: MediaGraphImageFormatUnion;
+  format?: ImageFormatUnion;
 }
 
 /** The scaling mode for the image. */
-export interface MediaGraphImageScale {
+export interface ImageScale {
   /** Describes the modes for scaling an input video frame into an image, before it is sent to an inference engine. */
-  mode?: MediaGraphImageScaleMode;
+  mode?: ImageScaleMode;
   /** The desired output width of the image. */
   width?: string;
   /** The desired output height of the image. */
@@ -267,17 +280,17 @@ export interface MediaGraphImageScale {
 }
 
 /** Encoding settings for an image. */
-export interface MediaGraphImageFormat {
+export interface ImageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
-    | "#Microsoft.Media.MediaGraphImageFormatRaw"
-    | "#Microsoft.Media.MediaGraphImageFormatJpeg"
-    | "#Microsoft.Media.MediaGraphImageFormatBmp"
-    | "#Microsoft.Media.MediaGraphImageFormatPng";
+    | "#Microsoft.VideoAnalyzer.ImageFormatRaw"
+    | "#Microsoft.VideoAnalyzer.ImageFormatJpeg"
+    | "#Microsoft.VideoAnalyzer.ImageFormatBmp"
+    | "#Microsoft.VideoAnalyzer.ImageFormatPng";
 }
 
 /** Describes the properties of a sample. */
-export interface MediaGraphSamplingOptions {
+export interface SamplingOptions {
   /** If true, limits the samples submitted to the extension to only samples which have associated inference(s) */
   skipSamplesWithoutAnnotation?: string;
   /** Maximum rate of samples submitted to the extension */
@@ -285,108 +298,110 @@ export interface MediaGraphSamplingOptions {
 }
 
 /** Describes how media should be transferred to the inference engine. */
-export interface MediaGraphGrpcExtensionDataTransfer {
+export interface GrpcExtensionDataTransfer {
   /** The size of the buffer for all in-flight frames in mebibytes if mode is SharedMemory. Should not be specified otherwise. */
   sharedMemorySizeMiB?: string;
   /** How frame data should be transmitted to the inference engine. */
-  mode: MediaGraphGrpcExtensionDataTransferMode;
+  mode: GrpcExtensionDataTransferMode;
 }
 
-/** Represents the MediaGraphTopologySetRequest. */
-export type MediaGraphTopologySetRequest = MethodRequest & {
+/** Base Class for Method Requests. */
+export interface MethodRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphTopologySet";
-  /** The definition of a media graph topology. */
-  graph: MediaGraphTopology;
-};
+  methodName:
+    | "pipelineTopologySet"
+    | "PipelineTopologySetRequestBody"
+    | "livePipelineSet"
+    | "livePipelineSetRequestBody"
+    | "ItemNonSetRequestBase"
+    | "pipelineTopologyList"
+    | "pipelineTopologyGet"
+    | "pipelineTopologyDelete"
+    | "livePipelineList"
+    | "livePipelineGet"
+    | "livePipelineActivate"
+    | "livePipelineDeactivate"
+    | "livePipelineDelete";
+  /** api version */
+  apiVersion?: "1.0";
+}
 
-/** Represents the MediaGraphTopologySetRequest body. */
-export type MediaGraphTopologySetRequestBody = MethodRequest &
-  MediaGraphTopology & {
+/** Represents the livePipelineSet request body. */
+export type LivePipelineSetRequestBody = MethodRequest &
+  LivePipeline & {
     /** Polymorphic discriminator, which specifies the different types this object can be */
-    methodName: "MediaGraphTopologySetRequestBody";
+    methodName: "livePipelineSetRequestBody";
   };
 
-/** Represents the MediaGraphInstanceSetRequest. */
-export type MediaGraphInstanceSetRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphInstanceSet";
-  /** Represents an instance of a media graph. */
-  instance: MediaGraphInstance;
-};
-
-/** Represents the MediaGraphInstanceSetRequest body. */
-export type MediaGraphInstanceSetRequestBody = MethodRequest &
-  MediaGraphInstance & {
+/** Represents the pipelineTopologySet request body. */
+export type PipelineTopologySetRequestBody = MethodRequest &
+  PipelineTopology & {
     /** Polymorphic discriminator, which specifies the different types this object can be */
-    methodName: "MediaGraphInstanceSetRequestBody";
+    methodName: "PipelineTopologySetRequestBody";
   };
 
-export type ItemNonSetRequestBase = MethodRequest & {
+/** Enables a pipeline topology to capture media from a RTSP server. */
+export type RtspSource = Source & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "ItemNonSetRequestBase";
-  /** method name */
-  name: string;
-};
-
-/** Represents the MediaGraphTopologyListRequest. */
-export type MediaGraphTopologyListRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphTopologyList";
-};
-
-/** Represents the MediaGraphInstanceListRequest. */
-export type MediaGraphInstanceListRequest = MethodRequest & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphInstanceList";
-};
-
-/** Enables a media graph to capture media from a RTSP server. */
-export type MediaGraphRtspSource = MediaGraphSource & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphRtspSource";
+  "@type": "#Microsoft.VideoAnalyzer.RtspSource";
   /** Underlying RTSP transport. This is used to enable or disable HTTP tunneling. */
-  transport?: MediaGraphRtspTransport;
+  transport?: RtspTransport;
   /** RTSP endpoint of the stream that is being connected to. */
-  endpoint: MediaGraphEndpointUnion;
+  endpoint: EndpointUnion;
 };
 
-/** Enables a media graph to receive messages via routes declared in the IoT Edge deployment manifest. */
-export type MediaGraphIoTHubMessageSource = MediaGraphSource & {
+/** Enables a pipeline topology to receive messages via routes declared in the IoT Edge deployment manifest. */
+export type IotHubMessageSource = Source & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSource";
+  "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSource";
   /** Name of the input path where messages can be routed to (via routes declared in the IoT Edge deployment manifest). */
   hubInputName?: string;
 };
 
 /** A node that accepts raw video as input, and detects if there are moving objects present. If so, then it emits an event, and allows frames where motion was detected to pass through. Other frames are blocked/dropped. */
-export type MediaGraphMotionDetectionProcessor = MediaGraphProcessor & {
+export type MotionDetectionProcessor = Processor & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphMotionDetectionProcessor";
+  "@type": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor";
   /** Enumeration that specifies the sensitivity of the motion detection processor. */
-  sensitivity?: MediaGraphMotionDetectionSensitivity;
+  sensitivity?: MotionDetectionSensitivity;
   /** Indicates whether the processor should detect and output the regions, within the video frame, where motion was detected. Default is true. */
   outputMotionRegion?: boolean;
   /** Event aggregation window duration, or 0 for no aggregation. */
   eventAggregationWindow?: string;
 };
 
-/** Processor that allows for extensions outside of the Live Video Analytics Edge module to be integrated into the graph. It is the base class for various different kinds of extension processor types. */
-export type MediaGraphExtensionProcessorBase = MediaGraphProcessor & {
+/** A node that accepts raw video as input, and detects objects. */
+export type ObjectTrackingProcessor = Processor & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphExtensionProcessorBase";
+  "@type": "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor";
+  /** Enumeration that controls the accuracy of the tracker. */
+  accuracy?: ObjectTrackingAccuracy;
+};
+
+/** A node that accepts raw video as input, and detects when an object crosses a line. */
+export type LineCrossingProcessor = Processor & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.LineCrossingProcessor";
+  /** An array of lines used to compute line crossing events. */
+  lines: Line[];
+};
+
+/** Processor that allows for extensions outside of the Azure Video Analyzer Edge module to be integrated into the pipeline topology. It is the base class for various different kinds of extension processor types. */
+export type ExtensionProcessorBase = Processor & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.ExtensionProcessorBase";
   /** Endpoint to which this processor should connect. */
-  endpoint: MediaGraphEndpointUnion;
+  endpoint: EndpointUnion;
   /** Describes the parameters of the image that is sent as input to the endpoint. */
-  image: MediaGraphImage;
+  image: Image;
   /** Describes the sampling options to be applied when forwarding samples to the extension. */
-  samplingOptions?: MediaGraphSamplingOptions;
+  samplingOptions?: SamplingOptions;
 };
 
 /** A signal gate determines when to block (gate) incoming media, and when to allow it through. It gathers input events over the activationEvaluationWindow, and determines whether to open or close the gate. */
-export type MediaGraphSignalGateProcessor = MediaGraphProcessor & {
+export type SignalGateProcessor = Processor & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphSignalGateProcessor";
+  "@type": "#Microsoft.VideoAnalyzer.SignalGateProcessor";
   /** The period of time over which the gate gathers input events before evaluating them. */
   activationEvaluationWindow?: string;
   /** Signal offset once the gate is activated (can be negative). It is an offset between the time the event is received, and the timestamp of the first media sample (eg. video frame) that is allowed through by the gate. */
@@ -397,18 +412,18 @@ export type MediaGraphSignalGateProcessor = MediaGraphProcessor & {
   maximumActivationTime?: string;
 };
 
-/** Enables a media graph to publish messages that can be delivered via routes declared in the IoT Edge deployment manifest. */
-export type MediaGraphIoTHubMessageSink = MediaGraphSink & {
+/** Enables a pipeline topology to publish messages that can be delivered via routes declared in the IoT Edge deployment manifest. */
+export type IotHubMessageSink = Sink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSink";
-  /** Name of the output path to which the media graph will publish message. These messages can then be delivered to desired destinations by declaring routes referencing the output path in the IoT Edge deployment manifest. */
+  "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink";
+  /** Name of the output path to which the pipeline topology will publish message. These messages can then be delivered to desired destinations by declaring routes referencing the output path in the IoT Edge deployment manifest. */
   hubOutputName: string;
 };
 
-/** Enables a media graph to write/store media (video and audio) to a file on the Edge device. */
-export type MediaGraphFileSink = MediaGraphSink & {
+/** Enables a topology to write/store media (video and audio) to a file on the Edge device. */
+export type FileSink = Sink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphFileSink";
+  "@type": "#Microsoft.VideoAnalyzer.FileSink";
   /** Absolute directory for all outputs to the Edge device from this sink. */
   baseDirectoryPath: string;
   /** File name pattern for creating new files on the Edge device. The pattern must include at least one system variable. See the documentation for available variables and additional examples. */
@@ -417,12 +432,12 @@ export type MediaGraphFileSink = MediaGraphSink & {
   maximumSizeMiB: string;
 };
 
-/** Enables a media graph to record media to an Azure Media Services asset for subsequent playback. */
-export type MediaGraphAssetSink = MediaGraphSink & {
+/** Enables a pipeline topology to record media to an Azure Media Services asset for subsequent playback. */
+export type AssetSink = Sink & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphAssetSink";
-  /** A name pattern when creating new assets. The pattern must include at least one system variable. See the documentation for available variables and additional examples. */
-  assetNamePattern: string;
+  "@type": "#Microsoft.VideoAnalyzer.AssetSink";
+  /** An Azure Storage SAS Url which points to container, such as the one created for an Azure Media Services asset. */
+  assetContainerSasUrl: string;
   /** When writing media to an asset, wait until at least this duration of media has been accumulated on the Edge. Expressed in increments of 30 seconds, with a minimum of 30 seconds and a recommended maximum of 5 minutes. */
   segmentLength?: string;
   /** Path to a local file system directory for temporary caching of media before writing to an Asset. Used when the Edge device is temporarily disconnected from Azure. */
@@ -431,26 +446,26 @@ export type MediaGraphAssetSink = MediaGraphSink & {
   localMediaCacheMaximumSizeMiB: string;
 };
 
-/** An endpoint that the media graph can connect to, with no encryption in transit. */
-export type MediaGraphUnsecuredEndpoint = MediaGraphEndpoint & {
+/** An endpoint that the pipeline topology can connect to, with no encryption in transit. */
+export type UnsecuredEndpoint = Endpoint & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphUnsecuredEndpoint";
+  "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint";
 };
 
-/** A TLS endpoint for media graph external connections. */
-export type MediaGraphTlsEndpoint = MediaGraphEndpoint & {
+/** A TLS endpoint for pipeline topology external connections. */
+export type TlsEndpoint = Endpoint & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphTlsEndpoint";
+  "@type": "#Microsoft.VideoAnalyzer.TlsEndpoint";
   /** Trusted certificates when authenticating a TLS connection. Null designates that Azure Media Service's source of trust should be used. */
-  trustedCertificates?: MediaGraphCertificateSourceUnion;
+  trustedCertificates?: CertificateSourceUnion;
   /** Validation options to use when authenticating a TLS connection. By default, strict validation is used. */
-  validationOptions?: MediaGraphTlsValidationOptions;
+  validationOptions?: TlsValidationOptions;
 };
 
 /** Username/password credential pair. */
-export type MediaGraphUsernamePasswordCredentials = MediaGraphCredentials & {
+export type UsernamePasswordCredentials = Credentials & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials";
+  "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials";
   /** Username for a username/password pair. */
   username: string;
   /** Password for a username/password pair. Please use a parameter so that the actual value is not returned on PUT or GET requests. */
@@ -458,153 +473,222 @@ export type MediaGraphUsernamePasswordCredentials = MediaGraphCredentials & {
 };
 
 /** Http header service credentials. */
-export type MediaGraphHttpHeaderCredentials = MediaGraphCredentials & {
+export type HttpHeaderCredentials = Credentials & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
+  "@type": "#Microsoft.VideoAnalyzer.HttpHeaderCredentials";
   /** HTTP header name. */
   headerName: string;
   /** HTTP header value. Please use a parameter so that the actual value is not returned on PUT or GET requests. */
   headerValue: string;
 };
 
-/** A list of PEM formatted certificates. */
-export type MediaGraphPemCertificateList = MediaGraphCertificateSource & {
+/** Symmetric key credential. */
+export type SymmetricKeyCredentials = Credentials & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphPemCertificateList";
+  "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
+  /** Symmetric key credential. */
+  key: string;
+};
+
+/** A list of PEM formatted certificates. */
+export type PemCertificateList = CertificateSource & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.PemCertificateList";
   /** PEM formatted public certificates one per entry. */
   certificates: string[];
 };
 
 /** Encoding settings for raw images. */
-export type MediaGraphImageFormatRaw = MediaGraphImageFormat & {
+export type ImageFormatRaw = ImageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphImageFormatRaw";
+  "@type": "#Microsoft.VideoAnalyzer.ImageFormatRaw";
   /** The pixel format that will be used to encode images. */
-  pixelFormat: MediaGraphImageFormatRawPixelFormat;
+  pixelFormat: ImageFormatRawPixelFormat;
 };
 
 /** Encoding settings for Jpeg images. */
-export type MediaGraphImageFormatJpeg = MediaGraphImageFormat & {
+export type ImageFormatJpeg = ImageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphImageFormatJpeg";
+  "@type": "#Microsoft.VideoAnalyzer.ImageFormatJpeg";
   /** The image quality. Value must be between 0 to 100 (best quality). */
   quality?: string;
 };
 
 /** Encoding settings for Bmp images. */
-export type MediaGraphImageFormatBmp = MediaGraphImageFormat & {
+export type ImageFormatBmp = ImageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphImageFormatBmp";
+  "@type": "#Microsoft.VideoAnalyzer.ImageFormatBmp";
 };
 
 /** Encoding settings for Png images. */
-export type MediaGraphImageFormatPng = MediaGraphImageFormat & {
+export type ImageFormatPng = ImageFormat & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphImageFormatPng";
+  "@type": "#Microsoft.VideoAnalyzer.ImageFormatPng";
 };
 
-/** Represents the MediaGraphTopologyGetRequest. */
-export type MediaGraphTopologyGetRequest = ItemNonSetRequestBase & {
+/** Represents the pipelineTopologySet request. */
+export type PipelineTopologySetRequest = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphTopologyGet";
+  methodName: "pipelineTopologySet";
+  /** The definition of a pipeline topology. */
+  pipelineTopology: PipelineTopology;
 };
 
-/** Represents the MediaGraphTopologyDeleteRequest. */
-export type MediaGraphTopologyDeleteRequest = ItemNonSetRequestBase & {
+/** Represents the livePipelineSet request. */
+export type LivePipelineSetRequest = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphTopologyDelete";
+  methodName: "livePipelineSet";
+  /** Represents a unique live pipeline. */
+  livePipeline: LivePipeline;
 };
 
-/** Represents the MediaGraphInstanceGetRequest. */
-export type MediaGraphInstanceGetRequest = ItemNonSetRequestBase & {
+export type ItemNonSetRequestBase = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphInstanceGet";
+  methodName: "ItemNonSetRequestBase";
+  /** method name */
+  name: string;
 };
 
-/** Represents the MediaGraphInstanceActivateRequest. */
-export type MediaGraphInstanceActivateRequest = ItemNonSetRequestBase & {
+/** Represents the pipelineTopologyList request. */
+export type PipelineTopologyListRequest = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphInstanceActivate";
+  methodName: "pipelineTopologyList";
 };
 
-/** Represents the MediaGraphInstanceDeactivateRequest. */
-export type MediaGraphInstanceDeActivateRequest = ItemNonSetRequestBase & {
+/** Represents the livePipelineList request. */
+export type LivePipelineListRequest = MethodRequest & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphInstanceDeactivate";
+  methodName: "livePipelineList";
 };
 
-/** Represents the MediaGraphInstanceDeleteRequest. */
-export type MediaGraphInstanceDeleteRequest = ItemNonSetRequestBase & {
+/** A processor that allows the pipeline topology to send video frames to a Cognitive Services Vision extension. Inference results are relayed to downstream nodes. */
+export type CognitiveServicesVisionExtension = ExtensionProcessorBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  methodName: "GraphInstanceDelete";
+  "@type": "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension";
+  /** Optional configuration to pass to the CognitiveServicesVision extension. */
+  extensionConfiguration?: string;
 };
 
-/** A processor that allows the media graph to send video frames to a Cognitive Services Vision extension. Inference results are relayed to downstream nodes. */
-export type MediaGraphCognitiveServicesVisionExtension = MediaGraphExtensionProcessorBase & {
+/** A processor that allows the pipeline topology to send video frames to an external inference container over a gRPC connection. This can be done using shared memory (for high frame rates), or over the network. Inference results are relayed to downstream nodes. */
+export type GrpcExtension = ExtensionProcessorBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension";
-};
-
-/** A processor that allows the media graph to send video frames to an external inference container over a gRPC connection. This can be done using shared memory (for high frame rates), or over the network. Inference results are relayed to downstream nodes. */
-export type MediaGraphGrpcExtension = MediaGraphExtensionProcessorBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphGrpcExtension";
+  "@type": "#Microsoft.VideoAnalyzer.GrpcExtension";
   /** How media should be transferred to the inference engine. */
-  dataTransfer: MediaGraphGrpcExtensionDataTransfer;
+  dataTransfer: GrpcExtensionDataTransfer;
   /** Optional configuration to pass to the gRPC extension. */
   extensionConfiguration?: string;
 };
 
-/** A processor that allows the media graph to send video frames (mostly at low frame rates e.g. <5 fps) to an external inference container over an HTTP-based RESTful API. Inference results are relayed to downstream nodes. */
-export type MediaGraphHttpExtension = MediaGraphExtensionProcessorBase & {
+/** A processor that allows the pipeline topology to send video frames (mostly at low frame rates e.g. <5 fps) to an external inference container over an HTTP-based RESTful API. Inference results are relayed to downstream nodes. */
+export type HttpExtension = ExtensionProcessorBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.Media.MediaGraphHttpExtension";
+  "@type": "#Microsoft.VideoAnalyzer.HttpExtension";
 };
 
-/** Known values of {@link MediaGraphParameterType} that the service accepts. */
-export const enum KnownMediaGraphParameterType {
-  /** A string parameter value. */
-  String = "String",
-  /** A string to hold sensitive information as parameter value. */
-  SecretString = "SecretString",
-  /** A 32-bit signed integer as parameter value. */
-  Int = "Int",
-  /** A 64-bit double-precision floating point type as parameter value. */
-  Double = "Double",
-  /** A boolean value that is either true or false. */
-  Bool = "Bool"
+/** Represents the pipelineTopologyGet request. */
+export type PipelineTopologyGetRequest = ItemNonSetRequestBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "pipelineTopologyGet";
+};
+
+/** Represents the pipelineTopologyDelete request. */
+export type PipelineTopologyDeleteRequest = ItemNonSetRequestBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "pipelineTopologyDelete";
+};
+
+/** Represents the livePipelineGet request. */
+export type LivePipelineGetRequest = ItemNonSetRequestBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "livePipelineGet";
+};
+
+/** Represents the livePipelineActivate request. */
+export type LivePipelineActivateRequest = ItemNonSetRequestBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "livePipelineActivate";
+};
+
+/** Represents the livePipelineDeactivate request. */
+export type LivePipelineDeactivateRequest = ItemNonSetRequestBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "livePipelineDeactivate";
+};
+
+/** Represents the livePipelineDelete request. */
+export type LivePipelineDeleteRequest = ItemNonSetRequestBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  methodName: "livePipelineDelete";
+};
+
+/** Known values of {@link LivePipelineState} that the service accepts. */
+export const enum KnownLivePipelineState {
+  /** The live pipeline is idle and not processing media. */
+  Inactive = "inactive",
+  /** The live pipeline is transitioning into the active state. */
+  Activating = "activating",
+  /** The live pipeline is active and processing media. */
+  Active = "active",
+  /** The live pipeline is transitioning into the inactive state. */
+  Deactivating = "deactivating"
 }
 
 /**
- * Defines values for MediaGraphParameterType. \
- * {@link KnownMediaGraphParameterType} can be used interchangeably with MediaGraphParameterType,
+ * Defines values for LivePipelineState. \
+ * {@link KnownLivePipelineState} can be used interchangeably with LivePipelineState,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **String**: A string parameter value. \
- * **SecretString**: A string to hold sensitive information as parameter value. \
- * **Int**: A 32-bit signed integer as parameter value. \
- * **Double**: A 64-bit double-precision floating point type as parameter value. \
- * **Bool**: A boolean value that is either true or false.
+ * **inactive**: The live pipeline is idle and not processing media. \
+ * **activating**: The live pipeline is transitioning into the active state. \
+ * **active**: The live pipeline is active and processing media. \
+ * **deactivating**: The live pipeline is transitioning into the inactive state.
  */
-export type MediaGraphParameterType = string;
+export type LivePipelineState = string;
 
-/** Known values of {@link MediaGraphOutputSelectorProperty} that the service accepts. */
-export const enum KnownMediaGraphOutputSelectorProperty {
+/** Known values of {@link ParameterType} that the service accepts. */
+export const enum KnownParameterType {
+  /** A string parameter value. */
+  String = "string",
+  /** A string to hold sensitive information as parameter value. */
+  SecretString = "secretString",
+  /** A 32-bit signed integer as parameter value. */
+  Int = "int",
+  /** A 64-bit double-precision floating point type as parameter value. */
+  Double = "double",
+  /** A boolean value that is either true or false. */
+  Bool = "bool"
+}
+
+/**
+ * Defines values for ParameterType. \
+ * {@link KnownParameterType} can be used interchangeably with ParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **string**: A string parameter value. \
+ * **secretString**: A string to hold sensitive information as parameter value. \
+ * **int**: A 32-bit signed integer as parameter value. \
+ * **double**: A 64-bit double-precision floating point type as parameter value. \
+ * **bool**: A boolean value that is either true or false.
+ */
+export type ParameterType = string;
+
+/** Known values of {@link OutputSelectorProperty} that the service accepts. */
+export const enum KnownOutputSelectorProperty {
   /** The stream's MIME type or subtype. */
   MediaType = "mediaType"
 }
 
 /**
- * Defines values for MediaGraphOutputSelectorProperty. \
- * {@link KnownMediaGraphOutputSelectorProperty} can be used interchangeably with MediaGraphOutputSelectorProperty,
+ * Defines values for OutputSelectorProperty. \
+ * {@link KnownOutputSelectorProperty} can be used interchangeably with OutputSelectorProperty,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **mediaType**: The stream's MIME type or subtype.
  */
-export type MediaGraphOutputSelectorProperty = string;
+export type OutputSelectorProperty = string;
 
-/** Known values of {@link MediaGraphOutputSelectorOperator} that the service accepts. */
-export const enum KnownMediaGraphOutputSelectorOperator {
+/** Known values of {@link OutputSelectorOperator} that the service accepts. */
+export const enum KnownOutputSelectorOperator {
   /** A media type is the same type or a subtype. */
   Is = "is",
   /** A media type is not the same type or a subtype. */
@@ -612,161 +696,158 @@ export const enum KnownMediaGraphOutputSelectorOperator {
 }
 
 /**
- * Defines values for MediaGraphOutputSelectorOperator. \
- * {@link KnownMediaGraphOutputSelectorOperator} can be used interchangeably with MediaGraphOutputSelectorOperator,
+ * Defines values for OutputSelectorOperator. \
+ * {@link KnownOutputSelectorOperator} can be used interchangeably with OutputSelectorOperator,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
  * **is**: A media type is the same type or a subtype. \
  * **isNot**: A media type is not the same type or a subtype.
  */
-export type MediaGraphOutputSelectorOperator = string;
+export type OutputSelectorOperator = string;
 
-/** Known values of {@link MediaGraphInstanceState} that the service accepts. */
-export const enum KnownMediaGraphInstanceState {
-  /** The media graph instance is idle and not processing media. */
-  Inactive = "Inactive",
-  /** The media graph instance is transitioning into the active state. */
-  Activating = "Activating",
-  /** The media graph instance is active and processing media. */
-  Active = "Active",
-  /** The media graph instance is transitioning into the inactive state. */
-  Deactivating = "Deactivating"
-}
-
-/**
- * Defines values for MediaGraphInstanceState. \
- * {@link KnownMediaGraphInstanceState} can be used interchangeably with MediaGraphInstanceState,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Inactive**: The media graph instance is idle and not processing media. \
- * **Activating**: The media graph instance is transitioning into the active state. \
- * **Active**: The media graph instance is active and processing media. \
- * **Deactivating**: The media graph instance is transitioning into the inactive state.
- */
-export type MediaGraphInstanceState = string;
-
-/** Known values of {@link MediaGraphRtspTransport} that the service accepts. */
-export const enum KnownMediaGraphRtspTransport {
+/** Known values of {@link RtspTransport} that the service accepts. */
+export const enum KnownRtspTransport {
   /** HTTP/HTTPS transport. This should be used when HTTP tunneling is desired. */
-  Http = "Http",
+  Http = "http",
   /** TCP transport. This should be used when HTTP tunneling is NOT desired. */
-  Tcp = "Tcp"
+  Tcp = "tcp"
 }
 
 /**
- * Defines values for MediaGraphRtspTransport. \
- * {@link KnownMediaGraphRtspTransport} can be used interchangeably with MediaGraphRtspTransport,
+ * Defines values for RtspTransport. \
+ * {@link KnownRtspTransport} can be used interchangeably with RtspTransport,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **Http**: HTTP\/HTTPS transport. This should be used when HTTP tunneling is desired. \
- * **Tcp**: TCP transport. This should be used when HTTP tunneling is NOT desired.
+ * **http**: HTTP\/HTTPS transport. This should be used when HTTP tunneling is desired. \
+ * **tcp**: TCP transport. This should be used when HTTP tunneling is NOT desired.
  */
-export type MediaGraphRtspTransport = string;
+export type RtspTransport = string;
 
-/** Known values of {@link MediaGraphMotionDetectionSensitivity} that the service accepts. */
-export const enum KnownMediaGraphMotionDetectionSensitivity {
+/** Known values of {@link MotionDetectionSensitivity} that the service accepts. */
+export const enum KnownMotionDetectionSensitivity {
   /** Low Sensitivity. */
-  Low = "Low",
+  Low = "low",
   /** Medium Sensitivity. */
-  Medium = "Medium",
+  Medium = "medium",
   /** High Sensitivity. */
-  High = "High"
+  High = "high"
 }
 
 /**
- * Defines values for MediaGraphMotionDetectionSensitivity. \
- * {@link KnownMediaGraphMotionDetectionSensitivity} can be used interchangeably with MediaGraphMotionDetectionSensitivity,
+ * Defines values for MotionDetectionSensitivity. \
+ * {@link KnownMotionDetectionSensitivity} can be used interchangeably with MotionDetectionSensitivity,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **Low**: Low Sensitivity. \
- * **Medium**: Medium Sensitivity. \
- * **High**: High Sensitivity.
+ * **low**: Low Sensitivity. \
+ * **medium**: Medium Sensitivity. \
+ * **high**: High Sensitivity.
  */
-export type MediaGraphMotionDetectionSensitivity = string;
+export type MotionDetectionSensitivity = string;
 
-/** Known values of {@link MediaGraphImageScaleMode} that the service accepts. */
-export const enum KnownMediaGraphImageScaleMode {
+/** Known values of {@link ObjectTrackingAccuracy} that the service accepts. */
+export const enum KnownObjectTrackingAccuracy {
+  /** Low Accuracy. */
+  Low = "low",
+  /** Medium Accuracy. */
+  Medium = "medium",
+  /** High Accuracy. */
+  High = "high"
+}
+
+/**
+ * Defines values for ObjectTrackingAccuracy. \
+ * {@link KnownObjectTrackingAccuracy} can be used interchangeably with ObjectTrackingAccuracy,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **low**: Low Accuracy. \
+ * **medium**: Medium Accuracy. \
+ * **high**: High Accuracy.
+ */
+export type ObjectTrackingAccuracy = string;
+
+/** Known values of {@link ImageScaleMode} that the service accepts. */
+export const enum KnownImageScaleMode {
   /** Use the same aspect ratio as the input frame. */
-  PreserveAspectRatio = "PreserveAspectRatio",
+  PreserveAspectRatio = "preserveAspectRatio",
   /** Center pad the input frame to match the given dimensions. */
-  Pad = "Pad",
+  Pad = "pad",
   /** Stretch input frame to match given dimensions. */
-  Stretch = "Stretch"
+  Stretch = "stretch"
 }
 
 /**
- * Defines values for MediaGraphImageScaleMode. \
- * {@link KnownMediaGraphImageScaleMode} can be used interchangeably with MediaGraphImageScaleMode,
+ * Defines values for ImageScaleMode. \
+ * {@link KnownImageScaleMode} can be used interchangeably with ImageScaleMode,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **PreserveAspectRatio**: Use the same aspect ratio as the input frame. \
- * **Pad**: Center pad the input frame to match the given dimensions. \
- * **Stretch**: Stretch input frame to match given dimensions.
+ * **preserveAspectRatio**: Use the same aspect ratio as the input frame. \
+ * **pad**: Center pad the input frame to match the given dimensions. \
+ * **stretch**: Stretch input frame to match given dimensions.
  */
-export type MediaGraphImageScaleMode = string;
+export type ImageScaleMode = string;
 
-/** Known values of {@link MediaGraphGrpcExtensionDataTransferMode} that the service accepts. */
-export const enum KnownMediaGraphGrpcExtensionDataTransferMode {
+/** Known values of {@link GrpcExtensionDataTransferMode} that the service accepts. */
+export const enum KnownGrpcExtensionDataTransferMode {
   /** Frames are transferred embedded into the gRPC messages. */
-  Embedded = "Embedded",
+  Embedded = "embedded",
   /** Frames are transferred through shared memory. */
-  SharedMemory = "SharedMemory"
+  SharedMemory = "sharedMemory"
 }
 
 /**
- * Defines values for MediaGraphGrpcExtensionDataTransferMode. \
- * {@link KnownMediaGraphGrpcExtensionDataTransferMode} can be used interchangeably with MediaGraphGrpcExtensionDataTransferMode,
+ * Defines values for GrpcExtensionDataTransferMode. \
+ * {@link KnownGrpcExtensionDataTransferMode} can be used interchangeably with GrpcExtensionDataTransferMode,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **Embedded**: Frames are transferred embedded into the gRPC messages. \
- * **SharedMemory**: Frames are transferred through shared memory.
+ * **embedded**: Frames are transferred embedded into the gRPC messages. \
+ * **sharedMemory**: Frames are transferred through shared memory.
  */
-export type MediaGraphGrpcExtensionDataTransferMode = string;
+export type GrpcExtensionDataTransferMode = string;
 
-/** Known values of {@link MediaGraphImageFormatRawPixelFormat} that the service accepts. */
-export const enum KnownMediaGraphImageFormatRawPixelFormat {
+/** Known values of {@link ImageFormatRawPixelFormat} that the service accepts. */
+export const enum KnownImageFormatRawPixelFormat {
   /** Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples). */
-  Yuv420P = "Yuv420p",
+  Yuv420P = "yuv420p",
   /** Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian. */
-  Rgb565Be = "Rgb565be",
+  Rgb565Be = "rgb565be",
   /** Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian. */
-  Rgb565Le = "Rgb565le",
+  Rgb565Le = "rgb565le",
   /** Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), big-endian , X=unused/undefined. */
-  Rgb555Be = "Rgb555be",
+  Rgb555Be = "rgb555be",
   /** Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), little-endian, X=unused/undefined. */
-  Rgb555Le = "Rgb555le",
+  Rgb555Le = "rgb555le",
   /** Packed RGB 8:8:8, 24bpp, RGBRGB. */
-  Rgb24 = "Rgb24",
+  Rgb24 = "rgb24",
   /** Packed RGB 8:8:8, 24bpp, BGRBGR. */
-  Bgr24 = "Bgr24",
+  Bgr24 = "bgr24",
   /** Packed ARGB 8:8:8:8, 32bpp, ARGBARGB. */
-  Argb = "Argb",
+  Argb = "argb",
   /** Packed RGBA 8:8:8:8, 32bpp, RGBARGBA. */
-  Rgba = "Rgba",
+  Rgba = "rgba",
   /** Packed ABGR 8:8:8:8, 32bpp, ABGRABGR. */
-  Abgr = "Abgr",
+  Abgr = "abgr",
   /** Packed BGRA 8:8:8:8, 32bpp, BGRABGRA. */
-  Bgra = "Bgra"
+  Bgra = "bgra"
 }
 
 /**
- * Defines values for MediaGraphImageFormatRawPixelFormat. \
- * {@link KnownMediaGraphImageFormatRawPixelFormat} can be used interchangeably with MediaGraphImageFormatRawPixelFormat,
+ * Defines values for ImageFormatRawPixelFormat. \
+ * {@link KnownImageFormatRawPixelFormat} can be used interchangeably with ImageFormatRawPixelFormat,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **Yuv420p**: Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples). \
- * **Rgb565be**: Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian. \
- * **Rgb565le**: Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian. \
- * **Rgb555be**: Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), big-endian , X=unused\/undefined. \
- * **Rgb555le**: Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), little-endian, X=unused\/undefined. \
- * **Rgb24**: Packed RGB 8:8:8, 24bpp, RGBRGB. \
- * **Bgr24**: Packed RGB 8:8:8, 24bpp, BGRBGR. \
- * **Argb**: Packed ARGB 8:8:8:8, 32bpp, ARGBARGB. \
- * **Rgba**: Packed RGBA 8:8:8:8, 32bpp, RGBARGBA. \
- * **Abgr**: Packed ABGR 8:8:8:8, 32bpp, ABGRABGR. \
- * **Bgra**: Packed BGRA 8:8:8:8, 32bpp, BGRABGRA.
+ * **yuv420p**: Planar YUV 4:2:0, 12bpp, (1 Cr and Cb sample per 2x2 Y samples). \
+ * **rgb565be**: Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), big-endian. \
+ * **rgb565le**: Packed RGB 5:6:5, 16bpp, (msb)   5R 6G 5B(lsb), little-endian. \
+ * **rgb555be**: Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), big-endian , X=unused\/undefined. \
+ * **rgb555le**: Packed RGB 5:5:5, 16bpp, (msb)1X 5R 5G 5B(lsb), little-endian, X=unused\/undefined. \
+ * **rgb24**: Packed RGB 8:8:8, 24bpp, RGBRGB. \
+ * **bgr24**: Packed RGB 8:8:8, 24bpp, BGRBGR. \
+ * **argb**: Packed ARGB 8:8:8:8, 32bpp, ARGBARGB. \
+ * **rgba**: Packed RGBA 8:8:8:8, 32bpp, RGBARGBA. \
+ * **abgr**: Packed ABGR 8:8:8:8, 32bpp, ABGRABGR. \
+ * **bgra**: Packed BGRA 8:8:8:8, 32bpp, BGRABGRA.
  */
-export type MediaGraphImageFormatRawPixelFormat = string;
+export type ImageFormatRawPixelFormat = string;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams

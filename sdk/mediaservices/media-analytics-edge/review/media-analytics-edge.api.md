@@ -7,39 +7,188 @@
 import * as coreHttp from '@azure/core-http';
 
 // @public
-export function createMediaGraphInstanceActivateRequest(name: string): Request;
+export type AssetSink = Sink & {
+    "@type": "#Microsoft.VideoAnalyzer.AssetSink";
+    assetContainerSasUrl: string;
+    segmentLength?: string;
+    localMediaCachePath: string;
+    localMediaCacheMaximumSizeMiB: string;
+};
 
 // @public
-export function createMediaGraphInstanceDeActivateRequest(name: string): Request;
+export interface CertificateSource {
+    "@type": "#Microsoft.VideoAnalyzer.PemCertificateList";
+}
+
+// @public (undocumented)
+export type CertificateSourceUnion = CertificateSource | PemCertificateList;
 
 // @public
-export function createMediaGraphInstanceDeleteRequest(name: string): Request;
+export type CognitiveServicesVisionExtension = ExtensionProcessorBase & {
+    "@type": "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension";
+    extensionConfiguration?: string;
+};
 
 // @public
-export function createMediaGraphInstanceGetRequest(name: string): Request;
+export function createLivePipelineActivateRequest(name: string): Request;
 
 // @public
-export function createMediaGraphInstanceListRequest(): Request;
+export function createLivePipelineDeActivateRequest(name: string): Request;
 
 // @public
-export function createMediaGraphInstanceSetRequest(instance: MediaGraphInstance): Request;
+export function createLivePipelineDeleteRequest(name: string): Request;
 
 // @public
-export function createMediaGraphTopologyDeleteRequest(name: string): Request;
+export function createLivePipelineGetRequest(name: string): Request;
 
 // @public
-export function createMediaGraphTopologyGetRequest(name: string): Request;
+export function createLivePipelineListRequest(): Request;
 
 // @public
-export function createMediaGraphTopologyListRequest(): Request;
+export function createLivePipelineSetRequest(instance: LivePipeline): Request;
 
 // @public
-export function createMediaGraphTopologySetRequest(graph: MediaGraphTopology): Request;
+export function createPipelineTopologyDeleteRequest(name: string): Request;
+
+// @public
+export function createPipelineTopologyGetRequest(name: string): Request;
+
+// @public
+export function createPipelineTopologyListRequest(): Request;
+
+// @public
+export function createPipelineTopologySetRequest(graph: PipelineTopology): Request;
+
+// @public
+export interface Credentials {
+    "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials" | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials" | "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
+}
+
+// @public (undocumented)
+export type CredentialsUnion = Credentials | UsernamePasswordCredentials | HttpHeaderCredentials | SymmetricKeyCredentials;
+
+// @public
+export interface Endpoint {
+    "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint" | "#Microsoft.VideoAnalyzer.TlsEndpoint";
+    credentials?: CredentialsUnion;
+    url: string;
+}
+
+// @public (undocumented)
+export type EndpointUnion = Endpoint | UnsecuredEndpoint | TlsEndpoint;
+
+// @public
+export type ExtensionProcessorBase = Processor & {
+    "@type": "#Microsoft.VideoAnalyzer.ExtensionProcessorBase";
+    endpoint: EndpointUnion;
+    image: Image;
+    samplingOptions?: SamplingOptions;
+};
+
+// @public (undocumented)
+export type ExtensionProcessorBaseUnion = ExtensionProcessorBase | CognitiveServicesVisionExtension | GrpcExtension | HttpExtension;
+
+// @public
+export type FileSink = Sink & {
+    "@type": "#Microsoft.VideoAnalyzer.FileSink";
+    baseDirectoryPath: string;
+    fileNamePattern: string;
+    maximumSizeMiB: string;
+};
 
 // @public
 export interface GeneratedClientOptionalParams extends coreHttp.ServiceClientOptions {
     endpoint?: string;
 }
+
+// @public
+export type GrpcExtension = ExtensionProcessorBase & {
+    "@type": "#Microsoft.VideoAnalyzer.GrpcExtension";
+    dataTransfer: GrpcExtensionDataTransfer;
+    extensionConfiguration?: string;
+};
+
+// @public
+export interface GrpcExtensionDataTransfer {
+    mode: GrpcExtensionDataTransferMode;
+    sharedMemorySizeMiB?: string;
+}
+
+// @public
+export type GrpcExtensionDataTransferMode = string;
+
+// @public
+export type HttpExtension = ExtensionProcessorBase & {
+    "@type": "#Microsoft.VideoAnalyzer.HttpExtension";
+};
+
+// @public
+export type HttpHeaderCredentials = Credentials & {
+    "@type": "#Microsoft.VideoAnalyzer.HttpHeaderCredentials";
+    headerName: string;
+    headerValue: string;
+};
+
+// @public
+export interface Image {
+    format?: ImageFormatUnion;
+    scale?: ImageScale;
+}
+
+// @public
+export interface ImageFormat {
+    "@type": "#Microsoft.VideoAnalyzer.ImageFormatRaw" | "#Microsoft.VideoAnalyzer.ImageFormatJpeg" | "#Microsoft.VideoAnalyzer.ImageFormatBmp" | "#Microsoft.VideoAnalyzer.ImageFormatPng";
+}
+
+// @public
+export type ImageFormatBmp = ImageFormat & {
+    "@type": "#Microsoft.VideoAnalyzer.ImageFormatBmp";
+};
+
+// @public
+export type ImageFormatJpeg = ImageFormat & {
+    "@type": "#Microsoft.VideoAnalyzer.ImageFormatJpeg";
+    quality?: string;
+};
+
+// @public
+export type ImageFormatPng = ImageFormat & {
+    "@type": "#Microsoft.VideoAnalyzer.ImageFormatPng";
+};
+
+// @public
+export type ImageFormatRaw = ImageFormat & {
+    "@type": "#Microsoft.VideoAnalyzer.ImageFormatRaw";
+    pixelFormat: ImageFormatRawPixelFormat;
+};
+
+// @public
+export type ImageFormatRawPixelFormat = string;
+
+// @public (undocumented)
+export type ImageFormatUnion = ImageFormat | ImageFormatRaw | ImageFormatJpeg | ImageFormatBmp | ImageFormatPng;
+
+// @public
+export interface ImageScale {
+    height?: string;
+    mode?: ImageScaleMode;
+    width?: string;
+}
+
+// @public
+export type ImageScaleMode = string;
+
+// @public
+export type IotHubMessageSink = Sink & {
+    "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink";
+    hubOutputName: string;
+};
+
+// @public
+export type IotHubMessageSource = Source & {
+    "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSource";
+    hubInputName?: string;
+};
 
 // @public (undocumented)
 export type ItemNonSetRequestBase = MethodRequest & {
@@ -48,474 +197,303 @@ export type ItemNonSetRequestBase = MethodRequest & {
 };
 
 // @public (undocumented)
-export type ItemNonSetRequestBaseUnion = ItemNonSetRequestBase | MediaGraphTopologyGetRequest | MediaGraphTopologyDeleteRequest | MediaGraphInstanceGetRequest | MediaGraphInstanceActivateRequest | MediaGraphInstanceDeActivateRequest | MediaGraphInstanceDeleteRequest;
+export type ItemNonSetRequestBaseUnion = ItemNonSetRequestBase | PipelineTopologyGetRequest | PipelineTopologyDeleteRequest | LivePipelineGetRequest | LivePipelineActivateRequest | LivePipelineDeactivateRequest | LivePipelineDeleteRequest;
 
 // @public
-export const enum KnownMediaGraphGrpcExtensionDataTransferMode {
-    Embedded = "Embedded",
-    SharedMemory = "SharedMemory"
+export const enum KnownGrpcExtensionDataTransferMode {
+    Embedded = "embedded",
+    SharedMemory = "sharedMemory"
 }
 
 // @public
-export const enum KnownMediaGraphImageFormatRawPixelFormat {
-    Abgr = "Abgr",
-    Argb = "Argb",
-    Bgr24 = "Bgr24",
-    Bgra = "Bgra",
-    Rgb24 = "Rgb24",
-    Rgb555Be = "Rgb555be",
-    Rgb555Le = "Rgb555le",
-    Rgb565Be = "Rgb565be",
-    Rgb565Le = "Rgb565le",
-    Rgba = "Rgba",
-    Yuv420P = "Yuv420p"
+export const enum KnownImageFormatRawPixelFormat {
+    Abgr = "abgr",
+    Argb = "argb",
+    Bgr24 = "bgr24",
+    Bgra = "bgra",
+    Rgb24 = "rgb24",
+    Rgb555Be = "rgb555be",
+    Rgb555Le = "rgb555le",
+    Rgb565Be = "rgb565be",
+    Rgb565Le = "rgb565le",
+    Rgba = "rgba",
+    Yuv420P = "yuv420p"
 }
 
 // @public
-export const enum KnownMediaGraphImageScaleMode {
-    Pad = "Pad",
-    PreserveAspectRatio = "PreserveAspectRatio",
-    Stretch = "Stretch"
+export const enum KnownImageScaleMode {
+    Pad = "pad",
+    PreserveAspectRatio = "preserveAspectRatio",
+    Stretch = "stretch"
 }
 
 // @public
-export const enum KnownMediaGraphInstanceState {
-    Activating = "Activating",
-    Active = "Active",
-    Deactivating = "Deactivating",
-    Inactive = "Inactive"
+export const enum KnownLivePipelineState {
+    Activating = "activating",
+    Active = "active",
+    Deactivating = "deactivating",
+    Inactive = "inactive"
 }
 
 // @public
-export const enum KnownMediaGraphMotionDetectionSensitivity {
-    High = "High",
-    Low = "Low",
-    Medium = "Medium"
+export const enum KnownMotionDetectionSensitivity {
+    High = "high",
+    Low = "low",
+    Medium = "medium"
 }
 
 // @public
-export const enum KnownMediaGraphOutputSelectorOperator {
+export const enum KnownObjectTrackingAccuracy {
+    High = "high",
+    Low = "low",
+    Medium = "medium"
+}
+
+// @public
+export const enum KnownOutputSelectorOperator {
     Is = "is",
     IsNot = "isNot"
 }
 
 // @public
-export const enum KnownMediaGraphOutputSelectorProperty {
+export const enum KnownOutputSelectorProperty {
     MediaType = "mediaType"
 }
 
 // @public
-export const enum KnownMediaGraphParameterType {
-    Bool = "Bool",
-    Double = "Double",
-    Int = "Int",
-    SecretString = "SecretString",
-    String = "String"
+export const enum KnownParameterType {
+    Bool = "bool",
+    Double = "double",
+    Int = "int",
+    SecretString = "secretString",
+    String = "string"
 }
 
 // @public
-export const enum KnownMediaGraphRtspTransport {
-    Http = "Http",
-    Tcp = "Tcp"
+export const enum KnownRtspTransport {
+    Http = "http",
+    Tcp = "tcp"
 }
 
 // @public
-export type MediaGraphAssetSink = MediaGraphSink & {
-    "@type": "#Microsoft.Media.MediaGraphAssetSink";
-    assetNamePattern: string;
-    segmentLength?: string;
-    localMediaCachePath: string;
-    localMediaCacheMaximumSizeMiB: string;
-};
-
-// @public
-export interface MediaGraphCertificateSource {
-    "@type": "#Microsoft.Media.MediaGraphPemCertificateList";
-}
-
-// @public (undocumented)
-export type MediaGraphCertificateSourceUnion = MediaGraphCertificateSource | MediaGraphPemCertificateList;
-
-// @public
-export type MediaGraphCognitiveServicesVisionExtension = MediaGraphExtensionProcessorBase & {
-    "@type": "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension";
-};
-
-// @public
-export interface MediaGraphCredentials {
-    "@type": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials" | "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
-}
-
-// @public (undocumented)
-export type MediaGraphCredentialsUnion = MediaGraphCredentials | MediaGraphUsernamePasswordCredentials | MediaGraphHttpHeaderCredentials;
-
-// @public
-export interface MediaGraphEndpoint {
-    "@type": "#Microsoft.Media.MediaGraphUnsecuredEndpoint" | "#Microsoft.Media.MediaGraphTlsEndpoint";
-    credentials?: MediaGraphCredentialsUnion;
-    url: string;
-}
-
-// @public (undocumented)
-export type MediaGraphEndpointUnion = MediaGraphEndpoint | MediaGraphUnsecuredEndpoint | MediaGraphTlsEndpoint;
-
-// @public
-export type MediaGraphExtensionProcessorBase = MediaGraphProcessor & {
-    "@type": "#Microsoft.Media.MediaGraphExtensionProcessorBase";
-    endpoint: MediaGraphEndpointUnion;
-    image: MediaGraphImage;
-    samplingOptions?: MediaGraphSamplingOptions;
-};
-
-// @public (undocumented)
-export type MediaGraphExtensionProcessorBaseUnion = MediaGraphExtensionProcessorBase | MediaGraphCognitiveServicesVisionExtension | MediaGraphGrpcExtension | MediaGraphHttpExtension;
-
-// @public
-export type MediaGraphFileSink = MediaGraphSink & {
-    "@type": "#Microsoft.Media.MediaGraphFileSink";
-    baseDirectoryPath: string;
-    fileNamePattern: string;
-    maximumSizeMiB: string;
-};
-
-// @public
-export type MediaGraphGrpcExtension = MediaGraphExtensionProcessorBase & {
-    "@type": "#Microsoft.Media.MediaGraphGrpcExtension";
-    dataTransfer: MediaGraphGrpcExtensionDataTransfer;
-    extensionConfiguration?: string;
-};
-
-// @public
-export interface MediaGraphGrpcExtensionDataTransfer {
-    mode: MediaGraphGrpcExtensionDataTransferMode;
-    sharedMemorySizeMiB?: string;
-}
-
-// @public
-export type MediaGraphGrpcExtensionDataTransferMode = string;
-
-// @public
-export type MediaGraphHttpExtension = MediaGraphExtensionProcessorBase & {
-    "@type": "#Microsoft.Media.MediaGraphHttpExtension";
-};
-
-// @public
-export type MediaGraphHttpHeaderCredentials = MediaGraphCredentials & {
-    "@type": "#Microsoft.Media.MediaGraphHttpHeaderCredentials";
-    headerName: string;
-    headerValue: string;
-};
-
-// @public
-export interface MediaGraphImage {
-    format?: MediaGraphImageFormatUnion;
-    scale?: MediaGraphImageScale;
-}
-
-// @public
-export interface MediaGraphImageFormat {
-    "@type": "#Microsoft.Media.MediaGraphImageFormatRaw" | "#Microsoft.Media.MediaGraphImageFormatJpeg" | "#Microsoft.Media.MediaGraphImageFormatBmp" | "#Microsoft.Media.MediaGraphImageFormatPng";
-}
-
-// @public
-export type MediaGraphImageFormatBmp = MediaGraphImageFormat & {
-    "@type": "#Microsoft.Media.MediaGraphImageFormatBmp";
-};
-
-// @public
-export type MediaGraphImageFormatJpeg = MediaGraphImageFormat & {
-    "@type": "#Microsoft.Media.MediaGraphImageFormatJpeg";
-    quality?: string;
-};
-
-// @public
-export type MediaGraphImageFormatPng = MediaGraphImageFormat & {
-    "@type": "#Microsoft.Media.MediaGraphImageFormatPng";
-};
-
-// @public
-export type MediaGraphImageFormatRaw = MediaGraphImageFormat & {
-    "@type": "#Microsoft.Media.MediaGraphImageFormatRaw";
-    pixelFormat: MediaGraphImageFormatRawPixelFormat;
-};
-
-// @public
-export type MediaGraphImageFormatRawPixelFormat = string;
-
-// @public (undocumented)
-export type MediaGraphImageFormatUnion = MediaGraphImageFormat | MediaGraphImageFormatRaw | MediaGraphImageFormatJpeg | MediaGraphImageFormatBmp | MediaGraphImageFormatPng;
-
-// @public
-export interface MediaGraphImageScale {
-    height?: string;
-    mode?: MediaGraphImageScaleMode;
-    width?: string;
-}
-
-// @public
-export type MediaGraphImageScaleMode = string;
-
-// @public
-export interface MediaGraphInstance {
+export interface Line {
+    line: LineCoordinates;
     name: string;
-    properties?: MediaGraphInstanceProperties;
-    systemData?: MediaGraphSystemData;
 }
 
 // @public
-export type MediaGraphInstanceActivateRequest = ItemNonSetRequestBase & {
-    methodName: "GraphInstanceActivate";
+export interface LineCoordinates {
+    end: Point;
+    start: Point;
+}
+
+// @public
+export type LineCrossingProcessor = Processor & {
+    "@type": "#Microsoft.VideoAnalyzer.LineCrossingProcessor";
+    lines: Line[];
 };
 
 // @public
-export type MediaGraphInstanceDeActivateRequest = ItemNonSetRequestBase & {
-    methodName: "GraphInstanceDeactivate";
+export interface LivePipeline {
+    name: string;
+    properties?: LivePipelineProperties;
+    systemData?: SystemData;
+}
+
+// @public
+export type LivePipelineActivateRequest = ItemNonSetRequestBase & {
+    methodName: "livePipelineActivate";
 };
 
 // @public
-export type MediaGraphInstanceDeleteRequest = ItemNonSetRequestBase & {
-    methodName: "GraphInstanceDelete";
+export interface LivePipelineCollection {
+    continuationToken?: string;
+    value?: LivePipeline[];
+}
+
+// @public
+export type LivePipelineDeactivateRequest = ItemNonSetRequestBase & {
+    methodName: "livePipelineDeactivate";
 };
 
 // @public
-export type MediaGraphInstanceGetRequest = ItemNonSetRequestBase & {
-    methodName: "GraphInstanceGet";
+export type LivePipelineDeleteRequest = ItemNonSetRequestBase & {
+    methodName: "livePipelineDelete";
 };
 
 // @public
-export type MediaGraphInstanceListRequest = MethodRequest & {
-    methodName: "GraphInstanceList";
+export type LivePipelineGetRequest = ItemNonSetRequestBase & {
+    methodName: "livePipelineGet";
 };
 
 // @public
-export interface MediaGraphInstanceProperties {
+export type LivePipelineListRequest = MethodRequest & {
+    methodName: "livePipelineList";
+};
+
+// @public
+export interface LivePipelineProperties {
     description?: string;
-    parameters?: MediaGraphParameterDefinition[];
-    state?: MediaGraphInstanceState;
+    parameters?: ParameterDefinition[];
+    state?: LivePipelineState;
     topologyName?: string;
 }
 
 // @public
-export type MediaGraphInstanceSetRequest = MethodRequest & {
-    methodName: "GraphInstanceSet";
-    instance: MediaGraphInstance;
+export type LivePipelineSetRequest = MethodRequest & {
+    methodName: "livePipelineSet";
+    livePipeline: LivePipeline;
 };
 
 // @public
-export type MediaGraphInstanceSetRequestBody = MethodRequest & MediaGraphInstance & {
-    methodName: "MediaGraphInstanceSetRequestBody";
+export type LivePipelineSetRequestBody = MethodRequest & LivePipeline & {
+    methodName: "livePipelineSetRequestBody";
 };
 
 // @public
-export type MediaGraphInstanceState = string;
+export type LivePipelineState = string;
 
 // @public
-export type MediaGraphIoTHubMessageSink = MediaGraphSink & {
-    "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSink";
-    hubOutputName: string;
-};
+export interface MethodRequest {
+    apiVersion?: "1.0";
+    methodName: "pipelineTopologySet" | "PipelineTopologySetRequestBody" | "livePipelineSet" | "livePipelineSetRequestBody" | "ItemNonSetRequestBase" | "pipelineTopologyList" | "pipelineTopologyGet" | "pipelineTopologyDelete" | "livePipelineList" | "livePipelineGet" | "livePipelineActivate" | "livePipelineDeactivate" | "livePipelineDelete";
+}
+
+// @public (undocumented)
+export type MethodRequestUnion = MethodRequest | PipelineTopologySetRequest | PipelineTopologySetRequestBody | LivePipelineSetRequest | LivePipelineSetRequestBody | ItemNonSetRequestBaseUnion | PipelineTopologyListRequest | LivePipelineListRequest;
 
 // @public
-export type MediaGraphIoTHubMessageSource = MediaGraphSource & {
-    "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSource";
-    hubInputName?: string;
-};
-
-// @public
-export type MediaGraphMotionDetectionProcessor = MediaGraphProcessor & {
-    "@type": "#Microsoft.Media.MediaGraphMotionDetectionProcessor";
-    sensitivity?: MediaGraphMotionDetectionSensitivity;
+export type MotionDetectionProcessor = Processor & {
+    "@type": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor";
+    sensitivity?: MotionDetectionSensitivity;
     outputMotionRegion?: boolean;
     eventAggregationWindow?: string;
 };
 
 // @public
-export type MediaGraphMotionDetectionSensitivity = string;
+export type MotionDetectionSensitivity = string;
 
 // @public
-export interface MediaGraphNodeInput {
+export interface NodeInput {
     nodeName: string;
-    outputSelectors?: MediaGraphOutputSelector[];
+    outputSelectors?: OutputSelector[];
 }
 
 // @public
-export interface MediaGraphOutputSelector {
-    operator?: MediaGraphOutputSelectorOperator;
-    property?: MediaGraphOutputSelectorProperty;
+export type ObjectTrackingAccuracy = string;
+
+// @public
+export type ObjectTrackingProcessor = Processor & {
+    "@type": "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor";
+    accuracy?: ObjectTrackingAccuracy;
+};
+
+// @public
+export interface OutputSelector {
+    operator?: OutputSelectorOperator;
+    property?: OutputSelectorProperty;
     value?: string;
 }
 
 // @public
-export type MediaGraphOutputSelectorOperator = string;
+export type OutputSelectorOperator = string;
 
 // @public
-export type MediaGraphOutputSelectorProperty = string;
+export type OutputSelectorProperty = string;
 
 // @public
-export interface MediaGraphParameterDeclaration {
+export interface ParameterDeclaration {
     default?: string;
     description?: string;
     name: string;
-    type: MediaGraphParameterType;
+    type: ParameterType;
 }
 
 // @public
-export interface MediaGraphParameterDefinition {
+export interface ParameterDefinition {
     name: string;
-    value: string;
+    value?: string;
 }
 
 // @public
-export type MediaGraphParameterType = string;
-
-// @public
-export type MediaGraphPemCertificateList = MediaGraphCertificateSource & {
-    "@type": "#Microsoft.Media.MediaGraphPemCertificateList";
-    certificates: string[];
-};
-
-// @public
-export interface MediaGraphProcessor {
-    "@type": "#Microsoft.Media.MediaGraphMotionDetectionProcessor" | "#Microsoft.Media.MediaGraphExtensionProcessorBase" | "#Microsoft.Media.MediaGraphCognitiveServicesVisionExtension" | "#Microsoft.Media.MediaGraphGrpcExtension" | "#Microsoft.Media.MediaGraphHttpExtension" | "#Microsoft.Media.MediaGraphSignalGateProcessor";
-    inputs: MediaGraphNodeInput[];
-    name: string;
-}
+export type ParameterType = string;
 
 // @public (undocumented)
-export type MediaGraphProcessorUnion = MediaGraphProcessor | MediaGraphMotionDetectionProcessor | MediaGraphExtensionProcessorBaseUnion | MediaGraphSignalGateProcessor;
-
-// @public
-export type MediaGraphRtspSource = MediaGraphSource & {
-    "@type": "#Microsoft.Media.MediaGraphRtspSource";
-    transport?: MediaGraphRtspTransport;
-    endpoint: MediaGraphEndpointUnion;
-};
-
-// @public
-export type MediaGraphRtspTransport = string;
-
-// @public
-export interface MediaGraphSamplingOptions {
-    maximumSamplesPerSecond?: string;
-    skipSamplesWithoutAnnotation?: string;
-}
-
-// @public
-export type MediaGraphSignalGateProcessor = MediaGraphProcessor & {
-    "@type": "#Microsoft.Media.MediaGraphSignalGateProcessor";
-    activationEvaluationWindow?: string;
-    activationSignalOffset?: string;
-    minimumActivationTime?: string;
-    maximumActivationTime?: string;
-};
-
-// @public
-export interface MediaGraphSink {
-    "@type": "#Microsoft.Media.MediaGraphIoTHubMessageSink" | "#Microsoft.Media.MediaGraphFileSink" | "#Microsoft.Media.MediaGraphAssetSink";
-    inputs: MediaGraphNodeInput[];
-    name: string;
-}
-
-// @public (undocumented)
-export type MediaGraphSinkUnion = MediaGraphSink | MediaGraphIoTHubMessageSink | MediaGraphFileSink | MediaGraphAssetSink;
-
-// @public
-export interface MediaGraphSource {
-    "@type": "#Microsoft.Media.MediaGraphRtspSource" | "#Microsoft.Media.MediaGraphIoTHubMessageSource";
-    name: string;
-}
-
-// @public (undocumented)
-export type MediaGraphSourceUnion = MediaGraphSource | MediaGraphRtspSource | MediaGraphIoTHubMessageSource;
-
-// @public
-export interface MediaGraphSystemData {
-    createdAt?: Date;
-    lastModifiedAt?: Date;
-}
-
-// @public
-export type MediaGraphTlsEndpoint = MediaGraphEndpoint & {
-    "@type": "#Microsoft.Media.MediaGraphTlsEndpoint";
-    trustedCertificates?: MediaGraphCertificateSourceUnion;
-    validationOptions?: MediaGraphTlsValidationOptions;
-};
-
-// @public
-export interface MediaGraphTlsValidationOptions {
-    ignoreHostname?: string;
-    ignoreSignature?: string;
-}
-
-// @public
-export interface MediaGraphTopology {
-    name: string;
-    properties?: MediaGraphTopologyProperties;
-    systemData?: MediaGraphSystemData;
-}
-
-// @public
-export type MediaGraphTopologyDeleteRequest = ItemNonSetRequestBase & {
-    methodName: "GraphTopologyDelete";
-};
-
-// @public
-export type MediaGraphTopologyGetRequest = ItemNonSetRequestBase & {
-    methodName: "GraphTopologyGet";
-};
-
-// @public
-export type MediaGraphTopologyListRequest = MethodRequest & {
-    methodName: "GraphTopologyList";
-};
-
-// @public
-export interface MediaGraphTopologyProperties {
-    description?: string;
-    parameters?: MediaGraphParameterDeclaration[];
-    processors?: MediaGraphProcessorUnion[];
-    sinks?: MediaGraphSinkUnion[];
-    sources?: MediaGraphSourceUnion[];
-}
-
-// @public
-export type MediaGraphTopologySetRequest = MethodRequest & {
-    methodName: "GraphTopologySet";
-    graph: MediaGraphTopology;
-};
-
-// @public
-export type MediaGraphTopologySetRequestBody = MethodRequest & MediaGraphTopology & {
-    methodName: "MediaGraphTopologySetRequestBody";
-};
-
-// @public
-export type MediaGraphUnsecuredEndpoint = MediaGraphEndpoint & {
-    "@type": "#Microsoft.Media.MediaGraphUnsecuredEndpoint";
-};
-
-// @public
-export type MediaGraphUsernamePasswordCredentials = MediaGraphCredentials & {
-    "@type": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials";
-    username: string;
-    password: string;
-};
-
-// @public
-export interface MethodRequest {
-    apiVersion?: "2.0";
-    methodName: "GraphTopologySet" | "MediaGraphTopologySetRequestBody" | "GraphInstanceSet" | "MediaGraphInstanceSetRequestBody" | "ItemNonSetRequestBase" | "GraphTopologyList" | "GraphTopologyGet" | "GraphTopologyDelete" | "GraphInstanceList" | "GraphInstanceGet" | "GraphInstanceActivate" | "GraphInstanceDeactivate" | "GraphInstanceDelete";
-}
-
-// @public (undocumented)
-export type MethodRequestUnion = MethodRequest | MediaGraphTopologySetRequest | MediaGraphTopologySetRequestBody | MediaGraphInstanceSetRequest | MediaGraphInstanceSetRequestBody | ItemNonSetRequestBaseUnion | MediaGraphTopologyListRequest | MediaGraphInstanceListRequest;
-
-// @public (undocumented)
-export type Payload = (MediaGraphTopology | MediaGraphInstance | {
+export type Payload = (PipelineTopology | LivePipeline | {
     name: string;
 } | {}) & {
     "@apiVersion": string;
 };
+
+// @public
+export type PemCertificateList = CertificateSource & {
+    "@type": "#Microsoft.VideoAnalyzer.PemCertificateList";
+    certificates: string[];
+};
+
+// @public
+export interface PipelineTopology {
+    name: string;
+    properties?: PipelineTopologyProperties;
+    systemData?: SystemData;
+}
+
+// @public
+export interface PipelineTopologyCollection {
+    continuationToken?: string;
+    value?: PipelineTopology[];
+}
+
+// @public
+export type PipelineTopologyDeleteRequest = ItemNonSetRequestBase & {
+    methodName: "pipelineTopologyDelete";
+};
+
+// @public
+export type PipelineTopologyGetRequest = ItemNonSetRequestBase & {
+    methodName: "pipelineTopologyGet";
+};
+
+// @public
+export type PipelineTopologyListRequest = MethodRequest & {
+    methodName: "pipelineTopologyList";
+};
+
+// @public
+export interface PipelineTopologyProperties {
+    description?: string;
+    parameters?: ParameterDeclaration[];
+    processors?: ProcessorUnion[];
+    sinks?: SinkUnion[];
+    sources?: SourceUnion[];
+}
+
+// @public
+export type PipelineTopologySetRequest = MethodRequest & {
+    methodName: "pipelineTopologySet";
+    pipelineTopology: PipelineTopology;
+};
+
+// @public
+export type PipelineTopologySetRequestBody = MethodRequest & PipelineTopology & {
+    methodName: "PipelineTopologySetRequestBody";
+};
+
+// @public
+export interface Point {
+    x: string;
+    y: string;
+}
+
+// @public
+export interface Processor {
+    "@type": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor" | "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor" | "#Microsoft.VideoAnalyzer.LineCrossingProcessor" | "#Microsoft.VideoAnalyzer.ExtensionProcessorBase" | "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension" | "#Microsoft.VideoAnalyzer.GrpcExtension" | "#Microsoft.VideoAnalyzer.HttpExtension" | "#Microsoft.VideoAnalyzer.SignalGateProcessor";
+    inputs: NodeInput[];
+    name: string;
+}
+
+// @public (undocumented)
+export type ProcessorUnion = Processor | MotionDetectionProcessor | ObjectTrackingProcessor | LineCrossingProcessor | ExtensionProcessorBaseUnion | SignalGateProcessor;
 
 // @public (undocumented)
 export interface Request {
@@ -524,6 +502,87 @@ export interface Request {
     // (undocumented)
     Payload: Payload;
 }
+
+// @public
+export type RtspSource = Source & {
+    "@type": "#Microsoft.VideoAnalyzer.RtspSource";
+    transport?: RtspTransport;
+    endpoint: EndpointUnion;
+};
+
+// @public
+export type RtspTransport = string;
+
+// @public
+export interface SamplingOptions {
+    maximumSamplesPerSecond?: string;
+    skipSamplesWithoutAnnotation?: string;
+}
+
+// @public
+export type SignalGateProcessor = Processor & {
+    "@type": "#Microsoft.VideoAnalyzer.SignalGateProcessor";
+    activationEvaluationWindow?: string;
+    activationSignalOffset?: string;
+    minimumActivationTime?: string;
+    maximumActivationTime?: string;
+};
+
+// @public
+export interface Sink {
+    "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink" | "#Microsoft.VideoAnalyzer.FileSink" | "#Microsoft.VideoAnalyzer.AssetSink";
+    inputs: NodeInput[];
+    name: string;
+}
+
+// @public (undocumented)
+export type SinkUnion = Sink | IotHubMessageSink | FileSink | AssetSink;
+
+// @public
+export interface Source {
+    "@type": "#Microsoft.VideoAnalyzer.RtspSource" | "#Microsoft.VideoAnalyzer.IotHubMessageSource";
+    name: string;
+}
+
+// @public (undocumented)
+export type SourceUnion = Source | RtspSource | IotHubMessageSource;
+
+// @public
+export type SymmetricKeyCredentials = Credentials & {
+    "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
+    key: string;
+};
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    lastModifiedAt?: Date;
+}
+
+// @public
+export type TlsEndpoint = Endpoint & {
+    "@type": "#Microsoft.VideoAnalyzer.TlsEndpoint";
+    trustedCertificates?: CertificateSourceUnion;
+    validationOptions?: TlsValidationOptions;
+};
+
+// @public
+export interface TlsValidationOptions {
+    ignoreHostname?: string;
+    ignoreSignature?: string;
+}
+
+// @public
+export type UnsecuredEndpoint = Endpoint & {
+    "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint";
+};
+
+// @public
+export type UsernamePasswordCredentials = Credentials & {
+    "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials";
+    username: string;
+    password: string;
+};
 
 
 // (No @packageDocumentation comment for this package)

@@ -2,44 +2,44 @@ import { assert } from "chai";
 //import { helloWorld } from "../src";
 //import { assert } from "console";
 import {
-  MediaGraphTopology,
-  MediaGraphRtspSource,
-  MediaGraphUnsecuredEndpoint,
-  MediaGraphNodeInput,
-  MediaGraphAssetSink,
-  createMediaGraphTopologySetRequest
+  PipelineTopology,
+  RtspSource,
+  UnsecuredEndpoint,
+  NodeInput,
+  AssetSink,
+  createPipelineTopologySetRequest
 } from "../src";
 
 describe("test", () => {
   it("creates a graph topology and calls createMediaGraphTopologySetRequest to ensure apiVersion is added", () => {
-    const rtspSource: MediaGraphRtspSource = {
+    const rtspSource: RtspSource = {
       name: "rtspSource",
       endpoint: {
         url: "${rtspUrl}",
-        "@type": "#Microsoft.Media.MediaGraphUnsecuredEndpoint",
+        "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint",
         credentials: {
           username: "${rtspUserName}",
           password: "${rtspPassword}",
-          "@type": "#Microsoft.Media.MediaGraphUsernamePasswordCredentials"
+          "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials"
         }
-      } as MediaGraphUnsecuredEndpoint,
-      "@type": "#Microsoft.Media.MediaGraphRtspSource"
+      } as UnsecuredEndpoint,
+      "@type": "#Microsoft.VideoAnalyzer.RtspSource"
     };
 
-    const graphNodeInput: MediaGraphNodeInput = {
+    const graphNodeInput: NodeInput = {
       nodeName: "rtspSource"
     };
 
-    const assetSink: MediaGraphAssetSink = {
+    const assetSink: AssetSink = {
       name: "assetSink",
       inputs: [graphNodeInput],
-      assetNamePattern: "sampleAsset-${System.GraphTopologyName}-${System.GraphInstanceName}",
+      assetContainerSasUrl: "sampleAsset-${System.GraphTopologyName}-${System.GraphInstanceName}",
       localMediaCachePath: "/var/lib/azuremediaservices/tmp/",
       localMediaCacheMaximumSizeMiB: "2048",
-      "@type": "#Microsoft.Media.MediaGraphAssetSink"
+      "@type": "#Microsoft.VideoAnalyzer.AssetSink"
     };
 
-    const graphTopology: MediaGraphTopology = {
+    const graphTopology: PipelineTopology = {
       name: "jsTestGraph",
       properties: {
         description: "description for jsTestGraph",
@@ -53,7 +53,7 @@ describe("test", () => {
       }
     };
 
-    const setGraphTopRequest = createMediaGraphTopologySetRequest(graphTopology);
+    const setGraphTopRequest = createPipelineTopologySetRequest(graphTopology);
     assert.strictEqual(setGraphTopRequest.Payload["@apiVersion"], "2.0");
   });
 });
