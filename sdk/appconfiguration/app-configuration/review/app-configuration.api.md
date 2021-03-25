@@ -33,7 +33,9 @@ export class AppConfigurationClient {
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage>;
     setConfigurationSetting(configurationSetting: SetConfigurationSettingParam, options?: SetConfigurationSettingOptions): Promise<SetConfigurationSettingResponse>;
     setReadOnly(id: ConfigurationSettingId, readOnly: boolean, options?: SetReadOnlyOptions): Promise<SetReadOnlyResponse>;
-    }
+    // (undocumented)
+    updateSyncToken(syncToken: string): void;
+}
 
 // @public
 export interface AppConfigurationClientOptions {
