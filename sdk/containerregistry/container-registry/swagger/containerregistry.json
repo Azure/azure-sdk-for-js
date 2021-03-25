@@ -1714,6 +1714,31 @@
       "x-accessibility": "internal",
       "x-ms-client-name": "AcrRefreshToken"
     },
+    "ManifestOrderBy": {
+      "type": "string",
+      "enum": [
+        "time_desc",
+        "time_asc"
+      ],
+      "x-ms-enum": {
+        "name": "RegistryArtifactOrderBy",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "time_desc",
+            "name": "LastUpdatedOnDescending",
+            "description": "Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated."
+          },
+          {
+            "value": "time_asc",
+            "name": "LastUpdatedOnAscending",
+            "description": "Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated."
+          }
+        ]
+      },
+      "default": "none",
+      "description": "Sort options for ordering registry artifacts in a collection."
+    },
     "AccessToken": {
       "type": "object",
       "properties": {
