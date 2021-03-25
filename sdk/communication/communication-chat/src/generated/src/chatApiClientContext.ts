@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { ChatApiClientOptionalParams } from "./models";
 
 const packageName = "azure-communication-chat";
-const packageVersion = "1.0.0-beta.6";
+const packageVersion = "1.0.0";
 
 export class ChatApiClientContext extends coreHttp.ServiceClient {
   endpoint: string;
