@@ -1502,6 +1502,7 @@
         ]
         }
       },
+      "x-accessibility": "public"
     "AcrManifests": {
       "description": "Manifest attributes",
       "properties": {
