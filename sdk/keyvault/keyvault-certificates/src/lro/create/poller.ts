@@ -19,6 +19,11 @@ export interface CreateCertificatePollerOptions extends KeyVaultCertificatePolle
 }
 
 /**
+ * @internal
+ */
+export const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CreateCertificatePoller");
+
+/**
  * Class that deletes a poller that waits until a certificate finishes being deleted
  */
 export class CreateCertificatePoller extends KeyVaultCertificatePoller<
@@ -60,5 +65,3 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
     this.intervalInMs = intervalInMs;
   }
 }
-
-export const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CreateCertificatePoller");
