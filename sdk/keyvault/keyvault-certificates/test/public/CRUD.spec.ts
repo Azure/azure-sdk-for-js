@@ -542,10 +542,12 @@ describe("Certificates client - create, read, update and delete", () => {
           email: "admin@microsoft.com",
           phone: "4255555555"
         }
-      ]
+      ],
+      accountId: "keyvaultuser2"
     });
     getResponse = await client.getIssuer(issuerName);
     assert.equal(getResponse.administratorContacts![0].email, "admin@microsoft.com");
+    assert.equal(getResponse.accountId, "keyvaultuser2");
 
     // Delete
     await client.deleteIssuer(issuerName);

@@ -230,7 +230,6 @@ export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = 
   TResult
 >;
 
-// TODO: do the same in KV Keys & Admin -> and remove tracing file everywhere
 const withTrace: TracedFunction = createTraceFunction(
   "Azure.KeyVault.Certificates.CertificateClient"
 );
@@ -294,7 +293,6 @@ export class CertificateClient {
     );
   }
 
-  // TODO: use public name in kv keys & admin
   private async *listPropertiesOfCertificatesPage(
     continuationState: PageSettings,
     options: ListPropertiesOfCertificatesOptions = {}
@@ -715,22 +713,14 @@ export class CertificateClient {
     options: CreateIssuerOptions = {}
   ): Promise<CertificateIssuer> {
     return withTrace("createIssuer", options, async (updatedOptions) => {
-      // TODO: revisit this logic
-      // Unflatten issuer credentials
-      const unflattenedOptions = {
-        ...updatedOptions,
-        credentials: { accountId: updatedOptions.accountId, password: updatedOptions.password }
-      };
-
-      const credentials: IssuerCredentials = unflattenedOptions.credentials || {};
+      const { accountId, password } = updatedOptions;
 
       const generatedOptions: KeyVaultClientSetCertificateIssuerOptionalParams = {
-        ...updatedOptions
-      };
-
-      generatedOptions.credentials = {
-        accountId: credentials.accountId || updatedOptions.accountId,
-        password: credentials.password || updatedOptions.password
+        ...updatedOptions,
+        credentials: {
+          accountId,
+          password
+        }
       };
 
       if (
