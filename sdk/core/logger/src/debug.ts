@@ -155,7 +155,6 @@ function createDebugger(namespace: string): Debugger {
   return newDebugger;
 }
 
-/** @this Debugger */
 function destroy(this: Debugger): boolean {
   const index = debuggers.indexOf(this);
   if (index >= 0) {
@@ -165,7 +164,6 @@ function destroy(this: Debugger): boolean {
   return false;
 }
 
-/** @this Debugger */
 function extend(this: Debugger, namespace: string): Debugger {
   const newDebugger = createDebugger(`${this.namespace}:${namespace}`);
   newDebugger.log = this.log;

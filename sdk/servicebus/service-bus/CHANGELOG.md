@@ -139,6 +139,11 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
 - The `processError` handler passed to `Receiver.subscribe` now takes a `ProcessErrorArgs` instead of just an error.
 
+## 1.1.10 (2020-09-14)
+
+- Fixes [bug 10943](https://github.com/Azure/azure-sdk-for-js/issues/10943) where accessing the address
+  field when timing out could cause a fatal error.
+
 ## 7.0.0-preview.6 (2020-09-10)
 
 ### New features:
@@ -181,6 +186,15 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   - `updatedAt` renamed to `modifiedAt`
   - `ServiceBusManagementClientOptions` for `ServiceBusManagementClient` is replaced by `PipelineOptions` from `@azure/core-http`
   - `AuthorizationRule.accessRights` type has been changed to be a string union with the available rights.
+
+## 1.1.9 (2020-08-19)
+
+- Fixes [bug 10641](https://github.com/Azure/azure-sdk-for-js/issues/10641) where parallel requests
+  on the management link would fail with a `ServiceUnavailableError`.
+- Fixes [bug 9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
+  where operations that used the `RequestResponseLink` and encountered an error
+  would fail to cleanup their internal timer.
+  This caused exiting the process to be delayed until the timer reached its timeout.
 
 ## 7.0.0-preview.5 (2020-08-10)
 
@@ -225,6 +239,12 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
   process of closing resulted in a `TypeError` in an uncaught exception.
 
 - The terms `RuntimeInfo` and `Description` are replaced with `RuntimeProperties` and `Properties` to better align with guidelines around the kind of suffixes we use for naming methods and interfaces.
+
+## 1.1.8 (2020-07-15)
+
+- Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
+  where attempting to create AMQP links when the AMQP connection was in the
+  process of closing resulted in a `TypeError` in an uncaught exception.
 
 ## 7.0.0-preview.4 (2020-07-07)
 
@@ -282,6 +302,19 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - `Receiver/SessionReceiver.browseMessages()` has been renamed to `Receiver/SessionReceiver.peekMessages()`.
   [PR 9280](https://github.com/Azure/azure-sdk-for-js/pull/9280)
 
+## 1.1.7 (2020-05-13)
+
+- Relaxes the scheme check for the endpoint while parsing the connection string.
+  This allows "\<anything\>://" as the scheme as opposed to the "sb://" scheme suggested by the connection string in the portal.
+  Fixes [bug 7907](https://github.com/Azure/azure-sdk-for-js/issues/7907).
+- Provides down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 8515](https://github.com/Azure/azure-sdk-for-js/pull/8515)
+- Updates `@azure/amqp-common` to version 1.0.0-preview.15, fixing an issue with 'OperationTimeoutError's not being considered retryable.
+- Ensures the promise returned by `receiveMessages()` is rejected appropriately when the connection disconnects in the midst of
+  draining credits. This fixes [bug 7689](https://github.com/Azure/azure-sdk-for-js/issues/7689) with [PR 8552](https://github.com/Azure/azure-sdk-for-js/pull/8552)
+- Fixes [bug 8673](https://github.com/Azure/azure-sdk-for-js/issues/8673) where a user application would crash with ECONNRESET error due to the underlying AMQP library
+  `rhea` not cleaning up sockets on connection going idle. Details can be found in [PR amqp/rhea#300](https://github.com/amqp/rhea/pull/300)
+
 ## 7.0.0-preview.2 (2020-05-05)
 
 - Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
@@ -301,6 +334,23 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 - Remove rule operations from `ServiceBusClient` in favor of having similar operations via the management apis
   which would apply to queues, topics, subscriptions and rules in the upcoming previews.
   [PR 8660](https://github.com/Azure/azure-sdk-for-js/pull/8660)
+
+## 1.1.6 (2020-04-23)
+
+- Removes the `@azure/ms-rest-nodeauth` dependency.
+  This allows users to use any version of `@azure/ms-rest-nodeauth` directly with `@azure/service-bus` without TypeScript compilation errors.
+  Fixes [bug 8041](https://github.com/Azure/azure-sdk-for-js/issues/8041).
+- Fixes for the below bugs when settling a message with [PR 8406](https://github.com/Azure/azure-sdk-for-js/pull/8406)
+  - Not setting user provided deadletter error reason and description when deadlettering a deferred message.
+  - Not setting user provided custom properties when deadlettering a non deferred message.
+  - Not able to settle previously received messages when a receiver recovers from a broken link or connection. Please note that if using sessions, this behavior doesn't change with this release.
+- Fixes an issue where non-retryable errors caused by a connection disconnecting were not getting surfaced to the user's registered error handler
+  when using the `registerMessageHandler` method on a receiver.
+  [PR 8401](https://github.com/Azure/azure-sdk-for-js/pull/8401)
+- Fixes reconnection issues by creating a new connection object rather than re-using the existing one.
+  [PR 8447](https://github.com/Azure/azure-sdk-for-js/pull/8447)
+- Adds a new method `open()` on the sender to allow you to front load the work of setting up the underlying AMQP links. Use this if you want to avoid having your first `send()` operation pay the tax of link set up.
+  [PR 8329](https://github.com/Azure/azure-sdk-for-js/pull/8329). This PR also fixes a bug where a sender recovering from connection loss does not report the error back to the user from ongoing send operations in expected time.
 
 ## 7.0.0-preview.1 (2020-04-07)
 

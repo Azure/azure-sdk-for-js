@@ -50,7 +50,7 @@
 
 # Service teams
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @richardpark-msft @chradek
+/sdk/appconfiguration/ @richardpark-msft @chradek @HarshaNalluru
 
 # PRLabel: %Batch
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen

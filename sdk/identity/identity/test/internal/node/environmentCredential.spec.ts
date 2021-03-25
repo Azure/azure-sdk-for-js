@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
+
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
@@ -9,13 +9,14 @@ import { ConfidentialClientApplication } from "@azure/msal-node";
 import { EnvironmentCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
+import { Context } from "mocha";
 
 describe("EnvironmentCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
