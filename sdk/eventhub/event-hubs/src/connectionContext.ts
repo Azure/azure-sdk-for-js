@@ -7,27 +7,30 @@
 import { logger, logErrorStackTrace } from "./log";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { packageJsonInfo } from "./util/constants";
-import { parseEventHubConnectionString } from "./util/connectionStringUtils";
+import {
+  EventHubConnectionStringProperties,
+  parseEventHubConnectionString
+} from "./util/connectionStringUtils";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import {
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  ConnectionConfig
+  ConnectionConfig,
+  NamedKeyTokenProvider,
+  SharedAccessSignatureTokenProvider,
+  TokenProvider,
+  createTokenProvider,
+  isCredential,
+  isNamedKeyCredential,
+  isSASCredential
 } from "@azure/core-amqp";
 import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./models/public";
 import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import {
-  createTokenProvider,
-  NamedKeyTokenProvider,
-  SharedAccessSignatureTokenProvider,
-  TokenProvider
-} from "./tokenProvider";
-import { isCredential, isNamedKeyCredential, isSASCredential } from "./util/typeGuards";
 
 /**
  * @internal
@@ -490,8 +493,12 @@ export function createConnectionContext(
       options = credentialOrOptions;
     }
 
+    const parsed = parseEventHubConnectionString(connectionString) as Required<
+      Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName"> |
+      Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
+    >;
     // Since connectionString was passed, create a TokenProvider.
-    credential = createTokenProvider(connectionString);
+    credential = createTokenProvider(parsed);
   } else {
     // host, eventHubName, a TokenCredential and/or options were passed to constructor
     const eventHubName = eventHubNameOrOptions;

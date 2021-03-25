@@ -2,14 +2,15 @@
 // Licensed under the MIT license.
 
 import {
+  EventHubConnectionStringProperties,
   EventHubConsumerClient,
   EventHubProducerClient,
   parseEventHubConnectionString
 } from "../../src";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import chai from "chai";
-import { createTokenProvider } from "../../src/tokenProvider";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+import { createTokenProvider } from "@azure/core-amqp";
 
 const should = chai.should();
 const env = getEnvVars();
@@ -105,9 +106,11 @@ describe("Authentication via", () => {
 
   describe("SAS", () => {
     function getSas(): string {
-      return createTokenProvider(service.connectionString).getToken(
-        `${service.endpoint}/${service.path}`
-      ).token;
+      const parsed = parseEventHubConnectionString(service.connectionString) as Required<
+        | Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
+        | Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
+      >;
+      return createTokenProvider(parsed).getToken(`${service.endpoint}/${service.path}`).token;
     }
 
     describe("using connection string", () => {

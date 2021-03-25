@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  isTokenCredential,
-  NamedKeyCredential,
-  SASCredential,
-  TokenCredential
-} from "@azure/core-auth";
-import { TokenProvider } from "../tokenProvider";
-
 /**
  * Helper TypeGuard that checks if something is defined or not.
  * @param thing - Anything
@@ -52,46 +44,4 @@ export function objectHasProperty<Thing extends unknown, PropertyName extends st
   property: PropertyName
 ): thing is Thing & Record<PropertyName, unknown> {
   return typeof thing === "object" && property in (thing as Record<string, unknown>);
-}
-
-/**
- * Typeguard that checks if the input is a credential type the clients accept.
- * @param thing - Any object.
- * @internal
- */
-export function isCredential(
-  thing: unknown
-): thing is TokenCredential | NamedKeyCredential | SASCredential {
-  return isTokenCredential(thing) || isNamedKeyCredential(thing) || isSASCredential(thing);
-}
-
-/**
- * Typeguard that checks if the input is a NamedKeyCredential.
- * @param thing - Any object.
- * @internal
- */
-export function isNamedKeyCredential(thing: unknown): thing is NamedKeyCredential {
-  return (
-    isObjectWithProperties(thing, ["name", "key"]) &&
-    typeof thing.key === "string" &&
-    typeof thing.name === "string"
-  );
-}
-
-/**
- * Typeguard that checks if the input is a SASKeyCredential.
- * @param thing - Any object.
- * @internal
- */
-export function isSASCredential(thing: unknown): thing is SASCredential {
-  return isObjectWithProperties(thing, ["signature"]) && typeof thing.signature === "string";
-}
-
-/**
- * Typeguard that checks if the input is a TokenProvider.
- * @param thing - Any object.
- * @internal
- */
-export function isTokenProvider(thing: unknown): thing is TokenProvider {
-  return isObjectWithProperties(thing, ["isTokenProvider"]) && thing.isTokenProvider === true;
 }

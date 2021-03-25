@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import { isCredential } from "@azure/core-amqp";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
@@ -20,7 +21,7 @@ import {
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { isCredential, isDefined } from "./util/typeGuards";
+import { isDefined } from "./util/typeGuards";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
 

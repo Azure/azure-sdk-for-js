@@ -10,6 +10,7 @@ import {
   RetryOptions,
   SendRequestOptions,
   defaultLock,
+  isTokenProvider,
   retry,
   translate
 } from "@azure/core-amqp";
@@ -33,7 +34,6 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
 import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
-import { isTokenProvider } from "./util/typeGuards";
 
 /**
  * Describes the runtime information of an Event Hub.

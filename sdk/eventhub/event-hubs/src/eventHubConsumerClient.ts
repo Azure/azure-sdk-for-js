@@ -11,7 +11,7 @@ import {
 } from "./models/public";
 import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
 import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
-import { Constants } from "@azure/core-amqp";
+import { Constants, isCredential } from "@azure/core-amqp";
 import { logger } from "./log";
 
 import {
@@ -28,7 +28,6 @@ import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStr
 import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
 import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
 import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
-import { isCredential } from "./util/typeGuards";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
