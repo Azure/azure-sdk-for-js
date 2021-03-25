@@ -132,6 +132,9 @@ export interface DisconnectedRequest {
   reason?: string;
 }
 
+/**
+ * The handler to set connect event response
+ */
 export interface ConnectResponseHandler {
   /**
    * Return success response to the service.
@@ -146,6 +149,9 @@ export interface ConnectResponseHandler {
   fail(code: 400 | 401 | 500, detail?: string): void;
 }
 
+/**
+ * The handler to set user event response
+ */
 export interface UserEventResponseHandler {
   /**
    * Return success response with data to be delivered to the client WebSocket connection.
