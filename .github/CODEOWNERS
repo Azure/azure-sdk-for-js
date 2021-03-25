@@ -65,7 +65,7 @@
 /sdk/cosmosdb/ @southpolesteve @zfoster
 
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @zolvarga
+/sdk/digitaltwins/ @vishnureddy17
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @ramya-rao-a @ellismg
