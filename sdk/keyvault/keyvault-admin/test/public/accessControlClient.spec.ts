@@ -27,7 +27,7 @@ describe("KeyVaultAccessControlClient", () => {
     await recorder.stop();
   });
 
-  it("supports tracing", /** @this Mocha.Context */ async function() {
+  it("supports tracing", async function() {
     const tracer = new TestTracer();
     setTracer(tracer);
     await client.listRoleAssignments(globalScope).next();

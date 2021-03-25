@@ -45,7 +45,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("supports tracing", /** @this Mocha.Context */ async function() {
+  it("supports tracing", async function(this: Context) {
     const tracer = new TestTracer();
     setTracer(tracer);
     const secretName = testClient.formatName(

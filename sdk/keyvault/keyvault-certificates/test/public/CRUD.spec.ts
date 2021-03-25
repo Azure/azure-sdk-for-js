@@ -97,7 +97,7 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("supports tracing", /** @this Mocha.Context */ async function() {
+  it("supports tracing", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const tracer = new TestTracer();
     setTracer(tracer);
