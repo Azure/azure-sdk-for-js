@@ -4,13 +4,25 @@
 import { CompositeMapper, FullOperationResponse, OperationResponseMap } from "./interfaces";
 
 /**
- * Returns true if the given value is a basic/primitive type
- * (string, number, boolean, null, undefined).
- * @param value - Value to test
+ * The union of all possible types for a primitive response body.
  * @internal
  */
-export function isPrimitiveType(value: unknown): boolean {
-  return (typeof value !== "object" && typeof value !== "function") || value === null;
+export type BodyPrimitive = number | string | boolean | undefined | null;
+
+/**
+ * A type guard for a primitive response body.
+ * @param value - Value to test
+ *
+ * @internal
+ */
+export function isPrimitiveBody(value: unknown): value is BodyPrimitive {
+  return (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean" ||
+    value === undefined ||
+    value === null
+  );
 }
 
 const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
@@ -170,6 +182,6 @@ export function flattenResponse(
     body: fullResponse.parsedBody,
     headers: parsedHeaders,
     hasNullableType: isNullable,
-    shouldWrapBody: isPrimitiveType(fullResponse.parsedBody)
+    shouldWrapBody: isPrimitiveBody(fullResponse.parsedBody)
   });
 }

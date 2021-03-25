@@ -2,6 +2,8 @@
 
 ## 1.0.1 (Unreleased)
 
+- [Breaking] If the response body is empty and the mapper for it says it is nullable, then a null is returned.
+
 
 ## 1.0.0 (2021-03-15)
 
