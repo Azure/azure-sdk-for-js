@@ -1500,6 +1500,7 @@
             "description": "Order tags by LastUpdatedOn field, from least recently updated to most recently updated."
           }
         ]
+        }
       },
     "AcrManifests": {
       "description": "Manifest attributes",
