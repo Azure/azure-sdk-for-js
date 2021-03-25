@@ -1,5 +1,9 @@
 # Release History
 
+## 1.2.5 (2021-03-25)
+
+- For the `InteractiveBrowserCredential` for Node.js, we've replaced the use of the `express` module with a native HTTP server, shrinking the resulting `@azure/identity` module considerably.
+
 ## 1.2.4 (2021-03-08)
 
 - Bug fix: Now if the `managedIdentityClientId` optional parameter is provided to `DefaultAzureCredential`, it will be properly passed through to the underlying `ManagedIdentityCredential`. Related to customer issue: [13872](https://github.com/Azure/azure-sdk-for-js/issues/13872).
