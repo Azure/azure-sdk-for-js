@@ -133,13 +133,14 @@ describe("getRequestUrl", function() {
               type: {
                 name: "String"
               }
-            }
+            },
+            skipEncoding: true
           }
         ]
       },
-      { nextLink: "/path?abc=def" },
+      { nextLink: "/path?abc%3Ddef" },
       {}
     );
-    assert.strictEqual(result, "https://test.com/path?abc=def");
+    assert.strictEqual(result, "https://test.com/path?abc%3Ddef");
   });
 });
