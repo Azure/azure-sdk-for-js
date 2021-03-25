@@ -1,7 +1,8 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.0.2 (2021-03-25)
 
+- Fixed an issue where chunked HTTP responses would sometimes be decoded incorrectly when multibyte characters were used. [PR 14517](https://github.com/Azure/azure-sdk-for-js/pull/14517)
 
 ## 1.0.1 (2021-03-18)
 
