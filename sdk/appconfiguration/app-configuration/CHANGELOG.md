@@ -1,5 +1,11 @@
 # Release History
 
+## 1.2.0-beta.1 (Unreleased)
+
+- Fix issues with `select`ing fields to be returned from `listConfigurationSettings`, `listConfigurationRevisions`
+  and `getConfigurationSetting` where `last_modified` and `content_type` could not properly be passed in.
+  [PR #13258](https://github.com/Azure/azure-sdk-for-js/pull/13258)
+
 ## 1.1.1 (Unreleased)
 
 - Fix issues with `select`ing fields to be returned from `listConfigurationSettings`, `listConfigurationRevisions`
@@ -13,7 +19,7 @@
 ## 1.0.1 (2020-02-19)
 
 - The underlying filter behavior has changed for `listConfigurationSettings` and `listRevisions`.
-  Inline documentation has been revised to accomodate it.
+  Inline documentation has been revised to accommodate it.
 
 ## 1.0.0 (2020-01-06)
 
