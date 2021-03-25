@@ -85,7 +85,7 @@ stages:
                         inputs:
                           targetType: filePath
                           filePath: "eng/tools/publish-to-npm.ps1"
-                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag $(Tag) -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
+                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
                           pwsh: true
 
           - ${{if ne(artifact.skipPublishDocMs, 'true')}}:
