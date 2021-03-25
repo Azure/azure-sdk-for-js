@@ -24,9 +24,7 @@ export interface Request {
 
 const apiVersion = MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue;
 
-function addApiVersion(
-  payload: PipelineTopology | LivePipeline | string | {} = {}
-): Payload {
+function addApiVersion(payload: PipelineTopology | LivePipeline | string | {} = {}): Payload {
   return {
     ...(typeof payload === "string" ? { name: payload } : payload),
     "@apiVersion": apiVersion
