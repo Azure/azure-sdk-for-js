@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert, use as chaiUse } from "chai";
+import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
@@ -13,7 +14,7 @@ import { Buffer } from "../utils/Buffer";
 describe("TokenCertTests", function() {
   let recorder: Recorder;
 
-  beforeEach(/** @this Mocha.Context */ function() {
+  beforeEach(function(this: Context) {
     recorder = createRecorder(this);
   });
 

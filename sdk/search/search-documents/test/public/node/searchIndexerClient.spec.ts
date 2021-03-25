@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
+import { Suite } from "mocha";
 import { assert } from "chai";
 import {
   SearchIndexClient,
@@ -25,27 +27,25 @@ import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test2";
 
-describe("SearchIndexerClient", /** @this Mocha.Context */ function() {
+describe("SearchIndexerClient", function(this: Suite) {
   let recorder: Recorder;
   let indexerClient: SearchIndexerClient;
   let indexClient: SearchIndexClient;
 
   this.timeout(99999);
 
-  beforeEach(
-    /** @this Mocha.Context */ async function() {
-      ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
-      if (!isPlaybackMode()) {
-        await createSkillsets(indexerClient);
-        await createIndex(indexClient, TEST_INDEX_NAME);
-        await delay(5000);
-        await createIndexers(indexerClient, TEST_INDEX_NAME);
-      }
-      recorder = record(this, environmentSetup);
-      // create the clients again, but hooked up to the recorder
-      ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
+  beforeEach(async function(this: Context) {
+    ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
+    if (!isPlaybackMode()) {
+      await createSkillsets(indexerClient);
+      await createIndex(indexClient, TEST_INDEX_NAME);
+      await delay(5000);
+      await createIndexers(indexerClient, TEST_INDEX_NAME);
     }
-  );
+    recorder = record(this, environmentSetup);
+    // create the clients again, but hooked up to the recorder
+    ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
+  });
 
   afterEach(async function() {
     if (recorder) {

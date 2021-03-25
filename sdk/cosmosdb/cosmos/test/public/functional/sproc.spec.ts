@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Context } from "mocha";
+import { Suite } from "mocha";
 import { Constants } from "../../../src";
 import { Container, StoredProcedureDefinition } from "../../../src/";
 import {
@@ -13,18 +15,16 @@ import {
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
   describe("Validate sproc CRUD", function() {
     let container: Container;
-    beforeEach(
-      /** @this Mocha.Context */ async function() {
-        container = await getTestContainer(this.test.fullTitle());
-      }
-    );
+    beforeEach(async function(this: Context) {
+      container = await getTestContainer(this.test.fullTitle());
+    });
 
     it("nativeApi Should do sproc CRUD operations successfully with create/replace", async function() {
       // read sprocs
@@ -94,11 +94,9 @@ describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
 
   describe("Validate stored procedure functionality", function() {
     let container: Container;
-    beforeEach(
-      /** @this Mocha.Context */ async function() {
-        container = await getTestContainer(this.test.fullTitle());
-      }
-    );
+    beforeEach(async function(this: Context) {
+      container = await getTestContainer(this.test.fullTitle());
+    });
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function() {
       const sproc1: StoredProcedureDefinition = {

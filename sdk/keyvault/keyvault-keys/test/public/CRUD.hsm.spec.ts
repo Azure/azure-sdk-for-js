@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 import { KeyClient } from "../../src";
@@ -16,28 +17,26 @@ describe("Keys client - create, read, update and delete operations for managed H
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(
-    /** @this Mocha.Context */ async function() {
-      const authentication = await authenticate(this);
-      recorder = authentication.recorder;
+  beforeEach(async function(this: Context) {
+    const authentication = await authenticate(this);
+    recorder = authentication.recorder;
 
-      if (!authentication.hsmClient) {
-        // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
-        // This is only necessary while Managed HSM is in preview.
-        this.skip();
-      }
-
-      hsmClient = authentication.hsmClient;
-      keySuffix = authentication.keySuffix;
-      testClient = new TestClient(authentication.hsmClient);
+    if (!authentication.hsmClient) {
+      // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
+      // This is only necessary while Managed HSM is in preview.
+      this.skip();
     }
-  );
+
+    hsmClient = authentication.hsmClient;
+    keySuffix = authentication.keySuffix;
+    testClient = new TestClient(authentication.hsmClient);
+  });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("can create an OCT key with options", /** @this Mocha.Context */ async function() {
+  it("can create an OCT key with options", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const options: CreateOctKeyOptions = {
       hsm: true
