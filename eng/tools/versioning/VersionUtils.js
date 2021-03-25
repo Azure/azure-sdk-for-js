@@ -57,7 +57,7 @@ function updateChangelog(
     "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle
   ];
   if (releaseDate != null) {
-    args.push(releaseDate);
+    args.push("--ReleaseDate:" + releaseDate);
   }
   child = spawnSync("pwsh", args);
   const out = child.stdout.toString();
