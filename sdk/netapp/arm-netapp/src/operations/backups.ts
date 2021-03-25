@@ -140,38 +140,9 @@ export class Backups {
    * @param [options] The optional parameters
    * @returns Promise<Models.BackupsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options?: Models.BackupsUpdateOptionalParams): Promise<Models.BackupsUpdateResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param backupName The name of the backup
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, callback: msRest.ServiceCallback<Models.Backup>): void;
-  /**
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param backupName The name of the backup
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options: Models.BackupsUpdateOptionalParams, callback: msRest.ServiceCallback<Models.Backup>): void;
-  update(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options?: Models.BackupsUpdateOptionalParams | msRest.ServiceCallback<Models.Backup>, callback?: msRest.ServiceCallback<Models.Backup>): Promise<Models.BackupsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        backupName,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.BackupsUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options?: Models.BackupsUpdateOptionalParams): Promise<Models.BackupsUpdateResponse> {
+    return this.beginUpdate(resourceGroupName,accountName,poolName,volumeName,backupName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.BackupsUpdateResponse>;
   }
 
   /**
@@ -214,6 +185,31 @@ export class Backups {
         options
       },
       beginCreateOperationSpec,
+      options);
+  }
+
+  /**
+   * Patch a backup for the volume
+   * @summary Patch a backup
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param backupName The name of the backup
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, backupName: string, options?: Models.BackupsBeginUpdateOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        backupName,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 
@@ -300,47 +296,6 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-    Parameters.backupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: {
-      tags: [
-        "options",
-        "tags"
-      ],
-      label: [
-        "options",
-        "label"
-      ]
-    },
-    mapper: Mappers.BackupPatch
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.Backup
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}",
@@ -379,6 +334,50 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.Backup
     },
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/backups/{backupName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+    Parameters.backupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      tags: [
+        "options",
+        "tags"
+      ],
+      label: [
+        "options",
+        "label"
+      ]
+    },
+    mapper: Mappers.BackupPatch
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Backup
+    },
+    202: {
+      bodyMapper: Mappers.Backup
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

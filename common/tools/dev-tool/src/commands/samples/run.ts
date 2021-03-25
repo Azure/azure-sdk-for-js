@@ -7,6 +7,8 @@ import path from "path";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
+import { resolveProject } from "../../util/resolveProject";
+import { getSampleConfiguration } from "../../util/sampleConfiguration";
 
 const log = createPrinter("run-samples");
 
@@ -26,12 +28,12 @@ export const commandInfo = makeCommandInfo(
 async function runSingle(name: string, accumulatedErrors: Array<[string, string]>) {
   log("Running", name);
   try {
-    if (/.*[\\\/]samples[\\\/].*/.exec(name)) {
+    if (/.*[\\\/]samples(-dev)?[\\\/].*/.exec(name)) {
       // This is an un-prepared sample, so just require it and it will run.
       await import(name);
     } else if (!/.*[\\\/]dist-samples[\\\/].*/.exec(name)) {
       // This is not an unprepared or a prepared sample
-      log.warn("Executing a file that is neither in samples nor dist-samples.");
+      log.error("Skipped. This file is not in any samples folder.");
     } else {
       const { main: sampleMain } = await import(name);
       await sampleMain();
@@ -49,26 +51,43 @@ async function runSingle(name: string, accumulatedErrors: Array<[string, string]
 
 export default leafCommand(commandInfo, async (options) => {
   if (options.args.length === 0) {
-    throw new Error("At least one argument is required for run-samples");
+    log.error("at least one argument is required");
+    return false;
+  }
+
+  const { packageJson, path: packageLocation } = await resolveProject(process.cwd());
+
+  log.debug("Resolving samples metadata to:", packageLocation);
+
+  const sampleConfiguration = getSampleConfiguration(packageJson);
+
+  const skips = sampleConfiguration.skip ?? [];
+
+  log.debug("Skipping the following samples:", skips);
+
+  if (sampleConfiguration.skipFolder) {
+    log.warn(
+      "`skipFolder` is specified in the sample configuration, but it is ignored in this context."
+    );
+    log.warn("To skip samples in live tests pipelines, disable them using the package's tests.yml");
   }
 
   const samples = options.args.map((dir) => path.resolve(dir));
-
-  // Patch the environment for the sample helper
-  process.env.BATCH_RUN_SAMPLES = "true";
 
   const errors: Array<[string, string]> = [];
 
   for (const sample of samples) {
     const stats = await fs.stat(sample);
     if (stats.isFile()) {
+      // We don't consider the skips if the file was _explicitly_ asked for
       runSingle(sample, errors);
     } else if (stats.isDirectory()) {
       for await (const fileName of findMatchingFiles(
         sample,
-        (name, entry) => entry.isFile() && name.endsWith(".js"),
+        (name, entry) => entry.isFile() && /\.[jt]s$/.exec(name) !== null,
         {
-          ignore: IGNORE
+          ignore: IGNORE,
+          skips
         }
       )) {
         await runSingle(fileName, errors);

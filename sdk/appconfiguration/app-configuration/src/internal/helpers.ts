@@ -112,7 +112,7 @@ export function formatAcceptDateTime(newOptions: {
  * to get the next page of results.
  * @internal
  */
-export function extractAfterTokenFromNextLink(nextLink: string) {
+export function extractAfterTokenFromNextLink(nextLink: string): string {
   const parsedLink = URLBuilder.parse(nextLink);
   const afterToken = parsedLink.getQueryParameterValue("after");
 
@@ -132,7 +132,7 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
  */
 export function makeConfigurationSettingEmpty(
   configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>
-) {
+): void {
   const names: Exclude<keyof ConfigurationSetting, "key">[] = [
     "contentType",
     "etag",
@@ -149,7 +149,6 @@ export function makeConfigurationSettingEmpty(
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
@@ -173,7 +172,6 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<
@@ -188,7 +186,6 @@ export function transformKeyValueResponseWithStatusCode<
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValueResponse<
@@ -219,10 +216,9 @@ function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>
  * Translates user-facing field names into their `select` equivalents (these can be
  * seen in the `KnownEnum5`)
  *
- * @param fieldNames fieldNames from users.
+ * @param fieldNames - fieldNames from users.
  * @returns The field names translated into the `select` field equivalents.
  *
- * @hidden
  * @internal
  */
 export function formatFieldsForSelect(

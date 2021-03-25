@@ -1,6 +1,7 @@
 import {
   CreateQueueOptions,
   delay,
+  ProcessErrorArgs,
   ServiceBusAdministrationClient,
   ServiceBusClient,
   ServiceBusMessage,
@@ -10,7 +11,6 @@ import {
   ServiceBusSessionReceiver,
   SubscribeOptions
 } from "@azure/service-bus";
-import fs from "fs";
 import util from "util";
 import {
   generateMessage,
@@ -22,38 +22,50 @@ import {
   TrackedMessageIdsInfo
 } from "./utils";
 import * as appInsights from "applicationinsights";
-const writeFile = util.promisify(fs.writeFile);
 
-appInsights.setup()
+import * as dotenv from "dotenv";
+dotenv.config();
+
+appInsights
+  .setup()
   .setUseDiskRetryCaching(true)
   .start();
-    
-const defaultClient = appInsights.defaultClient;
 
-async function appendFile(reportFileName: string, text: string) {
-  defaultClient.trackTrace({
-    message: text,
-    properties: {
-      type: "stresstest"
-    }
-  });
+export const defaultClient = appInsights.defaultClient;
+
+export function captureConsoleOutputToAppInsights() {
+  const debug = require("debug");
+
+  debug.log = (...args: any[]) => {
+    // for some reason the appinsights console.log hook doesn't seem to be firing for me (or at least
+    // it's inconsistent). For now I'll just add a hook in here and send the events myself.
+    defaultClient.trackTrace({
+      message: util.format(...args)
+    });
+  };
 }
 
 export class SBStressTestsBase {
-  messagesSent: ServiceBusMessage[] = [];
-  messagesReceived: ServiceBusMessage[] = [];
-  trackedMessageIds: TrackedMessageIdsInfo = {};
-  snapshotTimer: NodeJS.Timer;
-  startedAt!: Date;
+  private messagesSent: ServiceBusMessage[] = [];
+  private messagesReceived: ServiceBusMessage[] = [];
+  private trackedMessageIds: TrackedMessageIdsInfo = {};
+  private snapshotTimer: NodeJS.Timer;
+  private startedAt!: Date;
+  private _numErrors = 0;
+
+  public numMessagesSent(): number {
+    return this.messagesSent.length;
+  }
 
   // Send metrics
   sendInfo: OperationInfo = initializeOperationInfo();
   // Receive metrics
   receiveInfo: OperationInfo = initializeOperationInfo();
   // Close
-  closeInfo: Record<"sender" | "receiver" | "client", OperationInfo> = {
+  closeInfo: Record<"sender" | "receiver" | "session" | "client", OperationInfo> = {
     sender: initializeOperationInfo(),
     receiver: initializeOperationInfo(),
+    session: initializeOperationInfo(),
     client: initializeOperationInfo()
   };
   // Message Lock Renewal
@@ -65,9 +77,6 @@ export class SBStressTestsBase {
     process.env.SERVICEBUS_CONNECTION_STRING!
   );
   queueName!: string;
-  reportFileName: string;
-  errorsFileName: string;
-  messagesReportFileName: string;
 
   constructor(private snapshotOptions: SnapshotOptions) {
     if (!this.snapshotOptions.snapshotFocus) {
@@ -79,31 +88,61 @@ export class SBStressTestsBase {
         "close-info"
       ];
     }
-    if (!this.snapshotOptions.snapshotIntervalInMs) {
-      this.snapshotOptions.snapshotIntervalInMs = 5000;
-    }
+
+    const snapshotIntervalMs = !this.snapshotOptions.snapshotIntervalInMs
+      ? 5000
+      : this.snapshotOptions.snapshotIntervalInMs;
+
     this.startedAt = new Date();
     this.messagesSent = [];
-    this.snapshotTimer = setInterval(
-      this.snapshot.bind(this),
-      snapshotOptions.snapshotIntervalInMs
-    );
+    this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalMs);
+  }
+
+  /**
+   * Creates a ServiceBusClient using the connection string in the SERVICEBUS_CONNECTION_STRING environment variable.
+   */
+  public createServiceBusClient(): ServiceBusClient {
+    if (!process.env.SERVICEBUS_CONNECTION_STRING) {
+      throw new Error(
+        "Failed to create a ServiceBusClient - no connection string defined in the environment"
+      );
+    }
+
+    return new ServiceBusClient(process.env.SERVICEBUS_CONNECTION_STRING);
   }
 
   public async init(
     queueNamePrefix?: string,
-    options?: CreateQueueOptions | undefined,
+    options?: CreateQueueOptions,
     testOptions?: Record<string, string | number | boolean>
   ) {
-    this.queueName =
-      (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
-    this.reportFileName = `temp/report-${this.queueName}.txt`;
-    this.errorsFileName = `temp/errors-${this.queueName}.txt`;
-    this.messagesReportFileName = `temp/messages-${this.queueName}.json`;
-    if (testOptions) console.log(testOptions);
+    try {
+      this.queueName =
+        (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
+      if (testOptions) console.log(testOptions);
 
-    await appendFile(this.reportFileName, JSON.stringify(testOptions, null, 2));
-    await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
+      defaultClient.commonProperties = {
+        // these will be reported with each event
+        testName: this.snapshotOptions.testName
+      };
+
+      defaultClient.trackEvent({
+        name: "start",
+        properties: {
+          ...testOptions,
+          ...options,
+          queueName: this.queueName
+        }
+      });
+
+      await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
+    } catch (err) {
+      this.trackError("init", err);
+      // TODO: we might want to consider just having a .run(() => { <your-code>}) style so we can avoid the
+      // possibility of _losing_ fatal telemetry because your app exited without flushing.
+      defaultClient.flush();
+      throw err;
+    }
   }
 
   public async sendMessages(
@@ -126,15 +165,22 @@ export class SBStressTestsBase {
         } else {
           await sender.sendMessages(messages);
         }
-        this.trackMessageIds(messages, "sent");
-        this.sendInfo.numberOfSuccesses++;
-        this.messagesSent = this.messagesSent.concat(messages);
+        this.trackSentMessages(messages);
       } catch (error) {
         this.sendInfo.numberOfFailures++;
-        this.sendInfo.errors.push(error);
+        this.trackError("send", error);
         console.error("Error in sending: ", error);
       }
     }
+  }
+
+  /**
+   * Tracks a sent message for reporting.
+   */
+  public trackSentMessages(messages: ServiceBusMessage[]) {
+    this.trackMessageIds(messages, "sent");
+    this.sendInfo.numberOfSuccesses++;
+    this.messagesSent = this.messagesSent.concat(messages);
   }
 
   public async receiveMessages(
@@ -147,19 +193,28 @@ export class SBStressTestsBase {
       const messages = await receiver.receiveMessages(maxMsgCount, {
         maxWaitTimeInMs
       });
-      this.trackMessageIds(messages, "received");
-      this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
-      this.receiveInfo.numberOfSuccesses++;
+      this.addReceivedMessage(messages);
       if (settleMessageOnReceive && receiver.receiveMode === "peekLock") {
-        await Promise.all(messages.map((msg) => this.completeMessage(msg, receiver)));
+        await Promise.all(messages.map((msg) => this.completeMessage(receiver, msg)));
       }
       return messages;
     } catch (error) {
       this.receiveInfo.numberOfFailures++;
-      this.receiveInfo.errors.push(error);
+      this.trackError("receive", error);
       console.error("Error in receiving: ", error);
     }
     return [];
+  }
+
+  /**
+   * Adds a received message to our list of messages, incrementing relevant counters.
+   *
+   * @param messages
+   */
+  public addReceivedMessage(messages: ServiceBusReceivedMessage[]) {
+    this.trackMessageIds(messages, "received");
+    this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
+    this.receiveInfo.numberOfSuccesses++;
   }
 
   public async peekMessages(
@@ -177,7 +232,7 @@ export class SBStressTestsBase {
       return messages;
     } catch (error) {
       this.receiveInfo.numberOfFailures++;
-      this.receiveInfo.errors.push(error);
+      this.trackError("receive", error);
       console.error("Error in peeking: ", error);
     }
     return [];
@@ -199,7 +254,7 @@ export class SBStressTestsBase {
       // TODO: message to complete after certain number of renewals
       if (receiver.receiveMode === "peekLock") {
         if (options.settleMessageOnReceive) {
-          await this.completeMessage(message, receiver);
+          await this.completeMessage(receiver, message);
         } else if (
           !options.autoCompleteMessages &&
           options.maxAutoRenewLockDurationInMs === 0 &&
@@ -218,9 +273,9 @@ export class SBStressTestsBase {
       this.messagesReceived = this.messagesReceived.concat(message as ServiceBusReceivedMessage);
       this.receiveInfo.numberOfSuccesses++;
     };
-    const processError = async (error) => {
-      this.receiveInfo.errors.push(error);
-      console.error("Error in receiving: ", error);
+    const processError = async (processErrorArgs: ProcessErrorArgs) => {
+      this.trackError("receive", processErrorArgs.error);
+      console.error("Error in receiving: ", processErrorArgs.error);
     };
     const subscriber = receiver.subscribe(
       {
@@ -233,28 +288,61 @@ export class SBStressTestsBase {
     await subscriber.close();
   }
 
+  /**
+   * Reports an error that occurs in processing.
+   * @param from
+   * @param exception
+   */
+  public trackError(
+    from: "init" | "receive" | "complete" | "send" | "lockrenewal" | "sessionlockrenewal" | "close",
+    exception: Error,
+    extraProperties?: Record<string, string>
+  ) {
+    ++this._numErrors;
+
+    defaultClient.trackException({
+      exception,
+      properties: {
+        from,
+        ...extraProperties
+      }
+    });
+  }
+
   trackMessageIds(messages: ServiceBusMessage[], path: "sent" | "received") {
     messages.forEach((msg) => {
-      let destination = this.trackedMessageIds[msg.messageId as string];
-      if (!destination)
-        destination = this.trackedMessageIds[msg.messageId as string] = {
+      if (!msg.messageId) {
+        console.error("No message ID for sent message");
+        throw new Error(
+          "No message ID for tracked message. Make sure you initialize .messageId before sending messages."
+        );
+      }
+
+      if (path === "sent") {
+        if (this.trackedMessageIds[msg.messageId as string]) {
+          throw new Error(`${msg.messageId} has already been tracked as sent!`);
+        }
+
+        const destination = (this.trackedMessageIds[msg.messageId as string] = {
           sentCount: 0,
           receivedCount: 0,
-          settledCount: 0,
-          errors: []
-        };
-      if (path === "sent") {
+          settledCount: 0
+        });
+
         destination.sentCount = destination.sentCount + 1;
-      } else {
-        destination.receivedCount = destination.receivedCount + 1;
+      } else if (path === "received") {
+        if (!this.trackedMessageIds[msg.messageId as string]) {
+          throw new Error(
+            `${msg.messageId} was not tracked as sent, can't increment receive count`
+          );
+        }
+
+        this.trackedMessageIds[msg.messageId as string].receivedCount++;
       }
     });
   }
 
   /**
-   * @param {ServiceBusReceivedMessageWithLock} message
-   * @param {number} duration
-   * @param {boolean} completeMessageAfterDuration
    */
   public renewMessageLockUntil(
     message: ServiceBusReceivedMessage,
@@ -276,7 +364,7 @@ export class SBStressTestsBase {
             currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
         } catch (error) {
           this.messageLockRenewalInfo.numberOfFailures++;
-          this.messageLockRenewalInfo.errors.push(error);
+          this.trackError("lockrenewal", error);
           console.error("Error in message lock renewal: ", error);
           clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]);
         }
@@ -289,7 +377,7 @@ export class SBStressTestsBase {
             completeMessageAfterDuration
           );
         } else {
-          await this.completeMessage(message, receiver);
+          await this.completeMessage(receiver, message);
           clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[message.messageId as string]);
         }
       },
@@ -298,24 +386,20 @@ export class SBStressTestsBase {
   }
 
   /**
-   * completeMessage
+   * Complete a message and increment any relevant counters.
    */
-  public async completeMessage(message: ServiceBusReceivedMessage, receiver: ServiceBusReceiver) {
+  public async completeMessage(receiver: ServiceBusReceiver, message: ServiceBusReceivedMessage) {
     try {
       await receiver.completeMessage(message);
       this.trackedMessageIds[message.messageId! as string].settledCount++;
     } catch (error) {
-      console.error("Error in message completion: ", error);
-      this.trackedMessageIds[message.messageId! as string].errors.push(
-        "Error in message completion: ",
-        error
-      );
+      console.error(`Error in message completion with id: ${message.messageId} `, error);
+      this.trackError("complete", error);
     }
   }
 
   /**
-   * @param {ServiceBusSessionReceiver<ServiceBusReceivedMessage>} receiver
-   * @param {number} duration Duration until which the lock is renewed
+   * @param duration Duration until which the lock is renewed
    */
   public renewSessionLockUntil(receiver: ServiceBusSessionReceiver, duration: number) {
     // TODO: pass in max number of lock renewals? and close the receiver at the end of max??
@@ -336,7 +420,7 @@ export class SBStressTestsBase {
         }
       } catch (error) {
         this.sessionLockRenewalInfo.numberOfFailures++;
-        this.sessionLockRenewalInfo.errors.push(error);
+        this.trackError("sessionlockrenewal", error);
         console.error("Error in session lock renewal: ", error);
       }
     }, receiver.sessionLockedUntilUtc!.valueOf() - startTime.valueOf() - 10000);
@@ -344,7 +428,7 @@ export class SBStressTestsBase {
 
   public async callClose(
     object: ServiceBusSender | ServiceBusReceiver | ServiceBusSessionReceiver | ServiceBusClient,
-    type: "sender" | "receiver" | "session" | "client"
+    type: "sender" | "receiver" | "client"
   ) {
     try {
       await object.close();
@@ -353,122 +437,104 @@ export class SBStressTestsBase {
       const logError = `Error occurred on closing ${type}: ${error}`;
       console.error(logError);
       this.closeInfo[type].numberOfFailures++;
-      this.closeInfo[type].errors.push(logError);
+
+      this.trackError("close", error, {
+        type
+      });
     }
   }
 
   public async snapshot(): Promise<void> {
-    // TODO: get the options being set in the logs
-    // TODO: Get a title passed from the scenario file
+    const eventProperties: Record<string, string | number> = {};
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
-    const memoryUsage = process.memoryUsage();
-    const currentSnapshot = [
-      `Time: ${new Date().toJSON()}`,
-      `Elapsed time in seconds: ${elapsedTimeInSeconds}`,
-      `Queue name: ${this.queueName}`,
-      `Space occupied for the process(rss): ${memoryUsage.rss}`,
-      `Memory Consumed(heapUsed): ${memoryUsage.heapUsed}`,
-      `Number of messages sent so far: ${this.messagesSent.length}`,
-      `Number of messages received so far: ${this.messagesReceived.length}`
-    ]
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("send-info")
-          ? [
-              `Number of successful sends so far: ${this.sendInfo.numberOfSuccesses}`,
-              `Number of failed sends so far: ${this.sendInfo.numberOfFailures}`,
-              `(Avg)Number of sends per sec: ${this.sendInfo.numberOfSuccesses /
-                elapsedTimeInSeconds}`
-            ]
-          : []
-      )
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("receive-info")
-          ? [
-              `Number of successful receives so far: ${this.receiveInfo.numberOfSuccesses}`,
-              `Number of failed receives so far: ${this.receiveInfo.numberOfFailures}`,
-              `(Avg)Number of receives per sec: ${this.receiveInfo.numberOfSuccesses /
-                elapsedTimeInSeconds}`
-            ]
-          : []
-      )
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("message-lock-renewal-info")
-          ? [
-              `Number of successful message lock renewals so far: ${this.messageLockRenewalInfo.numberOfSuccesses}`,
-              `Number of failed message lock renewals so far: ${this.messageLockRenewalInfo.numberOfFailures}`,
-              `(Avg)Number of message lock renewals per sec: ${this.messageLockRenewalInfo
-                .numberOfSuccesses / elapsedTimeInSeconds}`
-            ]
-          : []
-      )
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("session-lock-renewal-info")
-          ? [
-              `Number of successful session lock renewals so far: ${this.sessionLockRenewalInfo.numberOfSuccesses}`,
-              `Number of failed session lock renewals so far: ${this.sessionLockRenewalInfo.numberOfFailures}`,
-              `(Avg)Number of session lock renewals per sec: ${this.sessionLockRenewalInfo
-                .numberOfSuccesses / elapsedTimeInSeconds}`
-            ]
-          : []
-      )
-      .concat(
-        this.snapshotOptions.snapshotFocus.includes("close-info")
-          ? [
-              `Number of successful closes for sender so far: ${this.closeInfo.sender.numberOfSuccesses}`,
-              `Number of failed closes for sender so far: ${this.closeInfo.sender.numberOfFailures}`,
-              `Number of successful closes for receiver so far: ${this.closeInfo.receiver.numberOfSuccesses}`,
-              `Number of failed closes for receiver so far: ${this.closeInfo.receiver.numberOfFailures}`
-            ]
-          : []
-      )
-      .reduce((output, entry) => output + "\n" + entry)
-      .concat("\n\n");
-    
-    await appendFile(this.reportFileName, currentSnapshot);
+
+    eventProperties["elapsedTimeInSeconds"] = elapsedTimeInSeconds;
+    eventProperties["messsages.sent"] = this.messagesSent.length;
+    eventProperties["messages.received"] = this.messagesReceived.length;
+
+    if (this.snapshotOptions.snapshotFocus?.includes("send-info")) {
+      eventProperties["send.pass"] = this.sendInfo.numberOfSuccesses;
+      eventProperties["send.fail"] = this.sendInfo.numberOfFailures;
+    }
+
+    if (this.snapshotOptions.snapshotFocus?.includes("receive-info")) {
+      eventProperties["receive.pass"] = this.receiveInfo.numberOfSuccesses;
+      eventProperties["receive.fail"] = this.receiveInfo.numberOfFailures;
+    }
+
+    if (this.snapshotOptions.snapshotFocus?.includes("message-lock-renewal-info")) {
+      eventProperties["lockRenewal.pass"] = this.messageLockRenewalInfo.numberOfSuccesses;
+      eventProperties["lockRenewal.fail"] = this.messageLockRenewalInfo.numberOfFailures;
+    }
+
+    if (this.snapshotOptions.snapshotFocus?.includes("session-lock-renewal-info")) {
+      eventProperties["sessionLockRenewal.pass"] = this.sessionLockRenewalInfo.numberOfSuccesses;
+      eventProperties["sessionLockRenewal.fail"] = this.sessionLockRenewalInfo.numberOfFailures;
+    }
+
+    if (this.snapshotOptions.snapshotFocus?.includes("close-info")) {
+      eventProperties["close.sender.pass"] = -this.closeInfo.sender.numberOfSuccesses;
+      eventProperties["close.sender.fail"] = this.closeInfo.sender.numberOfFailures;
+      eventProperties["close.receiver.pass"] = this.closeInfo.receiver.numberOfSuccesses;
+      eventProperties["close.receiver.fail"] = this.closeInfo.receiver.numberOfFailures;
+    }
+
+    eventProperties["errorCount"] = this._numErrors;
+    this._numErrors = 0;
+
+    defaultClient.trackEvent({
+      name: "summary",
+      properties: eventProperties
+    });
+
     defaultClient.flush();
 
-    console.log(currentSnapshot);
+    console.log(JSON.stringify(eventProperties, undefined, 2));
   }
 
   public async end() {
+    try {
+      await this.snapshot();
 
-    defaultClient.flush();
+      if (this.snapshotOptions.snapshotFocus?.includes("receive-info")) {
+        const output = await saveDiscrepanciesFromTrackedMessages(this.trackedMessageIds);
 
-    // Logging all the errors to a file
-    const errors = [].concat(
-      this.sendInfo.errors,
-      this.receiveInfo.errors,
-      this.messageLockRenewalInfo.errors,
-      this.sessionLockRenewalInfo.errors
-    );
-    if (this.snapshotOptions.snapshotFocus.includes("receive-info")) {
-      await saveDiscrepanciesFromTrackedMessages(
-        this.trackedMessageIds,
-        this.messagesReportFileName
-      );
+        defaultClient.trackEvent({
+          name: "discrepencies",
+          properties: {
+            messages_sent_but_never_received: output.messages_sent_but_never_received.join(","),
+            messages_not_sent_but_received: output.messages_not_sent_but_received.join(","),
+            messages_sent_multiple_times: output.messages_sent_multiple_times.join(","),
+            messages_sent_once_but_received_multiple_times: output.messages_sent_once_but_received_multiple_times.join(
+              ","
+            ),
+            messages_sent_once_and_received_once: output.messages_sent_once_and_received_once.join(
+              ","
+            )
+          }
+        });
+      }
+
+      // TODO: Log tracked messages in JSON
+      // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
+      // TODO: Add an argument to "end()" to not delete the resource
+      clearInterval(this.snapshotTimer);
+      for (const id in this.messageLockRenewalInfo.lockRenewalTimers) {
+        clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[id]);
+      }
+      for (const id in this.sessionLockRenewalInfo.lockRenewalTimers) {
+        clearTimeout(this.sessionLockRenewalInfo.lockRenewalTimers[id]);
+      }
+      await this.serviceBusAdministrationClient.deleteQueue(this.queueName);
+    } catch (err) {
+      defaultClient.trackException({
+        exception: err,
+        properties: {
+          from: "end"
+        }
+      });
+
+      defaultClient.flush();
     }
-    if (errors.length) {
-      await writeFile(
-        `errors-logged-${this.queueName}.txt`,
-        errors.reduce((output, entry) => output + "\n" + entry)
-      );
-    }
-    if (this.closeInfo) {
-      await writeFile(
-        `temp/close-calls-logged-${this.queueName}.json`,
-        JSON.stringify(this.closeInfo, null, 2) // Third argument prettifies
-      );
-    }
-    // TODO: Log tracked messages in JSON
-    // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
-    // TODO: Add an argument to "end()" to not delete the resource
-    clearInterval(this.snapshotTimer);
-    for (const id in this.messageLockRenewalInfo.lockRenewalTimers) {
-      clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[id]);
-    }
-    for (const id in this.sessionLockRenewalInfo.lockRenewalTimers) {
-      clearTimeout(this.sessionLockRenewalInfo.lockRenewalTimers[id]);
-    }
-    await this.serviceBusAdministrationClient.deleteQueue(this.queueName);
   }
 }

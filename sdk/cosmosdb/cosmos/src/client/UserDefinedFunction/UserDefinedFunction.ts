@@ -22,13 +22,13 @@ export class UserDefinedFunction {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createUserDefinedFunctionUri(this.container.database.id, this.container.id, this.id);
   }
   /**
    * @hidden
-   * @param container The parent {@link Container}.
-   * @param id The id of the given {@link UserDefinedFunction}.
+   * @param container - The parent {@link Container}.
+   * @param id - The id of the given {@link UserDefinedFunction}.
    */
   constructor(
     public readonly container: Container,
@@ -38,7 +38,6 @@ export class UserDefinedFunction {
 
   /**
    * Read the {@link UserDefinedFunctionDefinition} for the given {@link UserDefinedFunction}.
-   * @param options
    */
   public async read(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
     const path = getPathFromLink(this.url);
@@ -55,8 +54,7 @@ export class UserDefinedFunction {
 
   /**
    * Replace the given {@link UserDefinedFunction} with the specified {@link UserDefinedFunctionDefinition}.
-   * @param body The specified {@link UserDefinedFunctionDefinition}.
-   * @param options
+   * @param options -
    */
   public async replace(
     body: UserDefinedFunctionDefinition,
@@ -86,7 +84,6 @@ export class UserDefinedFunction {
 
   /**
    * Delete the given {@link UserDefined}.
-   * @param options
    */
   public async delete(options?: RequestOptions): Promise<UserDefinedFunctionResponse> {
     const path = getPathFromLink(this.url);

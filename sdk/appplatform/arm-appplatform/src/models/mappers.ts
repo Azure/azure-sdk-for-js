@@ -910,6 +910,12 @@ export const AppResourceProperties: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      enableEndToEndTLS: {
+        serializedName: "enableEndToEndTLS",
+        type: {
+          name: "Boolean"
+        }
+      },
       createdTime: {
         readOnly: true,
         serializedName: "createdTime",

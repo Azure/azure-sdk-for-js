@@ -51,7 +51,6 @@ export class KeyVaultBackupClient {
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -151,12 +150,6 @@ export class KeyVaultBackupClient {
     sasToken: string,
     options: BeginBackupOptions = {}
   ): Promise<PollerLike<BackupOperationState, BackupResult>> {
-    if (!(blobStorageUri && sasToken)) {
-      throw new Error(
-        "beginBackup requires non-empty strings for the parameters: blobStorageUri and sasToken."
-      );
-    }
-
     const poller = new BackupPoller({
       blobStorageUri,
       sasToken,
@@ -213,12 +206,6 @@ export class KeyVaultBackupClient {
     folderName: string,
     options: BeginRestoreOptions = {}
   ): Promise<PollerLike<RestoreOperationState, RestoreResult>> {
-    if (!(blobStorageUri && sasToken && folderName)) {
-      throw new Error(
-        "beginRestore requires non-empty strings for the parameters: blobStorageUri, sasToken and folderName."
-      );
-    }
-
     const poller = new RestorePoller({
       blobStorageUri,
       sasToken,
@@ -277,13 +264,7 @@ export class KeyVaultBackupClient {
     folderName: string,
     keyName: string,
     options: BeginBackupOptions = {}
-  ): Promise<PollerLike<SelectiveRestoreOperationState, undefined>> {
-    if (!(keyName && blobStorageUri && sasToken && folderName)) {
-      throw new Error(
-        "beginSelectiveRestore requires non-empty strings for the parameters: keyName, blobStorageUri, sasToken and folderName."
-      );
-    }
-
+  ): Promise<PollerLike<SelectiveRestoreOperationState, RestoreResult>> {
     const poller = new SelectiveRestorePoller({
       keyName,
       blobStorageUri,

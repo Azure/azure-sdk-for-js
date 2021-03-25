@@ -1,28 +1,19 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 // tslint:disable:max-line-length
 /**
  * Range for Blob Service Operations.
  * @see https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-the-range-header-for-blob-service-operations
- *
- * @export
- * @interface Range
  */
 export interface Range {
   /**
    * StartByte, larger than or equal 0.
-   *
-   * @type {string}
-   * @memberof Range
    */
   offset: number;
   /**
    * Optional. Count of bytes, larger than 0.
    * If not provided, will return bytes from offset to the end.
-   *
-   * @type {string}
-   * @memberof Range
    */
   count?: number;
 }
@@ -32,9 +23,7 @@ export interface Range {
  *
  * "bytes=255-" or "bytes=0-511"
  *
- * @export
- * @param {Range} iRange
- * @returns {string}
+ * @param iRange -
  */
 export function rangeToString(iRange: Range): string {
   if (iRange.offset < 0) {

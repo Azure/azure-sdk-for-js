@@ -3,37 +3,30 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import {
-  HttpsClient,
+  HttpClient,
   PipelineRequest,
   PipelineResponse,
   Pipeline,
-  createPipelineRequest,
-  createPipelineFromOptions,
-  bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions
-} from "@azure/core-https";
+  createPipelineRequest
+} from "@azure/core-rest-pipeline";
 import {
   OperationArguments,
   OperationSpec,
   OperationRequest,
-  OperationResponseMap,
-  FullOperationResponse,
-  CompositeMapper,
-  XmlOptions
+  CommonClientOptions
 } from "./interfaces";
-import { isStreamOperation } from "./interfaceHelpers";
+import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
 import { getRequestUrl } from "./urlHelpers";
-import { isPrimitiveType } from "./utils";
-import { deserializationPolicy, DeserializationPolicyOptions } from "./deserializationPolicy";
+import { flattenResponse } from "./utils";
 import { URL } from "./url";
-import { serializationPolicy, serializationPolicyOptions } from "./serializationPolicy";
-import { getCachedDefaultHttpsClient } from "./httpClientCache";
+import { getCachedDefaultHttpClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
+import { createClientPipeline } from "./pipeline";
 
 /**
  * Options to be provided while creating the client.
  */
-export interface ServiceClientOptions {
+export interface ServiceClientOptions extends CommonClientOptions {
   /**
    * If specified, this is the base URI that requests will be made against for this ServiceClient.
    * If it is not specified, then all OperationSpecs must contain a baseUrl property.
@@ -56,20 +49,6 @@ export interface ServiceClientOptions {
    * A customized pipeline to use, otherwise a default one will be created.
    */
   pipeline?: Pipeline;
-  /**
-   * The HttpClient that will be used to send HTTP requests.
-   */
-  httpsClient?: HttpsClient;
-
-  /**
-   * A method that is able to turn an XML object model into a string.
-   */
-  stringifyXML?: (obj: any, opts?: XmlOptions) => string;
-
-  /**
-   * A method that is able to parse XML.
-   */
-  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
 }
 
 /**
@@ -91,43 +70,38 @@ export class ServiceClient {
   /**
    * The HTTP client that will be used to send requests.
    */
-  private readonly _httpsClient: HttpsClient;
+  private readonly _httpClient: HttpClient;
 
-  private readonly _pipeline: Pipeline;
+  /**
+   * The pipeline used by this client to make requests
+   */
+  public readonly pipeline: Pipeline;
 
   /**
    * The ServiceClient constructor
-   * @constructor
-   * @param credential The credentials used for authentication with the service.
-   * @param options The service client options that govern the behavior of the client.
+   * @param credential - The credentials used for authentication with the service.
+   * @param options - The service client options that govern the behavior of the client.
    */
   constructor(options: ServiceClientOptions = {}) {
     this._requestContentType = options.requestContentType;
     this._baseUri = options.baseUri;
-    this._httpsClient = options.httpsClient || getCachedDefaultHttpsClient();
-    const credentialScopes = getCredentialScopes(options);
-    this._pipeline =
-      options.pipeline ||
-      createDefaultPipeline({
-        credentialScopes,
-        credential: options.credential,
-        parseXML: options.parseXML,
-        stringifyXML: options.stringifyXML
-      });
+    this._httpClient = options.httpClient || getCachedDefaultHttpClient();
+
+    this.pipeline = options.pipeline || createDefaultPipeline(options);
   }
 
   /**
    * Send the provided httpRequest.
    */
   async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
-    return this._pipeline.sendRequest(this._httpsClient, request);
+    return this.pipeline.sendRequest(this._httpClient, request);
   }
 
   /**
    * Send an HTTP request that is populated using the provided OperationSpec.
-   * @typeParam T The typed result of the request, based on the OperationSpec.
-   * @param {OperationArguments} operationArguments The arguments that the HTTP request's templated values will be populated from.
-   * @param {OperationSpec} operationSpec The OperationSpec to use to populate the httpRequest.
+   * @typeParam T - The typed result of the request, based on the OperationSpec.
+   * @param operationArguments - The arguments that the HTTP request's templated values will be populated from.
+   * @param operationSpec - The OperationSpec to use to populate the httpRequest.
    */
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
@@ -163,12 +137,6 @@ export class ServiceClient {
       const requestOptions = options.requestOptions;
 
       if (requestOptions) {
-        if (requestOptions.customHeaders) {
-          for (const customHeaderName of Object.keys(requestOptions.customHeaders)) {
-            request.headers.set(customHeaderName, requestOptions.customHeaders[customHeaderName]);
-          }
-        }
-
         if (requestOptions.timeout) {
           request.timeout = requestOptions.timeout;
         }
@@ -190,13 +158,13 @@ export class ServiceClient {
         request.abortSignal = options.abortSignal;
       }
 
-      if (options.tracingOptions?.spanOptions) {
-        request.spanOptions = options.tracingOptions.spanOptions;
+      if (options.tracingOptions) {
+        request.tracingOptions = options.tracingOptions;
       }
     }
 
-    if (request.streamResponseBody === undefined) {
-      request.streamResponseBody = isStreamOperation(operationSpec);
+    if (request.streamResponseStatusCodes === undefined) {
+      request.streamResponseStatusCodes = getStreamingResponseStatusCodes(operationSpec);
     }
 
     try {
@@ -221,138 +189,17 @@ export class ServiceClient {
   }
 }
 
-function createDefaultPipeline(
-  options: {
-    credentialScopes?: string | string[];
-    credential?: TokenCredential;
-    parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
-    stringifyXML?: (obj: any, opts?: XmlOptions) => string;
-  } = {}
-): Pipeline {
+function createDefaultPipeline(options: ServiceClientOptions): Pipeline {
+  const credentialScopes = getCredentialScopes(options);
   const credentialOptions =
-    options.credential && options.credentialScopes
-      ? { credentialScopes: options.credentialScopes, credential: options.credential }
+    options.credential && credentialScopes
+      ? { credentialScopes, credential: options.credential }
       : undefined;
 
   return createClientPipeline({
-    credentialOptions,
-    deserializationOptions: {
-      parseXML: options.parseXML
-    },
-    serializationOptions: {
-      stringifyXML: options.stringifyXML
-    }
+    ...options,
+    credentialOptions
   });
-}
-
-/**
- * Options for creating a Pipeline to use with ServiceClient.
- * Mostly for customizing the auth policy (if using token auth) or
- * the deserialization options when using XML.
- */
-export interface ClientPipelineOptions extends InternalPipelineOptions {
-  /**
-   * Options to customize bearerTokenAuthenticationPolicy.
-   */
-  credentialOptions?: { credentialScopes: string | string[]; credential: TokenCredential };
-  /**
-   * Options to customize deserializationPolicy.
-   */
-  deserializationOptions?: DeserializationPolicyOptions;
-  /**
-   * Options to customize serializationPolicy.
-   */
-  serializationOptions?: serializationPolicyOptions;
-}
-
-/**
- * Creates a new Pipeline for use with a Service Client.
- * Adds in deserializationPolicy by default.
- * Also adds in bearerTokenAuthenticationPolicy if passed a TokenCredential.
- * @param options Options to customize the created pipeline.
- */
-export function createClientPipeline(options: ClientPipelineOptions = {}): Pipeline {
-  const pipeline = createPipelineFromOptions(options ?? {});
-  if (options.credentialOptions) {
-    pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({
-        credential: options.credentialOptions.credential,
-        scopes: options.credentialOptions.credentialScopes
-      })
-    );
-  }
-
-  pipeline.addPolicy(serializationPolicy(options.serializationOptions), { phase: "Serialize" });
-  pipeline.addPolicy(deserializationPolicy(options.deserializationOptions), {
-    phase: "Deserialize"
-  });
-
-  return pipeline;
-}
-
-function flattenResponse(
-  fullResponse: FullOperationResponse,
-  responseSpec: OperationResponseMap | undefined
-): unknown {
-  const parsedHeaders = fullResponse.parsedHeaders;
-  const bodyMapper = responseSpec && responseSpec.bodyMapper;
-
-  if (bodyMapper) {
-    const typeName = bodyMapper.type.name;
-    if (typeName === "Stream") {
-      return {
-        ...parsedHeaders,
-        blobBody: fullResponse.blobBody,
-        readableStreamBody: fullResponse.readableStreamBody
-      };
-    }
-
-    const modelProperties =
-      (typeName === "Composite" && (bodyMapper as CompositeMapper).type.modelProperties) || {};
-    const isPageableResponse = Object.keys(modelProperties).some(
-      (k) => modelProperties[k].serializedName === ""
-    );
-    if (typeName === "Sequence" || isPageableResponse) {
-      const arrayResponse: { [key: string]: unknown } =
-        fullResponse.parsedBody ?? (([] as unknown) as { [key: string]: unknown });
-
-      for (const key of Object.keys(modelProperties)) {
-        if (modelProperties[key].serializedName) {
-          arrayResponse[key] = fullResponse.parsedBody?.[key];
-        }
-      }
-
-      if (parsedHeaders) {
-        for (const key of Object.keys(parsedHeaders)) {
-          arrayResponse[key] = parsedHeaders[key];
-        }
-      }
-      return arrayResponse;
-    }
-
-    if (typeName === "Composite" || typeName === "Dictionary") {
-      return {
-        ...parsedHeaders,
-        ...fullResponse.parsedBody
-      };
-    }
-  }
-
-  if (
-    bodyMapper ||
-    fullResponse.request.method === "HEAD" ||
-    isPrimitiveType(fullResponse.parsedBody)
-  ) {
-    return {
-      ...parsedHeaders,
-      body: fullResponse.parsedBody
-    };
-  }
-
-  return {
-    ...parsedHeaders,
-    ...fullResponse.parsedBody
-  };
 }
 
 function getCredentialScopes(options: ServiceClientOptions): string | string[] | undefined {

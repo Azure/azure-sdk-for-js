@@ -16,10 +16,11 @@ describe("FormRecognizerClient browser only", () => {
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
+    }
+  );
 
   afterEach(async function() {
     if (recorder) {

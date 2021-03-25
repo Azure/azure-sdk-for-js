@@ -169,13 +169,10 @@ function calculateQueryParameters(
           queryParameterValue = queryParameterValue.join(delimiter);
         }
 
-        // ignore empty values
-        if (queryParameterValue) {
-          result.set(
-            queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
-            queryParameterValue
-          );
-        }
+        result.set(
+          queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
+          queryParameterValue
+        );
       }
     }
   }

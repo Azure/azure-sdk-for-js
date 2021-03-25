@@ -110,7 +110,7 @@
    * and set projectFolderMaxDepth to a large number.
    */
   "projectFolderMinDepth": 3,
-  "projectFolderMaxDepth": 3,
+  "projectFolderMaxDepth": 4,
   /**
    * This feature helps you to review and approve new packages before they are introduced
    * to your monorepo.  For example, you may be concerned about licensing, code quality,
@@ -388,8 +388,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-phone-numbers",
+      "projectFolder": "sdk/communication/communication-phone-numbers",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-sms",
       "projectFolder": "sdk/communication/communication-sms",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/container-registry",
+      "projectFolder": "sdk/containerregistry/container-registry",
       "versionPolicyName": "client"
     },
     {
@@ -423,8 +433,8 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-https",
-      "projectFolder": "sdk/core/core-https",
+      "packageName": "@azure/core-rest-pipeline",
+      "projectFolder": "sdk/core/core-rest-pipeline",
       "versionPolicyName": "core"
     },
     {
@@ -443,6 +453,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-util",
+      "projectFolder": "sdk/core/core-util",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-xml",
       "projectFolder": "sdk/core/core-xml",
       "versionPolicyName": "core"
@@ -453,8 +468,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/opentelemetry-exporter-azure-monitor",
-      "projectFolder": "sdk/monitor/opentelemetry-exporter-azure-monitor",
+      "packageName": "@azure/monitor-opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
       "versionPolicyName": "client"
     },
     {
@@ -481,6 +496,11 @@
       "packageName": "@azure/event-processor-host",
       "projectFolder": "sdk/eventhub/event-processor-host",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/mock-hub",
+      "projectFolder": "sdk/eventhub/mock-hub",
+      "versionPolicyName": "utility"
     },
     {
       "packageName": "testhub",
@@ -625,6 +645,46 @@
     {
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/perf-tests/ai-form-recognizer",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-eventgrid",
+      "projectFolder": "sdk/eventgrid/perf-tests/eventgrid",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-text-analytics",
+      "projectFolder": "sdk/textanalytics/perf-tests/text-analytics",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-storage-blob",
+      "projectFolder": "sdk/storage/perf-tests/storage-blob",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-storage-file-share",
+      "projectFolder": "sdk/storage/perf-tests/storage-file-share",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-storage-file-datalake",
+      "projectFolder": "sdk/storage/perf-tests/storage-file-datalake",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure/mixedreality-authentication",
+      "projectFolder": "sdk/mixedreality/mixedreality-authentication",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/iot-device-update",
+      "projectFolder": "sdk/deviceupdate/iot-device-update",
       "versionPolicyName": "client"
     }
   ]

@@ -124,6 +124,18 @@ export const dataWarehouseUserActivityName: msRest.OperationURLParameter = {
     }
   }
 };
+export const encryptionProtectorName: msRest.OperationURLParameter = {
+  parameterPath: "encryptionProtectorName",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "encryptionProtectorName",
+    defaultValue: 'current',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const filter: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -222,6 +234,26 @@ export const linkId: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "linkId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const maintenanceWindowName: msRest.OperationQueryParameter = {
+  parameterPath: "maintenanceWindowName",
+  mapper: {
+    required: true,
+    serializedName: "maintenanceWindowName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const maintenanceWindowOptionsName: msRest.OperationQueryParameter = {
+  parameterPath: "maintenanceWindowOptionsName",
+  mapper: {
+    required: true,
+    serializedName: "maintenanceWindowOptionsName",
     type: {
       name: "String"
     }
@@ -432,16 +464,6 @@ export const skipToken: msRest.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "$skipToken",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const sqlComputeName: msRest.OperationURLParameter = {
-  parameterPath: "sqlComputeName",
-  mapper: {
-    required: true,
-    serializedName: "sqlComputeName",
     type: {
       name: "String"
     }

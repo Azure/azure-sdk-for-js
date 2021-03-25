@@ -3,7 +3,7 @@
 
 import qs from "qs";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
+import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -134,11 +134,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan(
-      "AuthorizationCodeCredential-getToken",
-      options
-    );
+  ): Promise<AccessToken> {
+    const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
       let tokenResponse: TokenResponse | null = null;
       let scopeString = typeof scopes === "string" ? scopes : scopes.join(" ");
@@ -155,7 +152,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
           this.lastTokenResponse.refreshToken,
           this.clientSecret,
           undefined,
-          newOptions
+          updatedOptions
         );
       }
 
@@ -179,7 +176,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
             "Content-Type": "application/x-www-form-urlencoded"
           },
           abortSignal: options && options.abortSignal,
-          spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
+          spanOptions: updatedOptions?.tracingOptions?.spanOptions
         });
 
         tokenResponse = await this.identityClient.sendTokenRequest(webResource);
@@ -187,7 +184,12 @@ export class AuthorizationCodeCredential implements TokenCredential {
 
       this.lastTokenResponse = tokenResponse;
       logger.getToken.info(formatSuccess(scopes));
-      return (tokenResponse && tokenResponse.accessToken) || null;
+      const token = tokenResponse && tokenResponse.accessToken;
+
+      if (!token) {
+        throw new CredentialUnavailable("Failed to retrieve a valid token");
+      }
+      return token;
     } catch (err) {
       const code =
         err.name === AuthenticationErrorName

@@ -5,13 +5,13 @@ import { Container, ContainerDefinition, Database } from "../../../src";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 import { StatusCodes } from "../../../src";
 
-async function sleep(time: number) {
+async function sleep(time: number): Promise<unknown> {
   return new Promise((resolve) => {
     setTimeout(resolve, time);
   });
 }
 
-describe("Container TTL", function() {
+describe("Container TTL", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 600000);
   beforeEach(async function() {
     await removeAllDatabases();
@@ -21,7 +21,7 @@ describe("Container TTL", function() {
     containerDefinition: ContainerDefinition,
     collId: any,
     defaultTtl: number
-  ) {
+  ): Promise<void> {
     containerDefinition.id = collId;
     containerDefinition.defaultTtl = defaultTtl;
     try {
@@ -41,7 +41,7 @@ describe("Container TTL", function() {
     itemDefinition: any,
     itemId: any,
     ttl: number
-  ) {
+  ): Promise<void> {
     itemDefinition.id = itemId;
     itemDefinition.ttl = ttl;
 
@@ -102,18 +102,18 @@ describe("Container TTL", function() {
     await createItemWithInvalidTtl(container, itemDefinition, "doc3", -10);
   });
 
-  async function checkItemGone(container: Container, createdItem: any) {
+  async function checkItemGone(container: Container, createdItem: any): Promise<void> {
     const response = await container.item(createdItem.id, undefined).read();
     assert.equal(response.statusCode, StatusCodes.NotFound);
     assert.equal(response.resource, undefined);
   }
 
-  async function checkItemExists(container: Container, createdItem: any) {
+  async function checkItemExists(container: Container, createdItem: any): Promise<void> {
     const { resource: readItem } = await container.item(createdItem.id, undefined).read();
     assert.equal(readItem.ttl, createdItem.ttl);
   }
 
-  async function positiveDefaultTtlStep4(container: Container, createdItem: any) {
+  async function positiveDefaultTtlStep4(container: Container, createdItem: any): Promise<void> {
     // the created Item should NOT be gone as it 's ttl value is set to 8 which overrides the containers' s defaultTtl value(5)
     await checkItemExists(container, createdItem);
     await sleep(4000);
@@ -124,7 +124,7 @@ describe("Container TTL", function() {
     container: Container,
     createdItem: any,
     itemDefinition: any
-  ) {
+  ): Promise<void> {
     // the created Item should be gone now as it 's ttl value is set to 2 which overrides the containers' s defaultTtl value(5)
     await checkItemGone(container, createdItem);
     itemDefinition.id = "doc4";
@@ -139,7 +139,7 @@ describe("Container TTL", function() {
     container: Container,
     createdItem: any,
     itemDefinition: any
-  ) {
+  ): Promise<void> {
     // the created Item should NOT be gone as it 's ttl value is set to -1(never expire) which overrides the containers' s defaultTtl value
     await checkItemExists(container, createdItem);
     itemDefinition.id = "doc3";
@@ -154,7 +154,7 @@ describe("Container TTL", function() {
     container: Container,
     createdItem: any,
     itemDefinition: any
-  ) {
+  ): Promise<void> {
     // the created Item should be gone now as it 's ttl value would be same as defaultTtl value of the container
     await checkItemGone(container, createdItem);
     itemDefinition.id = "doc2";
@@ -193,7 +193,7 @@ describe("Container TTL", function() {
     createdItem1: any,
     createdItem2: any,
     createdItem3: any
-  ) {
+  ): Promise<void> {
     // the created Item should be gone now as it 's ttl value is set to 2 which overrides the containers' s defaultTtl value(-1)
     await checkItemGone(container, createdItem3);
 

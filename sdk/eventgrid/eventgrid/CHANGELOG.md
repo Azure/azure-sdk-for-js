@@ -1,5 +1,32 @@
 # Release History
 
+## 4.1.1 (Unreleased)
+
+
+## 4.1.0 (2021-03-23)
+
+- The system event names `Microsoft.Communication.ChatParticipantAddedToThread` and `Microsoft.Communication.ChatParticipantRemovedFromThread` have been removed, and
+  `Microsoft.Communication.ChatThreadParticipantAdded` and `Microsoft.Communication.ChatThreadParticipantRemoved` have been added. The old names did not match the
+  the type names that Azure Communication Services was using for these events. TypeScript users will now see compliation errors if they are calling `isSystemEvent` with
+  either `Microsoft.Communication.ChatParticipantAddedToThread` or `Microsoft.Communication.ChatParticipantRemovedFromThread` as the event name. To fix these issues,
+  replace all uses of `Microsoft.Communication.ChatParticipantAddedToThread` with `Microsoft.Communication.ChatThreadParticipantAdded` and
+  `Microsoft.Communication.ChatParticipantRemovedFromThread` with `Microsoft.Communication.ChatThreadParticipantRemoved`.
+
+- Add `Microsoft.Communications.RecordingFileStatusUpdated` system event.
+
+## 4.0.0 (2021-03-17)
+
+- Update version to 4.0.0 to align with other EventGrid SDKs
+
+### Breaking Changes
+
+- `EventGridConsumer` no longer applies any conversions to the `data` property of system events. The interfaces that describe the data payload of each
+  system event has been updated to reflect this. The most visible impact of this change is that some properties of events are no longer converted into JavaScript
+  `Date` objects, and instead are kepts as strings which contain ISO 8601 timestamps.
+- Related to the above, `EventGridConsumer` no longer accepts a set of custom converters that can be used to further transform the `data` property of a specific
+  event type when deserializing events.
+- The interfaces which describe the shape of the `data` member of system events have been updated so that properties always included in the event are not typed as optional.
+
 ## 3.0.0-beta.3 (2020-10-06)
 
 - Added distributed tracing support. `EventGridProducerClient` will now create spans when sending events to Event Grid.
@@ -9,6 +36,10 @@
 
 - The type definitions for SMS events sent by Azure Communication Services have been renamed, to use the prefix "AcsSms" instead of "Acssms". If you are
   using TypeScript and explicitly referencing these interfaces, you will need to update your code to use the new names. The payload of the events is unchanged.
+- `EventGridSharedAccessCredential` has been removed, in favor of `AzureSASCredential`. Code which is using `EventGridSharedAccessCredential` should
+  now use `AzureSASCredential` instead.
+- When constructing the client, you must now include the schema type your topic is configured to expect (one of "EventGrid", "CloudEvent" or "Custom").
+- The `sendEvents` methods have been collapsed into a single method on the client called `send` which uses the input schema that was configured on the client.
 
 ## 3.0.0-beta.2 (2020-09-24)
 

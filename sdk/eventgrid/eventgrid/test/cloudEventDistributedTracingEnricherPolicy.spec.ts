@@ -8,7 +8,7 @@ import {
   PipelineResponse,
   createPipelineRequest,
   SendRequest
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 
 const CloudEventBatchContentType = "application/cloudevents-batch+json; charset=utf-8";
 

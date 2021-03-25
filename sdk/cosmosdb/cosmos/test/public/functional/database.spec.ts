@@ -13,14 +13,14 @@ import { DatabaseRequest } from "../../../src";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
 
   describe("Validate Database CRUD", async function() {
-    const databaseCRUDTest = async function() {
+    const databaseCRUDTest = async function(): Promise<void> {
       // read databases
       const { resources: databases } = await client.databases.readAll().fetchAll();
       assert.equal(databases.constructor, Array, "Value should be an array");

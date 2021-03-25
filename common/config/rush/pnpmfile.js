@@ -28,11 +28,11 @@ module.exports = {
  * The return value is the updated object.
  */
 function readPackage(packageJson, context) {
-  // // The karma types have a missing dependency on typings from the log4js package.
-  // if (packageJson.name === '@types/karma') {
-  //  context.log('Fixed up dependencies for @types/karma');
-  //  packageJson.dependencies['log4js'] = '0.6.38';
-  // }
+  
+  // snap-shot-it takes a hard dependency on 10.2.0 but we want a fix in 10.2.1
+  if (packageJson.name === "snap-shot-it" && packageJson.dependencies['snap-shot-core'] === "10.2.0") {
+    packageJson.dependencies['snap-shot-core'] = "10.2.1"
+  }
 
   return packageJson;
 }

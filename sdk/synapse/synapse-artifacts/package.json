@@ -3,13 +3,14 @@
   "author": "Microsoft Corporation",
   "description": "A generated SDK for ArtifactsClient.",
   "sdk-type": "client",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/synapse/synapse-artifacts/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "dependencies": {
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.2.0",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
@@ -32,7 +33,7 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/synapse-artifacts.d.ts",
   "devDependencies": {
-    "typescript": "4.1.2",
+    "typescript": "~4.2.0",
     "eslint": "^7.15.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "rimraf": "^3.0.0",
@@ -48,18 +49,11 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "esm/**/*.js",
-    "esm/**/*.js.map",
-    "esm/**/*.d.ts",
-    "esm/**/*.d.ts.map",
+    "dist/",
+    "dist-esm/",
     "types/synapse-artifacts.d.ts",
     "README.md",
-    "rollup.config.js",
-    "tsconfig.json"
+    "LICENSE"
   ],
   "scripts": {
     "build": "tsc && rollup -c rollup.config.js && npm run minify && npm run extract-api",
@@ -67,6 +61,8 @@
     "pack": "npm pack 2>&1",
     "build:test": "echo skip",
     "lint": "echo skipped",
+    "format": "echo skip format as this package has only auto generated code",
+    "check-format": "echo skip format check as this package has only auto generated code",
     "test": "echo skip",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
@@ -77,5 +73,17 @@
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "sideEffects": false,
-  "autoPublish": true
+  "autoPublish": true,
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/artifactsClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  }
 }

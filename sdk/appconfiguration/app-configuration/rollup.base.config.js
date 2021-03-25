@@ -76,7 +76,7 @@ export function nodeConfig(test = false) {
     );
 
     // different output file
-    baseConfig.output.file = "test-dist/index.node.js";
+    baseConfig.output.file = "dist-test/index.node.js";
 
     // mark assert packages we use as external
     baseConfig.external.push("assert");
@@ -141,7 +141,11 @@ export function browserConfig(test = false) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/test/*.spec.js",
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/public/*.spec.js"
+    ];
 
     baseConfig.external.unshift(...["process"]);
 
@@ -159,7 +163,7 @@ export function browserConfig(test = false) {
       ...[shim({ path: `export function join() {}`, dotenv: `export function config() { }` })]
     );
 
-    baseConfig.output.file = "test-browser/index.js";
+    baseConfig.output.file = "dist-test/index.browser.js";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

@@ -1,0 +1,23 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/chat/threads/19%3A8ucvHcBc4tyC0GEsOWiYZ5raXvPf-UMKB_8NWVcYSRg1%40thread.v2/messages",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"content\":\"content\"}",
+   "status": 201,
+   "response": "{\"id\":\"1616527075038\"}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8",
+    "location": "https://endpoint/chat/threads/19%3A8ucvHcBc4tyC0GEsOWiYZ5raXvPf-UMKB_8NWVcYSRg1@thread.v2/messages/1616527075038"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "660e3f96557e4bf75d30810408a70f5c"
+}

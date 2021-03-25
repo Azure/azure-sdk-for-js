@@ -2,6 +2,18 @@
 
 ## 7.0.4 (Unreleased)
 
+- Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
+  in `ServiceBusClientOptions`.
+  Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
+- When receiving messages from sessions using either the `ServiceBusSessionReceiver.receiveMessages` method or the `ServiceBusSessionReceiver.subscribe` method, errors on the AMQP link or session were being handled well, but an error on the AMQP connection like a network disconnect was not being handled at all. This results in the promise returned by the `receiveMessages` method never getting fulfilled and the `subscribe` method not calling the user provided error handler.
+  This is now fixed in [#13956](https://github.com/Azure/azure-sdk-for-js/pull/13956) to throw `SessionLockLostError`. If using the `receiveMessages` method in `receiveAndDelete` mode, then the messages collected so far are returned to avoid data loss.
+
+- Allow null as a value for the properties in `ServiceBusMessage.applicationProperties`.
+  Fixes [#14329](https://github.com/Azure/azure-sdk-for-js/issues/14329)
+
+### Tracing updates
+
+- Tracing options for `ServiceBusMessageBatch.tryAdd` now match the shape of `OperationOptions`.
 
 ## 7.0.3 (2021-01-26)
 

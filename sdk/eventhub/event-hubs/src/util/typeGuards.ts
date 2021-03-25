@@ -3,7 +3,7 @@
 
 /**
  * Helper TypeGuard that checks if something is defined or not.
- * @param thing Anything
+ * @param thing - Anything
  * @internal
  */
 export function isDefined<T>(thing: T | undefined | null): thing is T {
@@ -43,9 +43,5 @@ export function objectHasProperty<Thing extends unknown, PropertyName extends st
   thing: Thing,
   property: PropertyName
 ): thing is Thing & Record<PropertyName, unknown> {
-  if (!(property in thing)) {
-    return false;
-  }
-
-  return true;
+  return typeof thing === "object" && property in (thing as Record<string, unknown>);
 }

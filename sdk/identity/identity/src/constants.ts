@@ -37,3 +37,8 @@ export enum AzureAuthorityHosts {
    */
   AzurePublicCloud = "https://login.microsoftonline.com"
 }
+
+/**
+ * The default authority host.
+ */
+export const DefaultAuthorityHost = AzureAuthorityHosts.AzurePublicCloud;

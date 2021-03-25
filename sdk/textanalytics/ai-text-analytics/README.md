@@ -2,7 +2,7 @@
 
 [Azure TextAnalytics](https://azure.microsoft.com/services/cognitive-services/text-analytics/) is a cloud-based service that provides advanced natural language processing over raw text, and includes six main functions:
 
-**Note:** This SDK targets Azure Text Analytics service API version 3.1.0-preview.2.
+**Note:** This SDK targets Azure Text Analytics service API version 3.1.0-preview.3.
 
 - Language Detection
 - Sentiment Analysis
@@ -23,7 +23,7 @@ Use the client library to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-text-analytics) |
-[API reference documentation](https://aka.ms/azsdk/js/textanalytics/docs) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics) |
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/text-analytics/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples)
 
@@ -406,7 +406,7 @@ const documents = [
 ];
 
 async function main() {
-  const poller = await client.beginAnalyzeHealthcare(documents);
+  const poller = await client.beginAnalyzeHealthcareEntities(documents);
   const results = await poller.pollUntilDone();
 
   for await (const result of results) {
@@ -423,9 +423,9 @@ async function main() {
 main();
 ```
 
-### Analyze
+### Analyze Batch Actions
 
-Analyze enables the application of multiple analyses at once.
+Analyze batch actions enables the application of multiple analyses (named actions) at once.
 
 ```javascript
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
@@ -440,51 +440,56 @@ const documents = [
 ];
 
 async function main() {
-  const tasks = {
-    entityRecognitionTasks: [{ modelVersion: "latest" }],
-    entityRecognitionPiiTasks: [{ modelVersion: "latest" }],
-    keyPhraseExtractionTasks: [{ modelVersion: "latest" }]
+  const actions = {
+    recognizeEntitiesActions: [{ modelVersion: "latest" }],
+    recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
+    extractKeyPhrasesActions: [{ modelVersion: "latest" }]
   };
-  const poller = await client.beginAnalyze(documents, tasks);
+  const poller = await client.beginAnalyzeBatchActions(documents, actions);
   const resultPages = await poller.pollUntilDone();
-
   for await (const page of resultPages) {
-    const keyPhrasesResults = page.keyPhrasesExtractionResults[0];
-    for (const doc of keyPhrasesResults) {
-      console.log(`- Document ${doc.id}`);
-      if (!doc.error) {
-        console.log("\tKey phrases:");
-        for (const phrase of doc.keyPhrases) {
-          console.log(`\t- ${phrase}`);
+    const keyPhrasesAction = page.extractKeyPhrasesResults[0];
+    if (!keyPhrasesAction.error) {
+      for (const doc of keyPhrasesAction.results) {
+        console.log(`- Document ${doc.id}`);
+        if (!doc.error) {
+          console.log("\tKey phrases:");
+          for (const phrase of doc.keyPhrases) {
+            console.log(`\t- ${phrase}`);
+          }
+        } else {
+          console.error("\tError:", doc.error);
         }
-      } else {
-        console.error("\tError:", doc.error);
       }
     }
 
-    const entitiesResults = page.entitiesRecognitionResults[0];
-    for (const doc of entitiesResults) {
-      console.log(`- Document ${doc.id}`);
-      if (!doc.error) {
-        console.log("\tEntities:");
-        for (const entity of doc.entities) {
-          console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+    const entitiesAction = page.recognizeEntitiesResults[0];
+    if (!entitiesAction.error) {
+      for (const doc of entitiesAction.results) {
+        console.log(`- Document ${doc.id}`);
+        if (!doc.error) {
+          console.log("\tEntities:");
+          for (const entity of doc.entities) {
+            console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+          }
+        } else {
+          console.error("\tError:", doc.error);
         }
-      } else {
-        console.error("\tError:", doc.error);
       }
     }
 
-    const piiEntitiesResults = page.piiEntitiesRecognitionResults[0];
-    for (const doc of piiEntitiesResults) {
-      console.log(`- Document ${doc.id}`);
-      if (!doc.error) {
-        console.log("\tPii Entities:");
-        for (const entity of doc.entities) {
-          console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+    const piiEntitiesAction = page.recognizePiiEntitiesResults[0];
+    if (!piiEntitiesAction.error) {
+      for (const doc of piiEntitiesAction.results) {
+        console.log(`- Document ${doc.id}`);
+        if (!doc.error) {
+          console.log("\tPii Entities:");
+          for (const entity of doc.entities) {
+            console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+          }
+        } else {
+          console.error("\tError:", doc.error);
         }
-      } else {
-        console.error("\tError:", doc.error);
       }
     }
   }
@@ -495,19 +500,19 @@ main();
 
 ## Known Issues
 
-- Currently, the `beginAnalyze` API accepts `includeStatistics` in its options bag, a feature that was not yet supported by the service at the time of the current release. This feature is expected to be supported soon after the release.
 - `beginAnalyzeHealthcare` is still in gated preview and can not be used with AAD credentials. For more information, see (the Text Analytics for Health documentation)[https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-for-health?tabs=ner#request-access-to-the-public-preview].
+- At time of this SDK release, the `modelVersion` option to `beginAnalyzeHealthcareEntities` is ignored by the service. The service always processes the operation using the "latest" model.
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-You can set the following environment variable to get the debug logging output when using this library.
+Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure Text Analytics client library
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-```bash
-export AZURE_LOG_LEVEL=verbose
+setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
@@ -537,4 +542,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [data_limits]: https://docs.microsoft.com/azure/cognitive-services/text-analytics/overview#data-limits
-[analyze_sentiment_opinion_mining_sample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/typescript/src/analyzeSentimentWithOpinionMining.ts
+[analyze_sentiment_opinion_mining_sample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/analyzeSentimentWithOpinionMining.ts

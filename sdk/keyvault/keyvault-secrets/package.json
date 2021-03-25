@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-secrets",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.2.0-beta.2",
+  "version": "4.2.0-beta.4",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's secrets.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/README.md",
@@ -44,18 +44,19 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
     "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
-    "build:es6": "tsc -p tsconfig.json",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
-    "build:test": "npm run build:es6 && rollup -c rollup.test.config.js 2>&1",
-    "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
     "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/keyvault-secrets/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/**/*.spec.js",
-    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-esm/**/*.spec.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/**/*.spec.js\"",
+    "integration-test:node:no-timeout": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-esm/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
@@ -66,8 +67,8 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-test/index.node.js",
-    "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace dist-test/index.node.js",
+    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-test/index.node.js\"",
+    "unit-test:node:no-timeout": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --no-timeouts --full-trace \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -84,7 +85,7 @@
       }
     ]
   },
-  "//smokeTestConfiguration": {
+  "//sampleConfiguration": {
     "skip": [
       "backupAndRestore.js"
     ]
@@ -94,7 +95,7 @@
     "@azure/core-http": "^1.2.0",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.9",
+    "@azure/core-tracing": "1.0.0-preview.10",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
@@ -121,7 +122,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -148,7 +149,7 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "4.1.2",
+    "typescript": "~4.2.0",
     "url": "^0.11.0",
     "typedoc": "0.15.2"
   }

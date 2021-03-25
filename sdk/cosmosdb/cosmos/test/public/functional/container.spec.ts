@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Constants } from "../../../src";
+import { Constants, ContainerResponse } from "../../../src";
 import { ContainerDefinition, Database, Container } from "../../../src";
 import { ContainerRequest } from "../../../src";
 import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../../src";
@@ -14,14 +14,14 @@ import {
 import { SpatialType } from "../../../src";
 import { GeospatialType } from "../../../src";
 
-describe("Containers", function() {
+describe("Containers", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
 
   describe("Container CRUD", function() {
-    const containerCRUDTest = async function(partitionKey?: string) {
+    const containerCRUDTest = async function(partitionKey?: string): Promise<void> {
       // create database
       const database = await getTestDatabase("Validate Container CRUD");
 
@@ -269,7 +269,7 @@ describe("Containers", function() {
       );
     });
 
-    const checkDefaultIndexingPolicyPaths = function(indexingPolicy: IndexingPolicy) {
+    const checkDefaultIndexingPolicyPaths = function(indexingPolicy: IndexingPolicy): void {
       assert.equal(1, indexingPolicy["excludedPaths"].length);
       assert.equal(1, indexingPolicy["includedPaths"].length);
 
@@ -349,7 +349,7 @@ describe("Containers", function() {
     const createThenReadcontainer = async function(
       database: Database,
       definition: ContainerDefinition
-    ) {
+    ): Promise<ContainerResponse> {
       const { container: createdcontainer } = await database.containers.create(definition);
       const response = await database
         .container(createdcontainer.id)
@@ -357,7 +357,7 @@ describe("Containers", function() {
       return response;
     };
 
-    const indexProgressHeadersTest = async function() {
+    const indexProgressHeadersTest = async function(): Promise<void> {
       const database = await getTestDatabase("Validate response headers");
       const { headers: headers1 } = await createThenReadcontainer(database, {
         id: "consistent_coll"

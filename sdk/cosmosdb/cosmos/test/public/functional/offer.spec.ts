@@ -7,7 +7,7 @@ import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
-const validateOfferResponseBody = function(offer: any) {
+const validateOfferResponseBody = function(offer: any): void {
   assert(offer.id, "Id cannot be null");
   assert(offer._rid, "Resource Id (Rid) cannot be null");
   assert(offer._self, "Self Link cannot be null");
@@ -15,13 +15,15 @@ const validateOfferResponseBody = function(offer: any) {
   assert(offer._self.indexOf(offer.id) !== -1, "Offer id not contained in offer self link.");
 };
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  beforeEach(async function() {
-    this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-    await removeAllDatabases();
-  });
+  beforeEach(
+    /** @this Mocha.Context */ async function() {
+      this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+      await removeAllDatabases();
+    }
+  );
 
   describe("Validate Offer CRUD", function() {
     it("nativeApi Should do offer read and query operations successfully name based single partition collection", async function() {
@@ -117,8 +119,8 @@ describe("NodeJS CRUD Tests", function() {
         await client.offer(offerBadId._self).replace(offerBadId);
         assert.fail("Must throw after replace with bad id");
       } catch (err) {
-        const badRequestErrorCode = 400;
-        assert.equal(err.code, badRequestErrorCode);
+        // check for 400 or 401 since some backends validate auth first
+        assert(err.code === 400 || err.code === 401);
       }
     });
   });

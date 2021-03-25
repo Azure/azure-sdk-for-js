@@ -2,19 +2,14 @@
 // Licensed under the MIT license.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
+import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
-import { createSpan } from "../util/tracing";
-import {
-  AuthenticationError,
-  AuthenticationErrorName,
-  CredentialUnavailable
-} from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/api";
+import { AuthenticationError, CredentialUnavailable } from "../client/errors";
+import { checkTenantId } from "../util/checkTenantId";
+import { trace } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
-import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
-import { checkTenantId } from "../util/checkTenantId";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -47,7 +42,10 @@ const logger = credentialLogger("EnvironmentCredential");
  * documentation of that class for more details.
  */
 export class EnvironmentCredential implements TokenCredential {
-  private _credential?: TokenCredential = undefined;
+  private _credential?:
+    | ClientSecretCredential
+    | ClientCertificateCredential
+    | UsernamePasswordCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and reads
    * client secret details from environment variables.  If the expected
@@ -109,56 +107,33 @@ export class EnvironmentCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
+   * Authenticates with Azure Active Directory and returns an access token if successful.
    *
    * @param scopes - The list of scopes for which the token will have access.
-   * @param options - The options used to configure any requests this
-   *                TokenCredential implementation might make.
+   * @param options - Optional parameters. See {@link GetTokenOptions}.
    */
-  async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan("EnvironmentCredential-getToken", options);
-    if (this._credential) {
-      try {
-        const result = await this._credential.getToken(scopes, newOptions);
-        logger.getToken.info(formatSuccess(scopes));
-        return result;
-      } catch (err) {
-        const code =
-          err.name === AuthenticationErrorName
-            ? CanonicalCode.UNAUTHENTICATED
-            : CanonicalCode.UNKNOWN;
-        span.setStatus({
-          code,
-          message: err.message
-        });
-        const authenticationError = new AuthenticationError(400, {
-          error: "EnvironmentCredential authentication failed.",
-          error_description: err.message
-            .toString()
-            .split("More details:")
-            .join("")
-        });
-        logger.getToken.info(formatError(scopes, authenticationError));
-        throw authenticationError;
-      } finally {
-        span.end();
+  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
+    return trace("EnvironmentCredential.getToken", options, async (newOptions) => {
+      if (this._credential) {
+        try {
+          const result = await this._credential.getToken(scopes, newOptions);
+          logger.getToken.info(formatSuccess(scopes));
+          return result;
+        } catch (err) {
+          const authenticationError = new AuthenticationError(400, {
+            error: "EnvironmentCredential authentication failed.",
+            error_description: err.message
+              .toString()
+              .split("More details:")
+              .join("")
+          });
+          logger.getToken.info(formatError(scopes, authenticationError));
+          throw authenticationError;
+        }
       }
-    }
-
-    // If by this point we don't have a credential, throw an exception so that
-    // the user knows the credential was not configured appropriately
-    span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
-    span.end();
-    const error = new CredentialUnavailable(
-      "EnvironmentCredential is unavailable. Environment variables are not fully configured."
-    );
-    logger.getToken.info(formatError(scopes, error));
-    throw error;
+      throw new CredentialUnavailable(
+        "EnvironmentCredential is unavailable. No underlying credential could be used."
+      );
+    });
   }
 }

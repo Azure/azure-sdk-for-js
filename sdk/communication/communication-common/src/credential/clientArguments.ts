@@ -25,14 +25,23 @@ const assertValidEndpoint = (host: string): void => {
 /**
  * Checks whether a value is a KeyCredential.
  *
- * @param {*} credential The credential being checked.
+ * @param credential - The credential being checked.
  */
-export const isKeyCredential = (credential: any): credential is KeyCredential => {
-  return credential && typeof credential.key === "string" && credential.getToken === undefined;
+export const isKeyCredential = (credential: unknown): credential is KeyCredential => {
+  const castCredential = credential as {
+    key: unknown;
+    getToken: unknown;
+  };
+  return (
+    castCredential &&
+    typeof castCredential.key === "string" &&
+    castCredential.getToken === undefined
+  );
 };
 
 /**
  * The URL and credential from parsing the arguments of a communication client.
+ * @hidden
  */
 export type UrlWithCredential = {
   url: string;
@@ -41,13 +50,11 @@ export type UrlWithCredential = {
 
 /**
  * Parses arguments passed to a communication client.
- *
- * @param {string} connectionStringOrUrl
- * @param {*} [credentialOrOptions]
+ * @hidden
  */
 export const parseClientArguments = (
   connectionStringOrUrl: string,
-  credentialOrOptions?: any
+  credentialOrOptions?: unknown
 ): UrlWithCredential => {
   if (isKeyCredential(credentialOrOptions) || isTokenCredential(credentialOrOptions)) {
     assertValidEndpoint(connectionStringOrUrl);

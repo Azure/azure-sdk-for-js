@@ -27,29 +27,30 @@ import {
   UpsertEntityResponse,
   DeleteTableEntityResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
+import {
+  GeneratedClientOptionalParams,
+  QueryOptions as GeneratedQueryOptions
+} from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   TablesSharedKeyCredential,
   TablesSharedKeyCredentialLike
 } from "./TablesSharedKeyCredential";
+import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import {
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  ServiceClientOptions
-} from "@azure/core-http";
+import { FullOperationResponse } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
 import { InternalBatchClientOptions } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -143,30 +144,38 @@ export class TableClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    let pipeline: ServiceClientOptions;
+    let generatedClientOptions: GeneratedClientOptionalParams = {};
 
     if (isInternalClientOptions(clientOptions)) {
       // The client is meant to be an intercept client, so we need to create only the intercepting
       // pipelines.
-      pipeline = { requestPolicyFactories: clientOptions.innerBatchRequest?.createPipeline() };
+      generatedClientOptions.pipeline = clientOptions.innerBatchRequest.createPipeline();
     } else {
       // The client is meant to be a regular service client, so we need to create the regular set of pipelines
-      const internalPipelineOptions: InternalPipelineOptions = {
-        loggingOptions: {
-          logger: logger.info,
-          allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
-        }
-      };
-      pipeline = {
+      generatedClientOptions = {
         ...clientOptions,
-        ...createPipelineFromOptions(internalPipelineOptions, credential)
+        ...{
+          loggingOptions: {
+            logger: logger.info,
+            additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+          },
+          deserializationOptions: {
+            parseXML
+          },
+          serializationOptions: {
+            stringifyXML
+          }
+        }
       };
     }
 
     this.tableName = tableName;
     this.credential = credential;
-    const { table } = new GeneratedClient(url, pipeline);
-    this.table = table;
+    const generatedClient = new GeneratedClient(url, generatedClientOptions);
+    if (credential) {
+      generatedClient.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+    }
+    this.table = generatedClient.table;
   }
 
   /**
@@ -217,20 +226,24 @@ export class TableClient {
   ): Promise<GetTableEntityResponse<TableEntityResult<T>>> {
     const { span, updatedOptions } = createSpan("TableClient-getEntity", options);
 
+    let parsedBody: any;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      parsedBody = rawResponse.parsedBody;
+      if (updatedOptions.onResponse) {
+        updatedOptions.onResponse(rawResponse, flatResponse);
+      }
+    }
+
     try {
       const { queryOptions, ...getEntityOptions } = updatedOptions || {};
-      const { _response } = await this.table.queryEntitiesWithPartitionAndRowKey(
-        this.tableName,
-        partitionKey,
-        rowKey,
-        { ...getEntityOptions, queryOptions: this.convertQueryOptions(queryOptions || {}) }
-      );
-      const tableEntity = deserialize<TableEntity<T>>(_response.parsedBody);
-
-      return Object.defineProperty({ ...tableEntity }, "_response", {
-        enumerable: false,
-        value: _response
+      await this.table.queryEntitiesWithPartitionAndRowKey(this.tableName, partitionKey, rowKey, {
+        ...getEntityOptions,
+        queryOptions: this.convertQueryOptions(queryOptions || {}),
+        onResponse
       });
+      const tableEntity = deserialize<TableEntityResult<T>>(parsedBody);
+
+      return tableEntity;
     } catch (e) {
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
       throw e;
@@ -259,7 +272,7 @@ export class TableClient {
         return this;
       },
       byPage: (settings) => {
-        const pageOptions = {
+        const pageOptions: InternalListTableEntitiesOptions = {
           ...options,
           queryOptions: { ...options.queryOptions, top: settings?.maxPageSize }
         };
@@ -326,23 +339,17 @@ export class TableClient {
     const {
       xMsContinuationNextPartitionKey: nextPartitionKey,
       xMsContinuationNextRowKey: nextRowKey,
-      value,
-      _response
+      value
     } = await this.table.queryEntities(tableName, {
       ...options,
       queryOptions
     });
 
-    const tableEntities = deserializeObjectsArray<TableEntity<T>>(value || []);
+    const tableEntities = deserializeObjectsArray<TableEntityResult<T>>(value || []);
 
-    const resultArray = Object.assign([...tableEntities], {
+    return Object.assign([...tableEntities], {
       nextPartitionKey,
       nextRowKey
-    });
-
-    return Object.defineProperty(resultArray, "_response", {
-      enumerable: false,
-      value: _response
     });
   }
 
@@ -563,10 +570,11 @@ export class TableClient {
   }
 }
 
+type InternalQueryOptions = TableEntityQueryOptions & { top?: number };
+interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
+  queryOptions?: InternalQueryOptions;
+}
+
 function isInternalClientOptions(options: any): options is InternalBatchClientOptions {
   return Boolean(options.innerBatchRequest);
 }
-
-type InternalListTableEntitiesOptions = ListTableEntitiesOptions & {
-  queryOptions?: TableEntityQueryOptions & { top?: number };
-};

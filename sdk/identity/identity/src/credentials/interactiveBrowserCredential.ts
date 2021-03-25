@@ -3,73 +3,52 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
-import { Socket } from "net";
-import { AuthenticationRequired, MsalClient } from "../client/msalClient";
-import { AuthorizationCodeRequest } from "@azure/msal-node";
-
-import express from "express";
-import open from "open";
-import http from "http";
-import { checkTenantId } from "../util/checkTenantId";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { credentialLogger } from "../util/logging";
+import { trace } from "../util/tracing";
+import { AuthenticationRecord } from "../msal/types";
+import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
+import { MsalFlow } from "../msal/flows";
+import {
+  InteractiveBrowserCredentialBrowserOptions,
+  InteractiveBrowserCredentialOptions
+} from "./interactiveBrowserCredentialOptions";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
- * using the interactive login flow, either via browser redirects or a popup
- * window.  This credential is not currently supported in Node.js.
+ * using the interactive login flow.
+ *
+ * On NodeJS, it will open a browser window while it listens for a redirect response from the authentication service.
+ *
+ * It's recommended that the AAD Applications used are configured to authenticate using Single Page Applications.
+ * More information here: [link](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
  */
 export class InteractiveBrowserCredential implements TokenCredential {
-  private redirectUri: string;
-  private port: number;
-  private msalClient: MsalClient;
+  private msalFlow: MsalFlow;
+  private disableAutomaticAuthentication?: boolean;
 
-  constructor(options?: InteractiveBrowserCredentialOptions) {
-    const tenantId = (options && options.tenantId) || DefaultTenantId;
-    const clientId = (options && options.clientId) || DeveloperSignOnClientId;
+  /**
+   * Creates an instance of InteractiveBrowserCredential with the details needed.
+   *
+   * @param options - Options for configuring the client which makes the authentication requests.
+   */
+  constructor(
+    options: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions = {}
+  ) {
+    const redirectUri =
+      typeof options.redirectUri === "function"
+        ? options.redirectUri()
+        : options.redirectUri || "http://localhost";
 
-    checkTenantId(logger, tenantId);
-
-    // const persistenceEnabled = options?.persistenceEnabled ? options?.persistenceEnabled : false;
-    // const authenticationRecord = options?.authenticationRecord;
-
-    if (options && options.redirectUri) {
-      if (typeof options.redirectUri === "string") {
-        this.redirectUri = options.redirectUri;
-      } else {
-        this.redirectUri = options.redirectUri();
-      }
-    } else {
-      this.redirectUri = "http://localhost";
-    }
-
-    const url = new URL(this.redirectUri);
-    this.port = parseInt(url.port);
-    if (isNaN(this.port)) {
-      this.port = 80;
-    }
-
-    let authorityHost;
-    if (options && options.authorityHost) {
-      if (options.authorityHost.endsWith("/")) {
-        authorityHost = options.authorityHost + tenantId;
-      } else {
-        authorityHost = options.authorityHost + "/" + tenantId;
-      }
-    } else {
-      authorityHost = "https://login.microsoftonline.com/" + tenantId;
-    }
-
-    this.msalClient = new MsalClient(
-      { clientId, authority: authorityHost },
-      false,
-      undefined,
-      options
-    );
+    this.msalFlow = new MsalOpenBrowser({
+      ...options,
+      tokenCredentialOptions: options,
+      logger,
+      redirectUri
+    });
+    this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
   /**
@@ -78,105 +57,44 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
+   * If the user provided the option `disableAutomaticAuthentication`,
+   * once the token can't be retrieved silently,
+   * this method won't attempt to request user interaction to retrieve the token.
+   *
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
+   *                TokenCredential implementation might make.
+   */
+  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
+    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+      return this.msalFlow.getToken(arrayScopes, {
+        ...newOptions,
+        disableAutomaticAuthentication: this.disableAutomaticAuthentication
+      });
+    });
+  }
+
+  /**
+   * Authenticates with Azure Active Directory and returns an access token if
+   * successful.  If authentication cannot be performed at this time, this method may
+   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
+   * containing failure details will be thrown.
+   *
+   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
+   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                  TokenCredential implementation might make.
    */
-  public getToken(
+  async authenticate(
     scopes: string | string[],
-    _options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const scopeArray = typeof scopes === "object" ? scopes : [scopes];
-
-    return this.msalClient.acquireTokenFromCache(scopeArray).catch((e) => {
-      if (e instanceof AuthenticationRequired) {
-        return this.acquireTokenFromBrowser(scopeArray);
-      } else {
-        logger.getToken.info(formatError(scopes, e));
-        throw e;
-      }
-    });
-  }
-
-  private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
-    const authCodeUrlParameters = {
-      scopes: scopeArray,
-      redirectUri: this.redirectUri
-    };
-
-    const response = await this.msalClient.getAuthCodeUrl(authCodeUrlParameters);
-    await open(response);
-  }
-
-  private async acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
-    // eslint-disable-next-line
-    return new Promise<AccessToken | null>(async (resolve, reject) => {
-      // eslint-disable-next-line
-      let listen: http.Server | undefined;
-      let socketToDestroy: Socket | undefined;
-
-      function cleanup(): void {
-        if (listen) {
-          listen.close();
-        }
-        if (socketToDestroy) {
-          socketToDestroy.destroy();
-        }
-      }
-
-      // Create Express App and Routes
-      const app = express();
-
-      app.get("/", async (req, res) => {
-        const tokenRequest: AuthorizationCodeRequest = {
-          code: req.query.code as string,
-          redirectUri: this.redirectUri,
-          scopes: scopeArray
-        };
-
-        try {
-          const authResponse = await this.msalClient.acquireTokenByCode(tokenRequest);
-          const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
-          if (authResponse && authResponse.expiresOn) {
-            const expiresOnTimestamp = authResponse?.expiresOn.valueOf();
-            res.status(200).send(successMessage);
-            logger.getToken.info(formatSuccess(scopeArray));
-
-            resolve({
-              expiresOnTimestamp,
-              token: authResponse.accessToken
-            });
-          } else {
-            reject(
-              new Error(
-                `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
-              )
-            );
-          }
-        } catch (error) {
-          const errorMessage = formatError(
-            scopeArray,
-            `${req.query["error"]}. ${req.query["error_description"]}`
-          );
-          res.status(500).send(errorMessage);
-          logger.getToken.info(errorMessage);
-          reject(new Error(errorMessage));
-        } finally {
-          cleanup();
-        }
-      });
-
-      listen = app.listen(this.port, () =>
-        logger.info(`Msal Node Auth Code Sample app listening on port ${this.port}!`)
-      );
-      listen.on("connection", (socket) => (socketToDestroy = socket));
-
-      try {
-        await this.openAuthCodeUrl(scopeArray);
-      } catch (e) {
-        cleanup();
-        throw e;
-      }
+    options: GetTokenOptions = {}
+  ): Promise<AuthenticationRecord | undefined> {
+    return trace(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
+      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+      await this.msalFlow.getToken(arrayScopes, newOptions);
+      return this.msalFlow.getActiveAccount();
     });
   }
 }

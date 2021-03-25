@@ -7,9 +7,10 @@ chaiUse(chaiPromises);
 
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
-import { createClient, createRecorder } from "../utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient";
 import { TextAnalyticsClient } from "../../src";
-import { assertAllSuccess } from "../utils/resultHelper";
+import { assertAllSuccess } from "./utils/resultHelper";
+import { checkEntityTextOffset } from "./utils/stringIndexTypeHelpers";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -18,28 +19,29 @@ const testDataEn = [
   "I didn't like the last book I read at all."
 ];
 
-describe("[API Key] TextAnalyticsClient", function() {
+describe("[API Key] TextAnalyticsClient", /** @this Mocha.Context */ function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
-  // eslint-disable-next-line no-invalid-this
   const CLITimeout = this.timeout();
   const fastTimeout = 10000;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    recorder = createRecorder(this);
-    client = createClient("APIKey");
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      recorder = createRecorder(this);
+      client = createClient("APIKey");
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();
   });
 
   describe("fast tests", function() {
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
-      this.timeout(fastTimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(fastTimeout);
+      }
+    );
 
     it("#analyzeSentiment", async function() {
       const results = await client.analyzeSentiment(testDataEn);
@@ -87,45 +89,146 @@ describe("[API Key] TextAnalyticsClient", function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
-      this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
-    });
+    before(
+      /** @this Mocha.Context */ function() {
+        this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
+      }
+    );
 
     describe("#health", function() {
       it("input strings", async function() {
-        const poller = await client.beginAnalyzeHealthcare(
+        const poller = await client.beginAnalyzeHealthcareEntities(
           [
             "Patient does not suffer from high blood pressure.",
             "Prescribed 100mg ibuprofen, taken twice daily."
           ],
           "en",
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
-        for await (const doc of result) {
-          if (!doc.error) {
-            assert.ok(doc.id);
-            assert.ok(doc.entities);
-            assert.ok(doc.relations);
+        const doc1 = (await result.next()).value;
+        if (!doc1.error) {
+          assert.ok(doc1.id);
+          assert.ok(doc1.entities);
+          const doc1Entity1 = doc1.entities[0];
+          assert.equal(doc1Entity1.text, "high blood pressure");
+          assert.equal(doc1Entity1.assertion?.certainty, "negative");
+        }
+
+        const doc2 = (await result.next()).value;
+        if (!doc2.error) {
+          assert.ok(doc2.id);
+          assert.ok(doc2.entities);
+          const doc2Entity1 = doc2.entities[0];
+          assert.equal(doc2Entity1.text, "100mg");
+          assert.deepEqual(doc2.entityRelations[0], {
+            relationType: "DosageOfMedication",
+            roles: [
+              {
+                entity: doc2.entities[0],
+                name: "Dosage"
+              },
+              {
+                entity: doc2.entities[1],
+                name: "Medication"
+              }
+            ]
+          });
+          assert.deepEqual(doc2.entityRelations[1], {
+            relationType: "FrequencyOfMedication",
+            roles: [
+              {
+                entity: doc2.entities[1],
+                name: "Medication"
+              },
+              {
+                entity: doc2.entities[2],
+                name: "Frequency"
+              }
+            ]
+          });
+
+          const doc2Entity2 = doc2.entities[1];
+          assert.equal(doc2Entity2.text, "ibuprofen");
+
+          const doc2Entity3 = doc2.entities[2];
+          assert.equal(doc2Entity3.text, "twice daily");
+        }
+      });
+
+      it("entity assertions", async function() {
+        const poller = await client.beginAnalyzeHealthcareEntities(
+          [
+            "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too."
+          ],
+          "en",
+          {
+            updateIntervalInMs: pollingInterval
           }
+        );
+        const result = await poller.pollUntilDone();
+        const doc1 = (await result.next()).value;
+        if (!doc1.error) {
+          assert.ok(doc1.id);
+          assert.ok(doc1.entities);
+          const doc1Entity1 = doc1.entities[0];
+          assert.equal(doc1Entity1.text, "Baby");
+          assert.equal(doc1Entity1.category, "Age");
+          assert.equal(doc1Entity1.normalizedText, "Infant");
+          assert.isUndefined(doc1Entity1.assertion?.association);
+          assert.isUndefined(doc1Entity1.assertion?.conditionality);
+
+          const doc1Entity2 = doc1.entities[1];
+          assert.equal(doc1Entity2.text, "Meningitis");
+          assert.equal(doc1Entity2.category, "Diagnosis");
+          assert.equal(doc1Entity2.assertion?.certainty, "negativePossible");
+          assert.equal(doc1Entity2.normalizedText, "Meningitis");
+          assert.isUndefined(doc1Entity2.assertion?.association);
+          assert.isUndefined(doc1Entity2.assertion?.conditionality);
+
+          const doc1Entity3 = doc1.entities[2];
+          assert.equal(doc1Entity3.text, "fever");
+          assert.equal(doc1Entity3.normalizedText, "Fever");
+          assert.equal(doc1Entity3.category, "SymptomOrSign");
+          assert.isUndefined(doc1Entity3.assertion?.association);
+          assert.isUndefined(doc1Entity3.assertion?.conditionality);
+
+          const doc1Entity4 = doc1.entities[3];
+          assert.equal(doc1Entity4.text, "mother");
+          assert.equal(doc1Entity4.normalizedText, "Mother (person)");
+          assert.equal(doc1Entity4.category, "FamilyRelation");
+          assert.isUndefined(doc1Entity4.assertion?.association);
+          assert.isUndefined(doc1Entity4.assertion?.conditionality);
+
+          const doc1Entity5 = doc1.entities[4];
+          assert.equal(doc1Entity5.text, "Penicillin");
+          assert.equal(doc1Entity5.category, "MedicationName");
+          assert.equal(doc1Entity5.normalizedText, "penicillins");
+          assert.equal(doc1Entity5.assertion?.certainty, "neutralPossible");
+          assert.isUndefined(doc1Entity5.assertion?.association);
+          assert.isUndefined(doc1Entity5.assertion?.conditionality);
+
+          const doc1Entity6 = doc1.entities[5];
+          assert.equal(doc1Entity6.text, "baby");
+          assert.equal(doc1Entity6.category, "Age");
+          assert.equal(doc1Entity6.normalizedText, "Infant");
+          assert.isUndefined(doc1Entity6.assertion?.association);
+          assert.isUndefined(doc1Entity6.assertion?.conditionality);
+
+          assert.isEmpty(doc1.entityRelations);
         }
       });
 
       it("input documents", async function() {
-        const poller = await client.beginAnalyzeHealthcare(
+        const poller = await client.beginAnalyzeHealthcareEntities(
           [
             { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
             { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
           ],
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         const result = await poller.pollUntilDone();
@@ -133,7 +236,6 @@ describe("[API Key] TextAnalyticsClient", function() {
           if (!doc.error) {
             assert.ok(doc.id);
             assert.ok(doc.entities);
-            assert.ok(doc.relations);
           }
         }
       });
@@ -149,10 +251,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           { id: "3", language: "en", text: "Prescribed 100mg ibuprofen, taken twice daily." }
         ];
 
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         const result1 = (await result.next()).value;
@@ -161,7 +261,6 @@ describe("[API Key] TextAnalyticsClient", function() {
         if (!result3.error) {
           assert.ok(result3.id);
           assert.ok(result3.entities);
-          assert.ok(result3.relations);
         }
         assert.ok(result1.error);
         assert.ok(result2.error);
@@ -178,10 +277,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           { id: "3", language: "en", text: "" }
         ];
 
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         const result1 = (await result.next()).value;
@@ -195,10 +292,8 @@ describe("[API Key] TextAnalyticsClient", function() {
       it("too many documents", async function() {
         const docs = Array(11).fill("random text");
         try {
-          const response = await client.beginAnalyzeHealthcare(docs, "en", {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+          const response = await client.beginAnalyzeHealthcareEntities(docs, "en", {
+            updateIntervalInMs: pollingInterval
           });
           console.log(response);
           assert.fail("Oops, an exception didn't happen.");
@@ -229,10 +324,8 @@ describe("[API Key] TextAnalyticsClient", function() {
               for revascularization with open heart surgery.";
         const docs = Array(500).fill(large_doc);
         try {
-          await client.beginAnalyzeHealthcare(docs, "en", {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+          await client.beginAnalyzeHealthcareEntities(docs, "en", {
+            updateIntervalInMs: pollingInterval
           });
           assert.fail("Oops, an exception didn't happen.");
         } catch (e) {
@@ -247,10 +340,8 @@ describe("[API Key] TextAnalyticsClient", function() {
 
       it("document warnings", async function() {
         const docs = [{ id: "1", text: "This won't actually create a warning :'(" }];
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         for await (const doc of result) {
@@ -268,10 +359,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           { id: "4", text: "four" },
           { id: "5", text: "five" }
         ];
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         let i = 0;
@@ -288,10 +377,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           { id: "19", text: ":P" },
           { id: "1", text: ":D" }
         ];
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         const in_order = [56, 0, 22, 19, 1];
@@ -309,14 +396,10 @@ describe("[API Key] TextAnalyticsClient", function() {
           { id: "19", text: ":P" },
           { id: "1", text: ":D" }
         ];
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          health: {
-            modelVersion: "latest",
-            includeStatistics: true
-          },
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          modelVersion: "latest",
+          includeStatistics: true,
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         assert.ok(result);
@@ -334,10 +417,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyzeHealthcare(docs, "en", {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, "en", {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         for await (const doc of result) {
@@ -352,10 +433,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           "The restaurant was not as good as I hoped."
         ];
 
-        const poller = await client.beginAnalyzeHealthcare(docs, "", {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, "", {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         for await (const doc of result) {
@@ -370,10 +449,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           { id: "3", text: "The restaurant had really good food." }
         ];
 
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         for await (const doc of result) {
@@ -388,10 +465,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           { id: "3", text: "猫は幸せ" }
         ];
 
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         for await (const doc of result) {
@@ -402,10 +477,8 @@ describe("[API Key] TextAnalyticsClient", function() {
       it("invalid language hint", async function() {
         const docs = ["This should fail because we're passing in an invalid language hint"];
 
-        const poller = await client.beginAnalyzeHealthcare(docs, "notalanguage", {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, "notalanguage", {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
@@ -421,10 +494,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           }
         ];
 
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         const firstResult = (await result.next()).value;
@@ -444,11 +515,9 @@ describe("[API Key] TextAnalyticsClient", function() {
         ];
 
         try {
-          await client.beginAnalyzeHealthcare(docs, {
-            health: { modelVersion: "bad" },
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+          await client.beginAnalyzeHealthcareEntities(docs, {
+            modelVersion: "bad",
+            updateIntervalInMs: pollingInterval
           });
           assert.fail("Oops, an exception didn't happen.");
         } catch (e) {
@@ -467,10 +536,8 @@ describe("[API Key] TextAnalyticsClient", function() {
           { id: "3", text: text }
         ];
 
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const doc_errors = await poller.pollUntilDone();
         assert.equal((await doc_errors.next()).value.error?.code, "InvalidDocument");
@@ -485,10 +552,8 @@ describe("[API Key] TextAnalyticsClient", function() {
         ];
 
         try {
-          await client.beginAnalyzeHealthcare(docs, {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+          await client.beginAnalyzeHealthcareEntities(docs, {
+            updateIntervalInMs: pollingInterval
           });
           assert.fail("Oops, an exception didn't happen.");
         } catch (e) {
@@ -507,10 +572,8 @@ describe("[API Key] TextAnalyticsClient", function() {
       it.skip("paged results one loop", async function() {
         const docs = Array(40).fill("random text");
         docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         let count = 0;
@@ -531,10 +594,8 @@ describe("[API Key] TextAnalyticsClient", function() {
       it.skip("paged results nested loop", async function() {
         const docs = Array(40).fill("random text");
         docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         let docCount = 0,
@@ -560,10 +621,8 @@ describe("[API Key] TextAnalyticsClient", function() {
       it.skip("paged results with custom page size", async function() {
         const docs = Array(40).fill("random text");
         docs.push("Prescribed 100mg ibuprofen, taken twice daily.");
-        const poller = await client.beginAnalyzeHealthcare(docs, {
-          polling: {
-            updateIntervalInMs: pollingInterval
-          }
+        const poller = await client.beginAnalyzeHealthcareEntities(docs, {
+          updateIntervalInMs: pollingInterval
         });
         const result = await poller.pollUntilDone();
         let docCount = 0;
@@ -588,21 +647,76 @@ describe("[API Key] TextAnalyticsClient", function() {
       });
 
       it("cancelled", async function() {
-        const poller = await client.beginAnalyzeHealthcare(
+        const poller = await client.beginAnalyzeHealthcareEntities(
           [
             { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
             { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
           ],
           {
-            polling: {
-              updateIntervalInMs: pollingInterval
-            }
+            updateIntervalInMs: pollingInterval
           }
         );
         if (!poller.isDone()) {
           await poller.cancelOperation();
         }
         assert.ok(poller.getOperationState().isCancelled);
+      });
+
+      it("operation metadata", async function() {
+        const poller = await client.beginAnalyzeHealthcareEntities(
+          [
+            { id: "1", text: "Patient does not suffer from high blood pressure.", language: "en" },
+            { id: "2", text: "Prescribed 100mg ibuprofen, taken twice daily.", language: "en" }
+          ],
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        poller.onProgress((state) => {
+          assert.ok(state.createdOn, "createdOn is undefined!");
+          assert.ok(state.expiresOn, "expiresOn is undefined!");
+          assert.ok(state.lastModifiedOn, "lastModifiedOn is undefined!");
+          assert.ok(state.status, "status is undefined!");
+        });
+        const result = await poller.pollUntilDone();
+        assert.ok(result);
+      });
+
+      it("family emoji wit skin tone modifier with Utf16CodeUnit", async function() {
+        const doc = "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen";
+        const poller = await client.beginAnalyzeHealthcareEntities(
+          [{ id: "0", text: doc, language: "en" }],
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const pollerResult = await poller.pollUntilDone();
+        const result = (await pollerResult.next()).value;
+        if (!result.error) {
+          const entity = result.entities[0];
+          const offset = 20;
+          const length = 9;
+          assert.equal(entity.offset, 20);
+          assert.equal(entity.length, 9);
+          checkEntityTextOffset(doc, entity, offset, length);
+        }
+      });
+
+      it("family emoji wit skin tone modifier with UnicodeCodePoint", async function() {
+        const poller = await client.beginAnalyzeHealthcareEntities(
+          [{ id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 ibuprofen", language: "en" }],
+          {
+            updateIntervalInMs: pollingInterval,
+            stringIndexType: "UnicodeCodePoint"
+          }
+        );
+        const pollerResult = await poller.pollUntilDone();
+        const result = (await pollerResult.next()).value;
+        if (!result.error) {
+          assert.equal(result.entities[0].offset, 12); // 20 with UTF16
+          assert.equal(result.entities[0].length, 9);
+          assert.equal(result.entities[0].text.length, result.entities[0].length);
+        }
       });
     });
   });

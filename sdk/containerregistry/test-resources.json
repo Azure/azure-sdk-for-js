@@ -1,0 +1,63 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "registryName": {
+      "defaultValue": "[resourceGroup().name]",
+      "type": "string"
+    },
+    "skuName": {
+      "defaultValue": "Basic",
+      "type": "string"
+    },
+    "skuTier": {
+      "defaultValue": "Basic",
+      "type": "string"
+    }
+  },
+  "variables": {
+    "apiVersion": "2020-11-01-preview",
+    "endpoint": "[concat('https://', parameters('baseName'), '.azurecr.io')]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.ContainerRegistry/registries",
+      "apiVersion": "[variables('apiVersion')]",
+      "name": "[parameters('registryName')]",
+      "location": "westus2",
+      "sku": {
+        "name": "[parameters('skuName')]",
+        "tier": "[parameters('skuTier')]"
+      },
+      "properties": {
+        "adminUserEnabled": false,
+        "policies": {
+          "quarantinePolicy": {
+            "status": "disabled"
+          },
+          "trustPolicy": {
+            "type": "Notary",
+            "status": "disabled"
+          },
+          "retentionPolicy": {
+            "days": 7,
+            "status": "disabled"
+          }
+        },
+        "encryption": {
+          "status": "disabled"
+        },
+        "dataEndpointEnabled": false,
+        "publicNetworkAccess": "Enabled",
+        "networkRuleBypassOptions": "AzureServices",
+        "zoneRedundancy": "Disabled"
+      }
+    }
+  ],
+  "outputs": {
+    "CONTAINER_REGISTRY_ENDPOINT": {
+      "type": "string",
+      "value": "[variables('endpoint')]"
+    }
+  }
+}

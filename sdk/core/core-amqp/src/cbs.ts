@@ -12,6 +12,7 @@ import {
   SenderOptions,
   generate_uuid
 } from "rhea-promise";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
 import { translate } from "./errors";
@@ -28,30 +29,29 @@ export interface CbsResponse {
 }
 
 /**
- * @class CbsClient
  * Describes the EventHub/ServiceBus Cbs client that talks to the $cbs endpoint over AMQP connection.
  */
 export class CbsClient {
   /**
-   * @property {string} endpoint CBS endpoint - "$cbs"
+   * CBS endpoint - "$cbs"
    */
   readonly endpoint: string = Constants.cbsEndpoint;
   /**
-   * @property {string} replyTo CBS replyTo - The receiver link name that the service should reply to.
+   * CBS replyTo - The receiver link name that the service should reply to.
    */
   readonly replyTo: string = `${Constants.cbsReplyTo}-${generate_uuid()}`;
   /**
-   * @property {string} cbsLock The unique lock name per $cbs session per connection that is used to
+   * The unique lock name per $cbs session per connection that is used to
    * acquire the lock for establishing a cbs session if one does not exist for an amqp connection.
    */
   readonly cbsLock: string = `${Constants.negotiateCbsKey}-${generate_uuid()}`;
   /**
-   * @property {string} connectionLock The unique lock name per connection that is used to
+   * The unique lock name per connection that is used to
    * acquire the lock for establishing an amqp connection if one does not exist.
    */
   readonly connectionLock: string;
   /**
-   * @property {Connection} connection The AMQP connection.
+   * The AMQP connection.
    */
   connection: Connection;
 
@@ -61,9 +61,8 @@ export class CbsClient {
   private _cbsSenderReceiverLink?: RequestResponseLink;
 
   /**
-   * @constructor
-   * @param {Connection} connection The AMQP connection.
-   * @param {string} connectionLock A unique string (usually a guid) per connection.
+   * @param connection - The AMQP connection.
+   * @param connectionLock - A unique string (usually a guid) per connection.
    */
   constructor(connection: Connection, connectionLock: string) {
     this.connection = connection;
@@ -73,15 +72,24 @@ export class CbsClient {
   /**
    * Creates a singleton instance of the CBS session if it hasn't been initialized previously on
    * the given connection.
-   * @returns {Promise<void>} Promise<void>.
+   * @param options - Optional parameters that can be used to affect this method's behavior.
+   *    For example, `abortSignal` can be passed to allow cancelling an in-progress `init` invocation.
+   * @returns Promise<void>.
    */
-  async init(): Promise<void> {
+  async init(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+    const { abortSignal } = options;
+    const initAbortMessage = "The init operation has been cancelled by the user.";
+
     try {
+      if (abortSignal?.aborted) {
+        throw new AbortError(initAbortMessage);
+      }
+
       // Acquire the lock and establish an amqp connection if it does not exist.
       if (!this.connection.isOpen()) {
         logger.verbose("The CBS client is trying to establish an AMQP connection.");
         await defaultLock.acquire(this.connectionLock, () => {
-          return this.connection.open();
+          return this.connection.open({ abortSignal });
         });
       }
 
@@ -109,7 +117,8 @@ export class CbsClient {
         this._cbsSenderReceiverLink = await RequestResponseLink.create(
           this.connection,
           srOpt,
-          rxOpt
+          rxOpt,
+          { abortSignal }
         );
         this._cbsSenderReceiverLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
@@ -154,7 +163,7 @@ export class CbsClient {
 
   /**
    * Negotiates the CBS claim with the EventHub/ServiceBus Service.
-   * @param {string} audience The entity token audience for which the token is requested in one
+   * @param audience - The entity token audience for which the token is requested in one
    * of the following forms:
    *
    * - **ServiceBus**
@@ -180,16 +189,29 @@ export class CbsClient {
    *
    *     - **ManagementClient**
    *         - `"sb://<your-namespace>.servicebus.windows.net/<event-hub-name>/$management"`.
-   * @param {string} token The token that needs to be sent in the put-token request.
-   * @return {Promise<any>} Returns a Promise that resolves when $cbs authentication is successful
+   * @param token - The token that needs to be sent in the put-token request.
+   * @param tokenType - The type of token being used. For example, 'jwt' or 'servicebus.windows.net:sastoken'.
+   * @param options - Optional parameters that can be used to affect this method's behavior.
+   *    For example, `abortSignal` can be passed to allow cancelling an in-progress `negotiateClaim` invocation.
+   * @returns A Promise that resolves when $cbs authentication is successful
    * and rejects when an error occurs during $cbs authentication.
    */
   async negotiateClaim(
     audience: string,
     token: string,
-    tokenType: TokenType
+    tokenType: TokenType,
+    options: { abortSignal?: AbortSignalLike } = {}
   ): Promise<CbsResponse> {
+    const { abortSignal } = options;
     try {
+      if (abortSignal?.aborted) {
+        throw new AbortError("The negotiateClaim operation has been cancelled by the user.");
+      }
+
+      if (!this._cbsSenderReceiverLink) {
+        throw new Error("Attempted to negotiate a claim but the CBS link does not exist.");
+      }
+
       const request: RheaMessage = {
         body: token,
         message_id: generate_uuid(),
@@ -201,7 +223,10 @@ export class CbsClient {
           type: tokenType
         }
       };
-      const responseMessage = await this._cbsSenderReceiverLink!.sendRequest(request);
+      const responseMessage = await this._cbsSenderReceiverLink.sendRequest(request, {
+        abortSignal,
+        requestName: "negotiateClaim"
+      });
       logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
       return this._fromRheaMessageResponse(responseMessage);
     } catch (err) {
@@ -218,7 +243,7 @@ export class CbsClient {
   /**
    * Closes the AMQP cbs session to the EventHub/ServiceBus for this client,
    * returning a promise that will be resolved when disconnection is completed.
-   * @return {Promise<void>}
+   * @returns
    */
   async close(): Promise<void> {
     try {
@@ -238,7 +263,7 @@ export class CbsClient {
 
   /**
    * Removes the AMQP cbs session to the EventHub/ServiceBus for this client,
-   * @returns {void} void
+   * @returns void
    */
   remove(): void {
     try {
@@ -258,7 +283,7 @@ export class CbsClient {
 
   /**
    * Indicates whether the cbs sender receiver link is open or closed.
-   * @return {boolean} `true` open, `false` closed.
+   * @returns `true` open, `false` closed.
    */
   private _isCbsSenderReceiverLinkOpen(): boolean {
     return this._cbsSenderReceiverLink! && this._cbsSenderReceiverLink!.isOpen();

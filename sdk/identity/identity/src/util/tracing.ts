@@ -1,54 +1,58 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetTokenOptions } from "@azure/core-http";
-import { getTracer, OperationTracingOptions } from "@azure/core-tracing";
-import { Span, SpanKind, SpanOptions as OTSpanOptions } from "@opentelemetry/api";
+import { OperationOptions } from "@azure/core-http";
+import { createSpanFunction } from "@azure/core-tracing";
+import { CanonicalCode, Span } from "@opentelemetry/api";
+import { AuthenticationErrorName } from "../client/errors";
 
 /**
  * Creates a span using the global tracer.
- * @param name - The name of the operation being performed.
- * @param options - The options for the underlying http request.
+ * @internal
  */
-export function createSpan(
+export const createSpan = createSpanFunction({
+  packagePrefix: "Azure.Identity",
+  namespace: "Microsoft.AAD"
+});
+
+/**
+ * From: https://github.com/Azure/azure-sdk-for-js/blob/46139daa3317a0d12e8b55b02b9d9cdf1b2e762a/sdk/appconfiguration/app-configuration/src/internal/tracingHelpers.ts
+ * Traces an operation and properly handles reporting start, end and errors for a given span
+ *
+ * @param operationName - Name of a method in the TClient type
+ * @param options - An options class, typically derived from \@azure/core-http/RequestOptionsBase
+ * @param fn - The function to call with an options class that properly propagates the span context
+ *
+ * @internal
+ */
+export async function trace<ReturnT>(
   operationName: string,
-  options: GetTokenOptions = {}
-): { span: Span; options: GetTokenOptions } {
-  const tracer = getTracer();
+  options: OperationOptions,
+  fn: (options: OperationOptions, span: Span) => Promise<ReturnT>,
+  createSpanFn = createSpan
+): Promise<ReturnT> {
+  const { updatedOptions, span } = createSpanFn(operationName, options);
 
-  const tracingOptions: OperationTracingOptions = {
-    spanOptions: {},
-    ...options.tracingOptions
-  };
+  try {
+    // NOTE: we really do need to await on this function here so we can handle any exceptions thrown and properly
+    // close the span.
+    const result = await fn(updatedOptions, span);
 
-  const spanOptions: OTSpanOptions = {
-    ...tracingOptions.spanOptions,
-    kind: SpanKind.INTERNAL
-  };
+    // otel 0.16+ needs this or else the code ends up being set as UNSET
+    span.setStatus({
+      code: CanonicalCode.OK
+    });
+    return result;
+  } catch (err) {
+    const code =
+      err.name === AuthenticationErrorName ? CanonicalCode.UNAUTHENTICATED : CanonicalCode.UNKNOWN;
 
-  const span = tracer.startSpan(`Azure.Identity.${operationName}`, spanOptions);
-  span.setAttribute("az.namespace", "Microsoft.AAD");
-
-  let newOptions = options;
-  if (span.isRecording()) {
-    newOptions = {
-      ...options,
-      tracingOptions: {
-        ...tracingOptions,
-        spanOptions: {
-          ...tracingOptions.spanOptions,
-          parent: span.context(),
-          attributes: {
-            ...spanOptions.attributes,
-            "az.namespace": "Microsoft.AAD"
-          }
-        }
-      }
-    };
+    span.setStatus({
+      code,
+      message: err.message
+    });
+    throw err;
+  } finally {
+    span.end();
   }
-
-  return {
-    span,
-    options: newOptions
-  };
 }

@@ -1,63 +1,69 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AbortSignalLike,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
+
+import { AbortSignalLike } from "@azure/abort-controller";
 
 import {
+  AnalyzeJobState,
   GeneratedClientAnalyzeResponse as BeginAnalyzeResponse,
-  GeneratedClientAnalyzeStatusOptionalParams as AnalyzeJobStatusOptions,
-  JobManifestTasks,
+  GeneratedClientAnalyzeStatusOptionalParams as AnalyzeBatchActionsOperationStatusOptions,
+  JobManifestTasks as GeneratedActions,
   State,
   TextDocumentBatchStatistics,
   TextDocumentInput
 } from "../../generated/models";
 import {
-  AnalyzeResult,
-  PagedAsyncIterableAnalyzeResults,
-  PaginatedAnalyzeResults
-} from "../../analyzeResult";
+  AnalyzeBatchActionsResult,
+  PagedAsyncIterableAnalyzeBatchActionsResult,
+  PagedAnalyzeBatchActionsResult,
+  createAnalyzeBatchActionsResult
+} from "../../analyzeBatchActionsResult";
 import { PageSettings } from "@azure/core-paging";
-import {
-  addStrEncodingParam,
-  getJobID,
-  handleInvalidDocumentBatch,
-  nextLinkToTopAndSkip
-} from "../../util";
-import {
-  AnalysisPollOperation,
-  AnalysisPollOperationState,
-  PollingOptions,
-  TextAnalyticsStatusOperationOptions
-} from "../poller";
+import { getOperationId, handleInvalidDocumentBatch, nextLinkToTopAndSkip } from "../../util";
+import { AnalysisPollOperation, AnalysisPollOperationState, OperationMetadata } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "../../tracing";
-import {
-  makeRecognizeCategorizedEntitiesResultArray,
-  RecognizeCategorizedEntitiesResultArray
-} from "../../recognizeCategorizedEntitiesResultArray";
-import {
-  makeRecognizePiiEntitiesResultArray,
-  RecognizePiiEntitiesResultArray
-} from "../../recognizePiiEntitiesResultArray";
-import {
-  ExtractKeyPhrasesResultArray,
-  makeExtractKeyPhrasesResultArray
-} from "../../extractKeyPhrasesResultArray";
 import { logger } from "../../logger";
 export { State };
 
+/**
+ * @internal
+ */
 interface AnalyzeResultsWithPagination {
-  result: AnalyzeResult;
+  result: AnalyzeBatchActionsResult;
   top?: number;
   skip?: number;
 }
 
-interface AnalyzeJobStatus {
+/**
+ * The metadata for beginAnalyzeBatchActions operations.
+ */
+export interface AnalyzeBatchActionsOperationMetadata extends OperationMetadata {
+  /**
+   * Number of successfully completed actions.
+   */
+  actionsSucceededCount?: number;
+  /**
+   * Number of failed actions.
+   */
+  actionsFailedCount?: number;
+  /**
+   * Number of actions still in progress.
+   */
+  actionsInProgressCount?: number;
+  /**
+   * The operation's display name.
+   */
+  displayName?: string;
+}
+
+/**
+ * @internal
+ */
+interface AnalyzeBatchActionsOperationStatus {
   done: boolean;
   /**
    * Statistics about the input document batch and how it was processed
@@ -65,70 +71,91 @@ interface AnalyzeJobStatus {
    * in the client call.
    */
   statistics?: TextDocumentBatchStatistics;
+  operationMetdata?: AnalyzeBatchActionsOperationMetadata;
 }
 
-interface BeginAnalyzeInternalOptions extends OperationOptions {}
+/**
+ * @internal
+ */
+interface BeginAnalyzeInternalOptions extends OperationOptions {
+  displayName?: string;
+}
 
 /**
- * Options for configuring analyze jobs.
+ * Options for the begin analyze batch actions operation.
  */
-export interface AnalyzeJobOptions extends OperationOptions {
+export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
+  /**
+   * Delay to wait until next poll, in milliseconds.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
+   */
+  resumeFrom?: string;
   /**
    * If set to true, response will contain input and document level statistics.
    */
   includeStatistics?: boolean;
-}
-
-/**
- * Options for the begin analyze operation.
- */
-export interface BeginAnalyzeOptions {
   /**
-   * Options related to polling from the service.
+   * The operation's display name.
    */
-  polling?: PollingOptions;
-  /**
-   * Options related to the analyze job.
-   */
-  analyze?: AnalyzeJobOptions;
+  displayName?: string;
 }
 
 /**
  * The state of the begin analyze polling operation.
  */
-export interface BeginAnalyzePollState
-  extends AnalysisPollOperationState<PaginatedAnalyzeResults> {}
+export interface AnalyzeBatchActionsOperationState
+  extends AnalysisPollOperationState<PagedAnalyzeBatchActionsResult>,
+    AnalyzeBatchActionsOperationMetadata {}
+
+/**
+ * @internal
+ */
+function getMetaInfoFromResponse(response: AnalyzeJobState): AnalyzeBatchActionsOperationMetadata {
+  return {
+    createdOn: response.createdDateTime,
+    lastModifiedOn: response.lastUpdateDateTime,
+    expiresOn: response.expirationDateTime,
+    status: response.status,
+    actionsSucceededCount: response.tasks.completed,
+    actionsFailedCount: response.tasks.failed,
+    actionsInProgressCount: response.tasks.inProgress,
+    displayName: response.displayName
+  };
+}
 
 /**
  * Class that represents a poller that waits for results of the analyze
  * operation.
+ * @internal
  */
-export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
-  BeginAnalyzePollState,
-  PaginatedAnalyzeResults
+export class BeginAnalyzeBatchActionsPollerOperation extends AnalysisPollOperation<
+  AnalyzeBatchActionsOperationState,
+  PagedAnalyzeBatchActionsResult
 > {
   constructor(
-    public state: BeginAnalyzePollState,
+    public state: AnalyzeBatchActionsOperationState,
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     private client: Client,
     private documents: TextDocumentInput[],
-    private tasks: JobManifestTasks,
-    private options: BeginAnalyzeOptions = {},
-    private statusOptions: TextAnalyticsStatusOperationOptions = {}
+    private actions: GeneratedActions,
+    private options: BeginAnalyzeBatchActionsOptions = {}
   ) {
     super(state);
   }
 
   /**
-   * should be called only after all the status of the analyze jobs became
+   * should be called only after all the status of the analyze batch actions operations became
    * "succeeded" and it returns an iterator for the results and provides a
-   * byPage method to return the results paginated.
+   * byPage method to return the results paged.
    */
-  private listAnalyzeResults(
-    jobId: string,
-    options: AnalyzeJobStatusOptions = {}
-  ): PagedAsyncIterableAnalyzeResults {
-    const iter = this._listAnalyzeResultsPaginated(jobId, options);
+  private listAnalyzeBatchActionsResults(
+    operationId: string,
+    options: AnalyzeBatchActionsOperationStatusOptions = {}
+  ): PagedAsyncIterableAnalyzeBatchActionsResult {
+    const iter = this._listAnalyzeBatchActionsResultsPaged(operationId, options);
     return {
       next() {
         return iter.next();
@@ -138,73 +165,48 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
       },
       byPage: (settings?: PageSettings) => {
         const pageOptions = { ...options, top: settings?.maxPageSize };
-        return this._listAnalyzeResultsPaginated(jobId, pageOptions);
+        return this._listAnalyzeBatchActionsResultsPaged(operationId, pageOptions);
       }
     };
   }
 
   /**
-   * returns an iterator to arrays of the results of an analyze job.
+   * returns an iterator to arrays of the results of an analyze batch actions operation.
    */
-  private async *_listAnalyzeResultsPaginated(
-    jobId: string,
-    options?: AnalyzeJobStatusOptions
-  ): AsyncIterableIterator<AnalyzeResult> {
-    let response = await this._listAnalyzeResultsSinglePage(jobId, options);
+  private async *_listAnalyzeBatchActionsResultsPaged(
+    operationId: string,
+    options?: AnalyzeBatchActionsOperationStatusOptions
+  ): AsyncIterableIterator<AnalyzeBatchActionsResult> {
+    let response = await this._listAnalyzeBatchActionsResultsSinglePage(operationId, options);
     yield response.result;
     while (response.skip) {
-      const optionsWithContinuation: AnalyzeJobStatusOptions = {
+      const optionsWithContinuation: AnalyzeBatchActionsOperationStatusOptions = {
         ...options,
         top: response.top,
         skip: response.skip
       };
-      response = await this._listAnalyzeResultsSinglePage(jobId, optionsWithContinuation);
+      response = await this._listAnalyzeBatchActionsResultsSinglePage(
+        operationId,
+        optionsWithContinuation
+      );
       yield response.result;
     }
   }
 
   /**
-   * returns an iterator to arrays of the sorted results of an analyze job.
+   * returns an iterator to arrays of the sorted results of an analyze batch actions operation.
    */
-  private async _listAnalyzeResultsSinglePage(
-    jobId: string,
-    options?: AnalyzeJobStatusOptions
+  private async _listAnalyzeBatchActionsResultsSinglePage(
+    operationId: string,
+    options?: AnalyzeBatchActionsOperationStatusOptions
   ): Promise<AnalyzeResultsWithPagination> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-_listAnalyzeResultsSinglePage",
+      "TextAnalyticsClient-_listAnalyzeBatchActionsResultsSinglePage",
       options || {}
     );
     try {
-      const response = await this.client.analyzeStatus(
-        jobId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
-      const result: AnalyzeResult = {
-        entitiesRecognitionResults: response.tasks.entityRecognitionTasks?.map(
-          ({ results }): RecognizeCategorizedEntitiesResultArray =>
-            makeRecognizeCategorizedEntitiesResultArray(
-              this.documents,
-              results?.documents,
-              results?.errors,
-              results?.modelVersion,
-              results?.statistics
-            )
-        ),
-        piiEntitiesRecognitionResults: response.tasks.entityRecognitionPiiTasks?.map(
-          ({ results }): RecognizePiiEntitiesResultArray =>
-            makeRecognizePiiEntitiesResultArray(this.documents, results)
-        ),
-        keyPhrasesExtractionResults: response.tasks.keyPhraseExtractionTasks?.map(
-          ({ results }): ExtractKeyPhrasesResultArray =>
-            makeExtractKeyPhrasesResultArray(
-              this.documents,
-              results?.documents,
-              results?.errors,
-              results?.modelVersion,
-              results?.statistics
-            )
-        )
-      };
+      const response = await this.client.analyzeStatus(operationId, finalOptions);
+      const result = createAnalyzeBatchActionsResult(response, this.documents);
       return response.nextLink
         ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
         : { result };
@@ -220,45 +222,32 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
   }
 
   /**
-   * returns whether the analyze job is done and if so returns also
+   * returns whether the analyze batch actions operation is done and if so returns also
    * statistics.
    */
-  private async getAnalyzeStatus(
-    jobId: string,
-    options?: AnalyzeJobStatusOptions
-  ): Promise<AnalyzeJobStatus> {
+  private async getAnalyzeBatchActionsOperationStatus(
+    operationId: string,
+    options?: AnalyzeBatchActionsOperationStatusOptions
+  ): Promise<AnalyzeBatchActionsOperationStatus> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "TextAnalyticsClient-getAnalyzeStatus",
+      "TextAnalyticsClient-getAnalyzeBatchActionsOperationStatus",
       options || {}
     );
     try {
-      const response = await this.client.analyzeStatus(
-        jobId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      const response = await this.client.analyzeStatus(operationId, finalOptions);
       switch (response.status) {
-        case "partiallySucceeded":
-        case "succeeded": {
-          return {
-            done: true,
-            statistics: response.statistics
-          };
-        }
-        case "failed": {
-          const errors = response.errors
-            ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
-            .join("\n");
-          const message = `Analysis failed. Error(s): ${errors || ""}`;
-          throw new Error(message);
-        }
         case "notStarted":
         case "running":
           break;
         default: {
-          throw new Error(`Unrecognized state of the analyze job!: ${response.status}`);
+          return {
+            done: true,
+            statistics: response.statistics,
+            operationMetdata: getMetaInfoFromResponse(response)
+          };
         }
       }
-      return { done: false };
+      return { done: false, operationMetdata: getMetaInfoFromResponse(response) };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -270,20 +259,24 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
     }
   }
 
-  private async beginAnalyze(
+  private async beginAnalyzeBatchActions(
     documents: TextDocumentInput[],
-    tasks: JobManifestTasks,
+    actions: GeneratedActions,
     options?: BeginAnalyzeInternalOptions
   ): Promise<BeginAnalyzeResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-beginAnalyze",
-      addStrEncodingParam(options)
+      options || {}
     );
 
     try {
       return await this.client.analyze({
-        body: { analysisInput: { documents: documents }, tasks: tasks },
-        ...operationOptionsToRequestOptionsBase(finalOptions)
+        body: {
+          analysisInput: { documents: documents },
+          tasks: actions,
+          displayName: options?.displayName
+        },
+        ...finalOptions
       });
     } catch (e) {
       const exception = handleInvalidDocumentBatch(e);
@@ -300,44 +293,66 @@ export class BeginAnalyzePollerOperation extends AnalysisPollOperation<
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: BeginAnalyzePollState) => void;
+      fireProgress?: (state: AnalyzeBatchActionsOperationState) => void;
     } = {}
-  ): Promise<BeginAnalyzePollerOperation> {
+  ): Promise<BeginAnalyzeBatchActionsPollerOperation> {
     const state = this.state;
     const updatedAbortSignal = options.abortSignal;
     if (!state.isStarted) {
       state.isStarted = true;
-      const response = await this.beginAnalyze(this.documents, this.tasks, {
-        ...this.options.analyze,
-        abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.analyze?.abortSignal
+      const response = await this.beginAnalyzeBatchActions(this.documents, this.actions, {
+        displayName: this.options.displayName,
+        tracingOptions: this.options.tracingOptions,
+        requestOptions: this.options.requestOptions,
+        abortSignal: updatedAbortSignal ? updatedAbortSignal : this.options.abortSignal
       });
       if (!response.operationLocation) {
         throw new Error(
           "Expects a valid 'operationLocation' to retrieve analyze results but did not find any"
         );
       }
-      state.jobId = getJobID(response.operationLocation);
+      state.operationId = getOperationId(response.operationLocation);
     }
 
-    const status = await this.getAnalyzeStatus(state.jobId!, {
-      ...this.statusOptions,
-      abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal
+    const operationStatus = await this.getAnalyzeBatchActionsOperationStatus(state.operationId!, {
+      abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal,
+      includeStatistics: this.options.includeStatistics,
+      tracingOptions: this.options.tracingOptions
     });
 
-    if (!state.isCompleted && status.done) {
-      if (typeof options.fireProgress === "function") {
-        options.fireProgress(state);
-      }
-      const pagedIterator = this.listAnalyzeResults(state.jobId!, this.options.analyze || {});
-      state.result = Object.assign(pagedIterator, {
-        statistics: status.statistics
+    state.createdOn = operationStatus.operationMetdata?.createdOn;
+    state.expiresOn = operationStatus.operationMetdata?.expiresOn;
+    state.lastModifiedOn = operationStatus.operationMetdata?.lastModifiedOn;
+    state.status = operationStatus.operationMetdata?.status;
+    state.actionsSucceededCount = operationStatus.operationMetdata?.actionsSucceededCount;
+    state.actionsFailedCount = operationStatus.operationMetdata?.actionsFailedCount;
+    state.actionsInProgressCount = operationStatus.operationMetdata?.actionsInProgressCount;
+    state.displayName = operationStatus.operationMetdata?.displayName;
+
+    if (!state.isCompleted && operationStatus.done) {
+      const pagedIterator = this.listAnalyzeBatchActionsResults(state.operationId!, {
+        abortSignal: this.options.abortSignal,
+        tracingOptions: this.options.tracingOptions,
+        includeStatistics: this.options.includeStatistics,
+        onResponse: this.options.onResponse,
+        serializerOptions: this.options.serializerOptions
       });
+      // Attach stats if the service starts to return them
+      // https://github.com/Azure/azure-sdk-for-js/issues/14139
+      // state.result = Object.assign(pagedIterator, {
+      //   statistics: operationStatus.statistics
+      // });
+      state.result = pagedIterator;
       state.isCompleted = true;
+    }
+
+    if (typeof options.fireProgress === "function") {
+      options.fireProgress(state);
     }
     return this;
   }
 
-  async cancel(): Promise<BeginAnalyzePollerOperation> {
+  async cancel(): Promise<BeginAnalyzeBatchActionsPollerOperation> {
     const state = this.state;
     logger.warning(`The service does not yet support cancellation for beginAnalyze.`);
     state.isCancelled = true;

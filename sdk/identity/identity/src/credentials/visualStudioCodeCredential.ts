@@ -9,6 +9,7 @@ import path from "path";
 
 let keytar: any;
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   keytar = require("keytar");
 } catch (er) {
   keytar = null;
@@ -168,7 +169,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     _options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     await this.prepareOnce();
     if (!keytar) {
       throw new CredentialUnavailable(

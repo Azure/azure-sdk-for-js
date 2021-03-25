@@ -8,7 +8,8 @@ import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { HttpOperationResponse, HttpResponse, isNode } from "@azure/core-http";
+import { HttpOperationResponse, HttpResponse } from "@azure/core-http";
+import { isDefined } from "./typeGuards";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -29,7 +30,7 @@ declare const navigator: Navigator;
  * @internal
  * Provides a uniue name by appending a string guid to the given string in the following format:
  * `{name}-{uuid}`.
- * @param name The nme of the entity
+ * @param name - The nme of the entity
  */
 export function getUniqueName(name: string): string {
   return `${name}-${generate_uuid()}`;
@@ -41,8 +42,8 @@ export function getUniqueName(name: string): string {
  * flipped within the group, but the last two groups don't get flipped, so we end up with a
  * different byte order. This is the order of bytes needed to make Service Bus recognize the token.
  *
- * @param lockToken The lock token whose bytes need to be reorded.
- * @returns Buffer - Buffer representing reordered bytes.
+ * @param lockToken - The lock token whose bytes need to be reorded.
+ * @returns Buffer representing reordered bytes.
  */
 export function reorderLockToken(lockTokenBytes: Buffer): Buffer {
   if (!lockTokenBytes || !Buffer.isBuffer(lockTokenBytes)) {
@@ -105,8 +106,8 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
  * - Ticks in DateTimeOffset is `1/10000000` second, while ticks in JS Date is `1/1000` second.
  *   - Thus, we `divide` the value by `10000` to convert it to JS Date ticks.
  *
- * @param buf Input as a Buffer
- * @returns Date The JS Date object.
+ * @param buf - Input as a Buffer
+ * @returns The JS Date object.
  */
 export function convertTicksToDate(buf: number[]): Date {
   const epochMicroDiff: number = 621355968000000000;
@@ -122,23 +123,10 @@ export function convertTicksToDate(buf: number[]): Date {
 
 /**
  * @internal
- * Returns the number of logical processors in the system.
- */
-export function getProcessorCount(): number {
-  if (isNode) {
-    const os = require("os");
-    return os.cpus().length;
-  } else {
-    return navigator.hardwareConcurrency || 1;
-  }
-}
-
-/**
- * @internal
  * Converts any given input to a Buffer.
- * @param input The input that needs to be converted to a Buffer.
+ * @param input - The input that needs to be converted to a Buffer.
  */
-export function toBuffer(input: any): Buffer {
+export function toBuffer(input: unknown): Buffer {
   let result: any;
   messageLogger.verbose(
     "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
@@ -171,11 +159,10 @@ export function toBuffer(input: any): Buffer {
  * @internal
  * Helper utility to retrieve `string` value from given string,
  * or throws error if undefined.
- * @param value
  */
-export function getString(value: any, nameOfProperty: string): string {
+export function getString(value: unknown, nameOfProperty: string): string {
   const result = getStringOrUndefined(value);
-  if (result == undefined) {
+  if (result === undefined) {
     throw new Error(
       `"${nameOfProperty}" received from service expected to be a string value and not undefined.`
     );
@@ -187,10 +174,9 @@ export function getString(value: any, nameOfProperty: string): string {
  * @internal
  * Helper utility to retrieve `string` value from given input,
  * or undefined if not passed in.
- * @param value
  */
 export function getStringOrUndefined(value: any): string | undefined {
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
   return value.toString();
@@ -200,11 +186,10 @@ export function getStringOrUndefined(value: any): string | undefined {
  * @internal
  * Helper utility to retrieve `integer` value from given string,
  * or throws error if undefined.
- * @param value
  */
-export function getInteger(value: any, nameOfProperty: string): number {
+export function getInteger(value: unknown, nameOfProperty: string): number {
   const result = getIntegerOrUndefined(value);
-  if (result == undefined) {
+  if (result === undefined) {
     throw new Error(
       `"${nameOfProperty}" received from service expected to be a number value and not undefined.`
     );
@@ -216,20 +201,18 @@ export function getInteger(value: any, nameOfProperty: string): number {
  * @internal
  * Helper utility to retrieve `integer` value from given string,
  * or undefined if not passed in.
- * @param value
  */
 export function getIntegerOrUndefined(value: any): number | undefined {
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
   const result = parseInt(value.toString());
-  return result == NaN ? undefined : result;
+  return isNaN(result) ? undefined : result;
 }
 
 /**
  * @internal
  * Helper utility to convert ISO-8601 time into Date type.
- * @param value
  */
 export function getDate(value: string, nameOfProperty: string): Date {
   return new Date(getString(value, nameOfProperty));
@@ -239,11 +222,10 @@ export function getDate(value: string, nameOfProperty: string): Date {
  * @internal
  * Helper utility to retrieve `boolean` value from given string,
  * or throws error if undefined.
- * @param value
  */
-export function getBoolean(value: any, nameOfProperty: string): boolean {
+export function getBoolean(value: unknown, nameOfProperty: string): boolean {
   const result = getBooleanOrUndefined(value);
-  if (result == undefined) {
+  if (result === undefined) {
     throw new Error(
       `"${nameOfProperty}" received from service expected to be a boolean value and not undefined.`
     );
@@ -255,10 +237,9 @@ export function getBoolean(value: any, nameOfProperty: string): boolean {
  * @internal
  * Helper utility to retrieve `boolean` value from given string,
  * or undefined if not passed in.
- * @param value
  */
 export function getBooleanOrUndefined(value: any): boolean | undefined {
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
   return (
@@ -278,7 +259,6 @@ const EMPTY_JSON_OBJECT_CONSTRUCTOR = {}.constructor;
 /**
  * @internal
  * Returns `true` if given input is a JSON like object.
- * @param value
  */
 export function isJSONLikeObject(value: any): boolean {
   // `value.constructor === {}.constructor` differentiates among the "object"s,
@@ -299,11 +279,10 @@ export function isJSONLikeObject(value: any): boolean {
 /**
  * @internal
  * Helper utility to retrieve message count details from given input,
- * @param value
  */
 export function getMessageCountDetails(value: any): MessageCountDetails {
   const xmlnsPrefix = getXMLNSPrefix(value);
-  if (value == undefined) {
+  if (!isDefined(value)) {
     value = {};
   }
   return {
@@ -320,7 +299,7 @@ export function getMessageCountDetails(value: any): MessageCountDetails {
  * @internal
  * Gets the xmlns prefix from the root of the objects that are part of the parsed response body.
  */
-export function getXMLNSPrefix(value: any) {
+export function getXMLNSPrefix(value: any): string {
   if (!value[Constants.XML_METADATA_MARKER]) {
     throw new Error(
       `Error occurred while parsing the response body - cannot find the XML_METADATA_MARKER "$" on the object ${JSON.stringify(
@@ -397,7 +376,6 @@ export interface AuthorizationRule {
  * @internal
  * Helper utility to retrieve array of `AuthorizationRule` from given input,
  * or undefined if not passed in.
- * @param value
  */
 export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[] | undefined {
   const authorizationRules: AuthorizationRule[] = [];
@@ -407,7 +385,7 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
     return undefined;
   }
 
-  if (value == undefined) {
+  if (!isDefined(value)) {
     return undefined;
   }
 
@@ -425,11 +403,10 @@ export function getAuthorizationRulesOrUndefined(value: any): AuthorizationRule[
 /**
  * @internal
  * Helper utility to build an instance of parsed authorization rule as `AuthorizationRule` from given input.
- * @param value
  */
 function buildAuthorizationRule(value: any): AuthorizationRule {
   let accessRights;
-  if (value["Rights"] != undefined) {
+  if (isDefined(value["Rights"])) {
     accessRights = value["Rights"]["AccessRights"];
   }
 
@@ -451,10 +428,9 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
  * @internal
  * Helper utility to extract output containing array of `RawAuthorizationRule` instances from given input,
  * or undefined if not passed in.
- * @param value
  */
 export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[] | undefined): any {
-  if (authorizationRules == undefined) {
+  if (!isDefined(authorizationRules)) {
     return undefined;
   }
 
@@ -478,7 +454,7 @@ export function getRawAuthorizationRules(authorizationRules: AuthorizationRule[]
 /**
  * @internal
  * Helper utility to build an instance of raw authorization rule as RawAuthorizationRule from given `AuthorizationRule` input.
- * @param authorizationRule parsed Authorization Rule instance
+ * @param authorizationRule - parsed Authorization Rule instance
  */
 function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
   if (!isJSONLikeObject(authorizationRule) || authorizationRule === null) {
@@ -512,9 +488,8 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
 /**
  * @internal
  * Helper utility to check if given string is an absolute URL
- * @param url
  */
-export function isAbsoluteUrl(url: string) {
+export function isAbsoluteUrl(url: string): boolean {
   const _url = url.toLowerCase();
   return _url.startsWith("sb://") || _url.startsWith("http://") || _url.startsWith("https://");
 }
@@ -548,6 +523,8 @@ export type EntityAvailabilityStatus =
  */
 export const StandardAbortMessage = "The operation was aborted.";
 
+type setTimeoutArgs = (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+
 /**
  * An executor for a function that returns a Promise that obeys both a timeout and an
  * optional AbortSignal.
@@ -556,7 +533,6 @@ export const StandardAbortMessage = "The operation was aborted.";
  * @param abortSignal - The abortSignal associated with containing operation.
  * @param abortErrorMsg - The abort error message associated with containing operation.
  * @param value - The value to be resolved with after a timeout of t milliseconds.
- * @returns {Promise<T>} - Resolved promise
  *
  * @internal
  */
@@ -567,7 +543,7 @@ export async function waitForTimeoutOrAbortOrResolve<T>(args: {
   abortSignal?: AbortSignalLike;
   // these are optional and only here for testing.
   timeoutFunctions?: {
-    setTimeoutFn: (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
+    setTimeoutFn: setTimeoutArgs;
     clearTimeoutFn: (timeoutId: any) => void;
   };
 }): Promise<T> {
@@ -618,7 +594,9 @@ export function checkAndRegisterWithAbortSignal(
   abortSignal?: AbortSignalLike
 ): () => void {
   if (abortSignal == null) {
-    return () => {};
+    return () => {
+      /** Nothing to do here, no abort signal */
+    };
   }
 
   if (abortSignal.aborted) {
@@ -637,7 +615,7 @@ export function checkAndRegisterWithAbortSignal(
 
 /**
  * @internal
- * @property {string} libInfo The user agent prefix string for the ServiceBus client.
+ * The user agent prefix string for the ServiceBus client.
  * See guideline at https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy
  */
 export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}`;
@@ -645,9 +623,6 @@ export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJson
 /**
  * @internal
  * Returns the formatted prefix by removing the spaces, by appending the libInfo.
- *
- * @param {string} [prefix]
- * @returns {string}
  */
 export function formatUserAgentPrefix(prefix?: string): string {
   let userAgentPrefix = `${(prefix || "").replace(" ", "")}`;
@@ -658,7 +633,6 @@ export function formatUserAgentPrefix(prefix?: string): string {
 /**
  * @internal
  * Helper method which returns `HttpResponse` from an object of shape `HttpOperationResponse`.
- * @returns {HttpResponse}
  */
 export const getHttpResponseOnly = ({
   request,

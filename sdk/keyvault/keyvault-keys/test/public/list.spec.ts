@@ -11,22 +11,24 @@ import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { versionsToTest } from "@azure/test-utils-multi-version";
 
-const serviceApiVersions = ["7.0", "7.1"] as const;
+const serviceApiVersions = ["7.0", "7.1", "7.2"] as const;
 versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
-  onVersions(["7.0", "7.1"]).describe("Keys client - list keys in various ways", () => {
+  onVersions(["7.0", "7.1", "7.2"]).describe("Keys client - list keys in various ways", () => {
     const keyPrefix = `list${env.KEY_NAME || "KeyName"}`;
     let keySuffix: string;
     let client: KeyClient;
     let testClient: TestClient;
     let recorder: Recorder;
 
-    beforeEach(async function() {
-      const authentication = await authenticate(this, serviceVersion);
-      keySuffix = authentication.keySuffix;
-      client = authentication.client;
-      testClient = authentication.testClient;
-      recorder = authentication.recorder;
-    });
+    beforeEach(
+      /** @this Mocha.Context */ async function() {
+        const authentication = await authenticate(this, serviceVersion);
+        keySuffix = authentication.keySuffix;
+        client = authentication.client;
+        testClient = authentication.testClient;
+        recorder = authentication.recorder;
+      }
+    );
 
     afterEach(async function() {
       await recorder.stop();
@@ -37,7 +39,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
     // Use this while recording to make sure the target keyvault is clean.
     // The next tests will produce a more consistent output.
     // This test is only useful while developing locally.
-    it("can purge all keys", async function(): Promise<void> {
+    it("can purge all keys", /** @this Mocha.Context */ async function(): Promise<void> {
       // WARNING: When TEST_MODE equals "record", all of the keys in the indicated KEYVAULT_URI will be deleted as part of this test.
       if (!isRecordMode()) {
         return this.skip();
@@ -58,7 +60,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       }
     });
 
-    it("can get the versions of a key", async function() {
+    it("can get the versions of a key", /** @this Mocha.Context */ async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       await client.createKey(keyName, "RSA");
       let totalVersions = 0;
@@ -85,7 +87,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       });
     });
 
-    it("can get the versions of a key (paged)", async function() {
+    it("can get the versions of a key (paged)", /** @this Mocha.Context */ async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       await client.createKey(keyName, "RSA");
       let totalVersions = 0;
@@ -103,7 +105,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       await testClient.flushKey(keyName);
     });
 
-    it("list 0 versions of a non-existing key", async function() {
+    it("list 0 versions of a non-existing key", /** @this Mocha.Context */ async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       let totalVersions = 0;
       for await (const version of client.listPropertiesOfKeyVersions(keyName)) {
@@ -117,7 +119,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
     });
 
-    it("list 0 versions of a non-existing key (paged)", async function() {
+    it("list 0 versions of a non-existing key (paged)", /** @this Mocha.Context */ async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       let totalVersions = 0;
       for await (const page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
@@ -133,7 +135,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
     });
 
-    it("can get several inserted keys", async function() {
+    it("can get several inserted keys", /** @this Mocha.Context */ async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const keyNames = [`${keyName}-0`, `${keyName}-1`];
       for (const name of keyNames) {
@@ -164,7 +166,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       });
     });
 
-    it("can get several inserted keys (paged)", async function() {
+    it("can get several inserted keys (paged)", /** @this Mocha.Context */ async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const keyNames = [`${keyName}-0`, `${keyName}-1`];
       for (const name of keyNames) {
@@ -187,7 +189,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       }
     });
 
-    it("list deleted keys", async function() {
+    it("list deleted keys", /** @this Mocha.Context */ async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const keyNames = [`${keyName}-0`, `${keyName}-1`];
       for (const name of keyNames) {
@@ -221,7 +223,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       });
     });
 
-    it("list deleted keys (paged)", async function() {
+    it("list deleted keys (paged)", /** @this Mocha.Context */ async function() {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const keyNames = [`${keyName}-0`, `${keyName}-1`];
       for (const name of keyNames) {

@@ -51,20 +51,17 @@ export class ChainedTokenCredential implements TokenCredential {
    * @param options - The options used to configure any requests this
    *                `TokenCredential` implementation might make.
    */
-  async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
     let token = null;
     const errors = [];
 
-    const { span, options: newOptions } = createSpan("ChainedTokenCredential-getToken", options);
+    const { span, updatedOptions } = createSpan("ChainedTokenCredential-getToken", options);
 
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
-        token = await this._sources[i].getToken(scopes, newOptions);
+        token = await this._sources[i].getToken(scopes, updatedOptions);
       } catch (err) {
-        if (err instanceof CredentialUnavailable) {
+        if (err.name === "CredentialUnavailable") {
           errors.push(err);
         } else {
           logger.getToken.info(formatError(scopes, err));
@@ -86,6 +83,10 @@ export class ChainedTokenCredential implements TokenCredential {
     span.end();
 
     logger.getToken.info(formatSuccess(scopes));
+
+    if (token === null) {
+      throw new CredentialUnavailable("Failed to retrieve a valid token");
+    }
     return token;
   }
 }

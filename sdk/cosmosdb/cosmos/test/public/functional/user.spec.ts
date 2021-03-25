@@ -4,13 +4,13 @@ import assert from "assert";
 import { UserDefinition } from "../../../src";
 import { createOrUpsertUser, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
   describe("Validate User CRUD", function() {
-    const userCRUDTest = async function(isUpsertTest: boolean) {
+    const userCRUDTest = async function(isUpsertTest: boolean): Promise<void> {
       // create database
       const database = await getTestDatabase("Validate user CRUD");
 

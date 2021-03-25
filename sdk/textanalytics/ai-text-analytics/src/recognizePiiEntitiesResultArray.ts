@@ -7,7 +7,7 @@ import {
   makeRecognizePiiEntitiesResult,
   makeRecognizePiiEntitiesErrorResult
 } from "./recognizePiiEntitiesResult";
-import { sortResponseIdObjects } from "./util";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 
 /**
  * Collection of `RecognizePiiEntitiesResult` objects corresponding to a batch of input documents, and
@@ -27,27 +27,17 @@ export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntit
   modelVersion: string;
 }
 
+/**
+ * @internal
+ */
 export function makeRecognizePiiEntitiesResultArray(
   input: TextDocumentInput[],
   response: PiiResult
 ): RecognizePiiEntitiesResultArray {
-  const { documents, errors, statistics, modelVersion } = response;
-  const unsortedResult = documents
-    .map(
-      (document): RecognizePiiEntitiesResult => {
-        return makeRecognizePiiEntitiesResult(document);
-      }
-    )
-    .concat(
-      errors.map(
-        (error): RecognizePiiEntitiesResult => {
-          return makeRecognizePiiEntitiesErrorResult(error.id, error.error);
-        }
-      )
-    );
-  const result = sortResponseIdObjects(input, unsortedResult);
-  return Object.assign(result, {
-    statistics,
-    modelVersion
-  });
+  return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
+    input,
+    response,
+    makeRecognizePiiEntitiesResult,
+    makeRecognizePiiEntitiesErrorResult
+  );
 }

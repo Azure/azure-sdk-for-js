@@ -13,7 +13,7 @@ import {
 import AbortController from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   describe("Validate client request timeout", function() {
@@ -53,7 +53,7 @@ describe("NodeJS CRUD Tests", function() {
     it("throws on a bad endpoint", function() {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
-    it("fails to read databases with AAD authentication", async function() {
+    it("fails to read databases with bad AAD authentication", async function() {
       try {
         const credentials = new UsernamePasswordCredential(
           "fake-tenant-id",
@@ -67,7 +67,7 @@ describe("NodeJS CRUD Tests", function() {
         });
         await client.databases.readAll().fetchAll();
       } catch (e) {
-        assert.equal(e.code, 401);
+        assert.equal(e.statusCode, 400);
       }
     });
   });

@@ -9,7 +9,7 @@ import { FeedOptions } from "../../../src";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-describe("Aggregate Query", function() {
+describe("Aggregate Query", /** @this Mocha.Context */ function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const partitionKey = "key";
   const uniquePartitionKey = "uniquePartitionKey";
@@ -58,7 +58,10 @@ describe("Aggregate Query", function() {
     await bulkInsertItems(container, documentDefinitions);
   });
 
-  const validateFetchAll = async function(queryIterator: QueryIterator<any>, expectedResults: any) {
+  const validateFetchAll = async function(
+    queryIterator: QueryIterator<any>,
+    expectedResults: any
+  ): Promise<number> {
     const { resources: results, requestCharge } = await queryIterator.fetchAll();
     assert(requestCharge > 0, "request charge was not greater than zero");
     assert.equal(results.length, expectedResults.length, "invalid number of results");
@@ -71,7 +74,7 @@ describe("Aggregate Query", function() {
     options: any,
     expectedResults: any[],
     fetchAllRequestCharge: number
-  ) {
+  ): Promise<void> {
     const pageSize = options["maxItemCount"];
 
     let totalFetchedResults: any[] = [];
@@ -129,7 +132,7 @@ describe("Aggregate Query", function() {
   const ValidateAsyncIterator = async function(
     queryIterator: QueryIterator<any>,
     expectedResults: any[]
-  ) {
+  ): Promise<void> {
     const results: any[] = [];
     let completed = false;
     // forEach uses callbacks still, so just wrap in a promise
@@ -148,7 +151,7 @@ describe("Aggregate Query", function() {
   const executeQueryAndValidateResults = async function(
     query: string | SqlQuerySpec,
     expectedResults: any[]
-  ) {
+  ): Promise<void> {
     const options: FeedOptions = { maxDegreeOfParallelism: 2, maxItemCount: 1 };
 
     const queryIterator = container.items.query(query, options);

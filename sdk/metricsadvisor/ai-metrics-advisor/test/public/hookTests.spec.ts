@@ -24,16 +24,17 @@ matrix([[true, false]] as const, async (useAad) => {
       let emailHookName: string;
       let webHookName: string;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
-        ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
-        if (recorder && !emailHookName) {
-          emailHookName = recorder.getUniqueName("js-test-emailHook-");
+      beforeEach(
+        /** @this Mocha.Context */ function() {
+          ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
+          if (recorder && !emailHookName) {
+            emailHookName = recorder.getUniqueName("js-test-emailHook-");
+          }
+          if (recorder && !webHookName) {
+            webHookName = recorder.getUniqueName("js-test-webHook-");
+          }
         }
-        if (recorder && !webHookName) {
-          webHookName = recorder.getUniqueName("js-test-webHook-");
-        }
-      });
+      );
 
       afterEach(async function() {
         if (recorder) {
@@ -78,7 +79,8 @@ matrix([[true, false]] as const, async (useAad) => {
             toList: ["test2@example.com", "test3@example.com"]
           }
         };
-        const updated = await client.updateHook(createdEmailHookId, emailPatch);
+        await client.updateHook(createdEmailHookId, emailPatch);
+        const updated = await client.getHook(createdEmailHookId);
         assert.equal(updated.hookType, emailPatch.hookType);
         const emailHook = updated as EmailNotificationHook;
         assert.deepEqual(emailHook.hookParameter.toList, [
@@ -96,7 +98,8 @@ matrix([[true, false]] as const, async (useAad) => {
             password: "pass123"
           }
         };
-        const updated = await client.updateHook(createdWebHookId, webPatch);
+        await client.updateHook(createdWebHookId, webPatch);
+        const updated = await client.getHook(createdWebHookId);
         assert.equal(updated.hookType, webPatch.hookType);
         const webHook = updated as WebNotificationHook;
         assert.equal(webHook.hookParameter.username, "user1");

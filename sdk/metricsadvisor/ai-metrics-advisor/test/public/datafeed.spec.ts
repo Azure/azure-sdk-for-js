@@ -185,6 +185,10 @@ matrix([[true, false]] as const, async (useAad) => {
             dataFeedIngestion,
             "Ingesting settings mismatch!"
           );
+          assert.equal(
+            actual.metricIds.get(dataFeedSchema.metrics[0].name),
+            actual.schema.metrics[0].id
+          );
 
           assert.equal(actual.description, options.description, "options.description mismatch");
           assert.equal(actual.accessMode, options.accessMode, "options.accessMode mismatch");
@@ -308,8 +312,8 @@ matrix([[true, false]] as const, async (useAad) => {
             viewerEmails: ["viewer1@example.com"],
             actionLinkTemplate: "Updated Azure Blob action link template"
           };
-          const updated = await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
-
+          await client.updateDataFeed(createdAzureBlobDataFeedId, patch);
+          const updated = await client.getDataFeed(createdAzureBlobDataFeedId);
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "AzureBlob");
           assert.deepStrictEqual(updated.source.dataSourceParameter, expectedSourceParameter);
@@ -738,8 +742,8 @@ matrix([[true, false]] as const, async (useAad) => {
             }
           };
 
-          const updated = await client.updateDataFeed(createdPostGreSqlId, patch);
-
+          await client.updateDataFeed(createdPostGreSqlId, patch);
+          const updated = await client.getDataFeed(createdPostGreSqlId);
           assert.ok(updated.id, "Expecting valid data feed");
           assert.equal(updated.source.dataSourceType, "MongoDB");
           assert.deepStrictEqual(

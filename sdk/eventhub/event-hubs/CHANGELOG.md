@@ -1,16 +1,30 @@
 # Release History
 
-## 5.4.0 (Unreleased)
+## 5.5.0 (Unreleased)
 
-- A helper method `parseEventHubConnectionString` has been added which validates and
-  parses a given connection string for Azure Event Hubs.
-  Resolves [#11894](https://github.com/Azure/azure-sdk-for-js/issues/11894)
+- Updates the methods on the `CheckpointStore` interface to accept
+  an optional `options` parameter that can be used to pass in an
+  `abortSignal` and `tracingOptions`.
+
+### Tracing updates
+
+- Tracing options for `EventDataBatch.tryAdd` now match the shape of `OperationOptions`.
+
+## 5.4.0 (2021-02-09)
 
 - Adds the `customEndpointAddress` field to `EventHubClientOptions`.
   This allows for specifying a custom endpoint to use when communicating
   with the Event Hubs service, which is useful when your network does not
   allow communicating to the standard Event Hubs endpoint.
   Resolves [#12901](https://github.com/Azure/azure-sdk-for-js/issues/12901).
+
+- A helper method `parseEventHubConnectionString` has been added which validates and
+  parses a given connection string for Azure Event Hubs.
+  Resolves [#11894](https://github.com/Azure/azure-sdk-for-js/issues/11894)
+
+- Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
+  in `EventHubConsumerClientOptions` or `EventHubClientOptions`.
+  Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
 
 - Updates documentation for `EventData` to call out that the `body` field
   must be converted to a byte array or `Buffer` when cross-language

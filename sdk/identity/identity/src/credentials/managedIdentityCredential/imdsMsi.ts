@@ -54,7 +54,7 @@ export const imdsMsi: MSI = {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean> {
-    const { span, options } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ManagedIdentityCredential-pingImdsEndpoint",
       getTokenOptions
     );
@@ -68,21 +68,21 @@ export const imdsMsi: MSI = {
       delete request.headers.Metadata;
     }
 
-    request.spanOptions = options.tracingOptions && options.tracingOptions.spanOptions;
+    request.spanOptions = updatedOptions?.tracingOptions?.spanOptions;
 
     try {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = identityClient.createWebResource(request);
-      webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 500;
+      webResource.timeout = updatedOptions?.requestOptions?.timeout || 500;
 
       try {
         logger.info(`Pinging IMDS endpoint`);
         await identityClient.sendRequest(webResource);
       } catch (err) {
         if (
-          (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) ||
+          (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
           err.name === "AbortError" ||
           err.code === "ECONNREFUSED" || // connection refused
           err.code === "EHOSTDOWN" // host is down

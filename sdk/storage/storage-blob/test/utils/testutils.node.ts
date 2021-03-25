@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as fs from "fs";
 
 /**
@@ -7,10 +10,8 @@ import * as fs from "fs";
  * If Promise is rejected, the reason will be set to the first error raised by either the
  * ReadableStream or the fs.WriteStream.
  *
- * @export
- * @param {NodeJS.ReadableStream} rs The read stream.
- * @param {string} file Destination file path.
- * @returns {Promise<void>}
+ * @param rs - The read stream.
+ * @param file - Destination file path.
  */
 export async function readStreamToLocalFileWithLogs(
   rs: NodeJS.ReadableStream,

@@ -25,6 +25,7 @@ export const DataExport: msRest.CompositeMapper = {
         }
       },
       tableNames: {
+        required: true,
         serializedName: "properties.tableNames",
         type: {
           name: "Sequence",

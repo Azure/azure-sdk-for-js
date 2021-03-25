@@ -25,7 +25,8 @@ import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
-import { ReceiverType } from "./core/linkEntity";
+import { NonSessionReceiverType, ReceiverType } from "./core/linkEntity";
+import { ServiceBusError } from "./serviceBusError";
 
 /**
  * @internal
@@ -34,26 +35,26 @@ import { ReceiverType } from "./core/linkEntity";
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
+   * The credential to be used for Authentication.
    * Default value: SharedKeyCredentials.
    */
   tokenCredential: SharedKeyCredential | TokenCredential;
   /**
-   * @property A map of active Service Bus Senders with sender name as key.
+   * A map of active Service Bus Senders with sender name as key.
    */
   senders: { [name: string]: MessageSender };
   /**
-   * @property A map of active Service Bus receivers for non session enabled queues/subscriptions
+   * A map of active Service Bus receivers for non session enabled queues/subscriptions
    * with receiver name as key.
    */
   messageReceivers: { [name: string]: MessageReceiver };
   /**
-   * @property A map of active Service Bus receivers for session enabled queues/subscriptions
+   * A map of active Service Bus receivers for session enabled queues/subscriptions
    * with receiver name as key.
    */
   messageSessions: { [name: string]: MessageSession };
   /**
-   * @property A map of ManagementClient instances for operations over the $management link
+   * A map of ManagementClient instances for operations over the $management link
    * with key as the entity path.
    */
   managementClients: { [name: string]: ManagementClient };
@@ -134,15 +135,16 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
- * Helper method to call onDetached on the receivers from the connection context upon seeing an error.
+ * Helper method to call onDetached on the non-sessions batching and streaming receivers from the connection context upon seeing an error.
  */
 async function callOnDetachedOnReceivers(
   connectionContext: ConnectionContext,
   contextOrConnectionError: Error | ConnectionError | AmqpError | undefined,
-  receiverType: ReceiverType
-) {
+  receiverType: NonSessionReceiverType
+): Promise<void[]> {
   const detachCalls: Promise<void>[] = [];
 
+  // Iterating over non-sessions batching and streaming receivers
   for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
     const receiver = connectionContext.messageReceivers[receiverName];
     if (receiver && receiver.receiverType === receiverType) {
@@ -165,6 +167,54 @@ async function callOnDetachedOnReceivers(
       );
     }
   }
+  return Promise.all(detachCalls);
+}
+
+/**
+ * @internal
+ * Helper method to call onDetached on the session receivers from the connection context upon seeing an error.
+ */
+async function callOnDetachedOnSessionReceivers(
+  connectionContext: ConnectionContext,
+  contextOrConnectionError: Error | ConnectionError | AmqpError | undefined
+): Promise<void[]> {
+  const getSessionError = (sessionId: string, entityPath: string) => {
+    const sessionInfo =
+      `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no longer be used. ` +
+      `Please create a new receiver using the "acceptSession" or "acceptNextSession" method on the ServiceBusClient.`;
+
+    const errorMessage =
+      contextOrConnectionError == null
+        ? `Unknown error occurred on the AMQP connection while receiving messages. ` + sessionInfo
+        : `Error occurred on the AMQP connection while receiving messages. ` +
+          sessionInfo +
+          `\nMore info - \n${contextOrConnectionError}`;
+
+    const error = new ServiceBusError(errorMessage, "SessionLockLost");
+    error.retryable = false;
+    return error;
+  };
+
+  const detachCalls: Promise<void>[] = [];
+
+  for (const receiverName of Object.keys(connectionContext.messageSessions)) {
+    const receiver = connectionContext.messageSessions[receiverName];
+    logger.verbose(
+      "[%s] calling detached on %s receiver(sessions).",
+      connectionContext.connection.id,
+      receiver.name
+    );
+    detachCalls.push(
+      receiver.onDetached(getSessionError(receiver.sessionId, receiver.entityPath)).catch((err) => {
+        logger.logError(
+          err,
+          "[%s] An error occurred while calling onDetached() on the session receiver(sessions) '%s'",
+          connectionContext.connection.id,
+          receiver.name
+        );
+      })
+    );
+  }
 
   return Promise.all(detachCalls);
 }
@@ -173,10 +223,10 @@ async function callOnDetachedOnReceivers(
  * @internal
  * Helper method to get the number of receivers of specified type from the connectionContext.
  */
-async function getNumberOfReceivers(
+function getNumberOfReceivers(
   connectionContext: Pick<ConnectionContext, "messageReceivers" | "messageSessions">,
   receiverType: ReceiverType
-) {
+): number {
   if (receiverType === "session") {
     const receivers = connectionContext.messageSessions;
     return Object.keys(receivers).length;
@@ -375,64 +425,77 @@ export namespace ConnectionContext {
         await connectionContext.managementClients[entityPath].close();
       }
 
-      // Calling onDetached on sender
-      if (!state.wasConnectionCloseCalled && state.numSenders) {
-        // We don't do recovery for the sender:
-        //   Because we don't want to keep the sender active all the time
-        //   and the "next" send call would bear the burden of creating the link.
-        // Call onDetached() on sender so that it can gracefully shutdown
-        //   by cleaning up the timers and closing the links.
-        // We don't call onDetached for sender after `refreshConnection()`
-        //   because any new send calls that potentially initialize links would also get affected if called later.
-        logger.verbose(
-          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numSenders} ` +
-            `senders. We should not reconnect.`
-        );
-        const detachCalls: Promise<void>[] = [];
-        for (const senderName of Object.keys(connectionContext.senders)) {
-          const sender = connectionContext.senders[senderName];
-          if (sender) {
-            logger.verbose(
-              "[%s] calling detached on sender '%s'.",
-              connectionContext.connection.id,
-              sender.name
-            );
-            detachCalls.push(
-              sender.onDetached().catch((err) => {
-                logger.logError(
-                  err,
-                  "[%s] An error occurred while calling onDetached() the sender '%s'",
-                  connectionContext.connection.id,
-                  sender.name
-                );
-              })
-            );
+      if (state.wasConnectionCloseCalled) {
+        // Do Nothing
+      } else {
+        // Calling onDetached on sender
+        if (state.numSenders) {
+          // We don't do recovery for the sender:
+          //   Because we don't want to keep the sender active all the time
+          //   and the "next" send call would bear the burden of creating the link.
+          // Call onDetached() on sender so that it can gracefully shutdown
+          //   by cleaning up the timers and closing the links.
+          // We don't call onDetached for sender after `refreshConnection()`
+          //   because any new send calls that potentially initialize links would also get affected if called later.
+          logger.verbose(
+            `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${state.numSenders} ` +
+              `senders. We should not reconnect.`
+          );
+          const detachCalls: Promise<void>[] = [];
+          for (const senderName of Object.keys(connectionContext.senders)) {
+            const sender = connectionContext.senders[senderName];
+            if (sender) {
+              logger.verbose(
+                "[%s] calling detached on sender '%s'.",
+                connectionContext.connection.id,
+                sender.name
+              );
+              detachCalls.push(
+                sender.onDetached().catch((err) => {
+                  logger.logError(
+                    err,
+                    "[%s] An error occurred while calling onDetached() the sender '%s'",
+                    connectionContext.connection.id,
+                    sender.name
+                  );
+                })
+              );
+            }
           }
+          await Promise.all(detachCalls);
         }
-        await Promise.all(detachCalls);
+
+        // Calling onDetached on batching receivers for the same reasons as sender
+        const numBatchingReceivers = getNumberOfReceivers(connectionContext, "batching");
+        if (numBatchingReceivers) {
+          logger.verbose(
+            `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numBatchingReceivers} ` +
+              `batching receivers. We should not reconnect.`
+          );
+
+          // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
+          await callOnDetachedOnReceivers(
+            connectionContext,
+            connectionError || contextError,
+            "batching"
+          );
+        }
+
+        // Calling onDetached on session receivers
+        const numSessionReceivers = getNumberOfReceivers(connectionContext, "session");
+        if (numSessionReceivers) {
+          logger.verbose(
+            `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numSessionReceivers} ` +
+              `session receivers. We should close them.`
+          );
+
+          await callOnDetachedOnSessionReceivers(
+            connectionContext,
+            connectionError || contextError
+          );
+        }
       }
-
-      // Calling onDetached on batching receivers for the same reasons as sender
-      const numBatchingReceivers = getNumberOfReceivers(connectionContext, "batching");
-      if (!state.wasConnectionCloseCalled && numBatchingReceivers) {
-        logger.verbose(
-          `[${connectionContext.connection.id}] connection.close() was not called from the sdk and there were ${numBatchingReceivers} ` +
-            `batching receivers. We should reconnect.`
-        );
-
-        // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
-        await callOnDetachedOnReceivers(
-          connectionContext,
-          connectionError || contextError,
-          "batching"
-        );
-
-        // TODO:
-        //  `callOnDetachedOnReceivers` handles "connectionContext.messageReceivers".
-        //  ...What to do for sessions (connectionContext.messageSessions) ??
-      }
-
-      await refreshConnection(connectionContext);
+      await refreshConnection();
       waitForConnectionRefreshResolve();
       waitForConnectionRefreshPromise = undefined;
       // The connection should always be brought back up if the sdk did not call connection.close()
@@ -494,10 +557,10 @@ export namespace ConnectionContext {
       }
     };
 
-    async function refreshConnection(connectionContext: ConnectionContext) {
+    async function refreshConnection(): Promise<void> {
       const originalConnectionId = connectionContext.connectionId;
       try {
-        await cleanConnectionContext(connectionContext);
+        await cleanConnectionContext();
       } catch (err) {
         logger.logError(
           err,
@@ -520,7 +583,7 @@ export namespace ConnectionContext {
       connection.on(ConnectionEvents.error, error);
     }
 
-    async function cleanConnectionContext(connectionContext: ConnectionContext) {
+    async function cleanConnectionContext() {
       // Remove listeners from the connection object.
       connectionContext.connection.removeListener(
         ConnectionEvents.connectionOpen,
@@ -547,7 +610,6 @@ export namespace ConnectionContext {
    * Once closed,
    * - the clients created by this ServiceBusClient cannot be used to send/receive messages anymore.
    * - this ServiceBusClient cannot be used to create any new queues/topics/subscriptions clients.
-   * @returns {Promise<any>}
    */
   export async function close(context: ConnectionContext): Promise<void> {
     const logPrefix = `[${context.connectionId}]`;

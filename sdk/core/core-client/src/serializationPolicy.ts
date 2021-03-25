@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, SendRequest, PipelinePolicy } from "@azure/core-https";
+import { PipelineResponse, SendRequest, PipelinePolicy } from "@azure/core-rest-pipeline";
 import {
   OperationRequest,
   SerializerOptions,
@@ -28,7 +28,7 @@ export const serializationPolicyName = "serializationPolicy";
 /**
  * Options to configure API request serialization.
  */
-export interface serializationPolicyOptions {
+export interface SerializationPolicyOptions {
   /**
    * A function that is able to write XML. Required for XML support.
    */
@@ -44,7 +44,7 @@ export interface serializationPolicyOptions {
  * This policy handles assembling the request body and headers using
  * an OperationSpec and OperationArguments on the request.
  */
-export function serializationPolicy(options: serializationPolicyOptions = {}): PipelinePolicy {
+export function serializationPolicy(options: SerializationPolicyOptions = {}): PipelinePolicy {
   const stringifyXML = options.stringifyXML;
 
   return {
@@ -62,11 +62,14 @@ export function serializationPolicy(options: serializationPolicyOptions = {}): P
   };
 }
 
-function serializeHeaders(
+/**
+ * @internal
+ */
+export function serializeHeaders(
   request: OperationRequest,
   operationArguments: OperationArguments,
   operationSpec: OperationSpec
-) {
+): void {
   if (operationSpec.headerParameters) {
     for (const headerParameter of operationSpec.headerParameters) {
       let headerValue = getOperationArgumentValueFromParameter(operationArguments, headerParameter);
@@ -91,10 +94,16 @@ function serializeHeaders(
       }
     }
   }
+  const customHeaders = operationArguments.options?.requestOptions?.customHeaders;
+  if (customHeaders) {
+    for (const customHeaderName of Object.keys(customHeaders)) {
+      request.headers.set(customHeaderName, customHeaders[customHeaderName]);
+    }
+  }
 }
 
 /**
- * @internal @hidden
+ * @internal
  */
 export function serializeRequestBody(
   request: OperationRequest,
@@ -127,12 +136,17 @@ export function serializeRequestBody(
       xmlName,
       xmlElementName,
       xmlNamespace,
-      xmlNamespacePrefix
+      xmlNamespacePrefix,
+      nullable
     } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
-      if (request.body || required) {
+      if (
+        (request.body !== undefined && request.body !== null) ||
+        (nullable && request.body === null) ||
+        required
+      ) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
           operationSpec.requestBody
         );

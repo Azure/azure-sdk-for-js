@@ -38,7 +38,8 @@ export function nodeConfig(test = false) {
     baseConfig.input = [
       "dist-esm/test/public/*.spec.js",
       "dist-esm/test/public/node/*.spec.js",
-      "dist-esm/test/internal/*.spec.js"
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/internal/node/*.spec.js"
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
@@ -82,6 +83,7 @@ export function browserConfig(test = false) {
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
+      json(),
       cjs({
         namedExports: {
           events: ["EventEmitter"],
@@ -96,10 +98,11 @@ export function browserConfig(test = false) {
     baseConfig.input = [
       "dist-esm/test/public/*.spec.js",
       "dist-esm/test/public/browser/*.spec.js",
-      "dist-esm/test/internal/*.spec.js"
+      "dist-esm/test/internal/*.spec.js",
+      "dist-esm/test/internal/browser/*.spec.js"
     ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
-    baseConfig.output.file = "test-browser/index.js";
+    baseConfig.output.file = "dist-test/index.browser.js";
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also

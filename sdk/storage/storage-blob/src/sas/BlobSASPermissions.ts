@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -9,19 +9,13 @@
  * the values are set, this should be serialized with toString and set as the permissions field on a
  * {@link BlobSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
- *
- * @export
- * @class BlobSASPermissions
  */
 export class BlobSASPermissions {
   /**
    * Creates a {@link BlobSASPermissions} from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
-   * @static
-   * @param {string} permissions
-   * @returns {BlobSASPermissions}
-   * @memberof BlobSASPermissions
+   * @param permissions -
    */
   public static parse(permissions: string): BlobSASPermissions {
     const blobSASPermissions = new BlobSASPermissions();
@@ -67,10 +61,7 @@ export class BlobSASPermissions {
    * Creates a {@link BlobSASPermissions} from a raw object which contains same keys as it
    * and boolean values for them.
    *
-   * @static
-   * @param {BlobSASPermissionsLike} permissionLike
-   * @returns {BlobSASPermissions}
-   * @memberof BlobSASPermissions
+   * @param permissionLike -
    */
   public static from(permissionLike: BlobSASPermissionsLike): BlobSASPermissions {
     const blobSASPermissions = new BlobSASPermissions();
@@ -106,73 +97,46 @@ export class BlobSASPermissions {
 
   /**
    * Specifies Read access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissions
    */
   public read: boolean = false;
 
   /**
    * Specifies Add access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissions
    */
   public add: boolean = false;
 
   /**
    * Specifies Create access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissions
    */
   public create: boolean = false;
 
   /**
    * Specifies Write access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissions
    */
   public write: boolean = false;
 
   /**
    * Specifies Delete access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissions
    */
   public delete: boolean = false;
 
   /**
    * Specifies Delete version access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissions
    */
   public deleteVersion: boolean = false;
 
   /**
    * Specfies Tag access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissions
    */
   public tag: boolean = false;
 
   /**
    * Specifies Move access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissions
    */
   public move: boolean = false;
 
   /**
    * Specifies Execute access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissions
    */
   public execute: boolean = false;
 
@@ -180,8 +144,7 @@ export class BlobSASPermissions {
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
-   * @returns {string} A string which represents the BlobSASPermissions
-   * @memberof BlobSASPermissions
+   * @returns A string which represents the BlobSASPermissions
    */
   public toString(): string {
     const permissions: string[] = [];
@@ -223,73 +186,46 @@ export class BlobSASPermissions {
 export interface BlobSASPermissionsLike {
   /**
    * Specifies Read access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissionsLike
    */
   read?: boolean;
 
   /**
    * Specifies Add access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissionsLike
    */
   add?: boolean;
 
   /**
    * Specifies Create access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissionsLike
    */
   create?: boolean;
 
   /**
    * Specifies Write access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissionsLike
    */
   write?: boolean;
 
   /**
    * Specifies Delete access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissionsLike
    */
   delete?: boolean;
 
   /**
    * Specifies Delete version access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissionsLike
    */
   deleteVersion?: boolean;
 
   /**
    * Specfies Tag access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissionsLike
    */
   tag?: boolean;
 
   /**
    * Specifies Move access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissionsLike
    */
   move?: boolean;
 
   /**
    * Specifies Execute access granted.
-   *
-   * @type {boolean}
-   * @memberof BlobSASPermissionsLike
    */
   execute?: boolean;
 }

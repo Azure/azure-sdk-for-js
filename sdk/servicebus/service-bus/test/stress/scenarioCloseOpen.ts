@@ -30,7 +30,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioCloseOptions> {
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBeforeCallingCloseInMs: options.delayBeforeCallingCloseInMs || 100,
-    shouldCreateNewClientEachTime: options.shouldCreateNewClientEachTime
+    shouldCreateNewClientEachTime: !!options.shouldCreateNewClientEachTime
   };
 }
 
@@ -49,6 +49,7 @@ export async function scenarioClose() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "closeOpen",
     snapshotFocus: ["send-info", "receive-info", "close-info"]
   });
   let sbClient = new ServiceBusClient(connectionString);

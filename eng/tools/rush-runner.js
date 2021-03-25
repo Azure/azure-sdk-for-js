@@ -88,11 +88,13 @@ const getPackageGraph = (baseDir) => {
 
 const getLeafPackages = (packageGraph, packageNames) => {
   // Return a set of packages that are dependent on other packages but not a dependency for any package
-  // Adding these leaf packages with --to <package-name> ensures to build all required packages
   let leafPackages = new Set();
   for (let pkgName of packageNames) {
     // if current package is added as dependent by other packages then find leaf packages recursively
     if (packageGraph.has(pkgName)) {
+      // Rush doesn't build transitive dependency if package version is beta
+      // Passing this package explicitly as a work around we can upgrade rush to latest version 5.38 or higher
+      leafPackages.add(pkgName);
       for (const dependentPackage of getLeafPackages(packageGraph, packageGraph.get(pkgName))) {
         leafPackages.add(dependentPackage);
       }
@@ -116,11 +118,23 @@ const getPackagesToBuild = (packageNames, packageGraph) => {
 };
 
 const getPackageJsons = (searchDir) => {
-  return fs
+  // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level excluding "arm-" packages
+  const sdkDirectories = fs
     .readdirSync(searchDir)
     .filter((f) => !f.startsWith("arm-")) // exclude libraries starting with "arm-"
-    .map((f) => path.join(searchDir, f, "package.json")) // turn potential directory names into package.json paths
-    .filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
+    .map((f) => path.join(searchDir, f, "package.json")); // turn potential directory names into package.json paths
+
+  // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>/perf-tests` level excluding "-track-1" perf test packages
+  let perfTestDirectories = [];
+  const searchPerfTestDir = path.join(searchDir, "perf-tests");
+  if (fs.existsSync(searchPerfTestDir)) {
+    perfTestDirectories = fs
+      .readdirSync(searchPerfTestDir)
+      .filter((f) => !f.endsWith("-track-1")) // exclude libraries ending with "-track-1" (perf test projects)
+      .map((f) => path.join(searchPerfTestDir, f, "package.json")); // turn potential directory names into package.json paths
+  }
+
+  return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
 };
 
 const getServicePackages = (baseDir, serviceDirs) => {
@@ -151,6 +165,7 @@ const spawnNode = (cwd, ...args) => {
     // should ever happen, but if it does it's safer to fail.
     process.exitCode = proc.status || 1;
   }
+  return proc.status
 };
 
 const flatMap = (arr, f) => {
@@ -174,6 +189,19 @@ function rushRunAll(direction, packages) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
 }
 
+/**
+ * Helper function to get the relative path of a package directory from an absolute
+ * one
+ * 
+ * @param {string} absolutePath absolute path to a package 
+ * @returns either the relative path of the package starting from the "sdk" directory
+ *          or the just the absolute path itself if "sdk" if not found
+ */
+function tryGetPkgRelativePath(absolutePath) {
+  const sdkDirectoryPathStartIndex = absolutePath.lastIndexOf("sdk");
+  return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
+}
+
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
@@ -188,6 +216,13 @@ if (serviceDirs.length === 0) {
     case "lint":
       for (const packageDir of packageDirs) {
         spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
+      }
+      break;
+    case "check-format":
+      for (const packageDir of packageDirs) {
+        if (spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action) !== 0) {
+          console.log(`\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`);
+        }
       }
       break;
 

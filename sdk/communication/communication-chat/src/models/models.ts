@@ -1,66 +1,96 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { HttpResponse } from "@azure/core-http";
-import {
-  SendChatMessageResult,
-  ChatMessage as RestChatMessage,
-  ChatThread as RestChatThread,
-  ChatThreadMember as RestChatThreadMember,
-  ReadReceipt as RestReadReceipt
-} from "../generated/src/models";
+import { CommunicationIdentifier, CommunicationIdentifierKind } from "@azure/communication-common";
+import { ChatMessageType, ChatError } from "../generated/src";
 
 export {
-  RestChatMessage,
-  RestChatThread,
-  RestChatThreadMember,
-  RestReadReceipt,
+  AddChatParticipantsResult,
+  ChatMessageType,
+  ChatThreadItem,
+  ChatError,
   SendChatMessageResult
-};
+} from "../generated/src/models";
 
-/**
- * An interface representing a chat message.
- */
-export interface ChatMessage extends Omit<RestChatMessage, "senderId"> {
-  /**
-   * The CommunicationUser that identifies this chat message sender.
-   */
-  sender?: CommunicationUserIdentifier;
+/** Chat thread. */
+export interface ChatThreadProperties {
+  /** Chat thread id. */
+  id: string;
+  /** Chat thread topic. */
+  topic: string;
+  /** The timestamp when the chat thread was created. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  createdOn: Date;
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
+  readonly createdBy?: CommunicationIdentifierKind;
+  /** The timestamp when the chat thread was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  deletedOn?: Date;
 }
 
-/**
- * An interface representing a chat thread.
- */
-export interface ChatThread extends Omit<RestChatThread, "createdBy" | "members"> {
-  /**
-   * The CommunicationUser that identifies this chat thread owner.
-   */
-  readonly createdBy?: CommunicationUserIdentifier;
-  /**
-   * Chat thread members.
-   */
-  members?: ChatThreadMember[];
+/** Chat message. */
+export interface ChatMessage {
+  /** The id of the chat message. This id is server generated. */
+  id: string;
+  /** The chat message type. */
+  type: ChatMessageType;
+  /** Sequence of the chat message in the conversation. */
+  sequenceId: string;
+  /** Version of the chat message. */
+  version: string;
+  /** Content of a chat message. */
+  content?: ChatMessageContent;
+  /** The display name of the chat message sender. This property is used to populate sender name for push notifications. */
+  senderDisplayName?: string;
+  /** The timestamp when the chat message arrived at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  createdOn: Date;
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
+  sender?: CommunicationIdentifierKind;
+  /** The timestamp (if applicable) when the message was deleted. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  deletedOn?: Date;
+  /** The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  editedOn?: Date;
 }
 
-/**
- * A member of the chat thread.
- */
-export interface ChatThreadMember extends Omit<RestChatThreadMember, "id"> {
-  /**
-   * The CommunicationUser that identifies this chat thread member.
-   */
-  user: CommunicationUserIdentifier;
+/** Content of a chat message. */
+export interface ChatMessageContent {
+  /** Chat message content for messages of types text or html. */
+  message?: string;
+  /** Chat message content for messages of type topicUpdated. */
+  topic?: string;
+  /** Chat message content for messages of types participantAdded or participantRemoved. */
+  participants?: ChatParticipant[];
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
+  initiator?: CommunicationIdentifierKind;
 }
 
-/**
- * A read receipt indicates the time a chat message was read by a recipient.
- */
-export interface ReadReceipt extends Omit<RestReadReceipt, "senderId"> {
+/** A chat message read receipt indicates the time a chat message was read by a recipient. */
+export interface ChatMessageReadReceipt {
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
+  sender: CommunicationIdentifierKind;
+  /** Id of the chat message that has been read. This id is generated by the server. */
+  chatMessageId: string;
+  /** The time at which the message was read. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  readOn: Date;
+}
+
+/** A participant of the chat thread. */
+export interface ChatParticipant {
+  /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
+  id: CommunicationIdentifier;
+  /** Display name for the chat participant. */
+  displayName?: string;
+  /** Time from which the chat history is shared with the participant. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
+  shareHistoryTime?: Date;
+}
+
+/** Result of the create chat thread operation. */
+export interface CreateChatThreadResult {
+  /** Chat thread. */
+  chatThread?: ChatThreadProperties;
   /**
-   * The CommunicationUser that identifies this Read receipt sender.
+   * The participants that failed to be added to the chat thread.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly sender?: CommunicationUserIdentifier;
+  readonly invalidParticipants?: ChatError[];
 }
 
 /**
@@ -73,33 +103,3 @@ export interface ListPageSettings {
    */
   continuationToken?: string;
 }
-
-/**
- * Represents the repsonse for operations
- */
-export interface OperationResponse {
-  /**
-   * The underlying HTTP response containing both raw and deserialized response data.
-   */
-  _response: HttpResponse;
-}
-
-/**
- * Represents an object with a non-enumerable _response property which provides
- */
-export type WithResponse<T> = T & { _response: HttpResponse };
-
-/**
- * Represents the response from getting a chat message
- */
-export type GetChatMessageResponse = WithResponse<ChatMessage>;
-
-/**
- * Represents the response from getting a chat thread
- */
-export type GetChatThreadResponse = WithResponse<ChatThread>;
-
-/**
- * Represents the response from sending a chat message
- */
-export type SendChatMessageResponse = WithResponse<SendChatMessageResult>;
