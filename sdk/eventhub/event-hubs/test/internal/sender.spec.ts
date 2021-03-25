@@ -27,7 +27,7 @@ import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
-import { StandardAbortMessage } from "../../src/util/timeoutAbortSignalUtils";
+import { StandardAbortMessage } from "@azure/core-amqp";
 const env = getEnvVars();
 
 describe("EventHub Sender", function(): void {

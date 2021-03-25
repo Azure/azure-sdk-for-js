@@ -7,6 +7,11 @@ import { isNode, isNumber, isString } from "../src/util/utils";
 import { isObjectWithProperties } from "./util/typeGuards";
 
 /**
+ * The standard error message accompanying an AbortError.
+ */
+export const StandardAbortMessage = "The operation was aborted.";
+
+/**
  * Maps the conditions to the numeric AMQP Response status codes.
  * @internal
  */

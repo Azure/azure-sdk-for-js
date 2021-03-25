@@ -3,8 +3,7 @@
 
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { OperationTimeoutError } from "rhea-promise";
-
-export const StandardAbortMessage = "The operation was aborted.";
+import { StandardAbortMessage } from "@azure/core-amqp";
 
 type setTimeoutArgs = (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
 
