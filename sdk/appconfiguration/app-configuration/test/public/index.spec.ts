@@ -1139,37 +1139,4 @@ describe("AppConfigurationClient", () => {
       });
     });
   });
-
-  describe("syncToken", async () => {
-    it("update sync token with eventgrid example", async () => {
-      // Supposed to be a live test
-      // TODO:
-      // - Import eventgrid
-      // - get sync token from eventgrid event
-      // - call updateSyncToken
-      // - call getConfigurationSetting
-      // - assertion/check the retrieved setting
-
-      // get sync token from EventGrid event (example event shown, based on .net sample)
-      const eventGridEvent = {
-        key: "key for setting",
-        label: "label for setting",
-        syncToken: "opaque sync token"
-      };
-
-      // user treats token as an opaque value (note - this _does_ mutate the appconfigclient)
-      // however, this mutations happens regardless since the system can and does return
-      // sync token headers during normal operation.
-      client.updateSyncToken(eventGridEvent.syncToken);
-
-      // and now retrieving the value should be consistent with what happened
-      // in EventGrid.
-      const retrievedSetting = await client.getConfigurationSetting({
-        key: eventGridEvent.key,
-        label: eventGridEvent.label
-      });
-
-      console.log(retrievedSetting);
-    });
-  });
 });
