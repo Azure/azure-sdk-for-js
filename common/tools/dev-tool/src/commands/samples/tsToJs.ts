@@ -30,8 +30,8 @@ const compilerOptions: ts.CompilerOptions = {
   module: ts.ModuleKind.ES2015
 };
 
-const NEWLINE_SIGIL = "\n//@@TS-MAGIC-NEWLINE@@\n";
-const NEWLINE_SIGIL_SEARCH = /\n\s*\/\/@@TS-MAGIC-NEWLINE@@\n/;
+const NEWLINE_SIGIL = `${EOL}//@@TS-MAGIC-NEWLINE@@${EOL}`;
+const NEWLINE_SIGIL_SEARCH = /\r?\n\s*\/\/@@TS-MAGIC-NEWLINE@@\r?\n/;
 
 /**
  * A set of replacements to perform. Structured as an array of doubles:
