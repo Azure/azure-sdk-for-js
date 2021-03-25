@@ -2,7 +2,7 @@
 
 ## 1.0.0 (2021-03-29)
 
-- Updated `@azure/communication-identity` version.
+- Stable release of `@azure/communication-identity`.
 
 ## 1.0.0-beta.5 (2021-03-09)
 
