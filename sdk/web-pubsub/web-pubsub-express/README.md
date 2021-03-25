@@ -44,32 +44,18 @@ npm install @azure/web-pubsub-express
 ```js
 import express from "express";
 
-const { WebPubSubCloudEventsHandler } = require("@azure/web-pubsub-express");
-const handler = new WebPubSubCloudEventsHandler("chat", ["https://xxx.webpubsub.azure.com"], {
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.com"], {
   //path: "/customUrl", // optional
-  onConnect: async (connectRequest) => {
-    return {
-      userId: "vicancy"
-    };
+  handleConnect: async (req, res) => {
+    // auth the connection and set the userId of the connection
+    res.success({
+      userId: "vic"
+    });
   },
-  onUserEvent: async (userRequest) => {
+  handleUserEvent: async (req, res) => {
+    res.success("Hey " + req.data, req.dataType);
     console.log(`Received user request data: ${userRequest.payload.data}`);
-    if (userRequest.payload.data === "abort") {
-      return {
-        error: {
-          detail: "aborted"
-        }
-      };
-    }
-    if (userRequest.payload.data === "error") {
-      throw new Error("error from inside the event");
-    }
-    return {
-      payload: {
-        data: "Hey " + userRequest.payload.data,
-        dataType: userRequest.payload.dataType
-      }
-    };
   },
   onDisconnected: async (disconnectRequest) => {
     console.log(disconnectRequest.context.userId + " disconnected");

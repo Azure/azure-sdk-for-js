@@ -41,11 +41,17 @@ export interface ConnectRequest {
 
 // @public
 export interface ConnectResponse {
-    error?: ErrorResponse;
+    // (undocumented)
     groups?: string[];
     roles?: string[];
     subprotocol?: string;
     userId?: string;
+}
+
+// @public (undocumented)
+export interface ConnectResponseHandler {
+    fail(code: 400 | 401 | 500, detail?: string): void;
+    success(response?: ConnectResponse): void;
 }
 
 // @public
@@ -55,41 +61,16 @@ export interface DisconnectedRequest {
 }
 
 // @public
-export enum ErrorCode {
-    serverError = 500,
-    unauthorized = 401,
-    userError = 400
-}
-
-// @public
-export interface ErrorResponse {
-    code: ErrorCode;
-    detail?: string;
-}
-
-// @public
-export interface PayloadData {
-    data: string | ArrayBuffer;
-    dataType: PayloadDataType;
-}
-
-// @public
-export enum PayloadDataType {
-    binary = 0,
-    json = 2,
-    text = 1
-}
-
-// @public
 export interface UserEventRequest {
     context: ConnectionContext;
-    payload: PayloadData;
+    data: string | ArrayBuffer;
+    dataType: 'binary' | 'text' | 'json';
 }
 
-// @public
-export interface UserEventResponse {
-    error?: ErrorResponse;
-    payload?: PayloadData;
+// @public (undocumented)
+export interface UserEventResponseHandler {
+    fail(code: 400 | 401 | 500, detail?: string): void;
+    success(data?: string | ArrayBuffer, dataType?: 'binary' | 'text' | 'json'): void;
 }
 
 // @public
@@ -100,20 +81,12 @@ export class WebPubSubCloudEventsHandler {
 }
 
 // @public
-export interface WebPubSubEventHandler {
-    // (undocumented)
-    onConnect?: (r: ConnectRequest) => Promise<ConnectResponse>;
-    // (undocumented)
-    onConnected?: (r: ConnectedRequest) => Promise<void>;
-    // (undocumented)
-    onDisconnected?: (r: DisconnectedRequest) => Promise<void>;
-    // (undocumented)
-    onUserEvent?: (r: UserEventRequest) => Promise<UserEventResponse>;
-}
-
-// @public
-export interface WebPubSubEventHandlerOptions extends WebPubSubEventHandler {
+export interface WebPubSubEventHandlerOptions {
     dumpRequest?: boolean;
+    handleConnect?: (connectRequest: ConnectRequest, connectResponse: ConnectResponseHandler) => Promise<void>;
+    handleUserEvent?: (userEventRequest: UserEventRequest, userEventResponse: UserEventResponseHandler) => Promise<void>;
+    onConnected?: (connectedRequest: ConnectedRequest) => Promise<void>;
+    onDisconnected?: (disconnectedRequest: DisconnectedRequest) => Promise<void>;
     path?: string;
 }
 
