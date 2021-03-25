@@ -112,7 +112,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "mocha-junit-reporter": "^1.18.0",
-    "mocha": "^7.1.1",
+    "mocha": "^8.2.2",
     "nyc": "^14.0.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",

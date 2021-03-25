@@ -59,7 +59,7 @@
   "sideEffects": false,
   "private": true,
   "dependencies": {
-    "mocha": "^7.1.1",
+    "mocha": "^8.2.2",
     "@azure/test-utils-recorder": "^1.0.0",
     "tslib": "^2.0.0"
   },

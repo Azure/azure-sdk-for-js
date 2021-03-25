@@ -84,7 +84,7 @@
     "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
     "inherits": "^2.0.3",
-    "mocha": "^7.1.1",
+    "mocha": "^8.2.2",
     "mocha-junit-reporter": "^1.18.0",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
