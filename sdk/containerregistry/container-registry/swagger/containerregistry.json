@@ -1739,7 +1739,8 @@
         ]
       },
       "default": "none",
-      "description": "Sort options for ordering registry artifacts in a collection."
+      "description": "Sort options for ordering registry artifacts in a collection.",
+      "x-accessibility": "public"
     },
     "AccessToken": {
       "type": "object",
