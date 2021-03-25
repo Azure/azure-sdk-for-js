@@ -39,6 +39,7 @@ export default {
     ],
     "no-console": "off",
     "no-dupe-class-members": "off",
+    "no-invalid-this": "off",
     "no-empty": "error",
     "no-fallthrough": "error",
     "@typescript-eslint/no-invalid-this": "error",
