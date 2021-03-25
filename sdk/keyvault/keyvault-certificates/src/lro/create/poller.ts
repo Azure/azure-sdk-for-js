@@ -11,7 +11,7 @@ import {
   KeyVaultCertificatePoller,
   KeyVaultCertificatePollerOptions
 } from "../keyVaultCertificatePoller";
-import { createTraceFunction } from "../../../../keyvault-common/src/tracingHelpers";
+import { createTraceFunction } from "../../../../keyvault-common/src";
 
 export interface CreateCertificatePollerOptions extends KeyVaultCertificatePollerOptions {
   certificatePolicy?: CertificatePolicy;
