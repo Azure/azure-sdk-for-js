@@ -28,7 +28,7 @@ This update marks the preview for the first major version update of the `@azure/
 - Changes to `InteractiveBrowserCredential`, `DeviceCodeCredential`, and `UsernamePasswordCredential`:
   - You can now control when the credential requests user input with the new `disableAutomaticAuthentication` option added to the options you pass to the credential constructors.
     - When enabled, this option stops the `getToken()` method from requesting user input in case the credential is unable to authenticate silently.
-    - If `getToken()` fails to silently authenticate and `disableAutomaticAuthentication` has been set to true, a new error will be thrown: `AuthenticationRequired`.
+    - If `getToken()` fails to authenticate without user interaction, and `disableAutomaticAuthentication` has been set to true, a new error will be thrown: `AuthenticationRequired`. This error allows you to identify that a manual authentication needs to be triggered (with `authenticate()`, as described in the next point).
   - A new method `authenticate()` is added to these credentials which is similar to `getToken()`, but it does not read the `disableAutomaticAuthentication` option described above.
     - Use this to get an `AuthenticationRecord` which you can then use to create new credentials that will re-use the token information.
     - The `AuthenticationRecord` object has a `serialize()` method that allows an authenticated account to be stored as a string and re-used in another credential at any time. Use the new helper function `deserializeAuthenticationRecord` to de-serialize this string.
