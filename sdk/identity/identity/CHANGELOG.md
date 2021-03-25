@@ -1,5 +1,8 @@
 # Release History
 
+## 2.0.0-beta.2 (Unreleased)
+
+
 ## 2.0.0-beta.1 (2021-03-24)
 
 This update marks the preview for the first major version update of the `@azure/identity` package since the first stable version was released in October, 2019. This is mainly driven by the improvements we are making for the `InteractiveBrowserCredential` when used in browser applications by updating it to use the new `@azure/msal-browser` which is replacing the older `msal` package.
