@@ -1479,6 +1479,28 @@
         "lastUpdateTime": "2018-08-10T17:28:44.1082945Z"
       }
     },
+    "TagOrderBy": {
+      "type": "string",
+      "enum": [
+        "time_desc",
+        "time_asc"
+      ],
+      "x-ms-enum": {
+        "name": "TagOrderBy",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "time_desc",
+            "name": "LastUpdatedOnDescending",
+            "description": "Order tags by LastUpdatedOn field, from most recently updated to least recently updated."
+          },
+          {
+            "value": "time_asc",
+            "name": "LastUpdatedOnAscending",
+            "description": "Order tags by LastUpdatedOn field, from least recently updated to most recently updated."
+          }
+        ]
+      },
     "AcrManifests": {
       "description": "Manifest attributes",
       "properties": {
