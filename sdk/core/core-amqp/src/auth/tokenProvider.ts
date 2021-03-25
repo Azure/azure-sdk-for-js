@@ -116,7 +116,7 @@ export class SharedAccessSignatureTokenProvider implements TokenProvider {
   }
 
   /**
-   * The NamedKeyCredential containing the key name and secret key value.
+   * The SASCredential containing the key name and secret key value.
    */
   private _credential: SASCredential;
 
