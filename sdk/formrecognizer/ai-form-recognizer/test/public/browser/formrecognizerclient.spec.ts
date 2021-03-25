@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
 import { FormRecognizerClient, AzureKeyCredential } from "../../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
@@ -16,11 +17,9 @@ describe("FormRecognizerClient browser only", () => {
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
-  beforeEach(
-    /** @this Mocha.Context */ function() {
-      ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
-    }
-  );
+  beforeEach(function(this: Context) {
+    ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
+  });
 
   afterEach(async function() {
     if (recorder) {

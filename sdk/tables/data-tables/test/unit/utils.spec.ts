@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { extractConnectionStringParts } from "../../src/utils/connectionString";
+import { Context } from "mocha";
 import { base64Encode, base64Decode } from "../../src/utils/bufferSerializer";
 import { isNode } from "../testUtils";
 import { assert } from "chai";
@@ -10,14 +11,12 @@ import { ConnectionString } from "../../src/utils/internalModels";
 describe("Utility Helpers", () => {
   describe("extractConnectionStringParts", () => {
     describe("Account Connection String", () => {
-      beforeEach(
-        /** @this Mocha.Context */ function() {
-          if (!isNode) {
-            // Account connection string is not supported for Browsers
-            this.skip();
-          }
+      beforeEach(function(this: Context) {
+        if (!isNode) {
+          // Account connection string is not supported for Browsers
+          this.skip();
         }
-      );
+      });
       it("should handle connection string without TableEndpoint", () => {
         const validConnectionString =
           "DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=REDACTED;EndpointSuffix=core.windows.net";

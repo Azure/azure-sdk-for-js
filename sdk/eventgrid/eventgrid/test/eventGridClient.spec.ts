@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Suite, Context } from "mocha";
 
 import { Recorder } from "@azure/test-utils-recorder";
 
@@ -18,7 +19,7 @@ import {
 import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 
-describe("EventGridPublisherClient", /** @this Mocha.Context */ function() {
+describe("EventGridPublisherClient", function(this: Suite) {
   let recorder: Recorder;
   let res: FullOperationResponse | undefined;
 
@@ -31,16 +32,14 @@ describe("EventGridPublisherClient", /** @this Mocha.Context */ function() {
   describe("#send (EventGrid schema)", function() {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(
-      /** @this Mocha.Context */ function() {
-        ({ client, recorder } = createRecordedClient(
-          this,
-          testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT,
-          "EventGrid",
-          new AzureKeyCredential(testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY)
-        ));
-      }
-    );
+    beforeEach(function(this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT,
+        "EventGrid",
+        new AzureKeyCredential(testEnv.EVENT_GRID_EVENT_GRID_SCHEMA_API_KEY)
+      ));
+    });
 
     afterEach(async function() {
       await recorder.stop();
@@ -100,16 +99,14 @@ describe("EventGridPublisherClient", /** @this Mocha.Context */ function() {
   describe("#send error cases (EventGrid schema)", function() {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(
-      /** @this Mocha.Context */ function() {
-        ({ client, recorder } = createRecordedClient(
-          this,
-          removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
-          "EventGrid",
-          new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
-        ));
-      }
-    );
+    beforeEach(function(this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
+        "EventGrid",
+        new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
+      ));
+    });
 
     afterEach(async function() {
       await recorder.stop();
@@ -145,16 +142,14 @@ describe("EventGridPublisherClient", /** @this Mocha.Context */ function() {
   describe("#send (CloudEvent schema)", function() {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(
-      /** @this Mocha.Context */ function() {
-        ({ client, recorder } = createRecordedClient(
-          this,
-          testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT,
-          "CloudEvent",
-          new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)
-        ));
-      }
-    );
+    beforeEach(function(this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT,
+        "CloudEvent",
+        new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)
+      ));
+    });
 
     afterEach(async function() {
       await recorder.stop();
@@ -256,16 +251,14 @@ describe("EventGridPublisherClient", /** @this Mocha.Context */ function() {
   describe("#send error cases (CloudEvent schema)", function() {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(
-      /** @this Mocha.Context */ function() {
-        ({ client, recorder } = createRecordedClient(
-          this,
-          removeApiEventsSuffix(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT),
-          "CloudEvent",
-          new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)
-        ));
-      }
-    );
+    beforeEach(function(this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        removeApiEventsSuffix(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT),
+        "CloudEvent",
+        new AzureKeyCredential(testEnv.EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY)
+      ));
+    });
 
     afterEach(async function() {
       await recorder.stop();
@@ -299,16 +292,14 @@ describe("EventGridPublisherClient", /** @this Mocha.Context */ function() {
   describe("#send (Custom Event Schema)", function() {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(
-      /** @this Mocha.Context */ function() {
-        ({ client, recorder } = createRecordedClient(
-          this,
-          testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT,
-          "Custom",
-          new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
-        ));
-      }
-    );
+    beforeEach(function(this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT,
+        "Custom",
+        new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
+      ));
+    });
 
     afterEach(async function() {
       await recorder.stop();
@@ -362,16 +353,14 @@ describe("EventGridPublisherClient", /** @this Mocha.Context */ function() {
   describe("#send error cases (Custom Event Schema)", function() {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(
-      /** @this Mocha.Context */ function() {
-        ({ client, recorder } = createRecordedClient(
-          this,
-          removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
-          "Custom",
-          new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
-        ));
-      }
-    );
+    beforeEach(function(this: Context) {
+      ({ client, recorder } = createRecordedClient(
+        this,
+        removeApiEventsSuffix(testEnv.EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT),
+        "Custom",
+        new AzureKeyCredential(testEnv.EVENT_GRID_CUSTOM_SCHEMA_API_KEY)
+      ));
+    });
 
     afterEach(async function() {
       await recorder.stop();
