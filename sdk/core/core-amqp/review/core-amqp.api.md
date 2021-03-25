@@ -5,18 +5,22 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
 import { MessageProperties } from 'rhea-promise';
+import { NamedKeyCredential } from '@azure/core-auth';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
+import { SASCredential } from '@azure/core-auth';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
+import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
@@ -339,6 +343,14 @@ export interface CreateConnectionContextBaseParameters {
 }
 
 // @public
+export function createTokenProvider(data: {
+    sharedAccessKeyName: string;
+    sharedAccessKey: string;
+} | {
+    sharedAccessSignature: string;
+}): TokenProvider;
+
+// @public
 export const defaultLock: AsyncLock;
 
 // @public
@@ -394,10 +406,22 @@ export enum ErrorNameConditionMapper {
 }
 
 // @public
+export function isCredential(thing: unknown): thing is TokenCredential | NamedKeyCredential | SASCredential;
+
+// @public
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
 // @public
+export function isNamedKeyCredential(thing: unknown): thing is NamedKeyCredential;
+
+// @public
+export function isSASCredential(thing: unknown): thing is SASCredential;
+
+// @public
 export function isSystemError(err: unknown): err is NetworkSystemError;
+
+// @public
+export function isTokenProvider(thing: unknown): thing is TokenProvider;
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
@@ -413,6 +437,13 @@ export class MessagingError extends Error {
     port?: number;
     retryable: boolean;
     syscall?: string;
+}
+
+// @public
+export class NamedKeyTokenProvider implements TokenProvider {
+    constructor(credential: NamedKeyCredential);
+    getToken(audience: string): AccessToken;
+    get isTokenProvider(): true;
 }
 
 // @public
@@ -525,6 +556,13 @@ export interface SendRequestOptions {
 }
 
 // @public
+export class SharedAccessSignatureTokenProvider implements TokenProvider {
+    constructor(credential: SASCredential);
+    getToken(_audience: string): AccessToken;
+    get isTokenProvider(): true;
+}
+
+// @public
 export const StandardAbortMessage = "The operation was aborted.";
 
 // @public
@@ -549,6 +587,12 @@ export enum SystemErrorConditionMapper {
     ENOTFOUND = "amqp:not-found",
     // (undocumented)
     ETIMEDOUT = "com.microsoft:timeout"
+}
+
+// @public
+export interface TokenProvider {
+    getToken(audience: string): AccessToken;
+    isTokenProvider: true;
 }
 
 // @public
