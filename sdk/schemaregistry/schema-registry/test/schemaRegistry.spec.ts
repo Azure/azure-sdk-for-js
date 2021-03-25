@@ -62,10 +62,11 @@ describe("SchemaRegistryClient", function() {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    ({ client, recorder } = createRecordedClient(this));
-  });
+  beforeEach(
+    /** @this Mocha.Context */ function() {
+      ({ client, recorder } = createRecordedClient(this));
+    }
+  );
 
   afterEach(async function() {
     await recorder.stop();

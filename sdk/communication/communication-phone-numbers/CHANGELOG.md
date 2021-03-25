@@ -2,6 +2,12 @@
 
 ## 1.0.0-beta.5 (Unreleased)
 
+### Breaking Changes
+
+- Renamed `AcquiredPhoneNumber` to `PurchasedPhoneNumber`.
+- Renamed `getPhoneNumber` to `getPurchasedPhoneNumber` on `PhoneNumbersClient`.
+- Renamed `listPhoneNumbers` to `listPurchasedPhoneNumbers` on `PhoneNumbersClient`.
+- Replaced `VoidResult` with method specific interfaces `PurchasePhoneNumbersResult` and `ReleasePhoneNumberResult`.
 
 ## 1.0.0-beta.4 (2021-03-09)
 

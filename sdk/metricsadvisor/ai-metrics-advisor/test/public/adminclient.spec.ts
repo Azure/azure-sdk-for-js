@@ -19,10 +19,11 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
-        ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
-      });
+      beforeEach(
+        /** @this Mocha.Context */ function() {
+          ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
+        }
+      );
 
       afterEach(async function() {
         if (recorder) {
@@ -78,7 +79,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.latestActiveTimestamp, "Expecting valid latest active timestamp");
         });
 
-        it("refreshes ingesetion status", async function() {
+        it("refreshes ingesetion status", /** @this Mocha.Context */ async function() {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
             new Date(Date.UTC(2020, 7, 22)),
@@ -101,7 +102,6 @@ matrix([[true, false]] as const, async (useAad) => {
             const result2 = await iterator2.next();
             assert.notEqual(result2.value.status, "Succeeded");
           } else {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
         });
@@ -368,9 +368,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an alert configuration", async function() {
+        it("deletes an alert configuration", /** @this Mocha.Context */ async function() {
           if (!createdAlertConfigId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
 
@@ -383,9 +382,8 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes a detection configuration", async function() {
+        it("deletes a detection configuration", /** @this Mocha.Context */ async function() {
           if (!createdDetectionConfigId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
 

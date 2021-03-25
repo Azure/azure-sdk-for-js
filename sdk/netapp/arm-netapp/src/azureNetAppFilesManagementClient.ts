@@ -23,6 +23,7 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
   volumes: operations.Volumes;
   snapshots: operations.Snapshots;
   snapshotPolicies: operations.SnapshotPolicies;
+  volumeBackupStatus: operations.VolumeBackupStatus;
   accountBackups: operations.AccountBackups;
   backups: operations.Backups;
   backupPolicies: operations.BackupPolicies;
@@ -44,6 +45,7 @@ class AzureNetAppFilesManagementClient extends AzureNetAppFilesManagementClientC
     this.volumes = new operations.Volumes(this);
     this.snapshots = new operations.Snapshots(this);
     this.snapshotPolicies = new operations.SnapshotPolicies(this);
+    this.volumeBackupStatus = new operations.VolumeBackupStatus(this);
     this.accountBackups = new operations.AccountBackups(this);
     this.backups = new operations.Backups(this);
     this.backupPolicies = new operations.BackupPolicies(this);

@@ -43,6 +43,17 @@ describe("KeyVaultBackupClient", () => {
         blobSasToken,
         testPollerProperties
       );
+      await backupPoller.poll();
+
+      // A poller can be serialized and then resumed
+      const resumedPoller = await client.beginBackup(blobStorageUri, blobSasToken, {
+        resumeFrom: backupPoller.toString(),
+        ...testPollerProperties
+      });
+
+      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
+      assert.equal(resumedPoller.getOperationState().jobId, backupPoller.getOperationState().jobId);
+
       const backupResult = await backupPoller.pollUntilDone();
       assert.notExists(backupPoller.getOperationState().error);
       assert.exists(backupResult.backupFolderUri);
@@ -85,6 +96,19 @@ describe("KeyVaultBackupClient", () => {
         folderName,
         testPollerProperties
       );
+      await restorePoller.poll();
+
+      // A poller can be serialized and then resumed
+      const resumedPoller = await client.beginRestore(blobStorageUri, blobSasToken, folderName, {
+        ...testPollerProperties,
+        resumeFrom: restorePoller.toString()
+      });
+      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
+      assert.equal(
+        resumedPoller.getOperationState().jobId,
+        restorePoller.getOperationState().jobId
+      );
+
       const restoreResult = await restorePoller.pollUntilDone();
       const operationState = restorePoller.getOperationState();
       assert.equal(restoreResult.startTime, operationState.startTime);
@@ -94,7 +118,9 @@ describe("KeyVaultBackupClient", () => {
       // Restore is eventually consistent so while we work
       // through the retry operations adding a delay here allows
       // tests to pass the 5s polling delay.
-      await delay(5000);
+      if (!isPlaybackMode()) {
+        await delay(5000);
+      }
     });
 
     it("selectiveRestore completes successfully", async function() {
@@ -115,7 +141,7 @@ describe("KeyVaultBackupClient", () => {
       const folderName = getFolderName(backupURI.backupFolderUri!);
 
       // Delete the key (purging it is required), then restore and ensure it's restored
-      await (await keyClient.beginDeleteKey(keyName)).pollUntilDone();
+      await (await keyClient.beginDeleteKey(keyName, testPollerProperties)).pollUntilDone();
       await keyClient.purgeDeletedKey(keyName);
 
       const selectiveRestorePoller = await client.beginSelectiveRestore(
@@ -125,6 +151,25 @@ describe("KeyVaultBackupClient", () => {
         keyName,
         testPollerProperties
       );
+      await selectiveRestorePoller.poll();
+
+      // A poller can be serialized and then resumed
+      const resumedPoller = await client.beginSelectiveRestore(
+        blobStorageUri,
+        blobSasToken,
+        folderName,
+        keyName,
+        {
+          ...testPollerProperties,
+          resumeFrom: selectiveRestorePoller.toString()
+        }
+      );
+      assert.isTrue(resumedPoller.getOperationState().isStarted); // without polling
+      assert.equal(
+        resumedPoller.getOperationState().jobId,
+        selectiveRestorePoller.getOperationState().jobId
+      );
+
       await selectiveRestorePoller.pollUntilDone();
       const operationState = selectiveRestorePoller.getOperationState();
       assert.equal(operationState.isCompleted, true);

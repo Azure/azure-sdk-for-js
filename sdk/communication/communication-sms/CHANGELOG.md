@@ -30,5 +30,5 @@ Updated `@azure/communication-sms` version.
 
 The first preview of the Azure Communication Sms Client has the following features:
 
-- send a SMS message from an acquired phone number.
+- send an SMS message from an acquired phone number.
 - optionally enable delivery reports.

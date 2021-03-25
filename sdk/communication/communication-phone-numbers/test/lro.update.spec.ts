@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { PhoneNumberCapabilitiesRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { buildCapabilityUpdate } from "./utils";
-import { createRecordedClient, testPollerOptions } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient";
 
 describe("PhoneNumbersClient - lro - update", function() {
   const acquiredPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
@@ -37,8 +37,7 @@ describe("PhoneNumbersClient - lro - update", function() {
 
     const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
       acquiredPhoneNumber,
-      update,
-      testPollerOptions
+      update
     );
 
     const phoneNumber = await updatePoller.pollUntilDone();
@@ -56,8 +55,7 @@ describe("PhoneNumbersClient - lro - update", function() {
 
     const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
       acquiredPhoneNumber,
-      update,
-      testPollerOptions
+      update
     );
 
     await updatePoller.cancelOperation();

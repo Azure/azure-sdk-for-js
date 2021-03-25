@@ -649,7 +649,13 @@
     },
     {
       "packageName": "@azure/media-analytics-edge",
-      "projectFolder": "sdk/mediaservices/media-analytics-edge"
+      "projectFolder": "sdk/mediaservices/media-analytics-edge",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/perf-tests/ai-form-recognizer",
+      "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-eventgrid",

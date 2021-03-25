@@ -8,6 +8,7 @@ import {
 } from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
 import { AddParticipantsRequest } from "./requests";
+import { CreateChatThreadOptions } from "./options";
 import {
   ChatMessage,
   ChatThreadProperties,
@@ -16,6 +17,16 @@ import {
   ChatMessageContent,
   CreateChatThreadResult
 } from "./models";
+
+export const mapToCreateChatThreadOptionsRestModel = (
+  options: CreateChatThreadOptions
+): RestModel.ChatCreateChatThreadOptionalParams => {
+  const { participants, idempotencyToken, ...rest } = options;
+  return {
+    repeatabilityRequestId: idempotencyToken,
+    ...rest
+  };
+};
 
 /**
  * @internal
@@ -113,18 +124,18 @@ export const mapToChatParticipantSdkModel = (
  * @internal
  * Mapping chat thread REST model to chat thread SDK model
  */
-export const mapToChatThreadSdkModel = (
+export const mapToChatThreadPropertiesSdkModel = (
   chatThread: RestModel.ChatThreadProperties
 ): ChatThreadProperties => {
   const { createdByCommunicationIdentifier, ...rest } = chatThread;
-  if (createdByCommunicationIdentifier)
+  if (createdByCommunicationIdentifier) {
     return {
       ...rest,
       createdBy: deserializeCommunicationIdentifier(
         createdByCommunicationIdentifier as SerializedCommunicationIdentifier
       )
     };
-  else {
+  } else {
     return { ...rest };
   }
 };
@@ -137,12 +148,12 @@ export const mapToCreateChatThreadResultSdkModel = (
   result: RestModel.CreateChatThreadResult
 ): CreateChatThreadResult => {
   const { chatThread, ...rest } = result;
-  if (chatThread)
+  if (chatThread) {
     return {
       ...rest,
-      chatThread: mapToChatThreadSdkModel(chatThread)
+      chatThread: mapToChatThreadPropertiesSdkModel(chatThread)
     };
-  else {
+  } else {
     return { ...rest };
   }
 };

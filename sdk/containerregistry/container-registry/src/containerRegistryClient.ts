@@ -2,36 +2,29 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineOptions,
   TokenCredential,
   OperationOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  InternalPipelineOptions
+  InternalPipelineOptions,
+  isTokenCredential
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { GeneratedClient, RepositoryAttributes, ChangeableAttributes } from "./generated";
+import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
+import { ContainerRegistryClientOptions, DeletedRepositoryResult } from "./model";
+import {
+  ContainerRegistryUserCredential,
+  createContainerRegistryUserCredentialPolicy
+} from "./containerRegistryUserCredentialPolicy";
 
 /**
- * Re-export generated types that are used as public interfaces.
+ * Options for the `deleteRepository` method of `ContainerRegistryClient`.
  */
-export { RepositoryAttributes, ChangeableAttributes };
-
-/**
- * Options for the `GetAttributesOptions` method of `ContainerRegistryClient`.
- */
-export interface GetAttributesOptions extends OperationOptions {}
-
-/**
- * Client options used to configure Container Registry Repository API requests.
- */
-export interface ContainerRegistryClientOptions extends PipelineOptions {
-  // Any custom options configured at the client level go here.
-}
+export interface DeleteRepositoryOptions extends OperationOptions {}
 
 /**
  * The client class used to interact with the Container Registry service.
@@ -58,7 +51,7 @@ export class ContainerRegistryClient {
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential,
+    credential: TokenCredential | ContainerRegistryUserCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
     // The below code helps us set a proper User-Agent header on all requests
@@ -74,8 +67,9 @@ export class ContainerRegistryClient {
 
     // The AAD scope for an API is usually the baseUri + "/.default", but it
     // may be different for your service.
-    const authPolicy = bearerTokenAuthenticationPolicy(credential, `${endpointUrl}/.default`);
-
+    const authPolicy = isTokenCredential(credential)
+      ? bearerTokenAuthenticationPolicy(credential, `${endpointUrl}/.default`)
+      : createContainerRegistryUserCredentialPolicy(credential);
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       loggingOptions: {
@@ -91,27 +85,24 @@ export class ContainerRegistryClient {
   }
 
   /**
-   * Retrieve attributes of the repository identified by the given name.
+   * Deletes the repository identified by the given name.
    *
    * @param name - the name of repository to delete
    * @param options - optional configuration for the operation
    */
-  public async getAttributes(
+  public async deleteRepository(
     name: string,
-    options: GetAttributesOptions = {}
-  ): Promise<RepositoryAttributes> {
+    options: DeleteRepositoryOptions = {}
+  ): Promise<DeletedRepositoryResult> {
     const { span, updatedOptions } = createSpan(
-      // Here you set the name of the span, usually clientName-operationName
-      "ContainerRegistryClient-getAttributes",
+      "ContainerRegistryClient-deleteRepository",
       options
     );
 
     try {
-      const result = await this.client.repository.getAttributes(name, updatedOptions);
+      const result = await this.client.containerRegistry.deleteRepository(name, updatedOptions);
       return result;
     } catch (e) {
-      // There are different standard codes available for different errors:
-      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
 
       throw e;

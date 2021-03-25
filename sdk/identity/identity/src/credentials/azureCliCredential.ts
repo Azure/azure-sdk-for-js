@@ -39,8 +39,9 @@ export class AzureCliCredential implements TokenCredential {
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     return new Promise((resolve, reject) => {
       try {
-        child_process.exec(
-          `az account get-access-token --output json --resource ${resource}`,
+        child_process.execFile(
+          "az",
+          ["account", "get-access-token", "--output", "json", "--resource", resource],
           { cwd: getSafeWorkingDir() },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
@@ -65,7 +66,7 @@ export class AzureCliCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     return new Promise((resolve, reject) => {
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       logger.getToken.info(`Using the scope ${scope}`);

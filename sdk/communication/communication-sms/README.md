@@ -82,7 +82,7 @@ const client = new SmsClient(endpoint, credential);
 
 ## Send a 1:N SMS Message
 
-To send a SMS message, call the `send` function from the `SmsClient`. You need to pass in a `SmsSendRequest` object.
+To send an SMS message, call the `send` function from the `SmsClient`. You need to pass in a `SmsSendRequest` object.
 You may also add pass in an options object to specify whether the delivery report should be enabled and set custom tags for the report.
 An array of `SmsSendResult` is returned. A `successful` flag is used to validate if each individual message was sent successfully.
 
@@ -135,9 +135,8 @@ try {
 
 ## Next steps
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples)
-directory for detailed examples on how to use this library.
+- Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-sms/samples) directory for detailed examples on how to use this library.
+- For a basic guide on how to configure Delivery Reporting for your SMS messages please refer to the [Handle SMS Events quickstart][handlesmsevents].
 
 ## Contributing
 
@@ -156,5 +155,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [get_phone_number_az_portal]: https://docs.microsoft.com/azure/communication-services/quickstarts/telephony-sms/get-phone-number
 [azure_communication_admin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-administration
 [azure_communication_admin_readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-administration/README.md
+[handlesmsevents]: https://docs.microsoft.com/azure/communication-services/quickstarts/telephony-sms/handle-sms-events
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)

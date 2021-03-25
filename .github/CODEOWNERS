@@ -19,7 +19,7 @@
 /sdk/core/core-asynciterator-polyfill/ @xirzec @bterlson @chradek @jeremymeng
 
 # PRLabel: %Azure.Core
-/sdk/core/core-auth/ @daviwil @xirzec @bterlson
+/sdk/core/core-auth/ @sadasant @daviwil @xirzec @bterlson
 
 # PRLabel: %Azure.Core
 /sdk/core/core-client/ @xirzec @bterlson @chradek @jeremymeng
@@ -126,6 +126,13 @@
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
+
+###########
+# Tools
+###########
+
+# PRLabel: %dev-tool
+/common/tools/dev-tool/ @witemple-msft
 
 ###########
 # Eng Sys

@@ -115,8 +115,16 @@ export interface PhoneNumberOperation {
   readonly lastActionDateTime?: Date;
 }
 
-/** Represents an acquired phone number. */
-export interface AcquiredPhoneNumber {
+/** Capabilities of a phone number. */
+export interface PhoneNumberCapabilitiesRequest {
+  /** Capability value for calling. */
+  calling?: PhoneNumberCapabilityType;
+  /** Capability value for SMS. */
+  sms?: PhoneNumberCapabilityType;
+}
+
+/** Represents a purchased phone number. */
+export interface PurchasedPhoneNumber {
   /** The id of the phone number, e.g. 11234567890. */
   id: string;
   /** String of the E.164 format of the phone number, e.g. +11234567890. */
@@ -135,20 +143,12 @@ export interface AcquiredPhoneNumber {
   cost: PhoneNumberCost;
 }
 
-/** The list of acquired phone numbers. */
-export interface AcquiredPhoneNumbers {
+/** The list of purchased phone numbers. */
+export interface PurchasedPhoneNumbers {
   /** Represents a list of phone numbers. */
-  phoneNumbers: AcquiredPhoneNumber[];
+  phoneNumbers: PurchasedPhoneNumber[];
   /** Represents the URL link to the next page of phone number results. */
   nextLink?: string;
-}
-
-/** Capabilities of a phone number. */
-export interface PhoneNumberCapabilitiesRequest {
-  /** Capability value for calling. */
-  calling?: PhoneNumberCapabilityType;
-  /** Capability value for SMS. */
-  sms?: PhoneNumberCapabilityType;
 }
 
 /** Defines headers for PhoneNumbers_searchAvailablePhoneNumbers operation. */
@@ -179,16 +179,6 @@ export interface PhoneNumbersGetOperationHeaders {
   location?: string;
 }
 
-/** Defines headers for PhoneNumbers_releasePhoneNumber operation. */
-export interface PhoneNumbersReleasePhoneNumberHeaders {
-  /** URL to query for status of the operation. */
-  operationLocation?: string;
-  /** The operation id. */
-  operationId?: string;
-  /** The release operation id. */
-  releaseId?: string;
-}
-
 /** Defines headers for PhoneNumbers_updateCapabilities operation. */
 export interface PhoneNumbersUpdateCapabilitiesHeaders {
   /** URL to retrieve the final result after operation completes. */
@@ -199,6 +189,16 @@ export interface PhoneNumbersUpdateCapabilitiesHeaders {
   operationId?: string;
   /** The capabilities operation id. */
   capabilitiesId?: string;
+}
+
+/** Defines headers for PhoneNumbers_releasePhoneNumber operation. */
+export interface PhoneNumbersReleasePhoneNumberHeaders {
+  /** URL to query for status of the operation. */
+  operationLocation?: string;
+  /** The operation id. */
+  operationId?: string;
+  /** The release operation id. */
+  releaseId?: string;
 }
 
 /** Defines values for PhoneNumberType. */
@@ -286,15 +286,40 @@ export type PhoneNumbersGetOperationResponse = PhoneNumbersGetOperationHeaders &
     };
   };
 
+/** Optional parameters. */
+export interface PhoneNumbersUpdateCapabilitiesOptionalParams extends coreHttp.OperationOptions {
+  /** Capability value for calling. */
+  calling?: PhoneNumberCapabilityType;
+  /** Capability value for SMS. */
+  sms?: PhoneNumberCapabilityType;
+}
+
+/** Contains response data for the updateCapabilities operation. */
+export type PhoneNumbersUpdateCapabilitiesResponse = PhoneNumbersUpdateCapabilitiesHeaders &
+  PurchasedPhoneNumber & {
+    /** The underlying HTTP response. */
+    _response: coreHttp.HttpResponse & {
+      /** The response body as text (string format) */
+      bodyAsText: string;
+
+      /** The response body as parsed JSON or XML */
+      parsedBody: PurchasedPhoneNumber;
+      /** The parsed HTTP response headers. */
+      parsedHeaders: PhoneNumbersUpdateCapabilitiesHeaders;
+      /** The parsed HTTP response headers. */
+      [LROSYM]: LROResponseInfo;
+    };
+  };
+
 /** Contains response data for the getByNumber operation. */
-export type PhoneNumbersGetByNumberResponse = AcquiredPhoneNumber & {
+export type PhoneNumbersGetByNumberResponse = PurchasedPhoneNumber & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: AcquiredPhoneNumber;
+    parsedBody: PurchasedPhoneNumber;
   };
 };
 
@@ -318,41 +343,16 @@ export interface PhoneNumbersListPhoneNumbersOptionalParams extends coreHttp.Ope
 }
 
 /** Contains response data for the listPhoneNumbers operation. */
-export type PhoneNumbersListPhoneNumbersResponse = AcquiredPhoneNumbers & {
+export type PhoneNumbersListPhoneNumbersResponse = PurchasedPhoneNumbers & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: AcquiredPhoneNumbers;
+    parsedBody: PurchasedPhoneNumbers;
   };
 };
-
-/** Optional parameters. */
-export interface PhoneNumbersUpdateCapabilitiesOptionalParams extends coreHttp.OperationOptions {
-  /** Capability value for calling. */
-  calling?: PhoneNumberCapabilityType;
-  /** Capability value for SMS. */
-  sms?: PhoneNumberCapabilityType;
-}
-
-/** Contains response data for the updateCapabilities operation. */
-export type PhoneNumbersUpdateCapabilitiesResponse = PhoneNumbersUpdateCapabilitiesHeaders &
-  AcquiredPhoneNumber & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: AcquiredPhoneNumber;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: PhoneNumbersUpdateCapabilitiesHeaders;
-      /** The parsed HTTP response headers. */
-      [LROSYM]: LROResponseInfo;
-    };
-  };
 
 /** Optional parameters. */
 export interface PhoneNumbersListPhoneNumbersNextOptionalParams extends coreHttp.OperationOptions {
@@ -363,14 +363,14 @@ export interface PhoneNumbersListPhoneNumbersNextOptionalParams extends coreHttp
 }
 
 /** Contains response data for the listPhoneNumbersNext operation. */
-export type PhoneNumbersListPhoneNumbersNextResponse = AcquiredPhoneNumbers & {
+export type PhoneNumbersListPhoneNumbersNextResponse = PurchasedPhoneNumbers & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: AcquiredPhoneNumbers;
+    parsedBody: PurchasedPhoneNumbers;
   };
 };
 

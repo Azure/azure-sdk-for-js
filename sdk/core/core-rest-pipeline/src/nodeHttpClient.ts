@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as http from "http";
 import * as https from "https";
 import * as zlib from "zlib";
 import { Transform } from "stream";
-import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import {
   HttpClient,
@@ -63,8 +63,8 @@ class ReportTransform extends Transform {
  * @internal
  */
 class NodeHttpClient implements HttpClient {
-  private keepAliveAgent?: https.Agent;
-  private proxyAgent?: https.Agent;
+  private httpsKeepAliveAgent?: https.Agent;
+  private httpKeepAliveAgent?: http.Agent;
 
   /**
    * Makes a request over an underlying transport layer and returns the response.
@@ -119,8 +119,7 @@ class NodeHttpClient implements HttpClient {
 
           body = uploadReportStream;
         }
-        const options = this.getRequestOptions(request);
-        const req = https.request(options, async (res) => {
+        const req = this.makeRequest(request, async (res) => {
           const headers = getResponseHeaders(res);
 
           const status = res.statusCode ?? 0;
@@ -152,10 +151,8 @@ class NodeHttpClient implements HttpClient {
           reject(new RestError(err.message, { code: RestError.REQUEST_SEND_ERROR, request }));
         });
         abortController.signal.addEventListener("abort", () => {
-          if (!req.finished) {
-            req.abort();
-            reject(new AbortError("The operation was aborted."));
-          }
+          req.abort();
+          reject(new AbortError("The operation was aborted."));
         });
         if (body && isReadableStream(body)) {
           body.pipe(req);
@@ -191,51 +188,20 @@ class NodeHttpClient implements HttpClient {
     }
   }
 
-  private getOrCreateAgent(request: PipelineRequest): https.Agent {
-    // At the moment, proxy settings and keepAlive are mutually
-    // exclusive because the proxy library currently lacks the
-    // ability to create a proxy with keepAlive turned on.
-    const proxySettings = request.proxySettings;
-    if (proxySettings) {
-      if (!this.proxyAgent) {
-        let parsedUrl: URL;
-        try {
-          parsedUrl = new URL(proxySettings.host);
-        } catch (_error) {
-          throw new Error(
-            `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`
-          );
-        }
-
-        const proxyAgentOptions: HttpsProxyAgentOptions = {
-          hostname: parsedUrl.hostname,
-          port: proxySettings.port,
-          protocol: parsedUrl.protocol,
-          headers: request.headers.toJSON()
-        };
-        if (proxySettings.username && proxySettings.password) {
-          proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
-        }
-        this.proxyAgent = (new HttpsProxyAgent(proxyAgentOptions) as unknown) as https.Agent;
-      }
-      return this.proxyAgent;
-    } else if (!request.disableKeepAlive) {
-      if (!this.keepAliveAgent) {
-        this.keepAliveAgent = new https.Agent({
-          keepAlive: true
-        });
-      }
-
-      return this.keepAliveAgent;
-    } else {
-      return https.globalAgent;
-    }
-  }
-
-  private getRequestOptions(request: PipelineRequest): https.RequestOptions {
-    const agent = this.getOrCreateAgent(request);
+  private makeRequest(
+    request: PipelineRequest,
+    callback: (res: http.IncomingMessage) => void
+  ): http.ClientRequest {
     const url = new URL(request.url);
-    const options: https.RequestOptions = {
+
+    const isInsecure = url.protocol !== "https:";
+
+    if (isInsecure && !request.allowInsecureConnection) {
+      throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
+    }
+
+    const agent = request.agent ?? this.getOrCreateAgent(request, isInsecure);
+    const options: http.RequestOptions = {
       agent,
       hostname: url.hostname,
       path: `${url.pathname}${url.search}`,
@@ -243,7 +209,37 @@ class NodeHttpClient implements HttpClient {
       method: request.method,
       headers: request.headers.toJSON()
     };
-    return options;
+    if (isInsecure) {
+      return http.request(options, callback);
+    } else {
+      return https.request(options, callback);
+    }
+  }
+
+  private getOrCreateAgent(request: PipelineRequest, isInsecure: boolean): http.Agent {
+    if (!request.disableKeepAlive) {
+      if (isInsecure) {
+        if (!this.httpKeepAliveAgent) {
+          this.httpKeepAliveAgent = new http.Agent({
+            keepAlive: true
+          });
+        }
+
+        return this.httpKeepAliveAgent;
+      } else {
+        if (!this.httpsKeepAliveAgent) {
+          this.httpsKeepAliveAgent = new https.Agent({
+            keepAlive: true
+          });
+        }
+
+        return this.httpsKeepAliveAgent;
+      }
+    } else if (isInsecure) {
+      return http.globalAgent;
+    } else {
+      return https.globalAgent;
+    }
   }
 }
 
