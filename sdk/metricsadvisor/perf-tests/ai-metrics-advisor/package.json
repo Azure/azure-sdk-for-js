@@ -9,6 +9,7 @@
   "devDependencies": {
     "@azure/test-utils-perfstress": "^1.0.0",
     "@azure/ai-metrics-advisor": "1.0.0-beta.3",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^8.0.0",
     "dotenv": "^8.2.0",
     "tslib": "^2.0.0",
