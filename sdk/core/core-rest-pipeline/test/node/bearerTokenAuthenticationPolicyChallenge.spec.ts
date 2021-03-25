@@ -132,7 +132,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: "",
       credential,
-      challenge: {
+      challengeCallbacks: {
         processChallenge
       }
     });
@@ -231,7 +231,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       // Intentionally left empty, as it should be replaced by the challenge.
       scopes: "",
       credential,
-      challenge: {
+      challengeCallbacks: {
         processChallenge
       }
     });

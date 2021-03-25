@@ -43,7 +43,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
    * If provided, it must contain at least the `processChallenge` method.
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */
-  challenge?: {
+  challengeCallbacks?: {
     /**
      * Allows for the customization of the next request before its sent.
      * By default we won't be doing any changes to the initial challenge request.
@@ -63,9 +63,9 @@ export interface BearerTokenAuthenticationPolicyOptions {
 export function bearerTokenAuthenticationPolicy(
   options: BearerTokenAuthenticationPolicyOptions
 ): PipelinePolicy {
-  const { credential, scopes, challenge } = options;
+  const { credential, scopes, challengeCallbacks } = options;
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  const { prepareRequest, processChallenge } = challenge ?? {};
+  const { prepareRequest, processChallenge } = challengeCallbacks ?? {};
 
   /**
    * retrieveToken will call to the underlying credential's getToken request with properties coming from the request,
@@ -127,10 +127,9 @@ export function bearerTokenAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      let accessToken = tokenCache.getCachedToken();
-      let token: string | undefined;
+      const accessToken = tokenCache.getCachedToken();
       if (!accessToken && !processChallenge) {
-        token = await retrieveToken(request);
+        const token = await retrieveToken(request);
         request = assignToken(request, token);
       }
 
