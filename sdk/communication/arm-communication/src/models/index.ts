@@ -12,163 +12,6 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * The error
- */
-export interface ErrorResponseError {
-  /**
-   * Error code.
-   */
-  code?: string;
-  /**
-   * Error message indicating why the operation failed.
-   */
-  message?: string;
-}
-
-/**
- * Error response indicating why the requested operation could not be performed.
- */
-export interface ErrorResponse {
-  /**
-   * The error
-   */
-  error?: ErrorResponseError;
-}
-
-/**
- * The object that describes a operation.
- */
-export interface OperationDisplay {
-  /**
-   * Friendly name of the resource provider
-   */
-  provider?: string;
-  /**
-   * Resource type on which the operation is performed.
-   */
-  resource?: string;
-  /**
-   * The localized friendly name for the operation.
-   */
-  operation?: string;
-  /**
-   * The localized friendly description for the operation
-   */
-  description?: string;
-}
-
-/**
- * Specifications of the Dimension of metrics.
- */
-export interface Dimension {
-  /**
-   * The public facing name of the dimension.
-   */
-  name?: string;
-  /**
-   * Localized friendly display name of the dimension.
-   */
-  displayName?: string;
-  /**
-   * Name of the dimension as it appears in MDM.
-   */
-  internalName?: string;
-  /**
-   * A Boolean flag indicating whether this dimension should be included for the shoebox export
-   * scenario.
-   */
-  toBeExportedForShoebox?: boolean;
-}
-
-/**
- * Specifications of the Metrics for Azure Monitoring.
- */
-export interface MetricSpecification {
-  /**
-   * Name of the metric.
-   */
-  name?: string;
-  /**
-   * Localized friendly display name of the metric.
-   */
-  displayName?: string;
-  /**
-   * Localized friendly description of the metric.
-   */
-  displayDescription?: string;
-  /**
-   * The unit that makes sense for the metric.
-   */
-  unit?: string;
-  /**
-   * The method for aggregating the metric. Possible values include: 'Average', 'Minimum',
-   * 'Maximum', 'Total', 'Count'
-   */
-  aggregationType?: AggregationType;
-  /**
-   * Optional. If set to true, then zero will be returned for time duration where no metric is
-   * emitted/published.
-   * Ex. a metric that returns the number of times a particular error code was emitted. The error
-   * code may not appear
-   * often, instead of the RP publishing 0, Shoebox can auto fill in 0s for time periods where
-   * nothing was emitted.
-   */
-  fillGapWithZero?: string;
-  /**
-   * The name of the metric category that the metric belongs to. A metric can only belong to a
-   * single category.
-   */
-  category?: string;
-  /**
-   * The dimensions of the metrics.
-   */
-  dimensions?: Dimension[];
-}
-
-/**
- * An object that describes a specification.
- */
-export interface ServiceSpecification {
-  /**
-   * Specifications of the Metrics for Azure Monitoring.
-   */
-  metricSpecifications?: MetricSpecification[];
-}
-
-/**
- * Extra Operation properties.
- */
-export interface OperationProperties {
-  /**
-   * The service specifications.
-   */
-  serviceSpecification?: ServiceSpecification;
-}
-
-/**
- * REST API operation supported by CommunicationService resource provider.
- */
-export interface Operation {
-  /**
-   * Name of the operation with format: {provider}/{resource}/{operation}
-   */
-  name?: string;
-  /**
-   * The object that describes the operation.
-   */
-  display?: OperationDisplay;
-  /**
-   * Optional. The intended executor of the operation; governs the display of the operation in the
-   * RBAC UX and the audit logs UX.
-   */
-  origin?: string;
-  /**
-   * Extra properties for the operation.
-   */
-  properties?: OperationProperties;
-}
-
-/**
  * Data POST-ed to the nameAvailability action
  */
 export interface NameAvailabilityParameters {
@@ -226,6 +69,65 @@ export interface LinkedNotificationHub {
 }
 
 /**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The error detail.
+ */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.).
+ * @summary Error response
+ */
+export interface ErrorResponse {
+  /**
+   * The error object.
+   */
+  error?: ErrorDetail;
+}
+
+/**
  * The current status of an async operation
  */
 export interface OperationStatus {
@@ -256,9 +158,41 @@ export interface OperationStatus {
    */
   readonly percentComplete?: number;
   /**
-   * The error
+   * The error object.
    */
-  error?: ErrorResponseError;
+  error?: ErrorDetail;
+}
+
+/**
+ * Metadata pertaining to creation and last modification of the resource.
+ */
+export interface SystemData {
+  /**
+   * The identity that created the resource.
+   */
+  createdBy?: string;
+  /**
+   * The type of identity that created the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  createdByType?: CreatedByType;
+  /**
+   * The timestamp of resource creation (UTC).
+   */
+  createdAt?: Date;
+  /**
+   * The identity that last modified the resource.
+   */
+  lastModifiedBy?: string;
+  /**
+   * The type of identity that last modified the resource. Possible values include: 'User',
+   * 'Application', 'ManagedIdentity', 'Key'
+   */
+  lastModifiedByType?: CreatedByType;
+  /**
+   * The timestamp of resource last modification (UTC)
+   */
+  lastModifiedAt?: Date;
 }
 
 /**
@@ -266,17 +200,19 @@ export interface OperationStatus {
  */
 export interface CommunicationServiceResource {
   /**
-   * Fully qualified resource ID for the resource.
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * The name of the resource.
+   * The name of the resource
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * The type of the service - e.g. "Microsoft.Communication/CommunicationServices"
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
@@ -319,27 +255,7 @@ export interface CommunicationServiceResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly immutableResourceId?: string;
-}
-
-/**
- * The core properties of ARM resources.
- */
-export interface Resource extends BaseResource {
-  /**
-   * Fully qualified resource ID for the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the service - e.g. "Microsoft.Communication/CommunicationServices"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
+  systemData?: SystemData;
 }
 
 /**
@@ -396,6 +312,132 @@ export interface RegenerateKeyParameters {
 }
 
 /**
+ * Common fields that are returned in the response for all Azure Resource Manager resources
+ * @summary Resource
+ */
+export interface Resource extends BaseResource {
+  /**
+   * Fully qualified resource ID for the resource. Ex -
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
+   * "Microsoft.Storage/storageAccounts"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+}
+
+/**
+ * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
+ * and a location
+ * @summary Proxy Resource
+ */
+export interface ProxyResource extends Resource {
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager tracked top level resource which has
+ * 'tags' and a 'location'
+ * @summary Tracked Resource
+ */
+export interface TrackedResource extends Resource {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location: string;
+}
+
+/**
+ * The resource model definition for an Azure Resource Manager resource with an etag.
+ * @summary Entity Resource
+ */
+export interface AzureEntityResource extends Resource {
+  /**
+   * Resource Etag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly etag?: string;
+}
+
+/**
+ * Localized display information for this particular operation.
+ */
+export interface OperationDisplay {
+  /**
+   * The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring
+   * Insights" or "Microsoft Compute".
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provider?: string;
+  /**
+   * The localized friendly name of the resource type related to this operation. E.g. "Virtual
+   * Machines" or "Job Schedule Collections".
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resource?: string;
+  /**
+   * The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create
+   * or Update Virtual Machine", "Restart Virtual Machine".
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operation?: string;
+  /**
+   * The short, localized friendly description of the operation; suitable for tool tips and
+   * detailed views.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+}
+
+/**
+ * Details of a REST API operation, returned from the Resource Provider Operations API
+ * @summary REST API Operation
+ */
+export interface Operation {
+  /**
+   * The name of the operation, as per Resource-Based Access Control (RBAC). Examples:
+   * "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Whether the operation applies to data-plane. This is "true" for data-plane operations and
+   * "false" for ARM/control-plane operations.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDataAction?: boolean;
+  /**
+   * Localized display information for this particular operation.
+   */
+  display?: OperationDisplay;
+  /**
+   * The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit
+   * logs UX. Default value is "user,system". Possible values include: 'user', 'system',
+   * 'user,system'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly origin?: Origin;
+  /**
+   * Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+   * Possible values include: 'Internal'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionType?: ActionType;
+}
+
+/**
  * Optional Parameters.
  */
 export interface CommunicationServiceCheckNameAvailabilityOptionalParams extends msRest.RequestOptionsBase {
@@ -422,7 +464,7 @@ export interface CommunicationServiceUpdateOptionalParams extends msRest.Request
   /**
    * Parameters for the update operation
    */
-  parameters?: TaggedResource;
+  parameters?: CommunicationServiceResource;
 }
 
 /**
@@ -433,16 +475,6 @@ export interface CommunicationServiceCreateOrUpdateOptionalParams extends msRest
    * Parameters for the create or update operation
    */
   parameters?: CommunicationServiceResource;
-}
-
-/**
- * Optional Parameters.
- */
-export interface CommunicationServiceRegenerateKeyOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Parameter that describes the Regenerate Key Operation.
-   */
-  parameters?: RegenerateKeyParameters;
 }
 
 /**
@@ -484,15 +516,16 @@ export interface CommunicationServiceDeleteHeaders {
 
 /**
  * @interface
- * Result of the request to list REST API operations. It contains a list of operations.
+ * A list of REST API operations supported by an Azure Resource Provider. It contains an URL link
+ * to get the next set of results.
  * @extends Array<Operation>
  */
-export interface OperationList extends Array<Operation> {
+export interface OperationListResult extends Array<Operation> {
   /**
-   * The URL the client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
+   * URL to get the next set of operation list results (if there are any).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /**
@@ -507,14 +540,6 @@ export interface CommunicationServiceResourceList extends Array<CommunicationSer
    */
   nextLink?: string;
 }
-
-/**
- * Defines values for AggregationType.
- * Possible values include: 'Average', 'Minimum', 'Maximum', 'Total', 'Count'
- * @readonly
- * @enum {string}
- */
-export type AggregationType = 'Average' | 'Minimum' | 'Maximum' | 'Total' | 'Count';
 
 /**
  * Defines values for Status.
@@ -534,6 +559,14 @@ export type Status = 'Succeeded' | 'Failed' | 'Canceled' | 'Creating' | 'Deletin
 export type ProvisioningState = 'Unknown' | 'Succeeded' | 'Failed' | 'Canceled' | 'Running' | 'Creating' | 'Updating' | 'Deleting' | 'Moving';
 
 /**
+ * Defines values for CreatedByType.
+ * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
+ * @readonly
+ * @enum {string}
+ */
+export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+
+/**
  * Defines values for KeyType.
  * Possible values include: 'Primary', 'Secondary'
  * @readonly
@@ -542,9 +575,25 @@ export type ProvisioningState = 'Unknown' | 'Succeeded' | 'Failed' | 'Canceled' 
 export type KeyType = 'Primary' | 'Secondary';
 
 /**
+ * Defines values for Origin.
+ * Possible values include: 'user', 'system', 'user,system'
+ * @readonly
+ * @enum {string}
+ */
+export type Origin = 'user' | 'system' | 'user,system';
+
+/**
+ * Defines values for ActionType.
+ * Possible values include: 'Internal'
+ * @readonly
+ * @enum {string}
+ */
+export type ActionType = 'Internal';
+
+/**
  * Contains response data for the list operation.
  */
-export type OperationsListResponse = OperationList & {
+export type OperationsListResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -557,14 +606,14 @@ export type OperationsListResponse = OperationList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationList;
+      parsedBody: OperationListResult;
     };
 };
 
 /**
  * Contains response data for the listNext operation.
  */
-export type OperationsListNextResponse = OperationList & {
+export type OperationsListNextResponse = OperationListResult & {
   /**
    * The underlying HTTP response.
    */
@@ -577,7 +626,7 @@ export type OperationsListNextResponse = OperationList & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: OperationList;
+      parsedBody: OperationListResult;
     };
 };
 

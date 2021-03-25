@@ -7,13 +7,10 @@
  */
 
 export {
-  Dimension,
+  ErrorAdditionalInfo,
+  ErrorDetail,
   ErrorResponse,
-  ErrorResponseError,
-  MetricSpecification,
   Operation,
   OperationDisplay,
-  OperationList,
-  OperationProperties,
-  ServiceSpecification
+  OperationListResult
 } from "../models/mappers";

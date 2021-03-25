@@ -12,12 +12,13 @@ export {
   CommunicationServiceKeys,
   CommunicationServiceResource,
   CommunicationServiceResourceList,
+  ErrorAdditionalInfo,
+  ErrorDetail,
   ErrorResponse,
-  ErrorResponseError,
   LinkedNotificationHub,
   LinkNotificationHubParameters,
   NameAvailability,
   NameAvailabilityParameters,
   RegenerateKeyParameters,
-  TaggedResource
+  SystemData
 } from "../models/mappers";

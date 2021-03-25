@@ -23,8 +23,7 @@ class CommunicationServiceManagementClient extends CommunicationServiceManagemen
   /**
    * Initializes a new instance of the CommunicationServiceManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Gets subscription ID which uniquely identifies the Microsoft Azure
-   * subscription. The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CommunicationServiceManagementClientOptions) {

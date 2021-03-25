@@ -54,23 +54,20 @@ export class CommunicationService {
   /**
    * Links an Azure Notification Hub to this communication service.
    * @summary Link Notification Hub
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationServiceLinkNotificationHubResponse>
    */
   linkNotificationHub(resourceGroupName: string, communicationServiceName: string, options?: Models.CommunicationServiceLinkNotificationHubOptionalParams): Promise<Models.CommunicationServiceLinkNotificationHubResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param callback The callback
    */
   linkNotificationHub(resourceGroupName: string, communicationServiceName: string, callback: msRest.ServiceCallback<Models.LinkedNotificationHub>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -115,21 +112,18 @@ export class CommunicationService {
   /**
    * Handles requests to list all resources in a resource group.
    * @summary List By Resource Group
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationServiceListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.CommunicationServiceListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.CommunicationServiceResourceList>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -147,23 +141,20 @@ export class CommunicationService {
   /**
    * Operation to update an existing CommunicationService.
    * @summary Update
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationServiceUpdateResponse>
    */
   update(resourceGroupName: string, communicationServiceName: string, options?: Models.CommunicationServiceUpdateOptionalParams): Promise<Models.CommunicationServiceUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param callback The callback
    */
   update(resourceGroupName: string, communicationServiceName: string, callback: msRest.ServiceCallback<Models.CommunicationServiceResource>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -183,23 +174,20 @@ export class CommunicationService {
   /**
    * Get the CommunicationService and its properties.
    * @summary Get
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationServiceGetResponse>
    */
   get(resourceGroupName: string, communicationServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CommunicationServiceGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param callback The callback
    */
   get(resourceGroupName: string, communicationServiceName: string, callback: msRest.ServiceCallback<Models.CommunicationServiceResource>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -219,8 +207,7 @@ export class CommunicationService {
   /**
    * Create a new CommunicationService or update an existing CommunicationService.
    * @summary Create Or Update
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationServiceCreateOrUpdateResponse>
@@ -233,8 +220,7 @@ export class CommunicationService {
   /**
    * Operation to delete a CommunicationService.
    * @summary Delete
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationServiceDeleteResponse>
@@ -247,23 +233,20 @@ export class CommunicationService {
   /**
    * Get the access keys of the CommunicationService resource.
    * @summary List Keys
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationServiceListKeysResponse>
    */
   listKeys(resourceGroupName: string, communicationServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CommunicationServiceListKeysResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, communicationServiceName: string, callback: msRest.ServiceCallback<Models.CommunicationServiceKeys>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -284,31 +267,32 @@ export class CommunicationService {
    * Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at
    * the same time.
    * @summary Regenerate Key
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param parameters Parameter that describes the Regenerate Key Operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.CommunicationServiceRegenerateKeyResponse>
    */
-  regenerateKey(resourceGroupName: string, communicationServiceName: string, options?: Models.CommunicationServiceRegenerateKeyOptionalParams): Promise<Models.CommunicationServiceRegenerateKeyResponse>;
+  regenerateKey(parameters: Models.RegenerateKeyParameters, resourceGroupName: string, communicationServiceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CommunicationServiceRegenerateKeyResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param parameters Parameter that describes the Regenerate Key Operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, communicationServiceName: string, callback: msRest.ServiceCallback<Models.CommunicationServiceKeys>): void;
+  regenerateKey(parameters: Models.RegenerateKeyParameters, resourceGroupName: string, communicationServiceName: string, callback: msRest.ServiceCallback<Models.CommunicationServiceKeys>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param parameters Parameter that describes the Regenerate Key Operation.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKey(resourceGroupName: string, communicationServiceName: string, options: Models.CommunicationServiceRegenerateKeyOptionalParams, callback: msRest.ServiceCallback<Models.CommunicationServiceKeys>): void;
-  regenerateKey(resourceGroupName: string, communicationServiceName: string, options?: Models.CommunicationServiceRegenerateKeyOptionalParams | msRest.ServiceCallback<Models.CommunicationServiceKeys>, callback?: msRest.ServiceCallback<Models.CommunicationServiceKeys>): Promise<Models.CommunicationServiceRegenerateKeyResponse> {
+  regenerateKey(parameters: Models.RegenerateKeyParameters, resourceGroupName: string, communicationServiceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CommunicationServiceKeys>): void;
+  regenerateKey(parameters: Models.RegenerateKeyParameters, resourceGroupName: string, communicationServiceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CommunicationServiceKeys>, callback?: msRest.ServiceCallback<Models.CommunicationServiceKeys>): Promise<Models.CommunicationServiceRegenerateKeyResponse> {
     return this.client.sendOperationRequest(
       {
+        parameters,
         resourceGroupName,
         communicationServiceName,
         options
@@ -320,8 +304,7 @@ export class CommunicationService {
   /**
    * Create a new CommunicationService or update an existing CommunicationService.
    * @summary Create Or Update
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -340,8 +323,7 @@ export class CommunicationService {
   /**
    * Operation to delete a CommunicationService.
    * @summary Delete
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -546,7 +528,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       "options",
       "parameters"
     ],
-    mapper: Mappers.TaggedResource
+    mapper: Mappers.CommunicationServiceResource
   },
   responses: {
     200: {
@@ -624,17 +606,14 @@ const regenerateKeyOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: [
-      "options",
-      "parameters"
-    ],
-    mapper: Mappers.RegenerateKeyParameters
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.RegenerateKeyParameters,
+      required: true
+    }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.CommunicationServiceKeys
-    },
-    201: {
       bodyMapper: Mappers.CommunicationServiceKeys
     },
     default: {

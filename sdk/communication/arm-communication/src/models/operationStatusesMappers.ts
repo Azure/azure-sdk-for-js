@@ -7,7 +7,8 @@
  */
 
 export {
+  ErrorAdditionalInfo,
+  ErrorDetail,
   ErrorResponse,
-  ErrorResponseError,
   OperationStatus
 } from "../models/mappers";
