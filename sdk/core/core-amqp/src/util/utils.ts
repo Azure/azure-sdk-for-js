@@ -199,9 +199,7 @@ export function delay<T>(
     let onAborted: (() => void) | undefined = undefined;
 
     const rejectOnAbort = (): void => {
-      return reject(
-        new AbortError(abortErrorMsg ? abortErrorMsg : StandardAbortMessage)
-      );
+      return reject(new AbortError(abortErrorMsg ? abortErrorMsg : StandardAbortMessage));
     };
 
     const removeListeners = (): void => {
