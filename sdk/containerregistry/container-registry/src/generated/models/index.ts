@@ -569,6 +569,42 @@ export interface ContainerRegistryBlobCheckChunkExistsHeaders {
   contentRange?: string;
 }
 
+/** Known values of {@link TagOrderBy} that the service accepts. */
+export const enum KnownTagOrderBy {
+  /** Order tags by LastUpdatedOn field, from most recently updated to least recently updated. */
+  LastUpdatedOnDescending = "timedesc",
+  /** Order tags by LastUpdatedOn field, from least recently updated to most recently updated. */
+  LastUpdatedOnAscending = "timeasc"
+}
+
+/**
+ * Defines values for TagOrderBy. \
+ * {@link KnownTagOrderBy} can be used interchangeably with TagOrderBy,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **timedesc**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated. \
+ * **timeasc**: Order tags by LastUpdatedOn field, from least recently updated to most recently updated.
+ */
+export type TagOrderBy = string;
+
+/** Known values of {@link RegistryArtifactOrderBy} that the service accepts. */
+export const enum KnownRegistryArtifactOrderBy {
+  /** Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated. */
+  LastUpdatedOnDescending = "timedesc",
+  /** Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated. */
+  LastUpdatedOnAscending = "timeasc"
+}
+
+/**
+ * Defines values for RegistryArtifactOrderBy. \
+ * {@link KnownRegistryArtifactOrderBy} can be used interchangeably with RegistryArtifactOrderBy,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **timedesc**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated. \
+ * **timeasc**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
+ */
+export type RegistryArtifactOrderBy = string;
+
 /** Optional parameters. */
 export interface ContainerRegistryGetRepositoriesOptionalParams
   extends coreHttp.OperationOptions {

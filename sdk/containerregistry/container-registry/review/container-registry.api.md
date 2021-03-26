@@ -45,7 +45,7 @@ export class ContainerRepositoryClient {
     registry: string;
     repository: string;
     setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<RestResponse>;
-    setPermissions(value?: ContentProperties, options?: SetPermissionsOptions): Promise<RestResponse>;
+    setPermissions(value: ContentProperties, options?: SetPermissionsOptions): Promise<RestResponse>;
     setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<RestResponse>;
 }
 
