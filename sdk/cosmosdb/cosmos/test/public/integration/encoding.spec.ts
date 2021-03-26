@@ -46,15 +46,6 @@ describe("Create And Read Validation", function(this: Suite) {
     const { resource: resultDoc } = await container
       .item(doc.id, undefined)
       .read<{ id: string; content: string }>();
-    let euroCount = 0;
-    let otherCharCount = 0;
-    resultDoc.content.split("").map((char) => {
-      if (char === "€") {
-        euroCount += 1;
-      } else {
-        otherCharCount += 1;
-      }
-    });
     assert.equal(
       testDoc.content,
       resultDoc.content,
