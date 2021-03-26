@@ -434,6 +434,12 @@ export interface DatabaseAccountGetResults extends ARMResourceProperties {
    */
   keyVaultKeyUri?: string;
   /**
+   * The default identity for accessing key vault used in features like customer managed keys. The
+   * default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity",
+   * "SystemAssignedIdentity" and more.
+   */
+  defaultIdentity?: string;
+  /**
    * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
    * 'Disabled'
    */
@@ -1558,6 +1564,12 @@ export interface DatabaseAccountCreateUpdateParameters extends ARMResourceProper
    */
   keyVaultKeyUri?: string;
   /**
+   * The default identity for accessing key vault used in features like customer managed keys. The
+   * default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity",
+   * "SystemAssignedIdentity" and more.
+   */
+  defaultIdentity?: string;
+  /**
    * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
    * 'Disabled'
    */
@@ -1655,6 +1667,12 @@ export interface DatabaseAccountUpdateParameters {
    * The URI of the key vault
    */
   keyVaultKeyUri?: string;
+  /**
+   * The default identity for accessing key vault used in features like customer managed keys. The
+   * default identity needs to be explicitly set by the users. It can be "FirstPartyIdentity",
+   * "SystemAssignedIdentity" and more.
+   */
+  defaultIdentity?: string;
   /**
    * Whether requests from Public Network are allowed. Possible values include: 'Enabled',
    * 'Disabled'
