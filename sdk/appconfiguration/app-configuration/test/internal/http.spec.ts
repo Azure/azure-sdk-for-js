@@ -21,6 +21,7 @@ import {
 
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
 
 describe("http request related tests", function() {
   describe("unit tests", () => {
@@ -110,7 +111,7 @@ describe("http request related tests", function() {
     let client: AppConfigurationClient;
     let recorder: Recorder;
 
-    beforeEach(function() {
+    beforeEach(function(this: Context) {
       recorder = startRecorder(this);
       client = createAppConfigurationClientForTests() || this.skip();
     });
@@ -146,7 +147,7 @@ describe("http request related tests", function() {
     let syncTokens: SyncTokens;
     let scope: nock.Scope;
 
-    beforeEach(function() {
+    beforeEach(function(this: Context) {
       if (nock == null || nock.recorder == null) {
         this.skip();
         return;
@@ -168,7 +169,7 @@ describe("http request related tests", function() {
       scope = nock(/.*/);
     });
 
-    afterEach(function() {
+    afterEach(function(this: Context) {
       if (nock == null || nock.recorder == null) {
         return;
       }
