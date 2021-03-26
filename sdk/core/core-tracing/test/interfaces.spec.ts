@@ -17,7 +17,7 @@ describe("interface compatibility", () => {
     };
 
     const OTContext: openTelemetry.SpanContext = context;
-    const context2:  coreTracing.SpanContext = OTContext;
+    const context2: coreTracing.SpanContext = OTContext;
 
     assert.ok(context2);
   });
@@ -41,7 +41,7 @@ describe("interface compatibility", () => {
     const oTSpanOptions: openTelemetry.SpanOptions = spanOptions;
     assert.ok(oTSpanOptions);
   });
-  
+
   it("core-auth", () => {
     const coreTracingOptions: Required<coreTracing.OperationTracingOptions> = {
       spanOptions: {

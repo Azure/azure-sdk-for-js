@@ -12,7 +12,7 @@ import {
   SpanOptions,
   SpanStatusCode,
   TestSpan,
-  TestTracer,
+  TestTracer
 } from "@azure/core-tracing";
 import { ServiceBusMessageImpl, ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
 import {
@@ -285,7 +285,10 @@ describe("Tracing tests", () => {
       assert.equal(config.host, "fakeHost");
       assert.isFalse(Array.isArray(messages));
 
-      assert.equal(getSpanContext(options?.tracingOptions?.tracingContext!)!.spanId, "my parent span id");
+      assert.equal(
+        getSpanContext(options?.tracingOptions?.tracingContext!)!.spanId,
+        "my parent span id"
+      );
 
       data.span = getTracer().startSpan("some span") as TestSpan;
       return data.span;

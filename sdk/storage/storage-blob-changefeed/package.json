@@ -101,7 +101,6 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    
     "events": "^3.0.0",
     "tslib": "^2.0.0"
   },

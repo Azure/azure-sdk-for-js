@@ -41,7 +41,7 @@ describe("PartitionPump", () => {
     }
 
     it("basic span properties are set", async () => {
-      const fakeParentSpanContext = setSpanContext(context.active(), new NoOpSpan().context())
+      const fakeParentSpanContext = setSpanContext(context.active(), new NoOpSpan().context());
       const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
 
       await createProcessingSpan([], eventHubProperties, {

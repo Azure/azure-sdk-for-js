@@ -71,7 +71,6 @@
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    
     "tslib": "^2.0.0"
   },
   "devDependencies": {

@@ -95,7 +95,6 @@
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/core-auth": "^1.2.0",
     "@azure/logger": "^1.0.0",
-    
     "buffer": "^5.2.1",
     "is-buffer": "^2.0.3",
     "jssha": "^3.1.0",

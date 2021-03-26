@@ -20,11 +20,11 @@ describe("tracing.createSpan", () => {
     const startSpanStub = sinon.stub(tracer, "startSpan");
     startSpanStub.returns(testSpan);
     setTracer(tracer);
-    
+
     const { span } = createSpan("testOperation", {});
     assert.strictEqual(span, testSpan, "Should return mocked span");
     assert.isTrue(startSpanStub.calledOnce);
-    
+
     const [name, options] = startSpanStub.firstCall.args;
     assert.strictEqual(name, "Azure.CognitiveServices.TextAnalytics.testOperation");
     assert.deepEqual(options, { kind: SpanKind.INTERNAL });

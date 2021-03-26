@@ -17,11 +17,11 @@ interface PackageJson {
 
 /**
  * Gets the proper configuration needed for rollup's commonJS plugin for @opentelemetry/api.
- * 
- * NOTE: this manual configuration is only needed because OpenTelemetry uses an 
+ *
+ * NOTE: this manual configuration is only needed because OpenTelemetry uses an
  * __exportStar downleveled helper function to declare its exports which confuses
  * rollup's automatic discovery mechanism.
- * 
+ *
  * @param directDependency true if you reference the @opentelemetry/api package directly, false otherwise.
  * @returns an object reference that can be `...`'d into your cjs() configuration.
  */
@@ -32,8 +32,16 @@ export function openTelemetryCommonJs(directDependency = false): Record<string, 
     : // ...unlike all the other projects that get it as a transitive dependency _through_ core-tracing)
       "@azure/core-tracing/node_modules/@opentelemetry/api";
 
-  return {  
-    [key]: ["SpanKind", "TraceFlags", "getSpan", "setSpan", "SpanStatusCode", "getSpanContext", "setSpanContext"]
+  return {
+    [key]: [
+      "SpanKind",
+      "TraceFlags",
+      "getSpan",
+      "setSpan",
+      "SpanStatusCode",
+      "getSpanContext",
+      "setSpanContext"
+    ]
   };
 }
 

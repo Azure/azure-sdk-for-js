@@ -64,7 +64,6 @@
     "@azure/schema-registry": "1.0.0-beta.2",
     "@azure/core-http": "^1.2.0",
     "@azure/logger": "^1.0.0",
-    
     "avsc": "^5.5.1",
     "tslib": "^2.0.0",
     "buffer": "^5.2.1",

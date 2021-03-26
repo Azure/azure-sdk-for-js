@@ -11,7 +11,7 @@ import {
   SpanKind,
   SpanStatus,
   TimeInput,
-  TraceState,
+  TraceState
 } from "@opentelemetry/api";
 
 export {
@@ -26,7 +26,7 @@ export {
   TraceState,
   Exception
 };
-  
+
 /** SpanStatusCode */
 export enum SpanStatusCode {
   /**

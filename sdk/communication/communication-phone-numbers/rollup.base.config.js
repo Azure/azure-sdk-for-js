@@ -31,12 +31,12 @@ export function nodeConfig(test = false) {
         values: {
           // replace dynamic checks with if (true) since this is for node only.
           // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)",
-        },
+          "if (isNode)": "if (true)"
+        }
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs(),
-    ],
+      cjs()
+    ]
   };
 
   if (test) {
@@ -70,7 +70,7 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "Azure.Communication.PhoneNumbers",
       sourcemap: true,
-      globals: { "@azure/core-http": "Azure.Core.HTTP" },
+      globals: { "@azure/core-http": "Azure.Core.HTTP" }
     },
     preserveSymlinks: false,
     plugins: [
@@ -82,29 +82,29 @@ export function browserConfig(test = false) {
           // replace dynamic checks with if (false) since this is for
           // browser only. Rollup's dead code elimination will remove
           // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)",
-        },
+          "if (isNode)": "if (false)"
+        }
       }),
       shim({
         constants: `export default {}`,
         fs: `export default {}`,
         os: `export default {}`,
         dotenv: `export function config() { }`,
-        path: `export default {}`,
+        path: `export default {}`
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
-        preferBuiltins: false,
+        preferBuiltins: false
       }),
       cjs({
         namedExports: {
           chai: ["assert"],
           events: ["EventEmitter"],
-          ...openTelemetryCommonJs(),
-        },
+          ...openTelemetryCommonJs()
+        }
       }),
-      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false }),
-    ],
+      viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
+    ]
   };
 
   if (test) {

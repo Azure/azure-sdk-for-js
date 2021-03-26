@@ -653,7 +653,6 @@ export interface RequestPrepareOptions {
    * Tracing: Context used when creating spans.
    */
   tracingContext?: Context;
-
 }
 
 /**
