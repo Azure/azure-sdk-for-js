@@ -5,7 +5,7 @@
  * @summary Demonstrates the use of a ContainerRegistryClient.
  */
 
-import { ContainerRepositoryClient } from "@azure/container-registry";
+import { ContainerRepositoryClient, RegistryArtifactProperties } from "@azure/container-registry";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 dotenv.config();
