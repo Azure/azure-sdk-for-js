@@ -2,6 +2,8 @@
 
 ## 2.0.0-beta.2 (Unreleased)
 
+- Breaking change: The parameter `tenantId` of the `DefaultAzureCredential` options has been removed. To specify tenant Ids, users can continue to set the `AZURE_TENANT_ID` environment variable, or send an options bag to the `DefaultAzureCredential` constructor with any of these new optional properties: `visualStudioCodeTenantId` to customize the tenant Id for the `VisualStudioCodeCredential`, and `InteractiveBrowserTenantId` to customize the tenant ID for the `InteractiveBrowserCredential`.
+- `DefaultAzureCredential` now offers users the ability to exclude credentials by setting any of the following optional properties on the constructor options: `excludeEnviornmentCredential`, `excludeManagedIdentityCredential`, `excludeAzureCliCredential`, `excludeVisualStudioCodeCredential` and `excludeInteractiveBrowserCredential`.
 
 ## 2.0.0-beta.1 (2021-03-24)
 
