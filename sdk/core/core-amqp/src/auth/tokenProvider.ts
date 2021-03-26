@@ -3,7 +3,7 @@
 
 import { AccessToken, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import jssha from "jssha";
-import { isObjectWithProperties } from "../util/typeGuards";
+import { isNamedKeyCredential, isObjectWithProperties } from "../util/typeGuards";
 
 /**
  * A TokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.
@@ -33,17 +33,19 @@ export function createTokenProvider(
   data: { sharedAccessKeyName: string; sharedAccessKey: string } | { sharedAccessSignature: string }
 ): TokenProvider {
   if (isObjectWithProperties(data, ["sharedAccessKeyName", "sharedAccessKey"])) {
-    return new NamedKeyTokenProvider({ name: data.sharedAccessKeyName, key: data.sharedAccessKey });
+    return new SasTokenProvider({ name: data.sharedAccessKeyName, key: data.sharedAccessKey });
   } else {
-    return new SharedAccessSignatureTokenProvider({ signature: data.sharedAccessSignature });
+    return new SasTokenProvider({ signature: data.sharedAccessSignature });
   }
 }
 
 /**
- * Defines the NamedKeyTokenProvider.
+ * A TokenProvider that generates a Sas token:
+ * `SharedAccessSignature sr=<resource>&sig=<signature>&se=<expiry>&skn=<keyname>`
+ *
  * @hidden
  */
-export class NamedKeyTokenProvider implements TokenProvider {
+export class SasTokenProvider implements TokenProvider {
   /**
    * Property used to distinguish TokenProvider from TokenCredential.
    */
@@ -52,15 +54,15 @@ export class NamedKeyTokenProvider implements TokenProvider {
   }
 
   /**
-   * The NamedKeyCredential containing the key name and secret key value.
+   * The SASCredential containing the key name and secret key value.
    */
-  private _credential: NamedKeyCredential;
+  private _credential: SASCredential | NamedKeyCredential;
 
   /**
-   * Initializes a new instance of SharedKeyCredential
-   * @param credential - The `NamedKeyCredential` containing a key name and secret key value.
+   * Initializes a new instance of SasTokenProvider
+   * @param credential - The source `NamedKeyCredential` or `SASCredential`.
    */
-  constructor(credential: NamedKeyCredential) {
+  constructor(credential: SASCredential | NamedKeyCredential) {
     this._credential = credential;
   }
 
@@ -69,12 +71,19 @@ export class NamedKeyTokenProvider implements TokenProvider {
    * @param audience - The audience for which the token is desired.
    */
   getToken(audience: string): AccessToken {
-    return createToken(
-      this._credential.name,
-      this._credential.key,
-      Math.floor(Date.now() / 1000) + 3600,
-      audience
-    );
+    if (isNamedKeyCredential(this._credential)) {
+      return createToken(
+        this._credential.name,
+        this._credential.key,
+        Math.floor(Date.now() / 1000) + 3600,
+        audience
+      );
+    } else {
+      return {
+        token: this._credential.signature,
+        expiresOnTimestamp: 0
+      };
+    }
   }
 }
 
@@ -99,44 +108,4 @@ function createToken(keyName: string, key: string, expiry: number, audience: str
     token: `SharedAccessSignature sr=${audience}&sig=${sig}&se=${expiry}&skn=${keyName}`,
     expiresOnTimestamp: expiry
   };
-}
-
-/**
- * A TokenProvider that takes a SharedAccessSignature:
- * `SharedAccessSignature sr=<resource>&sig=<signature>&se=<expiry>&skn=<keyname>`
- *
- * @hidden
- */
-export class SharedAccessSignatureTokenProvider implements TokenProvider {
-  /**
-   * Property used to distinguish TokenProvider from TokenCredential.
-   */
-  get isTokenProvider(): true {
-    return true;
-  }
-
-  /**
-   * The SASCredential containing the key name and secret key value.
-   */
-  private _credential: SASCredential;
-
-  /**
-   * @param sharedAccessSignature - A shared access signature of the form
-   * `SharedAccessSignature sr=<resource>&sig=<signature>&se=<expiry>&skn=<keyname>`
-   */
-  constructor(credential: SASCredential) {
-    this._credential = credential;
-  }
-
-  /**
-   * Retrieve a valid token for authenticaton.
-   *
-   * @param _audience - Not applicable as the signature is already calculated.
-   */
-  getToken(_audience: string): AccessToken {
-    return {
-      token: this._credential.signature,
-      expiresOnTimestamp: 0
-    };
-  }
 }

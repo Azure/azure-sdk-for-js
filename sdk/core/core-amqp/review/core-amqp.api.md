@@ -440,13 +440,6 @@ export class MessagingError extends Error {
 }
 
 // @public
-export class NamedKeyTokenProvider implements TokenProvider {
-    constructor(credential: NamedKeyCredential);
-    getToken(audience: string): AccessToken;
-    get isTokenProvider(): true;
-}
-
-// @public
 export interface NetworkSystemError {
     // (undocumented)
     address?: string;
@@ -549,17 +542,17 @@ export interface RetryOptions {
 }
 
 // @public
+export class SasTokenProvider implements TokenProvider {
+    constructor(credential: SASCredential | NamedKeyCredential);
+    getToken(audience: string): AccessToken;
+    get isTokenProvider(): true;
+}
+
+// @public
 export interface SendRequestOptions {
     abortSignal?: AbortSignalLike;
     requestName?: string;
     timeoutInMs?: number;
-}
-
-// @public
-export class SharedAccessSignatureTokenProvider implements TokenProvider {
-    constructor(credential: SASCredential);
-    getToken(_audience: string): AccessToken;
-    get isTokenProvider(): true;
 }
 
 // @public

@@ -4,18 +4,14 @@
 import chai from "chai";
 const should = chai.should();
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import {
-  createTokenProvider,
-  NamedKeyTokenProvider,
-  SharedAccessSignatureTokenProvider
-} from "../src/index";
+import { createTokenProvider, SasTokenProvider } from "../src/index";
 
 describe("TokenProvider", function(): void {
-  describe("NamedKeyTokenProvider", () => {
+  describe("SasTokenProvider", () => {
     it("should work as expected with AzureNamedKeyCredential", async function(): Promise<void> {
       const keyName = "myKeyName";
       const key = "importantValue";
-      const tokenProvider = new NamedKeyTokenProvider(new AzureNamedKeyCredential(keyName, key));
+      const tokenProvider = new SasTokenProvider(new AzureNamedKeyCredential(keyName, key));
       const now = Math.floor(Date.now() / 1000) + 3600;
       const tokenInfo = tokenProvider.getToken("myaudience");
       tokenInfo.token.should.match(
@@ -24,7 +20,7 @@ describe("TokenProvider", function(): void {
       tokenInfo.expiresOnTimestamp.should.equal(now);
     });
 
-    it("should work as expected when created from createTokenProvider", async function(): Promise<
+    it("should work as expected when created from createTokenProvider (sak)", async function(): Promise<
       void
     > {
       const tokenProvider = createTokenProvider({
@@ -40,33 +36,31 @@ describe("TokenProvider", function(): void {
     });
   });
 
-  describe("SharedAccessSignatureTokenProvider", () => {
-    it("should work as expected with AzureSASCredential", async function(): Promise<void> {
-      const sasTokenProvider = new SharedAccessSignatureTokenProvider(
-        new AzureSASCredential("SharedAccessSignature se=<blah>")
-      );
-      const accessToken = sasTokenProvider.getToken("audience isn't used");
+  it("should work as expected with AzureSASCredential", async function(): Promise<void> {
+    const sasTokenProvider = new SasTokenProvider(
+      new AzureSASCredential("SharedAccessSignature se=<blah>")
+    );
+    const accessToken = sasTokenProvider.getToken("audience isn't used");
 
-      should.equal(
-        accessToken.token,
-        "SharedAccessSignature se=<blah>",
-        "SAS URI we were constructed with should just be returned verbatim without interpretation (and the audience is ignored)"
-      );
+    should.equal(
+      accessToken.token,
+      "SharedAccessSignature se=<blah>",
+      "SAS URI we were constructed with should just be returned verbatim without interpretation (and the audience is ignored)"
+    );
 
-      should.equal(
-        accessToken.expiresOnTimestamp,
-        0,
-        "SAS URI always returns 0 for expiry (ignoring what's in the SAS token)"
-      );
-    });
+    should.equal(
+      accessToken.expiresOnTimestamp,
+      0,
+      "SAS URI always returns 0 for expiry (ignoring what's in the SAS token)"
+    );
+  });
 
-    it("should work as expected when created from createTokenProvider", async function(): Promise<
-      void
-    > {
-      const tokenProvider = createTokenProvider({ sharedAccessSignature: "<blah>" });
-      const tokenInfo = tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
-      tokenInfo.token.should.match(/<blah>/g);
-      tokenInfo.expiresOnTimestamp.should.equal(0);
-    });
+  it("should work as expected when created from createTokenProvider (signature)", async function(): Promise<
+    void
+  > {
+    const tokenProvider = createTokenProvider({ sharedAccessSignature: "<blah>" });
+    const tokenInfo = tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
+    tokenInfo.token.should.match(/<blah>/g);
+    tokenInfo.expiresOnTimestamp.should.equal(0);
   });
 });
