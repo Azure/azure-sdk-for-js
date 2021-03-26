@@ -18,8 +18,7 @@ import {
   Constants,
   CreateConnectionContextBaseParameters,
   ConnectionConfig,
-  NamedKeyTokenProvider,
-  SharedAccessSignatureTokenProvider,
+  SasTokenProvider,
   TokenProvider,
   createTokenProvider,
   isCredential,
@@ -503,10 +502,8 @@ export function createConnectionContext(
     // host, eventHubName, a TokenCredential and/or options were passed to constructor
     const eventHubName = eventHubNameOrOptions;
     let host = hostOrConnectionString;
-    if (isNamedKeyCredential(credentialOrOptions)) {
-      credential = new NamedKeyTokenProvider(credentialOrOptions);
-    } else if (isSASCredential(credentialOrOptions)) {
-      credential = new SharedAccessSignatureTokenProvider(credentialOrOptions);
+    if (isNamedKeyCredential(credentialOrOptions) || isSASCredential(credentialOrOptions)) {
+      credential = new SasTokenProvider(credentialOrOptions);
     } else {
       credential = credentialOrOptions;
     }
