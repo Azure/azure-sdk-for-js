@@ -525,6 +525,9 @@ export interface SendRequestOptions {
 }
 
 // @public
+export const StandardAbortMessage = "The operation was aborted.";
+
+// @public
 export enum SystemErrorConditionMapper {
     // (undocumented)
     EBUSY = "com.microsoft:server-busy",

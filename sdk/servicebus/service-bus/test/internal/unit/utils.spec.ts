@@ -3,9 +3,9 @@
 
 import {
   checkAndRegisterWithAbortSignal,
-  waitForTimeoutOrAbortOrResolve,
-  StandardAbortMessage
+  waitForTimeoutOrAbortOrResolve
 } from "../../../src/util/utils";
+import { StandardAbortMessage } from "@azure/core-amqp";
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
 import chai from "chai";
