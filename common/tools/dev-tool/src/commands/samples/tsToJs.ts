@@ -19,7 +19,7 @@ export const commandInfo = makeCommandInfo(
   "convert a TypeScript sample to a JavaScript equivalent using our conventions for samples"
 );
 const prettierOptions: prettier.Options = {
-  ...(require("../eslint-plugin-azure-sdk/.prettier.json") as prettier.Options),
+  ...(require("../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
   parser: "typescript"
 };
 
