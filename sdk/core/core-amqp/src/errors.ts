@@ -4,7 +4,7 @@
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
 import { isNode, isNumber, isString } from "../src/util/utils";
-import { isObjectWithProperties } from "./util/typeGuards";
+import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -636,6 +636,12 @@ const rheaPromiseErrors = [
  * @returns MessagingError object.
  */
 export function translate(err: AmqpError | Error): MessagingError | Error {
+  if (!isDefined(err)) {
+    return new Error(`Unknown error encountered.`);
+  } else if (typeof err !== "object") {
+    // The error is a scalar type, make it the message of an actual error.
+    return new Error(err);
+  }
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
   if (err instanceof TypeError || err instanceof RangeError) {
