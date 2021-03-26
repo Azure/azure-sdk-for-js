@@ -19,7 +19,7 @@ async function main() {
   const client = new SmsClient(connectionString);
   const sendResults = await client.send(
     {
-      from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+      from: process.env["AZURE_PHONE_NUMBER"] || "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
       to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
       message: "Weekly Promotion!" // The message being sent
     },

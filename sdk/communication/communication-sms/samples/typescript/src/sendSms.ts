@@ -13,12 +13,13 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export const main = async () => {
+  console.log("== Send SMS Message ==");
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
   const client = new SmsClient(connectionString);
   const sendResults = await client.send({
-    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    from: process.env["AZURE_PHONE_NUMBER"] || "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
     to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
     message: "Hello World via SMS!" // The message being sent
   });

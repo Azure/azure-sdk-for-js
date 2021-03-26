@@ -31,6 +31,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 async function main() {
+  console.log("== Send SMS Message Using AAD Auth ==");
   const endpoint =
     process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
   // Azure AD Credential information is required to run this sample:
@@ -47,7 +48,7 @@ async function main() {
 
   const client = new SmsClient(endpoint, new DefaultAzureCredential());
   const sendResults = await client.send({
-    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
+    from: process.env["AZURE_PHONE_NUMBER"] || "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
     to: ["<to-phone-number-1>"], // The list of E.164 formatted phone numbers to which message is being sent
     message: "Hello World via SMS!" // The message being sent
   });
@@ -59,6 +60,7 @@ async function main() {
       console.error("Something went wrong when trying to send this message: ", sendResult);
     }
   }
+  console.log("== Done: Send SMS Message Using AAD Auth ==");
 }
 
 main().catch((error) => {
