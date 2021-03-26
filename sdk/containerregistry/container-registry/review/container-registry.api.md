@@ -44,11 +44,11 @@ export class ContainerRepositoryClient {
     registry: string;
     repository: string;
     setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<void>;
-    setPermissions(value?: ContentProperties, options?: SetPermissionsOptions): Promise<void>;
+    setPermissions(value: ContentProperties, options?: SetPermissionsOptions): Promise<void>;
     setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<void>;
 }
 
-// @public (undocumented)
+// @public
 export interface ContentProperties {
     canDelete?: boolean;
     canList?: boolean;
@@ -106,6 +106,13 @@ export interface ListTagsOptions extends OperationOptions {
 }
 
 // @public
+export interface ManifestAttributesManifestReferences {
+    cpuArchitecture: string;
+    digest: string;
+    operatingSystem: string;
+}
+
+// @public
 export interface RegistryArtifactProperties {
     cpuArchitecture?: string;
     createdOn?: Date;
@@ -113,7 +120,6 @@ export interface RegistryArtifactProperties {
     lastUpdatedOn?: Date;
     manifestProperties: ContentProperties;
     operatingSystem?: string;
-    // Warning: (ae-forgotten-export) The symbol "ManifestAttributesManifestReferences" needs to be exported by the entry point index.d.ts
     registryArtifacts?: ManifestAttributesManifestReferences[];
     repository: string;
     size?: number;
@@ -123,7 +129,7 @@ export interface RegistryArtifactProperties {
 // @public
 export interface RepositoryProperties {
     createdOn: Date;
-    lastUpdatedOn?: Date;
+    lastUpdatedOn: Date;
     name: string;
     registryArtifactCount: number;
     tagCount: number;

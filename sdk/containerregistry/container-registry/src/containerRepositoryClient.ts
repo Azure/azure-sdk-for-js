@@ -350,7 +350,7 @@ export class ContainerRepositoryClient {
    * @param options -
    */
   public async setPermissions(
-    value: ContentProperties = {},
+    value: ContentProperties,
     options: SetPermissionsOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setPermissions", {

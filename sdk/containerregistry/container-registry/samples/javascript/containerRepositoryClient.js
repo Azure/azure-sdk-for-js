@@ -14,12 +14,15 @@ async function main() {
   const repository = process.env.REPOSITORY_NAME || "<repository name>";
 
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
+  await getProperties(client);
   await listTags(client);
-  await listArtifacts(client);
-  // await getProperties(client);
-  const digest = "sha256:4661fb57f7890b9145907a1fe2555091d333ff3d28db86c3bb906f6a2be93c87";
-  await getArtifactProperties(client, digest);
-  // await deleteArtifact(client, digest);
+  const artifacts = await listArtifacts(client);
+  if (artifacts && artifacts.length) {
+    const digest = artifacts[0].digest;
+    await getArtifactProperties(client, digest);
+
+    await deleteArtifact(client, digest);
+  }
 }
 
 async function listTags(client) {
@@ -50,8 +53,10 @@ async function listTags(client) {
 
 async function listArtifacts(client) {
   console.log("Listing artifacts");
+  const artifacts = [];
   const iterator = client.listRegistryArtifacts();
   for await (const artifact of iterator) {
+    artifacts.push(artifact);
     console.log(`  digest: ${artifact.digest}`);
     console.log(`  created on: ${artifact.createdOn}`);
     console.log(`  last updated on: ${artifact.lastUpdatedOn}`);
@@ -70,13 +75,14 @@ async function listArtifacts(client) {
     }
     result = await pages.next();
   }
+
+  return artifacts;
 }
 
 async function getProperties(client) {
   console.log("Retrieving repository properties...");
   const properties = await client.getProperties();
   console.log(`  name: ${properties.name}`);
-  console.log(`  registry: ${properties.registry}`);
   console.log(`  created on: ${properties.createdOn}`);
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);
   console.log(`  artifact count: ${properties.registryArtifactCount}`);
@@ -91,9 +97,8 @@ async function getProperties(client) {
 }
 
 async function getArtifactProperties(client, digest) {
-  console.log("Retrieving registry artifact properties");
+  console.log(`Retrieving registry artifact properties for ${digest}`);
   const properties = await client.getRegistryArtifactProperties(digest);
-  console.log(`  digest : ${properties.digest}`);
   console.log(`  created on: ${properties.createdOn}`);
   console.log(`  last updated on: ${properties.lastUpdatedOn}`);
   console.log(`  arch : ${properties.cpuArchitecture}`);
@@ -102,6 +107,7 @@ async function getArtifactProperties(client, digest) {
 }
 
 async function deleteArtifact(client, digest) {
+  console.log(`Deleting registry artifact for ${digest}`);
   await client.deleteRegistryArtifact(digest);
 }
 

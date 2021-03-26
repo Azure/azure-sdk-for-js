@@ -1030,7 +1030,7 @@
           "RefreshToken"
         ],
         "description": "Exchange AAD tokens for an ACR refresh Token",
-        "operationId": "Authentication_ExchangeAadTokenForAcrRefreshToken",
+        "operationId": "Authentication_ExchangeAadAccessTokenForAcrRefreshToken",
         "consumes": [
           "application/x-www-form-urlencoded"
         ],
@@ -1040,9 +1040,6 @@
           },
           {
             "$ref": "#/parameters/Service"
-          },
-          {
-            "$ref": "#/parameters/Tenant"
           },
           {
             "$ref": "#/parameters/AccessToken"
@@ -1285,7 +1282,7 @@
       "required": [
         "imageName",
         "createdTime",
-        "lastUpdatetime",
+        "lastUpdateTime",
         "manifestCount",
         "tagCount",
         "changeableAttributes"
@@ -1482,6 +1479,30 @@
         "lastUpdateTime": "2018-08-10T17:28:44.1082945Z"
       }
     },
+    "TagOrderBy": {
+      "type": "string",
+      "enum": [
+        "timedesc",
+        "timeasc"
+      ],
+      "x-ms-enum": {
+        "name": "TagOrderBy",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "timedesc",
+            "name": "LastUpdatedOnDescending",
+            "description": "Order tags by LastUpdatedOn field, from most recently updated to least recently updated."
+          },
+          {
+            "value": "timeasc",
+            "name": "LastUpdatedOnAscending",
+            "description": "Order tags by LastUpdatedOn field, from least recently updated to most recently updated."
+          }
+        ]
+        },
+        "x-accessibility": "public"
+      },
     "AcrManifests": {
       "description": "Manifest attributes",
       "properties": {
@@ -1694,6 +1715,32 @@
       },
       "x-accessibility": "internal",
       "x-ms-client-name": "AcrRefreshToken"
+    },
+    "ManifestOrderBy": {
+      "type": "string",
+      "enum": [
+        "timedesc",
+        "timeasc"
+      ],
+      "x-ms-enum": {
+        "name": "RegistryArtifactOrderBy",
+        "modelAsString": true,
+        "values": [
+          {
+            "value": "timedesc",
+            "name": "LastUpdatedOnDescending",
+            "description": "Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated."
+          },
+          {
+            "value": "timeasc",
+            "name": "LastUpdatedOnAscending",
+            "description": "Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated."
+          }
+        ]
+      },
+      "default": "none",
+      "description": "Sort options for ordering registry artifacts in a collection.",
+      "x-accessibility": "public"
     },
     "AccessToken": {
       "type": "object",
@@ -1937,6 +1984,7 @@
       }
     },
     "ChangeableAttributes": {
+      "description": "Changeable attributes",
       "x-ms-client-name": "ContentProperties",
       "properties": {
         "deleteEnabled": {
@@ -2571,7 +2619,7 @@
     "Tenant": {
       "name": "tenant",
       "in": "formData",
-      "required": true,
+      "required": false,
       "description": "AAD tenant associated to the AAD credentials.",
       "type": "string",
       "x-ms-parameter-location": "method"

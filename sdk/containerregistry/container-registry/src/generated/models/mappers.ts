@@ -118,6 +118,7 @@ export const RepositoryProperties: coreClient.CompositeMapper = {
       },
       lastUpdatedOn: {
         serializedName: "lastUpdateTime",
+        required: true,
         type: {
           name: "DateTime"
         }
@@ -576,13 +577,6 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
       },
       service: {
         serializedName: "service",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenant: {
-        serializedName: "tenant",
         required: true,
         type: {
           name: "String"

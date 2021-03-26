@@ -11,8 +11,8 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { GeneratedClientContext } from "../generatedClientContext";
 import {
-  AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams,
-  AuthenticationExchangeAadTokenForAcrRefreshTokenResponse,
+  AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams,
+  AuthenticationExchangeAadAccessTokenForAcrRefreshTokenResponse,
   AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams,
   AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse
 } from "../models";
@@ -33,12 +33,12 @@ export class Authentication {
    * Exchange AAD tokens for an ACR refresh Token
    * @param options The options parameters.
    */
-  exchangeAadTokenForAcrRefreshToken(
-    options?: AuthenticationExchangeAadTokenForAcrRefreshTokenOptionalParams
-  ): Promise<AuthenticationExchangeAadTokenForAcrRefreshTokenResponse> {
+  exchangeAadAccessTokenForAcrRefreshToken(
+    options?: AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams
+  ): Promise<AuthenticationExchangeAadAccessTokenForAcrRefreshTokenResponse> {
     return this.client.sendOperationRequest(
       { options },
-      exchangeAadTokenForAcrRefreshTokenOperationSpec
+      exchangeAadAccessTokenForAcrRefreshTokenOperationSpec
     );
   }
 
@@ -58,7 +58,7 @@ export class Authentication {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const exchangeAadTokenForAcrRefreshTokenOperationSpec: coreClient.OperationSpec = {
+const exchangeAadAccessTokenForAcrRefreshTokenOperationSpec: coreClient.OperationSpec = {
   path: "/oauth2/exchange",
   httpMethod: "POST",
   responses: {

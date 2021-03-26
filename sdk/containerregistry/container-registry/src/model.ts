@@ -7,6 +7,7 @@ import {
   DeleteRepositoryResult,
   RegistryArtifactProperties,
   RepositoryProperties,
+  ManifestAttributesManifestReferences,
   TagProperties
 } from "./generated";
 
@@ -18,6 +19,7 @@ export {
   DeleteRepositoryResult,
   RegistryArtifactProperties,
   RepositoryProperties,
+  ManifestAttributesManifestReferences,
   TagProperties
 };
 

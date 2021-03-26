@@ -14,7 +14,8 @@ async function main() {
 
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
   await listRepositories(client);
-  // await deleteRepository(client);
+
+  await deleteRepository(client);
 }
 
 async function listRepositories(client) {
