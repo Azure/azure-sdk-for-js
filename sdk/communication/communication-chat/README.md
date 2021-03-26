@@ -84,7 +84,7 @@ Use the `createThread` method to create a chat thread.
 
 ```Javascript
 let createChatThreadRequest ={
-    topic: 'Preparation for London conference',
+    topic: 'Preparation for London conference'
 };
 let createChatThreadOptions = {
     participants:[{
