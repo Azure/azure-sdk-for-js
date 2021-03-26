@@ -164,7 +164,7 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
         <br />
         <h4>Authentication flow</h4>
         <Radio
-          values={["implicit-grant", "auth-code"]}
+          values={["auth-code"]}
           checkedValue={clientDetails.flow}
           onChange={setDetail("flow")}
         />

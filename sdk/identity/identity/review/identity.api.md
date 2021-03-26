@@ -169,7 +169,7 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
-export type InteractiveBrowserAuthenticationFlow = "implicit-grant" | "auth-code";
+export type InteractiveBrowserAuthenticationFlow = "auth-code";
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {

@@ -7,7 +7,6 @@ import { trace } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
-import { MSALImplicit } from "../msal/browserFlows/msalImplicit";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/browserCommon";
 import {
   InteractiveBrowserCredentialBrowserOptions,
@@ -73,11 +72,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri
     };
 
-    if (browserOptions.flow === "implicit-grant") {
-      this.msalFlow = new MSALImplicit(msalOptions);
-    } else {
-      this.msalFlow = new MSALAuthCode(msalOptions);
-    }
+    this.msalFlow = new MSALAuthCode(msalOptions);
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 

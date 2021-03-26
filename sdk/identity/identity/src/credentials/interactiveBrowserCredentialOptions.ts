@@ -17,10 +17,9 @@ export type BrowserLoginStyle = "redirect" | "popup";
 
 /**
  * The Azure authentication flow.
- * - Implicit Grant Flow: https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow
  * - Auth Code Flow: https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow
  */
-export type InteractiveBrowserAuthenticationFlow = "implicit-grant" | "auth-code";
+export type InteractiveBrowserAuthenticationFlow = "auth-code";
 
 /**
  * Defines the common options for the InteractiveBrowserCredential class.
