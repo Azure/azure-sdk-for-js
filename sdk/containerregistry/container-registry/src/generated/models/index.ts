@@ -53,6 +53,7 @@ export interface RepositoryProperties {
   writeableProperties: ContentProperties;
 }
 
+/** Changeable attributes */
 export interface ContentProperties {
   /** Delete enabled */
   canDelete?: boolean;

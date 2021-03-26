@@ -1984,6 +1984,7 @@
       }
     },
     "ChangeableAttributes": {
+      "description": "Changeable attributes",
       "x-ms-client-name": "ContentProperties",
       "properties": {
         "deleteEnabled": {

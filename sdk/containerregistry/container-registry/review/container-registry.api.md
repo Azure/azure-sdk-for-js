@@ -49,7 +49,7 @@ export class ContainerRepositoryClient {
     setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<RestResponse>;
 }
 
-// @public (undocumented)
+// @public
 export interface ContentProperties {
     canDelete?: boolean;
     canList?: boolean;
