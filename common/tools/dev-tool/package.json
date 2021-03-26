@@ -37,7 +37,7 @@
   "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/common/tools/dev-tool/",
   "sideEffects": false,
   "private": true,
-  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "prettier": "../../../.prettierrc.json",
   "dependencies": {
     "chalk": "~3.0.0",
     "dotenv": "^8.2.0",
@@ -50,7 +50,6 @@
     "yaml": "~1.10.0"
   },
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
