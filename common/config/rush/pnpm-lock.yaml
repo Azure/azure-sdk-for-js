@@ -6151,14 +6151,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+6uilZXSJGyiqVeHQI3Krv6NTAd8cWRCY2uyCxmzR4/5IFtBqqFem1HV2OiwSj0Gu7OFChIJDfH2JyjN7J0vRA==
-  /rhea-promise/1.1.0:
+  /rhea-promise/1.2.0:
     dependencies:
       debug: 3.2.7
       rhea: 1.0.24
       tslib: 1.14.1
     dev: false
     resolution:
-      integrity: sha512-LKcyeh7Df4q4wApcsi5+HhMI7T636y0hz+5qVI9ESZi0D6SnFPRbefWzYQXCZmqvLgWeTOyKQbjJaJFSYp2kAA==
+      integrity: sha512-92Bi1bQ5RfbYZW3880F+RkUvu5RTYCtM2tvMaAAj1fyAqi9FTPifmg5gvn69CaOPV63Kn9MOvUyXXDAtiIWILw==
   /rhea/1.0.24:
     dependencies:
       debug: 3.2.7
@@ -8025,7 +8025,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-YtSyJFqVejRNd3eVmn6t356xzvirEi5MuT/3aOUNnYprB1EoQIIzip9gSkoSIrE/49uYIhBQvX8Sv9h8kJBlCw==
+      integrity: sha512-JyAC5criEgdDhR+xftraP08gr8F5KLSbhfHcUkoLTzcuRqLJBUbXoEP+p643It8vn96DeV/5owOqR99xBpxmXA==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8133,7 +8133,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-g1nLbK2FuYx3BDTMGMU6UfIpsKv6JnUidrfN2jflMq0SiUtPz4xhlnY71a0HeM053X1AAJqIjFgDM7DTf7+smQ==
+      integrity: sha512-Azh0sAwlI8Tjmwt/FfHycrzLPbPLclysp/K9wsiTMBc6TGco/JhEgoSC6iKu9GdDvFBcCuz1/LUaKU/2eWU9fQ==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
@@ -8187,7 +8187,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-phone-numbers'
     resolution:
-      integrity: sha512-+fH5pNHsXyNjEDUxW862YejWDd86XX2Q3J105Nvbvrtb7vTnvLLui5K2x/9pk9eD7ZOjci/UWZxvERhywaisEA==
+      integrity: sha512-xgNJ2W9zDC/Zf7XK2W05iOcQW2iEOsdEiekvfnX0fObKxsSYdTJ80CB9haNLOCtro8lJde/EpFx1ZtuT4X3qeg==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -8240,7 +8240,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-+M8fmje7kfdzmjGsHmEq4az70KSigO9sz92unNfd9fSclt6O9/T5QvQn7oL6tq6xesa19awmjT45VFPiLjAjMA==
+      integrity: sha512-JKS5qrkaTTcexWWme49fQClEfL4Oxb9Z+tBThQWtdGBEihadbWOFYKr9kDa0CJ3nZYBMKr8Dg/EKVCNg8xCP1g==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/container-registry.tgz:
@@ -8328,7 +8328,7 @@ packages:
       process: 0.11.10
       puppeteer: 3.3.0
       rhea: 1.0.24
-      rhea-promise: 1.1.0
+      rhea-promise: 1.2.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -8345,7 +8345,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-vyE4IZWYh/dx9ykzbU7kYrYgHLHeFDl4bhLbS3h5N2LlfUrbtxhv6qeD6uhLjkV3qHrxQUDC86fz4maZFxFXcA==
+      integrity: sha512-GXwiJQwSCb7leEEMcvv7mb6Gspt0pBudqRKGuCzDYK8LuQSDUTZ/a0QCtxJDtiU6VmsCgCZZw7cetSvDC1dNzQ==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -8602,7 +8602,7 @@ packages:
     dev: false
     name: '@rush-temp/core-lro'
     resolution:
-      integrity: sha512-kNdxHyaz1X9r53TgI0u6JLV/GMYQlWPYTlkkAnqNp9hZsXHakkJxfKqsHQPqBOPcjbbe8gHMlqMrlX9LOqvB+g==
+      integrity: sha512-2N0+EPgJzx3CQ2DrTHP1N/XCmjnQHxgJcWHb8IXFNyF1//WOOgnvwQ4mAtnd0YY42e6sSQL5tiKQMMkyEac+lQ==
       tarball: file:projects/core-lro.tgz
     version: 0.0.0
   file:projects/core-paging.tgz:
@@ -9096,7 +9096,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea-promise: 1.1.0
+      rhea-promise: 1.2.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9112,7 +9112,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-ffmk+9mOFHG+VDArGxX32UtOK0fgx9c9yPt0UoNItgBcA6pnjsXoki8GiXWCXf9ZB04PyZWu5nmYowP/Z3H2cw==
+      integrity: sha512-ZXe/yDBR34ceuqvpsKj38nbWRQVwovoAGQ+vY/rxbEzXJ0zlswrihm/l0DhXBpFdKjGtyTXZXAjDsBFPDJ29NQ==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -9955,7 +9955,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry-avro'
     resolution:
-      integrity: sha512-hKaoDAa039WR0/QQT06PY2SzWtfOEbm0Qqm4dsuC57whmFBZ63rr2YStZ7tw2nhQLAJ3ijPo5zIEZrXL8Hz5GA==
+      integrity: sha512-QHIt/4PKYc/40RbF8lJeokAKpWuNs5Cl8NtEH6T61q3Tv116WL4nDN5N/p4IY1RciPaCBrtw0/mBaMolv4Nitg==
       tarball: file:projects/schema-registry-avro.tgz
     version: 0.0.0
   file:projects/schema-registry.tgz:
@@ -10122,7 +10122,7 @@ packages:
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 3.3.0
-      rhea-promise: 1.1.0
+      rhea-promise: 1.2.0
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10137,7 +10137,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-s3MOSHBb9stjkMwk4wgtMzKaxpkXMqo9W759fZ5TKwuk8d6H6SkcUAAabfcG8OZ1qbOsy4ghlOlmh1u7ILwm4g==
+      integrity: sha512-Oog/a32/ErgAGVDwRzGIOCDmelES3FoxQutu6/8aRXMdgK4SqW5ZF2n1RtL+rAollmllV78E9gJuaohnOTa6rA==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
