@@ -8,6 +8,7 @@ import { isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * The standard error message accompanying an AbortError.
+ * @hidden
  */
 export const StandardAbortMessage = "The operation was aborted.";
 
