@@ -12,7 +12,7 @@ import { Constants } from "../common/constants";
 import { logger } from "../common/logger";
 import { executePlugins, PluginOn } from "../plugins/Plugin";
 import * as RetryUtility from "../retry/retryUtility";
-// import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
+import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
 import { ErrorResponse } from "./ErrorResponse";
 import { bodyFromData } from "./request";
 import { RequestContext } from "./RequestContext";
@@ -69,15 +69,15 @@ async function httpRequest(
     url,
     headers: reqHeaders,
     method: requestContext.method,
-    // agent: (parsedUrl: URL) => {
-    //   if (requestContext.requestAgent) {
-    //     return requestContext.requestAgent;
-    //   }
-    //   return parsedUrl.protocol === "http" ? defaultHttpAgent : defaultHttpsAgent;
-    // },
     abortSignal: signal,
     body: requestContext.body
   });
+  if (requestContext.requestAgent) {
+    pipelineRequest.agent = requestContext.requestAgent;
+  } else {
+    const parsedUrl = new URL(url);
+    pipelineRequest.agent = parsedUrl.protocol === "http" ? defaultHttpAgent : defaultHttpsAgent;
+  }
 
   try {
     response = await httpsClient.sendRequest(pipelineRequest);
