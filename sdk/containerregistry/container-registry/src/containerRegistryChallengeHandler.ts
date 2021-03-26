@@ -4,7 +4,10 @@
 import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/identity";
-import { parseWWWAuthenticate } from "./bearerTokenChallengeCredentialPolicy";
+import {
+  BearerTokenChallengeResult,
+  parseWWWAuthenticate
+} from "./bearerTokenChallengeCredentialPolicy";
 import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
@@ -28,7 +31,10 @@ import * as Parameters from "./generated/models/parameters";
  *```
  */
 export class ChallengeHandler {
-  constructor(private authClient: GeneratedClient, private options: GetTokenOptions = {}) {}
+  constructor(
+    private authClient: GeneratedClient,
+    private options: GetTokenOptions & { claims?: string } = {}
+  ) {}
   /**
    * Allows for the customization of the next request before its sent.
    * By default we won't be doing any changes to the initial challenge request.
@@ -37,7 +43,10 @@ export class ChallengeHandler {
   /**
    * Updates  the authentication context based on the challenge.
    */
-  async processChallenge(challenge: string, request: PipelineRequest): Promise<string> {
+  async processChallenge(
+    challenge: string,
+    request: PipelineRequest
+  ): Promise<BearerTokenChallengeResult | undefined> {
     // Once we're here, we've completed Step 1.
 
     // Step 2: Parse challenge string to retrieve serviceName and scope, where scope is the ACR Scope
@@ -70,7 +79,9 @@ export class ChallengeHandler {
 
     // Step 5 - Authorize Request.  Note, we don't use SetAuthorizationHeader here, because it
     // sets an AAD access token header, and at this point we're done with AAD and using an ACR access token.
-    return acrAccessToken;
+    request.headers.set("Authorization", `Bearer ${acrAccessToken}`);
+
+    return undefined;
   }
 
   private async ExchangeAadAccessTokenForAcrRefreshTokenAsync(

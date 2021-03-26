@@ -58,7 +58,10 @@ export interface BearerTokenAuthenticationPolicyOptions {
     /**
      * Proccesses the challenge and returns an access token for requests to service endpoints.
      */
-    processChallenge(challenge: string, request: PipelineRequest): Promise<string>;
+    processChallenge(
+      challenge: string,
+      request: PipelineRequest
+    ): Promise<BearerTokenChallengeResult | undefined>;
   };
 }
 
@@ -71,7 +74,25 @@ export function bearerTokenChallengeAuthenticationPolicy(
 ): PipelinePolicy {
   const { credential, scopes, challengeCallbacks } = options;
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  const callbacks = challengeCallbacks;
+
+  const defaultCallbacks = {
+    prepareRequest: undefined,
+    processChallenge(
+      challenge: string,
+      request: PipelineRequest
+    ): Promise<BearerTokenChallengeResult | undefined> {
+      const { scope, claims } = parseWWWAuthenticate(challenge);
+      const context = {
+        scopes: scope ? [scope] : undefined,
+        claims
+      };
+      const token = retrieveToken(request, context);
+      request.headers.set("Authorization", `Bearer ${token}`);
+
+      return Promise.resolve(context);
+    }
+  };
+  const callbacks = challengeCallbacks ?? defaultCallbacks;
 
   /**
    * retrieveToken will call to the underlying credential's getToken request with properties coming from the request,
@@ -82,7 +103,8 @@ export function bearerTokenChallengeAuthenticationPolicy(
     context?: BearerTokenChallengeResult
   ): Promise<string | undefined> {
     let accessToken = tokenCache.getCachedToken();
-    const getTokenOptions: GetTokenOptions = {
+    const getTokenOptions: GetTokenOptions & { claims?: string } = {
+      claims: context?.claims,
       abortSignal: request.abortSignal,
       tracingOptions: request.tracingOptions
     };
@@ -159,9 +181,9 @@ export function bearerTokenChallengeAuthenticationPolicy(
       }
 
       if (challenge && callbacks?.processChallenge) {
-        // processes challenge and gets back an updated access token
-        const token = await callbacks.processChallenge(challenge, request);
-        return next(assignToken(request, token));
+        // processes challenge
+        await callbacks.processChallenge(challenge, request);
+        return next(request);
       }
 
       //@ts-ignore assigned in try block
@@ -175,6 +197,7 @@ type ValidParsedWWWAuthenticateProperties =
   // This is not a relevant property anymore, since the service is consistently answering with "authorization".
   // | "authorization_uri"
   | "authorization"
+  | "claims"
   // Even though the service is moving to "scope", both "resource" and "scope" should be supported.
   | "resource"
   | "scope"
