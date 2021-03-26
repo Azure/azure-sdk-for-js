@@ -8019,7 +8019,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-vuWazAinRQ0cCL7PhGjZ1akW+c0PvzB/WM1JfrLgpe/A5OePugdE6M0niywt4PB49fhvEhfg4gbzG08doxmDsA==
+      integrity: sha512-XM4moakFViGkpzzSOnMIkPfhELpfGp0yH6OnB8iG8KKw+8/a7IHr1E38fClhltnZ9++8saCVPWa6iCVShIYTkw==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8127,7 +8127,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-JKKzg/JjzMI45vX24813h+dunBf9H8EA+gl7JtSE9IZpdR+Rea23YiU3i+4x4XLyNRud76STaVAsuh87Mnljfw==
+      integrity: sha512-EIIjEOCzBl4gbMOI33kOBcUEAl2Lqva5pqUP6aUT+OiHgaEOl1LvfZJZ8EEDQiKNy4p/ck2mBov6Pxgyd0eLPA==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
@@ -8181,7 +8181,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-phone-numbers'
     resolution:
-      integrity: sha512-WPeLdote6MGNT346jOdTFhOcFs6cqL6lCp7ycYwPf8Te6J8uME7jibbmTV/i/u4t702ldb4BbGJ69UvezAb4qw==
+      integrity: sha512-VbJynFBQ7v8vYWAe73lCjpiWbfA6fAxGFhndv4SRUluv54NCT62h1I2qfE1aG2Fu4bsbjJjOlfcWaS+MB+uc8Q==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -8234,7 +8234,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-sms'
     resolution:
-      integrity: sha512-D41yhZGKJ7lCkTUJ0k6XLTgoir3+7ySQZZ730khR3v0ligdLo0YbJxo/uYGl6mddJp0LY5u5byL4e9MxcMe9tg==
+      integrity: sha512-M53V/Rl8nhPwnmOxHjZqVWJ2og2qEG7DoC2Gujrz0KeN2r/QhwfrZaWc8Xk61WilbwFNX1KiHN5coS953fD8mA==
       tarball: file:projects/communication-sms.tgz
     version: 0.0.0
   file:projects/container-registry.tgz:
@@ -8849,7 +8849,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-c6fyIXSKlKD115KDkLnklZRU87+Gv9xErWeGViv60Z1SAwkmqA/gLOL7l0tiaY50DwwsC5sZQqXOUAuatrhdlA==
+      integrity: sha512-U0Lp+2VhgYameubA4o2CvFbFF+BV3jo6ssZgejtcyee4nRVkO1942eMIo3wBYJPPg5f+ZQ+Fn5C6B4n4SFnN0g==
       tarball: file:projects/cosmos.tgz
     version: 0.0.0
   file:projects/data-tables.tgz:
@@ -9741,6 +9741,7 @@ packages:
       '@azure/identity': 1.2.4
       '@types/node': 8.10.66
       dotenv: 8.2.0
+      eslint: 7.22.0
       prettier: 1.19.1
       rimraf: 3.0.2
       ts-node: 9.1.1_typescript@4.2.3
@@ -9749,7 +9750,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-ai-form-recognizer'
     resolution:
-      integrity: sha512-2ZJV+0BQp5lWyVdbs3XXiJ2w5cPZ4UIJv8t77xsiIOd4X/BiWVgS3KpJJudQqp2/iGgeUy5cPm29eV4ngBhkpg==
+      integrity: sha512-gJ4nl8UAm254P0GWxcnaF5PpWatN2Ifio5wl3XfLknEEAYPDOYYxQcuXmCLE9oGdsb3SaujzdQnqHqetDfVHoA==
       tarball: file:projects/perf-ai-form-recognizer.tgz
     version: 0.0.0
   file:projects/perf-ai-text-analytics.tgz:
