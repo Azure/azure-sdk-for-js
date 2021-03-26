@@ -105,10 +105,10 @@ function appendPath(url: string, pathToAppend?: string): string {
 
   const searchStart = pathToAppend.indexOf("?");
   if (searchStart !== -1) {
-    const path = pathToAppend.substr(0, searchStart);
-    const search = pathToAppend.substr(searchStart + 1);
+    const path = pathToAppend.substring(0, searchStart);
+    const search = pathToAppend.substring(searchStart + 1);
     newPath = newPath + path;
-    parsedUrl.search = parsedUrl.search ? parsedUrl.search + "&" + search : search;
+    parsedUrl.search = parsedUrl.search ? `${parsedUrl.search}&${search}` : search;
   } else {
     newPath = newPath + pathToAppend;
   }
