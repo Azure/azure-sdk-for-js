@@ -125,6 +125,10 @@
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {
-    "skipFolder": true
+    "skip": [
+      "sendSms.js",
+      "sendSmsWithOptions.js",
+      "usingAadAuth.js"
+    ]
   }
 }
