@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import { TokenCredential, AccessToken } from "@azure/core-auth";
-import { } from "../src/policies/bearerTokenAuthenticationPolicy";
+import {} from "../src/policies/bearerTokenAuthenticationPolicy";
 import {
   PipelinePolicy,
   createPipelineRequest,
@@ -17,7 +17,7 @@ import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
-describe("BearerTokenAuthenticationPolicy", function () {
+describe("BearerTokenAuthenticationPolicy", function() {
   let clock: sinon.SinonFakeTimers;
 
   beforeEach(() => {
@@ -27,7 +27,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     clock.restore();
   });
 
-  it("correctly adds an Authentication header with the Bearer token", async function () {
+  it("correctly adds an Authentication header with the Bearer token", async function() {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
     const fakeGetToken = sinon.fake.returns(
@@ -243,7 +243,7 @@ class MockRefreshAzureCredential implements TokenCredential {
     public expiresOnTimestamp: number,
     public getTokenDelay?: number,
     public clock?: sinon.SinonFakeTimers
-  ) { }
+  ) {}
 
   public async getToken(): Promise<AccessToken> {
     this.authCount++;
