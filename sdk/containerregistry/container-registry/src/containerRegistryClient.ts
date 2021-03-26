@@ -4,10 +4,7 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import {
-  bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions
-} from "@azure/core-rest-pipeline";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -24,6 +21,8 @@ import {
   createContainerRegistryUserCredentialPolicy
 } from "./containerRegistryUserCredentialPolicy";
 import { extractNextLink } from "./utils";
+import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChallengeCredentialPolicy";
+import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 
 /**
  * Options for the `deleteRepository` method of `ContainerRegistryClient`.
@@ -44,6 +43,7 @@ export class ContainerRegistryClient {
    */
   public endpoint: string;
   private client: GeneratedClient;
+  private authClient: GeneratedClient;
 
   /**
    * Creates an instance of a ContainerRegistryClient.
@@ -79,11 +79,6 @@ export class ContainerRegistryClient {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    // The AAD scope for an API is usually the baseUri + "/.default", but it
-    // may be different for your service.
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy({ credential, scopes: `${endpointUrl}/.default` })
-      : createContainerRegistryUserCredentialPolicy(credential);
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       loggingOptions: {
@@ -94,8 +89,16 @@ export class ContainerRegistryClient {
       }
     };
 
+    this.authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
     this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
-    this.client.pipeline.addPolicy(authPolicy);
+    const authPolicy2 = isTokenCredential(credential)
+      ? bearerTokenChallengeAuthenticationPolicy({
+          credential,
+          scopes: `https://management.core.windows.net/.default`,
+          challengeCallbacks: new ChallengeHandler(this.authClient)
+        })
+      : createContainerRegistryUserCredentialPolicy(credential);
+    this.client.pipeline.addPolicy(authPolicy2);
   }
 
   /**
