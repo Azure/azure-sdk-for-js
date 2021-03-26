@@ -10,6 +10,7 @@ import * as Constants from "../util/constants";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { HttpOperationResponse, HttpResponse } from "@azure/core-http";
 import { isDefined } from "./typeGuards";
+import { StandardAbortMessage } from "@azure/core-amqp";
 
 // This is the only dependency we have on DOM types, so rather than require
 // the DOM lib we can just shim this in.
@@ -517,11 +518,6 @@ export type EntityAvailabilityStatus =
   | "Renaming"
   | "Restoring"
   | "Unknown";
-
-/**
- * @internal
- */
-export const StandardAbortMessage = "The operation was aborted.";
 
 type setTimeoutArgs = (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
 

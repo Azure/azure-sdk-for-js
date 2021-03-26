@@ -11,6 +11,7 @@
   - CbsClient.init()
   - CbsClient.negotiateClaim()
   - RequestResponseLink.create()
+- Exporting `StandardAbortMessage` that is the standard error message accompanying the `AbortError`.
 
 ## 2.1.0 (2021-02-08)
 

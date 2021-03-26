@@ -27,7 +27,8 @@ export {
   retryableErrors,
   isSystemError,
   SystemErrorConditionMapper,
-  NetworkSystemError
+  NetworkSystemError,
+  StandardAbortMessage
 } from "./errors";
 export {
   delay,

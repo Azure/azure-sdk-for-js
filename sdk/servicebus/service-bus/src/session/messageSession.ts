@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants, ErrorNameConditionMapper, MessagingError } from "@azure/core-amqp";
+import {
+  Constants,
+  ErrorNameConditionMapper,
+  MessagingError,
+  StandardAbortMessage
+} from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
@@ -17,11 +22,7 @@ import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceive
 import { receiverLogger as logger } from "../log";
 import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import {
-  calculateRenewAfterDuration,
-  convertTicksToDate,
-  StandardAbortMessage
-} from "../util/utils";
+import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
 import { onMessageSettled, DeferredPromiseAndTimer, createReceiverOptions } from "../core/shared";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";

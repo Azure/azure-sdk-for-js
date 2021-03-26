@@ -115,6 +115,7 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
  */
 export class AppConfigurationClient {
   private client: AppConfiguration;
+  private _syncTokens: SyncTokens;
   // (for tests)
   private _trace = traceFromTracingHelpers;
 
@@ -164,13 +165,13 @@ export class AppConfigurationClient {
       }
     }
 
-    const syncTokens = appConfigOptions.syncTokens || new SyncTokens();
+    this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
 
     this.client = new AppConfiguration(
       appConfigCredential,
       appConfigEndpoint,
       apiVersion,
-      getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
+      getGeneratedClientOptions(appConfigEndpoint, this._syncTokens, appConfigOptions)
     );
   }
 
@@ -496,8 +497,16 @@ export class AppConfigurationClient {
       }
     });
   }
-}
 
+  /**
+   * Adds an external synchronization token to ensure service requests receive up-to-date values.
+   *
+   * @param syncToken The synchronization token value.
+   */
+  updateSyncToken(syncToken: string): void {
+    this._syncTokens.addSyncTokenFromHeaderValue(syncToken);
+  }
+}
 /**
  * Gets the options for the generated AppConfigurationClient
  * @internal

@@ -27,9 +27,8 @@ import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
-import { StandardAbortMessage } from "../../src/util/timeoutAbortSignalUtils";
+import { StandardAbortMessage } from "@azure/core-amqp";
 import { setSpan, context } from "@azure/core-tracing";
-
 const env = getEnvVars();
 
 describe("EventHub Sender", function(): void {
@@ -1002,7 +1001,7 @@ describe("EventHub Sender", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("Send request has been cancelled.");
+        err.message.should.equal(StandardAbortMessage);
       }
     });
 
