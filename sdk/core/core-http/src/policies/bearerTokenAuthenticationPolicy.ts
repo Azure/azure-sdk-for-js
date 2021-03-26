@@ -32,23 +32,23 @@ interface TokenCyclerOptions {
    * This will only become meaningful if the refresh fails for over
    * (refreshWindow - forcedRefreshWindow) milliseconds.
    */
-  forcedRefreshWindow: number;
+  forcedRefreshWindowInMs: number;
   /**
    * Interval in milliseconds to retry failed token refreshes.
    */
-  retryInterval: number;
+  retryIntervalInMs: number;
   /**
    * The window of time before token expiration during which
    * we will attempt to refresh the token.
    */
-  refreshWindow: number;
+  refreshWindowInMs: number;
 }
 
 // Default options for the cycler if none are provided
 export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
-  forcedRefreshWindow: 1000, // Force waiting for a refresh 1s before the token expires
-  retryInterval: 3000, // Allow refresh attempts every 3s
-  refreshWindow: 1000 * 60 * 2 // Start refreshing 2m before expiry
+  forcedRefreshWindowInMs: 1000, // Force waiting for a refresh 1s before the token expires
+  retryIntervalInMs: 3000, // Allow refresh attempts every 3s
+  refreshWindowInMs: 1000 * 60 * 2 // Start refreshing 2m before expiry
 };
 
 /**
@@ -56,20 +56,44 @@ export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
  * into an AccessTokenGetter by retrying the unreliable getter in a regular
  * interval.
  *
- * @param tryGetAccessToken - a function that produces a promise of an access
+ * @param getAccessToken - a function that produces a promise of an access
  * token that may fail by returning null
- * @param retryInterval - the time (in milliseconds) to wait between retry
+ * @param retryIntervalInMs - the time (in milliseconds) to wait between retry
  * attempts
+ * @param timeoutInMs - the timestamp after which the refresh attempt will fail,
+ * throwing an exception
  * @returns - a promise that, if it resolves, will resolve with an access token
  */
 async function beginRefresh(
-  tryGetAccessToken: () => Promise<AccessToken | null>,
-  retryInterval: number
+  getAccessToken: () => Promise<AccessToken | null>,
+  retryIntervalInMs: number,
+  timeoutInMs: number
 ): Promise<AccessToken> {
+  // This wrapper handles exceptions gracefully as long as we haven't exceeded
+  // the timeout.
+  async function tryGetAccessToken() {
+    if (Date.now() < timeoutInMs) {
+      try {
+        return await getAccessToken();
+      } catch {
+        return null;
+      }
+    } else {
+      const finalToken = await getAccessToken();
+
+      // Timeout is up, so throw if it's still null
+      if (finalToken === null) {
+        throw new Error("Failed to refresh access token.");
+      }
+
+      return finalToken;
+    }
+  }
+
   let token: AccessToken | null = await tryGetAccessToken();
 
   while (token === null) {
-    await delay(retryInterval);
+    await delay(retryIntervalInMs);
 
     token = await tryGetAccessToken();
   }
@@ -88,21 +112,21 @@ async function beginRefresh(
  * @param credential - the underlying TokenCredential that provides the access
  * token
  * @param scopes - the scopes to request authorization for
- * @param _options - optionally override default settings for the cycler
+ * @param tokenCyclerOptions - optionally override default settings for the cycler
  *
  * @returns - a function that reliably produces a valid access token
  */
 function createTokenCycler(
   credential: TokenCredential,
   scopes: string | string[],
-  _options?: Partial<TokenCyclerOptions>
+  tokenCyclerOptions?: Partial<TokenCyclerOptions>
 ): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
-    ..._options
+    ...tokenCyclerOptions
   };
 
   /**
@@ -123,7 +147,7 @@ function createTokenCycler(
     get shouldRefresh(): boolean {
       return (
         !cycler.isRefreshing &&
-        (token?.expiresOnTimestamp ?? 0) - options.refreshWindow < Date.now()
+        (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now()
       );
     },
     /**
@@ -131,7 +155,9 @@ function createTokenCycler(
      * token).
      */
     get mustRefresh(): boolean {
-      return token === null || token.expiresOnTimestamp - options.forcedRefreshWindow < Date.now();
+      return (
+        token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
+      );
     }
   };
 
@@ -147,11 +173,25 @@ function createTokenCycler(
 
       // Take advantage of promise chaining to insert an assignment to `token`
       // before the refresh can be considered done.
-      refreshWorker = beginRefresh(tryGetAccessToken, options.retryInterval).then((_token) => {
-        refreshWorker = null;
-        token = _token;
-        return token;
-      });
+      refreshWorker = beginRefresh(
+        tryGetAccessToken,
+        options.retryIntervalInMs,
+        // If we don't have a token, then we should timeout immediately
+        token?.expiresOnTimestamp ?? Date.now()
+      )
+        .then((_token) => {
+          refreshWorker = null;
+          token = _token;
+          return token;
+        })
+        .catch((reason) => {
+          // We also should reset the refresher if we enter a failed state.  All
+          // existing awaiters will throw, but subsequent requests will start a
+          // new retry chain.
+          refreshWorker = null;
+          token = null;
+          throw reason;
+        });
     }
 
     return refreshWorker as Promise<AccessToken>;
