@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { Constants, ContainerResponse } from "../../../src";
 import { ContainerDefinition, Database, Container } from "../../../src";
 import { ContainerRequest } from "../../../src";
@@ -14,7 +15,7 @@ import {
 import { SpatialType } from "../../../src";
 import { GeospatialType } from "../../../src";
 
-describe("Containers", /** @this Mocha.Context */ function() {
+describe("Containers", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

@@ -45,6 +45,7 @@ dependencies:
   '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
   '@rush-temp/perf-storage-blob': file:projects/perf-storage-blob.tgz
@@ -366,14 +367,6 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-Zyus+skNaVWL5fXfSjC17c94XZ95Z3a+bZc7YKkP26KT3Dj26jbfz2oT9KJxAT4XVtH/1WPY/fPFeEFTRvytJQ==
-  /@azure/msal-common/1.7.2:
-    dependencies:
-      debug: 4.3.1
-    dev: false
-    engines:
-      node: '>=0.8.0'
-    resolution:
-      integrity: sha512-3/voCdFKONENX+5tMrNOBSrVJb6NbE7YB8vc4FZ/4ZbjpK7GVtq9Bu1MW+HZhrmsUzSF/joHx0ZIJDYIequ/jg==
   /@azure/msal-common/2.1.0:
     dependencies:
       debug: 4.3.1
@@ -390,18 +383,6 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-EihnqHh2EE6xcB0Dh2LF30jE1Ga9cgh9PyRkX4fj+KpvYfL4ae57hvQwJGkynUgpf3V1xQxU5yaJVXOElfXiGw==
-  /@azure/msal-node-extensions/1.0.0-alpha.6:
-    dependencies:
-      '@azure/msal-common': 1.7.2
-      bindings: 1.5.0
-      keytar: 7.0.0
-      nan: 2.14.2
-    dev: false
-    engines:
-      node: '>=10'
-    requiresBuild: true
-    resolution:
-      integrity: sha512-fVufHc02C+daYOMAHBnE998abB4qUIeJ9gmTxmSelHhGfBGvvzMbCohCu4sTlSVDKUndF3yD/Nxvw/cEtpcZKg==
   /@azure/msal-node/1.0.0-beta.6:
     dependencies:
       '@azure/msal-common': 4.0.3
@@ -656,19 +637,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==
-  /@microsoft/api-documenter/7.8.56:
-    dependencies:
-      '@microsoft/api-extractor-model': 7.9.7
-      '@microsoft/tsdoc': 0.12.19
-      '@rushstack/node-core-library': 3.33.6
-      '@rushstack/ts-command-line': 4.6.10
-      colors: 1.2.5
-      js-yaml: 3.13.1
-      resolve: 1.17.0
-    dev: false
-    hasBin: true
-    resolution:
-      integrity: sha512-nf2hRScOib5O6kAi+gbnixWdmrpcpNxaiyzGh3P+hts6BpW1F2dgRSFpLT6cMZlCNjw6NrHA58XaLqc36QUltg==
   /@microsoft/api-extractor-model/7.7.10:
     dependencies:
       '@microsoft/tsdoc': 0.12.19
@@ -676,13 +644,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-gMFDXwUgoQYz9TgatyNPALDdZN4xBC3Un3fGwlzME+vM13PoJ26pGuqI7kv/OlK9+q2sgrEdxWns8D3UnLf2TA==
-  /@microsoft/api-extractor-model/7.9.7:
-    dependencies:
-      '@microsoft/tsdoc': 0.12.19
-      '@rushstack/node-core-library': 3.33.6
-    dev: false
-    resolution:
-      integrity: sha512-9ztrVtUYsnpUC6S+0PR72h7CGvzAX6ljdo6FOzq+jVte743Nb9TMdV97fnJO/n8XRSGUOAKsApgED0GgAek4jw==
   /@microsoft/api-extractor/7.7.11:
     dependencies:
       '@microsoft/api-extractor-model': 7.7.10
@@ -777,7 +738,7 @@ packages:
     dependencies:
       '@opentelemetry/api': 0.17.0
       '@opentelemetry/context-base': 0.17.0
-      semver: 7.3.4
+      semver: 7.3.5
     dev: false
     engines:
       node: '>=8.5.0'
@@ -907,20 +868,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-1+FoymIdr9W9k0D8fdZBBPwi5YcMwh/RyESuL5bY29rLICFxSLOPK+ImVZ1OcWj9GEMsvDx5pNpJ311mHQk+MA==
-  /@rushstack/node-core-library/3.33.6:
-    dependencies:
-      '@types/node': 10.17.13
-      colors: 1.2.5
-      fs-extra: 7.0.1
-      import-lazy: 4.0.0
-      jju: 1.4.0
-      resolve: 1.17.0
-      semver: 7.3.4
-      timsort: 0.3.0
-      z-schema: 3.18.4
-    dev: false
-    resolution:
-      integrity: sha512-930AP4Zj14Z4ulQ6ty2v3DM+D31zpLslAJuHB5E1qh/0+8JLkA0cf+wd2QiXjdIBpG/UdrHbReh5e9/e920YJw==
   /@rushstack/ts-command-line/4.3.13:
     dependencies:
       '@types/argparse': 1.0.33
@@ -929,15 +876,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-BUBbjYu67NJGQkpHu8aYm7kDoMFizL1qx78+72XE3mX/vDdXYJzw/FWS7TPcMJmY4kNlYs979v2B0Q0qa2wRiw==
-  /@rushstack/ts-command-line/4.6.10:
-    dependencies:
-      '@types/argparse': 1.0.38
-      argparse: 1.0.10
-      colors: 1.2.5
-      string-argv: 0.3.1
-    dev: false
-    resolution:
-      integrity: sha512-WhB/+yGvfmdsMFhEeVaJ9lBwPANFdsoKPsEkzSOVj60qG4aLWABeEl5rOdEwbbnx83RaNN2oQW8TX3enD+vdmw==
   /@sinonjs/commons/1.8.2:
     dependencies:
       type-detect: 4.0.8
@@ -972,10 +910,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-VQgHxyPMTj3hIlq9SY1mctqx+Jj8kpQfoLvDlVSDNOyuYs8JYfkuY3OW/4+dO657yPmNhHpePRx0/Tje5ImNVQ==
-  /@types/argparse/1.0.38:
-    dev: false
-    resolution:
-      integrity: sha512-ebDJ9b0e702Yr7pWgB0jzm+CX4Srzz8RcXtLJDJB+BSccqMa36uyH/zUsSYao5+BD1ytv3k3rPYCq4mAE1hsXA==
   /@types/async-lock/1.1.2:
     dev: false
     resolution:
@@ -1280,7 +1214,7 @@ packages:
       functional-red-black-tree: 1.0.1
       lodash: 4.17.21
       regexpp: 3.1.0
-      semver: 7.3.4
+      semver: 7.3.5
       tsutils: 3.21.0_typescript@4.2.3
       typescript: 4.2.3
     dev: false
@@ -1353,7 +1287,7 @@ packages:
       debug: 4.3.1
       globby: 11.0.3
       is-glob: 4.0.1
-      semver: 7.3.4
+      semver: 7.3.5
       tsutils: 3.21.0_typescript@4.2.3
       typescript: 4.2.3
     dev: false
@@ -1540,6 +1474,7 @@ packages:
       integrity: sha512-P009oYkeHyU742iSZJzZZywj4QRJdnTWffaKuJQLablCZ1uz6/cW4yaRgcDaoQ+uwOxxnt0gRUcwfsNP2ri0gw==
   /aproba/1.2.0:
     dev: false
+    optional: true
     resolution:
       integrity: sha512-Y9J6ZjXtoYh8RnXVCMOU/ttDmk1aBjunq9vO0ta5x85WDQiQfUF9sIPBITdbiiIVcBo03Hi3jMxigBtsddlXRw==
   /archy/1.0.0:
@@ -1551,6 +1486,7 @@ packages:
       delegates: 1.0.0
       readable-stream: 2.3.7
     dev: false
+    optional: true
     resolution:
       integrity: sha512-5hYdAkZlcG8tOLujVDTgCT+uPX0VnpAH28gWsLfzpXYm7wP6mp5Q/gYyR7YQ0cKVJcXJnl3j2kpBan13PtQf6w==
   /arg/4.1.3:
@@ -1778,12 +1714,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==
-  /bindings/1.5.0:
-    dependencies:
-      file-uri-to-path: 1.0.0
-    dev: false
-    resolution:
-      integrity: sha512-p2q/t/mhvuOj/UeLlV6566GD/guowlr0hHxClI0W9m7MWYkL1F0hLo+0Aexs9HSPCtR1SXQ0TD3MMKrXZajbiQ==
   /bl/4.1.0:
     dependencies:
       buffer: 5.7.1
@@ -1836,7 +1766,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001204
       colorette: 1.2.2
-      electron-to-chromium: 1.3.693
+      electron-to-chromium: 1.3.699
       escalade: 3.1.1
       node-releases: 1.1.71
     dev: false
@@ -2094,6 +2024,7 @@ packages:
     dev: false
     engines:
       node: '>=0.10.0'
+    optional: true
     resolution:
       integrity: sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
   /color-convert/1.9.3:
@@ -2177,6 +2108,7 @@ packages:
       integrity: sha512-ZqRXc+tZukToSNmh5C2iWMSoV3X1YUcPbqEM4DkEG5tNQXrQUZCNVGGv3IuicnkMtPfGf3Xtp8WCXs295iQ1pQ==
   /console-control-strings/1.1.0:
     dev: false
+    optional: true
     resolution:
       integrity: sha1-PXz0Rk22RG6mRL9LOVB/mFEAjo4=
   /contains-path/0.1.0:
@@ -2414,6 +2346,7 @@ packages:
     dev: false
     engines:
       node: '>=8'
+    optional: true
     resolution:
       integrity: sha512-jOSne2qbyE+/r8G1VU+G/82LBs2Fs4LAsTiLSHOCOMZQl2OKZ6i8i4IyHemTe+/yIXOtTcRQMzPcgyhoFlqPkw==
   /deep-eql/3.0.1:
@@ -2428,6 +2361,7 @@ packages:
     dev: false
     engines:
       node: '>=4.0.0'
+    optional: true
     resolution:
       integrity: sha512-LOHxIOaPYdHlJRtCQfDIVZtfw/ufM8+rVj649RIHzcm/vGwQRXFt6OPqIFWsm2XEMrNIEtWR64sY1LEKD2vAOA==
   /deep-freeze/0.0.1:
@@ -2452,12 +2386,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha1-9fj7sYp9bVCyH2QfZJ67Uiz+JPc=
-  /define-lazy-prop/2.0.0:
-    dev: false
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-Ds09qNh8yw3khSjiJjiUInaGX9xlqZDY7JVryGxdxV7NPeuqQfplOpQ66yJFZut3jLa5zOwkXw1g9EI2uKh4Og==
   /define-properties/1.1.3:
     dependencies:
       object-keys: 1.1.1
@@ -2488,6 +2416,7 @@ packages:
       integrity: sha1-3zrhmayt+31ECqrgsp4icrJOxhk=
   /delegates/1.0.0:
     dev: false
+    optional: true
     resolution:
       integrity: sha1-hMbhWbgZBP3KWaDvRM2HDTElD5o=
   /depd/1.1.2:
@@ -2505,6 +2434,7 @@ packages:
     engines:
       node: '>=0.10'
     hasBin: true
+    optional: true
     resolution:
       integrity: sha1-+hN8S9aY7fVc1c0CrFWfkaTEups=
   /di/0.0.1:
@@ -2606,10 +2536,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=
-  /electron-to-chromium/1.3.693:
+  /electron-to-chromium/1.3.699:
     dev: false
     resolution:
-      integrity: sha512-vUdsE8yyeu30RecppQtI+XTz2++LWLVEIYmzeCaCRLSdtKZ2eXqdJcrs85KwLiPOPVc6PELgWyXBsfqIvzGZag==
+      integrity: sha512-fjt43CPXdPYwD9ybmKbNeLwZBmCVdLY2J5fGZub7/eMPuiqQznOGNXv/wurnpXIlE7ScHnvG9Zi+H4/i6uMKmw==
   /emoji-regex/7.0.3:
     dev: false
     resolution:
@@ -2910,7 +2840,7 @@ packages:
       optionator: 0.9.1
       progress: 2.0.3
       regexpp: 3.1.0
-      semver: 7.3.4
+      semver: 7.3.5
       strip-ansi: 6.0.0
       strip-json-comments: 3.1.1
       table: 6.0.7
@@ -3031,6 +2961,7 @@ packages:
     dev: false
     engines:
       node: '>=6'
+    optional: true
     resolution:
       integrity: sha512-XYfuKMvj4O35f/pOXLObndIRvyQ+/+6AhODh+OKWj9S9498pHHn/IMszH+gt0fBCRWMNfk1ZSp5x3AifmnI2vg==
   /expand-tilde/2.0.2:
@@ -3431,6 +3362,7 @@ packages:
       strip-ansi: 3.0.1
       wide-align: 1.1.3
     dev: false
+    optional: true
     resolution:
       integrity: sha1-LANAXHU4w51+s3sxcCLjJfsBi/c=
   /gensync/1.0.0-beta.2:
@@ -3488,6 +3420,7 @@ packages:
       integrity: sha1-Xv+OPmhNVprkyysSgmBOi6YhSfo=
   /github-from-package/0.0.0:
     dev: false
+    optional: true
     resolution:
       integrity: sha1-l/tdlr/eiXMxPyDoKI75oWf6ZM4=
   /glob-parent/5.1.2:
@@ -3678,6 +3611,7 @@ packages:
       integrity: sha512-chXa79rL/UC2KlX17jo3vRGz0azaWEx5tGqZg5pO3NUyEJVB17dMruQlzCCOfUvElghKcm5194+BCRvi2Rv/Gw==
   /has-unicode/2.0.1:
     dev: false
+    optional: true
     resolution:
       integrity: sha1-4Ob+aijPUROIVeCG0Wkedx3iqLk=
   /has/1.0.3:
@@ -3875,12 +3809,6 @@ packages:
       node: '>=6'
     resolution:
       integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==
-  /import-lazy/4.0.0:
-    dev: false
-    engines:
-      node: '>=8'
-    resolution:
-      integrity: sha512-rKtvo6a868b5Hu3heneU+L4yEQ4jYKLtjpnPeUdK7h0yzXGmyBTypknlkCvHFBqfX9YlorEiMM6Dnq/5atfHkw==
   /imurmurhash/0.1.4:
     dev: false
     engines:
@@ -4012,6 +3940,7 @@ packages:
     dev: false
     engines:
       node: '>=0.10.0'
+    optional: true
     resolution:
       integrity: sha1-754xOG8DGn8NZDr4L95QxFfvAMs=
   /is-fullwidth-code-point/2.0.0:
@@ -4477,10 +4406,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=
-  /karma-chai/0.1.0_chai@4.3.4+karma@6.2.0:
+  /karma-chai/0.1.0_chai@4.3.4+karma@6.3.1:
     dependencies:
       chai: 4.3.4
-      karma: 6.2.0
+      karma: 6.3.1
     dev: false
     peerDependencies:
       chai: '*'
@@ -4506,10 +4435,10 @@ packages:
       node: '>=10.0.0'
     resolution:
       integrity: sha512-atDvLQqvPcLxhED0cmXYdsPMCQuh6Asa9FMZW1bhNqlVEhJoB9qyZ2BY1gu7D/rr5GLGb5QzYO4siQskxaWP/g==
-  /karma-edge-launcher/0.4.2_karma@6.2.0:
+  /karma-edge-launcher/0.4.2_karma@6.3.1:
     dependencies:
       edge-launcher: 1.2.2
-      karma: 6.2.0
+      karma: 6.3.1
     dev: false
     engines:
       node: '>=4'
@@ -4527,18 +4456,18 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Fi7xPhwrRgr+94BnHX0F5dCl1miIW4RHnzjIGxF8GaIEp7rNqX7LSi7ok63VXs3PS/5MQaQMhGxw+bvD+pibBQ==
-  /karma-ie-launcher/1.0.0_karma@6.2.0:
+  /karma-ie-launcher/1.0.0_karma@6.3.1:
     dependencies:
-      karma: 6.2.0
+      karma: 6.3.1
       lodash: 4.17.21
     dev: false
     peerDependencies:
       karma: '>=0.9'
     resolution:
       integrity: sha1-SXmGhCxJAZA0bNifVJTKmDDG1Zw=
-  /karma-json-preprocessor/0.3.3_karma@6.2.0:
+  /karma-json-preprocessor/0.3.3_karma@6.3.1:
     dependencies:
-      karma: 6.2.0
+      karma: 6.3.1
     dev: false
     peerDependencies:
       karma: '>=0.9'
@@ -4550,9 +4479,9 @@ packages:
     dev: false
     resolution:
       integrity: sha512-kNCi+0UrXAeTJMpMsHkHNbfmlErsYT+/haNakJIhsE/gtj3Jx7zWRg7BTc1HHSbH5KeVXVRJr3/KLB/NHWY7Hg==
-  /karma-junit-reporter/2.0.1_karma@6.2.0:
+  /karma-junit-reporter/2.0.1_karma@6.3.1:
     dependencies:
-      karma: 6.2.0
+      karma: 6.3.1
       path-is-absolute: 1.0.1
       xmlbuilder: 12.0.0
     dev: false
@@ -4562,10 +4491,10 @@ packages:
       karma: '>=0.9'
     resolution:
       integrity: sha512-VtcGfE0JE4OE1wn0LK8xxDKaTP7slN8DO3I+4xg6gAi1IoAHAXOJ1V9G/y45Xg6sxdxPOR3THCFtDlAfBo9Afw==
-  /karma-mocha-reporter/2.2.5_karma@6.2.0:
+  /karma-mocha-reporter/2.2.5_karma@6.3.1:
     dependencies:
       chalk: 2.4.2
-      karma: 6.2.0
+      karma: 6.3.1
       log-symbols: 2.2.0
       strip-ansi: 4.0.0
     dev: false
@@ -4603,7 +4532,7 @@ packages:
     dev: false
     resolution:
       integrity: sha512-zorxyAakYZuBcHRJE+vbrK2o2JXLFWK8VVjiT/6P+ltLBUGUvqTEkUiQ119MGdOrK7mrmxXHZF1/pfT6GgIZ6g==
-  /karma/6.2.0:
+  /karma/6.3.1:
     dependencies:
       body-parser: 1.19.0
       braces: 3.0.2
@@ -4626,15 +4555,15 @@ packages:
       socket.io: 3.1.2
       source-map: 0.6.1
       tmp: 0.2.1
-      ua-parser-js: 0.7.24
+      ua-parser-js: 0.7.25
       yargs: 16.2.0
     dev: false
     engines:
       node: '>= 10'
     hasBin: true
     resolution:
-      integrity: sha512-pCB8eNxGgdIdZeC885rbhZ/VyuOPNHUIDNL9EaaMf1NVzpvTjMO8a7zRTn51ZJhOOOxCSpalUdT1A8x76LyVqg==
-  /karma/6.2.0_debug@4.3.1:
+      integrity: sha512-Is71g0f1dIpbLTXA+ULpev1i1soczQ1Dr8oum3zSmBFsDl3IWUlTLytsCb9os4v9xvUVWGDz0sCmLO4veANnSw==
+  /karma/6.3.1_debug@4.3.1:
     dependencies:
       body-parser: 1.19.0
       braces: 3.0.2
@@ -4657,7 +4586,7 @@ packages:
       socket.io: 3.1.2
       source-map: 0.6.1
       tmp: 0.2.1
-      ua-parser-js: 0.7.24
+      ua-parser-js: 0.7.25
       yargs: 16.2.0
     dev: false
     engines:
@@ -4666,15 +4595,7 @@ packages:
     peerDependencies:
       debug: '*'
     resolution:
-      integrity: sha512-pCB8eNxGgdIdZeC885rbhZ/VyuOPNHUIDNL9EaaMf1NVzpvTjMO8a7zRTn51ZJhOOOxCSpalUdT1A8x76LyVqg==
-  /keytar/7.0.0:
-    dependencies:
-      node-addon-api: 3.1.0
-      prebuild-install: 5.3.5
-    dev: false
-    requiresBuild: true
-    resolution:
-      integrity: sha512-uvmdb5ZE2NgegcUDrmhutI9BUh+bTbt8+bwPliOMiLiWmrV76Tfg6DyI7Ud903a/4xlkJpKGnR0TyRpRyFOc3A==
+      integrity: sha512-Is71g0f1dIpbLTXA+ULpev1i1soczQ1Dr8oum3zSmBFsDl3IWUlTLytsCb9os4v9xvUVWGDz0sCmLO4veANnSw==
   /keytar/7.4.0:
     dependencies:
       node-addon-api: 3.1.0
@@ -5012,6 +4933,7 @@ packages:
     dev: false
     engines:
       node: '>=8'
+    optional: true
     resolution:
       integrity: sha512-wXqjST+SLt7R009ySCglWBCFpjUygmCIfD790/kVbiGmUgfYGuB14PiTd5DwVxSV4NcYHjzMkoj5LjQZwTQLEA==
   /min-document/2.19.0:
@@ -5134,10 +5056,6 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-Xsh+jiizuC5tjjK9J0RB5i/VE9CvOzBukxtxexffFQTm7vO6vqfUDB6mrsmHn5ts+rdAL89KryQFaDpVJRf4Cw==
-  /nan/2.14.2:
-    dev: false
-    resolution:
-      integrity: sha512-M2ufzIiINKCuDfBSAUr1vWQ+vuVcA9kqx8JJUsbQi6yf1uGRyb7HfpdfUr5qLXf3B/t8dPvcjhKMmlfnP47EzQ==
   /nanoid/3.1.22:
     dev: false
     engines:
@@ -5147,6 +5065,7 @@ packages:
       integrity: sha512-/2ZUaJX2ANuLtTvqTlgqBQNJoQO398KyJgZloL0PZkC0dpysjncRUPsFe3DUPzz/y3h+u7C46np8RMuvF3jsSQ==
   /napi-build-utils/1.0.2:
     dev: false
+    optional: true
     resolution:
       integrity: sha512-ONmRUqK7zj7DWX0D9ADe03wbwOBZxNAfF20PlGfCWQcD3+/MakShIHrMqx9YwPTfxDdF1zLeL+RGZiR9kGMLdg==
   /natural-compare/1.4.0:
@@ -5202,6 +5121,7 @@ packages:
     dependencies:
       semver: 5.7.1
     dev: false
+    optional: true
     resolution:
       integrity: sha512-smhrivuPqEM3H5LmnY3KU6HfYv0u4QklgAxfFyRNujKUzbUcYZ+Jc2EhukB9SRcD2VpqhxM7n/MIcp1Ua1/JMg==
   /node-abort-controller/1.2.0:
@@ -5210,6 +5130,7 @@ packages:
       integrity: sha512-x6Pv6ACfOUmYGDW/SRjSKBJs7waJRxRPQ9FeXFqfBtEtvJQBfuPl5P74p0Ow+vl0w6WURvXwn+xq/3S95Z7e5Q==
   /node-addon-api/3.1.0:
     dev: false
+    optional: true
     resolution:
       integrity: sha512-flmrDNB06LIl5lywUz7YlNGZH/5p0M7W28k8hzd9Lshtdh1wshD2Y+U4h9LD6KObOy1f+fEVdgprPrEymjM5uw==
   /node-environment-flags/1.0.6:
@@ -5231,6 +5152,7 @@ packages:
       integrity: sha512-zR6HoT6LrLCRBwukmrVbHv0EpEQjksO6GmFcZQQuCAy139BEsoVKPYnf3jongYW83fAa1torLGYwxxky/p28sg==
   /noop-logger/0.1.1:
     dev: false
+    optional: true
     resolution:
       integrity: sha1-lKKxYzxPExdVMAfYlm/Q6EG2pMI=
   /normalize-package-data/2.5.0:
@@ -5288,12 +5210,14 @@ packages:
       gauge: 2.7.4
       set-blocking: 2.0.0
     dev: false
+    optional: true
     resolution:
       integrity: sha512-2uUqazuKlTaSI/dC8AzicUck7+IrEaOnN/e0jd3Xtt1KcGpwx30v50mL7oPyr/h9bL3E4aZccVwpwP+5W9Vjkg==
   /number-is-nan/1.0.1:
     dev: false
     engines:
       node: '>=0.10.0'
+    optional: true
     resolution:
       integrity: sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=
   /nyc/14.1.1:
@@ -5423,16 +5347,6 @@ packages:
       node: '>=8'
     resolution:
       integrity: sha512-MVHddDVweXZF3awtlAS+6pgKLlm/JgxZ90+/NBurBoQctVOOB/zDdVjcyPzQ+0laDGbsWgrRkflI65sQeOgT9Q==
-  /open/8.0.4:
-    dependencies:
-      define-lazy-prop: 2.0.0
-      is-docker: 2.1.1
-      is-wsl: 2.2.0
-    dev: false
-    engines:
-      node: '>=12'
-    resolution:
-      integrity: sha512-Txc9FOcvjrr5Kv+Zb3w89uKMKiP7wH8mLdYj1xJa+YnhhntEYhbB6cQHjS4O6P+jFwMEzEQVVcpfnu9WkKNuLQ==
   /optionator/0.8.3:
     dependencies:
       deep-is: 0.1.3
@@ -5733,29 +5647,6 @@ packages:
       node: '>=4'
     resolution:
       integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==
-  /prebuild-install/5.3.5:
-    dependencies:
-      detect-libc: 1.0.3
-      expand-template: 2.0.3
-      github-from-package: 0.0.0
-      minimist: 1.2.5
-      mkdirp: 0.5.5
-      napi-build-utils: 1.0.2
-      node-abi: 2.21.0
-      noop-logger: 0.1.1
-      npmlog: 4.1.2
-      pump: 3.0.0
-      rc: 1.2.8
-      simple-get: 3.1.0
-      tar-fs: 2.1.1
-      tunnel-agent: 0.6.0
-      which-pm-runs: 1.0.0
-    dev: false
-    engines:
-      node: '>=6'
-    hasBin: true
-    resolution:
-      integrity: sha512-YmMO7dph9CYKi5IR/BzjOJlRzpxGGVo1EsLSUZ0mt/Mq0HWZIHOKHHcHdT69yG54C9m6i45GpItwRHpk0Py7Uw==
   /prebuild-install/6.0.1:
     dependencies:
       detect-libc: 1.0.3
@@ -6008,6 +5899,7 @@ packages:
       strip-json-comments: 2.0.1
     dev: false
     hasBin: true
+    optional: true
     resolution:
       integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==
   /read-pkg-up/2.0.0:
@@ -6215,12 +6107,6 @@ packages:
     dev: false
     resolution:
       integrity: sha1-LGN/53yJOv0qZj/iGqkIAGjiBSo=
-  /resolve/1.17.0:
-    dependencies:
-      path-parse: 1.0.6
-    dev: false
-    resolution:
-      integrity: sha512-ic+7JYiV8Vi2yzQGFWOkiZD5Z9z7O2Zhm9XMaTxdJExKasieFCr+yXZ/WmXsckHiKl12ar0y6XiXDx3m4RHn1w==
   /resolve/1.19.0:
     dependencies:
       is-core-module: 2.2.0
@@ -6331,10 +6217,10 @@ packages:
       rollup: '>=0.66.0 <3'
     resolution:
       integrity: sha512-1pkwkervMJQGFYvM9nscrUoncPwiKR/K+bHdjv6PFgRo3cgPHoRT83y2Aa3GvINj4539S15t/tpFPb775TDs6w==
-  /rollup-plugin-visualizer/4.2.1_rollup@1.32.1:
+  /rollup-plugin-visualizer/4.2.2_rollup@1.32.1:
     dependencies:
       nanoid: 3.1.22
-      open: 8.0.4
+      open: 7.4.2
       rollup: 1.32.1
       source-map: 0.7.3
       yargs: 16.2.0
@@ -6345,7 +6231,7 @@ packages:
     peerDependencies:
       rollup: '>=1.20.0'
     resolution:
-      integrity: sha512-GKXszY24T+WtSHVJclNcOpRaAU87E7bB6FZSdr71zcrnXY96QGgI8iyyGWOSfEH94qW4OQ+x5PcIB3zqWypYVQ==
+      integrity: sha512-10/TsugsaQL5rdynl0lrklBngTtkRBESZdxUJy+3fN+xKqNdg5cr7JQU1OoPx4p5mhQ+nspa6EvX3qc8SsBvnA==
   /rollup-pluginutils/2.8.2:
     dependencies:
       estree-walker: 0.6.1
@@ -6408,7 +6294,7 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==
-  /semver/7.3.4:
+  /semver/7.3.5:
     dependencies:
       lru-cache: 6.0.0
     dev: false
@@ -6416,7 +6302,7 @@ packages:
       node: '>=10'
     hasBin: true
     resolution:
-      integrity: sha512-tCfb2WLjqFAtXn4KEdxIhalnRtoKFN7nAwj0B3ZXCbQloV2tq5eDbcTmT68JJD3nRJq24/XgxtQKFIpQdtvmVw==
+      integrity: sha512-PoeGJYh8HK4BTO/a9Tf6ZG3veo/A7ZVsYrSA6J8ny9nb3B1VrpkuN+z9OE5wfE5p6H4LchYZsegiQgbJD94ZFQ==
   /send/0.17.1:
     dependencies:
       debug: 2.6.9
@@ -6529,6 +6415,7 @@ packages:
       integrity: sha512-VUJ49FC8U1OxwZLxIbTTrDvLnf/6TDgxZcK8wxR8zs13xpx7xbG60ndBlhNrFi2EMuFRoeDoJO7wthSLq42EjA==
   /simple-concat/1.0.1:
     dev: false
+    optional: true
     resolution:
       integrity: sha512-cSFtAPtRhljv69IK0hTVZQ+OfE9nePi/rtJmw5UjHeVyVroEqJXP1sFztKUy1qU+xvz3u/sfYJLa947b7nAN2Q==
   /simple-get/3.1.0:
@@ -6537,6 +6424,7 @@ packages:
       once: 1.4.0
       simple-concat: 1.0.1
     dev: false
+    optional: true
     resolution:
       integrity: sha512-bCR6cP+aTdScaQCnQKbPKtJOKDp/hj9EDLJo3Nw4y1QksqaovlW/bnptB6/c1e+qmNIDHRK+oXFDdEqBT8WzUA==
   /sinon/9.2.4:
@@ -6808,12 +6696,6 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha1-J5siXfHVgrH1TmWt3UNS4Y+qBxM=
-  /string-argv/0.3.1:
-    dev: false
-    engines:
-      node: '>=0.6.19'
-    resolution:
-      integrity: sha512-a1uQGz7IyVy9YwhqjZIZu1c8JO8dNIe20xBmSS6qu9kv++k3JGzCVmprbNN5Kn+BgzD5E7YYwg1CcjuJMRNsvg==
   /string-width/1.0.2:
     dependencies:
       code-point-at: 1.1.0
@@ -6822,6 +6704,7 @@ packages:
     dev: false
     engines:
       node: '>=0.10.0'
+    optional: true
     resolution:
       integrity: sha1-EYvfW4zcUaKn5w0hHgfisLmxB9M=
   /string-width/2.1.1:
@@ -7265,10 +7148,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-qOcYwxaByStAWrBf4x0fibwZvMRG+r4cQoTjbPtUlrWjBHbmCAww1i448U0GJ+3cNNEtebDteo/cHOR3xJ4wEw==
-  /ua-parser-js/0.7.24:
+  /ua-parser-js/0.7.25:
     dev: false
     resolution:
-      integrity: sha512-yo+miGzQx5gakzVK3QFfN0/L9uVhosXBBO7qmnk7c2iw1IhL212wfA3zbnI54B0obGwC/5NWub/iT9sReMx+Fw==
+      integrity: sha512-8NFExdfI24Ny8R3Vc6+uUytP/I7dpqk3JERlvxPWlrtx5YboqCgxAXYKPAifbPLV2zKbgmmPL53ufW7mUC/VOQ==
   /uglify-js/3.13.2:
     dev: false
     engines:
@@ -7457,6 +7340,7 @@ packages:
       integrity: sha1-2e8H3Od7mQK4o6j6SzHD4/fm6Ho=
   /which-pm-runs/1.0.0:
     dev: false
+    optional: true
     resolution:
       integrity: sha1-Zws6+8VS4LVd9rd4DKdGFfI60cs=
   /which-typed-array/1.1.4:
@@ -7766,16 +7650,16 @@ packages:
       delay: 4.4.1
       downlevel-dts: 0.4.0
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -7814,16 +7698,16 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -7834,7 +7718,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       tslib: 2.1.0
       typedoc: 0.15.2
       typescript: 4.2.3
@@ -7859,18 +7743,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -7903,18 +7787,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -7949,18 +7833,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -8002,16 +7886,16 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       esm: 3.2.25
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8051,18 +7935,18 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       jsrsasign: 10.1.13
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -8086,7 +7970,6 @@ packages:
   file:projects/communication-administration.tgz:
     dependencies:
       '@azure/identity': 1.2.4
-      '@microsoft/api-documenter': 7.8.56
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -8105,18 +7988,18 @@ packages:
       eslint: 7.22.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8127,7 +8010,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8135,7 +8018,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-administration'
     resolution:
-      integrity: sha512-iyPzw0SEvuiMqXMxKE6DDJ758CT/cQ2ZIdBAFuu/jt6uvd+6Lr0cx2zM+xiqEXyd2ZekM6AwdWF8RtwVIBvBPg==
+      integrity: sha512-bwg48piipP/wbkdWa3hnC8OQhLtik9BNygtFyJygAuBjzhvs0AteLPo4utcEyCFoPX10CoUk4YLH6h5sK2ohnQ==
       tarball: file:projects/communication-administration.tgz
     version: 0.0.0
   file:projects/communication-chat.tgz:
@@ -8160,18 +8043,18 @@ packages:
       eslint: 7.22.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8182,7 +8065,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8217,16 +8100,16 @@ packages:
       events: 3.3.0
       inherits: 2.0.4
       jwt-decode: 2.2.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8236,7 +8119,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8251,7 +8134,6 @@ packages:
   file:projects/communication-identity.tgz:
     dependencies:
       '@azure/identity': 1.2.4
-      '@microsoft/api-documenter': 7.8.56
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -8270,18 +8152,18 @@ packages:
       eslint: 7.22.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8292,7 +8174,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8300,13 +8182,12 @@ packages:
     dev: false
     name: '@rush-temp/communication-identity'
     resolution:
-      integrity: sha512-z/F3OQtwUIfIPXY9izwOILX7C2jm6C65t5jrvc5Lb8sWETyGZOtAJW+LBDrtFHe0Absp3dSLWuhdpQqVveYCSA==
+      integrity: sha512-JKKzg/JjzMI45vX24813h+dunBf9H8EA+gl7JtSE9IZpdR+Rea23YiU3i+4x4XLyNRud76STaVAsuh87Mnljfw==
       tarball: file:projects/communication-identity.tgz
     version: 0.0.0
   file:projects/communication-phone-numbers.tgz:
     dependencies:
       '@azure/identity': 1.2.4
-      '@microsoft/api-documenter': 7.8.56
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -8325,18 +8206,18 @@ packages:
       eslint: 7.22.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8347,7 +8228,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8355,7 +8236,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-phone-numbers'
     resolution:
-      integrity: sha512-AZ8a9kFJulAX3l5SMTAphMxaWj9IWAl/zMKYJBF5Fk/x0aLqLwKNdsEwto5SyG5PSmSzahDAbXGWNBW+a4bgBQ==
+      integrity: sha512-WPeLdote6MGNT346jOdTFhOcFs6cqL6lCp7ycYwPf8Te6J8uME7jibbmTV/i/u4t702ldb4BbGJ69UvezAb4qw==
       tarball: file:projects/communication-phone-numbers.tgz
     version: 0.0.0
   file:projects/communication-sms.tgz:
@@ -8379,16 +8260,16 @@ packages:
       eslint: 7.22.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8399,7 +8280,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8426,18 +8307,18 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
@@ -8486,7 +8367,7 @@ packages:
       events: 3.3.0
       is-buffer: 2.0.5
       jssha: 3.2.0
-      karma: 6.2.0_debug@4.3.1
+      karma: 6.3.1_debug@4.3.1
       karma-chrome-launcher: 3.1.0
       karma-mocha: 2.0.1
       mocha: 7.2.0
@@ -8551,7 +8432,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       tslib: 2.1.0
       typedoc: 0.15.2
       typescript: 4.2.3
@@ -8581,16 +8462,16 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.22.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8599,7 +8480,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8628,16 +8509,16 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.4.0
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8685,10 +8566,10 @@ packages:
       fetch-mock: 9.11.0_node-fetch@2.6.1
       form-data: 3.0.1
       glob: 7.1.6
-      karma: 6.2.0
-      karma-chai: 0.1.0_chai@4.3.4+karma@6.2.0
+      karma: 6.3.1
+      karma-chai: 0.1.0_chai@4.3.4+karma@6.3.1
       karma-chrome-launcher: 3.1.0
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-firefox-launcher: 1.3.0
       karma-mocha: 2.0.1
       karma-rollup-preprocessor: 7.0.7_rollup@1.32.1
@@ -8705,7 +8586,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       shx: 0.3.3
       sinon: 9.2.4
       tough-cookie: 4.0.0
@@ -8740,16 +8621,16 @@ packages:
       cross-env: 7.0.3
       eslint: 7.22.0
       events: 3.3.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8761,7 +8642,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8809,16 +8690,16 @@ packages:
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8827,7 +8708,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
       tslib: 2.1.0
@@ -8865,7 +8746,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8894,16 +8775,16 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.22.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8912,7 +8793,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -8942,16 +8823,16 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.22.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -8960,7 +8841,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -9048,16 +8929,16 @@ packages:
       downlevel-dts: 0.4.0
       eslint: 7.22.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9068,7 +8949,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
@@ -9109,7 +8990,7 @@ packages:
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -9140,18 +9021,18 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9162,7 +9043,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -9246,16 +9127,16 @@ packages:
       https-proxy-agent: 5.0.0
       is-buffer: 2.0.5
       jssha: 3.2.0
-      karma: 6.2.0_debug@4.3.1
+      karma: 6.3.1_debug@4.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9353,18 +9234,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9375,7 +9256,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
       ts-node: 9.1.1_typescript@4.2.3
@@ -9416,16 +9297,16 @@ packages:
       events: 3.3.0
       guid-typescript: 1.0.9
       inherits: 2.0.4
-      karma: 6.2.0_debug@4.3.1
+      karma: 6.3.1_debug@4.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9436,7 +9317,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -9453,7 +9334,6 @@ packages:
       '@azure/msal-browser': 2.9.0
       '@azure/msal-common': 4.0.3
       '@azure/msal-node': 1.0.1
-      '@azure/msal-node-extensions': 1.0.0-alpha.6
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
@@ -9475,13 +9355,13 @@ packages:
       events: 3.3.0
       inherits: 2.0.4
       jws: 4.0.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-env-preprocessor: 0.1.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9495,7 +9375,7 @@ packages:
       rollup: 1.32.1
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       stoppable: 1.1.0
       tslib: 2.1.0
@@ -9508,7 +9388,7 @@ packages:
     optionalDependencies:
       keytar: 7.4.0
     resolution:
-      integrity: sha512-rrhA3t/u/egFYF3Je6Uf7qu+HVnYmAq1cVF3dw70COba/RJqB9A+KrnDrZe+m2SIYi3h1DdQqMFAlBx2eIyooA==
+      integrity: sha512-fVT4dTN9DKVQuy28zBkyJGdXJbAiLvYd+AL5+Ueg2wNxP+AkxuRjenkaEG1y1zsUfuBz9CZ6cqnNh6BEHpPBRQ==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
@@ -9571,7 +9451,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
       tslib: 2.1.0
@@ -9605,18 +9485,18 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       esm: 3.2.25
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9629,7 +9509,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
       tslib: 2.1.0
@@ -9679,18 +9559,18 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       esm: 3.2.25
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9703,7 +9583,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
       tslib: 2.1.0
@@ -9737,18 +9617,18 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       esm: 3.2.25
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9761,7 +9641,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
       tslib: 2.1.0
@@ -9791,16 +9671,16 @@ packages:
       delay: 4.4.1
       dotenv: 8.2.0
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9836,18 +9716,18 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -9910,6 +9790,22 @@ packages:
     resolution:
       integrity: sha512-VwymU6Bc33z9Otnv/FEYSeP6wQwBrDF0/qLS9V7vMkulSlhOJbj2rGy5Uh1INa925qd2qvYr/OMvt5GpiK0waw==
       tarball: file:projects/monitor-opentelemetry-exporter.tgz
+    version: 0.0.0
+  file:projects/perf-ai-form-recognizer.tgz:
+    dependencies:
+      '@azure/identity': 1.2.4
+      '@types/node': 8.10.66
+      dotenv: 8.2.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 9.1.1_typescript@4.2.3
+      tslib: 2.1.0
+      typescript: 4.2.3
+    dev: false
+    name: '@rush-temp/perf-ai-form-recognizer'
+    resolution:
+      integrity: sha512-2ZJV+0BQp5lWyVdbs3XXiJ2w5cPZ4UIJv8t77xsiIOd4X/BiWVgS3KpJJudQqp2/iGgeUy5cPm29eV4ngBhkpg==
+      tarball: file:projects/perf-ai-form-recognizer.tgz
     version: 0.0.0
   file:projects/perf-ai-text-analytics.tgz:
     dependencies:
@@ -10020,18 +9916,18 @@ packages:
       eslint: 7.22.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10042,7 +9938,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -10076,18 +9972,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10099,7 +9995,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -10129,18 +10025,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10151,7 +10047,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
       tslib: 2.1.0
       typedoc: 0.15.2
@@ -10181,18 +10077,18 @@ packages:
       eslint: 7.22.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10203,7 +10099,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
@@ -10254,16 +10150,16 @@ packages:
       https-proxy-agent: 5.0.0
       is-buffer: 2.0.5
       jssha: 3.2.0
-      karma: 6.2.0_debug@4.3.1
+      karma: 6.3.1_debug@4.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       long: 4.0.0
       mocha: 7.2.0
@@ -10313,18 +10209,18 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10336,7 +10232,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       sinon: 9.2.4
       source-map-support: 0.5.19
       ts-node: 9.1.1_typescript@4.2.3
@@ -10372,18 +10268,18 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10396,7 +10292,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
@@ -10432,18 +10328,18 @@ packages:
       events: 3.3.0
       execa: 3.4.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10456,7 +10352,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
@@ -10488,18 +10384,18 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10511,7 +10407,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
@@ -10540,18 +10436,18 @@ packages:
       eslint: 7.22.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10563,7 +10459,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
@@ -10594,18 +10490,18 @@ packages:
       eslint: 7.22.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
@@ -10617,7 +10513,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       source-map-support: 0.5.19
       ts-node: 9.1.1_typescript@4.2.3
       tslib: 2.1.0
@@ -10747,18 +10643,18 @@ packages:
       eslint: 7.22.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
@@ -10785,7 +10681,7 @@ packages:
       chai: 4.3.4
       chai-as-promised: 7.1.1_chai@4.3.4
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-env-preprocessor: 0.1.1
@@ -10808,7 +10704,7 @@ packages:
       '@types/node': 8.10.66
       '@types/node-fetch': 2.5.8
       eslint: 7.22.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
       karma-env-preprocessor: 0.1.1
@@ -10843,18 +10739,18 @@ packages:
       dotenv: 8.2.0
       eslint: 7.22.0
       fs-extra: 8.1.0
-      karma: 6.2.0
+      karma: 6.3.1
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
-      karma-edge-launcher: 0.4.2_karma@6.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.1
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.2.0
-      karma-json-preprocessor: 0.3.3_karma@6.2.0
+      karma-ie-launcher: 1.0.0_karma@6.3.1
+      karma-json-preprocessor: 0.3.3_karma@6.3.1
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.2.0
+      karma-junit-reporter: 2.0.1_karma@6.3.1
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.2.0
+      karma-mocha-reporter: 2.2.5_karma@6.3.1
       karma-sourcemap-loader: 0.3.8
       md5: 2.3.0
       mocha: 7.2.0
@@ -10871,7 +10767,7 @@ packages:
       rollup-plugin-shim: 1.0.0
       rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       rollup-plugin-terser: 5.3.1_rollup@1.32.1
-      rollup-plugin-visualizer: 4.2.1_rollup@1.32.1
+      rollup-plugin-visualizer: 4.2.2_rollup@1.32.1
       tslib: 2.1.0
       typescript: 4.2.3
       xhr-mock: 2.5.1
@@ -10950,6 +10846,7 @@ specifiers:
   '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
+  '@rush-temp/perf-ai-form-recognizer': file:./projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-eventgrid': file:./projects/perf-eventgrid.tgz
   '@rush-temp/perf-storage-blob': file:./projects/perf-storage-blob.tgz

@@ -26,7 +26,7 @@ export interface TryAddOptions {
   /**
    * @deprecated Tracing options have been moved to the `tracingOptions` property.
    */
-  parentSpan?: Span | SpanContext;
+  parentSpan?: Span | SpanContext | null;
 }
 
 /**

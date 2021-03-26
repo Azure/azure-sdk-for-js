@@ -24,7 +24,12 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory)
     $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
 
     $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
-    $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+    if ($projectJson.psobject.properties.name -contains 'sdk-type') {
+      $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+    }
+    else {
+      $pkgProp.SdkType = "unknown"
+    }
     if ($projectJson.name.StartsWith("@azure/arm"))
     {
       $pkgProp.SdkType = "mgmt"

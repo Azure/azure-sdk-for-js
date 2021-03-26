@@ -40,6 +40,7 @@ import {
 } from "./models/options";
 import {
   mapToChatParticipantRestModel,
+  mapToCreateChatThreadOptionsRestModel,
   mapToCreateChatThreadResultSdkModel
 } from "./models/mappers";
 import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
@@ -127,6 +128,8 @@ export class ChatClient {
     try {
       // We generate an UUID if the user does not provide an idempotencyToken value
       updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
+      const updatedRestModelOptions = mapToCreateChatThreadOptionsRestModel(updatedOptions);
+
       const { _response, ...result } = await this.client.chat.createChatThread(
         {
           topic: request.topic,
@@ -134,7 +137,7 @@ export class ChatClient {
             mapToChatParticipantRestModel(participant)
           )
         },
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        operationOptionsToRequestOptionsBase(updatedRestModelOptions)
       );
       return mapToCreateChatThreadResultSdkModel(result);
     } catch (e) {
