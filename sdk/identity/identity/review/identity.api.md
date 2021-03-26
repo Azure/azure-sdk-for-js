@@ -116,14 +116,9 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
 // @public
 export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
-    excludeAzureCliCredential?: boolean;
-    excludeEnviornmentCredential?: boolean;
-    excludeInteractiveBrowserCredential?: boolean;
-    excludeManagedIdentityCredential?: boolean;
-    excludeVisualStudioCodeCredential?: boolean;
-    interactiveBrowserTenantId?: string;
+    includeInteractiveCredentials?: boolean;
     managedIdentityClientId?: string;
-    visualStudioCodeTenantId?: string;
+    tenantId?: string;
 }
 
 // @public

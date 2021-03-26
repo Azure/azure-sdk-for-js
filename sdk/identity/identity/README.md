@@ -87,8 +87,7 @@ If used from NodeJS, the `DefaultAzureCredential` will attempt to authenticate v
 - Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
 - Visual Studio Code - If the developer has authenticated via the Visual Studio Code Azure Account plugin, the `DefaultAzureCredential` will authenticate with that account.
 - Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
-
-If the `DefaultAzureCredential` is used from a browser, it will only use the `InteractiveBrowserCredential`.
+- If no other credential is available, and if the option `includeInteractiveCredentials` is asigned on the constructor, `DefaultAzureCredential` will open a browser window to authenticate as a last resource.
 
 ## Environment Variables
 
