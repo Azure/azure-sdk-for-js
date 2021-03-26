@@ -1,5 +1,7 @@
 # Release History
 
+## 1.1.2 (Unreleased)
+
 ## 1.2.0-beta.1 (Unreleased)
 
 - Added `updateSyncToken` method to `AppConfigurationClient` to be able to provide external synchronization tokens.
