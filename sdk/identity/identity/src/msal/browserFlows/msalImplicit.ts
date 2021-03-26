@@ -7,8 +7,8 @@ import { AccessToken } from "@azure/core-http";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequired } from "../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { publicToMsal, serializeAuthenticationRecord } from "../transformations";
-import { getAuthorityHost } from "../utils";
+import { publicToMsal } from "../transformations";
+import { getAuthorityHost, serializeAuthenticationRecord } from "../utils";
 
 /**
  * Uses MSAL directly for browser authentication,

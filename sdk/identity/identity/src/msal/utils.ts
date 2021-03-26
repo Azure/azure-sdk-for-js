@@ -7,11 +7,35 @@ import { AccessToken } from "@azure/core-http";
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
 import { CredentialUnavailable } from "../client/errors";
-import { DefaultAuthorityHost } from "../constants";
-import { AuthenticationRecord, MsalResult, MsalToken } from "./types";
+import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
+import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequired } from "./errors";
 import { MsalFlowOptions } from "./flows";
-import { msalToPublic } from "./transformations";
+
+export function msalToPublic(account: MsalAccountInfo): AuthenticationRecord {
+  const record = {
+    authority: getAuthorityHost(account.tenantId, account.environment),
+    homeAccountId: account.homeAccountId,
+    tenantId: account.tenantId || DefaultTenantId,
+    username: account.username,
+    serialize: () => serializeAuthenticationRecord(record)
+  };
+  return record;
+}
+
+/**
+ * Serializes a given authentication record to string.
+ * @param record - Authentication Record
+ * @internal
+ */
+export function serializeAuthenticationRecord(record: AuthenticationRecord): string {
+  return JSON.stringify({
+    authority: record.authority,
+    home_account_id: record.homeAccountId,
+    tenant_id: record.tenantId,
+    username: record.username
+  });
+}
 
 /**
  * Ensures the validity of the MSAL token

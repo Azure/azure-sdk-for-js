@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 import * as msalCommon from "@azure/msal-common";
-import { DefaultTenantId } from "../constants";
-import { MsalAccountInfo, AuthenticationRecord } from "./types";
-import { getAuthorityHost } from "./utils";
+import { AuthenticationRecord } from "./types";
 
 export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo {
   const [environment] = account.authority.match(/([a-z]*\.[a-z]*\.[a-z]*)/) || [];
@@ -13,31 +11,6 @@ export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountI
     localAccountId: account.homeAccountId,
     environment
   };
-}
-
-export function msalToPublic(account: MsalAccountInfo): AuthenticationRecord {
-  const record = {
-    authority: getAuthorityHost(account.tenantId, account.environment),
-    homeAccountId: account.homeAccountId,
-    tenantId: account.tenantId || DefaultTenantId,
-    username: account.username,
-    serialize: () => serializeAuthenticationRecord(record)
-  };
-  return record;
-}
-
-/**
- * Serializes a given authentication record to string.
- * @param record - Authentication Record
- * @internal
- */
-export function serializeAuthenticationRecord(record: AuthenticationRecord): string {
-  return JSON.stringify({
-    authority: record.authority,
-    home_account_id: record.homeAccountId,
-    tenant_id: record.tenantId,
-    username: record.username
-  });
 }
 
 /**

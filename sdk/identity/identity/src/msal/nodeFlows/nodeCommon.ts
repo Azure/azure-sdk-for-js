@@ -19,9 +19,10 @@ import {
   defaultLoggerCallback,
   getAuthorityHost,
   getKnownAuthorities,
-  MsalBaseUtilities
+  MsalBaseUtilities,
+  msalToPublic
 } from "../utils";
-import { msalToPublic, publicToMsal } from "../transformations";
+import { publicToMsal } from "../transformations";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
