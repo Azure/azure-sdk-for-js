@@ -368,11 +368,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-administration",
-      "projectFolder": "sdk/communication/communication-administration",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/communication-chat",
       "projectFolder": "sdk/communication/communication-chat",
       "versionPolicyName": "client"
