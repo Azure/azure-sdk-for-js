@@ -11,11 +11,17 @@ import {
   KeyVaultCertificatePoller,
   KeyVaultCertificatePollerOptions
 } from "../keyVaultCertificatePoller";
+import { createTraceFunction } from "../../../../keyvault-common/src";
 
 export interface CreateCertificatePollerOptions extends KeyVaultCertificatePollerOptions {
   certificatePolicy?: CertificatePolicy;
   createCertificateOptions: CreateCertificateOptions;
 }
+
+/**
+ * @internal
+ */
+export const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CreateCertificatePoller");
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
@@ -31,7 +37,7 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
       certificateName,
       certificatePolicy,
       createCertificateOptions,
-      requestOptions,
+      operationOptions,
       intervalInMs = 2000,
       resumeFrom
     } = options;
@@ -51,7 +57,7 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
       },
       vaultUrl,
       client,
-      requestOptions
+      operationOptions
     );
 
     super(operation);

@@ -1685,7 +1685,7 @@ export interface ManagedDiskParameters extends SubResource {
   /**
    * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
    * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
-   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS', 'Premium_ZRS', 'StandardSSD_ZRS'
    */
   storageAccountType?: StorageAccountTypes;
   /**
@@ -1818,18 +1818,6 @@ export interface DataDisk {
    */
   toBeDetached?: boolean;
   /**
-   * Specifies the detach behavior to be used while detaching a disk or which is already in the
-   * process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br>
-   * detachOption: **ForceDetach** is applicable only for managed data disks. If a previous
-   * detachment attempt of the data disk did not complete due to an unexpected failure from the
-   * virtual machine and the disk is still not released then use force-detach as a last resort
-   * option to detach the disk forcibly from the VM. All writes might not have been flushed when
-   * using this detach behavior. <br><br> This feature is still in preview mode and is not
-   * supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to
-   * 'true' along with setting detachOption: 'ForceDetach'. Possible values include: 'ForceDetach'
-   */
-  detachOption?: DiskDetachOptionTypes;
-  /**
    * Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS.
    * Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the
    * VirtualMachine Scale Set.
@@ -1843,6 +1831,18 @@ export interface DataDisk {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly diskMBpsReadWrite?: number;
+  /**
+   * Specifies the detach behavior to be used while detaching a disk or which is already in the
+   * process of detachment from the virtual machine. Supported values: **ForceDetach**. <br><br>
+   * detachOption: **ForceDetach** is applicable only for managed data disks. If a previous
+   * detachment attempt of the data disk did not complete due to an unexpected failure from the
+   * virtual machine and the disk is still not released then use force-detach as a last resort
+   * option to detach the disk forcibly from the VM. All writes might not have been flushed when
+   * using this detach behavior. <br><br> This feature is still in preview mode and is not
+   * supported for VirtualMachineScaleSet. To force-detach a data disk update toBeDetached to
+   * 'true' along with setting detachOption: 'ForceDetach'. Possible values include: 'ForceDetach'
+   */
+  detachOption?: DiskDetachOptionTypes;
 }
 
 /**
@@ -1993,10 +1993,10 @@ export interface PatchSettings {
    * You do this by applying patches manually inside the VM. In this mode, automatic updates are
    * disabled; the property WindowsConfiguration.enableAutomaticUpdates must be false<br /><br />
    * **AutomaticByOS** - The virtual machine will automatically be updated by the OS. The property
-   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **
-   * AutomaticByPlatform** - the virtual machine will automatically updated by the platform. The
-   * properties provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true.
-   * Possible values include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
+   * WindowsConfiguration.enableAutomaticUpdates must be true. <br /><br /> **AutomaticByPlatform**
+   * - the virtual machine will automatically updated by the platform. The properties
+   * provisionVMAgent and WindowsConfiguration.enableAutomaticUpdates must be true. Possible values
+   * include: 'Manual', 'AutomaticByOS', 'AutomaticByPlatform'
    */
   patchMode?: WindowsVMGuestPatchMode;
   /**
@@ -2794,16 +2794,6 @@ export interface VirtualMachine extends Resource {
    */
   proximityPlacementGroup?: SubResource;
   /**
-   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
-   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
-   * maintains balance across available fault domains.<br><li>This is applicable only if the
-   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
-   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
-   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
-   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
-   */
-  platformFaultDomain?: number;
-  /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
    * Possible values include: 'Regular', 'Low', 'Spot'
    */
@@ -2866,6 +2856,16 @@ export interface VirtualMachine extends Resource {
    * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
    */
   extensionsTimeBudget?: string;
+  /**
+   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
+   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
+   * maintains balance across available fault domains.<br><li>This is applicable only if the
+   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
+   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
+   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
+   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
+   */
+  platformFaultDomain?: number;
   /**
    * The virtual machine child extension resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2956,16 +2956,6 @@ export interface VirtualMachineUpdate extends UpdateResource {
    */
   proximityPlacementGroup?: SubResource;
   /**
-   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
-   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
-   * maintains balance across available fault domains.<br><li>This is applicable only if the
-   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
-   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
-   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
-   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
-   */
-  platformFaultDomain?: number;
-  /**
    * Specifies the priority for the virtual machine. <br><br>Minimum api-version: 2019-03-01.
    * Possible values include: 'Regular', 'Low', 'Spot'
    */
@@ -3028,6 +3018,16 @@ export interface VirtualMachineUpdate extends UpdateResource {
    * value is 90 minutes (PT1H30M). <br><br> Minimum api-version: 2020-06-01
    */
   extensionsTimeBudget?: string;
+  /**
+   * Specifies the scale set logical fault domain into which the Virtual Machine will be created.
+   * By default, the Virtual Machine will by automatically assigned to a fault domain that best
+   * maintains balance across available fault domains.<br><li>This is applicable only if the
+   * 'virtualMachineScaleSet' property of this Virtual Machine is set.<li>The Virtual Machine Scale
+   * Set that is referenced, must have 'platformFaultDomainCount' &gt; 1.<li>This property cannot
+   * be updated once the Virtual Machine is created.<li>Fault domain assignment can be viewed in
+   * the Virtual Machine Instance View.<br><br>Minimum api‐version: 2020‐12‐01
+   */
+  platformFaultDomain?: number;
   /**
    * The identity of the virtual machine, if configured.
    */
@@ -3172,7 +3172,7 @@ export interface ImageDisk {
   /**
    * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
    * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
-   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS', 'Premium_ZRS', 'StandardSSD_ZRS'
    */
   storageAccountType?: StorageAccountTypes;
   /**
@@ -3251,8 +3251,11 @@ export interface Image extends Resource {
    */
   readonly provisioningState?: string;
   /**
-   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
-   * include: 'V1', 'V2'
+   * Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API
+   * Version 2019-03-01 if the image source is a blob, then we need the user to specify the value,
+   * if the source is managed resource like disk or snapshot, we may require the user to specify
+   * the property if we cannot deduce it from the source managed resource. Possible values include:
+   * 'V1', 'V2'
    */
   hyperVGeneration?: HyperVGenerationTypes;
   /**
@@ -3279,8 +3282,11 @@ export interface ImageUpdate extends UpdateResource {
    */
   readonly provisioningState?: string;
   /**
-   * Gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values
-   * include: 'V1', 'V2'
+   * Specifies the HyperVGenerationType of the VirtualMachine created from the image. From API
+   * Version 2019-03-01 if the image source is a blob, then we need the user to specify the value,
+   * if the source is managed resource like disk or snapshot, we may require the user to specify
+   * the property if we cannot deduce it from the source managed resource. Possible values include:
+   * 'V1', 'V2'
    */
   hyperVGeneration?: HyperVGenerationTypes;
 }
@@ -3429,7 +3435,7 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
   /**
    * Specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used
    * with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS',
-   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+   * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS', 'Premium_ZRS', 'StandardSSD_ZRS'
    */
   storageAccountType?: StorageAccountTypes;
   /**
@@ -5556,12 +5562,13 @@ export interface ProxyOnlyResource {
 }
 
 /**
- * The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, or UltraSSD_LRS.
+ * The disks sku name. Can be Standard_LRS, Premium_LRS, StandardSSD_LRS, UltraSSD_LRS,
+ * Premium_ZRS, or StandardSSD_ZRS.
  */
 export interface DiskSku {
   /**
    * The sku name. Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS',
-   * 'UltraSSD_LRS'
+   * 'UltraSSD_LRS', 'Premium_ZRS', 'StandardSSD_ZRS'
    */
   name?: DiskStorageAccountTypes;
   /**
@@ -5740,6 +5747,26 @@ export interface ShareInfoElement {
 }
 
 /**
+ * Properties of the disk for which update is pending.
+ */
+export interface PropertyUpdatesInProgress {
+  /**
+   * The target performance tier of the disk if a tier change operation is in progress.
+   */
+  targetTier?: string;
+}
+
+/**
+ * Contains the security related information for the resource.
+ */
+export interface DiskSecurityProfile {
+  /**
+   * Possible values include: 'TrustedLaunch'
+   */
+  securityType?: DiskSecurityTypes;
+}
+
+/**
  * Disk resource.
  */
 export interface Disk extends Resource {
@@ -5875,6 +5902,19 @@ export interface Disk extends Resource {
    * is disabled by default. Does not apply to Ultra disks.
    */
   burstingEnabled?: boolean;
+  /**
+   * Properties of the disk for which update is pending.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
+  /**
+   * Indicates the OS on a disk supports hibernation.
+   */
+  supportsHibernation?: boolean;
+  /**
+   * Contains the security related information for the resource.
+   */
+  securityProfile?: DiskSecurityProfile;
 }
 
 /**
@@ -5952,6 +5992,15 @@ export interface DiskUpdate {
    */
   purchasePlan?: PurchasePlan;
   /**
+   * Properties of the disk for which update is pending.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly propertyUpdatesInProgress?: PropertyUpdatesInProgress;
+  /**
+   * Indicates the OS on a disk supports hibernation.
+   */
+  supportsHibernation?: boolean;
+  /**
    * Resource tags
    */
   tags?: { [propertyName: string]: string };
@@ -5985,7 +6034,8 @@ export interface KeyForDiskEncryptionSet {
    */
   sourceVault?: SourceVault;
   /**
-   * Fully versioned Key Url pointing to a key in KeyVault
+   * Fully versioned Key Url pointing to a key in KeyVault. Version segment of the Url is required
+   * regardless of rotationToLatestKeyVersionEnabled value.
    */
   keyUrl: string;
 }
@@ -6103,6 +6153,10 @@ export interface Snapshot extends Resource {
    * ARM id of the DiskAccess resource for using private endpoints on disks.
    */
   diskAccessId?: string;
+  /**
+   * Indicates the OS on a snapshot supports hibernation.
+   */
+  supportsHibernation?: boolean;
 }
 
 /**
@@ -6138,6 +6192,10 @@ export interface SnapshotUpdate {
    * ARM id of the DiskAccess resource for using private endpoints on disks.
    */
   diskAccessId?: string;
+  /**
+   * Indicates the OS on a snapshot supports hibernation.
+   */
+  supportsHibernation?: boolean;
   /**
    * Resource tags
    */
@@ -6198,6 +6256,16 @@ export interface DiskEncryptionSet extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Set this flag to true to enable auto-updating of this disk encryption set to the latest key
+   * version.
+   */
+  rotationToLatestKeyVersionEnabled?: boolean;
+  /**
+   * The time when the active key of this disk encryption set was updated.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastKeyRotationTimestamp?: Date;
 }
 
 /**
@@ -6211,9 +6279,15 @@ export interface DiskEncryptionSetUpdate {
   encryptionType?: DiskEncryptionSetType;
   activeKey?: KeyForDiskEncryptionSet;
   /**
+   * Set this flag to true to enable auto-updating of this disk encryption set to the latest key
+   * version.
+   */
+  rotationToLatestKeyVersionEnabled?: boolean;
+  /**
    * Resource tags
    */
   tags?: { [propertyName: string]: string };
+  identity?: EncryptionSetIdentity;
 }
 
 /**
@@ -6253,8 +6327,9 @@ export interface PrivateLinkServiceConnectionState {
 export interface PrivateEndpointConnection extends BaseResource {
   /**
    * The resource of private end point.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  privateEndpoint?: PrivateEndpoint;
+  readonly privateEndpoint?: PrivateEndpoint;
   /**
    * A collection of information about the state of the connection between DiskAccess and Virtual
    * Network.
@@ -6393,6 +6468,10 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly encryption?: Encryption;
+  /**
+   * Indicates the OS on a disk supports hibernation.
+   */
+  supportsHibernation?: boolean;
 }
 
 /**
@@ -7063,6 +7142,723 @@ export interface ManagedArtifact {
  */
 export interface GalleryArtifactSource {
   managedImage: ManagedArtifact;
+}
+
+/**
+ * An interface representing InstanceSku.
+ */
+export interface InstanceSku {
+  /**
+   * The sku name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The tier of the cloud service role instance.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tier?: string;
+}
+
+/**
+ * Describes the network profile for the role instance.
+ */
+export interface RoleInstanceNetworkProfile {
+  /**
+   * Specifies the list of resource Ids for the network interfaces associated with the role
+   * instance.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly networkInterfaces?: SubResource[];
+}
+
+/**
+ * Instance view status.
+ */
+export interface ResourceInstanceViewStatus {
+  /**
+   * The status code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The short localizable label for the status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayStatus?: string;
+  /**
+   * The detailed status message, including for alerts and error messages.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The time of the status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly time?: Date;
+  /**
+   * The level code. Possible values include: 'Info', 'Warning', 'Error'
+   */
+  level?: StatusLevelTypes;
+}
+
+/**
+ * The instance view of the role instance.
+ */
+export interface RoleInstanceInstanceView {
+  /**
+   * The Update Domain.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly platformUpdateDomain?: number;
+  /**
+   * The Fault Domain.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly platformFaultDomain?: number;
+  /**
+   * Specifies a unique identifier generated internally for the cloud service associated with this
+   * role instance. <br /><br /> NOTE: If you are using Azure Diagnostics extension, this property
+   * can be used as 'DeploymentId' for querying details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateId?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly statuses?: ResourceInstanceViewStatus[];
+}
+
+/**
+ * An interface representing RoleInstanceProperties.
+ */
+export interface RoleInstanceProperties {
+  networkProfile?: RoleInstanceNetworkProfile;
+  instanceView?: RoleInstanceInstanceView;
+}
+
+/**
+ * An interface representing RoleInstance.
+ */
+export interface RoleInstance {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource Name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource Type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource Location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * Resource tags.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tags?: { [propertyName: string]: string };
+  sku?: InstanceSku;
+  properties?: RoleInstanceProperties;
+}
+
+/**
+ * Describes the cloud service role sku.
+ */
+export interface CloudServiceRoleSku {
+  /**
+   * The sku name. NOTE: If the new SKU is not supported on the hardware the cloud service is
+   * currently on, you need to delete and recreate the cloud service or move back to the old sku.
+   */
+  name?: string;
+  /**
+   * Specifies the tier of the cloud service. Possible Values are <br /><br /> **Standard** <br
+   * /><br /> **Basic**
+   */
+  tier?: string;
+  /**
+   * Specifies the number of role instances in the cloud service.
+   */
+  capacity?: number;
+}
+
+/**
+ * An interface representing CloudServiceRoleProperties.
+ */
+export interface CloudServiceRoleProperties {
+  /**
+   * Specifies the ID which uniquely identifies a cloud service role.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly uniqueId?: string;
+}
+
+/**
+ * Describes a role of the cloud service.
+ */
+export interface CloudServiceRole {
+  /**
+   * Resource id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  sku?: CloudServiceRoleSku;
+  properties?: CloudServiceRoleProperties;
+}
+
+/**
+ * Describes the role properties.
+ */
+export interface CloudServiceRoleProfileProperties {
+  /**
+   * Resource name.
+   */
+  name?: string;
+  sku?: CloudServiceRoleSku;
+}
+
+/**
+ * Describes the role profile for the cloud service.
+ */
+export interface CloudServiceRoleProfile {
+  /**
+   * List of roles for the cloud service.
+   */
+  roles?: CloudServiceRoleProfileProperties[];
+}
+
+/**
+ * Describes a single certificate reference in a Key Vault, and where the certificate should reside
+ * on the role instance.
+ */
+export interface CloudServiceVaultCertificate {
+  /**
+   * This is the URL of a certificate that has been uploaded to Key Vault as a secret.
+   */
+  certificateUrl?: string;
+}
+
+/**
+ * Describes a set of certificates which are all in the same Key Vault.
+ */
+export interface CloudServiceVaultSecretGroup {
+  /**
+   * The relative URL of the Key Vault containing all of the certificates in VaultCertificates.
+   */
+  sourceVault?: SubResource;
+  /**
+   * The list of key vault references in SourceVault which contain certificates.
+   */
+  vaultCertificates?: CloudServiceVaultCertificate[];
+}
+
+/**
+ * Describes the OS profile for the cloud service.
+ */
+export interface CloudServiceOsProfile {
+  /**
+   * Specifies set of certificates that should be installed onto the role instances.
+   */
+  secrets?: CloudServiceVaultSecretGroup[];
+}
+
+/**
+ * Describes a cloud service IP Configuration
+ */
+export interface LoadBalancerFrontendIPConfigurationProperties {
+  /**
+   * The reference to the public ip address resource.
+   */
+  publicIPAddress?: SubResource;
+  /**
+   * The reference to the virtual network subnet resource.
+   */
+  subnet?: SubResource;
+  /**
+   * The virtual network private IP address of the IP configuration.
+   */
+  privateIPAddress?: string;
+}
+
+/**
+ * An interface representing LoadBalancerFrontendIPConfiguration.
+ */
+export interface LoadBalancerFrontendIPConfiguration {
+  /**
+   * The name of the resource that is unique within the set of frontend IP configurations used by
+   * the load balancer. This name can be used to access the resource.
+   */
+  name: string;
+  /**
+   * Properties of load balancer frontend ip configuration.
+   */
+  properties: LoadBalancerFrontendIPConfigurationProperties;
+}
+
+/**
+ * An interface representing LoadBalancerConfigurationProperties.
+ */
+export interface LoadBalancerConfigurationProperties {
+  /**
+   * Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is
+   * supported. Each load balancer configuration must have exactly one frontend IP configuration.
+   */
+  frontendIPConfigurations: LoadBalancerFrontendIPConfiguration[];
+}
+
+/**
+ * Describes the load balancer configuration.
+ */
+export interface LoadBalancerConfiguration {
+  /**
+   * Resource Id
+   */
+  id?: string;
+  /**
+   * The name of the Load balancer
+   */
+  name: string;
+  /**
+   * Properties of the load balancer configuration.
+   */
+  properties: LoadBalancerConfigurationProperties;
+}
+
+/**
+ * Network Profile for the cloud service.
+ */
+export interface CloudServiceNetworkProfile {
+  /**
+   * List of Load balancer configurations. Cloud service can have up to two load balancer
+   * configurations, corresponding to a Public Load Balancer and an Internal Load Balancer.
+   */
+  loadBalancerConfigurations?: LoadBalancerConfiguration[];
+  /**
+   * The id reference of the cloud service containing the target IP with which the subject cloud
+   * service can perform a swap. This property cannot be updated once it is set. The swappable
+   * cloud service referred by this id must be present otherwise an error will be thrown.
+   */
+  swappableCloudService?: SubResource;
+}
+
+/**
+ * An interface representing CloudServiceVaultAndSecretReference.
+ */
+export interface CloudServiceVaultAndSecretReference {
+  sourceVault?: SubResource;
+  secretUrl?: string;
+}
+
+/**
+ * Extension Properties.
+ */
+export interface CloudServiceExtensionProperties {
+  /**
+   * The name of the extension handler publisher.
+   */
+  publisher?: string;
+  /**
+   * Specifies the type of the extension.
+   */
+  type?: string;
+  /**
+   * Specifies the version of the extension. Specifies the version of the extension. If this
+   * element is not specified or an asterisk (*) is used as the value, the latest version of the
+   * extension is used. If the value is specified with a major version number and an asterisk as
+   * the minor version number (X.), the latest minor version of the specified major version is
+   * selected. If a major version number and a minor version number are specified (X.Y), the
+   * specific extension version is selected. If a version is specified, an auto-upgrade is
+   * performed on the role instance.
+   */
+  typeHandlerVersion?: string;
+  /**
+   * Explicitly specify whether platform can automatically upgrade typeHandlerVersion to higher
+   * minor versions when they become available.
+   */
+  autoUpgradeMinorVersion?: boolean;
+  /**
+   * Public settings for the extension. For JSON extensions, this is the JSON settings for the
+   * extension. For XML Extension (like RDP), this is the XML setting for the extension.
+   */
+  settings?: string;
+  /**
+   * Protected settings for the extension which are encrypted before sent to the role instance.
+   */
+  protectedSettings?: string;
+  protectedSettingsFromKeyVault?: CloudServiceVaultAndSecretReference;
+  /**
+   * Tag to force apply the provided public and protected settings.
+   * Changing the tag value allows for re-running the extension without changing any of the public
+   * or protected settings.
+   * If forceUpdateTag is not changed, updates to public or protected settings would still be
+   * applied by the handler.
+   * If neither forceUpdateTag nor any of public or protected settings change, extension would flow
+   * to the role instance with the same sequence-number, and
+   * it is up to handler implementation whether to re-run it or not
+   */
+  forceUpdateTag?: string;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Optional list of roles to apply this extension. If property is not specified or '*' is
+   * specified, extension is applied to all roles in the cloud service.
+   */
+  rolesAppliedTo?: string[];
+}
+
+/**
+ * Describes a cloud service Extension.
+ */
+export interface Extension {
+  /**
+   * The name of the extension.
+   */
+  name?: string;
+  properties?: CloudServiceExtensionProperties;
+}
+
+/**
+ * Describes a cloud service extension profile.
+ */
+export interface CloudServiceExtensionProfile {
+  /**
+   * List of extensions for the cloud service.
+   */
+  extensions?: Extension[];
+}
+
+/**
+ * Cloud service properties
+ */
+export interface CloudServiceProperties {
+  /**
+   * Specifies a URL that refers to the location of the service package in the Blob service. The
+   * service package URL can be Shared Access Signature (SAS) URI from any storage account.
+   * This is a write-only property and is not returned in GET calls.
+   */
+  packageUrl?: string;
+  /**
+   * Specifies the XML service configuration (.cscfg) for the cloud service.
+   */
+  configuration?: string;
+  /**
+   * Specifies a URL that refers to the location of the service configuration in the Blob service.
+   * The service package URL  can be Shared Access Signature (SAS) URI from any storage account.
+   * This is a write-only property and is not returned in GET calls.
+   */
+  configurationUrl?: string;
+  /**
+   * (Optional) Indicates whether to start the cloud service immediately after it is created. The
+   * default value is `true`.
+   * If false, the service model is still deployed, but the code is not run immediately. Instead,
+   * the service is PoweredOff until you call Start, at which time the service will be started. A
+   * deployed service still incurs charges, even if it is poweredoff.
+   */
+  startCloudService?: boolean;
+  /**
+   * (Optional) Indicates whether the role sku properties (roleProfile.roles.sku) specified in the
+   * model/template should override the role instance count and vm size specified in the .cscfg and
+   * .csdef respectively.
+   * The default value is `false`.
+   */
+  allowModelOverride?: boolean;
+  /**
+   * Possible values include: 'Auto', 'Manual', 'Simultaneous'
+   */
+  upgradeMode?: CloudServiceUpgradeMode;
+  roleProfile?: CloudServiceRoleProfile;
+  osProfile?: CloudServiceOsProfile;
+  networkProfile?: CloudServiceNetworkProfile;
+  extensionProfile?: CloudServiceExtensionProfile;
+  /**
+   * The provisioning state, which only appears in the response.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The unique identifier for the cloud service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly uniqueId?: string;
+}
+
+/**
+ * Describes the cloud service.
+ */
+export interface CloudService extends BaseResource {
+  /**
+   * Resource Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   */
+  location: string;
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  properties?: CloudServiceProperties;
+}
+
+/**
+ * An interface representing CloudServiceUpdate.
+ */
+export interface CloudServiceUpdate {
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
+ * An interface representing StatusCodeCount.
+ */
+export interface StatusCodeCount {
+  /**
+   * The instance view status code
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * Number of instances having this status code
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly count?: number;
+}
+
+/**
+ * Instance view statuses.
+ */
+export interface InstanceViewStatusesSummary {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly statusesSummary?: StatusCodeCount[];
+}
+
+/**
+ * InstanceView of CloudService as a whole
+ */
+export interface CloudServiceInstanceView {
+  roleInstance?: InstanceViewStatusesSummary;
+  /**
+   * The version of the SDK that was used to generate the package for the cloud service.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sdkVersion?: string;
+  /**
+   * Specifies a list of unique identifiers generated internally for the cloud service. <br /><br
+   * /> NOTE: If you are using Azure Diagnostics extension, this property can be used as
+   * 'DeploymentId' for querying details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateIds?: string[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly statuses?: ResourceInstanceViewStatus[];
+}
+
+/**
+ * Specifies a list of role instances from the cloud service.
+ */
+export interface RoleInstances {
+  /**
+   * List of cloud service role instance names. Value of '*' will signify all role instances of the
+   * cloud service.
+   */
+  roleInstances: string[];
+}
+
+/**
+ * Defines an update domain for the cloud service.
+ */
+export interface UpdateDomain {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource Name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+}
+
+/**
+ * OS version properties.
+ */
+export interface OSVersionProperties {
+  /**
+   * The family of this OS version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly family?: string;
+  /**
+   * The family label of this OS version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly familyLabel?: string;
+  /**
+   * The OS version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * The OS version label.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly label?: string;
+  /**
+   * Specifies whether this is the default OS version for its family.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDefault?: boolean;
+  /**
+   * Specifies whether this OS version is active.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isActive?: boolean;
+}
+
+/**
+ * Describes a cloud service OS version.
+ */
+export interface OSVersion {
+  /**
+   * Resource Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  properties?: OSVersionProperties;
+}
+
+/**
+ * Configuration view of an OS version.
+ */
+export interface OSVersionPropertiesBase {
+  /**
+   * The OS version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly version?: string;
+  /**
+   * The OS version label.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly label?: string;
+  /**
+   * Specifies whether this is the default OS version for its family.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDefault?: boolean;
+  /**
+   * Specifies whether this OS version is active.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isActive?: boolean;
+}
+
+/**
+ * OS family properties.
+ */
+export interface OSFamilyProperties {
+  /**
+   * The OS family name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The OS family label.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly label?: string;
+  /**
+   * List of OS versions belonging to this family.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly versions?: OSVersionPropertiesBase[];
+}
+
+/**
+ * Describes a cloud service OS family.
+ */
+export interface OSFamily {
+  /**
+   * Resource Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  properties?: OSFamilyProperties;
 }
 
 /**
@@ -7766,6 +8562,156 @@ export interface GalleryApplicationVersionsGetOptionalParams extends msRest.Requ
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface CloudServiceRoleInstancesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply to the operation. Possible values include: 'instanceView'
+   */
+  expand?: InstanceViewTypes;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServiceRoleInstancesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply to the operation. Possible values include: 'instanceView'
+   */
+  expand?: InstanceViewTypes;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServiceRoleInstancesListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The expand expression to apply to the operation. Possible values include: 'instanceView'
+   */
+  expand?: InstanceViewTypes;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The cloud service object.
+   */
+  parameters?: CloudService;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The cloud service object.
+   */
+  parameters?: CloudServiceUpdate;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesRestartOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * List of cloud service role instance names.
+   */
+  parameters?: RoleInstances;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesReimageOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * List of cloud service role instance names.
+   */
+  parameters?: RoleInstances;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesRebuildOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * List of cloud service role instance names.
+   */
+  parameters?: RoleInstances;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesDeleteInstancesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * List of cloud service role instance names.
+   */
+  parameters?: RoleInstances;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The cloud service object.
+   */
+  parameters?: CloudService;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The cloud service object.
+   */
+  parameters?: CloudServiceUpdate;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesBeginRestartOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * List of cloud service role instance names.
+   */
+  parameters?: RoleInstances;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesBeginReimageOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * List of cloud service role instance names.
+   */
+  parameters?: RoleInstances;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesBeginRebuildOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * List of cloud service role instance names.
+   */
+  parameters?: RoleInstances;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CloudServicesBeginDeleteInstancesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * List of cloud service role instance names.
+   */
+  parameters?: RoleInstances;
+}
+
+/**
  * An interface representing ComputeManagementClientOptions.
  */
 export interface ComputeManagementClientOptions extends AzureServiceClientOptions {
@@ -8164,6 +9110,60 @@ export interface GalleryApplicationVersionList extends Array<GalleryApplicationV
 }
 
 /**
+ * @interface
+ * An interface representing the RoleInstanceListResult.
+ * @extends Array<RoleInstance>
+ */
+export interface RoleInstanceListResult extends Array<RoleInstance> {
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the CloudServiceRoleListResult.
+ * @extends Array<CloudServiceRole>
+ */
+export interface CloudServiceRoleListResult extends Array<CloudServiceRole> {
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the CloudServiceListResult.
+ * @extends Array<CloudService>
+ */
+export interface CloudServiceListResult extends Array<CloudService> {
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the UpdateDomainListResult.
+ * @extends Array<UpdateDomain>
+ */
+export interface UpdateDomainListResult extends Array<UpdateDomain> {
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the OSVersionListResult.
+ * @extends Array<OSVersion>
+ */
+export interface OSVersionListResult extends Array<OSVersion> {
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the OSFamilyListResult.
+ * @extends Array<OSFamily>
+ */
+export interface OSFamilyListResult extends Array<OSFamily> {
+  nextLink?: string;
+}
+
+/**
  * Defines values for VmDiskTypes.
  * Possible values include: 'None', 'Unmanaged'
  * @readonly
@@ -8359,11 +9359,12 @@ export type DiskDetachOptionTypes = 'ForceDetach';
 
 /**
  * Defines values for StorageAccountTypes.
- * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+ * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS',
+ * 'Premium_ZRS', 'StandardSSD_ZRS'
  * @readonly
  * @enum {string}
  */
-export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS';
+export type StorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS' | 'Premium_ZRS' | 'StandardSSD_ZRS';
 
 /**
  * Defines values for DiffDiskOptions.
@@ -8625,11 +9626,12 @@ export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubs
 
 /**
  * Defines values for DiskStorageAccountTypes.
- * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'
+ * Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS',
+ * 'Premium_ZRS', 'StandardSSD_ZRS'
  * @readonly
  * @enum {string}
  */
-export type DiskStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS';
+export type DiskStorageAccountTypes = 'Standard_LRS' | 'Premium_LRS' | 'StandardSSD_LRS' | 'UltraSSD_LRS' | 'Premium_ZRS' | 'StandardSSD_ZRS';
 
 /**
  * Defines values for HyperVGeneration.
@@ -8672,6 +9674,14 @@ export type EncryptionType = 'EncryptionAtRestWithPlatformKey' | 'EncryptionAtRe
  * @enum {string}
  */
 export type NetworkAccessPolicy = 'AllowAll' | 'AllowPrivate' | 'DenyAll';
+
+/**
+ * Defines values for DiskSecurityTypes.
+ * Possible values include: 'TrustedLaunch'
+ * @readonly
+ * @enum {string}
+ */
+export type DiskSecurityTypes = 'TrustedLaunch';
 
 /**
  * Defines values for SnapshotStorageAccountTypes.
@@ -8753,6 +9763,14 @@ export type StorageAccountType = 'Standard_LRS' | 'Standard_ZRS' | 'Premium_LRS'
  * @enum {string}
  */
 export type HostCaching = 'None' | 'ReadOnly' | 'ReadWrite';
+
+/**
+ * Defines values for CloudServiceUpgradeMode.
+ * Possible values include: 'Auto', 'Manual', 'Simultaneous'
+ * @readonly
+ * @enum {string}
+ */
+export type CloudServiceUpgradeMode = 'Auto' | 'Manual' | 'Simultaneous';
 
 /**
  * Defines values for InstanceViewTypes.
@@ -13639,5 +14657,551 @@ export type GalleryApplicationVersionsListByGalleryApplicationNextResponse = Gal
        * The response body as parsed JSON or XML
        */
       parsedBody: GalleryApplicationVersionList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CloudServiceRoleInstancesGetResponse = RoleInstance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleInstance;
+    };
+};
+
+/**
+ * Contains response data for the getInstanceView operation.
+ */
+export type CloudServiceRoleInstancesGetInstanceViewResponse = RoleInstanceInstanceView & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleInstanceInstanceView;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type CloudServiceRoleInstancesListResponse = RoleInstanceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleInstanceListResult;
+    };
+};
+
+/**
+ * Contains response data for the getRemoteDesktopFile operation.
+ */
+export type CloudServiceRoleInstancesGetRemoteDesktopFileResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type CloudServiceRoleInstancesListNextResponse = RoleInstanceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RoleInstanceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CloudServiceRolesGetResponse = CloudServiceRole & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudServiceRole;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type CloudServiceRolesListResponse = CloudServiceRoleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudServiceRoleListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type CloudServiceRolesListNextResponse = CloudServiceRoleListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudServiceRoleListResult;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type CloudServicesCreateOrUpdateResponse = CloudService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudService;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type CloudServicesUpdateResponse = CloudService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudService;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type CloudServicesGetResponse = CloudService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudService;
+    };
+};
+
+/**
+ * Contains response data for the getInstanceView operation.
+ */
+export type CloudServicesGetInstanceViewResponse = CloudServiceInstanceView & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudServiceInstanceView;
+    };
+};
+
+/**
+ * Contains response data for the listAll operation.
+ */
+export type CloudServicesListAllResponse = CloudServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type CloudServicesListResponse = CloudServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type CloudServicesBeginCreateOrUpdateResponse = CloudService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudService;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type CloudServicesBeginUpdateResponse = CloudService & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudService;
+    };
+};
+
+/**
+ * Contains response data for the listAllNext operation.
+ */
+export type CloudServicesListAllNextResponse = CloudServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type CloudServicesListNextResponse = CloudServiceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CloudServiceListResult;
+    };
+};
+
+/**
+ * Contains response data for the getUpdateDomain operation.
+ */
+export type CloudServicesUpdateDomainGetUpdateDomainResponse = UpdateDomain & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UpdateDomain;
+    };
+};
+
+/**
+ * Contains response data for the listUpdateDomains operation.
+ */
+export type CloudServicesUpdateDomainListUpdateDomainsResponse = UpdateDomainListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UpdateDomainListResult;
+    };
+};
+
+/**
+ * Contains response data for the listUpdateDomainsNext operation.
+ */
+export type CloudServicesUpdateDomainListUpdateDomainsNextResponse = UpdateDomainListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: UpdateDomainListResult;
+    };
+};
+
+/**
+ * Contains response data for the getOSVersion operation.
+ */
+export type CloudServiceOperatingSystemsGetOSVersionResponse = OSVersion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OSVersion;
+    };
+};
+
+/**
+ * Contains response data for the listOSVersions operation.
+ */
+export type CloudServiceOperatingSystemsListOSVersionsResponse = OSVersionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OSVersionListResult;
+    };
+};
+
+/**
+ * Contains response data for the getOSFamily operation.
+ */
+export type CloudServiceOperatingSystemsGetOSFamilyResponse = OSFamily & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OSFamily;
+    };
+};
+
+/**
+ * Contains response data for the listOSFamilies operation.
+ */
+export type CloudServiceOperatingSystemsListOSFamiliesResponse = OSFamilyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OSFamilyListResult;
+    };
+};
+
+/**
+ * Contains response data for the listOSVersionsNext operation.
+ */
+export type CloudServiceOperatingSystemsListOSVersionsNextResponse = OSVersionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OSVersionListResult;
+    };
+};
+
+/**
+ * Contains response data for the listOSFamiliesNext operation.
+ */
+export type CloudServiceOperatingSystemsListOSFamiliesNextResponse = OSFamilyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OSFamilyListResult;
     };
 };

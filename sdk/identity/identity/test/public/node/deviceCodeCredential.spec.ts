@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
+
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import assert from "assert";
@@ -8,10 +8,11 @@ import { env, isLiveMode, delay } from "@azure/test-utils-recorder";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { DeviceCodeCredential, DeviceCodePromptCallback } from "../../../src";
 import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestUtils";
+import { Context } from "mocha";
 
 describe("DeviceCodeCredential", function() {
   let cleanup: MsalTestCleanup;
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
   afterEach(async function() {
@@ -20,7 +21,7 @@ describe("DeviceCodeCredential", function() {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates with default values", async function() {
+  it("authenticates with default values", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -32,7 +33,7 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with provided values", async function() {
+  it("authenticates with provided values", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -47,7 +48,7 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates and allows the customization of the prompt callback", async function() {
+  it("authenticates and allows the customization of the prompt callback", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -91,7 +92,7 @@ describe("DeviceCodeCredential", function() {
     assert.equal(error?.message, "Cancellation triggered by the AbortSignal");
   });
 
-  it("allows setting disableAutomaticAuthentication", async function() {
+  it("allows setting disableAutomaticAuthentication", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -115,7 +116,7 @@ describe("DeviceCodeCredential", function() {
     assert.ok(account);
   });
 
-  it("supports tracing", async function() {
+  it("supports tracing", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();

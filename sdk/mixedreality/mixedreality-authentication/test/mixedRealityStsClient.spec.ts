@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import { AzureKeyCredential, MixedRealityStsClient } from "../src";
 import { createTokenCredentialFromMRKeyCredential } from "./utils/tokenCredentialHelper";
 import { Recorder } from "@azure/test-utils-recorder";
@@ -77,12 +78,10 @@ describe("[AccountKey] MixedRealityStsClient functional tests", function() {
   let client: MixedRealityStsClient;
   let recorder: Recorder;
 
-  beforeEach(
-    /** @this Mocha.Context */ function() {
-      recorder = createRecorder(this);
-      client = createClient();
-    }
-  );
+  beforeEach(function(this: Context) {
+    recorder = createRecorder(this);
+    client = createClient();
+  });
 
   afterEach(async function() {
     // Stop the recording.

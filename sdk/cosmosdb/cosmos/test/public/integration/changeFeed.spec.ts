@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { RequestOptions } from "../../../src";
 import { Container, ContainerDefinition } from "../../../src";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-describe("Change Feed Iterator", /** @this Mocha.Context */ function() {
+describe("Change Feed Iterator", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   // delete all databases and create sample database

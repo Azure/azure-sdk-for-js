@@ -26,6 +26,26 @@ describe("Errors", function() {
       translatedError.should.deep.equal(testError);
     });
 
+    it("Wraps non-object inputs in errors", function() {
+      const cases = [
+        { input: "test", outputErrorMessage: "test" },
+        { input: 1234, outputErrorMessage: "1234" },
+        { input: null, outputErrorMessage: "Unknown error encountered." },
+        { input: undefined, outputErrorMessage: "Unknown error encountered." }
+      ];
+
+      for (let i = 0; i < cases.length; i++) {
+        const translatedError = Errors.translate(cases[i].input as any);
+
+        should.equal(translatedError.name, "Error");
+        should.equal(
+          translatedError.message,
+          cases[i].outputErrorMessage,
+          "Unexpected error message."
+        );
+      }
+    });
+
     it("Does not touch TypeError", function() {
       const testError = new TypeError("This is a wrong type!!");
       const translatedError = Errors.translate(testError);

@@ -60,7 +60,7 @@ describe("[Mocked] ChatClient", async () => {
     assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
     assert.deepEqual(JSON.parse(request.body), sendRequest);
-    assert.isNotEmpty(request.headers.get("repeatability-Request-Id"));
+    assert.isNotEmpty(request.headers.get("repeatability-request-id"));
   });
 
   it("makes successful list threads request", async () => {

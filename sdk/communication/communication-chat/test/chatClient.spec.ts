@@ -86,17 +86,12 @@ describe("ChatClient", function() {
       threadId = chatThreadResult.chatThread?.id!;
 
       // Create ChatThreadClient
-      chatThreadClient = await chatClient.getChatThreadClient(threadId);
+      chatThreadClient = chatClient.getChatThreadClient(threadId);
     });
 
     beforeEach(async function() {
       // Start notifications
       await chatClient.startRealtimeNotifications();
-    });
-
-    afterEach(async function() {
-      // Stop notifications
-      await chatClient.stopRealtimeNotifications();
     });
 
     it("successfully stops realtime notifications", async function() {

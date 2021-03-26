@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
+import { Context } from "mocha";
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert, use as chaiUse } from "chai";
 import chaiPromises from "chai-as-promised";
@@ -62,11 +63,9 @@ describe("SchemaRegistryClient", function() {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
 
-  beforeEach(
-    /** @this Mocha.Context */ function() {
-      ({ client, recorder } = createRecordedClient(this));
-    }
-  );
+  beforeEach(function(this: Context) {
+    ({ client, recorder } = createRecordedClient(this));
+  });
 
   afterEach(async function() {
     await recorder.stop();

@@ -498,11 +498,15 @@ export class AppConfigurationClient {
     });
   }
 
+  /**
+   * Adds an external synchronization token to ensure service requests receive up-to-date values.
+   *
+   * @param syncToken The synchronization token value.
+   */
   updateSyncToken(syncToken: string): void {
     this._syncTokens.addSyncTokenFromHeaderValue(syncToken);
   }
 }
-
 /**
  * Gets the options for the generated AppConfigurationClient
  * @internal

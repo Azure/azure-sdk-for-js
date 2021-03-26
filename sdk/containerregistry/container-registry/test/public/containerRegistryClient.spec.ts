@@ -50,36 +50,34 @@ describe.skip("ContainerRegistryClient functional tests", function() {
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
-  beforeEach(
-    /** @this Mocha.Context */ function(this: Context) {
-      // The recorder has some convenience methods, and we need to store a
-      // reference to it so that we can `stop()` the recorder later in the
-      // `afterEach` hook.
-      recorder = record(this, {
-        // == Recorder Environment Setup == Add the replaceable variables from
-        // above
-        replaceableVariables,
+  beforeEach(function(this: Context) {
+    // The recorder has some convenience methods, and we need to store a
+    // reference to it so that we can `stop()` the recorder later in the
+    // `afterEach` hook.
+    recorder = record(this, {
+      // == Recorder Environment Setup == Add the replaceable variables from
+      // above
+      replaceableVariables,
 
-        // We don't use this in the template, but if we had any query parameters
-        // we wished to discard, we could add them here
-        queryParametersToSkip: [],
+      // We don't use this in the template, but if we had any query parameters
+      // we wished to discard, we could add them here
+      queryParametersToSkip: [],
 
-        // Finally, we need to remove the AAD `access_token` from any requests.
-        // This is very important, as it cannot be removed using environment
-        // variable or query parameter replacement.  The
-        // `customizationsOnRecordings` field allows us to make arbitrary
-        // replacements within recordings.
-        customizationsOnRecordings: [
-          (recording: any): any =>
-            recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
-        ]
-      });
+      // Finally, we need to remove the AAD `access_token` from any requests.
+      // This is very important, as it cannot be removed using environment
+      // variable or query parameter replacement.  The
+      // `customizationsOnRecordings` field allows us to make arbitrary
+      // replacements within recordings.
+      customizationsOnRecordings: [
+        (recording: any): any =>
+          recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
+      ]
+    });
 
-      // We'll be able to refer to the instantiated `client` in tests, since we
-      // initialize it before each test
-      client = createTestClient();
-    }
-  );
+    // We'll be able to refer to the instantiated `client` in tests, since we
+    // initialize it before each test
+    client = createTestClient();
+  });
 
   // After each test, we need to stop the recording.
   afterEach(async function() {

@@ -38,7 +38,11 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { logger } from "../log";
-import { withTrace } from "../tracing";
+import { createTraceFunction, TracedFunction } from "../../../keyvault-common/src";
+
+const withTrace: TracedFunction = createTraceFunction(
+  "Azure.KeyVault.Keys.RemoteCryptographyProvider"
+);
 
 /**
  * The remote cryptography provider is used to run crypto operations against KeyVault.
