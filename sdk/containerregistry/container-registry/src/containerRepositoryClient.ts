@@ -3,7 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential } from "@azure/core-auth";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -22,10 +22,6 @@ import {
   RepositoryProperties,
   TagProperties
 } from "./model";
-import {
-  ContainerRegistryUserCredential,
-  createContainerRegistryUserCredentialPolicy
-} from "./containerRegistryUserCredentialPolicy";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChallengeCredentialPolicy";
@@ -133,7 +129,7 @@ export class ContainerRepositoryClient {
   constructor(
     endpointUrl: string,
     repository: string,
-    credential: TokenCredential | ContainerRegistryUserCredential,
+    credential: TokenCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpointUrl;
@@ -163,14 +159,12 @@ export class ContainerRepositoryClient {
 
     this.authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
     this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
-    const authPolicy2 = isTokenCredential(credential)
-      ? bearerTokenChallengeAuthenticationPolicy({
-          credential,
-          scopes: `https://management.core.windows.net/.default`,
-          challengeCallbacks: new ChallengeHandler(this.authClient)
-        })
-      : createContainerRegistryUserCredentialPolicy(credential);
-    this.client.pipeline.addPolicy(authPolicy2);
+    const authPolicy = bearerTokenChallengeAuthenticationPolicy({
+      credential,
+      scopes: `https://management.core.windows.net/.default`,
+      challengeCallbacks: new ChallengeHandler(this.authClient)
+    });
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
