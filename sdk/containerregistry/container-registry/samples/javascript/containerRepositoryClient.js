@@ -21,8 +21,7 @@ async function main() {
     const digest = artifacts[0].digest;
     await getArtifactProperties(client, digest);
 
-    // uncomment the following line to delete the artifact
-    // await deleteArtifact(client, digest);
+    await deleteArtifact(client, digest);
   }
 }
 
