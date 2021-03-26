@@ -31,6 +31,8 @@ export interface AccessTokenCache {
  * Provides an {@link AccessTokenCache} implementation which clears
  * the cached {@link AccessToken}'s after the expiresOnTimestamp has
  * passed.
+ *
+ * @deprecated No longer used in the bearer authorization policy.
  */
 export class ExpiringAccessTokenCache implements AccessTokenCache {
   private tokenRefreshBufferMs: number;
