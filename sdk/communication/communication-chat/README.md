@@ -74,26 +74,29 @@ Use the `createThread` method to create a chat thread.
 `createChatThreadRequest` is used to describe the thread request:
 
 - Use `topic` to give a thread topic;
+
+`createChatThreadOptions` is used to set the optional params to create the thread:
+
 - Use `participants` to list the chat participants to be added to the thread;
+- Use `idempotencyToken` to specify a repeatable request
 
 `createChatThreadResult` is the result returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
 
 ```Javascript
-let createChatThreadRequest =
-{
+let createChatThreadRequest ={
     topic: 'Preparation for London conference',
-    participants:
-        [
-            {
-                id: { communicationUserId: '<USER_ID_FOR_JACK>' },
-                displayName: 'Jack'
-            },
-            {
-                id: { communicationUserId: '<USER_ID_FOR_GEETA>' },
-                displayName: 'Geeta'
-            }
-        ]
 };
+let createChatThreadOptions = {
+    participants:[{
+        id: {
+          communicationUserId: '<USER_ID_FOR_JACK>' },
+          displayName: 'Jack'
+        },
+        {
+          id: { communicationUserId: '<USER_ID_FOR_GEETA>' },
+          displayName: 'Geeta'
+        }]
+}
 let createChatThreadResult = await chatClient.createChatThread(createChatThreadRequest);
 let threadId = createChatThreadResult.chatThread.id;
 ```
