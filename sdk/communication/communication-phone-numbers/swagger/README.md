@@ -7,11 +7,11 @@
 ```yaml
 package-name: azure-communication-phone-numbers
 description: Phone number configuration client
-package-version: 1.0.0-beta.4
+package-version: 1.0.0-beta.5
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a4d1e1516433894fca89f9600a6ac8a5471fc598/specification/communication/data-plane/Microsoft.CommunicationServicesPhoneNumbers/stable/2021-03-07/phonenumbers.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1ef769ae890b5f5a952f9ba6e46e0ef6d38241da/specification/communication/data-plane/Microsoft.CommunicationServicesPhoneNumbers/stable/2021-03-07/phonenumbers.json
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

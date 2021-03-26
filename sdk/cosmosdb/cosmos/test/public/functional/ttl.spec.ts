@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { Container, ContainerDefinition, Database } from "../../../src";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 import { StatusCodes } from "../../../src";
@@ -11,7 +12,7 @@ async function sleep(time: number): Promise<unknown> {
   });
 }
 
-describe("Container TTL", function() {
+describe("Container TTL", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 600000);
   beforeEach(async function() {
     await removeAllDatabases();

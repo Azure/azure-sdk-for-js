@@ -2,10 +2,10 @@ let nock = require('nock');
 
 module.exports.hash = "64a276f1f34993ad88cd6f44427e5277";
 
-module.exports.testInfo = {"uniqueName":{"singleEventId":"singleEventId161257785249607296"},"newDate":{"singleEventDate":"2021-02-06T02:17:32.496Z"}}
+module.exports.testInfo = {"uniqueName":{"singleEventId":"singleEventId161541017678808254"},"newDate":{"singleEventDate":"2021-03-10T21:02:56.788Z"}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/api/events', [{"id":"singleEventId161257785249607296","subject":"Single 1","data":{"hello":"world"},"eventType":"Azure.Sdk.TestEvent1","eventTime":"2021-02-06T02:17:32.496Z","dataVersion":"1.0"}])
+  .post('/api/events', [{"id":"singleEventId161541017678808254","subject":"Single 1","data":{"hello":"world"},"eventType":"Azure.Sdk.TestEvent1","eventTime":"2021-03-10T21:02:56.788Z","dataVersion":"1.0"}])
   .query(true)
   .reply(200, "", [
   'Content-Length',
@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2018-01-01',
   'x-ms-request-id',
-  'ba6086a7-6b1d-43c4-ab0a-aeb2f4e95eb4',
+  '17b7267f-f3e5-40de-b5eb-9c164da9685b',
   'Date',
-  'Sat, 06 Feb 2021 02:17:32 GMT'
+  'Wed, 10 Mar 2021 21:02:56 GMT'
 ]);

@@ -3,27 +3,35 @@
 
 import fs from "fs-extra";
 import path from "path";
+import { EOL } from "os";
 
 import * as prettier from "prettier";
 import ts from "typescript";
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 
+import untypedPrettierOptions from "@azure/eslint-plugin-azure-sdk/prettier.json";
+
+import { createPrinter } from "../../util/printer";
+
+const log = createPrinter("ts-to-js");
+
 export const commandInfo = makeCommandInfo(
   "ts-to-js",
   "convert a TypeScript sample to a JavaScript equivalent using our conventions for samples"
 );
-
-import untypedPrettierOptions from "@azure/eslint-plugin-azure-sdk/prettier.json";
-const prettierOptions = untypedPrettierOptions as prettier.Options;
+const prettierOptions: prettier.Options = {
+  ...(untypedPrettierOptions as prettier.Options),
+  parser: "typescript"
+};
 
 const compilerOptions: ts.CompilerOptions = {
   target: ts.ScriptTarget.ESNext,
   module: ts.ModuleKind.ES2015
 };
 
-const NEWLINE_SIGIL = "\n//@@TS-MAGIC-NEWLINE@@\n";
-const NEWLINE_SIGIL_SEARCH = /\n\s*\/\/@@TS-MAGIC-NEWLINE@@\n/;
+const NEWLINE_SIGIL = `${EOL}//@@TS-MAGIC-NEWLINE@@${EOL}`;
+const NEWLINE_SIGIL_SEARCH = /\r?\n\s*\/\/@@TS-MAGIC-NEWLINE@@\r?\n/;
 
 /**
  * A set of replacements to perform. Structured as an array of doubles:
@@ -48,7 +56,7 @@ const REGEX_STACK: Array<[RegExp, string]> = [
 /**
  * Handles the formatting of the resulting JS text.
  */
-function postTransform(outText: string, _inText: string): string {
+function postTransform(outText: string): string {
   // Replace the sigils that we inserted
   let text = outText.split(NEWLINE_SIGIL_SEARCH).join("\n\n");
 
@@ -64,6 +72,52 @@ function postTransform(outText: string, _inText: string): string {
   return prettier.format(text, prettierOptions);
 }
 
+/**
+ * A worker function that converts TypeScript source text to our standard
+ * JavaScript, preserving the newline structure of the input module.
+ *
+ * @param srcText - contents of a TypeScript module source to convert
+ * @param transpileOptions - optiona transpileOptions overrides (compilerOptions will be merged)
+ * @returns - an equivalent JavaScript module source
+ */
+export function convert(srcText: string, transpileOptions?: ts.TranspileOptions): string {
+  // TypeScript doesn't preserve newlines in compiled JS output,
+  // but we can pre-process each blank line by replacing it with a special
+  // sigil (in a comment, since TS preserves comments
+  const processedSrcText = srcText.split(/\n\s*\n/).join(NEWLINE_SIGIL);
+
+  const extraCompilerOptions = transpileOptions?.compilerOptions;
+
+  const extraTranspileOptions = { ...transpileOptions };
+  delete transpileOptions?.compilerOptions;
+
+  const output = ts.transpileModule(processedSrcText, {
+    compilerOptions: {
+      ...compilerOptions,
+      ...extraCompilerOptions
+    },
+    ...extraTranspileOptions
+  });
+
+  if (output.diagnostics?.length) {
+    log.error("TypeScript to JavaScript transpilation emitted errors:");
+
+    const host: ts.FormatDiagnosticsHost = {
+      getNewLine: () => EOL,
+      getCanonicalFileName: (path) => path,
+      getCurrentDirectory: () => process.cwd()
+    };
+
+    for (const diagnostic of output.diagnostics) {
+      log(ts.formatDiagnostic(diagnostic, host));
+    }
+
+    log.warn("Continuing anyway.");
+  }
+
+  return postTransform(output.outputText);
+}
+
 export default leafCommand(commandInfo, async (options) => {
   if (options.args.length !== 2) {
     throw new Error("Wrong number of arguments. Got " + options.args.length + " but expected 2.");
@@ -73,18 +127,10 @@ export default leafCommand(commandInfo, async (options) => {
 
   const srcText = (await fs.readFile(src)).toString("utf-8");
 
-  // TypeScript doesn't preserve newlines in compiled JS output,
-  // but we can pre-process each blank line by replacing it with a special
-  // sigil (in a comment, since TS preserves comments
-  const processedSrcText = srcText.split(/\n\s*\n/).join(NEWLINE_SIGIL);
-
-  const output = ts.transpileModule(processedSrcText, {
-    compilerOptions,
-    fileName: src
-  });
+  const outputText = convert(srcText, { fileName: src });
 
   await fs.ensureDir(path.dirname(dest));
-  await fs.writeFile(dest, postTransform(output.outputText, srcText));
+  await fs.writeFile(dest, outputText);
 
   return true;
 });

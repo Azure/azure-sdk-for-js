@@ -5,9 +5,14 @@ import { OperationOptions } from "@azure/core-http";
 import { PhoneNumberSearchRequest } from "./generated/src/models/";
 
 /**
- * Represents a void result.
+ * The result of the phone numbers purchase operation.
  */
-export type VoidResult = {};
+export interface PurchasePhoneNumbersResult {}
+
+/**
+ * The result of the phone number release operation.
+ */
+export interface ReleasePhoneNumberResult {}
 
 /**
  * Additional options for the get phone number request.
@@ -43,7 +48,7 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 }
 
 export {
-  AcquiredPhoneNumber,
+  PurchasedPhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,

@@ -24,31 +24,243 @@ export interface AcrErrorInfo {
   detail?: any;
 }
 
-export interface ManifestListAttributes {
-  /** The MIME type of the referenced object. This will generally be application/vnd.docker.image.manifest.v2+json, but it could also be application/vnd.docker.image.manifest.v1+json */
-  mediaType?: string;
-  /** The size in bytes of the object */
-  size?: number;
-  /** The digest of the content, as defined by the Registry V2 HTTP API Specification */
-  digest?: string;
-  /** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
-  platform?: Platform;
+/** Returns the requested manifest file */
+export interface Manifest {
+  /** Schema version */
+  schemaVersion?: number;
 }
 
-/** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
-export interface Platform {
-  /** Specifies the CPU architecture, for example amd64 or ppc64le. */
-  architecture?: string;
-  /** The os field specifies the operating system, for example linux or windows. */
-  os?: string;
-  /** The optional os.version field specifies the operating system version, for example 10.0.10586. */
-  osVersion?: string;
-  /** The optional os.features field specifies an array of strings, each listing a required OS feature (for example on Windows win32k */
-  osFeatures?: string[];
-  /** The optional variant field specifies a variant of the CPU, for example armv6l to specify a particular CPU variant of the ARM CPU. */
-  variant?: string;
-  /** The optional features field specifies an array of strings, each listing a required CPU feature (for example sse4 or aes */
-  features?: string[];
+/** List of repositories */
+export interface Repositories {
+  /** Repository names */
+  names?: string[];
+}
+
+/** Repository attributes */
+export interface RepositoryAttributes {
+  /** Registry name */
+  registry?: string;
+  /** Image name */
+  name?: string;
+  /** Image created time */
+  createdOn?: Date;
+  /** Image last update time */
+  lastUpdatedOn?: Date;
+  /** Number of the manifests */
+  registryArtifactCount?: number;
+  /** Number of the tags */
+  tagCount?: number;
+  /** Changeable attributes */
+  writeableProperties?: ChangeableAttributes;
+}
+
+export interface ChangeableAttributes {
+  /** Delete enabled */
+  canDelete?: boolean;
+  /** Write enabled */
+  canWrite?: boolean;
+  /** List enabled */
+  canList?: boolean;
+  /** Read enabled */
+  canRead?: boolean;
+}
+
+/** Deleted repository */
+export interface DeletedRepository {
+  /** SHA of the deleted image */
+  deletedRegistryArtifactDigests?: string[];
+  /** Tag of the deleted image */
+  deletedTags?: string[];
+}
+
+/** List of tag details */
+export interface TagList {
+  /** Registry name */
+  registry?: string;
+  /** Image name */
+  imageName?: string;
+  /** List of tag attribute details */
+  tags?: TagAttributesBase[];
+}
+
+/** Tag attribute details */
+export interface TagAttributesBase {
+  /** Tag name */
+  name?: string;
+  /** Tag digest */
+  digest?: string;
+  /** Tag created time */
+  createdOn?: Date;
+  /** Tag last update time */
+  lastUpdatedOn?: Date;
+  /** Changeable attributes */
+  modifiableProperties?: ChangeableAttributes;
+}
+
+/** Tag attributes */
+export interface TagAttributes {
+  /** Registry name */
+  registry?: string;
+  /** Image name */
+  repository?: string;
+  /** Tag name */
+  name?: string;
+  /** Tag digest */
+  digest?: string;
+  /** Tag created time */
+  createdOn?: Date;
+  /** Tag last update time */
+  lastUpdatedOn?: Date;
+  /** Changeable attributes */
+  modifiableProperties?: ChangeableAttributes;
+}
+
+/** Manifest attributes */
+export interface AcrManifests {
+  /** Registry name */
+  registry?: string;
+  /** Image name */
+  imageName?: string;
+  /** List of manifests */
+  manifestsAttributes?: ManifestAttributesBase[];
+}
+
+/** Manifest details */
+export interface ManifestAttributesBase {
+  /** Manifest */
+  digest?: string;
+  /** Image size */
+  size?: number;
+  /** Created time */
+  createdOn?: Date;
+  /** Last update time */
+  lastUpdatedOn?: Date;
+  /** CPU architecture */
+  cpuArchitecture?: string;
+  /** Operating system */
+  operatingSystem?: string;
+  /** Media type */
+  manifestMediaType?: string;
+  /** Config blob media type */
+  configMediaType?: string;
+  /** List of tags */
+  tags?: string[];
+  /** Changeable attributes */
+  manifestProperties?: ChangeableAttributes;
+}
+
+/** Manifest attributes details */
+export interface ManifestAttributes {
+  /** Registry name */
+  registry?: string;
+  /** Image name */
+  repository?: string;
+  /** Manifest */
+  digest?: string;
+  /** Image size */
+  size?: number;
+  /** Created time */
+  createdOn?: Date;
+  /** Last update time */
+  lastUpdatedOn?: Date;
+  /** CPU architecture */
+  cpuArchitecture?: string;
+  /** Operating system */
+  operatingSystem?: string;
+  /** Media type */
+  manifestMediaType?: string;
+  /** Config blob media type */
+  configMediaType?: string;
+  /** List of tags */
+  tags?: string[];
+  /** Changeable attributes */
+  manifestProperties?: ChangeableAttributes;
+}
+
+export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
+  /** Can take a value of access_token_refresh_token, or access_token, or refresh_token */
+  grantType: PostContentSchemaGrantType;
+  /** Indicates the name of your Azure container registry. */
+  service: string;
+  /** AAD tenant associated to the AAD credentials. */
+  tenant?: string;
+  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
+  refreshToken?: string;
+  /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
+  accessToken?: string;
+}
+
+export interface RefreshToken {
+  /** The refresh token to be used for generating access tokens */
+  refreshToken?: string;
+}
+
+export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
+  /** Grant type is expected to be refresh_token */
+  grantType: "refresh_token";
+  /** Indicates the name of your Azure container registry. */
+  service: string;
+  /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
+  scope: string;
+  /** Must be a valid ACR refresh token */
+  refreshToken: string;
+}
+
+export interface AccessToken {
+  /** The access token for performing authenticated requests */
+  accessToken?: string;
+}
+
+/** Result of the request to list tags of the image */
+export interface RepositoryTags {
+  /** Name of the image */
+  name?: string;
+  /** List of tags */
+  tags?: string[];
+}
+
+/** Signature of a signed manifest */
+export interface ImageSignature {
+  /** A JSON web signature */
+  header?: Jwk;
+  /** A signature for the image manifest, signed by a libtrust private key */
+  signature?: string;
+  /** The signed protected header */
+  protected?: string;
+}
+
+/** A JSON web signature */
+export interface Jwk {
+  /** JSON web key parameter */
+  jwk?: JWKHeader;
+  /** The algorithm used to sign or encrypt the JWT */
+  alg?: string;
+}
+
+/** JSON web key parameter */
+export interface JWKHeader {
+  /** crv value */
+  crv?: string;
+  /** kid value */
+  kid?: string;
+  /** kty value */
+  kty?: string;
+  /** x value */
+  x?: string;
+  /** y value */
+  y?: string;
+}
+
+/** A list of unstructured historical data for v1 compatibility */
+export interface History {
+  /** The raw v1 compatibility information */
+  v1Compatibility?: string;
+}
+
+/** Image layer information */
+export interface FsLayer {
+  /** SHA of an image layer */
+  blobSum?: string;
 }
 
 /** Docker V2 image layer descriptor including config and layers */
@@ -95,221 +307,6 @@ export interface Annotations {
   description?: string;
 }
 
-/** Image layer information */
-export interface FsLayer {
-  /** SHA of an image layer */
-  blobSum?: string;
-}
-
-/** A list of unstructured historical data for v1 compatibility */
-export interface History {
-  /** The raw v1 compatibility information */
-  v1Compatibility?: string;
-}
-
-/** Signature of a signed manifest */
-export interface ImageSignature {
-  /** A JSON web signature */
-  header?: Jwk;
-  /** A signature for the image manifest, signed by a libtrust private key */
-  signature?: string;
-  /** The signed protected header */
-  protected?: string;
-}
-
-/** A JSON web signature */
-export interface Jwk {
-  /** JSON web key parameter */
-  jwk?: JWKHeader;
-  /** The algorithm used to sign or encrypt the JWT */
-  alg?: string;
-}
-
-/** JSON web key parameter */
-export interface JWKHeader {
-  /** crv value */
-  crv?: string;
-  /** kid value */
-  kid?: string;
-  /** kty value */
-  kty?: string;
-  /** x value */
-  x?: string;
-  /** y value */
-  y?: string;
-}
-
-/** Returns the requested manifest file */
-export interface Manifest {
-  /** Schema version */
-  schemaVersion?: number;
-}
-
-/** List of repositories */
-export interface Repositories {
-  /** Repository names */
-  names?: string[];
-}
-
-/** Repository attributes */
-export interface RepositoryAttributes {
-  /** Registry name */
-  registry?: string;
-  /** Image name */
-  imageName?: string;
-  /** Image created time */
-  createdTime?: string;
-  /** Image last update time */
-  lastUpdateTime?: string;
-  /** Number of the manifests */
-  manifestCount?: number;
-  /** Number of the tags */
-  tagCount?: number;
-  /** Changeable attributes */
-  changeableAttributes?: ChangeableAttributes;
-}
-
-export interface ChangeableAttributes {
-  /** Delete enabled */
-  deleteEnabled?: boolean;
-  /** Write enabled */
-  writeEnabled?: boolean;
-  /** List enabled */
-  listEnabled?: boolean;
-  /** Read enabled */
-  readEnabled?: boolean;
-}
-
-/** Deleted repository */
-export interface DeletedRepository {
-  /** SHA of the deleted image */
-  manifestsDeleted?: string[];
-  /** Tag of the deleted image */
-  tagsDeleted?: string[];
-}
-
-/** List of tag details */
-export interface TagList {
-  /** Registry name */
-  registry?: string;
-  /** Image name */
-  imageName?: string;
-  /** List of tag attribute details */
-  tags?: TagAttributesBase[];
-}
-
-/** Tag attribute details */
-export interface TagAttributesBase {
-  /** Tag name */
-  name?: string;
-  /** Tag digest */
-  digest?: string;
-  /** Tag created time */
-  createdTime?: string;
-  /** Tag last update time */
-  lastUpdateTime?: string;
-  /** Is signed */
-  signed?: boolean;
-  /** Changeable attributes */
-  changeableAttributes?: ChangeableAttributes;
-}
-
-/** Tag attributes */
-export interface TagAttributes {
-  /** Registry name */
-  registry?: string;
-  /** Image name */
-  imageName?: string;
-  /** List of tag attribute details */
-  attributes?: TagAttributesBase;
-}
-
-/** Manifest attributes */
-export interface AcrManifests {
-  /** Registry name */
-  registry?: string;
-  /** Image name */
-  imageName?: string;
-  /** List of manifests */
-  manifestsAttributes?: ManifestAttributesBase[];
-}
-
-/** Manifest details */
-export interface ManifestAttributesBase {
-  /** Manifest */
-  digest?: string;
-  /** Image size */
-  imageSize?: number;
-  /** Created time */
-  createdTime?: string;
-  /** Last update time */
-  lastUpdateTime?: string;
-  /** CPU architecture */
-  architecture?: string;
-  /** Operating system */
-  os?: string;
-  /** Media type */
-  mediaType?: string;
-  /** Config blob media type */
-  configMediaType?: string;
-  /** List of tags */
-  tags?: string[];
-  /** Changeable attributes */
-  changeableAttributes?: ChangeableAttributes;
-}
-
-/** Manifest attributes details */
-export interface ManifestAttributes {
-  /** Registry name */
-  registry?: string;
-  /** Image name */
-  imageName?: string;
-  /** Manifest attributes */
-  attributes?: ManifestAttributesBase;
-}
-
-export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Can take a value of access_token_refresh_token, or access_token, or refresh_token */
-  grantType: PostContentSchemaGrantType;
-  /** Indicates the name of your Azure container registry. */
-  service: string;
-  /** AAD tenant associated to the AAD credentials. */
-  tenant?: string;
-  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
-  refreshToken?: string;
-  /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
-  accessToken?: string;
-}
-
-export interface RefreshToken {
-  /** The refresh token to be used for generating access tokens */
-  refreshToken?: string;
-}
-
-export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Grant type is expected to be refresh_token */
-  grantType: "refresh_token";
-  /** Indicates the name of your Azure container registry. */
-  service: string;
-  /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
-  scope: string;
-  /** Must be a valid ACR refresh token */
-  refreshToken: string;
-}
-
-export interface AccessToken {
-  /** The access token for performing authenticated requests */
-  accessToken?: string;
-}
-
-/** Result of the request to list tags of the image */
-export interface RepositoryTags {
-  /** Name of the image */
-  name?: string;
-  /** List of tags */
-  tags?: string[];
-}
-
 /** Tag */
 export interface TagAttributesTag {
   /** SignatureRecord value */
@@ -348,6 +345,33 @@ export interface ManifestChangeableAttributes {
   quarantineState?: string;
   /** Quarantine details */
   quarantineDetails?: string;
+}
+
+export interface ManifestListAttributes {
+  /** The MIME type of the referenced object. This will generally be application/vnd.docker.image.manifest.v2+json, but it could also be application/vnd.docker.image.manifest.v1+json */
+  mediaType?: string;
+  /** The size in bytes of the object */
+  size?: number;
+  /** The digest of the content, as defined by the Registry V2 HTTP API Specification */
+  digest?: string;
+  /** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
+  platform?: Platform;
+}
+
+/** The platform object describes the platform which the image in the manifest runs on. A full list of valid operating system and architecture values are listed in the Go language documentation for $GOOS and $GOARCH */
+export interface Platform {
+  /** Specifies the CPU architecture, for example amd64 or ppc64le. */
+  architecture?: string;
+  /** The os field specifies the operating system, for example linux or windows. */
+  os?: string;
+  /** The optional os.version field specifies the operating system version, for example 10.0.10586. */
+  osVersion?: string;
+  /** The optional os.features field specifies an array of strings, each listing a required OS feature (for example on Windows win32k */
+  osFeatures?: string[];
+  /** The optional variant field specifies a variant of the CPU, for example armv6l to specify a particular CPU variant of the ARM CPU. */
+  variant?: string;
+  /** The optional features field specifies an array of strings, each listing a required CPU feature (for example sse4 or aes */
+  features?: string[];
 }
 
 /** Returns the requested manifest file */
@@ -428,8 +452,14 @@ export type V1Manifest = Manifest & {
   signatures?: ImageSignature[];
 };
 
-/** Defines headers for Manifests_create operation. */
-export interface ManifestsCreateHeaders {
+/** Defines headers for ContainerRegistry_getRepositories operation. */
+export interface ContainerRegistryGetRepositoriesHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
+/** Defines headers for ContainerRegistryRepository_createManifest operation. */
+export interface ContainerRegistryRepositoryCreateManifestHeaders {
   /** Identifies the docker upload uuid for the current request. */
   dockerContentDigest?: string;
   /** The canonical location url of the uploaded manifest. */
@@ -438,30 +468,30 @@ export interface ManifestsCreateHeaders {
   contentLength?: number;
 }
 
-/** Defines headers for Blob_get operation. */
-export interface BlobGetHeaders {
+/** Defines headers for ContainerRegistryBlob_getBlob operation. */
+export interface ContainerRegistryBlobGetBlobHeaders {
   /** The length of the requested blob content. */
   contentLength?: number;
   /** Digest of the targeted content for the request. */
   dockerContentDigest?: string;
 }
 
-/** Defines headers for Blob_check operation. */
-export interface BlobCheckHeaders {
+/** Defines headers for ContainerRegistryBlob_checkBlobExists operation. */
+export interface ContainerRegistryBlobCheckBlobExistsHeaders {
   /** The length of the requested blob content. */
   contentLength?: number;
   /** Digest of the targeted content for the request. */
   dockerContentDigest?: string;
 }
 
-/** Defines headers for Blob_delete operation. */
-export interface BlobDeleteHeaders {
+/** Defines headers for ContainerRegistryBlob_deleteBlob operation. */
+export interface ContainerRegistryBlobDeleteBlobHeaders {
   /** Digest of the targeted content for the request. */
   dockerContentDigest?: string;
 }
 
-/** Defines headers for Blob_mount operation. */
-export interface BlobMountHeaders {
+/** Defines headers for ContainerRegistryBlob_mountBlob operation. */
+export interface ContainerRegistryBlobMountBlobHeaders {
   /** Provided location for blob */
   location?: string;
   /** Identifies the docker upload uuid for the current request. */
@@ -470,16 +500,16 @@ export interface BlobMountHeaders {
   dockerContentDigest?: string;
 }
 
-/** Defines headers for Blob_getStatus operation. */
-export interface BlobGetStatusHeaders {
+/** Defines headers for ContainerRegistryBlob_getUploadStatus operation. */
+export interface ContainerRegistryBlobGetUploadStatusHeaders {
   /** Range indicating the current progress of the upload. */
   range?: string;
   /** Identifies the docker upload uuid for the current request. */
   dockerUploadUuid?: string;
 }
 
-/** Defines headers for Blob_upload operation. */
-export interface BlobUploadHeaders {
+/** Defines headers for ContainerRegistryBlob_uploadChunk operation. */
+export interface ContainerRegistryBlobUploadChunkHeaders {
   /** Provided location for blob */
   location?: string;
   /** Range indicating the current progress of the upload. */
@@ -488,8 +518,8 @@ export interface BlobUploadHeaders {
   dockerUploadUuid?: string;
 }
 
-/** Defines headers for Blob_endUpload operation. */
-export interface BlobEndUploadHeaders {
+/** Defines headers for ContainerRegistryBlob_completeUpload operation. */
+export interface ContainerRegistryBlobCompleteUploadHeaders {
   /** Provided location for blob */
   location?: string;
   /** Range indicating the current progress of the upload. */
@@ -498,8 +528,8 @@ export interface BlobEndUploadHeaders {
   dockerContentDigest?: string;
 }
 
-/** Defines headers for Blob_startUpload operation. */
-export interface BlobStartUploadHeaders {
+/** Defines headers for ContainerRegistryBlob_startUpload operation. */
+export interface ContainerRegistryBlobStartUploadHeaders {
   /** Provided location for blob */
   location?: string;
   /** Range indicating the current progress of the upload. */
@@ -508,26 +538,20 @@ export interface BlobStartUploadHeaders {
   dockerUploadUuid?: string;
 }
 
-/** Defines headers for Blob_getChunk operation. */
-export interface BlobGetChunkHeaders {
-  /** The length of the requested blob content. */
-  contentLength?: number;
-  /** Content range of blob chunk. */
-  contentRange?: string;
-}
-
-/** Defines headers for Blob_checkChunk operation. */
-export interface BlobCheckChunkHeaders {
+/** Defines headers for ContainerRegistryBlob_getChunk operation. */
+export interface ContainerRegistryBlobGetChunkHeaders {
   /** The length of the requested blob content. */
   contentLength?: number;
   /** Content range of blob chunk. */
   contentRange?: string;
 }
 
-/** Defines headers for Repository_getList operation. */
-export interface RepositoryGetListHeaders {
-  /** next paginated result */
-  link?: string;
+/** Defines headers for ContainerRegistryBlob_checkChunkExists operation. */
+export interface ContainerRegistryBlobCheckChunkExistsHeaders {
+  /** The length of the requested blob content. */
+  contentLength?: number;
+  /** Content range of blob chunk. */
+  contentRange?: string;
 }
 
 /** Known values of {@link PostContentSchemaGrantType} that the service accepts. */
@@ -549,219 +573,7 @@ export const enum KnownPostContentSchemaGrantType {
 export type PostContentSchemaGrantType = string;
 
 /** Optional parameters. */
-export interface ManifestsGetOptionalParams extends coreHttp.OperationOptions {
-  /** Accept header string delimited by comma. For example, application/vnd.docker.distribution.manifest.v2+json */
-  accept?: string;
-}
-
-/** Contains response data for the get operation. */
-export type ManifestsGetResponse = ManifestWrapper & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ManifestWrapper;
-  };
-};
-
-/** Contains response data for the create operation. */
-export type ManifestsCreateResponse = ManifestsCreateHeaders & {
-  /** The parsed response body. */
-  body: any;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: any;
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ManifestsCreateHeaders;
-  };
-};
-
-/** Optional parameters. */
-export interface ManifestsGetListOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
-  last?: string;
-  /** query parameter for max number of items */
-  n?: number;
-  /** orderby query parameter */
-  orderby?: string;
-}
-
-/** Contains response data for the getList operation. */
-export type ManifestsGetListResponse = AcrManifests & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AcrManifests;
-  };
-};
-
-/** Contains response data for the getAttributes operation. */
-export type ManifestsGetAttributesResponse = ManifestAttributes & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ManifestAttributes;
-  };
-};
-
-/** Optional parameters. */
-export interface ManifestsUpdateAttributesOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Repository attribute value */
-  value?: ChangeableAttributes;
-}
-
-/** Contains response data for the get operation. */
-export type BlobGetResponse = BlobGetHeaders & {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobGetHeaders;
-  };
-};
-
-/** Contains response data for the check operation. */
-export type BlobCheckResponse = BlobCheckHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobCheckHeaders;
-  };
-};
-
-/** Contains response data for the delete operation. */
-export type BlobDeleteResponse = BlobDeleteHeaders & {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobDeleteHeaders;
-  };
-};
-
-/** Contains response data for the mount operation. */
-export type BlobMountResponse = BlobMountHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobMountHeaders;
-  };
-};
-
-/** Contains response data for the getStatus operation. */
-export type BlobGetStatusResponse = BlobGetStatusHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobGetStatusHeaders;
-  };
-};
-
-/** Contains response data for the upload operation. */
-export type BlobUploadResponse = BlobUploadHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobUploadHeaders;
-  };
-};
-
-/** Contains response data for the endUpload operation. */
-export type BlobEndUploadResponse = BlobEndUploadHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobEndUploadHeaders;
-  };
-};
-
-/** Contains response data for the startUpload operation. */
-export type BlobStartUploadResponse = BlobStartUploadHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobStartUploadHeaders;
-  };
-};
-
-/** Contains response data for the getChunk operation. */
-export type BlobGetChunkResponse = BlobGetChunkHeaders & {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always `undefined` in node.js.
-   */
-  blobBody?: Promise<Blob>;
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always `undefined` in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobGetChunkHeaders;
-  };
-};
-
-/** Contains response data for the checkChunk operation. */
-export type BlobCheckChunkResponse = BlobCheckChunkHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: BlobCheckChunkHeaders;
-  };
-};
-
-/** Optional parameters. */
-export interface RepositoryGetListOptionalParams
+export interface ContainerRegistryGetRepositoriesOptionalParams
   extends coreHttp.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
@@ -769,8 +581,8 @@ export interface RepositoryGetListOptionalParams
   n?: number;
 }
 
-/** Contains response data for the getList operation. */
-export type RepositoryGetListResponse = RepositoryGetListHeaders &
+/** Contains response data for the getRepositories operation. */
+export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepositoriesHeaders &
   Repositories & {
     /** The underlying HTTP response. */
     _response: coreHttp.HttpResponse & {
@@ -780,12 +592,12 @@ export type RepositoryGetListResponse = RepositoryGetListHeaders &
       /** The response body as parsed JSON or XML */
       parsedBody: Repositories;
       /** The parsed HTTP response headers. */
-      parsedHeaders: RepositoryGetListHeaders;
+      parsedHeaders: ContainerRegistryGetRepositoriesHeaders;
     };
   };
 
-/** Contains response data for the getAttributes operation. */
-export type RepositoryGetAttributesResponse = RepositoryAttributes & {
+/** Contains response data for the getRepositoryAttributes operation. */
+export type ContainerRegistryGetRepositoryAttributesResponse = RepositoryAttributes & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -796,8 +608,8 @@ export type RepositoryGetAttributesResponse = RepositoryAttributes & {
   };
 };
 
-/** Contains response data for the delete operation. */
-export type RepositoryDeleteResponse = DeletedRepository & {
+/** Contains response data for the deleteRepository operation. */
+export type ContainerRegistryDeleteRepositoryResponse = DeletedRepository & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -809,14 +621,51 @@ export type RepositoryDeleteResponse = DeletedRepository & {
 };
 
 /** Optional parameters. */
-export interface RepositoryUpdateAttributesOptionalParams
+export interface ContainerRegistryUpdateRepositoryAttributesOptionalParams
   extends coreHttp.OperationOptions {
   /** Repository attribute value */
   value?: ChangeableAttributes;
 }
 
 /** Optional parameters. */
-export interface TagGetListOptionalParams extends coreHttp.OperationOptions {
+export interface ContainerRegistryRepositoryGetManifestOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Accept header string delimited by comma. For example, application/vnd.docker.distribution.manifest.v2+json */
+  accept?: string;
+}
+
+/** Contains response data for the getManifest operation. */
+export type ContainerRegistryRepositoryGetManifestResponse = Manifest & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: Manifest;
+  };
+};
+
+/** Contains response data for the createManifest operation. */
+export type ContainerRegistryRepositoryCreateManifestResponse = ContainerRegistryRepositoryCreateManifestHeaders & {
+  /** The parsed response body. */
+  body: any;
+
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: any;
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryRepositoryCreateManifestHeaders;
+  };
+};
+
+/** Optional parameters. */
+export interface ContainerRegistryRepositoryGetTagsOptionalParams
+  extends coreHttp.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
   /** query parameter for max number of items */
@@ -827,8 +676,8 @@ export interface TagGetListOptionalParams extends coreHttp.OperationOptions {
   digest?: string;
 }
 
-/** Contains response data for the getList operation. */
-export type TagGetListResponse = TagList & {
+/** Contains response data for the getTags operation. */
+export type ContainerRegistryRepositoryGetTagsResponse = TagList & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -839,8 +688,8 @@ export type TagGetListResponse = TagList & {
   };
 };
 
-/** Contains response data for the getAttributes operation. */
-export type TagGetAttributesResponse = TagAttributes & {
+/** Contains response data for the getTagAttributes operation. */
+export type ContainerRegistryRepositoryGetTagAttributesResponse = TagAttributes & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -852,11 +701,188 @@ export type TagGetAttributesResponse = TagAttributes & {
 };
 
 /** Optional parameters. */
-export interface TagUpdateAttributesOptionalParams
+export interface ContainerRegistryRepositoryUpdateTagAttributesOptionalParams
   extends coreHttp.OperationOptions {
   /** Repository attribute value */
   value?: ChangeableAttributes;
 }
+
+/** Optional parameters. */
+export interface ContainerRegistryRepositoryGetManifestsOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
+  last?: string;
+  /** query parameter for max number of items */
+  n?: number;
+  /** orderby query parameter */
+  orderby?: string;
+}
+
+/** Contains response data for the getManifests operation. */
+export type ContainerRegistryRepositoryGetManifestsResponse = AcrManifests & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: AcrManifests;
+  };
+};
+
+/** Contains response data for the getManifestAttributes operation. */
+export type ContainerRegistryRepositoryGetManifestAttributesResponse = ManifestAttributes & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: ManifestAttributes;
+  };
+};
+
+/** Optional parameters. */
+export interface ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams
+  extends coreHttp.OperationOptions {
+  /** Repository attribute value */
+  value?: ChangeableAttributes;
+}
+
+/** Contains response data for the getBlob operation. */
+export type ContainerRegistryBlobGetBlobResponse = ContainerRegistryBlobGetBlobHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobGetBlobHeaders;
+  };
+};
+
+/** Contains response data for the checkBlobExists operation. */
+export type ContainerRegistryBlobCheckBlobExistsResponse = ContainerRegistryBlobCheckBlobExistsHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobCheckBlobExistsHeaders;
+  };
+};
+
+/** Contains response data for the deleteBlob operation. */
+export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDeleteBlobHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobDeleteBlobHeaders;
+  };
+};
+
+/** Contains response data for the mountBlob operation. */
+export type ContainerRegistryBlobMountBlobResponse = ContainerRegistryBlobMountBlobHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobMountBlobHeaders;
+  };
+};
+
+/** Contains response data for the getUploadStatus operation. */
+export type ContainerRegistryBlobGetUploadStatusResponse = ContainerRegistryBlobGetUploadStatusHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobGetUploadStatusHeaders;
+  };
+};
+
+/** Contains response data for the uploadChunk operation. */
+export type ContainerRegistryBlobUploadChunkResponse = ContainerRegistryBlobUploadChunkHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobUploadChunkHeaders;
+  };
+};
+
+/** Contains response data for the completeUpload operation. */
+export type ContainerRegistryBlobCompleteUploadResponse = ContainerRegistryBlobCompleteUploadHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobCompleteUploadHeaders;
+  };
+};
+
+/** Contains response data for the startUpload operation. */
+export type ContainerRegistryBlobStartUploadResponse = ContainerRegistryBlobStartUploadHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobStartUploadHeaders;
+  };
+};
+
+/** Contains response data for the getChunk operation. */
+export type ContainerRegistryBlobGetChunkResponse = ContainerRegistryBlobGetChunkHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobGetChunkHeaders;
+  };
+};
+
+/** Contains response data for the checkChunkExists operation. */
+export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlobCheckChunkExistsHeaders & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The parsed HTTP response headers. */
+    parsedHeaders: ContainerRegistryBlobCheckChunkExistsHeaders;
+  };
+};
 
 /** Optional parameters. */
 export interface RefreshTokensGetFromExchangeOptionalParams

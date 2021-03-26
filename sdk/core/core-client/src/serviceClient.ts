@@ -137,12 +137,6 @@ export class ServiceClient {
       const requestOptions = options.requestOptions;
 
       if (requestOptions) {
-        if (requestOptions.customHeaders) {
-          for (const customHeaderName of Object.keys(requestOptions.customHeaders)) {
-            request.headers.set(customHeaderName, requestOptions.customHeaders[customHeaderName]);
-          }
-        }
-
         if (requestOptions.timeout) {
           request.timeout = requestOptions.timeout;
         }

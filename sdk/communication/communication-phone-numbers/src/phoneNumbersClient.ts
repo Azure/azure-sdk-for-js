@@ -20,7 +20,7 @@ import { logger, createSpan, SDK_VERSION } from "./utils";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import { PhoneNumbers as GeneratedClient } from "./generated/src/operations";
 import {
-  AcquiredPhoneNumber,
+  PurchasedPhoneNumber,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberSearchResult
 } from "./generated/src/models/";
@@ -28,13 +28,14 @@ import {
   GetPurchasedPhoneNumberOptions,
   ListPurchasedPhoneNumbersOptions,
   SearchAvailablePhoneNumbersRequest,
-  VoidResult
+  PurchasePhoneNumbersResult,
+  ReleasePhoneNumberResult
 } from "./models";
 import {
   BeginPurchasePhoneNumbersOptions,
   BeginReleasePhoneNumberOptions,
   BeginSearchAvailablePhoneNumbersOptions,
-  BeginUpdatePhoneNumberOptions
+  BeginUpdatePhoneNumberCapabilitiesOptions
 } from "./lroModels";
 
 /**
@@ -57,25 +58,25 @@ export class PhoneNumbersClient {
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using a connection string.
    *
-   * @param connectionString Connection string to connect to an Azure Communication Service resource. (eg: endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret)
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource. (eg: endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret)
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(connectionString: string, options?: PhoneNumbersClientOptions);
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using an Azure KeyCredential.
    *
-   * @param url The endpoint of the service (eg: https://contoso.eastus.communications.azure.net)
-   * @param credential An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param url - The endpoint of the service (eg: https://contoso.eastus.communications.azure.net)
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
 
   /**
    * Initializes a new instance of the PhoneNumberAdministrationClient class using a TokenCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential TokenCredential that is used to authenticate requests to the service.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param url - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - TokenCredential that is used to authenticate requests to the service.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
 
@@ -117,13 +118,13 @@ export class PhoneNumbersClient {
   /**
    * Gets the details of a purchased phone number. Includes phone number, cost, country code, etc.
    *
-   * @param {string} phoneNumber The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
-   * @param {GetPurchasedPhoneNumberOptions} options Additional request options.
+   * @param phoneNumber - The E.164 formatted phone number being fetched. The leading plus can be either + or encoded as %2B.
+   * @param options - Additional request options.
    */
   public async getPurchasedPhoneNumber(
     phoneNumber: string,
     options: GetPurchasedPhoneNumberOptions = {}
-  ): Promise<AcquiredPhoneNumber> {
+  ): Promise<PurchasedPhoneNumber> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-getPurchasedPhoneNumber",
       options
@@ -152,12 +153,12 @@ export class PhoneNumbersClient {
    *   console.log("phone number: ", purchased.phoneNumber);
    * }
    * ```
-   * @summary List all purchased phone numbers.
-   * @param {ListPurchasedPhoneNumbersOptions} [options] The optional parameters.
+   * List all purchased phone numbers.
+   * @param options - The optional parameters.
    */
   public listPurchasedPhoneNumbers(
     options: ListPurchasedPhoneNumbersOptions = {}
-  ): PagedAsyncIterableIterator<AcquiredPhoneNumber> {
+  ): PagedAsyncIterableIterator<PurchasedPhoneNumber> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-listPurchasedPhoneNumbers",
       options
@@ -184,13 +185,13 @@ export class PhoneNumbersClient {
    * const results = await releasePoller.pollUntilDone();
    * console.log(results);
    * ```
-   * @param {string} phoneNumber The E.164 formatted phone number being released. The leading plus can be either + or encoded as %2B.
-   * @param {BeginReleasePhoneNumberOptions} options Additional request options.
+   * @param phoneNumber - The E.164 formatted phone number being released. The leading plus can be either + or encoded as %2B.
+   * @param options - Additional request options.
    */
   public async beginReleasePhoneNumber(
     phoneNumber: string,
     options: BeginReleasePhoneNumberOptions = {}
-  ): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>> {
+  ): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginReleasePhoneNumber",
       options
@@ -228,8 +229,8 @@ export class PhoneNumbersClient {
    * console.log(results);
    * ```
    *
-   * @param {SearchAvailablePhoneNumbersRequest} search Request properties to constraint the search scope.
-   * @param {BeginReservePhoneNumbersOptions} options Additional request options.
+   * @param search - Request properties to constraint the search scope.
+   * @param options - Additional request options.
    */
   public async beginSearchAvailablePhoneNumbers(
     search: SearchAvailablePhoneNumbersRequest,
@@ -281,13 +282,15 @@ export class PhoneNumbersClient {
    * console.log(results);
    * ```
    *
-   * @param {string} searchId The id of the search to purchase. Returned from `beginSearchAvailablePhoneNumbers`
-   * @param {BeginPurchasePhoneNumbersOptions} options Additional request options.
+   * @param searchId - The id of the search to purchase. Returned from `beginSearchAvailablePhoneNumbers`
+   * @param options - Additional request options.
    */
   public async beginPurchasePhoneNumbers(
     searchId: string,
     options: BeginPurchasePhoneNumbersOptions = {}
-  ): Promise<PollerLike<PollOperationState<VoidResult>, VoidResult>> {
+  ): Promise<
+    PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
+  > {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options
@@ -324,15 +327,15 @@ export class PhoneNumbersClient {
    * console.log(results);
    * ```
    *
-   * @param {string} phoneNumber The E.164 formatted phone number being updated. The leading plus can be either + or encoded as %2B.
-   * @param {PhoneNumberCapabilitiesRequest} request The updated properties which will be applied to the phone number.
-   * @param {BeginUpdatePhoneNumberOptions} options Additional request options.
+   * @param phoneNumber - The E.164 formatted phone number being updated. The leading plus can be either + or encoded as %2B.
+   * @param request - The updated properties which will be applied to the phone number.
+   * @param options - Additional request options.
    */
   public async beginUpdatePhoneNumberCapabilities(
     phoneNumber: string,
     request: PhoneNumberCapabilitiesRequest,
-    options: BeginUpdatePhoneNumberOptions = {}
-  ): Promise<PollerLike<PollOperationState<AcquiredPhoneNumber>, AcquiredPhoneNumber>> {
+    options: BeginUpdatePhoneNumberCapabilitiesOptions = {}
+  ): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumbersClient-beginUpdatePhoneNumberCapabilities",
       options

@@ -10,6 +10,7 @@ import * as sinon from "sinon";
 import { parseConnectionString } from "@azure/communication-common";
 import { createCredential, recorderConfiguration } from "./utils/recordedClient";
 import { Uuid } from "../src/utils/uuid";
+import { Context } from "mocha";
 
 if (isNode) {
   dotenv.config();
@@ -18,7 +19,7 @@ if (isNode) {
 describe("SmsClientWithToken [Playback/Live]", async () => {
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderConfiguration);
     if (isPlaybackMode()) {
       sinon.stub(Uuid, "generateUuid").returns("sanitized");
@@ -26,7 +27,7 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
     }
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
@@ -35,7 +36,7 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
     }
   });
 
-  it("can send a SMS when url and token credential are provided", async function() {
+  it("can send an SMS when url and token credential are provided", async function(this: Context) {
     const credential = createCredential();
 
     if (!credential) {

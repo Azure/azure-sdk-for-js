@@ -18,7 +18,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { createSpan } from "./tracing";
 import {
   SendReadReceiptRequest,
-  AddChatParticipantsRequest,
+  AddParticipantsRequest,
   SendMessageRequest
 } from "./models/requests";
 
@@ -27,6 +27,7 @@ import {
   ChatMessage,
   ChatMessageReadReceipt,
   ChatParticipant,
+  ChatThreadProperties,
   SendChatMessageResult,
   ListPageSettings
 } from "./models/models";
@@ -34,6 +35,7 @@ import {
   mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
   mapToChatParticipantSdkModel,
+  mapToChatThreadPropertiesSdkModel,
   mapToReadReceiptSdkModel
 } from "./models/mappers";
 import {
@@ -49,7 +51,8 @@ import {
   RemoveParticipantOptions,
   SendTypingNotificationOptions,
   SendReadReceiptOptions,
-  ListReadReceiptsOptions
+  ListReadReceiptsOptions,
+  GetPropertiesOptions
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
@@ -70,7 +73,7 @@ export class ChatThreadClient {
   private timeOfLastTypingRequest: Date | undefined = undefined;
 
   constructor(
-    private readonly url: string,
+    private readonly endpoint: string,
     threadId: string,
     credential: CommunicationTokenCredential,
     options: ChatThreadClientOptions = {}
@@ -103,7 +106,32 @@ export class ChatThreadClient {
     const authPolicy = createCommunicationTokenCredentialPolicy(this.tokenCredential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new ChatApiClient(this.url, pipeline);
+    this.client = new ChatApiClient(this.endpoint, pipeline);
+  }
+
+  /**
+   * Gets a chat thread.
+   * Returns the chat thread.
+   * @param options -  Operation options.
+   */
+  public async getProperties(options: GetPropertiesOptions = {}): Promise<ChatThreadProperties> {
+    const { span, updatedOptions } = createSpan("ChatClient-GetProperties", options);
+
+    try {
+      const { _response, ...result } = await this.client.chatThread.getChatThreadProperties(
+        this.threadId,
+        operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return mapToChatThreadPropertiesSdkModel(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -115,7 +143,7 @@ export class ChatThreadClient {
     const { span, updatedOptions } = createSpan("ChatThreadClient-UpdateTopic", options);
 
     try {
-      await this.client.chatThread.updateChatThread(
+      await this.client.chatThread.updateChatThreadProperties(
         this.threadId,
         { topic: topic },
         operationOptionsToRequestOptionsBase(updatedOptions)
@@ -320,7 +348,7 @@ export class ChatThreadClient {
    * @param options - Operation options.
    */
   public async addParticipants(
-    request: AddChatParticipantsRequest,
+    request: AddParticipantsRequest,
     options: AddParticipantsOptions = {}
   ): Promise<AddChatParticipantsResult> {
     const { span, updatedOptions } = createSpan("ChatThreadClient-AddParticipants", options);

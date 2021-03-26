@@ -127,7 +127,8 @@ export type SmsSendOperationResponse = SmsSendResponse & {
 /**
  * Optional parameters.
  */
-export interface SmsApiClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface SmsApiClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /**
    * Api Version
    */

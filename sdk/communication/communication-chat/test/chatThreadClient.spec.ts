@@ -3,7 +3,7 @@
 
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatThreadClient, CreateChatThreadRequest } from "../src";
+import { ChatClient, ChatThreadClient } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
 import { CommunicationIdentifier } from "@azure/communication-common";
 
@@ -40,23 +40,29 @@ describe("ChatThreadClient", function() {
     testUser2 = (await createTestUser()).user;
 
     // Create a thread
-    const threadRequest: CreateChatThreadRequest = {
-      topic: "test topic",
+    const request = { topic: "test topic" };
+    const options = {
       participants: [{ id: testUser }, { id: testUser2 }]
     };
 
-    const chatThreadResult = await chatClient.createChatThread(threadRequest);
+    const chatThreadResult = await chatClient.createChatThread(request, options);
     threadId = chatThreadResult.chatThread?.id!;
 
     // Create ChatThreadClient
     chatThreadClient = await chatClient.getChatThreadClient(threadId);
+  }).timeout(8000);
+
+  it("successfully gets the thread properties", async function() {
+    const thread = await chatThreadClient.getProperties();
+
+    assert.equal(threadId, thread.id);
   });
 
   it("successfully updates the thread topic", async function() {
     const topic = "new topic";
     await chatThreadClient.updateTopic(topic);
 
-    const thread = await chatClient.getChatThread(threadId);
+    const thread = await chatThreadClient.getProperties();
     assert.equal(topic, thread.topic);
   });
 

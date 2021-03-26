@@ -9,6 +9,7 @@ import * as dotenv from "dotenv";
 import * as sinon from "sinon";
 import { Uuid } from "../src/utils/uuid";
 import { recorderConfiguration } from "./utils/recordedClient";
+import { Context } from "mocha";
 
 if (isNode) {
   dotenv.config();
@@ -18,7 +19,7 @@ describe("SmsClient [Playback/Live]", async () => {
   let recorder: Recorder;
   let smsClient: SmsClient;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = record(this, recorderConfiguration);
     smsClient = new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string);
     if (isPlaybackMode()) {
@@ -27,7 +28,7 @@ describe("SmsClient [Playback/Live]", async () => {
     }
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
@@ -36,8 +37,8 @@ describe("SmsClient [Playback/Live]", async () => {
     }
   });
 
-  //helper functions
-  const expectSuccessResult = (actualSmsResult: SmsSendResult, expectedRecipient: string) => {
+  // helper functions
+  const expectSuccessResult = (actualSmsResult: SmsSendResult, expectedRecipient: string): void => {
     assert.equal(actualSmsResult.httpStatusCode, 202);
     assert.equal(actualSmsResult.to, expectedRecipient);
     assert.isString(actualSmsResult.messageId);
@@ -49,7 +50,7 @@ describe("SmsClient [Playback/Live]", async () => {
     actualSmsResult: SmsSendResult,
     expectedRecipient: string,
     expectedErrorMessage: string
-  ) => {
+  ): void => {
     assert.equal(actualSmsResult.httpStatusCode, 400);
     assert.equal(actualSmsResult.to, expectedRecipient);
     assert.notExists(actualSmsResult.messageId, "no message id for errors");
@@ -57,7 +58,7 @@ describe("SmsClient [Playback/Live]", async () => {
     assert.equal(actualSmsResult.errorMessage, expectedErrorMessage);
   };
 
-  it("can send a SMS message", async () => {
+  it("can send an SMS message", async () => {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     const results = await smsClient.send({
@@ -70,7 +71,7 @@ describe("SmsClient [Playback/Live]", async () => {
     expectSuccessResult(results[0], validToNumber);
   });
 
-  it("can send a SMS message with options passed in", async () => {
+  it("can send an SMS message with options passed in", async () => {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     const results = await smsClient.send(
@@ -89,7 +90,7 @@ describe("SmsClient [Playback/Live]", async () => {
     expectSuccessResult(results[0], validToNumber);
   });
 
-  it("sends a new message each time send is called", async function() {
+  it("sends a new message each time send is called", async function(this: Context) {
     if (isPlaybackMode()) {
       this.skip();
     }
@@ -114,10 +115,10 @@ describe("SmsClient [Playback/Live]", async () => {
     assert.notEqual(firstResults[0].messageId, secondResults[0].messageId);
   });
 
-  it("can send a SMS message to multiple recipients", async () => {
+  it("can send an SMS message to multiple recipients", async () => {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
-    const invalidToNumber = "+18005551234567";
+    const invalidToNumber = "+1425555012345"; // invalid number that's too long
     const recipients = [validToNumber, invalidToNumber];
 
     const results = await smsClient.send({
@@ -137,7 +138,7 @@ describe("SmsClient [Playback/Live]", async () => {
   });
 
   it("throws an exception when sending from a number you don't own", async () => {
-    const fromNumber = "+15552143356";
+    const fromNumber = "+14255550123";
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     try {
       await smsClient.send(
@@ -153,12 +154,12 @@ describe("SmsClient [Playback/Live]", async () => {
       );
       assert.fail("Should have thrown an error");
     } catch (e) {
-      assert.equal(e.statusCode, 400);
+      assert.equal(e.statusCode, 404);
     }
   });
 
   it("throws an exception when sending from an invalid number", async () => {
-    const fromNumber = "+1800555123456"; //invalid number that's too long
+    const fromNumber = "+1425555012345"; // invalid number that's too long
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     try {
       await smsClient.send(

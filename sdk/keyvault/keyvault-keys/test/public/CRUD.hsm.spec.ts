@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 import { KeyClient } from "../../src";
@@ -16,7 +17,7 @@ describe("Keys client - create, read, update and delete operations for managed H
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     recorder = authentication.recorder;
 
@@ -35,7 +36,7 @@ describe("Keys client - create, read, update and delete operations for managed H
     await recorder.stop();
   });
 
-  it("can create an OCT key with options", async function() {
+  it("can create an OCT key with options", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const options: CreateOctKeyOptions = {
       hsm: true

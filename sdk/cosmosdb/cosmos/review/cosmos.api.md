@@ -4,6 +4,7 @@
 
 ```ts
 
+import { AbortSignal } from 'node-abort-controller';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -31,6 +32,12 @@ export const BulkOperationType: {
     readonly Delete: "Delete";
     readonly Replace: "Replace";
 };
+
+// @public
+export interface BulkOptions {
+    // (undocumented)
+    continueOnError?: boolean;
+}
 
 // @public
 export class ChangeFeedIterator<T> {
@@ -65,11 +72,12 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
-    bulk<T>({ body, path, resourceId, partitionKeyRangeId, options }: {
+    bulk<T>({ body, path, partitionKeyRangeId, resourceId, bulkOptions, options }: {
         body: T;
         path: string;
         partitionKeyRangeId: string;
         resourceId: string;
+        bulkOptions?: BulkOptions;
         options?: RequestOptions;
     }): Promise<Response<any>>;
     // (undocumented)
@@ -352,6 +360,7 @@ export const Constants: {
         ALLOW_MULTIPLE_WRITES: string;
         IsBatchRequest: string;
         IsBatchAtomic: string;
+        BatchContinueOnError: string;
         ForceRefresh: string;
     };
     WritableLocations: string;
@@ -829,7 +838,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    bulk(operations: OperationInput[], options?: RequestOptions): Promise<OperationResponse[]>;
+    bulk(operations: OperationInput[], bulkOptions?: BulkOptions, options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
