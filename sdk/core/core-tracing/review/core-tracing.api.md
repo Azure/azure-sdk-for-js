@@ -5,7 +5,6 @@
 ```ts
 
 import { context } from '@opentelemetry/api';
-import { Context as Context_2 } from '@opentelemetry/api';
 import { Exception } from '@opentelemetry/api';
 import { getSpan } from '@opentelemetry/api';
 import { getSpanContext } from '@opentelemetry/api';
@@ -99,17 +98,17 @@ export class NoOpTracer implements Tracer {
 export { OpenCensusSpan }
 
 // @public
-export class OpenCensusSpanWrapper implements Span_2 {
+export class OpenCensusSpanWrapper implements Span {
     constructor(span: OpenCensusSpan);
-    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: OTSpanOptions, context?: Context_2);
-    addEvent(_name: string, _attributes?: SpanAttributes_2): this;
-    context(): OTSpanContext;
+    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions, context?: Context);
+    addEvent(_name: string, _attributes?: SpanAttributes): this;
+    context(): SpanContext;
     end(_endTime?: number): void;
     getWrappedSpan(): OpenCensusSpan;
     isRecording(): boolean;
     recordException(_exception: Exception, _time?: TimeInput): void;
     setAttribute(key: string, value: unknown): this;
-    setAttributes(attributes: SpanAttributes_2): this;
+    setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
     updateName(name: string): this;
 }
@@ -191,6 +190,7 @@ export interface SpanOptions {
     attributes?: SpanAttributes;
     kind?: SpanKind;
     links?: Link[];
+    startTime?: TimeInput;
 }
 
 export { SpanStatus }
@@ -227,7 +227,7 @@ export class TestTracer extends NoOpTracer {
     getKnownSpans(): TestSpan[];
     getRootSpans(): TestSpan[];
     getSpanGraph(traceId: string): SpanGraph;
-    startSpan(name: string, options?: OTSpanOptions, context?: Context_2): TestSpan;
+    startSpan(name: string, options?: SpanOptions, context?: Context): TestSpan;
     }
 
 export { TimeInput }

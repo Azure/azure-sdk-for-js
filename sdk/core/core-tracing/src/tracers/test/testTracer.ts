@@ -11,7 +11,7 @@ import {
   Context as OTContext,
   context as otContext,
   getSpanContext
-} from "@opentelemetry/api";
+} from "../../interfaces";
 
 /**
  * Simple representation of a Span that only has name and child relationships.
