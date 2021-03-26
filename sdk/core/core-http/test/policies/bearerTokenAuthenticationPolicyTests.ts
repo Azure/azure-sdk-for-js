@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { fake, createSandbox } from "sinon";
+import { fake, createSandbox, match } from "sinon";
 import { OperationSpec } from "../../src/operationSpec";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
@@ -41,10 +41,10 @@ describe("BearerTokenAuthenticationPolicy", function() {
     await bearerTokenAuthPolicy.sendRequest(request);
 
     assert(
-      fakeGetToken.calledWith(tokenScopes, {
+      fakeGetToken.calledWith(tokenScopes, match({
         abortSignal: undefined,
         tracingOptions: { spanOptions: undefined }
-      }),
+      })),
       "fakeGetToken called incorrectly."
     );
     assert.strictEqual(
