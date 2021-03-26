@@ -20,9 +20,9 @@ import {
   getAuthorityHost,
   getKnownAuthorities,
   MsalBaseUtilities,
-  msalToPublic
+  msalToPublic,
+  publicToMsal
 } from "../utils";
-import { publicToMsal } from "../transformations";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
