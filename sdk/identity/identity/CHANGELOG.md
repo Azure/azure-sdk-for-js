@@ -1,5 +1,8 @@
 # Release History
 
+## 1.2.6 (Unreleased)
+
+
 ## 1.2.5 (2021-03-25)
 
 - For the `InteractiveBrowserCredential` for Node.js, we've replaced the use of the `express` module with a native HTTP server, shrinking the resulting `@azure/identity` module considerably.
