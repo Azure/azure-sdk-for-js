@@ -24,7 +24,7 @@ export interface AccessTokenCache {
     setCachedToken(accessToken: AccessToken | undefined): void;
 }
 
-// @public
+// @public @deprecated
 export class AccessTokenRefresher {
     constructor(credential: TokenCredential, scopes: string | string[], requiredMillisecondsBeforeNewRefresh?: number);
     isReady(): boolean;
@@ -238,7 +238,7 @@ export interface EnumMapperType {
 // @public
 export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: unknown): Promise<any>;
 
-// @public
+// @public @deprecated
 export class ExpiringAccessTokenCache implements AccessTokenCache {
     constructor(tokenRefreshBufferMs?: number);
     // (undocumented)
