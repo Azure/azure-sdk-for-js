@@ -140,7 +140,9 @@ export function flattenResponse(
   }
 
   const modelProperties =
-    (expectedBodyTypeName === "Composite" && (bodyMapper as CompositeMapper).type.modelProperties) || {};
+    (expectedBodyTypeName === "Composite" &&
+      (bodyMapper as CompositeMapper).type.modelProperties) ||
+    {};
   const isPageableResponse = Object.keys(modelProperties).some(
     (k) => modelProperties[k].serializedName === ""
   );
