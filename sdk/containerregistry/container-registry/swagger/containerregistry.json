@@ -1482,20 +1482,20 @@
     "TagOrderBy": {
       "type": "string",
       "enum": [
-        "time_desc",
-        "time_asc"
+        "timedesc",
+        "timeasc"
       ],
       "x-ms-enum": {
         "name": "TagOrderBy",
         "modelAsString": true,
         "values": [
           {
-            "value": "time_desc",
+            "value": "timedesc",
             "name": "LastUpdatedOnDescending",
             "description": "Order tags by LastUpdatedOn field, from most recently updated to least recently updated."
           },
           {
-            "value": "time_asc",
+            "value": "timeasc",
             "name": "LastUpdatedOnAscending",
             "description": "Order tags by LastUpdatedOn field, from least recently updated to most recently updated."
           }
@@ -1719,20 +1719,20 @@
     "ManifestOrderBy": {
       "type": "string",
       "enum": [
-        "time_desc",
-        "time_asc"
+        "timedesc",
+        "timeasc"
       ],
       "x-ms-enum": {
         "name": "RegistryArtifactOrderBy",
         "modelAsString": true,
         "values": [
           {
-            "value": "time_desc",
+            "value": "timedesc",
             "name": "LastUpdatedOnDescending",
             "description": "Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated."
           },
           {
-            "value": "time_asc",
+            "value": "timeasc",
             "name": "LastUpdatedOnAscending",
             "description": "Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated."
           }
