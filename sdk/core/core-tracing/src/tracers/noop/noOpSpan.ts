@@ -9,7 +9,7 @@ import {
   TraceFlags,
   Exception,
   TimeInput
-} from "@opentelemetry/api";
+} from "../../interfaces";
 
 /**
  * A no-op implementation of Span that can safely be used without side-effects.
