@@ -9,7 +9,7 @@ import {
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { createTokenProvider } from "@azure/core-amqp";
+import { createSasTokenProvider } from "@azure/core-amqp";
 import { SinonFakeTimers, useFakeTimers } from "sinon";
 
 const should = chai.should();
@@ -213,7 +213,7 @@ describe("Authentication via", () => {
 
   describe("AzureSASCredential", () => {
     function getSas(): string {
-      return createTokenProvider({
+      return createSasTokenProvider({
         sharedAccessKeyName: sharedAccessKeyName!,
         sharedAccessKey: sharedAccessKey!
       }).getToken(`${service.endpoint}/${service.path}`).token;

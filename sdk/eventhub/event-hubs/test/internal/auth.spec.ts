@@ -10,7 +10,7 @@ import {
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import chai from "chai";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { createTokenProvider } from "@azure/core-amqp";
+import { createSasTokenProvider } from "@azure/core-amqp";
 
 const should = chai.should();
 const env = getEnvVars();
@@ -110,7 +110,7 @@ describe("Authentication via", () => {
         | Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
         | Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
       >;
-      return createTokenProvider(parsed).getToken(`${service.endpoint}/${service.path}`).token;
+      return createSasTokenProvider(parsed).getToken(`${service.endpoint}/${service.path}`).token;
     }
 
     describe("using connection string", () => {

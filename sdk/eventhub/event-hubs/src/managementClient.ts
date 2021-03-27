@@ -10,7 +10,7 @@ import {
   RetryOptions,
   SendRequestOptions,
   defaultLock,
-  isTokenProvider,
+  isSasTokenProvider,
   retry,
   translate
 } from "@azure/core-amqp";
@@ -138,7 +138,7 @@ export class ManagementClient extends LinkEntity {
    * @internal
    */
   async getSecurityToken(): Promise<AccessToken | null> {
-    if (isTokenProvider(this._context.tokenCredential)) {
+    if (isSasTokenProvider(this._context.tokenCredential)) {
       // the security_token has the $management address removed from the end of the audience
       // expected audience: sb://fully.qualified.namespace/event-hub-name/$management
       const audienceParts = this.audience.split("/");

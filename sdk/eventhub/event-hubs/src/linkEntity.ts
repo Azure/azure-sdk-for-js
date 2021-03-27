@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { v4 as uuid } from "uuid";
-import { Constants, TokenType, defaultLock, isTokenProvider } from "@azure/core-amqp";
+import { Constants, TokenType, defaultLock, isSasTokenProvider } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
@@ -131,7 +131,7 @@ export class LinkEntity {
     });
     let tokenObject: AccessToken;
     let tokenType: TokenType;
-    if (isTokenProvider(this._context.tokenCredential)) {
+    if (isSasTokenProvider(this._context.tokenCredential)) {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
 

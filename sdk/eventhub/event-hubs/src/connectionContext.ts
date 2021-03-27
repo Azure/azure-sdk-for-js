@@ -19,13 +19,17 @@ import {
   CreateConnectionContextBaseParameters,
   ConnectionConfig,
   SasTokenProvider,
-  TokenProvider,
-  createTokenProvider,
+  createSasTokenProvider,
   isCredential,
+  SasTokenProviderImpl
+} from "@azure/core-amqp";
+import {
+  TokenCredential,
+  NamedKeyCredential,
+  SASCredential,
   isNamedKeyCredential,
   isSASCredential
-} from "@azure/core-amqp";
-import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+} from "@azure/core-auth";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./models/public";
 import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
@@ -46,7 +50,7 @@ export interface ConnectionContext extends ConnectionContextBase {
    * The credential to be used for Authentication.
    * Default value: TokenProvider.
    */
-  tokenCredential: TokenProvider | TokenCredential;
+  tokenCredential: SasTokenProvider | TokenCredential;
   /**
    * Indicates whether the close() method was
    * called on theconnection object.
@@ -158,7 +162,7 @@ export namespace ConnectionContext {
 
   export function create(
     config: EventHubConnectionConfig,
-    tokenCredential: TokenProvider | TokenCredential,
+    tokenCredential: SasTokenProvider | TokenCredential,
     options?: ConnectionContextOptions
   ): ConnectionContext {
     if (!options) options = {};
@@ -453,7 +457,7 @@ export function createConnectionContext(
 ): ConnectionContext {
   let connectionString;
   let config;
-  let credential: TokenCredential | TokenProvider;
+  let credential: TokenCredential | SasTokenProvider;
   hostOrConnectionString = String(hostOrConnectionString);
 
   if (!isCredential(credentialOrOptions)) {
@@ -497,13 +501,13 @@ export function createConnectionContext(
       | Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
     >;
     // Since connectionString was passed, create a TokenProvider.
-    credential = createTokenProvider(parsed);
+    credential = createSasTokenProvider(parsed);
   } else {
     // host, eventHubName, a TokenCredential and/or options were passed to constructor
     const eventHubName = eventHubNameOrOptions;
     let host = hostOrConnectionString;
     if (isNamedKeyCredential(credentialOrOptions) || isSASCredential(credentialOrOptions)) {
-      credential = new SasTokenProvider(credentialOrOptions);
+      credential = new SasTokenProviderImpl(credentialOrOptions);
     } else {
       credential = credentialOrOptions;
     }
