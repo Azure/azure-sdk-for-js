@@ -53,7 +53,6 @@ export function openTelemetryCommonJs(): Record<string, string[]> {
     "setSpanContext"
   ];
 
-  console.log(`====> namedExports = `, namedExports);
   return namedExports;
 }
 
