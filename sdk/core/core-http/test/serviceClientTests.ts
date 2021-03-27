@@ -297,7 +297,7 @@ describe("ServiceClient", function() {
         }
       },
       clientRequestIdOptions: {
-        shouldGenerateClientRequestId: false
+        disable: true
       }
     };
 
@@ -331,7 +331,6 @@ describe("ServiceClient", function() {
         }
       },
       clientRequestIdOptions: {
-        shouldGenerateClientRequestId: true,
         requestIdHeaderName: fooRequestId
       }
     };

@@ -797,9 +797,10 @@ export function createPipelineFromOptions(
     requestPolicyFactories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
 
-  if (clientRequestIdOptions.shouldGenerateClientRequestId) {
-    requestPolicyFactories.push(
-      generateClientRequestIdPolicy(pipelineOptions.clientRequestIdOptions?.requestIdHeaderName)
+  let clientRequestIdPolicy: RequestPolicyFactory | undefined;
+  if (!clientRequestIdOptions.disable) {
+    clientRequestIdPolicy = generateClientRequestIdPolicy(
+      pipelineOptions.clientRequestIdOptions?.requestIdHeaderName
     );
   }
 
@@ -816,6 +817,7 @@ export function createPipelineFromOptions(
     tracingPolicy({ userAgent: userAgentValue }),
     keepAlivePolicy(keepAliveOptions),
     userAgentPolicy({ value: userAgentValue }),
+    ...(clientRequestIdPolicy ? [clientRequestIdPolicy] : []),
     deserializationPolicy(deserializationOptions.expectedContentTypes),
     throttlingRetryPolicy(),
     systemErrorRetryPolicy(),

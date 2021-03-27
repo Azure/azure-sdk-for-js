@@ -101,8 +101,8 @@ export function bearerTokenAuthenticationPolicy(credential: TokenCredential, sco
 
 // @public
 export interface ClientRequestIdOptions {
+    disable?: boolean;
     requestIdHeaderName?: string;
-    shouldGenerateClientRequestId?: boolean;
 }
 
 // @public (undocumented)
@@ -353,6 +353,7 @@ export interface HttpResponse {
 
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
+    clientRequestIdOptions?: ClientRequestIdOptions;
     decompressResponse?: boolean;
     deserializationOptions?: DeserializationOptions;
     loggingOptions?: LogPolicyOptions;
@@ -531,7 +532,6 @@ export function parseXML(str: string, opts?: SerializerOptions): Promise<any>;
 
 // @public
 export interface PipelineOptions {
-    clientRequestIdOptions?: ClientRequestIdOptions;
     httpClient?: HttpClient;
     // (undocumented)
     keepAliveOptions?: KeepAliveOptions;

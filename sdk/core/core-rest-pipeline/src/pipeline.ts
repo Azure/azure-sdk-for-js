@@ -417,10 +417,6 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentPolicyOptions;
-  /**
-   * Configure the header to use for the client request id
-   */
-  setClientRequestIdPolicyOptions?: SetClientRequestIdPolicyOptions;
 }
 
 /**
@@ -432,6 +428,10 @@ export interface InternalPipelineOptions extends PipelineOptions {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
+  /**
+   * Configure the header to use for the client request id
+   */
+  setClientRequestIdPolicyOptions?: SetClientRequestIdPolicyOptions;
 }
 
 /**
@@ -446,20 +446,10 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
     pipeline.addPolicy(decompressResponsePolicy());
   }
 
-  const setClientRequestIdPolicyOptions = {
-    ...DefaultSetClientRequestIdPolicyOptions,
-    ...options.setClientRequestIdPolicyOptions
-  };
-
-  if (setClientRequestIdPolicyOptions.shouldSetClientRequestId) {
-    pipeline.addPolicy(
-      setClientRequestIdPolicy(setClientRequestIdPolicyOptions.requestIdHeaderName)
-    );
-  }
-
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
+  addRequestIdPolicy(pipeline, options);
   pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
   pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
@@ -467,4 +457,17 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
 
   return pipeline;
+}
+
+function addRequestIdPolicy(pipeline: Pipeline, options: InternalPipelineOptions) {
+  const setClientRequestIdPolicyOptions = {
+    ...DefaultSetClientRequestIdPolicyOptions,
+    ...options.setClientRequestIdPolicyOptions
+  };
+
+  if (!setClientRequestIdPolicyOptions.disable) {
+    pipeline.addPolicy(
+      setClientRequestIdPolicy(setClientRequestIdPolicyOptions.requestIdHeaderName)
+    );
+  }
 }

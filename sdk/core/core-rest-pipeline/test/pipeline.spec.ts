@@ -391,7 +391,7 @@ describe("HttpsPipeline", function() {
 
     it("sets client request id by default", async function() {
       const clientRequestIdHeaderName = "x-ms-client-request-id";
-      const testHttpsClient: HttpsClient = {
+      const testHttpClient: HttpClient = {
         sendRequest: async (request) => {
           assert.strictEqual(request.url, "https://example.com");
           return {
@@ -404,13 +404,13 @@ describe("HttpsPipeline", function() {
 
       const pipeline = createPipelineFromOptions({});
       const request = createPipelineRequest({ url: "https://example.com" });
-      const response = await pipeline.sendRequest(testHttpsClient, request);
+      const response = await pipeline.sendRequest(testHttpClient, request);
       assert.isTrue(response.request.headers.has(clientRequestIdHeaderName));
     });
 
     it("doesn't set client request id", async function() {
       const clientRequestIdHeaderName = "x-ms-client-request-id";
-      const testHttpsClient: HttpsClient = {
+      const testHttpClient: HttpClient = {
         sendRequest: async (request) => {
           assert.strictEqual(request.url, "https://example.com");
           return {
@@ -422,16 +422,16 @@ describe("HttpsPipeline", function() {
       };
 
       const pipeline = createPipelineFromOptions({
-        setClientRequestIdPolicyOptions: { shouldSetClientRequestId: false }
+        setClientRequestIdPolicyOptions: { disable: true }
       });
       const request = createPipelineRequest({ url: "https://example.com" });
-      const response = await pipeline.sendRequest(testHttpsClient, request);
+      const response = await pipeline.sendRequest(testHttpClient, request);
       assert.isFalse(response.request.headers.has(clientRequestIdHeaderName));
     });
 
     it("sets client request id with custom header name", async function() {
       const clientRequestIdHeaderName = "x-ms-foo-request-id";
-      const testHttpsClient: HttpsClient = {
+      const testHttpClient: HttpClient = {
         sendRequest: async (request) => {
           assert.strictEqual(request.url, "https://example.com");
           return {
@@ -446,7 +446,7 @@ describe("HttpsPipeline", function() {
         setClientRequestIdPolicyOptions: { requestIdHeaderName: clientRequestIdHeaderName }
       });
       const request = createPipelineRequest({ url: "https://example.com" });
-      const response = await pipeline.sendRequest(testHttpsClient, request);
+      const response = await pipeline.sendRequest(testHttpClient, request);
       assert.isTrue(response.request.headers.has(clientRequestIdHeaderName));
     });
   });

@@ -47,10 +47,6 @@ export interface PipelineOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentOptions;
-  /**
-   * Configure the header to use for the client request id
-   */
-  clientRequestIdOptions?: ClientRequestIdOptions;
 }
 
 /**
@@ -77,4 +73,8 @@ export interface InternalPipelineOptions extends PipelineOptions {
    * Send JSON Array payloads as NDJSON.
    */
   sendStreamingJson?: boolean;
+  /**
+   * Configure the header to use for the client request id
+   */
+  clientRequestIdOptions?: ClientRequestIdOptions;
 }

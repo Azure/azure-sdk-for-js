@@ -109,6 +109,7 @@ export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" |
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
     loggingOptions?: LogPolicyOptions;
+    setClientRequestIdPolicyOptions?: SetClientRequestIdPolicyOptions;
 }
 
 // @public
@@ -147,7 +148,6 @@ export interface PipelineOptions {
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: ExponentialRetryPolicyOptions;
-    setClientRequestIdPolicyOptions?: SetClientRequestIdPolicyOptions;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
@@ -275,8 +275,8 @@ export const setClientRequestIdPolicyName = "setClientRequestIdPolicy";
 
 // @public
 export interface SetClientRequestIdPolicyOptions {
+    disable?: boolean;
     requestIdHeaderName?: string;
-    shouldSetClientRequestId?: boolean;
 }
 
 // @public

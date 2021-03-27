@@ -21,7 +21,7 @@ export interface SetClientRequestIdPolicyOptions {
   /**
    * Whether or not to include a the generateClientRequestPolicyId pipeline
    */
-  shouldSetClientRequestId?: boolean;
+  disable?: boolean;
 }
 
 /**
@@ -29,7 +29,7 @@ export interface SetClientRequestIdPolicyOptions {
  */
 export const DefaultSetClientRequestIdPolicyOptions: SetClientRequestIdPolicyOptions = {
   requestIdHeaderName: "x-ms-client-request-id",
-  shouldSetClientRequestId: true
+  disable: false
 };
 
 /**
