@@ -9,7 +9,6 @@ import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { TokenCachePersistenceOptions } from "../../tokenCache/persistencePlatforms";
 import { TokenCachePersistence } from "../../tokenCache/TokenCachePersistence";
-import { inMemoryPersistence } from "../../tokenCache/InMemoryPersistence";
 import { resolveTenantId } from "../../util/resolveTenantId";
 import { TokenCache } from "../../tokenCache/types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
@@ -20,9 +19,10 @@ import {
   defaultLoggerCallback,
   getAuthorityHost,
   getKnownAuthorities,
-  MsalBaseUtilities
+  MsalBaseUtilities,
+  msalToPublic,
+  publicToMsal
 } from "../utils";
-import { msalToPublic, publicToMsal } from "../transformations";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -56,10 +56,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     if (options.tokenCachePersistenceOptions) {
       this.tokenCache = new TokenCachePersistence(options.tokenCachePersistenceOptions);
-    } else {
-      // To allow silent authentications on the same credential, we provide a very simple in memory token cache.
-      // It can't be used to re-use the account information returned from the authenticate() method.
-      this.tokenCache = inMemoryPersistence();
     }
   }
 
@@ -102,7 +98,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       });
     }
 
-    if (this.publicApp && this.confidentialApp) {
+    if (this.publicApp || this.confidentialApp) {
       return;
     }
 
@@ -209,11 +205,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       correlationId: options?.correlationId,
       scopes
     };
-
-    // Currently we need to call getAllAccounts before the silent request is attempted.
-    // The MSAL team is actively investigating why this is necessary.
-    // TODO: Remove this once this is no longer necessary.
-    await this.publicApp?.getTokenCache().getAllAccounts();
 
     try {
       this.logger.info("Attempting to acquire token silently");

@@ -15,7 +15,7 @@ import {
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
-import { translate } from "./errors";
+import { StandardAbortMessage, translate } from "./errors";
 import { defaultLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
 
@@ -78,11 +78,10 @@ export class CbsClient {
    */
   async init(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
     const { abortSignal } = options;
-    const initAbortMessage = "The init operation has been cancelled by the user.";
 
     try {
       if (abortSignal?.aborted) {
-        throw new AbortError(initAbortMessage);
+        throw new AbortError(StandardAbortMessage);
       }
 
       // Acquire the lock and establish an amqp connection if it does not exist.
@@ -205,7 +204,7 @@ export class CbsClient {
     const { abortSignal } = options;
     try {
       if (abortSignal?.aborted) {
-        throw new AbortError("The negotiateClaim operation has been cancelled by the user.");
+        throw new AbortError(StandardAbortMessage);
       }
 
       if (!this._cbsSenderReceiverLink) {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TraceState } from "@opentelemetry/api";
+import { TraceState } from "../../interfaces";
 
 /**
  * @internal

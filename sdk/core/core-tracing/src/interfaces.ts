@@ -236,6 +236,11 @@ export interface SpanOptions {
    * The type of Span. Default to SpanKind.INTERNAL
    */
   kind?: SpanKind;
+
+  /** 
+   * A manually specified start time for the created `Span` object. 
+   */
+  startTime?: TimeInput;
 }
 
 /**

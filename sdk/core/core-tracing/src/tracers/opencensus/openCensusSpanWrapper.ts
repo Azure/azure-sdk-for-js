@@ -14,7 +14,7 @@ import {
   TimeInput,
   SpanStatusCode,
   getSpan
-} from "@opentelemetry/api";
+} from "../../interfaces";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
 import { Attributes as OpenCensusAttributes, Span as OpenCensusSpan } from "@opencensus/web-types";

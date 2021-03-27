@@ -5,7 +5,6 @@
 ```ts
 
 import { context } from '@opentelemetry/api';
-import { Context as Context_2 } from '@opentelemetry/api';
 import { Exception } from '@opentelemetry/api';
 import { getSpan } from '@opentelemetry/api';
 import { getSpanContext } from '@opentelemetry/api';
@@ -15,7 +14,6 @@ import { SpanContext as OTSpanContext } from '@opentelemetry/api';
 import { SpanOptions as OTSpanOptions } from '@opentelemetry/api';
 import { setSpan } from '@opentelemetry/api';
 import { setSpanContext } from '@opentelemetry/api';
-import { Span as Span_2 } from '@opentelemetry/api';
 import { SpanAttributes as SpanAttributes_2 } from '@opentelemetry/api';
 import { SpanAttributeValue as SpanAttributeValue_2 } from '@opentelemetry/api';
 import { SpanKind } from '@opentelemetry/api';
@@ -76,40 +74,40 @@ export type LinkContext = {
 };
 
 // @public
-export class NoOpSpan implements Span_2 {
-    addEvent(_name: string, _attributes?: SpanAttributes_2): this;
-    context(): OTSpanContext;
+export class NoOpSpan implements Span {
+    addEvent(_name: string, _attributes?: SpanAttributes): this;
+    context(): SpanContext;
     end(_endTime?: number): void;
     isRecording(): boolean;
     recordException(_exception: Exception, _time?: TimeInput): void;
     setAttribute(_key: string, _value: unknown): this;
-    setAttributes(_attributes: SpanAttributes_2): this;
+    setAttributes(_attributes: SpanAttributes): this;
     setStatus(_status: SpanStatus): this;
     updateName(_name: string): this;
 }
 
 // @public
 export class NoOpTracer implements Tracer {
-    bind<T>(target: T, _span?: Span_2): T;
-    getCurrentSpan(): Span_2;
-    startSpan(_name: string, _options?: OTSpanOptions): Span_2;
-    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span_2, fn: T): ReturnType<T>;
+    bind<T>(target: T, _span?: Span): T;
+    getCurrentSpan(): Span;
+    startSpan(_name: string, _options?: SpanOptions): Span;
+    withSpan<T extends (...args: unknown[]) => ReturnType<T>>(_span: Span, fn: T): ReturnType<T>;
 }
 
 export { OpenCensusSpan }
 
 // @public
-export class OpenCensusSpanWrapper implements Span_2 {
+export class OpenCensusSpanWrapper implements Span {
     constructor(span: OpenCensusSpan);
-    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: OTSpanOptions, context?: Context_2);
-    addEvent(_name: string, _attributes?: SpanAttributes_2): this;
-    context(): OTSpanContext;
+    constructor(tracer: OpenCensusTracerWrapper, name: string, options?: SpanOptions, context?: Context);
+    addEvent(_name: string, _attributes?: SpanAttributes): this;
+    context(): SpanContext;
     end(_endTime?: number): void;
     getWrappedSpan(): OpenCensusSpan;
     isRecording(): boolean;
     recordException(_exception: Exception, _time?: TimeInput): void;
     setAttribute(key: string, value: unknown): this;
-    setAttributes(attributes: SpanAttributes_2): this;
+    setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
     updateName(name: string): this;
 }
@@ -119,11 +117,11 @@ export { OpenCensusTracer }
 // @public
 export class OpenCensusTracerWrapper implements Tracer {
     constructor(tracer: TracerBase);
-    bind<T>(_target: T, _span?: Span_2): T;
-    getCurrentSpan(): Span_2 | undefined;
+    bind<T>(_target: T, _span?: Span): T;
+    getCurrentSpan(): Span | undefined;
     getWrappedTracer(): TracerBase;
-    startSpan(name: string, options?: OTSpanOptions): Span_2;
-    withSpan<T extends (...args: unknown[]) => unknown>(_span: Span_2, _fn: T): ReturnType<T>;
+    startSpan(name: string, options?: SpanOptions): Span;
+    withSpan<T extends (...args: unknown[]) => unknown>(_span: Span, _fn: T): ReturnType<T>;
 }
 
 // @public
@@ -191,6 +189,7 @@ export interface SpanOptions {
     attributes?: SpanAttributes;
     kind?: SpanKind;
     links?: Link[];
+    startTime?: TimeInput;
 }
 
 export { SpanStatus }
@@ -227,7 +226,7 @@ export class TestTracer extends NoOpTracer {
     getKnownSpans(): TestSpan[];
     getRootSpans(): TestSpan[];
     getSpanGraph(traceId: string): SpanGraph;
-    startSpan(name: string, options?: OTSpanOptions, context?: Context_2): TestSpan;
+    startSpan(name: string, options?: SpanOptions, context?: Context): TestSpan;
     }
 
 export { TimeInput }
