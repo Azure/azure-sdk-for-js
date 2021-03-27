@@ -760,7 +760,7 @@ function operationOptionsSinonMatcher<T extends OperationOptions>(
         ..._expectedOptions.tracingOptions,
         // we verified this above. Adding it in here just to make deep equal comparison
         // simpler.
-        context: actualOptions.tracingOptions!.tracingContext
+        tracingContext: actualOptions.tracingOptions!.tracingContext
       }
     };
 
