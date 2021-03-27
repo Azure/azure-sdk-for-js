@@ -52,7 +52,11 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
-      cjs()
+      cjs({
+        namedExports: {
+          ...openTelemetryCommonJs()
+        }
+      })
     ]
   };
 

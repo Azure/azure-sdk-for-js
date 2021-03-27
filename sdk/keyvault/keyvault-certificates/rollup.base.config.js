@@ -53,7 +53,11 @@ export function nodeConfig(test = false) {
       }),
       nodeResolve({ preferBuiltins: true }),
       json(),
-      cjs()
+      cjs({
+        namedExports: {
+          ...openTelemetryCommonJs()
+        }
+      })
     ]
   };
 
