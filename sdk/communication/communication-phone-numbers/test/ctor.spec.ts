@@ -5,6 +5,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-http";
 import { DefaultAzureCredential } from "@azure/identity";
 import { assert } from "chai";
+import { Context } from "mocha";
 import { PhoneNumbersClient } from "../src";
 
 describe("PhoneNumbersClient - constructor", function() {
@@ -27,7 +28,7 @@ describe("PhoneNumbersClient - constructor", function() {
     assert.instanceOf(client, PhoneNumbersClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function() {
+  it("successfully instantiates with with endpoint and managed identity", function(this: Context) {
     if (!isNode) {
       this.skip();
     }

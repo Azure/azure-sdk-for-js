@@ -6,6 +6,7 @@ import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
 import { CommunicationIdentifier } from "@azure/communication-common";
+import { Context } from "mocha";
 
 describe("ChatThreadClient", function() {
   let messageId: string;
@@ -18,11 +19,11 @@ describe("ChatThreadClient", function() {
   let testUser2: CommunicationIdentifier;
   let testUser3: CommunicationIdentifier;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = createRecorder(this);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
