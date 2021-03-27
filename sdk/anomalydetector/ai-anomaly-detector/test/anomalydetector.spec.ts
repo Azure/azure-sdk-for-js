@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import { Recorder } from "@azure/test-utils-recorder";
 import { AnomalyDetectorClient } from "../src/AnomalyDetectorClient";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -19,8 +20,7 @@ describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
   const apiKey = new AzureKeyCredential(testEnv.ANOMALY_DETECTOR_API_KEY);
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(function(this: Context) {
     ({ recorder, client } = createRecordedAnomalyDetectorClient(this, apiKey));
   });
 

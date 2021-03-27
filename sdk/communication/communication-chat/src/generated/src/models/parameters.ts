@@ -79,7 +79,7 @@ export const skip: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-01-preview5",
+    defaultValue: "2021-03-07",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -180,10 +180,10 @@ export const createChatThreadRequest: OperationParameter = {
   mapper: CreateChatThreadRequestMapper
 };
 
-export const idempotencyToken: OperationParameter = {
-  parameterPath: ["options", "idempotencyToken"],
+export const repeatabilityRequestId: OperationParameter = {
+  parameterPath: ["options", "repeatabilityRequestId"],
   mapper: {
-    serializedName: "idempotency-token",
+    serializedName: "repeatability-request-id",
     type: {
       name: "String"
     }

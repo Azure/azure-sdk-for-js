@@ -31,6 +31,7 @@ export class StorageBlobListTest extends StorageBlobTest<StorageBlobListTestOpti
 
   async runAsync(): Promise<void> {
     for await (const segmentResponse of this.containerClient.listBlobsFlat().byPage()) {
+      // eslint-disable-next-line no-empty
       for (const _ of segmentResponse.segment.blobItems) {
       }
     }

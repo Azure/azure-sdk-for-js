@@ -5,6 +5,10 @@
 - Updated the Latest service version to 7.2.
 - Added a sample demonstrating how to import PFX / PEM certificates.
 - Fixed an issue where importing a certificate incorrectly required a Subject or Subject Alternative Name.
+- Improved tracing across the various KeyVault libraries. By switching to a consistent naming convention, ensuring spans are always closed appropriately, and setting the correct status when an operation errors developers can expect an improved experience when enabling distributed tracing.
+  - We now ensure tracing spans are properly closed with an appropriate status when an operation throws an exception.
+  - If a traced operation throws an exception we will now properly record the exception message in the tracing span.
+  - Finally, naming conventions have been standardized across the KeyVault libraries taking the format of `Azure.KeyVault.<PACKAGE NAME>.<CLIENT NAME>`.
 
 ## 4.2.0-beta.2 (2021-02-09)
 

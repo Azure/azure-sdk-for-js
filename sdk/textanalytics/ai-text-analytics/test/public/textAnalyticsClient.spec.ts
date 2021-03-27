@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { assert } from "chai";
+import { Suite, Context } from "mocha";
 
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
@@ -35,17 +36,15 @@ const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
-describe("[AAD] TextAnalyticsClient", function() {
+describe("[AAD] TextAnalyticsClient", function(this: Suite) {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
-  // eslint-disable-next-line no-invalid-this
   const CLITimeout = this.timeout();
   const fastTimeout = 10000;
 
   let getId: () => string;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(function(this: Context) {
     recorder = createRecorder(this);
     client = createClient("AAD");
     let nextId = 0;
@@ -60,8 +59,7 @@ describe("[AAD] TextAnalyticsClient", function() {
   });
 
   describe("fast tests", function() {
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
+    before(function(this: Context) {
       this.timeout(fastTimeout);
     });
 
@@ -929,8 +927,7 @@ describe("[AAD] TextAnalyticsClient", function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
+    before(function(this: Context) {
       this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
     });
 

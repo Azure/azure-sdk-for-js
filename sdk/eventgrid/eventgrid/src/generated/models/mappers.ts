@@ -5350,6 +5350,13 @@ export const AcsChatEventInThreadBase: CompositeMapper = {
     name: "Composite",
     className: "AcsChatEventInThreadBase",
     modelProperties: {
+      transactionId: {
+        serializedName: "transactionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       threadId: {
         serializedName: "threadId",
         required: true,
@@ -5435,6 +5442,95 @@ export const AcsSmsEventBase: CompositeMapper = {
       },
       to: {
         serializedName: "to",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRecordingFileStatusUpdatedEventData: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRecordingFileStatusUpdatedEventData",
+    modelProperties: {
+      recordingStorageInfo: {
+        serializedName: "recordingStorageInfo",
+        type: {
+          name: "Composite",
+          className: "AcsRecordingStorageInfo"
+        }
+      },
+      recordingStartTime: {
+        serializedName: "recordingStartTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      recordingDurationMs: {
+        serializedName: "recordingDurationMs",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      sessionEndReason: {
+        serializedName: "sessionEndReason",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcsRecordingStorageInfo: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRecordingStorageInfo",
+    modelProperties: {
+      recordingChunks: {
+        serializedName: "recordingChunks",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AcsRecordingChunkInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AcsRecordingChunkInfo: CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcsRecordingChunkInfo",
+    modelProperties: {
+      documentId: {
+        serializedName: "documentId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      index: {
+        serializedName: "index",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      endReason: {
+        serializedName: "endReason",
         required: true,
         type: {
           name: "String"
@@ -6018,6 +6114,13 @@ export const AcsSmsDeliveryReportReceivedEventData: CompositeMapper = {
       },
       receivedTimestamp: {
         serializedName: "receivedTimestamp",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tag: {
+        serializedName: "tag",
         required: true,
         type: {
           name: "String"

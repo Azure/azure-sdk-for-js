@@ -43,12 +43,12 @@ describe("ChatClient", function() {
 
       testUser2 = (await createTestUser()).user;
 
-      const request = {
-        topic: "test topic",
+      const request = { topic: "test topic" };
+      const options = {
         participants: [{ id: testUser }, { id: testUser2 }]
       };
 
-      const chatThreadResult = await chatClient.createChatThread(request);
+      const chatThreadResult = await chatClient.createChatThread(request, options);
 
       const chatThread = chatThreadResult.chatThread;
       if (chatThread) {
@@ -86,7 +86,7 @@ describe("ChatClient", function() {
       threadId = chatThreadResult.chatThread?.id!;
 
       // Create ChatThreadClient
-      chatThreadClient = await chatClient.getChatThreadClient(threadId);
+      chatThreadClient = chatClient.getChatThreadClient(threadId);
     });
 
     beforeEach(async function() {

@@ -7,13 +7,19 @@ import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
   InternalPipelineOptions,
-  isTokenCredential
+  isTokenCredential,
+  RestResponse
 } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
-import { GeneratedClient } from "./generated";
+import {
+  ContainerRegistryGetRepositoryAttributesResponse,
+  ContainerRegistryRepositoryGetManifestAttributesResponse,
+  ContainerRegistryRepositoryGetTagAttributesResponse,
+  GeneratedClient
+} from "./generated";
 import { createSpan } from "./tracing";
 import {
   ContainerRegistryClientOptions,
@@ -155,7 +161,10 @@ export class RepositoryClient {
    * @param digest - the digest of the artifact to be deleted.
    * @param options -
    */
-  public async deleteRegistryArtifact(digest: string, options: DeleteRegistryArtifactOptions = {}) {
+  public async deleteRegistryArtifact(
+    digest: string,
+    options: DeleteRegistryArtifactOptions = {}
+  ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("RepositoryClient-deleteRegistryArtifact", options);
 
     try {
@@ -178,7 +187,7 @@ export class RepositoryClient {
    * @param tag - the name of the tag to be deleted.
    * @param options -
    */
-  public async deleteTag(tag: string, options: DeleteTagOptions = {}) {
+  public async deleteTag(tag: string, options: DeleteTagOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("RepositoryClient-deleteTag", options);
 
     try {
@@ -200,7 +209,9 @@ export class RepositoryClient {
    * Retrieves properties of this repository.
    * @param options -
    */
-  public async getProperties(options: GetPropertiesOptions = {}) {
+  public async getProperties(
+    options: GetPropertiesOptions = {}
+  ): Promise<ContainerRegistryGetRepositoryAttributesResponse> {
     const { span, updatedOptions } = createSpan("RepositoryClient-getProperties", options);
 
     try {
@@ -225,7 +236,7 @@ export class RepositoryClient {
   public async getRegistryArtifactProperties(
     tagOrDigest: string,
     options: GetRegistryArtifactPropertiesOptions = {}
-  ) {
+  ): Promise<ContainerRegistryRepositoryGetManifestAttributesResponse> {
     const { span, updatedOptions } = createSpan(
       "RepositoryClient-getRegistryArtifactProperties",
       options
@@ -251,7 +262,10 @@ export class RepositoryClient {
    * @param digest - the tag to be deleted.
    * @param options -
    */
-  public async getTagProperties(tag: string, options: GetTagPropertiesOptions = {}) {
+  public async getTagProperties(
+    tag: string,
+    options: GetTagPropertiesOptions = {}
+  ): Promise<ContainerRegistryRepositoryGetTagAttributesResponse> {
     const { span, updatedOptions } = createSpan("RepositoryClient-getTagProperties", options);
     try {
       const result = await this.client.containerRegistryRepository.getTagAttributes(
@@ -277,7 +291,7 @@ export class RepositoryClient {
     digest: string,
     value: ContentProperties,
     options: SetManifestPropertiesOptions = {}
-  ) {
+  ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("RepositoryClient-setManifestProperties", {
       ...options,
       value: value
@@ -306,7 +320,7 @@ export class RepositoryClient {
     tag: string,
     value: ContentProperties = {},
     options: SetTagPropertiesOptions = {}
-  ) {
+  ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("RepositoryClient-setTagProperties", {
       ...options,
       value: value

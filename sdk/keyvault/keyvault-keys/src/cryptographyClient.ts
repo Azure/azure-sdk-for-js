@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-http";
 import {
   JsonWebKey,
   KeyVaultKey,
@@ -34,10 +34,12 @@ import {
 } from "./cryptographyClientModels";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
 import { createHash, randomBytes } from "./cryptography/crypto";
-import { createSpan } from "./tracing";
 import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
 import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
+import { createTraceFunction } from "../../keyvault-common/src";
+
+const withTrace = createTraceFunction("Azure.KeyVault.Keys.CryptographyClient");
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -180,7 +182,7 @@ export class CryptographyClient {
    * @param options - Additional options.
    * @deprecated Use `encrypt({ algorithm, plaintext }, options)` instead.
    */
-  public async encrypt(
+  public encrypt(
     algorithm: EncryptionAlgorithm,
     plaintext: Uint8Array,
     options?: EncryptOptions
@@ -190,19 +192,14 @@ export class CryptographyClient {
       | [EncryptParameters, EncryptOptions?]
       | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
-    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Encrypt);
     const [parameters, options] = this.disambiguateEncryptArguments(args);
 
-    const { span, updatedOptions } = this.createSpan("encrypt", options);
-
-    this.initializeIV(parameters);
-
-    try {
+    return withTrace(`CryptographyClient.encrypt`, options, async (updatedOptions) => {
+      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Encrypt);
+      this.initializeIV(parameters);
       const provider = await this.getProvider("encrypt", parameters.algorithm);
-      return await provider.encrypt(parameters, updatedOptions);
-    } finally {
-      span.end();
-    }
+      return provider.encrypt(parameters, updatedOptions);
+    });
   }
 
   private initializeIV(parameters: EncryptParameters): void {
@@ -282,7 +279,7 @@ export class CryptographyClient {
    * @param options - Additional options.
    * @deprecated Use `decrypt({ algorithm, ciphertext }, options)` instead.
    */
-  public async decrypt(
+  public decrypt(
     algorithm: EncryptionAlgorithm,
     ciphertext: Uint8Array,
     options?: DecryptOptions
@@ -292,18 +289,14 @@ export class CryptographyClient {
       | [DecryptParameters, DecryptOptions?]
       | [EncryptionAlgorithm, Uint8Array, DecryptOptions?]
   ): Promise<DecryptResult> {
-    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Decrypt);
     const [parameters, options] = this.disambiguateDecryptArguments(args);
 
-    const { span, updatedOptions } = this.createSpan("decrypt", options);
-
-    try {
+    return withTrace(`CryptographyClient.decrypt`, options, async (updatedOptions) => {
+      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Decrypt);
       const provider = await this.getProvider("decrypt", parameters.algorithm);
       const result = await provider.decrypt(parameters, updatedOptions);
       return result;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -340,20 +333,16 @@ export class CryptographyClient {
    * @param key - The key to wrap.
    * @param options - Additional options.
    */
-  public async wrapKey(
+  public wrapKey(
     algorithm: KeyWrapAlgorithm,
     key: Uint8Array,
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
-    this.ensureValid(await this.fetchKey(), KnownKeyOperations.WrapKey);
-    const { span, updatedOptions } = this.createSpan("wrapKey", options);
-
-    try {
+    return withTrace(`CryptographyClient.wrapKey`, options, async (updatedOptions) => {
+      this.ensureValid(await this.fetchKey(), KnownKeyOperations.WrapKey);
       const provider = await this.getProvider("wrapKey", algorithm);
-      return await provider.wrapKey(algorithm, key, updatedOptions);
-    } finally {
-      span.end();
-    }
+      return provider.wrapKey(algorithm, key, updatedOptions);
+    });
   }
 
   /**
@@ -368,20 +357,16 @@ export class CryptographyClient {
    * @param encryptedKey - The encrypted key to unwrap.
    * @param options - Additional options.
    */
-  public async unwrapKey(
+  public unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    this.ensureValid(await this.fetchKey(), KnownKeyOperations.UnwrapKey);
-    const { span, updatedOptions } = this.createSpan("unwrapKey", options);
-
-    try {
+    return withTrace(`CryptographyClient.unwrapKey`, options, async (updatedOptions) => {
+      this.ensureValid(await this.fetchKey(), KnownKeyOperations.UnwrapKey);
       const provider = await this.getProvider("unwrapKey", algorithm);
-      return await provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
-    } finally {
-      span.end();
-    }
+      return provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
+    });
   }
 
   /**
@@ -396,20 +381,16 @@ export class CryptographyClient {
    * @param digest - The digest of the data to sign.
    * @param options - Additional options.
    */
-  public async sign(
+  public sign(
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
-    const { span, updatedOptions } = this.createSpan("sign", options);
-
-    try {
+    return withTrace(`CryptographyClient.sign`, options, async (updatedOptions) => {
+      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
       const provider = await this.getProvider("sign", algorithm);
-      return await provider.sign(algorithm, digest, updatedOptions);
-    } finally {
-      span.end();
-    }
+      return provider.sign(algorithm, digest, updatedOptions);
+    });
   }
 
   /**
@@ -425,21 +406,17 @@ export class CryptographyClient {
    * @param signature - The signature to verify the digest against.
    * @param options - Additional options.
    */
-  public async verify(
+  public verify(
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
-    const { span, updatedOptions } = this.createSpan("verify", options);
-
-    try {
+    return withTrace(`CryptographyClient.verify`, options, async (updatedOptions) => {
+      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verify", algorithm);
-      return await provider.verify(algorithm, digest, signature, updatedOptions);
-    } finally {
-      span.end();
-    }
+      return provider.verify(algorithm, digest, signature, updatedOptions);
+    });
   }
 
   /**
@@ -454,21 +431,17 @@ export class CryptographyClient {
    * @param data - The data to sign.
    * @param options - Additional options.
    */
-  public async signData(
+  public signData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
-    const { span } = this.createSpan("signData", options);
-
-    try {
+    return withTrace(`CryptographyClient.signData`, options, async (updatedOptions) => {
+      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
       const provider = await this.getProvider("signData", algorithm);
       const digest = await createHash(algorithm, data);
-      return await provider.sign(algorithm, digest, options);
-    } finally {
-      span.end();
-    }
+      return provider.sign(algorithm, digest, updatedOptions);
+    });
   }
 
   /**
@@ -484,21 +457,17 @@ export class CryptographyClient {
    * @param signature - The signature to verify the block against.
    * @param options - Additional options.
    */
-  public async verifyData(
+  public verifyData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
-    const { span, updatedOptions } = this.createSpan("encrypt", options);
-
-    try {
+    return withTrace(`CryptographyClient.verifyData`, options, async (updatedOptions) => {
+      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verifyData", algorithm);
-      return await provider.verifyData(algorithm, data, signature, updatedOptions);
-    } finally {
-      span.end();
-    }
+      return provider.verifyData(algorithm, data, signature, updatedOptions);
+    });
   }
 
   /**
@@ -577,10 +546,6 @@ export class CryptographyClient {
 
     // Return the first provider that supports this request
     return providers[0];
-  }
-
-  private createSpan(methodName: string, options: OperationOptions) {
-    return createSpan(`CryptographyClient-${methodName}`, options);
   }
 
   private ensureValid(key: CryptographyClientKey, operation?: KeyOperation): void {

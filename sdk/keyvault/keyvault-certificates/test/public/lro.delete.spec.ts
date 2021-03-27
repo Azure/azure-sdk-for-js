@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { PollerStoppedError } from "@azure/core-lro";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
@@ -17,7 +18,7 @@ describe("Certificates client - lro - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     certificateSuffix = authentication.suffix;
     client = authentication.client;
@@ -31,7 +32,7 @@ describe("Certificates client - lro - delete", () => {
 
   // The tests follow
 
-  it("can wait until a certificate is deleted", async function() {
+  it("can wait until a certificate is deleted", async function(this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );
@@ -61,7 +62,7 @@ describe("Certificates client - lro - delete", () => {
     await testClient.purgeCertificate(certificateName);
   });
 
-  it("can resume from a stopped poller", async function() {
+  it("can resume from a stopped poller", async function(this: Context) {
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { Container } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
@@ -26,7 +27,7 @@ interface TestItem {
   replace?: string;
 }
 
-describe("Item CRUD", function() {
+describe("Item CRUD", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();

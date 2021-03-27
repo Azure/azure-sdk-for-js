@@ -165,6 +165,7 @@ const spawnNode = (cwd, ...args) => {
     // should ever happen, but if it does it's safer to fail.
     process.exitCode = proc.status || 1;
   }
+  return proc.status
 };
 
 const flatMap = (arr, f) => {
@@ -188,6 +189,19 @@ function rushRunAll(direction, packages) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
 }
 
+/**
+ * Helper function to get the relative path of a package directory from an absolute
+ * one
+ * 
+ * @param {string} absolutePath absolute path to a package 
+ * @returns either the relative path of the package starting from the "sdk" directory
+ *          or the just the absolute path itself if "sdk" if not found
+ */
+function tryGetPkgRelativePath(absolutePath) {
+  const sdkDirectoryPathStartIndex = absolutePath.lastIndexOf("sdk");
+  return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
+}
+
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
@@ -202,6 +216,13 @@ if (serviceDirs.length === 0) {
     case "lint":
       for (const packageDir of packageDirs) {
         spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action);
+      }
+      break;
+    case "check-format":
+      for (const packageDir of packageDirs) {
+        if (spawnNode(packageDir, "../../../common/scripts/install-run-rushx.js", action) !== 0) {
+          console.log(`\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`);
+        }
       }
       break;
 

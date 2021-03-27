@@ -1,13 +1,14 @@
 param (
   $pathToArtifacts,
   $accessLevel,
-  $tag,
+  $tag="",
   $additionalTag="",
   $registry,
   $npmToken,
   $filterArg="",
   $basicDeployment=$false,
-  $devopsFeed=$false
+  $devopsFeed=$false,
+  $skipDiff=$false
 )
 
 function replaceText($oldText,$newText,$filePath){
@@ -42,7 +43,7 @@ function extractPackage($package) {
     $devVersion = $json.version
     popd
     $publish = $true
-    if ($tag -eq "dev")
+    if (($tag -eq "dev") -and (-not $skipDiff))
     {
         mkdir $lastDevDirTgz
         pushd $lastDevDirTgz
@@ -123,8 +124,17 @@ try {
 
     foreach ($p in $packageList) {
         if($p.Publish) {
-            Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
-            npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
+            if ($tag)
+            {
+              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
+              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
+            }
+            else
+            {
+              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
+              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
+            }
+
             if ($LastExitCode -ne 0) {
                 Write-Host "npm publish failed with exit code $LastExitCode"
                 exit 1

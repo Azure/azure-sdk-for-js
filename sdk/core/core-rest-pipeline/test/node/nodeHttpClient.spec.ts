@@ -81,6 +81,21 @@ describe("NodeHttpClient", function() {
     }
   });
 
+  it("shouldn't be affected by requests cancelled late", async function() {
+    const client = createDefaultHttpClient();
+    const controller = new AbortController();
+    stubbedHttpsRequest.returns(createRequest());
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      abortSignal: controller.signal
+    });
+    const promise = client.sendRequest(request);
+    stubbedHttpsRequest.yield(createResponse(200));
+    const response = await promise;
+    controller.abort();
+    assert.strictEqual(response.status, 200);
+  });
+
   it("should allow canceling of requests before the request is made", async function() {
     const client = createDefaultHttpClient();
     const controller = new AbortController();
@@ -217,5 +232,31 @@ describe("NodeHttpClient", function() {
     stubbedHttpRequest.yield(createResponse(200, "body"));
     const response = await promise;
     assert.strictEqual(response.status, 200);
+  });
+
+  it("Should decode chunked responses properly", async function() {
+    const client = createDefaultHttpClient();
+    stubbedHttpsRequest.returns(createRequest());
+    const request = createPipelineRequest({
+      url: "https://example.com"
+    });
+    const promise = client.sendRequest(request);
+
+    const inputString = "€€€€";
+    const streamResponse = new FakeResponse();
+    streamResponse.headers = {};
+    streamResponse.statusCode = 200;
+    const buffer = Buffer.from(inputString);
+    let buffer2 = Buffer.alloc(4);
+    buffer.copy(buffer2, 0, 0, 4);
+    streamResponse.write(buffer2);
+    buffer2 = Buffer.alloc(buffer.length - 4);
+    buffer.copy(buffer2, 0, 4);
+    streamResponse.write(buffer2);
+    streamResponse.end();
+    stubbedHttpsRequest.yield(streamResponse);
+    const response = await promise;
+    assert.strictEqual(response.status, 200);
+    assert.strictEqual(response.bodyAsText, inputString);
   });
 });
