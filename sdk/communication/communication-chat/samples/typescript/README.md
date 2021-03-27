@@ -7,6 +7,16 @@ products:
 urlFragment: communication-chat-typescript
 ---
 
+# Azure Communication Service Communication Chat client library sample for TypeScript
+
+These sample programs show how to use the TypeScript client libraries for Azure Communication Service Communication Chat to create chat threads and send messages.
+
+| **File Name**                                        | **Description**                                       |
+| ---------------------------------------------------- | ----------------------------------------------------- |
+| [threadOperations.ts][thread-operations]             | create, retrieve, update and delete a chat thread     |
+| [messageOperations.ts][message-operations]           | send, list, update and delete chat messages           |
+| [participantsOperations.ts][participants-operations] | add, list, and remove participants from a chat thread |
+
 ## Prerequisites
 
 The sample is compatible with Node.js >= 8.0.0.
@@ -44,3 +54,15 @@ Alternatively, run a single sample with the correct environment variables set (s
 ```bash
 npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/threadOperations.js
 ```
+
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[thread-operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/samples/typescript/src/threadOperations.ts
+[participants-operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/samples/typescript/src/participantsOperations.ts
+[message-operations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/samples/typescript/src/messageOperations.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-chat
+[azcomsvc]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-azp
+[freesub]: https://azure.microsoft.com/free/
+[package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-chat/README.md

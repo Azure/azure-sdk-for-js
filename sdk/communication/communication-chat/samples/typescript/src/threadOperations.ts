@@ -22,13 +22,13 @@ export const main = async () => {
   const user = await identityClient.createUser();
   const userToken = await identityClient.getToken(user, ["chat"]);
 
-  //CreateChatClient
+  // create ChatClient
   const chatClient = new ChatClient(
     connectionString,
     new AzureCommunicationTokenCredential(userToken.token)
   );
 
-  //CreateThread
+  // create chat thread
   console.log("Creating Thread...");
   const createChatThreadRequest = {
     topic: "Hello, World!"
@@ -49,18 +49,18 @@ export const main = async () => {
 
   console.log(`Created Thread with id: ${threadId}.`);
 
-  //GetChatThreadClient
+  // get ChatThreadClient for thread
   const chatThreadClient = chatClient.getChatThreadClient(threadId);
 
-  //GetThreadProperties
+  // get proprerties of created chat thread
   const chatThread = await chatThreadClient.getProperties();
   console.log(`Retrieved created thread. Topic: ${chatThread.topic}`);
 
-  //UpdateThreadTopic
+  // update the thread's topic
   await chatThreadClient.updateTopic("New Topic");
   console.log(`Updated thread's topic.`);
 
-  //DeleteThread
+  // delete the chat thread
   await chatClient.deleteChatThread(threadId);
 };
 

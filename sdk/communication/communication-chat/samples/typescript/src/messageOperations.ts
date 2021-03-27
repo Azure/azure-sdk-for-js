@@ -22,7 +22,7 @@ export const main = async () => {
   const user = await identityClient.createUser();
   const userToken = await identityClient.getToken(user, ["chat"]);
 
-  //CreateChatClient
+  // create ChatClient
   const chatClient = new ChatClient(
     connectionString,
     new AzureCommunicationTokenCredential(userToken.token)
@@ -31,19 +31,25 @@ export const main = async () => {
   const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";
   const chatThreadClient = chatClient.getChatThreadClient(threadId);
 
-  //SendChatMessage
+  // send a message
   const sendMessageResult = await chatThreadClient.sendMessage({ content: "Hello world." });
   console.log(`Sent message with id ${sendMessageResult.id}`);
 
-  //GetChatMessage
+  // get a message by id
   const message = await chatThreadClient.getMessage(sendMessageResult.id);
-  console.log(`Retrieved message.`);
+  console.log(`Retrieved message.`, message);
 
-  //UpdateChatMessage
+  // list all messages with newest first
+  let i = 0;
+  for await (const message of chatThreadClient.listMessages()) {
+    console.log(`Message ${++i}:`, message);
+  }
+
+  // update a message
   await chatThreadClient.updateMessage("New content");
   console.log(`Updated message.`);
 
-  //DeleteChatMessage
+  // delete a message
   await chatThreadClient.deleteMessage(sendMessageResult.id);
   console.log("Deleted message.");
 };

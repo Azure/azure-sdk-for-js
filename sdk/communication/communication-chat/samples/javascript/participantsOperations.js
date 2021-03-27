@@ -5,15 +5,17 @@
  * Demonstrates how to use the ChatThreadClient to do participant operations
  */
 
-import { ChatClient } from "@azure/communication-chat";
-import { AzureCommunicationTokenCredential } from "@azure/communication-common";
-import { CommunicationIdentityClient } from "@azure/communication-identity";
+const { ChatClient } = require("@azure/communication-chat");
+const {
+  AzureCommunicationTokenCredential,
+  getIdentifierKind
+} = require("@azure/communication-common");
+const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export const main = async () => {
+async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
@@ -23,7 +25,7 @@ export const main = async () => {
   const userToken = await identityClient.getToken(user, ["chat"]);
   const userJhon = await identityClient.createUserAndToken(["chat"]);
 
-  //CreateChatClient
+  // create ChatClient
   const chatClient = new ChatClient(
     connectionString,
     new AzureCommunicationTokenCredential(userToken.token)
@@ -32,7 +34,7 @@ export const main = async () => {
   const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";
   const chatThreadClient = chatClient.getChatThreadClient(threadId);
 
-  //AddParticipant
+  // add a new participant
   const addParticipantsRequest = {
     participants: [
       {
@@ -44,9 +46,28 @@ export const main = async () => {
   await chatThreadClient.addParticipants(addParticipantsRequest);
   console.log(`Added chat participant user.`);
 
-  //DeleteChatMessge
+  // list chat participants
+  for await (const participant of chatThreadClient.listParticipants()) {
+    const id = getIdentifierKind(participant.id);
+    switch (id.kind) {
+      case "communicationUser":
+        console.log(`User with id ${id.communicationUserId}`);
+        break;
+      case "microsoftTeamsUser":
+        console.log(`Microsoft Teams user with id ${id.microsoftTeamsUserId}`);
+        break;
+      case "phoneNumber":
+        console.log(`Phone ${id.phoneNumber}`);
+        break;
+      case "unknown":
+        console.log(`Unknown user with id ${id.id}`);
+        break;
+    }
+  }
+
+  // remove a participant
   await chatThreadClient.removeParticipant(userJhon.user);
   console.log("Removed chat participant user.");
-};
+}
 
 main();

@@ -8,10 +8,11 @@
 const { ChatClient } = require("@azure/communication-chat");
 const { AzureCommunicationTokenCredential } = require("@azure/communication-common");
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
-const dotenv = require("dotenv");
-dotenv.config();
 
-async function main(){
+// Load the .env file if it exists
+require("dotenv").config();
+
+async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
@@ -20,13 +21,13 @@ async function main(){
   const user = await identityClient.createUser();
   const userToken = await identityClient.getToken(user, ["chat"]);
 
-  //CreateChatClient
+  // create ChatClient
   const chatClient = new ChatClient(
     connectionString,
     new AzureCommunicationTokenCredential(userToken.token)
   );
 
-  //CreateThread
+  // create chat thread
   console.log("Creating Thread...");
   const createChatThreadRequest = {
     topic: "Hello, World!"
@@ -47,19 +48,19 @@ async function main(){
 
   console.log(`Created Thread with id: ${threadId}.`);
 
-  //GetChatThreadClient
+  // get ChatThreadClient for thread
   const chatThreadClient = chatClient.getChatThreadClient(threadId);
 
-  //GetThreadProperties
+  // get proprerties of created chat thread
   const chatThread = await chatThreadClient.getProperties();
   console.log(`Retrieved created thread. Topic: ${chatThread.topic}`);
 
-  //UpdateThreadTopic
+  // update the thread's topic
   await chatThreadClient.updateTopic("New Topic");
   console.log(`Updated thread's topic.`);
 
-  //DeleteThread
+  // delete the chat thread
   await chatClient.deleteChatThread(threadId);
-};
+}
 
 main();
