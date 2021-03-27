@@ -5,7 +5,7 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { ChatClient, ChatThreadClient } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationIdentifier } from "@azure/communication-common";
+import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
 import { Context } from "mocha";
 
 describe("ChatThreadClient", function() {
@@ -113,7 +113,21 @@ describe("ChatThreadClient", function() {
   it("successfully lists participants", async function() {
     const list: string[] = [];
     for await (const participant of chatThreadClient.listParticipants()) {
-      list.push((participant.id as any).communicationUserId);
+      const id = getIdentifierKind(participant.id);
+      switch (id.kind) {
+        case "communicationUser":
+          list.push(id.communicationUserId);
+          break;
+        case "microsoftTeamsUser":
+          list.push(id.microsoftTeamsUserId);
+          break;
+        case "phoneNumber":
+          list.push(id.phoneNumber);
+          break;
+        case "unknown":
+          list.push(id.id);
+          break;
+      }
     }
   });
 
