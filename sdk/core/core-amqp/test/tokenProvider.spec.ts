@@ -4,14 +4,14 @@
 import chai from "chai";
 const should = chai.should();
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { createTokenProvider, SasTokenProvider } from "../src/index";
+import { createSasTokenProvider, SasTokenProviderImpl } from "../src/index";
 
-describe("TokenProvider", function(): void {
+describe("SasTokenProvider", function(): void {
   describe("SasTokenProvider", () => {
     it("should work as expected with AzureNamedKeyCredential", async function(): Promise<void> {
       const keyName = "myKeyName";
       const key = "importantValue";
-      const tokenProvider = new SasTokenProvider(new AzureNamedKeyCredential(keyName, key));
+      const tokenProvider = new SasTokenProviderImpl(new AzureNamedKeyCredential(keyName, key));
       const now = Math.floor(Date.now() / 1000) + 3600;
       const tokenInfo = tokenProvider.getToken("myaudience");
       tokenInfo.token.should.match(
@@ -20,10 +20,10 @@ describe("TokenProvider", function(): void {
       tokenInfo.expiresOnTimestamp.should.equal(now);
     });
 
-    it("should work as expected when created from createTokenProvider (sak)", async function(): Promise<
+    it("should work as expected when created from createSasTokenProvider (sak)", async function(): Promise<
       void
     > {
-      const tokenProvider = createTokenProvider({
+      const tokenProvider = createSasTokenProvider({
         sharedAccessKeyName: "sakName",
         sharedAccessKey: "sak"
       });
@@ -37,7 +37,7 @@ describe("TokenProvider", function(): void {
   });
 
   it("should work as expected with AzureSASCredential", async function(): Promise<void> {
-    const sasTokenProvider = new SasTokenProvider(
+    const sasTokenProvider = new SasTokenProviderImpl(
       new AzureSASCredential("SharedAccessSignature se=<blah>")
     );
     const accessToken = sasTokenProvider.getToken("audience isn't used");
@@ -55,10 +55,10 @@ describe("TokenProvider", function(): void {
     );
   });
 
-  it("should work as expected when created from createTokenProvider (signature)", async function(): Promise<
+  it("should work as expected when created from createSasTokenProvider (signature)", async function(): Promise<
     void
   > {
-    const tokenProvider = createTokenProvider({ sharedAccessSignature: "<blah>" });
+    const tokenProvider = createSasTokenProvider({ sharedAccessSignature: "<blah>" });
     const tokenInfo = tokenProvider.getToken("sb://hostname.servicebus.windows.net/");
     tokenInfo.token.should.match(/<blah>/g);
     tokenInfo.expiresOnTimestamp.should.equal(0);

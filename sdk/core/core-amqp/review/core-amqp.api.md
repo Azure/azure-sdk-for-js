@@ -343,12 +343,12 @@ export interface CreateConnectionContextBaseParameters {
 }
 
 // @public
-export function createTokenProvider(data: {
+export function createSasTokenProvider(data: {
     sharedAccessKeyName: string;
     sharedAccessKey: string;
 } | {
     sharedAccessSignature: string;
-}): TokenProvider;
+}): SasTokenProvider;
 
 // @public
 export const defaultLock: AsyncLock;
@@ -412,16 +412,10 @@ export function isCredential(thing: unknown): thing is TokenCredential | NamedKe
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
 // @public
-export function isNamedKeyCredential(thing: unknown): thing is NamedKeyCredential;
-
-// @public
-export function isSASCredential(thing: unknown): thing is SASCredential;
+export function isSasTokenProvider(thing: unknown): thing is SasTokenProvider;
 
 // @public
 export function isSystemError(err: unknown): err is NetworkSystemError;
-
-// @public
-export function isTokenProvider(thing: unknown): thing is TokenProvider;
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
@@ -542,10 +536,16 @@ export interface RetryOptions {
 }
 
 // @public
-export class SasTokenProvider implements TokenProvider {
+export interface SasTokenProvider {
+    getToken(audience: string): AccessToken;
+    isSasTokenProvider: true;
+}
+
+// @public
+export class SasTokenProviderImpl implements SasTokenProvider {
     constructor(credential: SASCredential | NamedKeyCredential);
     getToken(audience: string): AccessToken;
-    get isTokenProvider(): true;
+    get isSasTokenProvider(): true;
 }
 
 // @public
@@ -580,12 +580,6 @@ export enum SystemErrorConditionMapper {
     ENOTFOUND = "amqp:not-found",
     // (undocumented)
     ETIMEDOUT = "com.microsoft:timeout"
-}
-
-// @public
-export interface TokenProvider {
-    getToken(audience: string): AccessToken;
-    isTokenProvider: true;
 }
 
 // @public

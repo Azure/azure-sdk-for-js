@@ -1,19 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import {
+  AccessToken,
+  NamedKeyCredential,
+  SASCredential,
+  isNamedKeyCredential
+} from "@azure/core-auth";
 import jssha from "jssha";
-import { isNamedKeyCredential, isObjectWithProperties } from "../util/typeGuards";
+import { isObjectWithProperties } from "../util/typeGuards";
 
 /**
- * A TokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.
+ * A SasTokenProvider provides an alternative to TokenCredential for providing an `AccessToken`.
  * @hidden
  */
-export interface TokenProvider {
+export interface SasTokenProvider {
   /**
-   * Property used to distinguish TokenProvider from TokenCredential.
+   * Property used to distinguish SasTokenProvider from TokenCredential.
    */
-  isTokenProvider: true;
+  isSasTokenProvider: true;
   /**
    * Gets the token provided by this provider.
    *
@@ -29,13 +34,13 @@ export interface TokenProvider {
  * @param data - The sharedAccessKeyName/sharedAccessKey pair or the sharedAccessSignature.
  * @hidden
  */
-export function createTokenProvider(
+export function createSasTokenProvider(
   data: { sharedAccessKeyName: string; sharedAccessKey: string } | { sharedAccessSignature: string }
-): TokenProvider {
+): SasTokenProvider {
   if (isObjectWithProperties(data, ["sharedAccessKeyName", "sharedAccessKey"])) {
-    return new SasTokenProvider({ name: data.sharedAccessKeyName, key: data.sharedAccessKey });
+    return new SasTokenProviderImpl({ name: data.sharedAccessKeyName, key: data.sharedAccessKey });
   } else {
-    return new SasTokenProvider({ signature: data.sharedAccessSignature });
+    return new SasTokenProviderImpl({ signature: data.sharedAccessSignature });
   }
 }
 
@@ -45,11 +50,11 @@ export function createTokenProvider(
  *
  * @hidden
  */
-export class SasTokenProvider implements TokenProvider {
+export class SasTokenProviderImpl implements SasTokenProvider {
   /**
    * Property used to distinguish TokenProvider from TokenCredential.
    */
-  get isTokenProvider(): true {
+  get isSasTokenProvider(): true {
     return true;
   }
 

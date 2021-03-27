@@ -2,12 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  isNamedKeyCredential,
+  isSASCredential,
   isTokenCredential,
   NamedKeyCredential,
   SASCredential,
   TokenCredential
 } from "@azure/core-auth";
-import { TokenProvider } from "../auth/tokenProvider";
+import { SasTokenProvider } from "../auth/tokenProvider";
 
 /**
  * Helper TypeGuard that checks if something is defined or not.
@@ -68,32 +70,10 @@ export function isCredential(
 }
 
 /**
- * Typeguard that checks if the input is a NamedKeyCredential.
+ * Typeguard that checks if the input is a SasTokenProvider.
  * @param thing - Any object.
  * @hidden
  */
-export function isNamedKeyCredential(thing: unknown): thing is NamedKeyCredential {
-  return (
-    isObjectWithProperties(thing, ["name", "key"]) &&
-    typeof thing.key === "string" &&
-    typeof thing.name === "string"
-  );
-}
-
-/**
- * Typeguard that checks if the input is a SASKeyCredential.
- * @param thing - Any object.
- * @hidden
- */
-export function isSASCredential(thing: unknown): thing is SASCredential {
-  return isObjectWithProperties(thing, ["signature"]) && typeof thing.signature === "string";
-}
-
-/**
- * Typeguard that checks if the input is a TokenProvider.
- * @param thing - Any object.
- * @hidden
- */
-export function isTokenProvider(thing: unknown): thing is TokenProvider {
-  return isObjectWithProperties(thing, ["isTokenProvider"]) && thing.isTokenProvider === true;
+export function isSasTokenProvider(thing: unknown): thing is SasTokenProvider {
+  return isObjectWithProperties(thing, ["isSasTokenProvider"]) && thing.isSasTokenProvider === true;
 }

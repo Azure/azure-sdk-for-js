@@ -1,20 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SasTokenProvider, TokenProvider, createTokenProvider } from "./auth/tokenProvider";
 import {
-  isCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenProvider
-} from "./util/typeGuards";
+  SasTokenProvider,
+  SasTokenProviderImpl,
+  createSasTokenProvider
+} from "./auth/tokenProvider";
+import { isCredential, isSasTokenProvider } from "./util/typeGuards";
 
 export {
   SasTokenProvider,
-  TokenProvider,
-  createTokenProvider,
+  SasTokenProviderImpl,
+  createSasTokenProvider,
   isCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenProvider
+  isSasTokenProvider
 };
