@@ -164,6 +164,14 @@ export class MockEventHub {
     this._mockServer.on("connectionClose", (event) => {
       this._connections.delete(event.context.connection);
     });
+    this._mockServer.on("shutdown", () => {
+      for (const connection of this._connections.values()) {
+        connection.close({
+          condition: "amqp:connection:forced",
+          description: "The service is shutting down."
+        });
+      }
+    });
   }
 
   private _handleConnectionInactivity = (connection: Connection) => {
@@ -199,7 +207,6 @@ export class MockEventHub {
    * @param event
    */
   private _handleReceiverOpen = (event: ReceiverOpenEvent) => {
-    console.log(`Attempting to open receiver: ${event.entityPath}`);
     event.receiver.set_source(event.receiver.source);
     event.receiver.set_target(event.receiver.target);
     if (this._isReceiverPartitionEntityPath(event.entityPath)) {
@@ -228,7 +235,6 @@ export class MockEventHub {
    * @param event
    */
   private _handleSenderOpen = (event: SenderOpenEvent) => {
-    console.log(`Attempting to open sender: ${event.entityPath}`);
     event.sender.set_source(event.sender.source);
     event.sender.set_target(event.sender.target);
     if (event.entityPath === "$cbs") {
@@ -363,8 +369,6 @@ export class MockEventHub {
    * @param event
    */
   private _handleOnMessages = (event: OnMessagesEvent) => {
-    console.log(`message entityPath: "${event.entityPath}"`);
-
     // Handle batched messages first.
     if (event.entityPath === this._name) {
       // received a message without a partition id
@@ -481,7 +485,6 @@ export class MockEventHub {
     const maxMessageSize =
       event.context.receiver?.get_option("max_message_size", 1024 * 1024) ?? 1024 * 1024;
     if (deliverySize >= maxMessageSize) {
-      console.log("too large!");
       delivery.reject({
         condition: "amqp:link:message-size-exceeded",
         description: `The received message (delivery-id:${
@@ -700,7 +703,6 @@ export class MockEventHub {
    * @param options
    */
   start(options: StartOptions) {
-    // this.enableDebug(1000);
     return this._mockServer.start(options);
   }
 

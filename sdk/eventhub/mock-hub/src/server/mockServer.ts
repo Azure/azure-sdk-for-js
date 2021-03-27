@@ -181,6 +181,7 @@ export class MockServer extends EventEmitter {
   emit(type: "receiverClose", event: ReceiverCloseEvent): boolean;
   emit(type: "senderClose", event: SenderCloseEvent): boolean;
   emit(type: "connectionClose", event: ConnectionCloseEvent): boolean;
+  emit(type: "shutdown", {}): boolean;
   emit(type: string, event: any): boolean {
     return super.emit(type, event);
   }
@@ -239,6 +240,12 @@ export class MockServer extends EventEmitter {
    * @param listener
    */
   public on(type: "onMessages", listener: (event: OnMessagesEvent) => void): this;
+  /**
+   * Fired when the server is shutting down.
+   * @param type
+   * @param listener
+   */
+  public on(type: "shutdown", listener: () => void): this;
   public on(type: string, listener: (event: any) => void): this {
     return super.on(type, listener);
   }
@@ -253,6 +260,7 @@ export class MockServer extends EventEmitter {
       return Promise.resolve();
     }
     return new Promise((resolve, reject) => {
+      this.emit("shutdown", {});
       listener.close((err) => {
         if (err) {
           reject(err);
