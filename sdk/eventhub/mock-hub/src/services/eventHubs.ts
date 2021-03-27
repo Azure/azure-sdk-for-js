@@ -13,7 +13,7 @@ import {
 } from "rhea";
 import {
   MockServer,
-  StartOptions,
+  MockServerOptions,
   SenderOpenEvent,
   ReceiverOpenEvent,
   OnMessagesEvent,
@@ -34,7 +34,7 @@ import {
   generateBadPartitionInfoResponse
 } from "../messages/event-hubs/partitionInfo";
 
-export interface MockEventHubOptions {
+export interface MockEventHubOptions extends MockServerOptions {
   /**
    * The number of partitions for the Event Hub.
    * Defaults to 2.
@@ -68,12 +68,21 @@ interface PartionReceiverEntityComponents {
   partitionId: string;
 }
 
+export interface IMockEventHub {
+  readonly partitionIds: string[];
+  readonly consumerGroups: Set<string>;
+  readonly port: number;
+
+  start: () => Promise<void>;
+  stop: () => Promise<void>;
+}
+
 /**
  * `MockEventHub` represents a mock EventHubs service.
  *
  * It stores events in memory and does not perform any auth verification.
  */
-export class MockEventHub {
+export class MockEventHub implements IMockEventHub {
   /**
    * When the EventHub was 'created'.
    */
@@ -151,7 +160,7 @@ export class MockEventHub {
     this._consumerGroups = options.consumerGroups ?? [];
     this._connectionInactivityTimeoutInMs = options.connectionInactivityTimeoutInMs ?? 0;
 
-    this._mockServer = new MockServer();
+    this._mockServer = new MockServer(options);
     this._mockServer.on("receiverOpen", this._handleReceiverOpen);
     this._mockServer.on("senderOpen", this._handleSenderOpen);
     this._mockServer.on("senderClose", this._handleSenderClose);
@@ -700,10 +709,9 @@ export class MockEventHub {
 
   /**
    * Starts the service.
-   * @param options
    */
-  start(options: StartOptions) {
-    return this._mockServer.start(options);
+  start() {
+    return this._mockServer.start();
   }
 
   /**

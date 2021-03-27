@@ -18,7 +18,7 @@ import {
 } from "rhea";
 import { convertBufferToMessages } from "../utils/convertBufferToMessage";
 
-export interface StartOptions {
+export interface MockServerOptions {
   /**
    * The port number the server should listen on.
    * If not specified, an open port will be chosen at random.
@@ -122,8 +122,11 @@ export class MockServer extends EventEmitter {
   private _container: Container;
   private _listener?: ReturnType<Container["listen"]>;
 
-  constructor() {
+  private _options: MockServerOptions;
+
+  constructor(options: MockServerOptions = {}) {
     super();
+    this._options = options;
     this._container = create_container();
   }
 
@@ -143,8 +146,9 @@ export class MockServer extends EventEmitter {
    * Starts the server using the specified options.
    * @param options
    */
-  public start(options: StartOptions = {}): Promise<void> {
+  public start(): Promise<void> {
     return new Promise((resolve, reject) => {
+      const options = this._options;
       const ONE_MB = 1024 * 1024;
       const listenOptions: ListenOptions & ConnectionOptions & any = {
         port: options.port ?? 0,

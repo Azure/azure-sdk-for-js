@@ -22,7 +22,7 @@ export enum EnvVarKeys {
   AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET"
 }
 
-function getEnvVarValue(name: string): string | undefined {
+export function getEnvVarValue(name: string): string | undefined {
   if (isNode) {
     return process.env[name];
   } else {
@@ -30,14 +30,27 @@ function getEnvVarValue(name: string): string | undefined {
   }
 }
 
-export function getEnvVars(): { [key in EnvVarKeys]: any } {
-  return {
-    [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING),
-    [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
-    [EnvVarKeys.AZURE_TENANT_ID]: getEnvVarValue(EnvVarKeys.AZURE_TENANT_ID),
-    [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
-    [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET)
-  };
+export function getEnvVars(type: "live" | "mock"): { [key in EnvVarKeys]: any } {
+  if (type === "live") {
+    return {
+      [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(
+        EnvVarKeys.EVENTHUB_CONNECTION_STRING
+      ),
+      [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
+      [EnvVarKeys.AZURE_TENANT_ID]: getEnvVarValue(EnvVarKeys.AZURE_TENANT_ID),
+      [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
+      [EnvVarKeys.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_SECRET)
+    };
+  } else {
+    return {
+      [EnvVarKeys.EVENTHUB_CONNECTION_STRING]:
+        "Endpoint=sb://localhost/;SharedAccessKeyName=Foo;SharedAccessKey=Bar",
+      [EnvVarKeys.EVENTHUB_NAME]: "mock-hub",
+      [EnvVarKeys.AZURE_TENANT_ID]: "AzureTenantId",
+      [EnvVarKeys.AZURE_CLIENT_ID]: "AzureClientId",
+      [EnvVarKeys.AZURE_CLIENT_SECRET]: "AzureClientSecret"
+    };
+  }
 }
 
 export async function loopUntil(args: {
