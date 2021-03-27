@@ -11,7 +11,7 @@ import { getGlobalObject } from "./global";
 const GLOBAL_TRACER_VERSION = 4;
 // preview5 shipped with @azure/core-tracing.tracerCache
 // and didn't have smart detection for collisions
-const GLOBAL_TRACER_SYMBOL = Symbol.for("@azure/core-tracing.tracerCache2");
+const GLOBAL_TRACER_SYMBOL = Symbol.for("@azure/core-tracing.tracerCache3");
 
 export interface TracerCache {
   version: number;
