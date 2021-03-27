@@ -97,6 +97,7 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "events": "^3.0.0",
     "tslib": "^2.0.0"
   },

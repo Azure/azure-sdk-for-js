@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, TokenCredential } from "@azure/core-http";
+import { isNode, TokenCredential, OperationOptions } from "@azure/core-http";
 import { Context } from "mocha";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";

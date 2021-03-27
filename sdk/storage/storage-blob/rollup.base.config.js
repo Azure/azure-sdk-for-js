@@ -55,7 +55,11 @@ export function nodeConfig(test = false) {
       }),
       nodeResolve({ preferBuiltins: true }),
       json(),
-      cjs()
+      cjs({
+        namedExports: {
+          ...openTelemetryCommonJs()
+        }
+      })
     ],
     onwarn(warning, warn) {
       if (warning.code === "CIRCULAR_DEPENDENCY") {

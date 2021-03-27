@@ -79,7 +79,7 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          ...openTelemetryCommonJs(true),
+          ...openTelemetryCommonJs(),
           assert: ["ok", "fail", "equal", "deepEqual", "deepStrictEqual", "strictEqual"]
         }
       }),
