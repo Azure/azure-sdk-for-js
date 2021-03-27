@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the ChatClient to do thread operations
+ * Demonstrates how to use the ChatThreadClient to do participant operations
  */
 
 import { ChatClient } from "@azure/communication-chat";
@@ -13,32 +13,31 @@ import { CommunicationIdentityClient } from "@azure/communication-identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export const participantsOperatioinSample = async () => {
+export const main = async () => {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
 
   const identityClient = new CommunicationIdentityClient(connectionString);
-  const testUser = await identityClient.createUser();
-  const userToken = await identityClient.getToken(testUser, ["chat"]);
-  const testUser2 = await identityClient.createUser();
-  await identityClient.getToken(testUser2, ["chat"]);
+  const user = await identityClient.createUser();
+  const userToken = await identityClient.getToken(user, ["chat"]);
+  const userJhon = await identityClient.createUserAndToken(["chat"]);
 
   //CreateChatClient
   const chatClient = new ChatClient(
     connectionString,
     new AzureCommunicationTokenCredential(userToken.token)
   );
-  const createChatTtreadResult = await chatClient.createChatThread({ topic: "Hello, World!" });
-  const threadId = createChatTtreadResult.chatThread?.id!;
+  const createChatThreadResult = await chatClient.createChatThread({ topic: "Hello, World!" });
+  const threadId = createChatThreadResult.chatThread ? createChatThreadResult.chatThread.id : "";
   const chatThreadClient = chatClient.getChatThreadClient(threadId);
 
   //AddParticipant
   const addParticipantsRequest = {
     participants: [
       {
-        id: testUser2,
-        displayName: "Test User"
+        id: userJhon.user,
+        displayName: "Jhon"
       }
     ]
   };
@@ -46,8 +45,8 @@ export const participantsOperatioinSample = async () => {
   console.log(`Added chat participant user.`);
 
   //DeleteChatMessge
-  await chatThreadClient.removeParticipant(testUser2);
+  await chatThreadClient.removeParticipant(userJhon.user);
   console.log("Removed chat participant user.");
 };
 
-participantsOperatioinSample();
+main();

@@ -36,11 +36,11 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/threadOperationSample.js
+node dist/threadOperations.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/threadOperationSample.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node dist/threadOperations.js
 ```

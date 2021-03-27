@@ -30,11 +30,11 @@ npm install
 3. Run whichever samples you like:
 
 ```bash
-node threadOperationSample.js
+node threadOperations.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node threadOperationSample.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<connection string>" node threadOperations.js
 ```
