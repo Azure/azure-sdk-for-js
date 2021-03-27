@@ -25,7 +25,7 @@ async function main() {
   const identityClient = new CommunicationIdentityClient(connectionString);
   const user = await identityClient.createUser();
   const userToken = await identityClient.getToken(user, ["chat"]);
-  const userJhon = await identityClient.createUserAndToken(["chat"]);
+  const userSue = await identityClient.createUserAndToken(["chat"]);
 
   // create ChatClient
   const chatClient = new ChatClient(
@@ -40,8 +40,8 @@ async function main() {
   const addParticipantsRequest = {
     participants: [
       {
-        id: userJhon.user,
-        displayName: "Jhon"
+        id: userSue.user,
+        displayName: "Sue"
       }
     ]
   };
@@ -68,7 +68,7 @@ async function main() {
   }
 
   // remove a participant
-  await chatThreadClient.removeParticipant(userJhon.user);
+  await chatThreadClient.removeParticipant(userSue.user);
   console.log("Removed chat participant user.");
 }
 
