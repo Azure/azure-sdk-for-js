@@ -16,6 +16,8 @@ async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+  const endpoint =
+    process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
 
   const identityClient = new CommunicationIdentityClient(connectionString);
   const user = await identityClient.createUser();
@@ -23,7 +25,7 @@ async function main() {
 
   // create ChatClient
   const chatClient = new ChatClient(
-    connectionString,
+    endpoint,
     new AzureCommunicationTokenCredential(userToken.token)
   );
 

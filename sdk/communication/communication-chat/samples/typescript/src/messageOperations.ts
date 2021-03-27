@@ -13,10 +13,12 @@ import { CommunicationIdentityClient } from "@azure/communication-identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export const main = async () => {
+async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
+  const endpoint =
+    process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
 
   const identityClient = new CommunicationIdentityClient(connectionString);
   const user = await identityClient.createUser();
@@ -24,7 +26,7 @@ export const main = async () => {
 
   // create ChatClient
   const chatClient = new ChatClient(
-    connectionString,
+    endpoint,
     new AzureCommunicationTokenCredential(userToken.token)
   );
   const createChatThreadResult = await chatClient.createChatThread({ topic: "Hello, World!" });
@@ -46,12 +48,12 @@ export const main = async () => {
   }
 
   // update a message
-  await chatThreadClient.updateMessage("New content");
+  await chatThreadClient.updateMessage(message.id, { content: "New content" });
   console.log(`Updated message.`);
 
   // delete a message
   await chatThreadClient.deleteMessage(sendMessageResult.id);
   console.log("Deleted message.");
-};
+}
 
 main();
