@@ -13,7 +13,7 @@ import { CommunicationIdentityClient } from "@azure/communication-identity";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+export async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
@@ -56,4 +56,8 @@ async function main() {
   console.log("Deleted message.");
 }
 
-main();
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
+});
