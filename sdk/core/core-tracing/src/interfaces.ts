@@ -60,15 +60,15 @@ export interface Span {
    *
    * Sets a single Attribute with the key and value passed as arguments.
    *
-   * @param key the key for this attribute.
-   * @param value the value for this attribute. Setting a value null or
+   * @param key - the key for this attribute.
+   * @param value - the value for this attribute. Setting a value null or
    *              undefined is invalid and will result in undefined behavior.
    */
   setAttribute(key: string, value: SpanAttributeValue): this;
   /**
    * Sets attributes to the span.
    *
-   * @param attributes the attributes that will be added.
+   * @param attributes - the attributes that will be added.
    *                   null or undefined attribute values
    *                   are invalid and will result in undefined behavior.
    */
@@ -76,11 +76,11 @@ export interface Span {
   /**
    * Adds an event to the Span.
    *
-   * @param name the name of the event.
-   * @param [attributesOrStartTime] the attributes that will be added; these are
+   * @param name - the name of the event.
+   * @param attributesOrStartTime -  the attributes that will be added; these are
    *     associated with this event. Can be also a start time
-   *     if type is {@type TimeInput} and 3rd param is undefined
-   * @param [startTime] start time of the event.
+   *     if type is TimeInput and 3rd param is undefined
+   * @param startTime - start time of the event.
    */
   addEvent(
     name: string,
@@ -92,7 +92,7 @@ export interface Span {
    * status. Default is {@link SpanStatusCode.UNSET}. SetStatus overrides the value
    * of previous calls to SetStatus on the Span.
    *
-   * @param status the SpanStatus to set.
+   * @param status - the SpanStatus to set.
    */
   setStatus(status: SpanStatus): this;
   /**
@@ -104,7 +104,7 @@ export interface Span {
    * Do not return `this`. The Span generally should not be used after it
    * is ended so chaining is not desired in this context.
    *
-   * @param [endTime] the time to set as Span's end time. If not provided,
+   * @param endTime - the time to set as Span's end time. If not provided,
    *     use the current time as the span's end time.
    */
   end(endTime?: TimeInput): void;
@@ -118,8 +118,8 @@ export interface Span {
 
   /**
    * Sets exception as a span event
-   * @param exception the exception the only accepted values are string or Error
-   * @param [time] the time to set as Span's event time. If not provided,
+   * @param exception - the exception the only accepted values are string or Error
+   * @param time - the time to set as Span's event time. If not provided,
    *     use the current time.
    */
   recordException(exception: Exception, time?: TimeInput): void;
@@ -132,7 +132,7 @@ export interface Span {
    * Upon this update, any sampling behavior based on Span name will depend on
    * the implementation.
    *
-   * @param name the Span name.
+   * @param name - the Span name.
    */
   updateName(name: string): this;
 }
@@ -237,8 +237,8 @@ export interface SpanOptions {
    */
   kind?: SpanKind;
 
-  /** 
-   * A manually specified start time for the created `Span` object. 
+  /**
+   * A manually specified start time for the created `Span` object.
    */
   startTime?: TimeInput;
 }
@@ -265,22 +265,22 @@ export interface Context {
   /**
    * Get a value from the context.
    *
-   * @param key key which identifies a context value
+   * @param key - key which identifies a context value
    */
   getValue(key: symbol): unknown;
   /**
    * Create a new context which inherits from this context and has
    * the given key set to the given value.
    *
-   * @param key context key for which to set the value
-   * @param value value to set for the given key
+   * @param key - context key for which to set the value
+   * @param value - value to set for the given key
    */
   setValue(key: symbol, value: unknown): Context;
   /**
    * Return a new context which inherits from this context but does
    * not contain a value for the given key.
    *
-   * @param key context key for which to clear a value
+   * @param key - context key for which to clear a value
    */
   deleteValue(key: symbol): Context;
 }

@@ -196,8 +196,8 @@ export class OpenCensusSpanWrapper implements Span {
 
   /**
    * Sets exception as a span event
-   * @param exception the exception the only accepted values are string or Error
-   * @param [time] the time to set as Span's event time. If not provided,
+   * @param exception - the exception the only accepted values are string or Error
+   * @param time - the time to set as Span's event time. If not provided,
    *     use the current time.
    */
   recordException(_exception: Exception, _time?: TimeInput): void {
