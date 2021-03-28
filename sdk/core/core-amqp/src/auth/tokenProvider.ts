@@ -5,7 +5,8 @@ import {
   AccessToken,
   NamedKeyCredential,
   SASCredential,
-  isNamedKeyCredential
+  isNamedKeyCredential,
+  isSASCredential
 } from "@azure/core-auth";
 import jssha from "jssha";
 import { isObjectWithProperties } from "../util/typeGuards";
@@ -24,7 +25,7 @@ export interface SasTokenProvider {
    *
    * This method is called automatically by Azure SDK client libraries.
    *
-   * @param scopes - The list of scopes for which the token will have access.
+   * @param audience - The audience for which the token is desired.
    */
   getToken(audience: string): AccessToken;
 }
@@ -35,9 +36,15 @@ export interface SasTokenProvider {
  * @hidden
  */
 export function createSasTokenProvider(
-  data: { sharedAccessKeyName: string; sharedAccessKey: string } | { sharedAccessSignature: string }
+  data:
+    | { sharedAccessKeyName: string; sharedAccessKey: string }
+    | { sharedAccessSignature: string }
+    | NamedKeyCredential
+    | SASCredential
 ): SasTokenProvider {
-  if (isObjectWithProperties(data, ["sharedAccessKeyName", "sharedAccessKey"])) {
+  if (isNamedKeyCredential(data) || isSASCredential(data)) {
+    return new SasTokenProviderImpl(data);
+  } else if (isObjectWithProperties(data, ["sharedAccessKeyName", "sharedAccessKey"])) {
     return new SasTokenProviderImpl({ name: data.sharedAccessKeyName, key: data.sharedAccessKey });
   } else {
     return new SasTokenProviderImpl({ signature: data.sharedAccessSignature });
@@ -48,7 +55,7 @@ export function createSasTokenProvider(
  * A TokenProvider that generates a Sas token:
  * `SharedAccessSignature sr=<resource>&sig=<signature>&se=<expiry>&skn=<keyname>`
  *
- * @hidden
+ * @internal
  */
 export class SasTokenProviderImpl implements SasTokenProvider {
   /**

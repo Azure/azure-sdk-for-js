@@ -20,7 +20,6 @@ import { SASCredential } from '@azure/core-auth';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
-import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
@@ -348,7 +347,7 @@ export function createSasTokenProvider(data: {
     sharedAccessKey: string;
 } | {
     sharedAccessSignature: string;
-}): SasTokenProvider;
+} | NamedKeyCredential | SASCredential): SasTokenProvider;
 
 // @public
 export const defaultLock: AsyncLock;
@@ -404,9 +403,6 @@ export enum ErrorNameConditionMapper {
     UnattachedHandleError = "amqp:session:unattached-handle",
     UnauthorizedError = "amqp:unauthorized-access"
 }
-
-// @public
-export function isCredential(thing: unknown): thing is TokenCredential | NamedKeyCredential | SASCredential;
 
 // @public
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
@@ -539,13 +535,6 @@ export interface RetryOptions {
 export interface SasTokenProvider {
     getToken(audience: string): AccessToken;
     isSasTokenProvider: true;
-}
-
-// @public
-export class SasTokenProviderImpl implements SasTokenProvider {
-    constructor(credential: SASCredential | NamedKeyCredential);
-    getToken(audience: string): AccessToken;
-    get isSasTokenProvider(): true;
 }
 
 // @public
