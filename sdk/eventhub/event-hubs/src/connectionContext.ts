@@ -19,9 +19,7 @@ import {
   CreateConnectionContextBaseParameters,
   ConnectionConfig,
   SasTokenProvider,
-  createSasTokenProvider,
-  isCredential,
-  SasTokenProviderImpl
+  createSasTokenProvider
 } from "@azure/core-amqp";
 import {
   TokenCredential,
@@ -34,6 +32,7 @@ import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./models/public";
 import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
+import { isCredential } from "./util/typeGuards";
 
 /**
  * @internal
@@ -48,7 +47,7 @@ export interface ConnectionContext extends ConnectionContextBase {
   readonly config: EventHubConnectionConfig;
   /**
    * The credential to be used for Authentication.
-   * Default value: TokenProvider.
+   * Default value: SasTokenProvider.
    */
   tokenCredential: SasTokenProvider | TokenCredential;
   /**
@@ -507,7 +506,7 @@ export function createConnectionContext(
     const eventHubName = eventHubNameOrOptions;
     let host = hostOrConnectionString;
     if (isNamedKeyCredential(credentialOrOptions) || isSASCredential(credentialOrOptions)) {
-      credential = new SasTokenProviderImpl(credentialOrOptions);
+      credential = createSasTokenProvider(credentialOrOptions);
     } else {
       credential = credentialOrOptions;
     }

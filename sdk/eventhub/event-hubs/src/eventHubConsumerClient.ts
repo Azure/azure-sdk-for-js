@@ -11,7 +11,7 @@ import {
 } from "./models/public";
 import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
 import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
-import { Constants, isCredential } from "@azure/core-amqp";
+import { Constants } from "@azure/core-amqp";
 import { logger } from "./log";
 
 import {
@@ -28,6 +28,7 @@ import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStr
 import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
 import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
 import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
+import { isCredential } from "./util/typeGuards";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -197,7 +198,11 @@ export class EventHubConsumerClient {
    * @param credential - An credential object used by the client to get the token to authenticate the connection
    * with the Azure Event Hubs service.
    * See &commat;azure/identity for creating credentials that support AAD auth.
-   * See &commat;azure/core-auth for creating `AzureNamedKeyCredential` or `AzureSASCredential`.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
@@ -221,7 +226,11 @@ export class EventHubConsumerClient {
    * @param credential - An credential object used by the client to get the token to authenticate the connection
    * with the Azure Event Hubs service.
    * See &commat;azure/identity for creating credentials that support AAD auth.
-   * See &commat;azure/core-auth for creating `AzureNamedKeyCredential` or `AzureSASCredential`.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
    * @param checkpointStore - A checkpoint store that is used by the client to read checkpoints to determine
    * the position from where it should resume receiving events when your application gets restarted.
    * It is also used by the client to load balance multiple instances of your application.

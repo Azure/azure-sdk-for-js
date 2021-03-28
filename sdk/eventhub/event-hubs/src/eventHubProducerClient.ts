@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { isCredential } from "@azure/core-amqp";
 import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
@@ -21,7 +20,7 @@ import {
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { isDefined } from "./util/typeGuards";
+import { isCredential, isDefined } from "./util/typeGuards";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
 
@@ -104,7 +103,11 @@ export class EventHubProducerClient {
    * @param credential - An credential object used by the client to get the token to authenticate the connection
    * with the Azure Event Hubs service.
    * See &commat;azure/identity for creating credentials that support AAD auth.
-   * See &commat;azure/core-auth for creating `AzureNamedKeyCredential` or `AzureSASCredential`.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
