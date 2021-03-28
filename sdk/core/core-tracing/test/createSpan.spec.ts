@@ -9,9 +9,7 @@ import {
   TraceFlags,
   context as otContext,
   getSpanContext,
-  Context,
-  SpanOptions,
-  SpanAttributeValue
+  Context
 } from "@opentelemetry/api";
 
 import { setTracer } from "../src/tracerProxy";
@@ -219,12 +217,7 @@ describe("createSpan", () => {
   });
 });
 
-function setupTracer(): {
-  tracer: TestTracer;
-  testSpan: TestSpan;
-  startSpanStub: sinon.SinonStub<[string, SpanOptions, Context], TestSpan>;
-  setAttributeSpy: sinon.SinonSpy<[string, SpanAttributeValue], TestSpan>;
-} {
+function setupTracer() {
   const tracer = new TestTracer();
   setTracer(tracer);
 
