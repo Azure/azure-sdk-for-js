@@ -146,8 +146,8 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/logger-js": "^1.0.2",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/logger-js": "^1.0.2",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",

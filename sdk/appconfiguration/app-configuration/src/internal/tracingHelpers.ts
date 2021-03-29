@@ -41,7 +41,7 @@ export async function trace<ReturnT>(
     return result;
   } catch (err) {
     span.setStatus({
-      code: SpanStatusCode.ERROR, // TODO: StatusCode.ERROR in otel 0.16+
+      code: SpanStatusCode.ERROR,
       message: err.message
     });
     throw err;

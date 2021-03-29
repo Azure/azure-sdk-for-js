@@ -141,7 +141,7 @@ export { setSpanContext }
 // @public
 export function setTracer(tracer: Tracer): void;
 
-// @public (undocumented)
+// @public
 export interface Span {
     addEvent(name: string, attributesOrStartTime?: SpanAttributes | TimeInput, startTime?: TimeInput): this;
     context(): SpanContext;
@@ -156,7 +156,6 @@ export interface Span {
 
 // @public
 export interface SpanAttributes {
-    // (undocumented)
     [attributeKey: string]: SpanAttributeValue | undefined;
 }
 

@@ -44,6 +44,15 @@ export enum SpanStatusCode {
   ERROR = 2
 }
 
+/**
+ * An interface that represents a span. A span represents a single operation
+ * within a trace. Examples of span might include remote procedure calls or a
+ * in-process function calls to sub-components. A Trace has a single, top-level
+ * "root" Span that in turn may have zero or more child Spans, which in turn
+ * may have children.
+ *
+ * Spans are created by the {@link Tracer.startSpan} method.
+ */
 export interface Span {
   /**
    * Returns the {@link SpanContext} object associated with this Span.
@@ -205,6 +214,9 @@ export interface Link {
  * Attributes for a Span.
  */
 export interface SpanAttributes {
+  /**
+   * Attributes for a Span.
+   */
   [attributeKey: string]: SpanAttributeValue | undefined;
 }
 /**
