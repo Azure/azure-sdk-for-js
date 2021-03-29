@@ -18,7 +18,11 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { copy, dir, file, temp, FileTreeFactory } from "../../util/fileTree";
 import { createPrinter } from "../../util/printer";
 import { ProjectInfo, resolveProject } from "../../util/resolveProject";
-import { getSampleConfiguration, MIN_SUPPORTED_NODE_VERSION } from "../../util/sampleConfiguration";
+import {
+  getSampleConfiguration,
+  MIN_SUPPORTED_NODE_VERSION,
+  SampleConfiguration
+} from "../../util/sampleConfiguration";
 import {
   AzSdkMetaTags,
   AZSDK_META_TAG_PREFIX,
@@ -295,6 +299,23 @@ async function makeSampleGenerationInfo(
     sampleSourcesPath,
     topLevelDirectory,
     moduleInfos,
+    // Resolve snippets to actual text
+    customSnippets: Object.entries(sampleConfiguration.customSnippets ?? {}).reduce(
+      (accum, [name, file]) => {
+        let contents;
+
+        try {
+          contents = fs.readFileSync(file!);
+        } catch (ex) {
+          fail(`Failed to read custom snippet file '${file}'`, ex);
+        }
+        return {
+          ...accum,
+          [name]: contents
+        };
+      },
+      {} as SampleConfiguration["customSnippets"]
+    ),
     computeSampleDependencies(outputKind: OutputKind) {
       return {
         dependencies: moduleInfos.reduce((prev, source) => {

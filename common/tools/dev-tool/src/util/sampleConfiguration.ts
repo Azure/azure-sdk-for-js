@@ -56,7 +56,30 @@ export interface SampleConfiguration {
    * included.
    */
   requiredResources?: Record<string, string>;
-
+  /**
+   * Specify optional snippets to include in the README files. The values of
+   * these snippets are interpreted as paths to files that will be included in
+   * the final README markdown verbatim.
+   */
+  customSnippets?: {
+    /**
+     * A snippet to be included at the top of the file, directly beneath the
+     * title.
+     *
+     * This snippet is useful for providing important information about changes
+     * or deprecations.
+     */
+    header?: string;
+    /**
+     * A snippet that specifies extra prerequisites for the samples, shown
+     * beaneath the list of required resources.
+     */
+    prerequisites?: string;
+    /**
+     * A snippet to be included at the bottom of the file.
+     */
+    footer?: string;
+  };
   /**
    * Specify extra files or directories that should be copied into the samples
    * directory, represented as a map from source files (relative to the package
