@@ -10,6 +10,7 @@ import {
   RetryOptions,
   SendRequestOptions,
   defaultLock,
+  isSasTokenProvider,
   retry,
   translate
 } from "@azure/core-amqp";
@@ -31,7 +32,6 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { OperationOptions } from "./util/operationOptions";
-import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
 import { createEventHubSpan } from "./diagnostics/tracing";
 import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
 
@@ -138,7 +138,7 @@ export class ManagementClient extends LinkEntity {
    * @internal
    */
   async getSecurityToken(): Promise<AccessToken | null> {
-    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+    if (isSasTokenProvider(this._context.tokenCredential)) {
       // the security_token has the $management address removed from the end of the audience
       // expected audience: sb://fully.qualified.namespace/event-hub-name/$management
       const audienceParts = this.audience.split("/");
