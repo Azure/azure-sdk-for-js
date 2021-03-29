@@ -42,6 +42,7 @@ function updateChangelog(
   releaseDate = null
 ) {
   const service = path.basename(path.dirname(targetPackagePath));
+  const changelogPath = path.join(targetPackagePath, "CHANGELOG.md");
   const updateChangelogPath = path.resolve(
     path.join(repoRoot, "eng/common/scripts/Update-ChangeLog.ps1")
   );
@@ -54,11 +55,13 @@ function updateChangelog(
     "--PackageName",
     packageName,
     "--Unreleased:$" + unreleased,
-    "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle
+    "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle,
+    "--ChangelogPath:" + changelogPath
   ];
   if (releaseDate != null) {
     args.push("--ReleaseDate:" + releaseDate);
   }
+
   child = spawnSync("pwsh", args);
   const out = child.stdout.toString();
   const err = child.stderr.toString();
