@@ -80,6 +80,27 @@ export interface SampleConfiguration {
      */
     footer?: string;
   };
+  /**
+   * Specify extra files or directories that should be copied into the samples
+   * directory, represented as a map from source files (relative to the package
+   * root), to destination paths (relative to the samples output path, e.g.
+   * `samples/v1`).
+   *
+   * @example
+   *
+   * ```javascript
+   * {
+   *   "//sampleConfiguration": {
+   *     ...,
+   *     "extraFiles": {
+   *       "./assets": ["typescript/assets", "javascript/assets"]
+   *     }
+   *   },
+   *   ...
+   * }
+   * ```
+   */
+  extraFiles?: Record<string, string[]>;
 }
 
 export const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
