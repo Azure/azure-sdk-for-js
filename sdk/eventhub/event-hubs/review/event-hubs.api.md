@@ -6,9 +6,11 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { MessagingError } from '@azure/core-amqp';
+import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
+import { SASCredential } from '@azure/core-auth';
 import { Span } from '@opentelemetry/api';
 import { SpanContext } from '@opentelemetry/api';
 import { TokenCredential } from '@azure/core-auth';
@@ -97,8 +99,8 @@ export class EventHubConsumerClient {
     constructor(consumerGroup: string, connectionString: string, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
     constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubConsumerClientOptions);
     constructor(consumerGroup: string, connectionString: string, eventHubName: string, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
-    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubConsumerClientOptions);
-    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
+    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, options?: EventHubConsumerClientOptions);
+    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
     get eventHubName(): string;
@@ -119,7 +121,7 @@ export interface EventHubConsumerClientOptions extends EventHubClientOptions {
 export class EventHubProducerClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
     get eventHubName(): string;
