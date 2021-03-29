@@ -132,6 +132,7 @@ jobs:
         condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
         env:
           TEST_MODE: "live"
+          SERVICE_VERSION: $(ServiceVersion)
           ${{ insert }}: ${{ parameters.EnvVars }}
 
       - script: |
@@ -141,6 +142,7 @@ jobs:
         condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
         env:
           TEST_MODE: "live"
+          SERVICE_VERSION: $(ServiceVersion)
           ${{ insert }}: ${{ parameters.EnvVars }}
 
       - ${{ parameters.PostSteps }}

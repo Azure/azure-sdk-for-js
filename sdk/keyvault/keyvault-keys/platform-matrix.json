@@ -9,7 +9,32 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "10.x"
+      "NodeTestVersion": "10.x",
+      "ServiceVersion": "7.2"
+    },
+    {
+      "Agent": {
+        "ubuntu-18.04_service_version_7_0": {
+          "OSVmImage": "MMSUbuntu18.04",
+          "Pool": "azsdk-pool-mms-ubuntu-1804-general",
+          "ArmTemplateParameters": "@{ enableHsm = $true }"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "10.x",
+      "ServiceVersion": "7.0"
+    },
+    {
+      "Agent": {
+        "ubuntu-18.04_service_version_7_1": {
+          "OSVmImage": "MMSUbuntu18.04",
+          "Pool": "azsdk-pool-mms-ubuntu-1804-general",
+          "ArmTemplateParameters": "@{ enableHsm = $true }"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "10.x",
+      "ServiceVersion": "7.1"
     }
   ]
 }

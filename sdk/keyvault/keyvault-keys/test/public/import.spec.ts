@@ -9,6 +9,7 @@ import { isNode } from "@azure/core-http";
 import { KeyClient, JsonWebKey } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { getServiceVersion } from "../utils/utils.common";
 
 describe("Keys client - import keys", () => {
   const prefix = `import${env.CERTIFICATE_NAME || "KeyName"}`;
@@ -18,7 +19,7 @@ describe("Keys client - import keys", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     suffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;

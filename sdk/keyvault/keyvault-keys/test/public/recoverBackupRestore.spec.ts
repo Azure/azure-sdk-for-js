@@ -5,7 +5,7 @@ import * as assert from "assert";
 import { Context } from "mocha";
 import { isNode } from "@azure/core-http";
 import { KeyClient } from "../../src";
-import { assertThrowsAbortError } from "../utils/utils.common";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { env, Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
 import { authenticate } from "../utils/testAuthentication";
@@ -19,7 +19,7 @@ describe("Keys client - restore keys and recover backups", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;

@@ -19,6 +19,7 @@ import TestClient from "../utils/testClient";
 import { Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
+import { getServiceVersion } from "../utils/utils.common";
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {
@@ -35,7 +36,7 @@ describe("Local cryptography public tests", () => {
   }
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     client = authentication.client;
     recorder = authentication.recorder;
     testClient = authentication.testClient;

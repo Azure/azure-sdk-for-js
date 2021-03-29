@@ -18,6 +18,7 @@ import { authenticate } from "../utils/testAuthentication";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
 import { ClientSecretCredential } from "@azure/identity";
+import { getServiceVersion } from "../utils/utils.common";
 
 describe("AesCryptographyProvider browser tests", function() {
   it("uses the browser replacement when running in the browser", async function(this: Context) {
@@ -134,7 +135,7 @@ describe("AesCryptographyProvider internal tests", function() {
         let remoteProvider: RemoteCryptographyProvider;
 
         beforeEach(async function(this: Context) {
-          const authentication = await authenticate(this);
+          const authentication = await authenticate(this, getServiceVersion());
           recorder = authentication.recorder;
 
           if (!authentication.hsmClient) {

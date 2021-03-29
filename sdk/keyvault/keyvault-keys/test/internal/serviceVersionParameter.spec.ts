@@ -8,6 +8,8 @@ import { LATEST_API_VERSION } from "../../src/keysModels";
 import { HttpClient, HttpOperationResponse, WebResourceLike, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
+import { versionsToTest } from "@azure/test-utils-multi-version";
+import { supportedServiceVersions } from "../utils/utils.common";
 
 describe("The Keys client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
@@ -58,14 +60,10 @@ describe("The Keys client should set the serviceVersion", () => {
     );
   });
 
-  // Adding this to the source would change the public API.
-  type ApIVersions = "7.0" | "7.1" | "7.2";
-
-  it("it should allow us to specify an API version from a specific set of versions", async function() {
-    const versions: ApIVersions[] = ["7.0", "7.1", "7.2"];
-    for (const serviceVersion in versions) {
+  versionsToTest(supportedServiceVersions, {}, (serviceVersion) => {
+    it("it should allow us to specify an API version from a specific set of versions", async function() {
       const client = new KeyClient(keyVaultUrl, credential, {
-        serviceVersion: serviceVersion as ApIVersions,
+        serviceVersion: serviceVersion,
         httpClient: mockHttpClient
       });
       await client.createKey("keyName", "RSA");
@@ -76,6 +74,6 @@ describe("The Keys client should set the serviceVersion", () => {
         lastCall.args[0].url,
         `https://keyVaultName.vault.azure.net/keys/keyName/create?api-version=${serviceVersion}`
       );
-    }
+    });
   });
 });

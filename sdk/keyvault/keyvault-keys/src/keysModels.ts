@@ -23,9 +23,9 @@ export const LATEST_API_VERSION = "7.2";
  */
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
-   * The accepted versions of the KeyVault's service API.
+   * The version of the KeyVault's service API to make calls against.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2";
+  serviceVersion?: string;
 }
 
 /**
