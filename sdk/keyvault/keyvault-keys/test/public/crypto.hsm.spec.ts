@@ -12,7 +12,7 @@ import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 import TestClient from "../utils/testClient";
 import { getServiceVersion, onVersions } from "../utils/utils.common";
 
-onVersions(["7.2"]).describe(
+onVersions({ minVer: "7.2" }).describe(
   "CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
   () => {
     let hsmClient: KeyClient;

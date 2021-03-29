@@ -11,7 +11,7 @@ import TestClient from "../utils/testClient";
 import { CreateOctKeyOptions } from "../../src/keysModels";
 import { getServiceVersion, onVersions } from "../utils/utils.common";
 
-onVersions(["7.2"]).describe(
+onVersions({ minVer: "7.2" }).describe(
   "Keys client - create, read, update and delete operations for managed HSM",
   () => {
     const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
