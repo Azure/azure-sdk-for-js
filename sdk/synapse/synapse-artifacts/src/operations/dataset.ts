@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -100,7 +100,7 @@ export class Dataset {
       return result as DatasetGetDatasetsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -135,7 +135,7 @@ export class Dataset {
         return result as DatasetCreateOrUpdateDatasetResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -178,7 +178,7 @@ export class Dataset {
       return result as DatasetGetDatasetResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -210,7 +210,7 @@ export class Dataset {
         return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -257,7 +257,7 @@ export class Dataset {
         return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -303,7 +303,7 @@ export class Dataset {
       return result as DatasetGetDatasetsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

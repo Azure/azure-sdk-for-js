@@ -554,6 +554,10 @@ export const retryableErrors: string[] = [
   "ServiceUnavailableError",
   "OperationCancelledError",
 
+  // The service may throw UnauthorizedError if credentials have been rotated.
+  // Attempt to retry in case the user has also rotated their credentials.
+  "UnauthorizedError",
+
   // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
   // Since reasons for such failures can be transient, this is treated as a retryable error.
   "OperationTimeoutError",

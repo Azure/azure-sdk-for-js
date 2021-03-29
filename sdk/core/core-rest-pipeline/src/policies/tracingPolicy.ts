@@ -6,7 +6,7 @@ import {
   OperationTracingOptions,
   createSpanFunction
 } from "@azure/core-tracing";
-import { SpanKind } from "@opentelemetry/api";
+import { SpanKind } from "@azure/core-tracing";
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
@@ -46,7 +46,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
   return {
     name: tracingPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!request.tracingOptions?.spanOptions || !request.tracingOptions.spanOptions?.parent) {
+      if (!request.tracingOptions?.tracingContext) {
         return next(request);
       }
 

@@ -2,6 +2,7 @@
 
 ## 2.0.0-beta.2 (Unreleased)
 
+- Added a new option to the constructor of `DefaultAzureCredential`, `includeInteractiveCredentials`, which enables `InteractiveBrowserCredential` as a last resource if no other credential is available.
 
 ## 2.0.0-beta.1 (2021-03-24)
 

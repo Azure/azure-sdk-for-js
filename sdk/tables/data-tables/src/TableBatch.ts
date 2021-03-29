@@ -25,7 +25,7 @@ import { HeaderConstants } from "./utils/constants";
 import { batchHeaderFilterPolicy, batchRequestAssemblePolicy } from "./TableBatchPolicies";
 import { InnerBatchRequest, TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { URL } from "./utils/url";
 import { TableServiceErrorOdataError } from "./generated";
 import { getBatchHeaders } from "./utils/batchHeaders";
@@ -159,7 +159,7 @@ export class TableBatchImpl implements TableBatch {
       return parseBatchResponse(rawBatchResponse);
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

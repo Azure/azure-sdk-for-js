@@ -5,15 +5,18 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
 import { MessageProperties } from 'rhea-promise';
+import { NamedKeyCredential } from '@azure/core-auth';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
+import { SASCredential } from '@azure/core-auth';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
@@ -339,6 +342,14 @@ export interface CreateConnectionContextBaseParameters {
 }
 
 // @public
+export function createSasTokenProvider(data: {
+    sharedAccessKeyName: string;
+    sharedAccessKey: string;
+} | {
+    sharedAccessSignature: string;
+} | NamedKeyCredential | SASCredential): SasTokenProvider;
+
+// @public
 export const defaultLock: AsyncLock;
 
 // @public
@@ -395,6 +406,9 @@ export enum ErrorNameConditionMapper {
 
 // @public
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
+
+// @public
+export function isSasTokenProvider(thing: unknown): thing is SasTokenProvider;
 
 // @public
 export function isSystemError(err: unknown): err is NetworkSystemError;
@@ -515,6 +529,12 @@ export interface RetryOptions {
     mode?: RetryMode;
     retryDelayInMs?: number;
     timeoutInMs?: number;
+}
+
+// @public
+export interface SasTokenProvider {
+    getToken(audience: string): AccessToken;
+    isSasTokenProvider: true;
 }
 
 // @public

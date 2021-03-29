@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TraceState } from "@opentelemetry/api";
+import { TraceState } from "../../interfaces";
 
 /**
  * @internal
@@ -17,11 +17,11 @@ export class OpenCensusTraceStateWrapper implements TraceState {
     throw new Error("Method not implemented.");
   }
 
-  set(_key: string, _value: string): void {
+  set(_key: string, _value: string): TraceState {
     throw new Error("Method not implemented.");
   }
 
-  unset(_key: string): void {
+  unset(_key: string): TraceState {
     throw new Error("Method not implemented");
   }
 

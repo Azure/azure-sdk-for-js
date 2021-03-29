@@ -425,7 +425,15 @@ async function makeSamplesFactory(
         ...info.moduleInfos.map(({ filePath, jsModuleText }) =>
           file(path.basename(filePath).replace(/\.ts$/, ".js"), () => postProcess(jsModuleText))
         )
-      ])
+      ]),
+      // Copy extraFiles by reducing all configured destinations for each input file
+      ...Object.entries(info.extraFiles ?? {}).reduce(
+        (accum, [source, destinations]) => [
+          ...accum,
+          ...destinations.map((dest) => copy(dest, source))
+        ],
+        [] as FileTreeFactory[]
+      )
     ])
   );
 }
