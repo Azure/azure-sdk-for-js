@@ -99,12 +99,7 @@ async function httpRequest(
 
   const result =
     response.status === 204 || response.status === 304 ? null : JSON.parse(response.bodyAsText);
-  const headers = {} as any;
-
-  const jsonHeaders = response.headers.toJSON();
-  for (const [key, value] of Object.entries(jsonHeaders)) {
-    headers[key] = value;
-  }
+  const headers = response.headers.toJSON();
 
   const substatus = headers[Constants.HttpHeaders.SubStatus]
     ? parseInt(headers[Constants.HttpHeaders.SubStatus], 10)
