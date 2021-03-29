@@ -5,6 +5,7 @@
 - For the `InteractiveBrowserCredential`, we're dropping support for [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) to use only [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow).
   - This is part of the general effort to move past of the Implicit Grant Flow to support browsers with enhanced security.
   - This allows us to also remove the deprecated package `msal` package as a dependency. We will continue to use the newer MSAL packages, such as `@azure/msal-node` and `@azure/msal-browser`.
+  - `InteractiveBrowserCredential` will also no longer receive the `flow` option that was introduced on `1.2.4-beta.1` (this option is not present on `1.2.4`).
 
 ## 2.0.0-beta.1 (2021-03-24)
 
