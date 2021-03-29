@@ -256,6 +256,26 @@ export interface CustomDomain {
 }
 
 /**
+ * SasPolicy assigned to the storage account.
+ */
+export interface SasPolicy {
+  /**
+   * The SAS expiration period, DD.HH:MM:SS.
+   */
+  sasExpirationPeriod: string;
+}
+
+/**
+ * KeyPolicy assigned to the storage account.
+ */
+export interface KeyPolicy {
+  /**
+   * The key expiration period in days.
+   */
+  keyExpirationPeriodInDays: number;
+}
+
+/**
  * A service that allows server-side encryption to be used.
  */
 export interface EncryptionService {
@@ -618,6 +638,14 @@ export interface StorageAccountCreateParameters {
    * The identity of the resource.
    */
   identity?: Identity;
+  /**
+   * SasPolicy assigned to the storage account.
+   */
+  sasPolicy?: SasPolicy;
+  /**
+   * KeyPolicy assigned to the storage account.
+   */
+  keyPolicy?: KeyPolicy;
   /**
    * User domain assigned to the storage account. Name is the CNAME source. Only one custom domain
    * is supported per storage account at this time. To clear the existing custom domain, use an
@@ -1084,6 +1112,21 @@ export interface StorageAccount extends TrackedResource {
    */
   readonly customDomain?: CustomDomain;
   /**
+   * SasPolicy assigned to the storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sasPolicy?: SasPolicy;
+  /**
+   * KeyPolicy assigned to the storage account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keyPolicy?: KeyPolicy;
+  /**
+   * Gets the list of storage account keys creation time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keyCreationTime?: { [propertyName: string]: Date } | { [propertyName: string]: string };
+  /**
    * Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object
    * from the secondary location of the storage account. Only available if the SKU name is
    * Standard_RAGRS.
@@ -1190,6 +1233,11 @@ export interface StorageAccountKey {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly permissions?: KeyPermission;
+  /**
+   * Creation time of the key, in round trip date format.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationTime?: Date;
 }
 
 /**
@@ -1244,6 +1292,14 @@ export interface StorageAccountUpdateParameters {
    * Provides the encryption settings on the account. The default setting is unencrypted.
    */
   encryption?: Encryption;
+  /**
+   * SasPolicy assigned to the storage account.
+   */
+  sasPolicy?: SasPolicy;
+  /**
+   * KeyPolicy assigned to the storage account.
+   */
+  keyPolicy?: KeyPolicy;
   /**
    * Required for storage accounts where kind = BlobStorage. The access tier used for billing.
    * Possible values include: 'Hot', 'Cool'

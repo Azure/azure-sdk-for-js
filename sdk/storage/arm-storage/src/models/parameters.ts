@@ -151,30 +151,11 @@ export const expand2: msRest.OperationQueryParameter = {
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "Enum",
-      allowedValues: [
-        "deleted",
-        "snapshots"
-      ]
+      name: "String"
     }
   }
 };
 export const expand3: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "snapshots"
-      ]
-    }
-  }
-};
-export const expand4: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "expand"

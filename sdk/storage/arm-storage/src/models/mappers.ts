@@ -417,6 +417,49 @@ export const CustomDomain: msRest.CompositeMapper = {
   }
 };
 
+export const SasPolicy: msRest.CompositeMapper = {
+  serializedName: "SasPolicy",
+  type: {
+    name: "Composite",
+    className: "SasPolicy",
+    modelProperties: {
+      sasExpirationPeriod: {
+        required: true,
+        serializedName: "sasExpirationPeriod",
+        type: {
+          name: "String"
+        }
+      },
+      expirationAction: {
+        required: true,
+        isConstant: true,
+        serializedName: "expirationAction",
+        defaultValue: 'Log',
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const KeyPolicy: msRest.CompositeMapper = {
+  serializedName: "KeyPolicy",
+  type: {
+    name: "Composite",
+    className: "KeyPolicy",
+    modelProperties: {
+      keyExpirationPeriodInDays: {
+        required: true,
+        serializedName: "keyExpirationPeriodInDays",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const EncryptionService: msRest.CompositeMapper = {
   serializedName: "EncryptionService",
   type: {
@@ -1005,6 +1048,20 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Identity"
+        }
+      },
+      sasPolicy: {
+        serializedName: "properties.sasPolicy",
+        type: {
+          name: "Composite",
+          className: "SasPolicy"
+        }
+      },
+      keyPolicy: {
+        serializedName: "properties.keyPolicy",
+        type: {
+          name: "Composite",
+          className: "KeyPolicy"
         }
       },
       customDomain: {
@@ -1686,6 +1743,34 @@ export const StorageAccount: msRest.CompositeMapper = {
           className: "CustomDomain"
         }
       },
+      sasPolicy: {
+        readOnly: true,
+        serializedName: "properties.sasPolicy",
+        type: {
+          name: "Composite",
+          className: "SasPolicy"
+        }
+      },
+      keyPolicy: {
+        readOnly: true,
+        serializedName: "properties.keyPolicy",
+        type: {
+          name: "Composite",
+          className: "KeyPolicy"
+        }
+      },
+      keyCreationTime: {
+        readOnly: true,
+        serializedName: "properties.keyCreationTime",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "DateTime"
+            }
+          }
+        }
+      },
       secondaryEndpoints: {
         readOnly: true,
         serializedName: "properties.secondaryEndpoints",
@@ -1847,6 +1932,13 @@ export const StorageAccountKey: msRest.CompositeMapper = {
             "Full"
           ]
         }
+      },
+      creationTime: {
+        readOnly: true,
+        serializedName: "creationTime",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -1935,6 +2027,20 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Encryption"
+        }
+      },
+      sasPolicy: {
+        serializedName: "properties.sasPolicy",
+        type: {
+          name: "Composite",
+          className: "SasPolicy"
+        }
+      },
+      keyPolicy: {
+        serializedName: "properties.keyPolicy",
+        type: {
+          name: "Composite",
+          className: "KeyPolicy"
         }
       },
       accessTier: {
