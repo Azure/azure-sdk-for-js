@@ -21,7 +21,10 @@ import {
   featureFlagPrefix,
   FeatureFlagTargetingClientFilter,
   FeatureFlagTimeWindowClientFilter,
-  isFeatureFlag
+  isFeatureFlag,
+  isSecretReference,
+  SecretReference,
+  secretReferenceContentType
 } from "../../src";
 import { delay, generateUuid } from "@azure/core-http";
 import { Recorder } from "@azure/test-utils-recorder";
@@ -1264,6 +1267,101 @@ describe("AppConfigurationClient", () => {
         assert.equal(isFeatureFlag(setting), true, "Should have been FeatureFlag");
         if (isFeatureFlag(setting)) {
           // TODO: assert feat. description
+        }
+      }
+      await client.deleteConfigurationSetting({ key: secondSetting.key });
+    });
+  });
+
+  describe("SecretReference configuration setting", () => {
+    const baseSetting: SecretReference = {
+      secretId: `secret-id-${generateUuid()}`, // TODO: It's a URL in .NET, why the difference?
+      isReadOnly: false,
+      key: generateUuid(),
+      contentType: secretReferenceContentType
+    };
+
+    beforeEach(async () => {
+      await client.addConfigurationSetting(baseSetting);
+    });
+
+    afterEach(async () => {
+      await client.deleteConfigurationSetting({
+        key: baseSetting.key
+      });
+    });
+
+    it("can add and get SecretReference", async () => {
+      const getResponse = await client.getConfigurationSetting({
+        key: baseSetting.key
+      });
+      assert.equal(isSecretReference(getResponse), true, "Expected to get the SecretReference");
+      if (isSecretReference(getResponse)) {
+        assert.equal(
+          getResponse.key,
+          baseSetting.key,
+          "Key from the response from get request is not as expected"
+        );
+        assert.equal(
+          getResponse.value,
+          baseSetting.value,
+          "value from the response from get request is not as expected"
+        );
+        // TODO: assert with readonly and secretId
+      }
+    });
+
+    it("can add and update SecretReference", async () => {
+      const getResponse = await client.getConfigurationSetting({
+        key: baseSetting.key
+      });
+      assert.equal(isSecretReference(getResponse), true, "Should have been SecretReference");
+      if (isSecretReference(getResponse)) {
+        console.log(getResponse.secretId);
+        // TODO: secretId returned was undefined, that's a bug?
+        assert.equal(getResponse.secretId, baseSetting.secretId, "Unexpected value for secretId");
+        getResponse.secretId = `secret-id-${generateUuid()}`;
+      }
+
+      await client.setConfigurationSetting(getResponse);
+
+      const getResponseAfterUpdate = await client.getConfigurationSetting({
+        key: baseSetting.key
+      });
+      assert.equal(
+        isSecretReference(getResponseAfterUpdate),
+        true,
+        "Expected to get the SecretReference"
+      );
+      if (isSecretReference(getResponseAfterUpdate)) {
+        assert.equal(
+          getResponseAfterUpdate.key,
+          baseSetting.key,
+          "Key from the response from get request is not as expected"
+        );
+        assert.equal(
+          getResponseAfterUpdate.value,
+          baseSetting.value,
+          "value from the response from get request is not as expected"
+        );
+        // TODO: assert with readonly and secretId
+      }
+    });
+
+    it("can add and update multiple SecretReferences", async () => {
+      const secondSetting = {
+        ...baseSetting,
+        key: `${baseSetting.key}-2`
+      };
+      await client.addConfigurationSetting(secondSetting);
+
+      for await (const setting of client.listConfigurationSettings({
+        keyFilter: `${baseSetting.key}*`
+      })) {
+        // TODO: check count before and after
+        assert.equal(isSecretReference(setting), true, "Should have been FeatureFlag");
+        if (isSecretReference(setting)) {
+          // TODO: assert with key, value, readonly and secretId
         }
       }
       await client.deleteConfigurationSetting({ key: secondSetting.key });
