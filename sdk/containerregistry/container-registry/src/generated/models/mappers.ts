@@ -224,7 +224,7 @@ export const TagList: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      tags: {
+      tagAttributeBases: {
         serializedName: "tags",
         type: {
           name: "Sequence",
@@ -412,7 +412,7 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      registryArtifacts: {
+      references: {
         serializedName: "references",
         type: {
           name: "Sequence",
@@ -426,7 +426,6 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
       },
       tags: {
         serializedName: "tags",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -436,7 +435,7 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
           }
         }
       },
-      manifestProperties: {
+      writeableProperties: {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
@@ -484,14 +483,12 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
     modelProperties: {
       repository: {
         serializedName: "imageName",
-        required: true,
         type: {
           name: "String"
         }
       },
       digest: {
         serializedName: "manifest.digest",
-        required: true,
         type: {
           name: "String"
         }
@@ -526,7 +523,7 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      registryArtifacts: {
+      references: {
         serializedName: "manifest.references",
         type: {
           name: "Sequence",
@@ -540,7 +537,6 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
       },
       tags: {
         serializedName: "manifest.tags",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -550,7 +546,7 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
           }
         }
       },
-      manifestProperties: {
+      writeableProperties: {
         serializedName: "manifest.changeableAttributes",
         type: {
           name: "Composite",

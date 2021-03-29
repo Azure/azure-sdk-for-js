@@ -553,8 +553,8 @@ export class ContainerRepositoryClient {
         optionsComplete
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
-      if (currentPage.tags) {
-        yield currentPage.tags.map((t) => {
+      if (currentPage.tagAttributeBases) {
+        yield currentPage.tagAttributeBases.map((t) => {
           return {
             ...t,
             repository: currentPage.repository
@@ -568,8 +568,8 @@ export class ContainerRepositoryClient {
           options
         );
         continuationState.continuationToken = extractNextLink(currentPage.link);
-        if (currentPage.tags) {
-          yield currentPage.tags.map((t) => {
+        if (currentPage.tagAttributeBases) {
+          yield currentPage.tagAttributeBases.map((t) => {
             return {
               ...t,
               repository: currentPage.repository
