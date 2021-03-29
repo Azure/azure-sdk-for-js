@@ -173,7 +173,7 @@ async function processSources(
             if (tag.tagName.text === "summary") {
               log.debug("Found summary tag on node:", node.getText(sourceFile));
               // Replace is required due to multi-line splitting messing with table formatting
-              summary = tag.comment?.replace(/\s*\n\s*/, " ");
+              summary = tag.comment?.replace(/\s*\r?\n\s*/g, " ");
             } else if (
               tag.tagName.text.startsWith(`${AZSDK_META_TAG_PREFIX}`) &&
               tag.comment !== undefined
