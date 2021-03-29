@@ -29,6 +29,14 @@ export interface OperationResponse {
   resourceBody?: JSONObject;
 }
 
+/**
+ * Options object used to modify bulk execution.
+ * continueOnError (Default value: false) - Continues bulk execution when an operation fails ** NOTE THIS WILL DEFAULT TO TRUE IN the 4.0 RELEASE
+ */
+export interface BulkOptions {
+  continueOnError?: boolean;
+}
+
 export function isKeyInRange(min: string, max: string, key: string): boolean {
   const isAfterMinInclusive = key.localeCompare(min) >= 0;
   const isBeforeMax = key.localeCompare(max) < 0;
@@ -49,7 +57,6 @@ export const BulkOperationType = {
   Replace: "Replace"
 } as const;
 
-// TODO Make operationInput CreateOperationInput | ...
 export type OperationInput =
   | CreateOperationInput
   | UpsertOperationInput

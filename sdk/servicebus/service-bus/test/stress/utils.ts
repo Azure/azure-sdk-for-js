@@ -42,7 +42,7 @@ export interface TrackedMessageIdsInfo {
 export function initializeOperationInfo(): OperationInfo {
   return {
     numberOfSuccesses: 0,
-    numberOfFailures: 0,
+    numberOfFailures: 0
   };
 }
 
@@ -66,7 +66,7 @@ export async function saveDiscrepanciesFromTrackedMessages(
     messages_not_sent_but_received: [] as string[],
     messages_sent_multiple_times: [] as string[],
     messages_sent_once_but_received_multiple_times: [] as string[],
-    messages_sent_once_and_received_once: [] as string[],
+    messages_sent_once_and_received_once: [] as string[]
   };
 
   for (const id in trackedMessageIds) {

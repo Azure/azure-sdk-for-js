@@ -30,12 +30,12 @@ A `SendRequest` method is a method that given a `PipelineRequest` can asynchrono
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 ```
 
-### HttpsClient
+### HttpClient
 
-An `HttpsClient` is any object that satisfies the following interface to implement a `SendRequest` method:
+An `HttpClient` is any object that satisfies the following interface to implement a `SendRequest` method:
 
 ```ts
-export interface HttpsClient {
+export interface HttpClient {
   /**
    * The method that makes the request and returns a response.
    */
@@ -43,7 +43,7 @@ export interface HttpsClient {
 }
 ```
 
-`HttpsClient`s are expected to actually make the HTTP request to a server endpoint, using some platform-specific mechanism for doing so.
+`HttpClient`s are expected to actually make the HTTP request to a server endpoint, using some platform-specific mechanism for doing so.
 
 ### Pipeline Policies
 
@@ -64,7 +64,7 @@ export interface PipelinePolicy {
 }
 ```
 
-It is similar in shape to `HttpsClient`, but includes a policy name as well as a slightly modified `SendRequest` signature that allows it to conditionally call the next policy in the pipeline.
+It is similar in shape to `HttpClient`, but includes a policy name as well as a slightly modified `SendRequest` signature that allows it to conditionally call the next policy in the pipeline.
 
 One can view the role of policies as that of `middleware`, a concept that is familiar to NodeJS developers who have worked with frameworks such as [Express](https://expressjs.com/).
 
@@ -99,13 +99,13 @@ A `Pipeline` satisfies the following interface:
 export interface Pipeline {
   addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
   removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
-  sendRequest(httpsClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse>;
+  sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
   getOrderedPolicies(): PipelinePolicy[];
   clone(): Pipeline;
 }
 ```
 
-As you can see it allows for policies to be added or removed and it is loosely coupled with `HttpsClient` to perform the real request to the server endpoint.
+As you can see it allows for policies to be added or removed and it is loosely coupled with `HttpClient` to perform the real request to the server endpoint.
 
 One important concept for `Pipeline`s is that they group policies into ordered phases:
 

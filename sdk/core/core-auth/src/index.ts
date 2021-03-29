@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 export { AzureKeyCredential, KeyCredential } from "./azureKeyCredential";
-export { AzureSASCredential, SASCredential } from "./azureSASCredential";
+export {
+  AzureNamedKeyCredential,
+  NamedKeyCredential,
+  isNamedKeyCredential
+} from "./azureNamedKeyCredential";
+export { AzureSASCredential, SASCredential, isSASCredential } from "./azureSASCredential";
 
 export {
   TokenCredential,

@@ -18,6 +18,25 @@ Read more about Azure Communication Services [here](https://docs.microsoft.com/a
 npm install @azure/communication-chat
 ```
 
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+In `rollup.config.js`, add following customized name exports in `cjs` plugin.
+
+```JavaScript
+
+cjs({
+  namedExports: {
+    events: ["EventEmitter"],
+    "@azure/communication-signaling": ["CommunicationSignalingClient", "SignalingClient"],
+    "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+  }
+})
+
+```
+
 ## Key concepts
 
 A chat conversation is represented by a thread. Each user in the thread is called a chat participant. Chat participants can chat with one another privately in a 1:1 chat or huddle up in a 1:N group chat. Users also get near-real time updates for when others are typing and when they have read the messages.
@@ -55,28 +74,31 @@ Use the `createThread` method to create a chat thread.
 `createChatThreadRequest` is used to describe the thread request:
 
 - Use `topic` to give a thread topic;
-- Use `participants` to list the chat participants to be added to the thread;
 
-`createChatThreadResponse` is the response returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
+`createChatThreadOptions` is used to set the optional params to create the thread:
+
+- Use `participants` to list the chat participants to be added to the thread;
+- Use `idempotencyToken` to specify a repeatable request
+
+`createChatThreadResult` is the result returned from creating a thread. It contains a `chatThread` which is the thread that was created, as well as an `errors` property which will contain information about invalid participants if they failed to be added to the thread.
 
 ```Javascript
-let createChatThreadRequest =
-{
-    topic: 'Preparation for London conference',
-    participants:
-        [
-            {
-                user: { communicationUserId: '<USER_ID_FOR_JACK>' },
-                displayName: 'Jack'
-            },
-            {
-                user: { communicationUserId: '<USER_ID_FOR_GEETA>' },
-                displayName: 'Geeta'
-            }
-        ]
+const createChatThreadRequest = {
+  topic: "Hello, World!"
 };
-let createChatThreadResponse = await chatClient.createChatThread(createChatThreadRequest);
-let threadId = createChatThreadResponse.chatThread.id;
+const createChatThreadOptions = {
+  participants: [
+    {
+      id: '<USER_ID>',
+      displayName: '<USER_DISPLAY_NAME>'
+    }
+  ]
+};
+const createChatTtreadResult = await chatClient.createChatThread(
+  createChatThreadRequest,
+  createChatThreadOptions
+);
+const threadId = createChatThreadResult.chatThread.id;
 ```
 
 ### Send a message to the thread
@@ -92,20 +114,20 @@ Use `sendMessage` method to sends a message to a thread identified by threadId.
 - Use `senderDisplayName` to specify the display name of the sender;
 - Use `type` to specify the message type, such as 'text' or 'html' ;
 
-`sendChatMessageResponse` is the response returned from sending a message, it contains an ID, which is the unique ID of the message.
+`sendChatMessageResult` is the result returned from sending a message, it contains an ID, which is the unique ID of the message.
 
 ```JavaScript
-let sendMessageRequest =
+const sendMessageRequest =
 {
-    content: 'Hello Geeta! Can you share the deck for the conference?'
+  content: 'Hello Geeta! Can you share the deck for the conference?'
 };
-let sendMessageOptions =
+const sendMessageOptions =
 {
-    senderDisplayName : 'Jack',
-    type: 'text'
+  senderDisplayName : 'Jack',
+  type: 'text'
 };
-let sendChatMessageResponse = await chatThreadClient.sendMessage(sendMessageRequest, sendMessageOptions);
-let messageId = sendChatMessageResponse.id;
+const sendChatMessageResult = await chatThreadClient.sendMessage(sendMessageRequest, sendMessageOptions);
+const messageId = sendChatMessageResult.id;
 ```
 
 ### Receive messages from a thread
@@ -118,8 +140,8 @@ With real-time signaling, you can subscribe to listen for new incoming messages 
 await chatClient.startRealtimeNotifications();
 // subscribe to new notification
 chatClient.on("chatMessageReceived", (e) => {
-    console.log("Notification chatMessageReceived!");
-    // your code here
+  console.log("Notification chatMessageReceived!");
+  // your code here
 });
 
 ```
@@ -139,21 +161,18 @@ You will need to start by getting a new access token and identity for that user.
 More information on tokens here: [Authenticate to Azure Communication Services](https://docs.microsoft.com/azure/communication-services/concepts/authentication?tabs=javascript)
 
 ```JavaScript
-// Get a new token created for the user. The token response will contain a token and an identity for the user.
-let userTokenResponse = await myTokenFunction();
 
-let addChatParticipantsRequest =
+const addParticipantsRequest =
 {
-    participants: [
-        {
-            user: { communicationUserId: userTokenResponse.identity },
-            displayName: '<NAME>',
-            shareHistoryTime: '<TIME>'
-        }
-    ]
+  participants: [
+    {
+      id: { communicationUserId: '<NEW_PARTICIPANT_USER_ID>' },
+      displayName: 'Jane'
+    }
+  ]
 };
 
-await chatThreadClient.addParticipants(addChatParticipantsRequest);
+await chatThreadClient.addParticipants(addParticipantsRequest);
 
 ```
 

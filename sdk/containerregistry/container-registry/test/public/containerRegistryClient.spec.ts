@@ -54,7 +54,6 @@ describe.skip("ContainerRegistryClient functional tests", function() {
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
-    // eslint-disable-next-line no-invalid-this
     recorder = record(this, {
       // == Recorder Environment Setup == Add the replaceable variables from
       // above
@@ -86,8 +85,7 @@ describe.skip("ContainerRegistryClient functional tests", function() {
   });
 
   it("deletes repository of given name", async () => {
-    const attributes = await client.getAttributes("repo_name");
-
-    assert.ok(attributes.registry);
+    const response = await client.deleteRepository("repo_name");
+    assert.ok(response);
   });
 });

@@ -14,31 +14,37 @@ import { TokenCredential } from '@azure/core-http';
 
 // @public
 export interface AesCbcDecryptParameters {
-    algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+    algorithm: AesCbcEncryptionAlgorithm;
     ciphertext: Uint8Array;
     iv: Uint8Array;
 }
 
 // @public
+export type AesCbcEncryptionAlgorithm = "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+
+// @public
 export interface AesCbcEncryptParameters {
-    algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
-    iv: Uint8Array;
+    algorithm: AesCbcEncryptionAlgorithm;
+    iv?: Uint8Array;
     plaintext: Uint8Array;
 }
 
 // @public
 export interface AesGcmDecryptParameters {
     additionalAuthenticatedData?: Uint8Array;
-    algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+    algorithm: AesGcmEncryptionAlgorithm;
     authenticationTag?: Uint8Array;
     ciphertext: Uint8Array;
     iv: Uint8Array;
 }
 
 // @public
+export type AesGcmEncryptionAlgorithm = "A128GCM" | "A192GCM" | "A256GCM";
+
+// @public
 export interface AesGcmEncryptParameters {
     additionalAuthenticatedData?: Uint8Array;
-    algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+    algorithm: AesGcmEncryptionAlgorithm;
     plaintext: Uint8Array;
 }
 
@@ -400,13 +406,16 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface RsaDecryptParameters {
-    algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+    algorithm: RsaEncryptionAlgorithm;
     ciphertext: Uint8Array;
 }
 
 // @public
+export type RsaEncryptionAlgorithm = "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+
+// @public
 export interface RsaEncryptParameters {
-    algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+    algorithm: RsaEncryptionAlgorithm;
     plaintext: Uint8Array;
 }
 
@@ -444,6 +453,10 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface VerifyDataOptions extends CryptographyOptions {
 }
 
 // @public

@@ -3,9 +3,10 @@
 
 import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatThreadClient, CreateChatThreadRequest } from "../src";
+import { ChatClient, ChatThreadClient } from "../src";
 import { createTestUser, createRecorder, createChatClient } from "./utils/recordedClient";
-import { CommunicationIdentifier } from "@azure/communication-common";
+import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
+import { Context } from "mocha";
 
 describe("ChatThreadClient", function() {
   let messageId: string;
@@ -18,11 +19,11 @@ describe("ChatThreadClient", function() {
   let testUser2: CommunicationIdentifier;
   let testUser3: CommunicationIdentifier;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     recorder = createRecorder(this);
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
@@ -40,23 +41,29 @@ describe("ChatThreadClient", function() {
     testUser2 = (await createTestUser()).user;
 
     // Create a thread
-    const threadRequest: CreateChatThreadRequest = {
-      topic: "test topic",
+    const request = { topic: "test topic" };
+    const options = {
       participants: [{ id: testUser }, { id: testUser2 }]
     };
 
-    const chatThreadResult = await chatClient.createChatThread(threadRequest);
+    const chatThreadResult = await chatClient.createChatThread(request, options);
     threadId = chatThreadResult.chatThread?.id!;
 
     // Create ChatThreadClient
     chatThreadClient = await chatClient.getChatThreadClient(threadId);
+  }).timeout(8000);
+
+  it("successfully gets the thread properties", async function() {
+    const thread = await chatThreadClient.getProperties();
+
+    assert.equal(threadId, thread.id);
   });
 
   it("successfully updates the thread topic", async function() {
     const topic = "new topic";
     await chatThreadClient.updateTopic(topic);
 
-    const thread = await chatClient.getChatThread(threadId);
+    const thread = await chatThreadClient.getProperties();
     assert.equal(topic, thread.topic);
   });
 
@@ -106,7 +113,21 @@ describe("ChatThreadClient", function() {
   it("successfully lists participants", async function() {
     const list: string[] = [];
     for await (const participant of chatThreadClient.listParticipants()) {
-      list.push((participant.id as any).communicationUserId);
+      const id = getIdentifierKind(participant.id);
+      switch (id.kind) {
+        case "communicationUser":
+          list.push(id.communicationUserId);
+          break;
+        case "microsoftTeamsUser":
+          list.push(id.microsoftTeamsUserId);
+          break;
+        case "phoneNumber":
+          list.push(id.phoneNumber);
+          break;
+        case "unknown":
+          list.push(id.id);
+          break;
+      }
     }
   });
 

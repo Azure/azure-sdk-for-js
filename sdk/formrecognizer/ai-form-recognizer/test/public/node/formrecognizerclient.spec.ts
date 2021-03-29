@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import fs from "fs";
 import path from "path";
 
@@ -28,8 +29,7 @@ matrix([[true, false]] as const, async (useAad) => {
     let client: FormRecognizerClient;
     let recorder: Recorder;
 
-    beforeEach(function() {
-      // eslint-disable-next-line no-invalid-this
+    beforeEach(function(this: Context) {
       recorder = createRecorder(this);
       client = new FormRecognizerClient(endpoint(), makeCredential(useAad));
     });

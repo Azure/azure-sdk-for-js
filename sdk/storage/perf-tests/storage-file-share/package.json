@@ -6,16 +6,21 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@azure/storage-file-share": "^12.4.2",
+  "dependencies": {
+    "@azure/storage-file-share": "^12.5.0",
     "@azure/test-utils-perfstress": "^1.0.0",
+    "dotenv": "^8.2.0",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
     "@types/uuid": "^8.0.0",
     "@types/node": "^8.0.0",
-    "dotenv": "^8.2.0",
-    "uuid": "^8.3.0",
+    "eslint": "^7.15.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
     "tslib": "^2.0.0",
-    "ts-node": "^8.3.0",
-    "typescript": "4.1.2"
+    "ts-node": "^9.0.0",
+    "typescript": "~4.2.0"
   },
   "private": true,
   "scripts": {
@@ -24,14 +29,14 @@
     "build": "tsc -p .",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../../.prettierrc.json --ignore-path ../../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "echo skipped",
-    "lint:fix": "eslint package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json src test --ext .ts -f html -o storage-file-share-perf-test-lintReport.html || exit 0",
+    "lint:fix": "eslint --no-eslintrc -c ../../../.eslintrc.internal.json package.json test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint --no-eslintrc -c ../../../.eslintrc.internal.json package.json test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test:browser": "echo skipped",

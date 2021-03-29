@@ -4,31 +4,6 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
-// eslint-disable-next-line @azure/azure-sdk/ts-no-namespaces
-declare global {
-  /**
-   * Stub declaration of the browser-only Blob type.
-   * Full type information can be obtained by including "lib": ["dom"] in tsconfig.json.
-   */
-  interface Blob {}
-
-  interface File extends Blob {}
-
-  /** Provides a way to easily construct a set of key/value pairs representing form fields and their values, which can then be easily sent using the XMLHttpRequest.send() method. It uses the same format a form would use if the encoding type were set to "multipart/form-data". */
-  interface FormData {
-    append(name: string, value: string | Blob, fileName?: string): void;
-    delete(name: string): void;
-    get(name: string): string | File | null;
-    getAll(name: string): Array<string | File>;
-    has(name: string): boolean;
-    set(name: string, value: string | Blob, fileName?: string): void;
-    forEach(
-      callbackfn: (value: string | File, key: string, parent: FormData) => void,
-      thisArg?: any
-    ): void;
-  }
-}
-
 /**
  * A HttpHeaders collection represented as a simple JSON object.
  */
@@ -80,6 +55,34 @@ export type RequestBodyType =
   | FormData
   | string
   | null;
+
+/**
+ * An interface compatible with NodeJS's `http.Agent`.
+ * We want to avoid publicly re-exporting the actual interface,
+ * since it might vary across runtime versions.
+ */
+export interface Agent {
+  /**
+   * Destroy any sockets that are currently in use by the agent.
+   */
+  destroy(): void;
+  /**
+   * For agents with keepAlive enabled, this sets the maximum number of sockets that will be left open in the free state.
+   */
+  maxFreeSockets: number;
+  /**
+   * Determines how many concurrent sockets the agent can have open per origin.
+   */
+  maxSockets: number;
+  /**
+   * An object which contains queues of requests that have not yet been assigned to sockets.
+   */
+  requests: unknown;
+  /**
+   * An object which contains arrays of sockets currently in use by the agent.
+   */
+  sockets: unknown;
+}
 
 /**
  * Metadata about a request being made by the pipeline.
@@ -160,6 +163,17 @@ export interface PipelineRequest {
 
   /** Callback which fires upon download progress. */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
+  /** Set to true if the request is sent over HTTP instead of HTTPS */
+  allowInsecureConnection?: boolean;
+
+  /**
+   * NODEJS ONLY
+   *
+   * A Node-only option to provide a custom `http.Agent`/`https.Agent`.
+   * Does nothing when running in the browser.
+   */
+  agent?: Agent;
 }
 
 /**
@@ -207,10 +221,10 @@ export interface PipelineResponse {
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 /**
- * The required interface for a client that makes HTTPS requests
+ * The required interface for a client that makes HTTP requests
  * on behalf of a pipeline.
  */
-export interface HttpsClient {
+export interface HttpClient {
   /**
    * The method that makes the request and returns a response.
    */

@@ -9,7 +9,7 @@ import {
   TransferProgressEvent,
   PipelineRequest,
   PipelineOptions,
-  HttpsClient
+  HttpClient
 } from "@azure/core-rest-pipeline";
 
 /**
@@ -547,5 +547,5 @@ export interface CommonClientOptions extends PipelineOptions {
   /**
    * The HttpClient that will be used to send HTTP requests.
    */
-  httpsClient?: HttpsClient;
+  httpClient?: HttpClient;
 }

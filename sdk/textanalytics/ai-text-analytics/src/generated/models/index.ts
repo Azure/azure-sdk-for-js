@@ -1098,14 +1098,14 @@ export type State =
   | "cancelling"
   | "partiallyCompleted";
 /** Defines values for Conditionality. */
-export type Conditionality = "Hypothetical" | "Conditional";
+export type Conditionality = "hypothetical" | "conditional";
 /** Defines values for Certainty. */
 export type Certainty =
-  | "Positive"
-  | "PositivePossible"
-  | "NeutralPossible"
-  | "NegativePossible"
-  | "Negative";
+  | "positive"
+  | "positivePossible"
+  | "neutralPossible"
+  | "negativePossible"
+  | "negative";
 /** Defines values for Association. */
 export type Association = "subject" | "other";
 /** Defines values for DocumentSentimentLabel. */

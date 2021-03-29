@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, Recorder, isRecordMode } from "@azure/test-utils-recorder";
 
 import { KeyClient } from "../../src";
@@ -20,7 +21,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
     let testClient: TestClient;
     let recorder: Recorder;
 
-    beforeEach(async function() {
+    beforeEach(async function(this: Context) {
       const authentication = await authenticate(this, serviceVersion);
       keySuffix = authentication.keySuffix;
       client = authentication.client;
@@ -37,7 +38,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
     // Use this while recording to make sure the target keyvault is clean.
     // The next tests will produce a more consistent output.
     // This test is only useful while developing locally.
-    it("can purge all keys", async function(): Promise<void> {
+    it("can purge all keys", async function(this: Context): Promise<void> {
       // WARNING: When TEST_MODE equals "record", all of the keys in the indicated KEYVAULT_URI will be deleted as part of this test.
       if (!isRecordMode()) {
         return this.skip();
@@ -58,7 +59,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       }
     });
 
-    it("can get the versions of a key", async function() {
+    it("can get the versions of a key", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       await client.createKey(keyName, "RSA");
       let totalVersions = 0;
@@ -85,7 +86,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       });
     });
 
-    it("can get the versions of a key (paged)", async function() {
+    it("can get the versions of a key (paged)", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       await client.createKey(keyName, "RSA");
       let totalVersions = 0;
@@ -103,7 +104,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       await testClient.flushKey(keyName);
     });
 
-    it("list 0 versions of a non-existing key", async function() {
+    it("list 0 versions of a non-existing key", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       let totalVersions = 0;
       for await (const version of client.listPropertiesOfKeyVersions(keyName)) {
@@ -117,7 +118,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
     });
 
-    it("list 0 versions of a non-existing key (paged)", async function() {
+    it("list 0 versions of a non-existing key (paged)", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       let totalVersions = 0;
       for await (const page of client.listPropertiesOfKeyVersions(keyName).byPage()) {
@@ -133,7 +134,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       assert.equal(totalVersions, 0, `Unexpected total versions for key ${keyName}`);
     });
 
-    it("can get several inserted keys", async function() {
+    it("can get several inserted keys", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const keyNames = [`${keyName}-0`, `${keyName}-1`];
       for (const name of keyNames) {
@@ -164,7 +165,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       });
     });
 
-    it("can get several inserted keys (paged)", async function() {
+    it("can get several inserted keys (paged)", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const keyNames = [`${keyName}-0`, `${keyName}-1`];
       for (const name of keyNames) {
@@ -187,7 +188,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       }
     });
 
-    it("list deleted keys", async function() {
+    it("list deleted keys", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const keyNames = [`${keyName}-0`, `${keyName}-1`];
       for (const name of keyNames) {
@@ -221,7 +222,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion, onVersions) => {
       });
     });
 
-    it("list deleted keys (paged)", async function() {
+    it("list deleted keys (paged)", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const keyNames = [`${keyName}-0`, `${keyName}-1`];
       for (const name of keyNames) {

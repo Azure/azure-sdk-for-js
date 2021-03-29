@@ -15,7 +15,7 @@ import {
   Message as RheaMessage
 } from "rhea-promise";
 import { SpanContext } from "@opentelemetry/api";
-import { instrumentMessage } from "./diagnostics/tracing";
+import { convertTryAddOptionsForCompatibility, instrumentMessage } from "./diagnostics/tracing";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 import { defaultDataTransformer } from "./dataTransformer";
 
@@ -235,6 +235,8 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
       originalMessage,
       "Provided value for 'message' must be of type ServiceBusMessage."
     );
+
+    options = convertTryAddOptionsForCompatibility(options);
 
     const { message, spanContext } = instrumentMessage(
       originalMessage,

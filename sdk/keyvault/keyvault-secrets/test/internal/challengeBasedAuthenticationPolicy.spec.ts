@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { createSandbox } from "sinon";
 
@@ -26,7 +27,7 @@ describe("Challenge based authentication tests", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function () {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -34,13 +35,13 @@ describe("Challenge based authentication tests", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("Authentication should work for parallel requests", async function () {
+  it("Authentication should work for parallel requests", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -73,7 +74,7 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it("Once authenticated, new requests should not authenticate again", async function () {
+  it("Once authenticated, new requests should not authenticate again", async function(this: Context) {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.

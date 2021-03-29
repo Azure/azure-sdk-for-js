@@ -135,7 +135,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     let result: AccessToken | null = null;
 
     const { span, updatedOptions } = createSpan("ManagedIdentityCredential-getToken", options);
@@ -181,7 +181,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     } catch (err) {
       // CredentialUnavailable errors are expected to reach here.
       // We intend them to bubble up, so that DefaultAzureCredential can catch them.
-      if (err instanceof CredentialUnavailable) {
+      if (err.name === "AuthenticationRequired") {
         throw err;
       }
 

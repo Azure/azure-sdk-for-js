@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 export {
-  HttpsClient,
+  Agent,
+  HttpClient,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
@@ -25,7 +26,7 @@ export {
   PipelineOptions,
   createPipelineFromOptions
 } from "./pipeline";
-export { createDefaultHttpsClient } from "./defaultHttpsClient";
+export { createDefaultHttpClient } from "./defaultHttpClient";
 export { createHttpHeaders } from "./httpHeaders";
 export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";
 export { RestError, RestErrorOptions } from "./restError";

@@ -12,7 +12,7 @@ describe("TextAnalyticsClient Custom PipelineOptions", function() {
   it("use custom HTTPClient", async () => {
     const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
       const client = createClient("APIKey", {
-        httpsClient: {
+        httpClient: {
           sendRequest: async (request: PipelineRequest): Promise<PipelineResponse> => ({
             status: 200,
             request,

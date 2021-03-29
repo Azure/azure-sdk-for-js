@@ -5,7 +5,7 @@ import { assert } from "chai";
 import {
   createEmptyPipeline,
   PipelinePolicy,
-  HttpsClient,
+  HttpClient,
   createPipelineRequest,
   createHttpHeaders,
   createPipelineFromOptions
@@ -351,7 +351,7 @@ describe("HttpsPipeline", function() {
     pipeline.addPolicy(testPolicy2);
     pipeline.addPolicy(testPolicy3);
 
-    const testHttpsClient: HttpsClient = {
+    const testHttpClient: HttpClient = {
       sendRequest: async (request) => {
         assert.strictEqual(request.url, "afterTest3");
         return {
@@ -363,7 +363,7 @@ describe("HttpsPipeline", function() {
     };
 
     const response = await pipeline.sendRequest(
-      testHttpsClient,
+      testHttpClient,
       createPipelineRequest({ url: "initialUrl" })
     );
     assert.strictEqual(response.request.url, "afterTest3");
@@ -372,7 +372,7 @@ describe("HttpsPipeline", function() {
 
   describe("createPipelineFromOptions", function() {
     it("can issue successful requests", async function() {
-      const testHttpsClient: HttpsClient = {
+      const testHttpClient: HttpClient = {
         sendRequest: async (request) => {
           assert.strictEqual(request.url, "https://example.com");
           return {
@@ -385,7 +385,7 @@ describe("HttpsPipeline", function() {
 
       const pipeline = createPipelineFromOptions({});
       const request = createPipelineRequest({ url: "https://example.com" });
-      const response = await pipeline.sendRequest(testHttpsClient, request);
+      const response = await pipeline.sendRequest(testHttpClient, request);
       assert.strictEqual(response.status, 200);
     });
   });

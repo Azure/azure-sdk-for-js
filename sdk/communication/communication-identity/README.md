@@ -15,6 +15,12 @@ The identity library is used for managing users and tokens for Azure Communicati
 npm install @azure/communication-identity
 ```
 
+### Browser support
+
+#### JavaScript Bundle
+
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
 ## Key concepts
 
 ### Clients
@@ -49,6 +55,7 @@ const client = new CommunicationIdentityClient(connectionString);
 ### Using a `TokenCredential`
 
 ```typescript
+import { DefaultAzureCredential } from "@azure/identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 const credential = new DefaultAzureCredential();

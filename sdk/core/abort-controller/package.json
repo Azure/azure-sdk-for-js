@@ -1,7 +1,7 @@
 {
   "name": "@azure/abort-controller",
   "sdk-type": "client",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
@@ -32,7 +32,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --no-timeouts test/*.spec.ts",
+    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --no-timeouts \"test/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "build:samples": "echo Skipped.",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
@@ -96,7 +96,7 @@
     "delay": "^4.2.0",
     "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -115,8 +115,8 @@
     "rollup": "^1.16.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
-    "ts-node": "^8.3.0",
-    "typescript": "4.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "~4.2.0",
     "typedoc": "0.15.2"
   }
 }

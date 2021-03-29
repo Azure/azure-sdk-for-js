@@ -31,6 +31,8 @@ npm install --save @azure/identity
   - You can sign up for a [free account](https://azure.microsoft.com/free/).
 - The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment, creating accounts, and managing account roles.
 
+Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` allow specifying `tokenCachePersistenceOptions` to enable persistent caching. To use this feature, developers will also need to install [@azure/msal-node-extensions](https://www.npmjs.com/package/@azure/msal-node-extensions).
+
 ### Authenticate the client in development environment
 
 While we recommend using managed identity or service principal authentication in your production application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert, use as chaiUse } from "chai";
+import { Suite, Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
@@ -19,15 +20,13 @@ const testDataEn = [
   "I didn't like the last book I read at all."
 ];
 
-describe("[API Key] TextAnalyticsClient", function() {
+describe("[API Key] TextAnalyticsClient", function(this: Suite) {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
-  // eslint-disable-next-line no-invalid-this
   const CLITimeout = this.timeout();
   const fastTimeout = 10000;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(function(this: Context) {
     recorder = createRecorder(this);
     client = createClient("APIKey");
   });
@@ -37,8 +36,7 @@ describe("[API Key] TextAnalyticsClient", function() {
   });
 
   describe("fast tests", function() {
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
+    before(function(this: Context) {
       this.timeout(fastTimeout);
     });
 
@@ -88,8 +86,7 @@ describe("[API Key] TextAnalyticsClient", function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(function() {
-      // eslint-disable-next-line no-invalid-this
+    before(function(this: Context) {
       this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
     });
 
@@ -112,6 +109,7 @@ describe("[API Key] TextAnalyticsClient", function() {
           assert.ok(doc1.entities);
           const doc1Entity1 = doc1.entities[0];
           assert.equal(doc1Entity1.text, "high blood pressure");
+          assert.equal(doc1Entity1.assertion?.certainty, "negative");
         }
 
         const doc2 = (await result.next()).value;
@@ -152,6 +150,69 @@ describe("[API Key] TextAnalyticsClient", function() {
 
           const doc2Entity3 = doc2.entities[2];
           assert.equal(doc2Entity3.text, "twice daily");
+        }
+      });
+
+      it("entity assertions", async function() {
+        const poller = await client.beginAnalyzeHealthcareEntities(
+          [
+            "Baby not likely to have Meningitis. in case of fever in the mother, consider Penicillin for the baby too."
+          ],
+          "en",
+          {
+            updateIntervalInMs: pollingInterval
+          }
+        );
+        const result = await poller.pollUntilDone();
+        const doc1 = (await result.next()).value;
+        if (!doc1.error) {
+          assert.ok(doc1.id);
+          assert.ok(doc1.entities);
+          const doc1Entity1 = doc1.entities[0];
+          assert.equal(doc1Entity1.text, "Baby");
+          assert.equal(doc1Entity1.category, "Age");
+          assert.equal(doc1Entity1.normalizedText, "Infant");
+          assert.isUndefined(doc1Entity1.assertion?.association);
+          assert.isUndefined(doc1Entity1.assertion?.conditionality);
+
+          const doc1Entity2 = doc1.entities[1];
+          assert.equal(doc1Entity2.text, "Meningitis");
+          assert.equal(doc1Entity2.category, "Diagnosis");
+          assert.equal(doc1Entity2.assertion?.certainty, "negativePossible");
+          assert.equal(doc1Entity2.normalizedText, "Meningitis");
+          assert.isUndefined(doc1Entity2.assertion?.association);
+          assert.isUndefined(doc1Entity2.assertion?.conditionality);
+
+          const doc1Entity3 = doc1.entities[2];
+          assert.equal(doc1Entity3.text, "fever");
+          assert.equal(doc1Entity3.normalizedText, "Fever");
+          assert.equal(doc1Entity3.category, "SymptomOrSign");
+          assert.isUndefined(doc1Entity3.assertion?.association);
+          assert.isUndefined(doc1Entity3.assertion?.conditionality);
+
+          const doc1Entity4 = doc1.entities[3];
+          assert.equal(doc1Entity4.text, "mother");
+          assert.equal(doc1Entity4.normalizedText, "Mother (person)");
+          assert.equal(doc1Entity4.category, "FamilyRelation");
+          assert.isUndefined(doc1Entity4.assertion?.association);
+          assert.isUndefined(doc1Entity4.assertion?.conditionality);
+
+          const doc1Entity5 = doc1.entities[4];
+          assert.equal(doc1Entity5.text, "Penicillin");
+          assert.equal(doc1Entity5.category, "MedicationName");
+          assert.equal(doc1Entity5.normalizedText, "penicillins");
+          assert.equal(doc1Entity5.assertion?.certainty, "neutralPossible");
+          assert.isUndefined(doc1Entity5.assertion?.association);
+          assert.isUndefined(doc1Entity5.assertion?.conditionality);
+
+          const doc1Entity6 = doc1.entities[5];
+          assert.equal(doc1Entity6.text, "baby");
+          assert.equal(doc1Entity6.category, "Age");
+          assert.equal(doc1Entity6.normalizedText, "Infant");
+          assert.isUndefined(doc1Entity6.assertion?.association);
+          assert.isUndefined(doc1Entity6.assertion?.conditionality);
+
+          assert.isEmpty(doc1.entityRelations);
         }
       });
 
@@ -606,11 +667,11 @@ describe("[API Key] TextAnalyticsClient", function() {
             updateIntervalInMs: pollingInterval
           }
         );
-        poller.onProgress(() => {
-          assert.ok(poller.getOperationState().createdOn, "createdOn is undefined!");
-          assert.ok(poller.getOperationState().expiresOn, "expiresOn is undefined!");
-          assert.ok(poller.getOperationState().lastModifiedOn, "lastModifiedOn is undefined!");
-          assert.ok(poller.getOperationState().status, "status is undefined!");
+        poller.onProgress((state) => {
+          assert.ok(state.createdOn, "createdOn is undefined!");
+          assert.ok(state.expiresOn, "expiresOn is undefined!");
+          assert.ok(state.lastModifiedOn, "lastModifiedOn is undefined!");
+          assert.ok(state.status, "status is undefined!");
         });
         const result = await poller.pollUntilDone();
         assert.ok(result);

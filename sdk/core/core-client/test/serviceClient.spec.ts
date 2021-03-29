@@ -20,7 +20,7 @@ import {
 import {
   createHttpHeaders,
   createEmptyPipeline,
-  HttpsClient,
+  HttpClient,
   createPipelineRequest
 } from "@azure/core-rest-pipeline";
 
@@ -30,7 +30,8 @@ import {
 } from "../src/operationHelpers";
 import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
-import { getCachedDefaultHttpsClient } from "../src/httpClientCache";
+import { getCachedDefaultHttpClient } from "../src/httpClientCache";
+import { assertServiceClientResponse } from "./utils/serviceClient";
 
 describe("ServiceClient", function() {
   describe("Auth scopes", () => {
@@ -85,7 +86,7 @@ describe("ServiceClient", function() {
       try {
         let request: OperationRequest;
         const client = new ServiceClient({
-          httpsClient: {
+          httpClient: {
             sendRequest: (req) => {
               request = req;
               return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -111,7 +112,7 @@ describe("ServiceClient", function() {
       try {
         let request: OperationRequest;
         const client = new ServiceClient({
-          httpsClient: {
+          httpClient: {
             sendRequest: (req) => {
               request = req;
               return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -141,7 +142,7 @@ describe("ServiceClient", function() {
 
       let request: OperationRequest;
       const client = new ServiceClient({
-        httpsClient: {
+        httpClient: {
           sendRequest: (req) => {
             request = req;
             return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -168,7 +169,7 @@ describe("ServiceClient", function() {
 
       let request: OperationRequest;
       const client = new ServiceClient({
-        httpsClient: {
+        httpClient: {
           sendRequest: (req) => {
             request = req;
             return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -196,7 +197,7 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(serializationPolicy(), { phase: "Serialize" });
     const client = new ServiceClient({
-      httpsClient: {
+      httpClient: {
         sendRequest: (req) => {
           request = req;
           return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
@@ -256,7 +257,7 @@ describe("ServiceClient", function() {
   it("should call rawResponseCallback with the full response", async function() {
     let request: OperationRequest;
     const client = new ServiceClient({
-      httpsClient: {
+      httpClient: {
         sendRequest: (req) => {
           request = req;
           return Promise.resolve({
@@ -329,7 +330,7 @@ describe("ServiceClient", function() {
 
   it("should deserialize response bodies", async function() {
     let request: OperationRequest;
-    const httpsClient: HttpsClient = {
+    const httpClient: HttpClient = {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({
@@ -344,7 +345,7 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client1 = new ServiceClient({
-      httpsClient,
+      httpClient,
       pipeline
     });
 
@@ -380,6 +381,198 @@ describe("ServiceClient", function() {
 
     assert.strictEqual(rawResponse?.status, 200);
     assert.deepStrictEqual(res.slice(), [1, 2, 3]);
+  });
+
+  it("should deserialize array response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Sequence,
+              element: {
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize array response as empty array if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Sequence,
+              element: {
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        }
+      },
+      []
+    );
+  });
+
+  it("should deserialize dictionary response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Dictionary,
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize dictionary response as empty if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Dictionary,
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      {}
+    );
+  });
+
+  it("should deserialize object response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Composite,
+              modelProperties: {
+                message: {
+                  type: {
+                    name: "String"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize object response as empty if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Composite,
+              modelProperties: {
+                message: {
+                  type: {
+                    name: "String"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {}
+    );
+  });
+
+  it("should deserialize primitive response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      {
+        body: null
+      }
+    );
+  });
+
+  it("should deserialize primitive response as undefined if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      {
+        body: undefined
+      }
+    );
+  });
+
+  it("should deserialize a head request with no body even if the mapper says the body is nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        requestMethod: "HEAD",
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      undefined
+    );
   });
 
   describe("getOperationArgumentValueFromParameter()", () => {
@@ -791,7 +984,7 @@ describe("ServiceClient", function() {
     const operationInfo = getOperationRequestInfo(request);
     operationInfo.operationSpec = operationSpec;
 
-    const httpsClient: HttpsClient = {
+    const httpClient: HttpClient = {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({
@@ -808,7 +1001,7 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client = new ServiceClient({
-      httpsClient,
+      httpClient,
       pipeline
     });
 
@@ -871,7 +1064,7 @@ describe("ServiceClient", function() {
     const operationInfo = getOperationRequestInfo(request);
     operationInfo.operationSpec = operationSpec;
 
-    const httpsClient: HttpsClient = {
+    const httpClient: HttpClient = {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({
@@ -888,7 +1081,7 @@ describe("ServiceClient", function() {
     const pipeline = createEmptyPipeline();
     pipeline.addPolicy(deserializationPolicy());
     const client = new ServiceClient({
-      httpsClient,
+      httpClient,
       pipeline
     });
 
@@ -903,7 +1096,7 @@ describe("ServiceClient", function() {
 
   it("should re-use the common instance of DefaultHttpClient", function() {
     const client = new ServiceClient();
-    assert.strictEqual((client as any)._httpsClient, getCachedDefaultHttpsClient());
+    assert.strictEqual((client as any)._httpClient, getCachedDefaultHttpClient());
   });
 });
 
@@ -915,7 +1108,7 @@ async function testSendOperationRequest(
 ): Promise<void> {
   let request: OperationRequest;
   const client = new ServiceClient({
-    httpsClient: {
+    httpClient: {
       sendRequest: (req) => {
         request = req;
         return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });

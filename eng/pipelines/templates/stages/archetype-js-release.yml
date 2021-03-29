@@ -32,15 +32,11 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
-                    - ${{if eq(parameters.TestPipeline, 'true')}}:
-                      - task: PowerShell@2
-                        displayName: Prep template pipeline for release
-                        condition: succeeded()
-                        inputs:
-                          pwsh: true
-                          workingDirectory: $(Build.SourcesDirectory)
-                          filePath: eng/scripts/SetTestPipelineVersion.ps1
-                          arguments: '-BuildID $(Build.BuildId)'
+                    - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+                      parameters:
+                        PackageName: "@azure/template"
+                        ServiceDirectory: "template"
+                        TestPipeline: ${{ parameters.TestPipeline }}
                     - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                       parameters:
                         PackageName: ${{artifact.name}}
@@ -89,7 +85,7 @@ stages:
                         inputs:
                           targetType: filePath
                           filePath: "eng/tools/publish-to-npm.ps1"
-                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag $(Tag) -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
+                          arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag $env:Tag -additionalTag $env:AdditionalTag -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)'
                           pwsh: true
 
           - ${{if ne(artifact.skipPublishDocMs, 'true')}}:

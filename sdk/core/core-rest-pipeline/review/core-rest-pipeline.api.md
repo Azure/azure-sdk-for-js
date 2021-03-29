@@ -18,6 +18,15 @@ export interface AddPipelineOptions {
 }
 
 // @public
+export interface Agent {
+    destroy(): void;
+    maxFreeSockets: number;
+    maxSockets: number;
+    requests: unknown;
+    sockets: unknown;
+}
+
+// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
@@ -30,7 +39,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
 }
 
 // @public
-export function createDefaultHttpsClient(): HttpsClient;
+export function createDefaultHttpClient(): HttpClient;
 
 // @public
 export function createEmptyPipeline(): Pipeline;
@@ -81,6 +90,11 @@ export type FormDataValue = string | Blob;
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
 
 // @public
+export interface HttpClient {
+    sendRequest: SendRequest;
+}
+
+// @public
 export interface HttpHeaders extends Iterable<[string, string]> {
     delete(name: string): void;
     get(name: string): string | undefined;
@@ -91,11 +105,6 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 
 // @public
 export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
-
-// @public
-export interface HttpsClient {
-    sendRequest: SendRequest;
-}
 
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {
@@ -130,7 +139,7 @@ export interface Pipeline {
         name?: string;
         phase?: PipelinePhase;
     }): PipelinePolicy[];
-    sendRequest(httpsClient: HttpsClient, request: PipelineRequest): Promise<PipelineResponse>;
+    sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
 }
 
 // @public
@@ -153,6 +162,8 @@ export interface PipelinePolicy {
 // @public
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
+    agent?: Agent;
+    allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;
@@ -172,6 +183,7 @@ export interface PipelineRequest {
 // @public
 export interface PipelineRequestOptions {
     abortSignal?: AbortSignalLike;
+    allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;
     formData?: FormDataMap;
