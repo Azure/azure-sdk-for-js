@@ -3,8 +3,10 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "paths": {
+      "@azure/app-configuration": ["./src/index"]
+    }
   },
-  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

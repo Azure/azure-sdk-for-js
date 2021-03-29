@@ -45,13 +45,13 @@
     "build:test": "npm run build:test:node && npm run build:test:browser",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "build:samples": "echo Obsolete.",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-browser test-dist test-browser types *.tgz *.log",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter ../../../common/tools/mocha-multi-reporter.js",
-    "execute:samples": "npm run build:samples && echo Skipped.",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o app-configuration-lintReport.html || exit 0",
     "prebuild": "npm run clean",
@@ -141,5 +141,15 @@
     "uglify-js": "^3.4.9",
     "cross-env": "^7.0.2",
     "typedoc": "0.15.2"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure App Configuration",
+    "productSlugs": [
+      "azure",
+      "azure-app-configuration"
+    ],
+    "requiredResources": {
+      "Azure App Configuration account": "https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store"
+    }
   }
 }
