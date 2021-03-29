@@ -11,8 +11,19 @@ import {
   assertThrowsAbortError,
   startRecorder
 } from "./utils/testHelpers";
-import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
-import { delay } from "@azure/core-http";
+import {
+  AppConfigurationClient,
+  ConfigurationSetting,
+  ConfigurationSettingParam,
+  FeatureFlag,
+  featureFlagContentType,
+  FeatureFlagPercentageClientFilter,
+  featureFlagPrefix,
+  FeatureFlagTargetingClientFilter,
+  FeatureFlagTimeWindowClientFilter,
+  isFeatureFlag
+} from "../../src";
+import { delay, generateUuid } from "@azure/core-http";
 import { Recorder } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
 
@@ -1138,6 +1149,124 @@ describe("AppConfigurationClient", () => {
           }
         );
       });
+    });
+  });
+
+  describe("FeatureFlag configuration setting", () => {
+    const clientFilters: (
+      | object
+      | FeatureFlagTargetingClientFilter
+      | FeatureFlagTimeWindowClientFilter
+      | FeatureFlagPercentageClientFilter
+    )[] = [
+      {
+        name: "Microsoft.TimeWindow",
+        parameters: {
+          start: "Wed, 01 May 2019 13:59:59 GMT",
+          end: "Mon, 01 July 2019 00:00:00 GMT"
+          // TODO: dates should accept `string | Date`
+          // Returning
+          //      - SDK would return Date for all the config-settings if parsable
+          //      - SDK would return strings for non parsable strings
+          // Passing as an argument
+          //      - If passed in a string, we'll pass it as is.
+          //      - If passed Date, we'll make it a string.
+        }
+      },
+      { name: "FilterX" }
+      // TODO: add the rest two filters too
+    ];
+    const baseSetting: FeatureFlag = {
+      conditions: {
+        clientFilters
+      },
+      displayName: "I'mFeatFlag",
+      enabled: false,
+      isReadOnly: false,
+      key: `${featureFlagPrefix + generateUuid()}`,
+      contentType: featureFlagContentType
+    };
+
+    beforeEach(async () => {
+      await client.addConfigurationSetting(baseSetting);
+    });
+
+    afterEach(async () => {
+      await client.deleteConfigurationSetting({
+        key: baseSetting.key
+      });
+    });
+
+    it("can add and get FeatureFlag", async () => {
+      const getResponse = await client.getConfigurationSetting({
+        key: baseSetting.key
+      });
+      assert.equal(isFeatureFlag(getResponse), true, "Expected to get the feature flag");
+      if (isFeatureFlag(getResponse)) {
+        assert.equal(
+          getResponse.key,
+          baseSetting.key,
+          "Key from the response from get request is not as expected"
+        );
+        assert.equal(
+          getResponse.value,
+          baseSetting.value,
+          "value from the response from get request is not as expected"
+        );
+      }
+    });
+
+    it("can add and update FeatureFlag", async () => {
+      const getResponse = await client.getConfigurationSetting({
+        key: baseSetting.key
+      });
+      assert.equal(isFeatureFlag(getResponse), true, "Should have been FeatureFlag");
+      if (isFeatureFlag(getResponse)) {
+        // TODO: enabled returned was undefined, that's a bug?
+        assert.equal(!!getResponse.enabled, baseSetting.enabled, "Unexpected value for enabled");
+        getResponse.enabled = true;
+      }
+
+      await client.setConfigurationSetting(getResponse);
+
+      const getResponseAfterUpdate = await client.getConfigurationSetting({
+        key: baseSetting.key
+      });
+      assert.equal(isFeatureFlag(getResponseAfterUpdate), true, "Expected to get the feature flag");
+      if (isFeatureFlag(getResponseAfterUpdate)) {
+        assert.equal(
+          getResponseAfterUpdate.key,
+          baseSetting.key,
+          "Key from the response from get request is not as expected"
+        );
+        assert.equal(
+          getResponseAfterUpdate.value,
+          baseSetting.value,
+          "value from the response from get request is not as expected"
+        );
+        // More assertions - filters-count, displayName, description, filter name, enabled, isReadOnly
+        // TODO: enabled returned was undefined, that's a bug I guess
+        // assert.equal(getResponseAfterUpdate.enabled, !baseSetting.enabled, "Unexpected value for enabled");
+      }
+    });
+
+    it("can add and update multiple FeatureFlags", async () => {
+      const secondSetting = {
+        ...baseSetting,
+        key: `${baseSetting.key}-2`
+      };
+      await client.addConfigurationSetting(secondSetting);
+
+      for await (const setting of client.listConfigurationSettings({
+        keyFilter: `${baseSetting.key}*`
+      })) {
+        // TODO: check count before and after
+        assert.equal(isFeatureFlag(setting), true, "Should have been FeatureFlag");
+        if (isFeatureFlag(setting)) {
+          // TODO: assert feat. description
+        }
+      }
+      await client.deleteConfigurationSetting({ key: secondSetting.key });
     });
   });
 });
