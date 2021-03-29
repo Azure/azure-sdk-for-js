@@ -16,8 +16,7 @@
       "Agent": {
         "ubuntu-18.04_service_version_7_0": {
           "OSVmImage": "MMSUbuntu18.04",
-          "Pool": "azsdk-pool-mms-ubuntu-1804-general",
-          "ArmTemplateParameters": "@{ enableHsm = $true }"
+          "Pool": "azsdk-pool-mms-ubuntu-1804-general"
         }
       },
       "TestType": "node",
@@ -28,8 +27,7 @@
       "Agent": {
         "ubuntu-18.04_service_version_7_1": {
           "OSVmImage": "MMSUbuntu18.04",
-          "Pool": "azsdk-pool-mms-ubuntu-1804-general",
-          "ArmTemplateParameters": "@{ enableHsm = $true }"
+          "Pool": "azsdk-pool-mms-ubuntu-1804-general"
         }
       },
       "TestType": "node",
