@@ -21,9 +21,8 @@ const logger = credentialLogger("InteractiveBrowserCredential");
  *
  * On NodeJS, it will open a browser window while it listens for a redirect response from the authentication service.
  *
- * On browsers, by default it uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
- * and authenticates via popups. The `loginStyle` can be configured to use `redirect` instead, and the authentication flow can be configured to use the [Implicit Grant Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
- * by specifying the option `flow` with the value `implicit-grant`.
+ * On browsers, this credential uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
+ * and authenticates via popups. The `loginStyle` can be configured to use `redirect` instead.
  *
  * It's recommended that the AAD Applications used are configured to authenticate using Single Page Applications.
  * More information here: [link](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
