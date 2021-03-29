@@ -68,7 +68,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/communication-common": "1.0.0",
+    "@azure/communication-common": "^1.0.0",
     "@azure/core-auth": "^1.2.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-tracing": "1.0.0-preview.10",
@@ -125,6 +125,10 @@
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {
-    "skipFolder": true
+    "skip": [
+      "sendSms.js",
+      "sendSmsWithOptions.js",
+      "usingAadAuth.js"
+    ]
   }
 }

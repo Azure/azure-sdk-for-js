@@ -269,9 +269,7 @@ export const FactoryIdentity: msRest.CompositeMapper = {
     modelProperties: {
       type: {
         required: true,
-        isConstant: true,
         serializedName: "type",
-        defaultValue: 'SystemAssigned',
         type: {
           name: "String"
         }
@@ -1226,6 +1224,39 @@ export const PipelineFolder: msRest.CompositeMapper = {
   }
 };
 
+export const PipelineElapsedTimeMetricPolicy: msRest.CompositeMapper = {
+  serializedName: "PipelineElapsedTimeMetricPolicy",
+  type: {
+    name: "Composite",
+    className: "PipelineElapsedTimeMetricPolicy",
+    modelProperties: {
+      duration: {
+        serializedName: "duration",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const PipelinePolicy: msRest.CompositeMapper = {
+  serializedName: "PipelinePolicy",
+  type: {
+    name: "Composite",
+    className: "PipelinePolicy",
+    modelProperties: {
+      elapsedTimeMetric: {
+        serializedName: "elapsedTimeMetric",
+        type: {
+          name: "Composite",
+          className: "PipelineElapsedTimeMetricPolicy"
+        }
+      }
+    }
+  }
+};
+
 export const PipelineResource: msRest.CompositeMapper = {
   serializedName: "PipelineResource",
   type: {
@@ -1316,6 +1347,13 @@ export const PipelineResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PipelineFolder"
+        }
+      },
+      policy: {
+        serializedName: "properties.policy",
+        type: {
+          name: "Composite",
+          className: "PipelinePolicy"
         }
       }
     },
@@ -6966,6 +7004,12 @@ export const HttpLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      authHeaders: {
+        serializedName: "typeProperties.authHeaders",
+        type: {
+          name: "Object"
+        }
+      },
       embeddedCertData: {
         serializedName: "typeProperties.embeddedCertData",
         type: {
@@ -7195,6 +7239,12 @@ export const RestServiceLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      authHeaders: {
+        serializedName: "typeProperties.authHeaders",
+        type: {
+          name: "Object"
         }
       },
       servicePrincipalId: {
@@ -8054,6 +8104,12 @@ export const ODataLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      authHeaders: {
+        serializedName: "typeProperties.authHeaders",
+        type: {
+          name: "Object"
         }
       },
       tenant: {
@@ -15450,7 +15506,7 @@ export const WebActivityAuthentication: msRest.CompositeMapper = {
       username: {
         serializedName: "username",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       password: {
@@ -15463,7 +15519,7 @@ export const WebActivityAuthentication: msRest.CompositeMapper = {
       resource: {
         serializedName: "resource",
         type: {
-          name: "String"
+          name: "Object"
         }
       },
       userTenant: {

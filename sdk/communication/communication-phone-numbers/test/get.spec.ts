@@ -3,6 +3,7 @@
 
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
+import { Context } from "mocha";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient } from "./utils/recordedClient";
 
@@ -11,17 +12,17 @@ describe("PhoneNumbersClient - get phone number", function() {
   let client: PhoneNumbersClient;
   let includePhoneNumberLiveTests: boolean;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     ({ client, recorder, includePhoneNumberLiveTests } = createRecordedClient(this));
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
   });
 
-  it("can get a purchased phone number", async function() {
+  it("can get a purchased phone number", async function(this: Context) {
     if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
       this.skip();
     }

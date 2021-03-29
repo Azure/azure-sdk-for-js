@@ -10,6 +10,7 @@ import sinon from "sinon";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "./utils/mockHttpClients";
 import { SDK_VERSION } from "../src/utils/constants";
+import { Context } from "mocha";
 
 if (isNode) {
   require("dotenv").config();
@@ -35,7 +36,7 @@ describe("PhoneNumbersClient - headers", function() {
     request = spy.getCall(0).args[0];
   });
 
-  it("sets correct host", function() {
+  it("sets correct host", function(this: Context) {
     if (!isNode) {
       this.skip();
     }
@@ -80,7 +81,7 @@ describe("PhoneNumbersClient - headers", function() {
     );
   });
 
-  it("sets bearer authorization header with TokenCredential", async function() {
+  it("sets bearer authorization header with TokenCredential", async function(this: Context) {
     if (!isNode || isPlaybackMode()) {
       this.skip();
     }

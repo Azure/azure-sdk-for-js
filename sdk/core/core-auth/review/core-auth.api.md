@@ -46,6 +46,12 @@ export interface GetTokenOptions {
 }
 
 // @public
+export function isNamedKeyCredential(credential: unknown): credential is NamedKeyCredential;
+
+// @public
+export function isSASCredential(credential: unknown): credential is SASCredential;
+
+// @public
 export function isTokenCredential(credential: unknown): credential is TokenCredential;
 
 // @public
