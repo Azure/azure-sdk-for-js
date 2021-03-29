@@ -9,7 +9,7 @@ import { HttpClient, HttpOperationResponse, WebResourceLike, HttpHeaders } from 
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
 import { versionsToTest } from "@azure/test-utils-multi-version";
-import { supportedServiceVersions } from "../utils/utils.common";
+import { serviceVersions } from "../utils/utils.common";
 
 describe("The Keys client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
@@ -60,7 +60,7 @@ describe("The Keys client should set the serviceVersion", () => {
     );
   });
 
-  versionsToTest(supportedServiceVersions, {}, (serviceVersion) => {
+  versionsToTest(serviceVersions, {}, (serviceVersion) => {
     it("it should allow us to specify an API version from a specific set of versions", async function() {
       const client = new KeyClient(keyVaultUrl, credential, {
         serviceVersion: serviceVersion,
