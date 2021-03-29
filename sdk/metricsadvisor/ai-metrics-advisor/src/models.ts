@@ -23,7 +23,24 @@ import {
   SeverityCondition,
   AlertSnoozeCondition,
   IngestionStatusType,
-  EntityStatus as DataFeedDetailStatus
+  EntityStatus as DataFeedDetailStatus,
+  AuthenticationTypeEnum as DataFeedAuthenticationType,
+  AzureSQLConnectionStringParam,
+  DataLakeGen2SharedKeyParam,
+  ServicePrincipalParam,
+  ServicePrincipalInKVParam,
+  DataSourceCredential,
+  AzureSQLConnectionStringCredential,
+  DataLakeGen2SharedKeyCredential,
+  ServicePrincipalCredential,
+  ServicePrincipalInKVCredential,
+  DataSourceCredentialUnion,
+  DataSourceCredentialPatch,
+  AzureSQLConnectionStringCredentialPatch,
+  DataLakeGen2SharedKeyCredentialPatch,
+  ServicePrincipalCredentialPatch,
+  ServicePrincipalInKVCredentialPatch,
+  DataSourceCredentialPatchUnion
 } from "./generated/models";
 
 export {
@@ -45,7 +62,24 @@ export {
   SuppressCondition,
   EmailHookParameter,
   WebhookHookParameter,
-  DataFeedDetailStatus
+  DataFeedDetailStatus,
+  DataFeedAuthenticationType,
+  AzureSQLConnectionStringParam,
+  DataLakeGen2SharedKeyParam,
+  ServicePrincipalParam,
+  ServicePrincipalInKVParam,
+  DataSourceCredential,
+  AzureSQLConnectionStringCredential,
+  DataLakeGen2SharedKeyCredential,
+  ServicePrincipalCredential,
+  ServicePrincipalInKVCredential,
+  DataSourceCredentialUnion,
+  DataSourceCredentialPatch,
+  AzureSQLConnectionStringCredentialPatch,
+  DataLakeGen2SharedKeyCredentialPatch,
+  ServicePrincipalCredentialPatch,
+  ServicePrincipalInKVCredentialPatch,
+  DataSourceCredentialPatchUnion
 };
 
 // not used directly here but needed by public API surface.
@@ -312,7 +346,7 @@ export type DataFeed = {
  */
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
-  dataSourceParameter: AzureApplicationInsightsParameter;
+  dataSourceParameter?: AzureApplicationInsightsParameter;
 };
 
 /**
@@ -320,7 +354,7 @@ export type AzureApplicationInsightsDataFeedSource = {
  */
 export type AzureBlobDataFeedSource = {
   dataSourceType: "AzureBlob";
-  dataSourceParameter: AzureBlobParameter;
+  dataSourceParameter?: AzureBlobParameter;
 };
 
 /**
@@ -328,7 +362,7 @@ export type AzureBlobDataFeedSource = {
  */
 export type AzureCosmosDBDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
-  dataSourceParameter: AzureCosmosDBParameter;
+  dataSourceParameter?: AzureCosmosDBParameter;
 };
 
 /**
@@ -336,7 +370,7 @@ export type AzureCosmosDBDataFeedSource = {
  */
 export type AzureDataExplorerDataFeedSource = {
   dataSourceType: "AzureDataExplorer";
-  dataSourceParameter: SqlSourceParameter;
+  dataSourceParameter?: SqlSourceParameter;
 };
 
 /**
@@ -344,7 +378,7 @@ export type AzureDataExplorerDataFeedSource = {
  */
 export type AzureDataLakeStorageGen2DataFeedSource = {
   dataSourceType: "AzureDataLakeStorageGen2";
-  dataSourceParameter: AzureDataLakeStorageGen2Parameter;
+  dataSourceParameter?: AzureDataLakeStorageGen2Parameter;
 };
 
 /**
@@ -352,7 +386,7 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
  */
 export type ElasticsearchDataFeedSource = {
   dataSourceType: "Elasticsearch";
-  dataSourceParameter: ElasticsearchParameter;
+  dataSourceParameter?: ElasticsearchParameter;
 };
 
 /**
@@ -360,7 +394,7 @@ export type ElasticsearchDataFeedSource = {
  */
 export type AzureTableDataFeedSource = {
   dataSourceType: "AzureTable";
-  dataSourceParameter: AzureTableParameter;
+  dataSourceParameter?: AzureTableParameter;
 };
 
 /**
@@ -368,7 +402,7 @@ export type AzureTableDataFeedSource = {
  */
 export type HttpRequestDataFeedSource = {
   dataSourceType: "HttpRequest";
-  dataSourceParameter: HttpRequestParameter;
+  dataSourceParameter?: HttpRequestParameter;
 };
 
 /**
@@ -376,7 +410,7 @@ export type HttpRequestDataFeedSource = {
  */
 export type InfluxDBDataFeedSource = {
   dataSourceType: "InfluxDB";
-  dataSourceParameter: InfluxDBParameter;
+  dataSourceParameter?: InfluxDBParameter;
 };
 
 /**
@@ -384,7 +418,7 @@ export type InfluxDBDataFeedSource = {
  */
 export type MySqlDataFeedSource = {
   dataSourceType: "MySql";
-  dataSourceParameter: SqlSourceParameter;
+  dataSourceParameter?: SqlSourceParameter;
 };
 
 /**
@@ -392,7 +426,7 @@ export type MySqlDataFeedSource = {
  */
 export type PostgreSqlDataFeedSource = {
   dataSourceType: "PostgreSql";
-  dataSourceParameter: SqlSourceParameter;
+  dataSourceParameter?: SqlSourceParameter;
 };
 
 /**
@@ -400,7 +434,7 @@ export type PostgreSqlDataFeedSource = {
  */
 export type MongoDBDataFeedSource = {
   dataSourceType: "MongoDB";
-  dataSourceParameter: MongoDBParameter;
+  dataSourceParameter?: MongoDBParameter;
 };
 
 /**
@@ -408,7 +442,7 @@ export type MongoDBDataFeedSource = {
  */
 export type UnknownDataFeedSource = {
   dataSourceType: "Unknown";
-  dataSourceParameter: unknown;
+  dataSourceParameter?: unknown;
 };
 
 /**
@@ -416,13 +450,13 @@ export type UnknownDataFeedSource = {
  */
 export type SQLServerDataFeedSource = {
   dataSourceType: "SqlServer";
-  dataSourceParameter: SqlSourceParameter;
+  dataSourceParameter?: SqlSourceParameter;
 };
 
 /**
  * A union type of all supported data sources.
  */
-export type DataFeedSource =
+export type DataFeedSource = (
   | AzureApplicationInsightsDataFeedSource
   | AzureBlobDataFeedSource
   | AzureCosmosDBDataFeedSource
@@ -436,7 +470,14 @@ export type DataFeedSource =
   | PostgreSqlDataFeedSource
   | SQLServerDataFeedSource
   | MongoDBDataFeedSource
-  | UnknownDataFeedSource;
+  | UnknownDataFeedSource
+) & {
+  //TODO: (jeremymeng) improve to only allow credentialId for applicable credential types
+  /** authentication type for corresponding data source */
+  authenticationType?: DataFeedAuthenticationType;
+  /** The credential entity id */
+  credentialId?: string;
+};
 
 /**
  * Represents the input type to the Update Data Feed operation.
@@ -449,7 +490,7 @@ export type DataFeedPatch = {
   /**
    * Source of the data feed.
    */
-  source: DataFeedSourcePatch;
+  source: DataFeedSource;
   /**
    * Schema of the data in the data feed, including names of metrics, dimensions, and timestamp columns.
    */
@@ -469,15 +510,6 @@ export type DataFeedPatch = {
      */
     status?: DataFeedDetailStatus;
   };
-
-/**
- * A alias type of supported data sources to pass to Update Data Feed operation.
- *
- * When not changing the data source type, the dataSourceParameter is not required.
- * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
- */
-export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
-  { [P in "dataSourceParameter"]?: DataFeedSource[P] };
 
 /**
  * The logical operator to apply across multiple {@link MetricAlertConfiguration}
@@ -1748,6 +1780,30 @@ export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetect
  * Contains response data for the listHooks operation.
  */
 export interface HooksPageResponse extends Array<NotificationHookUnion> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
+}
+
+/**
+ * Contains response data for the listHooks operation.
+ */
+export interface CredentialsPageResponse extends Array<DataSourceCredentialUnion> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */

@@ -44,9 +44,16 @@ import {
   HooksPageResponse,
   DataFeedStatus,
   GetIngestionProgressResponse,
-  AnomalyAlertConfiguration
+  AnomalyAlertConfiguration,
+  CredentialsPageResponse
 } from "./models";
-import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
+import {
+  DataSourceCredentialPatchUnion,
+  DataSourceCredentialUnion,
+  DataSourceType,
+  HookInfoUnion,
+  NeedRollupEnum
+} from "./generated/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -82,6 +89,11 @@ export type ListHooksOptions = {
    */
   hookName?: string;
 } & OperationOptions;
+
+/**
+ * Options for listing data source credentials
+ */
+export type ListDataSourceCredentialsOptions = {} & OperationOptions;
 
 /**
  * Options for listing data feeds
@@ -1535,6 +1547,106 @@ export class MetricsAdvisorAdministrationClient {
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves data source credential for the given id
+   * @param id -
+   * @param options -
+   */
+
+  public async getDataSourceCredential(
+    id: string,
+    options: OperationOptions = {}
+  ): Promise<DataSourceCredentialUnion> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-getDataSourceCredential",
+      options
+    );
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      const result = await this.client.getCredential(id, requestOptions);
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list data source credentials based on options
+   *
+   * `.byPage()` returns an async iterable iterator to list the credentials in pages.
+   *
+   * Example using `for await` syntax:
+   * TODO: (jeremymeng) add examples
+   */
+  public listDataSourceCredentials(
+    _options: ListDataSourceCredentialsOptions = {}
+  ): PagedAsyncIterableIterator<DataSourceCredentialUnion, CredentialsPageResponse> {
+    throw new Error("Not yet implemented");
+  }
+
+  /**
+   * Updates data source credential for the given id
+   * @param id -
+   * @param patch -
+   * @param options -
+   */
+  public async updateDataSourceCredential(
+    id: string,
+    patch: DataSourceCredentialPatchUnion,
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-updateDataSourceCredential",
+      options
+    );
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      return await this.client.updateCredential(id, patch, requestOptions);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Deletes data source credential for the given id
+   * @param id - id of the hook to delete
+   * @param options - The options parameter
+   */
+  public async deleteDataSourceCredential(
+    id: string,
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-deleteDataSourceCredential",
+      options
+    );
+
+    try {
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      return await this.client.deleteCredential(id, requestOptions);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
         message: e.message
       });
       throw e;
