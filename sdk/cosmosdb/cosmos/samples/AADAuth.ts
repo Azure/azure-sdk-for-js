@@ -36,9 +36,9 @@ async function run() {
   await genericClient.databases.readAll().fetchAll();
 
   // succeeds
-  await aadClient.container(existingContainerId).items();
+  await aadClient.database('example').container(existingContainerId).items.readAll();
   // succeeds
-  await genericClient.container(existingContainerId).items();
+  await genericClient.database('example').container(existingContainerId).items.readAll();
 
   await finish();
 }
