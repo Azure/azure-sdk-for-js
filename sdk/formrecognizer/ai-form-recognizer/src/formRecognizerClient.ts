@@ -25,7 +25,7 @@ import {
   toRequestBody,
   getContentType
 } from "./common";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 import { GeneratedClient } from "./generated/generatedClient";
 import {
@@ -376,7 +376,7 @@ export class FormRecognizerClient {
       return toRecognizeContentResultResponse(analyzeResult);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1025,7 +1025,7 @@ function makeSpanner<Options extends OperationOptions>(
         return handler(updatedOptions, ...args);
       } catch (e) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: e.message
         });
         throw e;
@@ -1068,7 +1068,7 @@ async function recognizeLayoutInternal(
     });
   } catch (e) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: e.message
     });
     throw e;

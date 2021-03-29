@@ -3,6 +3,7 @@
 
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
 import { record, Recorder } from "@azure/test-utils-recorder";
+import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
@@ -59,7 +60,9 @@ describe("DataLakeFileSystemClient", () => {
       keyb: "valb"
     };
     await fileSystemClient.setMetadata(metadata, {
-      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+      tracingOptions: {
+        tracingContext: setSpan(context.active(), rootSpan)
+      }
     });
     rootSpan.end();
 

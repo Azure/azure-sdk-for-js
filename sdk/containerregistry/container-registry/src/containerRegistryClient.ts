@@ -10,7 +10,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
@@ -117,7 +117,7 @@ export class ContainerRegistryClient {
       const result = await this.client.containerRegistry.deleteRepository(name, updatedOptions);
       return result;
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
 
       throw e;
     } finally {

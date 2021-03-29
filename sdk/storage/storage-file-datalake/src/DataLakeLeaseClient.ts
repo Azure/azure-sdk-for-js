@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { BlobLeaseClient } from "@azure/storage-blob";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 import { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models";
 import { createSpan } from "./utils/tracing";
@@ -27,7 +27,7 @@ export class DataLakeLeaseClient {
       return await this.client.acquireLease(duration, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -46,7 +46,7 @@ export class DataLakeLeaseClient {
       return await this.client.changeLease(proposedLeaseId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -62,7 +62,7 @@ export class DataLakeLeaseClient {
       return await this.client.releaseLease(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -78,7 +78,7 @@ export class DataLakeLeaseClient {
       return await this.client.renewLease(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -97,7 +97,7 @@ export class DataLakeLeaseClient {
       return await this.client.breakLease(breakPeriod, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

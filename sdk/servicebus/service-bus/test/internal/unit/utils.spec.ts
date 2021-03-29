@@ -15,7 +15,7 @@ import {
   TRACEPARENT_PROPERTY
 } from "../../../src/diagnostics/instrumentServiceBusMessage";
 import { ServiceBusReceivedMessage } from "../../../src";
-import { TraceFlags } from "@opentelemetry/api";
+import { TraceFlags } from "@azure/core-tracing";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
