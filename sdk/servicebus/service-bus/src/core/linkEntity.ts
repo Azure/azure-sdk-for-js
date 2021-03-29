@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants, TokenType, defaultLock, RequestResponseLink } from "@azure/core-amqp";
+import {
+  Constants,
+  TokenType,
+  defaultLock,
+  RequestResponseLink,
+  StandardAbortMessage
+} from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -12,7 +18,7 @@ import {
   ReceiverOptions,
   SenderOptions
 } from "rhea-promise";
-import { getUniqueName, StandardAbortMessage } from "../util/utils";
+import { getUniqueName } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
 import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
@@ -48,10 +54,14 @@ export interface RequestResponseLinkOptions {
 /**
  * @internal
  */
-export type ReceiverType =
+export type NonSessionReceiverType =
   | "batching" // batching receiver
-  | "streaming" // streaming receiver;
-  | "session"; // message session
+  | "streaming"; // streaming receiver
+
+/**
+ * @internal
+ */
+export type ReceiverType = NonSessionReceiverType | "session"; // message session
 
 /**
  * @internal

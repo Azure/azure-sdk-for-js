@@ -116,14 +116,14 @@ export interface ManifestAttributesManifestReferences {
 export interface RegistryArtifactProperties {
     cpuArchitecture?: string;
     createdOn?: Date;
-    digest: string;
+    digest?: string;
     lastUpdatedOn?: Date;
-    manifestProperties: ContentProperties;
     operatingSystem?: string;
-    registryArtifacts?: ManifestAttributesManifestReferences[];
-    repository: string;
+    references?: ManifestAttributesManifestReferences[];
+    repository?: string;
     size?: number;
-    tags: string[];
+    tags?: string[];
+    writeableProperties?: ContentProperties;
 }
 
 // @public

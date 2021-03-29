@@ -43,9 +43,5 @@ function objectHasProperty<Thing extends unknown, PropertyName extends string>(
   thing: Thing,
   property: PropertyName
 ): thing is Thing & Record<PropertyName, unknown> {
-  if (!(property in thing)) {
-    return false;
-  }
-
-  return true;
+  return typeof thing === "object" && property in (thing as Record<string, unknown>);
 }

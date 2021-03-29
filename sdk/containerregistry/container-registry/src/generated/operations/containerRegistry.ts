@@ -35,7 +35,10 @@ export class ContainerRegistry {
    * @param options The options parameters.
    */
   checkDockerV2Support(options?: coreClient.OperationOptions): Promise<void> {
-    return this.client.sendOperationRequest({ options }, checkDockerV2SupportOperationSpec);
+    return this.client.sendOperationRequest(
+      { options },
+      checkDockerV2SupportOperationSpec
+    );
   }
 
   /**
@@ -45,7 +48,10 @@ export class ContainerRegistry {
   getRepositories(
     options?: ContainerRegistryGetRepositoriesOptionalParams
   ): Promise<ContainerRegistryGetRepositoriesResponse> {
-    return this.client.sendOperationRequest({ options }, getRepositoriesOperationSpec);
+    return this.client.sendOperationRequest(
+      { options },
+      getRepositoriesOperationSpec
+    );
   }
 
   /**
@@ -57,7 +63,10 @@ export class ContainerRegistry {
     name: string,
     options?: coreClient.OperationOptions
   ): Promise<ContainerRegistryDeleteRepositoryResponse> {
-    return this.client.sendOperationRequest({ name, options }, deleteRepositoryOperationSpec);
+    return this.client.sendOperationRequest(
+      { name, options },
+      deleteRepositoryOperationSpec
+    );
   }
 
   /**

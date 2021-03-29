@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableClient, odata } from "../../src";
+import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
@@ -26,9 +27,8 @@ describe("batch operations", () => {
   // which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    // eslint-disable-next-line no-invalid-this
     recorder = record(this, recordedEnvironmentSetup);
     client = createTableClient(tableName, authMode);
 

@@ -19,9 +19,11 @@ async function main() {
   const artifacts = await listArtifacts(client);
   if (artifacts && artifacts.length) {
     const digest = artifacts[0].digest;
-    await getArtifactProperties(client, digest);
+    if (digest) {
+      await getArtifactProperties(client, digest);
 
-    await deleteArtifact(client, digest);
+      await deleteArtifact(client, digest);
+    }
   }
 }
 

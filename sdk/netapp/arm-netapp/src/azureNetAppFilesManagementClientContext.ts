@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-netapp";
-const packageVersion = "12.3.0";
+const packageVersion = "13.0.0";
 
 export class AzureNetAppFilesManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -44,7 +44,7 @@ export class AzureNetAppFilesManagementClientContext extends msRestAzure.AzureSe
 
     super(credentials, options);
 
-    this.apiVersion = '2020-11-01';
+    this.apiVersion = '2020-12-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

@@ -54,7 +54,10 @@ export class ContainerRegistryRepository {
     reference: string,
     options?: ContainerRegistryRepositoryGetManifestOptionalParams
   ): Promise<ContainerRegistryRepositoryGetManifestResponse> {
-    return this.client.sendOperationRequest({ name, reference, options }, getManifestOperationSpec);
+    return this.client.sendOperationRequest(
+      { name, reference, options },
+      getManifestOperationSpec
+    );
   }
 
   /**
@@ -103,7 +106,10 @@ export class ContainerRegistryRepository {
     name: string,
     options?: coreClient.OperationOptions
   ): Promise<ContainerRegistryRepositoryGetPropertiesResponse> {
-    return this.client.sendOperationRequest({ name, options }, getPropertiesOperationSpec);
+    return this.client.sendOperationRequest(
+      { name, options },
+      getPropertiesOperationSpec
+    );
   }
 
   /**
@@ -115,7 +121,10 @@ export class ContainerRegistryRepository {
     name: string,
     options?: ContainerRegistryRepositorySetPropertiesOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest({ name, options }, setPropertiesOperationSpec);
+    return this.client.sendOperationRequest(
+      { name, options },
+      setPropertiesOperationSpec
+    );
   }
 
   /**
@@ -127,7 +136,10 @@ export class ContainerRegistryRepository {
     name: string,
     options?: ContainerRegistryRepositoryGetTagsOptionalParams
   ): Promise<ContainerRegistryRepositoryGetTagsResponse> {
-    return this.client.sendOperationRequest({ name, options }, getTagsOperationSpec);
+    return this.client.sendOperationRequest(
+      { name, options },
+      getTagsOperationSpec
+    );
   }
 
   /**
@@ -170,8 +182,15 @@ export class ContainerRegistryRepository {
    * @param reference Tag name
    * @param options The options parameters.
    */
-  deleteTag(name: string, reference: string, options?: coreClient.OperationOptions): Promise<void> {
-    return this.client.sendOperationRequest({ name, reference, options }, deleteTagOperationSpec);
+  deleteTag(
+    name: string,
+    reference: string,
+    options?: coreClient.OperationOptions
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { name, reference, options },
+      deleteTagOperationSpec
+    );
   }
 
   /**
@@ -183,7 +202,10 @@ export class ContainerRegistryRepository {
     name: string,
     options?: ContainerRegistryRepositoryGetManifestsOptionalParams
   ): Promise<ContainerRegistryRepositoryGetManifestsResponse> {
-    return this.client.sendOperationRequest({ name, options }, getManifestsOperationSpec);
+    return this.client.sendOperationRequest(
+      { name, options },
+      getManifestsOperationSpec
+    );
   }
 
   /**
@@ -231,7 +253,10 @@ export class ContainerRegistryRepository {
     nextLink: string,
     options?: ContainerRegistryRepositoryGetTagsNextOptionalParams
   ): Promise<ContainerRegistryRepositoryGetTagsNextResponse> {
-    return this.client.sendOperationRequest({ name, nextLink, options }, getTagsNextOperationSpec);
+    return this.client.sendOperationRequest(
+      { name, nextLink, options },
+      getTagsNextOperationSpec
+    );
   }
 
   /**
@@ -342,7 +367,12 @@ const getTagsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [Parameters.last, Parameters.n, Parameters.orderby, Parameters.digest],
+  queryParameters: [
+    Parameters.last,
+    Parameters.n,
+    Parameters.orderby,
+    Parameters.digest
+  ],
   urlParameters: [Parameters.url, Parameters.name],
   headerParameters: [Parameters.accept],
   serializer
@@ -449,7 +479,12 @@ const getTagsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  queryParameters: [Parameters.last, Parameters.n, Parameters.orderby, Parameters.digest],
+  queryParameters: [
+    Parameters.last,
+    Parameters.n,
+    Parameters.orderby,
+    Parameters.digest
+  ],
   urlParameters: [Parameters.url, Parameters.name, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

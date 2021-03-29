@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableResponseProperties, TableServiceClient } from "../../src";
+import { Context } from "mocha";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableServiceClient } from "./utils/recordedClient";
 import { isNode } from "../testUtils";
@@ -14,8 +15,7 @@ describe("TableServiceClient", () => {
   const suffix = isNode ? "node" : "browser";
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(function(this: Context) {
     recorder = record(this, recordedEnvironmentSetup);
     client = createTableServiceClient(authMode);
   });
@@ -50,10 +50,9 @@ describe("TableServiceClient", () => {
   describe("listTables", () => {
     const tableNames: string[] = [];
     const expectedTotalItems = 20;
-    before(async function() {
+    before(async function(this: Context) {
       // Create tables to be listed
       if (!isPlaybackMode()) {
-        // eslint-disable-next-line no-invalid-this
         this.timeout(10000);
         for (let i = 0; i < 20; i++) {
           const tableName = `ListTableTest${suffix}${i}`;
@@ -63,10 +62,9 @@ describe("TableServiceClient", () => {
       }
     });
 
-    after(async function() {
+    after(async function(this: Context) {
       // Cleanup tables
       if (!isPlaybackMode()) {
-        // eslint-disable-next-line no-invalid-this
         this.timeout(10000);
         try {
           for (const table of tableNames) {

@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.36.1",
+  "rushVersion": "5.40.7",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -368,11 +368,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-administration",
-      "projectFolder": "sdk/communication/communication-administration",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/communication-chat",
       "projectFolder": "sdk/communication/communication-chat",
       "versionPolicyName": "client"
@@ -646,6 +641,11 @@
       "packageName": "@azure/digital-twins-core",
       "projectFolder": "sdk/digitaltwins/digital-twins-core",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/perf-tests/ai-form-recognizer",
+      "versionPolicyName": "test"
     },
     {
       "packageName": "@azure-tests/perf-eventgrid",

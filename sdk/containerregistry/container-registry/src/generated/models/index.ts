@@ -50,7 +50,7 @@ export interface RepositoryProperties {
   registryArtifactCount: number;
   /** Number of the tags */
   tagCount: number;
-  /** Changeable attributes */
+  /** Writeable properties of the resource */
   writeableProperties: ContentProperties;
 }
 
@@ -79,7 +79,7 @@ export interface TagList {
   /** Image name */
   repository: string;
   /** List of tag attribute details */
-  tags?: TagAttributesBase[];
+  tagAttributeBases?: TagAttributesBase[];
   link?: string;
 }
 
@@ -93,7 +93,7 @@ export interface TagAttributesBase {
   createdOn: Date;
   /** Tag last update time */
   lastUpdatedOn: Date;
-  /** Changeable attributes */
+  /** Writeable properties of the resource */
   writeableProperties?: ContentProperties;
 }
 
@@ -109,7 +109,7 @@ export interface TagProperties {
   createdOn: Date;
   /** Tag last update time */
   lastUpdatedOn: Date;
-  /** Changeable attributes */
+  /** Writeable properties of the resource */
   writeableProperties?: ContentProperties;
 }
 
@@ -137,11 +137,11 @@ export interface ManifestAttributesBase {
   /** Operating system */
   operatingSystem?: string;
   /** List of manifest attributes details */
-  registryArtifacts?: ManifestAttributesManifestReferences[];
+  references?: ManifestAttributesManifestReferences[];
   /** List of tags */
-  tags: string[];
-  /** Changeable attributes */
-  manifestProperties: ContentProperties;
+  tags?: string[];
+  /** Writeable properties of the resource */
+  writeableProperties?: ContentProperties;
 }
 
 /** Manifest attributes details */
@@ -157,9 +157,9 @@ export interface ManifestAttributesManifestReferences {
 /** Manifest attributes details */
 export interface RegistryArtifactProperties {
   /** Image name */
-  repository: string;
+  repository?: string;
   /** Manifest */
-  digest: string;
+  digest?: string;
   /** Image size */
   size?: number;
   /** Created time */
@@ -171,11 +171,11 @@ export interface RegistryArtifactProperties {
   /** Operating system */
   operatingSystem?: string;
   /** List of manifest attributes details */
-  registryArtifacts?: ManifestAttributesManifestReferences[];
+  references?: ManifestAttributesManifestReferences[];
   /** List of tags */
-  tags: string[];
-  /** Changeable attributes */
-  manifestProperties: ContentProperties;
+  tags?: string[];
+  /** Writeable properties of the resource */
+  writeableProperties?: ContentProperties;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {

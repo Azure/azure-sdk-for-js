@@ -1318,7 +1318,7 @@
           "description": "Number of the tags"
         },
         "changeableAttributes": {
-          "description": "Changeable attributes",
+          "description": "Writeable properties of the resource",
           "$ref": "#/definitions/ChangeableAttributes",
           "x-ms-client-name": "writeableProperties"
         }
@@ -1352,7 +1352,9 @@
         },
         "tags": {
           "type": "array",
-          "description": "List of tag attribute details",
+          "description": "List of tag attribute details",      
+          "x-ms-client-name": "TagAttributeBases",
+          "x-accessibility": "internal",
           "items": {
             "$ref": "#/definitions/TagAttributesBase"
           }
@@ -1461,7 +1463,7 @@
         },
         "changeableAttributes": {
           "$ref": "#/definitions/ChangeableAttributes",
-          "description": "Changeable attributes",
+          "description": "Writeable properties of the resource",
           "x-ms-client-name": "writeableProperties"
         }
       },
@@ -1576,11 +1578,6 @@
       }
     },
     "ManifestAttributes": {
-      "required": [
-        "registry",
-        "imageName",
-        "manifest"
-      ],
       "x-ms-client-name": "RegistryArtifactProperties",
       "description": "Manifest attributes details",
       "properties": {
@@ -1621,9 +1618,7 @@
     },
     "ManifestAttributesBase": {
       "required": [
-        "digest",
-        "tags",
-        "changeableAttributes"
+        "digest"
       ],
       "type": "object",
       "description": "Manifest details",
@@ -1662,7 +1657,7 @@
           "x-ms-client-name": "operatingSystem"
         },
         "references": {
-          "x-ms-client-name": "registryArtifacts",
+          "x-accessibility": "internal",
           "type": "array",
           "description": "List of manifest attributes details",
           "items": {
@@ -1680,8 +1675,8 @@
         },
         "changeableAttributes": {
           "$ref": "#/definitions/ChangeableAttributes",
-          "description": "Changeable attributes",
-          "x-ms-client-name": "manifestProperties"
+                    "description": "Writeable properties of the resource",
+                    "x-ms-client-name": "writeableProperties"
         }
       },
       "example": {

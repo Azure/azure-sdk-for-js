@@ -1864,6 +1864,8 @@ export interface AcsChatEventBase {
 
 /** Schema of common properties of all thread-level chat events */
 export interface AcsChatEventInThreadBase {
+  /** The transaction id will be used as co-relation vector */
+  transactionId: string;
   /** The chat thread id */
   threadId: string;
 }
@@ -1894,6 +1896,34 @@ export interface AcsSmsEventBase {
   from: string;
   /** The identity of SMS message receiver */
   to: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.RecordingFileStatusUpdated event. */
+export interface AcsRecordingFileStatusUpdatedEventData {
+  /** The details of recording storage information */
+  recordingStorageInfo: AcsRecordingStorageInfo;
+  /** The time at which the recording started */
+  recordingStartTime: string;
+  /** The recording duration in milliseconds */
+  recordingDurationMs: number;
+  /** The reason for ending recording session */
+  sessionEndReason: string;
+}
+
+/** Schema for all properties of Recording Storage Information. */
+export interface AcsRecordingStorageInfo {
+  /** List of details of recording chunks information */
+  recordingChunks: AcsRecordingChunkInfo[];
+}
+
+/** Schema for all properties of  Recording Chunk Information. */
+export interface AcsRecordingChunkInfo {
+  /** The documentId of the recording chunk */
+  documentId: string;
+  /** The index of the recording chunk */
+  index: number;
+  /** The reason for ending the recording chunk */
+  endReason: string;
 }
 
 /** Event data for Microsoft.Devices.DeviceCreated event. */
@@ -2033,7 +2063,7 @@ export type AcsChatThreadEventInThreadBase = AcsChatEventInThreadBase & {
   version: number;
 };
 
-/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatParticipantAddedToThread event. */
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadParticipantAdded event. */
 export type AcsChatParticipantAddedToThreadEventData = AcsChatEventInThreadBase & {
   /** The time at which the user was added to the thread */
   time: string;
@@ -2045,7 +2075,7 @@ export type AcsChatParticipantAddedToThreadEventData = AcsChatEventInThreadBase 
   version: number;
 };
 
-/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatParticipantRemovedFromThread event. */
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.ChatThreadParticipantRemoved event. */
 export type AcsChatParticipantRemovedFromThreadEventData = AcsChatEventInThreadBase & {
   /** The time at which the user was removed to the thread */
   time: string;
@@ -2067,6 +2097,8 @@ export type AcsSmsDeliveryReportReceivedEventData = AcsSmsEventBase & {
   deliveryAttempts: AcsSmsDeliveryAttempt[];
   /** The time at which the SMS delivery report was received */
   receivedTimestamp: string;
+  /** Customer Content */
+  tag: string;
 };
 
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Communication.SMSReceived event. */

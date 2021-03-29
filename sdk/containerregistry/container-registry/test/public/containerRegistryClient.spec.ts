@@ -54,7 +54,6 @@ describe.skip("ContainerRegistryClient functional tests", function() {
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
-    // eslint-disable-next-line no-invalid-this
     recorder = record(this, {
       // == Recorder Environment Setup == Add the replaceable variables from
       // above

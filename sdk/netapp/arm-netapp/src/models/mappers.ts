@@ -427,6 +427,12 @@ export const ActiveDirectory: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      allowLocalNfsUsersWithLdap: {
+        serializedName: "allowLocalNfsUsersWithLdap",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1340,8 +1346,7 @@ export const Volume: msRest.CompositeMapper = {
         defaultValue: 0,
         constraints: {
           InclusiveMaximum: 4500,
-          InclusiveMinimum: 0,
-          MultipleOf: 0.001
+          InclusiveMinimum: 0
         },
         type: {
           name: "Number"
@@ -1349,6 +1354,43 @@ export const Volume: msRest.CompositeMapper = {
       },
       encryptionKeySource: {
         serializedName: "properties.encryptionKeySource",
+        type: {
+          name: "String"
+        }
+      },
+      ldapEnabled: {
+        serializedName: "properties.ldapEnabled",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceIdentity: msRest.CompositeMapper = {
+  serializedName: "resourceIdentity",
+  type: {
+    name: "Composite",
+    className: "ResourceIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
         type: {
           name: "String"
         }
@@ -1509,8 +1551,7 @@ export const VolumePatch: msRest.CompositeMapper = {
         serializedName: "properties.throughputMibps",
         constraints: {
           InclusiveMaximum: 4500,
-          InclusiveMinimum: 1,
-          MultipleOf: 0.001
+          InclusiveMinimum: 1
         },
         type: {
           name: "Number"
@@ -1864,13 +1905,6 @@ export const SnapshotPolicy: msRest.CompositeMapper = {
           }
         }
       },
-      name1: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
-        }
-      },
       hourlySchedule: {
         serializedName: "properties.hourlySchedule",
         type: {
@@ -1960,13 +1994,6 @@ export const SnapshotPolicyDetails: msRest.CompositeMapper = {
           }
         }
       },
-      name1: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
-        }
-      },
       hourlySchedule: {
         serializedName: "properties.hourlySchedule",
         type: {
@@ -2054,13 +2081,6 @@ export const SnapshotPolicyPatch: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      },
-      name1: {
-        readOnly: true,
-        serializedName: "properties.name",
-        type: {
-          name: "String"
         }
       },
       hourlySchedule: {
@@ -2280,6 +2300,13 @@ export const Backup: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      volumeName: {
+        readOnly: true,
+        serializedName: "properties.volumeName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2351,6 +2378,13 @@ export const BackupPatch: msRest.CompositeMapper = {
       failureReason: {
         readOnly: true,
         serializedName: "properties.failureReason",
+        type: {
+          name: "String"
+        }
+      },
+      volumeName: {
+        readOnly: true,
+        serializedName: "properties.volumeName",
         type: {
           name: "String"
         }
@@ -2754,6 +2788,51 @@ export const Vault: msRest.CompositeMapper = {
       },
       vaultName: {
         serializedName: "properties.vaultName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const BackupStatus: msRest.CompositeMapper = {
+  serializedName: "backupStatus",
+  type: {
+    name: "Composite",
+    className: "BackupStatus",
+    modelProperties: {
+      healthy: {
+        readOnly: true,
+        serializedName: "healthy",
+        type: {
+          name: "Boolean"
+        }
+      },
+      relationshipStatus: {
+        readOnly: true,
+        serializedName: "relationshipStatus",
+        type: {
+          name: "String"
+        }
+      },
+      mirrorState: {
+        readOnly: true,
+        serializedName: "mirrorState",
+        type: {
+          name: "String"
+        }
+      },
+      unhealthyReason: {
+        readOnly: true,
+        serializedName: "unhealthyReason",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        readOnly: true,
+        serializedName: "errorMessage",
         type: {
           name: "String"
         }
