@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.0.0-beta.6",
+  "version": "1.0.0",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -8,15 +8,17 @@
   "types": "types/communication-chat.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:autorest": "autorest ./swagger/README.md --typescript --version=3.0.6267 --v3 --disable-async-iterators=true --package-version=1.0.0-beta.6 && rushx format",
+    "build:autorest": "autorest ./swagger/README.md --typescript --version=3.0.6267 --v3 --disable-async-iterators=true --package-version=1.0.0 && rushx format",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "echo Skipped.",
+    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
-    "execute:samples": "echo skipped",
+    "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
+    "execute:js-samples": "dev-tool samples run dist-samples/javascript",
+    "execute:ts-samples": "dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
@@ -65,7 +67,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/communication-common": "1.0.0",
+    "@azure/communication-common": "^1.0.0",
     "@azure/communication-signaling": "1.0.0-beta.3",
     "@azure/core-auth": "^1.2.0",
     "@azure/core-http": "^1.2.0",
@@ -77,7 +79,8 @@
     "@azure/core-paging": "^1.1.1"
   },
   "devDependencies": {
-    "@azure/communication-identity": "1.0.0-beta.5",
+    "@azure/communication-identity": "^1.0.0",
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",

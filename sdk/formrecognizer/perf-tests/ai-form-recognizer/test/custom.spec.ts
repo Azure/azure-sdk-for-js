@@ -60,7 +60,7 @@ export class CustomModelRecognitionTest extends PerfStressTest<BeginRecognizeCus
     this.documentUrl = getEnvVar("FORM_RECOGNIZER_TEST_DOCUMENT_URL");
   }
 
-  public async globalSetup() {
+  public async globalSetup(): Promise<void> {
     const trainingContainerSasUrl = getEnvVar("FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL");
 
     try {
@@ -75,7 +75,7 @@ export class CustomModelRecognitionTest extends PerfStressTest<BeginRecognizeCus
     }
   }
 
-  public async globalCleanup() {
+  public async globalCleanup(): Promise<void> {
     const modelId = CustomModelRecognitionTest.sessionModel?.modelId;
     if (modelId) {
       console.log(`Deleting ${modelId}`);

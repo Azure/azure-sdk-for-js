@@ -10,8 +10,6 @@ import ts from "typescript";
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 
-import untypedPrettierOptions from "@azure/eslint-plugin-azure-sdk/prettier.json";
-
 import { createPrinter } from "../../util/printer";
 
 const log = createPrinter("ts-to-js");
@@ -20,8 +18,9 @@ export const commandInfo = makeCommandInfo(
   "ts-to-js",
   "convert a TypeScript sample to a JavaScript equivalent using our conventions for samples"
 );
+
 const prettierOptions: prettier.Options = {
-  ...(untypedPrettierOptions as prettier.Options),
+  ...(require("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
   parser: "typescript"
 };
 
@@ -30,8 +29,8 @@ const compilerOptions: ts.CompilerOptions = {
   module: ts.ModuleKind.ES2015
 };
 
-const NEWLINE_SIGIL = "\n//@@TS-MAGIC-NEWLINE@@\n";
-const NEWLINE_SIGIL_SEARCH = /\n\s*\/\/@@TS-MAGIC-NEWLINE@@\n/;
+const NEWLINE_SIGIL = `${EOL}//@@TS-MAGIC-NEWLINE@@${EOL}`;
+const NEWLINE_SIGIL_SEARCH = /\r?\n\s*\/\/@@TS-MAGIC-NEWLINE@@\r?\n/;
 
 /**
  * A set of replacements to perform. Structured as an array of doubles:
