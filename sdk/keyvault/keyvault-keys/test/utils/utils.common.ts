@@ -38,6 +38,7 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
 }
 
 export function getServiceVersion(): string {
+  console.log("env.SERVICE_VERSION", env.SERVICE_VERSION);
   if (!env.SERVICE_VERSION || env.SERVICE_VERSION === "latest") {
     return LATEST_API_VERSION;
   }
