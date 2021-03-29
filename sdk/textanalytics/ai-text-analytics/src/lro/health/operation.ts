@@ -35,7 +35,7 @@ import {
 } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
 import { processAndCombineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../../tracing";
 import { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions";
 export { State };
@@ -227,7 +227,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -277,7 +277,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       return { done: false, operationMetdata: getMetaInfoFromResponse(response) };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -300,7 +300,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
     } catch (e) {
       const exception = handleInvalidDocumentBatch(e);
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: exception.message
       });
       throw exception;
