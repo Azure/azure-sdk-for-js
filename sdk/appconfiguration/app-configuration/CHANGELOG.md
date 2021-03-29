@@ -1,5 +1,10 @@
 # Release History
 
+## 1.2.0-beta.1 (Unreleased)
+
+- Added `updateSyncToken` method to `AppConfigurationClient` to be able to provide external synchronization tokens.
+  [PR #14507](https://github.com/Azure/azure-sdk-for-js/pull/14507)
+
 ## 1.1.1 (2021-03-25)
 
 - Fix issues with `select`ing fields to be returned from `listConfigurationSettings`, `listConfigurationRevisions`
@@ -13,7 +18,7 @@
 ## 1.0.1 (2020-02-19)
 
 - The underlying filter behavior has changed for `listConfigurationSettings` and `listRevisions`.
-  Inline documentation has been revised to accomodate it.
+  Inline documentation has been revised to accommodate it.
 
 ## 1.0.0 (2020-01-06)
 

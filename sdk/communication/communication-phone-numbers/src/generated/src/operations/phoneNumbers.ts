@@ -110,7 +110,10 @@ export class PhoneNumbers {
       capabilities,
       options: this.getOperationOptions(options, "location")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         PhoneNumbersSearchAvailablePhoneNumbersResponse
       >;
@@ -158,7 +161,10 @@ export class PhoneNumbers {
     const operationArguments: coreHttp.OperationArguments = {
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         PhoneNumbersPurchasePhoneNumbersResponse
       >;
@@ -228,7 +234,10 @@ export class PhoneNumbers {
       phoneNumber,
       options: this.getOperationOptions(options, "location")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         PhoneNumbersUpdateCapabilitiesResponse
       >;
@@ -280,7 +289,10 @@ export class PhoneNumbers {
       phoneNumber,
       options: this.getOperationOptions(options, "undefined")
     };
-    const sendOperation = (args: coreHttp.OperationArguments, spec: coreHttp.OperationSpec) => {
+    const sendOperation = (
+      args: coreHttp.OperationArguments,
+      spec: coreHttp.OperationSpec
+    ) => {
       return this.client.sendOperationRequest(args, spec) as Promise<
         PhoneNumbersReleasePhoneNumberResponse
       >;
