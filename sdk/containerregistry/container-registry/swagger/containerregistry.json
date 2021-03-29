@@ -1353,7 +1353,8 @@
         "tags": {
           "type": "array",
           "description": "List of tag attribute details",      
-          "x-ms-client-name": "TagAttributesBase",
+          "x-ms-client-name": "TagAttributeBases",
+          "x-accessibility": "internal",
           "items": {
             "$ref": "#/definitions/TagAttributesBase"
           }
