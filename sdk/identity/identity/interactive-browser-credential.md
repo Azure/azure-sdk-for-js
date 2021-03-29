@@ -46,6 +46,6 @@ Then you need to visit your app registration and update the redirect URI you're 
 
 ## Sample code
 
-You can see a sample project that uses `InteractiveBrowserCredential` with both [Authorization Code Flow][AuthCodeFlow] here: [link to the sample project](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/test/manual).
+You can see a sample project that uses `InteractiveBrowserCredential` with the [Authorization Code Flow][AuthCodeFlow] here: [link to the sample project](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/test/manual).
 
 [AuthCodeFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow
