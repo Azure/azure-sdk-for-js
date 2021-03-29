@@ -1,4 +1,8 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { UsernamePasswordCredential } from "@azure/identity";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { CosmosClient } from "../dist";
 import { handleError, finish, logStep } from "./Shared/handleError";
