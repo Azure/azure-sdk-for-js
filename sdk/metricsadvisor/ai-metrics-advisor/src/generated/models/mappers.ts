@@ -4524,14 +4524,12 @@ export const AnomalyFeedback: coreHttp.CompositeMapper = {
       ...MetricFeedback.type.modelProperties,
       startTime: {
         serializedName: "startTime",
-        required: true,
         type: {
           name: "DateTime"
         }
       },
       endTime: {
         serializedName: "endTime",
-        required: true,
         type: {
           name: "DateTime"
         }
@@ -4571,14 +4569,12 @@ export const ChangePointFeedback: coreHttp.CompositeMapper = {
       ...MetricFeedback.type.modelProperties,
       startTime: {
         serializedName: "startTime",
-        required: true,
         type: {
           name: "DateTime"
         }
       },
       endTime: {
         serializedName: "endTime",
-        required: true,
         type: {
           name: "DateTime"
         }

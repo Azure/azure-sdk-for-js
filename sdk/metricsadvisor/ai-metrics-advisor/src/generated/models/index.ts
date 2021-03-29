@@ -1310,31 +1310,37 @@ export type ServicePrincipalInKVCredentialPatch = DataSourceCredentialPatch & {
 export type AzureApplicationInsightsDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureApplicationInsights";
-  dataSourceParameter: AzureApplicationInsightsParameter;
+  dataSourceParameter?: AzureApplicationInsightsParameter;
 };
 
 export type AzureBlobDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureBlob";
-  dataSourceParameter: AzureBlobParameter;
+  dataSourceParameter?: AzureBlobParameter;
 };
 
 export type AzureCosmosDBDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureCosmosDB";
-  dataSourceParameter: AzureCosmosDBParameter;
+  dataSourceParameter?: AzureCosmosDBParameter;
 };
 
 export type AzureDataExplorerDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureDataExplorer";
-  dataSourceParameter: SqlSourceParameter;
+  dataSourceParameter?: SqlSourceParameter;
 };
 
 export type AzureDataLakeStorageGen2DataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureDataLakeStorageGen2";
-  dataSourceParameter: AzureDataLakeStorageGen2Parameter;
+  dataSourceParameter?: AzureDataLakeStorageGen2Parameter;
+};
+
+export type AzureEventHubsDataFeed = DataFeedDetail & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  dataSourceType: "AzureEventHubs";
+  dataSourceParameter?: AzureEventHubsParameter;
 };
 
 export type AzureEventHubsDataFeed = DataFeedDetail & {
@@ -1346,49 +1352,49 @@ export type AzureEventHubsDataFeed = DataFeedDetail & {
 export type AzureTableDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureTable";
-  dataSourceParameter: AzureTableParameter;
+  dataSourceParameter?: AzureTableParameter;
 };
 
 export type ElasticsearchDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "Elasticsearch";
-  dataSourceParameter: ElasticsearchParameter;
+  dataSourceParameter?: ElasticsearchParameter;
 };
 
 export type HttpRequestDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "HttpRequest";
-  dataSourceParameter: HttpRequestParameter;
+  dataSourceParameter?: HttpRequestParameter;
 };
 
 export type InfluxDBDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "InfluxDB";
-  dataSourceParameter: InfluxDBParameter;
+  dataSourceParameter?: InfluxDBParameter;
 };
 
 export type MySqlDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "MySql";
-  dataSourceParameter: SqlSourceParameter;
+  dataSourceParameter?: SqlSourceParameter;
 };
 
 export type PostgreSqlDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "PostgreSql";
-  dataSourceParameter: SqlSourceParameter;
+  dataSourceParameter?: SqlSourceParameter;
 };
 
 export type SQLServerDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "SqlServer";
-  dataSourceParameter: SqlSourceParameter;
+  dataSourceParameter?: SqlSourceParameter;
 };
 
 export type MongoDBDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "MongoDB";
-  dataSourceParameter: MongoDBParameter;
+  dataSourceParameter?: MongoDBParameter;
 };
 
 export type AzureApplicationInsightsDataFeedPatch = DataFeedDetailPatch & {
@@ -1505,25 +1511,25 @@ export type CommentFeedback = MetricFeedback & {
   startTime?: Date;
   /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
   endTime?: Date;
-  value: CommentFeedbackValue;
+  value?: CommentFeedbackValue;
 };
 
 export type PeriodFeedback = MetricFeedback & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   feedbackType: "Period";
-  value: PeriodFeedbackValue;
+  value?: PeriodFeedbackValue;
 };
 
 export type EmailHookInfo = HookInfo & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   hookType: "Email";
-  hookParameter: EmailHookParameter;
+  hookParameter?: EmailHookParameter;
 };
 
 export type WebhookHookInfo = HookInfo & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   hookType: "Webhook";
-  hookParameter: WebhookHookParameter;
+  hookParameter?: WebhookHookParameter;
 };
 
 export type EmailHookInfoPatch = HookInfoPatch & {
