@@ -9333,7 +9333,7 @@ packages:
     optionalDependencies:
       keytar: 7.4.0
     resolution:
-      integrity: sha512-gLghQ9DWV95yID2PZvpNMgqz9ZQ4fWQvBpJTVLKWWgjwHhk3FWN2If3cDWvwV5Vlj8fOBVf4h4m6ehrbjeVn3w==
+      integrity: sha512-fVT4dTN9DKVQuy28zBkyJGdXJbAiLvYd+AL5+Ueg2wNxP+AkxuRjenkaEG1y1zsUfuBz9CZ6cqnNh6BEHpPBRQ==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
