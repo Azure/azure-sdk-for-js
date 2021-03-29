@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample demonstrates how to list revisions for a configuration
-// setting.
-
+/**
+ * @summary Demonstrates listing revisions for a configuration setting.
+ */
 import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists

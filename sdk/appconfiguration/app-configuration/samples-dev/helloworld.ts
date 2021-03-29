@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample demonstrates the basics - creating settings, updating settings
-// deleting settings and getting them.
-
-const { AppConfigurationClient } = require("@azure/app-configuration");
+/**
+ * @summary Demonstrates the CRUD operations on the configuration settings.
+ */
+import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   console.log(`Running helloworld sample`);
 
   // Set the following environment variable or edit the value on the following line.
@@ -17,6 +18,7 @@ async function main() {
   const client = new AppConfigurationClient(connectionString);
 
   const greetingKey = "Samples:Greeting";
+
   await cleanupSampleValues([greetingKey], client);
 
   // creating a new setting
@@ -39,7 +41,7 @@ async function main() {
   await cleanupSampleValues([greetingKey], client);
 }
 
-async function cleanupSampleValues(keys, client) {
+async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
@@ -49,7 +51,7 @@ async function cleanupSampleValues(keys, client) {
   }
 }
 
-main().catch((error) => {
-  console.error("Failed to run sample:", error);
+main().catch((err) => {
+  console.error("Failed to run sample:", err);
   process.exit(1);
 });

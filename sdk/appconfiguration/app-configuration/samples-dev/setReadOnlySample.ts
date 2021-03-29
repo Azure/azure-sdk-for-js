@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample shows you how to set a configuration setting to read-only.
-// This can help prevent accidental deletion or modification of a setting.
-
+/**
+ * @summary Demonstrates making a configuration setting read-only. This can help prevent accidental deletion or modification of a setting.
+ */
 import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists

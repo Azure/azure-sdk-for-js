@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample builds on concepts in helloworld.ts and shows you how
-// to use labels. Labels allow you to add an extra dimension for your
-// setting and gives you a simple way to create conventions for environments.
-//
-// For additional information about how labels work see:
-// https://docs.microsoft.com/en-us/azure/azure-app-configuration/concept-key-value#label-keys
-
+/**
+ * @summary This sample builds on concepts in helloworld.ts and shows you how to use labels. Labels allow you to add an extra dimension for your
+ * setting and gives you a simple way to create conventions for environments. [Click for more info on labels/keys](https://docs.microsoft.com/en-us/azure/azure-app-configuration/concept-key-value#label-keys)
+ */
 import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample shows you how to get a setting only if it has changed
-// from what you already have. This allows your app to avoid downloading
-// the contents of a setting if the value is unchanged.
-
+/**
+ * @summary Demonstrates getting a setting only if it has changed
+ * from what you already have. (This allows your app to avoid downloading
+ * the contents of a setting if the value is unchanged.)
+ */
 import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists

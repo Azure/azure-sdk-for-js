@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample shows you how to get a setting only if it has changed
-// from what you already have. This allows your app to avoid downloading
-// the contents of a setting if the value is unchanged.
-
-const { AppConfigurationClient } = require("@azure/app-configuration");
+/**
+ * @summary Demonstrates getting a setting only if it has changed
+ * from what you already have. (This allows your app to avoid downloading
+ * the contents of a setting if the value is unchanged.)
+ */
+import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   console.log("Running get setting only if changed sample");
 
   // Set the following environment variable or edit the value on the following line.
@@ -42,7 +44,7 @@ async function main() {
   await cleanupSampleValues([key], client);
 }
 
-async function cleanupSampleValues(keys, client) {
+async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const existingSettings = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
@@ -53,7 +55,7 @@ async function cleanupSampleValues(keys, client) {
   }
 }
 
-main().catch((error) => {
-  console.error("Failed to run sample:", error);
+main().catch((err) => {
+  console.error("Failed to run sample:", err);
   process.exit(1);
 });

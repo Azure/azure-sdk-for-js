@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample shows how to implement optimistic concurrency using
-// App Configuration and etags.
-
+/**
+ * @summary Demonstrates implementing optimistic concurrency using App Configuration and etags.
+ */
 import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists

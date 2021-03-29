@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample demonstrates how to list revisions for a configuration
-// setting.
-
-const { AppConfigurationClient } = require("@azure/app-configuration");
+/**
+ * @summary Demonstrates listing revisions for a configuration setting.
+ */
+import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   console.log(`Running listRevisions sample`);
 
   // Set the following environment variable or edit the value on the following line.
@@ -49,7 +50,7 @@ async function main() {
   cleanupSampleValues([originalSetting.key], client);
 }
 
-async function cleanupSampleValues(keys, client) {
+async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
@@ -59,7 +60,7 @@ async function cleanupSampleValues(keys, client) {
   }
 }
 
-main().catch((error) => {
-  console.error("Failed to run sample:", error);
+main().catch((err) => {
+  console.error("Failed to run sample:", err);
   process.exit(1);
 });

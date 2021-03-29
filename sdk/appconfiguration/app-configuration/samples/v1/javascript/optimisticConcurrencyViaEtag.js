@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample shows how to implement optimistic concurrency using
-// App Configuration and etags.
-
+/**
+ * @summary Demonstrates implementing optimistic concurrency using App Configuration and etags.
+ */
 const { AppConfigurationClient } = require("@azure/app-configuration");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   console.log("Running optimistic concurrency sample");
@@ -117,7 +118,7 @@ async function cleanupSampleValues(keys, client) {
   }
 }
 
-main().catch((error) => {
-  console.error("Failed to run sample:", error);
+main().catch((err) => {
+  console.error("Failed to run sample:", err);
   process.exit(1);
 });

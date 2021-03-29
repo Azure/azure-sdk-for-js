@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample demonstrates the basics - creating settings, updating settings
-// deleting settings and getting them.
-
+/**
+ * @summary Demonstrates the CRUD operations on the configuration settings.
+ */
 import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists

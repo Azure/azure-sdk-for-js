@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample demonstrates how to list multiple configuration
-// settings using a filter for a key or label.
-
-import { AppConfigurationClient } from "@azure/app-configuration";
+/**
+ * @summary Demonstrates listing multiple configuration settings using a filter for a key or label.
+ */
+const { AppConfigurationClient } = require("@azure/app-configuration");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
-export async function main() {
+async function main() {
   console.log(`Running listConfigurationSettings sample`);
 
   // Set the following environment variable or edit the value on the following line.

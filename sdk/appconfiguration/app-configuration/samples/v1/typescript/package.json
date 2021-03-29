@@ -1,10 +1,10 @@
 {
   "name": "azure-app-configuration-samples-ts",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Azure App Configuration client library samples for TypeScript",
   "engine": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "scripts": {
     "build": "tsc",
@@ -12,28 +12,29 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/appconfiguration/app-configuration"
   },
   "keywords": [
-    "Azure",
-    "App Configuration",
-    "Node.js",
-    "TypeScript"
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
-  "sideEffects": false,
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration",
   "dependencies": {
-    "@azure/app-configuration": "^1.0.0",
-    "dotenv": "^8.2.0"
+    "@azure/app-configuration": "latest",
+    "dotenv": "latest"
   },
   "devDependencies": {
-    "@types/node": "^8.0.0",
-    "rimraf": "^3.0.0",
-    "typescript": "~3.6.4"
+    "typescript": "~4.2.0",
+    "rimraf": "latest"
   }
 }

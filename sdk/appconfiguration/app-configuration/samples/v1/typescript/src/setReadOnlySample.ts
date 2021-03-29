@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample shows you how to set a configuration setting to read-only.
-// This can help prevent accidental deletion or modification of a setting.
-
-const { AppConfigurationClient } = require("@azure/app-configuration");
+/**
+ * @summary Demonstrates making a configuration setting read-only. This can help prevent accidental deletion or modification of a setting.
+ */
+import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main() {
   console.log("Running setReadOnly sample");
 
   // Set the following environment variable or edit the value on the following line.
@@ -60,17 +61,18 @@ async function main() {
   await cleanupSampleValues([readOnlySampleKey], client);
 }
 
-async function cleanupSampleValues(keys, client) {
+async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const existingSettings = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
+
   for await (const setting of existingSettings) {
     await client.setReadOnly(setting, false);
     await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
   }
 }
 
-main().catch((error) => {
-  console.error("Failed to run sample:", error);
+main().catch((err) => {
+  console.error("Failed to run sample:", err);
   process.exit(1);
 });
