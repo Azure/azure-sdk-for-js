@@ -19,8 +19,18 @@ export const featureFlagPrefix = ".appconfig.featureflag/";
  */
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
 
+/**
+ * Necessary fields for updating or creating a new feature flag.
+ */
 export interface FeatureFlagParam extends ConfigurationSettingParam {
   // TODO: can we hoist 'clientFilters' higher and avoid this sub-field? Need to talk to team.
+  /**
+   * A Feature filter consistently evaluates the state of a feature flag.
+   * Our feature management library supports three types of built-in filters: Targeting, TimeWindow, and Percentage.
+   * Custom filters can also be created based on different factors, such as device used, browser types, geographic location, etc.
+   *
+   * [More Info](https://docs.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
+   */
   conditions: {
     clientFilters: (
       | FeatureFlagTargetingClientFilter
@@ -29,15 +39,40 @@ export interface FeatureFlagParam extends ConfigurationSettingParam {
       | object
     )[];
   };
+  /**
+   * Description of the feature.
+   */
   description?: string;
+  /**
+   * Display name for the feature to use for display rather than the ID.
+   */
   displayName: string;
+  /**
+   * Boolean flag to say if the feature flag is enabled.
+   */
   enabled: boolean;
 }
 
+/**
+ * FeatureFlag represents a configuration setting that stores a feature flag value.
+ *
+ * [More Info](https://docs.microsoft.com/azure/azure-app-configuration/concept-feature-management)
+ */
 export interface FeatureFlag extends FeatureFlagParam, ConfigurationSetting {}
 
+/**
+ * Targeting Client filter for the feature flag configuration setting.
+ *
+ * [More Info](https://docs.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
+ */
 export interface FeatureFlagTargetingClientFilter {
+  /**
+   * The name of the feature filter.
+   */
   name: "Microsoft.Targeting";
+  /**
+   * Parameters that can be passed in the filter.
+   */
   parameters: {
     // TODO: can we hoist these values up directly into the filter, rather than having this 'parameters' intermediary.
     audience: {
@@ -53,8 +88,19 @@ export interface FeatureFlagTargetingClientFilter {
   };
 }
 
+/**
+ * Time window Client filter for the feature flag configuration setting.
+ *
+ * [More Info](https://docs.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
+ */
 export interface FeatureFlagTimeWindowClientFilter {
+  /**
+   * The name of the feature filter.
+   */
   name: "Microsoft.TimeWindow";
+  /**
+   * Parameters that can be passed in the filter.
+   */
   parameters: {
     start: string;
     end: string;
@@ -62,29 +108,55 @@ export interface FeatureFlagTimeWindowClientFilter {
   };
 }
 
+/**
+ * Percentage Client filter for the feature flag configuration setting.
+ *
+ * [More Info](https://docs.microsoft.com/en-us/azure/azure-app-configuration/howto-feature-filters-aspnet-core)
+ */
 export interface FeatureFlagPercentageClientFilter {
+  /**
+   * The name of the feature filter.
+   */
   name: "Microsoft.Percentage";
+  /**
+   * Parameters that can be passed in the filter.
+   */
   parameters: {
     [key: string]: any;
   };
 }
 
+/**
+ * FeatureFlag represents a configuration setting that stores a feature flag value.
+ * [More Info](https://docs.microsoft.com/azure/azure-app-configuration/concept-feature-management)
+ *
+ * This helper method tells you if the given setting is a feature flag.
+ */
 export function isFeatureFlag(setting: ConfigurationSetting | FeatureFlag): setting is FeatureFlag {
   return setting.contentType === featureFlagContentType;
 }
 
+/**
+ * This helper method tells you if the given client filter has the name "Microsoft.Targeting".
+ */
 function isFeatureFlagTargetingClientFilter(
   clientFilter: any
 ): clientFilter is FeatureFlagTargetingClientFilter {
   return clientFilter.name === "Microsoft.Targeting";
 }
 
+/**
+ * This helper method tells you if the given client filter has the name "Microsoft.TimeWindow".
+ */
 function isFeatureFlagTimeWindowClientFilter(
   clientFilter: any
 ): clientFilter is FeatureFlagTimeWindowClientFilter {
   return clientFilter.name === "Microsoft.TimeWindow";
 }
 
+/**
+ * This helper method tells you if the given client filter has the name "Microsoft.Percentage".
+ */
 function isFeatureFlagPercentageClientFilter(
   clientFilter: any
 ): clientFilter is FeatureFlagPercentageClientFilter {
@@ -101,6 +173,9 @@ export type FeatureFlagType<
   ? FeatureFlagPercentageClientFilter
   : never;
 
+/**
+ * This helper method tells you if the given client filter is a FeatureFlagClientFilter.
+ */
 export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" | "percentage">(
   type: T,
   obj: any
