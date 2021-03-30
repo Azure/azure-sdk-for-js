@@ -1,9 +1,23 @@
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary, PerfStressTest } from "@azure/test-utils-perfstress";
 import { KeyClient } from "@azure/keyvault-keys";
 import { credential, keyVaultUri } from "../utils";
 import { v4 as uuid } from "uuid";
 
-export abstract class KeyTest extends PerfStressTest {
+interface KeyPerfTestOptions {
+  keySize: number;
+}
+
+export abstract class KeyTest extends PerfStressTest<KeyPerfTestOptions> {
+  options: PerfStressOptionDictionary<KeyPerfTestOptions> = {
+    keySize: {
+      required: false,
+      description: "The size of the key to be created",
+      shortName: "ks",
+      longName: "key-size",
+      defaultValue: 2048
+    }
+  };
+
   keyClient: KeyClient;
   static keyName = `k-${uuid()}`;
 
@@ -15,7 +29,7 @@ export abstract class KeyTest extends PerfStressTest {
   async globalSetup() {
     // Create a single shared key for all tests
     await this.keyClient.createRsaKey(KeyTest.keyName, {
-      keySize: 2048
+      keySize: this.parsedOptions.keySize.value!
     });
   }
 
@@ -29,8 +43,6 @@ export abstract class KeyTest extends PerfStressTest {
 }
 
 export class GetKeyTest extends KeyTest {
-  public options = {};
-
   async runAsync(): Promise<void> {
     await this.keyClient.getKey(KeyTest.keyName);
   }
