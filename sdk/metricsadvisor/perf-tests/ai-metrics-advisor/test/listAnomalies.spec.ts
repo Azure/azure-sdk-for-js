@@ -27,6 +27,6 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
     this.client.listAnomalies({
       alertConfigId: this.alertConfigId,
       id: this.alertId
-    });
+    })
   }
 }
