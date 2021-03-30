@@ -72,8 +72,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-xml": "1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.10",
-    "@opentelemetry/api": "^0.10.2",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "tslib": "^2.0.0",
     "uuid": "^8.3.0"
   },
@@ -117,13 +116,13 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
-    "typescript": "~4.1.2",
+    "typescript": "~4.2.0",
     "util": "^0.12.1",
     "dotenv": "^8.2.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "@rollup/plugin-inject": "^4.0.0",
-    "ts-node": "^8.3.0",
+    "ts-node": "^9.0.0",
     "typedoc": "0.15.2"
   },
   "//metadata": {

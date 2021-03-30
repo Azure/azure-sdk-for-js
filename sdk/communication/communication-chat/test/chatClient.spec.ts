@@ -8,6 +8,7 @@ import { createTestUser, createRecorder, createChatClient } from "./utils/record
 import { isNode } from "@azure/core-http";
 import sinon from "sinon";
 import { CommunicationIdentifier } from "@azure/communication-common";
+import { Context } from "mocha";
 
 describe("ChatClient", function() {
   let threadId: string;
@@ -18,18 +19,18 @@ describe("ChatClient", function() {
   let testUser: CommunicationIdentifier;
   let testUser2: CommunicationIdentifier;
 
-  this.afterAll(async function() {
+  after(async function() {
     // await deleteTestUser(testUser);
     // await deleteTestUser(testUser2);
     // await deleteTestUser(testUser3);
   });
 
   describe("Chat Operations", function() {
-    beforeEach(function() {
+    beforeEach(function(this: Context) {
       recorder = createRecorder(this);
     });
 
-    afterEach(async function() {
+    afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
@@ -71,7 +72,7 @@ describe("ChatClient", function() {
   });
 
   describe("Realtime Notifications", function() {
-    before(async function() {
+    before(async function(this: Context) {
       // Realtime notifications are browser only
       if (isNode || !isLiveMode()) {
         this.skip();
@@ -86,17 +87,12 @@ describe("ChatClient", function() {
       threadId = chatThreadResult.chatThread?.id!;
 
       // Create ChatThreadClient
-      chatThreadClient = await chatClient.getChatThreadClient(threadId);
+      chatThreadClient = chatClient.getChatThreadClient(threadId);
     });
 
     beforeEach(async function() {
       // Start notifications
       await chatClient.startRealtimeNotifications();
-    });
-
-    afterEach(async function() {
-      // Stop notifications
-      await chatClient.stopRealtimeNotifications();
     });
 
     it("successfully stops realtime notifications", async function() {

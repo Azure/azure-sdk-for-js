@@ -4,12 +4,8 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { createSpan } from "../../util/tracing";
-import {
-  AuthenticationErrorName,
-  AuthenticationError,
-  CredentialUnavailable
-} from "../../client/errors";
-import { CanonicalCode } from "@opentelemetry/api";
+import { AuthenticationError, CredentialUnavailable } from "../../client/errors";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { mapScopesToResource } from "./utils";
 import { cloudShellMsi } from "./cloudShellMsi";
@@ -108,12 +104,8 @@ export class ManagedIdentityCredential implements TokenCredential {
 
       return availableMSI.getToken(this.identityClient, resource, clientId, updatedOptions);
     } catch (err) {
-      const code =
-        err.name === AuthenticationErrorName
-          ? CanonicalCode.UNAUTHENTICATED
-          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
       throw err;
@@ -135,7 +127,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     let result: AccessToken | null = null;
 
     const { span, updatedOptions } = createSpan("ManagedIdentityCredential-getToken", options);
@@ -181,7 +173,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     } catch (err) {
       // CredentialUnavailable errors are expected to reach here.
       // We intend them to bubble up, so that DefaultAzureCredential can catch them.
-      if (err instanceof CredentialUnavailable) {
+      if (err.name === "AuthenticationRequired") {
         throw err;
       }
 
@@ -192,7 +184,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       //   but no identity is available.
 
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
 

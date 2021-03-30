@@ -8,13 +8,11 @@ import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
-import { SampleConfiguration } from "../../util/shouldSkip";
+import { getSampleConfiguration } from "../../util/sampleConfiguration";
 
 const log = createPrinter("run-samples");
 
 const IGNORE = ["node_modules"];
-
-const SAMPLE_CONFIGURATION_KEY = "//sampleConfiguration";
 
 export const commandInfo = makeCommandInfo(
   "run",
@@ -30,12 +28,12 @@ export const commandInfo = makeCommandInfo(
 async function runSingle(name: string, accumulatedErrors: Array<[string, string]>) {
   log("Running", name);
   try {
-    if (/.*[\\\/]samples[\\\/].*/.exec(name)) {
+    if (/.*[\\\/]samples(-dev)?[\\\/].*/.exec(name)) {
       // This is an un-prepared sample, so just require it and it will run.
       await import(name);
     } else if (!/.*[\\\/]dist-samples[\\\/].*/.exec(name)) {
       // This is not an unprepared or a prepared sample
-      log.warn("Executing a file that is neither in samples nor dist-samples.");
+      log.error("Skipped. This file is not in any samples folder.");
     } else {
       const { main: sampleMain } = await import(name);
       await sampleMain();
@@ -61,13 +59,18 @@ export default leafCommand(commandInfo, async (options) => {
 
   log.debug("Resolving samples metadata to:", packageLocation);
 
-  const sampleConfiguration = packageJson[SAMPLE_CONFIGURATION_KEY] as
-    | SampleConfiguration
-    | undefined;
+  const sampleConfiguration = getSampleConfiguration(packageJson);
 
-  const skips = sampleConfiguration?.skip ?? [];
+  const skips = sampleConfiguration.skip ?? [];
 
   log.debug("Skipping the following samples:", skips);
+
+  if (sampleConfiguration.skipFolder) {
+    log.warn(
+      "`skipFolder` is specified in the sample configuration, but it is ignored in this context."
+    );
+    log.warn("To skip samples in live tests pipelines, disable them using the package's tests.yml");
+  }
 
   const samples = options.args.map((dir) => path.resolve(dir));
 
@@ -81,7 +84,7 @@ export default leafCommand(commandInfo, async (options) => {
     } else if (stats.isDirectory()) {
       for await (const fileName of findMatchingFiles(
         sample,
-        (name, entry) => entry.isFile() && name.endsWith(".js"),
+        (name, entry) => entry.isFile() && /\.[jt]s$/.exec(name) !== null,
         {
           ignore: IGNORE,
           skips

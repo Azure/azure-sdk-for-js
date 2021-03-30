@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
+import { delay, OperationOptions } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import {
   RestoreCertificateBackupPollOperationState,
@@ -13,7 +13,7 @@ import { KeyVaultCertificate } from "../../../../src/certificatesModels";
 export interface RestoreCertificateBackupPollerOptions {
   client: TestCertificateClientInterface;
   backup: Uint8Array;
-  requestOptions?: RequestOptionsBase;
+  operationOptions?: OperationOptions;
   intervalInMs?: number;
   resumeFrom?: string;
 }
@@ -31,7 +31,7 @@ export class RestoreCertificateBackupPoller extends Poller<
   public intervalInMs: number;
 
   constructor(options: RestoreCertificateBackupPollerOptions) {
-    const { client, backup, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { client, backup, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RestoreCertificateBackupPollOperationState | undefined;
 
@@ -42,7 +42,7 @@ export class RestoreCertificateBackupPoller extends Poller<
     const operation = makeRestoreCertificateBackupPollOperation({
       ...state,
       backup,
-      requestOptions,
+      operationOptions,
       client
     });
 

@@ -29,7 +29,7 @@ import {
 } from "@azure/core-http";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
 import { ChatThreadClient } from "./chatThreadClient";
 import {
@@ -40,6 +40,7 @@ import {
 } from "./models/options";
 import {
   mapToChatParticipantRestModel,
+  mapToCreateChatThreadOptionsRestModel,
   mapToCreateChatThreadResultSdkModel
 } from "./models/mappers";
 import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
@@ -127,6 +128,8 @@ export class ChatClient {
     try {
       // We generate an UUID if the user does not provide an idempotencyToken value
       updatedOptions.idempotencyToken = updatedOptions.idempotencyToken ?? generateUuid();
+      const updatedRestModelOptions = mapToCreateChatThreadOptionsRestModel(updatedOptions);
+
       const { _response, ...result } = await this.client.chat.createChatThread(
         {
           topic: request.topic,
@@ -134,12 +137,12 @@ export class ChatClient {
             mapToChatParticipantRestModel(participant)
           )
         },
-        operationOptionsToRequestOptionsBase(updatedOptions)
+        operationOptionsToRequestOptionsBase(updatedRestModelOptions)
       );
       return mapToCreateChatThreadResultSdkModel(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -206,7 +209,7 @@ export class ChatClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -233,7 +236,7 @@ export class ChatClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

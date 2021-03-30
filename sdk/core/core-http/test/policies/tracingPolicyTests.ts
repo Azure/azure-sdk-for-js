@@ -9,8 +9,17 @@ import {
   HttpHeaders,
   RequestPolicyOptions
 } from "../../src/coreHttp";
-import { SpanOptions, SpanContext, TraceFlags } from "@opentelemetry/api";
-import { setTracer, NoOpTracer, NoOpSpan } from "@azure/core-tracing";
+import {
+  setTracer,
+  NoOpTracer,
+  NoOpSpan,
+  SpanOptions,
+  SpanContext,
+  TraceFlags,
+  TraceState,
+  setSpan,
+  context
+} from "@azure/core-tracing";
 import { tracingPolicy } from "../../src/policies/tracingPolicy";
 
 class MockSpan extends NoOpSpan {
@@ -35,24 +44,29 @@ class MockSpan extends NoOpSpan {
 
   context(): SpanContext {
     const state = this.state;
+
+    const traceState = {
+      set(_key: string, _value: string): TraceState {
+        // Nothing to do here.
+        return traceState;
+      },
+      unset(_key: string): TraceState {
+        // Nothing to do here.
+        return traceState;
+      },
+      get(_key: string): string | undefined {
+        return;
+      },
+      serialize() {
+        return state;
+      }
+    };
+
     return {
       traceId: this.traceId,
       spanId: this.spanId,
       traceFlags: this.flags,
-      traceState: {
-        set(_key: string, _value: string) {
-          // Nothing to do here.
-        },
-        unset(_key: string) {
-          // Nothing to do here.
-        },
-        get(_key: string): string | undefined {
-          return;
-        },
-        serialize() {
-          return state;
-        }
-      }
+      traceState
     };
   }
 }
@@ -117,9 +131,8 @@ describe("tracingPolicy", function() {
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
     setTracer(mockTracer);
     const request = new WebResource();
-    request.spanOptions = {
-      parent: ROOT_SPAN.context()
-    };
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
 
@@ -144,9 +157,8 @@ describe("tracingPolicy", function() {
     const mockTracer = new MockTracer(mockTraceId, mockSpanId);
     setTracer(mockTracer);
     const request = new WebResource();
-    request.spanOptions = {
-      parent: ROOT_SPAN.context()
-    };
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
 
@@ -171,9 +183,8 @@ describe("tracingPolicy", function() {
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
     setTracer(mockTracer);
     const request = new WebResource();
-    request.spanOptions = {
-      parent: ROOT_SPAN.context()
-    };
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
 
@@ -198,9 +209,8 @@ describe("tracingPolicy", function() {
     const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
     setTracer(mockTracer);
     const request = new WebResource();
-    request.spanOptions = {
-      parent: ROOT_SPAN.context()
-    };
+    request.tracingContext = setSpan(context.active(), ROOT_SPAN);
+
     const policy = tracingPolicy().create(
       {
         sendRequest(requestParam: WebResource): Promise<HttpOperationResponse> {
@@ -236,9 +246,7 @@ describe("tracingPolicy", function() {
   it("will not set headers if span is a NoOpSpan", async () => {
     setTracer(new NoOpTracer());
     const request = new WebResource();
-    request.spanOptions = {
-      parent: ROOT_SPAN.context()
-    };
+
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
     await policy.sendRequest(request);
 

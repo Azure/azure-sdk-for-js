@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, TokenCredential } from "@azure/core-http";
+import { isNode, TokenCredential, OperationOptions } from "@azure/core-http";
+import { Context } from "mocha";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -135,18 +136,21 @@ describe("internal crypto tests", () => {
     });
 
     describe("Encrypt parameter mapping", async function() {
-      it("maps parameters correctly when using the previous API", async function() {
+      it("maps parameters correctly when using the previous API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
         await client.encrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
         sinon.assert.calledWith(
           encryptStub,
           { algorithm: "RSA1_5", plaintext: text },
-          { requestOptions: { timeout: 5 }, tracingOptions: { spanOptions: {} } }
+          operationOptionsSinonMatcher({
+            requestOptions: { timeout: 5 },
+            tracingOptions: { spanOptions: {} }
+          })
         );
       });
 
-      it("maps parameters correctly when using the current API", async function() {
+      it("maps parameters correctly when using the current API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.encrypt(
@@ -157,24 +161,30 @@ describe("internal crypto tests", () => {
         sinon.assert.calledWith(
           encryptStub,
           { algorithm: "RSA1_5", plaintext: text },
-          { requestOptions: { timeout: 5 }, tracingOptions: { spanOptions: {} } }
+          operationOptionsSinonMatcher({
+            requestOptions: { timeout: 5 },
+            tracingOptions: { spanOptions: {} }
+          })
         );
       });
     });
 
     describe("Decrypt parameter mapping", async function() {
-      it("maps parameters correctly when using the previous API", async function() {
+      it("maps parameters correctly when using the previous API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
         await client.decrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
         sinon.assert.calledWith(
           decryptStub,
           { algorithm: "RSA1_5", ciphertext: text },
-          { requestOptions: { timeout: 5 }, tracingOptions: { spanOptions: {} } }
+          operationOptionsSinonMatcher({
+            requestOptions: { timeout: 5 },
+            tracingOptions: { spanOptions: {} }
+          })
         );
       });
 
-      it("maps parameters correctly when using the current API", async function() {
+      it("maps parameters correctly when using the current API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.decrypt(
@@ -185,14 +195,17 @@ describe("internal crypto tests", () => {
         sinon.assert.calledWith(
           decryptStub,
           { algorithm: "RSA1_5", ciphertext: text },
-          { requestOptions: { timeout: 5 }, tracingOptions: { spanOptions: {} } }
+          operationOptionsSinonMatcher({
+            requestOptions: { timeout: 5 },
+            tracingOptions: { spanOptions: {} }
+          })
         );
       });
     });
   });
 
   describe("RSA local cryptography tests", function() {
-    it("throws a validation error when the key is invalid", function() {
+    it("throws a validation error when the key is invalid", function(this: Context) {
       if (!isNode) {
         // Local cryptography is not supported in the browser
         this.skip();
@@ -204,7 +217,7 @@ describe("internal crypto tests", () => {
       );
     });
 
-    it("uses the browser replacement when running in the browser", function() {
+    it("uses the browser replacement when running in the browser", function(this: Context) {
       if (isNode) {
         this.skip();
       }
@@ -216,3 +229,25 @@ describe("internal crypto tests", () => {
     });
   });
 });
+
+/**
+ * The tests in this suite check that the created options match what createSpan() would create
+ * when properly parenting and propagating options.
+ *
+ * This is slightly trickier with later versions of OpenTelemetry where the created `context`
+ * instances are not guaranteed to be comparable even if they are logically the same. So this
+ * matcher does the comparisons needed and still maintain sinon.calledWith() compatibility.
+ */
+function operationOptionsSinonMatcher<T extends OperationOptions>(
+  expectedPropagatedOptions: T
+): ReturnType<typeof sinon.match> {
+  return sinon.match((actualOptions: T) => {
+    // check that an actual context was set up (ie, we must have
+    // called `createSpan` to get these new options.)
+    assert.ok(actualOptions.tracingOptions?.tracingContext);
+    delete actualOptions.tracingOptions?.tracingContext;
+
+    assert.deepEqual(expectedPropagatedOptions, actualOptions);
+    return true;
+  });
+}

@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions, RestError } from "@azure/core-http";
-import { CanonicalCode, Span, SpanContext, SpanKind } from "@opentelemetry/api";
+import { OperationOptions } from "@azure/core-http";
 import {
   createSpanFunction,
   extractSpanContextFromTraceParentHeader,
   getTraceParentHeader,
-  SpanOptions
+  SpanOptions,
+  setSpan,
+  Span,
+  SpanContext,
+  SpanKind,
+  context as otContext,
+  setSpanContext
 } from "@azure/core-tracing";
 import { ServiceBusMessage } from "../serviceBusMessage";
 import { TryAddOptions } from "../modelsToBeSharedWithEventHubs";
@@ -20,24 +25,6 @@ export const createSpan = createSpanFunction({
   packagePrefix: "Azure.ServiceBus",
   namespace: "Microsoft.ServiceBus"
 });
-
-/**
- * @internal
- */
-export function getCanonicalCode(err: Error): CanonicalCode {
-  if (err instanceof RestError) {
-    switch (err.statusCode) {
-      case 401:
-        return CanonicalCode.PERMISSION_DENIED;
-      case 404:
-        return CanonicalCode.NOT_FOUND;
-      case 412:
-        return CanonicalCode.FAILED_PRECONDITION;
-    }
-  }
-
-  return CanonicalCode.UNKNOWN;
-}
 
 /**
  * @internal
@@ -191,7 +178,7 @@ export function extractSpanContextFromServiceBusMessage(
 export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOptions): TryAddOptions {
   /* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
   // @ts-ignore: parentSpan is deprecated and this is compat code to translate it until we can get rid of it.
-  const possibleParentSpan = tryAddOptions.parentSpan;
+  const legacyParentSpanOrSpanContext = tryAddOptions.parentSpan;
 
   /*
     Our goal here is to offer compatibility but there is a case where a user might accidentally pass
@@ -226,7 +213,7 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
     try to announce this (and other changes related to tracing) in our next big rev.
   */
 
-  if (!possibleParentSpan || tryAddOptions.tracingOptions) {
+  if (!legacyParentSpanOrSpanContext || tryAddOptions.tracingOptions) {
     // assume that the options are already in the modern shape even if (possibly)
     // they were still specifying `parentSpan`
     return tryAddOptions;
@@ -235,9 +222,9 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
   const convertedOptions: TryAddOptions = {
     ...tryAddOptions,
     tracingOptions: {
-      spanOptions: {
-        parent: isSpan(possibleParentSpan) ? possibleParentSpan.context() : possibleParentSpan
-      }
+      tracingContext: isSpan(legacyParentSpanOrSpanContext)
+        ? setSpan(otContext.active(), legacyParentSpanOrSpanContext)
+        : setSpanContext(otContext.active(), legacyParentSpanOrSpanContext)
     }
   };
 

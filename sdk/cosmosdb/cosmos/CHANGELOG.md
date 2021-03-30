@@ -1,8 +1,12 @@
 # Release History
 
-## 3.10.4 (2021-03-12)
+## 3.10.5 (2021-03-25)
 
-- FEATURE: Adds Bulk continueOnError option
+- BUGFIX: Pins node-abort-controller version as we depend on a type in v1.2.0.
+
+## 3.10.4 (2021-03-23)
+
+- FEATURE: Adds Bulk continueOnError option.
 
 ## 3.10.3 (2021-03-12)
 

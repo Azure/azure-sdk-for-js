@@ -3,6 +3,7 @@
 
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
+import { Context } from "mocha";
 import { PhoneNumberCapabilitiesRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { buildCapabilityUpdate } from "./utils";
@@ -17,7 +18,7 @@ describe("PhoneNumbersClient - lro - update", function() {
     ({ client, recorder } = createRecordedClient(this));
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }

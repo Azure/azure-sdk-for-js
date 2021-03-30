@@ -15,19 +15,21 @@ function Confirm-NodeInstallation
   }
 }
 
-function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
+function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory)
 {
   $projectPath = Join-Path $pkgPath "package.json"
   if (Test-Path $projectPath)
   {
     $projectJson = Get-Content $projectPath | ConvertFrom-Json
     $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
-    if ($pkgName -and ($pkgName -ne $jsStylePkgName -and $pkgName -ne $projectJson.name))
-    {
-      return $null
-    }
+
     $pkgProp = [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
-    $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+    if ($projectJson.psobject.properties.name -contains 'sdk-type') {
+      $pkgProp.SdkType = $projectJson.psobject.properties['sdk-type'].value
+    }
+    else {
+      $pkgProp.SdkType = "unknown"
+    }
     if ($projectJson.name.StartsWith("@azure/arm"))
     {
       $pkgProp.SdkType = "mgmt"
@@ -260,7 +262,7 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName = ""
   return $packages
 }
 
-function SetPackageVersion ($PackageName, $Version, $ServiceDirectory = $null, $ReleaseDate, $BuildType = $null, $GroupId = $null)
+function SetPackageVersion ($PackageName, $Version, $ReleaseDate)
 {
   if ($null -eq $ReleaseDate)
   {

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import {
   AesCbcEncryptionAlgorithm,
   CryptographyClient,
@@ -19,7 +20,7 @@ import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptog
 import { ClientSecretCredential } from "@azure/identity";
 
 describe("AesCryptographyProvider browser tests", function() {
-  it("uses the browser replacement when running in the browser", async function() {
+  it("uses the browser replacement when running in the browser", async function(this: Context) {
     if (isNode) {
       this.skip();
     }
@@ -43,7 +44,7 @@ describe("AesCryptographyProvider internal tests", function() {
     const encryptionAlgorithm = `A${keySize}CBCPAD` as AesCbcEncryptionAlgorithm;
     let jwk: JsonWebKey;
 
-    beforeEach(function() {
+    beforeEach(function(this: Context) {
       if (!isNode) {
         this.skip();
       }
@@ -59,7 +60,7 @@ describe("AesCryptographyProvider internal tests", function() {
 
     describe(`AES-CBC with PKCS padding (${keySize})`, () => {
       describe("local-only tests", async function() {
-        it("encrypts and decrypts locally", async function() {
+        it("encrypts and decrypts locally", async function(this: Context) {
           const text = this.test!.title;
           const encryptResult = await cryptoClient.encrypt({
             algorithm: encryptionAlgorithm,
@@ -75,7 +76,7 @@ describe("AesCryptographyProvider internal tests", function() {
           assert.equal(uint8ArrayToString(decryptResult.result), text);
         });
 
-        it("validates the key type", async function() {
+        it("validates the key type", async function(this: Context) {
           const text = this.test!.title;
           jwk.kty = "RSA";
 
@@ -98,7 +99,7 @@ describe("AesCryptographyProvider internal tests", function() {
           );
         });
 
-        it("validates the key length", async function() {
+        it("validates the key length", async function(this: Context) {
           const text = this.test!.title;
           jwk.k = getKey((keySize >> 3) - 1);
 
@@ -132,7 +133,7 @@ describe("AesCryptographyProvider internal tests", function() {
         let keyVaultKey: KeyVaultKey;
         let remoteProvider: RemoteCryptographyProvider;
 
-        beforeEach(async function() {
+        beforeEach(async function(this: Context) {
           const authentication = await authenticate(this);
           recorder = authentication.recorder;
 
@@ -152,7 +153,7 @@ describe("AesCryptographyProvider internal tests", function() {
           await recorder.stop();
         });
 
-        it("encrypts locally and decrypts remotely", async function() {
+        it("encrypts locally and decrypts remotely", async function(this: Context) {
           const keyName = testClient.formatName(`${keyPrefix}-${this.test!.title}-${keySuffix}`);
           keyVaultKey = await client.importKey(keyName, jwk, {});
           remoteProvider = new RemoteCryptographyProvider(keyVaultKey, credential);
@@ -174,7 +175,7 @@ describe("AesCryptographyProvider internal tests", function() {
           await testClient.flushKey(keyName);
         });
 
-        it("encrypts remotely and decrypts locally", async function() {
+        it("encrypts remotely and decrypts locally", async function(this: Context) {
           const keyName = testClient.formatName(`${keyPrefix}-${this.test!.title}-${keySuffix}`);
           keyVaultKey = await client.importKey(keyName, jwk, {});
           remoteProvider = new RemoteCryptographyProvider(keyVaultKey, credential);
