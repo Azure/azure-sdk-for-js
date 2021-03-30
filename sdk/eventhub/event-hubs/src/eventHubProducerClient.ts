@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import { SpanStatusCode, Link, Span, SpanContext, SpanKind } from "@azure/core-tracing";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/tracing";
@@ -20,7 +20,7 @@ import {
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { isDefined } from "./util/typeGuards";
+import { isCredential, isDefined } from "./util/typeGuards";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
 
@@ -101,7 +101,13 @@ export class EventHubProducerClient {
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param credential - An credential object used by the client to get the token to authenticate the connection
-   * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
+   * with the Azure Event Hubs service.
+   * See &commat;azure/identity for creating credentials that support AAD auth.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
@@ -111,13 +117,17 @@ export class EventHubProducerClient {
   constructor(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential | SASCredential,
     options?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
-    credentialOrOptions3?: TokenCredential | EventHubClientOptions,
+    credentialOrOptions3?:
+      | TokenCredential
+      | NamedKeyCredential
+      | SASCredential
+      | EventHubClientOptions,
     options4?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ) {
     this._context = createConnectionContext(
@@ -128,7 +138,7 @@ export class EventHubProducerClient {
     );
     if (typeof eventHubNameOrOptions2 !== "string") {
       this._clientOptions = eventHubNameOrOptions2 || {};
-    } else if (!isTokenCredential(credentialOrOptions3)) {
+    } else if (!isCredential(credentialOrOptions3)) {
       this._clientOptions = credentialOrOptions3 || {};
     } else {
       this._clientOptions = options4 || {};
@@ -340,11 +350,11 @@ export class EventHubProducerClient {
         partitionKey,
         retryOptions: this._clientOptions.retryOptions
       });
-      sendSpan.setStatus({ code: CanonicalCode.OK });
+      sendSpan.setStatus({ code: SpanStatusCode.OK });
       return result;
     } catch (error) {
       sendSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

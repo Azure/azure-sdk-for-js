@@ -19,7 +19,7 @@ import {
   Subscription,
   SubscriptionEventHandlers
 } from "./eventHubConsumerClientModels";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
 import { v4 as uuid } from "uuid";
@@ -28,6 +28,7 @@ import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStr
 import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
 import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
 import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
+import { isCredential } from "./util/typeGuards";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -195,7 +196,13 @@ export class EventHubConsumerClient {
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param credential - An credential object used by the client to get the token to authenticate the connection
-   * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
+   * with the Azure Event Hubs service.
+   * See &commat;azure/identity for creating credentials that support AAD auth.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
@@ -206,7 +213,7 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential | SASCredential,
     options?: EventHubConsumerClientOptions
   ); // #3
   /**
@@ -217,7 +224,13 @@ export class EventHubConsumerClient {
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param credential - An credential object used by the client to get the token to authenticate the connection
-   * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
+   * with the Azure Event Hubs service.
+   * See &commat;azure/identity for creating credentials that support AAD auth.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
    * @param checkpointStore - A checkpoint store that is used by the client to read checkpoints to determine
    * the position from where it should resume receiving events when your application gets restarted.
    * It is also used by the client to load balance multiple instances of your application.
@@ -231,7 +244,7 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential | SASCredential,
     checkpointStore: CheckpointStore,
     options?: EventHubConsumerClientOptions
   ); // #3.1
@@ -245,11 +258,13 @@ export class EventHubConsumerClient {
     checkpointStoreOrCredentialOrOptions4?:
       | CheckpointStore
       | EventHubConsumerClientOptions
-      | TokenCredential,
+      | TokenCredential
+      | NamedKeyCredential
+      | SASCredential,
     checkpointStoreOrOptions5?: CheckpointStore | EventHubConsumerClientOptions,
     options6?: EventHubConsumerClientOptions
   ) {
-    if (isTokenCredential(checkpointStoreOrCredentialOrOptions4)) {
+    if (isCredential(checkpointStoreOrCredentialOrOptions4)) {
       // #3 or 3.1
       logger.info("Creating EventHubConsumerClient with TokenCredential.");
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import Sinon, { fake } from "sinon";
+import Sinon, { fake, match } from "sinon";
 import { OperationSpec } from "../../src/operationSpec";
 import { TokenCredential, AccessToken } from "@azure/core-auth";
 import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
@@ -48,10 +48,13 @@ describe("BearerTokenAuthenticationPolicy", function() {
     await bearerTokenAuthPolicy.sendRequest(request);
 
     assert(
-      fakeGetToken.calledWith(tokenScopes, {
-        abortSignal: undefined,
-        tracingOptions: { spanOptions: undefined }
-      }),
+      fakeGetToken.calledWith(
+        tokenScopes,
+        match({
+          abortSignal: undefined,
+          tracingOptions: { spanOptions: undefined }
+        })
+      ),
       "fakeGetToken called incorrectly."
     );
     assert.strictEqual(

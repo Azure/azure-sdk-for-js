@@ -10,8 +10,6 @@ import ts from "typescript";
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 
-import untypedPrettierOptions from "@azure/eslint-plugin-azure-sdk/prettier.json";
-
 import { createPrinter } from "../../util/printer";
 
 const log = createPrinter("ts-to-js");
@@ -20,8 +18,9 @@ export const commandInfo = makeCommandInfo(
   "ts-to-js",
   "convert a TypeScript sample to a JavaScript equivalent using our conventions for samples"
 );
+
 const prettierOptions: prettier.Options = {
-  ...(untypedPrettierOptions as prettier.Options),
+  ...(require("../../../../eslint-plugin-azure-sdk/prettier.json") as prettier.Options),
   parser: "typescript"
 };
 

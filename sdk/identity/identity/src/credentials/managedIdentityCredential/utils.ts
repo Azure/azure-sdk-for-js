@@ -38,6 +38,7 @@ export async function msiGenericGetToken(
     deserializationMapper: undefined,
     abortSignal: getTokenOptions.abortSignal,
     spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
+    tracingContext: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.tracingContext,
     ...requestOptions
   });
 

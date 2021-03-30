@@ -42,10 +42,7 @@ export function startRecorder(that: any): Recorder {
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azuretenantid"
     },
-    customizationsOnRecordings: [
-      (recording: any): any =>
-        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
-    ],
+    customizationsOnRecordings: [],
     queryParametersToSkip: []
   };
 

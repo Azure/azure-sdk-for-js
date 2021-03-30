@@ -3,7 +3,14 @@
 
 import * as assert from "assert";
 import sinon from "sinon";
-import { SpanKind, TraceFlags } from "@opentelemetry/api";
+import {
+  setSpan,
+  SpanKind,
+  TraceFlags,
+  context as otContext,
+  getSpanContext,
+  Context
+} from "@opentelemetry/api";
 
 import { setTracer } from "../src/tracerProxy";
 import { TestTracer } from "../src/tracers/test/testTracer";
@@ -11,26 +18,27 @@ import { TestSpan } from "../src/tracers/test/testSpan";
 import { createSpanFunction } from "../src/createSpan";
 import { OperationTracingOptions } from "../src/interfaces";
 
-const createSpan = createSpanFunction({ namespace: "Microsoft.Test", packagePrefix: "Azure.Test" });
-
 describe("createSpan", () => {
+  let createSpan: ReturnType<typeof createSpanFunction>;
+
+  beforeEach(() => {
+    createSpan = createSpanFunction({ namespace: "Microsoft.Test", packagePrefix: "Azure.Test" });
+  });
+
+  afterEach(() => {
+    sinon.restore();
+  });
+
   it("returns a created span with the right metadata", () => {
-    const tracer = new TestTracer();
-    const testSpan = new TestSpan(
-      tracer,
-      "testing",
-      { traceId: "", spanId: "", traceFlags: TraceFlags.NONE },
-      SpanKind.INTERNAL // this isn't used by anything in our test.
-    );
-    const setAttributeSpy = sinon.spy(testSpan, "setAttribute");
-    const startSpanStub = sinon.stub(tracer, "startSpan");
-    startSpanStub.returns(testSpan);
-    setTracer(tracer);
+    const { testSpan, startSpanStub, setAttributeSpy } = setupTracer();
+
+    const someContext = setSpan(otContext.active(), testSpan);
+
     const { span, updatedOptions } = createSpan("testMethod", {
       tracingOptions: ({
         // validate that we dumbly just copy any fields (this makes future upgrades easier)
         someOtherField: "someOtherFieldValue",
-        context: { someContext: "some Context" },
+        tracingContext: someContext,
         spanOptions: {
           kind: SpanKind.SERVER
         }
@@ -38,51 +46,51 @@ describe("createSpan", () => {
     });
     assert.strictEqual(span, testSpan, "Should return mocked span");
     assert.ok(startSpanStub.calledOnce);
-    const [name, options] = startSpanStub.firstCall.args;
+
+    const [name, options, context] = startSpanStub.firstCall.args;
     assert.strictEqual(name, "Azure.Test.testMethod");
-
+    assert.equal(context, someContext, "Parent context should be passed");
     assert.deepEqual(options, { kind: SpanKind.SERVER });
-
     assert.ok(setAttributeSpy.calledOnceWithExactly("az.namespace", "Microsoft.Test"));
 
     assert.deepEqual(updatedOptions.tracingOptions, {
       someOtherField: "someOtherFieldValue",
-      // TODO: note, this will be incorrect (and break) when we get to the next opentelemetry
-      // upgrade (and that'll be a good reminder to fix it)
-      context: { someContext: "some Context" },
+      tracingContext: updatedOptions.tracingOptions.tracingContext,
       spanOptions: {
         attributes: {
           "az.namespace": "Microsoft.Test"
         },
-        kind: SpanKind.SERVER,
-        parent: {
-          spanId: "",
-          traceFlags: 0,
-          traceId: ""
-        }
+        kind: SpanKind.SERVER
       }
     });
   });
 
   it("returns updated SpanOptions", () => {
+    setupTracer();
+
     const options: { tracingOptions?: OperationTracingOptions } = {};
     const { span, updatedOptions } = createSpan("testMethod", options);
+    assert.ok(span);
+
     assert.deepStrictEqual(options, {}, "original options should not be modified");
     assert.notStrictEqual(updatedOptions, options, "should return new object");
+
     const expected: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
-          parent: span.context(),
           attributes: {
             "az.namespace": "Microsoft.Test"
           }
-        }
+        },
+        tracingContext: updatedOptions.tracingOptions?.tracingContext
       }
     };
     assert.deepEqual(updatedOptions, expected);
   });
 
   it("preserves existing attributes", () => {
+    setTracer(new TestTracer());
+
     const options: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
@@ -93,16 +101,18 @@ describe("createSpan", () => {
       }
     };
     const { span, updatedOptions } = createSpan("testMethod", options);
+    assert.ok(span);
     assert.notStrictEqual(updatedOptions, options, "should return new object");
+
     const expected: { tracingOptions?: OperationTracingOptions } = {
       tracingOptions: {
         spanOptions: {
-          parent: span.context(),
           attributes: {
             "az.namespace": "Microsoft.Test",
             foo: "bar"
           }
-        }
+        },
+        tracingContext: updatedOptions.tracingOptions!.tracingContext
       }
     };
     assert.deepEqual(updatedOptions, expected);
@@ -135,7 +145,7 @@ describe("createSpan", () => {
             testAttribute: "testValue"
           }
         }
-      }
+      } as OperationTracingOptions
     });
 
     assert.ok(span);
@@ -156,12 +166,70 @@ describe("createSpan", () => {
           attributes: {
             testAttribute: "testValue"
           }
-        }
+        },
+        tracingContext: updatedOptions.tracingOptions.tracingContext
       }
     });
   });
 
-  afterEach(() => {
-    sinon.restore();
+  it("createSpans, testing parent/child relationship", () => {
+    setTracer(new TestTracer());
+
+    const createSpanFn = createSpanFunction({
+      namespace: "Microsoft.Test",
+      packagePrefix: "Azure.Test"
+    });
+
+    let parentContext: Context;
+
+    // create the parent span and do some basic checks.
+    {
+      const op: { tracingOptions: OperationTracingOptions } = {
+        tracingOptions: {}
+      };
+
+      const { span, updatedOptions } = createSpanFn("parent", op);
+      assert.ok(span);
+
+      parentContext = updatedOptions.tracingOptions!.tracingContext!;
+
+      assert.ok(parentContext);
+      assert.notDeepEqual(parentContext, otContext.active(), "new child context should be created");
+      assert.equal(
+        getSpanContext(parentContext!)?.spanId,
+        span.context().spanId,
+        "context returned in the updated options should point to our newly created span"
+      );
+    }
+
+    const { span: childSpan, updatedOptions } = createSpanFn("child", {
+      tracingOptions: {
+        tracingContext: parentContext
+      }
+    });
+    assert.ok(childSpan);
+
+    assert.ok(updatedOptions.tracingOptions.tracingContext);
+    assert.equal(
+      getSpanContext(updatedOptions.tracingOptions.tracingContext!)?.spanId,
+      childSpan.context().spanId
+    );
   });
 });
+
+function setupTracer() {
+  const tracer = new TestTracer();
+  setTracer(tracer);
+
+  const testSpan = new TestSpan(
+    tracer,
+    "testing",
+    { traceId: "", spanId: "", traceFlags: TraceFlags.NONE },
+    SpanKind.INTERNAL // this isn't used by anything in our test.
+  );
+  const setAttributeSpy = sinon.spy(testSpan, "setAttribute");
+  const startSpanStub = sinon.stub(tracer, "startSpan");
+  startSpanStub.returns(testSpan);
+
+  return { tracer, testSpan, startSpanStub, setAttributeSpy };
+}

@@ -14,7 +14,7 @@ import {
   OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
@@ -131,7 +131,7 @@ export class CommunicationIdentityClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -158,7 +158,7 @@ export class CommunicationIdentityClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -181,7 +181,7 @@ export class CommunicationIdentityClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -215,7 +215,7 @@ export class CommunicationIdentityClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -242,7 +242,7 @@ export class CommunicationIdentityClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

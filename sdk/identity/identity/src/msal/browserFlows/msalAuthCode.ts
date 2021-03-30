@@ -4,10 +4,9 @@
 import * as msalBrowser from "@azure/msal-browser";
 import { MsalBrowserFlowOptions, MsalBrowser } from "./browserCommon";
 import { AccessToken } from "@azure/core-http";
-import { defaultLoggerCallback } from "../utils";
+import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequired } from "../errors";
-import { msalToPublic, publicToMsal } from "../transformations";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 
 // We keep a copy of the redirect hash.
