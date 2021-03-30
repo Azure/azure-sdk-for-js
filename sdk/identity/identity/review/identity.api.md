@@ -111,11 +111,12 @@ export const CredentialUnavailableName = "CredentialUnavailable";
 
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
-    constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions);
+    constructor(options?: DefaultAzureCredentialOptions);
 }
 
 // @public
 export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+    includeInteractiveCredentials?: boolean;
     managedIdentityClientId?: string;
     tenantId?: string;
 }

@@ -10,10 +10,13 @@ import { SampleConfiguration } from "./sampleConfiguration";
 
 /**
  * Default TypeScript compiler configuration for sample projects.
+ *
+ * The default configuration targets ES2018 to support async iteration
+ * by default with no `lib` entry.
  */
 export const DEFAULT_TYPESCRIPT_CONFIG = {
   compilerOptions: {
-    target: "ES6",
+    target: "ES2018",
     module: "commonjs",
     moduleResolution: "node",
 

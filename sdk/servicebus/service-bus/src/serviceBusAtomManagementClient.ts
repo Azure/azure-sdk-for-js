@@ -70,7 +70,7 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { createSpan, getCanonicalCode } from "./diagnostics/tracing";
+import { createSpan } from "./diagnostics/tracing";
 import { isDefined } from "./util/typeGuards";
 import {
   formatUserAgentPrefix,
@@ -78,6 +78,7 @@ import {
   isAbsoluteUrl,
   isJSONLikeObject
 } from "./util/utils";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Request options for list<entity-type>() operations
@@ -243,7 +244,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildNamespacePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -292,7 +293,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildQueueResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -335,7 +336,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildQueueResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -379,7 +380,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildQueueRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -419,7 +420,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildListQueuesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -522,7 +523,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildListQueuesRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -652,7 +653,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildQueueResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -694,7 +695,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -726,7 +727,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -775,7 +776,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildTopicResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -818,7 +819,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildTopicResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -862,7 +863,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildTopicRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -902,7 +903,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildListTopicsResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1006,7 +1007,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildListTopicsRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1139,7 +1140,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildTopicResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1181,7 +1182,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1213,7 +1214,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1264,7 +1265,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildSubscriptionResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1311,7 +1312,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildSubscriptionResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1357,7 +1358,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildSubscriptionRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1401,7 +1402,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildListSubscriptionsResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1513,7 +1514,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildListSubscriptionsRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1658,7 +1659,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildSubscriptionResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1704,7 +1705,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1742,7 +1743,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1841,7 +1842,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildRuleResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1886,7 +1887,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildRuleResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1925,7 +1926,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildListRulesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2059,7 +2060,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return this.buildRuleResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2104,7 +2105,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2141,7 +2142,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2210,7 +2211,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2251,7 +2252,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2288,7 +2289,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2315,7 +2316,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

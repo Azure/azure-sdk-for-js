@@ -2,9 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
-import { createSpanFunction } from "@azure/core-tracing";
-import { CanonicalCode, Span } from "@opentelemetry/api";
-import { AuthenticationErrorName } from "../client/errors";
+import { createSpanFunction, SpanStatusCode, Span } from "@azure/core-tracing";
 
 /**
  * Creates a span using the global tracer.
@@ -40,15 +38,12 @@ export async function trace<ReturnT>(
 
     // otel 0.16+ needs this or else the code ends up being set as UNSET
     span.setStatus({
-      code: CanonicalCode.OK
+      code: SpanStatusCode.OK
     });
     return result;
   } catch (err) {
-    const code =
-      err.name === AuthenticationErrorName ? CanonicalCode.UNAUTHENTICATED : CanonicalCode.UNKNOWN;
-
     span.setStatus({
-      code,
+      code: SpanStatusCode.ERROR,
       message: err.message
     });
     throw err;

@@ -5,22 +5,18 @@
 ```ts
 
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
-
-// @public (undocumented)
-export interface ChangeableAttributes {
-    canDelete?: boolean;
-    canList?: boolean;
-    canRead?: boolean;
-    canWrite?: boolean;
-}
 
 // @public
 export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
-    deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeletedRepositoryResult>;
-}
+    deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
+    endpoint: string;
+    listRepositories(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
+    }
 
 // @public
 export interface ContainerRegistryClientOptions extends PipelineOptions {
@@ -35,19 +31,132 @@ export class ContainerRegistryUserCredential {
     }
 
 // @public
-export type ContentProperties = ChangeableAttributes;
+export class ContainerRepositoryClient {
+    constructor(endpointUrl: string, repository: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
+    delete(options?: DeleteOptions): Promise<DeleteRepositoryResult>;
+    deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<RestResponse>;
+    deleteTag(tag: string, options?: DeleteTagOptions): Promise<RestResponse>;
+    endpoint: string;
+    getProperties(options?: GetPropertiesOptions): Promise<RepositoryProperties>;
+    getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<RegistryArtifactProperties>;
+    getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<TagProperties>;
+    listRegistryArtifacts(options?: ListRegistryArtifactsOptions): PagedAsyncIterableIterator<RegistryArtifactProperties>;
+    listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
+    registry: string;
+    repository: string;
+    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<RestResponse>;
+    setPermissions(value: ContentProperties, options?: SetPermissionsOptions): Promise<RestResponse>;
+    setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<RestResponse>;
+}
 
 // @public
-export interface DeletedRepository {
+export interface ContentProperties {
+    canDelete?: boolean;
+    canList?: boolean;
+    canRead?: boolean;
+    canWrite?: boolean;
+}
+
+// @public
+export interface DeleteOptions extends OperationOptions {
+}
+
+// @public
+export interface DeleteRegistryArtifactOptions extends OperationOptions {
+}
+
+// @public
+export interface DeleteRepositoryOptions extends OperationOptions {
+}
+
+// @public
+export interface DeleteRepositoryResult {
     deletedRegistryArtifactDigests?: string[];
     deletedTags?: string[];
 }
 
 // @public
-export type DeletedRepositoryResult = DeletedRepository;
+export interface DeleteTagOptions extends OperationOptions {
+}
 
 // @public
-export interface DeleteRepositoryOptions extends OperationOptions {
+export interface GetPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface GetRegistryArtifactPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface GetTagPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListRegistryArtifactsOptions extends OperationOptions {
+    orderby?: string;
+}
+
+// @public
+export interface ListRepositoriesOptions extends OperationOptions {
+}
+
+// @public
+export interface ListTagsOptions extends OperationOptions {
+    digest?: string;
+    orderby?: string;
+}
+
+// @public
+export interface ManifestAttributesManifestReferences {
+    cpuArchitecture: string;
+    digest: string;
+    operatingSystem: string;
+}
+
+// @public
+export interface RegistryArtifactProperties {
+    cpuArchitecture?: string;
+    createdOn?: Date;
+    digest?: string;
+    lastUpdatedOn?: Date;
+    operatingSystem?: string;
+    references?: ManifestAttributesManifestReferences[];
+    repository?: string;
+    size?: number;
+    tags?: string[];
+    writeableProperties?: ContentProperties;
+}
+
+// @public
+export interface RepositoryProperties {
+    createdOn: Date;
+    lastUpdatedOn: Date;
+    name: string;
+    registryArtifactCount: number;
+    tagCount: number;
+    writeableProperties: ContentProperties;
+}
+
+// @public
+export interface SetManifestPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface SetPermissionsOptions extends OperationOptions {
+}
+
+// @public
+export interface SetTagPropertiesOptions extends OperationOptions {
+}
+
+// @public
+export interface TagProperties {
+    createdOn: Date;
+    digest?: string;
+    lastUpdatedOn: Date;
+    name?: string;
+    repository: string;
+    writeableProperties?: ContentProperties;
 }
 
 

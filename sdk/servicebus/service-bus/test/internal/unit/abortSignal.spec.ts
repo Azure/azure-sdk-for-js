@@ -19,7 +19,7 @@ import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
-import { StandardAbortMessage } from "../../../src/util/utils";
+import { StandardAbortMessage } from "@azure/core-amqp";
 import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
