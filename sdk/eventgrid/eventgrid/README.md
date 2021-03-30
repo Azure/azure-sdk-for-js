@@ -170,6 +170,10 @@ Compared with using `JSON.parse` directly, `EventGridDeserializer` does some add
 
 When creating an instance of `EventGridDeserializer` you may supply custom deserializers that are used to further convert the `data` object.
 
+### Distributed Tracing and Cloud Events
+
+This library supports distributed tracing using [`@azure/core-tracing`][azure-core-tracing-github]. When using distributed tracing, this library will create a span during a `send` operation. In addition, when sending events using the Cloud Events 1.0 schema, the SDK will add distributed tracing metadata to the events using the [Distributed Tracing extension][cloud-events-distributed-tracing-spec]. The values for the `traceparent` and `tracestate` extension properties correspond to the `traceparent` and `tracestate` headers from the HTTP request which sends the events. If an event already has a `traceparent` extension property it is not updated.
+
 ## Examples
 
 ### Publish a Custom Event to an Event Grid Topic using the Event Grid Schema
@@ -298,3 +302,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_sub]: https://azure.microsoft.com/free/
 [event_grid]: https://docs.microsoft.com/azure/event-grid
 [azure_portal]: https://portal.azure.com
+[azure-core-tracing-github]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-tracing
+[cloud-events-distributed-tracing-spec]: https://github.com/cloudevents/spec/blob/master/extensions/distributed-tracing.md
