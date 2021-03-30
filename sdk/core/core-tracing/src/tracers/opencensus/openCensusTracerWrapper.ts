@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Tracer } from "@opentelemetry/api";
+import { Tracer } from "../../interfaces";
 import { OpenCensusSpanWrapper } from "./openCensusSpanWrapper";
 import { TracerBase as OpenCensusTracer } from "@opencensus/web-types";
 import { Span, SpanOptions } from "../../interfaces";

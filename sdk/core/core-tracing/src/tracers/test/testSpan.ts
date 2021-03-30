@@ -10,7 +10,7 @@ import {
   SpanAttributes,
   SpanStatusCode,
   SpanAttributeValue
-} from "@opentelemetry/api";
+} from "../../interfaces";
 import { NoOpSpan } from "../noop/noOpSpan";
 
 /**

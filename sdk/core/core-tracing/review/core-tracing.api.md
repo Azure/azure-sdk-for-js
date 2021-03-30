@@ -4,24 +4,9 @@
 
 ```ts
 
-import { context } from '@opentelemetry/api';
-import { Exception } from '@opentelemetry/api';
-import { getSpan } from '@opentelemetry/api';
-import { getSpanContext } from '@opentelemetry/api';
 import { Span as OpenCensusSpan } from '@opencensus/web-types';
 import { Tracer as OpenCensusTracer } from '@opencensus/web-types';
-import { SpanContext as OTSpanContext } from '@opentelemetry/api';
-import { SpanOptions as OTSpanOptions } from '@opentelemetry/api';
-import { setSpan } from '@opentelemetry/api';
-import { setSpanContext } from '@opentelemetry/api';
-import { SpanAttributes as SpanAttributes_2 } from '@opentelemetry/api';
-import { SpanAttributeValue as SpanAttributeValue_2 } from '@opentelemetry/api';
-import { SpanKind } from '@opentelemetry/api';
-import { SpanStatus } from '@opentelemetry/api';
-import { TimeInput } from '@opentelemetry/api';
-import { Tracer } from '@opentelemetry/api';
 import { TracerBase } from '@opencensus/web-types';
-import { TraceState } from '@opentelemetry/api';
 
 // @public
 export interface Context {
@@ -30,7 +15,13 @@ export interface Context {
     setValue(key: symbol, value: unknown): Context;
 }
 
-export { context }
+// @public
+export const context: ContextAPI;
+
+// @public
+export interface ContextAPI {
+    active(): Context;
+}
 
 // @public
 export function createSpanFunction(args: CreateSpanFunctionArgs): <T extends {
@@ -46,20 +37,50 @@ export interface CreateSpanFunctionArgs {
     packagePrefix: string;
 }
 
-export { Exception }
+// @public
+export type Exception = ExceptionWithCode | ExceptionWithMessage | ExceptionWithName | string;
+
+// @public
+export interface ExceptionWithCode {
+    code: string | number;
+    message?: string;
+    name?: string;
+    stack?: string;
+}
+
+// @public
+export interface ExceptionWithMessage {
+    code?: string | number;
+    message: string;
+    name?: string;
+    stack?: string;
+}
+
+// @public
+export interface ExceptionWithName {
+    code?: string | number;
+    message?: string;
+    name: string;
+    stack?: string;
+}
 
 // @public
 export function extractSpanContextFromTraceParentHeader(traceParentHeader: string): SpanContext | undefined;
 
-export { getSpan }
+// @public
+export function getSpan(context: Context): Span | undefined;
 
-export { getSpanContext }
+// @public
+export function getSpanContext(context: Context): SpanContext | undefined;
 
 // @public
 export function getTraceParentHeader(spanContext: SpanContext): string | undefined;
 
 // @public
 export function getTracer(): Tracer;
+
+// @public
+export type HrTime = [number, number];
 
 // @public
 export interface Link {
@@ -130,13 +151,11 @@ export interface OperationTracingOptions {
     tracingContext?: Context;
 }
 
-export { OTSpanContext }
+// @public
+export function setSpan(context: Context, span: Span): Context;
 
-export { OTSpanOptions }
-
-export { setSpan }
-
-export { setSpanContext }
+// @public
+export function setSpanContext(context: Context, spanContext: SpanContext): Context;
 
 // @public
 export function setTracer(tracer: Tracer): void;
@@ -181,7 +200,14 @@ export interface SpanGraphNode {
     name: string;
 }
 
-export { SpanKind }
+// @public
+export enum SpanKind {
+    CLIENT = 2,
+    CONSUMER = 4,
+    INTERNAL = 0,
+    PRODUCER = 3,
+    SERVER = 1
+}
 
 // @public
 export interface SpanOptions {
@@ -191,7 +217,11 @@ export interface SpanOptions {
     startTime?: TimeInput;
 }
 
-export { SpanStatus }
+// @public
+export interface SpanStatus {
+    code: SpanStatusCode;
+    message?: string;
+}
 
 // @public
 export enum SpanStatusCode {
@@ -202,17 +232,17 @@ export enum SpanStatusCode {
 
 // @public
 export class TestSpan extends NoOpSpan {
-    constructor(parentTracer: Tracer, name: string, context: OTSpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
-    readonly attributes: SpanAttributes_2;
-    context(): OTSpanContext;
+    constructor(parentTracer: Tracer, name: string, context: SpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
+    readonly attributes: SpanAttributes;
+    context(): SpanContext;
     end(_endTime?: number): void;
     endCalled: boolean;
     isRecording(): boolean;
     kind: SpanKind;
     name: string;
     readonly parentSpanId?: string;
-    setAttribute(key: string, value: SpanAttributeValue_2): this;
-    setAttributes(attributes: SpanAttributes_2): this;
+    setAttribute(key: string, value: SpanAttributeValue): this;
+    setAttributes(attributes: SpanAttributes): this;
     setStatus(status: SpanStatus): this;
     readonly startTime: TimeInput;
     status: SpanStatus;
@@ -228,7 +258,8 @@ export class TestTracer extends NoOpTracer {
     startSpan(name: string, options?: SpanOptions, context?: Context): TestSpan;
     }
 
-export { TimeInput }
+// @public
+export type TimeInput = HrTime | number | Date;
 
 // @public
 export const enum TraceFlags {
@@ -236,7 +267,18 @@ export const enum TraceFlags {
     SAMPLED = 1
 }
 
-export { TraceState }
+// @public
+export interface Tracer {
+    startSpan(name: string, options?: SpanOptions, context?: Context): Span;
+}
+
+// @public
+export interface TraceState {
+    get(key: string): string | undefined;
+    serialize(): string;
+    set(key: string, value: string): TraceState;
+    unset(key: string): TraceState;
+}
 
 
 // (No @packageDocumentation comment for this package)
