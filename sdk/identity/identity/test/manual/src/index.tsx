@@ -6,8 +6,7 @@ import * as ReactDOM from "react-dom";
 
 import {
   InteractiveBrowserCredential,
-  BrowserLoginStyle,
-  InteractiveBrowserAuthenticationFlow,
+  BrowserLoginStyle
 } from "@azure/identity";
 import { ServiceBusClient } from "@azure/service-bus";
 
@@ -16,7 +15,6 @@ interface ClientDetails {
   clientId: string;
   queueName: string;
   loginStyle: BrowserLoginStyle;
-  flow: InteractiveBrowserAuthenticationFlow;
   numberOfExecutions: number;
   cacheCredential: boolean;
   parallel: boolean;
@@ -78,14 +76,13 @@ function getCredential(
   }
   if (cachedCredential && clientDetails.loginStyle === lastLoginStyle) return cachedCredential;
 
-  const { tenantId, clientId, loginStyle, flow } = clientDetails;
+  const { tenantId, clientId, loginStyle } = clientDetails;
 
-  if (tenantId && clientId && loginStyle && flow) {
+  if (tenantId && clientId && loginStyle) {
     cachedCredential = new InteractiveBrowserCredential({
       tenantId,
       clientId,
-      loginStyle,
-      flow,
+      loginStyle
     });
     lastLoginStyle = clientDetails.loginStyle;
     return cachedCredential;
@@ -160,13 +157,6 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
           values={["popup", "redirect"]}
           checkedValue={clientDetails.loginStyle}
           onChange={setDetail("loginStyle")}
-        />
-        <br />
-        <h4>Authentication flow</h4>
-        <Radio
-          values={["implicit-grant", "auth-code"]}
-          checkedValue={clientDetails.flow}
-          onChange={setDetail("flow")}
         />
         <br />
         <h4>Number of executions</h4>
@@ -334,7 +324,6 @@ function TestPage() {
       clientId: "",
       queueName: "queue-identity-test",
       loginStyle: "popup",
-      flow: "auth-code",
       numberOfExecutions: 1,
       cacheCredential: true,
       parallel: false,

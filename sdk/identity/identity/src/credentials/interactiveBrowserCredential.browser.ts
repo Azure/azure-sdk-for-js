@@ -7,7 +7,6 @@ import { trace } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
-import { MSALImplicit } from "../msal/browserFlows/msalImplicit";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/browserCommon";
 import {
   InteractiveBrowserCredentialBrowserOptions,
@@ -20,11 +19,9 @@ const logger = credentialLogger("InteractiveBrowserCredential");
  * Enables authentication to Azure Active Directory inside of the web browser
  * using the interactive login flow.
  *
+ * This credential uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
  * On NodeJS, it will open a browser window while it listens for a redirect response from the authentication service.
- *
- * On browsers, by default it uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
- * and authenticates via popups. The `loginStyle` can be configured to use `redirect` instead, and the authentication flow can be configured to use the [Implicit Grant Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
- * by specifying the option `flow` with the value `implicit-grant`.
+ * On browsers, it authenticates via popups. The `loginStyle` optional parameter can be set to `redirect` to authenticate by redirecting the user to an Azure secure login page, which then will redirect the user back to the web application where the authentication started.
  *
  * It's recommended that the AAD Applications used are configured to authenticate using Single Page Applications.
  * More information here: [link](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
@@ -73,11 +70,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri
     };
 
-    if (browserOptions.flow === "implicit-grant") {
-      this.msalFlow = new MSALImplicit(msalOptions);
-    } else {
-      this.msalFlow = new MSALAuthCode(msalOptions);
-    }
+    this.msalFlow = new MSALAuthCode(msalOptions);
     this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
