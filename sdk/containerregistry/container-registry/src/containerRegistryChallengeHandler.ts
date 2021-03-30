@@ -95,7 +95,6 @@ export class ChallengeHandler {
     //       grantType: "access_token",
     //       service,
     //       aadAccesstoken: aadAccessToken,
-    //       tenant: "72f988bf-86f1-41af-91ab-2d7cd011db47"
     //     }
     //   }
     // );
