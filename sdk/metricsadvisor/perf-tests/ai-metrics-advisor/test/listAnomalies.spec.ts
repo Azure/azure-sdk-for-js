@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {
-  PerfStressOptionDictionary,
-  getEnvVar
-} from "@azure/test-utils-perfstress";
+import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
 interface MetricsAdvisorTestOptions {
   count: number;
@@ -17,7 +14,7 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
       required: true,
       description: "Number of anomalies to be listed",
       longName: "count",
-      defaultValue: 10
+      defaultValue: 30
     }
   };
   constructor() {
