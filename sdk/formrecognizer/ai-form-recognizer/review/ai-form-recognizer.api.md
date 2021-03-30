@@ -58,6 +58,9 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
+export type BeginRecognizeIdDocumentsOptions = BeginRecognizePrebuiltOptions;
+
+// @public
 export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
 
 // @public
@@ -254,6 +257,8 @@ export class FormRecognizerClient {
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
     beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeIdDocuments(idDocument: FormRecognizerRequestBody, options?: BeginRecognizeIdDocumentsOptions): Promise<FormPollerLike>;
+    beginRecognizeIdDocumentsFromUrl(idDocumentUrl: string, options?: BeginRecognizeIdDocumentsOptions): Promise<FormPollerLike>;
     beginRecognizeInvoices(invoice: FormRecognizerRequestBody, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
     beginRecognizeInvoicesFromUrl(invoiceUrl: string, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
     beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;

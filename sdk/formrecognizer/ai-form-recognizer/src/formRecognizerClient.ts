@@ -191,6 +191,11 @@ export type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
  */
 export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
 
+/**
+ * Options for starting the ID document recognition operation
+ */
+export type BeginRecognizeIdDocumentsOptions = BeginRecognizePrebuiltOptions;
+
 // #endregion
 
 /**
@@ -791,6 +796,153 @@ export class FormRecognizerClient {
       }),
       getResult: span("getInvoices", async (finalOptions, resultId) =>
         this.client.getAnalyzeInvoiceResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  // #endregion
+
+  // #region prebuilt::idDocument
+
+  /**
+   * Recognizes data from identification documents using a pre-built ID
+   * document model, enabling you to extract structured data from ID documents
+   * such as first/last name, document number, expiration date, and more.
+   *
+   * For a list of fields that are contained in the response, please refer to
+   * the documentation at the following link:
+   * https://aka.ms/azsdk/formrecognizer/iddocumentfields
+   *
+   * This method returns a long running operation poller that allows you to
+   * wait indefinitely until the operation is completed.
+   *
+   * Note that the onProgress callback will not be invoked if the operation
+   * completes in the first request, and attempting to cancel a completed copy
+   * will result in an error being thrown.
+   *
+   * Example usage:
+   *
+   * ```ts
+   * const path = "./license.jpg";
+   * const readStream = fs.createReadStream(path);
+   *
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeIdDocuments(readStream, {
+   *   onProgress: (state) => { console.log(`status: ${state.status}`); }
+   * });
+   *
+   * const [idDocument] = await poller.pollUntilDone();
+   * ```
+   *
+   * @param idDocument - Input document
+   * @param options - Options for the recognition operation
+   */
+  public async beginRecognizeIdDocuments(
+    idDocument: FormRecognizerRequestBody,
+    options: BeginRecognizeIdDocumentsOptions = {}
+  ): Promise<FormPollerLike> {
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdDocuments", {
+      ...options,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      expectedDocType: "prebuilt:idDocument",
+      createOperation: span("idDocumentsInternal", async (finalOptions) => {
+        const requestBody = await toRequestBody(idDocument);
+        const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
+        return processOperationLocation(
+          await this.client.analyzeIdDocumentAsync(
+            contentType!,
+            requestBody as Blob | ArrayBuffer | ArrayBufferView,
+            operationOptionsToRequestOptionsBase(finalOptions)
+          )
+        );
+      }),
+      getResult: span("getIdDocuments", async (finalOptions, resultId) =>
+        this.client.getAnalyzeIdDocumentResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Recognizes identity document information from a url using pre-built ID
+   * document model, enabling you to extract structured data from ID documents
+   * such as first/last name, document number, expiration date, and more.
+   *
+   * For a list of fields that are contained in the response, please refer to
+   * the documentation at the following link:
+   * https://aka.ms/azsdk/formrecognizer/iddocumentfields
+   *
+   * This method returns a long running operation poller that allows you to
+   * wait indefinitely until the operation is completed.
+   *
+   * Note that the onProgress callback will not be invoked if the operation
+   * completes in the first request, and attempting to cancel a completed copy
+   * will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   * const url = "<url to the identity document>";
+   *
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeIdDocumentsFromUrl(url, {
+   *   includeFieldElements: true,
+   *   onProgress: (state) => {
+   *     console.log(`analyzing status: ${state.status}`);
+   *   }
+   * });
+   *
+   * const [idDocument] = await poller.pollUntilDone();
+   * ```
+   *
+   * @param idDocumentUrl - Url to an identity document that is accessible from
+   * the service. Must be a valid, encoded URL to a document of a supported
+   * content type.
+   * @param options - Options for the recognition operation
+   */
+  public async beginRecognizeIdDocumentsFromUrl(
+    idDocumentUrl: string,
+    options: BeginRecognizeIdDocumentsOptions = {}
+  ): Promise<FormPollerLike> {
+    if (options.contentType) {
+      logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
+    }
+
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdDocumentsFromUrl", {
+      ...options,
+      contentType: undefined,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      expectedDocType: "prebuilt:idDocument",
+      createOperation: span("idDocumentsInternal", async (finalOptions) => {
+        return processOperationLocation(
+          await this.client.analyzeIdDocumentAsync("application/json", {
+            fileStream: {
+              source: idDocumentUrl
+            },
+            ...operationOptionsToRequestOptionsBase(finalOptions)
+          })
+        );
+      }),
+      getResult: span("getIdDocuments", async (finalOptions, resultId) =>
+        this.client.getAnalyzeIdDocumentResult(
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
         )
