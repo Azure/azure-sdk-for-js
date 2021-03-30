@@ -14,7 +14,7 @@ describe("PhoneNumbersClient - lro - update", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     ({ client, recorder } = createRecordedClient(this));
   });
 
