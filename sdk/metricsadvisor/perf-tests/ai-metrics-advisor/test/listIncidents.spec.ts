@@ -24,9 +24,13 @@ export class IncidentsListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
   }
 
   async runAsync(): Promise<void> {
-    this.client.listIncidents({
+    let iter = this.client.listIncidents({
       alertConfigId: this.alertConfigId,
       id: this.alertId
     });
+    let result = await iter.next();
+    while (!result.done) {
+      result = await iter.next();
+    }
   }
 }
