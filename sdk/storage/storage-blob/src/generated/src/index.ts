@@ -6,10 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./service";
-export * from "./container";
-export * from "./directory";
-export * from "./blob";
-export * from "./pageBlob";
-export * from "./appendBlob";
-export * from "./blockBlob";
+export * from "./models";
+export { StorageClient } from "./storageClient";
+export { StorageClientContext } from "./storageClientContext";

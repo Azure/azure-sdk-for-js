@@ -33,7 +33,6 @@ import {
   BlobDownloadResponseModel,
   BlobGetPropertiesResponseModel,
   BlobGetTagsHeaders,
-  BlobHTTPHeaders,
   BlobSetHTTPHeadersResponse,
   BlobSetMetadataResponse,
   BlobSetTagsResponse,
@@ -60,7 +59,8 @@ import {
   PageBlobUploadPagesResponse,
   RehydratePriority,
   SequenceNumberActionType,
-  BlockBlobPutBlobFromUrlResponse
+  BlockBlobPutBlobFromUrlResponse,
+  BlobHTTPHeaders
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -1073,7 +1073,9 @@ export class BlobClient extends StorageClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        requestOptions: {
+          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+        },
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
@@ -1263,7 +1265,7 @@ export class BlobClient extends StorageClient {
     const { span, updatedOptions } = createSpan("BlobClient-delete", options);
     options.conditions = options.conditions || {};
     try {
-      return await this.blobContext.deleteMethod({
+      return await this.blobContext.delete({
         abortSignal: options.abortSignal,
         deleteSnapshots: options.deleteSnapshots,
         leaseAccessConditions: options.conditions,
@@ -1372,15 +1374,15 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blobContext.setHTTPHeaders({
+      return await this.blobContext.setHttpHeaders({
         abortSignal: options.abortSignal,
-        blobHTTPHeaders,
+        blobHttpHeaders: blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        cpkInfo: options.customerProvidedKey,
+        //cpkInfo: options.customerProvidedKey,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
@@ -2496,7 +2498,7 @@ export class AppendBlobClient extends BlobClient {
 
       return await this.appendBlobContext.create(0, {
         abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobHttpHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
         modifiedAccessConditions: {
@@ -2628,7 +2630,7 @@ export class AppendBlobClient extends BlobClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return await this.appendBlobContext.appendBlock(body, contentLength, {
+      return await this.appendBlobContext.appendBlock(contentLength, body, {
         abortSignal: options.abortSignal,
         appendPositionAccessConditions: options.conditions,
         leaseAccessConditions: options.conditions,
@@ -2636,7 +2638,9 @@ export class AppendBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -3454,6 +3458,7 @@ export class BlockBlobClient extends BlobClient {
       const response = await this._blobContext.query({
         abortSignal: options.abortSignal,
         queryRequest: {
+          queryType: "SQL",
           expression: query,
           inputSerialization: toQuerySerialization(options.inputTextConfiguration),
           outputSerialization: toQuerySerialization(options.outputTextConfiguration)
@@ -3517,16 +3522,18 @@ export class BlockBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("BlockBlobClient-upload", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blockBlobContext.upload(body, contentLength, {
+      return await this.blockBlobContext.upload(contentLength, body, {
         abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobHttpHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
@@ -3573,6 +3580,7 @@ export class BlockBlobClient extends BlobClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
         ...options,
+        blobHttpHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
@@ -3624,7 +3632,9 @@ export class BlockBlobClient extends BlobClient {
       return await this.blockBlobContext.stageBlock(blockId, contentLength, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -3718,7 +3728,7 @@ export class BlockBlobClient extends BlobClient {
         { latest: blocks },
         {
           abortSignal: options.abortSignal,
-          blobHTTPHeaders: options.blobHTTPHeaders,
+          blobHttpHeaders: options.blobHTTPHeaders,
           leaseAccessConditions: options.conditions,
           metadata: options.metadata,
           modifiedAccessConditions: {
@@ -4616,7 +4626,7 @@ export class PageBlobClient extends BlobClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.pageBlobContext.create(0, size, {
         abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobHttpHeaders: options.blobHTTPHeaders,
         blobSequenceNumber: options.blobSequenceNumber,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
@@ -4710,14 +4720,16 @@ export class PageBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("PageBlobClient-uploadPages", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pageBlobContext.uploadPages(body, count, {
+      return await this.pageBlobContext.uploadPages(count, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         transactionalContentMD5: options.transactionalContentMD5,

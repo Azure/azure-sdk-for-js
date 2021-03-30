@@ -25,8 +25,7 @@ export {
   BlobGetPropertiesResponse as BlobGetPropertiesResponseModel,
   BlobPropertiesInternal as BlobProperties,
   BlobUndeleteResponse,
-  BlobHTTPHeaders,
-  BlobSetHTTPHeadersResponse,
+  BlobHttpHeaders,
   BlobSetMetadataResponse,
   BlobSetTagsResponse,
   BlobCreateSnapshotResponse,
@@ -34,7 +33,6 @@ export {
   BlobStartCopyFromURLResponse,
   BlobAbortCopyFromURLResponse,
   BlobCopyFromURLResponse,
-  BlobSetHTTPHeadersHeaders,
   BlobSetMetadataHeaders,
   BlobSetTierHeaders,
   BlobSetTierResponse,
@@ -81,7 +79,6 @@ export {
   CorsRule,
   CpkInfo,
   DeleteSnapshotsOptionType,
-  EncryptionAlgorithmType,
   GeoReplication,
   GeoReplicationStatusType,
   LeaseAccessConditions,
@@ -137,7 +134,6 @@ export {
   ServiceSetPropertiesHeaders,
   SkuName,
   StaticWebsite,
-  SyncCopyStatusType,
   ContainerItem,
   ServiceSubmitBatchResponse as ServiceSubmitBatchResponseModel,
   ServiceSubmitBatchOptionalParams as ServiceSubmitBatchOptionalParamsModel,
@@ -153,3 +149,18 @@ export {
   ContainerRenameResponse,
   ContainerRenameHeaders
 } from "./generated/src/models";
+
+import {
+  BlobHttpHeaders,
+  BlobSetHttpHeadersResponse,
+  BlobSetHttpHeadersHeaders
+} from "./generated/src/models";
+
+/** Contains response data for the setHttpHeaders operation. */
+export type BlobSetHTTPHeadersResponse = BlobSetHttpHeadersResponse;
+
+/** Defines headers for Blob_setHttpHeaders operation. */
+export type BlobSetHTTPHeadersHeaders = BlobSetHttpHeadersHeaders;
+
+/** Defines headers for Blob_setHttpHeaders operation. */
+export type BlobHTTPHeaders = BlobHttpHeaders;
