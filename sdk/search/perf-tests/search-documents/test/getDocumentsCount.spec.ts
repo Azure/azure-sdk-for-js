@@ -6,15 +6,14 @@ import {
 import {
   SearchClient,
   AzureKeyCredential,
-  CountDocumentsOptions,
   SearchIndexClient,
   SearchIndex,
   KnownAnalyzerNames
 } from "@azure/search-documents";
 import { Hotel } from "./hotel";
 
-export class GetDocumentsCountTest extends PerfStressTest<CountDocumentsOptions> {
-  public options: PerfStressOptionDictionary<CountDocumentsOptions> = {
+export class GetDocumentsCountTest extends PerfStressTest {
+  public options: PerfStressOptionDictionary = {
   };
 
   private searchClient: SearchClient<Hotel>;
