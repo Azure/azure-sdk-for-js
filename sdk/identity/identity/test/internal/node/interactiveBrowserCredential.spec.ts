@@ -29,7 +29,7 @@ describe("InteractiveBrowserCredential (internal)", function() {
 
   it("Throws an expected error if no browser is available", async function() {
     // On Node 8, URL is not defined. We use URL on the msalOpenBrowser.ts file.
-    if (!isNode8) {
+    if (isNode8) {
       this.skip();
     }
 
