@@ -225,6 +225,11 @@ export function toFormFieldFromFieldValueModel(
     | FormField[]
     | { [propertyName: string]: FormField }
     | undefined;
+
+  function unreachable(v: never): never {
+    throw new Error(`Encountered unknown field value type: ${v}`);
+  }
+
   switch (original.type) {
     case "string":
       value = original.valueString;
@@ -259,6 +264,14 @@ export function toFormFieldFromFieldValueModel(
         ? toFieldsFromFieldValue(original.valueObject, readResults)
         : undefined;
       break;
+    case "gender":
+      value = original.valueGender;
+      break;
+    case "country":
+      value = original.valueCountry;
+      break;
+    default:
+      return unreachable(original.type);
   }
   return {
     confidence: original.confidence || 1,

@@ -320,6 +320,14 @@ export type FormField = {
       value?: SelectionMarkState;
       valueType?: "selectionMark";
     }
+  | {
+      value?: string;
+      valueType?: "gender";
+    }
+  | {
+      value?: string;
+      valueType?: "country";
+    }
 );
 
 /**
