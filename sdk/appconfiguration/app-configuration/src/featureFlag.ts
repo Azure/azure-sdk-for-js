@@ -163,6 +163,9 @@ function isFeatureFlagPercentageClientFilter(
   return clientFilter.name === "Microsoft.Percentage";
 }
 
+/**
+ * Type of FeatureFlag based on the client filters.
+ */
 export type FeatureFlagType<
   T extends "targeting" | "timeWindow" | "percentage"
 > = T extends "targeting"
