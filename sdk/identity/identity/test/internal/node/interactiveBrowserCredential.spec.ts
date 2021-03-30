@@ -27,7 +27,7 @@ describe("InteractiveBrowserCredential (internal)", function() {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Throws an expected error if no browser is available", async function() {
+  it("Throws an expected error if no browser is available", async function(this: Context) {
     // On Node 8, URL is not defined. We use URL on the msalOpenBrowser.ts file.
     if (isNode8) {
       this.skip();
