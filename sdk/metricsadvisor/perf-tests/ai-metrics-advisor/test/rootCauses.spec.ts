@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import {
   PerfStressOptionDictionary,
-  executeParallel,
   getEnvVar
 } from "@azure/test-utils-perfstress";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
@@ -25,15 +24,6 @@ export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions>
     super();
     this.detectionConfigId = getEnvVar("METRICS_ADVISOR_DETECTION_CONFIG_ID");
     this.incidentId = getEnvVar("METRICS_ADVISOR_INCIDENT_ID");
-  }
-
-  public async globalSetup() {
-    await super.globalSetup();
-    await executeParallel(
-      async (_count: number, _parallelIndex: number) => {},
-      this.options.count.value!,
-      32
-    );
   }
 
   async runAsync(): Promise<void> {

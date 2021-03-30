@@ -21,8 +21,4 @@ export abstract class MetricsAdvisorTest<TOptions> extends PerfStressTest<TOptio
       )
     );
   }
-
-  public async globalSetup() {}
-
-  public async globalCleanup() {}
 }
