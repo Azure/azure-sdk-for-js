@@ -15,6 +15,47 @@ interface PackageJson {
   devDependencies: Record<string, string>;
 }
 
+/**
+ * Gets the proper configuration needed for rollup's commonJS plugin for @opentelemetry/api.
+ *
+ * NOTE: this manual configuration is only needed because OpenTelemetry uses an
+ * __exportStar downleveled helper function to declare its exports which confuses
+ * rollup's automatic discovery mechanism.
+ *
+ * @returns an object reference that can be `...`'d into your cjs() configuration.
+ */
+export function openTelemetryCommonJs(): Record<string, string[]> {
+  const namedExports: Record<string, string[]> = {};
+
+  for (const key of ["@opentelemetry/api", "@azure/core-tracing/node_modules/@opentelemetry/api"]) {
+    namedExports[key] = [
+      "SpanKind",
+      "TraceFlags",
+      "getSpan",
+      "setSpan",
+      "SpanStatusCode",
+      "getSpanContext",
+      "setSpanContext"
+    ];
+  }
+
+  namedExports[
+    // working around a limitation in the rollup common.js plugin - it's not able to resolve these modules so the named exports listed above will not get applied. We have to drill down to the actual path.
+    "../../../common/temp/node_modules/.pnpm/@opentelemetry/api@0.10.2/node_modules/@opentelemetry/api/build/src/index.js"
+  ] = [
+    "SpanKind",
+    "TraceFlags",
+    "getSpan",
+    "setSpan",
+    "StatusCode",
+    "CanonicalCode",
+    "getSpanContext",
+    "setSpanContext"
+  ];
+
+  return namedExports;
+}
+
 // #region Warning Handler
 
 /**
@@ -80,9 +121,7 @@ function makeBrowserTestConfig() {
           // Chai's strange internal architecture makes it impossible to statically
           // analyze its exports.
           chai: ["version", "use", "util", "config", "expect", "should", "assert"],
-          // OpenTelemetry uses an __exportStar downleveled helper function to
-          // declare its exports, and so we have to add them here as well.
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       }),
       json(),

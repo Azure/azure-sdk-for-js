@@ -76,7 +76,7 @@ export const Repositories: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "Repositories",
     modelProperties: {
-      names: {
+      repositories: {
         serializedName: "repositories",
         type: {
           name: "Sequence",
@@ -86,48 +86,53 @@ export const Repositories: coreHttp.CompositeMapper = {
             }
           }
         }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const RepositoryAttributes: coreHttp.CompositeMapper = {
+export const RepositoryProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RepositoryAttributes",
+    className: "RepositoryProperties",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
       name: {
         serializedName: "imageName",
+        required: true,
         type: {
           name: "String"
         }
       },
       createdOn: {
         serializedName: "createdTime",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       lastUpdatedOn: {
         serializedName: "lastUpdateTime",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       registryArtifactCount: {
         serializedName: "manifestCount",
+        required: true,
         type: {
           name: "Number"
         }
       },
       tagCount: {
         serializedName: "tagCount",
+        required: true,
         type: {
           name: "Number"
         }
@@ -136,17 +141,17 @@ export const RepositoryAttributes: coreHttp.CompositeMapper = {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }
   }
 };
 
-export const ChangeableAttributes: coreHttp.CompositeMapper = {
+export const ContentProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChangeableAttributes",
+    className: "ContentProperties",
     modelProperties: {
       canDelete: {
         serializedName: "deleteEnabled",
@@ -176,10 +181,10 @@ export const ChangeableAttributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeletedRepository: coreHttp.CompositeMapper = {
+export const DeleteRepositoryResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DeletedRepository",
+    className: "DeleteRepositoryResult",
     modelProperties: {
       deletedRegistryArtifactDigests: {
         serializedName: "manifestsDeleted",
@@ -212,19 +217,14 @@ export const TagList: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TagList",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
-      imageName: {
+      repository: {
         serializedName: "imageName",
+        required: true,
         type: {
           name: "String"
         }
       },
-      tags: {
+      tagAttributeBases: {
         serializedName: "tags",
         type: {
           name: "Sequence",
@@ -234,6 +234,12 @@ export const TagList: coreHttp.CompositeMapper = {
               className: "TagAttributesBase"
             }
           }
+        }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
         }
       }
     }
@@ -259,40 +265,37 @@ export const TagAttributesBase: coreHttp.CompositeMapper = {
       },
       createdOn: {
         serializedName: "createdTime",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       lastUpdatedOn: {
         serializedName: "lastUpdateTime",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
-      modifiableProperties: {
+      writeableProperties: {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }
   }
 };
 
-export const TagAttributes: coreHttp.CompositeMapper = {
+export const TagProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TagAttributes",
+    className: "TagProperties",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
       repository: {
         serializedName: "imageName",
+        required: true,
         type: {
           name: "String"
         }
@@ -311,21 +314,23 @@ export const TagAttributes: coreHttp.CompositeMapper = {
       },
       createdOn: {
         serializedName: "tag.createdTime",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
       lastUpdatedOn: {
         serializedName: "tag.lastUpdateTime",
+        required: true,
         type: {
           name: "DateTime"
         }
       },
-      modifiableProperties: {
+      writeableProperties: {
         serializedName: "tag.changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }
@@ -337,19 +342,13 @@ export const AcrManifests: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AcrManifests",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
-      imageName: {
+      repository: {
         serializedName: "imageName",
         type: {
           name: "String"
         }
       },
-      manifestsAttributes: {
+      manifests: {
         serializedName: "manifests",
         type: {
           name: "Sequence",
@@ -359,6 +358,12 @@ export const AcrManifests: coreHttp.CompositeMapper = {
               className: "ManifestAttributesBase"
             }
           }
+        }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
         }
       }
     }
@@ -372,6 +377,7 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
     modelProperties: {
       digest: {
         serializedName: "digest",
+        required: true,
         type: {
           name: "String"
         }
@@ -406,16 +412,16 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      manifestMediaType: {
-        serializedName: "mediaType",
+      references: {
+        serializedName: "references",
         type: {
-          name: "String"
-        }
-      },
-      configMediaType: {
-        serializedName: "configMediaType",
-        type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManifestAttributesManifestReferences"
+            }
+          }
         }
       },
       tags: {
@@ -429,28 +435,52 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
           }
         }
       },
-      manifestProperties: {
+      writeableProperties: {
         serializedName: "changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }
   }
 };
 
-export const ManifestAttributes: coreHttp.CompositeMapper = {
+export const ManifestAttributesManifestReferences: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ManifestAttributes",
+    className: "ManifestAttributesManifestReferences",
     modelProperties: {
-      registry: {
-        serializedName: "registry",
+      digest: {
+        serializedName: "digest",
+        required: true,
         type: {
           name: "String"
         }
       },
+      cpuArchitecture: {
+        serializedName: "architecture",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operatingSystem: {
+        serializedName: "os",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryArtifactProperties",
+    modelProperties: {
       repository: {
         serializedName: "imageName",
         type: {
@@ -493,16 +523,16 @@ export const ManifestAttributes: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      manifestMediaType: {
-        serializedName: "manifest.mediaType",
+      references: {
+        serializedName: "manifest.references",
         type: {
-          name: "String"
-        }
-      },
-      configMediaType: {
-        serializedName: "manifest.configMediaType",
-        type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManifestAttributesManifestReferences"
+            }
+          }
         }
       },
       tags: {
@@ -516,11 +546,11 @@ export const ManifestAttributes: coreHttp.CompositeMapper = {
           }
         }
       },
-      manifestProperties: {
+      writeableProperties: {
         serializedName: "manifest.changeableAttributes",
         type: {
           name: "Composite",
-          className: "ChangeableAttributes"
+          className: "ContentProperties"
         }
       }
     }
@@ -534,8 +564,9 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
       "Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
     modelProperties: {
       grantType: {
+        defaultValue: "access_token",
+        isConstant: true,
         serializedName: "grant_type",
-        required: true,
         type: {
           name: "String"
         }
@@ -547,20 +578,9 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
           name: "String"
         }
       },
-      tenant: {
-        serializedName: "tenant",
-        type: {
-          name: "String"
-        }
-      },
-      refreshToken: {
-        serializedName: "refresh_token",
-        type: {
-          name: "String"
-        }
-      },
-      accessToken: {
+      aadAccesstoken: {
         serializedName: "access_token",
+        required: true,
         type: {
           name: "String"
         }
@@ -569,10 +589,10 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
   }
 };
 
-export const RefreshToken: coreHttp.CompositeMapper = {
+export const AcrRefreshToken: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RefreshToken",
+    className: "AcrRefreshToken",
     modelProperties: {
       refreshToken: {
         serializedName: "refresh_token",
@@ -612,7 +632,7 @@ export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrle
           name: "String"
         }
       },
-      refreshToken: {
+      acrRefreshToken: {
         serializedName: "refresh_token",
         required: true,
         type: {
@@ -623,10 +643,10 @@ export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrle
   }
 };
 
-export const AccessToken: coreHttp.CompositeMapper = {
+export const AcrAccessToken: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AccessToken",
+    className: "AcrAccessToken",
     modelProperties: {
       accessToken: {
         serializedName: "access_token",
@@ -917,33 +937,6 @@ export const TagAttributesTag: coreHttp.CompositeMapper = {
     modelProperties: {
       signatureRecord: {
         serializedName: "signatureRecord",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManifestAttributesManifestReferences: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManifestAttributesManifestReferences",
-    modelProperties: {
-      digest: {
-        serializedName: "digest",
-        type: {
-          name: "String"
-        }
-      },
-      architecture: {
-        serializedName: "architecture",
-        type: {
-          name: "String"
-        }
-      },
-      os: {
-        serializedName: "os",
         type: {
           name: "String"
         }
@@ -1433,6 +1426,21 @@ export const ContainerRegistryGetRepositoriesHeaders: coreHttp.CompositeMapper =
   }
 };
 
+export const ContainerRegistryGetRepositoriesNextHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryGetRepositoriesNextHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ContainerRegistryRepositoryCreateManifestHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1454,6 +1462,66 @@ export const ContainerRegistryRepositoryCreateManifestHeaders: coreHttp.Composit
         serializedName: "content-length",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetTagsHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetTagsHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetManifestsHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetManifestsHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetTagsNextHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetTagsNextHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetManifestsNextHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetManifestsNextHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
         }
       }
     }

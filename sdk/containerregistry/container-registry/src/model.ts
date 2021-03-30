@@ -2,12 +2,26 @@
 // Licensed under the MIT license.
 
 import { PipelineOptions } from "@azure/core-http";
-import { ChangeableAttributes, DeletedRepository } from "./generated";
+import {
+  ContentProperties,
+  DeleteRepositoryResult,
+  RegistryArtifactProperties,
+  RepositoryProperties,
+  ManifestAttributesManifestReferences,
+  TagProperties
+} from "./generated";
 
 /**
  * Re-export generated types that are used as public interfaces.
  */
-export { DeletedRepository, ChangeableAttributes };
+export {
+  ContentProperties,
+  DeleteRepositoryResult,
+  RegistryArtifactProperties,
+  RepositoryProperties,
+  ManifestAttributesManifestReferences,
+  TagProperties
+};
 
 /**
  * Client options used to configure Container Registry Repository API requests.
@@ -15,13 +29,3 @@ export { DeletedRepository, ChangeableAttributes };
 export interface ContainerRegistryClientOptions extends PipelineOptions {
   // Any custom options configured at the client level go here.
 }
-
-/**
- * Content properties.
- */
-export type ContentProperties = ChangeableAttributes;
-
-/**
- * Result of a Delete Repository operation.
- */
-export type DeletedRepositoryResult = DeletedRepository;

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getTracer, getTraceParentHeader } from "@azure/core-tracing";
-import { SpanOptions, SpanKind } from "@opentelemetry/api";
+import { getTraceParentHeader, createSpanFunction, SpanKind } from "@azure/core-tracing";
 import {
   RequestPolicyFactory,
   RequestPolicy,
@@ -12,6 +11,11 @@ import {
 import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 import { URLBuilder } from "../url";
+
+const createSpan = createSpanFunction({
+  packagePrefix: "",
+  namespace: ""
+});
 
 export interface TracingPolicyOptions {
   userAgent?: string;
@@ -38,18 +42,23 @@ export class TracingPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!request.spanOptions || !request.spanOptions.parent) {
+    if (!request.tracingContext) {
       return this._nextPolicy.sendRequest(request);
     }
 
     // create a new span
-    const tracer = getTracer();
-    const spanOptions: SpanOptions = {
-      ...request.spanOptions,
-      kind: SpanKind.CLIENT
-    };
     const path = URLBuilder.parse(request.url).getPath() || "/";
-    const span = tracer.startSpan(path, spanOptions);
+
+    const { span } = createSpan(path, {
+      tracingOptions: {
+        spanOptions: {
+          ...request.spanOptions,
+          kind: SpanKind.CLIENT
+        },
+        tracingContext: request.tracingContext
+      }
+    });
+
     span.setAttributes({
       "http.method": request.method,
       "http.url": request.url,

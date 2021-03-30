@@ -40,3 +40,4 @@ export {
 } from "./util/utils";
 export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
 export { logger } from "./log";
+export * from "./internals";

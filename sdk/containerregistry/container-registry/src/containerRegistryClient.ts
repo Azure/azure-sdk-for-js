@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/// <reference lib="esnext.asynciterable" />
+
 import {
   TokenCredential,
   OperationOptions,
@@ -9,17 +11,20 @@ import {
   InternalPipelineOptions,
   isTokenCredential
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
+import "@azure/core-paging";
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
-import { ContainerRegistryClientOptions, DeletedRepositoryResult } from "./model";
+import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model";
 import {
   ContainerRegistryUserCredential,
   createContainerRegistryUserCredentialPolicy
 } from "./containerRegistryUserCredentialPolicy";
+import { extractNextLink } from "./utils";
 
 /**
  * Options for the `deleteRepository` method of `ContainerRegistryClient`.
@@ -27,9 +32,18 @@ import {
 export interface DeleteRepositoryOptions extends OperationOptions {}
 
 /**
+ * Options for the `listRepositories` method of `ContainerRegistryClient`.
+ */
+export interface ListRepositoriesOptions extends OperationOptions {}
+
+/**
  * The client class used to interact with the Container Registry service.
  */
 export class ContainerRegistryClient {
+  /**
+   * The Azure Container Registry endpoint.
+   */
+  public endpoint: string;
   private client: GeneratedClient;
 
   /**
@@ -54,6 +68,7 @@ export class ContainerRegistryClient {
     credential: TokenCredential | ContainerRegistryUserCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
+    this.endpoint = endpointUrl;
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
@@ -93,7 +108,7 @@ export class ContainerRegistryClient {
   public async deleteRepository(
     name: string,
     options: DeleteRepositoryOptions = {}
-  ): Promise<DeletedRepositoryResult> {
+  ): Promise<DeleteRepositoryResult> {
     const { span, updatedOptions } = createSpan(
       "ContainerRegistryClient-deleteRepository",
       options
@@ -103,11 +118,76 @@ export class ContainerRegistryClient {
       const result = await this.client.containerRegistry.deleteRepository(name, updatedOptions);
       return result;
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
 
       throw e;
     } finally {
       span.end();
+    }
+  }
+
+  /**
+   * Iterates repositories.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new ContaienrRegistryClient(url, credentials);
+   * for await (const repository of client.listRepositories()) {
+   *   console.log("repository name: ", repository);
+   * }
+   * ```
+   * @param options -
+   */
+  public listRepositories(
+    options: ListRepositoriesOptions = {}
+  ): PagedAsyncIterableIterator<string, string[]> {
+    const { span, updatedOptions } = createSpan("listRepositories", options);
+    const iter = this.listRepositoryItems(updatedOptions);
+
+    span.end();
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) => this.listRepositoriesPage(settings, updatedOptions)
+    };
+  }
+
+  private async *listRepositoryItems(
+    options: ListRepositoriesOptions = {}
+  ): AsyncIterableIterator<string> {
+    for await (const page of this.listRepositoriesPage({}, options)) {
+      yield* page;
+    }
+  }
+
+  private async *listRepositoriesPage(
+    continuationState: PageSettings,
+    options: ListRepositoriesOptions = {}
+  ): AsyncIterableIterator<string[]> {
+    if (!continuationState.continuationToken) {
+      const optionsComplete = {
+        ...options,
+        n: continuationState.maxPageSize
+      };
+      let currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
+      if (currentPage.repositories) {
+        yield currentPage.repositories;
+      }
+      continuationState.continuationToken = extractNextLink(currentPage.link);
+      while (continuationState.continuationToken) {
+        currentPage = await this.client.containerRegistry.getRepositoriesNext(
+          continuationState.continuationToken,
+          options
+        );
+        if (currentPage.repositories) {
+          yield currentPage.repositories;
+        }
+        continuationState.continuationToken = extractNextLink(currentPage.link);
+      }
     }
   }
 }

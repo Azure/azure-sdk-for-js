@@ -127,7 +127,7 @@ async function main() {
     quantity: 1
   };
 
-  const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, searchRequest);
+  const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
   // The search is underway. Wait to receive searchId.
   const searchResults = searchPoller.pollUntilDone();

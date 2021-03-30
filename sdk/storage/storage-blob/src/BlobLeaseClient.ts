@@ -4,7 +4,7 @@ import { generateUuid, HttpResponse } from "@azure/core-http";
 import { StorageClientContext } from "./generated/src/storageClient";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { Blob as StorageBlob, Container } from "./generated/src/operations";
 import { ModifiedAccessConditions } from "./models";
 import { CommonOptions } from "./StorageClient";
@@ -189,7 +189,7 @@ export class BlobLeaseClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -242,7 +242,7 @@ export class BlobLeaseClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -286,7 +286,7 @@ export class BlobLeaseClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -329,7 +329,7 @@ export class BlobLeaseClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -379,7 +379,7 @@ export class BlobLeaseClient {
       return await this._containerOrBlobOperation.breakLease(operationOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

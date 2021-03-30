@@ -5,6 +5,7 @@ import assert from "assert";
 import { AuthorizationCodeCredential } from "../../../src";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { MockAuthHttpClient, assertClientCredentials } from "../../authTestUtils";
+import { setSpan, context as otContext } from "@azure/core-tracing";
 
 describe("AuthorizationCodeCredential", function() {
   it("sends an authorization request with the given credentials and authorization code", async () => {
@@ -99,9 +100,7 @@ describe("AuthorizationCodeCredential", function() {
 
     await credential.getToken("scope", {
       tracingOptions: {
-        spanOptions: {
-          parent: rootSpan.context()
-        }
+        tracingContext: setSpan(otContext.active(), rootSpan)
       }
     });
 

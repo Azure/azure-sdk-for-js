@@ -13,9 +13,9 @@ import { GeneratedClient } from "../generatedClient";
 import {
   ContainerRegistryGetRepositoriesOptionalParams,
   ContainerRegistryGetRepositoriesResponse,
-  ContainerRegistryGetRepositoryAttributesResponse,
   ContainerRegistryDeleteRepositoryResponse,
-  ContainerRegistryUpdateRepositoryAttributesOptionalParams
+  ContainerRegistryGetRepositoriesNextOptionalParams,
+  ContainerRegistryGetRepositoriesNextResponse
 } from "../models";
 
 /** Class representing a ContainerRegistry. */
@@ -63,25 +63,6 @@ export class ContainerRegistry {
   }
 
   /**
-   * Get repository attributes
-   * @param name Name of the image (including the namespace)
-   * @param options The options parameters.
-   */
-  getRepositoryAttributes(
-    name: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<ContainerRegistryGetRepositoryAttributesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getRepositoryAttributesOperationSpec
-    ) as Promise<ContainerRegistryGetRepositoryAttributesResponse>;
-  }
-
-  /**
    * Delete the repository identified by `name`
    * @param name Name of the image (including the namespace)
    * @param options The options parameters.
@@ -101,22 +82,22 @@ export class ContainerRegistry {
   }
 
   /**
-   * Update the attribute identified by `name` where `reference` is the name of the repository.
-   * @param name Name of the image (including the namespace)
+   * GetRepositoriesNext
+   * @param nextLink The nextLink from the previous successful call to the GetRepositories method.
    * @param options The options parameters.
    */
-  updateRepositoryAttributes(
-    name: string,
-    options?: ContainerRegistryUpdateRepositoryAttributesOptionalParams
-  ): Promise<coreHttp.RestResponse> {
+  getRepositoriesNext(
+    nextLink: string,
+    options?: ContainerRegistryGetRepositoriesNextOptionalParams
+  ): Promise<ContainerRegistryGetRepositoriesNextResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      name,
+      nextLink,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      updateRepositoryAttributesOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+      getRepositoriesNextOperationSpec
+    ) as Promise<ContainerRegistryGetRepositoriesNextResponse>;
   }
 }
 // Operation Specifications
@@ -152,27 +133,12 @@ const getRepositoriesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getRepositoryAttributesOperationSpec: coreHttp.OperationSpec = {
-  path: "/acr/v1/{name}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RepositoryAttributes
-    },
-    default: {
-      bodyMapper: Mappers.AcrErrors
-    }
-  },
-  urlParameters: [Parameters.url, Parameters.name],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const deleteRepositoryOperationSpec: coreHttp.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "DELETE",
   responses: {
     202: {
-      bodyMapper: Mappers.DeletedRepository
+      bodyMapper: Mappers.DeleteRepositoryResult
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -182,18 +148,20 @@ const deleteRepositoryOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateRepositoryAttributesOperationSpec: coreHttp.OperationSpec = {
-  path: "/acr/v1/{name}",
-  httpMethod: "PATCH",
+const getRepositoriesNextOperationSpec: coreHttp.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.Repositories,
+      headersMapper: Mappers.ContainerRegistryGetRepositoriesNextHeaders
+    },
     default: {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  requestBody: Parameters.value,
-  urlParameters: [Parameters.url, Parameters.name],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  queryParameters: [Parameters.last, Parameters.n],
+  urlParameters: [Parameters.url, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
   serializer
 };

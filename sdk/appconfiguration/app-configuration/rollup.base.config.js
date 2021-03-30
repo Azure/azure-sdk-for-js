@@ -8,6 +8,7 @@ import shim from "rollup-plugin-shim";
 import json from "@rollup/plugin-json";
 import * as path from "path";
 import inject from "@rollup/plugin-inject";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -123,7 +124,7 @@ export function browserConfig(test = false) {
           chai: ["assert", "expect", "use"],
           assert: ["ok", "equal", "strictEqual", "deepEqual", "fail", "throws", "notEqual"],
           events: ["EventEmitter"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       }),
 

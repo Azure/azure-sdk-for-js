@@ -7,6 +7,8 @@ import {
   AzureKeyCredential,
   AzureNamedKeyCredential,
   AzureSASCredential,
+  isNamedKeyCredential,
+  isSASCredential,
   isTokenCredential
 } from "../src/index";
 
@@ -200,5 +202,25 @@ describe("isTokenCredential", function() {
       }),
       true
     );
+  });
+});
+
+describe("isNamedKeyCredential", function() {
+  it("should return true for an object that resembles a NamedKeyCredential", () => {
+    assert.ok(isNamedKeyCredential({ name: "foo", key: "bar" }));
+  });
+
+  it("should return false for an object that does not resemble a NamedKeyCredential", () => {
+    assert.strictEqual(isNamedKeyCredential({}), false);
+  });
+});
+
+describe("isSASCredential", function() {
+  it("should return true for an object that resembles a isSASCredential", () => {
+    assert.ok(isSASCredential({ signature: "sig" }));
+  });
+
+  it("should return false for an object that does not resemble a isSASCredential", () => {
+    assert.strictEqual(isSASCredential({}), false);
   });
 });

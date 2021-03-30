@@ -3,10 +3,10 @@
 
 import qs from "qs";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
+import { CredentialUnavailable } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { checkTenantId } from "../util/checkTenantId";
@@ -176,7 +176,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
             "Content-Type": "application/x-www-form-urlencoded"
           },
           abortSignal: options && options.abortSignal,
-          spanOptions: updatedOptions?.tracingOptions?.spanOptions
+          spanOptions: updatedOptions?.tracingOptions?.spanOptions,
+          tracingContext: updatedOptions?.tracingOptions?.tracingContext
         });
 
         tokenResponse = await this.identityClient.sendTokenRequest(webResource);
@@ -191,12 +192,8 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
       return token;
     } catch (err) {
-      const code =
-        err.name === AuthenticationErrorName
-          ? CanonicalCode.UNAUTHENTICATED
-          : CanonicalCode.UNKNOWN;
       span.setStatus({
-        code,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
       logger.getToken.info(formatError(scopes, err));

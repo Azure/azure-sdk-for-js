@@ -9,17 +9,18 @@ import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 import { CommunicationIdentityClient } from "../src";
 import { createRecordedCommunicationIdentityClient } from "./utils/recordedClient";
+import { Context } from "mocha";
 
 describe("CommunicationIdentityClient [Playback/Live]", function() {
   let user: CommunicationUserIdentifier;
   let recorder: Recorder;
   let client: CommunicationIdentityClient;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     ({ client, recorder } = createRecordedCommunicationIdentityClient(this));
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
