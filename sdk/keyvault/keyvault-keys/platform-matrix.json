@@ -14,25 +14,18 @@
     },
     {
       "Agent": {
-        "ubuntu-18.04_service_version_7_0": {
+        "ubuntu-18.04": {
           "OSVmImage": "MMSUbuntu18.04",
           "Pool": "azsdk-pool-mms-ubuntu-1804-general"
         }
       },
       "TestType": "node",
       "NodeTestVersion": "10.x",
-      "ServiceVersion": "7.0"
-    },
-    {
-      "Agent": {
-        "ubuntu-18.04_service_version_7_1": {
-          "OSVmImage": "MMSUbuntu18.04",
-          "Pool": "azsdk-pool-mms-ubuntu-1804-general"
-        }
-      },
-      "TestType": "node",
-      "NodeTestVersion": "10.x",
-      "ServiceVersion": "7.1"
+      "ServiceVersion": ["7.0", "7.1"]
     }
-  ]
+  ],
+  "displayNames": {
+    "7.0": "service_version_7_0",
+    "7.1": "service_version_7_1"
+  }
 }
