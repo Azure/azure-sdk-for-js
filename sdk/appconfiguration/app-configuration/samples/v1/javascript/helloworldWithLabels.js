@@ -3,7 +3,7 @@
 
 /**
  * @summary This sample builds on concepts in helloworld.ts and shows you how to use labels. Labels allow you to add an extra dimension for your
- * setting and gives you a simple way to create conventions for environments. [Click for more info on labels/keys](https://docs.microsoft.com/en-us/azure/azure-app-configuration/concept-key-value#label-keys)
+ * setting and gives you a simple way to create conventions for environments. [Click for more info on labels/keys](https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys)
  */
 const { AppConfigurationClient } = require("@azure/app-configuration");
 
