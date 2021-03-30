@@ -74,32 +74,26 @@ export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedFi
 export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
-// @public (undocumented)
+// @public
 export interface FeatureFlag extends FeatureFlagParam, ConfigurationSetting {
 }
 
 // @public
 export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+json;charset=utf-8";
 
-// @public (undocumented)
+// @public
 export interface FeatureFlagParam extends ConfigurationSettingParam {
-    // (undocumented)
     conditions: {
         clientFilters: (FeatureFlagTargetingClientFilter | FeatureFlagTimeWindowClientFilter | FeatureFlagPercentageClientFilter | object)[];
     };
-    // (undocumented)
     description?: string;
-    // (undocumented)
     displayName: string;
-    // (undocumented)
     enabled: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface FeatureFlagPercentageClientFilter {
-    // (undocumented)
     name: "Microsoft.Percentage";
-    // (undocumented)
     parameters: {
         [key: string]: any;
     };
@@ -108,11 +102,9 @@ export interface FeatureFlagPercentageClientFilter {
 // @public
 export const featureFlagPrefix = ".appconfig.featureflag/";
 
-// @public (undocumented)
+// @public
 export interface FeatureFlagTargetingClientFilter {
-    // (undocumented)
     name: "Microsoft.Targeting";
-    // (undocumented)
     parameters: {
         audience: {
             users: string[];
@@ -125,16 +117,17 @@ export interface FeatureFlagTargetingClientFilter {
     };
 }
 
-// @public (undocumented)
+// @public
 export interface FeatureFlagTimeWindowClientFilter {
-    // (undocumented)
     name: "Microsoft.TimeWindow";
-    // (undocumented)
     parameters: {
         start: string;
         end: string;
     };
 }
+
+// @public
+export type FeatureFlagType<T extends "targeting" | "timeWindow" | "percentage"> = T extends "targeting" ? FeatureFlagTargetingClientFilter : T extends "timeWindow" ? FeatureFlagTimeWindowClientFilter : T extends "percentage" ? FeatureFlagPercentageClientFilter : never;
 
 // @public
 export interface GetConfigurationHeaders extends SyncTokenHeaderField {
@@ -172,15 +165,13 @@ export interface HttpResponseFields {
     statusCode: number;
 }
 
-// @public (undocumented)
+// @public
 export function isFeatureFlag(setting: ConfigurationSetting | FeatureFlag): setting is FeatureFlag;
 
-// Warning: (ae-forgotten-export) The symbol "FeatureFlagType" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
+// @public
 export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" | "percentage">(type: T, obj: any): obj is FeatureFlagType<T>;
 
-// @public (undocumented)
+// @public
 export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference;
 
 // @public
@@ -213,16 +204,15 @@ export interface OptionalFields {
     fields?: (keyof ConfigurationSetting)[];
 }
 
-// @public (undocumented)
+// @public
 export interface SecretReference extends SecretReferenceParam, ConfigurationSetting {
 }
 
-// @public (undocumented)
+// @public
 export const secretReferenceContentType = "application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8";
 
-// @public (undocumented)
+// @public
 export interface SecretReferenceParam extends ConfigurationSettingParam {
-    // (undocumented)
     secretId: string;
 }
 
