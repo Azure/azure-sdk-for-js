@@ -9,15 +9,9 @@ import { buildCapabilityUpdate } from "./utils";
 import { createRecordedClient } from "./utils/recordedClient";
 
 describe("PhoneNumbersClient - lro - update", function() {
-  const acquiredPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
+  const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
   let recorder: Recorder;
   let client: PhoneNumbersClient;
-
-  this.beforeAll(function() {
-    if (!env.INCLUDE_PHONENUMBER_LIVE_TESTS && !isPlaybackMode()) {
-      this.skip();
-    }
-  });
 
   beforeEach(function() {
     ({ client, recorder } = createRecordedClient(this));
@@ -30,13 +24,13 @@ describe("PhoneNumbersClient - lro - update", function() {
   });
 
   it("can update a phone number's capabilities", async function() {
-    const { capabilities } = await client.getPurchasedPhoneNumber(acquiredPhoneNumber);
+    const { capabilities } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
     const update: PhoneNumberCapabilitiesRequest = isPlaybackMode()
       ? { calling: "none", sms: "outbound" }
       : buildCapabilityUpdate(capabilities);
 
     const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
-      acquiredPhoneNumber,
+      purchasedPhoneNumber,
       update
     );
 
@@ -47,14 +41,14 @@ describe("PhoneNumbersClient - lro - update", function() {
 
   it("can cancel an update", async function() {
     const { capabilities: originalCapabilities } = await client.getPurchasedPhoneNumber(
-      acquiredPhoneNumber
+      purchasedPhoneNumber
     );
     const update: PhoneNumberCapabilitiesRequest = isPlaybackMode()
       ? { calling: "inbound+outbound", sms: "inbound+outbound" }
       : buildCapabilityUpdate(originalCapabilities);
 
     const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
-      acquiredPhoneNumber,
+      purchasedPhoneNumber,
       update
     );
 
@@ -62,7 +56,7 @@ describe("PhoneNumbersClient - lro - update", function() {
     assert.ok(updatePoller.isStopped);
     assert.ok(updatePoller.getOperationState().isCancelled);
 
-    const { capabilities } = await client.getPurchasedPhoneNumber(acquiredPhoneNumber);
+    const { capabilities } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
     assert.notDeepEqual(capabilities, update);
     assert.deepEqual(capabilities, originalCapabilities);
   }).timeout(5000);

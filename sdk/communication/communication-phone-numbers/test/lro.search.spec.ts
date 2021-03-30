@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode, Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { SearchAvailablePhoneNumbersRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
@@ -19,12 +19,6 @@ describe("PhoneNumbersClient - lro - search", function() {
       calling: "none"
     }
   };
-
-  this.beforeAll(function() {
-    if (!env.INCLUDE_PHONENUMBER_LIVE_TESTS && !isPlaybackMode()) {
-      this.skip();
-    }
-  });
 
   beforeEach(function() {
     ({ client, recorder } = createRecordedClient(this));

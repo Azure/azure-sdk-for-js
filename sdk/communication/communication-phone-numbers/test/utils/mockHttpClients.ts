@@ -23,8 +23,8 @@ export const createMockHttpClient = <T = Record<string, unknown>>(
 export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<PurchasedPhoneNumber>(
   200,
   {
-    id: "+18005550100",
-    phoneNumber: "+18005550100",
+    id: "16155550100",
+    phoneNumber: "+16155550100",
     countryCode: "US",
     phoneNumberType: "geographic",
     assignmentType: "person",
