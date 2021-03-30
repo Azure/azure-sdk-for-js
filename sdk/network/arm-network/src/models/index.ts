@@ -824,6 +824,11 @@ export interface ServiceEndpointPolicy extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly etag?: string;
+  /**
+   * Kind of service endpoint policy. This is metadata used for the Azure portal experience.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kind?: string;
 }
 
 /**
@@ -1223,13 +1228,15 @@ export interface Subnet extends SubResource {
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * Enable or Disable apply network policies on private end point in the subnet.
+   * Enable or Disable apply network policies on private end point in the subnet. Possible values
+   * include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
-  privateEndpointNetworkPolicies?: string;
+  privateEndpointNetworkPolicies?: VirtualNetworkPrivateEndpointNetworkPolicies;
   /**
-   * Enable or Disable apply network policies on private link service in the subnet.
+   * Enable or Disable apply network policies on private link service in the subnet. Possible
+   * values include: 'Enabled', 'Disabled'. Default value: 'Enabled'.
    */
-  privateLinkServiceNetworkPolicies?: string;
+  privateLinkServiceNetworkPolicies?: VirtualNetworkPrivateLinkServiceNetworkPolicies;
   /**
    * The name of the resource that is unique within a resource group. This name can be used to
    * access the resource.
@@ -14781,6 +14788,22 @@ export type PublicIPAddressSkuTier = 'Regional' | 'Global';
  * @enum {string}
  */
 export type DdosSettingsProtectionCoverage = 'Basic' | 'Standard';
+
+/**
+ * Defines values for VirtualNetworkPrivateEndpointNetworkPolicies.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualNetworkPrivateEndpointNetworkPolicies = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for VirtualNetworkPrivateLinkServiceNetworkPolicies.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type VirtualNetworkPrivateLinkServiceNetworkPolicies = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for TransportProtocol.
