@@ -38,9 +38,6 @@ function createTestClient(): ContainerRegistryClient {
   return new ContainerRegistryClient(endpoint, credential);
 }
 
-// You want to give the test suite a descriptive name. Here, I add [AAD] to
-// indicate that the tests are authenticating with the service using Azure
-// Active Directory.
 describe.skip("ContainerRegistryClient functional tests", function() {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
