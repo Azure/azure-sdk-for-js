@@ -2,6 +2,8 @@
 
 ## 1.2.0-beta.1 (Unreleased)
 
+### New Features
+
 - New `SecretReferenceConfigurationSetting` and `FeatureFlagConfigurationSetting`types to represent configuration settings that references KeyVault Secret reference and feature flag respectively.
   [#14342](https://github.com/Azure/azure-sdk-for-js/pull/14342)
 - Added `updateSyncToken` method to `AppConfigurationClient` to be able to provide external synchronization tokens.
