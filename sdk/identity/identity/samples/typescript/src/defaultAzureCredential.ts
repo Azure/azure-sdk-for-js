@@ -14,15 +14,20 @@ require("dotenv").config();
  *
  * For more information, you may go to our readme: [link](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential)
  */
-
 export async function main(): Promise<void> {
-  const credential = new DefaultAzureCredential();
-
   const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
-  const client = new KeyClient(keyVaultUrl, credential);
+
+  let credential = new DefaultAzureCredential();
+  let client = new KeyClient(keyVaultUrl, credential);
 
   // Retrieving the properties of the existing keys in that specific Key Vault.
   console.log(await client.listPropertiesOfKeys().next());
+
+  // When deployed to an Azure resource, you may also authenticate with a user assigned managed identity
+  credential = new DefaultAzureCredential({
+    managedIdentityClientId: "<Managed Identity Client ID>"
+  });
+  client = new KeyClient(keyVaultUrl, credential);
 }
 
 main().catch((err) => {
