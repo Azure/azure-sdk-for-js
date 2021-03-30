@@ -376,10 +376,8 @@ export function isContentTypeInBrowserRecording(
   expectedContentTypes: string[]
 ): boolean {
   for (const contentType of expectedContentTypes) {
-    if (fixture.responseHeaders?.["content-type"]) {
-      if (fixture.responseHeaders["content-type"].replace(/\s/, "") === contentType) {
-        return true;
-      }
+    if (fixture.responseHeaders?.["content-type"]?.replace(/\s/, "") === contentType) {
+      return true;
     }
   }
   return false;
