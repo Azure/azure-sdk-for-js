@@ -18,10 +18,10 @@ export interface Tracer {
    *
    * This method does NOT modify the current Context.
    *
-   * @param name The name of the span
-   * @param [options] SpanOptions used for span creation
-   * @param [context] Context to use to extract parent
-   * @returns Span The newly created span
+   * @param name - The name of the span
+   * @param options - SpanOptions used for span creation
+   * @param context - Context to use to extract parent
+   * @returns The newly created span
    * @example
    *     const span = tracer.startSpan('op');
    *     span.setAttribute('key', 'value');
@@ -39,22 +39,22 @@ export interface TraceState {
    * given key set.
    * The new entry will always be added in the front of the list of states.
    *
-   * @param key key of the TraceState entry.
-   * @param value value of the TraceState entry.
+   * @param key - key of the TraceState entry.
+   * @param value - value of the TraceState entry.
    */
   set(key: string, value: string): TraceState;
   /**
    * Return a new TraceState which inherits from this TraceState but does not
    * contain the given key.
    *
-   * @param key the key for the TraceState entry to be removed.
+   * @param key - the key for the TraceState entry to be removed.
    */
   unset(key: string): TraceState;
   /**
    * Returns the value to which the specified key is mapped, or `undefined` if
    * this map contains no mapping for the key.
    *
-   * @param key with which the specified value is to be associated.
+   * @param key - with which the specified value is to be associated.
    * @returns the value to which the specified key is mapped, or `undefined` if
    *     this map contains no mapping for the key.
    */
@@ -175,7 +175,7 @@ export interface ExceptionWithName {
 /**
  * Return the span if one exists
  *
- * @param context context to get span from
+ * @param context - context to get span from
  */
 export function getSpan(context: Context): Span | undefined {
   return otGetSpan(context);
@@ -184,8 +184,8 @@ export function getSpan(context: Context): Span | undefined {
 /**
  * Set the span on a context
  *
- * @param context context to use as parent
- * @param span span to set active
+ * @param context - context to use as parent
+ * @param span - span to set active
  */
 export function setSpan(context: Context, span: Span): Context {
   return otSetSpan(context, span);
@@ -195,8 +195,8 @@ export function setSpan(context: Context, span: Span): Context {
  * Wrap span context in a NoopSpan and set as span in a new
  * context
  *
- * @param context context to set active span on
- * @param spanContext span context to be wrapped
+ * @param context - context to set active span on
+ * @param spanContext - span context to be wrapped
  */
 export function setSpanContext(context: Context, spanContext: SpanContext): Context {
   return otSetSpanContext(context, spanContext);
@@ -205,7 +205,7 @@ export function setSpanContext(context: Context, spanContext: SpanContext): Cont
 /**
  * Get the span context of the span if it exists.
  *
- * @param context context to get values from
+ * @param context - context to get values from
  */
 export function getSpanContext(context: Context): SpanContext | undefined {
   return otGetSpanContext(context);
