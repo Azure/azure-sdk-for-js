@@ -48,7 +48,8 @@ function buildGraphTopology() {
   const assetSink: AssetSink = {
     name: "assetSink",
     inputs: [graphNodeInput],
-    assetContainerSasUrl: "https://sampleAsset-${System.PipelineTopologyName}-${System.LivePipelineName}.com",
+    assetContainerSasUrl:
+      "https://sampleAsset-${System.PipelineTopologyName}-${System.LivePipelineName}.com",
     localMediaCachePath: "/var/lib/azuremediaservices/tmp/",
     localMediaCacheMaximumSizeMiB: "2048",
     "@type": "#Microsoft.VideoAnalyzer.AssetSink"
