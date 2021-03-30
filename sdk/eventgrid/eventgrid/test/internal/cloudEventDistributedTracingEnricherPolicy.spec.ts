@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { cloudEventDistributedTracingEnricherPolicy } from "../src/cloudEventDistrubtedTracingEnricherPolicy";
+import { cloudEventDistributedTracingEnricherPolicy } from "../../src/cloudEventDistrubtedTracingEnricherPolicy";
 import {
   PipelineRequest,
   PipelineResponse,

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { AzureKeyCredential, generateSharedAccessSignature } from "../src/index";
+import { AzureKeyCredential, generateSharedAccessSignature } from "../../src";
 
 describe("generateSharedAccessSignature", function() {
   it("generates the correct signiture", async () => {

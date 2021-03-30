@@ -7,7 +7,7 @@ import * as dotenv from "dotenv";
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "./testUtils";
 
-import { EventGridPublisherClient, InputSchema } from "../../src/index";
+import { EventGridPublisherClient, InputSchema } from "../../../src";
 import { KeyCredential } from "@azure/core-auth";
 
 if (isNode) {
