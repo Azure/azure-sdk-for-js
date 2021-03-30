@@ -678,6 +678,11 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-search-documents",
+      "projectFolder": "sdk/search/perf-tests/search-documents",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixedreality-authentication",
       "projectFolder": "sdk/mixedreality/mixedreality-authentication",
       "versionPolicyName": "client"

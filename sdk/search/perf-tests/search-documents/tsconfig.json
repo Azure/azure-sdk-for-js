@@ -1,0 +1,18 @@
+{
+  "extends": "../../../../tsconfig.package",
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ES2015",
+    "declarationDir": "./types",
+    "lib": [
+      "ES6",
+      "ESNext.AsyncIterable"
+    ],
+    "noEmit": true,
+    "outDir": "./dist-esm"
+  },
+  "include": [
+    "./test/**/*.ts"
+  ],
+  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
+}
