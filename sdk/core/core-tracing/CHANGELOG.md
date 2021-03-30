@@ -1,8 +1,14 @@
 # Release History
 
-## 1.0.0-preview.11 (Unreleased)
+## 1.0.0-preview.11 (2021-03-30)
 
-- Update `@opentelemetry/api` to version 1.0.0-rc.0 [PR 14208](https://github.com/Azure/azure-sdk-for-js/pull/14208)
+### Breaking Changes
+
+- Update @azure/core-tracing to version 1.0.0-preview.11. This brings core-tracing up to date with @opentelemetry/api@1.0.0-rc.0.
+  There are two scenarios that will require changes if you are using tracing:
+  - Previously, you would pass a parent span using the `OperationOptions.tracingOptions.spanOptions.parentSpan` property. This has been
+    changed so that you now specify a parent `Context` using the `OperationOptions.tracingOptions.tracingContext` property instead.
+  - The status code for Spans is no longer of type `CanonicalCode`. Instead, it's now `SpanStatusCode`, which also has a smaller range of values.
 
 ## 1.0.0-preview.10 (2021-03-04)
 
