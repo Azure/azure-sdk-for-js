@@ -14,8 +14,9 @@ param (
 function replaceText($oldText,$newText,$filePath){
     $content = Get-Content -Path $filePath -Raw
     $newContent = $content -replace $oldText,$newText
-    if((-join $newContent) -ne (-join $content)){
-        Set-Content -Path $filePath -Value $newContent
+    if ($newContent -ne $content)
+    {
+        Set-Content -Path $filePath -Value $newContent -NoNewLine
         Write-Host "replaceText [$oldText] [$newText] [$filePath]"
     }
 }
