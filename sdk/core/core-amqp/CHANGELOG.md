@@ -1,5 +1,8 @@
 # Release History
 
+## 2.2.1 (Unreleased)
+
+
 ## 2.2.0 (2021-03-30)
 
 - Updates `translateError` to convert non-object type parameters to errors.
@@ -139,18 +142,6 @@ We are cleaning the public API surface by
 - Updated to use the latest version of the `rhea` package.
   This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
 
-## 1.0.0 (2019-01-08)
-
-- This release marks the general availability of the `@azure/core-amqp` package.
-- Improved detection of when an established socket is no longer receiving data from the service.
-- Added logging around the network connectivity check.
-- Updated the translate() utility function used to convert AmqpError or system errors to MessagingError as below:
-  - Non-messaging errors like TypeError, RangeError or any Node.js system errors not related to network issues
-    are returned as is instead of being converted to a MessagingError.
-  - If a MessagingError is returned by translate(), use code instead of the name property to
-    differentiate between different kinds of messaging errors.
-    The name property henceforth will always be "MessagingError" on this error class.
-
 ## 1.0.0-preview.6 (2019-12-03)
 
 - Treat ETIMEOUT error from dns.resolve as network disconnected.
@@ -199,3 +190,15 @@ New features in this library compared to the older @azure/amqp-common are:
 
 - The `sendRequest()` function in the `RequestResponseLink` class now supports the use of an abort
   signal via the `SendRequestOptions` so that the request can be cancelled.
+## 1.0.0 (2019-01-08)
+
+- This release marks the general availability of the `@azure/core-amqp` package.
+- Improved detection of when an established socket is no longer receiving data from the service.
+- Added logging around the network connectivity check.
+- Updated the translate() utility function used to convert AmqpError or system errors to MessagingError as below:
+  - Non-messaging errors like TypeError, RangeError or any Node.js system errors not related to network issues
+    are returned as is instead of being converted to a MessagingError.
+  - If a MessagingError is returned by translate(), use code instead of the name property to
+    differentiate between different kinds of messaging errors.
+    The name property henceforth will always be "MessagingError" on this error class.
+
