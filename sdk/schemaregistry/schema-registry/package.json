@@ -58,6 +58,7 @@
     ]
   },
   "//sampleConfiguration": {
+    "disableDocsMs": true,
     "productName": "Azure Schema Registry",
     "productSlugs": [
       "azure",
