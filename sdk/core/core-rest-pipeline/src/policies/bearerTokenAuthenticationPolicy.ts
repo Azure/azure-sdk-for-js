@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy, RestError } from "../";
 import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "../accessTokenCache";
 
@@ -50,9 +49,12 @@ export interface BearerTokenAuthenticationPolicyOptions {
      */
     prepareRequest?(request: PipelineRequest): Promise<void>;
     /**
-     * Updates  the authentication context based on the challenge.
+     * Proccesses the challenge and returns an access token for requests to service endpoints.
      */
-    processChallenge(challenge: string): Promise<BearerTokenChallengeResult | undefined>;
+    processChallenge(
+      challenge: string,
+      request: PipelineRequest
+    ): Promise<BearerTokenChallengeResult | undefined>;
   };
 }
 
@@ -65,7 +67,25 @@ export function bearerTokenAuthenticationPolicy(
 ): PipelinePolicy {
   const { credential, scopes, challengeCallbacks } = options;
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  const { prepareRequest, processChallenge } = challengeCallbacks ?? {};
+
+  const defaultCallbacks = {
+    prepareRequest: undefined,
+    processChallenge(
+      challenge: string,
+      request: PipelineRequest
+    ): Promise<BearerTokenChallengeResult | undefined> {
+      const { scope, claims } = parseWWWAuthenticate(challenge);
+      const context = {
+        scopes: scope ? [scope] : undefined,
+        claims
+      };
+      const token = retrieveToken(request, context);
+      request.headers.set("Authorization", `Bearer ${token}`);
+
+      return Promise.resolve(context);
+    }
+  };
+  const callbacks = challengeCallbacks ?? defaultCallbacks;
 
   /**
    * retrieveToken will call to the underlying credential's getToken request with properties coming from the request,
@@ -76,7 +96,7 @@ export function bearerTokenAuthenticationPolicy(
     context?: BearerTokenChallengeResult
   ): Promise<string | undefined> {
     let accessToken = tokenCache.getCachedToken();
-    const getTokenOptions: GetTokenOptions = {
+    const getTokenOptions: GetTokenOptions & { claims?: string } = {
       claims: context?.claims,
       abortSignal: request.abortSignal,
       tracingOptions: request.tracingOptions
@@ -127,26 +147,83 @@ export function bearerTokenAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const accessToken = tokenCache.getCachedToken();
-      if (!accessToken && !processChallenge) {
+      let accessToken = tokenCache.getCachedToken();
+      if (!accessToken) {
+        // retrieves AAD access token
         const token = await retrieveToken(request);
         request = assignToken(request, token);
+      } else {
+        request = assignToken(request, accessToken.token);
       }
 
-      if (prepareRequest) {
-        await prepareRequest(request);
+      if (callbacks?.prepareRequest) {
+        await callbacks.prepareRequest(request);
       }
 
-      const response = await next(request);
-      const challenge = getChallenge(response);
-
-      if (challenge && processChallenge) {
-        const context = await processChallenge(challenge);
-        const token = await retrieveToken(request, context);
-        return next(assignToken(request, token));
+      let challenge: string | undefined;
+      let response: PipelineResponse;
+      try {
+        response = await next(request);
+        challenge = getChallenge(response);
+      } catch (err) {
+        if (err instanceof RestError && err.statusCode === 401) {
+          challenge = getChallenge(err.response!);
+        } else {
+          throw err;
+        }
       }
 
+      if (challenge && callbacks?.processChallenge) {
+        // processes challenge
+        await callbacks.processChallenge(challenge, request);
+        return next(request);
+      }
+
+      //@ts-ignore assigned in try block
       return response;
     }
   };
+}
+
+type ValidParsedWWWAuthenticateProperties =
+  // "authorization_uri" was used in the track 1 version of KeyVault.
+  // This is not a relevant property anymore, since the service is consistently answering with "authorization".
+  // | "authorization_uri"
+  | "authorization"
+  | "claims"
+  // Even though the service is moving to "scope", both "resource" and "scope" should be supported.
+  | "resource"
+  | "scope"
+  | "service";
+
+type ParsedWWWAuthenticate = {
+  [Key in ValidParsedWWWAuthenticateProperties]?: string;
+};
+
+/**
+ * Parses an WWW-Authenticate response.
+ * This transforms a string value like:
+ * `Bearer authorization="some_authorization", resource="https://some.url"`
+ * into an object like:
+ * `{ authorization: "some_authorization", resource: "https://some.url" }`
+ * @param wwwAuthenticate - String value in the WWW-Authenticate header
+ */
+export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
+  // First we split the string by either `,`, `, ` or ` `.
+  const parts = wwwAuthenticate.split(/, *| +/);
+  // Then we only keep the strings with an equal sign after a word and before a quote.
+  // also splitting these sections by their equal sign
+  const keyValues = parts.reduce<string[][]>(
+    (acc, str) => (str.match(/\w="/) ? [...acc, str.split("=")] : acc),
+    []
+  );
+  // Then we transform these key-value pairs back into an object.
+  const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
+    (result, [key, value]: string[]) => ({
+      ...result,
+      [key]: value.slice(1, -1)
+    }),
+    {}
+  );
+  return parsed;
 }
