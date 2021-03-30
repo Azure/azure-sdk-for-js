@@ -60,6 +60,7 @@ export async function executeAtomXmlOperation(
     onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
     abortSignal: operationOptions.abortSignal,
     spanOptions: operationOptions.tracingOptions?.spanOptions,
+    tracingContext: operationOptions.tracingOptions?.tracingContext,
     disableJsonStringifyOnBody: true
   };
   webResource = webResource.prepare(reqPrepareOptions);
