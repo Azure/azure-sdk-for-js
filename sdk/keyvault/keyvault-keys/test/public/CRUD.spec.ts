@@ -13,21 +13,10 @@ import {
   UpdateKeyPropertiesOptions,
   GetKeyOptions
 } from "../../src";
-import { assertThrowsAbortError, getServiceVersion, onVersions } from "../utils/utils.common";
+import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-
-// note, onVersions call this will not remain, just need to ensure it works
-onVersions({ minVer: "7.2" }).it("should only run on 7.2", () => {
-  console.log("getServiceVersion()", getServiceVersion());
-});
-
-onVersions({ maxVer: "7.1" }).describe("these should only run on 7.0 and 7.1", () => {
-  it("lets read the service version", () => {
-    console.log("getServiceVersion()", getServiceVersion());
-  });
-});
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
