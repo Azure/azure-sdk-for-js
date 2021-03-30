@@ -54,8 +54,8 @@ export const serviceVersions = ["7.0", "7.1", "7.2"] as const;
 /**
  * A convenience wrapper allowing us to limit service versions without using the `versionsToTest` wrapper.
  *
- * @param supportedVersions - The {@see SupportedVersions} to limit this test against.
- * @param serviceVersion - The service version we want to test support for. If omitted we will default to the version return {@see getServiceVersion}
+ * @param supportedVersions - The {@link SupportedVersions} to limit this test against.
+ * @param serviceVersion - The service version we want to test support for. If omitted we will default to the version returned from {@link getServiceVersion}.
  * @returns A Mocha Wrapper which will skip or execute the chained tests depending the currently tested service version and the supported versions.
  */
 export function onVersions(
