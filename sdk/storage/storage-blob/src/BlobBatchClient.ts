@@ -12,7 +12,7 @@ import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service, Container } from "./generated/src/operations";
@@ -340,7 +340,7 @@ export class BlobBatchClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

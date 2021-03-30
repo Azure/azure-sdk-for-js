@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import * as coreHttp from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -98,7 +98,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleDefinitionsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -132,7 +132,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleDefinitionByIdResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -166,7 +166,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientCreateRoleAssignmentResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -194,7 +194,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleAssignmentsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -228,7 +228,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleAssignmentByIdResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -262,7 +262,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -293,7 +293,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetCallerRoleAssignmentsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -327,7 +327,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleDefinitionsNextResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

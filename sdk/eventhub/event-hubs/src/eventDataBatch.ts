@@ -5,7 +5,7 @@ import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { Span, SpanContext } from "@opentelemetry/api";
+import { Span, SpanContext } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { convertTryAddOptionsForCompatibility, createMessageSpan } from "./diagnostics/tracing";
 import { defaultDataTransformer } from "./dataTransformer";
