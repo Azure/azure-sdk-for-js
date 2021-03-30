@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { NoOpTracer } from "./tracers/noop/noOpTracer";
-import { Tracer } from "@opentelemetry/api";
+import { Tracer } from "./interfaces";
 import { getCache } from "./utils/cache";
 
 let defaultTracer: Tracer;
