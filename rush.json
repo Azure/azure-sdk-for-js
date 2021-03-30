@@ -673,8 +673,18 @@
       "versionPolicyName": "test"
     },
     {
-      "packageName": "@azure-tests/perf-search-documents",
-      "projectFolder": "sdk/search/perf-tests/search-documents",
+      "packageName": "@azure-tests/perf-keyvault-keys",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-keys",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-keyvault-certificates",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-certificates",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-keyvault-secrets",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-secrets",
       "versionPolicyName": "test"
     },
     {
@@ -686,6 +696,11 @@
       "packageName": "@azure/iot-device-update",
       "projectFolder": "sdk/deviceupdate/iot-device-update",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tests/perf-search-documents",
+      "projectFolder": "sdk/search/perf-tests/search-documents",
+      "versionPolicyName": "test"
     }
   ]
 }
