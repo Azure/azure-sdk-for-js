@@ -50,7 +50,7 @@
 
 # Service teams
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @richardpark-msft @chradek
+/sdk/appconfiguration/ @richardpark-msft @chradek @HarshaNalluru
 
 # PRLabel: %Batch
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
@@ -65,7 +65,7 @@
 /sdk/cosmosdb/ @southpolesteve @zfoster
 
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @zolvarga
+/sdk/digitaltwins/ @vishnureddy17
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @ramya-rao-a @ellismg
@@ -126,6 +126,13 @@
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg @applicationinsights-js-owners @richardpark-msft
+
+###########
+# Tools
+###########
+
+# PRLabel: %dev-tool
+/common/tools/dev-tool/ @witemple-msft
 
 ###########
 # Eng Sys

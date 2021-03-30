@@ -55,7 +55,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 --reporter ../../../common/tools/mocha-multi-reporter.js ./test/*.spec.ts ./test/node/*.spec.ts",
+    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" nyc --reporter=lcov --reporter=text-lcov mocha -r ts-node/register -t 50000 --reporter ../../../common/tools/mocha-multi-reporter.js \"./test/*.spec.ts\" \"./test/node/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -70,17 +70,16 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
+    "@azure/core-auth": "^1.3.0",
     "@azure/logger": "^1.0.0",
     "@types/async-lock": "^1.1.0",
-    "@types/is-buffer": "^2.0.0",
     "async-lock": "^1.1.3",
     "buffer": "^5.2.1",
     "events": "^3.0.0",
-    "is-buffer": "^2.0.3",
     "jssha": "^3.1.0",
     "process": "^0.11.10",
     "rhea": "^1.0.24",
-    "rhea-promise": "^1.1.0",
+    "rhea-promise": "^1.2.0",
     "tslib": "^2.0.0",
     "url": "^0.11.0",
     "util": "^0.12.1"
@@ -124,8 +123,8 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
-    "ts-node": "^8.3.0",
-    "typescript": "4.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "~4.2.0",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }

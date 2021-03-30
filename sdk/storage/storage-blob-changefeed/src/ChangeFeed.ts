@@ -9,7 +9,7 @@ import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
 import { getSegmentsInYear, minDate, getHost } from "./utils/utils.common";
 import { AbortSignalLike } from "@azure/core-http";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Options to configure {@link ChangeFeed.getChange} operation.
@@ -133,7 +133,7 @@ export class ChangeFeed {
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -174,7 +174,7 @@ export class ChangeFeed {
       return event;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

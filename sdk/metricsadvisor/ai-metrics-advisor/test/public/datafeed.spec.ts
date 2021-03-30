@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-
+import { Context } from "mocha";
 import {
   DataFeedGranularity,
   DataFeedIngestionSettings,
@@ -36,8 +36,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let mySqlFeedName: string;
       let postgreSqlFeedName: string;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
+      beforeEach(function(this: Context) {
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
         if (recorder && !feedName) {
           feedName = recorder.getUniqueName("js-test-datafeed-");
@@ -233,7 +232,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("retrieves an Azure Blob datafeed", async function() {
+        it("retrieves an Azure Blob datafeed", async function(this: Context) {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
@@ -245,7 +244,6 @@ matrix([[true, false]] as const, async (useAad) => {
           };
 
           if (!createdAzureBlobDataFeedId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
 
@@ -273,9 +271,8 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("updates an Azure Blob datafeed", async function() {
+        it("updates an Azure Blob datafeed", async function(this: Context) {
           if (!createdAzureBlobDataFeedId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
           const expectedSourceParameter = {
@@ -816,7 +813,6 @@ export async function verifyDataFeedDeletion(
   createdDataFeedId: string
 ): Promise<void> {
   if (!createdDataFeedId) {
-    // eslint-disable-next-line no-invalid-this
     this.skip();
   }
 

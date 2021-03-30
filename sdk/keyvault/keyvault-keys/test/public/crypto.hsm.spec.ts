@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import { Recorder } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
@@ -20,7 +21,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     recorder = authentication.recorder;
 
@@ -43,7 +44,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
   });
 
   describe("with AES crypto algorithms", async function() {
-    it("encrypts and decrypts using AES-GCM", async function() {
+    it("encrypts and decrypts using AES-GCM", async function(this: Context) {
       keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
       cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
       const text = this.test!.title;
@@ -63,7 +64,7 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
       assert.equal(text, uint8ArrayToString(decryptResult.result));
     });
 
-    it("encrypts and decrypts using AES-CBC", async function() {
+    it("encrypts and decrypts using AES-CBC", async function(this: Context) {
       keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
       cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
       const text = this.test!.title;

@@ -206,9 +206,17 @@ export type PhoneNumberType = "geographic" | "tollFree";
 /** Defines values for PhoneNumberAssignmentType. */
 export type PhoneNumberAssignmentType = "person" | "application";
 /** Defines values for PhoneNumberCapabilityType. */
-export type PhoneNumberCapabilityType = "none" | "inbound" | "outbound" | "inbound+outbound";
+export type PhoneNumberCapabilityType =
+  | "none"
+  | "inbound"
+  | "outbound"
+  | "inbound+outbound";
 /** Defines values for PhoneNumberOperationStatus. */
-export type PhoneNumberOperationStatus = "notStarted" | "running" | "succeeded" | "failed";
+export type PhoneNumberOperationStatus =
+  | "notStarted"
+  | "running"
+  | "succeeded"
+  | "failed";
 /** Defines values for PhoneNumberOperationType. */
 export type PhoneNumberOperationType =
   | "purchase"
@@ -255,7 +263,8 @@ export type PhoneNumbersGetSearchResultResponse = PhoneNumberSearchResult & {
 };
 
 /** Optional parameters. */
-export interface PhoneNumbersPurchasePhoneNumbersOptionalParams extends coreHttp.OperationOptions {
+export interface PhoneNumbersPurchasePhoneNumbersOptionalParams
+  extends coreHttp.OperationOptions {
   /** The search id. */
   searchId?: string;
 }
@@ -287,7 +296,8 @@ export type PhoneNumbersGetOperationResponse = PhoneNumbersGetOperationHeaders &
   };
 
 /** Optional parameters. */
-export interface PhoneNumbersUpdateCapabilitiesOptionalParams extends coreHttp.OperationOptions {
+export interface PhoneNumbersUpdateCapabilitiesOptionalParams
+  extends coreHttp.OperationOptions {
   /** Capability value for calling. */
   calling?: PhoneNumberCapabilityType;
   /** Capability value for SMS. */
@@ -335,7 +345,8 @@ export type PhoneNumbersReleasePhoneNumberResponse = PhoneNumbersReleasePhoneNum
 };
 
 /** Optional parameters. */
-export interface PhoneNumbersListPhoneNumbersOptionalParams extends coreHttp.OperationOptions {
+export interface PhoneNumbersListPhoneNumbersOptionalParams
+  extends coreHttp.OperationOptions {
   /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
   skip?: number;
   /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
@@ -355,7 +366,8 @@ export type PhoneNumbersListPhoneNumbersResponse = PurchasedPhoneNumbers & {
 };
 
 /** Optional parameters. */
-export interface PhoneNumbersListPhoneNumbersNextOptionalParams extends coreHttp.OperationOptions {
+export interface PhoneNumbersListPhoneNumbersNextOptionalParams
+  extends coreHttp.OperationOptions {
   /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
   skip?: number;
   /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
@@ -375,7 +387,8 @@ export type PhoneNumbersListPhoneNumbersNextResponse = PurchasedPhoneNumbers & {
 };
 
 /** Optional parameters. */
-export interface PhoneNumbersClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface PhoneNumbersClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

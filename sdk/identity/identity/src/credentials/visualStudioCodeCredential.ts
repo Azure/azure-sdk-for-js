@@ -122,11 +122,11 @@ export class VisualStudioCodeCredential implements TokenCredential {
 
     if (options && options.tenantId) {
       checkTenantId(logger, options.tenantId);
-
       this.tenantId = options.tenantId;
     } else {
       this.tenantId = CommonTenantId;
     }
+
     checkUnsupportedTenant(this.tenantId);
   }
 
@@ -169,7 +169,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     _options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     await this.prepareOnce();
     if (!keytar) {
       throw new CredentialUnavailable(

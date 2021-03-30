@@ -1,8 +1,15 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.3 (Unreleased)
 
-- Fixed an issue where `timeout` and `abortSignal` of requests was not honored on Node after requests had already been issued to the server.
+
+## 1.0.2 (2021-03-25)
+
+- Fixed an issue where chunked HTTP responses would sometimes be decoded incorrectly when multibyte characters were used. [PR 14517](https://github.com/Azure/azure-sdk-for-js/pull/14517)
+
+## 1.0.1 (2021-03-18)
+
+- Fixed an issue where `timeout` and `abortSignal` of requests was not honored on Node after requests had already been issued to the server. [PR 14359](https://github.com/Azure/azure-sdk-for-js/pull/14359)
 
 ## 1.0.0 (2021-03-15)
 

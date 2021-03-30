@@ -31,6 +31,8 @@ npm install --save @azure/identity
   - You can sign up for a [free account](https://azure.microsoft.com/free/).
 - The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment, creating accounts, and managing account roles.
 
+Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` allow specifying `tokenCachePersistenceOptions` to enable persistent caching. To use this feature, developers will also need to install [@azure/msal-node-extensions](https://www.npmjs.com/package/@azure/msal-node-extensions).
+
 ### Authenticate the client in development environment
 
 While we recommend using managed identity or service principal authentication in your production application, it is typical for a developer to use their own account for authenticating calls to Azure services when debugging and executing code locally. There are several developer tools which can be used to perform this authentication in your development environment.
@@ -85,8 +87,7 @@ If used from NodeJS, the `DefaultAzureCredential` will attempt to authenticate v
 - Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
 - Visual Studio Code - If the developer has authenticated via the Visual Studio Code Azure Account plugin, the `DefaultAzureCredential` will authenticate with that account.
 - Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
-
-If the `DefaultAzureCredential` is used from a browser, it will only use the `InteractiveBrowserCredential`.
+- Finally, an application may include the `InteractiveBrowserCredential` authentication flow by setting the `includeInteractiveCredentials` option when constructing a `DefaultAzureCredential` instance.
 
 ## Environment Variables
 

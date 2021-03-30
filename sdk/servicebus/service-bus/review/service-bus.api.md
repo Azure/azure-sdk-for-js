@@ -18,8 +18,8 @@ import { PipelineOptions } from '@azure/core-http';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
-import { Span } from '@opentelemetry/api';
-import { SpanContext } from '@opentelemetry/api';
+import { Span } from '@azure/core-tracing';
+import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
@@ -373,7 +373,7 @@ export type ServiceBusErrorCode =
 // @public
 export interface ServiceBusMessage {
     applicationProperties?: {
-        [key: string]: number | boolean | string | Date;
+        [key: string]: number | boolean | string | Date | null;
     };
     body: any;
     contentType?: string;
@@ -569,7 +569,7 @@ export interface TopicRuntimeProperties {
 // @public
 export interface TryAddOptions {
     // @deprecated (undocumented)
-    parentSpan?: Span | SpanContext;
+    parentSpan?: Span | SpanContext | null;
     tracingOptions?: OperationTracingOptions;
 }
 

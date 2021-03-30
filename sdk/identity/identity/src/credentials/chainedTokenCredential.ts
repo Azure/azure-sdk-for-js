@@ -4,7 +4,7 @@
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
 import { createSpan } from "../util/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const logger = credentialLogger("ChainedTokenCredential");
@@ -51,10 +51,7 @@ export class ChainedTokenCredential implements TokenCredential {
    * @param options - The options used to configure any requests this
    *                `TokenCredential` implementation might make.
    */
-  async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
     let token = null;
     const errors = [];
 
@@ -64,7 +61,7 @@ export class ChainedTokenCredential implements TokenCredential {
       try {
         token = await this._sources[i].getToken(scopes, updatedOptions);
       } catch (err) {
-        if (err instanceof CredentialUnavailable) {
+        if (err.name === "CredentialUnavailable") {
           errors.push(err);
         } else {
           logger.getToken.info(formatError(scopes, err));
@@ -76,7 +73,7 @@ export class ChainedTokenCredential implements TokenCredential {
     if (!token && errors.length > 0) {
       const err = new AggregateAuthenticationError(errors);
       span.setStatus({
-        code: CanonicalCode.UNAUTHENTICATED,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
       logger.getToken.info(formatError(scopes, err));
@@ -86,6 +83,10 @@ export class ChainedTokenCredential implements TokenCredential {
     span.end();
 
     logger.getToken.info(formatSuccess(scopes));
+
+    if (token === null) {
+      throw new CredentialUnavailable("Failed to retrieve a valid token");
+    }
     return token;
   }
 }

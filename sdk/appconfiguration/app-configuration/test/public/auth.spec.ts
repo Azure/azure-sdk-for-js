@@ -9,12 +9,13 @@ import {
 } from "./utils/testHelpers";
 import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
 
 describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
   let recorder: Recorder;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = startRecorder(this);
     credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
   });

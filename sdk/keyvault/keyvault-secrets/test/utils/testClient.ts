@@ -4,7 +4,6 @@
 import { testPollerProperties } from "./recorderUtils";
 import { SecretClient, SecretProperties } from "../../src";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
 import { RestoreSecretBackupPoller } from "./lro/restore/poller";
 import { BeginRestoreSecretBackupOptions } from "./lro/restore/operation";
 
@@ -29,13 +28,12 @@ export default class TestClient {
     backup: Uint8Array,
     options: BeginRestoreSecretBackupOptions = {}
   ): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RestoreSecretBackupPoller({
       backup,
       client: this.client,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions
+      operationOptions: options
     });
 
     // This will initialize the poller's operation (the recovery of the backup).
