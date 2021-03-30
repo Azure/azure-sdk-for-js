@@ -67,7 +67,7 @@ Once you have an api-key, you can use it as follows:
 const {
   SearchClient,
   SearchIndexClient,
-  SearchServiceClient,
+  SearchIndexerClient,
   AzureKeyCredential,
 } = require("@azure/search-documents");
 

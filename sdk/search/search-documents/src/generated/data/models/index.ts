@@ -368,20 +368,20 @@ export interface AutocompleteOptions {
   top?: number;
 }
 
-/** Known values of {@link ApiVersion20200630} that the service accepts. */
-export const enum KnownApiVersion20200630 {
-  /** Api Version '2020-06-30' */
-  TwoThousandTwenty0630 = "2020-06-30"
+/** Known values of {@link ApiVersion20200630Preview} that the service accepts. */
+export const enum KnownApiVersion20200630Preview {
+  /** Api Version '2020-06-30-Preview' */
+  TwoThousandTwenty0630Preview = "2020-06-30-Preview"
 }
 
 /**
- * Defines values for ApiVersion20200630. \
- * {@link KnownApiVersion20200630} can be used interchangeably with ApiVersion20200630,
+ * Defines values for ApiVersion20200630Preview. \
+ * {@link KnownApiVersion20200630Preview} can be used interchangeably with ApiVersion20200630Preview,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **2020-06-30**: Api Version '2020-06-30'
+ * **2020-06-30-Preview**: Api Version '2020-06-30-Preview'
  */
-export type ApiVersion20200630 = string;
+export type ApiVersion20200630Preview = string;
 /** Defines values for QueryType. */
 export type QueryType = "simple" | "full";
 /** Defines values for SearchMode. */

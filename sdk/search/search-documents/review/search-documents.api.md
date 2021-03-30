@@ -128,7 +128,7 @@ export interface BaseSearchIndexerSkill {
     description?: string;
     inputs: InputFieldMappingEntry[];
     name?: string;
-    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Custom.WebApiSkill";
+    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Custom.WebApiSkill";
     outputs: OutputFieldMappingEntry[];
 }
 
@@ -159,6 +159,9 @@ export type BM25Similarity = Similarity & {
 
 // @public
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
+
+// @public
+export type CharFilterName = string;
 
 // @public
 export type CjkBigramTokenFilter = BaseTokenFilter & {
@@ -216,7 +219,7 @@ export type ConditionalSkill = BaseSearchIndexerSkill & {
 // @public
 export interface CorsOptions {
     allowedOrigins: string[];
-    maxAgeInSeconds?: number;
+    maxAgeInSeconds?: number | null;
 }
 
 // @public
@@ -271,6 +274,50 @@ export interface CustomAnalyzer {
     tokenFilters?: string[];
     tokenizerName: string;
 }
+
+// @public
+export interface CustomEntity {
+    accentSensitive?: boolean | null;
+    aliases?: CustomEntityAlias[] | null;
+    caseSensitive?: boolean | null;
+    defaultAccentSensitive?: boolean | null;
+    defaultCaseSensitive?: boolean | null;
+    defaultFuzzyEditDistance?: number | null;
+    description?: string | null;
+    fuzzyEditDistance?: number | null;
+    id?: string | null;
+    name: string;
+    subtype?: string | null;
+    type?: string | null;
+}
+
+// @public
+export interface CustomEntityAlias {
+    accentSensitive?: boolean | null;
+    caseSensitive?: boolean | null;
+    fuzzyEditDistance?: number | null;
+    text: string;
+}
+
+// @public
+export type CustomEntityLookupSkill = BaseSearchIndexerSkill & {
+    odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
+    defaultLanguageCode?: CustomEntityLookupSkillLanguage | null;
+    entitiesDefinitionUri?: string | null;
+    inlineEntitiesDefinition?: CustomEntity[] | null;
+    globalDefaultCaseSensitive?: boolean | null;
+    globalDefaultAccentSensitive?: boolean | null;
+    globalDefaultFuzzyEditDistance?: number | null;
+};
+
+// @public
+export type CustomEntityLookupSkillLanguage = string;
+
+// @public
+export type CustomNormalizer = LexicalNormalizer & {
+    tokenFilters?: TokenFilterName[];
+    charFilters?: CharFilterName[];
+};
 
 // @public
 export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
@@ -341,6 +388,16 @@ export interface DistanceScoringParameters {
     boostingDistance: number;
     referencePointParameter: string;
 }
+
+// @public
+export type DocumentExtractionSkill = BaseSearchIndexerSkill & {
+    odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
+    parsingMode?: string | null;
+    dataToExtract?: string | null;
+    configuration?: {
+        [propertyName: string]: any;
+    } | null;
+};
 
 // @public
 export interface EdgeNGramTokenFilter {
@@ -748,8 +805,26 @@ export const enum KnownBlobIndexerPDFTextRotationAlgorithm {
 }
 
 // @public
+export const enum KnownCharFilterName {
+    HtmlStrip = "html_strip"
+}
+
+// @public
 export enum KnownCharFilterNames {
     HtmlStrip = "html_strip"
+}
+
+// @public
+export const enum KnownCustomEntityLookupSkillLanguage {
+    Da = "da",
+    De = "de",
+    En = "en",
+    Es = "es",
+    Fi = "fi",
+    Fr = "fr",
+    It = "it",
+    Ko = "ko",
+    Pt = "pt"
 }
 
 // @public
@@ -923,6 +998,15 @@ export const enum KnownLexicalAnalyzerName {
 }
 
 // @public
+export const enum KnownLexicalNormalizerName {
+    AsciiFolding = "asciifolding",
+    Elision = "elision",
+    Lowercase = "lowercase",
+    Standard = "standard",
+    Uppercase = "uppercase"
+}
+
+// @public
 export const enum KnownOcrSkillLanguage {
     Ar = "ar",
     Cs = "cs",
@@ -966,6 +1050,7 @@ export const enum KnownRegexFlags {
 
 // @public
 export const enum KnownSearchIndexerDataSourceType {
+    AdlsGen2 = "adlsgen2",
     AzureBlob = "azureblob",
     AzureSql = "azuresql",
     AzureTable = "azuretable",
@@ -1079,6 +1164,44 @@ export const enum KnownTextTranslationSkillLanguage {
 }
 
 // @public
+export const enum KnownTokenFilterName {
+    Apostrophe = "apostrophe",
+    ArabicNormalization = "arabic_normalization",
+    AsciiFolding = "asciifolding",
+    CjkBigram = "cjk_bigram",
+    CjkWidth = "cjk_width",
+    Classic = "classic",
+    CommonGram = "common_grams",
+    EdgeNGram = "edgeNGram_v2",
+    Elision = "elision",
+    GermanNormalization = "german_normalization",
+    HindiNormalization = "hindi_normalization",
+    IndicNormalization = "indic_normalization",
+    KeywordRepeat = "keyword_repeat",
+    KStem = "kstem",
+    Length = "length",
+    Limit = "limit",
+    Lowercase = "lowercase",
+    NGram = "nGram_v2",
+    PersianNormalization = "persian_normalization",
+    Phonetic = "phonetic",
+    PorterStem = "porter_stem",
+    Reverse = "reverse",
+    ScandinavianFoldingNormalization = "scandinavian_folding",
+    ScandinavianNormalization = "scandinavian_normalization",
+    Shingle = "shingle",
+    Snowball = "snowball",
+    SoraniNormalization = "sorani_normalization",
+    Stemmer = "stemmer",
+    Stopwords = "stopwords",
+    Trim = "trim",
+    Truncate = "truncate",
+    Unique = "unique",
+    Uppercase = "uppercase",
+    WordDelimiter = "word_delimiter"
+}
+
+// @public
 export enum KnownTokenFilterNames {
     Apostrophe = "apostrophe",
     ArabicNormalization = "arabic_normalization",
@@ -1161,6 +1284,15 @@ export type LexicalAnalyzer = CustomAnalyzer | PatternAnalyzer | LuceneStandardA
 
 // @public
 export type LexicalAnalyzerName = string;
+
+// @public
+export interface LexicalNormalizer {
+    name: string;
+    odatatype: string;
+}
+
+// @public
+export type LexicalNormalizerName = string;
 
 // @public
 export type LexicalTokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizer | PatternTokenizer | LuceneStandardTokenizer | UaxUrlEmailTokenizer;
@@ -1451,6 +1583,7 @@ export interface SearchIndex {
     etag?: string;
     fields: SearchField[];
     name: string;
+    normalizers?: LexicalNormalizer[];
     scoringProfiles?: ScoringProfile[];
     similarity?: SimilarityAlgorithm;
     suggesters?: SearchSuggester[];
@@ -1571,7 +1704,7 @@ export interface SearchIndexerLimits {
 }
 
 // @public
-export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill;
+export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | CustomEntityLookupSkill | TextTranslationSkill | DocumentExtractionSkill | WebApiSkill;
 
 // @public
 export interface SearchIndexerSkillset {
@@ -1723,7 +1856,7 @@ export interface SearchResourceEncryptionKey {
 export type SearchResult<T> = {
     readonly score: number;
     readonly highlights?: {
-        [propertyName: string]: string[];
+        [k in keyof T]?: string[];
     };
     document: T;
 };
@@ -1756,6 +1889,7 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
+    skillsetCounter: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
 }
@@ -1801,6 +1935,7 @@ export interface SimpleField {
     indexAnalyzerName?: LexicalAnalyzerName;
     key?: boolean;
     name: string;
+    normalizerName?: LexicalNormalizerName;
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;
     sortable?: boolean;
@@ -1954,6 +2089,9 @@ export type TokenCharacterKind = "letter" | "digit" | "whitespace" | "punctuatio
 
 // @public
 export type TokenFilter = AsciiFoldingTokenFilter | CjkBigramTokenFilter | CommonGramTokenFilter | DictionaryDecompounderTokenFilter | EdgeNGramTokenFilter | ElisionTokenFilter | KeepTokenFilter | KeywordMarkerTokenFilter | LengthTokenFilter | LimitTokenFilter | NGramTokenFilter | PatternCaptureTokenFilter | PatternReplaceTokenFilter | PhoneticTokenFilter | ShingleTokenFilter | SnowballTokenFilter | StemmerTokenFilter | StemmerOverrideTokenFilter | StopwordsTokenFilter | SynonymTokenFilter | TruncateTokenFilter | UniqueTokenFilter | WordDelimiterTokenFilter;
+
+// @public
+export type TokenFilterName = string;
 
 // @public
 export type TruncateTokenFilter = BaseTokenFilter & {
