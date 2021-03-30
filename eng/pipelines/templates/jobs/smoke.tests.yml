@@ -51,6 +51,12 @@ jobs:
       condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['check_smoke_tests.RunSmokeTests'], true))
     strategy:
       matrix:
+        Linux Node8 (AzureCloud):
+          Pool: Azure Pipelines
+          OSVmImage: "macOS-10.14"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "8.x"
         Mac Node10 (AzureCloud):
           Pool: Azure Pipelines
           OSVmImage: "macOS-10.14"
