@@ -6,6 +6,7 @@ import { isNode, WebResourceLike } from "@azure/core-http";
 import { DefaultAzureCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
+import * as dotenv from "dotenv";
 import sinon from "sinon";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "./utils/mockHttpClients";
@@ -13,7 +14,7 @@ import { SDK_VERSION } from "../src/utils/constants";
 import { Context } from "mocha";
 
 if (isNode) {
-  require("dotenv").config();
+  dotenv.config();
 }
 
 describe("PhoneNumbersClient - headers", function() {

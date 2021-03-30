@@ -21,7 +21,7 @@ describe("PhoneNumbersClient - lro - search", function() {
     }
   };
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     ({ client, recorder } = createRecordedClient(this));
   });
 
