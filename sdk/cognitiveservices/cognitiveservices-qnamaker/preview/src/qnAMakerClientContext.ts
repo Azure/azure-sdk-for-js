@@ -18,8 +18,8 @@ export class QnAMakerClientContext extends msRest.ServiceClient {
 
   /**
    * Initializes a new instance of the QnAMakerClientContext class.
-   * @param endpoint Supported Cognitive Services endpoint (e.g., https://< qnamaker-resource-name>
-   * .api.cognitiveservices.azure.com).
+   * @param endpoint Supported Cognitive Services endpoint (e.g., https://< qnamaker-resource-name
+   * >.api.cognitiveservices.azure.com).
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
@@ -42,7 +42,7 @@ export class QnAMakerClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/qnamaker/v4.0";
+    this.baseUri = "{Endpoint}/qnamaker/v5.0-preview.2";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;

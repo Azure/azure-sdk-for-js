@@ -259,6 +259,70 @@ export class Knowledgebase {
       downloadOperationSpec,
       callback) as Promise<Models.KnowledgebaseDownloadResponse>;
   }
+
+  /**
+   * @summary GenerateAnswer call to query knowledgebase (QnA Maker Managed).
+   * @param kbId Knowledgebase id.
+   * @param generateAnswerPayload Post body of the request.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.KnowledgebaseGenerateAnswerResponse>
+   */
+  generateAnswer(kbId: string, generateAnswerPayload: Models.QueryDTO, options?: msRest.RequestOptionsBase): Promise<Models.KnowledgebaseGenerateAnswerResponse>;
+  /**
+   * @param kbId Knowledgebase id.
+   * @param generateAnswerPayload Post body of the request.
+   * @param callback The callback
+   */
+  generateAnswer(kbId: string, generateAnswerPayload: Models.QueryDTO, callback: msRest.ServiceCallback<Models.QnASearchResultList>): void;
+  /**
+   * @param kbId Knowledgebase id.
+   * @param generateAnswerPayload Post body of the request.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  generateAnswer(kbId: string, generateAnswerPayload: Models.QueryDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.QnASearchResultList>): void;
+  generateAnswer(kbId: string, generateAnswerPayload: Models.QueryDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.QnASearchResultList>, callback?: msRest.ServiceCallback<Models.QnASearchResultList>): Promise<Models.KnowledgebaseGenerateAnswerResponse> {
+    return this.client.sendOperationRequest(
+      {
+        kbId,
+        generateAnswerPayload,
+        options
+      },
+      generateAnswerOperationSpec,
+      callback) as Promise<Models.KnowledgebaseGenerateAnswerResponse>;
+  }
+
+  /**
+   * @summary Train call to add suggestions to knowledgebase (QnAMaker Managed).
+   * @param kbId Knowledgebase id.
+   * @param trainPayload Post body of the request.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  train(kbId: string, trainPayload: Models.FeedbackRecordsDTO, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param kbId Knowledgebase id.
+   * @param trainPayload Post body of the request.
+   * @param callback The callback
+   */
+  train(kbId: string, trainPayload: Models.FeedbackRecordsDTO, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param kbId Knowledgebase id.
+   * @param trainPayload Post body of the request.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  train(kbId: string, trainPayload: Models.FeedbackRecordsDTO, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  train(kbId: string, trainPayload: Models.FeedbackRecordsDTO, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        kbId,
+        trainPayload,
+        options
+      },
+      trainOperationSpec,
+      callback);
+  }
 }
 
 // Operation Specifications
@@ -420,6 +484,54 @@ const downloadOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.QnADocumentsDTO
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const generateAnswerOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "knowledgebases/{kbId}/generateAnswer",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.kbId
+  ],
+  requestBody: {
+    parameterPath: "generateAnswerPayload",
+    mapper: {
+      ...Mappers.QueryDTO,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.QnASearchResultList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const trainOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "knowledgebases/{kbId}/train",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.kbId
+  ],
+  requestBody: {
+    parameterPath: "trainPayload",
+    mapper: {
+      ...Mappers.FeedbackRecordsDTO,
+      required: true
+    }
+  },
+  responses: {
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

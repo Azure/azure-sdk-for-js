@@ -20,11 +20,12 @@ class QnAMakerClient extends QnAMakerClientContext {
   alterations: operations.Alterations;
   knowledgebase: operations.Knowledgebase;
   operations: operations.Operations;
+  prebuilt: operations.Prebuilt;
 
   /**
    * Initializes a new instance of the QnAMakerClient class.
-   * @param endpoint Supported Cognitive Services endpoint (e.g., https://< qnamaker-resource-name>
-   * .api.cognitiveservices.azure.com).
+   * @param endpoint Supported Cognitive Services endpoint (e.g., https://< qnamaker-resource-name
+   * >.api.cognitiveservices.azure.com).
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
@@ -35,6 +36,7 @@ class QnAMakerClient extends QnAMakerClientContext {
     this.alterations = new operations.Alterations(this);
     this.knowledgebase = new operations.Knowledgebase(this);
     this.operations = new operations.Operations(this);
+    this.prebuilt = new operations.Prebuilt(this);
   }
 }
 
