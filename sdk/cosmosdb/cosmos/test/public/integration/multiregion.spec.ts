@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 
 import { CosmosClient } from "../../../src";
 import { masterKey } from "../common/_testConfig";
@@ -107,7 +108,7 @@ const collectionResponse = {
   code: 200
 };
 
-describe("Multi-region tests", function() {
+describe("Multi-region tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   it("Preferred locations should be honored for readEndpoint", async function() {
@@ -126,7 +127,7 @@ describe("Multi-region tests", function() {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context) => {
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;
@@ -170,7 +171,7 @@ describe("Multi-region tests", function() {
     const plugins: PluginConfig[] = [
       {
         on: PluginOn.request,
-        plugin: async (context, next) => {
+        plugin: async (context) => {
           const response = responses[requestIndex];
           lastEndpointCalled = context.endpoint;
           requestIndex++;

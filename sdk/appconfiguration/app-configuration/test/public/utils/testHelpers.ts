@@ -8,7 +8,13 @@ import {
   ListConfigurationSettingPage,
   ListRevisionsPage
 } from "../../../src";
-import { env, isPlaybackMode, RecorderEnvironmentSetup, record } from "@azure/test-utils-recorder";
+import {
+  env,
+  isPlaybackMode,
+  RecorderEnvironmentSetup,
+  record,
+  Recorder
+} from "@azure/test-utils-recorder";
 import * as assert from "assert";
 
 // allow loading from a .env file as an alternative to defining the variable
@@ -26,7 +32,7 @@ export interface CredsAndEndpoint {
   endpoint: string;
 }
 
-export function startRecorder(that: any) {
+export function startRecorder(that: any): Recorder {
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
       APPCONFIG_CONNECTION_STRING:
@@ -36,10 +42,7 @@ export function startRecorder(that: any) {
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azuretenantid"
     },
-    customizationsOnRecordings: [
-      (recording: any): any =>
-        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
-    ],
+    customizationsOnRecordings: [],
     queryParametersToSkip: []
   };
 
@@ -91,7 +94,10 @@ export function createAppConfigurationClientForTests<
   return new AppConfigurationClient(connectionString, options);
 }
 
-export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {
+export async function deleteKeyCompletely(
+  keys: string[],
+  client: AppConfigurationClient
+): Promise<void> {
   const settingsIterator = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
@@ -139,7 +145,7 @@ export async function toSortedArray(
 export function assertEqualSettings(
   expected: Pick<ConfigurationSetting, "key" | "value" | "label" | "isReadOnly">[],
   actual: ConfigurationSetting[]
-) {
+): void {
   actual = actual.map((setting) => {
     return {
       key: setting.key,

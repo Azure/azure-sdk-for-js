@@ -4,6 +4,7 @@ trigger:
   branches:
     include:
       - master
+      - main
       - release/*
       - hotfix/*
   paths:
@@ -19,6 +20,7 @@ pr:
   branches:
     include:
       - master
+      - main
       - feature/*
       - release/*
       - hotfix/*
@@ -50,8 +52,8 @@ extends:
         safeName: azurecorecrypto
       - name: azure-core-http
         safeName: azurecorehttp
-      - name: azure-core-https
-        safeName: azurecorehttps
+      - name: azure-core-rest-pipeline
+        safeName: azurecorerestpipeline
       - name: azure-core-lro
         safeName: azurecorelro
       - name: azure-core-paging

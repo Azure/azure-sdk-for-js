@@ -1,6 +1,7 @@
 {
   "name": "@azure/test-utils-perfstress",
   "version": "1.0.0",
+  "sdk-type": "client",
   "description": "Performance and stress test framework for the Azure SDK for JavaScript and TypeScript",
   "main": "dist-esm/src/index.js",
   "module": "dist-esm/src/index.js",
@@ -20,11 +21,11 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "node dist-esm/test/index.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json src test --ext .ts -f html -o perfstress-lintReport.html || exit 0",
+    "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts -f html -o perfstress-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "perfstress-test:node": "npm run build && node dist-esm/test/index.spec.js",
+    "perf-test:node": "npm run build && node dist-esm/test/index.spec.js",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
@@ -63,8 +64,7 @@
   "private": true,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.2.0",
-    "@opentelemetry/api": "^0.10.2",
+    "@azure/core-http": "^1.0.0",
     "tslib": "^2.0.0",
     "node-fetch": "^2.6.0",
     "minimist": "~1.2.5",
@@ -75,12 +75,12 @@
     "@types/node": "^8.0.0",
     "@types/node-fetch": "^2.5.0",
     "eslint": "^7.15.0",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "typescript": "4.1.2"
+    "typescript": "~4.2.0"
   }
 }

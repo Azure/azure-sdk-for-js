@@ -7,21 +7,32 @@
 import { logger, logErrorStackTrace } from "./log";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 import { packageJsonInfo } from "./util/constants";
-import { parseEventHubConnectionString } from "./util/connectionStringUtils";
+import {
+  EventHubConnectionStringProperties,
+  parseEventHubConnectionString
+} from "./util/connectionStringUtils";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { EventHubSender } from "./eventHubSender";
 import {
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  ConnectionConfig
+  ConnectionConfig,
+  SasTokenProvider,
+  createSasTokenProvider
 } from "@azure/core-amqp";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
+  TokenCredential,
+  NamedKeyCredential,
+  SASCredential,
+  isNamedKeyCredential,
+  isSASCredential
+} from "@azure/core-auth";
 import { ManagementClient, ManagementClientOptions } from "./managementClient";
 import { EventHubClientOptions } from "./models/public";
 import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
-import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
+import { isCredential } from "./util/typeGuards";
 
 /**
  * @internal
@@ -30,30 +41,30 @@ import { SharedKeyCredential } from "./eventhubSharedKeyCredential";
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property config The EventHub connection config that is created after
+   * The EventHub connection config that is created after
    * parsing the connection string.
    */
   readonly config: EventHubConnectionConfig;
   /**
-   * @property {SharedKeyCredential | TokenCredential} [tokenCredential] The credential to be used for Authentication.
-   * Default value: SharedKeyCredentials.
+   * The credential to be used for Authentication.
+   * Default value: SasTokenProvider.
    */
-  tokenCredential: SharedKeyCredential | TokenCredential;
+  tokenCredential: SasTokenProvider | TokenCredential;
   /**
-   * @property wasConnectionCloseCalled Indicates whether the close() method was
+   * Indicates whether the close() method was
    * called on theconnection object.
    */
   wasConnectionCloseCalled: boolean;
   /**
-   * @property receivers A dictionary of the EventHub Receivers associated with this client.
+   * A dictionary of the EventHub Receivers associated with this client.
    */
   receivers: Dictionary<EventHubReceiver>;
   /**
-   * @property senders A dictionary of the EventHub Senders associated with this client.
+   * A dictionary of the EventHub Senders associated with this client.
    */
   senders: Dictionary<EventHubSender>;
   /**
-   * @property managementSession A reference to the management session ($management endpoint) on
+   * A reference to the management session ($management endpoint) on
    * the underlying amqp connection for the EventHub Client.
    */
   managementSession?: ManagementClient;
@@ -76,7 +87,6 @@ export interface ConnectionContext extends ConnectionContextBase {
 /**
  * Describes the members on the ConnectionContext that are only
  * used by it internally.
- * @hidden
  * @internal
  */
 export interface ConnectionContextInternalMembers extends ConnectionContext {
@@ -131,7 +141,7 @@ type ConnectionContextMethods = Omit<
  */
 export namespace ConnectionContext {
   /**
-   * @property userAgent The user agent string for the EventHubs client.
+   * The user agent string for the EventHubs client.
    * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
    */
   const userAgent: string = `azsdk-js-azureeventhubs/${
@@ -151,7 +161,7 @@ export namespace ConnectionContext {
 
   export function create(
     config: EventHubConnectionConfig,
-    tokenCredential: SharedKeyCredential | TokenCredential,
+    tokenCredential: SasTokenProvider | TokenCredential,
     options?: ConnectionContextOptions
   ): ConnectionContext {
     if (!options) options = {};
@@ -432,21 +442,24 @@ export namespace ConnectionContext {
  * Helper method to create a ConnectionContext from the input passed to either
  * EventHubProducerClient or EventHubConsumerClient constructors
  *
- * @hidden
  * @internal
  */
 export function createConnectionContext(
   hostOrConnectionString: string,
   eventHubNameOrOptions?: string | EventHubClientOptions,
-  credentialOrOptions?: TokenCredential | EventHubClientOptions,
+  credentialOrOptions?:
+    | TokenCredential
+    | NamedKeyCredential
+    | SASCredential
+    | EventHubClientOptions,
   options?: EventHubClientOptions
 ): ConnectionContext {
   let connectionString;
   let config;
-  let credential: TokenCredential | SharedKeyCredential;
+  let credential: TokenCredential | SasTokenProvider;
   hostOrConnectionString = String(hostOrConnectionString);
 
-  if (!isTokenCredential(credentialOrOptions)) {
+  if (!isCredential(credentialOrOptions)) {
     const parsedCS = parseEventHubConnectionString(hostOrConnectionString);
     if (
       !(
@@ -482,13 +495,21 @@ export function createConnectionContext(
       options = credentialOrOptions;
     }
 
-    // Since connectionstring was passed, create a SharedKeyCredential
-    credential = SharedKeyCredential.fromConnectionString(connectionString);
+    const parsed = parseEventHubConnectionString(connectionString) as Required<
+      | Pick<EventHubConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
+      | Pick<EventHubConnectionStringProperties, "sharedAccessSignature">
+    >;
+    // Since connectionString was passed, create a TokenProvider.
+    credential = createSasTokenProvider(parsed);
   } else {
     // host, eventHubName, a TokenCredential and/or options were passed to constructor
     const eventHubName = eventHubNameOrOptions;
     let host = hostOrConnectionString;
-    credential = credentialOrOptions;
+    if (isNamedKeyCredential(credentialOrOptions) || isSASCredential(credentialOrOptions)) {
+      credential = createSasTokenProvider(credentialOrOptions);
+    } else {
+      credential = credentialOrOptions;
+    }
     if (!eventHubName) {
       throw new TypeError(`"eventHubName" is missing`);
     }

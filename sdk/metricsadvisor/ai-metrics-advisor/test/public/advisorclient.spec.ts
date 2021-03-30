@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 
 import {
   MetricAnomalyFeedback,
@@ -20,8 +21,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
+      beforeEach(function(this: Context) {
         ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
       });
 
@@ -525,8 +525,8 @@ matrix([[true, false]] as const, async (useAad) => {
             value: "NotAnomaly",
             dimensionKey: { city: "Cairo", category: "Home & Garden" }
           };
-          const created = await client.createFeedback(anomalyFeedback);
-          const actual = await client.getFeedback(created.id);
+          const actual = await client.createFeedback(anomalyFeedback);
+
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Anomaly");
@@ -543,8 +543,8 @@ matrix([[true, false]] as const, async (useAad) => {
             value: "ChangePoint",
             dimensionKey: { city: "Cairo", category: "Home & Garden" }
           };
-          const created = await client.createFeedback(changePointFeedback);
-          const actual = await client.getFeedback(created.id);
+          const actual = await client.createFeedback(changePointFeedback);
+
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "ChangePoint");
@@ -561,8 +561,8 @@ matrix([[true, false]] as const, async (useAad) => {
             periodValue: 4,
             dimensionKey: { city: "Cairo", category: "Home & Garden" }
           };
-          const created = await client.createFeedback(periodFeedback);
-          const actual = await client.getFeedback(created.id);
+          const actual = await client.createFeedback(periodFeedback);
+
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Period");
@@ -579,8 +579,9 @@ matrix([[true, false]] as const, async (useAad) => {
             dimensionKey: { city: "Cairo", category: "Home & Garden" },
             comment: "This is a comment"
           };
-          const created = await client.createFeedback(expectedCommentFeedback);
-          const actual = await client.getFeedback(created.id);
+
+          const actual = await client.createFeedback(expectedCommentFeedback);
+
           assert.ok(actual.id, "Expecting valid feedback");
           createdFeedbackId = actual.id!;
           assert.equal(actual.feedbackType, "Comment");

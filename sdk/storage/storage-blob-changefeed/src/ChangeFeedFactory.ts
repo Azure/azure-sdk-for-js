@@ -22,7 +22,7 @@ import { AvroReaderFactory } from "./AvroReaderFactory";
 import { Segment } from "./Segment";
 import { BlobChangeFeedListChangesOptions } from "./models/models";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
 
 interface MetaSegments {
@@ -61,7 +61,7 @@ export class ChangeFeedFactory {
     continuationToken?: string,
     options: BlobChangeFeedListChangesOptions = {}
   ): Promise<ChangeFeed> {
-    const { span, spanOptions } = createSpan("ChangeFeedFactory-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ChangeFeedFactory-create", options);
 
     try {
       const containerClient = blobServiceClient.getContainerClient(CHANGE_FEED_CONTAINER_NAME);
@@ -82,7 +82,7 @@ export class ChangeFeedFactory {
       // Check if Change Feed has been enabled for this account.
       const changeFeedContainerExists = await containerClient.exists({
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       if (!changeFeedContainerExists) {
         throw new Error(
@@ -98,7 +98,7 @@ export class ChangeFeedFactory {
       const blobClient = containerClient.getBlobClient(CHANGE_FEED_META_SEGMENT_PATH);
       const blobDownloadRes = await blobClient.download(undefined, undefined, {
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
       const lastConsumable = new Date(
         (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable
@@ -107,7 +107,7 @@ export class ChangeFeedFactory {
       // Get year paths
       const years: number[] = await getYearsPaths(containerClient, {
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       });
 
       // Dequeue any years that occur before start time.
@@ -130,7 +130,7 @@ export class ChangeFeedFactory {
           minDate(lastConsumable, options.end),
           {
             abortSignal: options.abortSignal,
-            tracingOptions: { ...options.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           }
         );
       }
@@ -143,7 +143,7 @@ export class ChangeFeedFactory {
         cursor?.CurrentSegmentCursor,
         {
           abortSignal: options.abortSignal,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         }
       );
 
@@ -159,7 +159,7 @@ export class ChangeFeedFactory {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

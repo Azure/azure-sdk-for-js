@@ -11,14 +11,15 @@ import { HttpResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
-import { Span } from '@opentelemetry/api';
-import { SpanContext } from '@opentelemetry/api';
+import { Span } from '@azure/core-tracing';
+import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
@@ -139,7 +140,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
-export function isServiceBusError(err: any): err is ServiceBusError;
+export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
 export interface MessageHandlers {
@@ -372,7 +373,7 @@ export type ServiceBusErrorCode =
 // @public
 export interface ServiceBusMessage {
     applicationProperties?: {
-        [key: string]: number | boolean | string | Date;
+        [key: string]: number | boolean | string | Date | null;
     };
     body: any;
     contentType?: string;
@@ -567,7 +568,9 @@ export interface TopicRuntimeProperties {
 
 // @public
 export interface TryAddOptions {
+    // @deprecated (undocumented)
     parentSpan?: Span | SpanContext | null;
+    tracingOptions?: OperationTracingOptions;
 }
 
 export { WebSocketImpl }

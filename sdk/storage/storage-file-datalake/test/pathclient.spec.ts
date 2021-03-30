@@ -1,7 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, delay } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
 import { record, Recorder } from "@azure/test-utils-recorder";
+import { setSpan, context } from "@azure/core-tracing";
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
@@ -57,7 +61,7 @@ describe("DataLakePathClient", () => {
       rangeGetContentCrc64: true
     });
     assert.ok(result1.clientRequestId);
-    //assert.ok(result1.contentCrc64!);
+    // assert.ok(result1.contentCrc64!);
     assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
     assert.ok(result1.clientRequestId);
 
@@ -65,7 +69,7 @@ describe("DataLakePathClient", () => {
       rangeGetContentMD5: true
     });
     assert.ok(result2.clientRequestId);
-    //assert.ok(result2.contentMD5!);
+    // assert.ok(result2.contentMD5!);
 
     let exceptionCaught = false;
     try {
@@ -152,7 +156,7 @@ describe("DataLakePathClient", () => {
 
     const result = await fileClient.read(undefined, undefined, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan.context() }
+        tracingContext: setSpan(context.active(), rootSpan)
       }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
@@ -243,15 +247,15 @@ describe("DataLakePathClient", () => {
     const fileName = recorder.getUniqueName("tempfile2");
     const tempFileClient = fileSystemClient.getFileClient(fileName);
 
-    let permissions = {
+    const permissions = {
       owner: { read: false, write: false, execute: false },
       group: { read: false, write: false, execute: false },
       other: { read: false, write: false, execute: false },
       stickyBit: false,
       extendedAcls: false
     };
-    let permissionsString = toPermissionsString(permissions);
-    let metadata = {
+    const permissionsString = toPermissionsString(permissions);
+    const metadata = {
       a: "val-a",
       b: "val-b"
     };
@@ -278,7 +282,7 @@ describe("DataLakePathClient", () => {
     assert.deepStrictEqual(properties.contentType, pathHttpHeaders.contentType);
     assert.deepStrictEqual(properties.metadata, metadata);
 
-    let acl = await tempFileClient.getAccessControl();
+    const acl = await tempFileClient.getAccessControl();
     assert.deepStrictEqual(acl.permissions, permissions);
 
     await tempFileClient.append(body, 0, body.length, {

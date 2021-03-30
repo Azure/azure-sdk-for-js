@@ -1,192 +1,230 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import assert from "assert";
-import path from "path";
-import { EnvironmentCredential, AuthenticationError, CredentialUnavailable } from "../../../src";
-import {
-  MockAuthHttpClient,
-  assertClientCredentials,
-  assertClientUsernamePassword,
-  assertRejects
-} from "../../authTestUtils";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-interface OAuthErrorResponse {
-  error: string;
-  error_description: string;
-  error_codes?: number[];
-  timestamp?: string;
-  trace_id?: string;
-  correlation_id?: string;
-}
+import sinon from "sinon";
+import assert from "assert";
+import { isPlaybackMode } from "@azure/test-utils-recorder";
+import {
+  AuthenticationError,
+  CredentialUnavailable,
+  EnvironmentCredential,
+  UsernamePasswordCredential
+} from "../../../src";
+import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
+import { assertRejects } from "../../authTestUtils";
+import { Context } from "mocha";
 
 describe("EnvironmentCredential", function() {
-  it("finds and uses client credential environment variables", async () => {
-    process.env.AZURE_TENANT_ID = "tenant";
-    process.env.AZURE_CLIENT_ID = "client";
-    process.env.AZURE_CLIENT_SECRET = "secret";
+  let cleanup: MsalTestCleanup;
+  const environmentVariableNames = [
+    "AZURE_TENANT_ID",
+    "AZURE_CLIENT_ID",
+    "AZURE_CLIENT_SECRET",
+    "AZURE_CLIENT_CERTIFICATE_PATH",
+    "AZURE_USERNAME",
+    "AZURE_PASSWORD"
+  ];
+  const cachedValues: Record<string, string | undefined> = {};
 
-    const mockHttpClient = new MockAuthHttpClient();
-
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
-    await credential.getToken("scope");
-
-    delete process.env.AZURE_TENANT_ID;
-    delete process.env.AZURE_CLIENT_ID;
-    delete process.env.AZURE_CLIENT_SECRET;
-
-    const authRequest = mockHttpClient.requests[0];
-    assertClientCredentials(authRequest, "tenant", "client", "secret");
+  beforeEach(function(this: Context) {
+    const setup = msalNodeTestSetup(this);
+    cleanup = setup.cleanup;
+    environmentVariableNames.forEach((name) => {
+      cachedValues[name] = process.env[name];
+      delete process.env[name];
+    });
+  });
+  afterEach(async function() {
+    await cleanup();
+    environmentVariableNames.forEach((name) => {
+      process.env[name] = cachedValues[name];
+    });
   });
 
-  it("finds and uses client certificate path environment variables", async () => {
-    process.env.AZURE_TENANT_ID = "tenant";
-    process.env.AZURE_CLIENT_ID = "client";
-    process.env.AZURE_CLIENT_CERTIFICATE_PATH = path.resolve(
-      __dirname,
-      "../test/azure-identity-test.crt"
-    );
+  const scope = "https://vault.azure.net/.default";
 
-    const mockHttpClient = new MockAuthHttpClient();
+  it("authenticates with a client secret on the environment variables", async function() {
+    // The following environment variables must be set for this to work.
+    // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+    process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+    process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
 
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
-    await credential.getToken("scope");
+    const credential = new EnvironmentCredential();
 
-    delete process.env.AZURE_TENANT_ID;
-    delete process.env.AZURE_CLIENT_ID;
-    delete process.env.AZURE_CLIENT_CERTIFICATE_PATH;
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+  });
 
-    assert.strictEqual(
-      (credential as any)._credential.certificateThumbprint,
-      "47080F3BAA6BF8DF068531106FBCF2DC6E5F6919"
-    );
+  it("authenticates with a client certificate on the environment variables", async function(this: Context) {
+    if (isPlaybackMode()) {
+      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
+      // This assertion could be provided as parameters, but we don't have that in the public API yet,
+      // and I'm trying to avoid having to generate one ourselves.
+      this.skip();
+    }
 
-    assert.strictEqual(
-      (credential as any)._credential.certificateX5t,
-      "RwgPO6pr+N8GhTEQb7zy3G5faRk="
-    );
+    // The following environment variables must be set for this to work.
+    // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+    process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+    process.env.AZURE_CLIENT_CERTIFICATE_PATH = cachedValues.AZURE_CLIENT_CERTIFICATE_PATH;
+
+    const credential = new EnvironmentCredential();
+
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
   it("finds and uses client username/password environment variables", async () => {
-    process.env.AZURE_TENANT_ID = "tenant";
-    process.env.AZURE_CLIENT_ID = "client";
+    // The following environment variables must be set for this to work.
+    // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+    process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+    process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
     process.env.AZURE_USERNAME = "user";
     process.env.AZURE_PASSWORD = "password";
 
-    const mockHttpClient = new MockAuthHttpClient();
+    const getTokenSpy = sinon.spy(UsernamePasswordCredential.prototype, "getToken");
 
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
-    await credential.getToken("scope");
+    try {
+      const credential = new EnvironmentCredential();
+      await credential.getToken("scope");
+    } catch (e) {
+      // To avoid having to store passwords anywhere, this getToken request will fail.
+      // We will focus our test on making sure the underlying getToken was called.
+    }
 
-    delete process.env.AZURE_TENANT_ID;
-    delete process.env.AZURE_CLIENT_ID;
-    delete process.env.AZURE_USERNAME;
-    delete process.env.AZURE_PASSWORD;
-
-    const authRequest = mockHttpClient.requests[0];
-    assertClientUsernamePassword(authRequest, "tenant", "client", "user", "password");
+    assert.equal(
+      getTokenSpy.callCount,
+      1,
+      "UsernamePasswordCredential getToken should have been called"
+    );
   });
 
-  it("finds and uses client credential environment variables with tracing", async () => {
-    process.env.AZURE_TENANT_ID = "tenant";
-    process.env.AZURE_CLIENT_ID = "client";
-    process.env.AZURE_CLIENT_SECRET = "secret";
+  it(
+    "supports tracing with environment client secret",
+    testTracing({
+      test: async (tracingOptions) => {
+        // The following environment variables must be set for this to work.
+        // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+        process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+        process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
 
-    const mockHttpClient = new MockAuthHttpClient();
-    const tracer = new TestTracer();
-    setTracer(tracer);
+        const credential = new EnvironmentCredential();
 
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
-    const rootSpan = tracer.startSpan("root");
-    await credential.getToken("scope", {
-      tracingOptions: {
-        spanOptions: {
-          parent: rootSpan.context()
-        }
-      }
-    });
-    rootSpan.end();
-
-    delete process.env.AZURE_TENANT_ID;
-    delete process.env.AZURE_CLIENT_ID;
-    delete process.env.AZURE_CLIENT_SECRET;
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
+        await credential.getToken(scope, {
+          tracingOptions
+        });
+      },
+      children: [
         {
-          name: rootSpan.name,
+          name: "Azure.Identity.EnvironmentCredential.getToken",
           children: [
             {
-              name: "Azure.Identity.EnvironmentCredential-getToken",
-              children: [
-                {
-                  name: "Azure.Identity.ClientSecretCredential-getToken",
-                  children: [
-                    {
-                      children: [],
-                      name: "/tenant/oauth2/v2.0/token"
-                    }
-                  ]
-                }
-              ]
+              name: "Azure.Identity.ClientSecretCredential.getToken",
+              children: []
             }
           ]
         }
       ]
-    };
+    })
+  );
 
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  it("supports tracing with environment client certificate", async function(this: Context) {
+    if (isPlaybackMode()) {
+      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
+      // This assertion could be provided as parameters, but we don't have that in the public API yet,
+      // and I'm trying to avoid having to generate one ourselves.
+      this.skip();
+    }
+    await testTracing({
+      test: async (tracingOptions) => {
+        // The following environment variables must be set for this to work.
+        // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+        process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+        process.env.AZURE_CLIENT_CERTIFICATE_PATH = cachedValues.AZURE_CLIENT_CERTIFICATE_PATH;
+
+        const credential = new EnvironmentCredential();
+
+        await credential.getToken(scope, {
+          tracingOptions
+        });
+      },
+      children: [
+        {
+          name: "Azure.Identity.EnvironmentCredential.getToken",
+          children: [
+            {
+              name: "Azure.Identity.ClientCertificateCredential.getToken",
+              children: []
+            }
+          ]
+        }
+      ]
+    })();
   });
 
+  it(
+    "supports tracing with environment username/password",
+    testTracing({
+      test: async (tracingOptions) => {
+        // The following environment variables must be set for this to work.
+        // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+        process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+        process.env.AZURE_USERNAME = "user";
+        process.env.AZURE_PASSWORD = "password";
+
+        const credential = new EnvironmentCredential();
+
+        try {
+          await credential.getToken(scope, {
+            tracingOptions
+          });
+        } catch (e) {
+          // To avoid having to store passwords anywhere, this getToken request will fail.
+          // We will focus our test on making sure the underlying getToken was called.
+        }
+      },
+      children: [
+        {
+          name: "Azure.Identity.EnvironmentCredential.getToken",
+          children: [
+            {
+              name: "Azure.Identity.UsernamePasswordCredential.getToken",
+              children: []
+            }
+          ]
+        }
+      ]
+    })
+  );
+
   it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
-    const mockHttpClient = new MockAuthHttpClient();
-
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
+    const credential = new EnvironmentCredential();
     await assertRejects(
-      credential.getToken("scope"),
+      credential.getToken(scope),
       (error: CredentialUnavailable) =>
         error.message.indexOf(
-          "EnvironmentCredential is unavailable. Environment variables are not fully configured."
+          "EnvironmentCredential is unavailable. No underlying credential could be used."
         ) > -1
     );
-
-    process.env.AZURE_TENANT_ID = "Itme";
-
-    const credentialDeux = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
-    await assertRejects(
-      credentialDeux.getToken("scope"),
-      (error: CredentialUnavailable) =>
-        error.message.indexOf(
-          "EnvironmentCredential is unavailable. Environment variables are not fully configured."
-        ) > -1
-    );
-
-    delete process.env.AZURE_TENANT_ID;
   });
 
   it("throws an AuthenticationError when getToken is called and EnvironmentCredential authentication failed", async () => {
     process.env.AZURE_TENANT_ID = "tenant";
-    process.env.AZURE_CLIENT_ID = "errclient";
+    process.env.AZURE_CLIENT_ID = "client";
     process.env.AZURE_CLIENT_SECRET = "secret";
 
-    const errResponse: OAuthErrorResponse = {
-      error: "EnvironmentCredential authentication failed.",
-      error_description: ""
-    };
-
-    const mockHttpClient = new MockAuthHttpClient({
-      authResponse: [{ status: 400, parsedBody: errResponse }]
-    });
-
-    const credential = new EnvironmentCredential(mockHttpClient.tokenCredentialOptions);
+    const credential = new EnvironmentCredential();
     await assertRejects(
-      credential.getToken("scope"),
+      credential.getToken(scope),
       (error: AuthenticationError) =>
         error.errorResponse.error.indexOf("EnvironmentCredential authentication failed.") > -1
     );

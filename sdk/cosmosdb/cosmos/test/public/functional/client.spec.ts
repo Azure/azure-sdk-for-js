@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { Agent } from "http";
 import { CosmosClient } from "../../../src";
 import { endpoint, masterKey } from "../common/_testConfig";
@@ -13,7 +14,7 @@ import {
 import AbortController from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   describe("Validate client request timeout", function() {
@@ -53,7 +54,7 @@ describe("NodeJS CRUD Tests", function() {
     it("throws on a bad endpoint", function() {
       assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
     });
-    it.only("fails to read databases with bad AAD authentication", async function() {
+    it("fails to read databases with bad AAD authentication", async function() {
       try {
         const credentials = new UsernamePasswordCredential(
           "fake-tenant-id",

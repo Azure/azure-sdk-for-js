@@ -26,12 +26,15 @@ export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {
 
 // @public
 export interface DeletedSecret {
+    deletedOn?: Date;
     name: string;
     properties: SecretProperties & {
         recoveryId?: string;
         scheduledPurgeDate?: Date;
         deletedOn?: Date;
     };
+    recoveryId?: string;
+    scheduledPurgeDate?: Date;
     value?: string;
 }
 
@@ -92,9 +95,6 @@ export { PagedAsyncIterableIterator }
 
 export { PageSettings }
 
-// @public
-export function parseKeyVaultSecretId(id: string): KeyVaultSecretId;
-
 export { PipelineOptions }
 
 export { PollerLike }
@@ -129,7 +129,7 @@ export class SecretClient {
 
 // @public
 export interface SecretClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1";
+    serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 // @public
@@ -140,12 +140,14 @@ export interface SecretPollerOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface SecretProperties {
+    readonly certificateKeyId?: string;
     contentType?: string;
     readonly createdOn?: Date;
     enabled?: boolean;
     readonly expiresOn?: Date;
     id?: string;
-    readonly keyId?: URL;
+    // @deprecated
+    readonly keyId?: never;
     readonly managed?: boolean;
     name: string;
     readonly notBefore?: Date;

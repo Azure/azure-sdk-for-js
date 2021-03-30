@@ -18,7 +18,7 @@ This package is primarily used in generated code and not meant to be consumed di
 
 This is the common base class for generated clients. It provides the methods `sendOperationRequest` and `sendRequest`.
 
-`sendRequest` simply makes an HTTP request using a `Pipeline` (see `@azure/core-https` for details.)
+`sendRequest` simply makes an HTTP request using a `Pipeline` (see `@azure/core-rest-pipeline` for details.)
 
 `sendOperationRequest` is used by generated code to make a request using an `OperationSpec` and `OperationArguments`. An `OperationSpec` is a translation of request requirements from the OpenAPI/Swagger file that describes the service.
 

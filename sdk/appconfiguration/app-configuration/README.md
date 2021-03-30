@@ -114,7 +114,7 @@ let setting = await client.getConfigurationSetting({
 });
 
 // re-get the setting
-setting = await.getConfigurationSetting(setting);
+setting = await client.getConfigurationSetting(setting);
 ```
 
 ## Examples

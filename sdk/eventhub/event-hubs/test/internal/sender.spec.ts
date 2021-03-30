@@ -12,8 +12,10 @@ import {
   EventHubConsumerClient,
   EventHubProducerClient,
   EventPosition,
+  OperationOptions,
   ReceivedEventData,
-  SendBatchOptions
+  SendBatchOptions,
+  TryAddOptions
 } from "../../src";
 import {
   EnvVarKeys,
@@ -25,6 +27,8 @@ import { AbortController } from "@azure/abort-controller";
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
+import { StandardAbortMessage } from "@azure/core-amqp";
+import { setSpan, context } from "@azure/core-tracing";
 const env = getEnvVars();
 
 describe("EventHub Sender", function(): void {
@@ -313,61 +317,13 @@ describe("EventHub Sender", function(): void {
       });
 
       for (let i = 0; i < 2; i++) {
-        eventDataBatch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
-      }
-      await producerClient.sendBatch(eventDataBatch);
-      rootSpan.end();
-
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(2, "Should only have two root spans.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
-
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              }
-            ]
-          }
-        ]
-      };
-
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-      resetTracer();
-    });
-
-    it("will not instrument already instrumented events", async function(): Promise<void> {
-      const { tracer, resetTracer } = setTracerForTest();
-
-      const rootSpan = tracer.startSpan("test");
-
-      const list = [
-        { name: "Albert" },
-        {
-          name: "Marie",
-          properties: {
-            [TRACEPARENT_PROPERTY]: "foo"
-          }
-        }
-      ];
-
-      const eventDataBatch = await producerClient.createBatch({
-        partitionId: "0"
-      });
-
-      for (let i = 0; i < 2; i++) {
         eventDataBatch.tryAdd(
-          { body: `${list[i].name}`, properties: list[i].properties },
-          { parentSpan: rootSpan }
+          { body: `${list[i].name}` },
+          {
+            tracingOptions: {
+              tracingContext: setSpan(context.active(), rootSpan)
+            }
+          }
         );
       }
       await producerClient.sendBatch(eventDataBatch);
@@ -385,6 +341,10 @@ describe("EventHub Sender", function(): void {
               {
                 name: "Azure.EventHubs.message",
                 children: []
+              },
+              {
+                name: "Azure.EventHubs.message",
+                children: []
               }
             ]
           }
@@ -396,57 +356,130 @@ describe("EventHub Sender", function(): void {
       resetTracer();
     });
 
-    it("will support tracing batch and send", async function(): Promise<void> {
-      const { tracer, resetTracer } = setTracerForTest();
+    function legacyOptionsUsingSpanContext(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
+      return {
+        parentSpan: rootSpan.context()
+      };
+    }
 
-      const rootSpan = tracer.startSpan("root");
+    function legacyOptionsUsingSpan(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
+      return {
+        parentSpan: rootSpan
+      };
+    }
 
-      const list = [{ name: "Albert" }, { name: "Marie" }];
-
-      const eventDataBatch = await producerClient.createBatch({
-        partitionId: "0"
-      });
-      for (let i = 0; i < 2; i++) {
-        eventDataBatch.tryAdd({ body: `${list[i].name}` }, { parentSpan: rootSpan });
-      }
-      await producerClient.sendBatch(eventDataBatch, {
+    function modernOptions(rootSpan: TestSpan): OperationOptions {
+      return {
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
-      });
-      rootSpan.end();
+      };
+    }
 
-      const rootSpans = tracer.getRootSpans();
-      rootSpans.length.should.equal(1, "Should only have one root span.");
-      rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+    [legacyOptionsUsingSpan, legacyOptionsUsingSpanContext, modernOptions].forEach((optionsFn) => {
+      describe(`tracing (${optionsFn.name})`, () => {
+        it("will not instrument already instrumented events", async function(): Promise<void> {
+          const { tracer, resetTracer } = setTracerForTest();
 
-      const expectedGraph: SpanGraph = {
-        roots: [
-          {
-            name: rootSpan.name,
-            children: [
+          const rootSpan = tracer.startSpan("test");
+
+          const list = [
+            { name: "Albert" },
+            {
+              name: "Marie",
+              properties: {
+                [TRACEPARENT_PROPERTY]: "foo"
+              }
+            }
+          ];
+
+          const eventDataBatch = await producerClient.createBatch({
+            partitionId: "0"
+          });
+
+          for (let i = 0; i < 2; i++) {
+            eventDataBatch.tryAdd(
+              { body: `${list[i].name}`, properties: list[i].properties },
+              optionsFn(rootSpan)
+            );
+          }
+          await producerClient.sendBatch(eventDataBatch);
+          rootSpan.end();
+
+          const rootSpans = tracer.getRootSpans();
+          rootSpans.length.should.equal(2, "Should only have two root spans.");
+          rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+          const expectedGraph: SpanGraph = {
+            roots: [
               {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.message",
-                children: []
-              },
-              {
-                name: "Azure.EventHubs.send",
-                children: []
+                name: rootSpan.name,
+                children: [
+                  {
+                    name: "Azure.EventHubs.message",
+                    children: []
+                  }
+                ]
               }
             ]
-          }
-        ]
-      };
+          };
 
-      tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
-      tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
-      resetTracer();
+          tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+          tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+          resetTracer();
+        });
+
+        it("will support tracing batch and send", async function(): Promise<void> {
+          const { tracer, resetTracer } = setTracerForTest();
+
+          const rootSpan = tracer.startSpan("root");
+
+          const list = [{ name: "Albert" }, { name: "Marie" }];
+
+          const eventDataBatch = await producerClient.createBatch({
+            partitionId: "0"
+          });
+          for (let i = 0; i < 2; i++) {
+            eventDataBatch.tryAdd({ body: `${list[i].name}` }, optionsFn(rootSpan));
+          }
+          await producerClient.sendBatch(eventDataBatch, {
+            tracingOptions: {
+              tracingContext: setSpan(context.active(), rootSpan)
+            }
+          });
+          rootSpan.end();
+
+          const rootSpans = tracer.getRootSpans();
+          rootSpans.length.should.equal(1, "Should only have one root span.");
+          rootSpans[0].should.equal(rootSpan, "The root span should match what was passed in.");
+
+          const expectedGraph: SpanGraph = {
+            roots: [
+              {
+                name: rootSpan.name,
+                children: [
+                  {
+                    name: "Azure.EventHubs.message",
+                    children: []
+                  },
+                  {
+                    name: "Azure.EventHubs.message",
+                    children: []
+                  },
+                  {
+                    name: "Azure.EventHubs.send",
+                    children: []
+                  }
+                ]
+              }
+            ]
+          };
+
+          tracer.getSpanGraph(rootSpan.context().traceId).should.eql(expectedGraph);
+          tracer.getActiveSpans().length.should.equal(0, "All spans should have had end called.");
+          resetTracer();
+        });
+      });
     });
 
     it("with partition key should be sent successfully.", async function(): Promise<void> {
@@ -483,7 +516,7 @@ describe("EventHub Sender", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The create batch operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
     });
 
@@ -497,7 +530,7 @@ describe("EventHub Sender", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The create batch operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
     });
   });
@@ -620,9 +653,7 @@ describe("EventHub Sender", function(): void {
       await producerClient.sendBatch(events, {
         partitionId: "0",
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();
@@ -684,9 +715,7 @@ describe("EventHub Sender", function(): void {
       await producerClient.sendBatch(events, {
         partitionId: "0",
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();
@@ -843,9 +872,7 @@ describe("EventHub Sender", function(): void {
       }
       await producerClient.sendBatch(events, {
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();
@@ -915,9 +942,7 @@ describe("EventHub Sender", function(): void {
       events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
       await producerClient.sendBatch(events, {
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();
@@ -976,7 +1001,7 @@ describe("EventHub Sender", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The send operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
     });
 
@@ -996,7 +1021,7 @@ describe("EventHub Sender", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The send operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
     });
 

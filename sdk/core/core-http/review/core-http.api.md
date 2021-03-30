@@ -6,11 +6,12 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
+import { Context } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
-import { Span } from '@opentelemetry/api';
+import { Span } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -157,8 +158,8 @@ export const Constants: {
 // @public (undocumented)
 export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptions, authPolicyFactory?: RequestPolicyFactory): ServiceClientOptions;
 
-// @public
-export function createSpanFunction({ packagePrefix, namespace }: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
+// @public @deprecated
+export function createSpanFunction(args: SpanConfig): <T extends OperationOptions>(operationName: string, operationOptions: T) => {
     span: Span;
     updatedOptions: T;
 };
@@ -608,6 +609,7 @@ export interface RequestOptionsBase {
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     spanOptions?: SpanOptions;
     timeout?: number;
+    tracingContext?: Context;
 }
 
 // @public (undocumented)
@@ -667,8 +669,8 @@ export interface RequestPrepareOptions {
         [key: string]: any | ParameterValue;
     };
     serializationMapper?: Mapper;
-    // (undocumented)
     spanOptions?: SpanOptions;
+    tracingContext?: Context;
     url?: string;
 }
 
@@ -798,7 +800,7 @@ export interface SimpleMapperType {
     name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
 }
 
-// @public
+// @public @deprecated
 export interface SpanConfig {
     namespace: string;
     packagePrefix: string;
@@ -937,6 +939,7 @@ export class WebResource implements WebResourceLike {
     streamResponseStatusCodes?: Set<number>;
     // (undocumented)
     timeout: number;
+    tracingContext?: Context;
     // (undocumented)
     url: string;
     validateRequestProperties(): void;
@@ -971,6 +974,7 @@ export interface WebResourceLike {
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
+    tracingContext?: Context;
     url: string;
     validateRequestProperties(): void;
     withCredentials: boolean;

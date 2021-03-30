@@ -1,51 +1,57 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  AbortSignalLike,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase
-} from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { OperationOptions } from "@azure/core-client";
 
 import {
   GeneratedClientHealthResponse as BeginAnalyzeHealthcareResponse,
   GeneratedClientHealthStatusOptionalParams as HealthcareJobStatusOptions,
+  HealthcareJobState,
   State,
   TextDocumentBatchStatistics,
   TextDocumentInput
 } from "../../generated/models";
 import {
-  HealthcareResult,
-  HealthcareEntitiesArray,
-  PagedAsyncIterableHealthEntities,
-  PaginatedHealthcareEntities
-} from "../../healthResult";
+  AnalyzeHealthcareEntitiesResult,
+  AnalyzeHealthcareEntitiesResultArray,
+  PagedAsyncIterableAnalyzeHealthcareEntitiesResult,
+  PagedAnalyzeHealthcareEntitiesResult,
+  makeHealthcareEntitiesResult,
+  makeHealthcareEntitiesErrorResult
+} from "../../analyzeHealthcareEntitiesResult";
 import { PageSettings } from "@azure/core-paging";
 import {
   addStrEncodingParam,
-  getJobID,
+  getOperationId,
   handleInvalidDocumentBatch,
-  nextLinkToTopAndSkip
+  nextLinkToTopAndSkip,
+  StringIndexType
 } from "../../util";
 import {
   AnalysisPollOperation,
   AnalysisPollOperationState,
-  PollingOptions,
-  TextAnalyticsStatusOperationOptions
+  OperationMetadata as AnalyzeHealthcareEntitiesOperationMetadata
 } from "../poller";
 import { GeneratedClient as Client } from "../../generated";
-import { combineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult";
-import { CanonicalCode } from "@opentelemetry/api";
+import { processAndCombineSuccessfulAndErroneousDocuments } from "../../textAnalyticsResult";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../../tracing";
 import { TextAnalyticsOperationOptions } from "../../textAnalyticsOperationOptions";
 export { State };
 
-interface HealthcareResultWithPagination {
-  result: HealthcareEntitiesArray;
+/**
+ * @internal
+ */
+interface AnalyzeHealthcareEntitiesResultWithPagination {
+  result: AnalyzeHealthcareEntitiesResultArray;
   top?: number;
   skip?: number;
 }
 
+/**
+ * @internal
+ */
 interface HealthcareJobStatus {
   done: boolean;
   /**
@@ -59,8 +65,12 @@ interface HealthcareJobStatus {
    * batch of input documents.
    */
   modelVersion?: string;
+  operationMetdata?: AnalyzeHealthcareEntitiesOperationMetadata;
 }
 
+/**
+ * @internal
+ */
 interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
   /**
    * This value indicates which model will be used for scoring. If a model-version is
@@ -69,61 +79,80 @@ interface BeginAnalyzeHealthcareInternalOptions extends OperationOptions {
    * https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis#model-versioning
    */
   modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
- * Options for configuring analyze healthcare jobs.
+ * Options for the begin analyze healthcare entities operation.
  */
-export interface HealthcareJobOptions extends TextAnalyticsOperationOptions {}
-
-/**
- * Options for the begin analyze healthcare operation.
- */
-export interface BeginAnalyzeHealthcareOptions {
+export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOperationOptions {
   /**
-   * Options related to polling from the service.
+   * Delay to wait until next poll, in milliseconds.
    */
-  polling?: PollingOptions;
+  stringIndexType?: StringIndexType;
   /**
-   * Options related to the healthcare job.
+   * Delay to wait until next poll, in milliseconds.
    */
-  health?: HealthcareJobOptions;
+  updateIntervalInMs?: number;
+  /**
+   * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
+   */
+  resumeFrom?: string;
 }
 
 /**
  * The state of the begin analyze healthcare polling operation.
  */
-export interface BeginAnalyzeHealthcarePollState
-  extends AnalysisPollOperationState<PaginatedHealthcareEntities> {}
+export interface AnalyzeHealthcareOperationState
+  extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {}
+
+/**
+ * @internal
+ */
+function getMetaInfoFromResponse(
+  response: HealthcareJobState
+): AnalyzeHealthcareEntitiesOperationMetadata {
+  return {
+    createdOn: response.createdDateTime,
+    lastModifiedOn: response.lastUpdateDateTime,
+    expiresOn: response.expirationDateTime,
+    status: response.status
+  };
+}
 
 /**
  * Class that represents a poller that waits for the healthcare results.
+ * @internal
  */
 export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation<
-  BeginAnalyzeHealthcarePollState,
-  PaginatedHealthcareEntities
+  AnalyzeHealthcareOperationState,
+  PagedAnalyzeHealthcareEntitiesResult
 > {
   constructor(
-    public state: BeginAnalyzeHealthcarePollState,
+    public state: AnalyzeHealthcareOperationState,
     // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     private client: Client,
     private documents: TextDocumentInput[],
-    private options: BeginAnalyzeHealthcareOptions = {},
-    private statusOptions: TextAnalyticsStatusOperationOptions
+    private options: BeginAnalyzeHealthcareEntitiesOptions = {}
   ) {
     super(state);
   }
 
   /**
-   * should be called only after all the status of the healthcare jobs became
+   * should be called only after all the status of the healthcare operations became
    * "succeeded" and it returns an iterator for the results and provides a
-   * byPage method to return the results paginated.
+   * byPage method to return the results paged.
    */
   private listHealthcareEntitiesByPage(
-    jobId: string,
+    operationId: string,
     options: HealthcareJobStatusOptions = {}
-  ): PagedAsyncIterableHealthEntities {
-    const iter = this._listHealthcareEntities(jobId, options);
+  ): PagedAsyncIterableAnalyzeHealthcareEntitiesResult {
+    const iter = this._listHealthcareEntities(operationId, options);
     return {
       next() {
         return iter.next();
@@ -133,31 +162,31 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       },
       byPage: (settings?: PageSettings) => {
         const pageOptions = { ...options, top: settings?.maxPageSize };
-        return this._listHealthcareEntitiesPaginated(jobId, pageOptions);
+        return this._listHealthcareEntitiesPaged(operationId, pageOptions);
       }
     };
   }
 
   /**
-   * returns an iterator to the results of a healthcare job.
+   * returns an iterator to the results of a healthcare operation.
    */
   private async *_listHealthcareEntities(
-    jobId: string,
+    operationId: string,
     options?: HealthcareJobStatusOptions
-  ): AsyncIterableIterator<HealthcareResult> {
-    for await (const page of this._listHealthcareEntitiesPaginated(jobId, options)) {
+  ): AsyncIterableIterator<AnalyzeHealthcareEntitiesResult> {
+    for await (const page of this._listHealthcareEntitiesPaged(operationId, options)) {
       yield* page;
     }
   }
 
   /**
-   * returns an iterator to arrays of the results of a healthcare job.
+   * returns an iterator to arrays of the results of a healthcare operation.
    */
-  private async *_listHealthcareEntitiesPaginated(
-    jobId: string,
+  private async *_listHealthcareEntitiesPaged(
+    operationId: string,
     options?: HealthcareJobStatusOptions
-  ): AsyncIterableIterator<HealthcareEntitiesArray> {
-    let response = await this._listHealthcareEntitiesSinglePage(jobId, options);
+  ): AsyncIterableIterator<AnalyzeHealthcareEntitiesResultArray> {
+    let response = await this._listHealthcareEntitiesSinglePage(operationId, options);
     yield response.result;
     while (response.skip) {
       const optionsWithContinuation: HealthcareJobStatusOptions = {
@@ -165,38 +194,40 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
         top: response.top,
         skip: response.skip
       };
-      response = await this._listHealthcareEntitiesSinglePage(jobId, optionsWithContinuation);
+      response = await this._listHealthcareEntitiesSinglePage(operationId, optionsWithContinuation);
       yield response.result;
     }
   }
 
   /**
-   * returns an iterator to arrays of the sorted results of a healthcare job.
+   * returns an iterator to arrays of the sorted results of a healthcare operation.
    */
   private async _listHealthcareEntitiesSinglePage(
-    jobId: string,
+    operationId: string,
     options?: HealthcareJobStatusOptions
-  ): Promise<HealthcareResultWithPagination> {
+  ): Promise<AnalyzeHealthcareEntitiesResultWithPagination> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-_listHealthcareEntitiesSinglePage",
       options || {}
     );
     try {
-      const response = await this.client.healthStatus(
-        jobId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      const response = await this.client.healthStatus(operationId, finalOptions);
       if (response.results) {
-        const result = combineSuccessfulAndErroneousDocuments(this.documents, response.results);
+        const result = processAndCombineSuccessfulAndErroneousDocuments(
+          this.documents,
+          response.results,
+          makeHealthcareEntitiesResult,
+          makeHealthcareEntitiesErrorResult
+        );
         return response.nextLink
           ? { result, ...nextLinkToTopAndSkip(response.nextLink) }
           : { result };
       } else {
-        throw new Error("Healthcare task has succeeded but the there are no results!");
+        throw new Error("Healthcare action has succeeded but the there are no results!");
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -206,11 +237,11 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
   }
 
   /**
-   * returns whether the healthcare job is done and if so returns also
+   * returns whether the healthcare operation is done and if so returns also
    * statistics and the model version used.
    */
   private async getHealthStatus(
-    jobId: string,
+    operationId: string,
     options?: HealthcareJobStatusOptions
   ): Promise<HealthcareJobStatus> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -218,22 +249,11 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
       options || {}
     );
     try {
-      const response = await this.client.healthStatus(
-        jobId,
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      const response = await this.client.healthStatus(operationId, finalOptions);
       switch (response.status) {
-        case "succeeded": {
-          if (response.results) {
-            return {
-              done: true,
-              statistics: response.results.statistics,
-              modelVersion: response.results.modelVersion
-            };
-          } else {
-            throw new Error("Healthcare task has succeeded but the there are no results!");
-          }
-        }
+        case "notStarted":
+        case "running":
+          break;
         case "failed": {
           const errors = response.errors
             ?.map((e) => `  code ${e.code}, message: '${e.message}'`)
@@ -241,17 +261,23 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
           const message = `Healthcare analysis failed. Error(s): ${errors || ""}`;
           throw new Error(message);
         }
-        case "notStarted":
-        case "running":
-          break;
         default: {
-          throw new Error("Unrecognized state of healthcare job!");
+          if (response.results) {
+            return {
+              done: true,
+              statistics: response.results.statistics,
+              modelVersion: response.results.modelVersion,
+              operationMetdata: getMetaInfoFromResponse(response)
+            };
+          } else {
+            throw new Error("Healthcare action has finished but the there are no results!");
+          }
         }
       }
-      return { done: false };
+      return { done: false, operationMetdata: getMetaInfoFromResponse(response) };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -266,18 +292,15 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
   ): Promise<BeginAnalyzeHealthcareResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "TextAnalyticsClient-beginAnalyzeHealthcare",
-      addStrEncodingParam(options)
+      addStrEncodingParam(options || {})
     );
 
     try {
-      return await this.client.health(
-        { documents: documents },
-        operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      return await this.client.health({ documents: documents }, finalOptions);
     } catch (e) {
       const exception = handleInvalidDocumentBatch(e);
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: exception.message
       });
       throw exception;
@@ -289,7 +312,7 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
   async update(
     options: {
       abortSignal?: AbortSignalLike;
-      fireProgress?: (state: BeginAnalyzeHealthcarePollState) => void;
+      fireProgress?: (state: AnalyzeHealthcareOperationState) => void;
     } = {}
   ): Promise<BeginAnalyzeHealthcarePollerOperation> {
     const state = this.state;
@@ -297,42 +320,56 @@ export class BeginAnalyzeHealthcarePollerOperation extends AnalysisPollOperation
     if (!state.isStarted) {
       state.isStarted = true;
       const response = await this.beginAnalyzeHealthcare(this.documents, {
-        ...this.options.health,
-        abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal
+        requestOptions: this.options.requestOptions,
+        tracingOptions: this.options.tracingOptions,
+        abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal,
+        modelVersion: this.options.modelVersion,
+        stringIndexType: this.options.stringIndexType
       });
       if (!response.operationLocation) {
         throw new Error(
           "Expects a valid 'operationLocation' to retrieve health results but did not find any"
         );
       }
-      state.jobId = getJobID(response.operationLocation);
+      state.operationId = getOperationId(response.operationLocation);
     }
-    const status = await this.getHealthStatus(state.jobId!, {
-      ...this.statusOptions,
-      abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal
+    const operationStatus = await this.getHealthStatus(state.operationId!, {
+      abortSignal: updatedAbortSignal ? updatedAbortSignal : options.abortSignal,
+      includeStatistics: this.options.includeStatistics,
+      tracingOptions: this.options.tracingOptions,
+      onResponse: this.options.onResponse,
+      serializerOptions: this.options.serializerOptions
     });
 
-    if (!state.isCompleted && status.done) {
-      if (typeof options.fireProgress === "function") {
-        options.fireProgress(state);
-      }
-      const pagedIterator = this.listHealthcareEntitiesByPage(
-        state.jobId!,
-        this.options.health || {}
-      );
+    state.createdOn = operationStatus.operationMetdata?.createdOn;
+    state.expiresOn = operationStatus.operationMetdata?.expiresOn;
+    state.lastModifiedOn = operationStatus.operationMetdata?.lastModifiedOn;
+    state.status = operationStatus.operationMetdata?.status;
+
+    if (!state.isCompleted && operationStatus.done) {
+      const pagedIterator = this.listHealthcareEntitiesByPage(state.operationId!, {
+        abortSignal: this.options.abortSignal,
+        tracingOptions: this.options.tracingOptions
+      });
       state.result = Object.assign(pagedIterator, {
-        statistics: status.statistics,
-        modelVersion: status.modelVersion!
+        statistics: operationStatus.statistics,
+        modelVersion: operationStatus.modelVersion!
       });
       state.isCompleted = true;
+    }
+    if (typeof options.fireProgress === "function") {
+      options.fireProgress(state);
     }
     return this;
   }
 
   async cancel(): Promise<BeginAnalyzeHealthcarePollerOperation> {
     const state = this.state;
-    if (state.jobId) {
-      await this.client.cancelHealthJob(state.jobId, this.options.health);
+    if (state.operationId) {
+      await this.client.cancelHealthJob(state.operationId, {
+        abortSignal: this.options.abortSignal,
+        tracingOptions: this.options.tracingOptions
+      });
     }
     state.isCancelled = true;
     return this;

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { getBSU, recorderEnvSetup } from "./utils";
 import * as dotenv from "dotenv";
@@ -9,6 +12,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
+import { setSpan, context } from "@azure/core-tracing";
 dotenv.config();
 
 describe("DirectoryClient", () => {
@@ -18,7 +22,7 @@ describe("DirectoryClient", () => {
   let dirClient: ShareDirectoryClient;
   let defaultDirCreateResp: DirectoryCreateResponse;
   let recorder: Recorder;
-  let fullDirAttributes = new FileSystemAttributes();
+  const fullDirAttributes = new FileSystemAttributes();
   fullDirAttributes.readonly = true;
   fullDirAttributes.hidden = true;
   fullDirAttributes.system = true;
@@ -668,8 +672,9 @@ describe("DirectoryClient", () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
-    const spanOptions = { parent: rootSpan.context() };
-    const tracingOptions = { spanOptions };
+    const tracingOptions = {
+      tracingContext: setSpan(context.active(), rootSpan)
+    };
     const directoryName = recorder.getUniqueName("directory");
     const { directoryClient: subDirClient } = await dirClient.createSubdirectory(directoryName, {
       tracingOptions

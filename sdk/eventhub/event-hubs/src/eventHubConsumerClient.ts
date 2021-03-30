@@ -19,7 +19,7 @@ import {
   Subscription,
   SubscriptionEventHandlers
 } from "./eventHubConsumerClientModels";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import { EventHubProperties, PartitionProperties } from "./managementClient";
 import { PartitionGate } from "./impl/partitionGate";
 import { v4 as uuid } from "uuid";
@@ -28,6 +28,7 @@ import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStr
 import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
 import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
 import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
+import { isCredential } from "./util/typeGuards";
 
 const defaultConsumerClientOptions: Required<Pick<
   FullEventProcessorOptions,
@@ -74,7 +75,6 @@ export class EventHubConsumerClient {
   private _subscriptions = new Set<Subscription>();
 
   /**
-   * @property
    * The name of the default consumer group in the Event Hubs service.
    */
   static defaultConsumerGroupName: string = Constants.defaultConsumerGroup;
@@ -88,7 +88,6 @@ export class EventHubConsumerClient {
   private readonly _loadBalancingOptions: Required<LoadBalancingOptions>;
 
   /**
-   * @property
    * @readonly
    * The name of the Event Hub instance for which this client is created.
    */
@@ -97,7 +96,6 @@ export class EventHubConsumerClient {
   }
 
   /**
-   * @property
    * @readonly
    * The fully qualified namespace of the Event Hub instance for which this client is created.
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
@@ -109,7 +107,7 @@ export class EventHubConsumerClient {
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
-   * @param consumerGroup The name of the consumer group from which you want to process events.
+   * @param consumerGroup - The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hub instance.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
@@ -127,11 +125,11 @@ export class EventHubConsumerClient {
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
-   * @param consumerGroup The name of the consumer group from which you want to process events.
+   * @param consumerGroup - The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hub instance.
    * It is expected that the shared key properties and the Event Hub path are contained in this connection string.
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-event-hub-name'.
-   * @param checkpointStore A checkpoint store that is used by the client to read checkpoints to determine
+   * @param checkpointStore - A checkpoint store that is used by the client to read checkpoints to determine
    * the position from where it should resume receiving events when your application gets restarted.
    * It is also used by the client to load balance multiple instances of your application.
    * @param options - A set of options to apply when configuring the client.
@@ -149,7 +147,7 @@ export class EventHubConsumerClient {
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
-   * @param consumerGroup The name of the consumer group from which you want to process events.
+   * @param consumerGroup - The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
    * It is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
@@ -169,12 +167,12 @@ export class EventHubConsumerClient {
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
-   * @param consumerGroup The name of the consumer group from which you want to process events.
+   * @param consumerGroup - The name of the consumer group from which you want to process events.
    * @param connectionString - The connection string to use for connecting to the Event Hubs namespace.
    * It is expected that the shared key properties are contained in this connection string, but not the Event Hub path,
    * e.g. 'Endpoint=sb://my-servicebus-namespace.servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;'.
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
-   * @param checkpointStore A checkpoint store that is used by the client to read checkpoints to determine
+   * @param checkpointStore - A checkpoint store that is used by the client to read checkpoints to determine
    * the position from where it should resume receiving events when your application gets restarted.
    * It is also used by the client to load balance multiple instances of your application.
    * @param options - A set of options to apply when configuring the client.
@@ -193,12 +191,18 @@ export class EventHubConsumerClient {
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
-   * @param consumerGroup The name of the consumer group from which you want to process events.
+   * @param consumerGroup - The name of the consumer group from which you want to process events.
    * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param credential - An credential object used by the client to get the token to authenticate the connection
-   * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
+   * with the Azure Event Hubs service.
+   * See &commat;azure/identity for creating credentials that support AAD auth.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
@@ -209,19 +213,25 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential | SASCredential,
     options?: EventHubConsumerClientOptions
   ); // #3
   /**
    * The `EventHubConsumerClient` class is used to consume events from an Event Hub.
    * Use the `options` parmeter to configure retry policy or proxy settings.
-   * @param consumerGroup The name of the consumer group from which you want to process events.
+   * @param consumerGroup - The name of the consumer group from which you want to process events.
    * @param fullyQualifiedNamespace - The full namespace which is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param credential - An credential object used by the client to get the token to authenticate the connection
-   * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
-   * @param checkpointStore A checkpoint store that is used by the client to read checkpoints to determine
+   * with the Azure Event Hubs service.
+   * See &commat;azure/identity for creating credentials that support AAD auth.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
+   * @param checkpointStore - A checkpoint store that is used by the client to read checkpoints to determine
    * the position from where it should resume receiving events when your application gets restarted.
    * It is also used by the client to load balance multiple instances of your application.
    * @param options - A set of options to apply when configuring the client.
@@ -234,7 +244,7 @@ export class EventHubConsumerClient {
     consumerGroup: string,
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential | SASCredential,
     checkpointStore: CheckpointStore,
     options?: EventHubConsumerClientOptions
   ); // #3.1
@@ -248,11 +258,13 @@ export class EventHubConsumerClient {
     checkpointStoreOrCredentialOrOptions4?:
       | CheckpointStore
       | EventHubConsumerClientOptions
-      | TokenCredential,
+      | TokenCredential
+      | NamedKeyCredential
+      | SASCredential,
     checkpointStoreOrOptions5?: CheckpointStore | EventHubConsumerClientOptions,
     options6?: EventHubConsumerClientOptions
   ) {
-    if (isTokenCredential(checkpointStoreOrCredentialOrOptions4)) {
+    if (isCredential(checkpointStoreOrCredentialOrOptions4)) {
       // #3 or 3.1
       logger.info("Creating EventHubConsumerClient with TokenCredential.");
 
@@ -347,7 +359,7 @@ export class EventHubConsumerClient {
 
   /**
    * Provides the id for each partition associated with the Event Hub.
-   * @param options The set of options to apply to the operation call.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with an Array of strings representing the id for
    * each partition associated with the Event Hub.
    * @throws Error if the underlying connection has been closed, create a new EventHubConsumerClient.
@@ -366,8 +378,8 @@ export class EventHubConsumerClient {
 
   /**
    * Provides information about the state of the specified partition.
-   * @param partitionId The id of the partition for which information is required.
-   * @param options The set of options to apply to the operation call.
+   * @param partitionId - The id of the partition for which information is required.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with information about the state of the partition .
    * @throws Error if the underlying connection has been closed, create a new EventHubConsumerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.
@@ -384,7 +396,7 @@ export class EventHubConsumerClient {
 
   /**
    * Provides the Event Hub runtime information.
-   * @param options The set of options to apply to the operation call.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with information about the Event Hub instance.
    * @throws Error if the underlying connection has been closed, create a new EventHubConsumerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.
@@ -417,13 +429,13 @@ export class EventHubConsumerClient {
    * );
    * ```
    *
-   * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
+   * @param handlers - Handlers for the lifecycle of the subscription - subscription initialization
    *                 per partition, receiving events, handling errors and the closing
    *                 of a subscription per partition.
-   * @param options Configures the way events are received.
+   * @param options - Configures the way events are received.
    * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of
    * events to the handler provided to receive events as well as the start position. For example,
-   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
+   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }`
    */
   subscribe(handlers: SubscriptionEventHandlers, options?: SubscribeOptions): Subscription; // #1
   /**
@@ -443,14 +455,14 @@ export class EventHubConsumerClient {
    * );
    * ```
    *
-   * @param partitionId The id of the partition to subscribe to.
-   * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
+   * @param partitionId - The id of the partition to subscribe to.
+   * @param handlers - Handlers for the lifecycle of the subscription - subscription initialization
    *                 of the partition, receiving events, handling errors and the closing
    *                 of a subscription to the partition.
-   * @param options Configures the way events are received.
+   * @param options - Configures the way events are received.
    * Most common are `maxBatchSize` and `maxWaitTimeInSeconds` that control the flow of
    * events to the handler provided to receive events as well as the start position. For example,
-   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }
+   * `{ maxBatchSize: 20, maxWaitTimeInSeconds: 120, startPosition: { sequenceNumber: 123 } }`
    */
 
   subscribe(

@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import { getTracer } from "@azure/core-tracing";
-import { CanonicalCode, Link, Span, SpanContext, SpanKind } from "@opentelemetry/api";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import { SpanStatusCode, Link, Span, SpanContext, SpanKind } from "@azure/core-tracing";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
-import { createMessageSpan } from "./diagnostics/messageSpan";
+import { createMessageSpan } from "./diagnostics/tracing";
 import { EventData } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
 import { EventHubSender } from "./eventHubSender";
@@ -21,8 +20,9 @@ import {
   SendBatchOptions
 } from "./models/public";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { isDefined } from "./util/typeGuards";
-import { getParentSpan, OperationOptions } from "./util/operationOptions";
+import { isCredential, isDefined } from "./util/typeGuards";
+import { OperationOptions } from "./util/operationOptions";
+import { createEventHubSpan } from "./diagnostics/tracing";
 
 /**
  * The `EventHubProducerClient` class is used to send events to an Event Hub.
@@ -51,7 +51,6 @@ export class EventHubProducerClient {
    */
   private _sendersMap: Map<string, EventHubSender>;
   /**
-   * @property
    * @readonly
    * The name of the Event Hub instance for which this client is created.
    */
@@ -60,7 +59,6 @@ export class EventHubProducerClient {
   }
 
   /**
-   * @property
    * @readonly
    * The fully qualified namespace of the Event Hub instance for which this client is created.
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
@@ -103,7 +101,13 @@ export class EventHubProducerClient {
    * <yournamespace>.servicebus.windows.net
    * @param eventHubName - The name of the specific Event Hub to connect the client to.
    * @param credential - An credential object used by the client to get the token to authenticate the connection
-   * with the Azure Event Hubs service. See &commat;azure/identity for creating the credentials.
+   * with the Azure Event Hubs service.
+   * See &commat;azure/identity for creating credentials that support AAD auth.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
@@ -113,13 +117,17 @@ export class EventHubProducerClient {
   constructor(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential | SASCredential,
     options?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     eventHubNameOrOptions2?: string | EventHubClientOptions,
-    credentialOrOptions3?: TokenCredential | EventHubClientOptions,
+    credentialOrOptions3?:
+      | TokenCredential
+      | NamedKeyCredential
+      | SASCredential
+      | EventHubClientOptions,
     options4?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ) {
     this._context = createConnectionContext(
@@ -130,7 +138,7 @@ export class EventHubProducerClient {
     );
     if (typeof eventHubNameOrOptions2 !== "string") {
       this._clientOptions = eventHubNameOrOptions2 || {};
-    } else if (!isTokenCredential(credentialOrOptions3)) {
+    } else if (!isCredential(credentialOrOptions3)) {
       this._clientOptions = credentialOrOptions3 || {};
     } else {
       this._clientOptions = options4 || {};
@@ -161,7 +169,7 @@ export class EventHubProducerClient {
    * }
    * ```
    *
-   * @param options  Configures the behavior of the batch.
+   * @param options -  Configures the behavior of the batch.
    * - `partitionKey`  : A value that is hashed and used by the Azure Event Hubs service to determine the partition to which
    * the events need to be sent.
    * - `partitionId`   : Id of the partition to which the batch of events need to be sent.
@@ -218,8 +226,8 @@ export class EventHubProducerClient {
    * await client.sendBatch(messages);
    * ```
    *
-   * @param batch An array of {@link EventData}.
-   * @param options A set of options that can be specified to influence the way in which
+   * @param batch - An array of {@link EventData}.
+   * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
    * - `partitionId`  : The partition this batch will be sent to. If set, `partitionKey` can not be set.
@@ -251,8 +259,8 @@ export class EventHubProducerClient {
    *   }
    * }
    * ```
-   * @param batch A batch of events that you can create using the {@link createBatch} method.
-   * @param options A set of options that can be specified to influence the way in which
+   * @param batch - A batch of events that you can create using the {@link createBatch} method.
+   * @param options - A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
    * - `abortSignal`  : A signal the request to cancel the send operation.
    *
@@ -305,10 +313,7 @@ export class EventHubProducerClient {
       for (let i = 0; i < batch.length; i++) {
         const event = batch[i];
         if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-          const messageSpan = createMessageSpan(
-            getParentSpan(options.tracingOptions),
-            this._context.config
-          );
+          const { span: messageSpan } = createMessageSpan(options, this._context.config);
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one
@@ -336,10 +341,7 @@ export class EventHubProducerClient {
       this._sendersMap.set(partitionId || "", sender);
     }
 
-    const sendSpan = this._createSendSpan(
-      getParentSpan(options.tracingOptions),
-      spanContextsToLink
-    );
+    const sendSpan = this._createSendSpan(options, spanContextsToLink);
 
     try {
       const result = await sender.send(batch, {
@@ -348,11 +350,11 @@ export class EventHubProducerClient {
         partitionKey,
         retryOptions: this._clientOptions.retryOptions
       });
-      sendSpan.setStatus({ code: CanonicalCode.OK });
+      sendSpan.setStatus({ code: SpanStatusCode.OK });
       return result;
     } catch (error) {
       sendSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -378,7 +380,7 @@ export class EventHubProducerClient {
 
   /**
    * Provides the Event Hub runtime information.
-   * @param options The set of options to apply to the operation call.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with information about the Event Hub instance.
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.
@@ -392,7 +394,7 @@ export class EventHubProducerClient {
 
   /**
    * Provides the id for each partition associated with the Event Hub.
-   * @param options The set of options to apply to the operation call.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with an Array of strings representing the id for
    * each partition associated with the Event Hub.
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
@@ -411,8 +413,8 @@ export class EventHubProducerClient {
 
   /**
    * Provides information about the state of the specified partition.
-   * @param partitionId The id of the partition for which information is required.
-   * @param options The set of options to apply to the operation call.
+   * @param partitionId - The id of the partition for which information is required.
+   * @param options - The set of options to apply to the operation call.
    * @returns A promise that resolves with information about the state of the partition .
    * @throws Error if the underlying connection has been closed, create a new EventHubProducerClient.
    * @throws AbortError if the operation is cancelled via the abortSignal.
@@ -428,7 +430,7 @@ export class EventHubProducerClient {
   }
 
   private _createSendSpan(
-    parentSpan?: Span | SpanContext | null,
+    operationOptions: OperationOptions,
     spanContextsToLink: SpanContext[] = []
   ): Span {
     const links: Link[] = spanContextsToLink.map((context) => {
@@ -436,16 +438,11 @@ export class EventHubProducerClient {
         context
       };
     });
-    const tracer = getTracer();
-    const span = tracer.startSpan("Azure.EventHubs.send", {
+
+    const { span } = createEventHubSpan("send", operationOptions, this._context.config, {
       kind: SpanKind.CLIENT,
-      parent: parentSpan,
       links
     });
-
-    span.setAttribute("az.namespace", "Microsoft.EventHub");
-    span.setAttribute("message_bus.destination", this._context.config.entityPath);
-    span.setAttribute("peer.address", this._context.config.host);
 
     return span;
   }

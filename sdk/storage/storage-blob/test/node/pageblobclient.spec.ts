@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 
 import {
@@ -288,7 +291,7 @@ describe("PageBlobClient Node.js only", () => {
     );
     assert.equal(uResp2.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256);
 
-    let page1 = await pageBlobClient.download(0, 512, {
+    const page1 = await pageBlobClient.download(0, 512, {
       customerProvidedKey: Test_CPK_INFO
     });
     const page2 = await pageBlobClient.download(512, 512, {

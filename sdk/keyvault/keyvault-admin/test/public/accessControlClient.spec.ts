@@ -8,6 +8,7 @@ import { env, Recorder } from "@azure/test-utils-recorder";
 
 import { KeyVaultAccessControlClient, KeyVaultPermission, KeyVaultRoleDefinition } from "../../src";
 import { authenticate } from "../utils/authentication";
+import { setTracer, TestTracer } from "@azure/core-tracing";
 
 describe("KeyVaultAccessControlClient", () => {
   let client: KeyVaultAccessControlClient;
@@ -24,6 +25,18 @@ describe("KeyVaultAccessControlClient", () => {
 
   afterEach(async function() {
     await recorder.stop();
+  });
+
+  it("supports tracing", async function() {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    await client.listRoleAssignments(globalScope).next();
+
+    const span = tracer
+      .getKnownSpans()
+      .find((s) => s.name.includes("KeyVaultAccessControlClient.listRoleAssignments"));
+    assert.exists(span);
+    assert.isTrue(span!.endCalled);
   });
 
   describe("role definitions", function() {
@@ -124,9 +137,7 @@ describe("KeyVaultAccessControlClient", () => {
     });
 
     describe("upsertRoleDefinition", function() {
-      it.skip("errors when name is not a valid guid", async function() {
-        // There's a service issue preventing this test from running.
-        // Skipping until ADO 9226405 is resolved
+      it("errors when name is not a valid guid", async function() {
         await assert.isRejected(client.upsertRoleDefinition(globalScope, "foo", []));
       });
 

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert, use as chaiUse } from "chai";
+import { Context } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
@@ -13,8 +14,7 @@ import { verifyAttestationToken } from "../utils/helpers";
 describe("PolicyManagementTests ", function() {
   let recorder: Recorder;
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(function(this: Context) {
     recorder = createRecorder(this);
   });
 

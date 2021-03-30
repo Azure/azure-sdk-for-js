@@ -17,7 +17,8 @@ import {
   translate,
   RetryConfig,
   RetryOperationType,
-  retry
+  retry,
+  StandardAbortMessage
 } from "@azure/core-amqp";
 import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
 import { EventHubConsumerOptions } from "./models/private";
@@ -46,22 +47,22 @@ interface CreateReceiverOptions {
  */
 export interface LastEnqueuedEventProperties {
   /**
-   * @property The sequence number of the event that was last enqueued into the Event Hub partition from which
+   * The sequence number of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
    */
   sequenceNumber?: number;
   /**
-   * @property The date and time, in UTC, that the last event was enqueued into the Event Hub partition from
+   * The date and time, in UTC, that the last event was enqueued into the Event Hub partition from
    * which this event was received.
    */
   enqueuedOn?: Date;
   /**
-   * @property The offset of the event that was last enqueued into the Event Hub partition from which
+   * The offset of the event that was last enqueued into the Event Hub partition from which
    * this event was received.
    */
   offset?: string;
   /**
-   * @property The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
+   * The date and time, in UTC, that the last event was retrieved from the Event Hub partition.
    */
   retrievedOn?: Date;
 }
@@ -86,78 +87,77 @@ export type OnAbort = () => void;
 
 /**
  * Describes the EventHubReceiver that will receive event data from EventHub.
- * @class EventHubReceiver
  * @internal
  */
 export class EventHubReceiver extends LinkEntity {
   /**
-   * @property consumerGroup The EventHub consumer group from which the receiver will
+   * The EventHub consumer group from which the receiver will
    * receive messages. (Default: "default").
    */
   consumerGroup: string;
   /**
-   * @property runtimeInfo The receiver runtime info.
+   * The receiver runtime info.
    */
   runtimeInfo: LastEnqueuedEventProperties;
   /**
-   * @property [ownerLevel] The Receiver ownerLevel.
+   * The Receiver ownerLevel.
    */
   ownerLevel?: number;
   /**
-   * @property eventPosition The event position in the partition at which to start receiving messages.
+   * The event position in the partition at which to start receiving messages.
    */
   eventPosition: EventPosition;
   /**
-   * @property [options] Optional properties that can be set while creating
+   * Optional properties that can be set while creating
    * the EventHubConsumer.
    */
   options: EventHubConsumerOptions;
   /**
-   * @property [_receiver] The RHEA AMQP-based receiver link.
+   * The RHEA AMQP-based receiver link.
    */
   private _receiver?: Receiver;
   /**
-   * @property _onMessage The message handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
+   * The message handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    */
   private _onMessage?: OnMessage;
   /**
-   * @property _OnError The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
+   * The error handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    */
   private _onError?: OnError;
   /**
-   * @property _onAbort The abort handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
+   * The abort handler provided by the batching or streaming flavors of receive operations on the `EventHubConsumer`
    */
   private _onAbort?: OnAbort;
   /**
-   * @property _abortSignal An implementation of the `AbortSignalLike` interface to signal cancelling a receiver operation.
+   * An implementation of the `AbortSignalLike` interface to signal cancelling a receiver operation.
    */
   private _abortSignal?: AbortSignalLike;
   /**
-   * @property _checkpoint The sequence number of the most recently received AMQP message.
+   * The sequence number of the most recently received AMQP message.
    */
   private _checkpoint: number = -1;
   /**
-   * @property _internalQueue A queue of events that were received from the AMQP link but not consumed externally by `EventHubConsumer`
+   * A queue of events that were received from the AMQP link but not consumed externally by `EventHubConsumer`
    */
   private _internalQueue: ReceivedEventData[] = [];
   /**
-   * @property _usingInternalQueue Indicates that events in the internal queue are being processed to be consumed by `EventHubConsumer`
+   * Indicates that events in the internal queue are being processed to be consumed by `EventHubConsumer`
    */
   private _usingInternalQueue: boolean = false;
   /**
-   * @property _isReceivingMessages Indicates if messages are being received from this receiver.
+   * Indicates if messages are being received from this receiver.
    */
   private _isReceivingMessages: boolean = false;
   /**
-   * @property _isStreaming Indicated if messages are being received in streaming mode.
+   * Indicated if messages are being received in streaming mode.
    */
   private _isStreaming: boolean = false;
   /**
-   * @property Denotes if close() was called on this receiver
+   * Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
   /**
-   * @property Returns sequenceNumber of the last event received from the service. This will not match the
+   * Returns sequenceNumber of the last event received from the service. This will not match the
    * last event received by `EventHubConsumer` when the `_internalQueue` is not empty
    * @readonly
    */
@@ -166,7 +166,7 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
-   * @property Indicates if messages are being received from this receiver.
+   * Indicates if messages are being received from this receiver.
    * @readonly
    */
   get isReceivingMessages(): boolean {
@@ -181,7 +181,7 @@ export class EventHubReceiver extends LinkEntity {
   }
 
   /**
-   * @property The last enqueued event information. This property will only
+   * The last enqueued event information. This property will only
    * be enabled when `trackLastEnqueuedEventProperties` option is set to true
    * @readonly
    */
@@ -193,12 +193,11 @@ export class EventHubReceiver extends LinkEntity {
    * Instantiates a receiver that can be used to receive events over an AMQP receiver link in
    * either batching or streaming mode.
    * @hidden
-   * @constructor
-   * @param context        The connection context corresponding to the EventHubClient instance
-   * @param consumerGroup  The consumer group from which the receiver should receive events from.
-   * @param partitionId    The Partition ID from which to receive.
-   * @param eventPosition  The position in the stream from where to start receiving events.
-   * @param [options]      Receiver options.
+   * @param context -        The connection context corresponding to the EventHubClient instance
+   * @param consumerGroup -  The consumer group from which the receiver should receive events from.
+   * @param partitionId -    The Partition ID from which to receive.
+   * @param eventPosition -  The position in the stream from where to start receiving events.
+   * @param options -      Receiver options.
    */
   constructor(
     context: ConnectionContext,
@@ -352,7 +351,7 @@ export class EventHubReceiver extends LinkEntity {
     // Cancellation is user-intended, so log to info instead of warning.
     logger.info(desc);
     if (this._onError) {
-      const error = new AbortError("The receive operation has been cancelled by the user.");
+      const error = new AbortError(StandardAbortMessage);
       this._onError(error);
     }
     this.clearHandlers();
@@ -654,13 +653,12 @@ export class EventHubReceiver extends LinkEntity {
   /**
    * Returns a promise that resolves to an array of events received from the service.
    *
-   * @param maxMessageCount The maximum number of messages to receive.
-   * @param maxWaitTimeInSeconds The maximum amount of time to wait to build up the requested message count;
+   * @param maxMessageCount - The maximum number of messages to receive.
+   * @param maxWaitTimeInSeconds - The maximum amount of time to wait to build up the requested message count;
    * If not provided, it defaults to 60 seconds.
-   * @param abortSignal An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * @param abortSignal - An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
-   * @returns Promise<ReceivedEventData[]>.
    * @throws AbortError if the operation is cancelled via the abortSignal.
    * @throws MessagingError if an error is encountered while receiving a message.
    * @throws Error if the underlying connection or receiver has been closed.
@@ -676,7 +674,7 @@ export class EventHubReceiver extends LinkEntity {
     const receivedEvents: ReceivedEventData[] = [];
 
     const retrieveEvents = (): Promise<ReceivedEventData[]> => {
-      return new Promise(async (resolve, reject) => {
+      return new Promise((resolve, reject) => {
         // if this consumer was closed,
         // resolve the operation's promise with the events collected thus far in case
         // the promise hasn't already been resolved.
@@ -700,7 +698,7 @@ export class EventHubReceiver extends LinkEntity {
           try {
             await this.close();
           } finally {
-            reject(new AbortError("The receive operation has been cancelled by the user."));
+            reject(new AbortError(StandardAbortMessage));
           }
         };
 

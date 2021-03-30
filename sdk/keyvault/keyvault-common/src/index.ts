@@ -3,4 +3,4 @@
 
 export * from "./challengeBasedAuthenticationPolicy";
 export * from "./parseKeyvaultIdentifier";
-export * from "./tracing";
+export * from "./tracingHelpers";

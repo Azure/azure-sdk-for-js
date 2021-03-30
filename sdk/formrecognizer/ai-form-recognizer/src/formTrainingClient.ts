@@ -11,8 +11,7 @@ import {
   operationOptionsToRequestOptionsBase,
   RestResponse
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
 import {
@@ -23,7 +22,7 @@ import {
 } from "./constants";
 import { logger } from "./logger";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientGetCustomModelCopyResultResponse as GetCustomModelCopyResultResponseModel,
@@ -177,19 +176,16 @@ export class FormTrainingClient {
 
   /**
    * @internal
-   * @hidden
    */
   private readonly credential: TokenCredential | KeyCredential;
 
   /**
    * @internal
-   * @hidden
    */
   private readonly clientOptions: FormRecognizerClientOptions;
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -275,7 +271,7 @@ export class FormTrainingClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -312,7 +308,7 @@ export class FormTrainingClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -347,7 +343,7 @@ export class FormTrainingClient {
       return toFormModelResponse(response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -460,7 +456,7 @@ export class FormTrainingClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -487,7 +483,7 @@ export class FormTrainingClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -655,7 +651,7 @@ export class FormTrainingClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -740,7 +736,7 @@ export class FormTrainingClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -767,7 +763,7 @@ export class FormTrainingClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -798,7 +794,7 @@ async function composeModelInternal(
     );
   } catch (e) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: e.message
     });
     throw e;
@@ -838,7 +834,7 @@ async function trainCustomModelInternal(
     );
   } catch (e) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: e.message
     });
     throw e;

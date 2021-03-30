@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 import * as fs from "fs";
@@ -22,6 +25,7 @@ import {
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 import { base64encode } from "../src/utils/utils.common";
+import { context, setSpan } from "@azure/core-tracing";
 dotenv.config();
 
 describe("BlobClient", () => {
@@ -209,7 +213,7 @@ describe("BlobClient", () => {
       rangeGetContentCrc64: true
     });
     assert.ok(result1.clientRequestId);
-    //assert.ok(result1.contentCrc64!);
+    // assert.ok(result1.contentCrc64!);
     assert.deepStrictEqual(await bodyToString(result1, 1), content[0]);
     assert.ok(result1.clientRequestId);
 
@@ -217,7 +221,7 @@ describe("BlobClient", () => {
       rangeGetContentMD5: true
     });
     assert.ok(result2.clientRequestId);
-    //assert.ok(result2.contentMD5!);
+    // assert.ok(result2.contentMD5!);
 
     let exceptionCaught = false;
     try {
@@ -630,7 +634,7 @@ describe("BlobClient", () => {
     const csResp = await blobClient.createSnapshot({
       customerProvidedKey: Test_CPK_INFO
     });
-    //assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
+    // assert.equal(csResp.encryptionKeySha256, Test_CPK_INFO.encryptionKeySha256); service side issue?
     assert.ok(csResp.snapshot);
 
     const blobSnapshotURL = blobClient.withSnapshot(csResp.snapshot!);
@@ -707,7 +711,7 @@ describe("BlobClient", () => {
 
     const result = await blobClient.download(undefined, undefined, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan.context() }
+        tracingContext: setSpan(context.active(), rootSpan)
       }
     });
     assert.deepStrictEqual(await bodyToString(result, content.length), content);

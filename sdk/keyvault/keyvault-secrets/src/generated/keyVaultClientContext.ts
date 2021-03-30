@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { ApiVersion72Preview, KeyVaultClientOptionalParams } from "./models";
 
 const packageName = "@azure/keyvault-secrets";
-export const packageVersion = "4.2.0-beta.2";
+export const packageVersion = "4.2.0-beta.4";
 
 /** @hidden */
 export class KeyVaultClientContext extends coreHttp.ServiceClient {

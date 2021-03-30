@@ -53,7 +53,7 @@ import {
   QuerySpecification
 } from "./generated/models";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { logger } from "./logger";
 
 export const SDK_VERSION: string = "1.0.3";
@@ -72,7 +72,6 @@ const DEFAULT_DIGITALTWINS_SCOPE = "https://digitaltwins.azure.net/.default";
  */
 export class DigitalTwinsClient {
   /**
-   * @internal
    * A reference to the auto-generated AzureDigitalTwinsAPI
    */
   private readonly client: GeneratedClient;
@@ -89,9 +88,9 @@ export class DigitalTwinsClient {
    *   new DefaultAzureCredential();
    * );
    * ```
-   * @param endpointUrl The endpoint URL of the service.
-   * @param credential Used to authenticate requests to the service.
-   * @param options Used to configure the service client.
+   * @param endpointUrl - The endpoint URL of the service.
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the service client.
    */
   constructor(
     endpointUrl: string,
@@ -133,8 +132,8 @@ export class DigitalTwinsClient {
   /**
    * Get a digital twin
    *
-   * @param digitalTwinId The Id of the digital twin.
-   * @param options The operation options
+   * @param digitalTwinId - The Id of the digital twin.
+   * @param options - The operation options
    * @returns The application/json digital twin and the http response.
    */
   public getDigitalTwin(
@@ -146,7 +145,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -158,9 +157,9 @@ export class DigitalTwinsClient {
   /**
    * Create or update a digital twin
    *
-   * @param digitalTwinId The Id of the digital twin to create or update.
-   * @param digitalTwinJson The application/json digital twin to create.
-   * @param options Extended operation options including
+   * @param digitalTwinId - The Id of the digital twin to create or update.
+   * @param digitalTwinJson - The application/json digital twin to create.
+   * @param options - Extended operation options including
    *  ifNoneMatch: Only perform the operation if the entity does not already exist.
    * @returns The created application/json digital twin and the http response.
    */
@@ -175,7 +174,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.add(digitalTwinId, payload, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -187,11 +186,11 @@ export class DigitalTwinsClient {
   /**
    * Update a digital twin using a json patch.
    *
-   * @param digitalTwinId The Id of the digital twin.
-   * @param jsonPatch An update specification described by JSON Patch. Updates to property values
+   * @param digitalTwinId - The Id of the digital twin.
+   * @param jsonPatch - An update specification described by JSON Patch. Updates to property values
    * and $model elements may happen in the same request. Operations are limited to add, replace and
    * remove.
-   * @param options Extended operation options including
+   * @param options - Extended operation options including
    *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
@@ -205,7 +204,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.update(digitalTwinId, jsonPatch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -217,8 +216,8 @@ export class DigitalTwinsClient {
   /**
    * Delete a digital twin
    *
-   * @param digitalTwinId The Id of the digital twin to delete.
-   * @param options Extended operation options including
+   * @param digitalTwinId - The Id of the digital twin to delete.
+   * @param options - Extended operation options including
    *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
@@ -231,7 +230,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -243,9 +242,9 @@ export class DigitalTwinsClient {
   /**
    * Get a component on a digital twin.
    *
-   * @param digitalTwinId The Id of the digital twin.
-   * @param componentName The component being retrieved.
-   * @param options The operation options
+   * @param digitalTwinId - The Id of the digital twin.
+   * @param componentName - The component being retrieved.
+   * @param options - The operation options
    * @returns Json string representation of the component corresponding to the provided componentName and the HTTP response.
    */
   public getComponent(
@@ -258,7 +257,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.getComponent(digitalTwinId, componentName, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -270,11 +269,11 @@ export class DigitalTwinsClient {
   /**
    * Update properties of a component on a digital twin using a JSON patch.
    *
-   * @param digitalTwinId The Id of the digital twin.
-   * @param componentName The component being updated.
-   * @param jsonPatch The application/json-patch+json operations to be performed on the specified digital twin's component.
-   * @param enableUpdate If true then update of an existing digital twin is enabled.
-   * @param options Extended operation options including
+   * @param digitalTwinId - The Id of the digital twin.
+   * @param componentName - The component being updated.
+   * @param jsonPatch - The application/json-patch+json operations to be performed on the specified digital twin's component.
+   * @param enableUpdate - If true then update of an existing digital twin is enabled.
+   * @param options - Extended operation options including
    *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    * @returns The http response.
    */
@@ -294,7 +293,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -306,9 +305,9 @@ export class DigitalTwinsClient {
   /**
    * Get a relationship on a digital twin.
    *
-   * @param digitalTwinId The Id of the source digital twin.
-   * @param relationshipId The Id of the relationship to retrieve.
-   * @param options The operation options
+   * @param digitalTwinId - The Id of the source digital twin.
+   * @param relationshipId - The Id of the relationship to retrieve.
+   * @param options - The operation options
    * @returns The pageable list of application/json relationships belonging to the specified digital twin and the http response.
    */
   public getRelationship(
@@ -325,7 +324,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -337,10 +336,10 @@ export class DigitalTwinsClient {
   /**
    * Create or update a relationship on a digital twin.
    *
-   * @param digitalTwinId The Id of the source digital twin.
-   * @param relationshipId The Id of the relationship to create.
-   * @param relationship: The application/json relationship to be created.
-   * @param options Extended operation options including
+   * @param digitalTwinId - The Id of the source digital twin.
+   * @param relationshipId - The Id of the relationship to create.
+   * @param relationship - The application/json relationship to be created.
+   * @param options - Extended operation options including
    *  ifNoneMatch: Only perform the operation if the entity does not already exist.
    */
   public upsertRelationship(
@@ -359,7 +358,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -371,10 +370,10 @@ export class DigitalTwinsClient {
   /**
    * Updates the properties of a relationship on a digital twin using a JSON patch.
    *
-   * @param digitalTwinId The Id of the digital twin to delete.
-   * @param relationshipId The Id of the relationship to be updated.
-   * @param jsonPatch The application/json-patch+json operations to be performed on the specified digital twin's relationship.
-   * @param options Extended operation options
+   * @param digitalTwinId - The Id of the digital twin to delete.
+   * @param relationshipId - The Id of the relationship to be updated.
+   * @param jsonPatch - The application/json-patch+json operations to be performed on the specified digital twin's relationship.
+   * @param options - Extended operation options
    *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is provided.
    */
   public updateRelationship(
@@ -393,7 +392,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -405,9 +404,9 @@ export class DigitalTwinsClient {
   /**
    * Delete a relationship on a digital twin.
    *
-   * @param digitalTwinId The Id of the source digital twin.
-   * @param relationshipId The Id of the relationship to delete.
-   * @param options The operation options
+   * @param digitalTwinId - The Id of the source digital twin.
+   * @param relationshipId - The Id of the relationship to delete.
+   * @param options - The operation options
    *   ifMatch: Only perform the operation if the entity's etag matches one of the etags provided or * is
    * @returns The http response.
    */
@@ -425,7 +424,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -435,11 +434,11 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link listRelationships}.
    *
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {DigitalTwinsListRelationshipsOptionalParams} [options] Common options for the iterative endpoints.
+   * @param digitalTwinId - The Id of the digital twin.
+   * @param options - Common options for the iterative endpoints.
+   * @param continuationState - An object that indicates the position of the paginated request.
    *
    */
   private async *listRelationshipsPage(
@@ -471,9 +470,8 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link listRelationships}.
-   * @param {DigitalTwinsListRelationshipsOptionalParams} [options] Common options for the iterative endpoints.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *listRelationshipsAll(
     digitalTwinId: string,
@@ -490,7 +488,7 @@ export class DigitalTwinsClient {
   /**
    * Retrieve relationships for a digital twin.
    *
-   * @param digitalTwinId The Id of the digital twin.
+   * @param digitalTwinId - The Id of the digital twin.
    */
   public listRelationships(
     digitalTwinId: string,
@@ -512,7 +510,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -522,11 +520,11 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link listIncomingRelationships}.
    *
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {OperationOptions} [options] Common options for the iterative endpoints.
+   * @param digitalTwinId - The Id of the digital twin.
+   * @param options - Common options for the iterative endpoints.
+   * @param continuationState - An object that indicates the position of the paginated request.
    *
    */
   private async *listIncomingRelationshipsPage(
@@ -558,9 +556,9 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link listIncomingRelationships}.
-   * @param {OperationOptions} [options] Common options for the iterative endpoints.
+   * @param digitalTwinId - The Id of the digital twin.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *listIncomingRelationshipsAll(
     digitalTwinId: string,
@@ -575,7 +573,7 @@ export class DigitalTwinsClient {
   /**
    * Retrieve all incoming relationships for a digital twin.
    *
-   * @param digitalTwinId The Id of the digital twin.
+   * @param digitalTwinId - The Id of the digital twin.
    */
   public listIncomingRelationships(
     digitalTwinId: string,
@@ -603,7 +601,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -615,10 +613,10 @@ export class DigitalTwinsClient {
   /**
    * Publish telemetry from a digital twin, which is then consumed by one or many destination endpoints (subscribers) defined under.
    *
-   * @param digitalTwinId The Id of the digital twin to delete.
-   * @param payload The application/json telemetry payload to be sent.
-   * @param messageId The message Id.
-   * @param options The operation options
+   * @param digitalTwinId - The Id of the digital twin to delete.
+   * @param payload - The application/json telemetry payload to be sent.
+   * @param messageId - The message Id.
+   * @param options - The operation options
    * @returns The http response.
    */
   public publishTelemetry(
@@ -645,7 +643,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -657,11 +655,11 @@ export class DigitalTwinsClient {
   /**
    * Publish telemetry from a digital twin's component, which is then consumed by one or many destination endpoints (subscribers) defined under.
    *
-   * @param digitalTwinId The Id of the digital twin to delete.
-   * @param componentName The name of the DTDL component.
-   * @param payload The application/json telemetry payload to be sent.
-   * @param messageId The message Id.
-   * @param options The operation options
+   * @param digitalTwinId - The Id of the digital twin to delete.
+   * @param componentName - The name of the DTDL component.
+   * @param payload - The application/json telemetry payload to be sent.
+   * @param messageId - The message Id.
+   * @param options - The operation options
    * @returns The http response.
    */
   public publishComponentTelemetry(
@@ -690,7 +688,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -702,8 +700,8 @@ export class DigitalTwinsClient {
   /**
    * Get a model, including the model metadata and the model definition.
    *
-   * @param modelId The Id of the model.
-   * @param options Extended operation options including
+   * @param modelId - The Id of the model.
+   * @param options - Extended operation options including
    *  includeModelDefinition: When true the model definition will be returned as part of the result. Default value: false.
    * @returns The application/json model and the http response.
    */
@@ -722,7 +720,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwinModels.getById(modelId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -732,11 +730,10 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link list}.
    *
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {DigitalTwinModelsListOptionalParams} [options] Common options for the iterative endpoints.
+   * @param options - Common options for the iterative endpoints.
+   * @param continuationState - An object that indicates the position of the paginated request.
    *
    */
   private async *getModelsPage(
@@ -763,9 +760,8 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link list}.
-   * @param {DigitalTwinModelsListOptionalParams} [options] Common options for the iterative endpoints.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *getModelsAll(
     options: DigitalTwinModelsListOptionalParams
@@ -783,9 +779,9 @@ export class DigitalTwinsClient {
   /**
    * Get the list of models
    *
-   * @param dependeciesFor The model Ids to have dependencies retrieved. If omitted, all models are retrieved.
-   * @param includeModelDefinition Whether to include the model definition in the result. If false, only the model metadata will be returned.
-   * @param resultsPerPage The maximum number of items to retrieve per request. The server may choose to return less than the requested max.
+   * @param dependeciesFor - The model Ids to have dependencies retrieved. If omitted, all models are retrieved.
+   * @param includeModelDefinition - Whether to include the model definition in the result. If false, only the model metadata will be returned.
+   * @param resultsPerPage - The maximum number of items to retrieve per request. The server may choose to return less than the requested max.
    * @returns A pageable set of application/json models and the http response.
    */
   public listModels(
@@ -794,7 +790,7 @@ export class DigitalTwinsClient {
     resultsPerPage?: number,
     options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse> {
-    var digitalTwinModelsListOptionalParams: DigitalTwinModelsListOptionalParams = options;
+    let digitalTwinModelsListOptionalParams: DigitalTwinModelsListOptionalParams = options;
     digitalTwinModelsListOptionalParams = {
       maxItemsPerPage: resultsPerPage,
       dependenciesFor: dependeciesFor,
@@ -819,7 +815,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -831,8 +827,8 @@ export class DigitalTwinsClient {
   /**
    * Create one or many
    *
-   * @param models The set of models to create. Each string corresponds to exactly one model.
-   * @param options The operation options
+   * @param models - The set of models to create. Each string corresponds to exactly one model.
+   * @param options - The operation options
    * @returns The created application/json models and the http response.
    */
   public createModels(
@@ -849,7 +845,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwinModels.add(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -860,14 +856,15 @@ export class DigitalTwinsClient {
 
   /**
    * Decommission a model using a json patch.
-   *
-   * @param modelId The Id of the model to decommission.
-   * property can be replaced.
-   * @param options The operation options
-   * @returns The http response.
-   * @summary When a model is decomissioned, new digital twins will no longer be able to be
+   * When a model is decomissioned, new digital twins will no longer be able to be
    * defined by this model. However, existing digital twins may continue to use this model.
    * Once a model is decomissioned, it may not be recommissioned.
+   *
+   * @param modelId - The Id of the model to decommission.
+   * property can be replaced.
+   * @param options - The operation options
+   * @returns The http response.
+   *
    */
   public decomissionModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
     const jsonPatch = [{ op: "replace", path: "/decommissioned", value: true }];
@@ -877,7 +874,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -889,8 +886,8 @@ export class DigitalTwinsClient {
   /**
    * Delete a model.
    *
-   * @param modelId The Id of the model to delete.
-   * @param options The operation options
+   * @param modelId - The Id of the model to delete.
+   * @param options - The operation options
    * @returns The http response.
    */
   public deleteModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
@@ -899,7 +896,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwinModels.delete(modelId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -911,8 +908,8 @@ export class DigitalTwinsClient {
   /**
    * Get an event route.
    *
-   * @param modelId The Id of the event route.
-   * @param options The operation options
+   * @param modelId - The Id of the event route.
+   * @param options - The operation options
    * @returns The application/json event route and the http response.
    */
   public getEventRoute(
@@ -924,7 +921,7 @@ export class DigitalTwinsClient {
       return this.client.eventRoutes.getById(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -934,11 +931,10 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link list}.
    *
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {EventRoutesListOptionalParams} [options] Common options for the iterative endpoints.
+   * @param options - Common options for the iterative endpoints.
+   * @param continuationState - An object that indicates the position of the paginated request.
    *
    */
   private async *getEventRoutesPage(
@@ -965,9 +961,8 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link list}.
-   * @param {EventRoutesListOptionalParams} [options] Common options for the iterative endpoints.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *getEventRoutesAll(
     options: EventRoutesListOptionalParams
@@ -984,7 +979,7 @@ export class DigitalTwinsClient {
   /**
    * List the event routes in a digital twins instance.
    *
-   * @param resultsPerPage The maximum number of items to retrieve per request. The server may choose to return less than
+   * @param resultsPerPage - The maximum number of items to retrieve per request. The server may choose to return less than
    * the requested max.
    * @returns The application/json event route and the http response.
    */
@@ -992,7 +987,7 @@ export class DigitalTwinsClient {
     resultsPerPage?: number,
     options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse> {
-    var eventRoutesListOptionalParams: EventRoutesListOptionalParams = options;
+    let eventRoutesListOptionalParams: EventRoutesListOptionalParams = options;
     eventRoutesListOptionalParams = {
       maxItemsPerPage: resultsPerPage
     };
@@ -1016,7 +1011,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1028,10 +1023,10 @@ export class DigitalTwinsClient {
   /**
    * Create or update an event route.
    *
-   * @param eventRouteId The Id of the event route to create or update.
-   * @param endpointId The id of the endpoint this event route is bound to.
-   * @param filter An expression which describes the events which are routed to the endpoint.
-   * @param options The operation options
+   * @param eventRouteId - The Id of the event route to create or update.
+   * @param endpointId - The id of the endpoint this event route is bound to.
+   * @param filter - An expression which describes the events which are routed to the endpoint.
+   * @param options - The operation options
    * @returns The http response.
    */
   public upsertEventRoute(
@@ -1054,7 +1049,7 @@ export class DigitalTwinsClient {
       return this.client.eventRoutes.add(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1066,8 +1061,8 @@ export class DigitalTwinsClient {
   /**
    * Delete an event route.
    *
-   * @param eventRouteId The Id of the eventRoute to delete.
-   * @param options The operation options
+   * @param eventRouteId - The Id of the eventRoute to delete.
+   * @param options - The operation options
    * @returns The http response.
    */
   public deleteEventRoute(
@@ -1079,7 +1074,7 @@ export class DigitalTwinsClient {
       return this.client.eventRoutes.delete(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1089,11 +1084,11 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link query}.
    *
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {OperationOptions} [options] Common options for the iterative endpoints.
+   * @param query - The query string, in SQL-like syntax.
+   * @param options - Common options for the iterative endpoints.
+   * @param continuationState - An object that indicates the position of the paginated request.
    *
    */
   private async *queryTwinsPage(
@@ -1123,9 +1118,9 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link query}.
-   * @param {OperationOptions} [options] Common options for the iterative endpoints.
+   * @param query - The query string, in SQL-like syntax.
+   * @param options - Common options for the iterative endpoints.
    */
   private async *queryTwinsAll(
     query: string,
@@ -1145,8 +1140,8 @@ export class DigitalTwinsClient {
   /**
    * Query for digital twins.
    *
-   * @param query The query string, in SQL-like syntax.
-   * @param resultsPerPage The maximum number of items to retrieve per request. The server may choose to return less than the requested max.
+   * @param query - The query string, in SQL-like syntax.
+   * @param resultsPerPage - The maximum number of items to retrieve per request. The server may choose to return less than the requested max.
    * @returns The pageable list of query results.
    */
   public queryTwins(
@@ -1154,7 +1149,7 @@ export class DigitalTwinsClient {
     resultsPerPage?: number,
     options: OperationOptions & PageSettings = {}
   ): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse> {
-    var queryQueryTwinsOptionalParams: QueryQueryTwinsOptionalParams = options;
+    let queryQueryTwinsOptionalParams: QueryQueryTwinsOptionalParams = options;
     queryQueryTwinsOptionalParams = {
       maxItemsPerPage: resultsPerPage
     };
@@ -1178,7 +1173,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

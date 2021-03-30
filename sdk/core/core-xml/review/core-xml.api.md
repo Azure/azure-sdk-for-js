@@ -8,7 +8,7 @@
 export function parseXML(str: string, opts?: XmlOptions): Promise<any>;
 
 // @public
-export function stringifyXML(obj: any, opts?: XmlOptions): string;
+export function stringifyXML(obj: unknown, opts?: XmlOptions): string;
 
 // @public
 export const XML_ATTRKEY = "$";

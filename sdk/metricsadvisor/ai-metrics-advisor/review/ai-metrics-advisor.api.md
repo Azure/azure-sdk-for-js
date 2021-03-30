@@ -9,7 +9,7 @@ import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AlertConfigurationsPageResponse extends Array<AnomalyAlertConfiguration> {
@@ -78,7 +78,7 @@ export interface AnomalyDetectionConfiguration {
 }
 
 // @public
-export type AnomalyDetectorDirection = string;
+export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
 
 // @public
 export interface AnomalyIncident {
@@ -99,7 +99,7 @@ export type AnomalySeverity = "Low" | "Medium" | "High";
 export type AnomalyStatus = "Active" | "Resolved";
 
 // @public
-export type AnomalyValue = string;
+export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
 
 // @public
 export type AzureApplicationInsightsDataFeedSource = {
@@ -192,67 +192,7 @@ export type ChangeThresholdConditionUnion = {
 };
 
 // @public
-export type CreateAnomalyAlertConfigurationResponse = CreatedAnomalyAlertConfiguration & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: any;
-    };
-};
-
-// @public
-export type CreateAnomalyDetectionConfigurationResponse = CreatedAnomalyDetectionConfiguration & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: any;
-    };
-};
-
-// @public
-export interface CreatedAnomalyAlertConfiguration {
-    id: string;
-}
-
-// @public
-export type CreatedAnomalyDetectionConfiguration = {
-    id: string;
-};
-
-// @public
 export type CreateDataFeedOptions = DataFeedOptions & OperationOptions;
-
-// @public
-export type CreateDataFeedResponse = CreatedDataFeed & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: any;
-    };
-};
-
-// @public
-export type CreatedDataFeed = {
-    id: string;
-};
-
-// @public
-export type CreatedNotificationHook = {
-    id: string;
-};
-
-// @public
-export type CreateFeedbackResponse = CreateMetricFeedback & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: any;
-    };
-};
-
-// @public
-export type CreateHookResponse = CreatedNotificationHook & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: any;
-    };
-};
-
-// @public
-export type CreateMetricFeedback = {
-    id: string;
-};
 
 // @public
 export type DataFeed = {
@@ -270,13 +210,13 @@ export type DataFeed = {
 } & DataFeedOptions;
 
 // @public
-export type DataFeedAccessMode = "Private" | "Public" | string;
+export type DataFeedAccessMode = "Private" | "Public";
 
 // @public
 export type DataFeedDescriptor = Omit<DataFeed, "id" | "metricIds" | "isAdmin" | "status" | "creator" | "createdOn">;
 
 // @public
-export type DataFeedDetailStatus = string;
+export type DataFeedDetailStatus = "Active" | "Paused";
 
 // @public
 export interface DataFeedDimension {
@@ -286,8 +226,7 @@ export interface DataFeedDimension {
 
 // @public
 export type DataFeedGranularity = {
-    granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute" | "PerSecond" | string;
-    customGranularityValue?: number;
+    granularityType: "Yearly" | "Monthly" | "Weekly" | "Daily" | "Hourly" | "PerMinute" | "PerSecond";
 } | {
     granularityType: "Custom";
     customGranularityValue: number;
@@ -318,8 +257,7 @@ export interface DataFeedMetric {
 
 // @public
 export type DataFeedMissingDataPointFillSettings = {
-    fillType: "SmartFilling" | "PreviousValue" | "NoFilling" | string;
-    customFillValue?: number;
+    fillType: "SmartFilling" | "PreviousValue" | "NoFilling";
 } | {
     fillType: "CustomValue";
     customFillValue: number;
@@ -349,7 +287,7 @@ export type DataFeedPatch = {
 };
 
 // @public
-export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count" | string;
+export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
 
 // @public
 export type DataFeedRollupSettings = {
@@ -389,7 +327,7 @@ export interface DataFeedsPageResponse extends Array<DataFeed> {
 }
 
 // @public (undocumented)
-export type DataFeedStatus = "Paused" | "Active" | string;
+export type DataFeedStatus = "Paused" | "Active";
 
 // @public
 export interface DataPointAnomaly {
@@ -404,7 +342,7 @@ export interface DataPointAnomaly {
 }
 
 // @public
-export type DataSourceType = string;
+export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureTable" | "Elasticsearch" | "HttpRequest" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
 
 // @public
 export interface DetectionConditionsCommon {
@@ -415,7 +353,7 @@ export interface DetectionConditionsCommon {
 }
 
 // @public
-export type DetectionConditionsOperator = "AND" | "OR" | string;
+export type DetectionConditionsOperator = "AND" | "OR";
 
 // @public
 export interface DetectionConfigurationsPageResponse extends Array<AnomalyDetectionConfiguration> {
@@ -476,10 +414,10 @@ export interface EnrichmentStatus {
 }
 
 // @public
-export type FeedbackQueryTimeMode = string;
+export type FeedbackQueryTimeMode = "MetricTimestamp" | "FeedbackCreatedTime";
 
 // @public
-export type FeedbackType = string;
+export type FeedbackType = "Anomaly" | "ChangePoint" | "Period" | "Comment";
 
 // @public
 export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
@@ -652,123 +590,7 @@ export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
 }
 
 // @public
-export type IngestionStatusType = string;
-
-// @public
-export const enum KnownAnomalyDetectorDirection {
-    // (undocumented)
-    Both = "Both",
-    // (undocumented)
-    Down = "Down",
-    // (undocumented)
-    Up = "Up"
-}
-
-// @public
-export const enum KnownAnomalyValue {
-    // (undocumented)
-    Anomaly = "Anomaly",
-    // (undocumented)
-    AutoDetect = "AutoDetect",
-    // (undocumented)
-    NotAnomaly = "NotAnomaly"
-}
-
-// @public
-export const enum KnownDataFeedDetailStatus {
-    // (undocumented)
-    Active = "Active",
-    // (undocumented)
-    Paused = "Paused"
-}
-
-// @public
-export const enum KnownDataSourceType {
-    // (undocumented)
-    AzureApplicationInsights = "AzureApplicationInsights",
-    // (undocumented)
-    AzureBlob = "AzureBlob",
-    // (undocumented)
-    AzureCosmosDB = "AzureCosmosDB",
-    // (undocumented)
-    AzureDataExplorer = "AzureDataExplorer",
-    // (undocumented)
-    AzureDataLakeStorageGen2 = "AzureDataLakeStorageGen2",
-    // (undocumented)
-    AzureTable = "AzureTable",
-    // (undocumented)
-    Elasticsearch = "Elasticsearch",
-    // (undocumented)
-    HttpRequest = "HttpRequest",
-    // (undocumented)
-    InfluxDB = "InfluxDB",
-    // (undocumented)
-    MongoDB = "MongoDB",
-    // (undocumented)
-    MySql = "MySql",
-    // (undocumented)
-    PostgreSql = "PostgreSql",
-    // (undocumented)
-    SqlServer = "SqlServer"
-}
-
-// @public
-export const enum KnownFeedbackQueryTimeMode {
-    // (undocumented)
-    FeedbackCreatedTime = "FeedbackCreatedTime",
-    // (undocumented)
-    MetricTimestamp = "MetricTimestamp"
-}
-
-// @public
-export const enum KnownFeedbackType {
-    // (undocumented)
-    Anomaly = "Anomaly",
-    // (undocumented)
-    ChangePoint = "ChangePoint",
-    // (undocumented)
-    Comment = "Comment",
-    // (undocumented)
-    Period = "Period"
-}
-
-// @public
-export const enum KnownIngestionStatusType {
-    // (undocumented)
-    Error = "Error",
-    // (undocumented)
-    Failed = "Failed",
-    // (undocumented)
-    NoData = "NoData",
-    // (undocumented)
-    NotStarted = "NotStarted",
-    // (undocumented)
-    Paused = "Paused",
-    // (undocumented)
-    Running = "Running",
-    // (undocumented)
-    Scheduled = "Scheduled",
-    // (undocumented)
-    Succeeded = "Succeeded"
-}
-
-// @public
-export const enum KnownSeverity {
-    // (undocumented)
-    High = "High",
-    // (undocumented)
-    Low = "Low",
-    // (undocumented)
-    Medium = "Medium"
-}
-
-// @public
-export const enum KnownSnoozeScope {
-    // (undocumented)
-    Metric = "Metric",
-    // (undocumented)
-    Series = "Series"
-}
+export type IngestionStatusType = "NotStarted" | "Scheduled" | "Running" | "Succeeded" | "Failed" | "NoData" | "Error" | "Paused";
 
 // @public
 export type ListAlertsOptions = {
@@ -871,7 +693,7 @@ export interface MetricAlertConfiguration {
 }
 
 // @public
-export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR" | string;
+export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
 
 // @public
 export type MetricAnomalyAlertScope = {
@@ -889,7 +711,7 @@ export type MetricAnomalyFeedback = {
     feedbackType: "Anomaly";
     startTime: Date;
     endTime: Date;
-    value: "AutoDetect" | "Anomaly" | "NotAnomaly" | string;
+    value: "AutoDetect" | "Anomaly" | "NotAnomaly";
     readonly anomalyDetectionConfigurationId?: string;
     readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
 } & MetricFeedbackCommon;
@@ -917,7 +739,7 @@ export type MetricBoundaryCondition = {
 export type MetricChangePointFeedback = {
     feedbackType: "ChangePoint";
     startTime: Date;
-    value: "AutoDetect" | "ChangePoint" | "NotChangePoint" | string;
+    value: "AutoDetect" | "ChangePoint" | "NotChangePoint";
 } & MetricFeedbackCommon;
 
 // @public
@@ -976,17 +798,17 @@ export type MetricFeedbackUnion = MetricAnomalyFeedback | MetricChangePointFeedb
 // @public
 export type MetricPeriodFeedback = {
     feedbackType: "Period";
-    periodType: "AutoDetect" | "AssignValue" | string;
+    periodType: "AutoDetect" | "AssignValue";
     periodValue: number;
 } & MetricFeedbackCommon;
 
 // @public
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
-    createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<CreateAnomalyAlertConfigurationResponse>;
-    createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<CreateDataFeedResponse>;
-    createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<CreateAnomalyDetectionConfigurationResponse>;
-    createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<CreateHookResponse>;
+    createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
+    createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
+    createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDetectionConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
@@ -1016,7 +838,7 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 // @public
 export class MetricsAdvisorClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorClientOptions);
-    createFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<CreateFeedbackResponse>;
+    createFeedback(feedback: MetricFeedbackUnion, options?: OperationOptions): Promise<GetFeedbackResponse>;
     readonly endpointUrl: string;
     getFeedback(id: string, options?: OperationOptions): Promise<GetFeedbackResponse>;
     getIncidentRootCauses(detectionConfigId: string, incidentId: string, options?: OperationOptions): Promise<GetIncidentRootCauseResponse>;
@@ -1041,10 +863,10 @@ export interface MetricsAdvisorClientOptions extends PipelineOptions {
 // @public
 export class MetricsAdvisorKeyCredential {
     constructor(subscriptionKey: string, apiKey: string);
-    // (undocumented)
-    readonly apiKey: string;
-    // (undocumented)
-    readonly subscriptionKey: string;
+    get apiKey(): string;
+    get subscriptionKey(): string;
+    updateApiKey(apiKey: string): void;
+    updateSubscriptionKey(subscriptionKey: string): void;
 }
 
 // @public
@@ -1124,7 +946,7 @@ export type PostgreSqlDataFeedSource = {
 };
 
 // @public
-export type Severity = string;
+export type Severity = "Low" | "Medium" | "High";
 
 // @public (undocumented)
 export interface SeverityCondition {
@@ -1147,7 +969,7 @@ export interface SmartDetectionCondition {
 }
 
 // @public
-export type SnoozeScope = string;
+export type SnoozeScope = "Metric" | "Series";
 
 // @public
 export type SQLServerDataFeedSource = {

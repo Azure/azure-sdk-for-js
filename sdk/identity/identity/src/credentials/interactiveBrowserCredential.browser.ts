@@ -1,134 +1,84 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msal from "msal";
-import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { IdentityClient } from "../client/identityClient";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { credentialLogger, formatError } from "../util/logging";
+import { trace } from "../util/tracing";
+import { MsalFlow } from "../msal/flows";
+import { AuthenticationRecord } from "../msal/types";
+import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
+import { MSALImplicit } from "../msal/browserFlows/msalImplicit";
+import { MsalBrowserFlowOptions } from "../msal/browserFlows/browserCommon";
 import {
-  BrowserLoginStyle,
+  InteractiveBrowserCredentialBrowserOptions,
   InteractiveBrowserCredentialOptions
 } from "./interactiveBrowserCredentialOptions";
-import { createSpan } from "../util/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
-import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
-import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
- * using the interactive login flow, either via browser redirects or a popup
- * window.
+ * using the interactive login flow.
+ *
+ * On NodeJS, it will open a browser window while it listens for a redirect response from the authentication service.
+ *
+ * On browsers, by default it uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow)
+ * and authenticates via popups. The `loginStyle` can be configured to use `redirect` instead, and the authentication flow can be configured to use the [Implicit Grant Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-implicit-grant-flow)
+ * by specifying the option `flow` with the value `implicit-grant`.
+ *
+ * It's recommended that the AAD Applications used are configured to authenticate using Single Page Applications.
+ * More information here: [link](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
  */
 export class InteractiveBrowserCredential implements TokenCredential {
-  private loginStyle: BrowserLoginStyle;
-  private msalConfig: msal.Configuration;
-  private msalObject: msal.UserAgentApplication;
+  private msalFlow: MsalFlow;
+  private disableAutomaticAuthentication?: boolean;
 
   /**
    * Creates an instance of the InteractiveBrowserCredential with the
    * details needed to authenticate against Azure Active Directory with
    * a user identity.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
-   * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param options - Options for configuring the client which makes the authentication request.
    */
-  constructor(options?: InteractiveBrowserCredentialOptions) {
-    options = {
-      ...IdentityClient.getDefaultOptions(),
-      ...options,
-      tenantId: (options && options.tenantId) || DefaultTenantId,
-      // TODO: temporary - this is the Azure CLI clientID - we'll replace it when
-      // Developer Sign On application is available
-      // https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/src/Constants.cs#L9
-      clientId: (options && options.clientId) || DeveloperSignOnClientId
-    };
-
-    this.loginStyle = options.loginStyle || "popup";
-    if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
-      const error = new Error(`Invalid loginStyle: ${options.loginStyle}`);
+  constructor(
+    options: InteractiveBrowserCredentialBrowserOptions | InteractiveBrowserCredentialOptions
+  ) {
+    if (!options?.clientId) {
+      const error = new Error(
+        "The parameter `clientId` cannot be left undefined for the `InteractiveBrowserCredential`"
+      );
       logger.info(formatError("", error));
       throw error;
     }
 
-    const knownAuthorities =
-      options.tenantId === "adfs" ? (options.authorityHost ? [options.authorityHost] : []) : [];
+    const browserOptions = options as InteractiveBrowserCredentialBrowserOptions;
+    const loginStyle = browserOptions.loginStyle || "popup";
+    const loginStyles = ["redirect", "popup"];
 
-    this.msalConfig = {
-      auth: {
-        clientId: options.clientId!, // we just initialized it above
-        authority: `${options.authorityHost}/${options.tenantId}`,
-        knownAuthorities,
-        ...(options.redirectUri && { redirectUri: options.redirectUri }),
-        ...(options.postLogoutRedirectUri && { redirectUri: options.postLogoutRedirectUri })
-      },
-      cache: {
-        cacheLocation: "localStorage",
-        storeAuthStateInCookie: true
-      }
+    if (loginStyles.indexOf(loginStyle) === -1) {
+      const error = new Error(
+        `Invalid loginStyle: ${
+          browserOptions.loginStyle
+        }. Should be any of the following: ${loginStyles.join(", ")}.`
+      );
+      logger.info(formatError("", error));
+      throw error;
+    }
+
+    const msalOptions: MsalBrowserFlowOptions = {
+      ...options,
+      logger,
+      loginStyle: loginStyle,
+      redirectUri:
+        typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri
     };
 
-    this.msalObject = new msal.UserAgentApplication(this.msalConfig);
-  }
-
-  private login(): Promise<msal.AuthResponse> {
-    switch (this.loginStyle) {
-      case "redirect": {
-        const loginPromise = new Promise<msal.AuthResponse>((resolve, reject) => {
-          this.msalObject.handleRedirectCallback(resolve, reject);
-        });
-        this.msalObject.loginRedirect();
-        return loginPromise;
-      }
-      case "popup":
-        return this.msalObject.loginPopup();
+    if (browserOptions.flow === "implicit-grant") {
+      this.msalFlow = new MSALImplicit(msalOptions);
+    } else {
+      this.msalFlow = new MSALAuthCode(msalOptions);
     }
-  }
-
-  private async acquireToken(
-    authParams: msal.AuthenticationParameters
-  ): Promise<msal.AuthResponse | undefined> {
-    let authResponse: msal.AuthResponse | undefined;
-    try {
-      logger.info("Attempting to acquire token silently");
-      authResponse = await this.msalObject.acquireTokenSilent(authParams);
-    } catch (err) {
-      if (err instanceof msal.AuthError) {
-        switch (err.errorCode) {
-          case "consent_required":
-          case "interaction_required":
-          case "login_required":
-            logger.info(`Authentication returned errorCode ${err.errorCode}`);
-            break;
-          default:
-            logger.info(formatError(authParams.scopes, `Failed to acquire token: ${err.message}`));
-            throw err;
-        }
-      }
-    }
-
-    let authPromise: Promise<msal.AuthResponse> | undefined;
-    if (authResponse === undefined) {
-      logger.info(
-        `Silent authentication failed, falling back to interactive method ${this.loginStyle}`
-      );
-      switch (this.loginStyle) {
-        case "redirect":
-          authPromise = new Promise((resolve, reject) => {
-            this.msalObject.handleRedirectCallback(resolve, reject);
-          });
-          this.msalObject.acquireTokenRedirect(authParams);
-          break;
-        case "popup":
-          authPromise = this.msalObject.acquireTokenPopup(authParams);
-          break;
-      }
-
-      authResponse = authPromise && (await authPromise);
-    }
-
-    return authResponse;
+    this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
   /**
@@ -137,44 +87,44 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
+   * If the user provided the option `disableAutomaticAuthentication`,
+   * once the token can't be retrieved silently,
+   * this method won't attempt to request user interaction to retrieve the token.
+   *
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
+   *                TokenCredential implementation might make.
+   */
+  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
+    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+      return this.msalFlow.getToken(arrayScopes, {
+        ...newOptions,
+        disableAutomaticAuthentication: this.disableAutomaticAuthentication
+      });
+    });
+  }
+
+  /**
+   * Authenticates with Azure Active Directory and returns an access token if
+   * successful.  If authentication cannot be performed at this time, this method may
+   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
+   * containing failure details will be thrown.
+   *
+   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
+   *
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - The options used to configure any requests this
    *                  TokenCredential implementation might make.
    */
-  async getToken(
+  async authenticate(
     scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const { span } = createSpan("InteractiveBrowserCredential-getToken", options);
-    try {
-      if (!this.msalObject.getAccount()) {
-        await this.login();
-      }
-
-      const authResponse = await this.acquireToken({
-        scopes: Array.isArray(scopes) ? scopes : scopes.split(",")
-      });
-
-      if (authResponse) {
-        const expiresOnTimestamp = authResponse.expiresOn.getTime();
-        logger.getToken.info(formatSuccess(scopes));
-        return {
-          token: authResponse.accessToken,
-          expiresOnTimestamp
-        };
-      } else {
-        logger.getToken.info("No response");
-        return null;
-      }
-    } catch (err) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: err.message
-      });
-      logger.getToken.info(formatError(scopes, err));
-      throw err;
-    } finally {
-      span.end();
-    }
+    options: GetTokenOptions = {}
+  ): Promise<AuthenticationRecord | undefined> {
+    return trace(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
+      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+      await this.msalFlow.getToken(arrayScopes, newOptions);
+      return this.msalFlow.getActiveAccount();
+    });
   }
 }

@@ -5,13 +5,14 @@ import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
 import { CommunicationIdentityClient } from "../src";
 import { createRecordedCommunicationIdentityClientWithToken } from "./utils/recordedClient";
+import { Context } from "mocha";
 
 describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
   let recorder: Recorder;
   let client: CommunicationIdentityClient;
   let shouldSkip = false;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     const recordedClient = createRecordedCommunicationIdentityClientWithToken(this);
     if (!recordedClient) {
       shouldSkip = true;
@@ -21,30 +22,30 @@ describe("CommunicationIdentityClientWithToken [Playback/Live]", function() {
     }
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     if (!this.currentTest?.isPending()) {
       await recorder.stop();
     }
   });
 
-  it("successfully issues a token for a user [single scope]", async function() {
+  it("successfully gets a token for a user [single scope]", async function(this: Context) {
     if (shouldSkip) {
       this.skip();
     }
 
     const user = await client.createUser();
-    const { token, expiresOn } = await client.issueToken(user, ["chat"]);
+    const { token, expiresOn } = await client.getToken(user, ["chat"]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);
   });
 
-  it("successfully issues a token for a user [multiple scopes]", async function() {
+  it("successfully gets a token for a user [multiple scopes]", async function(this: Context) {
     if (shouldSkip) {
       this.skip();
     }
 
     const user = await client.createUser();
-    const { token, expiresOn } = await client.issueToken(user, ["chat", "voip"]);
+    const { token, expiresOn } = await client.getToken(user, ["chat", "voip"]);
     assert.isString(token);
     assert.instanceOf(expiresOn, Date);
   });

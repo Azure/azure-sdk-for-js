@@ -31,8 +31,8 @@ module.exports = function(config) {
     exclude: [],
 
     preprocessors: {
-      "**/*.js": ["sourcemap", "env"],
-      "dist-test/index.browser.js": ["coverage"]
+      "**/*.js": ["sourcemap", "env"]
+      //"dist-test/index.browser.js": ["coverage"]
     },
 
     reporters: ["mocha", "coverage", "junit"],

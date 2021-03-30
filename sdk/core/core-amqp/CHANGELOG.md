@@ -1,7 +1,22 @@
 # Release History
 
-## 2.1.0 (Unreleased)
+## 2.2.0 (Unreleased)
 
+- Updates `translateError` to convert non-object type parameters to errors.
+  The parameter will be part of the error's `message` property unless the parameter is null or undefined.
+  Fixes issue [14499](https://github.com/Azure/azure-sdk-for-js/issues/14499).
+
+- Addresses issue [9988](https://github.com/Azure/azure-sdk-for-js/issues/9988)
+  by updating the following operations to accept an `abortSignal` to allow cancellation:
+  - CbsClient.init()
+  - CbsClient.negotiateClaim()
+  - RequestResponseLink.create()
+- Exporting `StandardAbortMessage` that is the standard error message accompanying the `AbortError`.
+
+## 2.1.0 (2021-02-08)
+
+- Fixes the bug reported in issue [13048](https://github.com/Azure/azure-sdk-for-js/issues/13048).
+  Now an informative error is thrown describing the circumstance that led to the error.
 - Adds the ability to configure the `amqpHostname` and `port` that a `ConnectionContextBase` will use when connecting to a service.
   The `host` field refers to the DNS host or IP address of the service, whereas the `amqpHostname`
   is the fully qualified host name of the service. Normally `host` and `amqpHostname` will be the same.

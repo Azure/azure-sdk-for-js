@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import * as coreHttp from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -86,12 +86,9 @@ export class AccessControlClient extends AccessControlClientContext {
   private async _getRoleDefinitions(
     options?: coreHttp.OperationOptions
   ): Promise<AccessControlClientGetRoleDefinitionsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-_getRoleDefinitions",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("AccessControlClient-_getRoleDefinitions", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -101,7 +98,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleDefinitionsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -121,11 +118,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<AccessControlClientGetRoleDefinitionByIdResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-getRoleDefinitionById",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       roleId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -135,7 +132,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleDefinitionByIdResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -155,11 +152,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<AccessControlClientCreateRoleAssignmentResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-createRoleAssignment",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       createRoleAssignmentOptions,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -169,7 +166,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientCreateRoleAssignmentResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -185,12 +182,9 @@ export class AccessControlClient extends AccessControlClientContext {
   async getRoleAssignments(
     options?: AccessControlClientGetRoleAssignmentsOptionalParams
   ): Promise<AccessControlClientGetRoleAssignmentsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "AccessControlClient-getRoleAssignments",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("AccessControlClient-getRoleAssignments", options);
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -200,7 +194,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleAssignmentsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -220,11 +214,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<AccessControlClientGetRoleAssignmentByIdResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-getRoleAssignmentById",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       roleAssignmentId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -234,7 +228,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleAssignmentByIdResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -254,11 +248,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<coreHttp.RestResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-deleteRoleAssignmentById",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       roleAssignmentId,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -268,7 +262,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -286,10 +280,10 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<AccessControlClientGetCallerRoleAssignmentsResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-getCallerRoleAssignments",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -299,7 +293,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetCallerRoleAssignmentsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -319,11 +313,11 @@ export class AccessControlClient extends AccessControlClientContext {
   ): Promise<AccessControlClientGetRoleDefinitionsNextResponse> {
     const { span, updatedOptions } = createSpan(
       "AccessControlClient-_getRoleDefinitionsNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
+      options
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.sendOperationRequest(
@@ -333,7 +327,7 @@ export class AccessControlClient extends AccessControlClientContext {
       return result as AccessControlClientGetRoleDefinitionsNextResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

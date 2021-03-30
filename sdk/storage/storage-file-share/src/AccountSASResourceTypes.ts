@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -9,19 +9,13 @@
  * values are set, this should be serialized with toString and set as the resources field on an
  * {@link AccountSASSignatureValues} object. It is possible to construct the resources string without this class, but
  * the order of the resources is particular and this class guarantees correctness.
- *
- * @export
- * @class AccountSASResourceTypes
  */
 export class AccountSASResourceTypes {
   /**
    * Creates an {@link AccountSASResourceTypes} from the specified resource types string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid resource type.
    *
-   * @static
-   * @param {string} resourceTypes
-   * @returns {AccountSASResourceTypes}
-   * @memberof AccountSASResourceTypes
+   * @param resourceTypes -
    */
   public static parse(resourceTypes: string): AccountSASResourceTypes {
     const accountSASResourceTypes = new AccountSASResourceTypes();
@@ -47,25 +41,16 @@ export class AccountSASResourceTypes {
 
   /**
    * Permission to access service level APIs granted.
-   *
-   * @type {boolean}
-   * @memberof AccountSASResourceTypes
    */
   public service: boolean = false;
 
   /**
    * Permission to access container level APIs (Blob Containers, Tables, Queues, File Shares) granted.
-   *
-   * @type {boolean}
-   * @memberof AccountSASResourceTypes
    */
   public container: boolean = false;
 
   /**
    * Permission to access object level APIs (Blobs, Table Entities, Queue Messages, Files) granted.
-   *
-   * @type {boolean}
-   * @memberof AccountSASResourceTypes
    */
   public object: boolean = false;
 
@@ -74,8 +59,6 @@ export class AccountSASResourceTypes {
    *
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-an-account-sas
    *
-   * @returns {string}
-   * @memberof AccountSASResourceTypes
    */
   public toString(): string {
     const resourceTypes: string[] = [];

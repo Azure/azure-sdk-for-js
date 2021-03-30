@@ -3,7 +3,7 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "lib": ["dom"],
+    "lib": ["dom", "ES2018.AsyncIterable"],
     "downlevelIteration": true
   },
   "exclude": [

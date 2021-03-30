@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { Container } from "../../../src";
 import { ItemDefinition } from "../../../src";
 import {
@@ -18,10 +19,6 @@ import {
 } from "../common/TestHelpers";
 import { BulkOperationType, OperationInput } from "../../../src";
 
-/**
- * @hidden
- * @hidden
- */
 interface TestItem {
   id?: string;
   name?: string;
@@ -30,12 +27,12 @@ interface TestItem {
   replace?: string;
 }
 
-describe("Item CRUD", function() {
+describe("Item CRUD", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
-  const documentCRUDTest = async function(isUpsertTest: boolean) {
+  const documentCRUDTest = async function(isUpsertTest: boolean): Promise<void> {
     // create database
     const database = await getTestDatabase("sample 中文 database");
     // create container
@@ -186,7 +183,7 @@ describe("Item CRUD", function() {
     );
 
     returnedDocuments.forEach(function(document) {
-      document.prop ? ++document.prop : null;
+      document.prop ? ++document.prop : null; // eslint-disable-line no-unused-expressions
     });
     const newReturnedDocuments = await bulkReplaceItems(container, returnedDocuments, partitionKey);
     returnedDocuments = newReturnedDocuments;
@@ -349,7 +346,7 @@ describe("bulk item operations", function() {
         {
           operationType: BulkOperationType.Upsert,
           partitionKey: "U",
-          resourceBody: { id: addEntropy("doc2"), name: "other", key: "U" }
+          resourceBody: { name: "other", key: "U" }
         },
         {
           operationType: BulkOperationType.Read,
@@ -413,7 +410,8 @@ describe("bulk item operations", function() {
         {
           operationType: BulkOperationType.Create,
           resourceBody: {
-            ttl: -10
+            ttl: -10,
+            key: "A"
           }
         },
         {
@@ -427,6 +425,27 @@ describe("bulk item operations", function() {
       ];
       const response = await v2Container.items.bulk(operations);
       assert.equal(response[1].statusCode, 424);
+    });
+    it("Continues after errors with continueOnError true", async function() {
+      const operations = [
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            ttl: -10,
+            key: "A"
+          }
+        },
+        {
+          operationType: BulkOperationType.Create,
+          resourceBody: {
+            key: "A",
+            licenseType: "B",
+            id: "o239uroihndsf"
+          }
+        }
+      ];
+      const response = await v2Container.items.bulk(operations, { continueOnError: true });
+      assert.equal(response[1].statusCode, 201);
     });
     it("autogenerates IDs for Create operations", async function() {
       const operations = [

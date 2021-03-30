@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-
+import { Context } from "mocha";
 import {
   DataFeedGranularity,
   DataFeedIngestionSettings,
@@ -36,8 +36,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let mySqlFeedName: string;
       let postgreSqlFeedName: string;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
+      beforeEach(function(this: Context) {
         ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
         if (recorder && !feedName) {
           feedName = recorder.getUniqueName("js-test-datafeed-");
@@ -147,8 +146,7 @@ matrix([[true, false]] as const, async (useAad) => {
               blobTemplate: testEnv.METRICS_ADVISOR_AZURE_BLOB_TEMPLATE
             }
           };
-
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: feedName,
             source: expectedSource,
             granularity,
@@ -156,7 +154,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ingestionSettings: dataFeedIngestion,
             ...options
           });
-          const actual = await client.getDataFeed(created.id);
+
           assert.ok(actual.id, "Expecting valid data feed id");
           createdAzureBlobDataFeedId = actual.id;
 
@@ -234,7 +232,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("retrieves an Azure Blob datafeed", async function() {
+        it("retrieves an Azure Blob datafeed", async function(this: Context) {
           // accessing environment variables here so they are already replaced by test env ones
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
@@ -246,7 +244,6 @@ matrix([[true, false]] as const, async (useAad) => {
           };
 
           if (!createdAzureBlobDataFeedId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
 
@@ -274,9 +271,8 @@ matrix([[true, false]] as const, async (useAad) => {
           );
         });
 
-        it("updates an Azure Blob datafeed", async function() {
+        it("updates an Azure Blob datafeed", async function(this: Context) {
           if (!createdAzureBlobDataFeedId) {
-            // eslint-disable-next-line no-invalid-this
             this.skip();
           }
           const expectedSourceParameter = {
@@ -342,7 +338,7 @@ matrix([[true, false]] as const, async (useAad) => {
                 "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: appInsightsFeedName,
             source: expectedSource,
             granularity,
@@ -350,7 +346,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ingestionSettings: dataFeedIngestion,
             ...options
           });
-          const actual = await client.getDataFeed(created.id);
+
           assert.ok(actual.id, "Expecting valid data feed id");
           createdAppFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureApplicationInsights");
@@ -379,7 +375,7 @@ matrix([[true, false]] as const, async (useAad) => {
               query: "select * from adsample2 where Timestamp = @StartTime"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: sqlServerFeedName,
             source: expectedSource,
             granularity,
@@ -387,7 +383,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ingestionSettings: dataFeedIngestion,
             ...options
           });
-          const actual = await client.getDataFeed(created.id);
+
           assert.ok(actual.id, "Expecting valid data feed id");
           createdSqlServerFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "SqlServer");
@@ -451,7 +447,7 @@ matrix([[true, false]] as const, async (useAad) => {
               collectionId: "sample"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: cosmosFeedName,
             source: expectedSource,
             granularity,
@@ -460,7 +456,6 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options
           });
 
-          const actual = await client.getDataFeed(created.id);
           assert.ok(actual.id, "Expecting valid data feed id");
           createdCosmosFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureCosmosDB");
@@ -490,7 +485,7 @@ matrix([[true, false]] as const, async (useAad) => {
               query: "let starttime=datetime(@StartTime); let endtime=starttime"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: dataExplorerFeedName,
             source: expectedSource,
             granularity,
@@ -498,7 +493,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ingestionSettings: dataFeedIngestion,
             ...options
           });
-          const actual = await client.getDataFeed(created.id);
+
           assert.ok(actual.id, "Expecting valid data feed id");
           createdAzureDataExplorerFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureDataExplorer");
@@ -527,7 +522,7 @@ matrix([[true, false]] as const, async (useAad) => {
               query: "partition-key eq @start-time"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: azureTableFeedName,
             source: expectedSource,
             granularity,
@@ -536,7 +531,6 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options
           });
 
-          const actual = await client.getDataFeed(created.id);
           assert.ok(actual.id, "Expecting valid data feed id");
           createdAzureTableFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "AzureTable");
@@ -564,7 +558,7 @@ matrix([[true, false]] as const, async (useAad) => {
               payload: "{start-time: @start-time}"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: httpRequestFeedName,
             source: expectedSource,
             granularity,
@@ -572,7 +566,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ingestionSettings: dataFeedIngestion,
             ...options
           });
-          const actual = await client.getDataFeed(created.id);
+
           assert.ok(actual.id, "Expecting valid data feed id");
           createdHttpRequestFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "HttpRequest");
@@ -599,7 +593,7 @@ matrix([[true, false]] as const, async (useAad) => {
               query: "partition-key eq @start-time"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: influxDbFeedName,
             source: expectedSource,
             granularity,
@@ -608,7 +602,6 @@ matrix([[true, false]] as const, async (useAad) => {
             ...options
           });
 
-          const actual = await client.getDataFeed(created.id);
           assert.ok(actual.id, "Expecting valid data feed id");
           createdInfluxFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "InfluxDB");
@@ -637,7 +630,7 @@ matrix([[true, false]] as const, async (useAad) => {
               command: "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: mongoDbFeedName,
             source: expectedSource,
             granularity,
@@ -645,7 +638,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ingestionSettings: dataFeedIngestion,
             ...options
           });
-          const actual = await client.getDataFeed(created.id);
+
           assert.ok(actual.id, "Expecting valid data feed id");
           createdMongoDbFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "MongoDB");
@@ -674,7 +667,7 @@ matrix([[true, false]] as const, async (useAad) => {
               query: "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: mySqlFeedName,
             source: expectedSource,
             granularity,
@@ -682,7 +675,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ingestionSettings: dataFeedIngestion,
             ...options
           });
-          const actual = await client.getDataFeed(created.id);
+
           assert.ok(actual.id, "Expecting valid data feed id");
           createdMySqlFeedId = actual.id;
           assert.equal(actual.source.dataSourceType, "MySql");
@@ -710,7 +703,7 @@ matrix([[true, false]] as const, async (useAad) => {
               query: "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }"
             }
           };
-          const created = await client.createDataFeed({
+          const actual = await client.createDataFeed({
             name: postgreSqlFeedName,
             source: expectedSource,
             granularity,
@@ -718,7 +711,7 @@ matrix([[true, false]] as const, async (useAad) => {
             ingestionSettings: dataFeedIngestion,
             ...options
           });
-          const actual = await client.getDataFeed(created.id);
+
           assert.ok(actual.id, "Expecting valid data feed id");
           createdPostGreSqlId = actual.id;
           assert.equal(actual.source.dataSourceType, "PostgreSql");
@@ -820,7 +813,6 @@ export async function verifyDataFeedDeletion(
   createdDataFeedId: string
 ): Promise<void> {
   if (!createdDataFeedId) {
-    // eslint-disable-next-line no-invalid-this
     this.skip();
   }
 

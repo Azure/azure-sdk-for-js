@@ -9,8 +9,8 @@ import { parseConnectionString } from "@azure/core-amqp";
 export interface EventHubConnectionStringProperties {
   /**
    * The fully qualified Event Hub namespace extracted from the "Endpoint" in the
-   * connection string. This is likely to be similar to "{yournamespace}.servicebus.windows.net".
-   * This is typically used to construct the EventHub{Producer|Consumer}Client.
+   * connection string. This is likely to be similar to `{yournamespace}.servicebus.windows.net`.
+   * This is typically used to construct an EventHubProducerClient or an EventHubConsumerClient.
    */
   fullyQualifiedNamespace: string;
   /**
@@ -45,8 +45,8 @@ export interface EventHubConnectionStringProperties {
 
 /**
  * Parses given connection string into the different properties applicable to Azure Event Hubs.
- * The properties are useful to then construct an EventHub{Producer|Consumer}Client.
- * @param connectionString The connection string associated with the Shared Access Policy created
+ * The properties are useful to then construct an EventHubProducerClient or an EventHubConsumerClient.
+ * @param connectionString - The connection string associated with the Shared Access Policy created
  * for the Event Hubs namespace.
  */
 export function parseEventHubConnectionString(
@@ -90,7 +90,6 @@ export function parseEventHubConnectionString(
 
 /**
  * @internal
- * @ignore
  */
 function validateProperties(
   endpoint?: string,

@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
 
 import {
   parseClientArguments,
@@ -8,19 +9,19 @@ import {
 } from "@azure/communication-common";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
-  RestResponse,
   PipelineOptions,
   InternalPipelineOptions,
   createPipelineFromOptions,
   OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { SmsApiClient } from "./generated/src/smsApiClient";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { extractOperationOptions } from "./extractOperationOptions";
+import { generateSendMessageRequest } from "./utils/smsUtils";
 
 /**
  * Client options used to configure SMS Client API requests.
@@ -30,7 +31,7 @@ export interface SmsClientOptions extends PipelineOptions {}
 /**
  * Values used to configure Sms message
  */
-export interface SendRequest {
+export interface SmsSendRequest {
   /**
    * The sender's phone number in E.164 format that is owned by the authenticated account.
    */
@@ -49,17 +50,46 @@ export interface SendRequest {
 /**
  * Options to configure Sms requests
  */
-export interface SendOptions extends OperationOptions {
+export interface SmsSendOptions extends OperationOptions {
   /**
-   * Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid
+   * Enable this flag to receive a delivery report for this message on the Azure Resource
+   * EventGrid. Default value: false.
    */
   enableDeliveryReport?: boolean;
+  /**
+   * Use this field to provide metadata that will then be sent back in the corresponding Delivery
+   * Report.
+   */
+  tag?: string;
+}
+
+export interface SmsSendResult {
+  /**
+   * The recipient's phone number in E.164 format.
+   */
+  to: string;
+  /**
+   * The identifier of the outgoing Sms message. Only present if message processed.
+   */
+  messageId?: string;
+  /**
+   * HTTP Status code.
+   */
+  httpStatusCode: number;
+  /**
+   * Indicates if the message is processed successfully or not.
+   */
+  successful: boolean;
+  /**
+   * Optional error message in case of 4xx/5xx/repeatable errors.
+   */
+  errorMessage?: string;
 }
 
 /**
  * Checks whether the type of a value is SmsClientOptions or not.
  *
- * @param options The value being checked.
+ * @param options - The value being checked.
  */
 const isSmsClientOptions = (options: any): options is SmsClientOptions =>
   !!options && !isKeyCredential(options);
@@ -73,27 +103,27 @@ export class SmsClient {
 
   /**
    * Initializes a new instance of the SmsClient class.
-   * @param connectionString Connection string to connect to an Azure Communication Service resource.
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   constructor(connectionString: string, options?: SmsClientOptions);
 
   /**
    * Initializes a new instance of the SmsClient class using an Azure KeyCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(url: string, credential: KeyCredential, options?: SmsClientOptions);
+  constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
 
   /**
    * Initializes a new instance of the SmsClient class using a TokenCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential TokenCredential that is used to authenticate requests to the service.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - TokenCredential that is used to authenticate requests to the service.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  constructor(url: string, credential: TokenCredential, options?: SmsClientOptions);
+  constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
 
   constructor(
     connectionStringOrUrl: string,
@@ -125,33 +155,31 @@ export class SmsClient {
 
     const authPolicy = createCommunicationAuthPolicy(credential);
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-
     this.api = new SmsApiClient(url, pipeline);
   }
 
   /**
-   * Sends a SMS from a phone number that is acquired by the authenticated account, to another phone number.
+   * Sends an SMS from a phone number that is acquired by the authenticated account, to another phone number.
    *
-   * @param sendRequest Provides the sender's and recipient's phone numbers, and the contents of the message
-   * @param options Additional request options
+   * @param sendRequest - Provides the sender's and recipient's phone numbers, and the contents of the message
+   * @param options - Additional request options
    */
-  public async send(sendRequest: SendRequest, options: SendOptions = {}): Promise<RestResponse> {
+  public async send(
+    sendRequest: SmsSendRequest,
+    options: SmsSendOptions = { enableDeliveryReport: false }
+  ): Promise<SmsSendResult[]> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
-    const { span, updatedOptions } = createSpan("SmsClient-send", operationOptions);
+    const { span, updatedOptions } = createSpan("SmsClient-Send", operationOptions);
 
     try {
       const response = await this.api.sms.send(
-        {
-          ...sendRequest,
-          sendSmsOptions: { enableDeliveryReport: restOptions.enableDeliveryReport }
-        },
+        generateSendMessageRequest(sendRequest, restOptions),
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-
-      return response;
+      return response.value;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

@@ -13,6 +13,7 @@ import { CommonEventProcessorOptions } from "./models/private";
 import { CloseReason } from "./models/public";
 import { ConnectionContext } from "./connectionContext";
 import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
+import { OperationOptions } from "./util/operationOptions";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing
@@ -22,32 +23,32 @@ import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStr
  */
 export interface PartitionOwnership {
   /**
-   * @property The fully qualified Event Hubs namespace. This is likely to be similar to
+   * The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net
    */
   fullyQualifiedNamespace: string;
   /**
-   * @property The event hub name
+   * The event hub name
    */
   eventHubName: string;
   /**
-   * @property The consumer group name
+   * The consumer group name
    */
   consumerGroup: string;
   /**
-   * @property The identifier of the Event Hub partition.
+   * The identifier of the Event Hub partition.
    */
   partitionId: string;
   /**
-   * @property The unique identifier of the event processor.
+   * The unique identifier of the event processor.
    */
   ownerId: string;
   /**
-   * @property The last modified time.
+   * The last modified time.
    */
   lastModifiedTimeInMs?: number;
   /**
-   * @property The unique identifier for the operation.
+   * The unique identifier for the operation.
    */
   etag?: string;
 }
@@ -69,45 +70,63 @@ export interface CheckpointStore {
    * Called to get the list of all existing partition ownership from the underlying data store. Could return empty
    * results if there are is no existing ownership information.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
-   * @return A list of partition ownership details of all the partitions that have/had an owner.
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
+   * @returns A list of partition ownership details of all the partitions that have/had an owner.
    */
   listOwnership(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroup: string
+    consumerGroup: string,
+    options?: OperationOptions
   ): Promise<PartitionOwnership[]>;
   /**
    * Called to claim ownership of a list of partitions. This will return the list of partitions that were owned
    * successfully.
    *
-   * @param partitionOwnership The list of partition ownership this instance is claiming to own.
-   * @return A list of partitions this instance successfully claimed ownership.
+   * @param partitionOwnership - The list of partition ownership this instance is claiming to own.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
+   * @returns A list of partitions this instance successfully claimed ownership.
    */
-  claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
+  claimOwnership(
+    partitionOwnership: PartitionOwnership[],
+    options?: OperationOptions
+  ): Promise<PartitionOwnership[]>;
 
   /**
    * Updates the checkpoint in the data store for a partition.
    *
-   * @param checkpoint The checkpoint.
+   * @param checkpoint - The checkpoint.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
    */
-  updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+  updateCheckpoint(checkpoint: Checkpoint, options?: OperationOptions): Promise<void>;
 
   /**
    * Lists all the checkpoints in a data store for a given namespace, eventhub and consumer group.
    *
-   * @param fullyQualifiedNamespace The fully qualified Event Hubs namespace. This is likely to be similar to
+   * @param fullyQualifiedNamespace - The fully qualified Event Hubs namespace. This is likely to be similar to
    * <yournamespace>.servicebus.windows.net.
-   * @param eventHubName The event hub name.
-   * @param consumerGroup The consumer group name.
+   * @param eventHubName - The event hub name.
+   * @param consumerGroup - The consumer group name.
+   * @param options - A set of options that can be specified to influence the behavior of this method.
+   *  - `abortSignal`: A signal used to request operation cancellation.
+   *  - `tracingOptions`: Options for configuring tracing.
+   * @returns A list of checkpoints for a given namespace, eventhub, and consumer group.
    */
   listCheckpoints(
     fullyQualifiedNamespace: string,
     eventHubName: string,
-    consumerGroup: string
+    consumerGroup: string,
+    options?: OperationOptions
   ): Promise<Checkpoint[]>;
 }
 
@@ -131,7 +150,6 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
   /**
    * An optional pump manager to use, rather than instantiating one internally
    * @internal
-   * @hidden
    */
   pumpManager?: PumpManager;
   /**
@@ -172,7 +190,6 @@ export interface FullEventProcessorOptions extends CommonEventProcessorOptions {
  * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
  * Implementations of `CheckpointStore` can be found on npm by searching for packages with the prefix &commat;azure/eventhub-checkpointstore-.
  *
- * @class EventProcessor
  * @internal
  */
 export class EventProcessor {
@@ -198,13 +215,13 @@ export class EventProcessor {
   private _fullyQualifiedNamespace: string;
 
   /**
-   * @param consumerGroup The name of the consumer group from which you want to process events.
-   * @param eventHubClient An instance of `EventHubClient` that was created for the Event Hub instance.
-   * @param PartitionProcessorClass A user-provided class that extends the `PartitionProcessor` class.
+   * @param consumerGroup - The name of the consumer group from which you want to process events.
+   * @param eventHubClient - An instance of `EventHubClient` that was created for the Event Hub instance.
+   * @param PartitionProcessorClass - A user-provided class that extends the `PartitionProcessor` class.
    * This class will be responsible for processing and checkpointing events.
-   * @param checkpointStore An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for an implementation.
+   * @param checkpointStore - An instance of `CheckpointStore`. See &commat;azure/eventhubs-checkpointstore-blob for an implementation.
    * For production, choose an implementation that will store checkpoints and partition ownership details to a durable store.
-   * @param options A set of options to configure the Event Processor
+   * @param options - A set of options to configure the Event Processor
    * - `maxBatchSize`         : The max size of the batch of events passed each time to user code for processing.
    * - `maxWaitTimeInSeconds` : The maximum amount of time to wait to build up the requested message count before
    * passing the data to user code for processing. If not provided, it defaults to 60 seconds.
@@ -236,8 +253,6 @@ export class EventProcessor {
 
   /**
    * The unique identifier for the EventProcessor.
-   *
-   * @return {string}
    */
   get id(): string {
     return this._id;
@@ -544,7 +559,6 @@ export class EventProcessor {
    * Subsequent calls to start will be ignored if this event processor is already running.
    * Calling `start()` after `stop()` is called will restart this event processor.
    *
-   * @return {void}
    */
   start(): void {
     if (this._isRunning) {

@@ -34,11 +34,11 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
-import { createClientPipeline, ClientPipelineOptions } from "@azure/core-client";
-import { CanonicalCode } from "@opentelemetry/api";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
-import { parseXML } from "@azure/core-xml";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -117,7 +117,7 @@ export class TableServiceClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    const internalPipelineOptions: ClientPipelineOptions = {
+    const internalPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,
       ...{
         loggingOptions: {
@@ -126,16 +126,17 @@ export class TableServiceClient {
         },
         deserializationOptions: {
           parseXML
+        },
+        serializationOptions: {
+          stringifyXML
         }
       }
     };
 
-    const pipeline = createClientPipeline(internalPipelineOptions);
-
+    const client = new GeneratedClient(url, internalPipelineOptions);
     if (credential) {
-      pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+      client.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
     }
-    const client = new GeneratedClient(url, { pipeline });
     this.table = client.table;
     this.service = client.service;
   }
@@ -150,7 +151,7 @@ export class TableServiceClient {
     try {
       return this.service.getStatistics(updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -167,7 +168,7 @@ export class TableServiceClient {
     try {
       return this.service.getProperties(updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -188,7 +189,7 @@ export class TableServiceClient {
     try {
       return this.service.setProperties(properties, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -211,7 +212,7 @@ export class TableServiceClient {
         { ...updatedOptions, responsePreference: "return-content" }
       );
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -231,7 +232,7 @@ export class TableServiceClient {
     try {
       return this.table.delete(tableName, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -301,7 +302,7 @@ export class TableServiceClient {
         yield result;
       }
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -330,7 +331,7 @@ export class TableServiceClient {
     try {
       return this.table.getAccessPolicy(tableName, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -351,7 +352,7 @@ export class TableServiceClient {
     try {
       return this.table.setAccessPolicy(tableName, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();

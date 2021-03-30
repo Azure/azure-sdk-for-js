@@ -19,17 +19,14 @@ import {
   EmailHookParameter,
   WebhookHookParameter,
   TopNGroupScope,
-  KnownSeverity,
   Severity,
   SeverityCondition,
   AlertSnoozeCondition,
-  DataFeedDetailStatus,
-  KnownDataFeedDetailStatus,
-  IngestionStatusType
+  IngestionStatusType,
+  Status as DataFeedDetailStatus
 } from "./generated/models";
 
 export {
-  KnownSeverity,
   Severity,
   SeverityCondition,
   AlertSnoozeCondition,
@@ -48,28 +45,20 @@ export {
   SuppressCondition,
   EmailHookParameter,
   WebhookHookParameter,
-  DataFeedDetailStatus,
-  KnownDataFeedDetailStatus
+  DataFeedDetailStatus
 };
 
 // not used directly here but needed by public API surface.
 export {
   AnomalyValue,
-  KnownAnomalyValue,
   DataFeedIngestionProgress,
   IngestionStatusType,
-  KnownIngestionStatusType,
   DataSourceType,
-  KnownDataSourceType,
   SeverityFilterCondition,
   SnoozeScope,
-  KnownSnoozeScope,
   AnomalyDetectorDirection,
-  KnownAnomalyDetectorDirection,
   FeedbackType,
-  KnownFeedbackType,
-  FeedbackQueryTimeMode,
-  KnownFeedbackQueryTimeMode
+  FeedbackQueryTimeMode
 } from "./generated/models";
 
 /**
@@ -155,7 +144,7 @@ export interface DataFeedIngestionSettings {
 /**
  * Defines values for DataFeedRollupMethod.
  */
-export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count" | string;
+export type DataFeedRollupMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
 
 /**
  * Specifies the rollup settings for a data feed.
@@ -192,8 +181,7 @@ export type DataFeedRollupSettings =
  */
 export type DataFeedMissingDataPointFillSettings =
   | {
-      fillType: "SmartFilling" | "PreviousValue" | "NoFilling" | string;
-      customFillValue?: number;
+      fillType: "SmartFilling" | "PreviousValue" | "NoFilling";
     }
   | {
       fillType: "CustomValue";
@@ -206,7 +194,7 @@ export type DataFeedMissingDataPointFillSettings =
 /**
  * Access mode of the data feed
  */
-export type DataFeedAccessMode = "Private" | "Public" | string;
+export type DataFeedAccessMode = "Private" | "Public";
 
 /**
  * Various optional configurations for a data feed.
@@ -260,26 +248,14 @@ export type DataFeedGranularity =
         | "Daily"
         | "Hourly"
         | "PerMinute"
-        | "PerSecond"
-        | string;
-      customGranularityValue?: number;
+        | "PerSecond";
     }
   | {
       granularityType: "Custom";
       customGranularityValue: number;
     };
 
-export type DataFeedStatus = "Paused" | "Active" | string;
-
-/**
- * Represents newly created Metrics Advisor data feed.
- */
-export type CreatedDataFeed = {
-  /**
-   * Unique id of the data feed.
-   */
-  id: string;
-};
+export type DataFeedStatus = "Paused" | "Active";
 
 /**
  * Represents a Metrics Advisor data feed.
@@ -506,12 +482,12 @@ export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
 /**
  * The logical operator to apply across multiple {@link MetricAlertConfiguration}
  */
-export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR" | string;
+export type MetricAnomalyAlertConfigurationsOperator = "AND" | "OR" | "XOR";
 
 /**
  * The logical operator to apply across anomaly detection conditions.
  */
-export type DetectionConditionsOperator = "AND" | "OR" | string;
+export type DetectionConditionsOperator = "AND" | "OR";
 
 /**
  * Represents properties common to anomaly detection conditions.
@@ -647,15 +623,6 @@ export type ChangeThresholdConditionUnion =
     };
 
 /**
- * Represents newly created Metric Feedback
- */
-export type CreateMetricFeedback = {
-  /**
-   * feedback unique id
-   */
-  id: string;
-};
-/**
  * A union type of all metric feedback types.
  */
 export type MetricFeedbackUnion =
@@ -709,7 +676,7 @@ export type MetricAnomalyFeedback = {
   /**
    * feedback value
    */
-  value: "AutoDetect" | "Anomaly" | "NotAnomaly" | string;
+  value: "AutoDetect" | "Anomaly" | "NotAnomaly";
 
   /**
    * The anomaly detection configuration id.
@@ -740,7 +707,7 @@ export type MetricChangePointFeedback = {
   /**
    * value for ChangePointValue
    */
-  value: "AutoDetect" | "ChangePoint" | "NotChangePoint" | string;
+  value: "AutoDetect" | "ChangePoint" | "NotChangePoint";
 } & MetricFeedbackCommon;
 
 /**
@@ -776,7 +743,7 @@ export type MetricPeriodFeedback = {
   /**
    * the type of setting period
    */
-  periodType: "AutoDetect" | "AssignValue" | string;
+  periodType: "AutoDetect" | "AssignValue";
   /**
    * the number of intervals a period contains, when no period set to 0
    */
@@ -829,16 +796,6 @@ export type WebNotificationHook = {
  * A union type of all supported hooks
  */
 export type NotificationHookUnion = EmailNotificationHook | WebNotificationHook;
-
-/**
- * A union type of all supported created hooks
- */
-export type CreatedNotificationHook = {
-  /**
-   * Hook unique id
-   */
-  id: string;
-};
 
 /**
  * Represents properties common to the patch input to the Update Hook operation.
@@ -1134,16 +1091,6 @@ export interface MetricAlertConfiguration {
 }
 
 /**
- * Represents created anomaly alert configuration.
- */
-export interface CreatedAnomalyAlertConfiguration {
-  /**
-   * anomaly alerting configuration unique id
-   */
-  id: string;
-}
-
-/**
  * Represents an anomaly alert configuration.
  */
 export interface AnomalyAlertConfiguration {
@@ -1207,16 +1154,6 @@ export interface AnomalyDetectionConfiguration {
    */
   seriesDetectionConditions?: MetricSingleSeriesDetectionCondition[];
 }
-
-/**
- * Represents newly created metric anomaly detection configuration.
- */
-export type CreatedAnomalyDetectionConfiguration = {
-  /**
-   * Anomaly detection configuration unique id
-   */
-  id: string;
-};
 
 /**
  * Represents the root cause of an incident.
@@ -1331,35 +1268,7 @@ export type GetDataFeedResponse = DataFeed & {
     parsedBody: any;
   };
 };
-/**
- * Contains response data for the createDataFeed operation.
- */
-export type CreateDataFeedResponse = CreatedDataFeed & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The parsed HTTP response headers.
-     */
-    parsedHeaders: any;
-  };
-};
 
-/**
- * Contains response data for the createAnomalyDetectionConfiguration operation.
- */
-export type CreateAnomalyDetectionConfigurationResponse = CreatedAnomalyDetectionConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedHeaders: any;
-  };
-};
 /**
  * Contains response data for the getAnomalyDetectionConfiguration operation.
  */
@@ -1381,21 +1290,6 @@ export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfigura
 };
 
 /**
- * Contains response data for the createAnomalyAlertConfiguration operation.
- */
-export type CreateAnomalyAlertConfigurationResponse = CreatedAnomalyAlertConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedHeaders: any;
-  };
-};
-
-/**
  * Contains response data for the getAnomalyAlertConfiguration operation.
  */
 export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
@@ -1412,21 +1306,6 @@ export type GetAnomalyAlertConfigurationResponse = AnomalyAlertConfiguration & {
      * The response body as parsed JSON or XML
      */
     parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the createHook operation.
- */
-export type CreateHookResponse = CreatedNotificationHook & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedHeaders: any;
   };
 };
 
@@ -1488,21 +1367,6 @@ export type GetIncidentRootCauseResponse = {
      * The response body as parsed JSON or XML
      */
     parsedBody: any;
-  };
-};
-
-/**
- * Contains response data for the createFeedback operation.
- */
-export type CreateFeedbackResponse = CreateMetricFeedback & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedHeaders: any;
   };
 };
 

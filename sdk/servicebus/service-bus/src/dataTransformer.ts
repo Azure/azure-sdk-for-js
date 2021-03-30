@@ -5,6 +5,7 @@ import { message } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import { logErrorStackTrace, logger } from "./log";
+import { isObjectWithProperties } from "./util/typeGuards";
 
 /**
  * The default data transformer that will be used by the Azure SDK.
@@ -15,14 +16,14 @@ export const defaultDataTransformer = {
    * A function that takes the body property from an EventData object
    * and returns an encoded body (some form of AMQP type).
    *
-   * @param {*} body The AMQP message body
-   * @return {DataSection} encodedBody - The encoded AMQP message body as an AMQP Data type
+   * @param body - The AMQP message body
+   * @returns The encoded AMQP message body as an AMQP Data type
    * (data section in rhea terms). Section object with following properties:
    * - typecode: 117 (0x75)
    * - content: The given AMQP message body as a Buffer.
    * - multiple: true | undefined.
    */
-  encode(body: any): any {
+  encode(body: unknown): any {
     let result: any;
     if (isBuffer(body)) {
       result = message.data_section(body);
@@ -48,17 +49,17 @@ export const defaultDataTransformer = {
   },
 
   /**
-   * @property {Function} [decode] A function that takes the body property from an AMQP message
+   * A function that takes the body property from an AMQP message
    * (an AMQP Data type (data section in rhea terms)) and returns the decoded message body.
    * If it cannot decode the body then it returns the body
    * as-is.
-   * @param {DataSection} body The AMQP message body
-   * @return {*} decoded body or the given body as-is.
+   * @param body - The AMQP message body
+   * @returns decoded body or the given body as-is.
    */
-  decode(body: any): any {
+  decode(body: unknown): any {
     let processedBody: any = body;
     try {
-      if (body.content && isBuffer(body.content)) {
+      if (isObjectWithProperties(body, ["content"]) && isBuffer(body.content)) {
         // This indicates that we are getting the AMQP described type. Let us try decoding it.
         processedBody = body.content;
       }

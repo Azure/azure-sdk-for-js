@@ -5,11 +5,10 @@ import {
   createHttpHeaders,
   PipelineRequest,
   createPipelineRequest,
-  RawHttpHeaders,
   PipelineResponse,
   RestError,
   createEmptyPipeline
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import { ServiceClient, OperationOptions, serializationPolicy } from "@azure/core-client";
 import {
   DeleteTableEntityOptions,
@@ -26,9 +25,10 @@ import { HeaderConstants } from "./utils/constants";
 import { batchHeaderFilterPolicy, batchRequestAssemblePolicy } from "./TableBatchPolicies";
 import { InnerBatchRequest, TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { URL } from "./utils/url";
 import { TableServiceErrorOdataError } from "./generated";
+import { getBatchHeaders } from "./utils/batchHeaders";
 
 /**
  * TableBatch collects sub-operations that can be submitted together via submitBatch
@@ -138,15 +138,7 @@ export class TableBatchImpl implements TableBatch {
     await Promise.all(this.pendingOperations);
     const body = this.batchRequest.getHttpRequestBody();
     const client = new ServiceClient();
-    const headers: RawHttpHeaders = {
-      accept: "application/json",
-      "x-ms-version": "2019-02-02",
-      "Accept-Charset": "UTF-8",
-      DataServiceVersion: "3.0;",
-      MaxDataServiceVersion: "3.0;NetFx",
-      "Content-Type": `multipart/mixed; boundary=batch_${this.batchGuid}`,
-      Connection: "Keep-Alive"
-    };
+    const headers = getBatchHeaders(this.batchGuid);
 
     const { span, updatedOptions } = createSpan("TableBatch-submitBatch", {} as OperationOptions);
     const request = createPipelineRequest({
@@ -154,7 +146,7 @@ export class TableBatchImpl implements TableBatch {
       method: "POST",
       body,
       headers: createHttpHeaders(headers),
-      spanOptions: updatedOptions.tracingOptions?.spanOptions
+      tracingOptions: updatedOptions.tracingOptions
     });
 
     if (this.credential) {
@@ -167,7 +159,7 @@ export class TableBatchImpl implements TableBatch {
       return parseBatchResponse(rawBatchResponse);
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

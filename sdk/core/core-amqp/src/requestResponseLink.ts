@@ -16,24 +16,25 @@ import {
   Session,
   generate_uuid
 } from "rhea-promise";
-import { ConditionStatusMapper, translate } from "./errors";
+import { ConditionStatusMapper, StandardAbortMessage, translate } from "./errors";
 import { logErrorStackTrace, logger } from "./log";
+import { isDefined } from "./util/typeGuards";
 
 /**
  * Describes the options that can be specified while sending a request.
  */
 export interface SendRequestOptions {
   /**
-   * @property {AbortSignalLike} [abortSignal] Cancels the operation.
+   * Cancels the operation.
    */
   abortSignal?: AbortSignalLike;
   /**
-   * @property {number} [timeoutInMs] Max time to wait for the operation to complete.
+   * Max time to wait for the operation to complete.
    * Default: `60000 milliseconds`.
    */
   timeoutInMs?: number;
   /**
-   * @property {string} [requestName] Name of the request being performed.
+   * Name of the request being performed.
    */
   requestName?: string;
 }
@@ -52,14 +53,12 @@ export interface DeferredPromiseWithCallback {
 
 /**
  * Describes an amqp request(sender)-response(receiver) link that is created over an amqp session.
- * @class RequestResponseLink
  */
 export class RequestResponseLink implements ReqResLink {
   /**
-   * @constructor
-   * @param {Session} session The amqp session.
-   * @param {Sender} sender The amqp sender link.
-   * @param {Receiver} receiver The amqp receiver link.
+   * @param session - The amqp session.
+   * @param sender - The amqp sender link.
+   * @param receiver - The amqp receiver link.
    */
   constructor(public session: Session, public sender: Sender, public receiver: Receiver) {
     this.session = session;
@@ -71,7 +70,7 @@ export class RequestResponseLink implements ReqResLink {
   }
 
   /**
-   * @property {Map<string, Promise<any>>} _responsesMap Maintains a map of responses that
+   * Maintains a map of responses that
    * are being actively returned. It acts as a store for correlating the responses received for
    * the send requests.
    */
@@ -82,7 +81,7 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Provides the underlying amqp connection object.
-   * @returns {Connection} Connection.
+   * @returns Connection.
    */
   get connection(): Connection {
     return this.session.connection;
@@ -90,7 +89,7 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Indicates whether the session and the sender and receiver links are all open or closed.
-   * @returns {boolean} boolean - `true` - `open`, `false` - `closed`.
+   * @returns boolean - `true` - `open`, `false` - `closed`.
    */
   isOpen(): boolean {
     return this.session.isOpen() && this.sender.isOpen() && this.receiver.isOpen();
@@ -100,9 +99,9 @@ export class RequestResponseLink implements ReqResLink {
    * Sends the given request message and returns the received response. If the operation is not
    * completed in the provided timeout in milliseconds `default: 60000`, then `OperationTimeoutError` is thrown.
    *
-   * @param {RheaMessage} request The AMQP (request) message.
-   * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
-   * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
+   * @param request - The AMQP (request) message.
+   * @param options - Options that can be provided while sending a request.
+   * @returns Promise<Message> The AMQP (response) message.
    */
   sendRequest(request: RheaMessage, options: SendRequestOptions = {}): Promise<RheaMessage> {
     const timeoutInMs = options.timeoutInMs || Constants.defaultOperationTimeoutInMs;
@@ -116,6 +115,8 @@ export class RequestResponseLink implements ReqResLink {
     }
 
     return new Promise<RheaMessage>((resolve: any, reject: any) => {
+      let timer: ReturnType<typeof setTimeout> | undefined = undefined;
+
       const rejectOnAbort = (): void => {
         this._responsesMap.delete(request.message_id as string);
         const address = this.receiver.address || "address";
@@ -125,16 +126,16 @@ export class RequestResponseLink implements ReqResLink {
           `to "${address}" has been cancelled by the user.`;
         // Cancellation is a user-intended action, so log to info instead of warning.
         logger.info(desc);
-        const error = new AbortError(
-          `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
-        );
+        const error = new AbortError(StandardAbortMessage);
 
         reject(error);
       };
 
       const onAbort = (): void => {
         // safe to clear the timeout if it hasn't already occurred.
-        clearTimeout(timer);
+        if (isDefined(timer)) {
+          clearTimeout(timer);
+        }
         aborter!.removeEventListener("abort", onAbort);
 
         rejectOnAbort();
@@ -149,7 +150,7 @@ export class RequestResponseLink implements ReqResLink {
         aborter.addEventListener("abort", onAbort);
       }
 
-      const timer = setTimeout(() => {
+      timer = setTimeout(() => {
         this._responsesMap.delete(request.message_id as string);
         if (aborter) {
           aborter.removeEventListener("abort", onAbort);
@@ -170,7 +171,9 @@ export class RequestResponseLink implements ReqResLink {
         reject: reject,
         cleanupBeforeResolveOrReject: () => {
           if (aborter) aborter.removeEventListener("abort", onAbort);
-          clearTimeout(timer);
+          if (isDefined(timer)) {
+            clearTimeout(timer);
+          }
         }
       });
 
@@ -186,7 +189,7 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Closes the sender, receiver link and the underlying session.
-   * @returns {Promise<void>} Promise<void>
+   * @returns Promise<void>
    */
   async close(): Promise<void> {
     await this.sender.close({ closeSession: false });
@@ -196,7 +199,7 @@ export class RequestResponseLink implements ReqResLink {
 
   /**
    * Removes the sender, receiver link and it's underlying session.
-   * @returns {void} void
+   * @returns void
    */
   remove(): void {
     this.sender.remove();
@@ -207,19 +210,23 @@ export class RequestResponseLink implements ReqResLink {
   /**
    * Creates an amqp request/response link.
    *
-   * @param {Connection} connection The amqp connection.
-   * @param {SenderOptions} senderOptions Options that must be provided to create the sender link.
-   * @param {ReceiverOptions} receiverOptions Options that must be provided to create the receiver link.
-   * @returns {Promise<RequestResponseLink>} Promise<RequestResponseLink>
+   * @param connection - The amqp connection.
+   * @param senderOptions - Options that must be provided to create the sender link.
+   * @param receiverOptions - Options that must be provided to create the receiver link.
+   * @param createOptions - Optional parameters that can be used to affect this method's behavior.
+   *    For example, `abortSignal` can be passed to allow cancelling an in-progress `create` invocation.
+   * @returns Promise<RequestResponseLink>
    */
   static async create(
     connection: Connection,
     senderOptions: SenderOptions,
-    receiverOptions: ReceiverOptions
+    receiverOptions: ReceiverOptions,
+    createOptions: { abortSignal?: AbortSignalLike } = {}
   ): Promise<RequestResponseLink> {
-    const session = await connection.createSession();
-    const sender = await session.createSender(senderOptions);
-    const receiver = await session.createReceiver(receiverOptions);
+    const { abortSignal } = createOptions;
+    const session = await connection.createSession({ abortSignal });
+    const sender = await session.createSender({ ...senderOptions, abortSignal });
+    const receiver = await session.createReceiver({ ...receiverOptions, abortSignal });
     logger.verbose(
       "[%s] Successfully created the sender and receiver links on the same session.",
       connection.id
@@ -242,12 +249,10 @@ type NormalizedInfo = {
  * @internal
  *
  * Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
- *
- * @param {*} props
- * @returns {NormalizedInfo}
  */
-export const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
-  if (!props) props = {};
+export const getCodeDescriptionAndError = (
+  props: { [key: string]: string | number | undefined } = {}
+): NormalizedInfo => {
   return {
     statusCode: (props[Constants.statusCode] || props.statusCode) as number,
     statusDescription: (props[Constants.statusDescription] || props.statusDescription) as string,

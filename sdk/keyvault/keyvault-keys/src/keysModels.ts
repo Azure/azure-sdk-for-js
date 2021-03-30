@@ -16,7 +16,7 @@ export { KeyType, KnownKeyTypes, KeyOperation, KnownKeyOperations };
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.1";
+export const LATEST_API_VERSION = "7.2";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -25,7 +25,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1";
+  serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 /**
@@ -292,9 +292,14 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
    */
   readonly expiresOn?: Date;
   /**
-   * Size of the key
+   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
+  /**
+   * Elliptic curve name. For valid values, see KeyCurveName.
+   * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
+   */
+  curve?: KeyCurveName;
 }
 
 /**
@@ -330,11 +335,6 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {}
  */
 export interface CreateEcKeyOptions extends CreateKeyOptions {
   /**
-   * Elliptic curve name. For valid values, see KeyCurveName.
-   * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
-   */
-  curve?: KeyCurveName;
-  /**
    * Whether to import as a hardware key (HSM) or software key.
    */
   hsm?: boolean;
@@ -346,16 +346,23 @@ export interface CreateEcKeyOptions extends CreateKeyOptions {
  */
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
   /**
-   * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
-   */
-  keySize?: number;
-  /**
    * Whether to import as a hardware key (HSM) or software key.
    */
   hsm?: boolean;
 
   /** The public exponent for a RSA key. */
   publicExponent?: number;
+}
+
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link createOctKey}
+ */
+export interface CreateOctKeyOptions extends CreateKeyOptions {
+  /**
+   * Whether to create a hardware-protected key in a hardware security module (HSM).
+   */
+  hsm?: boolean;
 }
 
 /**

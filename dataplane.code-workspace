@@ -33,6 +33,10 @@
       "path": "sdk/communication/communication-sms"
     },
     {
+      "name": "container-registry",
+      "path": "sdk/containerregistry/container-registry"
+    },
+    {
       "name": "core-amqp",
       "path": "sdk/core/core-amqp"
     },
@@ -57,8 +61,8 @@
       "path": "sdk/core/core-http"
     },
     {
-      "name": "core-https",
-      "path": "sdk/core/core-https"
+      "name": "core-rest-pipeline",
+      "path": "sdk/core/core-rest-pipeline"
     },
     {
       "name": "core-lro",
@@ -71,6 +75,10 @@
     {
       "name": "core-tracing",
       "path": "sdk/core/core-tracing"
+    },
+    {
+      "name": "core-util",
+      "path": "sdk/core/core-util"
     },
     {
       "name": "core-xml",
@@ -202,7 +210,7 @@
     },
     {
       "name": "monitor",
-      "path": "sdk/monitor/opentelemetry-exporter-azure-monitor"
+      "path": "sdk/monitor/monitor-opentelemetry-exporter"
     },
     {
       "name": "test recorder",
@@ -233,8 +241,16 @@
       "path": "sdk/digitaltwins/digital-twins-core"
     },
     {
+      "name": "mixedreality-authentication",
+      "path": "sdk/mixedreality/mixedreality-authentication"
+    },
+    {
       "name": "attestation",
       "path": "sdk/attestation/attestation"
+    },
+    {
+      "name": "iot-device-update",
+      "path": "sdk/deviceupdate/iot-device-update"
     }
   ],
   "settings": {
@@ -264,6 +280,9 @@
     "typescript.tsdk": "core-http/node_modules/typescript/lib"
   },
   "extensions": {
-    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
+    "recommendations": [
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode"
+    ]
   }
 }

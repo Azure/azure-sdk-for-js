@@ -14,23 +14,21 @@ import {
   OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { CommunicationIdentity, IdentityRestClient } from "./generated/src/identityRestClient";
 import { SDK_VERSION } from "./constants";
 import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
 import {
-  CommunicationIdentityOptions,
+  CommunicationIdentityClientOptions,
   TokenScope,
-  IssueTokenResponse,
-  CreateUserResponse,
   CommunicationUserToken,
-  CreateUserWithTokenResponse
+  CommunicationAccessToken
 } from "./models";
-import { VoidResponse } from "./common/models";
-import { attachHttpResponse } from "./common/mappers";
 
-const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>
+const isCommunicationIdentityClientOptions = (
+  options: any
+): options is CommunicationIdentityClientOptions =>
   options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
@@ -44,48 +42,45 @@ export class CommunicationIdentityClient {
 
   /**
    * Initializes a new instance of the CommunicationIdentity class.
-   * @param connectionString Connection string to connect to an Azure Communication Service resource.
+   * @param connectionString - Connection string to connect to an Azure Communication Service resource.
    *                         Example: "endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret";
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
-  public constructor(connectionString: string, options?: CommunicationIdentityOptions);
+  public constructor(connectionString: string, options?: CommunicationIdentityClientOptions);
 
   /**
    * Initializes a new instance of the CommunicationIdentity class using an Azure KeyCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
-   * @param credential An object that is used to authenticate requests to the service. Use the AzureKeyCredential or `@azure/identity` to create a credential.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).
+   * @param credential - An object that is used to authenticate requests to the service. Use the AzureKeyCredential or `@azure/identity` to create a credential.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
-    url: string,
+    endpoint: string,
     credential: KeyCredential,
-    options?: CommunicationIdentityOptions
+    options?: CommunicationIdentityClientOptions
   );
   /**
    * Initializes a new instance of the CommunicationIdentity class using a TokenCredential.
-   * @param url The endpoint of the service (ex: https://contoso.eastus.communications.azure.net)
-   * @param credential TokenCredential that is used to authenticate requests to the service.
-   * @param options Optional. Options to configure the HTTP pipeline.
+   * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net)
+   * @param credential - TokenCredential that is used to authenticate requests to the service.
+   * @param options - Optional. Options to configure the HTTP pipeline.
    */
   public constructor(
-    url: string,
+    endpoint: string,
     credential: TokenCredential,
-    options?: CommunicationIdentityOptions
+    options?: CommunicationIdentityClientOptions
   );
-  /**
-   * Creates an instance of CommunicationIdentity.
-   *
-   * @param {string} url The endpoint to the service
-   * @param {KeyCredential} credential An object that is used to authenticate requests to the service. Use the AzureKeyCredential or `@azure/identity` to create a credential.
-   * @param {CommunicationIdentityOptions} [options={}] Options to configure the HTTP pipeline.
-   */
+
   public constructor(
-    connectionStringOrUrl: string,
-    credentialOrOptions?: KeyCredential | CommunicationIdentityOptions | TokenCredential,
-    maybeOptions: CommunicationIdentityOptions = {}
+    connectionStringOrEndpoint: string,
+    credentialOrOptions?: KeyCredential | CommunicationIdentityClientOptions | TokenCredential,
+    maybeOptions: CommunicationIdentityClientOptions = {}
   ) {
-    const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-    const options = isCommunicationIdentityOptions(credentialOrOptions)
+    const { url, credential } = parseClientArguments(
+      connectionStringOrEndpoint,
+      credentialOrOptions
+    );
+    const options = isCommunicationIdentityClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
     const libInfo = `azsdk-js-communication-identity/${SDK_VERSION}`;
@@ -117,26 +112,26 @@ export class CommunicationIdentityClient {
   /**
    * Creates a scoped user token.
    *
-   * @param {CommunicationUser} user The user whose tokens are being revoked.
-   * @param {TokenScope[]} scopes Scopes to include in the token.
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param user - The user whose tokens are being issued.
+   * @param scopes - Scopes to include in the token.
+   * @param options - Additional options for the request.
    */
-  public async issueToken(
+  public async getToken(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
     options: OperationOptions = {}
-  ): Promise<IssueTokenResponse> {
+  ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
     try {
-      const { token, expiresOn, _response } = await this.client.issueAccessToken(
+      const { _response, ...result } = await this.client.issueAccessToken(
         user.communicationUserId,
         { scopes },
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse({ token, expiresOn }, _response);
+      return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -148,23 +143,22 @@ export class CommunicationIdentityClient {
   /**
    * Revokes all data and tokens created for a user.
    *
-   * @param {CommunicationUser} user The user whose tokens are being revoked.
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param user - The user whose tokens are being revoked.
+   * @param options - Additional options for the request.
    */
   public async revokeTokens(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
-  ): Promise<VoidResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-revokeTokens", options);
     try {
-      const { _response } = await this.client.revokeAccessTokens(
+      await this.client.revokeAccessTokens(
         user.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -176,19 +170,18 @@ export class CommunicationIdentityClient {
   /**
    * Creates a single user.
    *
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param options - Additional options for the request.
    */
-  public async createUser(options: OperationOptions = {}): Promise<CreateUserResponse> {
+  public async createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-createUser", options);
     try {
-      const { identity, _response } = await this.client.create(
-        operationOptionsToRequestOptionsBase(updatedOptions)
-      );
-      const user: CommunicationUserIdentifier = { communicationUserId: identity.id };
-      return attachHttpResponse(user, _response);
+      const result = await this.client.create(operationOptionsToRequestOptionsBase(updatedOptions));
+      return {
+        communicationUserId: result.identity.id
+      };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -200,30 +193,29 @@ export class CommunicationIdentityClient {
   /**
    * Creates a single user and a token simultaneously.
    *
-   * @param {TokenScope[]} scopes Scopes to include in the token.
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param scopes - Scopes to include in the token.
+   * @param options - Additional options for the request.
    */
-  public async createUserWithToken(
+  public async createUserAndToken(
     scopes: TokenScope[],
     options: OperationOptions = {}
-  ): Promise<CreateUserWithTokenResponse> {
+  ): Promise<CommunicationUserToken> {
     const { span, updatedOptions } = createSpan(
-      "CommunicationIdentity-createUserWithToken",
+      "CommunicationIdentity-createUserAndToken",
       options
     );
     try {
-      const { identity, accessToken, _response } = await this.client.create({
+      const { identity, accessToken } = await this.client.create({
         body: { createTokenWithScopes: scopes },
         ...operationOptionsToRequestOptionsBase(updatedOptions)
       });
-      const results: CommunicationUserToken = {
+      return {
         ...accessToken!,
         user: { communicationUserId: identity.id }
       };
-      return attachHttpResponse(results, _response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -235,23 +227,22 @@ export class CommunicationIdentityClient {
   /**
    * Triggers revocation event for user and deletes all its data.
    *
-   * @param {CommunicationUser} user The user being deleted.
-   * @param {OperationOptions} [options={}] Additional options for the request.
+   * @param user - The user being deleted.
+   * @param options - Additional options for the request.
    */
   public async deleteUser(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
-  ): Promise<VoidResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-deleteUser", options);
     try {
-      const { _response } = await this.client.delete(
+      await this.client.delete(
         user.communicationUserId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
-      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

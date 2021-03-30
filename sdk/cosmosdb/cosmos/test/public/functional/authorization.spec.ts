@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { CosmosClient, PermissionMode } from "../../../src";
 import { PermissionDefinition } from "../../../src/";
 import { endpoint, masterKey } from "../common/_testConfig";
@@ -11,7 +12,7 @@ import {
   removeAllDatabases
 } from "../common/TestHelpers";
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
@@ -38,6 +39,7 @@ describe("NodeJS CRUD Tests", function() {
       );
     });
 
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     const setupEntities = async function(isUpsertTest: boolean) {
       // create database
       const database = await getTestDatabase("Validate Authorization database");
@@ -119,7 +121,7 @@ describe("NodeJS CRUD Tests", function() {
       return entities;
     };
 
-    const authorizationCRUDTest = async function(isUpsertTest: boolean) {
+    const authorizationCRUDTest = async function(isUpsertTest: boolean): Promise<void> {
       try {
         const badclient = new CosmosClient({ endpoint });
         await badclient.databases.readAll().fetchAll();
@@ -196,7 +198,7 @@ describe("NodeJS CRUD Tests", function() {
             */
     };
 
-    const authorizationCRUDOverMultiplePartitionsTest = async function() {
+    const authorizationCRUDOverMultiplePartitionsTest = async function(): Promise<void> {
       // create database
       // create container
       const partitionKey = "key";

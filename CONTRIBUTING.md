@@ -219,7 +219,7 @@ Generally speaking, the following commands are roughly equivalent:
 
 ### Documentation
 
-We care deeply about the quality of our documentation in order to make the experience of using our SDK smooth and fun. We use [TSDoc](https://tsdoc.org/pages/tags/alpha/) tags to mainly document our methods, classes, and interfaces, and we use [TypeDoc](http://typedoc.org/) to generate the documentation.
+We care deeply about the quality of our documentation in order to make the experience of using our SDK smooth and fun. We use [TSDoc](https://tsdoc.org/pages/tags/alpha/) tags to mainly document our methods, classes, and interfaces, and we use [TypeDoc](https://typedoc.org/) to generate the documentation.
 
 In the case where you do not want to generate documentation for a specific definition:
 
@@ -232,6 +232,23 @@ To maintain the quality of the documentation, the following two facilities are p
 - the documentation can be generated locally for a particular package using `rushx docs` and it can be inspected by opening `sdk/<package path>/dist/docs/index.html` in your favorite browser
 
 TSDoc specifications can be customized using the `tsdoc.json` configuration file that can be found in the root of the repository. Currently, the `@hidden` tag is used which is only supported by TypeDoc and is not a TSDoc tag, so it is added as a custom tag in `tsdoc.json`.
+
+### Formatting changed files
+
+We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `rush update` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `rush prettier`.
+
+### Enforcing Azure SDK design guidelines
+
+Our libraries follow the [TypeScript SDK design guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) to enhance the productivity of developers connecting to Azure services. These guidelines are enforced by our custom [ESLint plugin](https://github.com/Azure/azure-sdk-for-js/tree/master/common/tools/eslint-plugin-azure-sdk). Follow these instruction to use the plugin:
+- [add `eslint` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L106)
+- [add `eslint-plugin-azure-sdk` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L93)
+- add a linting npm script as follows:
+    - ["lint": "eslint package.json api-extractor.json src test --ext .ts"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
+
+You can run the plugin by excuting `rushx lint` inside your package directory.
+
+If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the [internal configuration file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/.eslintrc.internal.json) instead. For example: `"lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json package.json src test --ext .ts"`
+
 
 ## Onboarding a new library
 

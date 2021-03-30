@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, URLBuilder } from "@azure/core-http";
 import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
@@ -10,10 +10,9 @@ import { Pipeline } from "../Pipeline";
  * Append a string to URL path. Will remove duplicated "/" in front of the string
  * when URL path ends with a "/".
  *
- * @export
- * @param {string} url Source URL string
- * @param {string} name String to be appended to URL
- * @returns {string} An updated URL string
+ * @param url - Source URL string
+ * @param name - String to be appended to URL
+ * @returns An updated URL string
  */
 export function appendToURLPath(url: string, name: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -29,11 +28,10 @@ export function appendToURLPath(url: string, name: string): string {
  * Set URL parameter name and value. If name exists in URL parameters, old value
  * will be replaced by name key. If not provide value, the parameter will be deleted.
  *
- * @export
- * @param {string} url Source URL string
- * @param {string} name Parameter name
- * @param {string} [value] Parameter value
- * @returns {string} An updated URL string
+ * @param url - Source URL string
+ * @param name - Parameter name
+ * @param value - Parameter value
+ * @returns An updated URL string
  */
 export function setURLParameter(url: string, name: string, value?: string): string {
   const urlParsed = URLBuilder.parse(url);
@@ -44,10 +42,9 @@ export function setURLParameter(url: string, name: string, value?: string): stri
 /**
  * Get URL parameter by name.
  *
- * @export
- * @param {string} url URL string
- * @param {string} name Parameter name
- * @returns {(string | string[] | undefined)} Parameter value(s) for the given parameter name.
+ * @param url - URL string
+ * @param name - Parameter name
+ * @returns Parameter value(s) for the given parameter name.
  */
 export function getURLParameter(url: string, name: string): string | string[] | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -57,9 +54,8 @@ export function getURLParameter(url: string, name: string): string | string[] | 
 /**
  * Set URL host.
  *
- * @export
- * @param {string} url Source URL string
- * @param {string} host New host string
+ * @param url - Source URL string
+ * @param host - New host string
  * @returns An updated URL string
  */
 export function setURLHost(url: string, host: string): string {
@@ -71,9 +67,8 @@ export function setURLHost(url: string, host: string): string {
 /**
  * Gets URL path from an URL string.
  *
- * @export
- * @param {string} url Source URL string
- * @returns {(string | undefined)} The path part of the given URL string.
+ * @param url - Source URL string
+ * @returns The path part of the given URL string.
  */
 export function getURLPath(url: string): string | undefined {
   const urlParsed = URLBuilder.parse(url);
@@ -83,9 +78,8 @@ export function getURLPath(url: string): string | undefined {
 /**
  * Gets URL query key value pairs from an URL string.
  *
- * @export
- * @param {string} url
- * @returns {{[key: string]: string}} query key value string pairs from the given URL string.
+ * @param url -
+ * @returns query key value string pairs from the given URL string.
  */
 export function getURLQueries(url: string): { [key: string]: string } {
   let queryString = URLBuilder.parse(url).getQuery();
@@ -143,9 +137,9 @@ function getProxyUriFromDevConnString(connectionString: string): string {
 
 /**
  *
- * @param {string} connectionString Account connection string.
- * @param {string} argument property to get value from the connection string.
- * @returns {string} Value of the property specified in argument.
+ * @param connectionString - Account connection string.
+ * @param argument - property to get value from the connection string.
+ * @returns Value of the property specified in argument.
  */
 export function getValueInConnString(
   connectionString: string,
@@ -169,9 +163,8 @@ export function getValueInConnString(
 /**
  * Extracts the parts of an Azure Storage account connection string.
  *
- * @export
- * @param {string} connectionString Connection string.
- * @returns {ConnectionString} String key value pairs of the storage account's url and credentials.
+ * @param connectionString - Connection string.
+ * @returns String key value pairs of the storage account's url and credentials.
  */
 export function extractConnectionStringParts(connectionString: string): ConnectionString {
   let proxyUri = "";
@@ -238,8 +231,8 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
 
-    let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    let accountName = getAccountNameFromUrl(queueEndpoint);
+    const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+    const accountName = getAccountNameFromUrl(queueEndpoint);
     if (!queueEndpoint) {
       throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
@@ -253,11 +246,10 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 /**
  * Rounds a date off to seconds.
  *
- * @export
- * @param {Date} date
- * @param {boolean} [withMilliseconds=true] If true, YYYY-MM-DDThh:mm:ss.fffffffZ will be returned;
+ * @param date -
+ * @param withMilliseconds - If true, YYYY-MM-DDThh:mm:ss.fffffffZ will be returned;
  *                                          If false, YYYY-MM-DDThh:mm:ssZ will be returned.
- * @returns {string} Date string in ISO8061 format, with or without 7 milliseconds component
+ * @returns Date string in ISO8061 format, with or without 7 milliseconds component
  */
 export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = true): string {
   // Date.toISOString() will return like "2018-10-29T06:34:36.139Z"
@@ -271,10 +263,9 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
 /**
  * Delay specified time interval.
  *
- * @export
- * @param {number} timeInMs
- * @param {AbortSignalLike} [aborter]
- * @param {Error} [abortError]
+ * @param timeInMs -
+ * @param aborter -
+ * @param abortError -
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
   return new Promise<void>((resolve, reject) => {
@@ -304,11 +295,9 @@ export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortEr
 /**
  * String.prototype.padStart()
  *
- * @export
- * @param {string} currentString
- * @param {number} targetLength
- * @param {string} [padString=" "]
- * @returns {string}
+ * @param currentString -
+ * @param targetLength -
+ * @param padString -
  */
 export function padStart(
   currentString: string,
@@ -335,8 +324,8 @@ export function padStart(
 
 /**
  * Sanitizes a url by removing the Signature parameter
- * @param {string} url to sanitize
- * @returns {string} sanitized string
+ * @param url - to sanitize
+ * @returns sanitized string
  */
 export function sanitizeURL(url: string): string {
   let safeURL: string = url;
@@ -349,8 +338,8 @@ export function sanitizeURL(url: string): string {
 
 /**
  * Sanitize headers by removing sensitive values such as AUTHORIZATION and X_MS_COPY_SOURCE
- * @param {HttpHeaders} originalHeader original headers
- * @returns {HttpHeaders} sanitized headers
+ * @param originalHeader - original headers
+ * @returns sanitized headers
  */
 export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
   const headers: HttpHeaders = new HttpHeaders();
@@ -369,8 +358,8 @@ export function sanitizeHeaders(originalHeader: HttpHeaders): HttpHeaders {
 
 /**
  * Extracts account name from the url
- * @param {string} url url to extract the account name from
- * @returns {string} with the account name
+ * @param url - url to extract the account name from
+ * @returns with the account name
  */
 export function getAccountNameFromUrl(url: string): string {
   const parsedUrl: URLBuilder = URLBuilder.parse(url);
@@ -413,9 +402,9 @@ export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
 
 /**
  * Gets a new StorageClientContext
- * @param {string} url Url used for the StorageClientContext
- * @param {url} pipeline a pipeline containing HTTP request policies
- * @returns {StorageClientContext} new StorageClientContext
+ * @param url - Url used for the StorageClientContext
+ * @param pipeline - a pipeline containing HTTP request policies
+ * @returns new StorageClientContext
  */
 export function getStorageClientContext(url: string, pipeline: Pipeline): StorageClientContext {
   const storageClientContext = new StorageClientContext(url, pipeline.toServiceClientOptions());
@@ -428,10 +417,9 @@ export function getStorageClientContext(url: string, pipeline: Pipeline): Storag
 /**
  * Append a string to URL query.
  *
- * @export
- * @param {string} url Source URL string.
- * @param {string} queryParts String to be appended to the URL query.
- * @returns {string} An updated URL string.
+ * @param url - Source URL string.
+ * @param queryParts - String to be appended to the URL query.
+ * @returns An updated URL string.
  */
 export function appendToURLQuery(url: string, queryParts: string): string {
   const urlParsed = URLBuilder.parse(url);

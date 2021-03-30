@@ -7,8 +7,10 @@ import {
   HttpMethods,
   PipelineResponse,
   TransferProgressEvent,
-  PipelineRequest
-} from "@azure/core-https";
+  PipelineRequest,
+  PipelineOptions,
+  HttpClient
+} from "@azure/core-rest-pipeline";
 
 /**
  * Default key used to access the XML attributes.
@@ -118,7 +120,7 @@ export interface OperationOptions {
  */
 export interface OperationRequestOptions {
   /**
-   * @property {object} [customHeaders] User defined custom request headers that
+   * User defined custom request headers that
    * will be applied before the request is sent.
    */
   customHeaders?: { [key: string]: string };
@@ -536,4 +538,14 @@ export interface SpanConfig {
    * Service namespace
    */
   namespace: string;
+}
+
+/**
+ * The common set of options that high level clients are expected to expose.
+ */
+export interface CommonClientOptions extends PipelineOptions {
+  /**
+   * The HttpClient that will be used to send HTTP requests.
+   */
+  httpClient?: HttpClient;
 }

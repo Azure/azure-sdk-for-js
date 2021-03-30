@@ -39,6 +39,7 @@ const ruleList = [
   "ts-naming-subclients",
   "ts-no-const-enums",
   "ts-no-namespaces",
+  "ts-no-window",
   "ts-package-json-author",
   "ts-package-json-bugs",
   "ts-package-json-engine-is-present",

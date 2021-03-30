@@ -8,6 +8,7 @@ import {
   isResourceValid,
   ResourceType
 } from "../../common";
+import { PartitionKey } from "../../documents/PartitionKey";
 import { undefinedPartitionKey } from "../../extractPartitionKey";
 import { RequestOptions, ResourceResponse } from "../../request";
 import { Container } from "../Container";
@@ -23,13 +24,13 @@ export class StoredProcedure {
   /**
    * Returns a reference URL to the resource. Used for linking in Permissions.
    */
-  public get url() {
+  public get url(): string {
     return createStoredProcedureUri(this.container.database.id, this.container.id, this.id);
   }
   /**
    * Creates a new instance of {@link StoredProcedure} linked to the parent {@link Container}.
-   * @param container The parent {@link Container}.
-   * @param id The id of the given {@link StoredProcedure}.
+   * @param container - The parent {@link Container}.
+   * @param id - The id of the given {@link StoredProcedure}.
    * @hidden
    */
   constructor(
@@ -40,7 +41,6 @@ export class StoredProcedure {
 
   /**
    * Read the {@link StoredProcedureDefinition} for the given {@link StoredProcedure}.
-   * @param options
    */
   public async read(options?: RequestOptions): Promise<StoredProcedureResponse> {
     const path = getPathFromLink(this.url);
@@ -56,8 +56,7 @@ export class StoredProcedure {
 
   /**
    * Replace the given {@link StoredProcedure} with the specified {@link StoredProcedureDefinition}.
-   * @param body The specified {@link StoredProcedureDefinition} to replace the existing definition.
-   * @param options
+   * @param body - The specified {@link StoredProcedureDefinition} to replace the existing definition.
    */
   public async replace(
     body: StoredProcedureDefinition,
@@ -87,7 +86,6 @@ export class StoredProcedure {
 
   /**
    * Delete the given {@link StoredProcedure}.
-   * @param options
    */
   public async delete(options?: RequestOptions): Promise<StoredProcedureResponse> {
     const path = getPathFromLink(this.url);
@@ -108,12 +106,12 @@ export class StoredProcedure {
    * The specified type, T, is not enforced by the client.
    * Be sure to validate the response from the stored procedure matches the type, T, you provide.
    *
-   * @param partitionKey The partition key to use when executing the stored procedure
-   * @param params Array of parameters to pass as arguments to the given {@link StoredProcedure}.
-   * @param options Additional options, such as the partition key to invoke the {@link StoredProcedure} on.
+   * @param partitionKey - The partition key to use when executing the stored procedure
+   * @param params - Array of parameters to pass as arguments to the given {@link StoredProcedure}.
+   * @param options - Additional options, such as the partition key to invoke the {@link StoredProcedure} on.
    */
   public async execute<T = any>(
-    partitionKey: any,
+    partitionKey: PartitionKey,
     params?: any[],
     options?: RequestOptions
   ): Promise<ResourceResponse<T>> {

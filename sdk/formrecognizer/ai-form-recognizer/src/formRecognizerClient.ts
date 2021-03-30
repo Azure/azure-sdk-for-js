@@ -9,8 +9,7 @@ import {
   operationOptionsToRequestOptionsBase,
   OperationOptions
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import {
   SDK_VERSION,
   DEFAULT_COGNITIVE_SCOPE,
@@ -26,7 +25,7 @@ import {
   toRequestBody,
   getContentType
 } from "./common";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 import { GeneratedClient } from "./generated/generatedClient";
 import {
@@ -205,7 +204,6 @@ export class FormRecognizerClient {
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -361,7 +359,6 @@ export class FormRecognizerClient {
   /**
    * Retrieves result of content recognition operation.
    * @internal
-   * @hidden
    */
   private async getRecognizedContent(
     resultId: string,
@@ -379,7 +376,7 @@ export class FormRecognizerClient {
       return toRecognizeContentResultResponse(analyzeResult);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1028,7 +1025,7 @@ function makeSpanner<Options extends OperationOptions>(
         return handler(updatedOptions, ...args);
       } catch (e) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: e.message
         });
         throw e;
@@ -1071,7 +1068,7 @@ async function recognizeLayoutInternal(
     });
   } catch (e) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: e.message
     });
     throw e;

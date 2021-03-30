@@ -49,29 +49,29 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     await recorder.stop();
   });
 
-  async function deleteModels() {
+  async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(BUILDING_MODEL_ID);
     } catch (Exception) {}
   }
 
-  async function createModel() {
+  async function createModel(): Promise<void> {
     const simpleModel = [dtdl_model_building];
     await client.createModels(simpleModel);
   }
 
-  async function setUpModels() {
+  async function setUpModels(): Promise<void> {
     await deleteModels();
     await createModel();
   }
 
-  async function deleteDigitalTwin(digitalTwinId: string) {
+  async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
     } catch (Exception) {}
   }
 
-  async function deleteDigitalTwins() {
+  async function deleteDigitalTwins(): Promise<void> {
     try {
       const queryResult = client.queryTwins("SELECT * FROM digitaltwins");
       for await (const item of queryResult) {
@@ -191,7 +191,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       AverageTemperature: 68,
       TemperatureUnit: "Celsius"
     };
-    let options: DigitalTwinsAddOptionalParams = {
+    const options: DigitalTwinsAddOptionalParams = {
       ifNoneMatch: "*"
     };
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin), options);
@@ -254,7 +254,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       );
       assert.notEqual(createdTwin.body.$etag, "", "No etag in result from upsertDigitalTwin().");
 
-      let newTemperature = 69;
+      const newTemperature = 69;
       buildingTwin.AverageTemperature = newTemperature;
       const updatedTwin = await client.upsertDigitalTwin(
         digitalTwinId,
@@ -303,7 +303,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       AverageTemperature: 68,
       TemperatureUnit: "Celsius"
     };
-    let options: DigitalTwinsAddOptionalParams = {
+    const options: DigitalTwinsAddOptionalParams = {
       ifNoneMatch: "XXX"
     };
     let errorWasThrown = false;
@@ -441,7 +441,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     };
     const createdTwin = await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
-    let options: DigitalTwinsDeleteOptionalParams = {
+    const options: DigitalTwinsDeleteOptionalParams = {
       ifMatch: createdTwin.etag
     };
     let errorWasThrown = false;
@@ -486,7 +486,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     };
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
-    let options: DigitalTwinsDeleteOptionalParams = {
+    const options: DigitalTwinsDeleteOptionalParams = {
       ifMatch: "XXX"
     };
     let errorWasThrown = false;
@@ -748,7 +748,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       }
     ];
     const createdTwin = await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
-    let options: DigitalTwinsUpdateOptionalParams = {
+    const options: DigitalTwinsUpdateOptionalParams = {
       ifMatch: createdTwin.etag
     };
     await client.updateDigitalTwin(digitalTwinId, patch, options);
@@ -796,7 +796,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     ];
     await client.upsertDigitalTwin(digitalTwinId, JSON.stringify(buildingTwin));
 
-    let options: DigitalTwinsDeleteOptionalParams = {
+    const options: DigitalTwinsDeleteOptionalParams = {
       ifMatch: "XXX"
     };
     let errorWasThrown = false;
@@ -865,7 +865,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       const query = "SELECT * FROM digitaltwins";
       const queryResult = client.queryTwins(query);
       for await (const item of queryResult) {
-        if (item.$dtId == digitalTwinId) {
+        if (item.$dtId === digitalTwinId) {
           twinFound = true;
           break;
         }

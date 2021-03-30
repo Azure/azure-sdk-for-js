@@ -29,7 +29,7 @@ type MinimalLink = Pick<LinkEntity<any>, "name" | "logPrefix" | "entityPath">;
  */
 export class LockRenewer {
   /**
-   * @property _messageRenewLockTimers A map of link names to individual maps for each
+   * A map of link names to individual maps for each
    * link that map a message ID to its auto-renewal timer.
    */
   private _messageRenewLockTimers: Map<string, Map<string, NodeJS.Timer | undefined>> = new Map<
@@ -50,17 +50,17 @@ export class LockRenewer {
   /**
    * Creates an AutoLockRenewer.
    *
-   * @param linkEntity Your link entity instance (probably 'this')
-   * @param context The connection context for your link entity (probably 'this._context')
-   * @param options The ReceiveOptions passed through to your message receiver.
+   * @param linkEntity - Your link entity instance (probably 'this')
+   * @param context - The connection context for your link entity (probably 'this._context')
+   * @param options - The ReceiveOptions passed through to your message receiver.
    * @returns if the lock mode is peek lock (or if is unspecified, thus defaulting to peekLock)
-   * and the options.maxAutoLockRenewalDurationInMs is > 0..Otherwise, returns undefined.
+   * and the options.maxAutoLockRenewalDurationInMs is greater than 0..Otherwise, returns undefined.
    */
   static create(
     context: Pick<ConnectionContext, "getManagementClient">,
     maxAutoRenewLockDurationInMs: number,
     receiveMode: "peekLock" | "receiveAndDelete"
-  ) {
+  ): LockRenewer | undefined {
     if (receiveMode !== "peekLock") {
       return undefined;
     }
@@ -75,7 +75,7 @@ export class LockRenewer {
   /**
    * Cancels all pending lock renewals for messages on given link and removes all entries from our internal cache.
    */
-  stopAll(linkEntity: MinimalLink) {
+  stopAll(linkEntity: MinimalLink): void {
     logger.verbose(
       `${linkEntity.logPrefix} Clearing message renew lock timers for all the active messages.`
     );
@@ -96,9 +96,9 @@ export class LockRenewer {
   /**
    * Stops lock renewal for a single message.
    *
-   * @param bMessage The message whose lock renewal we will stop.
+   * @param bMessage - The message whose lock renewal we will stop.
    */
-  stop(linkEntity: MinimalLink, bMessage: RenewableMessageProperties) {
+  stop(linkEntity: MinimalLink, bMessage: RenewableMessageProperties): void {
     const messageId = bMessage.messageId as string;
 
     const messagesForLink = this._messageRenewLockTimers.get(linkEntity.name);
@@ -113,9 +113,13 @@ export class LockRenewer {
   /**
    * Starts lock renewal for a single message.
    *
-   * @param bMessage The message whose lock renewal we will start.
+   * @param bMessage - The message whose lock renewal we will start.
    */
-  start(linkEntity: MinimalLink, bMessage: RenewableMessageProperties, onError: OnErrorNoContext) {
+  start(
+    linkEntity: MinimalLink,
+    bMessage: RenewableMessageProperties,
+    onError: OnErrorNoContext
+  ): void {
     try {
       const logPrefix = linkEntity.logPrefix;
 

@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "1.0.0-beta.5",
+  "version": "12.0.0-beta.2",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -9,7 +9,8 @@
     "./dist-esm/src/TablesSharedKeyCredential.js": "./dist-esm/src/TablesSharedKeyCredential.browser.js",
     "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
-    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
+    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js",
+    "./dist-esm/src/utils/batchHeaders.js": "./dist-esm/src/utils/batchHeaders.browser.js"
   },
   "types": "types/latest/data-tables.d.ts",
   "scripts": {
@@ -66,13 +67,12 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-client": "1.0.0-beta.1",
-    "@azure/core-https": "1.0.0-beta.1",
+    "@azure/core-client": "^1.0.0",
+    "@azure/core-rest-pipeline": "^1.0.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-xml": "1.0.0-beta.1",
     "@azure/logger": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.9",
-    "@opentelemetry/api": "^0.10.2",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "tslib": "^2.0.0",
     "uuid": "^8.3.0"
   },
@@ -95,7 +95,7 @@
     "downlevel-dts": "~0.4.0",
     "eslint": "^7.15.0",
     "inherits": "^2.0.3",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -116,13 +116,13 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
-    "typescript": "4.1.2",
+    "typescript": "~4.2.0",
     "util": "^0.12.1",
     "dotenv": "^8.2.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "@rollup/plugin-inject": "^4.0.0",
-    "ts-node": "^8.3.0",
+    "ts-node": "^9.0.0",
     "typedoc": "0.15.2"
   },
   "//metadata": {

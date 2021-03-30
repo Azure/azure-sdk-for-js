@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Context } from "mocha";
+import { Suite } from "mocha";
 import { Constants } from "../../../src";
 import { Container, StoredProcedureDefinition } from "../../../src/";
 import {
@@ -13,14 +15,14 @@ import {
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
   describe("Validate sproc CRUD", function() {
     let container: Container;
-    beforeEach(async function() {
+    beforeEach(async function(this: Context) {
       container = await getTestContainer(this.test.fullTitle());
     });
 
@@ -92,16 +94,11 @@ describe("NodeJS CRUD Tests", function() {
 
   describe("Validate stored procedure functionality", function() {
     let container: Container;
-    beforeEach(async function() {
+    beforeEach(async function(this: Context) {
       container = await getTestContainer(this.test.fullTitle());
     });
 
     it("nativeApi should do stored procedure operations successfully with create/replace", async function() {
-      // tslint:disable:no-var-keyword
-      // tslint:disable:prefer-const
-      // tslint:disable:curly
-      // tslint:disable:no-string-throw
-      // tslint:disable:object-literal-shorthand
       const sproc1: StoredProcedureDefinition = {
         id: "storedProcedure1",
         body: function() {
@@ -138,12 +135,6 @@ describe("NodeJS CRUD Tests", function() {
         }
       };
 
-      // tslint:enable:no-var-keyword
-      // tslint:enable:prefer-const
-      // tslint:enable:curly
-      // tslint:enable:no-string-throw
-      // tslint:enable:object-literal-shorthand
-
       const { resource: retrievedSproc } = await container.scripts.storedProcedures.create(sproc1);
       const { resource: result } = await container.scripts
         .storedProcedure(retrievedSproc.id)
@@ -178,25 +169,18 @@ describe("NodeJS CRUD Tests", function() {
     });
     const container = await database.container(containerResult.id);
 
-    // tslint:disable:no-var-keyword
-    // tslint:disable:prefer-const
-    // tslint:disable:curly
-    // tslint:disable:no-string-throw
-    // tslint:disable:no-shadowed-variable
-    // tslint:disable:object-literal-shorthand
     const querySproc = {
       id: "querySproc",
       body: function() {
         const context = getContext();
-        const container = context.getCollection();
+        const container2 = context.getCollection();
         const response = context.getResponse();
 
         // query for players
         const query = "SELECT r.id, r.key, r.prop FROM r";
-        const accept = container.queryDocuments(container.getSelfLink(), query, {}, function(
+        const accept = container2.queryDocuments(container2.getSelfLink(), query, {}, function(
           err: any,
-          documents: any,
-          responseOptions: any
+          documents: any
         ) {
           if (err) throw new Error("Error" + err.message);
           response.setBody(documents);
@@ -205,12 +189,6 @@ describe("NodeJS CRUD Tests", function() {
         if (!accept) throw "Unable to read player details, abort ";
       }
     };
-    // tslint:enable:no-var-keyword
-    // tslint:enable:prefer-const
-    // tslint:enable:curly
-    // tslint:enable:no-string-throw
-    // tslint:enable:no-shadowed-variable
-    // tslint:enable:object-literal-shorthand
 
     const documents = [
       { id: "document1" },
@@ -247,12 +225,6 @@ describe("NodeJS CRUD Tests", function() {
     });
 
     const container = await database.container(containerResult.id);
-
-    // tslint:disable:curly
-    // tslint:disable:no-string-throw
-    // tslint:disable:no-shadowed-variable
-    // tslint:disable:one-line
-    // tslint:disable:object-literal-shorthand
     const sproc1 = {
       id: "storedProcedure",
       body: function() {
@@ -270,12 +242,6 @@ describe("NodeJS CRUD Tests", function() {
         }
       }
     };
-
-    // tslint:enable:curly
-    // tslint:enable:no-string-throw
-    // tslint:enable:no-shadowed-variable
-    // tslint:enable:one-line
-    // tslint:enable:object-literal-shorthand
 
     const { resource: retrievedSproc } = await container.scripts.storedProcedures.create(sproc1);
     const { resource: result1, headers: headers1 } = await container.scripts

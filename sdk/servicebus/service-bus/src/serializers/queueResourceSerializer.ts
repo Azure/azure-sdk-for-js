@@ -28,7 +28,6 @@ import {
  * Builds the queue options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
- * @param queue
  */
 export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptions {
   return {
@@ -57,9 +56,8 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
  * @internal
  * Builds the queue object from the raw json object gotten after deserializing the
  * response from the service
- * @param rawQueue
  */
-export function buildQueue(rawQueue: any): QueueProperties {
+export function buildQueue(rawQueue: Record<string, any>): QueueProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
@@ -114,9 +112,8 @@ export function buildQueue(rawQueue: any): QueueProperties {
  * @internal
  * Builds the queue runtime info object from the raw json object gotten after deserializing the
  * response from the service
- * @param rawQueue
  */
-export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperties {
+export function buildQueueRuntimeProperties(rawQueue: Record<string, any>): QueueRuntimeProperties {
   const messageCountDetails = getMessageCountDetails(rawQueue[Constants.COUNT_DETAILS]);
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
@@ -269,8 +266,6 @@ export interface CreateQueueOptions extends OperationOptions {
 /**
  * Represents the input for updateQueue.
  *
- * @export
- * @interface QueueProperties
  */
 export interface QueueProperties {
   /**

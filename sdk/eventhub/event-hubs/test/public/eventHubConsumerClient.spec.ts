@@ -56,22 +56,15 @@ describe("EventHubConsumerClient", () => {
     partitionIds = await producerClient.getPartitionIds({});
   });
 
-  afterEach("Closing the clients", async () => {
-    await producerClient.close();
-    await consumerClient.close();
+  afterEach("Closing the clients", () => {
+    return Promise.all([producerClient.close(), consumerClient.close()]);
   });
 
   describe("functional tests", () => {
     let clients: EventHubConsumerClient[];
-    let producerClient: EventHubProducerClient;
-    let partitionIds: string[];
     let subscriptions: Subscription[];
 
-    beforeEach(async () => {
-      producerClient = new EventHubProducerClient(service.connectionString!, service.path!, {});
-
-      partitionIds = await producerClient.getPartitionIds();
-
+    beforeEach(() => {
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
 
@@ -84,12 +77,8 @@ describe("EventHubConsumerClient", () => {
         await subscription.close();
       }
 
-      for (const client of clients) {
-        await client.close();
-      }
-
+      await Promise.all(clients.map((client) => client.close()));
       clients = [];
-      await producerClient.close();
     });
 
     describe("#close()", function(): void {
@@ -821,7 +810,7 @@ describe("EventHubConsumerClient", () => {
       let subscription: Subscription | undefined;
       await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
-          // @ts-expect-error
+          // @ts-expect-error number for partitionId should work even if type is string
           0,
           {
             processEvents: async () => {
@@ -1259,7 +1248,9 @@ describe("EventHubConsumerClient", () => {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = badConsumerClient.subscribe({
-          processEvents: async () => {},
+          processEvents: async () => {
+            /** Nothing to do here */
+          },
           processError: async (err) => {
             resolve(err);
           }
@@ -1278,7 +1269,9 @@ describe("EventHubConsumerClient", () => {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = consumerClient.subscribe("boo", {
-          processEvents: async () => {},
+          processEvents: async () => {
+            /** Nothing to do here */
+          },
           processError: async (err) => {
             resolve(err);
           }

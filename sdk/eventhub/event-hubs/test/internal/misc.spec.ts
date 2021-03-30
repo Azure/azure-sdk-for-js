@@ -22,7 +22,7 @@ import {
   TRACEPARENT_PROPERTY,
   extractSpanContextFromEventData
 } from "../../src/diagnostics/instrumentEventData";
-import { TraceFlags } from "@opentelemetry/api";
+import { TraceFlags } from "@azure/core-tracing";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
 const env = getEnvVars();
 

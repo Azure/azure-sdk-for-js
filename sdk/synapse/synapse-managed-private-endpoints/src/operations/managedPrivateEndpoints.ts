@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
@@ -84,21 +84,18 @@ export class ManagedPrivateEndpoints {
     managedPrivateEndpointName: string,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-get",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-get", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       managedPrivateEndpointName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as ManagedPrivateEndpointsGetResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -120,15 +117,12 @@ export class ManagedPrivateEndpoints {
     managedPrivateEndpoint: ManagedPrivateEndpoint,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsCreateResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-create",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-create", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       managedPrivateEndpointName,
       managedPrivateEndpoint,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -138,7 +132,7 @@ export class ManagedPrivateEndpoints {
       return result as ManagedPrivateEndpointsCreateResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -158,14 +152,11 @@ export class ManagedPrivateEndpoints {
     managedPrivateEndpointName: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-delete",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-delete", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       managedPrivateEndpointName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -175,7 +166,7 @@ export class ManagedPrivateEndpoints {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -193,20 +184,17 @@ export class ManagedPrivateEndpoints {
     managedVirtualNetworkName: string,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-_list",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-_list", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
       return result as ManagedPrivateEndpointsListResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -226,14 +214,11 @@ export class ManagedPrivateEndpoints {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<ManagedPrivateEndpointsListNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ManagedPrivateEndpointsClient-_listNext",
-      coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    );
+    const { span, updatedOptions } = createSpan("ManagedPrivateEndpointsClient-_listNext", options);
     const operationArguments: coreHttp.OperationArguments = {
       managedVirtualNetworkName,
       nextLink,
-      options: updatedOptions
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -243,7 +228,7 @@ export class ManagedPrivateEndpoints {
       return result as ManagedPrivateEndpointsListNextResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

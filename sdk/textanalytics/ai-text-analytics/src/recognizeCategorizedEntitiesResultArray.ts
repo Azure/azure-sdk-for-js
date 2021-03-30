@@ -1,18 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TextDocumentBatchStatistics,
-  DocumentError,
-  DocumentEntities,
-  TextDocumentInput
-} from "./generated/models";
+import { TextDocumentBatchStatistics, TextDocumentInput, EntitiesResult } from "./generated/models";
 import {
   RecognizeCategorizedEntitiesResult,
   makeRecognizeCategorizedEntitiesResult,
   makeRecognizeCategorizedEntitiesErrorResult
 } from "./recognizeCategorizedEntitiesResult";
-import { sortResponseIdObjects } from "./util";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 
 /**
  * Array of `RecognizeCategorizedEntitiesResult` objects corresponding to a batch of input documents, and
@@ -33,34 +28,17 @@ export interface RecognizeCategorizedEntitiesResultArray
   modelVersion: string;
 }
 
+/**
+ * @internal
+ */
 export function makeRecognizeCategorizedEntitiesResultArray(
   input: TextDocumentInput[],
-  documents: DocumentEntities[],
-  errors: DocumentError[],
-  modelVersion: string,
-  statistics?: TextDocumentBatchStatistics
+  response: EntitiesResult
 ): RecognizeCategorizedEntitiesResultArray {
-  const unsortedResult = documents
-    .map(
-      (document): RecognizeCategorizedEntitiesResult => {
-        return makeRecognizeCategorizedEntitiesResult(
-          document.id,
-          document.entities,
-          document.warnings,
-          document.statistics
-        );
-      }
-    )
-    .concat(
-      errors.map(
-        (error): RecognizeCategorizedEntitiesResult => {
-          return makeRecognizeCategorizedEntitiesErrorResult(error.id, error.error);
-        }
-      )
-    );
-  const result = sortResponseIdObjects(input, unsortedResult);
-  return Object.assign(result, {
-    statistics,
-    modelVersion
-  });
+  return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
+    input,
+    response,
+    makeRecognizeCategorizedEntitiesResult,
+    makeRecognizeCategorizedEntitiesErrorResult
+  );
 }

@@ -11,11 +11,11 @@ import {
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import "@azure/core-paging";
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 import { GeneratedClient } from "./generated/generatedClient";
 import { createSpan } from "./tracing";
 import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import {
   MetricFeedbackUnion,
   AnomalyIncident,
@@ -35,8 +35,7 @@ import {
   EnrichmentStatus,
   GetMetricSeriesDataResponse,
   MetricFeedbackPageResponse,
-  AlertQueryTimeMode,
-  CreateFeedbackResponse
+  AlertQueryTimeMode
 } from "./models";
 import { SeverityFilterCondition, FeedbackType, FeedbackQueryTimeMode } from "./generated/models";
 import { toServiceMetricFeedbackUnion, fromServiceMetricFeedbackUnion } from "./transforms";
@@ -183,15 +182,11 @@ export class MetricsAdvisorClient {
   public readonly endpointUrl: string;
 
   /**
-   * @internal
-   * @hidden
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
-   * @internal
-   * @hidden
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -223,8 +218,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * List alert segments for alerting configuration
    */
   private async *listSegmentOfAlerts(
@@ -301,8 +294,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * List alert items for alerting configuration
    */
   private async *listItemsOfAlerts(
@@ -429,8 +420,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * List anomalies for alerting configuration - segments
    */
   private async *listSegmentsOfAnomaliesForAlert(
@@ -510,8 +499,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * listing anomalies for alerting configuration - items
    */
   private async *listItemsOfAnomaliesForAlert(
@@ -566,8 +553,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * listing incidents for alert - segments
    */
   private async *listSegmentsOfIncidentsForAlert(
@@ -648,7 +633,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
    * listing incidents for alert - items
    */
   private async *listItemsOfIncidentsForAlert(
@@ -892,8 +876,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * listing anomalies for detection config - segments
    */
 
@@ -984,8 +966,6 @@ export class MetricsAdvisorClient {
   }
 
   /**
-   * @internal
-   * @hidden
    * listing anomalies for detection config - items
    */
 
@@ -1564,7 +1544,7 @@ export class MetricsAdvisorClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1578,11 +1558,12 @@ export class MetricsAdvisorClient {
    *
    * @param feedback - Content of the feedback
    * @param options - The options parameter
+   * @returns Response with Feedback object
    */
   public async createFeedback(
     feedback: MetricFeedbackUnion,
     options: OperationOptions = {}
-  ): Promise<CreateFeedbackResponse> {
+  ): Promise<GetFeedbackResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createFeedback",
       options
@@ -1597,10 +1578,10 @@ export class MetricsAdvisorClient {
       }
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedbackId = result.location.substring(lastSlashIndex + 1);
-      return { id: feedbackId, _response: result._response };
+      return this.getFeedback(feedbackId);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1632,7 +1613,7 @@ export class MetricsAdvisorClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
