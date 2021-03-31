@@ -714,6 +714,12 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      defaultIdentity: {
+        serializedName: "properties.defaultIdentity",
+        type: {
+          name: "String"
+        }
+      },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
         type: {
@@ -2708,6 +2714,12 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      defaultIdentity: {
+        serializedName: "properties.defaultIdentity",
+        type: {
+          name: "String"
+        }
+      },
       publicNetworkAccess: {
         serializedName: "properties.publicNetworkAccess",
         type: {
@@ -2900,6 +2912,12 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
       },
       keyVaultKeyUri: {
         serializedName: "properties.keyVaultKeyUri",
+        type: {
+          name: "String"
+        }
+      },
+      defaultIdentity: {
+        serializedName: "properties.defaultIdentity",
         type: {
           name: "String"
         }

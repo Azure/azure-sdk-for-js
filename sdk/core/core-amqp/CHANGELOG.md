@@ -1,5 +1,7 @@
 # Release History
 
+## 2.2.1 (Unreleased)
+
 ## 2.2.0 (2021-03-30)
 
 - Updates `translateError` to convert non-object type parameters to errors.
@@ -139,7 +141,7 @@ We are cleaning the public API surface by
 - Updated to use the latest version of the `rhea` package.
   This update improves support for [bundling](https://github.com/Azure/azure-sdk-for-js/blob/master/documentation/Bundling.md) this library.
 
-## 1.0.0 (2019-01-08)
+## 1.0.0 (2020-01-08)
 
 - This release marks the general availability of the `@azure/core-amqp` package.
 - Improved detection of when an established socket is no longer receiving data from the service.
