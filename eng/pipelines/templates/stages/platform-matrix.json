@@ -10,7 +10,7 @@
     },
     "NodeTestVersion": [ "8.x", "10.x", "12.x", "14.x", "15.x" ],
     "TestType": "node",
-    "TestResultsFiles": "**/test-results.xml",
+    "TestResultsFiles": "**/test-results.xml"
   },
   "include": [
     {
@@ -20,14 +20,14 @@
         "sample": { "TestType": "sample", "TestResultsFiles": "**/test-results.xml" },
         "browser": { "TestType": "browser", "TestResultsFiles": "**/test-results.browser.xml" }
       },
-      "NodeTestVersion": "12.x",
+      "NodeTestVersion": "12.x"
     },
     {
       "Agent": { "ubuntu-18.04": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" } },
       "TestType": "node",
       "NodeTestVersion": "12.x",
       "DependencyVersion": [ "max", "min" ],
-      "TestResultsFiles": "**/test-results.xml",
+      "TestResultsFiles": "**/test-results.xml"
     }
   ]
 }
