@@ -4,7 +4,7 @@ Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/
 
 - Custom Form Models: Create machine learning models to recognize structured data such as field values and tables from forms. The models are trained on your own data, so they're tailored to your forms' structure. Then, use the custom models to extract recognized fields and content from forms. Use the API to manage your models by creating, listing, deleting, and copying models;
 - Content API: Extract raw page elements&mdash;such as text words/lines, tables, and selection marks&mdash;and their bounding box coordinates from documents (this corresponds to the REST service's "layout" API).
-- Prebuilt Models: Extract data from certain types of common documents (such as receipts, invoices, and business cards) using models developed by the Azure Form Recognizer team.
+- Prebuilt Models: Extract data from certain types of common documents (such as receipts, invoices, business cards, or identity documents) using models developed by the Azure Form Recognizer team.
 
 **Note:** This package targets Azure Form Recognizer service API version 2.x.
 
@@ -108,7 +108,7 @@ const client = new FormRecognizerClient("<endpoint>", new DefaultAzureCredential
 `FormRecognizerClient` provides operations for:
 
 - Recognizing form fields and content using custom models trained on your custom forms' structure. These values are returned in an array of `RecognizedForm` objects.
-- Recognizing fields from prebuilt models of common types of documents, including reciepts, invoices, and business cards. These values are also returned in an array of `RecognizedForm` objects.
+- Recognizing fields from prebuilt models of common types of documents, including reciepts, invoices, business cards and identity documents. These values are also returned in an array of `RecognizedForm` objects.
 - Extracting form content, including tables, lines/words, and selection marks without the need to train a model. Form content is returned in an array of `FormPage` objects.
 
 ### FormTrainingClient
@@ -241,7 +241,7 @@ main().catch((err) => {
 
 ### Using Prebuilt Models
 
-Extract fields from certain types of common forms such as receipts, invoices, and business cards using prebuilt models provided by the Form Recognizer service.
+Extract fields from certain types of common forms such as receipts, invoices, business cards, and identity documents using prebuilt models provided by the Form Recognizer service.
 
 For example, to extract fields from a sales receipt, use the prebuilt receipt model provided by the `beginRecognizeReceipts` method:
 
@@ -329,6 +329,7 @@ You are not limited to receipts! There are a few prebuilt models to choose from,
 - Receipts, through the `beginRecognizeReceipts` method (see [the supported fields of the receipt model](https://aka.ms/azsdk/formrecognizer/receiptfields)).
 - Business cards, through `beginRecognizeBusinessCards` (see [the supported fields of the business card model](https://aka.ms/azsdk/formrecognizer/businesscardfields)).
 - Invoices, through `beginRecognizeInvoices` (see [the supported fields of the invoice model](https://aka.ms/azsdk/formrecognizer/invoicefields)).
+- Identity Documents (such as driver licenses), through `beginRecognizeIdDocuments` (see [the supported fields of the identity document model](https://aka.ms/azsdk/formrecognizer/iddocumentfields)).
 
 ### Train a Model
 
