@@ -18,8 +18,8 @@ export type Payload = (PipelineTopology | LivePipeline | { name: string } | {}) 
   "@apiVersion": string;
 };
 export interface Request {
-  MethodName: string;
-  Payload: Payload;
+  methodName: string;
+  payload: Payload;
 }
 
 const apiVersion = MethodRequestInternal.type.modelProperties!.apiVersion.defaultValue;
@@ -38,8 +38,8 @@ function addApiVersion(payload: PipelineTopology | LivePipeline | string | {} = 
  */
 export function createPipelineTopologySetRequest(graph: PipelineTopology): Request {
   return {
-    MethodName: PipelineTopologySetRequest.serializedName!,
-    Payload: addApiVersion(graph)
+    methodName: PipelineTopologySetRequest.serializedName!,
+    payload: addApiVersion(graph)
   };
 }
 
@@ -50,8 +50,8 @@ export function createPipelineTopologySetRequest(graph: PipelineTopology): Reque
  */
 export function createPipelineTopologyGetRequest(name: string): Request {
   return {
-    MethodName: PipelineTopologyGetRequest.serializedName!,
-    Payload: addApiVersion({ name })
+    methodName: PipelineTopologyGetRequest.serializedName!,
+    payload: addApiVersion({ name })
   };
 }
 
@@ -62,8 +62,8 @@ export function createPipelineTopologyGetRequest(name: string): Request {
  */
 export function createPipelineTopologyDeleteRequest(name: string): Request {
   return {
-    MethodName: PipelineTopologyDeleteRequest.serializedName!,
-    Payload: addApiVersion({ name })
+    methodName: PipelineTopologyDeleteRequest.serializedName!,
+    payload: addApiVersion({ name })
   };
 }
 
@@ -73,8 +73,8 @@ export function createPipelineTopologyDeleteRequest(name: string): Request {
  */
 export function createPipelineTopologyListRequest(): Request {
   return {
-    MethodName: PipelineTopologyListRequest.serializedName!,
-    Payload: addApiVersion()
+    methodName: PipelineTopologyListRequest.serializedName!,
+    payload: addApiVersion()
   };
 }
 
@@ -85,8 +85,8 @@ export function createPipelineTopologyListRequest(): Request {
  */
 export function createLivePipelineSetRequest(instance: LivePipeline): Request {
   return {
-    MethodName: LivePipelineSetRequest.serializedName!,
-    Payload: addApiVersion(instance)
+    methodName: LivePipelineSetRequest.serializedName!,
+    payload: addApiVersion(instance)
   };
 }
 
@@ -97,8 +97,8 @@ export function createLivePipelineSetRequest(instance: LivePipeline): Request {
  */
 export function createLivePipelineGetRequest(name: string): Request {
   return {
-    MethodName: LivePipelineGetRequest.serializedName!,
-    Payload: addApiVersion({ name })
+    methodName: LivePipelineGetRequest.serializedName!,
+    payload: addApiVersion({ name })
   };
 }
 
@@ -109,8 +109,8 @@ export function createLivePipelineGetRequest(name: string): Request {
  */
 export function createLivePipelineDeleteRequest(name: string): Request {
   return {
-    MethodName: LivePipelineDeleteRequest.serializedName!,
-    Payload: addApiVersion({ name })
+    methodName: LivePipelineDeleteRequest.serializedName!,
+    payload: addApiVersion({ name })
   };
 }
 
@@ -120,8 +120,8 @@ export function createLivePipelineDeleteRequest(name: string): Request {
  */
 export function createLivePipelineListRequest(): Request {
   return {
-    MethodName: LivePipelineListRequest.serializedName!,
-    Payload: addApiVersion()
+    methodName: LivePipelineListRequest.serializedName!,
+    payload: addApiVersion()
   };
 }
 
@@ -132,8 +132,8 @@ export function createLivePipelineListRequest(): Request {
  */
 export function createLivePipelineActivateRequest(name: string): Request {
   return {
-    MethodName: LivePipelineActivateRequest.serializedName!,
-    Payload: addApiVersion({ name })
+    methodName: LivePipelineActivateRequest.serializedName!,
+    payload: addApiVersion({ name })
   };
 }
 
@@ -144,7 +144,7 @@ export function createLivePipelineActivateRequest(name: string): Request {
  */
 export function createLivePipelineDeActivateRequest(name: string): Request {
   return {
-    MethodName: LivePipelineDeactivateRequest.serializedName!,
-    Payload: addApiVersion({ name })
+    methodName: LivePipelineDeactivateRequest.serializedName!,
+    payload: addApiVersion({ name })
   };
 }

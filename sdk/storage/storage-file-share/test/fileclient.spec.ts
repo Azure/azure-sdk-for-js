@@ -18,6 +18,7 @@ import { bodyToString, compareBodyWithUint8Array, getBSU, recorderEnvSetup } fro
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { isIE } from "./utils/index.browser";
+import { setSpan, context } from "@azure/core-tracing";
 
 dotenv.config();
 
@@ -855,7 +856,7 @@ describe("FileClient", () => {
     const rootSpan = tracer.startSpan("root");
     await fileClient.create(content.length, {
       tracingOptions: {
-        spanOptions: { parent: rootSpan.context() }
+        tracingContext: setSpan(context.active(), rootSpan)
       }
     });
     rootSpan.end();

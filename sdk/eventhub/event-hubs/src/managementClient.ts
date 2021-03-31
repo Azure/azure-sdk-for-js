@@ -30,7 +30,7 @@ import { logErrorStackTrace, logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
 import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
@@ -193,11 +193,11 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
 
-      clientSpan.setStatus({ code: CanonicalCode.OK });
+      clientSpan.setStatus({ code: SpanStatusCode.OK });
       return runtimeInfo;
     } catch (error) {
       clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       logger.warning(
@@ -265,12 +265,12 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
 
-      clientSpan.setStatus({ code: CanonicalCode.OK });
+      clientSpan.setStatus({ code: SpanStatusCode.OK });
 
       return partitionInfo;
     } catch (error) {
       clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       logger.warning(

@@ -1,9 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Span, SpanOptions, SpanKind } from "@opentelemetry/api";
 import { getTracer } from "../src/tracerProxy";
-import { OperationTracingOptions } from "./interfaces";
+import {
+  OperationTracingOptions,
+  Span,
+  SpanOptions,
+  SpanKind,
+  setSpan,
+  context as otContext
+} from "./interfaces";
 
 /**
  * Arguments for `createSpanFunction` that allow you to specify the
@@ -57,7 +63,7 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     };
 
     const spanName = args.packagePrefix ? `${args.packagePrefix}.${operationName}` : operationName;
-    const span = tracer.startSpan(spanName, spanOptions);
+    const span = tracer.startSpan(spanName, spanOptions, tracingOptions.tracingContext);
 
     if (args.namespace) {
       span.setAttribute("az.namespace", args.namespace);
@@ -68,7 +74,6 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
     if (span.isRecording() && args.namespace) {
       newSpanOptions = {
         ...tracingOptions.spanOptions,
-        parent: span.context(),
         attributes: {
           ...spanOptions.attributes,
           "az.namespace": args.namespace
@@ -76,20 +81,20 @@ export function createSpanFunction(args: CreateSpanFunctionArgs) {
       };
     }
 
-    const newTracingOptions: OperationTracingOptions = {
+    const newTracingOptions: Required<OperationTracingOptions> = {
       ...tracingOptions,
-      spanOptions: newSpanOptions
-      // TODO: .context soon.
+      spanOptions: newSpanOptions,
+      tracingContext: setSpan(tracingOptions.tracingContext || otContext.active(), span)
     };
 
     const newOperationOptions = {
       ...operationOptions,
       tracingOptions: newTracingOptions
-    };
+    } as T & { tracingOptions: Required<OperationTracingOptions> };
 
     return {
       span,
-      updatedOptions: newOperationOptions as T
+      updatedOptions: newOperationOptions
     };
   };
 }

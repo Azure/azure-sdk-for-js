@@ -80,7 +80,8 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     const token = await this.getToken({
       abortSignal: webResource.abortSignal,
       tracingOptions: {
-        spanOptions: webResource.spanOptions
+        spanOptions: webResource.spanOptions,
+        tracingContext: webResource.tracingContext
       }
     });
     webResource.headers.set(Constants.HeaderConstants.AUTHORIZATION, `Bearer ${token}`);

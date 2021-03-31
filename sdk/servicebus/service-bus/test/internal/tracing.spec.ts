@@ -1,5 +1,5 @@
 import { SpanGraph, TestSpan } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/api";
+import { setSpan, Span, context } from "@azure/core-tracing";
 import { ServiceBusSender, ServiceBusMessage, OperationOptions, TryAddOptions } from "../../src";
 import { TRACEPARENT_PROPERTY } from "../public/sendAndSchedule.spec";
 import { setTracerForTest } from "../public/utils/misc";
@@ -27,9 +27,7 @@ function legacyOptionsUsingSpan(rootSpan: TestSpan): Pick<TryAddOptions, "parent
 function modernOptions(rootSpan: TestSpan): OperationOptions {
   return {
     tracingOptions: {
-      spanOptions: {
-        parent: rootSpan.context()
-      }
+      tracingContext: setSpan(context.active(), rootSpan)
     }
   };
 }
@@ -37,9 +35,7 @@ function modernOptions(rootSpan: TestSpan): OperationOptions {
 function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOptions {
   return {
     tracingOptions: {
-      spanOptions: {
-        parent: rootSpan.context()
-      }
+      tracingContext: setSpan(context.active(), rootSpan)
     },
     parentSpan: ({
       context: () => {
@@ -182,9 +178,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       }
       await sender.sendMessages(batch, {
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();
@@ -231,9 +225,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       }
       await sender.sendMessages(messages, {
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();
@@ -305,9 +297,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       messages[0].applicationProperties = { [TRACEPARENT_PROPERTY]: "foo" };
       await sender.sendMessages(messages, {
         tracingOptions: {
-          spanOptions: {
-            parent: rootSpan.context()
-          }
+          tracingContext: setSpan(context.active(), rootSpan)
         }
       });
       rootSpan.end();

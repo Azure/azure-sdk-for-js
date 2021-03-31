@@ -498,9 +498,9 @@ export type ProcessorUnion = Processor | MotionDetectionProcessor | ObjectTracki
 // @public (undocumented)
 export interface Request {
     // (undocumented)
-    MethodName: string;
+    methodName: string;
     // (undocumented)
-    Payload: Payload;
+    payload: Payload;
 }
 
 // @public

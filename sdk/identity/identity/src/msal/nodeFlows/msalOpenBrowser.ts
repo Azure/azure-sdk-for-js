@@ -9,7 +9,7 @@ import stoppable from "stoppable";
 import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
-import { msalToPublic } from "../transformations";
+import { msalToPublic } from "../utils";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.

@@ -54,6 +54,6 @@ describe("test", () => {
     };
 
     const setGraphTopRequest = createPipelineTopologySetRequest(graphTopology);
-    assert.strictEqual(setGraphTopRequest.Payload["@apiVersion"], "1.0");
+    assert.strictEqual(setGraphTopRequest.payload["@apiVersion"], "1.0");
   });
 });

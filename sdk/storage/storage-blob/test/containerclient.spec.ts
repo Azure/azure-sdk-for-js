@@ -20,6 +20,7 @@ import {
   BlobServiceClient
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
+import { context, setSpan } from "@azure/core-tracing";
 dotenv.config();
 
 describe("ContainerClient", () => {
@@ -698,7 +699,7 @@ describe("ContainerClient", () => {
       blobHTTPHeaders: options,
       metadata: options.metadata,
       tracingOptions: {
-        spanOptions: { parent: rootSpan.context() }
+        tracingContext: setSpan(context.active(), rootSpan)
       }
     });
 
