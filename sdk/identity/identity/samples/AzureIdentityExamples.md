@@ -168,16 +168,6 @@ function withInteractiveBrowserCredential() {
 
 See more about how to configure an AAD application for interactive browser authentication in [Single-page application: App registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration)
 
----
-
-TODO::
-
-# ENSURE YOU REMOVED en-us FROM ALL LINKS!
-
-# Ensure the sentences aren't terrible from what you copy-pasted
-
----
-
 ## Authenticating a user account with auth code flow
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AuthorizationCodeCredential` on a web application.
