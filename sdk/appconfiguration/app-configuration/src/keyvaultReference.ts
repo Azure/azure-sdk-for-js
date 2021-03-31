@@ -57,6 +57,6 @@ export function deserializeSecretReference(
   }
 }
 
-export function serializeSecretReference(_setting: SecretReference): ConfigurationSetting {
+export function serializeSecretReferenceParam(_setting: SecretReference): ConfigurationSetting {
   throw new Error("Not implemented");
 }

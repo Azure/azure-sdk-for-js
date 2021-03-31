@@ -1186,7 +1186,8 @@ describe("AppConfigurationClient", () => {
               { name: "group-2", rolloutPercentage: 45 }
             ],
             users: ["userA", "userB"]
-          }
+          },
+          defaultRolloutPercentage: 40
         }
       },
       { name: "Microsoft.Percentage", parameters: { value: 25 } }
@@ -1223,10 +1224,10 @@ describe("AppConfigurationClient", () => {
           baseSetting.key,
           "Key from the response from get request is not as expected"
         );
-        assert.equal(
-          getResponse.value,
-          baseSetting.value,
-          "value from the response from get request is not as expected"
+        assert.deepEqual(
+          getResponse.conditions,
+          baseSetting.conditions,
+          "conditions from the response from get request is not as expected"
         );
       }
     });

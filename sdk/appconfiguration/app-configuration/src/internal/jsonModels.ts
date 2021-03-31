@@ -18,7 +18,7 @@ export type JsonFeatureFlag = {
     )[];
   };
   description?: string;
-  enabled: true;
+  enabled: boolean;
 };
 
 /**

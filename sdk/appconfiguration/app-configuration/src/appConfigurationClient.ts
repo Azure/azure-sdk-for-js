@@ -50,7 +50,8 @@ import {
   transformKeyValueResponseWithStatusCode,
   transformKeyValue,
   formatAcceptDateTime,
-  formatFieldsForSelect
+  formatFieldsForSelect,
+  serializeAsConfigurationSettingParam
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
@@ -191,10 +192,13 @@ export class AppConfigurationClient {
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
     return this._trace("addConfigurationSetting", options, async (newOptions) => {
+      const internalConfigurationSetting = serializeAsConfigurationSettingParam(
+        configurationSetting
+      );
       const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
         label: configurationSetting.label,
-        entity: configurationSetting,
+        entity: internalConfigurationSetting,
         ...newOptions
       });
 

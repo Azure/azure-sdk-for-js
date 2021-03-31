@@ -37,7 +37,7 @@ export interface ConfigurationSettingParam extends ConfigurationSettingId {
   /**
    * The setting's value
    */
-  value?: string;
+  value?: string; // Value is not present for FeatureFlag
 
   /**
    * Tags for this key

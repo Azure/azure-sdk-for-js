@@ -95,7 +95,7 @@ export interface FeatureFlagParam extends ConfigurationSettingParam {
 export interface FeatureFlagPercentageClientFilter {
     name: "Microsoft.Percentage";
     parameters: {
-        [key: string]: any;
+        value: number;
     };
 }
 

@@ -10,20 +10,23 @@ import {
   HttpResponseField,
   HttpResponseFields,
   HttpOnlyIfChangedField,
-  HttpOnlyIfUnchangedField
+  HttpOnlyIfUnchangedField,
+  ConfigurationSettingParam
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
 import {
   deserializeFeatureFlag,
   FeatureFlag,
   featureFlagContentType,
-  serializeFeatureFlag
+  FeatureFlagParam,
+  serializeFeatureFlagParam
 } from "../featureFlag";
 import {
   deserializeSecretReference,
   SecretReference,
   secretReferenceContentType,
-  serializeSecretReference
+  SecretReferenceParam,
+  serializeSecretReferenceParam
 } from "../keyvaultReference";
 
 /**
@@ -184,15 +187,15 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
 /**
  * @internal
  */
-export function serializeAsConfigurationSetting(
-  setting: FeatureFlag | SecretReference
-): ConfigurationSetting {
+export function serializeAsConfigurationSettingParam(
+  setting: FeatureFlagParam | SecretReferenceParam | ConfigurationSettingParam
+): ConfigurationSettingParam {
   switch (setting.contentType) {
     case featureFlagContentType: {
-      return serializeFeatureFlag(setting as FeatureFlag);
+      return serializeFeatureFlagParam(setting as FeatureFlag);
     }
     case secretReferenceContentType: {
-      return serializeSecretReference(setting as SecretReference);
+      return serializeSecretReferenceParam(setting as SecretReference);
     }
     default:
       return setting;

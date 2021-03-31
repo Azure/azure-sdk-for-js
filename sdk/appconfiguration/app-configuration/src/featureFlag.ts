@@ -5,7 +5,10 @@ import {
   isJsonFeatureFlagPercentageClientFilter,
   isJsonFeatureFlagTargetingClientFilter,
   isJsonFeatureFlagTimeWindowClientFilter,
-  JsonFeatureFlag
+  JsonFeatureFlag,
+  JsonFeatureFlagPercentageClientFilter,
+  JsonFeatureFlagTargetingClientFilter,
+  JsonFeatureFlagTimeWindowClientFilter
 } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
 
@@ -219,8 +222,22 @@ export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFl
   return setting;
 }
 
-export function serializeFeatureFlag(_setting: FeatureFlag): ConfigurationSetting {
-  throw new Error("Not implemented");
+export function serializeFeatureFlagParam(setting: FeatureFlagParam): ConfigurationSettingParam {
+  const value: JsonFeatureFlag & { id: string } = {
+    id: setting.key.replace(featureFlagPrefix, ""),
+    description: setting.description,
+    enabled: setting.enabled,
+    conditions: convertToJsonConditions(setting.conditions)
+  };
+  const configurationSetting: ConfigurationSettingParam = {
+    key: setting.key,
+    label: setting.label,
+    contentType: setting.contentType,
+    etag: setting.contentType,
+    tags: setting.tags,
+    value: JSON.stringify(value)
+  };
+  return configurationSetting;
 }
 
 /**
@@ -275,5 +292,60 @@ export function convertJsonConditions(
 
   return {
     clientFilters
+  };
+}
+
+/**
+ * @internal
+ */
+export function convertToJsonConditions(
+  conditions: FeatureFlag["conditions"]
+): JsonFeatureFlag["conditions"] {
+  const client_filters = conditions.clientFilters.map((filter) => {
+    if (isFeatureFlagTargetingClientFilter(filter)) {
+      // try not to slice any unknown attributes
+      const jsonFilter: JsonFeatureFlagTargetingClientFilter = {
+        name: filter.name,
+        parameters: {
+          Audience: {
+            Groups:
+              filter.parameters.audience?.groups.map((grp) => ({
+                Name: grp.name,
+                RolloutPercentage: grp.rolloutPercentage
+              })) || [],
+            Users: filter.parameters.audience?.users || []
+          },
+          DefaultRolloutPercentage: filter.parameters.defaultRolloutPercentage
+        }
+      };
+
+      return jsonFilter;
+    } else if (isFeatureFlagTimeWindowClientFilter(filter)) {
+      // try not to slice any unknown attributes
+      const jsonFilter: JsonFeatureFlagTimeWindowClientFilter = {
+        name: filter.name,
+        parameters: {
+          Start: filter.parameters.start,
+          End: filter.parameters.end
+        }
+      };
+
+      return jsonFilter;
+    } else if (isJsonFeatureFlagPercentageClientFilter(filter)) {
+      // try not to slice any unknown attributes
+      const jsonFilter: JsonFeatureFlagPercentageClientFilter = {
+        name: filter.name,
+        parameters: {
+          Value: filter.parameters.value
+        }
+      };
+      return jsonFilter;
+    } else {
+      return filter as object;
+    }
+  });
+
+  return {
+    client_filters
   };
 }
