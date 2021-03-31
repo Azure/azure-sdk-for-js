@@ -15,7 +15,7 @@ if (isNode) {
   dotenv.config();
 }
 
-describe("SmsClientWithToken [Playback/Record]", async () => {
+describe("SmsClientWithToken [Live]", async () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {

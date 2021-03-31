@@ -14,7 +14,7 @@ if (isNode) {
   dotenv.config();
 }
 
-describe("SmsClient [Playback/Live]", async () => {
+describe("SmsClient [Live]", async () => {
   let recorder: Recorder;
   let smsClient: SmsClient;
 
