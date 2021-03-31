@@ -42,7 +42,11 @@ export interface AuthenticationRecord {
 
 // @public
 export class AuthenticationRequired extends CredentialUnavailable {
-    constructor(message?: string);
+    constructor(
+    scopes: string[],
+    getTokenOptions?: GetTokenOptions, message?: string);
+    getTokenOptions: GetTokenOptions;
+    scopes: string[];
 }
 
 // @public
