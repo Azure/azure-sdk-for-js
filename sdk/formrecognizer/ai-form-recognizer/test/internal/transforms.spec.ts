@@ -2321,7 +2321,9 @@ describe("Transforms", () => {
       const original: FieldValueModel = {
         type: "phoneNumber",
         valuePhoneNumber: "phoneNumber value",
-        ...commonProperties
+        ...commonProperties,
+        // TODO: regression causes phone numbers to be sent in 'text'
+        text: "phoneNumber value"
       };
 
       const transformed = toFormFieldFromFieldValueModel(original, "keyName", formPages);
