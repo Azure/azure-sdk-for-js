@@ -22,12 +22,6 @@ export async function main(): Promise<void> {
 
   // Retrieving the properties of the existing keys in that specific Key Vault.
   console.log(await client.listPropertiesOfKeys().next());
-
-  // When deployed to an Azure resource, you may also authenticate with a user assigned managed identity
-  credential = new DefaultAzureCredential({
-    managedIdentityClientId: "<Managed Identity Client ID>"
-  });
-  client = new KeyClient(keyVaultUrl, credential);
 }
 
 main().catch((err) => {
