@@ -109,6 +109,8 @@ Configuration is attempted in the above order. For example, if values for a clie
 
 ## Examples
 
+You can find more examples of using various credentials in [Azure Identity Examples Page]()
+
 ### Authenticating with the `DefaultAzureCredential`
 
 This example demonstrates authenticating the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library using the `DefaultAzureCredential`.
