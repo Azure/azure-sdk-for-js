@@ -23,8 +23,8 @@ import { RemoteRenderingRestClient } from "./generated";
 import {
   AssetConversion,
   AssetConversionSettings,
-  RemoteRenderingCreateConversionResponse,
   RemoteRenderingRestClientOptionalParams,
+  RemoteRenderingCreateConversionResponse,
   RenderingSession,
   RenderingSessionSettings,
   RemoteRenderingCreateSessionResponse,
@@ -50,19 +50,50 @@ import { RemoteRendering } from "./generated/operations";
 import { AssetConversionPoller, AssetConversionOperationState } from "./lro/assetConversionPoller";
 import {
   RenderingSessionPoller,
-  RenderingSessionOperationState
+  RenderingSessionOperationStateImpl
 } from "./lro/renderingSessionPoller";
 
 export {
   AssetConversionOperationState,
   AssetConversion,
-  RenderingSessionPoller,
-  RenderingSessionOperationState
+  AssetConversionSettings,
+  RenderingSession,
+  RenderingSessionSettings,
+  RenderingSessionOperationStateImpl as RenderingSessionOperationState,
+  UpdateSessionSettings,
+  RemoteRenderingClientOptions
 };
 
-export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, WithResponse<AssetConversion>>;
+import {
+  AssetConversionInputSettings,
+  AssetConversionOutputSettings,
+  RemoteRenderingServiceError,
+  AssetConversionOutput,
+  AssetConversionStatus,
+  KnownAssetConversionStatus,
+  KnownRenderingSessionStatus,
+  RenderingServerSize,
+  KnownRenderingServerSize
+} from "./generated/models/index";
+
+export {
+  AssetConversionInputSettings,
+  AssetConversionOutputSettings,
+  AssetConversionOutput,
+  AssetConversionStatus,
+  RemoteRenderingServiceError,
+  KnownAssetConversionStatus,
+  KnownRenderingSessionStatus,
+  RenderingServerSize,
+  KnownRenderingServerSize
+};
+
+export type AssetConversionPollerLike = PollerLike<
+  AssetConversionOperationState,
+  WithResponse<AssetConversion>
+>;
 export type RenderingSessionPollerLike = PollerLike<
-  RenderingSessionOperationState,
+  RenderingSessionOperationStateImpl,
   WithResponse<RenderingSession>
 >;
 
@@ -115,12 +146,20 @@ export class RemoteRenderingClient {
   );
 
   /**
-   * Creates an instance of a MixedRealityStsClient.
+   * Creates an instance of a RemoteRenderingClient.
    * @param accountId The Remote Rendering service account identifier.
    * @param accountDomain The Remote Rendering service account domain.
    * @param credential An access token obtained from the Mixed Reality STS service.
    * @param options Additional client options.
    */
+  constructor(
+    endpoint: string,
+    accountId: string,
+    accountDomain: string,
+    credential: AccessToken,
+    options: RemoteRenderingClientOptions
+  );
+
   constructor(
     endpoint: string,
     accountId: string,
@@ -366,7 +405,10 @@ export class RemoteRenderingClient {
    *                  underscores, and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
-  public async endSession(sessionId: string, options?: OperationOptions): Promise<WithResponse<{}>> {
+  public async endSession(
+    sessionId: string,
+    options?: OperationOptions
+  ): Promise<WithResponse<{}>> {
     sessionId = sessionId;
     options = options;
     throw new Error("Not yet implemented.");

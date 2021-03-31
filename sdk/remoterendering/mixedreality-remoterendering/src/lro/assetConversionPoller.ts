@@ -7,23 +7,33 @@ import { AssetConversion, KnownAssetConversionStatus } from "../generated/models
 
 import { AbortSignalLike } from "@azure/abort-controller";
 
-export class AssetConversionOperationState implements PollOperationState<WithResponse<AssetConversion>> {
-  client: RemoteRenderingClient;
-  conversionState: WithResponse<AssetConversion>;
+export interface AssetConversionOperationState extends PollOperationState<WithResponse<AssetConversion>> {
+  /**
+   * The latest response when querying the service. The conversion may or may not be completed.
+   */
+  latestResponse: WithResponse<AssetConversion>;
+}
+
+export class AssetConversionOperationStateImpl
+  implements AssetConversionOperationState {
+  private client: RemoteRenderingClient;
+  latestResponse: WithResponse<AssetConversion>;
 
   constructor(client: RemoteRenderingClient, conversionState: WithResponse<AssetConversion>) {
     this.client = client;
-    this.conversionState = conversionState;
+    this.latestResponse = conversionState;
   }
 
   get isStarted(): boolean {
+    // TODO
+    this.client = this.client;
     return true;
   }
 
   get isCompleted(): boolean {
     return (
-      this.conversionState.status != KnownAssetConversionStatus.NotStarted &&
-      this.conversionState.status != KnownAssetConversionStatus.Running
+      this.latestResponse.status != KnownAssetConversionStatus.NotStarted &&
+      this.latestResponse.status != KnownAssetConversionStatus.Running
     );
   }
 
@@ -32,23 +42,23 @@ export class AssetConversionOperationState implements PollOperationState<WithRes
   }
 
   get error(): Error | undefined {
-    if (this.conversionState.error != null) {
+    if (this.latestResponse.error != null) {
       //TODO Add details.
-      return new Error(this.conversionState.error.message);
+      return new Error(this.latestResponse.error.message);
     }
     return undefined;
   }
 
   get result(): WithResponse<AssetConversion> {
-    return this.conversionState;
+    return this.latestResponse;
   }
 }
 
 class AssetConversionOperation
-  implements PollOperation<AssetConversionOperationState, AssetConversion> {
-  state: AssetConversionOperationState;
+  implements PollOperation<AssetConversionOperationStateImpl, AssetConversion> {
+  state: AssetConversionOperationStateImpl;
 
-  constructor(state: AssetConversionOperationState) {
+  constructor(state: AssetConversionOperationStateImpl) {
     this.state = state;
   }
 
@@ -81,14 +91,17 @@ class AssetConversionOperation
   }
 }
 
-export class AssetConversionPoller extends Poller<AssetConversionOperationState, WithResponse<AssetConversion>> {
+export class AssetConversionPoller extends Poller<
+  AssetConversionOperationStateImpl,
+  WithResponse<AssetConversion>
+> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
   public intervalInMs: number = 10000;
 
   constructor(client: RemoteRenderingClient, assetConversion: WithResponse<AssetConversion>) {
-    super(new AssetConversionOperation(new AssetConversionOperationState(client, assetConversion)));
+    super(new AssetConversionOperation(new AssetConversionOperationStateImpl(client, assetConversion)));
   }
 
   /**
@@ -101,7 +114,7 @@ export class AssetConversionPoller extends Poller<AssetConversionOperationState,
   /**
    * Gets the public state of the polling operation
    */
-  public getOperationState(): AssetConversionOperationState {
+  public getOperationState(): AssetConversionOperationStateImpl {
     throw new Error("Not yet implemented.");
   }
 }

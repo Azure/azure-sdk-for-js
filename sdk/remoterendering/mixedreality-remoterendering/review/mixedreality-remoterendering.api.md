@@ -4,39 +4,173 @@
 
 ```ts
 
+import { AccessToken } from '@azure/core-auth';
+import { AzureKeyCredential } from '@azure/core-auth';
+import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export class ConfigurationClient {
-    constructor(endpointUrl: string, credential: TokenCredential, options?: ConfigurationClientOptions);
-    getConfigurationSetting(key: string, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
-    getConfigurationSetting(setting: ConfigurationSetting, options?: GetConfigurationSettingOptions): Promise<ConfigurationSetting>;
+export interface AssetConversion {
+    conversionId: string;
+    createdOn: Date;
+    error: RemoteRenderingServiceError | null;
+    readonly output?: AssetConversionOutput;
+    settings: AssetConversionSettings;
+    status: AssetConversionStatus;
 }
 
 // @public
-export interface ConfigurationClientOptions extends PipelineOptions {
+export interface AssetConversionInputSettings {
+    blobPrefix?: string;
+    relativeInputAssetPath: string;
+    storageContainerReadListSas?: string;
+    storageContainerUrl: string;
 }
 
 // @public (undocumented)
-export interface ConfigurationSetting {
-    contentType?: string;
-    etag?: string;
-    isReadOnly?: boolean;
-    key: string;
-    label?: string;
-    lastModified?: Date;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    value?: string;
+export interface AssetConversionOperationState extends PollOperationState<WithResponse<AssetConversion>> {
+    latestResponse: WithResponse<AssetConversion>;
 }
 
 // @public
-export interface GetConfigurationSettingOptions extends OperationOptions {
-    onlyIfChanged?: boolean;
+export interface AssetConversionOutput {
+    readonly outputAssetUrl?: string;
 }
+
+// @public
+export interface AssetConversionOutputSettings {
+    blobPrefix?: string;
+    outputAssetFilename?: string;
+    storageContainerUrl: string;
+    storageContainerWriteSas?: string;
+}
+
+// @public (undocumented)
+export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, WithResponse<AssetConversion>>;
+
+// @public
+export interface AssetConversionSettings {
+    inputSettings: AssetConversionInputSettings;
+    outputSettings: AssetConversionOutputSettings;
+}
+
+// @public
+export type AssetConversionStatus = string;
+
+// @public
+export const enum KnownAssetConversionStatus {
+    Cancelled = "Cancelled",
+    Failed = "Failed",
+    NotStarted = "NotStarted",
+    Running = "Running",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export const enum KnownRenderingServerSize {
+    Premium = "Premium",
+    Standard = "Standard"
+}
+
+// @public
+export const enum KnownRenderingSessionStatus {
+    Error = "Error",
+    Expired = "Expired",
+    Ready = "Ready",
+    Starting = "Starting",
+    Stopped = "Stopped"
+}
+
+// @public
+export class RemoteRenderingClient {
+    constructor(endpoint: string, accountId: string, accountDomain: string, credential: AzureKeyCredential, options: RemoteRenderingClientOptions);
+    constructor(endpoint: string, accountId: string, accountDomain: string, credential: TokenCredential, options: RemoteRenderingClientOptions);
+    constructor(endpoint: string, accountId: string, accountDomain: string, credential: AccessToken, options: RemoteRenderingClientOptions);
+    beginConversion(conversionId: string, assetConversionSettings: AssetConversionSettings, options?: OperationOptions): Promise<AssetConversionPollerLike>;
+    beginSession(sessionId: string, renderingSessionSettings: RenderingSessionSettings, options?: OperationOptions): Promise<RenderingSessionPollerLike>;
+    endSession(sessionId: string, options?: OperationOptions): Promise<WithResponse<{}>>;
+    getConversion(conversionId: string, options?: OperationOptions): Promise<WithResponse<AssetConversion>>;
+    getConversionPoller(conversionId: string, options?: OperationOptions): Promise<AssetConversionPollerLike>;
+    getSession(sessionId: string, options?: OperationOptions): Promise<WithResponse<RenderingSession>>;
+    getSessionPoller(sessionId: string, options?: OperationOptions): Promise<AssetConversionPollerLike>;
+    listConversions(options?: OperationOptions): PagedAsyncIterableIterator<AssetConversion>;
+    listSessions(options?: OperationOptions): PagedAsyncIterableIterator<RenderingSession>;
+    updateSession(sessionId: string, updateSessionSettings: UpdateSessionSettings, options?: OperationOptions): Promise<WithResponse<RenderingSession>>;
+}
+
+// @public
+export interface RemoteRenderingClientOptions extends PipelineOptions {
+    authenticationEndpointUrl?: string;
+}
+
+// @public
+export interface RemoteRenderingServiceError {
+    code: string;
+    readonly details?: RemoteRenderingServiceError[];
+    readonly innerError?: RemoteRenderingServiceError;
+    message: string;
+    readonly target?: string;
+}
+
+// @public
+export type RenderingServerSize = string;
+
+// @public
+export interface RenderingSession {
+    readonly arrInspectorPort?: number;
+    readonly createdOn?: Date;
+    readonly elapsedTimeInMinutes?: number;
+    readonly error?: RemoteRenderingServiceError | null;
+    readonly handshakePort?: number;
+    readonly host?: string;
+    readonly maxLeaseTimeInMinutes?: number;
+    sessionId: string;
+    size: RenderingServerSize;
+    // Warning: (ae-forgotten-export) The symbol "RenderingSessionStatus" needs to be exported by the entry point index.d.ts
+    status: RenderingSessionStatus;
+    readonly teraflops?: number;
+}
+
+// @public (undocumented)
+export class RenderingSessionOperationState implements PollOperationState<WithResponse<RenderingSession>> {
+    constructor(client: RemoteRenderingClient, conversionState: WithResponse<RenderingSession>);
+    // (undocumented)
+    get error(): Error | undefined;
+    // (undocumented)
+    get isCancelled(): boolean;
+    // (undocumented)
+    get isCompleted(): boolean;
+    // (undocumented)
+    get isStarted(): boolean;
+    // (undocumented)
+    latestResponse: WithResponse<RenderingSession>;
+    // (undocumented)
+    get result(): WithResponse<RenderingSession>;
+}
+
+// @public (undocumented)
+export type RenderingSessionPollerLike = PollerLike<RenderingSessionOperationState, WithResponse<RenderingSession>>;
+
+// @public
+export interface RenderingSessionSettings {
+    maxLeaseTimeInMinutes: number;
+    size: RenderingServerSize;
+}
+
+// @public
+export interface UpdateSessionSettings {
+    maxLeaseTimeInMinutes: number;
+}
+
+// @public
+export type WithResponse<T extends object> = T & {
+    _response: HttpResponse;
+};
 
 
 // (No @packageDocumentation comment for this package)

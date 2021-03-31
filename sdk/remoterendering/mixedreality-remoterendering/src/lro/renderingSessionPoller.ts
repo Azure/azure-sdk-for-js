@@ -7,21 +7,31 @@ import { RenderingSession, KnownRenderingSessionStatus } from "../generated/mode
 
 import { AbortSignalLike } from "@azure/abort-controller";
 
-export class RenderingSessionOperationState implements PollOperationState<WithResponse<RenderingSession>> {
-  client: RemoteRenderingClient;
-  conversionState: WithResponse<RenderingSession>;
+export interface RenderingSessionOperationState extends PollOperationState<WithResponse<RenderingSession>> {
+  /**
+   * The latest response when querying the service. The session may or may not be ready.
+   */
+  latestResponse: WithResponse<RenderingSession>;
+}
+
+export class RenderingSessionOperationStateImpl
+  implements PollOperationState<WithResponse<RenderingSession>> {
+  private client: RemoteRenderingClient;
+  latestResponse: WithResponse<RenderingSession>;
 
   constructor(client: RemoteRenderingClient, conversionState: WithResponse<RenderingSession>) {
     this.client = client;
-    this.conversionState = conversionState;
+    this.latestResponse = conversionState;
   }
 
   get isStarted(): boolean {
+    // TODO
+    this.client = this.client
     return true;
   }
 
   get isCompleted(): boolean {
-    return this.conversionState.status != KnownRenderingSessionStatus.Starting;
+    return this.latestResponse.status != KnownRenderingSessionStatus.Starting;
   }
 
   get isCancelled(): boolean {
@@ -29,29 +39,29 @@ export class RenderingSessionOperationState implements PollOperationState<WithRe
   }
 
   get error(): Error | undefined {
-    if (this.conversionState.error != null) {
+    if (this.latestResponse.error != null) {
       //TODO Add details.
-      return new Error(this.conversionState.error.message);
+      return new Error(this.latestResponse.error.message);
     }
     return undefined;
   }
 
   get result(): WithResponse<RenderingSession> {
-    return this.conversionState;
+    return this.latestResponse;
   }
 }
 
 class RenderingSessionOperation
-  implements PollOperation<RenderingSessionOperationState, RenderingSession> {
-  state: RenderingSessionOperationState;
+  implements PollOperation<RenderingSessionOperationStateImpl, RenderingSession> {
+  state: RenderingSessionOperationStateImpl;
 
-  constructor(state: RenderingSessionOperationState) {
+  constructor(state: RenderingSessionOperationStateImpl) {
     this.state = state;
   }
 
   update(_options?: {
     abortSignal?: AbortSignalLike;
-    fireProgress?: (state: RenderingSessionOperationState) => void;
+    fireProgress?: (state: RenderingSessionOperationStateImpl) => void;
   }): Promise<RenderingSessionOperation> {
     throw new Error("Not yet implemented.");
   }
@@ -79,7 +89,7 @@ class RenderingSessionOperation
 }
 
 export class RenderingSessionPoller extends Poller<
-  RenderingSessionOperationState,
+  RenderingSessionOperationStateImpl,
   WithResponse<RenderingSession>
 > {
   /**
@@ -89,7 +99,7 @@ export class RenderingSessionPoller extends Poller<
 
   constructor(client: RemoteRenderingClient, RenderingSession: WithResponse<RenderingSession>) {
     super(
-      new RenderingSessionOperation(new RenderingSessionOperationState(client, RenderingSession))
+      new RenderingSessionOperation(new RenderingSessionOperationStateImpl(client, RenderingSession))
     );
   }
 
@@ -103,7 +113,7 @@ export class RenderingSessionPoller extends Poller<
   /**
    * Gets the public state of the polling operation
    */
-  public getOperationState(): RenderingSessionOperationState {
+  public getOperationState(): RenderingSessionOperationStateImpl {
     throw new Error("Not yet implemented.");
   }
 }

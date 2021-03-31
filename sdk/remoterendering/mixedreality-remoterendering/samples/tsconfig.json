@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "outDir": "typescript/dist",
+    "lib": ["DOM", "ES6"]
+  },
+  "include": ["typescript/src/**.ts"],
+  "exclude": ["typescript/*.json", "**/node_modules/", "../node_modules", "../typings"]
+}
