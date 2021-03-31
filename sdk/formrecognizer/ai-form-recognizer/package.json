@@ -128,17 +128,12 @@
   "//sampleConfiguration": {
     "skip": [
       "createComposedModel.js",
-      "customModelManagement.js",
       "differentiateLabeledUnlabeled.js",
       "getBoundingBoxes.js",
-      "recognizeBusinessCard.js",
       "recognizeCustomForm.js",
-      "recognizeInvoice.js",
       "trainLabeledModel.js",
       "trainUnlabeledModel.js",
       "copyModel.js",
-      "authenticationMethods.js",
-      "recognizeContent.js",
       "deleteAllModels.js"
     ]
   }
