@@ -35,7 +35,7 @@ export class MsalClientSecret extends MsalNode {
       });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
-      return this.handleResult(scopes, result || undefined);
+      return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (err) {
       throw this.handleError(scopes, err);
     }

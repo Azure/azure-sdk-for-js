@@ -34,10 +34,11 @@ export const AuthenticationErrorName = "AuthenticationError";
 // @public
 export interface AuthenticationRecord {
     authority: string;
+    clientId: string;
     homeAccountId: string;
-    serialize: () => string;
     tenantId: string;
     username: string;
+    version: SupportedAuthenticationRecordVersions;
 }
 
 // @public
@@ -211,6 +212,9 @@ export class ManagedIdentityCredential implements TokenCredential {
 export interface PersistentCredentialOptions extends TokenCredentialOptions {
     tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
+
+// @public
+export type SupportedAuthenticationRecordVersions = "1.0";
 
 // @public
 export interface TokenCachePersistenceOptions {

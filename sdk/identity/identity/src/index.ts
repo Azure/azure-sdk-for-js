@@ -4,7 +4,7 @@
 import { TokenCredential } from "@azure/core-http";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
-export { AuthenticationRecord } from "./msal/types";
+export { AuthenticationRecord, SupportedAuthenticationRecordVersions } from "./msal/types";
 export { AuthenticationRequired } from "./msal/errors";
 export { deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./client/identityClient";

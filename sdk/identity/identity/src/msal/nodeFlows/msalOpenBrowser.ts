@@ -90,7 +90,7 @@ export class MsalOpenBrowser extends MsalNode {
         this.acquireTokenByCode(tokenRequest)
           .then((authResponse) => {
             if (authResponse?.account) {
-              this.account = msalToPublic(authResponse.account);
+              this.account = msalToPublic(this.clientId, authResponse.account);
             }
             const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
             if (authResponse && authResponse.expiresOn) {

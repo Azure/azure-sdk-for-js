@@ -39,6 +39,11 @@ export interface MsalResult {
 }
 
 /**
+ * Supported AuthenticationRecord versions
+ */
+export type SupportedAuthenticationRecordVersions = "1.0";
+
+/**
  * The record to use to find the cached tokens in the cache.
  */
 export interface AuthenticationRecord {
@@ -51,6 +56,10 @@ export interface AuthenticationRecord {
    */
   homeAccountId: string;
   /**
+   * The associated client ID.
+   */
+  clientId: string;
+  /**
    * The associated tenant ID.
    */
   tenantId: string;
@@ -59,16 +68,7 @@ export interface AuthenticationRecord {
    */
   username: string;
   /**
-   * Function that returns a serialized version of the `AuthenticationRecord`.
-   *
-   * The output of a serialized authentication record will contain the following properties:
-   *
-   *   "authority",
-   *   "home_account_id",
-   *   "tenant_id",
-   *   "username"
-   *
-   * To later use a serialized `AuthenticationRecord`, please use the exported function `deserializeAuthenticationRecord()`.
+   * Version of the authentication record
    */
-  serialize: () => string;
+  version: SupportedAuthenticationRecordVersions;
 }
