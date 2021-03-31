@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// This sample builds on concepts in helloworld.ts and shows you how
-// to use labels. Labels allow you to add an extra dimension for your
-// setting and gives you a simple way to create conventions for environments.
-//
-// For additional information about how labels work see:
-// https://docs.microsoft.com/en-us/azure/azure-app-configuration/concept-key-value#label-keys
-
+/**
+ * @summary This sample builds on concepts in helloworld.ts and shows you how to use labels.
+ */
 const { AppConfigurationClient } = require("@azure/app-configuration");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
+  // Labels allow you to add an extra dimension for your setting and gives you a simple way to create conventions for environments.
+  // More info - https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
   console.log("Running helloworldWithLabels sample");
 
   // Set the following environment variable or edit the value on the following line.
@@ -21,6 +20,7 @@ async function main() {
   const client = new AppConfigurationClient(connectionString);
 
   const urlKey = "Samples:Endpoint:Url";
+
   await cleanupSampleValues([urlKey], client);
 
   // labels allow you to use the same key with different values for separate environments
@@ -31,7 +31,6 @@ async function main() {
     label: "beta",
     value: "https://beta.example.com"
   });
-
   await client.addConfigurationSetting({
     key: urlKey,
     label: "production",
@@ -62,5 +61,4 @@ async function cleanupSampleValues(keys, client) {
 
 main().catch((error) => {
   console.error("Failed to run sample:", error);
-  process.exit(1);
 });
