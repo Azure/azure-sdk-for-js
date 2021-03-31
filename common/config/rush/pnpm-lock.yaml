@@ -187,6 +187,16 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-his7Ah40ThEYORSpIAwuh6B8wkGwO/zG7gqVtmSE4WAJ46e36zUDXTKReUCLBDc6HmjjApQQxxcRFy5FruG79A==
+  /@azure/core-tracing/1.0.0-preview.11:
+    dependencies:
+      '@opencensus/web-types': 0.0.7
+      '@opentelemetry/api': 1.0.0-rc.0
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-frF0pJc9HTmKncVokhBxCqipjbql02DThQ1ZJ9wLi7SDMLdPAFyDI5xZNzX5guLz+/DtPkY+SGK2li9FIXqshQ==
   /@azure/core-tracing/1.0.0-preview.9:
     dependencies:
       '@opencensus/web-types': 0.0.7
@@ -624,6 +634,12 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-y5mNFAiktm7Zyf0GrQ6kjsRqace/WCXk9gMo/sOOna4TtMW8NaZgJceKrsQZl3qiPY9Upu8O9VvdlETXDx4U5A==
+  /@opentelemetry/api/1.0.0-rc.0:
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-iXKByCMfrlO5S6Oh97BuM56tM2cIBB0XsL/vWF/AtJrJEKx4MC/Xdu0xDsGXMGcNWpqF7ujMsjjnp0+UHBwnDQ==
   /@opentelemetry/context-base/0.10.2:
     dev: false
     engines:
@@ -9015,7 +9031,7 @@ packages:
     version: 0.0.0
   file:projects/identity.tgz:
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/core-tracing': 1.0.0-preview.11
       '@azure/msal-node': 1.0.0-beta.6
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
@@ -9073,7 +9089,7 @@ packages:
     optionalDependencies:
       keytar: 7.3.0
     resolution:
-      integrity: sha512-Iqgb4vcT5ioFu7BGNFqdz5dAXkSDYZwb9BtLGLQkDRLv0nzpgCrNDnHJ6dc0ForlEsRk9ld0yBnpLP7ahiZZ8A==
+      integrity: sha512-E/Pw5RO4o0TjQJhVEcWPIaxiZ412O5iRC2nT2A/AsXeznAnmRtRbdxQ5QrgsKD7uqUCKqSbnDVjx7Rs7J4pYkQ==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/keyvault-admin.tgz:
