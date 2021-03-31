@@ -9,8 +9,7 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "10.x",
-      "ServiceVersion": ""
+      "NodeTestVersion": "10.x"
     },
     {
       "Agent": {
