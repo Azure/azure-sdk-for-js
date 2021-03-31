@@ -56,7 +56,7 @@
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-browser dist-test test-browser temp types *.tgz *.log",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript && dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src/",
+    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
