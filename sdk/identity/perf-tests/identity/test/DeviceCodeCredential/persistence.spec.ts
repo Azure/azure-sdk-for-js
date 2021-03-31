@@ -1,12 +1,11 @@
 import { PerfStressTest } from "@azure/test-utils-perfstress";
-import { DeviceCodeCredential, AuthenticationRecord } from "@azure/identity";
+import { DeviceCodeCredential } from "@azure/identity";
 
 const scope = `https://servicebus.azure.net/.default`;
 
 export abstract class DeviceCodeCredentialTest extends PerfStressTest {
   options = {};
   credential: DeviceCodeCredential;
-  account: AuthenticationRecord;
 
   constructor() {
     super();
@@ -19,7 +18,7 @@ export abstract class DeviceCodeCredentialTest extends PerfStressTest {
   }
 
   async globalSetup(): Promise<void> {
-    this.account = await this.credential.authenticate(scope);
+    await this.credential.authenticate(scope);
   }
 }
 
