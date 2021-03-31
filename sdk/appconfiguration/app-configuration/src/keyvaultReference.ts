@@ -56,3 +56,7 @@ export function deserializeSecretReference(
     return undefined;
   }
 }
+
+export function serializeSecretReference(_setting: SecretReference): ConfigurationSetting {
+  throw new Error("Not implemented");
+}

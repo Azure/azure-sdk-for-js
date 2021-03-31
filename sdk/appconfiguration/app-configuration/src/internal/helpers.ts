@@ -13,8 +13,18 @@ import {
   HttpOnlyIfUnchangedField
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
-import { deserializeFeatureFlag, featureFlagContentType } from "../featureFlag";
-import { deserializeSecretReference, secretReferenceContentType } from "../keyvaultReference";
+import {
+  deserializeFeatureFlag,
+  FeatureFlag,
+  featureFlagContentType,
+  serializeFeatureFlag
+} from "../featureFlag";
+import {
+  deserializeSecretReference,
+  SecretReference,
+  secretReferenceContentType,
+  serializeSecretReference
+} from "../keyvaultReference";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -165,6 +175,24 @@ export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
     }
     case secretReferenceContentType: {
       return deserializeSecretReference(setting) ?? setting;
+    }
+    default:
+      return setting;
+  }
+}
+
+/**
+ * @internal
+ */
+export function serializeAsConfigurationSetting(
+  setting: FeatureFlag | SecretReference
+): ConfigurationSetting {
+  switch (setting.contentType) {
+    case featureFlagContentType: {
+      return serializeFeatureFlag(setting as FeatureFlag);
+    }
+    case secretReferenceContentType: {
+      return serializeSecretReference(setting as SecretReference);
     }
     default:
       return setting;
