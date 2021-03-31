@@ -23,7 +23,6 @@ export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+js
  * Necessary fields for updating or creating a new feature flag.
  */
 export interface FeatureFlagParam extends ConfigurationSettingParam {
-  // TODO: can we hoist 'clientFilters' higher and avoid this sub-field? Need to talk to team.
   /**
    * A Feature filter consistently evaluates the state of a feature flag.
    * Our feature management library supports three types of built-in filters: Targeting, TimeWindow, and Percentage.
