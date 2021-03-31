@@ -329,7 +329,7 @@ You are not limited to receipts! There are a few prebuilt models to choose from,
 - Receipts, through the `beginRecognizeReceipts` method (see [the supported fields of the receipt model](https://aka.ms/azsdk/formrecognizer/receiptfields)).
 - Business cards, through `beginRecognizeBusinessCards` (see [the supported fields of the business card model](https://aka.ms/azsdk/formrecognizer/businesscardfields)).
 - Invoices, through `beginRecognizeInvoices` (see [the supported fields of the invoice model](https://aka.ms/azsdk/formrecognizer/invoicefields)).
-- Identity Documents (such as driver licenses), through `beginRecognizeIdDocuments` (see [the supported fields of the identity document model](https://aka.ms/azsdk/formrecognizer/iddocumentfields)).
+- Identity Documents (such as driver licenses and passports), through `beginRecognizeIdDocuments` (see [the supported fields of the identity document model](https://aka.ms/azsdk/formrecognizer/iddocumentfields)).
 
 ### Train a Model
 

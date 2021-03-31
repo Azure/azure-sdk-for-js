@@ -2,7 +2,7 @@
 
 ## 3.1.0-beta.3 (2021-04-06)
 
-- Added support for recognizing identity documents (such as driver licenses) through the `beginRecognizeIdDocuments` method and its URL-based counterpart `beginRecognizeIdDocumentsFromUrl`. The identity document model is prebuilt and may be used without training a model.
+- Added support for recognizing identity documents (such as driver licenses and passports) through the `beginRecognizeIdDocuments` method and its URL-based counterpart `beginRecognizeIdDocumentsFromUrl`. The identity document model is prebuilt and may be used without training a model.
 - Introduced two new form field value types: `"gender"` and `"country"`. These value types appear in the identity document recognition responses.
   - The `"gender"` value type signifies the gender or sex of an individual and is represented by a string that is one of three values: "M", "F", or "X".
   - The `"country"` value type indicates a specific country and is represented by a three-letter country code string (ISO 3166-1 alpha-3).
