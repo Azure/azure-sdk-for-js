@@ -6,16 +6,11 @@ import { isNode, WebResourceLike } from "@azure/core-http";
 import { DefaultAzureCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import * as dotenv from "dotenv";
 import sinon from "sinon";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "./utils/mockHttpClients";
 import { SDK_VERSION } from "../src/utils/constants";
 import { Context } from "mocha";
-
-if (isNode) {
-  dotenv.config();
-}
 
 describe("PhoneNumbersClient - headers", function() {
   const endpoint = "https://contoso.spool.azure.local";
