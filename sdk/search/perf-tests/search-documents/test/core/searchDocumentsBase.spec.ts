@@ -1,5 +1,4 @@
 import {
-  PerfStressOptionDictionary,
   PerfStressTest,
   getEnvVar
 } from "@azure/test-utils-perfstress";
@@ -11,14 +10,17 @@ import {
   KnownAnalyzerNames
 } from "@azure/search-documents";
 import { Hotel } from "./hotel";
+import { generateHotels } from "./documentsGenerator";
 
-export class GetDocumentsCountTest extends PerfStressTest {
-  public options: PerfStressOptionDictionary = {
-  };
+export interface SearchDocumentsTestOptions {
+  documentsCount: number;
+}
 
-  private searchClient: SearchClient<Hotel>;
-  private searchIndexClient: SearchIndexClient;
-  private indexName: string;
+export abstract class SearchDocumentsBase<TOptions = {}> extends PerfStressTest<TOptions> {
+  searchIndexClient: SearchIndexClient;
+  searchClient: SearchClient<Hotel>;
+  indexName: string;
+  suggesterName: string;
 
   constructor() {
     super();
@@ -27,6 +29,7 @@ export class GetDocumentsCountTest extends PerfStressTest {
     this.indexName = getEnvVar("SEARCH_DOCUMENTS_INDEXNAME");
     this.searchClient = new SearchClient<Hotel>(endpoint, this.indexName, credential);
     this.searchIndexClient = new SearchIndexClient(endpoint, credential);
+    this.suggesterName = "sg";
   }
 
   public async globalSetup() {
@@ -245,7 +248,11 @@ export class GetDocumentsCountTest extends PerfStressTest {
     await this.searchIndexClient.deleteIndex(this.indexName);
   }
 
-  async runAsync(): Promise<void> {
-    await this.searchClient.getDocumentsCount();
+  public async populateIndex(documentsCount: number) {
+    const hotels = generateHotels(documentsCount);
+    while(hotels.length > 0) {
+      const hotelsToUpload = hotels.splice(0, 100);
+      await this.searchClient.uploadDocuments(hotelsToUpload)
+    }
   }
 }
