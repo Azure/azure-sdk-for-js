@@ -6,11 +6,18 @@ import { Context } from "mocha";
 import fs from "fs";
 import path from "path";
 
-import { FormRecognizerClient, FormField, FormTrainingClient, CustomFormModel } from "../../../src";
+import {
+  FormRecognizerClient,
+  FormField,
+  FormTrainingClient,
+  CustomFormModel,
+  KnownSelectionMarkState,
+  KnownLanguage,
+  KnownGender
+} from "../../../src";
 import { testPollingOptions, makeCredential, createRecorder } from "../../utils/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "../../utils/matrix";
-import { KnownFieldValueGender } from "../../../src/generated";
 
 const endpoint = (): string => env.FORM_RECOGNIZER_ENDPOINT;
 
@@ -168,7 +175,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         // Just make sure that this doesn't throw
         const poller = await client.beginRecognizeContentFromUrl(url, {
-          language: "en",
+          language: KnownLanguage.En,
           ...testPollingOptions
         });
 
@@ -266,7 +273,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         const amexMark = result.fields["AMEX_SELECTION_MARK"];
         assert.equal(amexMark.valueType, "selectionMark");
-        assert.equal(amexMark.value, "selected");
+        assert.equal(amexMark.value, KnownSelectionMarkState.Selected);
 
         const [page] = result.pages;
 
@@ -588,7 +595,7 @@ matrix([[true, false]] as const, async (useAad) => {
         FirstName: "LIAM R.",
         LastName: "TALBOT",
         DocumentNumber: "LICWDLACD5DG",
-        Sex: KnownFieldValueGender.M,
+        Sex: KnownGender.M,
         Address: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
         Country: "USA",
         Region: "Washington"
