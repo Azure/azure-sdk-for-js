@@ -22,6 +22,9 @@ export abstract class DeviceCodeCredentialTest extends PerfStressTest {
   }
 }
 
+/**
+ * This test does silent authentication with persistence enabled.
+ */
 export class DeviceCodeCredentialPersistenceTest extends DeviceCodeCredentialTest {
   async runAsync(): Promise<void> {
     await this.credential.getToken(scope);
