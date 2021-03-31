@@ -14,6 +14,7 @@ export class ContainerRegistryClient {
     constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
     deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     endpoint: string;
+    getRepositoryClient(repository: string): ContainerRepositoryClient;
     listRepositories(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
     }
 

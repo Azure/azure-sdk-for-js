@@ -5,8 +5,7 @@ import {
   PipelineResponse,
   PipelineRequest,
   SendRequest,
-  PipelinePolicy,
-  RestError
+  PipelinePolicy
 } from "@azure/core-rest-pipeline";
 import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "./accessTokenCache";
@@ -154,7 +153,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      let accessToken = tokenCache.getCachedToken();
+      const accessToken = tokenCache.getCachedToken();
       if (!accessToken) {
         // retrieves AAD access token
         const token = await retrieveToken(request);
@@ -167,26 +166,19 @@ export function bearerTokenChallengeAuthenticationPolicy(
         await callbacks.prepareRequest(request);
       }
 
-      let challenge: string | undefined;
       let response: PipelineResponse;
       try {
         response = await next(request);
-        challenge = getChallenge(response);
       } catch (err) {
-        if (err instanceof RestError && err.statusCode === 401) {
-          challenge = getChallenge(err.response!);
-        } else {
-          throw err;
-        }
+        response = err.response;
       }
 
+      const challenge = getChallenge(response);
       if (challenge && callbacks?.processChallenge) {
         // processes challenge
         await callbacks.processChallenge(challenge, request);
         return next(request);
       }
-
-      //@ts-ignore assigned in try block
       return response;
     }
   };

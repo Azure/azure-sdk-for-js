@@ -3,7 +3,7 @@
 
 import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
-import { GetTokenOptions } from "@azure/identity";
+import { GetTokenOptions } from "@azure/core-auth";
 import {
   BearerTokenChallengeResult,
   parseWWWAuthenticate
@@ -11,6 +11,60 @@ import {
 import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
+
+const customExchangeAadTokenForAcrRefreshTokenOperationSpec: OperationSpec = {
+  path: "/oauth2/exchange",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AcrRefreshToken
+    },
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  // formDataParameters: [Parameters.aadAccesstoken],
+  requestBody: {
+    parameterPath: ["options", "payload"],
+    mapper: {
+      type: {
+        name: "Stream"
+      }
+    }
+  },
+  urlParameters: [Parameters.url],
+  headerParameters: [Parameters.contentType3, Parameters.accept4],
+  serializer: createSerializer(Mappers, /* isXml */ false)
+};
+
+interface CustomAuthOptions extends OperationOptions {
+  payload: string;
+}
+
+const customExchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: OperationSpec = {
+  path: "/oauth2/token",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AcrAccessToken
+    },
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  // formDataParameters: [Parameters.acrRefreshToken],
+  requestBody: {
+    parameterPath: ["options", "payload"],
+    mapper: {
+      type: {
+        name: "Stream"
+      }
+    }
+  },
+  urlParameters: [Parameters.url],
+  headerParameters: [Parameters.contentType3, Parameters.accept4],
+  serializer: createSerializer(Mappers, /* isXml */ false)
+};
 
 /**
  * Handles challenge based authentication for Container Registry Service.
@@ -160,57 +214,3 @@ export class ChallengeHandler {
     return value.substr("Bearer ".length);
   }
 }
-
-const customExchangeAadTokenForAcrRefreshTokenOperationSpec: OperationSpec = {
-  path: "/oauth2/exchange",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AcrRefreshToken
-    },
-    default: {
-      bodyMapper: Mappers.AcrErrors
-    }
-  },
-  //formDataParameters: [Parameters.aadAccesstoken],
-  requestBody: {
-    parameterPath: ["options", "payload"],
-    mapper: {
-      type: {
-        name: "Stream"
-      }
-    }
-  },
-  urlParameters: [Parameters.url],
-  headerParameters: [Parameters.contentType3, Parameters.accept4],
-  serializer: createSerializer(Mappers, /* isXml */ false)
-};
-
-interface CustomAuthOptions extends OperationOptions {
-  payload: string;
-}
-
-const customExchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: OperationSpec = {
-  path: "/oauth2/token",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AcrAccessToken
-    },
-    default: {
-      bodyMapper: Mappers.AcrErrors
-    }
-  },
-  //formDataParameters: [Parameters.acrRefreshToken],
-  requestBody: {
-    parameterPath: ["options", "payload"],
-    mapper: {
-      type: {
-        name: "Stream"
-      }
-    }
-  },
-  urlParameters: [Parameters.url],
-  headerParameters: [Parameters.contentType3, Parameters.accept4],
-  serializer: createSerializer(Mappers, /* isXml */ false)
-};

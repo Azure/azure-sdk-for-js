@@ -58,7 +58,10 @@ module.exports = function(config) {
       "CONTAINTER_REGISTRY_ENDPOINT",
       "AZURE_CLIENT_ID",
       "AZURE_CLIENT_SECRET",
-      "AZURE_TENANT_ID"
+      "AZURE_TENANT_ID",
+      "RESOURCE_GROUP",
+      "REGISTRY",
+      "SUBSCRIPTION_ID"
     ],
 
     // test results reporter to use

@@ -133,10 +133,15 @@ export class ContainerRepositoryClient {
     options: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpointUrl;
+    this.repository = repository;
+    const matches = endpointUrl.match(/:\/\/([a-zA-Z0-9]+)\./);
+    if (matches) {
+      this.registry = matches[1];
+    } else {
+      throw new Error(`Expecting a valid endpointUrl, got ${endpointUrl}`);
+    }
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
-    this.repository = repository;
-    this.registry = ""; // TODO: (jeremymeng) implement
     if (!options.userAgentOptions) {
       options.userAgentOptions = {};
     }
@@ -160,7 +165,7 @@ export class ContainerRepositoryClient {
     this.authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
     this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
     const authPolicy = bearerTokenChallengeAuthenticationPolicy({
-      credential,
+      credential: credential,
       scopes: `https://management.core.windows.net/.default`,
       challengeCallbacks: new ChallengeHandler(this.authClient)
     });

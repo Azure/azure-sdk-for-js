@@ -19,6 +19,7 @@ import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model"
 import { extractNextLink } from "./utils";
 import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChallengeCredentialPolicy";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
+import { ContainerRepositoryClient } from "./containerRepositoryClient";
 
 /**
  * Options for the `deleteRepository` method of `ContainerRegistryClient`.
@@ -38,6 +39,8 @@ export class ContainerRegistryClient {
    * The Azure Container Registry endpoint.
    */
   public endpoint: string;
+  private credential: TokenCredential;
+  private clientOptions: ContainerRegistryClientOptions;
   private client: GeneratedClient;
   private authClient: GeneratedClient;
 
@@ -64,6 +67,8 @@ export class ContainerRegistryClient {
     options: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpointUrl;
+    this.credential = credential;
+    this.clientOptions = options;
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
@@ -115,7 +120,6 @@ export class ContainerRegistryClient {
       return result;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-
       throw e;
     } finally {
       span.end();
@@ -123,11 +127,28 @@ export class ContainerRegistryClient {
   }
 
   /**
+   * Returns a ContainerRepositoryClient instance for the given repository.
+   *
+   * @param name - the name of repository to delete
+   * @param options - optional configuration for the operation
+   */
+  // The method name follows beta.1 API design
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-subclients
+  public getRepositoryClient(repository: string): ContainerRepositoryClient {
+    return new ContainerRepositoryClient(
+      this.endpoint,
+      repository,
+      this.credential,
+      this.clientOptions
+    );
+  }
+
+  /**
    * Iterates repositories.
    *
    * Example usage:
    * ```ts
-   * let client = new ContaienrRegistryClient(url, credentials);
+   * let client = new ContainerRegistryClient(url, credentials);
    * for await (const repository of client.listRepositories()) {
    *   console.log("repository name: ", repository);
    * }

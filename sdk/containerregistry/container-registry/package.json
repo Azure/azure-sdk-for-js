@@ -44,7 +44,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace --file test/public/importImage.ts \"test/{,!(browser)/**/}/*.spec.ts\"",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -83,6 +83,7 @@
   "devDependencies": {
     "@azure/arm-containerregistry": "^8.0.0",
     "@azure/dev-tool": "^1.0.0",
+    "@azure/core-util": "^1.0.0-beta.1",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",
     "@azure/ms-rest-nodeauth": "^3.0.8",
