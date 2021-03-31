@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
+/**
+ * @summary Demonstrates the use of a SchemaRegistryClient to register and retrieve schema.
+ */
+
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SchemaRegistryClient } = require("@azure/schema-registry");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // Set these environment variables or edit the following values
@@ -30,14 +34,14 @@ const schemaObject = {
 };
 
 // Description of the schema for registration
-const schemaDescription: SchemaDescription = {
+const schemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   group,
   serializationType: "avro",
   content: JSON.stringify(schemaObject)
 };
 
-export async function main() {
+async function main() {
   // Create a new client
   const client = new SchemaRegistryClient(endpoint, new DefaultAzureCredential());
 
