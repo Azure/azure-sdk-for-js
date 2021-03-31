@@ -13,10 +13,26 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
  * Options sent to the challenge callbacks
  */
 export interface ChallengeCallbackOptions {
+  /**
+   * The scopes for which the bearer token applies.
+   */
   scopes: string | string[];
+  /**
+   * Additional claims to be included in the token.
+   * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
+   */
   claims?: string;
+  /**
+   * Token cached from a previous authentication.
+   */
   cachedToken?: AccessToken;
+  /**
+   * Credential to use to retrieve a new token.
+   */
   credential: TokenCredential;
+  /**
+   * Request that the policy is trying to fulfill.
+   */
   request: PipelineRequest;
 }
 
