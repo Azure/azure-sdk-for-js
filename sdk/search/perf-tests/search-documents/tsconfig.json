@@ -14,5 +14,7 @@
   "include": [
     "./test/**/*.ts"
   ],
-  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
+  "exclude": [
+    "node_modules"
+  ]
 }
