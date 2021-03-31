@@ -15,7 +15,6 @@ export {
   ConnectionState,
   DigitalTwinsDescription,
   DigitalTwinsEndpointResource,
-  DigitalTwinsEndpointResourceListResult,
   DigitalTwinsEndpointResourceProperties,
   DigitalTwinsIdentity,
   DigitalTwinsResource,
@@ -27,5 +26,6 @@ export {
   PrivateEndpoint,
   PrivateEndpointConnection,
   PrivateEndpointConnectionProperties,
+  PrivateEndpointConnectionsResponse,
   ServiceBus
 } from "../models/mappers";
