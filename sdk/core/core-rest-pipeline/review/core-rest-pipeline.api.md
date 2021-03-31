@@ -27,8 +27,8 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
     challengeCallbacks?: {
-        authenticateRequest?(options: ChallengeCallbackOptions): Promise<AccessToken | undefined>;
-        authenticateRequestOnChallenge(challenge: string, options: ChallengeCallbackOptions): Promise<AccessToken | undefined>;
+        authenticateRequest?(options: ChallengeCallbackOptions): Promise<void>;
+        authenticateRequestOnChallenge(challenge: string, options: ChallengeCallbackOptions): Promise<boolean>;
     };
     credential: TokenCredential;
     scopes: string | string[];
@@ -41,6 +41,7 @@ export interface ChallengeCallbackOptions {
     credential: TokenCredential;
     request: PipelineRequest;
     scopes: string | string[];
+    setAuthorizationHeader: (accessToken: AccessToken) => void;
 }
 
 // @public
@@ -65,10 +66,10 @@ export function decompressResponsePolicy(): PipelinePolicy;
 export const decompressResponsePolicyName = "decompressResponsePolicy";
 
 // @public
-export function defaultAuthenticateRequest(options: ChallengeCallbackOptions): Promise<AccessToken | undefined>;
+export function defaultAuthenticateRequest(options: ChallengeCallbackOptions): Promise<void>;
 
 // @public
-export function defaultAuthenticateRequestOnChallenge(challenge: string, options: ChallengeCallbackOptions): Promise<AccessToken | undefined>;
+export function defaultAuthenticateRequestOnChallenge(challenge: string, options: ChallengeCallbackOptions): Promise<boolean>;
 
 // @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;

@@ -68,8 +68,8 @@ function parseCAEChallenge(challenges: string): any[] {
 async function authenticateRequestOnChallenge(
   challenge: string,
   options: ChallengeCallbackOptions
-): Promise<AccessToken | undefined> {
-  const { scopes } = options;
+): Promise<boolean> {
+  const { scopes, setAuthorizationHeader } = options;
 
   const challenges: TestChallenge[] = parseCAEChallenge(challenge) || [];
 
@@ -81,12 +81,19 @@ async function authenticateRequestOnChallenge(
     cachedChallenge = challenge;
   }
 
-  return retrieveToken({
+  const accessToken = await retrieveToken({
     ...options,
     cachedToken: undefined,
     scopes: parsedChallenge.scope || scopes,
     claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
   });
+
+  if (!accessToken) {
+    return false;
+  }
+
+  setAuthorizationHeader(accessToken);
+  return true;
 }
 
 class MockRefreshAzureCredential implements TokenCredential {
@@ -142,8 +149,10 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
-        async authenticateRequest({ cachedToken }) {
-          return cachedToken;
+        async authenticateRequest({ cachedToken, setAuthorizationHeader }) {
+          if (cachedToken) {
+            setAuthorizationHeader(cachedToken);
+          }
         },
         authenticateRequestOnChallenge
       }
@@ -244,8 +253,10 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
-        async authenticateRequest({ cachedToken }) {
-          return cachedToken;
+        async authenticateRequest({ cachedToken, setAuthorizationHeader }) {
+          if (cachedToken) {
+            setAuthorizationHeader(cachedToken);
+          }
         },
         authenticateRequestOnChallenge
       }
