@@ -14,11 +14,12 @@ require("dotenv").config();
  *
  * For more information, you may go to our readme: [link](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential)
  */
-export async function main(): Promise<void> {
-  const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
 
-  let credential = new DefaultAzureCredential();
-  let client = new KeyClient(keyVaultUrl, credential);
+export async function main(): Promise<void> {
+  const credential = new DefaultAzureCredential();
+
+  const keyVaultUrl = `https://key-vault-name.vault.azure.net`;
+  const client = new KeyClient(keyVaultUrl, credential);
 
   // Retrieving the properties of the existing keys in that specific Key Vault.
   console.log(await client.listPropertiesOfKeys().next());
