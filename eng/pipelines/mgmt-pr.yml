@@ -4,7 +4,7 @@ pr:
       - '*'
   paths:
     exclude:
-      - eng/common/
+      - eng/*/mgmt-*
       - sdk/anomalydetector/ai-anomaly-detector/
       - sdk/appconfiguration/app-configuration/
       - sdk/communication/communication-administration/
