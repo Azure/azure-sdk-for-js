@@ -118,9 +118,11 @@ export interface FeatureFlagPercentageClientFilter {
   name: "Microsoft.Percentage";
   /**
    * Parameters that can be passed in the filter.
+   * Value is expected to be from 0 to 100. SDK doesn't validate the value.
    */
   parameters: {
-    [key: string]: any;
+    value: number;
+    // [key: string]: any - portal shows more inputs, but throws an error if provided more.
   };
 }
 
