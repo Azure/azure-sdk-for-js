@@ -18,7 +18,7 @@ parameters:
 stages:
   - stage: Build
     jobs:
-      - template: /eng/pipelines/templates/jobs/archetype-sdk-client.yml
+      - template: /eng/pipelines/templates/jobs/ci.yml
         parameters:
           Artifacts: ${{parameters.Artifacts}}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
