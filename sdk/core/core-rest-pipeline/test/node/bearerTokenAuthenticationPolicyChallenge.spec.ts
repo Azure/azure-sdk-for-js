@@ -5,13 +5,14 @@ import { assert } from "chai";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
+  ChallengeCallbackOptions,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
   HttpClient,
-  PipelineResponse
+  PipelineResponse,
+  retrieveToken
 } from "../../src";
-import { BearerTokenChallengeResult } from "../../src/policies/bearerTokenAuthenticationPolicy";
 import { TextDecoder } from "util";
 
 export interface TestChallenge {
@@ -64,7 +65,12 @@ function parseCAEChallenge(challenges: string): any[] {
     );
 }
 
-async function processChallenge(challenge: string): Promise<BearerTokenChallengeResult> {
+async function authenticateRequestOnChallenge(
+  challenge: string,
+  options: ChallengeCallbackOptions
+): Promise<boolean> {
+  const { scopes, request } = options;
+
   const challenges: TestChallenge[] = parseCAEChallenge(challenge) || [];
 
   const parsedChallenge = challenges.find((x) => x.claims);
@@ -75,10 +81,18 @@ async function processChallenge(challenge: string): Promise<BearerTokenChallenge
     cachedChallenge = challenge;
   }
 
-  return {
-    scopes: [parsedChallenge.scope],
-    claims: uint8ArrayToString(decodeString(parsedChallenge.claims))
-  };
+  const token = retrieveToken({
+    ...options,
+    scopes: parsedChallenge.scope || scopes,
+    claims: parsedChallenge.claims
+  });
+
+  if (token) {
+    request.headers.set("Authorization", `Bearer ${token}`);
+    return true;
+  } else {
+    return false;
+  }
 }
 
 class MockRefreshAzureCredential implements TokenCredential {
@@ -134,7 +148,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
-        processChallenge
+        authenticateRequestOnChallenge
       }
     });
     pipeline.addPolicy(bearerPolicy);
@@ -233,7 +247,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
-        processChallenge
+        authenticateRequestOnChallenge
       }
     });
     pipeline.addPolicy(bearerPolicy);

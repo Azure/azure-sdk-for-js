@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AccessToken } from '@azure/core-auth';
 import { Debugger } from '@azure/logger';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
@@ -26,17 +27,27 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
     challengeCallbacks?: {
-        prepareRequest?(request: PipelineRequest): Promise<void>;
-        processChallenge(challenge: string, request: PipelineRequest): Promise<BearerTokenChallengeResult | undefined>;
+        authenticateRequest?(options: ChallengeCallbackOptions): Promise<void>;
+        authenticateRequestOnChallenge(challenge: string, options: ChallengeCallbackOptions): Promise<boolean>;
     };
     credential: TokenCredential;
     scopes: string | string[];
 }
 
 // @public
-export interface BearerTokenChallengeResult {
+export interface ChallengeCallbackOptions {
+    // (undocumented)
     claims?: string;
-    scopes?: string[];
+    // (undocumented)
+    credential: TokenCredential;
+    // (undocumented)
+    request: PipelineRequest;
+    // (undocumented)
+    scopes: string | string[];
+    // Warning: (ae-forgotten-export) The symbol "AccessTokenCache" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    tokenCache: AccessTokenCache;
 }
 
 // @public
@@ -59,6 +70,12 @@ export function decompressResponsePolicy(): PipelinePolicy;
 
 // @public
 export const decompressResponsePolicyName = "decompressResponsePolicy";
+
+// @public
+export function defaultAuthenticateRequest(options: ChallengeCallbackOptions): Promise<void>;
+
+// @public
+export function defaultAuthenticateRequestOnChallenge(challenge: string, options: ChallengeCallbackOptions): Promise<boolean>;
 
 // @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
@@ -262,6 +279,9 @@ export interface RestErrorOptions {
     response?: PipelineResponse;
     statusCode?: number;
 }
+
+// @public
+export function retrieveToken(options: ChallengeCallbackOptions): Promise<string | undefined>;
 
 // @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;

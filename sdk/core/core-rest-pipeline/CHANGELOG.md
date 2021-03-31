@@ -2,8 +2,10 @@
 
 ## 1.0.2 (Unreleased)
 
-- Added a `challenge` optional property to the `bearerTokenAuthenticationPolicy` that gives it support to process [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
-
+- A new type is exported, `ChallengeCallbackOptions`, which contains `scopes: string | string[]`, `claims?: string` (optional), `credential: TokenCredential`, `tokenCache: AccessTokenCache`, and `request: PipelineRequest`. 
+- Added a `challengeCallbacks` optional property to the `bearerTokenAuthenticationPolicy` that allows it to process authentication challenges. `challengeCallbacks` can contain two properties:
+  - `authenticateRequest`, which receives `options: BearerTokenAuthenticationPolicyOptions`, and allows customizing the policy to alter how it authenticates before sending a request. By default it will try to retrieve the token from the `TokenCache`, otherwise it will use the credential to get a new token, and it will set the token in the request headers.
+  - `authenticateRequestOnChallenge`, which gets called only if we've found a challenge. Then it receives the `challenge: string` and also `options: BearerTokenAuthenticationPolicyOptions`. It allows to retrieve a new token to set on the request headers, and if it returns true, the original request will be re-attempted with this new token.
 
 ## 1.0.1 (2021-03-18)
 
