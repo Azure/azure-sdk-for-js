@@ -3,6 +3,7 @@
 
 /**
  * @summary Demonstrates making a configuration setting read-only. This can help prevent accidental deletion or modification of a setting.
+ * @azsdk-weight 70
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
 

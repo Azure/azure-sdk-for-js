@@ -5,6 +5,7 @@
  * @summary Demonstrates getting a setting only if it has changed
  * from what you already have. (This allows your app to avoid downloading
  * the contents of a setting if the value is unchanged.)
+ * @azsdk-weight 60
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
 

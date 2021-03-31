@@ -3,6 +3,7 @@
 
 /**
  * @summary Demonstrates implementing optimistic concurrency using App Configuration and etags.
+ * @azsdk-weight 80
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
 

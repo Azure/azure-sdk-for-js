@@ -3,6 +3,7 @@
 
 /**
  * @summary Demonstrates listing revisions for a configuration setting.
+ * @azsdk-weight 40
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
 

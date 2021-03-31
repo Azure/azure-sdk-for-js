@@ -3,6 +3,7 @@
 
 /**
  * @summary Demonstrates listing multiple configuration settings using a filter for a key or label.
+ * @azsdk-weight 50
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
 
