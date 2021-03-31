@@ -7,7 +7,7 @@ import path from "path";
 import assert from "assert";
 import { ClientCertificateCredential } from "../../../src";
 import { MockAuthHttpClient } from "../../authTestUtils";
-import { setTracer, TestTracer, SpanGraph } from "@azure/core-tracing";
+import { setTracer, TestTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
 
 describe("ClientCertificateCredential", function() {
   it("loads a PEM-formatted certificate from a file", () => {
@@ -189,9 +189,7 @@ describe("ClientCertificateCredential", function() {
 
     await credential.getToken("scope", {
       tracingOptions: {
-        spanOptions: {
-          parent: rootSpan.context()
-        }
+        tracingContext: setSpan(context.active(), rootSpan)
       }
     });
 

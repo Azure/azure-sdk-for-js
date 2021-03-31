@@ -7,10 +7,9 @@ import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
 import {
   AuthenticationError,
-  AuthenticationErrorName,
   CredentialUnavailable
 } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
@@ -122,19 +121,15 @@ export class EnvironmentCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, options: newOptions } = createSpan("EnvironmentCredential-getToken", options);
+    const { span, updatedOptions: newOptions } = createSpan("EnvironmentCredential-getToken", options);
     if (this._credential) {
       try {
         const result = await this._credential.getToken(scopes, newOptions);
         logger.getToken.info(formatSuccess(scopes));
         return result;
       } catch (err) {
-        const code =
-          err.name === AuthenticationErrorName
-            ? CanonicalCode.UNAUTHENTICATED
-            : CanonicalCode.UNKNOWN;
         span.setStatus({
-          code,
+          code: SpanStatusCode.ERROR,
           message: err.message
         });
         const authenticationError = new AuthenticationError(400, {
@@ -153,7 +148,7 @@ export class EnvironmentCredential implements TokenCredential {
 
     // If by this point we don't have a credential, throw an exception so that
     // the user knows the credential was not configured appropriately
-    span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
+    span.setStatus({ code: SpanStatusCode.ERROR });
     span.end();
     const error = new CredentialUnavailable(
       "EnvironmentCredential is unavailable. Environment variables are not fully configured."

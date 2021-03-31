@@ -87,7 +87,24 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          "@azure/core-tracing/node_modules/@opentelemetry/api": [
+            "SpanKind",
+            "TraceFlags",
+            "getSpan",
+            "setSpan",
+            "SpanStatusCode",
+            "getSpanContext",
+            "setSpanContext"
+          ],
+          "../../../common/temp/node_modules/.pnpm/@opentelemetry/api@1.0.0-rc.0/node_modules/@opentelemetry/api/build/src/index.js": [
+            "SpanKind",
+            "TraceFlags",
+            "getSpan",
+            "setSpan",
+            "SpanStatusCode",
+            "getSpanContext",
+            "setSpanContext"
+          ]
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })

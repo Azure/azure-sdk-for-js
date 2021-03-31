@@ -80,11 +80,10 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.2.0",
+    "@azure/core-http": "^1.2.4",
     "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
     "@azure/msal-node": "1.0.0-beta.6",
-    "@opentelemetry/api": "^0.10.2",
     "@types/stoppable": "^1.1.0",
     "axios": "^0.21.1",
     "events": "^3.0.0",
