@@ -127,6 +127,7 @@
   },
   "//sampleConfiguration": {
     "skip": [
+      "customModelManagement.js",
       "createComposedModel.js",
       "differentiateLabeledUnlabeled.js",
       "getBoundingBoxes.js",
