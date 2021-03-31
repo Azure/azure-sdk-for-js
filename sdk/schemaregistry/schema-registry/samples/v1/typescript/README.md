@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-schema-registry
-urlFragment: schema-registry-typescript
----
-
 # Azure Schema Registry client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Schema Registry in some common scenarios.

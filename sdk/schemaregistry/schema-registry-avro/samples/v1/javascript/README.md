@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-schema-registry-avro
-urlFragment: schema-registry-avro-javascript
----
-
 # Azure Schema Registry client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Schema Registry in some common scenarios.
