@@ -1,5 +1,8 @@
 # Release History
 
+## 1.0.5 (Unreleased)
+
+
 ## 1.0.4 (2021-03-30)
 
 - Bug fix: Fix an issue where we might return stale state if the `update` implementation reassigns `operation.state`.
