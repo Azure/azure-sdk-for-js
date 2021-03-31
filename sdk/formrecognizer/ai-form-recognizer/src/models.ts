@@ -23,7 +23,9 @@ import {
   TextAppearance,
   TextStyle,
   StyleName,
-  KnownStyleName
+  KnownStyleName,
+  KnownFieldValueGender as KnownGender,
+  ReadingOrder
 } from "./generated/models";
 
 export {
@@ -46,7 +48,9 @@ export {
   TextAppearance,
   TextStyle,
   StyleName,
-  KnownStyleName
+  KnownStyleName,
+  KnownGender,
+  ReadingOrder
 };
 
 /**

@@ -41,13 +41,12 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     resumeFrom?: string;
     contentType?: FormContentType;
     language?: string;
-    readingOrder?: string;
+    readingOrder?: ReadingOrder;
     pages?: string[];
 };
 
 // @public
 export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
-    contentType?: Exclude<FormContentType, "image/bmp">;
 }
 
 // @public
@@ -390,6 +389,16 @@ export interface KeyValuePairModel {
 export type KeyValueType = string;
 
 // @public
+export const enum KnownGender {
+    // (undocumented)
+    F = "F",
+    // (undocumented)
+    M = "M",
+    // (undocumented)
+    X = "X"
+}
+
+// @public
 export const enum KnownKeyValueType {
     // (undocumented)
     SelectionMark = "selectionMark",
@@ -616,6 +625,9 @@ export interface Point2D {
     x: number;
     y: number;
 }
+
+// @public
+export type ReadingOrder = "basic" | "natural";
 
 // @public
 export type RecognizeContentOperationState = PollOperationState<FormPageArray> & {

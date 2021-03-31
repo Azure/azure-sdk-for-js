@@ -31,7 +31,8 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   SourcePath,
-  OperationStatus
+  OperationStatus,
+  ReadingOrder
 } from "./generated/models";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
@@ -81,7 +82,8 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    */
   resumeFrom?: string;
   /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp".
+   * Content type of the input. Supported types are "application/pdf",
+   * "image/jpeg", "image/png", "image/tiff", and "image/bmp".
    */
   contentType?: FormContentType;
   /**
@@ -111,7 +113,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    * The "natural" reading order uses heuristics to mimic the way a human
    * reader would read the document.
    */
-  readingOrder?: string;
+  readingOrder?: ReadingOrder;
   /**
    * Custom page numbers for multi-page documents(PDF/TIFF). If a value is
    * provided, content information will only be provided for the selected
@@ -169,7 +171,8 @@ export interface BeginRecognizeFormsOptions extends RecognizeFormsOptions {
    */
   pages?: string[];
   /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp".
+   * Content type of the input. Supported types are "application/pdf",
+   * "image/jpeg", "image/png", "image/tiff", and "image/bmp".
    */
   contentType?: FormContentType;
 }
@@ -177,14 +180,7 @@ export interface BeginRecognizeFormsOptions extends RecognizeFormsOptions {
 /**
  * Options for starting the custom form recognition operation.
  */
-export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
-  /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
-   *
-   * "image/bmp" is not supported for custom form analysis.
-   */
-  contentType?: Exclude<FormContentType, "image/bmp">;
-}
+export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {}
 
 /**
  * Result type of the Recognize Form Long-Running-Operation (LRO)
