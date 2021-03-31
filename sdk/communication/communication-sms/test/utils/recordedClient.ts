@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 
@@ -34,7 +33,7 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
 };
 
 export function createCredential(): TokenCredential {
-  if (isNode && isPlaybackMode()) {
+  if (isPlaybackMode()) {
     return {
       getToken: async (_scopes) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
