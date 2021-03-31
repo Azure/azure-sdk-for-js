@@ -32,7 +32,7 @@ import {
 } from "./generated/models/index";
 
 // TODO: Maybe copy and paste this?
-import { constructAuthenticationEndpointFromDomain } from "../../../mixedreality/mixedreality-authentication/src/util/authenticationEndpoint";
+import { constructAuthenticationEndpointFromDomain } from "../authentication/authenticationEndpoint";
 import { RemoteRenderingClientOptions } from "./options";
 import { MixedRealityTokenCredential } from "../authentication/mixedRealityTokenCredential";
 import { StaticAccessTokenCredential } from "../authentication/staticAccessTokenCredential";
