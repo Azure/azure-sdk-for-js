@@ -1,5 +1,8 @@
 # Release History
 
+## 1.2.5 (Unreleased)
+
+
 ## 1.2.4 (2021-03-30)
 
 - Rewrote `bearerTokenAuthenticationPolicy` to use a new backend that refreshes tokens only when they're about to expire and not multiple times before. This fixes the issue: [13369](https://github.com/Azure/azure-sdk-for-js/issues/13369).

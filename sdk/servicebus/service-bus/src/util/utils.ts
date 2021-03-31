@@ -519,6 +519,9 @@ export type EntityAvailabilityStatus =
   | "Restoring"
   | "Unknown";
 
+/**
+ * @internal
+ */
 type setTimeoutArgs = (callback: (...args: any[]) => void, ms: number, ...args: any[]) => any;
 
 /**
