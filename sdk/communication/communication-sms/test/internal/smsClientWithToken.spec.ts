@@ -7,7 +7,7 @@
  *  These tests will be skipped in Live Mode since the public tests run in live mode only.
  */
 
-import { env, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { env, isLiveMode, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
 import { SmsSendRequest, SmsClient } from "../../src/smsClient";
 import { assert } from "chai";
 import { isNode } from "@azure/core-http";
@@ -26,6 +26,10 @@ describe("SmsClientWithToken [Playback/Record]", async () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
+    if (isLiveMode()) {
+      console.log("Skipping because public tests will run instead.");
+      this.skip();
+    }
     recorder = record(this, recorderConfiguration);
     recorder.skip("browser");
     if (isPlaybackMode()) {

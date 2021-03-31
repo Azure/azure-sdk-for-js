@@ -29,8 +29,8 @@ describe("SmsClient [Playback/Record]", async () => {
     recorder = record(this, recorderConfiguration);
     smsClient = new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string);
 
-    if(isLiveMode()) {
-      console.log("");
+    if (isLiveMode()) {
+      console.log("Skipping because public tests will run instead.");
       this.skip();
     }
 

@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  HttpClient,
-  HttpHeaders,
-  WebResourceLike,
-  HttpOperationResponse,
-} from "@azure/core-http";
+import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
 
 import { Uuid } from "../../src/utils/uuid";
 import { generateSendMessageRequest } from "../../src/utils/smsUtils";
