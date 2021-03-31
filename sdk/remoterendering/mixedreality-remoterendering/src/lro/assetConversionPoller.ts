@@ -7,15 +7,15 @@ import { AssetConversion, KnownAssetConversionStatus } from "../generated/models
 
 import { AbortSignalLike } from "@azure/abort-controller";
 
-export interface AssetConversionOperationState extends PollOperationState<WithResponse<AssetConversion>> {
+export interface AssetConversionOperationState
+  extends PollOperationState<WithResponse<AssetConversion>> {
   /**
    * The latest response when querying the service. The conversion may or may not be completed.
    */
   latestResponse: WithResponse<AssetConversion>;
 }
 
-export class AssetConversionOperationStateImpl
-  implements AssetConversionOperationState {
+export class AssetConversionOperationStateImpl implements AssetConversionOperationState {
   private client: RemoteRenderingClient;
   latestResponse: WithResponse<AssetConversion>;
 
@@ -101,7 +101,9 @@ export class AssetConversionPoller extends Poller<
   public intervalInMs: number = 10000;
 
   constructor(client: RemoteRenderingClient, assetConversion: WithResponse<AssetConversion>) {
-    super(new AssetConversionOperation(new AssetConversionOperationStateImpl(client, assetConversion)));
+    super(
+      new AssetConversionOperation(new AssetConversionOperationStateImpl(client, assetConversion))
+    );
   }
 
   /**

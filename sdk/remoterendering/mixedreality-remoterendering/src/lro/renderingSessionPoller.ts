@@ -7,7 +7,8 @@ import { RenderingSession, KnownRenderingSessionStatus } from "../generated/mode
 
 import { AbortSignalLike } from "@azure/abort-controller";
 
-export interface RenderingSessionOperationState extends PollOperationState<WithResponse<RenderingSession>> {
+export interface RenderingSessionOperationState
+  extends PollOperationState<WithResponse<RenderingSession>> {
   /**
    * The latest response when querying the service. The session may or may not be ready.
    */
@@ -26,7 +27,7 @@ export class RenderingSessionOperationStateImpl
 
   get isStarted(): boolean {
     // TODO
-    this.client = this.client
+    this.client = this.client;
     return true;
   }
 
@@ -99,7 +100,9 @@ export class RenderingSessionPoller extends Poller<
 
   constructor(client: RemoteRenderingClient, RenderingSession: WithResponse<RenderingSession>) {
     super(
-      new RenderingSessionOperation(new RenderingSessionOperationStateImpl(client, RenderingSession))
+      new RenderingSessionOperation(
+        new RenderingSessionOperationStateImpl(client, RenderingSession)
+      )
     );
   }
 
