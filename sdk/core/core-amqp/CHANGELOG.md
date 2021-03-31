@@ -2,7 +2,6 @@
 
 ## 2.2.1 (Unreleased)
 
-
 ## 2.2.0 (2021-03-30)
 
 - Updates `translateError` to convert non-object type parameters to errors.
