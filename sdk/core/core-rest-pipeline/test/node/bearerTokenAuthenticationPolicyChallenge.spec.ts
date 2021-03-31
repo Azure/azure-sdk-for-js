@@ -57,7 +57,7 @@ function parseCAEChallenge(challenges: string): any[] {
     .split("Bearer ")
     .filter((x) => x)
     .map((challenge) =>
-      challenge
+      `${challenge.trim()}, `
         .split('", ')
         .filter((x) => x)
         .map((keyValue) => (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="')))
@@ -68,8 +68,8 @@ function parseCAEChallenge(challenges: string): any[] {
 async function authenticateRequestOnChallenge(
   challenge: string,
   options: ChallengeCallbackOptions
-): Promise<boolean> {
-  const { scopes, request } = options;
+): Promise<AccessToken | undefined> {
+  const { scopes } = options;
 
   const challenges: TestChallenge[] = parseCAEChallenge(challenge) || [];
 
@@ -81,18 +81,12 @@ async function authenticateRequestOnChallenge(
     cachedChallenge = challenge;
   }
 
-  const token = retrieveToken({
+  return retrieveToken({
     ...options,
+    cachedToken: undefined,
     scopes: parsedChallenge.scope || scopes,
-    claims: parsedChallenge.claims
+    claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
   });
-
-  if (token) {
-    request.headers.set("Authorization", `Bearer ${token}`);
-    return true;
-  } else {
-    return false;
-  }
 }
 
 class MockRefreshAzureCredential implements TokenCredential {
@@ -148,6 +142,9 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
+        async authenticateRequest({ cachedToken }) {
+          return cachedToken;
+        },
         authenticateRequestOnChallenge
       }
     });
@@ -179,7 +176,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     assert.equal(credential.authCount, 1);
     assert.deepEqual(credential.scopesAndClaims, [
       {
-        scope: [expected.scope],
+        scope: expected.scope,
         challengeClaims: expected.challengeClaims
       }
     ]);
@@ -247,6 +244,9 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
+        async authenticateRequest({ cachedToken }) {
+          return cachedToken;
+        },
         authenticateRequestOnChallenge
       }
     });
@@ -275,11 +275,11 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     assert.equal(credential.authCount, 2);
     assert.deepEqual(credential.scopesAndClaims, [
       {
-        scope: [expected[0].scope],
+        scope: expected[0].scope,
         challengeClaims: expected[0].challengeClaims
       },
       {
-        scope: [expected[1].scope],
+        scope: expected[1].scope,
         challengeClaims: expected[1].challengeClaims
       }
     ]);

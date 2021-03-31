@@ -2,10 +2,10 @@
 
 ## 1.0.2 (Unreleased)
 
-- A new type is exported, `ChallengeCallbackOptions`, which contains `scopes: string | string[]`, `claims?: string` (optional), `credential: TokenCredential`, `tokenCache: AccessTokenCache`, and `request: PipelineRequest`. 
+- A new type is exported, `ChallengeCallbackOptions`, which contains `scopes: string | string[]`, `claims?: string` (optional), `credential: TokenCredential`, `cachedToken: AccessToken | undefined` and `request: PipelineRequest`. 
 - Added a `challengeCallbacks` optional property to the `bearerTokenAuthenticationPolicy` that allows it to process authentication challenges. `challengeCallbacks` can contain two properties:
-  - `authenticateRequest`, which receives `options: BearerTokenAuthenticationPolicyOptions`, and allows customizing the policy to alter how it authenticates before sending a request. By default it will try to retrieve the token from the `TokenCache`, otherwise it will use the credential to get a new token, and it will set the token in the request headers.
-  - `authenticateRequestOnChallenge`, which gets called only if we've found a challenge. Then it receives the `challenge: string` and also `options: BearerTokenAuthenticationPolicyOptions`. It allows to retrieve a new token to set on the request headers, and if it returns true, the original request will be re-attempted with this new token.
+  - `authenticateRequest`, which receives `options: BearerTokenAuthenticationPolicyOptions`, and allows customizing the policy to alter how it authenticates before sending a request. If this method returns a token, it will be used to update the cached token and set the `Authenticate` header on the request.
+  - `authenticateRequestOnChallenge`, which gets called only if we've found a challenge. Then it receives the `challenge: string` and also `options: BearerTokenAuthenticationPolicyOptions`. If this method returns a token, it will be used to update the cached token and set the `Authenticate` header on the original request, then we will re-send the updated original request.
 
 ## 1.0.1 (2021-03-18)
 
