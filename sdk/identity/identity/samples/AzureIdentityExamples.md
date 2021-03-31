@@ -5,6 +5,7 @@
 - [Authenticating a user assigned managed identity with `DefaultAzureCredential`](#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential)
 - [Authenticating a service principal with a client secret](#authenticating-a-service-principal-with-a-client-secret)
 - [Authenticating a service principal with a client certificate](#authenticating-a-service-principal-with-a-client-certificate)
+- [Authenticating a service principal with environment credentials](#authenticating-a-service-principal-with-environment-credentials)
 - [Authenticating a user account with device code flow](#authenticating-a-user-account-with-device-code-flow)
 - [Authenticating a user account with username and password](#authenticating-a-user-account-with-username-and-password)
 - [Authenticating a user account interactively in the browser](#authenticating-a-user-account-interactively-in-the-browser)
@@ -68,6 +69,22 @@ function withClientSecretCredential() {
     "<YOUR_CLIENT_ID>",
     "<YOUR_CLIENT_SECRET>"
   );
+  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+}
+```
+
+## Authenticating a service principal with environment credentials
+
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `EnvironmentCredential`. The `EnvironmentCredential` looks for well-known environment variable names to determine how it should authenticate. It effectively acts as a wrapper for the `ClientSecretCredential`, `ClientCertificateCredential` or `UsernamePasswordCredential` depending on which environment variables are present.
+
+For more information about how to create a service principal and get these values please refer to [Creating a Service Principal with the Azure CLI][service_principal_azure_cli].
+
+```ts
+/**
+ *  Authenticate with a client certificate.
+ */
+function withEnvironmentCredential() {
+  let credential = new EnvironmentCredential();
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
 ```
