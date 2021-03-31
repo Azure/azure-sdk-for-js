@@ -61,6 +61,8 @@
     // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
     "@types/node": ["^10.0.0"],
 
-    "@azure/core-tracing": ["1.0.0-preview.11"]
+    // HOTFIX branch for identity
+    "@azure/core-tracing": ["1.0.0-preview.11"],
+    "@azure/core-http": ["^1.2.4"]
   }
 }
