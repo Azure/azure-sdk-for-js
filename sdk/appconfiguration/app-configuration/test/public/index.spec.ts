@@ -1176,8 +1176,20 @@ describe("AppConfigurationClient", () => {
           //      - If passed Date, we'll make it a string.
         }
       },
-      { name: "FilterX" }
-      // TODO: add the rest two filters too
+      { name: "FilterX" },
+      {
+        name: "Microsoft.Targeting",
+        parameters: {
+          audience: {
+            groups: [
+              { name: "group-1", rolloutPercentage: 25 },
+              { name: "group-2", rolloutPercentage: 45 }
+            ],
+            users: ["userA", "userB"]
+          }
+        }
+      },
+      { name: "Microsoft.Percentage", parameters: { value: 25 } }
     ];
     const baseSetting: FeatureFlag = {
       conditions: {
