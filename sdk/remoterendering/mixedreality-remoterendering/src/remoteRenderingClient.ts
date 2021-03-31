@@ -15,7 +15,7 @@ import {
   InternalPipelineOptions,
   HttpResponse
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
 
@@ -275,7 +275,7 @@ export class RemoteRenderingClient {
       return Promise.resolve(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -356,7 +356,7 @@ export class RemoteRenderingClient {
       return Promise.resolve(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
