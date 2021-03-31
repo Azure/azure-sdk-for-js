@@ -9,9 +9,9 @@
   - The `receiveMessages` method will now throw `SessionLockLostError` when used in `peekLock` mode and return messages collected so far when used in `receiveAndDelete` mode to avoid data loss if errors on the AMQP connection are encountered.
   - When using the `subscribe`, the user provided `processError` callback will now be called with `SessionLockLostError` if errors on the AMQP connection are encountered.
 
-* Allow null as a value for the properties in `ServiceBusMessage.applicationProperties`.
+- Allow null as a value for the properties in `ServiceBusMessage.applicationProperties`.
   Fixes [#14329](https://github.com/Azure/azure-sdk-for-js/issues/14329)
-* Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
+- Re-exports `RetryMode` for use when setting the `RetryOptions.mode` field
   in `ServiceBusClientOptions`.
   Resolves [#13166](https://github.com/Azure/azure-sdk-for-js/issues/13166).
 
