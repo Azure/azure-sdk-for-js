@@ -73,7 +73,6 @@ export interface FeatureFlagTargetingClientFilter {
    * Parameters that can be passed in the filter.
    */
   parameters: {
-    // TODO: can we hoist these values up directly into the filter, rather than having this 'parameters' intermediary.
     audience: {
       users: string[];
       groups: {
