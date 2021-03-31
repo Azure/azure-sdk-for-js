@@ -57,6 +57,7 @@ export interface JsonFeatureFlagTimeWindowClientFilter {
 export interface JsonFeatureFlagPercentageClientFilter {
   name: "Microsoft.Percentage";
   parameters: {
+    Value: number;
     [key: string]: any;
   };
 }

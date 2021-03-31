@@ -260,9 +260,14 @@ export function convertJsonConditions(
 
       return filter;
     } else if (isJsonFeatureFlagPercentageClientFilter(jsonFilter)) {
-      // TODO: this is only working because I left the filter so unspecified in the type. Need to do
-      // a little more research into what that filter's actual type is.
-      return jsonFilter;
+      // try not to slice any unknown attributes
+      const filter: FeatureFlagPercentageClientFilter = {
+        name: jsonFilter.name,
+        parameters: {
+          value: jsonFilter.parameters.Value
+        }
+      };
+      return filter;
     } else {
       return jsonFilter as object;
     }
