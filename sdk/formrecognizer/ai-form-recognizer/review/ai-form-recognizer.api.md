@@ -41,6 +41,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     resumeFrom?: string;
     contentType?: FormContentType;
     language?: string;
+    readingOrder?: string;
     pages?: string[];
 };
 
@@ -50,12 +51,13 @@ export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOpt
 }
 
 // @public
-export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
-    updateIntervalInMs?: number;
-    onProgress?: (state: RecognizeFormsOperationState) => void;
-    resumeFrom?: string;
+export interface BeginRecognizeFormsOptions extends RecognizeFormsOptions {
     contentType?: FormContentType;
-};
+    onProgress?: (state: RecognizeFormsOperationState) => void;
+    pages?: string[];
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export type BeginRecognizeIdDocumentsOptions = BeginRecognizePrebuiltOptions;
@@ -646,9 +648,9 @@ export interface RecognizeFormsOperationState extends PollOperationState<Recogni
 }
 
 // @public
-export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
+export interface RecognizeFormsOptions extends FormRecognizerOperationOptions {
     includeFieldElements?: boolean;
-};
+}
 
 export { RestResponse }
 

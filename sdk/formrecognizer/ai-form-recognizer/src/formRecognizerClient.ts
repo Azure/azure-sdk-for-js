@@ -87,20 +87,38 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
   /**
    * The BCP-47 language code of the text in the document.
    *
-   * The supported languages are English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'),
-   * simplified Chinese ('zh-Hans') and Spanish ('es') are supported.
+   * See the `KnownLanguage` type for a list of known langauges that the
+   * service supports.
    *
    * Handwritten text is only supported in English ('en').
    *
-   * Content recognition supports auto language identification and multi language documents, so only provide a language code if
-   * you would like to override the service's default behavior and force the document to be processed using a specific language.
+   * Content recognition supports auto language identification and multi
+   * language documents, so only provide a language code if you would like to
+   * override the service's default behavior and force the document to be
+   * processed using a specific language.
+   *
+   * @see KnownLanguage
    */
   language?: string;
   /**
-   * Custom page numbers for multi-page documents(PDF/TIFF). If a value is provided, content information will only be provided for
-   * the selected pages. A range of pages may be denoted using a hyphen.
+   * The reading order algorithm to use when analyzing the page and sorting
+   * the output text lines. Possible values include "basic" (default) and
+   * "natural".
    *
-   * For example, to select pages 1, 3 and 5 through 9, set this property to `["1", "3", "5-9"]`.
+   * The "basic" reading order uses a strict top-to-bottom, right-to-left
+   * reading order.
+   *
+   * The "natural" reading order uses heuristics to mimic the way a human
+   * reader would read the document.
+   */
+  readingOrder?: string;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF). If a value is
+   * provided, content information will only be provided for the selected
+   * pages. A range of pages may be denoted using a hyphen.
+   *
+   * For example, to select pages 1, 3 and 5 through 9, set this property to
+   * `["1", "3", "5-9"]`.
    */
   pages?: string[];
 };
@@ -118,17 +136,17 @@ type GetRecognizedContentResultOptions = FormRecognizerOperationOptions;
 /**
  * Options for recognition of forms
  */
-export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
+export interface RecognizeFormsOptions extends FormRecognizerOperationOptions {
   /**
    * Specifies whether to include text lines and element references in the result
    */
   includeFieldElements?: boolean;
-};
+}
 
 /**
  * Shared options for starting form recognition operations.
  */
-export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
+export interface BeginRecognizeFormsOptions extends RecognizeFormsOptions {
   /**
    * Delay to wait until next poll, in milliseconds
    */
@@ -142,10 +160,19 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
    */
   resumeFrom?: string;
   /**
+   * Custom page numbers for multi-page documents(PDF/TIFF). If a value is
+   * provided, content information will only be provided for the selected
+   * pages. A range of pages may be denoted using a hyphen.
+   *
+   * For example, to select pages 1, 3 and 5 through 9, set this property to
+   * `["1", "3", "5-9"]`.
+   */
+  pages?: string[];
+  /**
    * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp".
    */
   contentType?: FormContentType;
-};
+}
 
 /**
  * Options for starting the custom form recognition operation.
@@ -577,7 +604,7 @@ export class FormRecognizerClient {
     });
 
     const poller = new FormRecognitionPoller({
-      expectedDocType: "prebuilt:businessCard",
+      expectedDocType: "prebuilt:businesscard",
       createOperation: span("businessCardsInternal", async (finalOptions) => {
         const requestBody = await toRequestBody(businessCard);
         const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
@@ -646,7 +673,7 @@ export class FormRecognizerClient {
     });
 
     const poller = new FormRecognitionPoller({
-      expectedDocType: "prebuilt:businessCard",
+      expectedDocType: "prebuilt:businesscard",
       createOperation: span("businessCardsInternal", async (finalOptions) => {
         return processOperationLocation(
           await this.client.analyzeBusinessCardAsync("application/json", {

@@ -186,7 +186,7 @@ export function toFormPages(
 
 export function toRecognizedFormArray(
   original: GetAnalyzeFormResultResponse,
-  expectedDocType?: string
+  expectedDocTypePrefix?: string
 ): RecognizedFormArray {
   const pages = toFormPages(
     original.analyzeResult?.readResults,
@@ -199,9 +199,9 @@ export function toRecognizedFormArray(
       original.analyzeResult?.documentResults
         ?.filter((d) => !!d.fields)
         ?.map((d) => {
-          if (expectedDocType !== undefined && expectedDocType !== d.docType) {
+          if (expectedDocTypePrefix !== undefined && !d.docType.startsWith(expectedDocTypePrefix)) {
             throw new RangeError(
-              `Expected document type '${expectedDocType}', but found '${d.docType}'.`
+              `Expected document type to start with '${expectedDocTypePrefix}', but found '${d.docType}'.`
             );
           }
           return toRecognizedForm(d, pages);
@@ -247,7 +247,9 @@ export function toFormFieldFromFieldValueModel(
       value = original.valueNumber;
       break;
     case "phoneNumber":
-      value = original.valuePhoneNumber;
+      // TODO: service issue returns `undefined` for valueSelectionMark and
+      // instead returns the value in `text`
+      value = original.text;
       break;
     case "selectionMark":
       // TODO: service issue returns `undefined` for valueSelectionMark and

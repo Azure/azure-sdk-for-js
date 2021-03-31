@@ -108,11 +108,6 @@ export interface FormLine extends FormElementCommon {
    */
   kind: "line";
   /**
-   * The detected language of this line, if different from the overall page language. Possible
-   * values include: 'en', 'es'
-   */
-  // language?: Language;
-  /**
    * The text content of the line.
    */
   text: string;
@@ -370,10 +365,6 @@ export interface FormPage {
    * "pixel". For PDF, the unit is "inch". Possible values include: 'pixel', 'inch'
    */
   unit: LengthUnit;
-  /**
-   * The detected language on the page overall. Possible values include: 'en', 'es'
-   */
-  // language?: Language;
   /**
    * When `includeFieldElements` is set to true, a list of recognized text lines. The maximum number of
    * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
