@@ -20,7 +20,7 @@ describe("SmsClient [Live]", async () => {
 
   beforeEach(async function(this: Context) {
     recorder = record(this, recorderConfiguration);
-    recorder.skip(undefined); //only run in live mode
+    recorder.skip(undefined); // only run in live mode
     smsClient = new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string);
   });
 

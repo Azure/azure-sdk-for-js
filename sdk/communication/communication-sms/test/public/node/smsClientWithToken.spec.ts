@@ -20,7 +20,7 @@ describe("SmsClientWithToken [Live]", async () => {
 
   beforeEach(async function(this: Context) {
     recorder = record(this, recorderConfiguration);
-    recorder.skip(undefined); //only run in live mode
+    recorder.skip(undefined); // only run in live mode
   });
 
   afterEach(async function(this: Context) {
