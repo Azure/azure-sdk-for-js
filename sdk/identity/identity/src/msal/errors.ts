@@ -9,7 +9,13 @@ import { CredentialUnavailable } from "../client/errors";
  */
 export class AuthenticationRequired extends CredentialUnavailable {
   constructor(
+    /**
+     * The list of scopes for which the token will have access.
+     */
     public scopes: string[],
+    /**
+     * The options used to configure the getToken request.
+     */
     public getTokenOptions: GetTokenOptions = {},
     message?: string
   ) {
