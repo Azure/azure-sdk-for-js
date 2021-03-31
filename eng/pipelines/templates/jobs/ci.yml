@@ -11,6 +11,15 @@ parameters:
   - name: RunUnitTests
     type: boolean
     default: true
+  - name: MatrixConfigs
+    type: object
+  - name: MatrixFilters
+    type: object
+    default: []
+  - name: MatrixReplace
+    type: object
+    default: []
+
   - name: Matrix
     type: object
     default:
@@ -86,24 +95,17 @@ jobs:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           TestPipeline: ${{ parameters.TestPipeline }}
 
-  # Only run tests if the matrix has entries
   - ${{ if ne(parameters.RunUnitTests, false) }}:
-      - job: "UnitTest"
-
-        strategy:
-          matrix: ${{parameters.Matrix}}
-
-        pool:
-          name: $(Pool)
-          vmImage: $(OSVmImage)
-
-        variables:
-          - template: ../variables/globals.yml
-
-        steps:
-          - template: ../steps/common.yml
-
-          - template: ../steps/test.yml
-            parameters:
-              Artifacts: ${{parameters.Artifacts}}
-              ServiceDirectory: ${{parameters.ServiceDirectory}}
+    - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
+      parameters:
+        JobTemplatePath: /eng/pipelines/templates/jobs/ci.tests.yml
+        DependsOn:
+          - 'Build'
+        MatrixConfigs: ${{ parameters.MatrixConfigs }}
+        MatrixFilters: ${{ parameters.MatrixFilters }}
+        MatrixReplace: ${{ parameters.MatrixReplace }}
+        CloudConfig:
+          Cloud: Public
+        AdditionalParameters:
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          Artifacts: ${{ parameters.Artifacts }}
