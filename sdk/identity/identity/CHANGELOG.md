@@ -2,6 +2,7 @@
 
 ## 2.0.0-beta.2 (Unreleased)
 
+- Added properties `scopes` and `getTokenOptions` to the `AuthenticationRequired` error.
 - Added a new option to the constructor of `DefaultAzureCredential`, `includeInteractiveCredentials`, which enables `InteractiveBrowserCredential` as a last resource if no other credential is available.
 - `InteractiveBrowserCredential` no longer supports [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) and will only support [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) instead. Therefore the `flow` option introduced in `1.2.4-beta.1` has been removed. More information from the documentation on Implicit Grant Flow:
 
