@@ -12,15 +12,15 @@ urlFragment: app-configuration-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure App Configuration in some common scenarios.
 
-| **File Name**                                                   | **Description**                                                                                                                                                                                                                                                                                                                             |
-| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [getSettingOnlyIfChanged.js][getsettingonlyifchanged]           | Demonstrates getting a setting only if it has changed from what you already have. (This allows your app to avoid downloading the contents of a setting if the value is unchanged.)                                                                                                                                                          |
-| [helloworld.js][helloworld]                                     | Demonstrates the CRUD operations on the configuration settings.                                                                                                                                                                                                                                                                             |
-| [helloworldWithLabels.js][helloworldwithlabels]                 | This sample builds on concepts in helloworld.ts and shows you how to use labels. Labels allow you to add an extra dimension for your setting and gives you a simple way to create conventions for environments. [Click for more info on labels/keys](https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys) |
-| [listConfigurationSettings.js][listconfigurationsettings]       | Demonstrates listing multiple configuration settings using a filter for a key or label.                                                                                                                                                                                                                                                     |
-| [listRevisions.js][listrevisions]                               | Demonstrates listing revisions for a configuration setting.                                                                                                                                                                                                                                                                                 |
-| [optimisticConcurrencyViaEtag.js][optimisticconcurrencyviaetag] | Demonstrates implementing optimistic concurrency using App Configuration and etags.                                                                                                                                                                                                                                                         |
-| [setReadOnlySample.js][setreadonlysample]                       | Demonstrates making a configuration setting read-only. This can help prevent accidental deletion or modification of a setting.                                                                                                                                                                                                              |
+| **File Name**                                                   | **Description**                                                                                                                                                                    |
+| --------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [helloworld.js][helloworld]                                     | Demonstrates the CRUD operations on the configuration settings.                                                                                                                    |
+| [helloworldWithLabels.js][helloworldwithlabels]                 | This sample builds on concepts in helloworld.ts and shows you how to use labels.                                                                                                   |
+| [optimisticConcurrencyViaEtag.js][optimisticconcurrencyviaetag] | Demonstrates implementing optimistic concurrency using App Configuration and etags.                                                                                                |
+| [setReadOnlySample.js][setreadonlysample]                       | Demonstrates making a configuration setting read-only. This can help prevent accidental deletion or modification of a setting.                                                     |
+| [getSettingOnlyIfChanged.js][getsettingonlyifchanged]           | Demonstrates getting a setting only if it has changed from what you already have. (This allows your app to avoid downloading the contents of a setting if the value is unchanged.) |
+| [listConfigurationSettings.js][listconfigurationsettings]       | Demonstrates listing multiple configuration settings using a filter for a key or label.                                                                                            |
+| [listRevisions.js][listrevisions]                               | Demonstrates listing revisions for a configuration setting.                                                                                                                        |
 
 ## Prerequisites
 
@@ -49,26 +49,26 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node getSettingOnlyIfChanged.js
+node helloworld.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node getSettingOnlyIfChanged.js
+npx cross-env APPCONFIG_CONNECTION_STRING="<appconfig connection string>" node helloworld.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/getSettingOnlyIfChanged.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/helloworld.js
 [helloworldwithlabels]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/helloworldWithLabels.js
-[listconfigurationsettings]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/listConfigurationSettings.js
-[listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/listRevisions.js
 [optimisticconcurrencyviaetag]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/optimisticConcurrencyViaEtag.js
 [setreadonlysample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/setReadOnlySample.js
+[getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/getSettingOnlyIfChanged.js
+[listconfigurationsettings]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/listConfigurationSettings.js
+[listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/listRevisions.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/app-configuration
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfigurationaccount]: https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store

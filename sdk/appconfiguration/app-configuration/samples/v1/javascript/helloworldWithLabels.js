@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample builds on concepts in helloworld.ts and shows you how to use labels. Labels allow you to add an extra dimension for your
- * setting and gives you a simple way to create conventions for environments. [Click for more info on labels/keys](https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys)
+ * @summary This sample builds on concepts in helloworld.ts and shows you how to use labels.
  */
 const { AppConfigurationClient } = require("@azure/app-configuration");
 
@@ -12,6 +11,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 async function main() {
+  // Labels allow you to add an extra dimension for your setting and gives you a simple way to create conventions for environments.
+  // More info - https://docs.microsoft.com/azure/azure-app-configuration/concept-key-value#label-keys
   console.log("Running helloworldWithLabels sample");
 
   // Set the following environment variable or edit the value on the following line.
