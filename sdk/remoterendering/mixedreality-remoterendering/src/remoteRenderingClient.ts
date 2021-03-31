@@ -31,7 +31,6 @@ import {
   UpdateSessionSettings
 } from "./generated/models/index";
 
-// TODO: Maybe copy and paste this?
 import { constructAuthenticationEndpointFromDomain } from "../authentication/authenticationEndpoint";
 import { RemoteRenderingClientOptions } from "./options";
 import { MixedRealityTokenCredential } from "../authentication/mixedRealityTokenCredential";
