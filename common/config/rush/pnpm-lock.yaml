@@ -8154,7 +8154,7 @@ packages:
     dev: false
     name: '@rush-temp/communication-chat'
     resolution:
-      integrity: sha512-ZHqKxQz8iv/x4KN7Gz8ox9lqpkjZyHMRFP+z8/hw3/R7+S2C2CSo6t4ezE1Mjbdb/H2YKPlAeyvz6PTLIMV/Ow==
+      integrity: sha512-uNUyOe5H1V30+3isi2ONA/kcROGfdB+Hq58+WdfD3oDTEjmhaA5eXEnJ2FbSLK2cFlZndtff1IcAI8bHFGsMIg==
       tarball: file:projects/communication-chat.tgz
     version: 0.0.0
   file:projects/communication-common.tgz:
@@ -8412,7 +8412,7 @@ packages:
     dev: false
     name: '@rush-temp/container-registry'
     resolution:
-      integrity: sha512-UoacMZ4ct+xvcl7FmW+jXiE/bRHh5RFNE48LxlB7Tqc3jBRlw0qKbu6k0GGUhRH3rGqvLQ45/a+/LbFcyva1bA==
+      integrity: sha512-6C+1BjMjidAhhafLRnTfCfP90FOYCrs9qL5IT+HzdAZtAcsJNLTglpFEC/KjL6dSiNkL1CCXutV9RnB/ccVyKw==
       tarball: file:projects/container-registry.tgz
     version: 0.0.0
   file:projects/core-amqp.tgz:
@@ -8474,7 +8474,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-F0U7I1jwl6bFoqqzG2tGZgZ1SKEk2PKoKd+AYtV8cJQY7ixiIawVyqVRwOp7OfrqoiV11FsoctoFGM9xlinmbQ==
+      integrity: sha512-sJYJQ0Y+WhmvT42SCKcWh9klwMSZcxUiIkZdsDqH4oYULnqCRkx643r36KDPPQHtXUTMCNYi6t9J+F1dqZIjkg==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -9468,7 +9468,7 @@ packages:
     optionalDependencies:
       keytar: 7.4.0
     resolution:
-      integrity: sha512-6a4mBDTUOibIRz2TNwoMtOj1X6tfoe+lkJKk1Y8kOu6gMhqCQwxOPsarleypvs3HsqGVvXurYXFkuINPlKyeAw==
+      integrity: sha512-Rxclm5Iv5UIw2K8xTPq1P0VexF+rYU1qAEr+/nAPheuL7yzY+R4T54cXnaMwemjlVnpYFv0qTwNl5dz6kZ89HA==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
@@ -9541,7 +9541,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-admin'
     resolution:
-      integrity: sha512-YRk0zCoJ01s007eNe07gwSBmheamsYH4taZr+bj4Qry7871DFusWvO90z8rCpM1bju8JBdwYisCoa19/D0EoAg==
+      integrity: sha512-L7hUgwBQw+msuFgnLHwuQp26YuTs90WiQR88wayzVV2JIeG0fHZCKn6rwNnQWvWGGTE0/ZdcWf7OZmdTTWWXsA==
       tarball: file:projects/keyvault-admin.tgz
     version: 0.0.0
   file:projects/keyvault-certificates.tgz:
@@ -9785,7 +9785,7 @@ packages:
   file:projects/media-analytics-edge.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
-      '@opentelemetry/api': 0.10.2
+      '@opentelemetry/api': 1.0.0-rc.0
       '@types/chai': 4.2.15
       '@types/chai-as-promised': 7.1.3
       '@types/mocha': 7.0.2
@@ -9822,7 +9822,7 @@ packages:
     dev: false
     name: '@rush-temp/media-analytics-edge'
     resolution:
-      integrity: sha512-cmqcmU+OcoHaCwdumX9tIAqmEmUBNu+SKngIUmlvUwkZt7pqBSCyvivGDwYYL4ljd2Bt3n2T33GnqLTcE9elEQ==
+      integrity: sha512-KJ7HD2KNqoe1EK7Q6JwsvTY9aFkyPVch9VdZ86ZtCHqzwdJzRs7KStt3LD2DmC6aXsX3dfk6gEIbo5n+buqALw==
       tarball: file:projects/media-analytics-edge.tgz
     version: 0.0.0
   file:projects/mixedreality-authentication.tgz:
@@ -9997,7 +9997,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-keyvault-keys'
     resolution:
-      integrity: sha512-SNFFr2ahj1tJkoCp54GL8F+WghCR+zOco41nIyDOVRTGYgf4txYUgD8aXShnlcvykuHVxwDAmXwm2kkaWVbQMw==
+      integrity: sha512-SH2hZ0zz7laglE5GD3oux2JLzq7/mE6s9MfwbtVeTNDxqsHnLwPlWdJV0wU+Zl5OMnM0oBVpwhqInAhM4cJdKg==
       tarball: file:projects/perf-keyvault-keys.tgz
     version: 0.0.0
   file:projects/perf-keyvault-secrets.tgz:
