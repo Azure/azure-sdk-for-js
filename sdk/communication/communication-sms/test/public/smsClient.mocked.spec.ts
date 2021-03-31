@@ -9,16 +9,11 @@ import {
   isNode
 } from "@azure/core-http";
 
-import { Uuid } from "../src/utils/uuid";
-import { generateSendMessageRequest } from "../src/utils/smsUtils";
-
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
-import { apiVersion } from "../src/generated/src/models/parameters";
-import { SmsClient, SmsSendRequest } from "../src/smsClient";
+import { SmsClient, SmsSendRequest } from "../../src/smsClient";
 
-const API_VERSION = apiVersion.mapper.defaultValue;
 const TEST_NUMBER = "+14255550123";
 
 describe("[mocked] SmsClient", async () => {
@@ -26,7 +21,6 @@ describe("[mocked] SmsClient", async () => {
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
   const dateHeader = isNode ? "date" : "x-ms-date";
   let sendRequestSpy: sinon.SinonSpy;
-  let uuidStub: sinon.SinonStub;
   const mockHttpClient: HttpClient = {
     async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
       return {
@@ -48,7 +42,6 @@ describe("[mocked] SmsClient", async () => {
       };
     }
   };
-  const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
 
   const testSendRequest: SmsSendRequest = {
     from: TEST_NUMBER,
@@ -67,21 +60,9 @@ describe("[mocked] SmsClient", async () => {
   describe("when sending an SMS", () => {
     let smsClient: SmsClient;
     beforeEach(() => {
-      uuidStub = sinon.stub(Uuid, "generateUuid");
-      uuidStub.returns(mockedGuid);
       sendRequestSpy = sinon.spy(mockHttpClient, "sendRequest");
       sinon.useFakeTimers();
       smsClient = new SmsClient(connectionString, { httpClient: mockHttpClient });
-    });
-
-    it("sends with the correct request body", async () => {
-      await smsClient.send(testSendRequest);
-
-      const request = sendRequestSpy.getCall(0).args[0];
-      assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
-      assert.equal(request.method, "POST");
-      const expectedRequestBody = generateSendMessageRequest(testSendRequest);
-      assert.deepEqual(JSON.parse(request.body), expectedRequestBody);
     });
 
     it("sends with the correct headers", async () => {
@@ -106,13 +87,6 @@ describe("[mocked] SmsClient", async () => {
       sinon.assert.calledOnce(sendRequestSpy);
       assert.equal(smsTestResult.httpStatusCode, 202);
       assert.equal(smsTestResult.messageId, "id");
-    });
-
-    it("generates a new repeatability id each time", async () => {
-      await smsClient.send(testSendRequest);
-      assert.isTrue(uuidStub.calledOnce);
-      await smsClient.send(testSendRequest);
-      assert.isTrue(uuidStub.calledTwice);
     });
 
     afterEach(() => {

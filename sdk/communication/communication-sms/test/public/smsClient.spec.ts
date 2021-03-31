@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { SmsClient, SmsSendRequest, SmsSendOptions, SmsSendResult } from "../src/smsClient";
+import { SmsClient, SmsSendRequest, SmsSendOptions, SmsSendResult } from "../../src/smsClient";
 import { env, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import * as sinon from "sinon";
-import { Uuid } from "../src/utils/uuid";
-import { recorderConfiguration } from "./utils/recordedClient";
+import { recorderConfiguration } from "../utils/recordedClient";
 import { Context } from "mocha";
 
 if (isNode) {
@@ -21,11 +20,8 @@ describe("SmsClient [Playback/Live]", async () => {
 
   beforeEach(async function(this: Context) {
     recorder = record(this, recorderConfiguration);
+    recorder.skip(undefined);
     smsClient = new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string);
-    if (isPlaybackMode()) {
-      sinon.stub(Uuid, "generateUuid").returns("sanitized");
-      sinon.stub(Date, "now").returns(0);
-    }
   });
 
   afterEach(async function(this: Context) {

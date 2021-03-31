@@ -33,7 +33,7 @@ export const recorderConfiguration: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createCredential(): TokenCredential | undefined {
+export function createCredential(): TokenCredential {
   if (isNode && isPlaybackMode()) {
     return {
       getToken: async (_scopes) => {
@@ -41,10 +41,6 @@ export function createCredential(): TokenCredential | undefined {
       }
     };
   } else {
-    try {
-      return new DefaultAzureCredential();
-    } catch {
-      return undefined;
-    }
+    return new DefaultAzureCredential();
   }
 }
