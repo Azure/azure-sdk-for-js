@@ -47,6 +47,7 @@ dependencies:
   '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
+  '@rush-temp/perf-identity': file:projects/perf-identity.tgz
   '@rush-temp/perf-keyvault-certificates': file:projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:projects/perf-keyvault-secrets.tgz
@@ -9342,7 +9343,7 @@ packages:
     optionalDependencies:
       keytar: 7.4.0
     resolution:
-      integrity: sha512-6a4mBDTUOibIRz2TNwoMtOj1X6tfoe+lkJKk1Y8kOu6gMhqCQwxOPsarleypvs3HsqGVvXurYXFkuINPlKyeAw==
+      integrity: sha512-Rxclm5Iv5UIw2K8xTPq1P0VexF+rYU1qAEr+/nAPheuL7yzY+R4T54cXnaMwemjlVnpYFv0qTwNl5dz6kZ89HA==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
@@ -9415,7 +9416,7 @@ packages:
     dev: false
     name: '@rush-temp/keyvault-admin'
     resolution:
-      integrity: sha512-YRk0zCoJ01s007eNe07gwSBmheamsYH4taZr+bj4Qry7871DFusWvO90z8rCpM1bju8JBdwYisCoa19/D0EoAg==
+      integrity: sha512-L7hUgwBQw+msuFgnLHwuQp26YuTs90WiQR88wayzVV2JIeG0fHZCKn6rwNnQWvWGGTE0/ZdcWf7OZmdTTWWXsA==
       tarball: file:projects/keyvault-admin.tgz
     version: 0.0.0
   file:projects/keyvault-certificates.tgz:
@@ -9795,6 +9796,22 @@ packages:
       integrity: sha512-IQoql5tEhOX/8VOIA+TIl95RGaqZpGF73Xho9DxQuJjcv1vpVKYUFh4tnWlsrFP3P4E64MbDFsVvCPd27mw3dQ==
       tarball: file:projects/perf-eventgrid.tgz
     version: 0.0.0
+  file:projects/perf-identity.tgz:
+    dependencies:
+      '@types/uuid': 8.3.0
+      dotenv: 8.2.0
+      eslint: 7.22.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      ts-node: 9.1.1_typescript@4.2.3
+      tslib: 2.1.0
+      typescript: 4.2.3
+    dev: false
+    name: '@rush-temp/perf-identity'
+    resolution:
+      integrity: sha512-dGWFtEBT8TQxKH65+/OO266Cj2gcGgXT/bdyjq3MCENgBQ5MiD01quuKiPncS1BUA2iEieCvxlE5T5dJvgxWTw==
+      tarball: file:projects/perf-identity.tgz
+    version: 0.0.0
   file:projects/perf-keyvault-certificates.tgz:
     dependencies:
       '@azure/identity': 1.2.4
@@ -9828,7 +9845,7 @@ packages:
     dev: false
     name: '@rush-temp/perf-keyvault-keys'
     resolution:
-      integrity: sha512-SNFFr2ahj1tJkoCp54GL8F+WghCR+zOco41nIyDOVRTGYgf4txYUgD8aXShnlcvykuHVxwDAmXwm2kkaWVbQMw==
+      integrity: sha512-SH2hZ0zz7laglE5GD3oux2JLzq7/mE6s9MfwbtVeTNDxqsHnLwPlWdJV0wU+Zl5OMnM0oBVpwhqInAhM4cJdKg==
       tarball: file:projects/perf-keyvault-keys.tgz
     version: 0.0.0
   file:projects/perf-keyvault-secrets.tgz:
@@ -10858,6 +10875,7 @@ specifiers:
   '@rush-temp/perf-ai-form-recognizer': file:./projects/perf-ai-form-recognizer.tgz
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-eventgrid': file:./projects/perf-eventgrid.tgz
+  '@rush-temp/perf-identity': file:./projects/perf-identity.tgz
   '@rush-temp/perf-keyvault-certificates': file:./projects/perf-keyvault-certificates.tgz
   '@rush-temp/perf-keyvault-keys': file:./projects/perf-keyvault-keys.tgz
   '@rush-temp/perf-keyvault-secrets': file:./projects/perf-keyvault-secrets.tgz
