@@ -153,7 +153,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequired();
+      throw new AuthenticationRequired(scopes, options);
     }
 
     const parameters: msalBrowser.SilentRequest = {
@@ -169,7 +169,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       const response = await this.app.acquireTokenSilent(parameters);
       return this.handleResult(scopes, this.clientId, response);
     } catch (err) {
-      throw this.handleError(scopes, err);
+      throw this.handleError(scopes, err, options);
     }
   }
 
@@ -182,7 +182,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequired();
+      throw new AuthenticationRequired(scopes, options);
     }
 
     const parameters: msalBrowser.RedirectRequest = {

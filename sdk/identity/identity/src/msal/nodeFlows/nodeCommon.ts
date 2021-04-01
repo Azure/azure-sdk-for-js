@@ -198,7 +198,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     await this.getActiveAccount();
     if (!this.account) {
-      throw new AuthenticationRequired();
+      throw new AuthenticationRequired(scopes, options);
     }
 
     const silentRequest: msalNode.SilentFlowRequest = {
@@ -213,7 +213,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       const response = await this.publicApp!.acquireTokenSilent(silentRequest);
       return this.handleResult(scopes, this.clientId, response || undefined);
     } catch (err) {
-      throw this.handleError(scopes, err);
+      throw this.handleError(scopes, err, options);
     }
   }
 
@@ -238,6 +238,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
       if (options?.disableAutomaticAuthentication) {
         throw new AuthenticationRequired(
+          scopes,
+          options,
           "Automatic authentication has been disabled. You may call the authentication() method."
         );
       }

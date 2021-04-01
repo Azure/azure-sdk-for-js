@@ -149,6 +149,8 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       }
       if (options?.disableAutomaticAuthentication) {
         throw new AuthenticationRequired(
+          scopes,
+          options,
           "Automatic authentication has been disabled. You may call the authentication() method."
         );
       }

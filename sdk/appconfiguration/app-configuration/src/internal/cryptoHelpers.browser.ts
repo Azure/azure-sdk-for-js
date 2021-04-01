@@ -10,7 +10,7 @@ export async function sha256Digest(body: string | undefined): Promise<string> {
   const digest = await self.crypto.subtle.digest("SHA-256", new TextEncoder().encode(body || ""));
 
   // The conversions here are a bit odd but necessary (see "Unicode strings" in the link below)
-  // https://developer.mozilla.org/en-US/docs/Web/API/WindowOrWorkerGlobalScope/btoa
+  // https://developer.mozilla.org/docs/Web/API/WindowOrWorkerGlobalScope/btoa
   return btoa(String.fromCharCode(...new Uint8Array(digest)));
 }
 

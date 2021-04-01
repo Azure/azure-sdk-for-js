@@ -46,7 +46,7 @@ export class MsalDeviceCode extends MsalNode {
       });
       return this.handleResult(scopes, this.clientId, deviceResponse || undefined);
     } catch (error) {
-      throw this.handleError(scopes, error);
+      throw this.handleError(scopes, error, options);
     }
   }
 }

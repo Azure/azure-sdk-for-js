@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "629d306717ac7b295514d78b626d5a4f";
+module.exports.hash = "e053cbc80349f5f08e81d46786911ef0";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,37 +24,35 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '87e598a5-8376-4376-ae4c-aa7a96313000',
+  'b7733fb2-966e-4609-817d-8a7e44413202',
   'x-ms-ests-server',
-  '2.1.11251.20 - WUS2 ProdSlices',
+  '2.1.11562.10 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AovY7a2XqgtLoTFLQQtLREw; expires=Sun, 20-Dec-2020 22:53:57 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjzFVQ1mzahOgLFbzhWoi1fGLH8mDgAAAPal9dcOAAAA; expires=Thu, 29-Apr-2021 23:10:14 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 22:53:57 GMT',
-  'Content-Length',
-  '1331'
+  'Tue, 30 Mar 2021 23:10:14 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models')
+  .get('/formrecognizer/v2.1-preview.3/custom/models')
   .query(true)
-  .reply(200, {"summary":{"count":196,"limit":5000,"lastUpdatedDateTime":"2020-11-20T22:53:58Z"}}, [
+  .reply(200, {"summary":{"count":118,"limit":20000,"lastUpdatedDateTime":"2021-03-30T23:10:15Z"}}, [
   'Content-Length',
-  '83',
+  '84',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '31',
+  '213',
   'apim-request-id',
-  '5fded3b5-2a85-4e94-9a7d-8b9e12671f1d',
+  '4cf0087d-81ea-456e-904e-88ca318bbfa1',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:53:58 GMT'
+  'Tue, 30 Mar 2021 23:10:15 GMT'
 ]);

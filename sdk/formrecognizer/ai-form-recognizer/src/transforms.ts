@@ -186,7 +186,7 @@ export function toFormPages(
 
 export function toRecognizedFormArray(
   original: GetAnalyzeFormResultResponse,
-  expectedDocType?: string
+  expectedDocTypePrefix?: string
 ): RecognizedFormArray {
   const pages = toFormPages(
     original.analyzeResult?.readResults,
@@ -199,9 +199,9 @@ export function toRecognizedFormArray(
       original.analyzeResult?.documentResults
         ?.filter((d) => !!d.fields)
         ?.map((d) => {
-          if (expectedDocType !== undefined && expectedDocType !== d.docType) {
+          if (expectedDocTypePrefix !== undefined && !d.docType.startsWith(expectedDocTypePrefix)) {
             throw new RangeError(
-              `Expected document type '${expectedDocType}', but found '${d.docType}'.`
+              `Expected document type to start with '${expectedDocTypePrefix}', but found '${d.docType}'.`
             );
           }
           return toRecognizedForm(d, pages);
@@ -225,6 +225,11 @@ export function toFormFieldFromFieldValueModel(
     | FormField[]
     | { [propertyName: string]: FormField }
     | undefined;
+
+  function unreachable(v: never): never {
+    throw new Error(`Encountered unknown field value type: ${v}`);
+  }
+
   switch (original.type) {
     case "string":
       value = original.valueString;
@@ -259,6 +264,14 @@ export function toFormFieldFromFieldValueModel(
         ? toFieldsFromFieldValue(original.valueObject, readResults)
         : undefined;
       break;
+    case "gender":
+      value = original.valueGender;
+      break;
+    case "country":
+      value = original.valueCountry;
+      break;
+    default:
+      return unreachable(original.type);
   }
   return {
     confidence: original.confidence || 1,
