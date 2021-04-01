@@ -1,14 +1,3 @@
-<!-- Commented out due to conflict with real storage samples
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-storage
-urlFragment: storage-blob-javascript
---->
-
 # Azure Storage Blob client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Storage Blobs in some common scenarios.
