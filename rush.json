@@ -701,6 +701,11 @@
       "packageName": "@azure-tests/perf-search-documents",
       "projectFolder": "sdk/search/perf-tests/search-documents",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-core-rest-pipeline",
+      "projectFolder": "sdk/core/perf-tests/core-rest-pipeline",
+      "versionPolicyName": "test"
     }
   ]
 }
