@@ -87,7 +87,6 @@ export interface FeatureFlagParam extends ConfigurationSettingParam {
         clientFilters: (FeatureFlagTargetingClientFilter | FeatureFlagTimeWindowClientFilter | FeatureFlagPercentageClientFilter | object)[];
     };
     description?: string;
-    displayName: string;
     enabled: boolean;
 }
 
