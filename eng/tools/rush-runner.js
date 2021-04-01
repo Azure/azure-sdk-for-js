@@ -48,8 +48,11 @@ const getAllPackageJsonPaths = (baseDir) => {
     path.join(baseDir, path.normalize("sdk/identity/identity/package.json")),
 
     // developer tools or non-published packages that we only use from in the tree.
-    path.join(baseDir, path.normalize("common/tools/dev-tool/package.json")),
-    path.join(baseDir, path.normalize("common/tools/eslint-plugin-azure-sdk/package.json")),    
+    
+    // (only projects contained in 'sdk' would normally be used for this discovery)
+    // path.join(baseDir, path.normalize("common/tools/dev-tool/package.json")),
+    // path.join(baseDir, path.normalize("common/tools/eslint-plugin-azure-sdk/package.json")), 
+
     path.join(baseDir, path.normalize("sdk/test-utils/multi-version/package.json")),
     path.join(baseDir, path.normalize("sdk/test-utils/perfstress/package.json")),
     path.join(baseDir, path.normalize("sdk/test-utils/recorder/package.json")),
