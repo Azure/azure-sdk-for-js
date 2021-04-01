@@ -6,7 +6,7 @@
 
 ```yaml
 package-name: "@azure/synapse-artifacts"
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/synapse/data-plane/readme.md
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f953424dd168e71373bc52edb9713d2d86a14ada/specification/synapse/data-plane/readme.md
 use-extension:
   "@autorest/typescript": "latest"
 

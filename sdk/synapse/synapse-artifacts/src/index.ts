@@ -41,4 +41,4 @@ export {
   Notebook as NotebookOperation,
   LinkedService as LinkedServiceOperation,
   IntegrationRuntimes as IntegrationRuntimesOperation
-} from "./operations";
+} from "./operationsInterfaces";

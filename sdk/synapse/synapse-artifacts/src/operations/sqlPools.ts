@@ -8,6 +8,7 @@
 
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
+import { SqlPools } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,7 +16,7 @@ import { ArtifactsClientContext } from "../artifactsClientContext";
 import { SqlPoolsListResponse, SqlPoolsGetResponse } from "../models";
 
 /** Class representing a SqlPools. */
-export class SqlPools {
+export class SqlPoolsImpl implements SqlPools {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -30,13 +31,23 @@ export class SqlPools {
    * List Sql Pools
    * @param options The options parameters.
    */
-  async list(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options);
+  async list(
+    options?: coreHttp.OperationOptions
+  ): Promise<SqlPoolsListResponse> {
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-list",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(
+        updatedOptions || {}
+      )
     };
     try {
-      const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        listOperationSpec
+      );
       return result as SqlPoolsListResponse;
     } catch (error) {
       span.setStatus({
@@ -58,13 +69,21 @@ export class SqlPools {
     sqlPoolName: string,
     options?: coreHttp.OperationOptions
   ): Promise<SqlPoolsGetResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-get",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sqlPoolName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(
+        updatedOptions || {}
+      )
     };
     try {
-      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
+      const result = await this.client.sendOperationRequest(
+        operationArguments,
+        getOperationSpec
+      );
       return result as SqlPoolsGetResponse;
     } catch (error) {
       span.setStatus({
