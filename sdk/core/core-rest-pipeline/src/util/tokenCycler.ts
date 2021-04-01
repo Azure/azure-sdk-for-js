@@ -57,7 +57,7 @@ async function beginRefresh(
 ): Promise<AccessToken> {
   // This wrapper handles exceptions gracefully as long as we haven't exceeded
   // the timeout.
-  async function tryGetAccessToken() {
+  async function tryGetAccessToken(): Promise<AccessToken | null> {
     if (Date.now() < refreshTimeout) {
       try {
         return await getAccessToken();
