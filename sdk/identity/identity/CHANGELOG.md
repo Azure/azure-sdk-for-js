@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.5 (2021-03-31)
+## 1.2.5 (2021-04-01)
 
 ### Breaking Changes
 
