@@ -59,7 +59,7 @@ function withDefaultAzureCredential() {
 
 For clients that have a default browser available and for client-side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience. In the sample below an application authenticates a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
 
-> For client-side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported.
+> For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported.
 
 ```ts
 function withInteractiveBrowserCredential() {
@@ -135,6 +135,8 @@ function withClientCertificateCredential() {
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DeviceCodeCredential`.
 
 For more information about how to configure an AAD application for device code flow please refer to [Enable applications for device code flow][device_code_flow].
+
+> The `DeviceCodeCredential` offers a credential that can be used with little to no setup - you may present a prompt to authenticate and allow the user to use whatever browser they choose to complete the authentication process.
 
 ```ts
 /**
