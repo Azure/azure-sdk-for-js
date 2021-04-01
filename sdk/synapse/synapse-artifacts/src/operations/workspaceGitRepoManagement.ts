@@ -20,8 +20,7 @@ import {
 } from "../models";
 
 /** Class representing a WorkspaceGitRepoManagement. */
-export class WorkspaceGitRepoManagementImpl
-  implements WorkspaceGitRepoManagement {
+export class WorkspaceGitRepoManagementImpl implements WorkspaceGitRepoManagement {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -47,9 +46,7 @@ export class WorkspaceGitRepoManagementImpl
     );
     const operationArguments: coreHttp.OperationArguments = {
       gitHubAccessTokenRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -82,11 +79,7 @@ const getGitHubAccessTokenOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.gitHubAccessTokenRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.clientRequestId
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.clientRequestId],
   mediaType: "json",
   serializer
 };

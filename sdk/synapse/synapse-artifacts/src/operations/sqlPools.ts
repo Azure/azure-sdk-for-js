@@ -31,23 +31,13 @@ export class SqlPoolsImpl implements SqlPools {
    * List Sql Pools
    * @param options The options parameters.
    */
-  async list(
-    options?: coreHttp.OperationOptions
-  ): Promise<SqlPoolsListResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-list",
-      options || {}
-    );
+  async list(options?: coreHttp.OperationOptions): Promise<SqlPoolsListResponse> {
+    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options || {});
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
       return result as SqlPoolsListResponse;
     } catch (error) {
       span.setStatus({
@@ -69,21 +59,13 @@ export class SqlPoolsImpl implements SqlPools {
     sqlPoolName: string,
     options?: coreHttp.OperationOptions
   ): Promise<SqlPoolsGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       sqlPoolName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as SqlPoolsGetResponse;
     } catch (error) {
       span.setStatus({

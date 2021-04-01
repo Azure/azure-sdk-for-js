@@ -68,10 +68,7 @@ export class DatasetImpl implements Dataset {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDatasetsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getDatasetsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -97,9 +94,7 @@ export class DatasetImpl implements Dataset {
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -177,15 +172,10 @@ export class DatasetImpl implements Dataset {
     datasetName: string,
     options?: DatasetGetDatasetOptionalParams
   ): Promise<DatasetGetDatasetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getDataset",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getDataset", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -213,10 +203,7 @@ export class DatasetImpl implements Dataset {
     datasetName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteDataset",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteDataset", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -262,10 +249,7 @@ export class DatasetImpl implements Dataset {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameDataset",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameDataset", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       datasetName,
       request,
@@ -316,9 +300,7 @@ export class DatasetImpl implements Dataset {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -391,11 +373,7 @@ const createOrUpdateDatasetOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.dataset,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.datasetName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

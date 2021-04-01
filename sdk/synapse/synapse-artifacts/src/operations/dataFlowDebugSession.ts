@@ -70,10 +70,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._queryDataFlowDebugSessionsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._queryDataFlowDebugSessionsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -82,9 +79,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
   private async *queryDataFlowDebugSessionsByWorkspacePagingAll(
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<DataFlowDebugSessionInfo> {
-    for await (const page of this.queryDataFlowDebugSessionsByWorkspacePagingPage(
-      options
-    )) {
+    for await (const page of this.queryDataFlowDebugSessionsByWorkspacePagingPage(options)) {
       yield* page;
     }
   }
@@ -97,9 +92,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
   async createDataFlowDebugSession(
     request: CreateDataFlowDebugSessionRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<
-    LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>
-  > {
+  ): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createDataFlowDebugSession",
       options || {}
@@ -144,17 +137,13 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
    */
   private async _queryDataFlowDebugSessionsByWorkspace(
     options?: coreHttp.OperationOptions
-  ): Promise<
-    DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse
-  > {
+  ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspace",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -182,15 +171,10 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: DataFlowDebugPackage,
     options?: coreHttp.OperationOptions
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-addDataFlow",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-addDataFlow", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -224,9 +208,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     );
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -254,10 +236,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
     request: DataFlowDebugCommandRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-executeCommand",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-executeCommand", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       request,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -301,18 +280,14 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
   private async _queryDataFlowDebugSessionsByWorkspaceNext(
     nextLink: string,
     options?: coreHttp.OperationOptions
-  ): Promise<
-    DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
-  > {
+  ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspaceNext",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(

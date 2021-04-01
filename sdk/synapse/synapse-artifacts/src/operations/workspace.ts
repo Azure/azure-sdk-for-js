@@ -31,23 +31,13 @@ export class WorkspaceImpl implements Workspace {
    * Get Workspace
    * @param options The options parameters.
    */
-  async get(
-    options?: coreHttp.OperationOptions
-  ): Promise<WorkspaceGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      options || {}
-    );
+  async get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse> {
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options || {});
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as WorkspaceGetResponse;
     } catch (error) {
       span.setStatus({

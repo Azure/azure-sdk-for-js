@@ -70,10 +70,7 @@ export class TriggerImpl implements Trigger {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getTriggersByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getTriggersByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -99,9 +96,7 @@ export class TriggerImpl implements Trigger {
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -179,15 +174,10 @@ export class TriggerImpl implements Trigger {
     triggerName: string,
     options?: TriggerGetTriggerOptionalParams
   ): Promise<TriggerGetTriggerResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getTrigger",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getTrigger", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -215,10 +205,7 @@ export class TriggerImpl implements Trigger {
     triggerName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteTrigger",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteTrigger", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -315,9 +302,7 @@ export class TriggerImpl implements Trigger {
     );
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -392,10 +377,7 @@ export class TriggerImpl implements Trigger {
     triggerName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-startTrigger",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-startTrigger", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -439,10 +421,7 @@ export class TriggerImpl implements Trigger {
     triggerName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-stopTrigger",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-stopTrigger", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -492,9 +471,7 @@ export class TriggerImpl implements Trigger {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -567,11 +544,7 @@ const createOrUpdateTriggerOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.trigger,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

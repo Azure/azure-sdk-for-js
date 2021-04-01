@@ -13,10 +13,7 @@ import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ArtifactsClientContext } from "../artifactsClientContext";
-import {
-  RunFilterParameters,
-  TriggerRunQueryTriggerRunsByWorkspaceResponse
-} from "../models";
+import { RunFilterParameters, TriggerRunQueryTriggerRunsByWorkspaceResponse } from "../models";
 
 /** Class representing a TriggerRun. */
 export class TriggerRunImpl implements TriggerRun {
@@ -48,9 +45,7 @@ export class TriggerRunImpl implements TriggerRun {
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -87,9 +82,7 @@ export class TriggerRunImpl implements TriggerRun {
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -123,9 +116,7 @@ export class TriggerRunImpl implements TriggerRun {
     );
     const operationArguments: coreHttp.OperationArguments = {
       filterParameters,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -157,11 +148,7 @@ const rerunTriggerInstanceOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.runId,
-    Parameters.triggerName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.runId, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -175,11 +162,7 @@ const cancelTriggerInstanceOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.runId,
-    Parameters.triggerName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.runId, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
 };

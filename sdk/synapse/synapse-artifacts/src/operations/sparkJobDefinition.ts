@@ -70,10 +70,7 @@ export class SparkJobDefinitionImpl implements SparkJobDefinition {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSparkJobDefinitionsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getSparkJobDefinitionsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -82,9 +79,7 @@ export class SparkJobDefinitionImpl implements SparkJobDefinition {
   private async *getSparkJobDefinitionsByWorkspacePagingAll(
     options?: coreHttp.OperationOptions
   ): AsyncIterableIterator<SparkJobDefinitionResource> {
-    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(
-      options
-    )) {
+    for await (const page of this.getSparkJobDefinitionsByWorkspacePagingPage(options)) {
       yield* page;
     }
   }
@@ -101,9 +96,7 @@ export class SparkJobDefinitionImpl implements SparkJobDefinition {
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -132,9 +125,7 @@ export class SparkJobDefinitionImpl implements SparkJobDefinition {
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
     options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
-  ): Promise<
-    LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>
-  > {
+  ): Promise<LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateSparkJobDefinition",
       options || {}
@@ -189,9 +180,7 @@ export class SparkJobDefinitionImpl implements SparkJobDefinition {
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -419,9 +408,7 @@ export class SparkJobDefinitionImpl implements SparkJobDefinition {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -494,11 +481,7 @@ const createOrUpdateSparkJobDefinitionOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.sparkJobDefinition,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

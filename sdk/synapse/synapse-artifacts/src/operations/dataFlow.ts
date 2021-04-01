@@ -68,10 +68,7 @@ export class DataFlowImpl implements DataFlow {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getDataFlowsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getDataFlowsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -144,15 +141,10 @@ export class DataFlowImpl implements DataFlow {
     dataFlowName: string,
     options?: DataFlowGetDataFlowOptionalParams
   ): Promise<DataFlowGetDataFlowResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getDataFlow",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getDataFlow", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -180,10 +172,7 @@ export class DataFlowImpl implements DataFlow {
     dataFlowName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteDataFlow",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteDataFlow", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -229,10 +218,7 @@ export class DataFlowImpl implements DataFlow {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameDataFlow",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameDataFlow", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       dataFlowName,
       request,
@@ -280,9 +266,7 @@ export class DataFlowImpl implements DataFlow {
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -317,9 +301,7 @@ export class DataFlowImpl implements DataFlow {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -376,11 +358,7 @@ const createOrUpdateDataFlowOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.dataFlow,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.dataFlowName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

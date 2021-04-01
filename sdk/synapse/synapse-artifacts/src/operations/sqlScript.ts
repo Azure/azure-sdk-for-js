@@ -68,10 +68,7 @@ export class SqlScriptImpl implements SqlScript {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getSqlScriptsByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getSqlScriptsByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -97,9 +94,7 @@ export class SqlScriptImpl implements SqlScript {
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -177,15 +172,10 @@ export class SqlScriptImpl implements SqlScript {
     sqlScriptName: string,
     options?: SqlScriptGetSqlScriptOptionalParams
   ): Promise<SqlScriptGetSqlScriptResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getSqlScript",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getSqlScript", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -213,10 +203,7 @@ export class SqlScriptImpl implements SqlScript {
     sqlScriptName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deleteSqlScript",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteSqlScript", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -262,10 +249,7 @@ export class SqlScriptImpl implements SqlScript {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renameSqlScript",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameSqlScript", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       request,
@@ -317,9 +301,7 @@ export class SqlScriptImpl implements SqlScript {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -392,11 +374,7 @@ const createOrUpdateSqlScriptOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.sqlScript,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.sqlScriptName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

@@ -7,10 +7,7 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import {
-  RunFilterParameters,
-  TriggerRunQueryTriggerRunsByWorkspaceResponse
-} from "../models";
+import { RunFilterParameters, TriggerRunQueryTriggerRunsByWorkspaceResponse } from "../models";
 
 /** Interface representing a TriggerRun. */
 export interface TriggerRun {

@@ -220,10 +220,7 @@ export type IntegrationRuntimeUnion =
   | IntegrationRuntime
   | ManagedIntegrationRuntime
   | SelfHostedIntegrationRuntime;
-export type SecretBaseUnion =
-  | SecretBase
-  | SecureString
-  | AzureKeyVaultSecretReference;
+export type SecretBaseUnion = SecretBase | SecureString | AzureKeyVaultSecretReference;
 export type DatasetLocationUnion =
   | DatasetLocation
   | AzureBlobStorageLocation
@@ -2452,12 +2449,7 @@ export interface DatasetSchemaDataElement {
 /** The format definition of a storage. */
 export interface DatasetStorageFormat {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "TextFormat"
-    | "JsonFormat"
-    | "AvroFormat"
-    | "OrcFormat"
-    | "ParquetFormat";
+  type: "TextFormat" | "JsonFormat" | "AvroFormat" | "OrcFormat" | "ParquetFormat";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Serializer. Type: string (or Expression with resultType string). */
@@ -2562,11 +2554,7 @@ export interface DistcpSettings {
 /** Format read settings. */
 export interface FormatReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type:
-    | "DelimitedTextReadSettings"
-    | "JsonReadSettings"
-    | "XmlReadSettings"
-    | "BinaryReadSettings";
+  type: "DelimitedTextReadSettings" | "JsonReadSettings" | "XmlReadSettings" | "BinaryReadSettings";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
 }
@@ -11314,8 +11302,7 @@ export type LinkedServiceCreateOrUpdateLinkedServiceResponse = LinkedServiceReso
 };
 
 /** Optional parameters. */
-export interface LinkedServiceGetLinkedServiceOptionalParams
-  extends coreHttp.OperationOptions {
+export interface LinkedServiceGetLinkedServiceOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the linked service entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -11357,8 +11344,7 @@ export type DatasetGetDatasetsByWorkspaceResponse = DatasetListResponse & {
 };
 
 /** Optional parameters. */
-export interface DatasetCreateOrUpdateDatasetOptionalParams
-  extends coreHttp.OperationOptions {
+export interface DatasetCreateOrUpdateDatasetOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the dataset entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -11378,8 +11364,7 @@ export type DatasetCreateOrUpdateDatasetResponse = DatasetResource & {
 };
 
 /** Optional parameters. */
-export interface DatasetGetDatasetOptionalParams
-  extends coreHttp.OperationOptions {
+export interface DatasetGetDatasetOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the dataset entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -11421,8 +11406,7 @@ export type PipelineGetPipelinesByWorkspaceResponse = PipelineListResponse & {
 };
 
 /** Optional parameters. */
-export interface PipelineCreateOrUpdatePipelineOptionalParams
-  extends coreHttp.OperationOptions {
+export interface PipelineCreateOrUpdatePipelineOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the pipeline entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -11442,8 +11426,7 @@ export type PipelineCreateOrUpdatePipelineResponse = PipelineResource & {
 };
 
 /** Optional parameters. */
-export interface PipelineGetPipelineOptionalParams
-  extends coreHttp.OperationOptions {
+export interface PipelineGetPipelineOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the pipeline entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -11461,8 +11444,7 @@ export type PipelineGetPipelineResponse = PipelineResource & {
 };
 
 /** Optional parameters. */
-export interface PipelineCreatePipelineRunOptionalParams
-  extends coreHttp.OperationOptions {
+export interface PipelineCreatePipelineRunOptionalParams extends coreHttp.OperationOptions {
   /** Parameters of the pipeline run. These parameters will be used only if the runId is not specified. */
   parameters?: { [propertyName: string]: any };
   /** The pipeline run identifier. If run ID is specified the parameters of the specified run will be used to create a new run. */
@@ -11534,8 +11516,7 @@ export type PipelineRunQueryActivityRunsResponse = ActivityRunsQueryResponse & {
 };
 
 /** Optional parameters. */
-export interface PipelineRunCancelPipelineRunOptionalParams
-  extends coreHttp.OperationOptions {
+export interface PipelineRunCancelPipelineRunOptionalParams extends coreHttp.OperationOptions {
   /** If true, cancel all the Child pipelines that are triggered by the current pipeline. */
   isRecursive?: boolean;
 }
@@ -11553,8 +11534,7 @@ export type TriggerGetTriggersByWorkspaceResponse = TriggerListResponse & {
 };
 
 /** Optional parameters. */
-export interface TriggerCreateOrUpdateTriggerOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TriggerCreateOrUpdateTriggerOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the trigger entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -11574,8 +11554,7 @@ export type TriggerCreateOrUpdateTriggerResponse = TriggerResource & {
 };
 
 /** Optional parameters. */
-export interface TriggerGetTriggerOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TriggerGetTriggerOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the trigger entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -11657,8 +11636,7 @@ export type TriggerRunQueryTriggerRunsByWorkspaceResponse = TriggerRunsQueryResp
 };
 
 /** Optional parameters. */
-export interface DataFlowCreateOrUpdateDataFlowOptionalParams
-  extends coreHttp.OperationOptions {
+export interface DataFlowCreateOrUpdateDataFlowOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -11678,8 +11656,7 @@ export type DataFlowCreateOrUpdateDataFlowResponse = DataFlowResource & {
 };
 
 /** Optional parameters. */
-export interface DataFlowGetDataFlowOptionalParams
-  extends coreHttp.OperationOptions {
+export interface DataFlowGetDataFlowOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the data flow entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -11797,8 +11774,7 @@ export type SqlScriptGetSqlScriptsByWorkspaceResponse = SqlScriptsListResponse &
 };
 
 /** Optional parameters. */
-export interface SqlScriptCreateOrUpdateSqlScriptOptionalParams
-  extends coreHttp.OperationOptions {
+export interface SqlScriptCreateOrUpdateSqlScriptOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the SQL script entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -11818,8 +11794,7 @@ export type SqlScriptCreateOrUpdateSqlScriptResponse = SqlScriptResource & {
 };
 
 /** Optional parameters. */
-export interface SqlScriptGetSqlScriptOptionalParams
-  extends coreHttp.OperationOptions {
+export interface SqlScriptGetSqlScriptOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the sql compute entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -11965,8 +11940,7 @@ export type NotebookGetNotebookSummaryByWorkSpaceResponse = NotebookListResponse
 };
 
 /** Optional parameters. */
-export interface NotebookCreateOrUpdateNotebookOptionalParams
-  extends coreHttp.OperationOptions {
+export interface NotebookCreateOrUpdateNotebookOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the Note book entity.  Should only be specified for update, for which it should match existing entity or can be * for unconditional update. */
   ifMatch?: string;
 }
@@ -11986,8 +11960,7 @@ export type NotebookCreateOrUpdateNotebookResponse = NotebookResource & {
 };
 
 /** Optional parameters. */
-export interface NotebookGetNotebookOptionalParams
-  extends coreHttp.OperationOptions {
+export interface NotebookGetNotebookOptionalParams extends coreHttp.OperationOptions {
   /** ETag of the Notebook entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned. */
   ifNoneMatch?: string;
 }
@@ -12186,8 +12159,7 @@ export type WorkspaceGitRepoManagementGetGitHubAccessTokenResponse = GitHubAcces
 };
 
 /** Optional parameters. */
-export interface ArtifactsClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface ArtifactsClientOptionalParams extends coreHttp.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

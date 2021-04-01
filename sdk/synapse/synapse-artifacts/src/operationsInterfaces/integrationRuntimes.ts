@@ -7,10 +7,7 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import {
-  IntegrationRuntimesListResponse,
-  IntegrationRuntimesGetResponse
-} from "../models";
+import { IntegrationRuntimesListResponse, IntegrationRuntimesGetResponse } from "../models";
 
 /** Interface representing a IntegrationRuntimes. */
 export interface IntegrationRuntimes {
@@ -18,9 +15,7 @@ export interface IntegrationRuntimes {
    * List Integration Runtimes
    * @param options The options parameters.
    */
-  list(
-    options?: coreHttp.OperationOptions
-  ): Promise<IntegrationRuntimesListResponse>;
+  list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse>;
   /**
    * Get Integration Runtime
    * @param integrationRuntimeName The Integration Runtime name

@@ -41,9 +41,7 @@ export interface SparkJobDefinition {
     sparkJobDefinitionName: string,
     sparkJobDefinition: SparkJobDefinitionResource,
     options?: SparkJobDefinitionCreateOrUpdateSparkJobDefinitionOptionalParams
-  ): Promise<
-    LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>
-  >;
+  ): Promise<LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>>;
   /**
    * Gets a Spark Job Definition.
    * @param sparkJobDefinitionName The spark job definition name.

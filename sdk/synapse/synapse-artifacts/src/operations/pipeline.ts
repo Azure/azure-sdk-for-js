@@ -70,10 +70,7 @@ export class PipelineImpl implements Pipeline {
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._getPipelinesByWorkspaceNext(
-        continuationToken,
-        options
-      );
+      result = await this._getPipelinesByWorkspaceNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
@@ -99,9 +96,7 @@ export class PipelineImpl implements Pipeline {
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -179,15 +174,10 @@ export class PipelineImpl implements Pipeline {
     pipelineName: string,
     options?: PipelineGetPipelineOptionalParams
   ): Promise<PipelineGetPipelineResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-getPipeline",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getPipeline", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -215,10 +205,7 @@ export class PipelineImpl implements Pipeline {
     pipelineName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-deletePipeline",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deletePipeline", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -264,10 +251,7 @@ export class PipelineImpl implements Pipeline {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-renamePipeline",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renamePipeline", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       request,
@@ -312,15 +296,10 @@ export class PipelineImpl implements Pipeline {
     pipelineName: string,
     options?: PipelineCreatePipelineRunOptionalParams
   ): Promise<PipelineCreatePipelineRunResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-createPipelineRun",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-createPipelineRun", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -355,9 +334,7 @@ export class PipelineImpl implements Pipeline {
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -430,11 +407,7 @@ const createOrUpdatePipelineOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.pipeline,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.pipelineName],
-  headerParameters: [
-    Parameters.accept,
-    Parameters.contentType,
-    Parameters.ifMatch
-  ],
+  headerParameters: [Parameters.accept, Parameters.contentType, Parameters.ifMatch],
   mediaType: "json",
   serializer
 };

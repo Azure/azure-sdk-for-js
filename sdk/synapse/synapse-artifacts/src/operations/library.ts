@@ -42,9 +42,7 @@ export class LibraryImpl implements Library {
    * Lists Library.
    * @param options The options parameters.
    */
-  public list(
-    options?: coreHttp.OperationOptions
-  ): PagedAsyncIterableIterator<LibraryResource> {
+  public list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -84,23 +82,13 @@ export class LibraryImpl implements Library {
    * Lists Library.
    * @param options The options parameters.
    */
-  private async _list(
-    options?: coreHttp.OperationOptions
-  ): Promise<LibraryListOperationResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_list",
-      options || {}
-    );
+  private async _list(options?: coreHttp.OperationOptions): Promise<LibraryListOperationResponse> {
+    const { span, updatedOptions } = createSpan("ArtifactsClient-_list", options || {});
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        listOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
       return result as LibraryListOperationResponse;
     } catch (error) {
       span.setStatus({
@@ -123,10 +111,7 @@ export class LibraryImpl implements Library {
     libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-flush",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-flush", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -149,10 +134,7 @@ export class LibraryImpl implements Library {
       }
     };
 
-    const initialOperationResult = await sendOperation(
-      operationArguments,
-      flushOperationSpec
-    );
+    const initialOperationResult = await sendOperation(operationArguments, flushOperationSpec);
     return new LROPoller({
       initialOperationArguments: operationArguments,
       initialOperationSpec: flushOperationSpec,
@@ -176,9 +158,7 @@ export class LibraryImpl implements Library {
     );
     const operationArguments: coreHttp.OperationArguments = {
       operationId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -207,10 +187,7 @@ export class LibraryImpl implements Library {
     libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-delete",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-delete", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -233,10 +210,7 @@ export class LibraryImpl implements Library {
       }
     };
 
-    const initialOperationResult = await sendOperation(
-      operationArguments,
-      deleteOperationSpec
-    );
+    const initialOperationResult = await sendOperation(operationArguments, deleteOperationSpec);
     return new LROPoller({
       initialOperationArguments: operationArguments,
       initialOperationSpec: deleteOperationSpec,
@@ -251,25 +225,14 @@ export class LibraryImpl implements Library {
    *                    extension length.
    * @param options The options parameters.
    */
-  async get(
-    libraryName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<LibraryGetResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-get",
-      options || {}
-    );
+  async get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse> {
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
-      const result = await this.client.sendOperationRequest(
-        operationArguments,
-        getOperationSpec
-      );
+      const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as LibraryGetResponse;
     } catch (error) {
       span.setStatus({
@@ -292,10 +255,7 @@ export class LibraryImpl implements Library {
     libraryName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-create",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-create", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -318,10 +278,7 @@ export class LibraryImpl implements Library {
       }
     };
 
-    const initialOperationResult = await sendOperation(
-      operationArguments,
-      createOperationSpec
-    );
+    const initialOperationResult = await sendOperation(operationArguments, createOperationSpec);
     return new LROPoller({
       initialOperationArguments: operationArguments,
       initialOperationSpec: createOperationSpec,
@@ -343,16 +300,11 @@ export class LibraryImpl implements Library {
     content: coreHttp.HttpRequestBody,
     options?: LibraryAppendOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-append",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-append", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       libraryName,
       content,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -380,15 +332,10 @@ export class LibraryImpl implements Library {
     nextLink: string,
     options?: coreHttp.OperationOptions
   ): Promise<LibraryListNextResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ArtifactsClient-_listNext",
-      options || {}
-    );
+    const { span, updatedOptions } = createSpan("ArtifactsClient-_listNext", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(
-        updatedOptions || {}
-      )
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(

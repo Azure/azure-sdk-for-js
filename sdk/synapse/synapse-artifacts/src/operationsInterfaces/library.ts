@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import * as coreHttp from "@azure/core-http";
@@ -25,9 +24,7 @@ export interface Library {
    * Lists Library.
    * @param options The options parameters.
    */
-  list(
-    options?: coreHttp.OperationOptions
-  ): PagedAsyncIterableIterator<LibraryResource>;
+  list(options?: coreHttp.OperationOptions): PagedAsyncIterableIterator<LibraryResource>;
   /**
    * Flush Library
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
@@ -63,10 +60,7 @@ export interface Library {
    *                    extension length.
    * @param options The options parameters.
    */
-  get(
-    libraryName: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<LibraryGetResponse>;
+  get(libraryName: string, options?: coreHttp.OperationOptions): Promise<LibraryGetResponse>;
   /**
    * Creates a library with the library name.
    * @param libraryName file name to upload. Minimum length of the filename should be 1 excluding the
