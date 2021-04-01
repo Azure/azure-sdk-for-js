@@ -45,23 +45,20 @@ export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
  * into an AccessTokenGetter by retrying the unreliable getter in a regular
  * interval.
  *
- * @param getAccessToken - a function that produces a promise of an access
- * token that may fail by returning null
- * @param retryIntervalInMs - the time (in milliseconds) to wait between retry
- * attempts
- * @param timeoutInMs - the timestamp after which the refresh attempt will fail,
- * throwing an exception
- * @returns - a promise that, if it resolves, will resolve with an access token
+ * @param getAccessToken - A function that produces a promise of an access token that may fail by returning null.
+ * @param retryIntervalInMs - The time (in milliseconds) to wait between retry attempts.
+ * @param refreshTimeout - The timestamp after which the refresh attempt will fail, throwing an exception.
+ * @returns - A promise that, if it resolves, will resolve with an access token.
  */
 async function beginRefresh(
   getAccessToken: () => Promise<AccessToken | null>,
   retryIntervalInMs: number,
-  timeoutInMs: number
+  refreshTimeout: number
 ): Promise<AccessToken> {
   // This wrapper handles exceptions gracefully as long as we haven't exceeded
   // the timeout.
   async function tryGetAccessToken() {
-    if (Date.now() < timeoutInMs) {
+    if (Date.now() < refreshTimeout) {
       try {
         return await getAccessToken();
       } catch {
