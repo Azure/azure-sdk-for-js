@@ -16,17 +16,14 @@ export interface AssetConversionOperationState
 }
 
 export class AssetConversionOperationStateImpl implements AssetConversionOperationState {
-  private client: RemoteRenderingClient;
   latestResponse: WithResponse<AssetConversion>;
 
-  constructor(client: RemoteRenderingClient, conversionState: WithResponse<AssetConversion>) {
-    this.client = client;
+  constructor(conversionState: WithResponse<AssetConversion>) {
     this.latestResponse = conversionState;
   }
 
   get isStarted(): boolean {
-    // TODO
-    this.client = this.client;
+    // We do not take the KnownAssetConversionStatus.NotStarted status into account here.
     return true;
   }
 
@@ -56,36 +53,25 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
 
 class AssetConversionOperation
   implements PollOperation<AssetConversionOperationStateImpl, AssetConversion> {
+  private client: RemoteRenderingClient;
   state: AssetConversionOperationStateImpl;
 
-  constructor(state: AssetConversionOperationStateImpl) {
+  constructor(client: RemoteRenderingClient, state: AssetConversionOperationStateImpl) {
     this.state = state;
+    this.client = client;
   }
 
   update(_options?: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: AssetConversionOperationState) => void;
   }): Promise<AssetConversionOperation> {
-    throw new Error("Not yet implemented.");
+    return this.client.getConversion(this.state.latestResponse.conversionId).then((res) => { this.state.latestResponse = res; return this; });
   }
 
-  /**
-   * Attempts to cancel the underlying operation.
-   *
-   * It only optionally receives an object with an abortSignal property, from \@azure/abort-controller's AbortSignalLike.
-   *
-   * It returns a promise that should be resolved with an updated version of the poller's operation.
-   *
-   * @param options - Optional properties passed to the operation's update method.
-   */
   cancel(_options?: { abortSignal?: AbortSignalLike }): Promise<AssetConversionOperation> {
     throw new Error("Not yet implemented.");
   }
 
-  /**
-   * Serializes the operation.
-   * Useful when wanting to create a poller that monitors an existing operation.
-   */
   toString(): string {
     throw new Error("Not yet implemented.");
   }
@@ -102,7 +88,7 @@ export class AssetConversionPoller extends Poller<
 
   constructor(client: RemoteRenderingClient, assetConversion: WithResponse<AssetConversion>) {
     super(
-      new AssetConversionOperation(new AssetConversionOperationStateImpl(client, assetConversion))
+      new AssetConversionOperation(client, new AssetConversionOperationStateImpl(assetConversion))
     );
   }
 

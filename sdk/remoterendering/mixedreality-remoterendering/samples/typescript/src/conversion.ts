@@ -37,7 +37,7 @@ const blobContainerName =
 const sasToken = process.env["REMOTE_RENDERING_ARR_SAS_TOKEN"] || "<sasToken>";
 
 export async function main() {
-  console.log("== Alternative Document Input Objects Sample ==");
+  console.log("== Convert an asset example ==");
 
   const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
 
@@ -47,7 +47,7 @@ export async function main() {
   var inputSettings: AssetConversionInputSettings = {
     storageContainerUrl,
     storageContainerReadListSas: sasToken,
-    relativeInputAssetPath: "box.fbx"
+    relativeInputAssetPath: "testBox.fbx"
   };
   var outputSettings: AssetConversionOutputSettings = {
     storageContainerUrl,
@@ -71,3 +71,5 @@ export async function main() {
     console.log("Conversion failed: " + conversion.error?.code + " " + conversion.error?.message);
   }
 }
+
+main();
