@@ -38,7 +38,7 @@ export interface FeatureFlagParam extends ConfigurationSettingParam {
       | FeatureFlagTargetingClientFilter
       | FeatureFlagTimeWindowClientFilter
       | FeatureFlagPercentageClientFilter
-      | object
+      | Record<string, unknown>
     )[];
   };
   /**
@@ -281,7 +281,7 @@ export function convertJsonConditions(
       };
       return filter;
     } else {
-      return jsonFilter as object;
+      return jsonFilter;
     }
   });
 
@@ -326,7 +326,7 @@ export function convertToJsonConditions(
       };
 
       return jsonFilter;
-    } else if (isJsonFeatureFlagPercentageClientFilter(filter)) {
+    } else if (isFeatureFlagPercentageClientFilter(filter)) {
       // try not to slice any unknown attributes
       const jsonFilter: JsonFeatureFlagPercentageClientFilter = {
         name: filter.name,
@@ -336,7 +336,7 @@ export function convertToJsonConditions(
       };
       return jsonFilter;
     } else {
-      return filter as object;
+      return filter;
     }
   });
 

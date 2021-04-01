@@ -14,7 +14,7 @@ export type JsonFeatureFlag = {
       | JsonFeatureFlagTargetingClientFilter
       | JsonFeatureFlagTimeWindowClientFilter
       | JsonFeatureFlagPercentageClientFilter
-      | object
+      | Record<string, unknown>
     )[];
   };
   description?: string;
