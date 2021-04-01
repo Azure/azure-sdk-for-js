@@ -79,7 +79,7 @@ describe("SmsClient [Live]", async () => {
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
     expectSuccessResult(results[0], validToNumber);
   });
-  
+
   // This runs in live mode only
   it("sends a new message each time send is called", async function(this: Context) {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
