@@ -27,7 +27,7 @@ export type JsonFeatureFlag = {
 export interface JsonFeatureFlagTargetingClientFilter {
   name: "Microsoft.Targeting";
   parameters: {
-    Audience?: {
+    Audience: {
       Users: string[];
       Groups: {
         Name: string;
