@@ -111,7 +111,7 @@ export class WebPubsubGroup {
 }
 
 // @public
-export class WebPubsubServiceClient {
+export class WebPubSubServiceClient {
     constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
     constructor(endpoint: string, credential: AzureKeyCredential, hubName: string, options?: HubAdminClientOptions);
     readonly apiVersion: string;

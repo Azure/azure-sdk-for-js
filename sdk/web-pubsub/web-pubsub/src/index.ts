@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 export { AzureKeyCredential } from "@azure/core-auth";
 export {
-  WebPubsubServiceClient,
+  WebPubSubServiceClient,
   GetAuthenticationTokenOptions,
   GetAuthenticationTokenResponse,
   HubSendToAllOptions,

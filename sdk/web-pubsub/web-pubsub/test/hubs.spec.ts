@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
 import { env, Recorder, record } from "@azure/test-utils-recorder";
-import { WebPubsubServiceClient, AzureKeyCredential } from "../src";
+import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
 import * as assert from "assert";
 import environmentSetup from "./testEnv";
 
@@ -12,7 +12,7 @@ describe("HubClient", () => {
 
     it("takes a connection string, hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubsubServiceClient(env.WPS_CONNECTION_STRING, "test-hub", {
+        new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "test-hub", {
           retryOptions: { maxRetries: 2 }
         });
       });
@@ -20,7 +20,7 @@ describe("HubClient", () => {
 
     it("takes an endpoint, an API key, a hub name, and options", () => {
       assert.doesNotThrow(() => {
-        new WebPubsubServiceClient(env.ENDPOINT, cred, "test-hub", {
+        new WebPubSubServiceClient(env.ENDPOINT, cred, "test-hub", {
           retryOptions: { maxRetries: 2 }
         });
       });
@@ -29,12 +29,12 @@ describe("HubClient", () => {
 
   describe("Working with a hub", function() {
     let recorder: Recorder;
-    let client: WebPubsubServiceClient;
+    let client: WebPubSubServiceClient;
     this.timeout(30000);
 
     beforeEach(function() {
       recorder = record(this, environmentSetup);
-      client = new WebPubsubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
+      client = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
     });
 
     it("can broadcast", async () => {

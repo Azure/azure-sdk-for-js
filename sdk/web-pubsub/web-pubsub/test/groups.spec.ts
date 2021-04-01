@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
 import { env, Recorder, record } from "@azure/test-utils-recorder";
-import { WebPubsubServiceClient, WebPubsubGroup } from "../src";
+import { WebPubSubServiceClient, WebPubsubGroup } from "../src";
 import * as assert from "assert";
 import environmentSetup from "./testEnv";
 import { RestError } from "@azure/core-http";
@@ -14,7 +14,7 @@ describe("Group client working with a group", function() {
 
   beforeEach(function() {
     recorder = record(this, environmentSetup);
-    const hubClient = new WebPubsubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
+    const hubClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
     client = hubClient.group("group");
   });
 

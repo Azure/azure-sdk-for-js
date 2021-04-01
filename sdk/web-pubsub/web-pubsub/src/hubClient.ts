@@ -122,7 +122,7 @@ export interface GetAuthenticationTokenResponse {
  *   C   C
  *   ()_()
  */
-export class WebPubsubServiceClient {
+export class WebPubSubServiceClient {
   private readonly client: GeneratedClient;
   private credential!: AzureKeyCredential;
   private readonly clientOptions?: HubAdminClientOptions;
