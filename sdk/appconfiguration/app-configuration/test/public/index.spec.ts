@@ -1168,13 +1168,6 @@ describe("AppConfigurationClient", () => {
         parameters: {
           start: "Wed, 01 May 2019 13:59:59 GMT",
           end: "Mon, 01 July 2019 00:00:00 GMT"
-          // TODO: dates should accept `string | Date`
-          // Returning
-          //      - SDK would return Date for all the config-settings if parsable
-          //      - SDK would return strings for non parsable strings
-          // Passing as an argument
-          //      - If passed in a string, we'll pass it as is.
-          //      - If passed Date, we'll make it a string.
         }
       },
       { name: "FilterX" },
