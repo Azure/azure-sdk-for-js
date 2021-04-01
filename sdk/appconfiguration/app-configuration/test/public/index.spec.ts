@@ -1237,14 +1237,14 @@ describe("AppConfigurationClient", () => {
       assert.equal(actual.contentType, expected.contentType);
     }
 
-    it("can add and get FeatureFlag", async () => {
+    it.only("can add and get FeatureFlag", async () => {
       assert.equal(isFeatureFlag(addResponse), true, "Expected to get the feature flag");
       if (isFeatureFlag(addResponse)) {
         assertFeatureFlagProps(addResponse, baseSetting);
       }
       const getResponse = await client.getConfigurationSetting({
-        key: baseSetting.key,
-        label: baseSetting.label
+        key: baseSetting.key
+        // label: baseSetting.label
       });
       assert.equal(isFeatureFlag(getResponse), true, "Expected to get the feature flag");
       if (isFeatureFlag(getResponse)) {
