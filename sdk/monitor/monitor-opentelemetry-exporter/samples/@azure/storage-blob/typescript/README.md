@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - typescript
-products:
-  - azure
-  - azure-storage
-urlFragment: storage-blob-typescript
----
-
 # Azure Storage Blob client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure Storage Blobs in some common scenarios.
