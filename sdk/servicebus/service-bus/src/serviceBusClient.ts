@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { ConnectionConfig } from "@azure/core-amqp";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
 import {
   ServiceBusClientOptions,
   createConnectionContextForConnectionString,
-  createConnectionContextForTokenCredential
+  createConnectionContextForCredential
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
 import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions, ReceiveMode } from "./models";
@@ -18,7 +18,7 @@ import {
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
-import { isDefined } from "./util/typeGuards";
+import { isCredential, isDefined } from "./util/typeGuards";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -51,6 +51,11 @@ export class ServiceBusClient {
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
    * If you're using an own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
    * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
+   * Use the `AzureSASCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessSignature`
+   * without using a connection string. This field maps to `signature` in `AzureSASCredential`.
    * @param options - A set of options to apply when configuring the client.
    * - `retryOptions`   : Configures the retry policy for all the operations on the client.
    * For example, `{ "maxRetries": 4 }` or `{ "maxRetries": 4, "retryDelayInMs": 30000 }`.
@@ -58,20 +63,24 @@ export class ServiceBusClient {
    */
   constructor(
     fullyQualifiedNamespace: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential | SASCredential,
     options?: ServiceBusClientOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    credentialOrOptions2?: TokenCredential | ServiceBusClientOptions,
+    credentialOrOptions2?:
+      | TokenCredential
+      | NamedKeyCredential
+      | SASCredential
+      | ServiceBusClientOptions,
     options3?: ServiceBusClientOptions
   ) {
-    if (isTokenCredential(credentialOrOptions2)) {
+    if (isCredential(credentialOrOptions2)) {
       const fullyQualifiedNamespace: string = fullyQualifiedNamespaceOrConnectionString1;
-      const credential: TokenCredential = credentialOrOptions2;
+      const credential = credentialOrOptions2;
       this._clientOptions = options3 || {};
 
-      this._connectionContext = createConnectionContextForTokenCredential(
+      this._connectionContext = createConnectionContextForCredential(
         credential,
         fullyQualifiedNamespace,
         this._clientOptions

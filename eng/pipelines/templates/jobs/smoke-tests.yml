@@ -110,7 +110,7 @@ jobs:
       - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
         parameters:
           AgentImage: $(OSVmImage)
-        
+
       - template: /eng/pipelines/templates/steps/common.yml
 
       - template: /eng/pipelines/templates/steps/use-node-version.yml
@@ -158,6 +158,10 @@ jobs:
           # into script blocks very well, so this is the best available workaround.
           ${{ each artifact in parameters.Artifacts }}:
             SMOKE_PACKAGE_${{ artifact.safeName }}: "@azure/${{ replace(artifact.name, 'azure-', '') }}"
+
+      - pwsh: Get-Content ./run-manifest.json
+        workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
+        displayName: Print run manifest
 
       - task: Npm@1
         inputs:

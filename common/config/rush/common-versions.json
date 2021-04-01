@@ -63,6 +63,8 @@
     "@types/node": ["^10.0.0", "^10.12.0"],
     // @azure/test-utils-perfstress should depend on lowest version of @azure/core-http for maximum compatibility, allowing test
     // projects to choose a higher version if desired.
-    "@azure/core-http": ["^1.0.0"]
+    "@azure/core-http": ["^1.0.0"],
+    // Idenity is moving from v1 to v2. Moving all packages to v2 is going to take a bit of time, in the mean time we could use v2 on the perf-identity tests.
+    "@azure/identity": ["^2.0.0-beta.1"]
   }
 }

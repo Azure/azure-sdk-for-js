@@ -6,7 +6,8 @@ import { packageJsonInfo } from "./util/constants";
 import {
   ConnectionConfig,
   ConnectionContextBase,
-  CreateConnectionContextBaseParameters
+  CreateConnectionContextBaseParameters,
+  SasTokenProvider
 } from "@azure/core-amqp";
 import { TokenCredential } from "@azure/core-auth";
 import { ServiceBusClientOptions } from "./constructorHelpers";
@@ -24,7 +25,6 @@ import { MessageReceiver } from "./core/messageReceiver";
 import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
-import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
 import { NonSessionReceiverType, ReceiverType } from "./core/linkEntity";
 import { ServiceBusError } from "./serviceBusError";
 
@@ -36,9 +36,9 @@ import { ServiceBusError } from "./serviceBusError";
 export interface ConnectionContext extends ConnectionContextBase {
   /**
    * The credential to be used for Authentication.
-   * Default value: SharedKeyCredentials.
+   * Default value: SasTokenProvider.
    */
-  tokenCredential: SharedKeyCredential | TokenCredential;
+  tokenCredential: SasTokenProvider | TokenCredential;
   /**
    * A map of active Service Bus Senders with sender name as key.
    */
@@ -246,7 +246,7 @@ function getNumberOfReceivers(
 export namespace ConnectionContext {
   export function create(
     config: ConnectionConfig,
-    tokenCredential: SharedKeyCredential | TokenCredential,
+    tokenCredential: SasTokenProvider | TokenCredential,
     options?: ServiceBusClientOptions
   ): ConnectionContext {
     if (!options) options = {};

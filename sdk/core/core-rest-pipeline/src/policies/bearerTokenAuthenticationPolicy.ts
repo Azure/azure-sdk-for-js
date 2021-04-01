@@ -3,8 +3,8 @@
 
 import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
-import { AccessTokenCache, ExpiringAccessTokenCache } from "../accessTokenCache";
+import { TokenCredential } from "@azure/core-auth";
+import { createTokenCycler } from "../util/tokenCycler";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -33,20 +33,17 @@ export function bearerTokenAuthenticationPolicy(
   options: BearerTokenAuthenticationPolicyOptions
 ): PipelinePolicy {
   const { credential, scopes } = options;
-  const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-  async function getToken(tokenOptions: GetTokenOptions): Promise<string | undefined> {
-    let accessToken = tokenCache.getCachedToken();
-    if (accessToken === undefined) {
-      accessToken = (await credential.getToken(scopes, tokenOptions)) || undefined;
-      tokenCache.setCachedToken(accessToken);
-    }
 
-    return accessToken ? accessToken.token : undefined;
-  }
+  // This function encapsulates the entire process of reliably retrieving the token
+  // The options are left out of the public API until there's demand to configure this.
+  // Remember to extend `BearerTokenAuthenticationPolicyOptions` with `TokenCyclerOptions`
+  // in order to pass through the `options` object.
+  const getToken = createTokenCycler(credential, scopes /* , options */);
+
   return {
     name: bearerTokenAuthenticationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const token = await getToken({
+      const { token } = await getToken({
         abortSignal: request.abortSignal,
         tracingOptions: request.tracingOptions
       });

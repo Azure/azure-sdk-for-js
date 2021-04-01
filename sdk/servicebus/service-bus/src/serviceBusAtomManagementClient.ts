@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
+  TokenCredential,
+  isTokenCredential,
+  NamedKeyCredential,
+  isNamedKeyCredential
+} from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
@@ -156,17 +161,20 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
    * If you're using your own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
    * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
    * @param options - PipelineOptions
    */
   constructor(
     fullyQualifiedNamespace: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: PipelineOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    credentialOrOptions2?: TokenCredential | PipelineOptions,
+    credentialOrOptions2?: TokenCredential | NamedKeyCredential | PipelineOptions,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options3?: PipelineOptions
   ) {
@@ -179,6 +187,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options = options3 || {};
       credentials = credentialOrOptions2;
       authPolicy = bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope);
+    } else if (isNamedKeyCredential(credentialOrOptions2)) {
+      fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
+      credentials = new SasServiceClientCredentials(credentialOrOptions2);
+      options = options3 || {};
+      authPolicy = signingPolicy(credentials);
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
@@ -191,12 +204,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       } catch (error) {
         throw new Error("Endpoint in the connection string is not valid.");
       }
-      credentials = new SasServiceClientCredentials(
-        connectionStringObj.SharedAccessKeyName,
-        connectionStringObj.SharedAccessKey
-      );
+      credentials = new SasServiceClientCredentials({
+        key: connectionStringObj.SharedAccessKey,
+        name: connectionStringObj.SharedAccessKeyName
+      });
       authPolicy = signingPolicy(credentials);
     }
+
     const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
     const serviceClientOptions = createPipelineFromOptions(
       {

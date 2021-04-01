@@ -113,7 +113,7 @@ export class MsalClientCertificate extends MsalNode {
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, result || undefined);
     } catch (err) {
-      throw this.handleError(scopes, err);
+      throw this.handleError(scopes, err, options);
     }
   }
 }
