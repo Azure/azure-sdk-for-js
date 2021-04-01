@@ -4,10 +4,10 @@ Azure Video Analytics on IoT Edge provides a platform to build intelligent video
 
 Use the client library for Azure Video Analytics to:
 
-- Simplify interactions with the [Microsoft Azure IoT SDKs](https://github.com/azure/azure-iot-sdks) 
+- Simplify interactions with the [Microsoft Azure IoT SDKs](https://github.com/azure/azure-iot-sdks)
 - Programatically construct media graph topologies and instances
 
- [Product documentation][doc_product] | [Direct methods][doc_direct_methods] | [Source code][source]
+[Product documentation][doc_product] | [Direct methods][doc_direct_methods] | [Source code][source]
 
 ## Getting started
 
@@ -18,26 +18,34 @@ Install the Live Video Analytics client library for Python with pip:
 ```bash
 npm install @azure/video-analytics
 ```
+
 ### Prerequisites
 
-* TypeScript v3.6.
-* You need an active [Azure subscription][azure_sub], and a [IoT device connection string][iot_device_connection_string] to use this package.
-* To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
-* You will need to use the version of the SDK that corresponds to the version of the LVA Edge module you are using.
+- TypeScript v3.6.
+- You need an active [Azure subscription][azure_sub], and a [IoT device connection string][iot_device_connection_string] to use this package.
+- To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
+- You will need to use the version of the SDK that corresponds to the version of the LVA Edge module you are using.
 
-    | SDK  | LVA Edge Module  |
-    |---|---|
-    | 1.0.0b1  | 2.0  |
+  | SDK     | LVA Edge Module |
+  | ------- | --------------- |
+  | 1.0.0b1 | 2.0             |
+
 ### Creating a graph topology and making requests
+
 Please visit the [Examples](#examples) for starter code
+
 ## Key concepts
 
 ### Pipeline Topology vs Pipeline Instance
-A _pipeline topology_ is a blueprint or template of a graph. It defines the parameters of the graph using placeholders as values for them. A _live instance_ references a pipeline topology and specifies the parameters. This way you are able to have multiple graph instances referencing the same topology but with different values for parameters. For more information please visit [Media graph topologies and instances][doc_media_graph] 
+
+A _pipeline topology_ is a blueprint or template of a graph. It defines the parameters of the graph using placeholders as values for them. A _live instance_ references a pipeline topology and specifies the parameters. This way you are able to have multiple graph instances referencing the same topology but with different values for parameters. For more information please visit [Media graph topologies and instances][doc_media_graph]
+
 ## Examples
 
 ### Creating a graph topology
+
 To create a graph topology you need to define parameters, sources, and sinks.
+
 ```
 const rtspSource: RtspSource = {
     name: "rtspSource",
@@ -83,8 +91,10 @@ const rtspSource: RtspSource = {
 
 ```
 
-### Creating a graph instance 
+### Creating a graph instance
+
 To create a graph instance, you need to have an existing graph topology.
+
 ```
 const graphInstance: LivePipeline = {
     name: graphTopologyName,
@@ -109,10 +119,7 @@ const setRequestResult2 = await async (methodRequest: Request) => {
 };
 ```
 
-
 ## Troubleshooting
-
-
 
 ## Next steps
 
@@ -140,22 +147,18 @@ see the Code of Conduct FAQ or contact opencode@microsoft.com with any
 additional questions or comments.
 
 <!-- LINKS -->
+
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-
 [cla]: https://cla.microsoft.com
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
 [coc_contact]: mailto:opencode@microsoft.com
-
 [package]: TODO://link-to-published-package
 [source]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/mediaservices/
-
 [doc_direct_methods]: https://docs.microsoft.com/azure/media-services/live-video-analytics-edge/direct-methods
 [doc_product]: https://docs.microsoft.com/azure/media-services/live-video-analytics-edge/
-
 [iot-device-sdk]: https://search.maven.org/search?q=a:iot-service-client
 [iot-hub-sdk]: https://github.com/Azure/azure-iot-sdk-java
 [iot_device_connection_string]: https://docs.microsoft.com/azure/media-services/live-video-analytics-edge/get-started-detect-motion-emit-events-quickstart
-
-[github-page-issues]: https://github.com/Azure/azure-sdk-for-python/issues 
+[github-page-issues]: https://github.com/Azure/azure-sdk-for-python/issues
