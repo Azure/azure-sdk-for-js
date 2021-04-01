@@ -1327,15 +1327,39 @@ describe("AppConfigurationClient", () => {
   });
 
   describe("SecretReference configuration setting", () => {
-    const baseSetting: SecretReference = {
-      secretId: `secret-id-${generateUuid()}`, // TODO: It's a URL in .NET, why the difference?
-      isReadOnly: false,
-      key: generateUuid(),
-      contentType: secretReferenceContentType
+    const getBaseSetting = (): SecretReference => {
+      return {
+        secretId: `https://vault_name.vault.azure.net/secrets/${generateUuid()}`, // TODO: It's a URL in .NET, should we leave it as a string input?
+        isReadOnly: false,
+        key: generateUuid(),
+        label: "label-s",
+        contentType: secretReferenceContentType
+      };
     };
 
+    function assertSecretReferenceProps(
+      actual: Omit<AddConfigurationSettingResponse, "_response">,
+      expected: SecretReference
+    ) {
+      assert.equal(isSecretReference(actual), true, "Expected to get the SecretReference");
+      if (isSecretReference(actual)) {
+        assert.equal(
+          actual.key,
+          expected.key,
+          "Key from the response from get request is not as expected"
+        );
+        assert.equal(actual.secretId, expected.secretId);
+        assert.equal(actual.isReadOnly, expected.isReadOnly);
+        assert.equal(actual.label, expected.label);
+        assert.equal(actual.contentType, expected.contentType);
+      }
+    }
+
+    let addResponse: AddConfigurationSettingResponse;
+    let baseSetting: SecretReference;
     beforeEach(async () => {
-      await client.addConfigurationSetting(baseSetting);
+      baseSetting = getBaseSetting();
+      addResponse = await client.addConfigurationSetting(baseSetting);
     });
 
     afterEach(async () => {
@@ -1345,78 +1369,89 @@ describe("AppConfigurationClient", () => {
     });
 
     it("can add and get SecretReference", async () => {
+      assertSecretReferenceProps(addResponse, baseSetting);
       const getResponse = await client.getConfigurationSetting({
-        key: baseSetting.key
+        key: baseSetting.key,
+        label: baseSetting.label
       });
-      assert.equal(isSecretReference(getResponse), true, "Expected to get the SecretReference");
-      if (isSecretReference(getResponse)) {
-        assert.equal(
-          getResponse.key,
-          baseSetting.key,
-          "Key from the response from get request is not as expected"
-        );
-        assert.equal(
-          getResponse.value,
-          baseSetting.value,
-          "value from the response from get request is not as expected"
-        );
-        // TODO: assert with readonly and secretId
-      }
+      assertSecretReferenceProps(getResponse, baseSetting);
     });
 
     it("can add and update SecretReference", async () => {
       const getResponse = await client.getConfigurationSetting({
-        key: baseSetting.key
+        key: baseSetting.key,
+        label: baseSetting.label
       });
-      assert.equal(isSecretReference(getResponse), true, "Should have been SecretReference");
+      const newSecretId = `https://vault_name.vault.azure.net/secrets/${generateUuid()}`;
+
+      assertSecretReferenceProps(getResponse, baseSetting);
       if (isSecretReference(getResponse)) {
-        console.log(getResponse.secretId);
-        // TODO: secretId returned was undefined, that's a bug?
-        assert.equal(getResponse.secretId, baseSetting.secretId, "Unexpected value for secretId");
-        getResponse.secretId = `secret-id-${generateUuid()}`;
+        getResponse.secretId = newSecretId;
       }
 
-      await client.setConfigurationSetting(getResponse);
+      const setResponse = await client.setConfigurationSetting(getResponse);
+      assertSecretReferenceProps(setResponse, {
+        ...baseSetting,
+        secretId: newSecretId
+      });
 
       const getResponseAfterUpdate = await client.getConfigurationSetting({
-        key: baseSetting.key
+        key: baseSetting.key,
+        label: baseSetting.label
       });
-      assert.equal(
-        isSecretReference(getResponseAfterUpdate),
-        true,
-        "Expected to get the SecretReference"
-      );
-      if (isSecretReference(getResponseAfterUpdate)) {
-        assert.equal(
-          getResponseAfterUpdate.key,
-          baseSetting.key,
-          "Key from the response from get request is not as expected"
-        );
-        assert.equal(
-          getResponseAfterUpdate.value,
-          baseSetting.value,
-          "value from the response from get request is not as expected"
-        );
-        // TODO: assert with readonly and secretId
-      }
+      assertSecretReferenceProps(getResponseAfterUpdate, {
+        ...baseSetting,
+        secretId: newSecretId
+      });
     });
 
-    it("can add and update multiple SecretReferences", async () => {
+    it("can add, list and update multiple SecretReferences", async () => {
       const secondSetting = {
         ...baseSetting,
         key: `${baseSetting.key}-2`
       };
+      const newSecretId = `https://vault_name.vault.azure.net/secrets/${generateUuid()}`;
       await client.addConfigurationSetting(secondSetting);
 
+      let numberOFSecretReferencesReceived = 0;
       for await (const setting of client.listConfigurationSettings({
         keyFilter: `${baseSetting.key}*`
       })) {
-        // TODO: check count before and after
-        assert.equal(isSecretReference(setting), true, "Should have been FeatureFlag");
-        if (isSecretReference(setting)) {
-          // TODO: assert with key, value, readonly and secretId
+        numberOFSecretReferencesReceived++;
+        if (setting.key === baseSetting.key) {
+          assertSecretReferenceProps(setting, baseSetting);
+          await client.setConfigurationSetting({
+            ...baseSetting,
+            secretId: newSecretId
+          } as SecretReference);
+        } else {
+          assertSecretReferenceProps(setting, secondSetting);
+          await client.setReadOnly(
+            { key: setting.key, label: setting.label },
+            !secondSetting.isReadOnly
+          );
         }
       }
+      assert.equal(numberOFSecretReferencesReceived, 2, "Unexpected number of FeatureFlags seen");
+      for await (const setting of client.listConfigurationSettings({
+        keyFilter: `${baseSetting.key}*`
+      })) {
+        numberOFSecretReferencesReceived--;
+        if (setting.key === baseSetting.key) {
+          assertSecretReferenceProps(setting, { ...baseSetting, secretId: newSecretId });
+        } else {
+          assertSecretReferenceProps(setting, {
+            ...secondSetting,
+            isReadOnly: !secondSetting.isReadOnly
+          });
+        }
+      }
+
+      assert.equal(
+        numberOFSecretReferencesReceived,
+        0,
+        "Unexpected number of SecretReferences seen after updating"
+      );
       await client.deleteConfigurationSetting({ key: secondSetting.key });
     });
   });
