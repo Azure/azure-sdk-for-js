@@ -25,6 +25,10 @@ export interface ChallengeCallbackOptions {
    */
   claims?: string;
   /**
+   * Copy of the last token used, if any.
+   */
+  previousToken?: AccessToken;
+  /**
    * Function that retrieves either a cached token or a new token.
    */
   getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
@@ -162,7 +166,7 @@ export function bearerTokenAuthenticationPolicy(
   // The options are left out of the public API until there's demand to configure this.
   // Remember to extend `BearerTokenAuthenticationPolicyOptions` with `TokenCyclerOptions`
   // in order to pass through the `options` object.
-  const getToken = createTokenCycler(credential/* , options */);
+  const cycler = createTokenCycler(credential /* , options */);
 
   return {
     name: bearerTokenAuthenticationPolicyName,
@@ -189,7 +193,8 @@ export function bearerTokenAuthenticationPolicy(
         await callbacks.authenticateRequest({
           scopes,
           request,
-          getToken,
+          previousToken: cycler.cachedToken,
+          getToken: cycler.getToken,
           setAuthorizationHeader
         });
       }
@@ -207,7 +212,8 @@ export function bearerTokenAuthenticationPolicy(
         const sendRequest = await callbacks.authenticateRequestOnChallenge(challenge, {
           scopes,
           request,
-          getToken,
+          previousToken: cycler.cachedToken,
+          getToken: cycler.getToken,
           setAuthorizationHeader
         });
 

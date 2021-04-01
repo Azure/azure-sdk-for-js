@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import * as sinon from "sinon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
@@ -111,8 +112,17 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("bearerTokenAuthenticationPolicy with challenge", function () {
-  it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
+describe("bearerTokenAuthenticationPolicy with challenge", function() {
+  let clock: sinon.SinonFakeTimers;
+
+  beforeEach(() => {
+    clock = sinon.useFakeTimers(Date.now());
+  });
+  afterEach(() => {
+    clock.restore();
+  });
+
+  it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
     const expected = {
       scope: "http://localhost/.default",
       challengeClaims: JSON.stringify({
@@ -148,6 +158,11 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       scopes: "",
       credential,
       challengeCallbacks: {
+        async authenticateRequest({ previousToken, setAuthorizationHeader }) {
+          if (previousToken) {
+            setAuthorizationHeader(previousToken);
+          }
+        },
         authenticateRequestOnChallenge
       }
     });
@@ -186,7 +201,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
   });
 
-  it("tests that the challenge is processed even we already had a token", async function () {
+  it("tests that the challenge is processed even we already had a token", async function() {
     const expected = [
       {
         scope: "http://localhost/.default",
@@ -234,10 +249,9 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       }
     ];
 
-    const expiresOn = Date.now() + 5000;
     const getTokenResponses = [
-      { token: "mock-token", expiresOnTimestamp: expiresOn },
-      { token: "mock-token2", expiresOnTimestamp: expiresOn }
+      { token: "mock-token", expiresOnTimestamp: Date.now() + 5000 },
+      { token: "mock-token2", expiresOnTimestamp: Date.now() + 10000 }
     ];
     const credential = new MockRefreshAzureCredential([...getTokenResponses]);
 
@@ -247,6 +261,11 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
       scopes: "",
       credential,
       challengeCallbacks: {
+        async authenticateRequest({ previousToken, setAuthorizationHeader }) {
+          if (previousToken) {
+            setAuthorizationHeader(previousToken);
+          }
+        },
         authenticateRequestOnChallenge
       }
     });
@@ -267,6 +286,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     };
 
     await pipeline.sendRequest(testHttpsClient, request);
+    clock.tick(5000);
     await pipeline.sendRequest(testHttpsClient, request);
 
     // Our goal is to test that:

@@ -10,7 +10,18 @@ import { delay } from "./helpers";
  *
  * @param options - the options to pass to the underlying token provider
  */
-type AccessTokenGetter = (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken>;
+export type AccessTokenGetter = (
+  scopes: string | string[],
+  options: GetTokenOptions
+) => Promise<AccessToken>;
+
+/**
+ * The response of the
+ */
+export interface AccessTokenRefresher {
+  cachedToken?: AccessToken;
+  getToken: AccessTokenGetter;
+}
 
 export interface TokenCyclerOptions {
   /**
@@ -104,7 +115,7 @@ async function beginRefresh(
 export function createTokenCycler(
   credential: TokenCredential,
   tokenCyclerOptions?: Partial<TokenCyclerOptions>
-): AccessTokenGetter {
+): AccessTokenRefresher {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
 
@@ -149,7 +160,10 @@ export function createTokenCycler(
    * Starts a refresh job or returns the existing job if one is already
    * running.
    */
-  function refresh(scopes: string | string[], getTokenOptions: GetTokenOptions): Promise<AccessToken> {
+  function refresh(
+    scopes: string | string[],
+    getTokenOptions: GetTokenOptions
+  ): Promise<AccessToken> {
     if (!cycler.isRefreshing) {
       // We bind `scopes` here to avoid passing it around a lot
       const tryGetAccessToken = (): Promise<AccessToken | null> =>
@@ -181,23 +195,31 @@ export function createTokenCycler(
     return refreshWorker as Promise<AccessToken>;
   }
 
-  return async (scopes: string | string[], tokenOptions: GetTokenOptions): Promise<AccessToken> => {
-    //
-    // Simple rules:
-    // - If we MUST refresh, then return the refresh task, blocking
-    //   the pipeline until a token is available.
-    // - If we SHOULD refresh, then run refresh but don't return it
-    //   (we can still use the cached token).
-    // - Return the token, since it's fine if we didn't return in
-    //   step 1.
-    //
+  return {
+    get cachedToken(): AccessToken | undefined {
+      return token || undefined;
+    },
+    getToken: async (
+      scopes: string | string[],
+      tokenOptions: GetTokenOptions
+    ): Promise<AccessToken> => {
+      //
+      // Simple rules:
+      // - If we MUST refresh, then return the refresh task, blocking
+      //   the pipeline until a token is available.
+      // - If we SHOULD refresh, then run refresh but don't return it
+      //   (we can still use the cached token).
+      // - Return the token, since it's fine if we didn't return in
+      //   step 1.
+      //
 
-    if (cycler.mustRefresh) return refresh(scopes, tokenOptions);
+      if (cycler.mustRefresh) return refresh(scopes, tokenOptions);
 
-    if (cycler.shouldRefresh) {
-      refresh(scopes, tokenOptions);
+      if (cycler.shouldRefresh) {
+        refresh(scopes, tokenOptions);
+      }
+
+      return token as AccessToken;
     }
-
-    return token as AccessToken;
   };
 }
