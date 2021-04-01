@@ -33,8 +33,8 @@ export interface JsonFeatureFlagTargetingClientFilter {
         Name: string;
         RolloutPercentage: number;
       }[];
+      DefaultRolloutPercentage: number;
     };
-    DefaultRolloutPercentage: number;
     [key: string]: any;
   };
 }

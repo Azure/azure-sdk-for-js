@@ -82,9 +82,8 @@ export interface FeatureFlagTargetingClientFilter {
         name: string;
         rolloutPercentage: number;
       }[];
+      defaultRolloutPercentage: number;
     };
-    defaultRolloutPercentage: number;
-
     // [key: string]: any;
   };
 }
@@ -258,9 +257,9 @@ export function convertJsonConditions(
                 name: grp.Name,
                 rolloutPercentage: grp.RolloutPercentage
               })) || [],
-            users: jsonFilter.parameters.Audience?.Users || []
-          },
-          defaultRolloutPercentage: jsonFilter.parameters.DefaultRolloutPercentage
+            users: jsonFilter.parameters.Audience?.Users || [],
+            defaultRolloutPercentage: jsonFilter.parameters.DefaultRolloutPercentage
+          }
         }
       };
 
@@ -313,9 +312,9 @@ export function convertToJsonConditions(
                 Name: grp.name,
                 RolloutPercentage: grp.rolloutPercentage
               })) || [],
-            Users: filter.parameters.audience?.users || []
-          },
-          DefaultRolloutPercentage: filter.parameters.defaultRolloutPercentage
+            Users: filter.parameters.audience?.users || [],
+            DefaultRolloutPercentage: filter.parameters.audience.defaultRolloutPercentage
+          }
         }
       };
 
