@@ -42,16 +42,19 @@ const parseArgs = () => {
 };
 
 const getAllPackageJsonPaths = (baseDir) => {
-  // Find and return path to all packages in repo
-  const packagePaths = [];
-  const serviceDirs = fs
-    .readdirSync(path.resolve(path.join(baseDir, "sdk")))
-    .filter((f) => !f.startsWith("."))
-    .map((f) => path.resolve(path.join(baseDir, "sdk", f)));
+  // NOTE: from rush list --json | grep "path"
+  const packagePaths = [
+    // the _one_ package we're publishing from this hotfix branch.
+    path.join(baseDir, path.normalize("sdk/identity/identity/package.json")),
 
-  for (const serviceDir of serviceDirs) {
-    for (const pkgPath of getPackageJsons(serviceDir)) packagePaths.push(pkgPath);
-  }
+    // developer tools or non-published packages that we only use from in the tree.
+    path.join(baseDir, path.normalize("common/tools/dev-tool/package.json")),
+    path.join(baseDir, path.normalize("common/tools/eslint-plugin-azure-sdk/package.json")),    
+    path.join(baseDir, path.normalize("sdk/test-utils/multi-version/package.json")),
+    path.join(baseDir, path.normalize("sdk/test-utils/perfstress/package.json")),
+    path.join(baseDir, path.normalize("sdk/test-utils/recorder/package.json")),
+  ];
+
   return packagePaths;
 };
 
@@ -90,6 +93,7 @@ const getLeafPackages = (packageGraph, packageNames) => {
   // Return a set of packages that are dependent on other packages but not a dependency for any package
   // Adding these leaf packages with --to <package-name> ensures to build all required packages
   let leafPackages = new Set();
+
   for (let pkgName of packageNames) {
     // if current package is added as dependent by other packages then find leaf packages recursively
     if (packageGraph.has(pkgName)) {
@@ -126,10 +130,19 @@ const getPackageJsons = (searchDir) => {
 const getServicePackages = (baseDir, serviceDirs) => {
   const packageNames = [],
     packageDirs = [];
+  
+  const allValidPaths = new Set(...getAllPackageJsonPaths(baseDir));
+  
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
+      if (!allValidPaths.has(filePath)) {
+        // do not suddenly care about packages that are not part of what is
+        // actually specified in rush.json
+        continue;
+      }
+
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
       if (contents["sdk-type"] === "client") {
         packageNames.push(contents.name);
