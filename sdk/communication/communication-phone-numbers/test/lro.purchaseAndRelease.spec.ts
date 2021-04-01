@@ -3,7 +3,7 @@
 
 import { isPlaybackMode, Recorder, env } from "@azure/test-utils-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import { Context, Suite } from "mocha";
 import { PhoneNumberSearchResult, SearchAvailablePhoneNumbersRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient } from "./utils/recordedClient";
@@ -54,7 +54,7 @@ describe("PhoneNumbersClient - lro - purchase and release", function() {
       [phoneNumberToRelease] = searchResults.phoneNumbers;
     }).timeout(20000);
 
-    it("purchases the phone number from the search", async function() {
+    it("purchases the phone number from the search", async function(this: Context) {
       if (!searchResults) {
         this.skip();
       }
@@ -67,10 +67,10 @@ describe("PhoneNumbersClient - lro - purchase and release", function() {
     }).timeout(45000);
   });
 
-  describe("release", function() {
+  describe("release", function(this: Suite) {
     phoneNumberToRelease = "+18332408984";
 
-    this.beforeAll(function() {
+    this.beforeAll(function(this: Context) {
       if (!phoneNumberToRelease.length) {
         this.skip();
       }
