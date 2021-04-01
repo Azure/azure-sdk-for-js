@@ -112,8 +112,8 @@ export interface FeatureFlagTargetingClientFilter {
                 name: string;
                 rolloutPercentage: number;
             }[];
+            defaultRolloutPercentage: number;
         };
-        defaultRolloutPercentage: number;
     };
 }
 
