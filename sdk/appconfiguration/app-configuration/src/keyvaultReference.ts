@@ -57,6 +57,16 @@ export function deserializeSecretReference(
   }
 }
 
-export function serializeSecretReferenceParam(_setting: SecretReference): ConfigurationSetting {
-  throw new Error("Not implemented");
+export function serializeSecretReferenceParam(
+  setting: SecretReferenceParam
+): ConfigurationSettingParam {
+  const configurationSetting: ConfigurationSettingParam = {
+    key: setting.key,
+    label: setting.label,
+    contentType: setting.contentType,
+    etag: setting.etag,
+    tags: setting.tags,
+    value: JSON.stringify({ uri: setting.secretId })
+  };
+  return configurationSetting;
 }
