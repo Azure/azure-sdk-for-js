@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure/test-utils-recorder";
 import { SmsSendRequest, SmsClient } from "../../../src/smsClient";
 import { assert } from "chai";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import * as sinon from "sinon";
 import { parseConnectionString } from "@azure/communication-common";
 import { createCredential, recorderConfiguration } from "../../utils/recordedClient";
 import { Context } from "mocha";
@@ -24,12 +23,7 @@ describe("SmsClientWithToken [Live]", async () => {
   });
 
   afterEach(async function(this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-    if (isPlaybackMode()) {
-      sinon.restore();
-    }
+    await recorder.stop();
   });
 
   it("can send an SMS when url and token credential are provided", async function() {

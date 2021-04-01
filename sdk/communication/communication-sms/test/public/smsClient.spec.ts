@@ -3,10 +3,9 @@
 
 import { assert } from "chai";
 import { SmsClient, SmsSendRequest, SmsSendOptions, SmsSendResult } from "../../src/smsClient";
-import { env, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { env, record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import * as sinon from "sinon";
 import { recorderConfiguration } from "../utils/recordedClient";
 import { Context } from "mocha";
 
@@ -25,12 +24,7 @@ describe("SmsClient [Live]", async () => {
   });
 
   afterEach(async function(this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-    if (isPlaybackMode()) {
-      sinon.restore();
-    }
+    await recorder.stop();
   });
 
   // helper functions
@@ -85,11 +79,9 @@ describe("SmsClient [Live]", async () => {
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
     expectSuccessResult(results[0], validToNumber);
   });
-
+  
+  // This runs in live mode only
   it("sends a new message each time send is called", async function(this: Context) {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
 
