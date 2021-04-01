@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import * as assert from "assert";
 import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { createSandbox } from "sinon";
@@ -15,7 +15,7 @@ import {
 import { SecretClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { TokenCredential } from "@azure/identity";
+import { ClientSecretCredential } from "@azure/identity";
 import { WebResource } from "@azure/core-http";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
@@ -29,7 +29,6 @@ describe("Challenge based authentication tests", () => {
   let client: SecretClient;
   let testClient: TestClient;
   let recorder: Recorder;
-  let credential: TokenCredential;
 
   beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
@@ -37,7 +36,6 @@ describe("Challenge based authentication tests", () => {
     client = authentication.client;
     testClient = authentication.testClient;
     recorder = authentication.recorder;
-    credential = authentication.credential;
   });
 
   afterEach(async function() {
@@ -45,28 +43,6 @@ describe("Challenge based authentication tests", () => {
   });
 
   // The tests follow
-
-  it.only("recovers correctly when a downstream policy fails", async () => {
-    // The simplest possible policy with a _nextPolicy that throws an error.
-    const policy = challengeBasedAuthenticationPolicy(credential).create(
-      {
-        sendRequest: () => {
-          throw new Error("Boom");
-        }
-      },
-      { log: () => null, shouldLog: () => false }
-    );
-
-    const request = new WebResource("https://portal.azure.com", "GET", "request body");
-
-    try {
-      await policy.sendRequest(request);
-    } catch (err) {
-      // the next policy throws
-    }
-
-    assert.equal(request.body, "request body");
-  });
 
   it("Authentication should work for parallel requests", async function(this: Context) {
     const secretName = testClient.formatName(
@@ -152,7 +128,7 @@ describe("Challenge based authentication tests", () => {
     it("Should skip unexpected properties on the WWW-Authenticate header", () => {
       const wwwAuthenticate1 = `Bearer authorization="some_authorization", a="a", b="b"`;
       const parsed1 = parseWWWAuthenticate(wwwAuthenticate1);
-      assert.deepEqual(parsed1 as any, {
+      assert.deepEqual(parsed1, {
         authorization: "some_authorization",
         a: "a",
         b: "b"
@@ -160,11 +136,41 @@ describe("Challenge based authentication tests", () => {
 
       const wwwAuthenticate2 = `scope="https://some.url", a="a", c="c"`;
       const parsed2 = parseWWWAuthenticate(wwwAuthenticate2);
-      assert.deepEqual(parsed2 as any, {
+      assert.deepEqual(parsed2, {
         scope: "https://some.url",
         a: "a",
         c: "c"
       });
     });
+  });
+});
+
+describe("Local Challenge based authentication tests", () => {
+  it("should recover gracefully when a downstream policy fails", async () => {
+    // The simplest possible policy with a _nextPolicy that throws an error.
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!
+    );
+
+    const policy = challengeBasedAuthenticationPolicy(credential).create(
+      {
+        sendRequest: () => {
+          throw new Error("Boom");
+        }
+      },
+      { log: () => null, shouldLog: () => false }
+    );
+
+    const request = new WebResource("https://portal.azure.com", "GET", "request body");
+
+    try {
+      await policy.sendRequest(request);
+    } catch (err) {
+      // the next policy throws
+    }
+
+    assert.equal(request.body, "request body");
   });
 });
