@@ -12,6 +12,7 @@ import {
   startRecorder
 } from "./utils/testHelpers";
 import {
+  AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
   ConfigurationSettingParam,
@@ -1185,50 +1186,69 @@ describe("AppConfigurationClient", () => {
               { name: "group-1", rolloutPercentage: 25 },
               { name: "group-2", rolloutPercentage: 45 }
             ],
-            users: ["userA", "userB"]
-          },
-          defaultRolloutPercentage: 40
+            users: ["userA", "userB"],
+            defaultRolloutPercentage: 40
+          }
         }
       },
       { name: "Microsoft.Percentage", parameters: { value: 25 } }
     ];
+
     const baseSetting: FeatureFlag = {
       conditions: {
         clientFilters
       },
-      displayName: "I'mFeatFlag",
       enabled: false,
       isReadOnly: false,
       key: `${featureFlagPrefix + generateUuid()}`,
-      contentType: featureFlagContentType
+      contentType: featureFlagContentType,
+      description: "I'm a description",
+      label: "label-1"
     };
 
+    let addResponse: AddConfigurationSettingResponse;
+
     beforeEach(async () => {
-      await client.addConfigurationSetting(baseSetting);
+      addResponse = await client.addConfigurationSetting(baseSetting);
     });
 
     afterEach(async () => {
       await client.deleteConfigurationSetting({
-        key: baseSetting.key
+        key: baseSetting.key,
+        label: baseSetting.label
       });
     });
 
+    function assertFeatureFlagProps(actual: FeatureFlag, expected: FeatureFlag) {
+      assert.equal(
+        actual.key,
+        expected.key,
+        "Key from the response from get request is not as expected"
+      );
+      assert.deepEqual(
+        actual.conditions,
+        expected.conditions,
+        "conditions from the response from get request is not as expected"
+      );
+      assert.equal(actual.description, expected.description);
+      assert.equal(actual.enabled, expected.enabled);
+      assert.equal(actual.isReadOnly, expected.isReadOnly);
+      assert.equal(actual.label, expected.label);
+      assert.equal(actual.contentType, expected.contentType);
+    }
+
     it("can add and get FeatureFlag", async () => {
+      assert.equal(isFeatureFlag(addResponse), true, "Expected to get the feature flag");
+      if (isFeatureFlag(addResponse)) {
+        assertFeatureFlagProps(addResponse, baseSetting);
+      }
       const getResponse = await client.getConfigurationSetting({
-        key: baseSetting.key
+        key: baseSetting.key,
+        label: baseSetting.label
       });
       assert.equal(isFeatureFlag(getResponse), true, "Expected to get the feature flag");
       if (isFeatureFlag(getResponse)) {
-        assert.equal(
-          getResponse.key,
-          baseSetting.key,
-          "Key from the response from get request is not as expected"
-        );
-        assert.deepEqual(
-          getResponse.conditions,
-          baseSetting.conditions,
-          "conditions from the response from get request is not as expected"
-        );
+        assertFeatureFlagProps(getResponse, baseSetting);
       }
     });
 
