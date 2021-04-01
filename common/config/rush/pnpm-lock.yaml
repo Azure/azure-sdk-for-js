@@ -2,6 +2,8 @@ dependencies:
   '@rush-temp/dev-tool': file:projects/dev-tool.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/identity': file:projects/identity.tgz
+  '@rush-temp/test-utils-multi-version': file:projects/test-utils-multi-version.tgz
+  '@rush-temp/test-utils-perfstress': file:projects/test-utils-perfstress.tgz
   '@rush-temp/test-utils-recorder': file:projects/test-utils-recorder.tgz
 lockfileVersion: 5.2
 packages:
@@ -5677,6 +5679,56 @@ packages:
       integrity: sha512-Vv7Pbqpx96TBoV9ektRCt2u3WBwF9BZqRy6ymdL+uz+6RoC0fIzZR8J4K+AuHxtSsJCRbrblbaqU3KbvlQxbDQ==
       tarball: file:projects/identity.tgz
     version: 0.0.0
+  file:projects/test-utils-multi-version.tgz:
+    dependencies:
+      '@microsoft/api-extractor': 7.7.11
+      '@types/chai': 4.2.14
+      '@types/mocha': 7.0.2
+      '@types/node': 8.10.66
+      chai: 4.3.0
+      chai-as-promised: 7.1.1_chai@4.3.0
+      eslint: 7.19.0
+      karma: 5.2.3
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-env-preprocessor: 0.1.1
+      mocha: 7.2.0
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      tslib: 2.1.0
+      typescript: 4.1.2
+    dev: false
+    name: '@rush-temp/test-utils-multi-version'
+    resolution:
+      integrity: sha512-U0DDGv+oz4TBx12RGZuOsCVtW5RjjA34eFywEa71wxiRJrjWwcKWJutCLh6OlTAjVFWftdrlCwmtpnk4/7tAXg==
+      tarball: file:projects/test-utils-multi-version.tgz
+    version: 0.0.0
+  file:projects/test-utils-perfstress.tgz:
+    dependencies:
+      '@azure/abort-controller': 1.0.2
+      '@azure/core-http': 1.2.4
+      '@opentelemetry/api': 0.10.2
+      '@types/minimist': 1.2.1
+      '@types/node': 8.10.66
+      '@types/node-fetch': 2.5.8
+      eslint: 7.19.0
+      karma: 5.2.3
+      karma-chrome-launcher: 3.1.0
+      karma-coverage: 2.0.3
+      karma-env-preprocessor: 0.1.1
+      minimist: 1.2.5
+      node-fetch: 2.6.1
+      prettier: 1.19.1
+      rimraf: 3.0.2
+      tslib: 2.1.0
+      typescript: 4.1.2
+    dev: false
+    name: '@rush-temp/test-utils-perfstress'
+    resolution:
+      integrity: sha512-hmC3fVKvsM2upjmj9TIVTzEtR+g3IbN5YWmRrjt/RZWNlbuMSK61Vc9kBSfg03cIvgs54f/OkoNoD8Jf1GIWOg==
+      tarball: file:projects/test-utils-perfstress.tgz
+    version: 0.0.0
   file:projects/test-utils-recorder.tgz:
     dependencies:
       '@azure/core-http': 1.2.4
@@ -5732,7 +5784,7 @@ packages:
     dev: false
     name: '@rush-temp/test-utils-recorder'
     resolution:
-      integrity: sha512-5e3LCVMqcrb4Z/G9cXeY2+SarIosLVPrbDsnd137vOBxJx2EmEcDfyqJ+yT1fw8Y8ga/1wewBfGgjuLQzIsI4Q==
+      integrity: sha512-pozbiRi5wc/TheFnjRwa0vIBLnxjP1G2WUdaO9psdbwXhlTQ2GM5u9fgWMKvAuk6cwFiv9dXM6TPquNV77oSMg==
       tarball: file:projects/test-utils-recorder.tgz
     version: 0.0.0
 registry: ''
@@ -5740,4 +5792,6 @@ specifiers:
   '@rush-temp/dev-tool': file:./projects/dev-tool.tgz
   '@rush-temp/eslint-plugin-azure-sdk': file:./projects/eslint-plugin-azure-sdk.tgz
   '@rush-temp/identity': file:./projects/identity.tgz
+  '@rush-temp/test-utils-multi-version': file:./projects/test-utils-multi-version.tgz
+  '@rush-temp/test-utils-perfstress': file:./projects/test-utils-perfstress.tgz
   '@rush-temp/test-utils-recorder': file:./projects/test-utils-recorder.tgz

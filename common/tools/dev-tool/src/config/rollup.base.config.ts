@@ -39,23 +39,29 @@ interface PackageJson {
     ];
   }
 
-  namedExports[
-    // working around a limitation in the rollup common.js plugin - it's not able to resolve these modules so the named exports listed above will not get applied. We have to drill down to the actual path.
-    "../../../common/temp/node_modules/.pnpm/@opentelemetry/api@1.0.0-rc.0/node_modules/@opentelemetry/api/build/src/index.js"
-  ] = [
-    "SpanKind",
-    "TraceFlags",
-    "getSpan",
-    "setSpan",
-    "StatusCode",
-    "CanonicalCode",
-    "getSpanContext",
-    "setSpanContext"
+  const releasedOpenTelemetryVersions = [
+    "0.10.2",
+    "1.0.0-rc.0"
   ];
+
+  for (const version of releasedOpenTelemetryVersions) {
+    namedExports[
+      // working around a limitation in the rollup common.js plugin - it's not able to resolve these modules so the named exports listed above will not get applied. We have to drill down to the actual path.
+      `../../../common/temp/node_modules/.pnpm/@opentelemetry/api@${version}/node_modules/@opentelemetry/api/build/src/index.js`
+    ] = [
+        "SpanKind",
+        "TraceFlags",
+        "getSpan",
+        "setSpan",
+        "StatusCode",
+        "CanonicalCode",
+        "getSpanContext",
+        "setSpanContext"
+      ];
+  }
 
   return namedExports;
 }
-
 // #region Warning Handler
 
 /**
