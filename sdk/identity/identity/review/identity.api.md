@@ -217,6 +217,9 @@ export interface PersistentCredentialOptions extends TokenCredentialOptions {
 }
 
 // @public
+export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
+
+// @public
 export type SupportedAuthenticationRecordVersions = "1.0";
 
 // @public
