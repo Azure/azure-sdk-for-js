@@ -41,7 +41,7 @@ dependencies:
   '@rush-temp/keyvault-keys': file:projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:projects/logger.tgz
-  '@rush-temp/media-analytics-edge': file:projects/media-analytics-edge.tgz
+  '@rush-temp/media-video-analyzer-edge': file:projects/media-video-analyzer-edge.tgz
   '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
@@ -9782,7 +9782,7 @@ packages:
       integrity: sha512-SkIJX0/3mm4KHuQhl6O7ObJfULCR2PjCtmGN1R4oJvs9plCVjK7szoqsldgM5CQSZwI94t5S/d+8ckDQxr/4WQ==
       tarball: file:projects/logger.tgz
     version: 0.0.0
-  file:projects/media-analytics-edge.tgz:
+  file:projects/media-video-analyzer-edge.tgz:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 1.0.0-rc.0
@@ -9820,10 +9820,10 @@ packages:
       typescript: 4.2.3
       util: 0.12.3
     dev: false
-    name: '@rush-temp/media-analytics-edge'
+    name: '@rush-temp/media-video-analyzer-edge'
     resolution:
-      integrity: sha512-KJ7HD2KNqoe1EK7Q6JwsvTY9aFkyPVch9VdZ86ZtCHqzwdJzRs7KStt3LD2DmC6aXsX3dfk6gEIbo5n+buqALw==
-      tarball: file:projects/media-analytics-edge.tgz
+      integrity: sha512-Kc0snRVddLpy0fvVOp5KuhG7Gg1345apv9I3C84jwlrX4uJ0HeT0g62NYtS/Dgg3KFBYGZPU4uyuqJaGvtAYZw==
+      tarball: file:projects/media-video-analyzer-edge.tgz
     version: 0.0.0
   file:projects/mixedreality-authentication.tgz:
     dependencies:
@@ -11021,7 +11021,7 @@ specifiers:
   '@rush-temp/keyvault-keys': file:./projects/keyvault-keys.tgz
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
-  '@rush-temp/media-analytics-edge': file:./projects/media-analytics-edge.tgz
+  '@rush-temp/media-video-analyzer-edge': file:./projects/media-video-analyzer-edge.tgz
   '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz

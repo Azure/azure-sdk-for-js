@@ -643,8 +643,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/media-analytics-edge",
-      "projectFolder": "sdk/mediaservices/media-analytics-edge",
+      "packageName": "@azure/media-video-analyzer-edge",
+      "projectFolder": "sdk/videoanalyzer/media-video-analyzer-edge",
       "versionPolicyName": "test"
     },
     {
