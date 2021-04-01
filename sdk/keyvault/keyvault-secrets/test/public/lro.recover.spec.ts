@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
@@ -18,15 +19,13 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(
-    /** @this Mocha.Context */ async function() {
-      const authentication = await authenticate(this);
-      secretSuffix = authentication.secretSuffix;
-      client = authentication.client;
-      testClient = authentication.testClient;
-      recorder = authentication.recorder;
-    }
-  );
+  beforeEach(async function(this: Context) {
+    const authentication = await authenticate(this);
+    secretSuffix = authentication.secretSuffix;
+    client = authentication.client;
+    testClient = authentication.testClient;
+    recorder = authentication.recorder;
+  });
 
   afterEach(async function() {
     await recorder.stop();
@@ -34,7 +33,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
 
   // The tests follow
 
-  it("can wait until a secret is recovered", /** @this Mocha.Context */ async function() {
+  it("can wait until a secret is recovered", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -59,7 +58,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
     await testClient.flushSecret(secretName);
   });
 
-  it("can resume from a stopped poller", /** @this Mocha.Context */ async function() {
+  it("can resume from a stopped poller", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -98,7 +97,7 @@ describe("Secrets client - Long Running Operations - recoverDelete", () => {
   });
 
   // On playback mode, the tests happen too fast for the timeout to work
-  it("can attempt to recover a deleted secret with requestOptions timeout", /** @this Mocha.Context */ async function() {
+  it("can attempt to recover a deleted secret with requestOptions timeout", async function(this: Context) {
     recorder.skip(undefined, "Timeout tests don't work on playback mode.");
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`

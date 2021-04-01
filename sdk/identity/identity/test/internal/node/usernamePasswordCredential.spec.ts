@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
+
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
@@ -21,13 +21,14 @@ import {
   Node15NotSupportedError,
   Node8NotSupportedError
 } from "../../../src/tokenCache/nodeVersion";
+import { Context } from "mocha";
 
 describe("UsernamePasswordCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -46,7 +47,7 @@ describe("UsernamePasswordCredential (internal)", function() {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Authenticates silently after the initial request", async function() {
+  it("Authenticates silently after the initial request", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();
@@ -76,7 +77,7 @@ describe("UsernamePasswordCredential (internal)", function() {
       return;
     }
 
-    it("Persistence throws on Node 8, as expected", async function() {
+    it("Persistence throws on Node 8, as expected", async function(this: Context) {
       if (!isNode8) {
         this.skip();
       }
@@ -99,7 +100,7 @@ describe("UsernamePasswordCredential (internal)", function() {
       assert.equal(error?.message, Node8NotSupportedError.message);
     });
 
-    it("Persistence throws on Node 15, as expected", async function() {
+    it("Persistence throws on Node 15, as expected", async function(this: Context) {
       if (!isNode15) {
         this.skip();
       }
@@ -122,7 +123,7 @@ describe("UsernamePasswordCredential (internal)", function() {
       assert.equal(error?.message, Node15NotSupportedError.message);
     });
 
-    it("Accepts tokenCachePersistenceOptions", async function() {
+    it("Accepts tokenCachePersistenceOptions", async function(this: Context) {
       // msal-node-extensions does not currently support Node 8.
       if (isNode8 || isNode15) {
         this.skip();
@@ -159,7 +160,7 @@ describe("UsernamePasswordCredential (internal)", function() {
       assert.ok(parsedResult.AccessToken);
     });
 
-    it("Authenticates silently with tokenCachePersistenceOptions", async function() {
+    it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Context) {
       // msal-node-extensions does not currently support Node 8.
       if (isNode8 || isNode15) {
         this.skip();
@@ -205,7 +206,7 @@ describe("UsernamePasswordCredential (internal)", function() {
       assert.equal(doGetTokenSpy.callCount, 1);
     });
 
-    it("allows passing an authenticationRecord to avoid further manual authentications", async function() {
+    it("allows passing an authenticationRecord to avoid further manual authentications", async function(this: Context) {
       // msal-node-extensions does not currently support Node 8.
       if (isNode8 || isNode15) {
         this.skip();
@@ -265,7 +266,7 @@ describe("UsernamePasswordCredential (internal)", function() {
       assert.equal(doGetTokenSpy.callCount, 1);
     });
 
-    it("allows working with an authenticationRecord that is serialized", async function() {
+    it("allows working with an authenticationRecord that is serialized", async function(this: Context) {
       // msal-node-extensions does not currently support Node 8.
       if (isNode8 || isNode15) {
         this.skip();

@@ -7,6 +7,7 @@ import { IdentityClient } from "../../src/client/identityClient";
 import { ClientSecretCredential } from "../../src";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { isNode } from "@azure/core-http";
+import { Context } from "mocha";
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: any) => {
@@ -77,9 +78,8 @@ describe("IdentityClient", function() {
     );
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function() {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function(this: Context) {
     if (!isNode) {
-      // eslint-disable-next-line no-invalid-this
       return this.skip();
     }
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";

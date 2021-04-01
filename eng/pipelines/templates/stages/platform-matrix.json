@@ -8,7 +8,7 @@
       "ubuntu-18.04": { "OSVmImage": "MMSUbuntu18.04", "Pool": "azsdk-pool-mms-ubuntu-1804-general" },
       "macOS-10.15": { "OSVmImage": "macOS-10.15", "Pool": "Azure Pipelines" }
     },
-    "NodeTestVersion": [ "8.x", "10.x", "12.x", "14.x" ],
+    "NodeTestVersion": [ "8.x", "10.x", "12.x", "14.x", "15.x" ],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },

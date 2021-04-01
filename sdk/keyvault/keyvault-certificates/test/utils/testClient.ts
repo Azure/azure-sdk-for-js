@@ -3,7 +3,6 @@
 
 import { CertificateClient, KeyVaultCertificate } from "../../src";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { operationOptionsToRequestOptionsBase } from "@azure/core-http";
 import { RestoreCertificateBackupPoller } from "./lro/restore/poller";
 import { BeginRestoreCertificateBackupOptions } from "./lro/restore/operation";
 import { testPollerProperties } from "./recorderUtils";
@@ -29,13 +28,12 @@ export default class TestClient {
     backup: Uint8Array,
     options: BeginRestoreCertificateBackupOptions = {}
   ): Promise<PollerLike<PollOperationState<KeyVaultCertificate>, KeyVaultCertificate>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new RestoreCertificateBackupPoller({
       backup,
       client: this.client,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions
+      operationOptions: options
     });
 
     // This will initialize the poller's operation (the recovery of the backup).

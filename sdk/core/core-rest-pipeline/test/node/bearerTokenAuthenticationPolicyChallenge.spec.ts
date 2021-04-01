@@ -83,7 +83,6 @@ async function authenticateRequestOnChallenge(
 
   const accessToken = await retrieveToken({
     ...options,
-    cachedToken: undefined,
     scopes: parsedChallenge.scope || scopes,
     claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
   });
@@ -112,8 +111,8 @@ class MockRefreshAzureCredential implements TokenCredential {
   }
 }
 
-describe("bearerTokenAuthenticationPolicy with challenge", function() {
-  it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
+describe("bearerTokenAuthenticationPolicy with challenge", function () {
+  it("tests that the scope and the claim have been passed through to getToken correctly", async function () {
     const expected = {
       scope: "http://localhost/.default",
       challengeClaims: JSON.stringify({
@@ -149,11 +148,6 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
-        async authenticateRequest({ cachedToken, setAuthorizationHeader }) {
-          if (cachedToken) {
-            setAuthorizationHeader(cachedToken);
-          }
-        },
         authenticateRequestOnChallenge
       }
     });
@@ -192,7 +186,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     assert.deepEqual(finalSendRequestHeaders, [undefined, `Bearer ${getTokenResponse.token}`]);
   });
 
-  it("tests that the challenge is processed even we already had a token", async function() {
+  it("tests that the challenge is processed even we already had a token", async function () {
     const expected = [
       {
         scope: "http://localhost/.default",
@@ -253,11 +247,6 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
-        async authenticateRequest({ cachedToken, setAuthorizationHeader }) {
-          if (cachedToken) {
-            setAuthorizationHeader(cachedToken);
-          }
-        },
         authenticateRequestOnChallenge
       }
     });

@@ -7,6 +7,14 @@ import {
 } from "./operation";
 import { SecretProperties } from "../../secretsModels";
 import { KeyVaultSecretPoller, KeyVaultSecretPollerOptions } from "../keyVaultSecretPoller";
+import { createTraceFunction } from "../../../../keyvault-common/src";
+
+/**
+ * @internal
+ */
+export const withTrace = createTraceFunction(
+  "Azure.KeyVault.Certificates.RecoverDeletedSecretPoller"
+);
 
 /**
  * Class that deletes a poller that waits until a secret finishes being deleted
@@ -16,7 +24,7 @@ export class RecoverDeletedSecretPoller extends KeyVaultSecretPoller<
   SecretProperties
 > {
   constructor(options: KeyVaultSecretPollerOptions) {
-    const { vaultUrl, client, name, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { vaultUrl, client, name, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RecoverDeletedSecretPollOperationState | undefined;
 
@@ -31,7 +39,7 @@ export class RecoverDeletedSecretPoller extends KeyVaultSecretPoller<
       },
       vaultUrl,
       client,
-      requestOptions
+      operationOptions
     );
 
     super(operation);

@@ -12,8 +12,8 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
-  ChangeableAttributes as ChangeableAttributesMapper,
   Manifest as ManifestMapper,
+  ContentProperties as ContentPropertiesMapper,
   Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema as Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper,
   PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema as PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 } from "../models/mappers";
@@ -73,21 +73,16 @@ export const name: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
   mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
+    serializedName: "nextLink",
+    required: true,
     type: {
       name: "String"
     }
-  }
-};
-
-export const value: OperationParameter = {
-  parameterPath: ["options", "value"],
-  mapper: ChangeableAttributesMapper
+  },
+  skipEncoding: true
 };
 
 export const reference: OperationURLParameter = {
@@ -111,7 +106,7 @@ export const accept1: OperationParameter = {
   }
 };
 
-export const contentType1: OperationParameter = {
+export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
     defaultValue: "application/vnd.docker.distribution.manifest.v2+json",
@@ -126,6 +121,23 @@ export const contentType1: OperationParameter = {
 export const payload: OperationParameter = {
   parameterPath: "payload",
   mapper: ManifestMapper
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const value: OperationParameter = {
+  parameterPath: ["options", "value"],
+  mapper: ContentPropertiesMapper
 };
 
 export const orderby: OperationQueryParameter = {
@@ -274,8 +286,8 @@ export const contentType3: OperationParameter = {
   }
 };
 
-export const accessToken: OperationParameter = {
-  parameterPath: ["options", "accessToken"],
+export const aadAccesstoken: OperationParameter = {
+  parameterPath: ["options", "aadAccesstoken"],
   mapper: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 };
 
@@ -291,29 +303,7 @@ export const accept4: OperationParameter = {
   }
 };
 
-export const refreshToken: OperationParameter = {
-  parameterPath: ["options", "refreshToken"],
+export const acrRefreshToken: OperationParameter = {
+  parameterPath: ["options", "acrRefreshToken"],
   mapper: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
-};
-
-export const service: OperationQueryParameter = {
-  parameterPath: "service",
-  mapper: {
-    serializedName: "service",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const scope: OperationQueryParameter = {
-  parameterPath: "scope",
-  mapper: {
-    serializedName: "scope",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
 };

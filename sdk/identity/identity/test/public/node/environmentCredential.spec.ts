@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
+
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import sinon from "sinon";
@@ -14,6 +14,7 @@ import {
 } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { assertRejects } from "../../authTestUtils";
+import { Context } from "mocha";
 
 describe("EnvironmentCredential", function() {
   let cleanup: MsalTestCleanup;
@@ -27,7 +28,7 @@ describe("EnvironmentCredential", function() {
   ];
   const cachedValues: Record<string, string | undefined> = {};
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
     environmentVariableNames.forEach((name) => {
@@ -58,7 +59,7 @@ describe("EnvironmentCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with a client certificate on the environment variables", async function() {
+  it("authenticates with a client certificate on the environment variables", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -107,7 +108,7 @@ describe("EnvironmentCredential", function() {
   it(
     "supports tracing with environment client secret",
     testTracing({
-      test: async (spanOptions) => {
+      test: async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
         process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -117,9 +118,7 @@ describe("EnvironmentCredential", function() {
         const credential = new EnvironmentCredential();
 
         await credential.getToken(scope, {
-          tracingOptions: {
-            spanOptions
-          }
+          tracingOptions
         });
       },
       children: [
@@ -136,7 +135,7 @@ describe("EnvironmentCredential", function() {
     })
   );
 
-  it("supports tracing with environment client certificate", async function() {
+  it("supports tracing with environment client certificate", async function(this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
@@ -144,7 +143,7 @@ describe("EnvironmentCredential", function() {
       this.skip();
     }
     await testTracing({
-      test: async (spanOptions) => {
+      test: async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
         process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -154,9 +153,7 @@ describe("EnvironmentCredential", function() {
         const credential = new EnvironmentCredential();
 
         await credential.getToken(scope, {
-          tracingOptions: {
-            spanOptions
-          }
+          tracingOptions
         });
       },
       children: [
@@ -176,7 +173,7 @@ describe("EnvironmentCredential", function() {
   it(
     "supports tracing with environment username/password",
     testTracing({
-      test: async (spanOptions) => {
+      test: async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
         process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -188,9 +185,7 @@ describe("EnvironmentCredential", function() {
 
         try {
           await credential.getToken(scope, {
-            tracingOptions: {
-              spanOptions
-            }
+            tracingOptions
           });
         } catch (e) {
           // To avoid having to store passwords anywhere, this getToken request will fail.

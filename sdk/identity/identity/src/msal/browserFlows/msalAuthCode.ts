@@ -4,10 +4,9 @@
 import * as msalBrowser from "@azure/msal-browser";
 import { MsalBrowserFlowOptions, MsalBrowser } from "./browserCommon";
 import { AccessToken } from "@azure/core-http";
-import { defaultLoggerCallback } from "../utils";
+import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
 import { AuthenticationRequired } from "../errors";
-import { msalToPublic, publicToMsal } from "../transformations";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 
 // We keep a copy of the redirect hash.
@@ -154,7 +153,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequired();
+      throw new AuthenticationRequired(scopes, options);
     }
 
     const parameters: msalBrowser.SilentRequest = {
@@ -170,7 +169,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       const response = await this.app.acquireTokenSilent(parameters);
       return this.handleResult(scopes, response);
     } catch (err) {
-      throw this.handleError(scopes, err);
+      throw this.handleError(scopes, err, options);
     }
   }
 
@@ -183,7 +182,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequired();
+      throw new AuthenticationRequired(scopes, options);
     }
 
     const parameters: msalBrowser.RedirectRequest = {

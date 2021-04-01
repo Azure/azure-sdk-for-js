@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
 import { Debugger } from '@azure/logger';
+import { GetTokenOptions } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -16,6 +17,15 @@ export interface AddPipelineOptions {
     afterPolicies?: string[];
     beforePolicies?: string[];
     phase?: PipelinePhase;
+}
+
+// @public
+export interface Agent {
+    destroy(): void;
+    maxFreeSockets: number;
+    maxSockets: number;
+    requests: unknown;
+    sockets: unknown;
 }
 
 // @public
@@ -36,9 +46,8 @@ export interface BearerTokenAuthenticationPolicyOptions {
 
 // @public
 export interface ChallengeCallbackOptions {
-    cachedToken?: AccessToken;
     claims?: string;
-    credential: TokenCredential;
+    getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     request: PipelineRequest;
     scopes: string | string[];
     setAuthorizationHeader: (accessToken: AccessToken) => void;
@@ -174,6 +183,7 @@ export interface PipelinePolicy {
 // @public
 export interface PipelineRequest {
     abortSignal?: AbortSignalLike;
+    agent?: Agent;
     allowInsecureConnection?: boolean;
     body?: RequestBodyType;
     disableKeepAlive?: boolean;

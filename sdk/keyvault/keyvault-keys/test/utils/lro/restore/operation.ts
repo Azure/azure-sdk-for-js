@@ -53,7 +53,6 @@ export interface RestoreKeyBackupPollOperation
 /**
  * Reaches to the service and updates the restore key's poll operation.
  * @param options - The optional parameters, which are an abortSignal from \@azure/abort-controller and a function that triggers the poller's onProgress function.
- * @this RestoreKeyBackupPollOperation
  */
 async function update(
   this: RestoreKeyBackupPollOperation,
@@ -92,7 +91,6 @@ async function cancel(this: RestoreKeyBackupPollOperation): Promise<never> {
 
 /**
  * Serializes the create key's poll operation
- * @this RestoreKeyBackupPollOperation
  */
 function toString(this: RestoreKeyBackupPollOperation): string {
   return JSON.stringify({

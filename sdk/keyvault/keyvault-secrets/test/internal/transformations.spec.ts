@@ -72,5 +72,8 @@ describe("Transformations", () => {
     assert.equal(secret.properties.recoveryId, "recovery_id");
     assert.equal(secret.properties.deletedOn, date);
     assert.equal(secret.properties.scheduledPurgeDate, date);
+    assert.equal(secret.recoveryId, "recovery_id");
+    assert.equal(secret.deletedOn, date);
+    assert.equal(secret.scheduledPurgeDate, date);
   });
 });

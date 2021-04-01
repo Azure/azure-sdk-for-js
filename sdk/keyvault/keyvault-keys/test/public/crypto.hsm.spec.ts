@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import { Recorder } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
@@ -9,20 +10,22 @@ import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 import TestClient from "../utils/testClient";
+import { getServiceVersion, onVersions } from "../utils/utils.common";
 
-describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)", () => {
-  let hsmClient: KeyClient;
-  let testClient: TestClient;
-  let cryptoClient: CryptographyClient;
-  let recorder: Recorder;
-  let credential: ClientSecretCredential;
-  let keyName: string;
-  let keyVaultKey: KeyVaultKey;
-  let keySuffix: string;
+onVersions({ minVer: "7.2" }).describe(
+  "CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
+  () => {
+    let hsmClient: KeyClient;
+    let testClient: TestClient;
+    let cryptoClient: CryptographyClient;
+    let recorder: Recorder;
+    let credential: ClientSecretCredential;
+    let keyName: string;
+    let keyVaultKey: KeyVaultKey;
+    let keySuffix: string;
 
-  beforeEach(
-    /** @this Mocha.Context */ async function() {
-      const authentication = await authenticate(this);
+    beforeEach(async function(this: Context) {
+      const authentication = await authenticate(this, getServiceVersion());
       recorder = authentication.recorder;
 
       if (!authentication.hsmClient) {
@@ -36,56 +39,56 @@ describe("CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
       credential = authentication.credential;
       keySuffix = authentication.keySuffix;
       keyName = testClient.formatName("cryptography-client-test" + keySuffix);
-    }
-  );
-
-  afterEach(async function() {
-    await testClient?.flushKey(keyName);
-    await recorder.stop();
-  });
-
-  describe("with AES crypto algorithms", async function() {
-    it("encrypts and decrypts using AES-GCM", /** @this Mocha.Context */ async function() {
-      keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
-      cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
-      const text = this.test!.title;
-      const encryptResult = await cryptoClient.encrypt({
-        algorithm: "A256GCM",
-        plaintext: stringToUint8Array(text)
-      });
-      assert.exists(encryptResult.iv);
-      assert.exists(encryptResult.authenticationTag);
-
-      const decryptResult = await cryptoClient.decrypt({
-        algorithm: "A256GCM",
-        ciphertext: encryptResult.result!,
-        iv: encryptResult.iv!,
-        authenticationTag: encryptResult.authenticationTag
-      });
-      assert.equal(text, uint8ArrayToString(decryptResult.result));
     });
 
-    it("encrypts and decrypts using AES-CBC", /** @this Mocha.Context */ async function() {
-      keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
-      cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
-      const text = this.test!.title;
-      const encryptResult = await cryptoClient.encrypt({
-        algorithm: "A256CBCPAD",
-        plaintext: stringToUint8Array(text),
-        iv: stringToUint8Array(text)
-      });
-      // There is a service-level issue where `iv` is not returned
-      // from the service as part of the result. Until it's resolved
-      // we have to pend this and just pass the same iv
-      // back to decrypt for now.
-      // assert.exists(encryptResult.iv);
-
-      const decryptResult = await cryptoClient.decrypt({
-        algorithm: "A256CBCPAD",
-        ciphertext: encryptResult.result!,
-        iv: stringToUint8Array(text) // Replace with `encryptResult.iv!` once ADO 9361749 is resolved.
-      });
-      assert.equal(uint8ArrayToString(decryptResult.result), text);
+    afterEach(async function() {
+      await testClient?.flushKey(keyName);
+      await recorder.stop();
     });
-  });
-});
+
+    describe("with AES crypto algorithms", async function() {
+      it("encrypts and decrypts using AES-GCM", async function(this: Context) {
+        keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
+        cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+        const text = this.test!.title;
+        const encryptResult = await cryptoClient.encrypt({
+          algorithm: "A256GCM",
+          plaintext: stringToUint8Array(text)
+        });
+        assert.exists(encryptResult.iv);
+        assert.exists(encryptResult.authenticationTag);
+
+        const decryptResult = await cryptoClient.decrypt({
+          algorithm: "A256GCM",
+          ciphertext: encryptResult.result!,
+          iv: encryptResult.iv!,
+          authenticationTag: encryptResult.authenticationTag
+        });
+        assert.equal(text, uint8ArrayToString(decryptResult.result));
+      });
+
+      it("encrypts and decrypts using AES-CBC", async function(this: Context) {
+        keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
+        cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+        const text = this.test!.title;
+        const encryptResult = await cryptoClient.encrypt({
+          algorithm: "A256CBCPAD",
+          plaintext: stringToUint8Array(text),
+          iv: stringToUint8Array(text)
+        });
+        // There is a service-level issue where `iv` is not returned
+        // from the service as part of the result. Until it's resolved
+        // we have to pend this and just pass the same iv
+        // back to decrypt for now.
+        // assert.exists(encryptResult.iv);
+
+        const decryptResult = await cryptoClient.decrypt({
+          algorithm: "A256CBCPAD",
+          ciphertext: encryptResult.result!,
+          iv: stringToUint8Array(text) // Replace with `encryptResult.iv!` once ADO 9361749 is resolved.
+        });
+        assert.equal(uint8ArrayToString(decryptResult.result), text);
+      });
+    });
+  }
+);

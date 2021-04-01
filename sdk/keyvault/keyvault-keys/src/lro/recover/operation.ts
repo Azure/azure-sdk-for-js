@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { KeyVaultKey, GetKeyOptions, RecoverDeletedKeyOptions } from "../../keysModels";
-import { withTrace } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the state of a delete key's poll operation
@@ -23,7 +23,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     public state: RecoverDeletedKeyPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private operationOptions: OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the recovery of a deleted key is not supported." });
   }
@@ -70,27 +70,27 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     const state = this.state;
     const { name } = state;
 
-    const requestOptions = this.requestOptions;
+    const operationOptions = this.operationOptions;
     if (options.abortSignal) {
-      requestOptions.abortSignal = options.abortSignal;
+      operationOptions.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
       try {
-        state.result = await this.getKey(name, { requestOptions });
+        state.result = await this.getKey(name, operationOptions);
         state.isCompleted = true;
       } catch {
         // Nothing to do here.
       }
       if (!state.isCompleted) {
-        state.result = await this.recoverDeletedKey(name, { requestOptions });
+        state.result = await this.recoverDeletedKey(name, operationOptions);
         state.isStarted = true;
       }
     }
 
     if (!state.isCompleted) {
       try {
-        state.result = await this.getKey(name, { requestOptions });
+        state.result = await this.getKey(name, operationOptions);
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {

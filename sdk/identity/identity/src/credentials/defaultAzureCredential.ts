@@ -42,26 +42,23 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    *
    * @param options - Optional parameters. See {@link DefaultAzureCredentialOptions}.
    */
-  constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions) {
+  constructor(options?: DefaultAzureCredentialOptions) {
     const credentials = [];
-    credentials.push(new EnvironmentCredential(tokenCredentialOptions));
+    credentials.push(new EnvironmentCredential(options));
 
     // A client ID for the ManagedIdentityCredential
     // can be provided either through the optional parameters or through the environment variables.
-    const managedIdentityClientId =
-      tokenCredentialOptions?.managedIdentityClientId || process.env.AZURE_CLIENT_ID;
+    const managedIdentityClientId = options?.managedIdentityClientId || process.env.AZURE_CLIENT_ID;
 
     // If a client ID is not provided, we will try with the system assigned ID.
     if (managedIdentityClientId) {
-      credentials.push(
-        new ManagedIdentityCredential(managedIdentityClientId, tokenCredentialOptions)
-      );
+      credentials.push(new ManagedIdentityCredential(managedIdentityClientId, options));
     } else {
-      credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
+      credentials.push(new ManagedIdentityCredential(options));
     }
 
     credentials.push(new AzureCliCredential());
-    credentials.push(new VisualStudioCodeCredential(tokenCredentialOptions));
+    credentials.push(new VisualStudioCodeCredential(options));
 
     super(...credentials);
     this.UnavailableMessage =

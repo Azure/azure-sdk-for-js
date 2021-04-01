@@ -30,8 +30,6 @@ extends:
     Artifacts:
       - name: azure-communication-common
         safeName: azurecommunicationcommon
-      - name: azure-communication-administration
-        safeName: azurecommunicationadministration
       - name: azure-communication-sms
         safeName: azurecommunicationsms
       - name: azure-communication-chat

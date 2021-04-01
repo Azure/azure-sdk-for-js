@@ -26,13 +26,12 @@ import {
   Message as RheaMessage,
   Receiver
 } from "rhea-promise";
-import { StandardAbortMessage } from "../../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
 import { OperationOptionsBase } from "../../../src/modelsToBeSharedWithEventHubs";
 import { ReceiveMode } from "../../../src/models";
-import { Constants } from "@azure/core-amqp";
+import { Constants, StandardAbortMessage } from "@azure/core-amqp";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];

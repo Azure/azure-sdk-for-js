@@ -4,6 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { assert } from "chai";
+import { Suite, Context } from "mocha";
 
 import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 
@@ -35,7 +36,7 @@ const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
-describe("[AAD] TextAnalyticsClient", /** @this Mocha.Context */ function() {
+describe("[AAD] TextAnalyticsClient", function(this: Suite) {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
   const CLITimeout = this.timeout();
@@ -43,28 +44,24 @@ describe("[AAD] TextAnalyticsClient", /** @this Mocha.Context */ function() {
 
   let getId: () => string;
 
-  beforeEach(
-    /** @this Mocha.Context */ function() {
-      recorder = createRecorder(this);
-      client = createClient("AAD");
-      let nextId = 0;
-      getId = function() {
-        nextId += 1;
-        return nextId.toString();
-      };
-    }
-  );
+  beforeEach(function(this: Context) {
+    recorder = createRecorder(this);
+    client = createClient("AAD");
+    let nextId = 0;
+    getId = function() {
+      nextId += 1;
+      return nextId.toString();
+    };
+  });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
   describe("fast tests", function() {
-    before(
-      /** @this Mocha.Context */ function() {
-        this.timeout(fastTimeout);
-      }
-    );
+    before(function(this: Context) {
+      this.timeout(fastTimeout);
+    });
 
     describe("#analyzeSentiment", function() {
       it("client throws on empty list", async function() {
@@ -930,11 +927,9 @@ describe("[AAD] TextAnalyticsClient", /** @this Mocha.Context */ function() {
   describe("LROs", function() {
     const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-    before(
-      /** @this Mocha.Context */ function() {
-        this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
-      }
-    );
+    before(function(this: Context) {
+      this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
+    });
 
     describe("#analyze", function() {
       it("single entity recognition action", async function() {

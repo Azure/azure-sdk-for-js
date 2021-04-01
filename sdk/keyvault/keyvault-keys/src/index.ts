@@ -8,8 +8,7 @@ import {
   TokenCredential,
   createPipelineFromOptions,
   isTokenCredential,
-  signingPolicy,
-  operationOptionsToRequestOptionsBase
+  signingPolicy
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -104,7 +103,7 @@ import {
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
 import { LocalSupportedAlgorithmName } from "./cryptography/models";
 import { getKeyFromKeyBundle } from "./transformations";
-import { withTrace } from "./tracing";
+import { createTraceFunction } from "../../keyvault-common/src";
 
 export {
   CryptographyClientOptions,
@@ -179,6 +178,8 @@ export {
   WrapResult,
   logger
 };
+
+const withTrace = createTraceFunction("Azure.KeyVault.Keys.KeyClient");
 
 /**
  * The KeyClient provides methods to manage {@link KeyVaultKey} in the
@@ -434,14 +435,13 @@ export class KeyClient {
     name: string,
     options: BeginDeleteKeyOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
     const poller = new DeleteKeyPoller({
       name,
       vaultUrl: this.vaultUrl,
       client: this.client,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions
+      operationOptions: options
     });
 
     // This will initialize the poller's operation (the deletion of the key).
@@ -592,15 +592,13 @@ export class KeyClient {
     name: string,
     options: BeginRecoverDeletedKeyOptions = {}
   ): Promise<PollerLike<PollOperationState<DeletedKey>, DeletedKey>> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-
     const poller = new RecoverDeletedKeyPoller({
       name,
       vaultUrl: this.vaultUrl,
       client: this.client,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions: requestOptions
+      operationOptions: options
     });
     // This will initialize the poller's operation (the deletion of the key).
     await poller.poll();

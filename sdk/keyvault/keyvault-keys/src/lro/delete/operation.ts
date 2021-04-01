@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
-import { withTrace } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the state of a delete key's poll operation
@@ -22,7 +22,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     public state: DeleteKeyPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private operationOptions: OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the deletion of a key is not supported." });
   }
@@ -32,7 +32,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
    * Since the Key Vault Key won't be immediately deleted, we have {@link beginDeleteKey}.
    */
   private deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
-    return withTrace("generatedClient.deleteKey", options, async (updatedOptions) => {
+    return withTrace("deleteKey", options, async (updatedOptions) => {
       const response = await this.client.deleteKey(this.vaultUrl, name, updatedOptions);
       return getKeyFromKeyBundle(response);
     });
@@ -43,7 +43,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
    * This operation requires the keys/get permission.
    */
   private getDeletedKey(name: string, options: GetDeletedKeyOptions = {}): Promise<DeletedKey> {
-    return withTrace("generatedClient.getDeletedKey", options, async (updatedOptions) => {
+    return withTrace("getDeletedKey", options, async (updatedOptions) => {
       const response = await this.client.getDeletedKey(this.vaultUrl, name, updatedOptions);
       return getKeyFromKeyBundle(response);
     });
@@ -62,11 +62,11 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     const { name } = state;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.operationOptions.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
-      const deletedKey = await this.deleteKey(name, this.requestOptions);
+      const deletedKey = await this.deleteKey(name, this.operationOptions);
       state.isStarted = true;
       state.result = deletedKey;
       if (!deletedKey.properties.recoveryId) {
@@ -76,9 +76,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
 
     if (!state.isCompleted) {
       try {
-        state.result = await this.getDeletedKey(name, {
-          requestOptions: this.requestOptions
-        });
+        state.result = await this.getDeletedKey(name, this.operationOptions);
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {

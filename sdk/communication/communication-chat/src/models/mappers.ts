@@ -62,13 +62,21 @@ export const mapToAddChatParticipantsRequestRestModel = (
 export const mapToChatContentSdkModel = (
   content: RestModel.ChatMessageContent
 ): ChatMessageContent => {
-  const { participants, ...otherChatContents } = content;
-  return {
-    participants: content.participants?.map((participant) =>
-      mapToChatParticipantSdkModel(participant)
-    ),
-    ...otherChatContents
-  };
+  const { participants, initiatorCommunicationIdentifier, ...otherChatContents } = content;
+  let result: ChatMessageContent = { ...otherChatContents };
+  if (initiatorCommunicationIdentifier) {
+    const initiator = deserializeCommunicationIdentifier(
+      initiatorCommunicationIdentifier as SerializedCommunicationIdentifier
+    );
+    result = { ...result, initiator };
+  }
+  if (participants) {
+    result = {
+      ...result,
+      participants: participants?.map((participant) => mapToChatParticipantSdkModel(participant))
+    };
+  }
+  return result;
 };
 
 /**

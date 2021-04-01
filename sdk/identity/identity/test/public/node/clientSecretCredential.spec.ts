@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
+
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import assert from "assert";
@@ -8,10 +8,11 @@ import { env, delay } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
 import { ClientSecretCredential } from "../../../src";
+import { Context } from "mocha";
 
 describe("ClientSecretCredential", function() {
   let cleanup: MsalTestCleanup;
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     cleanup = msalNodeTestSetup(this).cleanup;
   });
   afterEach(async function() {
@@ -61,7 +62,7 @@ describe("ClientSecretCredential", function() {
   it(
     "supports tracing",
     testTracing({
-      test: async (spanOptions) => {
+      test: async (tracingOptions) => {
         const credential = new ClientSecretCredential(
           env.AZURE_TENANT_ID,
           env.AZURE_CLIENT_ID,
@@ -69,9 +70,7 @@ describe("ClientSecretCredential", function() {
         );
 
         await credential.getToken(scope, {
-          tracingOptions: {
-            spanOptions
-          }
+          tracingOptions
         });
       },
       children: [

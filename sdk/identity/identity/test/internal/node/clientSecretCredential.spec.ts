@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
+
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import Sinon from "sinon";
@@ -12,13 +12,14 @@ import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { isNode15, isNode8 } from "../../../src/tokenCache/nodeVersion";
+import { Context } from "mocha";
 
 describe("ClientSecretCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
 
@@ -65,7 +66,7 @@ describe("ClientSecretCredential (internal)", function() {
       return;
     }
 
-    it("Accepts tokenCachePersistenceOptions", async function() {
+    it("Accepts tokenCachePersistenceOptions", async function(this: Context) {
       // msal-node-extensions does not currently support Node 8.
       if (isNode8 || isNode15) {
         this.skip();
@@ -98,7 +99,7 @@ describe("ClientSecretCredential (internal)", function() {
       assert.ok(parsedResult.AccessToken);
     });
 
-    it("Authenticates silently with tokenCachePersistenceOptions", async function() {
+    it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Context) {
       // msal-node-extensions does not currently support Node 8.
       if (isNode8 || isNode15) {
         this.skip();

@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "../";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelinePolicy } from "../pipeline";
+import { createTokenCycler } from "../util/tokenCycler";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -23,13 +25,9 @@ export interface ChallengeCallbackOptions {
    */
   claims?: string;
   /**
-   * Token cached from a previous authentication.
+   * Function that retrieves either a cached token or a new token.
    */
-  cachedToken?: AccessToken;
-  /**
-   * Credential to use to retrieve a new token.
-   */
-  credential: TokenCredential;
+  getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
   /**
    * Request that the policy is trying to fulfill.
    */
@@ -83,8 +81,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
 export async function retrieveToken(
   options: ChallengeCallbackOptions
 ): Promise<AccessToken | undefined> {
-  const { scopes, claims, cachedToken, credential, request } = options;
-  let accessToken = cachedToken;
+  const { scopes, claims, getToken, request } = options;
 
   const getTokenOptions: GetTokenOptions = {
     claims,
@@ -92,10 +89,7 @@ export async function retrieveToken(
     tracingOptions: request.tracingOptions
   };
 
-  if (!cachedToken) {
-    accessToken = (await credential.getToken(scopes, getTokenOptions)) || undefined;
-  }
-  return accessToken;
+  return (await getToken(scopes, getTokenOptions)) || undefined;
 }
 
 /**
@@ -152,8 +146,6 @@ export function bearerTokenAuthenticationPolicy(
     ...challengeCallbacks
   };
 
-  let cachedToken: AccessToken | undefined;
-
   /**
    * We will retrieve the challenge only if the response status code was 401,
    * and if the response contained the header "WWW-Authenticate" with a non-empty value.
@@ -165,6 +157,12 @@ export function bearerTokenAuthenticationPolicy(
     }
     return;
   }
+
+  // This function encapsulates the entire process of reliably retrieving the token
+  // The options are left out of the public API until there's demand to configure this.
+  // Remember to extend `BearerTokenAuthenticationPolicyOptions` with `TokenCyclerOptions`
+  // in order to pass through the `options` object.
+  const getToken = createTokenCycler(credential/* , options */);
 
   return {
     name: bearerTokenAuthenticationPolicyName,
@@ -182,17 +180,16 @@ export function bearerTokenAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      // Allows users to easily set the authorization header.
       function setAuthorizationHeader(accessToken: AccessToken) {
-        cachedToken = accessToken;
-        request.headers.set("Authorization", `Bearer ${cachedToken.token}`);
+        request.headers.set("Authorization", `Bearer ${accessToken.token}`);
       }
 
       if (callbacks?.authenticateRequest) {
         await callbacks.authenticateRequest({
           scopes,
           request,
-          credential,
-          cachedToken,
+          getToken,
           setAuthorizationHeader
         });
       }
@@ -210,8 +207,7 @@ export function bearerTokenAuthenticationPolicy(
         const sendRequest = await callbacks.authenticateRequestOnChallenge(challenge, {
           scopes,
           request,
-          credential,
-          cachedToken,
+          getToken,
           setAuthorizationHeader
         });
 

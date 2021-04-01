@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { Container, ContainerDefinition } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
 import { QueryIterator } from "../../../src";
@@ -9,7 +10,7 @@ import { FeedOptions } from "../../../src";
 import { TestData } from "../common/TestData";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-describe("Aggregate Query", /** @this Mocha.Context */ function() {
+describe("Aggregate Query", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const partitionKey = "key";
   const uniquePartitionKey = "uniquePartitionKey";

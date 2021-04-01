@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { createSandbox } from "sinon";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
@@ -13,6 +14,7 @@ import {
 import { KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { getServiceVersion } from "../utils/utils.common";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -26,15 +28,13 @@ describe("Challenge based authentication tests", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(
-    /** @this Mocha.Context */ async function() {
-      const authentication = await authenticate(this);
-      keySuffix = authentication.keySuffix;
-      client = authentication.client;
-      testClient = authentication.testClient;
-      recorder = authentication.recorder;
-    }
-  );
+  beforeEach(async function(this: Context) {
+    const authentication = await authenticate(this, getServiceVersion());
+    keySuffix = authentication.keySuffix;
+    client = authentication.client;
+    testClient = authentication.testClient;
+    recorder = authentication.recorder;
+  });
 
   afterEach(async function() {
     await recorder.stop();
@@ -42,7 +42,7 @@ describe("Challenge based authentication tests", () => {
 
   // The tests follow
 
-  it("Authentication should work for parallel requests", /** @this Mocha.Context */ async function() {
+  it("Authentication should work for parallel requests", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const keyNames = [`${keyName}-0`, `${keyName}-1`];
 
@@ -73,7 +73,7 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it("Once authenticated, new requests should not authenticate again", /** @this Mocha.Context */ async function() {
+  it("Once authenticated, new requests should not authenticate again", async function(this: Context) {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.

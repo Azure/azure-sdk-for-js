@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.0.4 (Unreleased)
 
 - A new type is exported, `ChallengeCallbackOptions`, which contains `scopes: string | string[]`, `claims?: string` (optional), `credential: TokenCredential`, `cachedToken: AccessToken | undefined`, `request: PipelineRequest`, and a `setAuthorizationHeader: (token: AccessToken) => void` function.
 - Added a `challengeCallbacks` optional property to the `bearerTokenAuthenticationPolicy` that allows it to process authentication challenges, as follows:
@@ -9,6 +9,17 @@
     - `authenticateRequestOnChallenge`, which gets called only if we've found a challenge. Then it receives the `challenge: string` and also `options: ChallengeCallbackOptions`. If this method returns true, the underlying request will be sent again.
         - By default, this function tries to see if the original request received challenges through the "WWW-Authenticate" header. If so, it will try to retrieve the token with this challenge, and repeat the underlying request. If there was no challenge present, it will not repeat the underlying request.
     - In any of these two, the `setAuthorizationHeader` parameter received through the   `ChallengeCallbackOptions` will allow developers to easily assign a token to the ongoing request.
+- Rewrote `bearerTokenAuthenticationPolicy` to use a new backend that refreshes tokens only when they're about to expire and not multiple times before. This is based on a similar fix implemented on `@azure/core-http@1.2.4` ([PR with the changes](https://github.com/Azure/azure-sdk-for-js/pull/14223)). This fixes the issue: [13369](https://github.com/Azure/azure-sdk-for-js/issues/13369).
+
+## 1.0.3 (2021-03-30)
+
+### Breaking Changes
+
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+
+## 1.0.2 (2021-03-25)
+
+- Fixed an issue where chunked HTTP responses would sometimes be decoded incorrectly when multibyte characters were used. [PR 14517](https://github.com/Azure/azure-sdk-for-js/pull/14517)
 
 ## 1.0.1 (2021-03-18)
 

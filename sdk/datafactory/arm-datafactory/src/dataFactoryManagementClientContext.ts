@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-datafactory";
-const packageVersion = "7.5.0";
+const packageVersion = "7.6.0";
 
 export class DataFactoryManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;

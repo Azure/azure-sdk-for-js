@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableResponseProperties, TableServiceClient } from "../../src";
+import { Context } from "mocha";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableServiceClient } from "./utils/recordedClient";
 import { isNode } from "../testUtils";
@@ -14,12 +15,10 @@ describe("TableServiceClient", () => {
   const suffix = isNode ? "node" : "browser";
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(
-    /** @this Mocha.Context */ function() {
-      recorder = record(this, recordedEnvironmentSetup);
-      client = createTableServiceClient(authMode);
-    }
-  );
+  beforeEach(function(this: Context) {
+    recorder = record(this, recordedEnvironmentSetup);
+    client = createTableServiceClient(authMode);
+  });
 
   afterEach(async function() {
     await recorder.stop();
@@ -51,35 +50,31 @@ describe("TableServiceClient", () => {
   describe("listTables", () => {
     const tableNames: string[] = [];
     const expectedTotalItems = 20;
-    before(
-      /** @this Mocha.Context */ async function() {
-        // Create tables to be listed
-        if (!isPlaybackMode()) {
-          this.timeout(10000);
-          for (let i = 0; i < 20; i++) {
-            const tableName = `ListTableTest${suffix}${i}`;
-            await client.createTable(tableName);
-            tableNames.push(tableName);
-          }
+    before(async function(this: Context) {
+      // Create tables to be listed
+      if (!isPlaybackMode()) {
+        this.timeout(10000);
+        for (let i = 0; i < 20; i++) {
+          const tableName = `ListTableTest${suffix}${i}`;
+          await client.createTable(tableName);
+          tableNames.push(tableName);
         }
       }
-    );
+    });
 
-    after(
-      /** @this Mocha.Context */ async function() {
-        // Cleanup tables
-        if (!isPlaybackMode()) {
-          this.timeout(10000);
-          try {
-            for (const table of tableNames) {
-              await client.deleteTable(table);
-            }
-          } catch (error) {
-            console.warn(`Failed to delete a table during cleanup`);
+    after(async function(this: Context) {
+      // Cleanup tables
+      if (!isPlaybackMode()) {
+        this.timeout(10000);
+        try {
+          for (const table of tableNames) {
+            await client.deleteTable(table);
           }
+        } catch (error) {
+          console.warn(`Failed to delete a table during cleanup`);
         }
       }
-    );
+    });
 
     it("should list all", async () => {
       const tables = client.listTables();

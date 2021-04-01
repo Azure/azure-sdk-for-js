@@ -164,7 +164,8 @@ export class FormRecognitionPoller extends Poller<
       ? JSON.parse(description.resumeFrom).state
       : {
           modelId: description.modelId,
-          status: "notStarted"
+          status: "notStarted",
+          expectedDocType: description.expectedDocType
         };
 
     super(makeFormRecognitionOperation(description, state));

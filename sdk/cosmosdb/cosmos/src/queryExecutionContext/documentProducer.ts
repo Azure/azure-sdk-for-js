@@ -86,21 +86,19 @@ export class DocumentProducer {
   }
 
   public fetchFunction = async (options: FeedOptions): Promise<Response<Resource>> => {
-    // eslint-disable-next-line no-invalid-this
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
-    // eslint-disable-next-line no-invalid-this
+
     const id = getIdFromLink(this.collectionLink);
 
-    // eslint-disable-next-line no-invalid-this
     return this.clientContext.queryFeed({
       path,
       resourceType: ResourceType.item,
       resourceId: id,
       resultFn: (result: any) => result.Documents,
-      // eslint-disable-next-line no-invalid-this
+
       query: this.query,
       options,
-      // eslint-disable-next-line no-invalid-this
+
       partitionKeyRangeId: this.targetPartitionKeyRange["id"]
     });
   };

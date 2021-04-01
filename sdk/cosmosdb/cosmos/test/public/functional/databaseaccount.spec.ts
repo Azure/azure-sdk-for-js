@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Context } from "mocha";
+import { Suite } from "mocha";
 import { CosmosClient } from "../../../src";
 import { endpoint, masterKey } from "../common/_testConfig";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
-describe("NodeJS CRUD Tests", /** @this Mocha.Context */ function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(
-    /** @this Mocha.Context */ async function() {
-      this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-    }
-  );
+  beforeEach(async function(this: Context) {
+    this.timeout(process.env.MOCHA_TIMEOUT || 10000);
+  });
 
   describe("validate database account functionality", function() {
     it("nativeApi Should get database account successfully name based", async function() {

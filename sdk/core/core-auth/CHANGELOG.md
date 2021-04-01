@@ -1,9 +1,13 @@
 # Release History
 
-## 1.3.0 (Unreleased)
+## 1.3.1 (Unreleased)
+
+- Added "claims" to the `GetTokenOptions`, which allows passing the OAuth 2 claims parameter to the credential's `getToken` method.
+
+## 1.3.0 (2021-03-30)
 
 - Adds the `AzureNamedKeyCredential` class which supports credential rotation and a corresponding `NamedKeyCredential` interface to support the use of static string-based names and keys in Azure clients.
-- Added "claims" to the `GetTokenOptions`, which allows passing the OAuth 2 claims parameter to the credential's `getToken` method.
+- Adds the `isNamedKeyCredential` and `isSASCredential` typeguard functions similar to the existing `isTokenCredential`.
 
 ## 1.2.0 (2021-02-08)
 

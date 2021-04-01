@@ -11,7 +11,7 @@ description: Chat Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://int.chatgateway.trafficmanager.net/swagger/2021-03-07/swagger.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/communication/data-plane/Microsoft.CommunicationServicesChat/stable/2021-03-07/communicationserviceschat.json
 model-date-time-as-string: false
 optional-response-headers: true
 use-extension:

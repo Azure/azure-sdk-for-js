@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 
 import {
   AnomalyAlertConfiguration,
@@ -19,11 +20,9 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorAdministrationClient;
       let recorder: Recorder;
 
-      beforeEach(
-        /** @this Mocha.Context */ function() {
-          ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
-        }
-      );
+      beforeEach(function(this: Context) {
+        ({ recorder, client } = createRecordedAdminClient(this, makeCredential(useAad)));
+      });
 
       afterEach(async function() {
         if (recorder) {
@@ -79,7 +78,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.ok(result.latestActiveTimestamp, "Expecting valid latest active timestamp");
         });
 
-        it("refreshes ingesetion status", /** @this Mocha.Context */ async function() {
+        it("refreshes ingesetion status", async function(this: Context) {
           const iterator = client.listDataFeedIngestionStatus(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DATAFEED_ID,
             new Date(Date.UTC(2020, 7, 22)),
@@ -368,7 +367,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes an alert configuration", /** @this Mocha.Context */ async function() {
+        it("deletes an alert configuration", async function(this: Context) {
           if (!createdAlertConfigId) {
             this.skip();
           }
@@ -382,7 +381,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("deletes a detection configuration", /** @this Mocha.Context */ async function() {
+        it("deletes a detection configuration", async function(this: Context) {
           if (!createdDetectionConfigId) {
             this.skip();
           }
