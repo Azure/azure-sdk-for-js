@@ -3,17 +3,10 @@
   "compilerOptions": {
     "module": "CommonJS",
     "target": "ES2015",
-    "lib": [
-      "ES6",
-      "ESNext.AsyncIterable"
-    ],
+    "lib": ["ES6", "ESNext.AsyncIterable"],
     "noEmit": true
   },
   "compileOnSave": true,
-  "exclude": [
-    "node_modules"
-  ],
-  "include": [
-    "./test/**/*.ts"
-  ]
+  "exclude": ["node_modules"],
+  "include": ["./test/**/*.ts"]
 }
