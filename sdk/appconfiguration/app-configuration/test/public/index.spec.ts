@@ -27,7 +27,7 @@ import {
   SecretReference,
   secretReferenceContentType
 } from "../../src";
-import { delay, generateUuid } from "@azure/core-http";
+import { delay } from "@azure/core-http";
 import { Recorder } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
 
@@ -1194,21 +1194,21 @@ describe("AppConfigurationClient", () => {
       { name: "Microsoft.Percentage", parameters: { value: 25 } }
     ];
 
-    const baseSetting: FeatureFlag = {
-      conditions: {
-        clientFilters
-      },
-      enabled: false,
-      isReadOnly: false,
-      key: `${featureFlagPrefix + generateUuid()}`,
-      contentType: featureFlagContentType,
-      description: "I'm a description",
-      label: "label-1"
-    };
-
+    let baseSetting: FeatureFlag;
     let addResponse: AddConfigurationSettingResponse;
 
     beforeEach(async () => {
+      baseSetting = {
+        conditions: {
+          clientFilters
+        },
+        enabled: false,
+        isReadOnly: false,
+        key: `${featureFlagPrefix + recorder.getUniqueName("name-1")}`,
+        contentType: featureFlagContentType,
+        description: "I'm a description",
+        label: "label-1"
+      };
       addResponse = await client.addConfigurationSetting(baseSetting);
     });
 
@@ -1329,9 +1329,9 @@ describe("AppConfigurationClient", () => {
   describe("SecretReference configuration setting", () => {
     const getBaseSetting = (): SecretReference => {
       return {
-        secretId: `https://vault_name.vault.azure.net/secrets/${generateUuid()}`, // TODO: It's a URL in .NET, should we leave it as a string input?
+        secretId: `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName("name-2")}`, // TODO: It's a URL in .NET, should we leave it as a string input?
         isReadOnly: false,
-        key: generateUuid(),
+        key: recorder.getUniqueName("name-3"),
         label: "label-s",
         contentType: secretReferenceContentType
       };
@@ -1382,7 +1382,9 @@ describe("AppConfigurationClient", () => {
         key: baseSetting.key,
         label: baseSetting.label
       });
-      const newSecretId = `https://vault_name.vault.azure.net/secrets/${generateUuid()}`;
+      const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName(
+        "name-4"
+      )}`;
 
       assertSecretReferenceProps(getResponse, baseSetting);
       if (isSecretReference(getResponse)) {
@@ -1410,7 +1412,9 @@ describe("AppConfigurationClient", () => {
         ...baseSetting,
         key: `${baseSetting.key}-2`
       };
-      const newSecretId = `https://vault_name.vault.azure.net/secrets/${generateUuid()}`;
+      const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.getUniqueName(
+        "name-5"
+      )}`;
       await client.addConfigurationSetting(secondSetting);
 
       let numberOFSecretReferencesReceived = 0;
