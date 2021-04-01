@@ -104,7 +104,6 @@ import {
   streamToBuffer
 } from "./utils/utils.node";
 import { StorageClientContext } from "./generated/src/storageClientContext";
-import { SERVICE_VERSION } from "./utils/constants";
 import { generateUuid } from "@azure/core-http";
 import { generateFileSASQueryParameters } from "./FileSASSignatureValues";
 import { ShareSASPermissions } from "./ShareSASPermissions";
@@ -942,7 +941,7 @@ export class ShareClient extends StorageClient {
   public async delete(options: ShareDeleteMethodOptions = {}): Promise<ShareDeleteResponse> {
     const { span, updatedOptions } = createSpan("ShareClient-delete", options);
     try {
-      return await this.context.deleteMethod({
+      return await this.context.delete({
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
@@ -1313,7 +1312,7 @@ export class ShareClient extends StorageClient {
     const { span, updatedOptions } = createSpan("ShareClient-getPermission", options);
     try {
       return await this.context.getPermission(filePermissionKey, {
-        aborterSignal: options.abortSignal,
+        abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
@@ -2068,7 +2067,7 @@ export class ShareDirectoryClient extends StorageClient {
   public async delete(options: DirectoryDeleteOptions = {}): Promise<DirectoryDeleteResponse> {
     const { span, updatedOptions } = createSpan("ShareDirectoryClient-delete", options);
     try {
-      return await this.context.deleteMethod({
+      return await this.context.delete({
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
@@ -3534,7 +3533,10 @@ export class ShareFileClient extends StorageClient {
       const downloadFullFile = offset === 0 && !count;
       const res = await this.context.download({
         abortSignal: options.abortSignal,
-        onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        requestOptions:
+        {
+          onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        },
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         leaseAccessConditions: options.leaseAccessConditions,
@@ -3688,7 +3690,7 @@ export class ShareFileClient extends StorageClient {
 
       properties.fileHttpHeaders = properties.fileHttpHeaders || {};
 
-      return await this.context.setHTTPHeaders(
+      return await this.context.setHttpHeaders(
         fileAttributesToString(properties.fileAttributes!),
         fileCreationTimeToString(properties.creationTime!),
         fileLastWriteTimeToString(properties.lastWriteTime!),
@@ -3732,7 +3734,7 @@ export class ShareFileClient extends StorageClient {
   public async delete(options: FileDeleteOptions = {}): Promise<FileDeleteResponse> {
     const { span, updatedOptions } = createSpan("ShareFileClient-delete", options);
     try {
-      return await this.context.deleteMethod({
+      return await this.context.delete({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
         ...convertTracingToRequestOptionsBase(updatedOptions)
@@ -3819,7 +3821,7 @@ export class ShareFileClient extends StorageClient {
     try {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
-      return await this.context.setHTTPHeaders(
+      return await this.context.setHttpHeaders(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -3866,7 +3868,7 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
 
-      return await this.context.setHTTPHeaders(
+      return await this.context.setHttpHeaders(
         fileAttributesToString(options.fileAttributes!),
         fileCreationTimeToString(options.creationTime!),
         fileLastWriteTimeToString(options.lastWriteTime!),
@@ -3978,7 +3980,10 @@ export class ShareFileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
-          onUploadProgress: options.onProgress,
+          requestOptions:
+          {
+            onUploadProgress: options.onProgress
+          },
           body: body,
           ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions
@@ -5136,7 +5141,6 @@ export class ShareLeaseClient {
    */
   constructor(client: ShareFileClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
-      SERVICE_VERSION,
       client.url,
       (client as any).pipeline.toServiceClientOptions()
     );

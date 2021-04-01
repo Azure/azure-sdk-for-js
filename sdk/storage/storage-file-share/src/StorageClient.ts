@@ -4,7 +4,6 @@
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { Pipeline } from "./Pipeline";
 import { escapeURLPath, getAccountNameFromUrl } from "./utils/utils.common";
-import { SERVICE_VERSION } from "./utils/constants";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { Credential } from "./credentials/Credential";
@@ -61,7 +60,6 @@ export abstract class StorageClient {
 
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(
-      SERVICE_VERSION,
       this.url,
       pipeline.toServiceClientOptions()
     );

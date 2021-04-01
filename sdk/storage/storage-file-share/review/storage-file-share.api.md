@@ -91,7 +91,7 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 
 export { BaseRequestPolicy }
 
-// @public
+// @public (undocumented)
 export interface ClearRange {
     // (undocumented)
     end: number;
@@ -139,7 +139,7 @@ export interface CopyFileSmbInfo {
 }
 
 // @public
-export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
+export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 
 // @public
 export interface CorsRule {
@@ -165,7 +165,7 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
-export type DeleteSnapshotsOptionType = 'include' | 'include-leased';
+export type DeleteSnapshotsOptionType = "include" | "include-leased";
 
 export { deserializationPolicy }
 
@@ -180,7 +180,6 @@ export interface DirectoryCloseHandlesHeaders {
 // @public
 export interface DirectoryCreateHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     fileAttributes?: string;
@@ -217,7 +216,6 @@ export type DirectoryCreateResponse = DirectoryCreateHeaders & {
 // @public
 export interface DirectoryDeleteHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -248,7 +246,6 @@ export interface DirectoryExistsOptions extends CommonOptions {
 // @public
 export interface DirectoryForceCloseHandlesHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     marker?: string;
     numberOfHandlesClosed?: number;
@@ -278,7 +275,6 @@ export interface DirectoryForceCloseHandlesSegmentOptions extends CommonOptions 
 // @public
 export interface DirectoryGetPropertiesHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     fileAttributes?: string;
@@ -290,7 +286,6 @@ export interface DirectoryGetPropertiesHeaders {
     filePermissionKey?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
-    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -326,18 +321,17 @@ export interface DirectoryListFilesAndDirectoriesOptions extends CommonOptions {
 export interface DirectoryListFilesAndDirectoriesSegmentHeaders {
     contentType?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
 }
 
 // @public
-export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirectoriesSegmentResponse & DirectoryListFilesAndDirectoriesSegmentHeaders & {
+export type DirectoryListFilesAndDirectoriesSegmentResponse = DirectoryListFilesAndDirectoriesSegmentHeaders & ListFilesAndDirectoriesSegmentResponse & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: DirectoryListFilesAndDirectoriesSegmentHeaders;
         bodyAsText: string;
         parsedBody: ListFilesAndDirectoriesSegmentResponse;
+        parsedHeaders: DirectoryListFilesAndDirectoriesSegmentHeaders;
     };
 };
 
@@ -345,7 +339,6 @@ export type DirectoryListFilesAndDirectoriesSegmentResponse = ListFilesAndDirect
 export interface DirectoryListHandlesHeaders {
     contentType?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -358,11 +351,11 @@ export interface DirectoryListHandlesOptions extends CommonOptions {
 }
 
 // @public
-export type DirectoryListHandlesResponse = ListHandlesResponse & DirectoryListHandlesHeaders & {
+export type DirectoryListHandlesResponse = DirectoryListHandlesHeaders & ListHandlesResponse & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: DirectoryListHandlesHeaders;
         bodyAsText: string;
         parsedBody: ListHandlesResponse;
+        parsedHeaders: DirectoryListHandlesHeaders;
     };
 };
 
@@ -381,7 +374,6 @@ export interface DirectoryProperties extends FileAndDirectorySetPropertiesCommon
 // @public
 export interface DirectorySetMetadataHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -404,7 +396,6 @@ export type DirectorySetMetadataResponse = DirectorySetMetadataHeaders & {
 // @public
 export interface DirectorySetPropertiesHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     fileAttributes?: string;
@@ -436,7 +427,6 @@ export interface FileAbortCopyFromURLOptions extends CommonOptions {
 // @public
 export interface FileAbortCopyHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -487,7 +477,6 @@ export interface FileCloseHandlesHeaders {
 // @public
 export interface FileCreateHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     fileAttributes?: string;
@@ -521,7 +510,6 @@ export type FileCreateResponse = FileCreateHeaders & {
 // @public
 export interface FileDeleteHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -563,7 +551,6 @@ export interface FileDownloadHeaders {
     copyStatus?: CopyStatusType;
     copyStatusDescription?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     fileAttributes?: string;
@@ -579,7 +566,6 @@ export interface FileDownloadHeaders {
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
-    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -588,7 +574,7 @@ export interface FileDownloadHeaders {
 }
 
 // @public
-export interface FileDownloadOptionalParams extends coreHttp.RequestOptionsBase {
+export interface FileDownloadOptionalParams extends coreHttp.OperationOptions {
     leaseAccessConditions?: LeaseAccessConditions;
     range?: string;
     rangeGetContentMD5?: boolean;
@@ -631,7 +617,6 @@ export interface FileExistsOptions extends CommonOptions {
 // @public
 export interface FileForceCloseHandlesHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     marker?: string;
     numberOfHandlesClosed?: number;
@@ -673,7 +658,6 @@ export interface FileGetPropertiesHeaders {
     copyStatus?: CopyStatusType;
     copyStatusDescription?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     fileAttributes?: string;
@@ -683,13 +667,12 @@ export interface FileGetPropertiesHeaders {
     fileLastWriteOn?: Date;
     fileParentId?: string;
     filePermissionKey?: string;
-    fileType?: FileType;
+    fileType?: string;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
-    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -711,18 +694,17 @@ export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
 };
 
 // @public
-export type FileGetRangeListDiffResponse = ShareFileRangeList & FileGetRangeListHeaders & {
+export type FileGetRangeListDiffResponse = FileGetRangeListHeaders & ShareFileRangeList & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileGetRangeListHeaders;
         bodyAsText: string;
         parsedBody: ShareFileRangeList;
+        parsedHeaders: FileGetRangeListHeaders;
     };
 };
 
 // @public
 export interface FileGetRangeListHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     fileContentLength?: number;
@@ -762,7 +744,6 @@ export interface FileHttpHeaders {
 export interface FileItem {
     // (undocumented)
     name: string;
-    // (undocumented)
     properties: FileProperty;
 }
 
@@ -770,7 +751,6 @@ export interface FileItem {
 export interface FileListHandlesHeaders {
     contentType?: string;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -782,11 +762,11 @@ export interface FileListHandlesOptions extends CommonOptions {
 }
 
 // @public
-export type FileListHandlesResponse = ListHandlesResponse & FileListHandlesHeaders & {
+export type FileListHandlesResponse = FileListHandlesHeaders & ListHandlesResponse & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileListHandlesHeaders;
         bodyAsText: string;
         parsedBody: ListHandlesResponse;
+        parsedHeaders: FileListHandlesHeaders;
     };
 };
 
@@ -875,24 +855,10 @@ export interface FileServiceProperties {
     protocol?: ShareProtocolSettings;
 }
 
+// Warning: (ae-forgotten-export) The symbol "FileSetHttpHeadersHeaders" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface FileSetHTTPHeadersHeaders {
-    date?: Date;
-    // (undocumented)
-    errorCode?: string;
-    etag?: string;
-    fileAttributes?: string;
-    fileChangeOn?: Date;
-    fileCreatedOn?: Date;
-    fileId?: string;
-    fileLastWriteOn?: Date;
-    fileParentId?: string;
-    filePermissionKey?: string;
-    isServerEncrypted?: boolean;
-    lastModified?: Date;
-    requestId?: string;
-    version?: string;
-}
+export type FileSetHTTPHeadersHeaders = FileSetHttpHeadersHeaders;
 
 // @public
 export interface FileSetHttpHeadersOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -900,17 +866,14 @@ export interface FileSetHttpHeadersOptions extends FileAndDirectorySetProperties
     leaseAccessConditions?: LeaseAccessConditions;
 }
 
+// Warning: (ae-forgotten-export) The symbol "FileSetHttpHeadersResponse" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: FileSetHTTPHeadersHeaders;
-    };
-};
+export type FileSetHTTPHeadersResponse = FileSetHttpHeadersResponse;
 
 // @public
 export interface FileSetMetadataHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -936,7 +899,6 @@ export interface FileStartCopyHeaders {
     copyId?: string;
     copyStatus?: CopyStatusType;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -977,13 +939,12 @@ export class FileSystemAttributes {
     toString(): string;
 }
 
-// @public
-export type FileType = 'File';
+// @public (undocumented)
+export type FileType = string;
 
 // @public
 export interface FileUploadRangeFromURLHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -994,7 +955,7 @@ export interface FileUploadRangeFromURLHeaders {
 }
 
 // @public
-export interface FileUploadRangeFromURLOptionalParams extends coreHttp.RequestOptionsBase {
+export interface FileUploadRangeFromURLOptionalParams extends coreHttp.OperationOptions {
     leaseAccessConditions?: LeaseAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
@@ -1022,7 +983,6 @@ export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
 export interface FileUploadRangeHeaders {
     contentMD5?: Uint8Array;
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     isServerEncrypted?: boolean;
@@ -1087,7 +1047,7 @@ export interface LeaseAccessConditions {
 }
 
 // @public
-export type LeaseDurationType = 'infinite' | 'fixed';
+export type LeaseDurationType = "infinite" | "fixed";
 
 // @public
 export interface LeaseOperationOptions extends CommonOptions {
@@ -1115,10 +1075,10 @@ export interface LeaseOperationResponseHeaders {
 }
 
 // @public
-export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
+export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
 
 // @public
-export type LeaseStatusType = 'locked' | 'unlocked';
+export type LeaseStatusType = "locked" | "unlocked";
 
 // @public
 export interface ListFilesAndDirectoriesSegmentResponse {
@@ -1132,7 +1092,6 @@ export interface ListFilesAndDirectoriesSegmentResponse {
     maxResults?: number;
     // (undocumented)
     prefix: string;
-    // (undocumented)
     segment: FilesAndDirectoriesListSegment;
     // (undocumented)
     serviceEndpoint: string;
@@ -1151,7 +1110,7 @@ export interface ListHandlesResponse {
 }
 
 // @public
-export type ListSharesIncludeType = 'snapshots' | 'metadata' | 'deleted';
+export type ListSharesIncludeType = "snapshots" | "metadata" | "deleted";
 
 // @public
 export interface ListSharesResponse {
@@ -1198,7 +1157,6 @@ export interface Metadata {
 export interface Metrics {
     enabled: boolean;
     includeAPIs?: boolean;
-    // (undocumented)
     retentionPolicy?: RetentionPolicy;
     version: string;
 }
@@ -1289,7 +1247,6 @@ export interface ServiceGenerateAccountSasUrlOptions {
 
 // @public
 export interface ServiceGetPropertiesHeaders {
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -1301,11 +1258,11 @@ export interface ServiceGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type ServiceGetPropertiesResponse = FileServiceProperties & ServiceGetPropertiesHeaders & {
+export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & FileServiceProperties & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: ServiceGetPropertiesHeaders;
         bodyAsText: string;
         parsedBody: FileServiceProperties;
+        parsedHeaders: ServiceGetPropertiesHeaders;
     };
 };
 
@@ -1320,7 +1277,6 @@ export interface ServiceListSharesOptions extends CommonOptions {
 
 // @public
 export interface ServiceListSharesSegmentHeaders {
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -1337,7 +1293,6 @@ export type ServiceListSharesSegmentResponse = ListSharesResponse & ServiceListS
 
 // @public
 export interface ServiceSetPropertiesHeaders {
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -1365,7 +1320,7 @@ export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 }
 
 // @public
-export type ShareAccessTier = 'TransactionOptimized' | 'Hot' | 'Cool';
+export type ShareAccessTier = string;
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
 //
@@ -1410,7 +1365,6 @@ export class ShareClient extends StorageClient {
 // @public
 export interface ShareCreateHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1438,7 +1392,6 @@ export interface ShareCreateOptions extends CommonOptions {
 // @public
 export interface ShareCreatePermissionHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     filePermissionKey?: string;
     requestId?: string;
@@ -1467,7 +1420,6 @@ export type ShareCreateResponse = ShareCreateHeaders & {
 // @public
 export interface ShareCreateSnapshotHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1494,7 +1446,6 @@ export type ShareCreateSnapshotResponse = ShareCreateSnapshotHeaders & {
 // @public
 export interface ShareDeleteHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -1618,7 +1569,6 @@ export interface ShareGenerateSasUrlOptions extends CommonGenerateSasUrlOptions 
 // @public
 export interface ShareGetAccessPolicyHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1646,7 +1596,6 @@ export type ShareGetAccessPolicyResponse = {
 // @public
 export interface ShareGetPermissionHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     requestId?: string;
     version?: string;
@@ -1658,11 +1607,11 @@ export interface ShareGetPermissionOptions extends CommonOptions {
 }
 
 // @public
-export type ShareGetPermissionResponse = SharePermission & ShareGetPermissionHeaders & {
+export type ShareGetPermissionResponse = ShareGetPermissionHeaders & SharePermission & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareGetPermissionHeaders;
         bodyAsText: string;
         parsedBody: SharePermission;
+        parsedHeaders: ShareGetPermissionHeaders;
     };
 };
 
@@ -1673,14 +1622,12 @@ export interface ShareGetPropertiesHeaders {
     accessTierTransitionState?: string;
     date?: Date;
     enabledProtocols?: string;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
     leaseStatus?: LeaseStatusType;
-    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
@@ -1715,7 +1662,6 @@ export type ShareGetPropertiesResponseModel = ShareGetPropertiesHeaders & {
 // @public
 export interface ShareGetStatisticsHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1735,11 +1681,11 @@ export type ShareGetStatisticsResponse = ShareGetStatisticsResponseModel & {
 };
 
 // @public
-export type ShareGetStatisticsResponseModel = ShareStats & ShareGetStatisticsHeaders & {
+export type ShareGetStatisticsResponseModel = ShareGetStatisticsHeaders & ShareStats & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: ShareGetStatisticsHeaders;
         bodyAsText: string;
         parsedBody: ShareStats;
+        parsedHeaders: ShareGetStatisticsHeaders;
     };
 };
 
@@ -1765,13 +1711,11 @@ export interface ShareItem {
 export interface ShareItemInternal {
     // (undocumented)
     deleted?: boolean;
-    // (undocumented)
     metadata?: {
         [propertyName: string]: string;
     };
     // (undocumented)
     name: string;
-    // (undocumented)
     properties: SharePropertiesInternal;
     // (undocumented)
     snapshot?: string;
@@ -1832,6 +1776,7 @@ export interface SharePropertiesInternal {
     quota: number;
     // (undocumented)
     remainingRetentionDays?: number;
+    // (undocumented)
     rootSquash?: ShareRootSquash;
 }
 
@@ -1847,7 +1792,7 @@ export interface ShareProtocolSettings {
 }
 
 // @public
-export type ShareRootSquash = 'NoRootSquash' | 'RootSquash' | 'AllSquash';
+export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
 
 // @public
 export class ShareSASPermissions {
@@ -1881,7 +1826,6 @@ export class ShareServiceClient extends StorageClient {
 // @public
 export interface ShareSetAccessPolicyHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1905,7 +1849,6 @@ export type ShareSetAccessPolicyResponse = ShareSetAccessPolicyHeaders & {
 // @public
 export interface ShareSetMetadataHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
@@ -1929,7 +1872,6 @@ export type ShareSetMetadataResponse = ShareSetMetadataHeaders & {
 // @public
 export interface ShareSetPropertiesHeaders {
     date?: Date;
-    // (undocumented)
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
