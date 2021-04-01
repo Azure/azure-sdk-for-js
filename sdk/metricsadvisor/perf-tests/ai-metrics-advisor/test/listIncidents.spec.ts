@@ -3,19 +3,12 @@
 import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
 interface MetricsAdvisorTestOptions {
-  count: number;
 }
 
 export class IncidentsListTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
   alertId: string;
   alertConfigId: string;
   public options: PerfStressOptionDictionary<MetricsAdvisorTestOptions> = {
-    count: {
-      required: true,
-      description: "Number of Incidents to be listed",
-      longName: "count",
-      defaultValue: 30
-    }
   };
   constructor() {
     super();

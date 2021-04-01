@@ -3,19 +3,12 @@
 import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
 interface MetricsAdvisorTestOptions {
-  count: number;
 }
 
 export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
   detectionConfigId: string;
   incidentId: string;
   public options: PerfStressOptionDictionary<MetricsAdvisorTestOptions> = {
-    count: {
-      required: true,
-      description: "Number of Root Causes to be listed",
-      longName: "count",
-      defaultValue: 10
-    }
   };
   constructor() {
     super();
