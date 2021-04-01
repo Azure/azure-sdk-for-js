@@ -88,9 +88,9 @@ export const enum KnownRenderingSessionStatus {
 
 // @public
 export class RemoteRenderingClient {
-    constructor(endpoint: string, accountId: string, accountDomain: string, credential: AzureKeyCredential, options: RemoteRenderingClientOptions);
-    constructor(endpoint: string, accountId: string, accountDomain: string, credential: TokenCredential, options: RemoteRenderingClientOptions);
-    constructor(endpoint: string, accountId: string, accountDomain: string, credential: AccessToken, options: RemoteRenderingClientOptions);
+    constructor(endpoint: string, accountId: string, accountDomain: string, credential: AzureKeyCredential, options?: RemoteRenderingClientOptions);
+    constructor(endpoint: string, accountId: string, accountDomain: string, credential: TokenCredential, options?: RemoteRenderingClientOptions);
+    constructor(endpoint: string, accountId: string, accountDomain: string, credential: AccessToken, options?: RemoteRenderingClientOptions);
     beginConversion(conversionId: string, assetConversionSettings: AssetConversionSettings, options?: OperationOptions): Promise<AssetConversionPollerLike>;
     beginSession(sessionId: string, renderingSessionSettings: RenderingSessionSettings, options?: OperationOptions): Promise<RenderingSessionPollerLike>;
     endSession(sessionId: string, options?: OperationOptions): Promise<WithResponse<{}>>;

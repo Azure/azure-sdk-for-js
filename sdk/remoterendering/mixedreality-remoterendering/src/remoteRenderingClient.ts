@@ -126,7 +126,7 @@ export class RemoteRenderingClient {
     accountId: string,
     accountDomain: string,
     credential: AzureKeyCredential,
-    options: RemoteRenderingClientOptions
+    options?: RemoteRenderingClientOptions
   );
 
   /**
@@ -141,7 +141,7 @@ export class RemoteRenderingClient {
     accountId: string,
     accountDomain: string,
     credential: TokenCredential,
-    options: RemoteRenderingClientOptions
+    options?: RemoteRenderingClientOptions
   );
 
   /**
@@ -156,7 +156,7 @@ export class RemoteRenderingClient {
     accountId: string,
     accountDomain: string,
     credential: AccessToken,
-    options: RemoteRenderingClientOptions
+    options?: RemoteRenderingClientOptions
   );
 
   constructor(
