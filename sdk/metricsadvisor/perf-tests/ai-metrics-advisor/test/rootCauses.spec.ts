@@ -15,6 +15,8 @@ export class RootCauseTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions>
   }
 
   async runAsync(): Promise<void> {
-    await this.client.getIncidentRootCauses(this.detectionConfigId, this.incidentId);
+    const result = await this.client.getIncidentRootCauses(this.detectionConfigId, this.incidentId);
+    for (const _rootcause of result.rootCauses) {
+    }
   }
 }

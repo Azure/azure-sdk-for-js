@@ -15,13 +15,11 @@ export class AnomaliesListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
   }
 
   async runAsync(): Promise<void> {
-    let iter = this.client.listAnomalies({
+    const listIterator = this.client.listAnomalies({
       alertConfigId: this.alertConfigId,
       id: this.alertId
     });
-    let result = await iter.next();
-    while (!result.done) {
-      result = await iter.next();
+    for await (const _anomaly of listIterator) {
     }
   }
 }
