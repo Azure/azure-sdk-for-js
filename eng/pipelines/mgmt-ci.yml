@@ -27,6 +27,7 @@ trigger:
     - sdk/billing/arm-billing
     - sdk/botservice/arm-botservice
     - sdk/cdn/arm-cdn
+    - sdk/changeanalysis/arm-changeanalysis
     - sdk/cognitiveservices/arm-cognitiveservices
     - sdk/commerce/arm-commerce
     - sdk/commerce/arm-commerce-profile-2020-09-01-hybrid
