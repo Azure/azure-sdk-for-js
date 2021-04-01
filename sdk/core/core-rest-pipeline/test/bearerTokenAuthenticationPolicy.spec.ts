@@ -74,7 +74,6 @@ describe("BearerTokenAuthenticationPolicy", function() {
     next.resolves(successResponse);
 
     for (const [credentialToTest, expectedCalls] of credentialsToTest) {
-      console.log(expectedCalls);
       const policy = createBearerTokenPolicy("testscope", credentialToTest);
       await policy.sendRequest(request, next);
       await policy.sendRequest(request, next);
