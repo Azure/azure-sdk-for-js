@@ -18,7 +18,7 @@ npm install --save @azure/identity
 
 - Node.js 8 LTS or higher
 - An [Azure subscription](https://azure.microsoft.com/free/).
-- The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment, creating accounts, and managing account roles.
+- The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment and managing account roles.
 
 Credentials `InteractiveBrowserCredential`, `DeviceCodeCredential`, `ClientSecretCredential`, `ClientCertificateCredential` and `UsernamePasswordCredential` allow specifying `tokenCachePersistenceOptions` to enable persistent caching. To use this feature, developers will also need to install [@azure/msal-node-extensions](https://www.npmjs.com/package/@azure/msal-node-extensions).
 
@@ -134,21 +134,9 @@ const client = new KeyClient(vaultUrl, credential);
 
 ### Specifying a user assigned managed identity with the `DefaultAzureCredential`
 
-This example demonstrates authenticating the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library using the `DefaultAzureCredential` deployed to an Azure resource with a user assigned managed identity.
+A relatively common scenario involves authenticating using a user assigned managed identity for an Azure resource. The `DefaultAzureCredential` makes this a relatively straightforward task that can be configured using environment variables or in-code.
 
-For more information on configuring a user assigned managed identity for an Azure resource, please refer to [What are managed identities for Azure resources?](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview)
-
-```ts
-const { KeyClient } = require("@azure/keyvault-keys");
-const { DefaultAzureCredential } = require("@azure/identity");
-
-// when deployed to an Azure host the default Azure credential will authenticate the specified user assigned managed identity
-var credential = new DefaultAzureCredential({ managedIdentityClientId: userAssignedClientId });
-
-const client = new KeyClient(vaultUrl, credential);
-```
-
-In addition to configuring the `managedIdentityClientId` via code, it can also be set using the `AZURE_CLIENT_ID` environment variable. These two approaches are equivalent when using the `DefaultAzureCredential`.
+For more information please refer to [this example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential)
 
 ### Define a custom authentication flow with the `ChainedTokenCredential`
 
@@ -170,10 +158,10 @@ const client = new KeyClient(vaultUrl, credentialChain);
 
 ## Managed Identity Support
 
-The [Managed identity authentication](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview) is supported via either the `DefaultAzureCredential` or the `ManagedIdentityCredential` credential classes directly for the following Azure Services:
+The [Managed identity authentication](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview) is supported via either the `DefaultAzureCredential` or the `ManagedIdentityCredential` credential classes directly for the following Azure hosts:
 
 - [Azure Virtual Machines](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/how-to-use-vm-token)
-- [Azure App Service](https://docs.microsoft.com/azure/app-service/overview-managed-identity?tabs=dotnet)
+- [Azure App Service](https://docs.microsoft.com/azure/app-service/overview-managed-identity)
 - [Azure Kubernetes Service](https://docs.microsoft.com/azure/aks/use-managed-identity)
 - [Azure Cloud Shell](https://docs.microsoft.com/azure/cloud-shell/msi-authorization)
 - [Azure Arc](https://docs.microsoft.com/azure/azure-arc/servers/managed-identity-authentication)
@@ -237,8 +225,6 @@ setLogLevel("info");
 ### Read the documentation
 
 The client libraries listed [here][releases] support authenticating with `TokenCredential` and the Azure Identity library. You can learn more about their usage and find additional documentation along with samples in the links mentioned [here][releases]
-
-The [microsoft-graph-sdk][graphsdk] also supports authenticating with `TokenCredential` and the Azure Identity library.
 
 API documentation for this library can be found on our [documentation site](https://docs.microsoft.com/javascript/api/@azure/identity).
 

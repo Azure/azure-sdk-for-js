@@ -3,12 +3,12 @@
 - [Introduction](#introduction)
 - [Authenticating with `DefaultAzureCredential`](#authenticating-with-defaultazurecredential)
 - [Authenticating a user assigned managed identity with `DefaultAzureCredential`](#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential)
+- [(Browsers and NodeJS) Authenticating a user account interactively in the browser](#authenticating-a-user-account-interactively-in-the-browser)
 - [Authenticating a service principal with a client secret](#authenticating-a-service-principal-with-a-client-secret)
 - [Authenticating a service principal with a client certificate](#authenticating-a-service-principal-with-a-client-certificate)
 - [Authenticating a service principal with environment credentials](#authenticating-a-service-principal-with-environment-credentials)
 - [Authenticating a user account with device code flow](#authenticating-a-user-account-with-device-code-flow)
 - [Authenticating a user account with username and password](#authenticating-a-user-account-with-username-and-password)
-- [Authenticating a user account interactively in the browser](#authenticating-a-user-account-interactively-in-the-browser)
 - [Authenticating a user account with auth code flow](#authenticating-a-user-account-with-auth-code-flow)
 - [Authenticating a user account with Azure CLI](#authenticating-a-user-account-with-azure-cli)
 - [Authenticating a user account with Visual Studio Code](#authenticating-a-user-account-with-visual-studio-code)'
@@ -46,12 +46,33 @@ For more information about how to configure a user assigned managed identity for
  * The default credential will use the user assigned managed identity with the specified client ID.
  */
 function withDefaultAzureCredential() {
+  // Alternatively, you may set the environment variable AZURE_CLIENT_ID="<MANAGED_IDENTITY_CLIENT_ID>" and omit the `managedIdentityClientId`
+  // option when using `DefaultAzureCredential` - the two approaches are equivalent.
   const credential = new DefaultAzureCredential({
     managedIdentityClientId: "<MANAGED_IDENTITY_CLIENT_ID>"
   });
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
 ```
+
+## Authenticating a user account interactively in the browser
+
+For clients that have a default browser available and for client-side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience. In the sample below an application authenticates a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
+
+> For client-side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported.
+
+```ts
+function withInteractiveBrowserCredential() {
+  const credential = new InteractiveBrowserCredential({
+    tenantId: "<YOUR_TENANT_ID>",
+    clientId: "<YOUR_CLIENT_ID>"
+  });
+
+  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+}
+```
+
+See more about how to configure an AAD application for interactive browser authentication in [Single-page application: App registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration)
 
 ## Authenticating a service principal with a client secret
 
@@ -121,8 +142,8 @@ For more information about how to configure an AAD application for device code f
  */
 function withDeviceCodeCredential() {
   let credential = new DeviceCodeCredential(
-    process.env.AZURE_TENANT_ID!,
-    process.env.AZURE_CLIENT_ID!,
+    process.env.AZURE_TENANT_ID,
+    process.env.AZURE_CLIENT_ID,
     // In this scenario you may also omit this parameter since the default behavior is to log the message to the console
     (deviceCodeInfo) => {
       console.log(deviceCodeInfo.message);
@@ -151,26 +172,9 @@ function withClientCertificateCredential() {
 }
 ```
 
-## Authenticating a user account interactively in the browser
-
-For clients that have a default browser available, the `InteractiveBrowserCredential` provides the most simple user authentication experience. In the sample below an application authenticates a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
-
-```ts
-function withInteractiveBrowserCredential() {
-  const credential = new InteractiveBrowserCredential({
-    tenantId: "<YOUR_TENANT_ID>",
-    clientId: "<YOUR_CLIENT_ID>"
-  });
-
-  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
-}
-```
-
-See more about how to configure an AAD application for interactive browser authentication in [Single-page application: App registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration)
-
 ## Authenticating a user account with auth code flow
 
-This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AuthorizationCodeCredential` on a web application.
+This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AuthorizationCodeCredential` on a web application. This can be useful when you want complete control over the authentication flow or when the `InteractiveBrowserCredential` does not fit your use-case.
 
 First, prompt the user to login at the URL documented at [Microsoft identity platform and OAuth 2.0 authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code). You will need the client id, tenant id, redirect URL, and the scopes your application plans to access.
 
