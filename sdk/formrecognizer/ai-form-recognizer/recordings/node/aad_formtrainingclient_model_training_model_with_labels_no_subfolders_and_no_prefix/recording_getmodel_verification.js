@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,37 +24,35 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'ec74d202-7c87-4681-b4b1-373f82852700',
+  'e21f3fd9-26a6-4f10-b98f-ee6b1a751802',
   'x-ms-ests-server',
-  '2.1.11251.20 - EUS ProdSlices',
+  '2.1.11562.10 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AhrzgA1IIL5Fn6zd5QMdm_fGLH8mAQAAAIo_StcOAAAA; expires=Sun, 20-Dec-2020 22:51:55 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjzFVQ1mzahOgLFbzhWoi1fGLH8mBwAAAPal9dcOAAAA; expires=Thu, 29-Apr-2021 23:07:44 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 22:51:54 GMT',
-  'Content-Length',
-  '1331'
+  'Tue, 30 Mar 2021 23:07:43 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/09d65ded-18c8-4ce6-b3d0-a1a87919f199')
+  .get('/formrecognizer/v2.1-preview.3/custom/models/6178d6cd-33b7-4303-846f-c4a724814b9c')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"09d65ded-18c8-4ce6-b3d0-a1a87919f199","modelName":"modelName160591270918502696","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2020-11-20T22:51:49Z","lastUpdatedDateTime":"2020-11-20T22:51:51Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"errors":[]}}, [
+  .reply(200, {"modelInfo":{"modelId":"6178d6cd-33b7-4303-846f-c4a724814b9c","modelName":"modelName161714565874306436","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2021-03-30T23:07:38Z","lastUpdatedDateTime":"2021-03-30T23:07:44Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":0.995},{"fieldName":"CompanyPhoneNumber","accuracy":0.995},{"fieldName":"DatedAs","accuracy":0.995},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":0.995},{"fieldName":"PhoneNumber","accuracy":0.995},{"fieldName":"PurchaseOrderNumber","accuracy":0.995},{"fieldName":"Quantity","accuracy":0.995},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":0.995},{"fieldName":"Tax","accuracy":0.995},{"fieldName":"Total","accuracy":0.995},{"fieldName":"VendorName","accuracy":0.995},{"fieldName":"Website","accuracy":0.995}],"errors":[]}}, [
   'Content-Length',
-  '1260',
+  '1284',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '33',
+  '21',
   'apim-request-id',
-  '7b1da49b-f697-42f8-aa90-95790cfb7e68',
+  'a0d5df87-c096-46ce-b312-ce36f2bfad41',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:51:55 GMT'
+  'Tue, 30 Mar 2021 23:07:44 GMT'
 ]);

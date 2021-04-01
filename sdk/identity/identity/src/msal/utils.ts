@@ -3,7 +3,7 @@
 
 import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
-import { AccessToken } from "@azure/core-http";
+import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
 import { CredentialUnavailable } from "../client/errors";
@@ -16,10 +16,19 @@ import { MsalFlowOptions } from "./flows";
  * Ensures the validity of the MSAL token
  * @internal
  */
-export function ensureValidMsalToken(logger: CredentialLogger, msalToken?: MsalToken): void {
+export function ensureValidMsalToken(
+  scopes: string | string[],
+  logger: CredentialLogger,
+  msalToken?: MsalToken,
+  getTokenOptions?: GetTokenOptions
+): void {
   const error = (message: string): Error => {
     logger.getToken.info(message);
-    return new AuthenticationRequired(message);
+    return new AuthenticationRequired(
+      Array.isArray(scopes) ? scopes : [scopes],
+      getTokenOptions,
+      message
+    );
   };
   if (!msalToken) {
     throw error("No response");
@@ -113,11 +122,15 @@ export class MsalBaseUtilities {
    * If the result has an account, we update the local account reference.
    * If the token received is invalid, an error will be thrown depending on what's missing.
    */
-  protected handleResult(scopes: string | string[], result?: MsalResult): AccessToken {
+  protected handleResult(
+    scopes: string | string[],
+    result?: MsalResult,
+    getTokenOptions?: GetTokenOptions
+  ): AccessToken {
     if (result?.account) {
       this.account = msalToPublic(result.account);
     }
-    ensureValidMsalToken(this.logger, result);
+    ensureValidMsalToken(scopes, this.logger, result, getTokenOptions);
     this.logger.getToken.info(formatSuccess(scopes));
     return {
       token: result!.accessToken!,
@@ -128,7 +141,7 @@ export class MsalBaseUtilities {
   /**
    * Handles MSAL errors.
    */
-  protected handleError(scopes: string[], error: Error): Error {
+  protected handleError(scopes: string[], error: Error, getTokenOptions?: GetTokenOptions): Error {
     if (error instanceof msalCommon.AuthError) {
       switch (error.errorCode) {
         case "endpoints_resolution_error":
@@ -152,7 +165,7 @@ export class MsalBaseUtilities {
     if (error.name === "AbortError") {
       return error;
     }
-    return new AuthenticationRequired(error.message);
+    return new AuthenticationRequired(scopes, getTokenOptions, error.message);
   }
 }
 

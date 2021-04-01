@@ -701,6 +701,11 @@
       "packageName": "@azure/iot-device-update",
       "projectFolder": "sdk/deviceupdate/iot-device-update",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tests/perf-search-documents",
+      "projectFolder": "sdk/search/perf-tests/search-documents",
+      "versionPolicyName": "test"
     }
   ]
 }

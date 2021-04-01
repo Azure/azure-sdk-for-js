@@ -7,7 +7,6 @@ import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
 import { AzureCliCredential } from "./azureCliCredential";
 import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
-import { InteractiveBrowserCredential } from "./interactiveBrowserCredential";
 
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.
@@ -23,10 +22,6 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
    * This client ID can also be passed through to the {@link ManagedIdentityCredential} through the environment variable: AZURE_CLIENT_ID.
    */
   managedIdentityClientId?: string;
-  /**
-   * Sets the `InteractiveBrowserCredential` as the last credential to use if no other credential is available.
-   */
-  includeInteractiveCredentials?: boolean;
 }
 
 /**
@@ -64,10 +59,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
     credentials.push(new AzureCliCredential());
     credentials.push(new VisualStudioCodeCredential(options));
-
-    if (options?.includeInteractiveCredentials) {
-      credentials.push(new InteractiveBrowserCredential(options));
-    }
 
     super(...credentials);
     this.UnavailableMessage =

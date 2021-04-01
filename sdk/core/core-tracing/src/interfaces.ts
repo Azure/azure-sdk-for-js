@@ -2,30 +2,227 @@
 // Licensed under the MIT license.
 
 import {
-  context,
-  Exception,
-  getSpan,
-  getSpanContext,
-  setSpan,
-  setSpanContext,
-  SpanKind,
-  SpanStatus,
-  TimeInput,
-  TraceState
+  context as otContext,
+  getSpan as otGetSpan,
+  getSpanContext as otGetSpanContext,
+  setSpan as otSetSpan,
+  setSpanContext as otSetSpanContext
 } from "@opentelemetry/api";
 
-export {
-  context,
-  getSpan,
-  getSpanContext,
-  setSpan,
-  setSpanContext,
-  SpanKind,
-  SpanStatus,
-  TimeInput,
-  TraceState,
-  Exception
-};
+/**
+ * A Tracer.
+ */
+export interface Tracer {
+  /**
+   * Starts a new {@link Span}. Start the span without setting it on context.
+   *
+   * This method does NOT modify the current Context.
+   *
+   * @param name - The name of the span
+   * @param options - SpanOptions used for span creation
+   * @param context - Context to use to extract parent
+   * @returns The newly created span
+   * @example
+   *     const span = tracer.startSpan('op');
+   *     span.setAttribute('key', 'value');
+   *     span.end();
+   */
+  startSpan(name: string, options?: SpanOptions, context?: Context): Span;
+}
+
+/**
+ * TraceState.
+ */
+export interface TraceState {
+  /**
+   * Create a new TraceState which inherits from this TraceState and has the
+   * given key set.
+   * The new entry will always be added in the front of the list of states.
+   *
+   * @param key - key of the TraceState entry.
+   * @param value - value of the TraceState entry.
+   */
+  set(key: string, value: string): TraceState;
+  /**
+   * Return a new TraceState which inherits from this TraceState but does not
+   * contain the given key.
+   *
+   * @param key - the key for the TraceState entry to be removed.
+   */
+  unset(key: string): TraceState;
+  /**
+   * Returns the value to which the specified key is mapped, or `undefined` if
+   * this map contains no mapping for the key.
+   *
+   * @param key - with which the specified value is to be associated.
+   * @returns the value to which the specified key is mapped, or `undefined` if
+   *     this map contains no mapping for the key.
+   */
+  get(key: string): string | undefined;
+  /**
+   * Serializes the TraceState to a `list` as defined below. The `list` is a
+   * series of `list-members` separated by commas `,`, and a list-member is a
+   * key/value pair separated by an equals sign `=`. Spaces and horizontal tabs
+   * surrounding `list-members` are ignored. There can be a maximum of 32
+   * `list-members` in a `list`.
+   *
+   * @returns the serialized string.
+   */
+  serialize(): string;
+}
+
+/**
+ * Represents high resolution time.
+ */
+export declare type HrTime = [number, number];
+
+/**
+ * Used to represent a Time.
+ */
+export type TimeInput = HrTime | number | Date;
+
+/**
+ * The status for a span.
+ */
+export interface SpanStatus {
+  /** The status code of this message. */
+  code: SpanStatusCode;
+  /** A developer-facing error message. */
+  message?: string;
+}
+
+/**
+ * The kind of span.
+ */
+export enum SpanKind {
+  /** Default value. Indicates that the span is used internally. */
+  INTERNAL = 0,
+  /**
+   * Indicates that the span covers server-side handling of an RPC or other
+   * remote request.
+   */
+  SERVER = 1,
+  /**
+   * Indicates that the span covers the client-side wrapper around an RPC or
+   * other remote request.
+   */
+  CLIENT = 2,
+  /**
+   * Indicates that the span describes producer sending a message to a
+   * broker. Unlike client and server, there is no direct critical path latency
+   * relationship between producer and consumer spans.
+   */
+  PRODUCER = 3,
+  /**
+   * Indicates that the span describes consumer receiving a message from a
+   * broker. Unlike client and server, there is no direct critical path latency
+   * relationship between producer and consumer spans.
+   */
+  CONSUMER = 4
+}
+
+/**
+ * An Exception for a Span.
+ */
+export declare type Exception =
+  | ExceptionWithCode
+  | ExceptionWithMessage
+  | ExceptionWithName
+  | string;
+
+/**
+ * An Exception with a code.
+ */
+export interface ExceptionWithCode {
+  /** The code. */
+  code: string | number;
+  /** The name. */
+  name?: string;
+  /** The message. */
+  message?: string;
+  /** The stack. */
+  stack?: string;
+}
+
+/**
+ * An Exception with a message.
+ */
+export interface ExceptionWithMessage {
+  /** The code. */
+  code?: string | number;
+  /** The message. */
+  message: string;
+  /** The name. */
+  name?: string;
+  /** The stack. */
+  stack?: string;
+}
+
+/**
+ * An Exception with a name.
+ */
+export interface ExceptionWithName {
+  /** The code. */
+  code?: string | number;
+  /** The message. */
+  message?: string;
+  /** The name. */
+  name: string;
+  /** The stack. */
+  stack?: string;
+}
+
+/**
+ * Return the span if one exists
+ *
+ * @param context - context to get span from
+ */
+export function getSpan(context: Context): Span | undefined {
+  return otGetSpan(context);
+}
+
+/**
+ * Set the span on a context
+ *
+ * @param context - context to use as parent
+ * @param span - span to set active
+ */
+export function setSpan(context: Context, span: Span): Context {
+  return otSetSpan(context, span);
+}
+
+/**
+ * Wrap span context in a NoopSpan and set as span in a new
+ * context
+ *
+ * @param context - context to set active span on
+ * @param spanContext - span context to be wrapped
+ */
+export function setSpanContext(context: Context, spanContext: SpanContext): Context {
+  return otSetSpanContext(context, spanContext);
+}
+
+/**
+ * Get the span context of the span if it exists.
+ *
+ * @param context - context to get values from
+ */
+export function getSpanContext(context: Context): SpanContext | undefined {
+  return otGetSpanContext(context);
+}
+
+/**
+ * Singleton object which represents the entry point to the OpenTelemetry Context API
+ */
+export interface ContextAPI {
+  /**
+   * Get the currently active context
+   */
+  active(): Context;
+}
+
+/** Entrypoint for context API */
+export const context: ContextAPI = otContext;
 
 /** SpanStatusCode */
 export enum SpanStatusCode {
