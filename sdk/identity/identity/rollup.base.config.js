@@ -6,6 +6,7 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -29,7 +30,11 @@ export function nodeConfig(test = false) {
       }),
       nodeResolve({ preferBuiltins: true }),
       json(),
-      cjs()
+      cjs({
+        namedExports: {
+          ...openTelemetryCommonJs
+        }
+      })
     ]
   };
 
@@ -87,24 +92,7 @@ export function browserConfig(test = false) {
       cjs({
         namedExports: {
           events: ["EventEmitter"],
-          "@azure/core-tracing/node_modules/@opentelemetry/api": [
-            "SpanKind",
-            "TraceFlags",
-            "getSpan",
-            "setSpan",
-            "SpanStatusCode",
-            "getSpanContext",
-            "setSpanContext"
-          ],
-          "../../../common/temp/node_modules/.pnpm/@opentelemetry/api@1.0.0-rc.0/node_modules/@opentelemetry/api/build/src/index.js": [
-            "SpanKind",
-            "TraceFlags",
-            "getSpan",
-            "setSpan",
-            "SpanStatusCode",
-            "getSpanContext",
-            "setSpanContext"
-          ]
+          ...openTelemetryCommonJs()
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
