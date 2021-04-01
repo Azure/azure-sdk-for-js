@@ -2,14 +2,12 @@
 // Licensed under the MIT license.
 import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
-interface MetricsAdvisorTestOptions {
-}
+interface MetricsAdvisorTestOptions {}
 
 export class IncidentsListTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
   alertId: string;
   alertConfigId: string;
-  public options: PerfStressOptionDictionary<MetricsAdvisorTestOptions> = {
-  };
+  public options: PerfStressOptionDictionary<MetricsAdvisorTestOptions> = {};
   constructor() {
     super();
     this.alertId = getEnvVar("METRICS_ADVISOR_ALERT_ID");
