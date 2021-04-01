@@ -97,7 +97,21 @@ export interface FeatureFlagTimeWindowClientFilter {
    * Parameters that can be passed in the filter.
    */
   parameters: {
+    /**
+     * Start time of the time window.
+     * Expected UTCString - Example: "Wed, 01 May 2021 13:59:59 GMT"
+     *
+     * UTCString can be obtained from `new Date().toUTCString()`.
+     * Use `Date.parse()` to parse the UTCString as Date.
+     */
     start: string;
+    /**
+     * End time of the time window.
+     * Expected UTCString - Example: "Wed, 05 May 2021 13:59:59 GMT"
+     *
+     * UTCString can be obtained from `new Date().toUTCString()`.
+     * Use `Date.parse()` to parse the UTCString as Date.
+     */
     end: string;
   };
 }
