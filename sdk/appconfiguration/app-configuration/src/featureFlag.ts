@@ -46,10 +46,6 @@ export interface FeatureFlagParam extends ConfigurationSettingParam {
    */
   description?: string;
   /**
-   * Display name for the feature to use for display rather than the ID.
-   */
-  displayName: string;
-  /**
    * Boolean flag to say if the feature flag is enabled.
    */
   enabled: boolean;
@@ -253,12 +249,12 @@ export function convertJsonConditions(
         parameters: {
           audience: {
             groups:
-              jsonFilter.parameters.Audience?.Groups.map((grp) => ({
+              jsonFilter.parameters.Audience.Groups.map((grp) => ({
                 name: grp.Name,
                 rolloutPercentage: grp.RolloutPercentage
               })) || [],
-            users: jsonFilter.parameters.Audience?.Users || [],
-            defaultRolloutPercentage: jsonFilter.parameters.DefaultRolloutPercentage
+            users: jsonFilter.parameters.Audience.Users || [],
+            defaultRolloutPercentage: jsonFilter.parameters.Audience.DefaultRolloutPercentage
           }
         }
       };
