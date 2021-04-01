@@ -136,7 +136,7 @@ This example demonstrates authenticating the `SecretClient` from the [@azure/key
 
 For more information about how to configure an AAD application for device code flow please refer to [Enable applications for device code flow][device_code_flow].
 
-> The `DeviceCodeCredential` offers a credential that can be used with little to no setup - you may present a prompt to authenticate and allow the user to use whatever browser they choose to complete the authentication process.
+> The `DeviceCodeCredential` offers a credential that can be used with little to no setup - the user is free to use whatever browser they choose to complete the authentication process.
 
 ```ts
 /**
