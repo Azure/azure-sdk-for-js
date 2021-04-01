@@ -23,7 +23,7 @@ import {
   createLivePipelineDeActivateRequest,
   createLivePipelineDeleteRequest,
   createPipelineTopologyDeleteRequest
-} from "@azure/media-analytics-edge";
+} from "@azure/media-video-analyzer-edge";
 import { Client } from "azure-iothub";
 
 function buildGraphTopology() {

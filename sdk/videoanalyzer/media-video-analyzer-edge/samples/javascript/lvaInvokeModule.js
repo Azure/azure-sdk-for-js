@@ -16,7 +16,7 @@ const {
   createLivePipelineDeActivateRequest,
   createLivePipelineDeleteRequest,
   createPipelineTopologyDeleteRequest
-} = require("@azure/media-analytics-edge");
+} = require("@azure/media-video-analyzer-edge");
 const { Client } = require("azure-iothub");
 
 function buildGraphTopology() {
