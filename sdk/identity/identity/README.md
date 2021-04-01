@@ -139,9 +139,6 @@ const credential = new DefaultAzureCredential();
 
 // Create authenticated client
 const client = new KeyClient(vaultUrl, credential);
-
-// Use service from authenticated client
-const getResult = await client.getKey("MyKeyName");
 ```
 
 ### Specifying a user assigned managed identity with the `DefaultAzureCredential`
