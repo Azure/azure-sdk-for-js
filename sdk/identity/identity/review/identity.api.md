@@ -120,7 +120,6 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
 
 // @public
 export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
-    includeInteractiveCredentials?: boolean;
     managedIdentityClientId?: string;
     tenantId?: string;
 }
