@@ -11,7 +11,7 @@
 - [Authenticating a user account with username and password](#authenticating-a-user-account-with-username-and-password)
 - [Authenticating a user account with auth code flow](#authenticating-a-user-account-with-auth-code-flow)
 - [Authenticating a user account with Azure CLI](#authenticating-a-user-account-with-azure-cli)
-- [Authenticating a user account with Visual Studio Code](#authenticating-a-user-account-with-visual-studio-code)'
+- [Authenticating a user account with Visual Studio Code](#authenticating-a-user-account-with-visual-studio-code)
 - [Authenticating in Azure with managed identity](#authenticating-in-azure-with-managed-identity)
 - [Chaining credentials](#chaining-credentials)
 - [Authenticating with Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
@@ -206,19 +206,15 @@ This example demonstrates authenticating the `SecretClient` from the [@azure/key
 
 ### Configure the Azure CLI
 
-Sign in [Azure CLI][azure_cli] with command
+Sign in using the [Azure CLI][azure_cli]
 
 ```bash
+# As a user:
 az login
-```
 
-as a user, or
-
-```bash
+# As a service principal:
 az login --service-principal --username <client-id> --password <client-secret> --tenant <tenant-id>
 ```
-
-as a service principal.
 
 If the account / service principal has access to multiple tenants, make sure the desired tenant or subscription is in the state "Enabled" in the output from command:
 
@@ -226,7 +222,7 @@ If the account / service principal has access to multiple tenants, make sure the
 az account list
 ```
 
-Before you use AzureCliCredential in the code, run
+Before you use AzureCliCredential in the code, run:
 
 ```bash
 az account get-access-token
@@ -284,7 +280,7 @@ function withManagedIdentityCredential() {
 
 ## Chaining credentials
 
-The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. The following example demonstrates creating a credential which will attempt to authenticate using managed identity, and fall back to certificate authentication if a managed identity is unavailable in the current environment. This example authenticates a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ChainedTokenCredential`.
+The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. The following example demonstrates creating a credential which will attempt to authenticate a `SecretClient` from the [@azure/keyvault-secrerts][secrets_client_library] using managed identity, and fall back to certificate authentication if a managed identity is unavailable in the current environment.
 
 ```ts
 function withChainedTokenCredential() {
@@ -298,9 +294,7 @@ function withChainedTokenCredential() {
 
 ## Authenticating With Azure Stack using Azure Identity
 
-#### Determine the Azure Authority Host for Azure Stack
-
-If you don't know the Azure Authority Host of your Azure Stack, follow the instructions here:
+### Determine the Azure Authority Host for Azure Stack
 
 In powershell run this command or have your Azure Stack Administrator run this command:
 
@@ -323,11 +317,11 @@ The ActiveDirectory Authority in the output will be your Azure Authority Host
 If the Identity provider of your Azure Stack is Azure Active Directory (Azure AD) then contact your Azure Stack Administrator to find out your tenant Id.
 else, if the Identity provider of your Azure Stack is Active Directory Federation Services (AD FS) then your tenant id is `adfs`.
 
-#### Authentication example
+### Authentication example
 
 **Code Setup**
 
-In the Code Setup below, we use the Azure Identity client library to connect to the Azure Key Vault hosted in Azure Stack and then create a secret in the Key Vault.
+The following example demonstrates authenticating a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] against an Azure Key Vault hosted in Azure Stack.
 
 ```ts
 function main() {
