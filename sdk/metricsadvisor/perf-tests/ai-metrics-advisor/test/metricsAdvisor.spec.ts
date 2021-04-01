@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
-import { MetricsAdvisorClient, MetricsAdvisorKeyCredential } from "../../../ai-metrics-advisor/src";
+import { MetricsAdvisorClient, MetricsAdvisorKeyCredential } from "@azure/ai-metrics-advisor";
 
 // Expects the .env file at the same level
 import * as dotenv from "dotenv";
