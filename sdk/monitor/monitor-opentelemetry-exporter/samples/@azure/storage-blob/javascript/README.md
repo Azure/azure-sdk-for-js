@@ -1,3 +1,4 @@
+<!-- Commented out due to conflict with real storage samples
 ---
 page_type: sample
 languages:
@@ -6,7 +7,7 @@ products:
   - azure
   - azure-storage
 urlFragment: storage-blob-javascript
----
+--->
 
 # Azure Storage Blob client library samples for JavaScript
 
