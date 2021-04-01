@@ -16,7 +16,7 @@ npm install --save @azure/identity
 
 ### Prerequisites
 
-- Node.js 8 LTS or higher
+- Node.js 8 LTS or higher.
 - An [Azure subscription](https://azure.microsoft.com/free/).
 - The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment and managing account roles.
 
@@ -173,13 +173,12 @@ For examples of how to use managed identity for authentication please refer to [
 
 ### Authenticating Azure Hosted Applications
 
-| credential               | usage                                                                                                            | example                                                                                                                                                            |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `DefaultAzureCredential` | Provides a simplified authentication experience to quickly start developing applications run in the Azure cloud. | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-defaultazurecredential) |
-
-| `ChainedTokenCredential` | Allows users to define custom authentication flows composing multiple credentials. | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#chaining-credentials) |
-| `EnvironmentCredential` | Authenticates a service principal or user via credential information specified in environment variables. | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-environment-credentials) |
-| `ManagedIdentityCredential` | Authenticates the managed identity of an Azure resource. | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity) |
+| credential                  | usage                                                                                                            | example                                                                                                                                                                                 |
+| --------------------------- | ---------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DefaultAzureCredential`    | Provides a simplified authentication experience to quickly start developing applications run in the Azure cloud. | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-defaultazurecredential)                      |
+| `ChainedTokenCredential`    | Allows users to define custom authentication flows composing multiple credentials.                               | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#chaining-credentials)                                            |
+| `EnvironmentCredential`     | Authenticates a service principal or user via credential information specified in environment variables.         | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-service-principal-with-environment-credentials) |
+| `ManagedIdentityCredential` | Authenticates the managed identity of an Azure resource.                                                         | [example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-in-azure-with-managed-identity)                   |
 
 ### Authenticating Service Principals
 
