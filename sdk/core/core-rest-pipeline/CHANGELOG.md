@@ -2,8 +2,13 @@
 
 ## 1.0.2 (Unreleased)
 
-- Added a `challenge` optional property to the `bearerTokenAuthenticationPolicy` that gives it support to process [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
-
+- A new type is exported, `ChallengeCallbackOptions`, which contains `scopes: string | string[]`, `claims?: string` (optional), `credential: TokenCredential`, `cachedToken: AccessToken | undefined`, `request: PipelineRequest`, and a `setAuthorizationHeader: (token: AccessToken) => void` function.
+- Added a `challengeCallbacks` optional property to the `bearerTokenAuthenticationPolicy` that allows it to process authentication challenges, as follows:
+    - `authenticateRequest`, which receives `options: ChallengeCallbackOptions`, and allows customizing the policy to alter how it authenticates before sending a request.
+        - By default, this function will try to retrieve the token from the underlying credential, and if it receives one, it will cache the token and set it to the outgoing request. This was the original behavior of this policy.
+    - `authenticateRequestOnChallenge`, which gets called only if we've found a challenge. Then it receives the `challenge: string` and also `options: ChallengeCallbackOptions`. If this method returns true, the underlying request will be sent again.
+        - By default, this function tries to see if the original request received challenges through the "WWW-Authenticate" header. If so, it will try to retrieve the token with this challenge, and repeat the underlying request. If there was no challenge present, it will not repeat the underlying request.
+    - In any of these two, the `setAuthorizationHeader` parameter received through the   `ChallengeCallbackOptions` will allow developers to easily assign a token to the ongoing request.
 
 ## 1.0.1 (2021-03-18)
 

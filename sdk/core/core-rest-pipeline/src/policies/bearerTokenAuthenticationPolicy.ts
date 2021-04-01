@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy, RestError } from "../";
-import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
-import { AccessTokenCache, ExpiringAccessTokenCache } from "../accessTokenCache";
+import { PipelineResponse, PipelineRequest, SendRequest, PipelinePolicy } from "../";
+import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -11,18 +10,34 @@ import { AccessTokenCache, ExpiringAccessTokenCache } from "../accessTokenCache"
 export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
 
 /**
- * The processing of the challenge should return in any (or both) of these properties.
+ * Options sent to the challenge callbacks
  */
-export interface BearerTokenChallengeResult {
+export interface ChallengeCallbackOptions {
   /**
-   * Scopes to overwrite during the get token request.
+   * The scopes for which the bearer token applies.
    */
-  scopes?: string[];
+  scopes: string | string[];
   /**
    * Additional claims to be included in the token.
    * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
    */
   claims?: string;
+  /**
+   * Token cached from a previous authentication.
+   */
+  cachedToken?: AccessToken;
+  /**
+   * Credential to use to retrieve a new token.
+   */
+  credential: TokenCredential;
+  /**
+   * Request that the policy is trying to fulfill.
+   */
+  request: PipelineRequest;
+  /**
+   * Function that allows easily assigning a token to the request.
+   */
+  setAuthorizationHeader: (accessToken: AccessToken) => void;
 }
 
 /**
@@ -39,23 +54,87 @@ export interface BearerTokenAuthenticationPolicyOptions {
   scopes: string | string[];
   /**
    * Allows for the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
-   * If provided, it must contain at least the `processChallenge` method.
+   * If provided, it must contain at least the `authenticateRequestOnChallenge` method.
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */
   challengeCallbacks?: {
     /**
-     * Allows for the customization of the next request before its sent.
-     * By default we won't be doing any changes to the initial challenge request.
+     * Allows for the authentication of the main request of this policy before it's sent.
+     * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
+     * allows developers to easily assign a token to the ongoing request.
      */
-    prepareRequest?(request: PipelineRequest): Promise<void>;
+    authenticateRequest?(options: ChallengeCallbackOptions): Promise<void>;
     /**
-     * Proccesses the challenge and returns an access token for requests to service endpoints.
+     * Allows to handle authentication challenges and to re-authenticate the request.
+     * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
+     * allows developers to easily assign a token to the ongoing request.
+     * If this method returns true, the underlying request will be sent once again.
      */
-    processChallenge(
+    authenticateRequestOnChallenge(
       challenge: string,
-      request: PipelineRequest
-    ): Promise<BearerTokenChallengeResult | undefined>;
+      options: ChallengeCallbackOptions
+    ): Promise<boolean>;
   };
+}
+
+/**
+ * Retrieves a token from a token cache or a credential.
+ */
+export async function retrieveToken(
+  options: ChallengeCallbackOptions
+): Promise<AccessToken | undefined> {
+  const { scopes, claims, cachedToken, credential, request } = options;
+  let accessToken = cachedToken;
+
+  const getTokenOptions: GetTokenOptions = {
+    claims,
+    abortSignal: request.abortSignal,
+    tracingOptions: request.tracingOptions
+  };
+
+  if (!cachedToken) {
+    accessToken = (await credential.getToken(scopes, getTokenOptions)) || undefined;
+  }
+  return accessToken;
+}
+
+/**
+ * Default authenticate request
+ */
+export async function defaultAuthenticateRequest(options: ChallengeCallbackOptions): Promise<void> {
+  const accessToken = await retrieveToken(options);
+  if (!accessToken) {
+    return;
+  }
+  options.setAuthorizationHeader(accessToken);
+}
+
+/**
+ * Default authenticate request on challenge
+ */
+export async function defaultAuthenticateRequestOnChallenge(
+  challenge: string,
+  options: ChallengeCallbackOptions
+): Promise<boolean> {
+  const { scopes, setAuthorizationHeader } = options;
+
+  if (!challenge) {
+    return false;
+  }
+  const { scope, claims } = parseWWWAuthenticate(challenge);
+
+  const accessToken = await retrieveToken({
+    ...options,
+    scopes: scope || scopes,
+    claims
+  });
+
+  if (!accessToken) {
+    return false;
+  }
+
+  setAuthorizationHeader(accessToken);
+  return true;
 }
 
 /**
@@ -66,58 +145,14 @@ export function bearerTokenAuthenticationPolicy(
   options: BearerTokenAuthenticationPolicyOptions
 ): PipelinePolicy {
   const { credential, scopes, challengeCallbacks } = options;
-  const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
-
-  const defaultCallbacks = {
-    prepareRequest: undefined,
-    processChallenge(
-      challenge: string,
-      request: PipelineRequest
-    ): Promise<BearerTokenChallengeResult | undefined> {
-      const { scope, claims } = parseWWWAuthenticate(challenge);
-      const context = {
-        scopes: scope ? [scope] : undefined,
-        claims
-      };
-      const token = retrieveToken(request, context);
-      request.headers.set("Authorization", `Bearer ${token}`);
-
-      return Promise.resolve(context);
-    }
+  const callbacks = {
+    authenticateRequest: defaultAuthenticateRequest,
+    authenticateRequestOnChallenge: defaultAuthenticateRequestOnChallenge,
+    // If any of the properties is set to undefined, it will replace the default values.
+    ...challengeCallbacks
   };
-  const callbacks = challengeCallbacks ?? defaultCallbacks;
 
-  /**
-   * retrieveToken will call to the underlying credential's getToken request with properties coming from the request,
-   * as well as properties coming from parsing the CAE challenge, if any.
-   */
-  async function retrieveToken(
-    request: PipelineRequest,
-    context?: BearerTokenChallengeResult
-  ): Promise<string | undefined> {
-    let accessToken = tokenCache.getCachedToken();
-    const getTokenOptions: GetTokenOptions & { claims?: string } = {
-      claims: context?.claims,
-      abortSignal: request.abortSignal,
-      tracingOptions: request.tracingOptions
-    };
-    if (accessToken === undefined) {
-      accessToken =
-        (await credential.getToken(context?.scopes || scopes, getTokenOptions)) || undefined;
-      tokenCache.setCachedToken(accessToken);
-    }
-    return accessToken ? accessToken.token : undefined;
-  }
-
-  /**
-   * Populates the token in the request headers.
-   */
-  function assignToken(request: PipelineRequest, token?: string): PipelineRequest {
-    if (token) {
-      request.headers.set("Authorization", `Bearer ${token}`);
-    }
-    return request;
-  }
+  let cachedToken: AccessToken | undefined;
 
   /**
    * We will retrieve the challenge only if the response status code was 401,
@@ -147,36 +182,42 @@ export function bearerTokenAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      let accessToken = tokenCache.getCachedToken();
-      if (!accessToken) {
-        // retrieves AAD access token
-        const token = await retrieveToken(request);
-        request = assignToken(request, token);
-      } else {
-        request = assignToken(request, accessToken.token);
+      function setAuthorizationHeader(accessToken: AccessToken) {
+        cachedToken = accessToken;
+        request.headers.set("Authorization", `Bearer ${cachedToken.token}`);
       }
 
-      if (callbacks?.prepareRequest) {
-        await callbacks.prepareRequest(request);
+      if (callbacks?.authenticateRequest) {
+        await callbacks.authenticateRequest({
+          scopes,
+          request,
+          credential,
+          cachedToken,
+          setAuthorizationHeader
+        });
       }
 
-      let challenge: string | undefined;
       let response: PipelineResponse;
       try {
         response = await next(request);
-        challenge = getChallenge(response);
       } catch (err) {
-        if (err instanceof RestError && err.statusCode === 401) {
-          challenge = getChallenge(err.response!);
-        } else {
-          throw err;
-        }
+        response = err.response;
       }
+      const challenge = getChallenge(response);
 
-      if (challenge && callbacks?.processChallenge) {
+      if (challenge && callbacks?.authenticateRequestOnChallenge) {
         // processes challenge
-        await callbacks.processChallenge(challenge, request);
-        return next(request);
+        const sendRequest = await callbacks.authenticateRequestOnChallenge(challenge, {
+          scopes,
+          request,
+          credential,
+          cachedToken,
+          setAuthorizationHeader
+        });
+
+        if (sendRequest) {
+          return next(request);
+        }
       }
 
       //@ts-ignore assigned in try block

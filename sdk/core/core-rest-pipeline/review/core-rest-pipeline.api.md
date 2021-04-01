@@ -5,6 +5,7 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AccessToken } from '@azure/core-auth';
 import { Debugger } from '@azure/logger';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
@@ -26,17 +27,21 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 // @public
 export interface BearerTokenAuthenticationPolicyOptions {
     challengeCallbacks?: {
-        prepareRequest?(request: PipelineRequest): Promise<void>;
-        processChallenge(challenge: string, request: PipelineRequest): Promise<BearerTokenChallengeResult | undefined>;
+        authenticateRequest?(options: ChallengeCallbackOptions): Promise<void>;
+        authenticateRequestOnChallenge(challenge: string, options: ChallengeCallbackOptions): Promise<boolean>;
     };
     credential: TokenCredential;
     scopes: string | string[];
 }
 
 // @public
-export interface BearerTokenChallengeResult {
+export interface ChallengeCallbackOptions {
+    cachedToken?: AccessToken;
     claims?: string;
-    scopes?: string[];
+    credential: TokenCredential;
+    request: PipelineRequest;
+    scopes: string | string[];
+    setAuthorizationHeader: (accessToken: AccessToken) => void;
 }
 
 // @public
@@ -59,6 +64,12 @@ export function decompressResponsePolicy(): PipelinePolicy;
 
 // @public
 export const decompressResponsePolicyName = "decompressResponsePolicy";
+
+// @public
+export function defaultAuthenticateRequest(options: ChallengeCallbackOptions): Promise<void>;
+
+// @public
+export function defaultAuthenticateRequestOnChallenge(challenge: string, options: ChallengeCallbackOptions): Promise<boolean>;
 
 // @public
 export function exponentialRetryPolicy(options?: ExponentialRetryPolicyOptions): PipelinePolicy;
@@ -262,6 +273,9 @@ export interface RestErrorOptions {
     response?: PipelineResponse;
     statusCode?: number;
 }
+
+// @public
+export function retrieveToken(options: ChallengeCallbackOptions): Promise<AccessToken | undefined>;
 
 // @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
