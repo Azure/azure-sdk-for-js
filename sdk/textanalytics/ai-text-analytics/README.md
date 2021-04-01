@@ -1,6 +1,6 @@
 # Azure Text Analytics Client library for JavaScript
 
-This package contains an isomorphic SDK for Azure Text Analytics Client.
+This package contains an isomorphic SDK (runs both in node.js and in browsers) for Azure Text Analytics Client.
 
 The Text Analytics API is a suite of natural language processing (NLP)  services built with best-in-class Microsoft machine learning algorithms.  The API can be used to analyze unstructured text for tasks such as sentiment analysis, key phrase extraction and language detection. Functionality for analysis of text specific to the healthcare domain and personal information are also available in the API. Further documentation can be found in <a href="https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview">https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview</a>
 
@@ -14,6 +14,7 @@ The Text Analytics API is a suite of natural language processing (NLP)  services
 ### Currently supported environments
 
 - Node.js version 8.x.x or higher
+- Browser Javascript
 
 ### Prerequisites
 
@@ -56,7 +57,7 @@ const client = new TextAnalyticsClient("<endpoint>", new DefaultAzureCredential(
 
 ### TextAnalyticsClient
 
-`TextAnalyticsClient` is the primary interface for developers using the Azure Text Analytics Client library. It provides asynchronous methods to access a specific use of Text Analytics.
+`TextAnalyticsClient` is the primary interface for developers using the Azure Text Analytics Client library. Explore the methods on this client object to understand the different features of the Text Analytics service that you can access.
 
 ## Troubleshooting
 
