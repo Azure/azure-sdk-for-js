@@ -1,4 +1,4 @@
-import { PerfStressTest } from "@azure/test-utils-perfstress";
+import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 import { ClientSecretCredential } from "@azure/identity";
 
 const scope = `https://servicebus.azure.net/.default`;
@@ -8,27 +8,29 @@ const scope = `https://servicebus.azure.net/.default`;
  */
 export class ClientSecretCredentialPersistenceTest extends PerfStressTest {
   options = {};
-  credential: ClientSecretCredential;
+  static credential: ClientSecretCredential;
 
-  constructor() {
-    super();
-    const tenantId = process.env.AZURE_TENANT_ID!;
-    const clientId = process.env.AZURE_CLIENT_ID!;
-    const clientSecret = process.env.AZURE_CLIENT_SECRET!;
+  async globalSetup(): Promise<void> {
+    const tenantId = getEnvVar("AZURE_TENANT_ID");
+    const clientId = getEnvVar("AZURE_CLIENT_ID");
+    const clientSecret = getEnvVar("AZURE_CLIENT_SECRET");
 
-    this.credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
+    // We want this credential to be initialized only if this test is executed.
+    // Other tests should not be required to set up this credential.
+    const credential = new ClientSecretCredential(tenantId, clientId, clientSecret, {
       tokenCachePersistenceOptions: {
         name: "nodeTestSilent",
         allowUnencryptedStorage: true
       }
     });
-  }
 
-  async globalSetup(): Promise<void> {
-    await this.credential.getToken(scope);
+    // This getToken call will cache the token.
+    await credential.getToken(scope);
+
+    ClientSecretCredentialPersistenceTest.credential = credential;
   }
 
   async runAsync(): Promise<void> {
-    await this.credential.getToken(scope);
+    await ClientSecretCredentialPersistenceTest.credential.getToken(scope);
   }
 }
