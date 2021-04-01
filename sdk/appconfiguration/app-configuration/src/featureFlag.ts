@@ -238,49 +238,51 @@ export function serializeFeatureFlagParam(setting: FeatureFlagParam): Configurat
 export function convertJsonConditions(
   conditions: JsonFeatureFlag["conditions"]
 ): FeatureFlag["conditions"] {
-  const clientFilters = conditions.client_filters.map((jsonFilter) => {
-    if (isJsonFeatureFlagTargetingClientFilter(jsonFilter)) {
-      // try not to slice any unknown attributes
-      const filter: FeatureFlagTargetingClientFilter = {
-        name: jsonFilter.name,
-        parameters: {
-          audience: {
-            groups:
-              jsonFilter.parameters.Audience.Groups.map((grp) => ({
-                name: grp.Name,
-                rolloutPercentage: grp.RolloutPercentage
-              })) || [],
-            users: jsonFilter.parameters.Audience.Users || [],
-            defaultRolloutPercentage: jsonFilter.parameters.Audience.DefaultRolloutPercentage
-          }
-        }
-      };
+  const clientFilters = !conditions.client_filters
+    ? []
+    : conditions.client_filters.map((jsonFilter) => {
+        if (isJsonFeatureFlagTargetingClientFilter(jsonFilter)) {
+          // try not to slice any unknown attributes
+          const filter: FeatureFlagTargetingClientFilter = {
+            name: jsonFilter.name,
+            parameters: {
+              audience: {
+                groups:
+                  jsonFilter.parameters.Audience.Groups.map((grp) => ({
+                    name: grp.Name,
+                    rolloutPercentage: grp.RolloutPercentage
+                  })) || [],
+                users: jsonFilter.parameters.Audience.Users || [],
+                defaultRolloutPercentage: jsonFilter.parameters.Audience.DefaultRolloutPercentage
+              }
+            }
+          };
 
-      return filter;
-    } else if (isJsonFeatureFlagTimeWindowClientFilter(jsonFilter)) {
-      // try not to slice any unknown attributes
-      const filter: FeatureFlagTimeWindowClientFilter = {
-        name: jsonFilter.name,
-        parameters: {
-          start: jsonFilter.parameters.Start,
-          end: jsonFilter.parameters.End
-        }
-      };
+          return filter;
+        } else if (isJsonFeatureFlagTimeWindowClientFilter(jsonFilter)) {
+          // try not to slice any unknown attributes
+          const filter: FeatureFlagTimeWindowClientFilter = {
+            name: jsonFilter.name,
+            parameters: {
+              start: jsonFilter.parameters.Start,
+              end: jsonFilter.parameters.End
+            }
+          };
 
-      return filter;
-    } else if (isJsonFeatureFlagPercentageClientFilter(jsonFilter)) {
-      // try not to slice any unknown attributes
-      const filter: FeatureFlagPercentageClientFilter = {
-        name: jsonFilter.name,
-        parameters: {
-          value: jsonFilter.parameters.Value
+          return filter;
+        } else if (isJsonFeatureFlagPercentageClientFilter(jsonFilter)) {
+          // try not to slice any unknown attributes
+          const filter: FeatureFlagPercentageClientFilter = {
+            name: jsonFilter.name,
+            parameters: {
+              value: jsonFilter.parameters.Value
+            }
+          };
+          return filter;
+        } else {
+          return jsonFilter;
         }
-      };
-      return filter;
-    } else {
-      return jsonFilter;
-    }
-  });
+      });
 
   return {
     clientFilters
