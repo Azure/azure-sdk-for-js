@@ -84,7 +84,7 @@ export const featureFlagContentType = "application/vnd.microsoft.appconfig.ff+js
 // @public
 export interface FeatureFlagParam extends ConfigurationSettingParam {
     conditions: {
-        clientFilters: (FeatureFlagTargetingClientFilter | FeatureFlagTimeWindowClientFilter | FeatureFlagPercentageClientFilter | object)[];
+        clientFilters: (FeatureFlagTargetingClientFilter | FeatureFlagTimeWindowClientFilter | FeatureFlagPercentageClientFilter | Record<string, unknown>)[];
     };
     description?: string;
     enabled: boolean;

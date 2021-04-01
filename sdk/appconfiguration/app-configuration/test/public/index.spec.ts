@@ -1158,7 +1158,7 @@ describe("AppConfigurationClient", () => {
 
   describe("FeatureFlag configuration setting", () => {
     const clientFilters: (
-      | object
+      | Record<string, unknown>
       | FeatureFlagTargetingClientFilter
       | FeatureFlagTimeWindowClientFilter
       | FeatureFlagPercentageClientFilter
