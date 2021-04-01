@@ -7,7 +7,7 @@ import { ServiceBusSessionReceiverOptions } from "../../../src/models";
 import { entityPathMisMatchError } from "../../../src/util/errors";
 import {
   createConnectionContextForConnectionString,
-  createConnectionContextForTokenCredential
+  createConnectionContextForCredential
 } from "../../../src/constructorHelpers";
 import { TokenCredential } from "@azure/core-http";
 import { ConnectionContext } from "../../../src/connectionContext";
@@ -331,11 +331,9 @@ describe("serviceBusClient unit tests", () => {
       const endpoint = "endpoint";
       it("Websocket endpoint and constructor options are populated in the config", () => {
         const options = { randomOption: 123 };
-        const connectionContext = createConnectionContextForTokenCredential(
-          pseudoTokenCred,
-          endpoint,
-          { webSocketOptions: { webSocketConstructorOptions: options } }
-        );
+        const connectionContext = createConnectionContextForCredential(pseudoTokenCred, endpoint, {
+          webSocketOptions: { webSocketConstructorOptions: options }
+        });
         validateWebsocketInfo(connectionContext, options);
       });
     });
