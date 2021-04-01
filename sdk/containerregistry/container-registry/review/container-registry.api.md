@@ -37,7 +37,7 @@ export class ContainerRepositoryClient {
     registry: string;
     repository: string;
     setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<void>;
-    setPermissions(value: ContentProperties, options?: SetPermissionsOptions): Promise<void>;
+    setProperties(value: ContentProperties, options?: SetPermissionsOptions): Promise<void>;
     setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<void>;
 }
 
@@ -106,7 +106,22 @@ export interface ManifestAttributesManifestReferences {
 }
 
 // @public
-export interface RegistryArtifactProperties {
+export type RegistryArtifactProperties = Omit<ServiceRegistryArtifactProperties, "references"> & {
+    registryArtifacts?: RegistryArtifactProperties[];
+};
+
+// @public
+export interface RepositoryProperties {
+    createdOn: Date;
+    lastUpdatedOn: Date;
+    name: string;
+    registryArtifactCount: number;
+    tagCount: number;
+    writeableProperties: ContentProperties;
+}
+
+// @public
+export interface ServiceRegistryArtifactProperties {
     cpuArchitecture?: string;
     createdOn?: Date;
     digest?: string;
@@ -117,16 +132,6 @@ export interface RegistryArtifactProperties {
     size?: number;
     tags?: string[];
     writeableProperties?: ContentProperties;
-}
-
-// @public
-export interface RepositoryProperties {
-    createdOn: Date;
-    lastUpdatedOn: Date;
-    name: string;
-    registryArtifactCount: number;
-    tagCount: number;
-    writeableProperties: ContentProperties;
 }
 
 // @public

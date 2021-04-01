@@ -5,7 +5,7 @@ import { PipelineOptions } from "@azure/core-rest-pipeline";
 import {
   ContentProperties,
   DeleteRepositoryResult,
-  RegistryArtifactProperties,
+  RegistryArtifactProperties as ServiceRegistryArtifactProperties,
   RepositoryProperties,
   ManifestAttributesManifestReferences,
   TagProperties
@@ -17,9 +17,9 @@ import {
 export {
   ContentProperties,
   DeleteRepositoryResult,
-  RegistryArtifactProperties,
   RepositoryProperties,
   ManifestAttributesManifestReferences,
+  ServiceRegistryArtifactProperties,
   TagProperties
 };
 
@@ -29,3 +29,8 @@ export {
 export interface ContainerRegistryClientOptions extends PipelineOptions {
   // Any custom options configured at the client level go here.
 }
+
+/** Manifest attributes details */
+export type RegistryArtifactProperties = Omit<ServiceRegistryArtifactProperties, "references"> & {
+  registryArtifacts?: RegistryArtifactProperties[];
+};

@@ -93,9 +93,11 @@ describe("ContainerRepositoryClient functional tests", function() {
     assert.equal(properties.name, "test1");
   });
 
-  it.skip("should retrive registry artifact properties for a tag", async () => {
+  it("should retrive registry artifact properties for a tag", async () => {
     const properties = await repositoryClient.getRegistryArtifactProperties("test1");
     assert.ok(properties.createdOn, "Expecting valid createdOn property for the artifact");
+    assert.ok(properties.registryArtifacts?.length, "Expecting valid registry artifacts");
+    assert.ok(properties.registryArtifacts![0].cpuArchitecture, "Expecting valid cpuArchitecture");
   });
 
   it("should retrive registry artifact properties for a digest", async () => {
@@ -111,6 +113,80 @@ describe("ContainerRepositoryClient functional tests", function() {
       assert.fail("Expecting an error but didn't get one.");
     } catch (err) {
       assert.isTrue((err as RestError).message.includes("TAG_UNKNOWN"));
+    }
+  });
+
+  it("sets tag properties", async () => {
+    const tag = "test1";
+    const tagProperties = await repositoryClient.getTagProperties(tag);
+    const original = tagProperties.writeableProperties!;
+
+    try {
+      await repositoryClient.setTagProperties(tag, {
+        canDelete: false,
+        canList: false,
+        canRead: false,
+        canWrite: false
+      });
+
+      const properties = await repositoryClient.getTagProperties(tag);
+      assert.deepStrictEqual(properties.writeableProperties, {
+        canDelete: false,
+        canList: false,
+        canRead: false,
+        canWrite: false
+      });
+    } finally {
+      await repositoryClient.setTagProperties(tag, original);
+    }
+  });
+
+  it("sets manifest properties", async () => {
+    const tagProperties = await repositoryClient.getTagProperties("test1");
+    const digest = tagProperties.digest!;
+    const artifactProperties = await repositoryClient.getRegistryArtifactProperties(digest);
+    const original = artifactProperties.writeableProperties!;
+
+    try {
+      await repositoryClient.setManifestProperties(digest, {
+        canDelete: false,
+        canList: false,
+        canRead: false,
+        canWrite: false
+      });
+
+      const properties = await repositoryClient.getRegistryArtifactProperties(digest);
+      assert.deepStrictEqual(properties.writeableProperties, {
+        canDelete: false,
+        canList: false,
+        canRead: false,
+        canWrite: false
+      });
+    } finally {
+      await repositoryClient.setManifestProperties(digest, original);
+    }
+  });
+
+  it("sets repository properties", async () => {
+    const repositoryProperties = await repositoryClient.getProperties();
+    const original = repositoryProperties.writeableProperties!;
+    try {
+      await repositoryClient.setProperties({
+        canDelete: false,
+        canList: false,
+        canRead: false,
+        canWrite: false
+      });
+
+      const properties = await repositoryClient.getProperties();
+      assert.deepStrictEqual(properties.writeableProperties, {
+        canDelete: false,
+        canList: false,
+        canRead: false,
+        canWrite: false
+      });
+    } finally {
+      await repositoryClient.setProperties(original);
     }
   });
 });

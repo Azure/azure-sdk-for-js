@@ -88,6 +88,10 @@ export interface ListTagsOptions extends OperationOptions {
   digest?: string;
 }
 
+function isDigest(tagOrDigest: string): boolean {
+  return tagOrDigest.includes(":");
+}
+
 /**
  * The client class used to interact with the Container Registry service.
  */
@@ -134,7 +138,7 @@ export class ContainerRepositoryClient {
   ) {
     this.endpoint = endpointUrl;
     this.repository = repository;
-    const matches = endpointUrl.match(/:\/\/([a-zA-Z0-9]+)\./);
+    const matches = endpointUrl.match(/:\/\/([a-zA-Z0-9\.]+)\/*/);
     if (matches) {
       this.registry = matches[1];
     } else {
@@ -275,13 +279,20 @@ export class ContainerRepositoryClient {
       options
     );
 
+    let digest: string = tagOrDigest;
+    if (!isDigest(tagOrDigest)) {
+      digest = (await this.getTagProperties(tagOrDigest)).digest!; // TODO: swagger update to make digest non-optional
+    }
+
     try {
       const result = await this.client.containerRegistryRepository.getRegistryArtifactProperties(
         this.repository,
-        tagOrDigest,
+        digest,
         updatedOptions
       );
-      return result;
+      const registryArtifacts = result.references;
+      delete result.references;
+      return { ...result, registryArtifacts };
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -319,7 +330,7 @@ export class ContainerRepositoryClient {
   }
 
   /**
-   * Sets properties of a manifest.
+   * Updates manifest artifact attributes.
    * @param digest - the digest of the manifest.
    * @param options -
    */
@@ -334,7 +345,7 @@ export class ContainerRepositoryClient {
     });
 
     try {
-      await this.client.containerRegistryRepository.updateTagAttributes(
+      await this.client.containerRegistryRepository.updateManifestAttributes(
         this.repository,
         digest,
         updatedOptions
@@ -348,14 +359,14 @@ export class ContainerRepositoryClient {
   }
 
   /**
-   * Sets permissions.
+   * Updates repository attributes.
    * @param options -
    */
-  public async setPermissions(
+  public async setProperties(
     value: ContentProperties,
     options: SetPermissionsOptions = {}
   ): Promise<void> {
-    const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setPermissions", {
+    const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setProperties", {
       ...options,
       value: value
     });
@@ -371,7 +382,7 @@ export class ContainerRepositoryClient {
   }
 
   /**
-   * Sets properties of a tag.
+   * Updates tag attributes.
    * @param tag - name of the tag
    * @param options -
    */
