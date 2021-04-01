@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,37 +24,35 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd2e1f509-fa7a-45a9-a9a8-57fd07442800',
+  '544f68f5-8ab5-44f7-8f8f-8a7846ea2302',
   'x-ms-ests-server',
-  '2.1.11251.20 - SCUS ProdSlices',
+  '2.1.11562.10 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AmW_9912tnJJri0VvfAAtiXGLH8mAQAAAMI_StcOAAAA; expires=Sun, 20-Dec-2020 22:52:50 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjzFVQ1mzahOgLFbzhWoi1fGLH8mCwAAAPal9dcOAAAA; expires=Thu, 29-Apr-2021 23:08:49 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 22:52:50 GMT',
-  'Content-Length',
-  '1331'
+  'Tue, 30 Mar 2021 23:08:48 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/323be9ed-dbc2-4309-a3f7-e13c72aa8203')
+  .get('/formrecognizer/v2.1-preview.3/custom/models/138056a4-0599-43c6-a6ee-3238249e897d')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"323be9ed-dbc2-4309-a3f7-e13c72aa8203","status":"ready","createdDateTime":"2020-11-20T22:52:34Z","lastUpdatedDateTime":"2020-11-20T22:52:49Z"},"keys":{"clusters":{"0":["Additional Notes:","Address:","Company Name:","Company Phone:","Dated As:","Details","Email:","Ft Lauderdale, FL Phone:","Hero Limited","Name:","Phone:","Purchase Order","Purchase Order #:","Quantity","SUBTOTAL","Seattle, WA 93849 Phone:","Shipped From","Shipped To","TAX","TOTAL","Total","Unit Price","Vendor Name:","Website:"]}},"trainResult":{"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"subfolder/Form_6.jpg","pages":1,"errors":[],"status":"succeeded"}],"errors":[]}}, [
+  .reply(200, {"modelInfo":{"modelId":"138056a4-0599-43c6-a6ee-3238249e897d","modelName":"modelName161714570792206901","status":"ready","createdDateTime":"2021-03-30T23:08:28Z","lastUpdatedDateTime":"2021-03-30T23:08:45Z"},"keys":{"clusters":{"0":["Additional Notes:","Address:","Company Name:","Company Phone:","Dated As:","Details","Email:","Hero Limited","Name:","Phone:","Purchase Order","Purchase Order #:","Quantity","SUBTOTAL","Seattle, WA 93849 Phone:","Shipped From","Shipped To","TAX","TOTAL","Total","Unit Price","Vendor Name:","Website:"]}},"trainResult":{"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"errors":[],"status":"succeeded"},{"documentName":"subfolder/Form_6.jpg","pages":1,"errors":[],"status":"succeeded"}],"errors":[]}}, [
   'Content-Length',
-  '1022',
+  '1037',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '18',
+  '19',
   'apim-request-id',
-  '514fc673-490a-49df-a142-473a5723ea21',
+  '59eb2602-f16a-4717-9315-424c7e29f3ab',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 22:52:51 GMT'
+  'Tue, 30 Mar 2021 23:08:48 GMT'
 ]);
