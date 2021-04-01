@@ -2,7 +2,7 @@
 
 ## 1.0.4 (Unreleased)
 
-- A new type is exported, `ChallengeCallbackOptions`, which contains `scopes: string | string[]`, `claims?: string` (optional), `previousToken?: AccessToken`, a `getToken` function, which calls to the underlying credential's `getToken` with a smart approach that minimizes unnecessary network requests, `request: PipelineRequest`, and a `setAuthorizationHeader: (token: AccessToken) => void` function.
+- A new type is exported, `ChallengeCallbackOptions`, which contains `scopes`, a string `claims` that might contain a challenge, the previous token used on a request `previousToken`, a `getToken` function, which calls to the underlying credential's `getToken` with a smart approach that minimizes unnecessary network requests, the pipeline request `request`, and a `setAuthorizationHeader` which makes it easier to set the token on the pipeline request.
 - Added a `challengeCallbacks` optional property to the `bearerTokenAuthenticationPolicy` that allows it to process authentication challenges, as follows:
     - `authenticateRequest`, which receives `options: ChallengeCallbackOptions`, and allows customizing the policy to alter how it authenticates before sending a request.
         - By default, this function will try to retrieve the token from the underlying credential, and if it receives one, it will cache the token and set it to the outgoing request. This was the original behavior of this policy.

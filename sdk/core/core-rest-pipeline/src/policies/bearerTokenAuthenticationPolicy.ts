@@ -222,7 +222,6 @@ export function bearerTokenAuthenticationPolicy(
         }
       }
 
-      //@ts-ignore assigned in try block
       return response;
     }
   };

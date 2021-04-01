@@ -48,6 +48,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
 export interface ChallengeCallbackOptions {
     claims?: string;
     getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    previousToken?: AccessToken;
     request: PipelineRequest;
     scopes: string | string[];
     setAuthorizationHeader: (accessToken: AccessToken) => void;
