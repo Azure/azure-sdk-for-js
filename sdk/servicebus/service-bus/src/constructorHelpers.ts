@@ -1,11 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConnectionConfig, RetryOptions, WebSocketOptions } from "@azure/core-amqp";
-import { TokenCredential } from "@azure/core-auth";
+import {
+  ConnectionConfig,
+  createSasTokenProvider,
+  RetryOptions,
+  SasTokenProvider,
+  WebSocketOptions
+} from "@azure/core-amqp";
+import {
+  isNamedKeyCredential,
+  isSASCredential,
+  NamedKeyCredential,
+  SASCredential,
+  TokenCredential
+} from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { UserAgentOptions } from "@azure/core-http";
-import { SharedKeyCredential } from "./servicebusSharedKeyCredential";
+import {
+  parseServiceBusConnectionString,
+  ServiceBusConnectionStringProperties
+} from "./util/connectionStringUtils";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -45,7 +60,7 @@ export interface ServiceBusClientOptions {
  */
 export function createConnectionContext(
   connectionString: string,
-  credential: SharedKeyCredential | TokenCredential,
+  credential: SasTokenProvider | TokenCredential,
   options: ServiceBusClientOptions
 ): ConnectionContext {
   const config = ConnectionConfig.create(connectionString);
@@ -64,16 +79,20 @@ export function createConnectionContextForConnectionString(
   connectionString: string,
   options: ServiceBusClientOptions = {}
 ): ConnectionContext {
-  const credential = SharedKeyCredential.fromConnectionString(connectionString);
-  return createConnectionContext(connectionString, credential, options);
+  const parsed = parseServiceBusConnectionString(connectionString) as Required<
+    | Pick<ServiceBusConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
+    | Pick<ServiceBusConnectionStringProperties, "sharedAccessSignature">
+  >;
+  const sasTokenProvider = createSasTokenProvider(parsed);
+  return createConnectionContext(connectionString, sasTokenProvider, options);
 }
 
 /**
  *
  * @internal
  */
-export function createConnectionContextForTokenCredential(
-  credential: TokenCredential,
+export function createConnectionContextForCredential(
+  credential: TokenCredential | NamedKeyCredential | SASCredential,
   host: string,
   options: ServiceBusClientOptions = {}
 ): ConnectionContext {
@@ -81,12 +100,19 @@ export function createConnectionContextForTokenCredential(
     throw new TypeError("`host` parameter is not a string");
   }
 
+  let tokenProvider: TokenCredential | SasTokenProvider;
+
   // host, credential and options based constructor was invoked
   if (!host.endsWith("/")) {
     host += "/";
   }
+  if (isNamedKeyCredential(credential) || isSASCredential(credential)) {
+    tokenProvider = createSasTokenProvider(credential);
+  } else {
+    tokenProvider = credential;
+  }
   const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
-  return createConnectionContext(connectionString, credential, options);
+  return createConnectionContext(connectionString, tokenProvider, options);
 }
 
 /**
