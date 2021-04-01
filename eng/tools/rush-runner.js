@@ -53,8 +53,6 @@ const getAllPackageJsonPaths = (baseDir) => {
     // path.join(baseDir, path.normalize("common/tools/dev-tool/package.json")),
     // path.join(baseDir, path.normalize("common/tools/eslint-plugin-azure-sdk/package.json")), 
 
-    path.join(baseDir, path.normalize("sdk/test-utils/multi-version/package.json")),
-    path.join(baseDir, path.normalize("sdk/test-utils/perfstress/package.json")),
     path.join(baseDir, path.normalize("sdk/test-utils/recorder/package.json")),
   ];
 
