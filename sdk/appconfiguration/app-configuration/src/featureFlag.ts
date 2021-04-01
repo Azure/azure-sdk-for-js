@@ -228,7 +228,7 @@ export function serializeFeatureFlagParam(setting: FeatureFlagParam): Configurat
     key: setting.key,
     label: setting.label,
     contentType: setting.contentType,
-    etag: setting.contentType,
+    etag: setting.etag,
     tags: setting.tags,
     value: JSON.stringify(value)
   };

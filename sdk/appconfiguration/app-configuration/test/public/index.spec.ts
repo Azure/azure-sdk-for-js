@@ -1219,71 +1219,63 @@ describe("AppConfigurationClient", () => {
       });
     });
 
-    function assertFeatureFlagProps(actual: FeatureFlag, expected: FeatureFlag) {
-      assert.equal(
-        actual.key,
-        expected.key,
-        "Key from the response from get request is not as expected"
-      );
-      assert.deepEqual(
-        actual.conditions,
-        expected.conditions,
-        "conditions from the response from get request is not as expected"
-      );
-      assert.equal(actual.description, expected.description);
-      assert.equal(actual.enabled, expected.enabled);
-      assert.equal(actual.isReadOnly, expected.isReadOnly);
-      assert.equal(actual.label, expected.label);
-      assert.equal(actual.contentType, expected.contentType);
+    function assertFeatureFlagProps(
+      actual: AddConfigurationSettingResponse,
+      expected: FeatureFlag
+    ) {
+      assert.equal(isFeatureFlag(actual), true, "Expected to get the feature flag");
+      if (isFeatureFlag(actual)) {
+        assert.equal(
+          actual.key,
+          expected.key,
+          "Key from the response from get request is not as expected"
+        );
+        assert.deepEqual(
+          actual.conditions,
+          expected.conditions,
+          "conditions from the response from get request is not as expected"
+        );
+        assert.equal(actual.description, expected.description);
+        assert.equal(actual.enabled, expected.enabled);
+        assert.equal(actual.isReadOnly, expected.isReadOnly);
+        assert.equal(actual.label, expected.label);
+        assert.equal(actual.contentType, expected.contentType);
+      }
     }
 
     it("can add and get FeatureFlag", async () => {
-      assert.equal(isFeatureFlag(addResponse), true, "Expected to get the feature flag");
-      if (isFeatureFlag(addResponse)) {
-        assertFeatureFlagProps(addResponse, baseSetting);
-      }
+      assertFeatureFlagProps(addResponse, baseSetting);
       const getResponse = await client.getConfigurationSetting({
         key: baseSetting.key,
         label: baseSetting.label
       });
-      assert.equal(isFeatureFlag(getResponse), true, "Expected to get the feature flag");
-      if (isFeatureFlag(getResponse)) {
-        assertFeatureFlagProps(getResponse, baseSetting);
-      }
+      assertFeatureFlagProps(getResponse, baseSetting);
     });
 
     it("can add and update FeatureFlag", async () => {
       const getResponse = await client.getConfigurationSetting({
-        key: baseSetting.key
+        key: baseSetting.key,
+        label: baseSetting.label
       });
-      assert.equal(isFeatureFlag(getResponse), true, "Should have been FeatureFlag");
+      assertFeatureFlagProps(getResponse, baseSetting);
       if (isFeatureFlag(getResponse)) {
-        // TODO: enabled returned was undefined, that's a bug?
-        assert.equal(!!getResponse.enabled, baseSetting.enabled, "Unexpected value for enabled");
-        getResponse.enabled = true;
+        getResponse.enabled = !baseSetting.enabled;
       }
 
-      await client.setConfigurationSetting(getResponse);
+      const setResponse = await client.setConfigurationSetting(getResponse);
+      assertFeatureFlagProps(setResponse, {
+        ...baseSetting,
+        enabled: !baseSetting.enabled
+      });
 
       const getResponseAfterUpdate = await client.getConfigurationSetting({
-        key: baseSetting.key
+        key: baseSetting.key,
+        label: baseSetting.label
       });
-      assert.equal(isFeatureFlag(getResponseAfterUpdate), true, "Expected to get the feature flag");
-      if (isFeatureFlag(getResponseAfterUpdate)) {
-        assert.equal(
-          getResponseAfterUpdate.key,
-          baseSetting.key,
-          "Key from the response from get request is not as expected"
-        );
-        assert.equal(
-          getResponseAfterUpdate.value,
-          baseSetting.value,
-          "value from the response from get request is not as expected"
-        );
-        // More assertions - filters-count, displayName, description, filter name, enabled, isReadOnly
-        // TODO: enabled returned was undefined, that's a bug I guess
-        // assert.equal(getResponseAfterUpdate.enabled, !baseSetting.enabled, "Unexpected value for enabled");
-      }
+      assertFeatureFlagProps(getResponseAfterUpdate, {
+        ...baseSetting,
+        enabled: !baseSetting.enabled
+      });
     });
 
     it("can add and update multiple FeatureFlags", async () => {

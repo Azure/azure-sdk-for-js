@@ -461,10 +461,13 @@ export class AppConfigurationClient {
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
     return this._trace("setConfigurationSetting", options, async (newOptions) => {
+      const internalConfigurationSetting = serializeAsConfigurationSettingParam(
+        configurationSetting
+      );
       const response = await this.client.putKeyValue(configurationSetting.key, {
         ...newOptions,
         label: configurationSetting.label,
-        entity: configurationSetting,
+        entity: internalConfigurationSetting,
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
       });
 
