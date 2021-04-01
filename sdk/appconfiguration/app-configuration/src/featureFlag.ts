@@ -80,7 +80,6 @@ export interface FeatureFlagTargetingClientFilter {
       }[];
       defaultRolloutPercentage: number;
     };
-    // [key: string]: any;
   };
 }
 
@@ -100,7 +99,6 @@ export interface FeatureFlagTimeWindowClientFilter {
   parameters: {
     start: string;
     end: string;
-    // [key: string]: any;
   };
 }
 
@@ -120,7 +118,6 @@ export interface FeatureFlagPercentageClientFilter {
    */
   parameters: {
     value: number;
-    // [key: string]: any - portal shows more inputs, but throws an error if provided more.
   };
 }
 
