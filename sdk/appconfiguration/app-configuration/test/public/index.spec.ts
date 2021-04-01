@@ -1220,7 +1220,7 @@ describe("AppConfigurationClient", () => {
     });
 
     function assertFeatureFlagProps(
-      actual: AddConfigurationSettingResponse,
+      actual: Omit<AddConfigurationSettingResponse, "_response">,
       expected: FeatureFlag
     ) {
       assert.equal(isFeatureFlag(actual), true, "Expected to get the feature flag");
@@ -1278,22 +1278,50 @@ describe("AppConfigurationClient", () => {
       });
     });
 
-    it("can add and update multiple FeatureFlags", async () => {
+    it("can add, list and update multiple FeatureFlags", async () => {
       const secondSetting = {
         ...baseSetting,
         key: `${baseSetting.key}-2`
       };
       await client.addConfigurationSetting(secondSetting);
 
+      let numberOFFeatureFlagsReceived = 0;
       for await (const setting of client.listConfigurationSettings({
         keyFilter: `${baseSetting.key}*`
       })) {
-        // TODO: check count before and after
-        assert.equal(isFeatureFlag(setting), true, "Should have been FeatureFlag");
-        if (isFeatureFlag(setting)) {
-          // TODO: assert feat. description
+        numberOFFeatureFlagsReceived++;
+        if (setting.key === baseSetting.key) {
+          assertFeatureFlagProps(setting, baseSetting);
+          await client.setConfigurationSetting({
+            ...baseSetting,
+            enabled: !baseSetting.enabled
+          } as FeatureFlag);
+        } else {
+          assertFeatureFlagProps(setting, secondSetting);
+          await client.setConfigurationSetting({
+            ...setting,
+            description: "I'm new description"
+          } as FeatureFlag);
         }
       }
+      assert.equal(numberOFFeatureFlagsReceived, 2, "Unexpected number of FeatureFlags seen");
+
+      for await (const setting of client.listConfigurationSettings({
+        keyFilter: `${baseSetting.key}*`
+      })) {
+        numberOFFeatureFlagsReceived--;
+        if (setting.key === baseSetting.key) {
+          assertFeatureFlagProps(setting, { ...baseSetting, enabled: !baseSetting.enabled });
+        } else {
+          assertFeatureFlagProps(setting, { ...secondSetting, description: "I'm new description" });
+        }
+      }
+
+      assert.equal(
+        numberOFFeatureFlagsReceived,
+        0,
+        "Unexpected number of FeatureFlags seen after updating"
+      );
       await client.deleteConfigurationSetting({ key: secondSetting.key });
     });
   });
