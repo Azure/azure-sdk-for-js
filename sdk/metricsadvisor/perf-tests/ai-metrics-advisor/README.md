@@ -6,8 +6,8 @@
 4. Run the tests as follows:
 
 - list anomalies
-  - `npm run perf-test:node -- AnomaliesListTest --warmup 1 --iterations 1 --parallel 50 --duration 15 -n 1000`
+  - `npm run perf-test:node -- AnomaliesListTest --warmup 1 --iterations 1 --parallel 50 --duration 15`
 - list incidents
-  - `npm run perf-test:node -- IncidentsListTest --warmup 1 --iterations 1 --parallel 50 --duration 15 -n 1000`
+  - `npm run perf-test:node -- IncidentsListTest --warmup 1 --iterations 1 --parallel 50 --duration 15`
 - get root causes
-  - `npm run perf-test:node -- RootCauseTest --warmup 1 --iterations 1 --parallel 50 --duration 15 -n 1000`
+  - `npm run perf-test:node -- RootCauseTest --warmup 1 --iterations 1 --parallel 50 --duration 15`
