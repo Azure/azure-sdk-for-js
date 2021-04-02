@@ -37,12 +37,16 @@ describe("internal/auth.spec.ts", function() {
     }
 
     describe("Authentication via", () => {
+      const {
+        endpoint,
+        fullyQualifiedNamespace,
+        sharedAccessKey,
+        sharedAccessKeyName
+      } = parseEventHubConnectionString(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]);
       const service = {
         connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         path: env[EnvVarKeys.EVENTHUB_NAME],
-        endpoint: parseEventHubConnectionString(
-          env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]
-        ).endpoint.replace(/\/+$/, "")
+        endpoint: endpoint.replace(/\/+$/, "")
       };
 
       before(() => {
@@ -166,38 +170,38 @@ describe("internal/auth.spec.ts", function() {
             await producerClient.close();
           });
         });
-      });
 
-      describe("using SASCredential", () => {
-        it("EventHubConsumerClient", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
+        describe("using SASCredential", () => {
+          it("EventHubConsumerClient", async () => {
+            const sasCredential = new AzureSASCredential(getSas());
 
-          const consumerClient = new EventHubConsumerClient(
-            "$Default",
-            fullyQualifiedNamespace,
-            service.path,
-            sasCredential
-          );
+            const consumerClient = new EventHubConsumerClient(
+              "$Default",
+              fullyQualifiedNamespace,
+              service.path,
+              sasCredential
+            );
 
-          const properties = await consumerClient.getEventHubProperties();
-          should.exist(properties);
+            const properties = await consumerClient.getEventHubProperties();
+            should.exist(properties);
 
-          await consumerClient.close();
-        });
+            await consumerClient.close();
+          });
 
-        it("EventHubProducerClient", async () => {
-          const sasCredential = new AzureSASCredential(getSas());
+          it("EventHubProducerClient", async () => {
+            const sasCredential = new AzureSASCredential(getSas());
 
-          const producerClient = new EventHubProducerClient(
-            fullyQualifiedNamespace,
-            service.path,
-            sasCredential
-          );
+            const producerClient = new EventHubProducerClient(
+              fullyQualifiedNamespace,
+              service.path,
+              sasCredential
+            );
 
-          const properties = await producerClient.getEventHubProperties();
-          should.exist(properties);
+            const properties = await producerClient.getEventHubProperties();
+            should.exist(properties);
 
-          await producerClient.close();
+            await producerClient.close();
+          });
         });
       });
     });

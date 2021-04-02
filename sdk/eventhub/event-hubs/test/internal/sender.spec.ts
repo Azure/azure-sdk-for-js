@@ -348,9 +348,7 @@ describe("internal/sender.spec.ts", function() {
               { body: `${list[i].name}` },
               {
                 tracingOptions: {
-                  spanOptions: {
-                    parent: rootSpan.context()
-                  }
+                  tracingContext: setSpan(context.active(), rootSpan)
                 }
               }
             );
@@ -402,9 +400,7 @@ describe("internal/sender.spec.ts", function() {
         function modernOptions(rootSpan: TestSpan): OperationOptions {
           return {
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           };
         }
@@ -485,9 +481,7 @@ describe("internal/sender.spec.ts", function() {
                 }
                 await producerClient.sendBatch(eventDataBatch, {
                   tracingOptions: {
-                    spanOptions: {
-                      parent: rootSpan.context()
-                    }
+                    tracingContext: setSpan(context.active(), rootSpan)
                   }
                 });
                 rootSpan.end();
@@ -772,9 +766,7 @@ describe("internal/sender.spec.ts", function() {
           await producerClient.sendBatch(events, {
             partitionId: "0",
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           rootSpan.end();
@@ -931,9 +923,7 @@ describe("internal/sender.spec.ts", function() {
           }
           await producerClient.sendBatch(events, {
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           rootSpan.end();
@@ -1005,9 +995,7 @@ describe("internal/sender.spec.ts", function() {
           events[0].properties = { [TRACEPARENT_PROPERTY]: "foo" };
           await producerClient.sendBatch(events, {
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           rootSpan.end();
@@ -1066,7 +1054,7 @@ describe("internal/sender.spec.ts", function() {
             throw new Error(`Test failure`);
           } catch (err) {
             err.name.should.equal("AbortError");
-            err.message.should.equal("Send request has been cancelled.");
+            err.message.should.equal(StandardAbortMessage);
           }
         });
 

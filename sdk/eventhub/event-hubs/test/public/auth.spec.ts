@@ -13,7 +13,7 @@ import { createSasTokenProvider } from "@azure/core-amqp";
 import { SinonFakeTimers, useFakeTimers } from "sinon";
 
 const should = chai.should();
-const env = getEnvVars();
+const env = getEnvVars("live");
 
 const TEST_FAILURE = "test failure";
 

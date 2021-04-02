@@ -129,9 +129,7 @@ describe("public/hubruntime.spec.ts", function() {
           const rootSpan = tracer.startSpan("root");
           const ids = await producerClient.getPartitionIds({
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
@@ -166,9 +164,7 @@ describe("public/hubruntime.spec.ts", function() {
           const rootSpan = tracer.startSpan("root");
           const ids = await consumerClient.getPartitionIds({
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           ids.should.have.members(arrayOfIncreasingNumbersFromZero(ids.length));
@@ -261,9 +257,7 @@ describe("public/hubruntime.spec.ts", function() {
           const rootSpan = tracer.startSpan("root");
           const hubRuntimeInfo = await producerClient.getEventHubProperties({
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           hubRuntimeInfo.partitionIds.should.have.members(
@@ -300,9 +294,7 @@ describe("public/hubruntime.spec.ts", function() {
           const rootSpan = tracer.startSpan("root");
           const hubRuntimeInfo = await consumerClient.getEventHubProperties({
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           hubRuntimeInfo.partitionIds.should.have.members(
@@ -473,9 +465,7 @@ describe("public/hubruntime.spec.ts", function() {
           const rootSpan = tracer.startSpan("root");
           const partitionRuntimeInfo = await producerClient.getPartitionProperties("0", {
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           partitionRuntimeInfo.partitionId.should.equal("0");
@@ -514,9 +504,7 @@ describe("public/hubruntime.spec.ts", function() {
           const rootSpan = tracer.startSpan("root");
           const partitionRuntimeInfo = await consumerClient.getPartitionProperties("0", {
             tracingOptions: {
-              spanOptions: {
-                parent: rootSpan.context()
-              }
+              tracingContext: setSpan(context.active(), rootSpan)
             }
           });
           partitionRuntimeInfo.partitionId.should.equal("0");
