@@ -18,7 +18,9 @@ export const DEFAULT_TYPESCRIPT_CONFIG = {
   compilerOptions: {
     target: "ES2018",
     module: "commonjs",
+
     moduleResolution: "node",
+    resolveJsonModule: true,
 
     esModuleInterop: true,
     allowSyntheticDefaultImports: true,
