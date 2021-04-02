@@ -24,7 +24,7 @@ jobs:
         BaseRepoBranch: 'a-test-branch'
         BaseRepoOwner: 'Azure'
         CommitMsg: "Update targeting packages based on release csv."
-        TargetRepoName: 'azure-docs-sdk-java'
-        TargetRepoOwner: 'Azure'
+        TargetRepoName: 'azure-docs-sdk-node'
+        TargetRepoOwner: 'MicrosoftDocs'
         WorkingDirectory: $(Build.SourcesDirectory)/repo
         ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
