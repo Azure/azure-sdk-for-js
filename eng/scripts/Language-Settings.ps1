@@ -188,14 +188,14 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
   $latestPackages = $allLatestCSVRows.npm_package_sources
   for ($j = 0; $j -lt $latestPackages.Length; $j++) {
     $pkg = $latestPackages[$j].name
-    if (!($latestMetadata.Package -contains $pkg)) {
+    if (!($metadata.Package -contains $pkg)) {
       $latestPackageList += $latestPackages[$j]
     }
   }
   $previewPackages = $allPreviewCSVRows.npm_package_sources
   for ($j = 0; $j -lt $previewPackages.Length; $j++) {
     $pkg = "$($previewPackages[$j].name)" -replace "(.*)@next", "$1"
-    if (!($previewMetadata.Package -contains $pkg)) {
+    if (!($metadata.Package -contains $pkg)) {
       $previewPackageList += $previewPackages[$j]
     }
   }
