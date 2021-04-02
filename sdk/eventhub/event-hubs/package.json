@@ -58,6 +58,7 @@
     "execute:samples": "npm run build:samples && echo Skipped.",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "generate-certs": "node ./scripts/generateCerts.js",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "cross-env TEST_TARGET=live nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -70,8 +71,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "preunit-test:node": "node ./scripts/generateCerts.js",
-    "unit-test:node": "cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" TEST_TARGET=mock nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
+    "unit-test:node": "npm run generate-certs && cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" TEST_TARGET=mock nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
