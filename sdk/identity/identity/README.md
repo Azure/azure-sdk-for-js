@@ -221,8 +221,6 @@ setLogLevel("info");
 
 ### Read the documentation
 
-The client libraries listed [here][releases] support authenticating with `TokenCredential` and the Azure Identity library. You can learn more about their usage and find additional documentation along with samples in the links mentioned [here][releases]
-
 API documentation for this library can be found on our [documentation site](https://docs.microsoft.com/javascript/api/@azure/identity).
 
 ### Provide Feedback
@@ -247,7 +245,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azureclilogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLogin.png
 [azureclilogindevicecode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
 [defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/DefaultAzureCredentialAuthenticationFlow.png
-[releases]: https://azure.github.io/azure-sdk/releases/latest/js.html
-[graphsdk]: https://github.com/microsoftgraph/msgraph-sdk-javascript
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)
