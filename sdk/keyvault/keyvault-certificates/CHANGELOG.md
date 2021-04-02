@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.0-beta.3 (2021-04-06)
+## 4.2.0-beta.3 (2021-04-05)
 
 - Updated the Latest service version to 7.2.
 - Added a sample demonstrating how to import PFX / PEM certificates.

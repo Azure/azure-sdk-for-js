@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.0-beta.5 (2021-04-06)
+## 4.2.0-beta.5 (2021-04-05)
 
 - Added local cryptography support for encryption / decryption for `A128CBCPAD`, `A192CBCPAD`, and `A256CBCPAD`.
 - For AES-CBC encryption we will now generate an IV if the user did not pass it in, making `iv` optional for those parameters.
