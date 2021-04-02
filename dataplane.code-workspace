@@ -109,10 +109,6 @@
       "path": "sdk/formrecognizer/ai-form-recognizer"
     },
     {
-      "name": "testhub",
-      "path": "sdk/eventhub/testhub"
-    },
-    {
       "name": "identity",
       "path": "sdk/identity/identity"
     },

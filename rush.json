@@ -498,11 +498,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "testhub",
-      "projectFolder": "sdk/eventhub/testhub",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
       "versionPolicyName": "client"
