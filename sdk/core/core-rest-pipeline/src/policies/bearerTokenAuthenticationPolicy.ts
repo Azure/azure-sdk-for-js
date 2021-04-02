@@ -211,7 +211,7 @@ export function bearerTokenAuthenticationPolicy(
 
       if (challenge && callbacks?.authenticateRequestOnChallenge) {
         // processes challenge
-        const sendRequest = await callbacks.authenticateRequestOnChallenge(challenge, {
+        const shouldSendRequest = await callbacks.authenticateRequestOnChallenge(challenge, {
           scopes,
           request,
           previousToken: cycler.cachedToken,
@@ -219,7 +219,7 @@ export function bearerTokenAuthenticationPolicy(
           setAuthorizationHeader
         });
 
-        if (sendRequest) {
+        if (shouldSendRequest) {
           return next(request);
         }
       }
