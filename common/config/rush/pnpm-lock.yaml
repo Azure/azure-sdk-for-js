@@ -1576,6 +1576,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==
+  /edge-launcher/1.2.2:
+    dev: false
+    resolution:
+      integrity: sha1-60Cq+9Bnpup27/+rBke81VCbN7I=
   /ee-first/1.1.1:
     dev: false
     resolution:
@@ -2877,10 +2881,44 @@ packages:
       node: '>=10.0.0'
     resolution:
       integrity: sha512-atDvLQqvPcLxhED0cmXYdsPMCQuh6Asa9FMZW1bhNqlVEhJoB9qyZ2BY1gu7D/rr5GLGb5QzYO4siQskxaWP/g==
+  /karma-edge-launcher/0.4.2_karma@5.2.3:
+    dependencies:
+      edge-launcher: 1.2.2
+      karma: 5.2.3
+    dev: false
+    engines:
+      node: '>=4'
+    peerDependencies:
+      karma: '>=0.9'
+    resolution:
+      integrity: sha512-YAJZb1fmRcxNhMIWYsjLuxwODBjh2cSHgTW/jkVmdpGguJjLbs9ZgIK/tEJsMQcBLUkO+yO4LBbqYxqgGW2HIw==
   /karma-env-preprocessor/0.1.1:
     dev: false
     resolution:
       integrity: sha1-u+jIfVnADtt2BwvTwxtLOdXcfhU=
+  /karma-firefox-launcher/1.3.0:
+    dependencies:
+      is-wsl: 2.2.0
+    dev: false
+    resolution:
+      integrity: sha512-Fi7xPhwrRgr+94BnHX0F5dCl1miIW4RHnzjIGxF8GaIEp7rNqX7LSi7ok63VXs3PS/5MQaQMhGxw+bvD+pibBQ==
+  /karma-ie-launcher/1.0.0_karma@5.2.3:
+    dependencies:
+      karma: 5.2.3
+      lodash: 4.17.20
+    dev: false
+    peerDependencies:
+      karma: '>=0.9'
+    resolution:
+      integrity: sha1-SXmGhCxJAZA0bNifVJTKmDDG1Zw=
+  /karma-json-preprocessor/0.3.3_karma@5.2.3:
+    dependencies:
+      karma: 5.2.3
+    dev: false
+    peerDependencies:
+      karma: '>=0.9'
+    resolution:
+      integrity: sha1-X36ZW+uuS06PCiy1IVBVSq8LHi4=
   /karma-junit-reporter/2.0.1_karma@5.2.3:
     dependencies:
       karma: 5.2.3
@@ -4994,7 +5032,11 @@ packages:
       karma: 5.2.3
       karma-chrome-launcher: 3.1.0
       karma-coverage: 2.0.3
+      karma-edge-launcher: 0.4.2_karma@5.2.3
       karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@5.2.3
+      karma-json-preprocessor: 0.3.3_karma@5.2.3
       karma-junit-reporter: 2.0.1_karma@5.2.3
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5_karma@5.2.3
@@ -5024,7 +5066,7 @@ packages:
     optionalDependencies:
       keytar: 7.3.0
     resolution:
-      integrity: sha512-ePVOeJwzfqCpW7bXn/aG8Me0B3+wnd6nqrzAuZuZgKU7+I/efhoIpC78sanF5Sa2fQTWZpjFkFdJ3JxXEOFlbA==
+      integrity: sha512-6wWxGl4021kG/bTAL33B/ojPLnJHylQc6yiQkVF8NMPkCFk/9Qm92Afm+ovifB04u8bfiJz9InfQDO8MLFVDnA==
       tarball: file:projects/identity.tgz
     version: 0.0.0
 registry: ''
