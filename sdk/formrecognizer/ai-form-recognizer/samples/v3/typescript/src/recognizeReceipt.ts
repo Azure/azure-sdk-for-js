@@ -40,7 +40,7 @@ export async function main() {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
-  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
+  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/formrecognizer/receiptfields
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(

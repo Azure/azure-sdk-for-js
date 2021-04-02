@@ -326,10 +326,10 @@ main().catch((err) => {
 
 You are not limited to receipts! There are a few prebuilt models to choose from, each of which has its own set of supported fields.:
 
-- Receipts, through the `beginRecognizeReceipts` method (see [the supported fields of the receipt model](https://aka.ms/azsdk/formrecognizer/receiptfields)).
-- Business cards, through `beginRecognizeBusinessCards` (see [the supported fields of the business card model](https://aka.ms/azsdk/formrecognizer/businesscardfields)).
-- Invoices, through `beginRecognizeInvoices` (see [the supported fields of the invoice model](https://aka.ms/azsdk/formrecognizer/invoicefields)).
-- Identity Documents (such as driver licenses and passports), through `beginRecognizeIdDocuments` (see [the supported fields of the identity document model](https://aka.ms/azsdk/formrecognizer/iddocumentfields)).
+- Receipts, through the `beginRecognizeReceipts` method (see [the supported fields of the receipt model](https://aka.ms/formrecognizer/receiptfields)).
+- Business cards, through `beginRecognizeBusinessCards` (see [the supported fields of the business card model](https://aka.ms/formrecognizer/businesscardfields)).
+- Invoices, through `beginRecognizeInvoices` (see [the supported fields of the invoice model](https://aka.ms/formrecognizer/invoicefields)).
+- Identity Documents (such as driver licenses and passports), through `beginRecognizeIdDocuments` (see [the supported fields of the identity document model](https://aka.ms/formrecognizer/iddocumentfields)).
 
 ### Train a Model
 

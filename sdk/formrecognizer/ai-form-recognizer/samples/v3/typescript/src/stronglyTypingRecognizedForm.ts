@@ -54,7 +54,7 @@ type StrongArrayField<T> = Omit<
  * This type was accurate for a United States-based receipt at the time of
  * writing, but isn't guaranteed to be stable.
  *
- ( For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
+ ( For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/formrecognizer/receiptfields
  */
 interface USReceipt {
   formType: "prebuilt:receipt";
