@@ -18,8 +18,10 @@ import {
   ContainerRegistryClientOptions,
   ContentProperties,
   DeleteRepositoryResult,
+  RegistryArtifactOrderBy,
   RegistryArtifactProperties,
   RepositoryProperties,
+  TagOrderBy,
   TagProperties
 } from "./model";
 import { extractNextLink } from "./utils";
@@ -75,7 +77,7 @@ export interface SetTagPropertiesOptions extends OperationOptions {}
  */
 export interface ListRegistryArtifactsOptions extends OperationOptions {
   /** orderby query parameter */
-  orderby?: string;
+  orderBy?: RegistryArtifactOrderBy;
 }
 
 /**
@@ -83,7 +85,7 @@ export interface ListRegistryArtifactsOptions extends OperationOptions {
  */
 export interface ListTagsOptions extends OperationOptions {
   /** orderby query parameter */
-  orderby?: string;
+  orderBy?: TagOrderBy;
   /** filter by digest */
   digest?: string;
 }
@@ -444,7 +446,7 @@ export class ContainerRepositoryClient {
   }
 
   private async *listArtifactItems(
-    options: ListTagsOptions = {}
+    options: ListRegistryArtifactsOptions = {}
   ): AsyncIterableIterator<RegistryArtifactProperties> {
     for await (const page of this.listArtifactPage({}, options)) {
       yield* page;
@@ -458,7 +460,8 @@ export class ContainerRepositoryClient {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
-        n: continuationState.maxPageSize
+        n: continuationState.maxPageSize,
+        orderby: options.orderBy
       };
       let currentPage = await this.client.containerRegistryRepository.getManifests(
         this.repository,
@@ -547,7 +550,8 @@ export class ContainerRepositoryClient {
     if (!continuationState.continuationToken) {
       const optionsComplete = {
         ...options,
-        n: continuationState.maxPageSize
+        n: continuationState.maxPageSize,
+        orderby: options.orderBy
       };
       let currentPage = await this.client.containerRegistryRepository.getTags(
         this.repository,

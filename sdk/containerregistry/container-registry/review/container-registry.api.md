@@ -85,7 +85,7 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 
 // @public
 export interface ListRegistryArtifactsOptions extends OperationOptions {
-    orderby?: string;
+    orderBy?: RegistryArtifactOrderBy;
 }
 
 // @public
@@ -95,7 +95,7 @@ export interface ListRepositoriesOptions extends OperationOptions {
 // @public
 export interface ListTagsOptions extends OperationOptions {
     digest?: string;
-    orderby?: string;
+    orderBy?: TagOrderBy;
 }
 
 // @public
@@ -104,6 +104,9 @@ export interface ManifestAttributesManifestReferences {
     digest: string;
     operatingSystem: string;
 }
+
+// @public
+export type RegistryArtifactOrderBy = "timedesc" | "timeasc";
 
 // @public
 export type RegistryArtifactProperties = Omit<ServiceRegistryArtifactProperties, "references"> & {
@@ -145,6 +148,9 @@ export interface SetPermissionsOptions extends OperationOptions {
 // @public
 export interface SetTagPropertiesOptions extends OperationOptions {
 }
+
+// @public
+export type TagOrderBy = "timedesc" | "timeasc";
 
 // @public
 export interface TagProperties {
