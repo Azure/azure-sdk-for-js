@@ -3,11 +3,8 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import {
-  bearerTokenAuthenticationPolicy,
-  InternalPipelineOptions
-} from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
@@ -25,11 +22,9 @@ import {
   RepositoryProperties,
   TagProperties
 } from "./model";
-import {
-  ContainerRegistryUserCredential,
-  createContainerRegistryUserCredentialPolicy
-} from "./containerRegistryUserCredentialPolicy";
 import { extractNextLink } from "./utils";
+import { ChallengeHandler } from "./containerRegistryChallengeHandler";
+import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChanllengeAuthenticationPolicy";
 
 /**
  * Options for the `getProperties` method of `ContainerRepositoryClient`.
@@ -98,6 +93,7 @@ export interface ListTagsOptions extends OperationOptions {
  */
 export class ContainerRepositoryClient {
   private client: GeneratedClient;
+  private authClient: GeneratedClient;
   /**
    * The Azure Container Registry endpoint.
    */
@@ -133,7 +129,7 @@ export class ContainerRepositoryClient {
   constructor(
     endpointUrl: string,
     repository: string,
-    credential: TokenCredential | ContainerRegistryUserCredential,
+    credential: TokenCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpointUrl;
@@ -150,11 +146,6 @@ export class ContainerRepositoryClient {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    // The AAD scope for an API is usually the baseUri + "/.default", but it
-    // may be different for your service.
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy({ credential, scopes: `${endpointUrl}/.default` })
-      : createContainerRegistryUserCredentialPolicy(credential);
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       loggingOptions: {
@@ -166,7 +157,13 @@ export class ContainerRepositoryClient {
       }
     };
 
+    this.authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
     this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    const authPolicy = bearerTokenChallengeAuthenticationPolicy({
+      credential,
+      scopes: `https://management.core.windows.net/.default`,
+      challengeCallbacks: new ChallengeHandler(this.authClient)
+    });
     this.client.pipeline.addPolicy(authPolicy);
   }
 
