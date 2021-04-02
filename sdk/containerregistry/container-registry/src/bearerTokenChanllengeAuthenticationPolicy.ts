@@ -196,7 +196,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       // Allows users to easily set the authorization header.
-      function setAuthorizationHeader(accessToken: AccessToken) {
+      function setAuthorizationHeader(accessToken: AccessToken): void {
         request.headers.set("Authorization", `Bearer ${accessToken.token}`);
       }
 
@@ -211,16 +211,18 @@ export function bearerTokenChallengeAuthenticationPolicy(
       }
 
       let response: PipelineResponse;
+      let error: Error | undefined;
       try {
         response = await next(request);
       } catch (err) {
+        error = err;
         response = err.response;
       }
       const challenge = getChallenge(response);
 
       if (challenge && callbacks?.authenticateRequestOnChallenge) {
         // processes challenge
-        const sendRequest = await callbacks.authenticateRequestOnChallenge(challenge, {
+        const shouldSendRequest = await callbacks.authenticateRequestOnChallenge(challenge, {
           scopes,
           request,
           previousToken: cycler.cachedToken,
@@ -228,12 +230,16 @@ export function bearerTokenChallengeAuthenticationPolicy(
           setAuthorizationHeader
         });
 
-        if (sendRequest) {
+        if (shouldSendRequest) {
           return next(request);
         }
       }
 
-      return response;
+      if (error) {
+        throw error;
+      } else {
+        return response;
+      }
     }
   };
 }
