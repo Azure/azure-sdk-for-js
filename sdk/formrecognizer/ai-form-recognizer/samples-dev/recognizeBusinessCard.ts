@@ -12,7 +12,6 @@ import {
 } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
-import * as path from "path";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -22,7 +21,7 @@ export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const fileName = path.join(__dirname, "../assets/business-card-english.jpg");
+  const fileName = "./assets/business-card-english.jpg";
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);

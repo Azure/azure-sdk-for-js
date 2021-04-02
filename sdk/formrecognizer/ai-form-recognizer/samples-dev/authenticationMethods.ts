@@ -13,7 +13,6 @@ import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recogni
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as fs from "fs";
-import * as path from "path";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -60,7 +59,7 @@ async function useApiKey() {
  * for content recognition and print its output.
  */
 async function recognizeContentWithClient(client: FormRecognizerClient) {
-  const fileName = path.join(__dirname, "../assets/Form_1.jpg");
+  const fileName = "./assets/Form_1.jpg";
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);

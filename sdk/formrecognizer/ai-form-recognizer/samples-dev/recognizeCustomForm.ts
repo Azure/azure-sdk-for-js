@@ -11,7 +11,6 @@
 import { FormRecognizerClient, AzureKeyCredential, Point2D } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
-import * as path from "path";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -35,7 +34,7 @@ export async function main() {
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
   const modelId = process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const fileName = path.join(__dirname, "../assets/Form_1.jpg");
+  const fileName = "./assets/Form_1.jpg";
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);
