@@ -9,6 +9,7 @@
   - If a traced operation throws an exception we will now properly record the exception message in the tracing span.
   - Finally, naming conventions have been standardized across the KeyVault libraries taking the format of `Azure.KeyVault.<PACKAGE NAME>.<CLIENT NAME>`.
 - Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
+- [Breaking] Removed the now unused `LocalCryptographyAlgorithmName` type (Added in 4.2.0-beta.1 to support `LocalCryptographyClient` and unused since 4.2.0-beta.4)
 
 ## 4.2.0-beta.4 (2021-03-09)
 
