@@ -20,8 +20,12 @@ import { inspect } from "util";
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these model Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
-  const modelId = `dtmi:model_${v4().split('-').join("")};1`;
-  const componentId = `dtmi:component_${v4().split('-').join("")};1`;
+  const modelId = `dtmi:model_${v4()
+    .split("-")
+    .join("")};1`;
+  const componentId = `dtmi:component_${v4()
+    .split("-")
+    .join("")};1`;
   const digitalTwinId = `digitalTwin-${v4()}`;
 
   const temporaryComponent = {
@@ -60,7 +64,7 @@ async function main() {
   const temporaryTwin = {
     $dtId: digitalTwinId,
     $metadata: {
-      "$model": modelId
+      $model: modelId
     },
     Prop1: 42,
     Component1: {
@@ -72,10 +76,9 @@ async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
   let url: string;
   if (process.env.AZURE_DIGITALTWINS_URL) {
-    url = process.env.AZURE_DIGITALTWINS_URL
-  }
-  else {
-    throw new Error('Required environment variable AZURE_DIGITALTWINS_URL is not set.')
+    url = process.env.AZURE_DIGITALTWINS_URL;
+  } else {
+    throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
 
   // DefaultAzureCredential is provided by @azure/identity. It supports
@@ -94,7 +97,10 @@ async function main() {
   console.log(inspect(models));
 
   // Create digital twin
-  const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, JSON.stringify(temporaryTwin));
+  const createdTwin = await serviceClient.upsertDigitalTwin(
+    digitalTwinId,
+    JSON.stringify(temporaryTwin)
+  );
   console.log(`Created Digital Twin:`);
   console.log(inspect(createdTwin));
 
@@ -105,7 +111,11 @@ async function main() {
     path: "/ComponentProp1",
     value: "value2"
   };
-  const updateComponentResponse = await serviceClient.updateComponent(digitalTwinId, componentPath, [patch]);
+  const updateComponentResponse = await serviceClient.updateComponent(
+    digitalTwinId,
+    componentPath,
+    [patch]
+  );
   console.log(`Update Component response:`);
   console.log(inspect(updateComponentResponse));
 

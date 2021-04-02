@@ -14,8 +14,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { inspect } from "util";
 import { v4 } from "uuid";
-import { default as buildingTwin } from "./dtdl/digitalTwins/buildingTwin.json";
-import { default as building } from "./dtdl/models/building.json";
+import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
+import building from "./dtdl/models/building.json";
 
 // For the purpose of this example we will create temporary digital twin using random Ids.
 // We have to make sure these Ids are unique within the DT instance so we use generated UUIDs.
@@ -23,10 +23,9 @@ async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
   let url: string;
   if (process.env.AZURE_DIGITALTWINS_URL) {
-    url = process.env.AZURE_DIGITALTWINS_URL
-  }
-  else {
-    throw new Error('Required environment variable AZURE_DIGITALTWINS_URL is not set.')
+    url = process.env.AZURE_DIGITALTWINS_URL;
+  } else {
+    throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
 
   // DefaultAzureCredential is provided by @azure/identity. It supports

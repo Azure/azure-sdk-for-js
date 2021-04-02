@@ -39,36 +39,34 @@ import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { v4 } from "uuid";
 import { inspect } from "util";
 
-import { default as buildingTwin } from "./dtdl/digitalTwins/buildingTwin.json"
-import { default as floorTwin } from "./dtdl/digitalTwins/floorTwin.json"
-import { default as hvacTwin } from "./dtdl/digitalTwins/hvacTwin.json"
-import { default as roomTwin } from "./dtdl/digitalTwins/roomTwin.json"
+import buildingTwin from "./dtdl/digitalTwins/buildingTwin.json";
+import floorTwin from "./dtdl/digitalTwins/floorTwin.json";
+import hvacTwin from "./dtdl/digitalTwins/hvacTwin.json";
+import roomTwin from "./dtdl/digitalTwins/roomTwin.json";
 
-import { default as building } from "./dtdl/models/building.json"
-import { default as floor } from "./dtdl/models/floor.json"
-import { default as room } from "./dtdl/models/room.json"
-import { default as wifi } from "./dtdl/models/wifi.json"
-import { default as hvac } from "./dtdl/models/hvac.json"
+import building from "./dtdl/models/building.json";
+import floor from "./dtdl/models/floor.json";
+import room from "./dtdl/models/room.json";
+import wifi from "./dtdl/models/wifi.json";
+import hvac from "./dtdl/models/hvac.json";
 
-import { default as hospitalRelationships } from "./dtdl/relationships/hospitalRelationships.json"
+import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.json";
 
 async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
   let url: string;
   if (process.env.AZURE_DIGITALTWINS_URL) {
-    url = process.env.AZURE_DIGITALTWINS_URL
-  }
-  else {
-    throw new Error('Required environment variable AZURE_DIGITALTWINS_URL is not set.')
+    url = process.env.AZURE_DIGITALTWINS_URL;
+  } else {
+    throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
 
   // AZURE_EVENT_HUB_ENDPOINT_NAME: The endpoint name of your Azure Event Hub
   let eventHubEndpointName: string;
   if (process.env.AZURE_EVENT_HUB_ENDPOINT_NAME) {
     eventHubEndpointName = process.env.AZURE_EVENT_HUB_ENDPOINT_NAME;
-  }
-  else {
-    throw new Error('Required environment variable AZURE_EVENT_HUB_ENDPOINT_NAME is not set.')
+  } else {
+    throw new Error("Required environment variable AZURE_EVENT_HUB_ENDPOINT_NAME is not set.");
   }
 
   // DefaultAzureCredential is provided by @azure/identity. It supports
@@ -97,19 +95,31 @@ async function main() {
   const hvacTwinId = "HVACTwin";
   const roomTwinId = "RoomTwin";
 
-  const createdBuildingTwin = await serviceClient.upsertDigitalTwin(buildingTwinId, JSON.stringify(buildingTwin));
+  const createdBuildingTwin = await serviceClient.upsertDigitalTwin(
+    buildingTwinId,
+    JSON.stringify(buildingTwin)
+  );
   console.log(`BuildingTwin:`);
   console.log(inspect(createdBuildingTwin));
 
-  const createdFloorTwin = await serviceClient.upsertDigitalTwin(floorTwinId, JSON.stringify(floorTwin));
+  const createdFloorTwin = await serviceClient.upsertDigitalTwin(
+    floorTwinId,
+    JSON.stringify(floorTwin)
+  );
   console.log(`FloorTwin:`);
   console.log(inspect(createdFloorTwin));
 
-  const createdHVACTwin = await serviceClient.upsertDigitalTwin(hvacTwinId, JSON.stringify(hvacTwin));
+  const createdHVACTwin = await serviceClient.upsertDigitalTwin(
+    hvacTwinId,
+    JSON.stringify(hvacTwin)
+  );
   console.log(`HVACTwin:`);
   console.log(inspect(createdHVACTwin));
 
-  const createdRoomTwin = await serviceClient.upsertDigitalTwin(roomTwinId, JSON.stringify(roomTwin));
+  const createdRoomTwin = await serviceClient.upsertDigitalTwin(
+    roomTwinId,
+    JSON.stringify(roomTwin)
+  );
   console.log(`RoomTwin:`);
   console.log(inspect(createdRoomTwin));
 

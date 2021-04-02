@@ -130,7 +130,10 @@
       "azure-digital-twins"
     ],
     "extraFiles": {
-      "./samples-dev/dtdl": ["javascript/dtdl", "typescript/src/dtdl"]
+      "./samples-dev/dtdl": [
+        "javascript/dtdl",
+        "typescript/src/dtdl"
+      ]
     },
     "requiredResources": {
       "Azure Digital Twins instance": "https://docs.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal"
