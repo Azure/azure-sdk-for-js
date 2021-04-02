@@ -211,6 +211,9 @@ export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" |
   }
 }
 
+/**
+ * @internal
+ */
 export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFlag | undefined {
   if (!isFeatureFlag(setting) || !setting.value) {
     return undefined;
@@ -235,6 +238,9 @@ export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFl
   return setting;
 }
 
+/**
+ * @internal
+ */
 export function serializeFeatureFlagParam(setting: FeatureFlagParam): ConfigurationSettingParam {
   const value: JsonFeatureFlag & { id: string } = {
     id: setting.key.replace(featureFlagPrefix, ""),

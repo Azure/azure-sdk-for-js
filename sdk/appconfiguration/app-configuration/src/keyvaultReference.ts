@@ -57,6 +57,9 @@ export function deserializeSecretReference(
   }
 }
 
+/**
+ * @internal
+ */
 export function serializeSecretReferenceParam(
   setting: SecretReferenceParam
 ): ConfigurationSettingParam {
