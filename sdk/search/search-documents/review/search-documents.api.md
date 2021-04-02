@@ -658,6 +658,7 @@ export type KeyPhraseExtractionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
     defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
     maxKeyPhraseCount?: number | null;
+    modelVersion?: string | null;
 };
 
 // @public
@@ -1270,6 +1271,8 @@ export const enum KnownVisualFeature {
 // @public
 export type LanguageDetectionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
+    defaultCountryHint?: string | null;
+    modelVersion?: string | null;
 };
 
 // @public
@@ -1488,7 +1491,7 @@ export type PhoneticTokenFilter = BaseTokenFilter & {
 };
 
 // @public
-export type QueryType = "simple" | "full";
+export type QueryType = "simple" | "full" | "semantic";
 
 // @public
 export type RegexFlags = string;

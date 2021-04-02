@@ -996,6 +996,8 @@ export type KeyPhraseExtractionSkill = SearchIndexerSkill & {
   defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
   /** A number indicating how many key phrases to return. If absent, all identified key phrases will be returned. */
   maxKeyPhraseCount?: number | null;
+  /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
+  modelVersion?: string | null;
 };
 
 /** A skill that extracts text from image files. */
@@ -1024,6 +1026,10 @@ export type ImageAnalysisSkill = SearchIndexerSkill & {
 export type LanguageDetectionSkill = SearchIndexerSkill & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
+  /** A country code to use as a hint to the language detection model if it cannot disambiguate the language. */
+  defaultCountryHint?: string | null;
+  /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
+  modelVersion?: string | null;
 };
 
 /** A skill for reshaping the outputs. It creates a complex type to support composite fields (also known as multipart fields). */

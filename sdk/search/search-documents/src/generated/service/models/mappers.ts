@@ -2395,6 +2395,13 @@ export const KeyPhraseExtractionSkill: coreHttp.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      modelVersion: {
+        serializedName: "modelVersion",
+        nullable: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2474,7 +2481,21 @@ export const LanguageDetectionSkill: coreHttp.CompositeMapper = {
     uberParent: "SearchIndexerSkill",
     polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
     modelProperties: {
-      ...SearchIndexerSkill.type.modelProperties
+      ...SearchIndexerSkill.type.modelProperties,
+      defaultCountryHint: {
+        serializedName: "defaultCountryHint",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      },
+      modelVersion: {
+        serializedName: "modelVersion",
+        nullable: true,
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };

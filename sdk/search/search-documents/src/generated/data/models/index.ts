@@ -45,6 +45,11 @@ export interface SearchDocumentsResult {
    */
   readonly facets?: { [propertyName: string]: FacetResult[] };
   /**
+   * The answers query results for the search operation; null if the answers query parameter was not specified or set to 'none'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly answers?: { [propertyName: string]: AnswerResult[] } | null;
+  /**
    * Continuation JSON payload returned when Azure Cognitive Search can't return all the requested results in a single Search response. You can use this JSON along with @odata.nextLink to formulate another POST Search request to get the next part of the search response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -70,6 +75,32 @@ export interface FacetResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly count?: number;
+}
+
+/** An answer is a text passage extracted from the contents of the most relevant documents that matched the query. Answers are extracted from the top search results. Answer candidates are scored and the top answers are selected. */
+export interface AnswerResult {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * The score value represents how relevant the answer is to the the query relative to other answers returned for the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly score?: number;
+  /**
+   * The key of the document the answer was extracted from.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly key?: string;
+  /**
+   * The text passage extracted from the document contents as the answer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly text?: string;
+  /**
+   * Same text passage as in the Text property with highlighted text phrases most relevant to the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly highlights?: string | null;
 }
 
 /** Parameters for filtering, sorting, faceting, paging, and other search query behaviors. */
@@ -106,6 +137,12 @@ export interface SearchRequest {
   searchFields?: string;
   /** A value that specifies whether any or all of the search terms must be matched in order to count the document as a match. */
   searchMode?: SearchMode;
+  /** A value that specifies the language of the search query. */
+  queryLanguage?: QueryLanguage;
+  /** A value that specified the type of the speller to use to spell-correct individual search query terms. */
+  speller?: Speller;
+  /** A value that specifies whether answers should be returned as part of the search response. */
+  answers?: Answers;
   /** The comma-separated list of fields to retrieve. If unspecified, all fields marked as retrievable in the schema are included. */
   select?: string;
   /** The number of search results to skip. This value cannot be greater than 100,000. If you need to scan documents in sequence, but cannot use skip due to this limitation, consider using orderby on a totally-ordered key and filter with a range query instead. */
@@ -124,10 +161,36 @@ export interface SearchResult {
    */
   readonly _score: number;
   /**
+   * The relevance score computed by the semantic ranker for the top search results. Search results are sorted by the RerankerScore first and then by the Score. RerankerScore is only returned for queries of type 'semantic'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rerankerScore?: number | null;
+  /**
    * Text fragments from the document that indicate the matching search terms, organized by each applicable field; null if hit highlighting was not enabled for the query.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly _highlights?: { [propertyName: string]: string[] };
+  /**
+   * Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly captions?: { [propertyName: string]: CaptionResult[] } | null;
+}
+
+/** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type 'semantic'.. */
+export interface CaptionResult {
+  /** Describes unknown properties. The value of an unknown property can be of "any" type. */
+  [property: string]: any;
+  /**
+   * A representative text passage extracted from the document most relevant to the search query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly text?: string;
+  /**
+   * Same text passage as in the Text property with highlighted phrases most relevant to the query.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly highlights?: string | null;
 }
 
 /** Response containing suggestion query results from an index. */
@@ -312,6 +375,12 @@ export interface SearchOptions {
   scoringProfile?: string;
   /** The list of field names to which to scope the full-text search. When using fielded search (fieldName:searchExpression) in a full Lucene query, the field names of each fielded search expression take precedence over any field names listed in this parameter. */
   searchFields?: string[];
+  /** The language of the query. */
+  queryLanguage?: QueryLanguage;
+  /** Improve search recall by spell-correcting individual search query terms. */
+  speller?: Speller;
+  /** This parameter is only valid if the query type is 'semantic'. If set, the query returns answers extracted from key passages in the highest ranked documents. The number of answers returned can be configured by appending the pipe character '|' followed by the 'count-<number of answers>' option after the answers parameter value, such as 'extractive|count-3'. Default count is 1. */
+  answers?: Answers;
   /** A value that specifies whether any or all of the search terms must be matched in order to count the document as a match. */
   searchMode?: SearchMode;
   /** A value that specifies whether we want to calculate scoring statistics (such as document frequency) globally for more consistent scoring, or locally, for lower latency. */
@@ -382,8 +451,62 @@ export const enum KnownApiVersion20200630Preview {
  * **2020-06-30-Preview**: Api Version '2020-06-30-Preview'
  */
 export type ApiVersion20200630Preview = string;
+
+/** Known values of {@link QueryLanguage} that the service accepts. */
+export const enum KnownQueryLanguage {
+  /** Query language not specified. */
+  None = "none",
+  /** English */
+  EnUs = "en-us"
+}
+
+/**
+ * Defines values for QueryLanguage. \
+ * {@link KnownQueryLanguage} can be used interchangeably with QueryLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **none**: Query language not specified. \
+ * **en-us**: English
+ */
+export type QueryLanguage = string;
+
+/** Known values of {@link Speller} that the service accepts. */
+export const enum KnownSpeller {
+  /** Speller not enabled. */
+  None = "none",
+  /** Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter. */
+  Lexicon = "lexicon"
+}
+
+/**
+ * Defines values for Speller. \
+ * {@link KnownSpeller} can be used interchangeably with Speller,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **none**: Speller not enabled. \
+ * **lexicon**: Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter.
+ */
+export type Speller = string;
+
+/** Known values of {@link Answers} that the service accepts. */
+export const enum KnownAnswers {
+  /** Do not return answers for the query. */
+  None = "none",
+  /** Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language. */
+  Extractive = "extractive"
+}
+
+/**
+ * Defines values for Answers. \
+ * {@link KnownAnswers} can be used interchangeably with Answers,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **none**: Do not return answers for the query. \
+ * **extractive**: Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language.
+ */
+export type Answers = string;
 /** Defines values for QueryType. */
-export type QueryType = "simple" | "full";
+export type QueryType = "simple" | "full" | "semantic";
 /** Defines values for SearchMode. */
 export type SearchMode = "any" | "all";
 /** Defines values for ScoringStatistics. */
