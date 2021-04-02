@@ -5,7 +5,7 @@
  * This sample demonstrates how to use either an Azure Active Directory (RBAC)
  * or an API Key to authenticate a FormRecognizerClient.
  *
- * @summary authenticates a service client using both Azure Active Directory
+ * @summary authenticate a service client using both Azure Active Directory
  * and an API key
  * @azsdk-weight 50
  */

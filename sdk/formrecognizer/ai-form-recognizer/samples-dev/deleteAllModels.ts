@@ -7,7 +7,7 @@
  *
  * This sample WILL DELETE ALL MODELS IN A FORM RECOGNIZER ACCOUNT.
  *
- * @summary deletes all the models in a Form Recognizer account
+ * @summary delete all the models in a Form Recognizer account
  * @azsdk-weight 20
  */
 
