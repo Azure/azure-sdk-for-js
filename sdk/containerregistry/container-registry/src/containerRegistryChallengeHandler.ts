@@ -4,7 +4,11 @@
 import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
-import { ChallengeCallbackOptions, parseWWWAuthenticate } from "./bearerTokenAuthenticationPolicy";
+import {
+  ChallengeCallbackOptions,
+  ChallengeCallbacks,
+  parseWWWAuthenticate
+} from "./bearerTokenChanllengeAuthenticationPolicy";
 import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
@@ -27,28 +31,12 @@ import * as Parameters from "./generated/models/parameters";
  *  Request Header: { Bearer acrTokenAccess }
  *```
  */
-export class ChallengeHandler {
+export class ChallengeHandler implements ChallengeCallbacks {
   constructor(
     private authClient: GeneratedClient,
     private options: GetTokenOptions & { claims?: string } = {}
   ) {}
-  /**
-   * Allows for the customization of the next request before its sent.
-   * By default we won't be doing any changes to the initial challenge request.
-   */
-  async authenticateRequest(options: ChallengeCallbackOptions): Promise<void> {
-    if (options.previousToken) {
-      options.setAuthorizationHeader(options.previousToken);
-    } else {
-      const accessToken = await options.getToken(
-        "https://management.core.windows.net/.default",
-        {}
-      );
-      if (accessToken) {
-        options.setAuthorizationHeader(accessToken);
-      }
-    }
-  }
+
   /**
    * Updates  the authentication context based on the challenge.
    */
@@ -72,7 +60,7 @@ export class ChallengeHandler {
     // Step 3: Exchange AAD Access Token for ACR Refresh Token
     const acrRefreshToken = await ExchangeAadAccessTokenForAcrRefreshTokenAsync(
       this.authClient,
-      options.request,
+      GetAuthorizationToken(options.request),
       service,
       this.options
     );
@@ -109,7 +97,7 @@ const customExchangeAadTokenForAcrRefreshTokenOperationSpec: OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  //formDataParameters: [Parameters.aadAccesstoken],
+  // formDataParameters: [Parameters.aadAccesstoken],
   requestBody: {
     parameterPath: ["options", "payload"],
     mapper: {
@@ -138,7 +126,7 @@ const customExchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: OperationSpec
       bodyMapper: Mappers.AcrErrors
     }
   },
-  //formDataParameters: [Parameters.acrRefreshToken],
+  // formDataParameters: [Parameters.acrRefreshToken],
   requestBody: {
     parameterPath: ["options", "payload"],
     mapper: {
@@ -151,13 +139,13 @@ const customExchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: OperationSpec
   headerParameters: [Parameters.contentType3, Parameters.accept4],
   serializer: createSerializer(Mappers, /* isXml */ false)
 };
+
 async function ExchangeAadAccessTokenForAcrRefreshTokenAsync(
   authClient: GeneratedClient,
-  request: PipelineRequest,
+  aadAccessToken: string,
   service: string,
   options: GetTokenOptions & { claims?: string }
 ): Promise<string> {
-  const aadAccessToken = GetAuthorizationToken(request);
   // const acrRefreshToken = await this.authClient.authentication.exchangeAadTokenForAcrRefreshToken(
   //   {
   //     aadAccesstoken: {

@@ -24,7 +24,7 @@ import {
 } from "./model";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
-import { bearerTokenAuthenticationPolicy } from "./bearerTokenAuthenticationPolicy";
+import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChanllengeAuthenticationPolicy";
 
 /**
  * Options for the `getProperties` method of `ContainerRepositoryClient`.
@@ -159,7 +159,7 @@ export class ContainerRepositoryClient {
 
     this.authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
     this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
-    const authPolicy = bearerTokenAuthenticationPolicy({
+    const authPolicy = bearerTokenChallengeAuthenticationPolicy({
       credential,
       scopes: `https://management.core.windows.net/.default`,
       challengeCallbacks: new ChallengeHandler(this.authClient)

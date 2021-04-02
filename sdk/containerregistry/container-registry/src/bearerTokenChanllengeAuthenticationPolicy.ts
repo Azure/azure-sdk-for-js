@@ -13,7 +13,8 @@ import { createTokenCycler } from "./tokenCycler";
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
  */
-export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
+export const bearerTokenChallengeAuthenticationPolicyName =
+  "bearerTokenChallengeAuthenticationPolicy";
 
 /**
  * Options sent to the challenge callbacks
@@ -47,6 +48,28 @@ export interface ChallengeCallbackOptions {
 }
 
 /**
+ * Options to override the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+ */
+export interface ChallengeCallbacks {
+  /**
+   * Allows for the authentication of the main request of this policy before it's sent.
+   * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
+   * allows developers to easily assign a token to the ongoing request.
+   */
+  authenticateRequest?(options: ChallengeCallbackOptions): Promise<void>;
+  /**
+   * Allows to handle authentication challenges and to re-authenticate the request.
+   * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
+   * allows developers to easily assign a token to the ongoing request.
+   * If this method returns true, the underlying request will be sent once again.
+   */
+  authenticateRequestOnChallenge(
+    challenge: string,
+    options: ChallengeCallbackOptions
+  ): Promise<boolean>;
+}
+
+/**
  * Options to configure the bearerTokenAuthenticationPolicy
  */
 export interface BearerTokenAuthenticationPolicyOptions {
@@ -63,24 +86,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
    * If provided, it must contain at least the `authenticateRequestOnChallenge` method.
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */
-  challengeCallbacks?: {
-    /**
-     * Allows for the authentication of the main request of this policy before it's sent.
-     * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
-     * allows developers to easily assign a token to the ongoing request.
-     */
-    authenticateRequest?(options: ChallengeCallbackOptions): Promise<void>;
-    /**
-     * Allows to handle authentication challenges and to re-authenticate the request.
-     * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
-     * allows developers to easily assign a token to the ongoing request.
-     * If this method returns true, the underlying request will be sent once again.
-     */
-    authenticateRequestOnChallenge(
-      challenge: string,
-      options: ChallengeCallbackOptions
-    ): Promise<boolean>;
-  };
+  challengeCallbacks?: ChallengeCallbacks;
 }
 
 /**
@@ -143,7 +149,7 @@ export async function defaultAuthenticateRequestOnChallenge(
  * A policy that can request a token from a TokenCredential implementation and
  * then apply it to the Authorization header of a request as a Bearer token.
  */
-export function bearerTokenAuthenticationPolicy(
+export function bearerTokenChallengeAuthenticationPolicy(
   options: BearerTokenAuthenticationPolicyOptions
 ): PipelinePolicy {
   const { credential, scopes, challengeCallbacks } = options;
@@ -174,7 +180,7 @@ export function bearerTokenAuthenticationPolicy(
   const cycler = createTokenCycler(credential /* , options */);
 
   return {
-    name: bearerTokenAuthenticationPolicyName,
+    name: bearerTokenChallengeAuthenticationPolicyName,
     /**
      * If there's no challenge parameter:
      * - It will try to retrieve the token using the cache, or the credential's getToken.
