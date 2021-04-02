@@ -1564,6 +1564,12 @@ packages:
     dev: false
     resolution:
       integrity: sha1-ViromZ9Evl6jB29UGdzVnrQ6yVs=
+  /dotenv/8.2.0:
+    dev: false
+    engines:
+      node: '>=8'
+    resolution:
+      integrity: sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
   /ecdsa-sig-formatter/1.0.11:
     dependencies:
       safe-buffer: 5.2.1
@@ -4979,6 +4985,7 @@ packages:
       assert: 1.5.0
       axios: 0.21.1
       cross-env: 7.0.3
+      dotenv: 8.2.0
       eslint: 7.19.0
       events: 3.2.0
       express: 4.17.1
@@ -5017,7 +5024,7 @@ packages:
     optionalDependencies:
       keytar: 7.3.0
     resolution:
-      integrity: sha512-Vv7Pbqpx96TBoV9ektRCt2u3WBwF9BZqRy6ymdL+uz+6RoC0fIzZR8J4K+AuHxtSsJCRbrblbaqU3KbvlQxbDQ==
+      integrity: sha512-ePVOeJwzfqCpW7bXn/aG8Me0B3+wnd6nqrzAuZuZgKU7+I/efhoIpC78sanF5Sa2fQTWZpjFkFdJ3JxXEOFlbA==
       tarball: file:projects/identity.tgz
     version: 0.0.0
 registry: ''
