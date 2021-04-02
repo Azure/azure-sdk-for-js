@@ -10,6 +10,7 @@ import { KeyClient, DeletedKey } from "../../src";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { getServiceVersion } from "../utils/utils.common";
 
 describe("Keys client - Long Running Operations - delete", () => {
   const keyPrefix = `lroDelete${env.CERTIFICATE_NAME || "KeyName"}`;
@@ -19,7 +20,7 @@ describe("Keys client - Long Running Operations - delete", () => {
   let recorder: Recorder;
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;

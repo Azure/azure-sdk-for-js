@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Tracer } from "@opentelemetry/api";
+import { Tracer } from "../interfaces";
 import { getGlobalObject } from "./global";
 
 // V1 = OpenTelemetry 0.1

@@ -142,6 +142,8 @@ matrix([[true, false]] as const, async (useAad) => {
                 : `form-${useLabels ? model.modelId : "0"}`;
               assert.equal(submodel.formType, expectedFormType);
 
+              assert.equal(model.modelName, modelName);
+
               if (useLabels) {
                 // When training with labels, we will have expectations for the names
                 assert.ok(
@@ -149,9 +151,6 @@ matrix([[true, false]] as const, async (useAad) => {
                   "Expecting field with name 'Signature' to be valid"
                 );
                 assert.isNotTrue(model.properties?.isComposedModel);
-                // TODO: move this above as a known issue prevents unlabeled models from receiving
-                // modelName
-                assert.equal(model.modelName, modelName);
               } else {
                 assert.equal(submodel.accuracy, undefined);
                 assert.ok(
@@ -199,9 +198,9 @@ matrix([[true, false]] as const, async (useAad) => {
                 const [page] = form.pages;
                 assert.isNotEmpty(page.tables);
                 const [table] = page.tables!;
-                /* TODO: service bug where boundingBox not defined for unlabeled model
-                 * assert.ok(table.boundingBox);
-                 */
+
+                assert.ok(table.boundingBox);
+
                 assert.equal(table.pageNumber, 1);
 
                 if (useLabels) {

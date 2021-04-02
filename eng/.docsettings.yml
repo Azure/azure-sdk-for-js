@@ -50,7 +50,6 @@ known_presence_issues:
   - ["sdk/applicationinsights/applicationinsights-query/CHANGELOG.md", "#1583"]
   - ["sdk/batch/batch/CHANGELOG.md", "#1583"]
   - ["sdk/eventgrid/eventgrid/CHANGELOG.md", "#1583"]
-  - ["sdk/eventhub/testhub/CHANGELOG.md", "#1583"]
   - ["sdk/graphrbac/graph/CHANGELOG.md", "#1583"]
   - ["sdk/operationalinsights/loganalytics/CHANGELOG.md", "#1583"]
   - ["sdk/servicefabric/servicefabric/CHANGELOG.md", "#1583"]
@@ -122,7 +121,6 @@ known_content_issues:
   - ["sdk/eventhub/event-processor-host/README.md",  "#1583"]
   - ["sdk/eventhub/README.md",  "#1583"]
   - ["sdk/eventhub/mock-hub/README.md",  "#1583"]
-  - ["sdk/eventhub/testhub/README.md",  "#1583"]
   - ["sdk/graphrbac/graph/README.md",  "#1583"]
   - ["sdk/keyvault/README.md",  "#1583"]
   - ["sdk/operationalinsights/loganalytics/README.md",  "#1583"]
@@ -144,5 +142,4 @@ known_content_issues:
 package_indexing_exclusion_list:
   - "@azure/template"
   - "azure-sp"
-  - "testhub"
   - "azure-sdk-for-js"

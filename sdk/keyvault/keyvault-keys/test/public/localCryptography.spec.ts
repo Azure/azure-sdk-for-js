@@ -2,13 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import {
-  LocalSupportedAlgorithmName,
-  KeyClient,
-  CryptographyClient,
-  SignatureAlgorithm,
-  KeyVaultKey
-} from "../../src";
+import { KeyClient, CryptographyClient, SignatureAlgorithm, KeyVaultKey } from "../../src";
 import * as chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -19,6 +13,7 @@ import TestClient from "../utils/testClient";
 import { Recorder, env } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
+import { getServiceVersion } from "../utils/utils.common";
 const { assert } = chai;
 
 describe("Local cryptography public tests", () => {
@@ -35,7 +30,7 @@ describe("Local cryptography public tests", () => {
   }
 
   beforeEach(async function(this: Context) {
-    const authentication = await authenticate(this);
+    const authentication = await authenticate(this, getServiceVersion());
     client = authentication.client;
     recorder = authentication.recorder;
     testClient = authentication.testClient;
@@ -212,7 +207,7 @@ describe("Local cryptography public tests", () => {
         // Local Cryptography Client part
         const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
         const verifyResult = await localCryptoClient.verifyData(
-          localAlgorithmName as LocalSupportedAlgorithmName,
+          localAlgorithmName,
           digest,
           signature.result
         );
