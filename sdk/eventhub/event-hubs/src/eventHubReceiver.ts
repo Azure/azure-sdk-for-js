@@ -17,7 +17,8 @@ import {
   translate,
   RetryConfig,
   RetryOperationType,
-  retry
+  retry,
+  StandardAbortMessage
 } from "@azure/core-amqp";
 import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData";
 import { EventHubConsumerOptions } from "./models/private";
@@ -350,7 +351,7 @@ export class EventHubReceiver extends LinkEntity {
     // Cancellation is user-intended, so log to info instead of warning.
     logger.info(desc);
     if (this._onError) {
-      const error = new AbortError("The receive operation has been cancelled by the user.");
+      const error = new AbortError(StandardAbortMessage);
       this._onError(error);
     }
     this.clearHandlers();
@@ -697,7 +698,7 @@ export class EventHubReceiver extends LinkEntity {
           try {
             await this.close();
           } finally {
-            reject(new AbortError("The receive operation has been cancelled by the user."));
+            reject(new AbortError(StandardAbortMessage));
           }
         };
 

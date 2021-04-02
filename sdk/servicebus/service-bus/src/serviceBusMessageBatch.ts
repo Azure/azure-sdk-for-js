@@ -14,7 +14,7 @@ import {
   message as RheaMessageUtil,
   Message as RheaMessage
 } from "rhea-promise";
-import { SpanContext } from "@opentelemetry/api";
+import { SpanContext } from "@azure/core-tracing";
 import { convertTryAddOptionsForCompatibility, instrumentMessage } from "./diagnostics/tracing";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
 import { defaultDataTransformer } from "./dataTransformer";

@@ -122,11 +122,11 @@ export class VisualStudioCodeCredential implements TokenCredential {
 
     if (options && options.tenantId) {
       checkTenantId(logger, options.tenantId);
-
       this.tenantId = options.tenantId;
     } else {
       this.tenantId = CommonTenantId;
     }
+
     checkUnsupportedTenant(this.tenantId);
   }
 

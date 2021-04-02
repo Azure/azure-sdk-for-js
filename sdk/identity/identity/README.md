@@ -88,8 +88,6 @@ If used from NodeJS, the `DefaultAzureCredential` will attempt to authenticate v
 - Visual Studio Code - If the developer has authenticated via the Visual Studio Code Azure Account plugin, the `DefaultAzureCredential` will authenticate with that account.
 - Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
 
-If the `DefaultAzureCredential` is used from a browser, it will only use the `InteractiveBrowserCredential`.
-
 ## Environment Variables
 
 `DefaultAzureCredential` and `EnvironmentCredential` can be configured with environment variables. Each type of authentication requires values for specific variables:
@@ -141,9 +139,6 @@ const credential = new DefaultAzureCredential();
 
 // Create authenticated client
 const client = new KeyClient(vaultUrl, credential);
-
-// Use service from authenticated client
-const getResult = await client.getKey("MyKeyName");
 ```
 
 ### Specifying a user assigned managed identity with the `DefaultAzureCredential`

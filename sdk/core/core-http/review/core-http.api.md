@@ -6,11 +6,12 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
+import { Context } from '@azure/core-tracing';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
-import { Span } from '@opentelemetry/api';
+import { Span } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -24,7 +25,7 @@ export interface AccessTokenCache {
     setCachedToken(accessToken: AccessToken | undefined): void;
 }
 
-// @public
+// @public @deprecated
 export class AccessTokenRefresher {
     constructor(credential: TokenCredential, scopes: string | string[], requiredMillisecondsBeforeNewRefresh?: number);
     isReady(): boolean;
@@ -238,7 +239,7 @@ export interface EnumMapperType {
 // @public
 export function executePromisesSequentially(promiseFactories: Array<any>, kickstart: unknown): Promise<any>;
 
-// @public
+// @public @deprecated
 export class ExpiringAccessTokenCache implements AccessTokenCache {
     constructor(tokenRefreshBufferMs?: number);
     // (undocumented)
@@ -608,6 +609,7 @@ export interface RequestOptionsBase {
     shouldDeserialize?: boolean | ((response: HttpOperationResponse) => boolean);
     spanOptions?: SpanOptions;
     timeout?: number;
+    tracingContext?: Context;
 }
 
 // @public (undocumented)
@@ -667,8 +669,8 @@ export interface RequestPrepareOptions {
         [key: string]: any | ParameterValue;
     };
     serializationMapper?: Mapper;
-    // (undocumented)
     spanOptions?: SpanOptions;
+    tracingContext?: Context;
     url?: string;
 }
 
@@ -937,6 +939,7 @@ export class WebResource implements WebResourceLike {
     streamResponseStatusCodes?: Set<number>;
     // (undocumented)
     timeout: number;
+    tracingContext?: Context;
     // (undocumented)
     url: string;
     validateRequestProperties(): void;
@@ -971,6 +974,7 @@ export interface WebResourceLike {
     streamResponseBody?: boolean;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
+    tracingContext?: Context;
     url: string;
     validateRequestProperties(): void;
     withCredentials: boolean;

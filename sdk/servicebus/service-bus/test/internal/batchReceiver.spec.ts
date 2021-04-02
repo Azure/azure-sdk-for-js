@@ -34,6 +34,7 @@ import {
 } from "../../src/receivers/sessionReceiver";
 import { ConnectionContext } from "../../src/connectionContext";
 import { LinkEntity } from "../../src/core/linkEntity";
+import { StandardAbortMessage } from "@azure/core-amqp";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -858,9 +859,7 @@ describe("Batching Receiver", () => {
           });
           throw new Error(`Test failure`);
         } catch (err) {
-          err.message.should.equal(
-            "The receiveDeferredMessages operation has been cancelled by the user."
-          );
+          err.message.should.equal(StandardAbortMessage);
         }
       }
     );
@@ -877,9 +876,7 @@ describe("Batching Receiver", () => {
           });
           throw new Error(`Test failure`);
         } catch (err) {
-          err.message.should.equal(
-            "The receiveDeferredMessages operation has been cancelled by the user."
-          );
+          err.message.should.equal(StandardAbortMessage);
         }
       }
     );

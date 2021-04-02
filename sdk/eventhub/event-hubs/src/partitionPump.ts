@@ -10,7 +10,7 @@ import { EventHubReceiver } from "./eventHubReceiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
 import { OperationOptions } from "./util/operationOptions";
-import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
+import { SpanStatusCode, Link, Span, SpanKind } from "@azure/core-tracing";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -243,10 +243,10 @@ export function createProcessingSpan(
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {
   try {
     await fn();
-    span.setStatus({ code: CanonicalCode.OK });
+    span.setStatus({ code: SpanStatusCode.OK });
   } catch (err) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: err.message
     });
     throw err;

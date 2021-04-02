@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.0-beta.5 (Unreleased)
+## 4.2.0-beta.5 (2021-04-05)
 
 - Added local cryptography support for encryption / decryption for `A128CBCPAD`, `A192CBCPAD`, and `A256CBCPAD`.
 - For AES-CBC encryption we will now generate an IV if the user did not pass it in, making `iv` optional for those parameters.
@@ -8,6 +8,8 @@
   - We now ensure tracing spans are properly closed with an appropriate status when an operation throws an exception.
   - If a traced operation throws an exception we will now properly record the exception message in the tracing span.
   - Finally, naming conventions have been standardized across the KeyVault libraries taking the format of `Azure.KeyVault.<PACKAGE NAME>.<CLIENT NAME>`.
+- Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
+- [Breaking] Removed the now unused `LocalCryptographyAlgorithmName` type (Added in 4.2.0-beta.1 to support `LocalCryptographyClient` and unused since 4.2.0-beta.4)
 
 ## 4.2.0-beta.4 (2021-03-09)
 
@@ -56,13 +58,6 @@
 - Renamed the apiVersion property to the KeyClient constructor as serviceVersion.
 - Moved from service version 7.1-preview to 7.1.
 
-## 4.1.0-preview.1 (2020-03-10)
-
-- Added the optional `apiVersion` property to the `KeyClient` and `CryptographyClient` optional parameters.
-  It defaults to the latest supported API version, which currently is `7.1-preview`.
-- Added `import` to the list of possible values for `KeyOperation`.
-- Added `recoverableDays` as an optional property to `KeyProperties`.
-
 ## 4.0.4 (2020-06-01)
 
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
@@ -70,6 +65,13 @@
 ## 4.0.3 (2020-05-13)
 
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
+
+## 4.1.0-preview.1 (2020-03-10)
+
+- Added the optional `apiVersion` property to the `KeyClient` and `CryptographyClient` optional parameters.
+  It defaults to the latest supported API version, which currently is `7.1-preview`.
+- Added `import` to the list of possible values for `KeyOperation`.
+- Added `recoverableDays` as an optional property to `KeyProperties`.
 
 ## 4.0.2 (2019-12-03)
 

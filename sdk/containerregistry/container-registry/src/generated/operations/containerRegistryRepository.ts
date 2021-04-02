@@ -6,34 +6,40 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClient } from "../generatedClient";
+import { GeneratedClientContext } from "../generatedClientContext";
 import {
   ContainerRegistryRepositoryGetManifestOptionalParams,
   ContainerRegistryRepositoryGetManifestResponse,
   Manifest,
   ContainerRegistryRepositoryCreateManifestResponse,
+  ContainerRegistryRepositoryGetPropertiesResponse,
+  ContainerRegistryRepositorySetPropertiesOptionalParams,
   ContainerRegistryRepositoryGetTagsOptionalParams,
   ContainerRegistryRepositoryGetTagsResponse,
-  ContainerRegistryRepositoryGetTagAttributesResponse,
+  ContainerRegistryRepositoryGetTagPropertiesResponse,
   ContainerRegistryRepositoryUpdateTagAttributesOptionalParams,
   ContainerRegistryRepositoryGetManifestsOptionalParams,
   ContainerRegistryRepositoryGetManifestsResponse,
-  ContainerRegistryRepositoryGetManifestAttributesResponse,
-  ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams
+  ContainerRegistryRepositoryGetRegistryArtifactPropertiesResponse,
+  ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams,
+  ContainerRegistryRepositoryGetTagsNextOptionalParams,
+  ContainerRegistryRepositoryGetTagsNextResponse,
+  ContainerRegistryRepositoryGetManifestsNextOptionalParams,
+  ContainerRegistryRepositoryGetManifestsNextResponse
 } from "../models";
 
 /** Class representing a ContainerRegistryRepository. */
 export class ContainerRegistryRepository {
-  private readonly client: GeneratedClient;
+  private readonly client: GeneratedClientContext;
 
   /**
    * Initialize a new instance of the class ContainerRegistryRepository class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClient) {
+  constructor(client: GeneratedClientContext) {
     this.client = client;
   }
 
@@ -48,15 +54,10 @@ export class ContainerRegistryRepository {
     reference: string,
     options?: ContainerRegistryRepositoryGetManifestOptionalParams
   ): Promise<ContainerRegistryRepositoryGetManifestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      reference,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { name, reference, options },
       getManifestOperationSpec
-    ) as Promise<ContainerRegistryRepositoryGetManifestResponse>;
+    );
   }
 
   /**
@@ -70,41 +71,60 @@ export class ContainerRegistryRepository {
     name: string,
     reference: string,
     payload: Manifest,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<ContainerRegistryRepositoryCreateManifestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      reference,
-      payload,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { name, reference, payload, options },
       createManifestOperationSpec
-    ) as Promise<ContainerRegistryRepositoryCreateManifestResponse>;
+    );
   }
 
   /**
    * Delete the manifest identified by `name` and `reference`. Note that a manifest can _only_ be deleted
    * by `digest`.
    * @param name Name of the image (including the namespace)
-   * @param reference A tag or a digest, pointing to a specific image
+   * @param reference Digest of a BLOB
    * @param options The options parameters.
    */
   deleteManifest(
     name: string,
     reference: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      reference,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: coreClient.OperationOptions
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { name, reference, options },
       deleteManifestOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
+  }
+
+  /**
+   * Get repository attributes
+   * @param name Name of the image (including the namespace)
+   * @param options The options parameters.
+   */
+  getProperties(
+    name: string,
+    options?: coreClient.OperationOptions
+  ): Promise<ContainerRegistryRepositoryGetPropertiesResponse> {
+    return this.client.sendOperationRequest(
+      { name, options },
+      getPropertiesOperationSpec
+    );
+  }
+
+  /**
+   * Update the attribute identified by `name` where `reference` is the name of the repository.
+   * @param name Name of the image (including the namespace)
+   * @param options The options parameters.
+   */
+  setProperties(
+    name: string,
+    options?: ContainerRegistryRepositorySetPropertiesOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { name, options },
+      setPropertiesOperationSpec
+    );
   }
 
   /**
@@ -116,14 +136,10 @@ export class ContainerRegistryRepository {
     name: string,
     options?: ContainerRegistryRepositoryGetTagsOptionalParams
   ): Promise<ContainerRegistryRepositoryGetTagsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { name, options },
       getTagsOperationSpec
-    ) as Promise<ContainerRegistryRepositoryGetTagsResponse>;
+    );
   }
 
   /**
@@ -132,20 +148,15 @@ export class ContainerRegistryRepository {
    * @param reference Tag name
    * @param options The options parameters.
    */
-  getTagAttributes(
+  getTagProperties(
     name: string,
     reference: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<ContainerRegistryRepositoryGetTagAttributesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      reference,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: coreClient.OperationOptions
+  ): Promise<ContainerRegistryRepositoryGetTagPropertiesResponse> {
     return this.client.sendOperationRequest(
-      operationArguments,
-      getTagAttributesOperationSpec
-    ) as Promise<ContainerRegistryRepositoryGetTagAttributesResponse>;
+      { name, reference, options },
+      getTagPropertiesOperationSpec
+    );
   }
 
   /**
@@ -158,16 +169,11 @@ export class ContainerRegistryRepository {
     name: string,
     reference: string,
     options?: ContainerRegistryRepositoryUpdateTagAttributesOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      reference,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { name, reference, options },
       updateTagAttributesOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -179,17 +185,12 @@ export class ContainerRegistryRepository {
   deleteTag(
     name: string,
     reference: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      reference,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: coreClient.OperationOptions
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { name, reference, options },
       deleteTagOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
   }
 
   /**
@@ -201,14 +202,10 @@ export class ContainerRegistryRepository {
     name: string,
     options?: ContainerRegistryRepositoryGetManifestsOptionalParams
   ): Promise<ContainerRegistryRepositoryGetManifestsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { name, options },
       getManifestsOperationSpec
-    ) as Promise<ContainerRegistryRepositoryGetManifestsResponse>;
+    );
   }
 
   /**
@@ -217,20 +214,15 @@ export class ContainerRegistryRepository {
    * @param digest Digest of a BLOB
    * @param options The options parameters.
    */
-  getManifestAttributes(
+  getRegistryArtifactProperties(
     name: string,
     digest: string,
-    options?: coreHttp.OperationOptions
-  ): Promise<ContainerRegistryRepositoryGetManifestAttributesResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      digest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: coreClient.OperationOptions
+  ): Promise<ContainerRegistryRepositoryGetRegistryArtifactPropertiesResponse> {
     return this.client.sendOperationRequest(
-      operationArguments,
-      getManifestAttributesOperationSpec
-    ) as Promise<ContainerRegistryRepositoryGetManifestAttributesResponse>;
+      { name, digest, options },
+      getRegistryArtifactPropertiesOperationSpec
+    );
   }
 
   /**
@@ -243,22 +235,51 @@ export class ContainerRegistryRepository {
     name: string,
     digest: string,
     options?: ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      name,
-      digest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+  ): Promise<void> {
     return this.client.sendOperationRequest(
-      operationArguments,
+      { name, digest, options },
       updateManifestAttributesOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    );
+  }
+
+  /**
+   * GetTagsNext
+   * @param name Name of the image (including the namespace)
+   * @param nextLink The nextLink from the previous successful call to the GetTags method.
+   * @param options The options parameters.
+   */
+  getTagsNext(
+    name: string,
+    nextLink: string,
+    options?: ContainerRegistryRepositoryGetTagsNextOptionalParams
+  ): Promise<ContainerRegistryRepositoryGetTagsNextResponse> {
+    return this.client.sendOperationRequest(
+      { name, nextLink, options },
+      getTagsNextOperationSpec
+    );
+  }
+
+  /**
+   * GetManifestsNext
+   * @param name Name of the image (including the namespace)
+   * @param nextLink The nextLink from the previous successful call to the GetManifests method.
+   * @param options The options parameters.
+   */
+  getManifestsNext(
+    name: string,
+    nextLink: string,
+    options?: ContainerRegistryRepositoryGetManifestsNextOptionalParams
+  ): Promise<ContainerRegistryRepositoryGetManifestsNextResponse> {
+    return this.client.sendOperationRequest(
+      { name, nextLink, options },
+      getManifestsNextOperationSpec
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getManifestOperationSpec: coreHttp.OperationSpec = {
+const getManifestOperationSpec: coreClient.OperationSpec = {
   path: "/v2/{name}/manifests/{reference}",
   httpMethod: "GET",
   responses: {
@@ -273,7 +294,7 @@ const getManifestOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept, Parameters.accept1],
   serializer
 };
-const createManifestOperationSpec: coreHttp.OperationSpec = {
+const createManifestOperationSpec: coreClient.OperationSpec = {
   path: "/v2/{name}/manifests/{reference}",
   httpMethod: "PUT",
   responses: {
@@ -287,11 +308,11 @@ const createManifestOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.payload,
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
-  headerParameters: [Parameters.accept, Parameters.contentType1],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
-const deleteManifestOperationSpec: coreHttp.OperationSpec = {
+const deleteManifestOperationSpec: coreClient.OperationSpec = {
   path: "/v2/{name}/manifests/{reference}",
   httpMethod: "DELETE",
   responses: {
@@ -304,12 +325,43 @@ const deleteManifestOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getTagsOperationSpec: coreHttp.OperationSpec = {
+const getPropertiesOperationSpec: coreClient.OperationSpec = {
+  path: "/acr/v1/{name}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RepositoryProperties
+    },
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  urlParameters: [Parameters.url, Parameters.name],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const setPropertiesOperationSpec: coreClient.OperationSpec = {
+  path: "/acr/v1/{name}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  requestBody: Parameters.value,
+  urlParameters: [Parameters.url, Parameters.name],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
+  serializer
+};
+const getTagsOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}/_tags",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagList
+      bodyMapper: Mappers.TagList,
+      headersMapper: Mappers.ContainerRegistryRepositoryGetTagsHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -325,12 +377,12 @@ const getTagsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getTagAttributesOperationSpec: coreHttp.OperationSpec = {
+const getTagPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}/_tags/{reference}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TagAttributes
+      bodyMapper: Mappers.TagProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -340,7 +392,7 @@ const getTagAttributesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateTagAttributesOperationSpec: coreHttp.OperationSpec = {
+const updateTagAttributesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}/_tags/{reference}",
   httpMethod: "PATCH",
   responses: {
@@ -351,11 +403,11 @@ const updateTagAttributesOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.value,
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
-const deleteTagOperationSpec: coreHttp.OperationSpec = {
+const deleteTagOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}/_tags/{reference}",
   httpMethod: "DELETE",
   responses: {
@@ -368,12 +420,13 @@ const deleteTagOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getManifestsOperationSpec: coreHttp.OperationSpec = {
+const getManifestsOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}/_manifests",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AcrManifests
+      bodyMapper: Mappers.AcrManifests,
+      headersMapper: Mappers.ContainerRegistryRepositoryGetManifestsHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -384,12 +437,12 @@ const getManifestsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const getManifestAttributesOperationSpec: coreHttp.OperationSpec = {
+const getRegistryArtifactPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}/_manifests/{digest}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManifestAttributes
+      bodyMapper: Mappers.RegistryArtifactProperties
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -399,7 +452,7 @@ const getManifestAttributesOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateManifestAttributesOperationSpec: coreHttp.OperationSpec = {
+const updateManifestAttributesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}/_manifests/{digest}",
   httpMethod: "PATCH",
   responses: {
@@ -410,7 +463,46 @@ const updateManifestAttributesOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.value,
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
+  serializer
+};
+const getTagsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TagList,
+      headersMapper: Mappers.ContainerRegistryRepositoryGetTagsNextHeaders
+    },
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  queryParameters: [
+    Parameters.last,
+    Parameters.n,
+    Parameters.orderby,
+    Parameters.digest
+  ],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getManifestsNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AcrManifests,
+      headersMapper: Mappers.ContainerRegistryRepositoryGetManifestsNextHeaders
+    },
+    default: {
+      bodyMapper: Mappers.AcrErrors
+    }
+  },
+  queryParameters: [Parameters.last, Parameters.n, Parameters.orderby],
+  urlParameters: [Parameters.url, Parameters.name, Parameters.nextLink],
+  headerParameters: [Parameters.accept],
   serializer
 };

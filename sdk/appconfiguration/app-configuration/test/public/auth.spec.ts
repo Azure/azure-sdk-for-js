@@ -8,13 +8,14 @@ import {
   CredsAndEndpoint
 } from "./utils/testHelpers";
 import * as assert from "assert";
-import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
 
 describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
   let recorder: Recorder;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = startRecorder(this);
     credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
   });
@@ -31,9 +32,6 @@ describe("Authentication", () => {
   });
 
   it("token authentication works", async function() {
-    if (isPlaybackMode()) {
-      this.skip();
-    }
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential
@@ -42,7 +40,7 @@ describe("Authentication", () => {
     // it doesn't matter if any data comes in so long as we were
     // able to connect and call the service
     await client.addConfigurationSetting({
-      key: `token-authentication-test-${Date.now()}`,
+      key: `token-authentication-test-${recorder.newDate("label-1").valueOf()}`,
       value: "hello"
     });
   });

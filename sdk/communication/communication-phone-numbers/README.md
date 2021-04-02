@@ -127,7 +127,7 @@ async function main() {
     quantity: 1
   };
 
-  const searchPoller = await client.beginSearchAvailablePhoneNumbers(countryCode, searchRequest);
+  const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
   // The search is underway. Wait to receive searchId.
   const searchResults = searchPoller.pollUntilDone();
@@ -304,4 +304,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
 [azure_identity_readme]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-administration%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-phone-numbers%2FREADME.png)

@@ -62,7 +62,7 @@ describe("ClientSecretCredential", function() {
   it(
     "supports tracing",
     testTracing({
-      test: async (spanOptions) => {
+      test: async (tracingOptions) => {
         const credential = new ClientSecretCredential(
           env.AZURE_TENANT_ID,
           env.AZURE_CLIENT_ID,
@@ -70,9 +70,7 @@ describe("ClientSecretCredential", function() {
         );
 
         await credential.getToken(scope, {
-          tracingOptions: {
-            spanOptions
-          }
+          tracingOptions
         });
       },
       children: [

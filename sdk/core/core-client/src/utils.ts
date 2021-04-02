@@ -4,13 +4,25 @@
 import { CompositeMapper, FullOperationResponse, OperationResponseMap } from "./interfaces";
 
 /**
- * Returns true if the given value is a basic/primitive type
- * (string, number, boolean, null, undefined).
- * @param value - Value to test
+ * The union of all possible types for a primitive response body.
  * @internal
  */
-export function isPrimitiveType(value: unknown): boolean {
-  return (typeof value !== "object" && typeof value !== "function") || value === null;
+export type BodyPrimitive = number | string | boolean | undefined | null;
+
+/**
+ * A type guard for a primitive response body.
+ * @param value - Value to test
+ *
+ * @internal
+ */
+export function isPrimitiveBody(value: unknown): value is BodyPrimitive {
+  return (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean" ||
+    value === undefined ||
+    value === null
+  );
 }
 
 const validateISODuration = /^(-|\+)?P(?:([-+]?[0-9,.]*)Y)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)W)?(?:([-+]?[0-9,.]*)D)?(?:T(?:([-+]?[0-9,.]*)H)?(?:([-+]?[0-9,.]*)M)?(?:([-+]?[0-9,.]*)S)?)?$/;
@@ -107,7 +119,7 @@ export function flattenResponse(
   const parsedHeaders = fullResponse.parsedHeaders;
 
   /**
-   * If body is not asked for, we return the response headers only. If the response
+   * If body is not asked for, only response headers are returned. If the response
    * has a body anyway, that body must be ignored.
    */
   if (fullResponse.request.method === "HEAD") {
@@ -116,60 +128,54 @@ export function flattenResponse(
 
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
   const isNullable = Boolean(bodyMapper?.nullable);
+  const expectedBodyTypeName = bodyMapper?.type.name;
 
-  /** If the body is asked for, we look at the mapper to handle it */
-  if (bodyMapper) {
-    const typeName = bodyMapper.type.name;
-    if (typeName === "Stream") {
-      return {
-        ...parsedHeaders,
-        blobBody: fullResponse.blobBody,
-        readableStreamBody: fullResponse.readableStreamBody
-      };
-    }
+  /** If the body is asked for, we look at the expected body type to handle it */
+  if (expectedBodyTypeName === "Stream") {
+    return {
+      ...parsedHeaders,
+      blobBody: fullResponse.blobBody,
+      readableStreamBody: fullResponse.readableStreamBody
+    };
+  }
 
-    const modelProperties =
-      (typeName === "Composite" && (bodyMapper as CompositeMapper).type.modelProperties) || {};
-    const isPageableResponse = Object.keys(modelProperties).some(
-      (k) => modelProperties[k].serializedName === ""
-    );
-    if (typeName === "Sequence" || isPageableResponse) {
-      const arrayResponse: { [key: string]: unknown } =
-        fullResponse.parsedBody ?? (([] as unknown) as { [key: string]: unknown });
+  const modelProperties =
+    (expectedBodyTypeName === "Composite" &&
+      (bodyMapper as CompositeMapper).type.modelProperties) ||
+    {};
+  const isPageableResponse = Object.keys(modelProperties).some(
+    (k) => modelProperties[k].serializedName === ""
+  );
+  if (expectedBodyTypeName === "Sequence" || isPageableResponse) {
+    const arrayResponse: { [key: string]: unknown } =
+      fullResponse.parsedBody ?? (([] as unknown) as { [key: string]: unknown });
 
-      for (const key of Object.keys(modelProperties)) {
-        if (modelProperties[key].serializedName) {
-          arrayResponse[key] = fullResponse.parsedBody?.[key];
-        }
+    for (const key of Object.keys(modelProperties)) {
+      if (modelProperties[key].serializedName) {
+        arrayResponse[key] = fullResponse.parsedBody?.[key];
       }
+    }
 
-      if (parsedHeaders) {
-        for (const key of Object.keys(parsedHeaders)) {
-          arrayResponse[key] = parsedHeaders[key];
-        }
+    if (parsedHeaders) {
+      for (const key of Object.keys(parsedHeaders)) {
+        arrayResponse[key] = parsedHeaders[key];
       }
-      return isNullable &&
-        !fullResponse.parsedBody &&
-        !parsedHeaders &&
-        Object.getOwnPropertyNames(modelProperties).length === 0
-        ? null
-        : arrayResponse;
     }
-
-    if (typeName === "Composite" || typeName === "Dictionary") {
-      return handleNullableResponseAndWrappableBody({
-        body: fullResponse.parsedBody,
-        headers: parsedHeaders,
-        hasNullableType: isNullable,
-        shouldWrapBody: false
-      });
-    }
+    return isNullable &&
+      !fullResponse.parsedBody &&
+      !parsedHeaders &&
+      Object.getOwnPropertyNames(modelProperties).length === 0
+      ? null
+      : arrayResponse;
   }
 
   return handleNullableResponseAndWrappableBody({
     body: fullResponse.parsedBody,
     headers: parsedHeaders,
     hasNullableType: isNullable,
-    shouldWrapBody: isPrimitiveType(fullResponse.parsedBody)
+    shouldWrapBody:
+      expectedBodyTypeName !== "Composite" &&
+      expectedBodyTypeName !== "Dictionary" &&
+      isPrimitiveBody(fullResponse.parsedBody)
   });
 }

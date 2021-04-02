@@ -156,6 +156,8 @@ export default (info: SampleReadmeConfiguration) => {
     `${formatFrontmatter(info.frontmatter)}\
 # ${info.productName} client library samples for ${language}
 
+${info.customSnippets?.header ?? ""}
+
 These sample programs show how to use the ${language} client libraries for ${
       info.productName
     } in some common scenarios.
@@ -179,6 +181,8 @@ ${(() => {
   }
 })()}\
 ${resources(info)}
+
+${info.customSnippets?.prerequisites ?? ""}
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -224,6 +228,8 @@ ${fence("bash", `npx cross-env ${exampleNodeInvocation(info)}`)}
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+${info.customSnippets?.footer ?? ""}
 
 ${fileLinks(info)}
 [apiref]: ${info.apiRefLink ?? `https://docs.microsoft.com/javascript/api/@azure/${info.baseName}`}
