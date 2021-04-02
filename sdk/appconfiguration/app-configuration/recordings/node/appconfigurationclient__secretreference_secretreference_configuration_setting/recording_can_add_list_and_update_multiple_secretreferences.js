@@ -1,17 +1,17 @@
 let nock = require('nock');
 
-module.exports.hash = "b4a0c9bd7dbaf880005fc7e37af01169";
+module.exports.hash = "6d49fc86f35574cb53bce8021e5755f4";
 
-module.exports.testInfo = {"uniqueName":{"name-2":"name-2161727073573502374","name-3":"name-3161727073573502979","name-5":"name-5161727073599408784"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"name-2":"name-2161736250391906013","name-3":"name-3161736250391900706","name-5":"name-5161736250422907435"},"newDate":{}}
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/name-3161727073573502979', {"key":"name-3161727073573502979","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161727073573502374\"}"})
+  .put('/kv/name-3161736250391900706', {"key":"name-3161736250391900706","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161736250391906013\"}"})
   .query(true)
-  .reply(200, {"etag":"I9YupYSj1oJt9iMGQ9182qHQH9u","key":"name-3161727073573502979","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161727073573502374\"}","tags":{},"locked":false,"last_modified":"2021-04-01T09:52:16+00:00"}, [
+  .reply(200, {"etag":"oHhTHIwOX8S2SqoiGdkvyl8mpAt","key":"name-3161736250391900706","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161736250391906013\"}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:43+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Thu, 01 Apr 2021 09:52:16 GMT',
+  'Fri, 02 Apr 2021 11:21:44 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -19,15 +19,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Thu, 01 Apr 2021 09:52:16 GMT',
+  'Fri, 02 Apr 2021 11:21:43 GMT',
   'ETag',
-  '"I9YupYSj1oJt9iMGQ9182qHQH9u"',
+  '"oHhTHIwOX8S2SqoiGdkvyl8mpAt"',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzA2ODE=;sn=3030681',
+  'zAJw6V16=NTo1IzMwMzYwNjc=;sn=3036067',
   'x-ms-request-id',
-  '75fa4b1c-e25d-4543-a3f9-f0c96303ff56',
+  '9335a747-8814-479e-aa92-92d2d08b0ece',
   'x-ms-correlation-request-id',
-  '75fa4b1c-e25d-4543-a3f9-f0c96303ff56',
+  '9335a747-8814-479e-aa92-92d2d08b0ece',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -39,13 +39,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/name-3161727073573502979-2', {"key":"name-3161727073573502979-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161727073573502374\"}"})
+  .put('/kv/name-3161736250391900706-2', {"key":"name-3161736250391900706-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161736250391906013\"}"})
   .query(true)
-  .reply(200, {"etag":"F6Xhn8XTexGUi19MlmuYgMqZFIY","key":"name-3161727073573502979-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161727073573502374\"}","tags":{},"locked":false,"last_modified":"2021-04-01T09:52:16+00:00"}, [
+  .reply(200, {"etag":"PR20Km4VgoXYQ6tap64aZ9ZvgvV","key":"name-3161736250391900706-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161736250391906013\"}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:44+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Thu, 01 Apr 2021 09:52:15 GMT',
+  'Fri, 02 Apr 2021 11:21:43 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -53,15 +53,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Thu, 01 Apr 2021 09:52:16 GMT',
+  'Fri, 02 Apr 2021 11:21:44 GMT',
   'ETag',
-  '"F6Xhn8XTexGUi19MlmuYgMqZFIY"',
+  '"PR20Km4VgoXYQ6tap64aZ9ZvgvV"',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzA2ODI=;sn=3030682',
+  'zAJw6V16=NTo1IzMwMzYwNjg=;sn=3036068',
   'x-ms-request-id',
-  '4b3a346b-dc79-4b6d-9c0d-7583041ec800',
+  '2d5c435d-4fc5-4171-a4ed-a61f5b28ab0f',
   'x-ms-correlation-request-id',
-  '4b3a346b-dc79-4b6d-9c0d-7583041ec800',
+  '2d5c435d-4fc5-4171-a4ed-a61f5b28ab0f',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -75,11 +75,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   .get('/kv')
   .query(true)
-  .reply(200, {"items":[{"etag":"I9YupYSj1oJt9iMGQ9182qHQH9u","key":"name-3161727073573502979","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161727073573502374\"}","tags":{},"locked":false,"last_modified":"2021-04-01T09:52:16+00:00"},{"etag":"F6Xhn8XTexGUi19MlmuYgMqZFIY","key":"name-3161727073573502979-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161727073573502374\"}","tags":{},"locked":false,"last_modified":"2021-04-01T09:52:16+00:00"}]}, [
+  .reply(200, {"items":[{"etag":"oHhTHIwOX8S2SqoiGdkvyl8mpAt","key":"name-3161736250391900706","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161736250391906013\"}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:43+00:00"},{"etag":"PR20Km4VgoXYQ6tap64aZ9ZvgvV","key":"name-3161736250391900706-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161736250391906013\"}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:44+00:00"}]}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Thu, 01 Apr 2021 09:52:16 GMT',
+  'Fri, 02 Apr 2021 11:21:44 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kvset+json; charset=utf-8',
   'Transfer-Encoding',
@@ -87,11 +87,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzA2ODI=;sn=3030682',
+  'zAJw6V16=NTo1IzMwMzYwNjg=;sn=3036068',
   'x-ms-request-id',
-  '4120b416-ba57-4beb-8ae2-8a930a732205',
+  '65b35dc2-f741-402a-8492-5312ceb4209d',
   'x-ms-correlation-request-id',
-  '4120b416-ba57-4beb-8ae2-8a930a732205',
+  '65b35dc2-f741-402a-8492-5312ceb4209d',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -103,13 +103,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/kv/name-3161727073573502979', {"key":"name-3161727073573502979","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-5161727073599408784\"}"})
+  .put('/kv/name-3161736250391900706', {"key":"name-3161736250391900706","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-5161736250422907435\"}"})
   .query(true)
-  .reply(200, {"etag":"Qrc2lygn505tdOc9ZlUXv1G7x7h","key":"name-3161727073573502979","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-5161727073599408784\"}","tags":{},"locked":false,"last_modified":"2021-04-01T09:52:16+00:00"}, [
+  .reply(200, {"etag":"aU5a3tU2BQ6FOX2F4XMsjfjUEWT","key":"name-3161736250391900706","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-5161736250422907435\"}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:44+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Thu, 01 Apr 2021 09:52:17 GMT',
+  'Fri, 02 Apr 2021 11:21:44 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -117,15 +117,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Thu, 01 Apr 2021 09:52:16 GMT',
+  'Fri, 02 Apr 2021 11:21:44 GMT',
   'ETag',
-  '"Qrc2lygn505tdOc9ZlUXv1G7x7h"',
+  '"aU5a3tU2BQ6FOX2F4XMsjfjUEWT"',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzA2ODM=;sn=3030683',
+  'zAJw6V16=NTo1IzMwMzYwNjk=;sn=3036069',
   'x-ms-request-id',
-  '234cc4db-4bd4-402c-82b3-5a8af51f3ff2',
+  '74f3434b-25a8-4b0f-b77a-ea0fd06da33f',
   'x-ms-correlation-request-id',
-  '234cc4db-4bd4-402c-82b3-5a8af51f3ff2',
+  '74f3434b-25a8-4b0f-b77a-ea0fd06da33f',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -137,13 +137,13 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .put('/locks/name-3161727073573502979-2')
+  .put('/locks/name-3161736250391900706-2')
   .query(true)
-  .reply(200, {"etag":"fcQO0dSZGtVEanPOL8sUScVF731","key":"name-3161727073573502979-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161727073573502374\"}","tags":{},"locked":true,"last_modified":"2021-04-01T09:52:17+00:00"}, [
+  .reply(200, {"etag":"utHqq8e86dQhoef4XjvhgRiz24P","key":"name-3161736250391900706-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161736250391906013\"}","tags":{},"locked":true,"last_modified":"2021-04-02T11:21:46+00:00"}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Thu, 01 Apr 2021 09:52:16 GMT',
+  'Fri, 02 Apr 2021 11:21:46 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Transfer-Encoding',
@@ -151,15 +151,15 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Last-Modified',
-  'Thu, 01 Apr 2021 09:52:17 GMT',
+  'Fri, 02 Apr 2021 11:21:46 GMT',
   'ETag',
-  '"fcQO0dSZGtVEanPOL8sUScVF731"',
+  '"utHqq8e86dQhoef4XjvhgRiz24P"',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzA2ODQ=;sn=3030684',
+  'zAJw6V16=NTo1IzMwMzYwNzA=;sn=3036070',
   'x-ms-request-id',
-  '45b0802a-9f31-43a0-8a35-abd8b2c9a28a',
+  'f9b99f38-1c28-4e00-b16b-6fd4022dedae',
   'x-ms-correlation-request-id',
-  '45b0802a-9f31-43a0-8a35-abd8b2c9a28a',
+  'f9b99f38-1c28-4e00-b16b-6fd4022dedae',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -173,11 +173,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   .get('/kv')
   .query(true)
-  .reply(200, {"items":[{"etag":"Qrc2lygn505tdOc9ZlUXv1G7x7h","key":"name-3161727073573502979","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-5161727073599408784\"}","tags":{},"locked":false,"last_modified":"2021-04-01T09:52:16+00:00"},{"etag":"fcQO0dSZGtVEanPOL8sUScVF731","key":"name-3161727073573502979-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161727073573502374\"}","tags":{},"locked":true,"last_modified":"2021-04-01T09:52:17+00:00"}]}, [
+  .reply(200, {"items":[{"etag":"aU5a3tU2BQ6FOX2F4XMsjfjUEWT","key":"name-3161736250391900706","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-5161736250422907435\"}","tags":{},"locked":false,"last_modified":"2021-04-02T11:21:44+00:00"},{"etag":"utHqq8e86dQhoef4XjvhgRiz24P","key":"name-3161736250391900706-2","label":"label-s","content_type":"application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8","value":"{\"uri\":\"https://vault_name.vault.azure.net/secrets/name-2161736250391906013\"}","tags":{},"locked":true,"last_modified":"2021-04-02T11:21:46+00:00"}]}, [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Thu, 01 Apr 2021 09:52:17 GMT',
+  'Fri, 02 Apr 2021 11:21:46 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kvset+json; charset=utf-8',
   'Transfer-Encoding',
@@ -185,11 +185,11 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
   'Connection',
   'close',
   'Sync-Token',
-  'zAJw6V16=NTo1IzMwMzA2ODQ=;sn=3030684',
+  'zAJw6V16=NTo1IzMwMzYwNzA=;sn=3036070',
   'x-ms-request-id',
-  '321e5b1e-385c-4366-9052-ab2ea3b4c6ad',
+  'cdbb73d9-4529-4775-b6ac-e7cc149bded8',
   'x-ms-correlation-request-id',
-  '321e5b1e-385c-4366-9052-ab2ea3b4c6ad',
+  'cdbb73d9-4529-4775-b6ac-e7cc149bded8',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -201,21 +201,21 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .delete('/kv/name-3161727073573502979-2')
+  .delete('/kv/name-3161736250391900706-2')
   .query(true)
   .reply(204, "", [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Thu, 01 Apr 2021 09:52:17 GMT',
+  'Fri, 02 Apr 2021 11:21:47 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Connection',
   'close',
   'x-ms-request-id',
-  'c49af6ea-1247-4dd0-a4c5-7f14e9036ea1',
+  'caf4721a-da0c-4df6-964a-2bd024935eed',
   'x-ms-correlation-request-id',
-  'c49af6ea-1247-4dd0-a4c5-7f14e9036ea1',
+  'caf4721a-da0c-4df6-964a-2bd024935eed',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
@@ -227,21 +227,21 @@ nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://myappconfig.azconfig.io:443', {"encodedQueryParams":true})
-  .delete('/kv/name-3161727073573502979')
+  .delete('/kv/name-3161736250391900706')
   .query(true)
   .reply(204, "", [
   'Server',
   'openresty/1.17.8.2',
   'Date',
-  'Thu, 01 Apr 2021 09:52:18 GMT',
+  'Fri, 02 Apr 2021 11:21:46 GMT',
   'Content-Type',
   'application/vnd.microsoft.appconfig.kv+json; charset=utf-8',
   'Connection',
   'close',
   'x-ms-request-id',
-  'affb9d48-91fa-4d8f-bfdc-edd7dbfd5319',
+  'd13d6103-9496-439f-ad4c-f252717874bf',
   'x-ms-correlation-request-id',
-  'affb9d48-91fa-4d8f-bfdc-edd7dbfd5319',
+  'd13d6103-9496-439f-ad4c-f252717874bf',
   'Access-Control-Allow-Origin',
   '*',
   'Access-Control-Allow-Credentials',
