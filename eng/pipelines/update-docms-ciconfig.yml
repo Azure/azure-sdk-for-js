@@ -1,0 +1,30 @@
+jobs:
+  - job: UpdateDocMsCIConfig
+    pool:
+      vmImage: 'ubuntu-18.04'
+    steps:
+    - pwsh: |
+        Write-Host "git clone https://github.com/MicrosoftDocs/azure-docs-sdk-node.git $(Build.SourcesDirectory)/repo"
+        git clone https://github.com/MicrosoftDocs/azure-docs-sdk-node.git $(Build.SourcesDirectory)/repo
+      displayName: Clone Documentation Repository
+      ignoreLASTEXITCODE: false
+    - task: PowerShell@2
+      displayName: 'Update Docs.MS CI Targeted Packages'
+      inputs:
+        targetType: filePath
+        filePath: eng/scripts/update-docs-ci.ps1
+        arguments: >
+          -DocRepoLocation $(Build.SourcesDirectory)/repo
+          -Configs "[{'path_to_config':'ci-configs/packages-latest.json'}, {'path_to_config':'ci-configs/packages-preview.json'}]"
+        pwsh: true
+      env:
+        GH_TOKEN: $(azuresdk-github-pat)
+    - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
+      parameters:
+        BaseRepoBranch: 'a-test-branch'
+        BaseRepoOwner: 'Azure'
+        CommitMsg: "Update targeting packages based on release csv."
+        TargetRepoName: 'azure-docs-sdk-java'
+        TargetRepoOwner: 'Azure'
+        WorkingDirectory: $(Build.SourcesDirectory)/repo
+        ScriptDirectory: $(Build.SourcesDirectory)/eng/common/scripts
