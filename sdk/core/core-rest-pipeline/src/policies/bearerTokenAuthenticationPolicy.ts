@@ -185,7 +185,7 @@ export function bearerTokenAuthenticationPolicy(
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       // Allows users to easily set the authorization header.
-      function setAuthorizationHeader(accessToken: AccessToken) {
+      function setAuthorizationHeader(accessToken: AccessToken): void {
         request.headers.set("Authorization", `Bearer ${accessToken.token}`);
       }
 
@@ -200,9 +200,11 @@ export function bearerTokenAuthenticationPolicy(
       }
 
       let response: PipelineResponse;
+      let error: Error | undefined;
       try {
         response = await next(request);
       } catch (err) {
+        error = err;
         response = err.response;
       }
       const challenge = getChallenge(response);
@@ -222,7 +224,11 @@ export function bearerTokenAuthenticationPolicy(
         }
       }
 
-      return response;
+      if (error) {
+        throw error;
+      } else {
+        return response;
+      }
     }
   };
 }

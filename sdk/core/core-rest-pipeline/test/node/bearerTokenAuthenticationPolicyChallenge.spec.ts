@@ -310,4 +310,48 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       `Bearer ${getTokenResponses[1].token}`
     ]);
   });
+
+  it("service errors without challenges should bubble up", async function() {
+    const request = createPipelineRequest({ url: "https://example.com" });
+    const credential = new MockRefreshAzureCredential([]);
+
+    const pipeline = createEmptyPipeline();
+    const bearerPolicy = bearerTokenAuthenticationPolicy({
+      // Intentionally left empty, as it should be replaced by the challenge.
+      scopes: "",
+      credential,
+      challengeCallbacks: {
+        async authenticateRequest({ previousToken, setAuthorizationHeader }) {
+          if (previousToken) {
+            setAuthorizationHeader(previousToken);
+          }
+        },
+        authenticateRequestOnChallenge
+      }
+    });
+    pipeline.addPolicy(bearerPolicy);
+
+    const testHttpsClient: HttpClient = {
+      sendRequest: async (req) => {
+        throw {
+          message: "Failed sendRequest error",
+          response: {
+            headers: createHttpHeaders(),
+            request: req,
+            status: 400
+          }
+        };
+      }
+    };
+
+    let error: Error | undefined;
+    try {
+      await pipeline.sendRequest(testHttpsClient, request);
+    } catch (e) {
+      error = e;
+    }
+
+    assert.ok(error);
+    assert.equal(error?.message, "Failed sendRequest error");
+  });
 });
