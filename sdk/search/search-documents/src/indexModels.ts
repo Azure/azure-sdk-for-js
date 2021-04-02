@@ -398,7 +398,7 @@ export type SearchResult<T> = {
    * applicable field; null if hit highlighting was not enabled for the query.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly highlights?: { [propertyName: string]: string[] };
+  readonly highlights?: { [k in keyof T]?: string[] };
 
   document: T;
 };

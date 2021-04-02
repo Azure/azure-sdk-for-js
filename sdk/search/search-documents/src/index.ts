@@ -196,6 +196,12 @@ export {
   MergeSkill,
   EntityRecognitionSkill,
   SentimentSkill,
+  CustomEntityLookupSkill,
+  CustomEntityLookupSkillLanguage,
+  KnownCustomEntityLookupSkillLanguage,
+  DocumentExtractionSkill,
+  CustomEntity,
+  CustomEntityAlias,
   SplitSkill,
   TextTranslationSkill,
   WebApiSkill,
@@ -268,6 +274,14 @@ export {
   DataChangeDetectionPolicy as BaseDataChangeDetectionPolicy,
   LexicalAnalyzer as BaseLexicalAnalyzer,
   CharFilter as BaseCharFilter,
-  DataDeletionDetectionPolicy as BaseDataDeletionDetectionPolicy
+  DataDeletionDetectionPolicy as BaseDataDeletionDetectionPolicy,
+  LexicalNormalizer,
+  LexicalNormalizerName,
+  KnownLexicalNormalizerName,
+  CustomNormalizer,
+  TokenFilterName,
+  KnownTokenFilterName,
+  CharFilterName,
+  KnownCharFilterName
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
