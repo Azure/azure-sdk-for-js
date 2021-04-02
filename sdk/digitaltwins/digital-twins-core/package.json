@@ -21,7 +21,7 @@
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:samples": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-browser test-dist dist-test types *.tgz *.log",
+    "clean": "rimraf dist dist-esm dist-browser dist-test dist-test types *.tgz *.log",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 dist-test/index.node.js --reporter ../../../common/tools/mocha-multi-reporter.js",
     "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
     "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",

@@ -265,6 +265,7 @@
       "**/*.map": true,
       "**/dist-*/*": true,
       "**/test-dist/*": true,
+      "**/dist-test/*": true,
       "**/node_modules": true,
       "**/bower_components": true,
       "**/*.code-search": true,

@@ -73,7 +73,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test": "echo skipped",
     "extract-api": "api-extractor run --local",
-    "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "clean": "rimraf dist dist-browser dist-esm dist-test temp types *.tgz *.log",
     "build:samples": "echo Skipped.",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
