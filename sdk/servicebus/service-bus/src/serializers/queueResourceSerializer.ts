@@ -55,10 +55,6 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     Status: getStringOrUndefined(queue.status),
     ForwardTo: getStringOrUndefined(queue.forwardTo),
     UserMetadata: getStringOrUndefined(queue.userMetadata),
-
-    // TODO: found while syncing the ordering. This property is in .net, but not in ours?
-    // SupportOrdering: true,
-    
     AutoDeleteOnIdle: getStringOrUndefined(queue.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
