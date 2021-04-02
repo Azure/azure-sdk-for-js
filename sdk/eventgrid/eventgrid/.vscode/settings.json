@@ -20,7 +20,7 @@
     "**/types/*": true,
     "**/coverage/*": true,
     "**/*.d.ts": true,
-    "**/test-browser/*": true
+    "**/dist-test/*": true
   },
   "typescript.tsdk": "..\\..\\core\\core-http\\node_modules\\typescript\\lib"
 }

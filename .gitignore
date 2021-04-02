@@ -137,7 +137,7 @@ dist
 dist-*
 test-dist
 test-dist*
-test-browser
+dist-test
 typings
 typedoc
 types
