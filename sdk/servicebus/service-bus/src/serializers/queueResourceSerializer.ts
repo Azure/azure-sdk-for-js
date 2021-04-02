@@ -33,8 +33,8 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
   return {
     // NOTE: this ordering is extremely important. As an example, misordering of the ForwardTo property
     // resulted in a customer bug where the Forwarding attributes appeared to be set but the portal was
-    // not picking up on it. 
-    // 
+    // not picking up on it.
+    //
     // The authority on this ordering is here:
     // https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/servicebus/Azure.Messaging.ServiceBus/src/Administration/QueuePropertiesExtensions.cs#L20
 
@@ -47,7 +47,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     DuplicateDetectionHistoryTimeWindow: queue.duplicateDetectionHistoryTimeWindow,
     MaxDeliveryCount: getStringOrUndefined(queue.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
-    AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),    
+    AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),
     Status: getStringOrUndefined(queue.status),
     ForwardTo: getStringOrUndefined(queue.forwardTo),
     UserMetadata: getStringOrUndefined(queue.userMetadata),
@@ -57,7 +57,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
 
     // TODO: can't find this in the .net ATOM library.
     EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
-    EnableExpress: getStringOrUndefined(queue.enableExpress),
+    EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
 }
 
