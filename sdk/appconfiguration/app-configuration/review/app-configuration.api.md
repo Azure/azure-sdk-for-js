@@ -168,7 +168,7 @@ export interface HttpResponseFields {
 export function isFeatureFlag(setting: ConfigurationSetting | FeatureFlag): setting is FeatureFlag;
 
 // @public
-export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" | "percentage">(type: T, obj: any): obj is FeatureFlagType<T>;
+export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" | "percentage">(type: T, obj: unknown): obj is FeatureFlagType<T>;
 
 // @public
 export function isSecretReference(setting: ConfigurationSetting): setting is SecretReference;
