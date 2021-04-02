@@ -194,7 +194,7 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
   }
   $previewPackages = $allPreviewCSVRows.npm_package_sources
   for ($j = 0; $j -lt $previewPackages.Length; $j++) {
-    $pkg = "$($previewPackages[$j].name)" -replace "(.*)@next", "$1"
+    $pkg = "$($previewPackages[$j].name)" -replace "(.*)@next", "`$1"
     if (!($metadata.Package -contains $pkg)) {
       $previewPackageList += $previewPackages[$j]
     }
