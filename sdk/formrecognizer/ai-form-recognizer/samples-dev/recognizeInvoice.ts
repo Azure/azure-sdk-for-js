@@ -2,10 +2,19 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to recognize elements of an invoice from a file.
+ * This sample demonstrates how to recognize elements of a invoice from a file
+ * using a prebuilt model.
+ *
+ * The prebuilt invoice model can return several fields. For a detailed list of
+ * the fields supported by the invoice model, see the following link:
+ *
+ * https://aka.ms/azsdk/formrecognizer/invoicefields
+ *
+ * @summary extract data from an image of a invoice
+ * @azsdk-weight 90
  */
 
-import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential, FormField } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
 
@@ -15,19 +24,18 @@ dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const fileName = "./assets/Invoice_1.pdf";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
+  const fileName = "./assets/invoice/sample_invoice.jpg";
 
   if (!fs.existsSync(fileName)) {
-    throw new Error(`Expecting file ${fileName} exists`);
+    throw new Error(`Expected file "${fileName}" to exist.`);
   }
 
   const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeInvoices(readStream, {
-    contentType: "application/pdf",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
@@ -36,16 +44,63 @@ export async function main() {
   const [invoice] = await poller.pollUntilDone();
 
   if (invoice === undefined) {
-    throw new Error("Expecting at lease one invoice in the analysis result!");
+    throw new Error("Failed to extract data from at least one invoice.");
   }
+
+  /**
+   * This is a helper function for printing a simple field with an elemental type.
+   */
+  function fieldToString(field: FormField) {
+    const { name, valueType, value, confidence } = field;
+    return `${name} (${valueType}): '${value}' with confidence ${confidence}'`;
+  }
+
+  console.log("Invoice fields:");
 
   /**
    * Invoices contain a lot of optional fields, but they are all of elemental types
    * such as strings, numbers, and dates, so we will just enumerate them all.
    */
-  console.log("Fields:");
-  for (const [name, { valueType, value, confidence }] of Object.entries(invoice.fields)) {
-    console.log(`- ${name} (${valueType}): ${value} (${confidence} confidence)`);
+  for (const [name, field] of Object.entries(invoice.fields)) {
+    if (field.valueType !== "array" && field.valueType !== "object") {
+      console.log(`- ${name} ${fieldToString(field)}`);
+    }
+  }
+
+  // Invoices also support nested line items, so we can iterate over them.
+  let idx = 0;
+
+  console.log("- Items:");
+
+  const items = invoice.fields["Items"]?.value as FormField[] | undefined;
+  for (const item of items ?? []) {
+    const value = item.value as Record<string, FormField>;
+
+    // Each item has several subfields that are nested within the item. We'll
+    // map over this list of the subfields and filter out any fields that
+    // weren't found. Not all fields will be returned every time, only those
+    // that the service identified for the particular document in question.
+
+    const subFields = [
+      "Description",
+      "Quantity",
+      "Unit",
+      "UnitPrice",
+      "ProductCode",
+      "Date",
+      "Tax",
+      "Amount"
+    ]
+      .map((fieldName) => value[fieldName])
+      .filter((field) => field !== undefined);
+
+    console.log(
+      [
+        `  - Item #${idx}`,
+        // Now we will convert those fields into strings to display
+        ...subFields.map((field) => `    - ${fieldToString(field)}`)
+      ].join("\n")
+    );
   }
 }
 

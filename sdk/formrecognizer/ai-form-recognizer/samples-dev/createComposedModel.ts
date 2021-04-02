@@ -10,6 +10,9 @@
  *
  * NOTE: Only models trained using labels can be composed. Attempting to
  * compose an unlabeled model will result in an error.
+ *
+ * @summary create a composed model from several individual labeled models
+ * @azsdk-weight 60
  */
 
 import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";

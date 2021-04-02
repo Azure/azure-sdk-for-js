@@ -2,7 +2,17 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to recognize elements of a business card from a file.
+ * This sample demonstrates how to recognize elements of a business card from
+ * a file using a prebuilt model.
+ *
+ * The prebuilt business card model can return several fields. For a detailed
+ * list of the fields supported by the business card model, see the following
+ * link:
+ *
+ * https://aka.ms/azsdk/formrecognizer/businesscardfields
+ *
+ * @summary extract data from an image of a business card
+ * @azsdk-weight 90
  */
 
 import {
@@ -19,12 +29,13 @@ dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const fileName = "./assets/business-card-english.jpg";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
+
+  const fileName = "./assets/businessCard/business-card-english.jpg";
 
   if (!fs.existsSync(fileName)) {
-    throw new Error(`Expecting file ${fileName} exists`);
+    throw new Error(`Expected file "${fileName}" to exist.`);
   }
 
   const readStream = fs.createReadStream(fileName);
@@ -40,24 +51,28 @@ export async function main() {
   const [businessCard] = await poller.pollUntilDone();
 
   if (businessCard === undefined) {
-    throw new Error("Expecting at lease one business card in analysis result");
+    throw new Error("Failed to extract data from at least one business card.");
   }
 
-  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/businesscardfields
+  console.log("Business Card Fields:");
 
+  // For a list of fields that are contained in the response, please refer to
+  // the "Supported fields" section at the following link:
+  // https://aka.ms/azsdk/formrecognizer/businesscardfields
   const contactNames = businessCard.fields["ContactNames"].value;
   if (Array.isArray(contactNames)) {
-    console.log("Contact Names:");
+    console.log("- Contact Names:");
     for (const contactName of contactNames) {
       if (contactName.valueType === "object") {
         const firstName = contactName.value?.["FirstName"].value ?? "<no first name>";
         const lastName = contactName.value?.["LastName"].value ?? "<no last name>";
-        console.log(`- ${firstName} ${lastName} (${contactName.confidence} confidence)`);
+        console.log(`  - ${firstName} ${lastName} (${contactName.confidence} confidence)`);
       }
     }
   }
 
-  // The rest of the fields are simple arrays, so we will use a heler function to print them
+  // The rest of the fields are simple arrays, so we will use a helper function
+  // to print them
   printSimpleArrayField(businessCard, "CompanyNames");
   printSimpleArrayField(businessCard, "Departments");
   printSimpleArrayField(businessCard, "JobTitles");
@@ -78,9 +93,9 @@ export async function main() {
 function printSimpleArrayField(businessCard: RecognizedForm, fieldName: string) {
   const fieldValues = businessCard.fields[fieldName]?.value;
   if (Array.isArray(fieldValues)) {
-    console.log(`${fieldName}:`);
+    console.log(`- ${fieldName}:`);
     for (const item of fieldValues) {
-      console.log(`- ${item.value ?? "<no value>"} (${item.confidence} confidence)`);
+      console.log(`  - ${item.value ?? "<no value>"} (${item.confidence} confidence)`);
     }
   } else if (fieldValues === undefined) {
     console.log(`No ${fieldName} were found in the document.`);

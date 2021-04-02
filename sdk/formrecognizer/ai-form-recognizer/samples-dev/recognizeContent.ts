@@ -2,7 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to extract text and layout information from a document
+ * This sample demonstrates how to extract text and content information from a
+ * document. The content recognition feature provides access to lower-level
+ * information from the Form Recognizer OCR (optical character recognition)
+ * layout engine, and can be used to extract information about the position of
+ * basic page elements such as text lines and tables.
+ *
+ * @summary extract layout information such as text lines and table structures
+ * from a document
+ * @azsdk-weight 85
  */
 
 import { FormRecognizerClient, AzureKeyCredential, Point2D } from "@azure/ai-form-recognizer";
@@ -29,10 +37,11 @@ export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
-  const fileName = "./assets/selection_mark_form.pdf";
+
+  const fileName = "./assets/forms/selection_mark_form.pdf";
 
   if (!fs.existsSync(fileName)) {
-    throw new Error(`Expecting file ${fileName} exists`);
+    throw new Error(`Expected file "${fileName}" to exist.`);
   }
 
   const readStream = fs.createReadStream(fileName);
@@ -41,8 +50,8 @@ export async function main() {
   const poller = await client.beginRecognizeContent(readStream);
   const pages = await poller.pollUntilDone();
 
-  if (!pages || pages.length === 0) {
-    throw new Error("Expecting non-empty list of pages!");
+  if (pages.length === 0) {
+    throw new Error("Failed to recognize the content of at least one page.");
   }
 
   for (const page of pages) {

@@ -2,10 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to analyze a form from a document with an unlabeled
- * custom model. The form must be of the same type as the forms the custom model
- * was trained on. To learn how to train your own models, see the samples in
- * trainUnlabeledModel.ts or trainLabeledModel.ts
+ * This sample demonstrates how to analyze a form from a document with an
+ * unlabeled custom model. The form must be of the same type as the forms the
+ * custom model was trained on. To learn how to train your own models, see the
+ * `trainUnlabeledModel` and `trainLabeledModel` samples.
+ *
+ * @summary extract information from forms using a custom trained model
+ * @azsdk-weight 110
  */
 
 import { FormRecognizerClient, AzureKeyCredential, Point2D } from "@azure/ai-form-recognizer";
@@ -30,26 +33,30 @@ function boundingBoxToString(box: Point2D[]): string {
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const modelId = process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
+  const modelId = process.env["CUSTOM_MODEL_ID"] ?? "<unlabeled custom model id>";
+
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const fileName = "./assets/Form_1.jpg";
+  const fileName = "./assets/forms/Form_1.jpg";
 
   if (!fs.existsSync(fileName)) {
-    throw new Error(`Expecting file ${fileName} exists`);
+    throw new Error(`Expected file "${fileName}" to exist.`);
   }
 
   const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, {
-    contentType: "image/jpeg",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });
   const forms = await poller.pollUntilDone();
+
+  if (forms.length === 0) {
+    throw new Error("Failed to extract data from at least one form.");
+  }
 
   console.log("Forms:");
   for (const form of forms ?? []) {
@@ -73,9 +80,11 @@ export async function main() {
 
     console.log("  Fields:");
     for (const [fieldName, field] of Object.entries(form.fields)) {
-      // each field is of type FormField
+      // Each field is of type FormField.
       console.log(
-        `  - Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence}`
+        `  - ${fieldName} (${field.valueType}): '${field.value ?? "<missing>"}' with confidence ${
+          field.confidence
+        }`
       );
     }
   }

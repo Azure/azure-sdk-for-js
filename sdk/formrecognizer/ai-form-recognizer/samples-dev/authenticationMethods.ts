@@ -2,8 +2,12 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use either an Azure Active Directory (RBAC) or an
- * API Key to authenticate a FormRecognizerClient
+ * This sample demonstrates how to use either an Azure Active Directory (RBAC)
+ * or an API Key to authenticate a FormRecognizerClient.
+ *
+ * @summary authenticates a service client using both Azure Active Directory
+ * and an API key
+ * @azsdk-weight 50
  */
 
 // To use an API Key, import `AzureKeyCredential` from the Form Recognizer package
@@ -19,7 +23,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
+const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
 
 /**
  * Create a client using Azure Active Directory to authenticate
@@ -45,7 +49,7 @@ async function useApiKey() {
   console.log("-- API Key --");
 
   // If using an API Key, you will need to set this environment variable
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
 
   const credential = new AzureKeyCredential(apiKey);
 
@@ -59,7 +63,7 @@ async function useApiKey() {
  * for content recognition and print its output.
  */
 async function recognizeContentWithClient(client: FormRecognizerClient) {
-  const fileName = "./assets/Form_1.jpg";
+  const fileName = "./assets/forms/Form_1.jpg";
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);
@@ -71,16 +75,16 @@ async function recognizeContentWithClient(client: FormRecognizerClient) {
   const pages = await poller.pollUntilDone();
 
   if (!pages || pages.length === 0) {
-    throw new Error("Expecting non-empty list of pages!");
+    throw new Error("Expected to receive a non-empty list of pages!");
   }
 
   for (const page of pages!) {
     console.log(
-      `Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`
+      `Page ${page.pageNumber}: width="${page.width}", and height="${page.height}" (unit: ${page.unit})`
     );
     for (const table of page.tables!) {
       for (const cell of table.cells) {
-        console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
+        console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text "${cell.text}"`);
       }
     }
   }

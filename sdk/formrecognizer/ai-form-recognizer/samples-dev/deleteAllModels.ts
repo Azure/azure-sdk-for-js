@@ -2,7 +2,13 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates model deletion.
+ * This sample demonstrates model deletion by iterating over all models in a
+ * Form Recognizer account and deleting them one-by-one.
+ *
+ * This sample WILL DELETE ALL MODELS IN A FORM RECOGNIZER ACCOUNT.
+ *
+ * @summary deletes all the models in a Form Recognizer account
+ * @azsdk-weight 20
  */
 
 import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
@@ -13,8 +19,8 @@ dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 

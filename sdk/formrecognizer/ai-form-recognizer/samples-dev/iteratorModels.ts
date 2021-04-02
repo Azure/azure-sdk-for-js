@@ -2,8 +2,11 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates different ways to iterate through the list of models in
- * a cognitive service account.
+ * This sample demonstrates different ways to iterate through the list of
+ * models in a cognitive service account.
+ *
+ * @summary list custom models using several different methods of iteration
+ * @azsdk-weight 40
  */
 
 import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
@@ -14,8 +17,8 @@ dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
-  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
+  const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] ?? "<cognitive services endpoint>";
+  const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] ?? "<api key>";
 
   const client = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
