@@ -192,13 +192,11 @@ export class AppConfigurationClient {
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
     return this._trace("addConfigurationSetting", options, async (newOptions) => {
-      const internalConfigurationSetting = serializeAsConfigurationSettingParam(
-        configurationSetting
-      );
+      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
         label: configurationSetting.label,
-        entity: internalConfigurationSetting,
+        entity: keyValue,
         ...newOptions
       });
 
@@ -461,13 +459,11 @@ export class AppConfigurationClient {
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
     return this._trace("setConfigurationSetting", options, async (newOptions) => {
-      const internalConfigurationSetting = serializeAsConfigurationSettingParam(
-        configurationSetting
-      );
+      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const response = await this.client.putKeyValue(configurationSetting.key, {
         ...newOptions,
         label: configurationSetting.label,
-        entity: internalConfigurationSetting,
+        entity: keyValue,
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
       });
 
