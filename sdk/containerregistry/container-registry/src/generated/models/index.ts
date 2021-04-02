@@ -79,22 +79,22 @@ export interface TagList {
   /** Image name */
   repository: string;
   /** List of tag attribute details */
-  tagAttributeBases?: TagAttributesBase[];
+  tagAttributeBases: TagAttributesBase[];
   link?: string;
 }
 
 /** Tag attribute details */
 export interface TagAttributesBase {
   /** Tag name */
-  name?: string;
+  name: string;
   /** Tag digest */
-  digest?: string;
+  digest: string;
   /** Tag created time */
   createdOn: Date;
   /** Tag last update time */
   lastUpdatedOn: Date;
   /** Writeable properties of the resource */
-  writeableProperties?: ContentProperties;
+  writeableProperties: ContentProperties;
 }
 
 /** Tag attributes */
@@ -102,15 +102,15 @@ export interface TagProperties {
   /** Image name */
   repository: string;
   /** Tag name */
-  name?: string;
+  name: string;
   /** Tag digest */
-  digest?: string;
+  digest: string;
   /** Tag created time */
   createdOn: Date;
   /** Tag last update time */
   lastUpdatedOn: Date;
   /** Writeable properties of the resource */
-  writeableProperties?: ContentProperties;
+  writeableProperties: ContentProperties;
 }
 
 /** Manifest attributes */

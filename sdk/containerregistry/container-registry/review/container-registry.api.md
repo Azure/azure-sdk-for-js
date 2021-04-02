@@ -99,19 +99,21 @@ export interface ListTagsOptions extends OperationOptions {
 }
 
 // @public
-export interface ManifestAttributesManifestReferences {
-    cpuArchitecture: string;
-    digest: string;
-    operatingSystem: string;
-}
-
-// @public
 export type RegistryArtifactOrderBy = "timedesc" | "timeasc";
 
 // @public
-export type RegistryArtifactProperties = Omit<ServiceRegistryArtifactProperties, "references"> & {
+export interface RegistryArtifactProperties {
+    cpuArchitecture?: string;
+    createdOn?: Date;
+    digest?: string;
+    lastUpdatedOn?: Date;
+    operatingSystem?: string;
     registryArtifacts?: RegistryArtifactProperties[];
-};
+    repository?: string;
+    size?: number;
+    tags?: string[];
+    writeableProperties?: ContentProperties;
+}
 
 // @public
 export interface RepositoryProperties {
@@ -121,20 +123,6 @@ export interface RepositoryProperties {
     registryArtifactCount: number;
     tagCount: number;
     writeableProperties: ContentProperties;
-}
-
-// @public
-export interface ServiceRegistryArtifactProperties {
-    cpuArchitecture?: string;
-    createdOn?: Date;
-    digest?: string;
-    lastUpdatedOn?: Date;
-    operatingSystem?: string;
-    references?: ManifestAttributesManifestReferences[];
-    repository?: string;
-    size?: number;
-    tags?: string[];
-    writeableProperties?: ContentProperties;
 }
 
 // @public
@@ -155,11 +143,11 @@ export type TagOrderBy = "timedesc" | "timeasc";
 // @public
 export interface TagProperties {
     createdOn: Date;
-    digest?: string;
+    digest: string;
     lastUpdatedOn: Date;
-    name?: string;
+    name: string;
     repository: string;
-    writeableProperties?: ContentProperties;
+    writeableProperties: ContentProperties;
 }
 
 

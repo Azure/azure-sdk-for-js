@@ -5,23 +5,14 @@ import { PipelineOptions } from "@azure/core-rest-pipeline";
 import {
   ContentProperties,
   DeleteRepositoryResult,
-  RegistryArtifactProperties as ServiceRegistryArtifactProperties,
   RepositoryProperties,
-  ManifestAttributesManifestReferences,
   TagProperties
 } from "./generated";
 
 /**
  * Re-export generated types that are used as public interfaces.
  */
-export {
-  ContentProperties,
-  DeleteRepositoryResult,
-  RepositoryProperties,
-  ManifestAttributesManifestReferences,
-  ServiceRegistryArtifactProperties,
-  TagProperties
-};
+export { ContentProperties, DeleteRepositoryResult, RepositoryProperties, TagProperties };
 
 /**
  * Client options used to configure Container Registry Repository API requests.
@@ -31,9 +22,28 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 }
 
 /** Manifest attributes details */
-export type RegistryArtifactProperties = Omit<ServiceRegistryArtifactProperties, "references"> & {
+export interface RegistryArtifactProperties {
+  /** Image name */
+  repository?: string;
+  /** Manifest */
+  digest?: string;
+  /** Image size */
+  size?: number;
+  /** Created time */
+  createdOn?: Date;
+  /** Last update time */
+  lastUpdatedOn?: Date;
+  /** CPU architecture */
+  cpuArchitecture?: string;
+  /** Operating system */
+  operatingSystem?: string;
+  /** List of manifest attributes details */
   registryArtifacts?: RegistryArtifactProperties[];
-};
+  /** List of tags */
+  tags?: string[];
+  /** Writeable properties of the resource */
+  writeableProperties?: ContentProperties;
+}
 
 /**
  * Defines values for TagOrderBy. \
