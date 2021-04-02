@@ -1,14 +1,22 @@
-# Introduction
+# Table of contents
+
+- [Introduction](#introduction)
+- [Authenticating client side browser applications](#authenticating-client-side-browser-applications)
+- [Authenticating server side applications](#authenticating-server-side-applications)
+- [Chaining credentials](#chaining-credentials)
+- [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
+
+## Introduction
 
 Authenticating your application, users, and principals is an integral part of working with the Azure Client Libraries. The Azure Identity library provides multiple ways to authenticate, each with a flexible configuration that covers most scenarios. In this document we will go over some of these scenarios and provide small examples that can be used as a starting point for your needs.
 
-# Authenticating client side browser applications
+## Authenticating client side browser applications
 
 For client side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience and is the only credential type that we support in the browser. To get started, you will want to configure an AAD application for interactive browser authentication. Please refer to the [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for additional information on how to configure your app registration for the browser.
 
 You may also refer to [Authenticating a user account interactively in the browser](#authenticating-a-user-account-interactively-in-the-browser) for an example of how you can use the `InteractiveBrowserCredential` once the app registration is configured.
 
-# Authenticating server side applications
+## Authenticating server side applications
 
 For server side applications we provide options that vary from minimal configuration with sensible defaults using the `DefaultAzureCredential` to more specialized credentials that can support your specific scenario. Please feel free to navigate to the specific credentials below to explore what we offer:
 
@@ -25,7 +33,7 @@ For server side applications we provide options that vary from minimal configura
 - [Authenticating a user account with Visual Studio Code](#authenticating-a-user-account-with-visual-studio-code)
 - [Authenticating in Azure with managed identity](#authenticating-in-azure-with-managed-identity)
 
-## Authenticating with `DefaultAzureCredential`
+### Authenticating with `DefaultAzureCredential`
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts) to create a Key Vault key client you can copy-paste. The `DefaultAzureCredential` makes for a terrific starting point as it provides sane defaults with minimal configuration and chains multiple credentials together. While you may outgrow it eventually, it is a sensible first choice for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
 
@@ -40,7 +48,7 @@ function withDefaultAzureCredential() {
 }
 ```
 
-### Authenticating a user assigned managed identity with `DefaultAzureCredential`
+#### Authenticating a user assigned managed identity with `DefaultAzureCredential`
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`, deployed to an Azure resource with a user assigned managed identity configured.
 
@@ -60,7 +68,7 @@ function withDefaultAzureCredential() {
 }
 ```
 
-## Authenticating a user account interactively in the browser
+### Authenticating a user account interactively in the browser
 
 For clients that have a default browser available and for client-side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience. In the sample below an application authenticates a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
 
@@ -77,7 +85,7 @@ function withInteractiveBrowserCredential() {
 }
 ```
 
-## Authenticating a service principal with a client secret
+### Authenticating a service principal with a client secret
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ClientSecretCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/clientSecretCredential.ts) to create a Key Vault key client you can copy-paste.
 
@@ -97,7 +105,7 @@ function withClientSecretCredential() {
 }
 ```
 
-## Authenticating a service principal with environment credentials
+### Authenticating a service principal with environment credentials
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `EnvironmentCredential`. The `EnvironmentCredential` looks for well-known environment variable names to determine how it should authenticate. It effectively acts as a wrapper for the `ClientSecretCredential`, `ClientCertificateCredential` or `UsernamePasswordCredential` depending on which environment variables are present.
 
@@ -113,7 +121,7 @@ function withEnvironmentCredential() {
 }
 ```
 
-## Authenticating a service principal with a client certificate
+### Authenticating a service principal with a client certificate
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ClientCertificateCredential`.
 
@@ -133,7 +141,7 @@ function withClientCertificateCredential() {
 }
 ```
 
-## Authenticating a user account with device code flow
+### Authenticating a user account with device code flow
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DeviceCodeCredential`.
 
@@ -158,7 +166,7 @@ function withDeviceCodeCredential() {
 }
 ```
 
-## Authenticating a user account with username and password
+### Authenticating a user account with username and password
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `UsernamePasswordCredential`. The user must **not** have Multi-factor auth turned on.
 
@@ -177,7 +185,7 @@ function withClientCertificateCredential() {
 }
 ```
 
-## Authenticating a user account with auth code flow
+### Authenticating a user account with auth code flow
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AuthorizationCodeCredential` on a web application. This can be useful when you want complete control over the authentication flow or when the `InteractiveBrowserCredential` does not fit your use-case.
 
@@ -203,11 +211,11 @@ function withAuthCodeCredential() {
 }
 ```
 
-## Authenticating a user account with Azure CLI
+### Authenticating a user account with Azure CLI
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AzureCliCredential` on a workstation with Azure CLI installed and signed in.
 
-### Configure the Azure CLI
+#### Configure the Azure CLI
 
 Sign in using the [Azure CLI][azure_cli]
 
@@ -233,7 +241,7 @@ az account get-access-token
 
 to verify the account has been successfully configured.
 
-### Use the Azure CLI Credential
+#### Use the Azure CLI Credential
 
 ```ts
 /**
@@ -248,7 +256,7 @@ function withAzureCliCredential() {
 }
 ```
 
-## Authenticating a user account with Visual Studio Code
+### Authenticating a user account with Visual Studio Code
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `VisualStudioCodeCredential` on a workstation with Visual Studio Code installed, and the user has signed in with an Azure account.
 
@@ -264,7 +272,7 @@ function withVisualStudioCodeCredential() {
 }
 ```
 
-## Authenticating in Azure with managed identity
+### Authenticating in Azure with managed identity
 
 This examples demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ManagedIdentityCredential` in a virtual machine, app service, function app, cloud shell, or AKS environment on Azure, with system assigned, or user assigned managed identity enabled.
 
@@ -281,7 +289,7 @@ function withManagedIdentityCredential() {
 }
 ```
 
-# Chaining credentials
+## Chaining credentials
 
 The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. The following example demonstrates creating a credential which will attempt to authenticate a `SecretClient` from the [@azure/keyvault-secrerts][secrets_client_library] using managed identity, and fall back to certificate authentication if a managed identity is unavailable in the current environment.
 
@@ -295,7 +303,7 @@ function withChainedTokenCredential() {
 }
 ```
 
-# Authenticating With Azure Stack using Azure Identity
+## Authenticating With Azure Stack using Azure Identity
 
 ### Determine the Azure Authority Host for Azure Stack
 
