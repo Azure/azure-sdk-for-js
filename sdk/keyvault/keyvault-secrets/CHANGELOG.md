@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.0-beta.4 (Unreleased)
+## 4.2.0-beta.4 (2021-04-05)
 
 - Improved tracing across the various KeyVault libraries. By switching to a consistent naming convention, ensuring spans are always closed appropriately, and setting the correct status when an operation errors developers can expect an improved experience when enabling distributed tracing.
   - We now ensure tracing spans are properly closed with an appropriate status when an operation throws an exception.
@@ -28,12 +28,6 @@
 
 4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.
 
-## 4.1.0-preview.1 (2020-03-10)
-
-- Added the optional `apiVersion` property to the `SecretClient` optional parameters.
-  It defaults to the latest supported API version, which currently is `7.1-preview`.
-- Added `recoverableDays` as an optional property to `SecretProperties`.
-
 ## 4.0.4 (2020-06-01)
 
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
@@ -41,6 +35,12 @@
 ## 4.0.3 (2020-05-13)
 
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
+
+## 4.1.0-preview.1 (2020-03-10)
+
+- Added the optional `apiVersion` property to the `SecretClient` optional parameters.
+  It defaults to the latest supported API version, which currently is `7.1-preview`.
+- Added `recoverableDays` as an optional property to `SecretProperties`.
 
 ## 4.0.2 (2019-12-04)
 
