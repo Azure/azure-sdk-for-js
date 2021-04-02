@@ -134,9 +134,7 @@ const client = new KeyClient(vaultUrl, credential);
 
 ### Specifying a user assigned managed identity with the `DefaultAzureCredential`
 
-A relatively common scenario involves authenticating using a user assigned managed identity for an Azure resource. The `DefaultAzureCredential` makes this a relatively straightforward task that can be configured using environment variables or in-code.
-
-For more information please refer to [this example](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential)
+A relatively common scenario involves authenticating using a user assigned managed identity for an Azure resource. Explore the [example on Authenticating a user assigned managed identity with DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential) to see how this is made a relatively straightforward task that can be configured using environment variables or in code.
 
 ### Define a custom authentication flow with the `ChainedTokenCredential`
 

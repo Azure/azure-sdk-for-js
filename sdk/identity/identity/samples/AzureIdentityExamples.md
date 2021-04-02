@@ -1,9 +1,20 @@
-# Table of contents
+# Introduction
 
-- [Introduction](#introduction)
+Authenticating your application, users, and principals is an integral part of working with the Azure Client Libraries. The Azure Identity library provides multiple ways to authenticate, each with a flexible configuration that covers most scenarios. In this document we will go over some of these scenarios and provide small examples that can be used as a starting point for your needs.
+
+# Authenticating client side browser applications
+
+For client side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience and is the only credential type that we support in the browser. To get started, you will want to configure an AAD application for interactive browser authentication. Please refer to the [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for additional information on how to configure your app registration for the browser.
+
+You may also refer to [Authenticating a user account interactively in the browser](#authenticating-a-user-account-interactively-in-the-browser) for an example of how you can use the `InteractiveBrowserCredential` once the app registration is configured.
+
+# Authenticating server side applications
+
+For server side applications we provide options that vary from minimal configuration with sensible defaults using the `DefaultAzureCredential` to more specialized credentials that can support your specific scenario. Please feel free to navigate to the specific credentials below to explore what we offer:
+
 - [Authenticating with `DefaultAzureCredential`](#authenticating-with-defaultazurecredential)
 - [Authenticating a user assigned managed identity with `DefaultAzureCredential`](#authenticating-a-user-assigned-managed-identity-with-defaultazurecredential)
-- [(Browsers and NodeJS) Authenticating a user account interactively in the browser](#authenticating-a-user-account-interactively-in-the-browser)
+- [Authenticating a user account interactively in the browser](#authenticating-a-user-account-interactively-in-the-browser)
 - [Authenticating a service principal with a client secret](#authenticating-a-service-principal-with-a-client-secret)
 - [Authenticating a service principal with a client certificate](#authenticating-a-service-principal-with-a-client-certificate)
 - [Authenticating a service principal with environment credentials](#authenticating-a-service-principal-with-environment-credentials)
@@ -13,12 +24,6 @@
 - [Authenticating a user account with Azure CLI](#authenticating-a-user-account-with-azure-cli)
 - [Authenticating a user account with Visual Studio Code](#authenticating-a-user-account-with-visual-studio-code)
 - [Authenticating in Azure with managed identity](#authenticating-in-azure-with-managed-identity)
-- [Chaining credentials](#chaining-credentials)
-- [Authenticating with Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
-
-## Introduction
-
-Authenticating your application, users, and principals is an integral part of working with the Azure Client Libraries. The Azure Identity library provides multiple ways to authenticate, each with a flexible configuration that covers most scenarios. In this document we will go over some of these scenarios and provide small examples that can be used as a starting point for your needs.
 
 ## Authenticating with `DefaultAzureCredential`
 
@@ -59,7 +64,7 @@ function withDefaultAzureCredential() {
 
 For clients that have a default browser available and for client-side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience. In the sample below an application authenticates a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
 
-> For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported.
+> For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. You will also need to configure your app registration for single-page applications. Please refer to the [Single-Page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for more information.
 
 ```ts
 function withInteractiveBrowserCredential() {
@@ -71,8 +76,6 @@ function withInteractiveBrowserCredential() {
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
 ```
-
-See more about how to configure an AAD application for interactive browser authentication in [Single-page application: App registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration)
 
 ## Authenticating a service principal with a client secret
 
@@ -278,7 +281,7 @@ function withManagedIdentityCredential() {
 }
 ```
 
-## Chaining credentials
+# Chaining credentials
 
 The `ChainedTokenCredential` class provides the ability to link together multiple credential instances to be tried sequentially when authenticating. The following example demonstrates creating a credential which will attempt to authenticate a `SecretClient` from the [@azure/keyvault-secrerts][secrets_client_library] using managed identity, and fall back to certificate authentication if a managed identity is unavailable in the current environment.
 
@@ -292,7 +295,7 @@ function withChainedTokenCredential() {
 }
 ```
 
-## Authenticating With Azure Stack using Azure Identity
+# Authenticating With Azure Stack using Azure Identity
 
 ### Determine the Azure Authority Host for Azure Stack
 
