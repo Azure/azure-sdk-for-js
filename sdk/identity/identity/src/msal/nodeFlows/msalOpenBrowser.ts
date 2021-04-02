@@ -10,7 +10,7 @@ import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
 import { msalToPublic } from "../utils";
-import { CredentialUnavailable } from "../../client/errors";
+import { CredentialUnavailableError } from "../../client/errors";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
@@ -187,7 +187,7 @@ export class MsalOpenBrowser extends MsalNode {
     try {
       await interactiveBrowserMockable.open(response, { wait: true });
     } catch (e) {
-      throw new CredentialUnavailable(`Could not open a browser window. Error: ${e.message}`);
+      throw new CredentialUnavailableError(`Could not open a browser window. Error: ${e.message}`);
     }
   }
 }

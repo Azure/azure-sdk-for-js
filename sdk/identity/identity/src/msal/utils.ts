@@ -6,10 +6,10 @@ import * as msalCommon from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
-import { CredentialUnavailable } from "../client/errors";
+import { CredentialUnavailableError } from "../client/errors";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
-import { AuthenticationRequired } from "./errors";
+import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
 
 /**
@@ -24,7 +24,7 @@ export function ensureValidMsalToken(
 ): void {
   const error = (message: string): Error => {
     logger.getToken.info(message);
-    return new AuthenticationRequired(
+    return new AuthenticationRequiredError(
       Array.isArray(scopes) ? scopes : [scopes],
       getTokenOptions,
       message
@@ -146,7 +146,7 @@ export class MsalBaseUtilities {
       switch (error.errorCode) {
         case "endpoints_resolution_error":
           this.logger.info(formatError(scopes, error.message));
-          return new CredentialUnavailable(error.message);
+          return new CredentialUnavailableError(error.message);
         case "consent_required":
         case "interaction_required":
         case "login_required":
@@ -165,7 +165,7 @@ export class MsalBaseUtilities {
     if (error.name === "AbortError") {
       return error;
     }
-    return new AuthenticationRequired(scopes, getTokenOptions, error.message);
+    return new AuthenticationRequiredError(scopes, getTokenOptions, error.message);
   }
 }
 

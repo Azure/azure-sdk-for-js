@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { GetTokenOptions } from "@azure/core-http";
-import { CredentialUnavailable } from "../client/errors";
+import { CredentialUnavailableError } from "../client/errors";
 
 /**
  * Error used to enforce authentication after trying to retrieve a token silently.
  */
-export class AuthenticationRequired extends CredentialUnavailable {
+export class AuthenticationRequiredError extends CredentialUnavailableError {
   constructor(
     /**
      * The list of scopes for which the token will have access.
@@ -20,6 +20,6 @@ export class AuthenticationRequired extends CredentialUnavailable {
     message?: string
   ) {
     super(message);
-    this.name = "AuthenticationRequired";
+    this.name = "AuthenticationRequiredError";
   }
 }

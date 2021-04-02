@@ -10,7 +10,7 @@ import { getAuthorityHost, getKnownAuthorities, MsalBaseUtilities } from "../uti
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { AuthenticationRequired } from "../errors";
+import { AuthenticationRequiredError } from "../errors";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -138,11 +138,11 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       await this.login(scopes);
     }
     return this.getTokenSilent(scopes).catch((err) => {
-      if (err.name !== "AuthenticationRequired") {
+      if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }
       if (options?.disableAutomaticAuthentication) {
-        throw new AuthenticationRequired(
+        throw new AuthenticationRequiredError(
           scopes,
           options,
           "Automatic authentication has been disabled. You may call the authentication() method."
