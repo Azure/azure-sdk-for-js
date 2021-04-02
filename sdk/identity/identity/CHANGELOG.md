@@ -2,6 +2,7 @@
 
 ## 2.0.0-beta.2 (Unreleased)
 
+- Removed the `PersistentCredentialOptions` (introduced in `2.0.0-beta.1`).
 - Added properties `scopes` and `getTokenOptions` to the `AuthenticationRequired` error.
 - `InteractiveBrowserCredential` no longer supports [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) and will only support [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) instead. Therefore the `flow` option introduced in `1.2.4-beta.1` has been removed. More information from the documentation on Implicit Grant Flow:
 
