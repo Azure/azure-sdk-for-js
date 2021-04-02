@@ -32,7 +32,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string => recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"token"`),
-    (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
+    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
     (recording: string): string => recording.replace("endpoint:443", "endpoint")
   ],
   queryParametersToSkip: []
