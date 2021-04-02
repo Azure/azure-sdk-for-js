@@ -45,6 +45,7 @@ dependencies:
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/perf-ai-form-recognizer': file:projects/perf-ai-form-recognizer.tgz
+  '@rush-temp/perf-ai-metrics-advisor': file:projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-eventgrid': file:projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:projects/perf-identity.tgz
@@ -85,6 +86,21 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-lNUmDRVGpanCsiUN3NWxFTdwmdFI53xwhkTFfHDGTYk46ca7Ind3nanJc+U6Zj9Tv+9nTCWRBscWEW1DyKOpTw==
+  /@azure/ai-metrics-advisor/1.0.0-beta.3:
+    dependencies:
+      '@azure/core-auth': 1.3.0
+      '@azure/core-http': 1.2.3
+      '@azure/core-lro': 1.0.3
+      '@azure/core-paging': 1.1.3
+      '@azure/core-tracing': 1.0.0-preview.9
+      '@azure/logger': 1.0.2
+      '@opentelemetry/api': 0.10.2
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-7C1wodDLnLrdS7rmA/UoItoTAtpZdhkEoaxC7+j5l+LlrcWAe7K2JO1y5psVr5Pe8Y6cUGK4KfpgsAQAcSUDEw==
   /@azure/amqp-common/1.0.0-preview.9:
     dependencies:
       '@azure/ms-rest-nodeauth': 0.9.3_debug@3.2.7
@@ -9766,6 +9782,20 @@ packages:
       integrity: sha512-gJ4nl8UAm254P0GWxcnaF5PpWatN2Ifio5wl3XfLknEEAYPDOYYxQcuXmCLE9oGdsb3SaujzdQnqHqetDfVHoA==
       tarball: file:projects/perf-ai-form-recognizer.tgz
     version: 0.0.0
+  file:projects/perf-ai-metrics-advisor.tgz:
+    dependencies:
+      '@azure/ai-metrics-advisor': 1.0.0-beta.3
+      '@types/node': 8.10.66
+      dotenv: 8.2.0
+      ts-node: 9.1.1_typescript@4.2.3
+      tslib: 2.1.0
+      typescript: 4.2.3
+    dev: false
+    name: '@rush-temp/perf-ai-metrics-advisor'
+    resolution:
+      integrity: sha512-DXAe5wGj5oid/Sd2BBkW83MfFjax/XSsMs+tMOCz2nf0CIa6HCTetCCOvHLEfTHdToIO7ntJ2D79Qlyu8jgByQ==
+      tarball: file:projects/perf-ai-metrics-advisor.tgz
+    version: 0.0.0
   file:projects/perf-ai-text-analytics.tgz:
     dependencies:
       '@azure/identity': 1.2.4
@@ -10888,6 +10918,7 @@ specifiers:
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/perf-ai-form-recognizer': file:./projects/perf-ai-form-recognizer.tgz
+  '@rush-temp/perf-ai-metrics-advisor': file:./projects/perf-ai-metrics-advisor.tgz
   '@rush-temp/perf-ai-text-analytics': file:./projects/perf-ai-text-analytics.tgz
   '@rush-temp/perf-eventgrid': file:./projects/perf-eventgrid.tgz
   '@rush-temp/perf-identity': file:./projects/perf-identity.tgz
