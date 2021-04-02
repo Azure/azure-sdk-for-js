@@ -31,17 +31,28 @@ import {
  */
 export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptions {
   return {
+    // NOTE: this ordering is extremely important. As an example, misordering of the ForwardTo property
+    // resulted in a customer bug where the Forwarding attributes appeared to be set but the portal was
+    // not picking up on it. 
+    // 
+    // The authority on this ordering is here:
+    // https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/servicebus/Azure.Messaging.ServiceBus/src/Administration/TopicPropertiesExtensions.cs#L175
+
     DefaultMessageTimeToLive: topic.defaultMessageTimeToLive,
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
     DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
     EnableBatchedOperations: getStringOrUndefined(topic.enableBatchedOperations),
+    // TODO: in .net, but not in here: FilteringMessagesBeforePublishing
+    // TODO: in .net, but not in here: IsAnonymousAccessible
     AuthorizationRules: getRawAuthorizationRules(topic.authorizationRules),
     Status: getStringOrUndefined(topic.status),
+    // TODO: in .net, but not in here: ForwardTo
     UserMetadata: getStringOrUndefined(topic.userMetadata),
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(topic.enablePartitioning),
+    // TODO: in .net, but not in here: EnableSubscriptionPartitioning
     EntityAvailabilityStatus: getStringOrUndefined(topic.availabilityStatus),
     EnableExpress: getStringOrUndefined(topic.enableExpress)
   };
