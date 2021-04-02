@@ -137,6 +137,7 @@
       "copyModel.js",
       "deleteAllModels.js"
     ],
+    "disableDocsMs": true,
     "productName": "Azure Form Recognizer",
     "productSlugs": [
       "azure",
