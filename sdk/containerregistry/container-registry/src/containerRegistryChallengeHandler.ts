@@ -80,7 +80,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
 
     // Step 5 - Authorize Request.  Note, we don't use SetAuthorizationHeader here, because it
     // sets an AAD access token header, and at this point we're done with AAD and using an ACR access token.
-    options.request.headers.set("Authorization", `Bearer ${acrAccessToken}`);
+    options.setAuthorizationHeader(acrAccessToken);
 
     return true;
   }

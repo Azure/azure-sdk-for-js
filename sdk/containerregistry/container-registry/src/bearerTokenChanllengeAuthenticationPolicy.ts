@@ -44,7 +44,7 @@ export interface ChallengeCallbackOptions {
   /**
    * Function that allows easily assigning a token to the request.
    */
-  setAuthorizationHeader: (accessToken: AccessToken) => void;
+  setAuthorizationHeader: (token: string) => void;
 }
 
 /**
@@ -114,7 +114,7 @@ export async function defaultAuthenticateRequest(options: ChallengeCallbackOptio
   if (!accessToken) {
     return;
   }
-  options.setAuthorizationHeader(accessToken);
+  options.setAuthorizationHeader(accessToken.token);
 }
 
 /**
@@ -141,7 +141,7 @@ export async function defaultAuthenticateRequestOnChallenge(
     return false;
   }
 
-  setAuthorizationHeader(accessToken);
+  setAuthorizationHeader(accessToken.token);
   return true;
 }
 
@@ -196,8 +196,8 @@ export function bearerTokenChallengeAuthenticationPolicy(
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       // Allows users to easily set the authorization header.
-      function setAuthorizationHeader(accessToken: AccessToken): void {
-        request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+      function setAuthorizationHeader(token: string): void {
+        request.headers.set("Authorization", `Bearer ${token}`);
       }
 
       if (callbacks?.authenticateRequest) {
