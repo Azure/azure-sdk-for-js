@@ -136,6 +136,41 @@
       "trainUnlabeledModel.js",
       "copyModel.js",
       "deleteAllModels.js"
-    ]
+    ],
+    "productName": "Azure Form Recognizer",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "azure-form-recognizer"
+    ],
+    "requiredResources": {
+      "Azure Cognitive Services account": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+    },
+    "extraFiles": {
+      "./assets/businessCard/business-card-english.jpg": [
+        "typescript/assets/businessCard/business-card-english.jpg",
+        "javascript/assets/businessCard/business-card-english.jpg"
+      ],
+      "./assets/forms/Form_1.jpg": [
+        "typescript/assets/forms/Form_1.jpg",
+        "javascript/assets/forms/Form_1.jpg"
+      ],
+      "./assets/forms/selection_mark_form.pdf": [
+        "typescript/assets/forms/selection_mark_form.pdf",
+        "javascript/assets/forms/selection_mark_form.pdf"
+      ],
+      "./assets/idDocument/license.jpg": [
+        "typescript/assets/idDocument/license.jpg",
+        "javascript/assets/idDocument/license.jpg"
+      ],
+      "./assets/invoice/sample_invoice.jpg": [
+        "typescript/assets/invoice/sample_invoice.jpg",
+        "javascript/assets/invoice/sample_invoice.jpg"
+      ],
+      "./assets/receipt/contoso-allinone.jpg": [
+        "typescript/assets/receipt/contoso-allinone.jpg",
+        "javascript/assets/receipt/contoso-allinone.jpg"
+      ]
+    }
   }
 }
