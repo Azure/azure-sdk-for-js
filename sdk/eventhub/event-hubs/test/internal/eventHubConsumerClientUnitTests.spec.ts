@@ -12,7 +12,7 @@ import chai from "chai";
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 
 const should = chai.should();
-const env = getEnvVars("live");
+const env = getEnvVars("mock");
 
 describe("EventHubConsumerClient", () => {
   const service = {
