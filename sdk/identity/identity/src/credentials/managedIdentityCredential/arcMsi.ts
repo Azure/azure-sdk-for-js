@@ -91,6 +91,7 @@ export const arcMsi: MSI = {
       deserializationMapper: undefined,
       abortSignal: getTokenOptions.abortSignal,
       spanOptions: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.spanOptions,
+      tracingContext: getTokenOptions.tracingOptions && getTokenOptions.tracingOptions.tracingContext,
       ...prepareRequestOptions(resource)
     };
 

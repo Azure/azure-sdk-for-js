@@ -10,7 +10,7 @@ import {
   assertClientUsernamePassword,
   assertRejects
 } from "../../authTestUtils";
-import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
+import { TestTracer, setTracer, SpanGraph, setSpan, context } from "@azure/core-tracing";
 
 interface OAuthErrorResponse {
   error: string;
@@ -101,9 +101,7 @@ describe("EnvironmentCredential", function() {
     const rootSpan = tracer.startSpan("root");
     await credential.getToken("scope", {
       tracingOptions: {
-        spanOptions: {
-          parent: rootSpan.context()
-        }
+        tracingContext: setSpan(context.active(), rootSpan)
       }
     });
     rootSpan.end();

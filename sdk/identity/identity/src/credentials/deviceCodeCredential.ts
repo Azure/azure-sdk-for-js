@@ -4,8 +4,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { AuthenticationRequired, MsalClient } from "../client/msalClient";
 import { createSpan } from "../util/tracing";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { TokenCredentialOptions } from "../client/identityClient";
 
 import { DeviceCodeRequest } from "@azure/msal-node";
@@ -135,12 +134,8 @@ export class DeviceCodeCredential implements TokenCredential {
           logger.getToken.info(formatSuccess(scopeArray));
           return token;
         } catch (err) {
-          const code =
-            err.name === AuthenticationErrorName
-              ? CanonicalCode.UNAUTHENTICATED
-              : CanonicalCode.UNKNOWN;
           span.setStatus({
-            code,
+            code: SpanStatusCode.ERROR,
             message: err.message
           });
           logger.getToken.info(formatError(scopeArray, err));

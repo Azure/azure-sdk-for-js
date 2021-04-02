@@ -1,5 +1,11 @@
 # Release History
 
+## 1.3.0 (2021-04-05)
+
+### Breaking Changes
+
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+
 ## 1.2.5 (2021-03-25)
 
 - For the `InteractiveBrowserCredential` for Node.js, we've replaced the use of the `express` module with a native HTTP server, shrinking the resulting `@azure/identity` module considerably.

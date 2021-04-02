@@ -14,7 +14,7 @@ import {
 } from "@azure/core-http";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
@@ -126,7 +126,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`
     );
 
-    const { span, options: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
+    const { span, updatedOptions: newOptions } = createSpan("IdentityClient-refreshAccessToken", options);
 
     const refreshParams = {
       grant_type: "refresh_token",
@@ -152,6 +152,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           "Content-Type": "application/x-www-form-urlencoded"
         },
         spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions,
+        tracingContext: newOptions.tracingOptions && newOptions.tracingOptions.tracingContext,
         abortSignal: options && options.abortSignal
       });
 
@@ -168,7 +169,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
         // initiate the authentication flow again.
         logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
         span.setStatus({
-          code: CanonicalCode.UNAUTHENTICATED,
+          code: SpanStatusCode.ERROR,
           message: err.message
         });
 
@@ -178,7 +179,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
         );
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: err.message
         });
         throw err;
