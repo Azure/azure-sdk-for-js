@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to retrieve an access token from the Mixed
- * Reality security token service (STS).
+ * @summary This sample demonstrates how to retrieve an access token from the
+ * Mixed Reality security token service (STS).
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
@@ -13,7 +13,7 @@ const { MixedRealityStsClient } = require("@azure/mixedreality-authentication");
 const dotenv = require("dotenv");
 dotenv.config();
 
-// You will need to set this environment variables or edit the following values:
+// You will need to set these environment variables or edit the following values:
 const accountDomain = process.env["MIXEDREALITY_ACCOUNT_DOMAIN"] || "<account domain>";
 const accountId = process.env["MIXEDREALITY_ACCOUNT_ID"] || "<account identifier>";
 const accountKey = process.env["MIXEDREALITY_ACCOUNT_KEY"] || "<account key>";
