@@ -10,6 +10,7 @@ import {
   JsonFeatureFlagTargetingClientFilter,
   JsonFeatureFlagTimeWindowClientFilter
 } from "./internal/jsonModels";
+import { isObjectWithProperties } from "./internal/typeguards";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
 
 /**
@@ -149,27 +150,33 @@ export function isFeatureFlag(setting: ConfigurationSetting | FeatureFlag): sett
  * This helper method tells you if the given client filter has the name "Microsoft.Targeting".
  */
 function isFeatureFlagTargetingClientFilter(
-  clientFilter: any
+  clientFilter: unknown
 ): clientFilter is FeatureFlagTargetingClientFilter {
-  return clientFilter.name === "Microsoft.Targeting";
+  return (
+    isObjectWithProperties(clientFilter, ["name"]) && clientFilter.name === "Microsoft.Targeting"
+  );
 }
 
 /**
  * This helper method tells you if the given client filter has the name "Microsoft.TimeWindow".
  */
 function isFeatureFlagTimeWindowClientFilter(
-  clientFilter: any
+  clientFilter: unknown
 ): clientFilter is FeatureFlagTimeWindowClientFilter {
-  return clientFilter.name === "Microsoft.TimeWindow";
+  return (
+    isObjectWithProperties(clientFilter, ["name"]) && clientFilter.name === "Microsoft.TimeWindow"
+  );
 }
 
 /**
  * This helper method tells you if the given client filter has the name "Microsoft.Percentage".
  */
 function isFeatureFlagPercentageClientFilter(
-  clientFilter: any
+  clientFilter: unknown
 ): clientFilter is FeatureFlagPercentageClientFilter {
-  return clientFilter.name === "Microsoft.Percentage";
+  return (
+    isObjectWithProperties(clientFilter, ["name"]) && clientFilter.name === "Microsoft.Percentage"
+  );
 }
 
 /**
@@ -190,7 +197,7 @@ export type FeatureFlagType<
  */
 export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" | "percentage">(
   type: T,
-  obj: any
+  obj: unknown
 ): obj is FeatureFlagType<T> {
   switch (type) {
     case "targeting":
@@ -200,7 +207,7 @@ export function isFeatureFlagClientFilter<T extends "targeting" | "timeWindow" |
     case "percentage":
       return isFeatureFlagPercentageClientFilter(obj);
     default:
-      throw new Error(`Invalid feature flag filter type ${type}`);
+      return false;
   }
 }
 
@@ -222,7 +229,7 @@ export function deserializeFeatureFlag(setting: ConfigurationSetting): FeatureFl
   // update (in-place) the feature flag specific properties
   const featureFlag = setting as Omit<FeatureFlag, keyof ConfigurationSetting>;
   featureFlag.conditions = convertJsonConditions(jsonFeatureFlag.conditions);
-  featureFlag.enabled = jsonFeatureFlag.enabled;
+  featureFlag.enabled = Boolean(jsonFeatureFlag.enabled);
   featureFlag.description = jsonFeatureFlag.description;
 
   return setting;
@@ -256,7 +263,6 @@ export function convertJsonConditions(
     ? []
     : conditions.client_filters.map((jsonFilter) => {
         if (isJsonFeatureFlagTargetingClientFilter(jsonFilter)) {
-          // try not to slice any unknown attributes
           const filter: FeatureFlagTargetingClientFilter = {
             name: jsonFilter.name,
             parameters: {
@@ -274,7 +280,6 @@ export function convertJsonConditions(
 
           return filter;
         } else if (isJsonFeatureFlagTimeWindowClientFilter(jsonFilter)) {
-          // try not to slice any unknown attributes
           const filter: FeatureFlagTimeWindowClientFilter = {
             name: jsonFilter.name,
             parameters: {
@@ -285,7 +290,6 @@ export function convertJsonConditions(
 
           return filter;
         } else if (isJsonFeatureFlagPercentageClientFilter(jsonFilter)) {
-          // try not to slice any unknown attributes
           const filter: FeatureFlagPercentageClientFilter = {
             name: jsonFilter.name,
             parameters: {
@@ -311,7 +315,6 @@ export function convertToJsonConditions(
 ): JsonFeatureFlag["conditions"] {
   const client_filters = conditions.clientFilters.map((filter) => {
     if (isFeatureFlagTargetingClientFilter(filter)) {
-      // try not to slice any unknown attributes
       const jsonFilter: JsonFeatureFlagTargetingClientFilter = {
         name: filter.name,
         parameters: {
@@ -329,7 +332,6 @@ export function convertToJsonConditions(
 
       return jsonFilter;
     } else if (isFeatureFlagTimeWindowClientFilter(filter)) {
-      // try not to slice any unknown attributes
       const jsonFilter: JsonFeatureFlagTimeWindowClientFilter = {
         name: filter.name,
         parameters: {
@@ -340,7 +342,6 @@ export function convertToJsonConditions(
 
       return jsonFilter;
     } else if (isFeatureFlagPercentageClientFilter(filter)) {
-      // try not to slice any unknown attributes
       const jsonFilter: JsonFeatureFlagPercentageClientFilter = {
         name: filter.name,
         parameters: {
