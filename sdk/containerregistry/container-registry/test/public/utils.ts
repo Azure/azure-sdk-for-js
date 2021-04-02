@@ -13,7 +13,9 @@ const replaceableVariables: Record<string, string> = {
   AZURE_TENANT_ID: "azure_tenant_id",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  SUBSCRIPTION_ID: "subscription_id"
+  SUBSCRIPTION_ID: "subscription_id",
+  RESOURCE_GROUP: "resource_group_id",
+  REGISTRY: "myregistry"
 };
 
 export const recorderEnvSetup: RecorderEnvironmentSetup = {

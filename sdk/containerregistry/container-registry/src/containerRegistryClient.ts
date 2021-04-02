@@ -86,7 +86,8 @@ export class ContainerRegistryClient {
         logger: logger.info,
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-        additionalAllowedHeaderNames: ["x-ms-correlation-request-id"]
+        additionalAllowedHeaderNames: ["x-ms-correlation-request-id"],
+        additionalAllowedQueryParameters: ["last", "n"]
       }
     };
 
