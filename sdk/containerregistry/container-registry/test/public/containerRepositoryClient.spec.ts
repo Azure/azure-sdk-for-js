@@ -122,15 +122,14 @@ describe("ContainerRepositoryClient functional tests", function() {
     const original = tagProperties.writeableProperties!;
 
     try {
-      await repositoryClient.setTagProperties(tag, {
+      const updated = await repositoryClient.setTagProperties(tag, {
         canDelete: false,
         canList: false,
         canRead: false,
         canWrite: false
       });
 
-      const properties = await repositoryClient.getTagProperties(tag);
-      assert.deepStrictEqual(properties.writeableProperties, {
+      assert.deepStrictEqual(updated.writeableProperties, {
         canDelete: false,
         canList: false,
         canRead: false,
@@ -148,15 +147,14 @@ describe("ContainerRepositoryClient functional tests", function() {
     const original = artifactProperties.writeableProperties!;
 
     try {
-      await repositoryClient.setManifestProperties(digest, {
+      const updated = await repositoryClient.setManifestProperties(digest, {
         canDelete: false,
         canList: false,
         canRead: false,
         canWrite: false
       });
 
-      const properties = await repositoryClient.getRegistryArtifactProperties(digest);
-      assert.deepStrictEqual(properties.writeableProperties, {
+      assert.deepStrictEqual(updated.writeableProperties, {
         canDelete: false,
         canList: false,
         canRead: false,
@@ -171,15 +169,14 @@ describe("ContainerRepositoryClient functional tests", function() {
     const repositoryProperties = await repositoryClient.getProperties();
     const original = repositoryProperties.writeableProperties!;
     try {
-      await repositoryClient.setProperties({
+      const updated = await repositoryClient.setProperties({
         canDelete: false,
         canList: false,
         canRead: false,
         canWrite: false
       });
 
-      const properties = await repositoryClient.getProperties();
-      assert.deepStrictEqual(properties.writeableProperties, {
+      assert.deepStrictEqual(updated.writeableProperties, {
         canDelete: false,
         canList: false,
         canRead: false,

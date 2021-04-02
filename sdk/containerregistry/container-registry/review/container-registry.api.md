@@ -36,9 +36,9 @@ export class ContainerRepositoryClient {
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
     registry: string;
     repository: string;
-    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<void>;
-    setProperties(value: ContentProperties, options?: SetPermissionsOptions): Promise<void>;
-    setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<void>;
+    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<RegistryArtifactProperties>;
+    setProperties(value: ContentProperties, options?: SetPermissionsOptions): Promise<RepositoryProperties>;
+    setTagProperties(tag: string, value: ContentProperties, options?: SetTagPropertiesOptions): Promise<TagProperties>;
 }
 
 // @public

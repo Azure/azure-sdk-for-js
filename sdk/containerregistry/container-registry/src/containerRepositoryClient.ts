@@ -338,14 +338,14 @@ export class ContainerRepositoryClient {
     digest: string,
     value: ContentProperties,
     options: SetManifestPropertiesOptions = {}
-  ): Promise<void> {
+  ): Promise<RegistryArtifactProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setManifestProperties", {
       ...options,
       value: value
     });
 
     try {
-      await this.client.containerRegistryRepository.updateManifestAttributes(
+      return await this.client.containerRegistryRepository.updateManifestAttributes(
         this.repository,
         digest,
         updatedOptions
@@ -365,14 +365,17 @@ export class ContainerRepositoryClient {
   public async setProperties(
     value: ContentProperties,
     options: SetPermissionsOptions = {}
-  ): Promise<void> {
+  ): Promise<RepositoryProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setProperties", {
       ...options,
       value: value
     });
 
     try {
-      await this.client.containerRegistryRepository.setProperties(this.repository, updatedOptions);
+      return await this.client.containerRegistryRepository.setProperties(
+        this.repository,
+        updatedOptions
+      );
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -388,16 +391,16 @@ export class ContainerRepositoryClient {
    */
   public async setTagProperties(
     tag: string,
-    value: ContentProperties = {},
+    value: ContentProperties,
     options: SetTagPropertiesOptions = {}
-  ): Promise<void> {
+  ): Promise<TagProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setTagProperties", {
       ...options,
       value: value
     });
 
     try {
-      await this.client.containerRegistryRepository.updateTagAttributes(
+      return await this.client.containerRegistryRepository.updateTagAttributes(
         this.repository,
         tag,
         updatedOptions
