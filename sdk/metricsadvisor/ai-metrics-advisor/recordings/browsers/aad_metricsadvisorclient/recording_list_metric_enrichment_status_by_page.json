@@ -1,0 +1,72 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:40:12 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11419.13 - SEASLR1 ProdSlices",
+    "x-ms-request-id": "c8224425-eecf-4515-9b32-318cb3c20400"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/status/enrichment/anomalyDetection/query",
+   "query": {
+    "$top": "2"
+   },
+   "requestBody": "{\"startTime\":\"2020-01-01T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"timestamp\":\"2020-01-01T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"UpdateTime\\\":\\\"2020-11-05T18:37:01.002Z\\\",\\\"CreateTime\\\":\\\"2020-11-05T18:37:01.002Z\\\"}\"},{\"timestamp\":\"2020-01-02T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"UpdateTime\\\":\\\"2020-11-10T04:09:51.332Z\\\",\\\"CreateTime\\\":\\\"2020-11-10T04:09:51.332Z\\\"}\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/status/enrichment/anomalyDetection/query?$top=2&$skip=2\"}",
+   "responseHeaders": {
+    "apim-request-id": "612913fc-1b5c-42ce-b402-727952702ed7",
+    "content-length": "525",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:40:12 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "129",
+    "x-request-id": "612913fc-1b5c-42ce-b402-727952702ed7"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/status/enrichment/anomalyDetection/query",
+   "query": {
+    "$top": "2",
+    "$skip": "2"
+   },
+   "requestBody": "{\"startTime\":\"2020-01-01T00:00:00.000Z\",\"endTime\":\"2020-11-05T00:00:00.000Z\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"timestamp\":\"2020-01-03T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"CreateTime\\\":\\\"2020-11-04T22:34:42.412Z\\\",\\\"UpdateTime\\\":\\\"2020-11-04T22:34:42.412Z\\\"}\"},{\"timestamp\":\"2020-01-04T00:00:00Z\",\"status\":\"Succeeded\",\"message\":\"{\\\"CreateTime\\\":\\\"2020-11-04T22:35:42.915Z\\\",\\\"UpdateTime\\\":\\\"2020-11-04T22:35:42.915Z\\\"}\"}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/status/enrichment/anomalyDetection/query?$top=2&$skip=4\"}",
+   "responseHeaders": {
+    "apim-request-id": "67bf5bde-55e1-4b78-95bc-09d9472f6281",
+    "content-length": "525",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:40:13 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "199",
+    "x-request-id": "67bf5bde-55e1-4b78-95bc-09d9472f6281"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "3613074f18b7c28797201adb00e20eb4"
+}

@@ -1,10 +1,10 @@
 let nock = require("nock");
 
-module.exports.hash = "0dde52a1c1f5e4fdd7568981ca731f49";
+module.exports.hash = "fc8d69159152e9bd1e763ce59403eb7e";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
-nock("https://endpoint", { encodedQueryParams: false })
+nock("https://endpoint", { encodedQueryParams: true })
   .get("/administration/phonenumbers/phonenumbers")
   .query(true)
   .reply(
@@ -15,66 +15,50 @@ nock("https://endpoint", { encodedQueryParams: false })
           phoneNumber: "+18005551234",
           acquiredCapabilities: [
             "Azure",
-            "InboundCalling",
             "ThirdPartyAppAssignment",
-            "Geographic"
+            "InboundA2PSms",
+            "OutboundA2PSms",
+            "TollFree"
           ],
           availableCapabilities: [
-            "ConferenceAssignment",
-            "Geographic",
-            "FirstPartyAppAssignment",
-            "ThirdPartyAppAssignment",
             "Azure",
             "Office365",
             "InboundCalling",
-            "OutboundCalling"
-          ],
-          assignmentStatus: "Unknown",
-          placeName: "Los Angeles, United States",
-          activationState: "Activated"
-        },
-        {
-          phoneNumber: "+18005551234",
-          acquiredCapabilities: [
-            "Azure",
-            "InboundCalling",
+            "OutboundCalling",
             "ThirdPartyAppAssignment",
-            "Geographic"
-          ],
-          availableCapabilities: [
             "ConferenceAssignment",
-            "Geographic",
             "FirstPartyAppAssignment",
-            "ThirdPartyAppAssignment",
-            "Azure",
-            "Office365",
-            "InboundCalling",
-            "OutboundCalling"
+            "TollFree",
+            "InboundA2PSms",
+            "OutboundA2PSms"
           ],
           assignmentStatus: "Unassigned",
-          placeName: "Los Angeles, United States",
+          placeName: "Toll-Free, United States",
           activationState: "Activated"
         },
         {
           phoneNumber: "+18005551234",
           acquiredCapabilities: [
             "Azure",
-            "InboundCalling",
             "ThirdPartyAppAssignment",
-            "Geographic"
+            "InboundA2PSms",
+            "OutboundA2PSms",
+            "TollFree"
           ],
           availableCapabilities: [
-            "ConferenceAssignment",
-            "Geographic",
-            "FirstPartyAppAssignment",
-            "ThirdPartyAppAssignment",
             "Azure",
             "Office365",
             "InboundCalling",
-            "OutboundCalling"
+            "OutboundCalling",
+            "ThirdPartyAppAssignment",
+            "ConferenceAssignment",
+            "FirstPartyAppAssignment",
+            "TollFree",
+            "InboundA2PSms",
+            "OutboundA2PSms"
           ],
-          assignmentStatus: "Unknown",
-          placeName: "Los Angeles, United States",
+          assignmentStatus: "Unassigned",
+          placeName: "Toll-Free, United States",
           activationState: "Activated"
         }
       ],
@@ -86,12 +70,12 @@ nock("https://endpoint", { encodedQueryParams: false })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "Jah4rWjrgUmQmikl1KvcEg.0",
+      "Kq1C/GkUaEOTwL9mjIVRGw.0",
       "X-Processing-Time",
-      "536ms",
+      "748ms",
       "X-Azure-Ref",
-      "0ZCl+XwAAAACpUG+EbdPfQothqnQjYRc3WVZSMzBFREdFMDQwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0s4y4XwAAAACJOIWpxe/yTKqHbP+3J3RfWVZSMzBFREdFMDQxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 07 Oct 2020 20:47:32 GMT"
+      "Sat, 21 Nov 2020 03:42:43 GMT"
     ]
   );

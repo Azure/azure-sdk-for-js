@@ -10,6 +10,7 @@ import { Table, Service } from "./operations";
 import { GeneratedClientContext } from "./generatedClientContext";
 import { GeneratedClientOptionalParams } from "./models";
 
+/** @hidden */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.

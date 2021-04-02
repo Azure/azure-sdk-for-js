@@ -40,6 +40,7 @@ import {
 } from "./utils/constants";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";
+import { attachCredential } from "./utils/utils.common";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -201,8 +202,11 @@ export function newPipeline(
     telemetryPolicy,
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
-    deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
+    new StorageRetryPolicyFactory(pipelineOptions.retryOptions), // Retry policy should be above any policy that throws retryable errors
+    // Default deserializationPolicy is provided by protocol layer
+    // Use customized XML char key of "#" so we could deserialize metadata
+    // with "_" key
+    deserializationPolicy(undefined, { xmlCharKey: "#" }),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
@@ -217,7 +221,10 @@ export function newPipeline(
   }
   factories.push(
     isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
+      ? attachCredential(
+          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          credential
+        )
       : credential
   );
 

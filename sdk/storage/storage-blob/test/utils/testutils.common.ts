@@ -55,10 +55,12 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // Used in record and playback modes
     "se",
     "sig",
+    "sip",
     "sp",
     "spr",
     "srt",
     "ss",
+    "sr",
     "st",
     "sv"
   ]
@@ -160,4 +162,19 @@ export function sleep(seconds: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(resolve, seconds * 1000);
   });
+}
+
+/**
+ * Generate a Uint8Array with specified byteLength and randome content.
+ *
+ * @export
+ * @param {number} byteLength
+ * @returns {Uint8Array}
+ */
+export function genearteRandomUint8Array(byteLength: number): Uint8Array {
+  const uint8Arr = new Uint8Array(byteLength);
+  for (let j = 0; j < byteLength; j++) {
+    uint8Arr[j] = Math.floor(Math.random() * 256);
+  }
+  return uint8Arr;
 }

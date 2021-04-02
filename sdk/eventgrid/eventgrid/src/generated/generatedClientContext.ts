@@ -12,6 +12,7 @@ import { GeneratedClientOptionalParams } from "./models";
 const packageName = "@azure/eventgrid";
 const packageVersion = "3.0.0-beta.3";
 
+/** @hidden */
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
 

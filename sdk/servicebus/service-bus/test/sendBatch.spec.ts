@@ -15,7 +15,6 @@ import {
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
 import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
-import { ConditionErrorNameMapper } from "@azure/core-amqp";
 
 describe("Send Batch", () => {
   let sender: ServiceBusSender;
@@ -452,7 +451,8 @@ describe("Send Batch", () => {
         "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
         err.message
       );
-      should.equal(ConditionErrorNameMapper["amqp:link:message-size-exceeded"], err.code);
+      should.equal(err.code, "MessageSizeExceeded");
+      should.equal(err.name, "ServiceBusError");
     }
   });
 

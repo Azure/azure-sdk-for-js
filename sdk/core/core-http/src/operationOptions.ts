@@ -25,8 +25,7 @@ export interface OperationOptions {
 
 export interface OperationRequestOptions {
   /**
-   * @property {object} [customHeaders] User defined custom request headers that
-   * will be applied before the request is sent.
+   * User defined custom request headers that will be applied before the request is sent.
    */
   customHeaders?: { [key: string]: string };
 
@@ -54,7 +53,7 @@ export interface OperationRequestOptions {
 /**
  * Converts an OperationOptions to a RequestOptionsBase
  *
- * @param opts OperationOptions object to convert to RequestOptionsBase
+ * @param opts - OperationOptions object to convert to RequestOptionsBase
  */
 export function operationOptionsToRequestOptionsBase<T extends OperationOptions>(
   opts: T

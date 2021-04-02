@@ -5,14 +5,18 @@
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {},
+  "browser": {
+    "./dist-esm/src/basekarma.conf.js": "./dist-esm/src/basekarma.conf.browser.js",
+    "./dist-esm/src/createRecorder.js": "./dist-esm/src/createRecorder.browser.js",
+    "./dist-esm/src/utils/recordings.js": "./dist-esm/src/utils/recordings.browser.js"
+  },
   "types": "./typings/src/index.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "cd samples && tsc -p .",
-    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:samples": "echo Skipped.",
+    "build:test": "tsc -p . && rollup -c 2>&1",
     "build": "tsc -p . && rollup -c 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
@@ -26,16 +30,16 @@
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-test/index.node.js",
+    "unit-test:node": "mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace --exclude dist-esm/**/browser/**/*.spec.js dist-esm/**/*.spec.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "test": "npm run clean && npm run build:test && npm run unit-test"
+    "test": "npm run clean && npm run build:test && npm run unit-test",
+    "docs": "echo Skipped."
   },
   "files": [
     "dist/",
     "dist-esm/src/",
-    "src/",
     "typings/src",
     "README.md",
     "LICENSE"
@@ -44,17 +48,18 @@
   "keywords": [
     "azure",
     "recording",
+    "cloud",
     "playback"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "engine": {
+  "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/test-utils/recorder/",
   "sideEffects": false,
   "private": true,
   "dependencies": {
@@ -67,6 +72,7 @@
     "md5": "^2.2.1"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-multi-entry": "^3.0.0",
@@ -81,7 +87,8 @@
     "@types/mock-require": "~2.0.0",
     "@types/mock-fs": "~4.10.0",
     "chai": "^4.2.0",
-    "eslint": "^6.1.0",
+    "dotenv": "^8.2.0",
+    "eslint": "^7.15.0",
     "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -94,7 +101,7 @@
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
-    "karma-remap-istanbul": "^0.6.0",
+    "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^7.1.1",
     "mocha-junit-reporter": "^1.18.0",
     "mock-fs": "^4.10.4",
@@ -108,7 +115,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
-    "typescript": "~3.9.3",
+    "typescript": "4.1.2",
     "xhr-mock": "^2.4.1"
   }
 }

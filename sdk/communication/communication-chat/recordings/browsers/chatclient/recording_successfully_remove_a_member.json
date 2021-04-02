@@ -2,7 +2,7 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://endpoint/chat/threads/19%3A4c3fdd89a82d4657a4f6aef1d3fe5d39%40thread.v2/members/8%3Aacs%3A8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-9170-ac00-343a0d000043",
+   "url": "https://endpoint/chat/threads/19%3Af89f0dd73c0e418fab41e6a68dede24c%40thread.v2/members/8%3Aacs%3Aec403bbc-89a0-4037-a140-7ed471abd0e5_00000007-db1b-e2b3-6032-3b3a0d0048e6",
    "query": {
     "api-version": "2020-09-21-preview2"
    },
@@ -16,5 +16,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "76468385b1060cd4883a8cd7985f4d27"
+ "hash": "8191d138c3470f24cfa08494ba83e7fe"
 }

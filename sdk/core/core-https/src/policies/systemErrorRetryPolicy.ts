@@ -111,7 +111,7 @@ export function systemErrorRetryPolicy(
       try {
         logger.info(`Retrying request in ${retryData.retryInterval}`);
         await delay(retryData.retryInterval);
-        const res = await next(request.clone());
+        const res = await next(request);
         return retry(next, retryData, request, res);
       } catch (e) {
         return retry(next, retryData, request, response, e);

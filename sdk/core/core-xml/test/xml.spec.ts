@@ -402,6 +402,15 @@ describe("XML serializer", function() {
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true">yum</apples></fruits>`
       );
     });
+
+    it("with underscore element", async function() {
+      const str = "<Metadata><h>v</h><_>underscore</_></Metadata>";
+      const parsed = await parseXML(str, { xmlCharKey: "#" });
+      assert.deepStrictEqual(parsed, {
+        h: "v",
+        _: "underscore"
+      });
+    });
   });
 
   it("should handle errors gracefully", async function() {

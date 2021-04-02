@@ -84,7 +84,8 @@ import {
   PublicAccessType,
   RehydratePriority,
   SequenceNumberActionType,
-  SignedIdentifierModel
+  SignedIdentifierModel,
+  BlockBlobPutBlobFromUrlResponse
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -134,8 +135,10 @@ import {
 import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
+  appendToURLQuery,
   extractConnectionStringParts,
   generateBlockID,
+  getURLParameter,
   isIpEndpointStyle,
   parseObjectReplicationRecord,
   setURLParameter,
@@ -151,6 +154,11 @@ import {
   readStreamToLocalFile,
   streamToBuffer
 } from "./utils/utils.node";
+import { SASProtocol } from "./sas/SASQueryParameters";
+import { ContainerSASPermissions } from "./sas/ContainerSASPermissions";
+import { SasIPRange } from "./sas/SasIPRange";
+import { generateBlobSASQueryParameters } from "./sas/BlobSASSignatureValues";
+import { BlobSASPermissions } from "./sas/BlobSASPermissions";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -493,10 +501,10 @@ export interface BlobSetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {TagConditions}
+   * @type {TagConditions & LeaseAccessConditions}
    * @memberof BlobSetTagsOptions
    */
-  conditions?: TagConditions;
+  conditions?: TagConditions & LeaseAccessConditions;
 }
 
 /**
@@ -517,14 +525,14 @@ export interface BlobGetTagsOptions extends CommonOptions {
   /**
    * Conditions to meet for the blob to perform this operation.
    *
-   * @type {TagConditions}
+   * @type {TagConditions & LeaseAccessConditions}
    * @memberof BlobGetTagsOptions
    */
-  conditions?: TagConditions;
+  conditions?: TagConditions & LeaseAccessConditions;
 }
 
 /**
- * Contains response data for the {@link ContainerClient.getTags} operation.
+ * Contains response data for the {@link BlobClient.getTags} operation.
  */
 export type BlobGetTagsResponse = { tags: Tags } & BlobGetTagsHeaders & {
     /**
@@ -1011,6 +1019,121 @@ export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseMode
 }
 
 /**
+ * Common options of {@link BlobGenerateSasUrlOptions} and {@link ContainerGenerateSasUrlOptions}.
+ *
+ * @export
+ * @interface CommonGenerateSasUrlOptions
+ */
+export interface CommonGenerateSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols, HTTPS only or HTTPSandHTTP
+   *
+   * @type {SASProtocol}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  startsOn?: Date;
+
+  /**
+   * Optional only when identifier is provided. The time after which the SAS will no longer work.
+   *
+   * @type {Date}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * Optional. IP ranges allowed in this SAS.
+   *
+   * @type {SasIPRange}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  ipRange?: SasIPRange;
+
+  /**
+   * Optional. The name of the access policy on the container this SAS references if any.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/establishing-a-stored-access-policy
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  identifier?: string;
+
+  /**
+   * Optional. The cache-control header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  cacheControl?: string;
+
+  /**
+   * Optional. The content-disposition header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentDisposition?: string;
+
+  /**
+   * Optional. The content-encoding header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentEncoding?: string;
+
+  /**
+   * Optional. The content-language header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentLanguage?: string;
+
+  /**
+   * Optional. The content-type header for the SAS.
+   *
+   * @type {string}
+   * @memberof CommonGenerateSasUrlOptions
+   */
+  contentType?: string;
+}
+
+/**
+ * Options to configure {@link BlobClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface BlobGenerateSasUrlOptions
+ */
+export interface BlobGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {BlobSASPermissions}
+   * @memberof BlobGenerateSasUrlOptions
+   */
+  permissions?: BlobSASPermissions;
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  *
@@ -1029,6 +1152,9 @@ export class BlobClient extends StorageClient {
 
   private _name: string;
   private _containerName: string;
+
+  private _versionId?: string;
+  private _snapshot?: string;
 
   /**
    * The name of the blob.
@@ -1188,6 +1314,9 @@ export class BlobClient extends StorageClient {
       containerName: this._containerName
     } = this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new StorageBlob(this.storageClientContext);
+
+    this._snapshot = getURLParameter(this.url, URLConstants.Parameters.SNAPSHOT) as string;
+    this._versionId = getURLParameter(this.url, URLConstants.Parameters.VERSIONID) as string;
   }
 
   /**
@@ -1737,6 +1866,7 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.setTags({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
@@ -1767,6 +1897,7 @@ export class BlobClient extends StorageClient {
     try {
       const response = await this.blobContext.getTags({
         abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
@@ -2320,9 +2451,7 @@ export class BlobClient extends StorageClient {
       //   doing the same in the SDK side so that the user doesn't have to replace "\" instances in the blobName
       blobName = blobName.replace(/\\/g, "/");
 
-      if (!blobName) {
-        throw new Error("Provided blobName is invalid.");
-      } else if (!containerName) {
+      if (!containerName) {
         throw new Error("Provided containerName is invalid.");
       }
 
@@ -2386,6 +2515,41 @@ export class BlobClient extends StorageClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Only available for BlobClient constructed with a shared key credential.
+   *
+   * Generates a Blob Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {BlobGenerateSasUrlOptions} options Optional parameters.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof BlobClient
+   */
+  public generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw new RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
+
+      const sas = generateBlobSASQueryParameters(
+        {
+          containerName: this._containerName,
+          blobName: this._name,
+          snapshotTime: this._snapshot,
+          versionId: this._versionId,
+          ...options
+        },
+        this.credential
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }
 
@@ -3198,6 +3362,109 @@ export interface BlockBlobUploadOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure {@link BlockBlobClient.syncUploadFromURL} operation.
+ *
+ * @export
+ * @interface BlockBlobSyncUploadFromURLOptions
+ */
+export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
+  /**
+   * Server timeout in seconds.
+   * For more information, @see https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations
+   * @type {number}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  timeoutInSeconds?: number;
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies a user-defined name-value pair associated with the blob. If no name-value
+   * pairs are specified, the operation will copy the metadata from the source blob or file to the
+   * destination blob. If one or more name-value pairs are specified, the destination blob is
+   * created with the specified metadata, and metadata is not copied from the source blob or file.
+   * Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules
+   * for C# identifiers. See Naming and Referencing Containers, Blobs, and Metadata for more
+   * information.
+   *
+   * @type {Metadata}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  metadata?: Metadata;
+  /**
+   * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to
+   * encrypt the data provided in the request. If not specified, encryption is performed with the
+   * default account encryption scope.  For more information, see Encryption at Rest for Azure
+   * Storage Services.
+   *
+   * @type {string}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  encryptionScope?: string;
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  tier?: BlockBlobTier | string;
+  /**
+   * Specify the md5 calculated for the range of bytes that must be read from the copy source.
+   * @type {Uint8Array}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  sourceContentMD5?: Uint8Array;
+  /**
+   * Blob tags.
+   *
+   * @type {Tags}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  tags?: Tags;
+  /**
+   * Optional, default is true.  Indicates if properties from the source blob should be copied.
+   *
+   * @type {boolean}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  copySourceBlobProperties?: boolean;
+  /**
+   * HTTP headers to set when uploading to a block blob.
+   *
+   * @type {BlobHTTPHeaders}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  blobHTTPHeaders?: BlobHTTPHeaders;
+  /**
+   * Conditions to meet for the destination Azure Blob.
+   *
+   * @type {BlobRequestConditions}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   *
+   * @type {CpkInfo}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  customerProvidedKey?: CpkInfo;
+  /**
+   * Optional. Conditions to meet for the source Azure Blob.
+   *
+   * @type {ModifiedAccessConditions}
+   * @memberof BlockBlobSyncUploadFromURLOptions
+   */
+  sourceConditions?: ModifiedAccessConditions;
+}
+
+/**
  * Blob query error type.
  *
  * @export
@@ -3344,7 +3611,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -3368,7 +3635,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * Callback to receive events on the progress of query operation.
    *
    * @type {(progress: TransferProgressEvent) => void}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
   /**
@@ -3381,14 +3648,14 @@ export interface BlockBlobQueryOptions extends CommonOptions {
    * Conditions to meet when uploading to the block blob.
    *
    * @type {BlobRequestConditions}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   conditions?: BlobRequestConditions;
   /**
    * Customer Provided Key Info.
    *
    * @type {CpkInfo}
-   * @memberof BlockBlobUploadOptions
+   * @memberof BlockBlobQueryOptions
    */
   customerProvidedKey?: CpkInfo;
 }
@@ -4147,6 +4414,68 @@ export class BlockBlobClient extends BlobClient {
         onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
+        tier: toAccessTier(options.tier),
+        blobTagsString: toBlobTagsString(options.tags),
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Creates a new Block Blob where the contents of the blob are read from a given URL.
+   * This API is supported beginning with the 2020-04-08 version. Partial updates
+   * are not supported with Put Blob from URL; the content of an existing blob is overwritten with
+   * the content of the new blob.  To perform partial updates to a block blob’s contents using a
+   * source URL, use {@link stageBlockFromURL} and {@link commitBlockList}.
+   *
+   * @param {string} sourceURL Specifies the URL of the blob. The value
+   *                           may be a URL of up to 2 KB in length that specifies a blob.
+   *                           The value should be URL-encoded as it would appear
+   *                           in a request URI. The source blob must either be public
+   *                           or must be authenticated via a shared access signature.
+   *                           If the source blob is public, no authentication is required
+   *                           to perform the operation. Here are some examples of source object URLs:
+   *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob
+   *                           - https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>
+   * @param {BlockBlobSyncUploadFromURLOptions} [options={}] Optional parameters.
+   * @returns Promise<Models.BlockBlobPutBlobFromUrlResponse>
+   * @memberof BlockBlobClient
+   */
+
+  public async syncUploadFromURL(
+    sourceURL: string,
+    options: BlockBlobSyncUploadFromURLOptions = {}
+  ): Promise<BlockBlobPutBlobFromUrlResponse> {
+    options.conditions = options.conditions || {};
+    const { span, spanOptions } = createSpan(
+      "BlockBlobClient-syncUploadFromURL",
+      options.tracingOptions
+    );
+    try {
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
+      return await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
+        ...options,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions.tagConditions
+        },
+        sourceModifiedAccessConditions: {
+          sourceIfMatch: options.sourceConditions?.ifMatch,
+          sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
+          sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
+          sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
+          sourceIfTags: options.sourceConditions?.tagConditions
+        },
+        cpkInfo: options.customerProvidedKey,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         spanOptions
@@ -5242,9 +5571,9 @@ export class PageBlobClient extends BlobClient {
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A Client string pointing to Azure Storage blob service, such as
-   *                     "https://myaccount.blob.core.windows.net". You can append a SAS
-   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net?sasString".
+   * @param {string} url A Client string pointing to Azure Storage page blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can append a SAS
+   *                     if using AnonymousCredential, such as "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
    * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof PageBlobClient
@@ -5257,10 +5586,10 @@ export class PageBlobClient extends BlobClient {
   /**
    * Creates an instance of PageBlobClient.
    *
-   * @param {string} url A URL string pointing to Azure Storage blob, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob".
+   * @param {string} url A URL string pointing to Azure Storage page blob, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob".
    *                     You can append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/blob?sasString".
+   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
    *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
    *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
@@ -6908,6 +7237,22 @@ export interface ContainerDeleteIfExistsResponse extends ContainerDeleteResponse
 }
 
 /**
+ * Options to configure {@link ContainerClient.generateSasUrl} operation.
+ *
+ * @export
+ * @interface ContainerGenerateSasUrlOptions
+ */
+export interface ContainerGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
+  /**
+   * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
+   *
+   * @type {ContainerSASPermissions}
+   * @memberof ContainerGenerateSasUrlOptions
+   */
+  permissions?: ContainerSASPermissions;
+}
+
+/**
  * A ContainerClient represents a URL to the Azure Storage container allowing you to manipulate its blobs.
  *
  * @export
@@ -6948,18 +7293,14 @@ export class ContainerClient extends StorageClient {
   constructor(connectionString: string, containerName: string, options?: StoragePipelineOptions);
   /**
    * Creates an instance of ContainerClient.
-   * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
+   * This method accepts an URL pointing to a container.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage page blob, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can
+   * @param {string} url A URL string pointing to Azure Storage container, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
    *                     append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
-   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
-   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
-   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
-   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
+   *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
    * @param {StorageSharedKeyCredential | AnonymousCredential | TokenCredential} credential  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the @azure/identity package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    * @param {StoragePipelineOptions} [options] Optional. Options to configure the HTTP pipeline.
    * @memberof ContainerClient
@@ -6971,19 +7312,14 @@ export class ContainerClient extends StorageClient {
   );
   /**
    * Creates an instance of ContainerClient.
-   * This method accepts an encoded URL or non-encoded URL pointing to a page blob.
+   * This method accepts an URL pointing to a container.
    * Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
    * If a blob name includes ? or %, blob name must be encoded in the URL.
    *
-   * @param {string} url A URL string pointing to Azure Storage page blob, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob". You can
+   * @param {string} url A URL string pointing to Azure Storage container, such as
+   *                     "https://myaccount.blob.core.windows.net/mycontainer". You can
    *                     append a SAS if using AnonymousCredential, such as
-   *                     "https://myaccount.blob.core.windows.net/mycontainer/pageblob?sasString".
-   *                     This method accepts an encoded URL or non-encoded URL pointing to a blob.
-   *                     Encoded URL string will NOT be escaped twice, only special characters in URL path will be escaped.
-   *                     However, if a blob name includes ? or %, blob name must be encoded in the URL.
-
-   *                     Such as a blob named "my?blob%", the URL should be "https://myaccount.blob.core.windows.net/mycontainer/my%3Fblob%25".
+   *                     "https://myaccount.blob.core.windows.net/mycontainer?sasString".
    * @param {Pipeline} pipeline Call newPipeline() to create a default
    *                            pipeline, or provide a customized pipeline.
    * @memberof ContainerClient
@@ -8055,7 +8391,7 @@ export class ContainerClient extends StorageClient {
    *   }
    *   entity = await iter.next();
    * }
-   * ```js
+   * ```
    *
    * Example using `byPage()`:
    *
@@ -8100,8 +8436,7 @@ export class ContainerClient extends StorageClient {
    * @param {ContainerListBlobsOptions} [options={}] Options to list blobs operation.
    * @returns {(PagedAsyncIterableIterator<
    *   { kind: "prefix" } & BlobPrefix | { kind: "blob" } & BlobItem,
-   *     ContainerListBlobHierarchySegmentResponse
-   *   >)}
+   *     ContainerListBlobHierarchySegmentResponse>)}
    * @memberof ContainerClient
    */
   public listBlobsByHierarchy(
@@ -8210,5 +8545,37 @@ export class ContainerClient extends StorageClient {
     } catch (error) {
       throw new Error("Unable to extract containerName with provided information.");
     }
+  }
+
+  /**
+   * Only available for ContainerClient constructed with a shared key credential.
+   *
+   * Generates a Blob Container Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param {ContainerGenerateSasUrlOptions} options Optional parameters.
+   * @returns {Promise<string>} The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof ContainerClient
+   */
+  public generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string> {
+    return new Promise((resolve) => {
+      if (!(this.credential instanceof StorageSharedKeyCredential)) {
+        throw new RangeError(
+          "Can only generate the SAS when the client is initialized with a shared key credential"
+        );
+      }
+
+      const sas = generateBlobSASQueryParameters(
+        {
+          containerName: this._containerName,
+          ...options
+        },
+        this.credential
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
   }
 }

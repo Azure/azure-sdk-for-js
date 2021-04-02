@@ -3,7 +3,7 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { AzureCommunicationUserCredential } from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import {
   ChatThreadClient,
   UpdateThreadOptions,
@@ -13,7 +13,7 @@ import {
   AddMembersRequest
 } from "../src";
 import * as RestModel from "../src/generated/src/models";
-import { SDK_VERSION } from "../src/constants";
+import { apiVersion } from "../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "./utils/connectionUtils";
 import {
   generateHttpClient,
@@ -24,6 +24,8 @@ import {
   mockReadReceipt
 } from "./utils/mockClient";
 
+const API_VERSION = apiVersion.mapper.defaultValue;
+
 describe("[Mocked] ChatThreadClient", async () => {
   const threadId: string = "threadId";
   let chatThreadClient: ChatThreadClient;
@@ -33,7 +35,7 @@ describe("[Mocked] ChatThreadClient", async () => {
   });
 
   it("can instantiate", async () => {
-    new ChatThreadClient(threadId, baseUri, new AzureCommunicationUserCredential(generateToken()));
+    new ChatThreadClient(threadId, baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
   it("makes successful update thread request", async () => {
@@ -50,7 +52,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     sinon.assert.calledOnce(spy);
     const request = spy.getCall(0).args[0];
-    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${SDK_VERSION}`);
+    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
     assert.equal(request.method, "PATCH");
     assert.deepEqual(JSON.parse(request.body), { topic: sendOptions.topic });
   });
@@ -79,7 +81,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/messages?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/messages?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
     assert.deepEqual(JSON.parse(request.body), {
@@ -108,7 +110,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "GET");
   });
@@ -140,7 +142,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/messages?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/messages?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "GET");
   });
@@ -160,7 +162,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "PATCH");
     assert.deepEqual(JSON.parse(request.body), { content: mockMessage.content });
@@ -177,7 +179,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "DELETE");
   });
@@ -198,7 +200,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/members?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/members?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
     const requestJson = JSON.parse(request.body);
@@ -234,7 +236,7 @@ describe("[Mocked] ChatThreadClient", async () => {
 
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/members?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/members?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "GET");
   });
@@ -250,7 +252,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/members/${mockSdkModelMember.user.communicationUserId}?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/members/${mockSdkModelMember.user.communicationUserId}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "DELETE");
   });
@@ -267,7 +269,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/typing?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/typing?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
   });
@@ -283,7 +285,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/readreceipts?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/readreceipts?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "POST");
   });
@@ -309,7 +311,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `${baseUri}/chat/threads/${threadId}/readreceipts?api-version=${SDK_VERSION}`
+      `${baseUri}/chat/threads/${threadId}/readreceipts?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "GET");
   });

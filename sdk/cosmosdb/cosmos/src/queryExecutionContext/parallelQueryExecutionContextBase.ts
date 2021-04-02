@@ -48,7 +48,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * @param {string} collectionLink                - The Collection Link
    * @param {FeedOptions} [options]                - Represents the feed options.
    * @param {object} partitionedQueryExecutionInfo - PartitionedQueryExecutionInfo
-   * @ignore
+   * @hidden
    */
   constructor(
     private clientContext: ClientContext,

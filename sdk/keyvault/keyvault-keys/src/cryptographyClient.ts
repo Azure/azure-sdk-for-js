@@ -16,7 +16,7 @@ import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 import { SDK_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { challengeBasedAuthenticationPolicy, setParentSpan } from "../../keyvault-common/src";
 
 import { localSupportedAlgorithms, isLocallySupported } from "./localCryptography/algorithms";
 
@@ -26,9 +26,9 @@ import {
   JsonWebKey,
   GetKeyOptions,
   KeyVaultKey,
-  LATEST_API_VERSION,
   CryptographyClientOptions,
-  KeyOperation
+  KeyOperation,
+  LATEST_API_VERSION
 } from "./keysModels";
 
 import {
@@ -85,7 +85,7 @@ export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle): void {
 export class CryptographyClient {
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Retrieves the {@link JsonWebKey} from the Key Vault.
    *
    * Example usage:
@@ -93,7 +93,7 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.getKey();
    * ```
-   * @param {GetKeyOptions} [options] Options for retrieving key.
+   * @param options - Options for retrieving key.
    */
   private async getKey(options: GetKeyOptions = {}): Promise<JsonWebKey> {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
@@ -107,7 +107,7 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         options && options.version ? options.version : this.version ? this.version : "",
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
       this.keyBundle = keyBundle;
       return keyBundle.key! as JsonWebKey;
@@ -124,9 +124,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.encrypt("RSA1_5", Buffer.from("My Message"));
    * ```
-   * @param {EncryptionAlgorithm} algorithm The algorithm to use.
-   * @param {Uint8Array} plaintext The text to encrypt.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param algorithm - The algorithm to use.
+   * @param plaintext - The text to encrypt.
+   * @param options - Additional options.
    */
   public async encrypt(
     algorithm: EncryptionAlgorithm,
@@ -162,7 +162,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         plaintext,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -179,9 +179,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.decrypt("RSA1_5", encryptedBuffer);
    * ```
-   * @param {EncryptionAlgorithm} algorithm The algorithm to use.
-   * @param {Uint8Array} ciphertext The text to decrypt.
-   * @param {DecryptOptions} [options] Additional options.
+   * @param algorithm - The algorithm to use.
+   * @param ciphertext - The text to decrypt.
+   * @param options - Additional options.
    */
 
   public async decrypt(
@@ -206,7 +206,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         ciphertext,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -223,9 +223,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.wrapKey("RSA1_5", keyToWrap);
    * ```
-   * @param {KeyWrapAlgorithm} algorithm The encryption algorithm to use to wrap the given key.
-   * @param {Uint8Array} key The key to wrap.
-   * @param {WrapKeyOptions} [options] Additional options.
+   * @param algorithm - The encryption algorithm to use to wrap the given key.
+   * @param key - The key to wrap.
+   * @param options - Additional options.
    */
   public async wrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -261,7 +261,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         key,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -278,9 +278,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.unwrapKey("RSA1_5", keyToUnwrap);
    * ```
-   * @param {KeyWrapAlgorithm} algorithm The decryption algorithm to use to unwrap the key.
-   * @param {Uint8Array} encryptedKey The encrypted key to unwrap.
-   * @param {UnwrapKeyOptions} [options] Additional options.
+   * @param algorithm - The decryption algorithm to use to unwrap the key.
+   * @param encryptedKey - The encrypted key to unwrap.
+   * @param options - Additional options.
    */
   public async unwrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -304,7 +304,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         encryptedKey,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -321,9 +321,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.sign("RS256", digest);
    * ```
-   * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
-   * @param {Uint8Array} digest The digest of the data to sign.
-   * @param {SignOptions} [options] Additional options.
+   * @param algorithm - The signing algorithm to use.
+   * @param digest - The digest of the data to sign.
+   * @param options - Additional options.
    */
   public async sign(
     algorithm: SignatureAlgorithm,
@@ -345,7 +345,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         digest,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -362,10 +362,10 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.verify("RS256", signedDigest, signature);
    * ```
-   * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use to verify with.
-   * @param {Uint8Array} digest The digest to verify.
-   * @param {Uint8Array} signature The signature to verify the digest against.
-   * @param {VerifyOptions} [options] Additional options.
+   * @param algorithm - The signing algorithm to use to verify with.
+   * @param digest - The digest to verify.
+   * @param signature - The signature to verify the digest against.
+   * @param options - Additional options.
    */
   public async verify(
     algorithm: SignatureAlgorithm,
@@ -389,7 +389,7 @@ export class CryptographyClient {
         algorithm,
         digest,
         signature,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -406,9 +406,9 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.signData("RS256", message);
    * ```
-   * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
-   * @param {Uint8Array} data The data to sign.
-   * @param {SignOptions} [options] Additional options.
+   * @param algorithm - The signing algorithm to use.
+   * @param data - The data to sign.
+   * @param options - Additional options.
    */
   public async signData(
     algorithm: SignatureAlgorithm,
@@ -443,7 +443,7 @@ export class CryptographyClient {
         this.version,
         algorithm,
         digest,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -460,10 +460,10 @@ export class CryptographyClient {
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * let result = await client.verifyData("RS256", signedMessage, signature);
    * ```
-   * @param {KeySignatureAlgorithm} algorithm The algorithm to use to verify with.
-   * @param {Uint8Array} data The signed block of data to verify.
-   * @param {Uint8Array} signature The signature to verify the block against.
-   * @param {VerifyOptions} [options] Additional options.
+   * @param algorithm - The algorithm to use to verify with.
+   * @param data - The signed block of data to verify.
+   * @param signature - The signature to verify the block against.
+   * @param options - Additional options.
    */
   public async verifyData(
     algorithm: SignatureAlgorithm,
@@ -510,7 +510,7 @@ export class CryptographyClient {
         algorithm,
         digest,
         signature,
-        this.setParentSpan(span, requestOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -521,7 +521,7 @@ export class CryptographyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Attempts to retrieve the ID of the key.
    */
   private getKeyID(): string | undefined {
@@ -542,7 +542,7 @@ export class CryptographyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated KeyVault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -606,11 +606,10 @@ export class CryptographyClient {
    * // or
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * ```
-   * @param key The key to use during cryptography tasks. You can also pass the identifier of the key i.e its url here.
-   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
-   *                                                         Omit this parameter to use the default pipeline configuration.
-   * @memberof CryptographyClient
+   * @param key - The key to use during cryptography tasks. You can also pass the identifier of the key i.e its url here.
+   * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
+   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests.
+   *                          Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     key: string | KeyVaultKey,
@@ -622,7 +621,6 @@ export class CryptographyClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -635,24 +633,19 @@ export class CryptographyClient {
 
     const internalPipelineOptions = {
       ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      pipeline
+      createPipelineFromOptions(internalPipelineOptions, authPolicy)
     );
 
     let parsed;
@@ -687,10 +680,10 @@ export class CryptographyClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * Creates a span using the tracer that was set by the user.
-   * @param {string} methodName The name of the method creating the span.
-   * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
+   * @param methodName - The name of the method creating the span.
+   * @param options - The options for the underlying HTTP request.
    */
   private createSpan(methodName: string, requestOptions?: RequestOptionsBase): Span {
     const tracer = getTracer();
@@ -703,35 +696,8 @@ export class CryptographyClient {
   }
 
   /**
-   * @internal
-   * @ignore
-   * Returns updated HTTP options with the given span as the parent of future spans,
-   * if applicable.
-   * @param {Span} span The span for the current operation.
-   * @param {RequestOptionsBase} [options] The options for the underlying HTTP request.
-   */
-  private setParentSpan(span: Span, options: RequestOptionsBase = {}): RequestOptionsBase {
-    if (span.isRecording()) {
-      const spanOptions = options.spanOptions || {};
-      return {
-        ...options,
-        spanOptions: {
-          ...spanOptions,
-          parent: span.context(),
-          attributes: {
-            ...spanOptions.attributes,
-            "az.namespace": "Microsoft.KeyVault"
-          }
-        }
-      };
-    } else {
-      return options;
-    }
-  }
-
-  /**
    * Checks whether the internal key can be used to execute a given operation, by the operation's name.
-   * @param operation The name of the operation that is expected to be viable
+   * @param operation - The name of the operation that is expected to be viable
    */
   private async checkPermissions(operation: KeyOperation): Promise<void> {
     await this.getLocalCryptographyClient();

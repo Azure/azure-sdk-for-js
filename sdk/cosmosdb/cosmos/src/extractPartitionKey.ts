@@ -4,7 +4,7 @@ import { parsePath } from "./common";
 import { PartitionKey, PartitionKeyDefinition } from "./documents";
 
 /**
- * @ignore
+ * @hidden
  * @param document
  * @param partitionKeyDefinition
  */
@@ -37,7 +37,7 @@ export function extractPartitionKey(
   }
 }
 /**
- * @ignore
+ * @hidden
  * @param partitionKeyDefinition
  */
 export function undefinedPartitionKey(partitionKeyDefinition: PartitionKeyDefinition) {

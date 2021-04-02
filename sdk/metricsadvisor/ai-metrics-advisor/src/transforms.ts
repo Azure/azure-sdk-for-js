@@ -242,7 +242,9 @@ export function fromServiceMetricFeedbackUnion(
       return result4;
     }
     default:
-      throw new Error(`Unrecognized feedback type ${original.feedbackType}`);
+      throw new Error(
+        `Unrecognized feedback type ${(original as ServiceMetricFeedbackUnion).feedbackType}`
+      );
   }
 }
 
@@ -266,6 +268,10 @@ export function toRollupSettings(original: ServiceDataFeedDetailUnion): DataFeed
         rollupIdentificationValue: original.allUpIdentification
       };
   }
+
+  return {
+    rollupType: "NoRollup"
+  };
 }
 
 export function toServiceRollupSettings(
@@ -553,7 +559,9 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): Notifi
       return result2;
     }
     default:
-      throw new Error(`Unrecognized hook union type ${original.hookType}`);
+      throw new Error(
+        `Unrecognized hook union type ${(original as ServiceHookInfoUnion).hookType}`
+      );
   }
 }
 

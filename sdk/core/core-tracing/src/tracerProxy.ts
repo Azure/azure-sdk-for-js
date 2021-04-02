@@ -16,7 +16,7 @@ function getDefaultTracer(): Tracer {
 
 /**
  * Sets the global tracer, enabling tracing for the Azure SDK.
- * @param tracer An OpenTelemetry Tracer instance.
+ * @param tracer - An OpenTelemetry Tracer instance.
  */
 export function setTracer(tracer: Tracer): void {
   const cache = getCache();

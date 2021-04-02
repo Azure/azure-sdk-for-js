@@ -32,16 +32,17 @@ async function main() {
     const result = results[i];
     console.log(`- Document ${result.id}`);
     if (!result.error) {
-      console.log(`  Document text: ${documents[i]}`);
-      console.log(`  Overall Sentiment: ${result.sentiment}`);
-      console.log(`  Sentiment confidence scores: ${result.confidenceScores}`);
-      console.log("  Sentences");
-      for (const { sentiment, confidenceScores } of result.sentences) {
-        console.log(`  - Sentence sentiment: ${sentiment}`);
-        console.log(`    Confidence scores: ${confidenceScores}`);
+      console.log(`\tDocument text: ${documents[i]}`);
+      console.log(`\tOverall Sentiment: ${result.sentiment}`);
+      console.log("\tSentiment confidence scores: ", result.confidenceScores);
+      console.log("\tSentences");
+      for (const { sentiment, confidenceScores, text } of result.sentences) {
+        console.log(`\t- Sentence text: ${text}`);
+        console.log(`\t  Sentence sentiment: ${sentiment}`);
+        console.log("\t  Confidence scores: ", confidenceScores);
       }
     } else {
-      console.error(`  Error: ${result.error}`);
+      console.error(`\tError: ${result.error}`);
     }
   }
 }

@@ -1,0 +1,22 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/identities",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": "{\"createTokenWithScopes\":[\"voip\"]}",
+      "status": 201,
+      "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2021-01-22T20:17:37.2544004+00:00\"}}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "c3f3767039172503ba83aa5068a02074"
+}

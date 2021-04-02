@@ -12,7 +12,7 @@ export const logger = createClientLogger("eventhubs-checkpointstore-blob");
 /**
  * Logs the error's stack trace to "verbose" if a stack trace is available.
  * @param error Error containing a stack trace.
- * @ignore
+ * @hidden
  */
 export function logErrorStackTrace(error: any) {
   if (error && error.stack) {

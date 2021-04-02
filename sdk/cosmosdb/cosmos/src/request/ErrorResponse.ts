@@ -6,13 +6,13 @@ export interface ErrorBody {
   code: string;
   message: string;
   /**
-   * @ignore
+   * @hidden
    */
   additionalErrorInfo?: PartitionedQueryExecutionInfo;
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export interface PartitionedQueryExecutionInfo {
   partitionedQueryExecutionInfoVersion: number;
@@ -21,7 +21,7 @@ export interface PartitionedQueryExecutionInfo {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export interface QueryRange {
   min: string;
@@ -31,7 +31,7 @@ export interface QueryRange {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export interface QueryInfo {
   top?: any;

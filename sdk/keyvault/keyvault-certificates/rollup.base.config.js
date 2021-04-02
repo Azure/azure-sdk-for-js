@@ -89,7 +89,6 @@ export function browserConfig(test = false) {
       name: "azurekeyvaultcertificates",
       globals: {
         "@azure/core-http": "Azure.Core.HTTP",
-        "@azure/core-arm": "Azure.Core.ARM",
         "@azure/keyvault-keys": "Azure.KeyVault.Keys",
         "@azure/keyvault-secrets": "Azure.KeyVault.Secrets"
       },
@@ -126,7 +125,7 @@ export function browserConfig(test = false) {
     ]
   };
 
-  baseConfig.external = ["fs", "fs-extra", "child_process", "path", "crypto", "constants"];
+  baseConfig.external = ["fs", "child_process", "path", "crypto", "constants"];
   if (test) {
     baseConfig.external.push("os");
     baseConfig.input = ["dist-esm/**/*.spec.js"];

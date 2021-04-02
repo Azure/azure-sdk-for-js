@@ -40,7 +40,6 @@ export interface SendRequestOptions {
 
 /**
  * @internal
- * @ignore
  */
 export interface DeferredPromiseWithCallback {
   resolve: (value?: any) => void;
@@ -230,7 +229,6 @@ export class RequestResponseLink implements ReqResLink {
 }
 /**
  * @internal
- * @ignore
  *
  * Type used in getCodeDescriptionAndError to get the normalized info from the responses emitted by EventHubs and ServiceBus.
  */
@@ -242,7 +240,6 @@ type NormalizedInfo = {
 
 /**
  * @internal
- * @ignore
  *
  * Handle different variations of property names in responses emitted by EventHubs and ServiceBus.
  *
@@ -271,7 +268,6 @@ export const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
  * 5. User's code after the sendRequest continues.
  *
  * @internal
- * @ignore
  */
 export function onMessageReceived(
   context: Pick<EventContext, "message">,

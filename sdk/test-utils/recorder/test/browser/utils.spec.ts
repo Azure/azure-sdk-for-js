@@ -4,8 +4,8 @@ import {
   stripNewLines,
   windowLens
 } from "../../src/utils";
-import chai from "chai";
-const { expect } = chai;
+
+import { expect } from "chai";
 
 describe("Browser utils", () => {
   describe("windowLens", () => {

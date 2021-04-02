@@ -24,7 +24,6 @@ import { logger } from "../log";
  *
  * @export
  * @param {StorageRetryOptions} retryOptions
- * @returns
  */
 export function NewStorageRetryPolicyFactory(
   retryOptions?: StorageRetryOptions
@@ -234,11 +233,7 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
         if (
           err.name.toUpperCase().includes(retriableError) ||
           err.message.toUpperCase().includes(retriableError) ||
-          (err.code &&
-            err.code
-              .toString()
-              .toUpperCase()
-              .includes(retriableError))
+          (err.code && err.code.toString().toUpperCase() === retriableError)
         ) {
           logger.info(`RetryPolicy: Network error ${retriableError} found, will retry.`);
           return true;
@@ -263,6 +258,13 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
       }
     }
 
+    if (err?.code === "PARSE_ERROR" && err?.message.startsWith(`Error "Error: Unclosed root tag`)) {
+      logger.info(
+        "RetryPolicy: Incomplete XML response likely due to service timeout, will retry."
+      );
+      return true;
+    }
+
     return false;
   }
 
@@ -273,7 +275,6 @@ export class StorageRetryPolicy extends BaseRequestPolicy {
    * @param {boolean} isPrimaryRetry
    * @param {number} attempt
    * @param {AbortSignalLike} [abortSignal]
-   * @returns
    * @memberof StorageRetryPolicy
    */
   private async delay(isPrimaryRetry: boolean, attempt: number, abortSignal?: AbortSignalLike) {

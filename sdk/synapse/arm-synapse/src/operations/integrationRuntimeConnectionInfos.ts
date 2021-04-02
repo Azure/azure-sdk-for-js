@@ -29,7 +29,7 @@ export class IntegrationRuntimeConnectionInfos {
    * Get connection info for an integration runtime
    * @summary Get integration runtime connection info
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param [options] The optional parameters
    * @returns Promise<Models.IntegrationRuntimeConnectionInfosGetResponse>
@@ -37,14 +37,14 @@ export class IntegrationRuntimeConnectionInfos {
   get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, options?: msRest.RequestOptionsBase): Promise<Models.IntegrationRuntimeConnectionInfosGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, integrationRuntimeName: string, callback: msRest.ServiceCallback<Models.IntegrationRuntimeConnectionInfo>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param integrationRuntimeName Integration runtime name
    * @param options The optional parameters
    * @param callback The callback

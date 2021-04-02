@@ -6,39 +6,39 @@
    "query": {},
    "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
    "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
-    "content-length": "1500",
+    "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 02 Nov 2020 18:24:23 GMT",
+    "date": "Fri, 20 Nov 2020 23:05:32 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11198.13 - EUS ProdSlices",
-    "x-ms-request-id": "1b21f04b-f9a5-4641-8241-7adb0b5d4100"
+    "x-ms-ests-server": "2.1.11251.20 - WUS2 ProdSlices",
+    "x-ms-request-id": "7d37ce26-f30a-4e22-bcda-c8b048342d00"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.1-preview.1/custom/models",
+   "url": "https://endpoint/formrecognizer/v2.1-preview.2/custom/models",
    "query": {
     "op": "summary"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"summary\":{\"count\":75,\"limit\":5000,\"lastUpdatedDateTime\":\"2020-11-02T18:24:23Z\"}}",
+   "response": "{\"summary\":{\"count\":217,\"limit\":5000,\"lastUpdatedDateTime\":\"2020-11-20T23:05:32Z\"}}",
    "responseHeaders": {
-    "apim-request-id": "820f43d2-307a-4d46-9be5-773ba3974791",
+    "apim-request-id": "9a1d8f14-5dbd-46e4-823d-b294eb0e5376",
+    "content-length": "83",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 02 Nov 2020 18:24:23 GMT",
+    "date": "Fri, 20 Nov 2020 23:05:32 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "19"
+    "x-envoy-upstream-service-time": "34"
    }
   }
  ],

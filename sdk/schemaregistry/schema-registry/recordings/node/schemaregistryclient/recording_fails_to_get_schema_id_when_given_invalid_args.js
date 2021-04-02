@@ -22,25 +22,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'cf9620ff-02bf-42fe-b555-43bc2b7c8d00',
+  '80823545-d959-4446-9a34-68af91c41c02',
   'x-ms-ests-server',
-  '2.1.11086.7 - EUS ProdSlices',
+  '2.1.11328.13 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=ApALMtN-Ww1Kg8GH9ZQXLb9J4DFtAQAAALuHDdcOAAAA; expires=Wed, 04-Nov-2020 21:31:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Al0bncQ0345BgROSrZHwNsBvWe_NAQAAAFNRfNcOAAAA; expires=Wed, 27-Jan-2021 22:21:08 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Mon, 05 Oct 2020 21:31:40 GMT',
+  'Mon, 28 Dec 2020 22:21:07 GMT',
   'Content-Length',
   '1321'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
+  .post('/$schemagroups/group/schemas/azsdk_js_test', {"type":"record","name":"User","namespace":"com.azure.schemaregistry.samples","fields":[{"name":"name","type":"string"},{"name":"favoriteNumber","type":"int"}]})
   .query(true)
-  .reply(400, {"Code":400,"Detail":"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:056052ff-ee36-4ace-a5e4-fb1e96302b11_G2, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000022, Timestamp:2020-10-05T21:31:41"}, [
+  .reply(400, {"Code":400,"Detail":"Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:47e22b22-5151-4f65-8beb-400da3570d11_G22, SystemTracker:endpoint:$schemagroups/group/schemas/azsdk_js_test, Timestamp:2020-12-28T22:21:08"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -50,5 +50,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Mon, 05 Oct 2020 21:31:41 GMT'
+  'Mon, 28 Dec 2020 22:21:08 GMT'
 ]);

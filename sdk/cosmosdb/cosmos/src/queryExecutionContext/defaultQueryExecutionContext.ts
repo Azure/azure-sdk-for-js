@@ -43,7 +43,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * @param {FeedOptions} [options]                - Represents the feed options.
    * @param {callback | callback[]} fetchFunctions - A function to retrieve each page of data.
    *                          An array of functions may be used to query more than one partition.
-   * @ignore
+   * @hidden
    */
   constructor(options: any, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]) {
     // TODO: any options

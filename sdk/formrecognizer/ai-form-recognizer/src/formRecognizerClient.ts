@@ -48,6 +48,8 @@ import { RecognizeContentResultResponse } from "./internalModels";
 import { toRecognizeContentResultResponse } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
+// #region types
+
 /**
  * Options for content/layout recognition.
  */
@@ -80,9 +82,28 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    */
   resumeFrom?: string;
   /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
+   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp".
    */
   contentType?: FormContentType;
+  /**
+   * The BCP-47 language code of the text in the document.
+   *
+   * The supported languages are English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'),
+   * simplified Chinese ('zh-Hans') and Spanish ('es') are supported.
+   *
+   * Handwritten text is only supported in English ('en').
+   *
+   * Content recognition supports auto language identification and multi language documents, so only provide a language code if
+   * you would like to override the service's default behavior and force the document to be processed using a specific language.
+   */
+  language?: string;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF). If a value is provided, content information will only be provided for
+   * the selected pages. A range of pages may be denoted using a hyphen.
+   *
+   * For example, to select pages 1, 3 and 5 through 9, set this property to `["1", "3", "5-9"]`.
+   */
+  pages?: string[];
 };
 
 /**
@@ -106,7 +127,7 @@ export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
 };
 
 /**
- * Options for starting the analyze form operation
+ * Shared options for starting form recognition operations.
  */
 export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
   /**
@@ -122,10 +143,22 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
    */
   resumeFrom?: string;
   /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
+   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp".
    */
   contentType?: FormContentType;
 };
+
+/**
+ * Options for starting the custom form recognition operation.
+ */
+export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
+  /**
+   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
+   *
+   * "image/bmp" is not supported for custom form analysis.
+   */
+  contentType?: Exclude<FormContentType, "image/bmp">;
+}
 
 /**
  * Result type of the Recognize Form Long-Running-Operation (LRO)
@@ -133,9 +166,9 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 export type FormPollerLike = PollerLike<RecognizeFormsOperationState, RecognizedFormArray>;
 
 /**
- * Options for starting the receipt recognition operation
+ * Options for starting a recognition operation using a prebuilt model.
  */
-export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOptions {
+export interface BeginRecognizePrebuiltOptions extends BeginRecognizeFormsOptions {
   /**
    * Locale of the document.
    *
@@ -145,16 +178,21 @@ export interface BeginRecognizeReceiptsOptions extends BeginRecognizeFormsOption
 }
 
 /**
+ * Options for starting the receipt recognition operation
+ */
+export type BeginRecognizeReceiptsOptions = BeginRecognizePrebuiltOptions;
+
+/**
  * Options for starting the Business Card recognition operation
  */
-export interface BeginRecognizeBusinessCardsOptions extends BeginRecognizeFormsOptions {
-  /**
-   * Locale of the document.
-   *
-   * Supported locales include: en-AU, en-CA, en-GB, en-IN, en-US (default if none provided).
-   */
-  locale?: string;
-}
+export type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
+
+/**
+ * Options for starting the Invoice recognition operation
+ */
+export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
+
+// #endregion
 
 /**
  * Client class for interacting with the Azure Form Recognizer service.
@@ -167,7 +205,7 @@ export class FormRecognizerClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -185,9 +223,9 @@ export class FormRecognizerClient {
    * );
    * ```
    *
-   * @param {string} endpointUrl Url to an Azure Form Recognizer service endpoint
-   * @param {TokenCredential | KeyCredential} credential Used to authenticate requests to the service.
-   * @param {FormRecognizerClientOptions} [options] Used to configure the Form Recognizer client.
+   * @param endpointUrl - Url to an Azure Form Recognizer service endpoint
+   * @param credential - Used to authenticate requests to the service.
+   * @param options - Used to configure the Form Recognizer client.
    */
   constructor(
     endpointUrl: string,
@@ -227,6 +265,8 @@ export class FormRecognizerClient {
     this.client = new GeneratedClient(this.endpointUrl, pipeline);
   }
 
+  // #region content
+
   /**
    * Recognizes content, including text and table structure from a form document.
    *
@@ -247,9 +287,9 @@ export class FormRecognizerClient {
    *
    * const pages = await poller.pollUntilDone();
    * ```
-   * @summary Recognizes content/layout information from a given document
-   * @param {FormRecognizerRequestBody} form Input document
-   * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
+   * Recognizes content/layout information from a given document
+   * @param form - Input document
+   * @param options - Options to start content recognition operation
    */
   public async beginRecognizeContent(
     form: FormRecognizerRequestBody,
@@ -290,9 +330,9 @@ export class FormRecognizerClient {
    * const pages = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes content/layout information from a url to a form document
-   * @param formUrl Url to a document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
-   * @param options Options for the content recognition operation
+   * Recognizes content/layout information from a url to a form document
+   * @param formUrl - Url to a document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the content recognition operation
    */
   public async beginRecognizeContentFromUrl(
     formUrl: string,
@@ -320,7 +360,8 @@ export class FormRecognizerClient {
 
   /**
    * Retrieves result of content recognition operation.
-   * @private
+   * @internal
+   * @hidden
    */
   private async getRecognizedContent(
     resultId: string,
@@ -347,10 +388,16 @@ export class FormRecognizerClient {
     }
   }
 
+  // #endregion
+
+  // #region customforms
+
   /**
    * Recognizes forms from a given document using a custom form model from training.
+   *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
+   *
    * Note that the onProgress callback will not be invoked if the operation completes in the first
    * request, and attempting to cancel a completed copy will result in an error being thrown.
    *
@@ -365,15 +412,15 @@ export class FormRecognizerClient {
    * });
    * const forms = await poller.pollUntilDone();
    * ```
-   * @summary Recognizes form information from a given document using a custom form model.
-   * @param {string} modelId Id of the custom form model to use
-   * @param {FormRecognizerRequestBody} form Input form document
-   * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
+   * Recognizes form information from a given document using a custom form model.
+   * @param modelId - Id of the custom form model to use
+   * @param form - Input form document
+   * @param options - Options to start the form recognition operation
    */
   public async beginRecognizeCustomForms(
     modelId: string,
     form: FormRecognizerRequestBody,
-    options: BeginRecognizeFormsOptions = {}
+    options: BeginRecognizeCustomFormsOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid model id");
@@ -398,12 +445,12 @@ export class FormRecognizerClient {
           )
         );
       }),
-      getResult: span("getCustomForms", async (finalOptions, resultId, modelId) =>
+      getResult: span("getCustomForms", async (finalOptions, resultId, modelIdParam) =>
         // using the modelId from the parameter here is important, as we could be restoring from
         // a suspended LRO
         this.client.getAnalyzeFormResult(
           // Must be defined to have reached this point, but only for custom form recognition
-          modelId!,
+          modelIdParam!,
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
         )
@@ -435,15 +482,15 @@ export class FormRecognizerClient {
    * const forms = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes form information from a url to a document using a custom form model.
-   * @param modelId Id of the custom form model to use
-   * @param formUrl Url to a document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
-   * @param options Options for the recognition operation
+   * Recognizes form information from a url to a document using a custom form model.
+   * @param modelId - Id of the custom form model to use
+   * @param formUrl - Url to a document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeCustomFormsFromUrl(
     modelId: string,
     formUrl: string,
-    options: BeginRecognizeFormsOptions = {}
+    options: BeginRecognizeCustomFormsOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
       throw new RangeError("Invalid model id");
@@ -466,12 +513,12 @@ export class FormRecognizerClient {
           })
         );
       }),
-      getResult: span("getCustomForms", async (finalOptions, resultId, modelId) =>
+      getResult: span("getCustomForms", async (finalOptions, resultId, modelIdParam) =>
         // using the modelId from the parameter here is important, as we could be restoring from
         // a suspended LRO
         this.client.getAnalyzeFormResult(
           // Must be defined to have reached this point, but only for custom form recognition
-          modelId!,
+          modelIdParam!,
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
         )
@@ -483,8 +530,12 @@ export class FormRecognizerClient {
     return poller;
   }
 
+  // #endregion
+
+  // #region prebuilt::businesscard
+
   /**
-   * Recognizes data from business cards using pre-built business card model, enabling you to extract structured data
+   * Recognizes data from business cards using a pre-built business card model, enabling you to extract structured data
    * from business cards such as name, job title, phone numbers, etc.
    *
    * For a list of fields that are contained in the response, please refer to the documentation at the
@@ -510,9 +561,9 @@ export class FormRecognizerClient {
    * const [businessCard] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes business card information from a given document
-   * @param businessCard Input document
-   * @param options Options for the recognition operation
+   * Recognizes business card information from a given document
+   * @param businessCard - Input document
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeBusinessCards(
     businessCard: FormRecognizerRequestBody,
@@ -550,7 +601,7 @@ export class FormRecognizerClient {
   }
 
   /**
-   * Recognizes business card information from a url using pre-built business card model, enabling you to extract structured data
+   * Recognizes business card information from a url using a pre-built business card model, enabling you to extract structured data
    * from business cards such as name, job title, phone numbers, etc.
    *
    * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/businesscardfields
@@ -574,9 +625,9 @@ export class FormRecognizerClient {
    * const [businessCard] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes business card information from a given accessible url to a document
-   * @param businessCardUrl Url to a business card document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
-   * @param options Options for the recognition operation
+   * Recognizes business card information from a given accessible url to a document
+   * @param businessCardUrl - Url to a business card document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeBusinessCardsFromUrl(
     businessCardUrl: string,
@@ -617,8 +668,149 @@ export class FormRecognizerClient {
     return poller;
   }
 
+  // #endregion
+
+  // #region prebuilt::invoice
+
   /**
-   * Recognizes data from receipts using pre-built receipt model, enabling you to extract structure data
+   * Recognizes data from invoices using a pre-built invoice model, enabling you to extract structured data
+   * from invoices such as customer address, vendor address, purchase order ID, etc.
+   *
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/invoicefields
+   *
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the operation is completed.
+   *
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   * const path = "./Invoice_1.pdf";
+   * const readStream = fs.createReadStream(path);
+   *
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeInvoices(readStream, {
+   *   contentType: "application/pdf",
+   *   onProgress: (state) => { console.log(`status: ${state.status}`); }
+   * });
+   *
+   * const [invoice] = await poller.pollUntilDone();
+   * ```
+   *
+   * Recognizes invoice information from a given document
+   * @param invoice - Input document
+   * @param options - Options for the recognition operation
+   */
+  public async beginRecognizeInvoices(
+    invoice: FormRecognizerRequestBody,
+    options: BeginRecognizeInvoicesOptions = {}
+  ): Promise<FormPollerLike> {
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeInvoices", {
+      ...options,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      expectedDocType: "prebuilt:invoice",
+      createOperation: span("invoicesInternal", async (finalOptions) => {
+        const requestBody = await toRequestBody(invoice);
+        const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
+        return processOperationLocation(
+          await this.client.analyzeInvoiceAsync(
+            contentType!,
+            requestBody as Blob | ArrayBuffer | ArrayBufferView,
+            operationOptionsToRequestOptionsBase(finalOptions)
+          )
+        );
+      }),
+      getResult: span("getInvoices", async (finalOptions, resultId) =>
+        this.client.getAnalyzeInvoiceResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Recognizes invoice information from a URL using a pre-built invoice model, enabling you to extract structured data
+   * from invoices such as customer address, vendor address, purchase order ID, etc.
+   *
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/invoicefields
+   *
+   * This method returns a long running operation poller that allows you to wait
+   * indefinitely until the operation is completed.
+   *
+   * Note that the onProgress callback will not be invoked if the operation completes in the first
+   * request, and attempting to cancel a completed copy will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   * const url = "<url to the invoice document>";
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeInvoicesFromUrl(url, {
+   *   includeFieldElements: true,
+   *   onProgress: (state) => {
+   *     console.log(`analyzing status: ${state.status}`);
+   *   }
+   * });
+   * const [invoice] = await poller.pollUntilDone();
+   * ```
+   *
+   * Recognizes invoice information from a given accessible url to a document
+   * @param invoiceUrl - Url to an invoice document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the recognition operation
+   */
+  public async beginRecognizeInvoicesFromUrl(
+    invoiceUrl: string,
+    options: BeginRecognizeInvoicesOptions = {}
+  ): Promise<FormPollerLike> {
+    if (options.contentType) {
+      logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
+    }
+
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeInvoicesFromUrl", {
+      ...options,
+      contentType: undefined,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      expectedDocType: "prebuilt:invoice",
+      createOperation: span("invoicesInternal", async (finalOptions) => {
+        return processOperationLocation(
+          await this.client.analyzeInvoiceAsync("application/json", {
+            fileStream: {
+              source: invoiceUrl
+            },
+            ...operationOptionsToRequestOptionsBase(finalOptions)
+          })
+        );
+      }),
+      getResult: span("getInvoices", async (finalOptions, resultId) =>
+        this.client.getAnalyzeInvoiceResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  // #endregion
+
+  // #region prebuilt::receipt
+
+  /**
+   * Recognizes data from receipts using a pre-built receipt model, enabling you to extract structured data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
@@ -643,10 +835,9 @@ export class FormRecognizerClient {
    * const [receipt] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes receipt information from a given document
-   * @param {FormRecognizerRequestBody} receipt Input document
-   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
-   * @param {BeginRecognizeFormsOptions} [options] Options to start the receipt recognition operation
+   * Recognizes receipt information from a given document
+   * @param receipt - Input document
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeReceipts(
     receipt: FormRecognizerRequestBody,
@@ -709,9 +900,9 @@ export class FormRecognizerClient {
    * const [receipt] = await poller.pollUntilDone();
    * ```
    *
-   * @summary Recognizes receipt information from a given accessible url to a document
-   * @param receiptUrl Url to a receipt document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
-   * @param options Options for the recognition operation
+   * Recognizes receipt information from a given accessible url to a document
+   * @param receiptUrl - Url to a receipt document that is accessible from the service. Must be a valid, encoded URL to a document of a supported content type.
+   * @param options - Options for the recognition operation
    */
   public async beginRecognizeReceiptsFromUrl(
     receiptUrl: string,
@@ -751,6 +942,8 @@ export class FormRecognizerClient {
     await poller.poll();
     return poller;
   }
+
+  // #endregion
 }
 
 /**
@@ -766,8 +959,8 @@ interface RemoteOperation {
  * Validates a remote operation's location is defined and extracts the
  * result ID from it.
  *
- * @param remoteOperation the operation to process
- * @returns the remote operation ID
+ * @param remoteOperation - The operation to process
+ * @returns The remote operation ID
  *
  * @internal
  */
@@ -791,11 +984,11 @@ interface Spanner<Options> {
    * an argument will be inserted at the beginning of the arguments list
    * containing the `options` that may have been updated by the tracer.
    *
-   * @param name the name of this span, which will appear in the trace.
-   * @param handler the handler to run. Its first parameter will have the
+   * @param name - The name of this span, which will appear in the trace.
+   * @param handler - The handler to run. Its first parameter will have the
    *   type of `options` that were passed to `makeSpanner`
    *
-   * @returns a function that will wrap a call to the `handler` in tracing code, forwarding its parameters
+   * @returns A function that will wrap a call to the `handler` in tracing code, forwarding its parameters
    */
   span<Args extends unknown[], Result>(
     name: string,

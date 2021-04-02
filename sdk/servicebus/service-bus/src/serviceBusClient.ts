@@ -434,7 +434,6 @@ export class ServiceBusClient {
  * topic, subscription, options
  *
  * @internal
- * @ignore
  */
 export function extractReceiverArguments<OptionsT extends { receiveMode?: ReceiveMode }>(
   queueOrTopicName1: string,
@@ -479,7 +478,6 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
  * queue or topic name passed to the methods that create senders and receivers.
  *
  * @internal
- * @ignore
  */
 function validateEntityPath(connectionConfig: ConnectionConfig, queueOrTopicName: string): void {
   if (connectionConfig.entityPath && connectionConfig.entityPath !== queueOrTopicName) {

@@ -1,0 +1,67 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:42:29 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11419.13 - SEASLR2 ProdSlices",
+    "x-ms-request-id": "64b19988-e199-402b-986d-699f5bbf0400"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks",
+   "query": {},
+   "requestBody": "{\"hookType\":\"Webhook\",\"hookName\":\"js-test-webHook-161116814328307373\",\"description\":\"description\",\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\"}}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "975987a7-e229-4f0c-b347-52827246f362",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:42:30 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/hooks/5ddfc9c0-d2fa-41d4-8e00-84c5f565b1f1",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "622",
+    "x-request-id": "975987a7-e229-4f0c-b347-52827246f362"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/5ddfc9c0-d2fa-41d4-8e00-84c5f565b1f1",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"hookId\":\"5ddfc9c0-d2fa-41d4-8e00-84c5f565b1f1\",\"hookName\":\"js-test-webHook-161116814328307373\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"azure_client_id\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user\",\"password\":\"pass\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
+   "responseHeaders": {
+    "apim-request-id": "6aa87255-4f7d-4ffb-8606-c88fabdd2589",
+    "content-length": "364",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:42:30 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "195",
+    "x-request-id": "6aa87255-4f7d-4ffb-8606-c88fabdd2589"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "1f8921dcf55208b82049411c2dbb3964"
+}

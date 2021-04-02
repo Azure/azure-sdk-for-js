@@ -14,14 +14,14 @@ function getUserAgentString(telemetryInfo: Map<string, string>): string {
 }
 
 /**
- * @ignore @internal
+ * @hidden @internal
  */
 export function getUserAgentHeaderName(): string {
   return getHeaderName();
 }
 
 /**
- * @ignore @internal
+ * @hidden @internal
  */
 export function getUserAgentValue(prefix?: string): string {
   const runtimeInfo = new Map<string, string>();

@@ -1,10 +1,10 @@
 let nock = require("nock");
 
-module.exports.hash = "1a4ba6af0469e1a931c49a965aadd8cd";
+module.exports.hash = "dec4a115d96e27442dce416e17a705bb";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
-nock("https://endpoint", { encodedQueryParams: true })
+nock("https://endpoint", { encodedQueryParams: false })
   .get("/administration/phonenumbers/countries/US/phoneplangroups")
   .query(true)
   .reply(
@@ -37,18 +37,20 @@ nock("https://endpoint", { encodedQueryParams: true })
       "chunked",
       "Content-Type",
       "application/json; charset=utf-8",
+      "Request-Context",
+      "appId=",
       "MS-CV",
-      "A8oNtBci20aKVLyOBVGTLQ.0",
+      "HKu6PbrTEUejg1blYguRIQ.0",
       "X-Processing-Time",
-      "235ms",
+      "412ms",
       "X-Azure-Ref",
-      "0fil+XwAAAABtktZ5+9zFS5PjMS1QpDkuWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0g+UFYAAAAACy/DlzIxHLTZt8jT1W98YqRVdSMzBFREdFMDUyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 07 Oct 2020 20:47:57 GMT"
+      "Mon, 18 Jan 2021 19:46:11 GMT"
     ]
   );
 
-nock("https://endpoint", { encodedQueryParams: true })
+nock("https://endpoint", { encodedQueryParams: false })
   .get("/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans")
   .query(true)
   .reply(
@@ -60,7 +62,7 @@ nock("https://endpoint", { encodedQueryParams: true })
           localizedName: "Outbound Only PSTN For User - Geographic",
           locationType: "Selection",
           areaCodes: [],
-          capabilities: ["Azure", "OutboundCalling", "UserAssignment", "Geographic"],
+          capabilities: ["OutboundCalling", "UserAssignment", "Geographic"],
           maximumSearchSize: 20
         },
         {
@@ -68,7 +70,7 @@ nock("https://endpoint", { encodedQueryParams: true })
           localizedName: "Inbound Only PSTN For User - Geographic",
           locationType: "Selection",
           areaCodes: [],
-          capabilities: ["Azure", "InboundCalling", "UserAssignment", "Geographic"],
+          capabilities: ["InboundCalling", "UserAssignment", "Geographic"],
           maximumSearchSize: 20
         }
       ],
@@ -79,13 +81,15 @@ nock("https://endpoint", { encodedQueryParams: true })
       "chunked",
       "Content-Type",
       "application/json; charset=utf-8",
+      "Request-Context",
+      "appId=",
       "MS-CV",
-      "mpWK1YyYfUuzIsGu4ysbwA.0",
+      "cUbpVknoqUepQ45Iwbpkkw.0",
       "X-Processing-Time",
-      "228ms",
+      "419ms",
       "X-Azure-Ref",
-      "0fil+XwAAAACyHjEArDXBSY28rLMYbOu4WVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0g+UFYAAAAAC++oZC+qGwSrPnaiOrkJ7YRVdSMzBFREdFMDYxMgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 07 Oct 2020 20:47:58 GMT"
+      "Mon, 18 Jan 2021 19:46:11 GMT"
     ]
   );

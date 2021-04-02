@@ -233,6 +233,28 @@ export function appendToURLPath(url: string, name: string): string {
 }
 
 /**
+ * Append a string to URL query.
+ *
+ * @export
+ * @param {string} url Source URL string.
+ * @param {string} queryParts String to be appended to the URL query.
+ * @returns {string} An updated URL string.
+ */
+export function appendToURLQuery(url: string, queryParts: string): string {
+  const urlParsed = URLBuilder.parse(url);
+
+  let query = urlParsed.getQuery();
+  if (query) {
+    query += "&" + queryParts;
+  } else {
+    query = queryParts;
+  }
+
+  urlParsed.setQuery(query);
+  return urlParsed.toString();
+}
+
+/**
  * Set URL parameter name and value. If name exists in URL parameters, old value
  * will be replaced by name key. If not provide value, the parameter will be deleted.
  *
@@ -373,6 +395,28 @@ export function getURLQueries(url: string): { [key: string]: string } {
 }
 
 /**
+ * Get URL query string.
+ *
+ * @param {string} url
+ */
+export function getURLQueryString(url: string): string | undefined {
+  const urlParsed = URLBuilder.parse(url);
+  return urlParsed.getQuery();
+}
+
+/**
+ * Set URL query string.
+ *
+ * @param {string} url
+ * @param {string} queryString
+ */
+export function setURLQueries(url: string, queryString: string): string {
+  const urlParsed = URLBuilder.parse(url);
+  urlParsed.setQuery(queryString);
+  return urlParsed.toString();
+}
+
+/**
  * Rounds a date off to seconds.
  *
  * @export
@@ -446,7 +490,7 @@ export function generateBlockID(blockIDPrefix: string, blockIndex: number): stri
  * @param {Error} [abortError]
  */
 export async function delay(timeInMs: number, aborter?: AbortSignalLike, abortError?: Error) {
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     let timeout: any;
 
     const abortHandler = () => {

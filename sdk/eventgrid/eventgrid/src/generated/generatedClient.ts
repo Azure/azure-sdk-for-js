@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 import * as Parameters from "./models/parameters";
-import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
 import {
@@ -17,7 +16,8 @@ import {
   CloudEvent
 } from "./models";
 
-class GeneratedClient extends GeneratedClientContext {
+/** @hidden */
+export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
    * @param options The parameter options
@@ -37,11 +37,13 @@ class GeneratedClient extends GeneratedClientContext {
     events: EventGridEvent[],
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      topicHostname,
+      events,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.sendOperationRequest(
-      { topicHostname, events, options: operationOptions },
+      operationArguments,
       publishEventsOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -57,11 +59,13 @@ class GeneratedClient extends GeneratedClientContext {
     events: CloudEvent[],
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      topicHostname,
+      events,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.sendOperationRequest(
-      { topicHostname, events, options: operationOptions },
+      operationArguments,
       publishCloudEventEventsOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
@@ -77,17 +81,18 @@ class GeneratedClient extends GeneratedClientContext {
     events: any[],
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
+    const operationArguments: coreHttp.OperationArguments = {
+      topicHostname,
+      events,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
     return this.sendOperationRequest(
-      { topicHostname, events, options: operationOptions },
+      operationArguments,
       publishCustomEventEventsOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const publishEventsOperationSpec: coreHttp.OperationSpec = {
@@ -122,13 +127,4 @@ const publishCustomEventEventsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.contentType],
   mediaType: "json",
   serializer
-};
-
-// Operation Specifications
-
-export {
-  GeneratedClient,
-  GeneratedClientContext,
-  Models as GeneratedModels,
-  Mappers as GeneratedMappers
 };

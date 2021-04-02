@@ -31,7 +31,12 @@ export const events: OperationParameter = {
     required: true,
     type: {
       name: "Sequence",
-      element: { type: { name: "Composite", className: "EventGridEvent" } }
+      element: {
+        type: {
+          name: "Composite",
+          className: "EventGridEvent"
+        }
+      }
     }
   }
 };
@@ -79,7 +84,12 @@ export const events1: OperationParameter = {
     required: true,
     type: {
       name: "Sequence",
-      element: { type: { name: "Composite", className: "CloudEvent" } }
+      element: {
+        type: {
+          name: "Composite",
+          className: "CloudEvent"
+        }
+      }
     }
   }
 };
@@ -91,7 +101,11 @@ export const events2: OperationParameter = {
     required: true,
     type: {
       name: "Sequence",
-      element: { type: { name: "any" } }
+      element: {
+        type: {
+          name: "any"
+        }
+      }
     }
   }
 };

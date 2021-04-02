@@ -54,11 +54,11 @@ export interface PollOperation<TState, TResult> {
   /**
    * Defines how to request the remote service for updates on the status of the long running operation.
    *
-   * It optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
+   * It optionally receives an object with an abortSignal property, from \@azure/abort-controller's AbortSignalLike.
    * Also optionally receives a "fireProgress" function, which, if called, is responsible for triggering the
    * poller's onProgress callbacks.
    *
-   * @param options Optional properties passed to the operation's update method.
+   * @param options - Optional properties passed to the operation's update method.
    */
   update(options?: {
     abortSignal?: AbortSignalLike;
@@ -68,11 +68,11 @@ export interface PollOperation<TState, TResult> {
   /**
    * Attempts to cancel the underlying operation.
    *
-   * It only optionally receives an object with an abortSignal property, from @azure/abort-controller's AbortSignalLike.
+   * It only optionally receives an object with an abortSignal property, from \@azure/abort-controller's AbortSignalLike.
    *
    * It returns a promise that should be resolved with an updated version of the poller's operation.
    *
-   * @param options Optional properties passed to the operation's update method.
+   * @param options - Optional properties passed to the operation's update method.
    */
   cancel(options?: { abortSignal?: AbortSignalLike }): Promise<PollOperation<TState, TResult>>;
 

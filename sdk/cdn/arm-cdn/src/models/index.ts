@@ -621,7 +621,7 @@ export interface RemoteAddressMatchConditionParameters {
    * semantics. If any of them match the variable with the given operator this match condition is
    * considered a match.
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -653,7 +653,7 @@ export interface RequestMethodMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
 }
 
 /**
@@ -686,7 +686,7 @@ export interface QueryStringMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -714,7 +714,7 @@ export interface PostArgsMatchConditionParameters {
   /**
    * Name of PostArg to be matched
    */
-  selector: string;
+  selector?: string;
   /**
    * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
    * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
@@ -727,7 +727,7 @@ export interface PostArgsMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -764,7 +764,7 @@ export interface RequestUriMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -792,7 +792,7 @@ export interface RequestHeaderMatchConditionParameters {
   /**
    * Name of Header to be matched
    */
-  selector: string;
+  selector?: string;
   /**
    * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
    * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
@@ -805,7 +805,7 @@ export interface RequestHeaderMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -842,7 +842,7 @@ export interface RequestBodyMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -874,7 +874,7 @@ export interface RequestSchemeMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
 }
 
 /**
@@ -908,7 +908,7 @@ export interface UrlPathMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -945,7 +945,7 @@ export interface UrlFileExtensionMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -982,7 +982,7 @@ export interface UrlFileNameMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -1014,7 +1014,7 @@ export interface HttpVersionMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
 }
 
 /**
@@ -1038,7 +1038,7 @@ export interface CookiesMatchConditionParameters {
   /**
    * Name of Cookies to be matched
    */
-  selector: string;
+  selector?: string;
   /**
    * Describes operator to be matched. Possible values include: 'Any', 'Equal', 'Contains',
    * 'BeginsWith', 'EndsWith', 'LessThan', 'LessThanOrEqual', 'GreaterThan', 'GreaterThanOrEqual'
@@ -1051,7 +1051,7 @@ export interface CookiesMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -1083,7 +1083,7 @@ export interface IsDeviceMatchConditionParameters {
   /**
    * The match value for the condition of the delivery rule
    */
-  matchValues: string[];
+  matchValues?: string[];
   /**
    * List of transforms
    */
@@ -1704,7 +1704,7 @@ export interface KeyVaultCertificateSourceParameters {
   /**
    * The version(GUID) of Key Vault Secret in Key Vault.
    */
-  secretVersion: string;
+  secretVersion?: string;
 }
 
 /**

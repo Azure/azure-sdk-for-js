@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A4c3fdd89a82d4657a4f6aef1d3fe5d39%40thread.v2/readreceipts",
+   "url": "https://endpoint/chat/threads/19%3Af89f0dd73c0e418fab41e6a68dede24c%40thread.v2/readreceipts",
    "query": {
     "api-version": "2020-09-21-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"value\":[{\"senderId\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-9058-ac00-343a0d000042\",\"chatMessageId\":\"1600132543672\",\"readOn\":\"2020-09-15T01:15:44Z\"}]}",
+   "response": "{\"value\":[{\"senderId\":\"8:acs:ec403bbc-89a0-4037-a140-7ed471abd0e5_00000007-db1b-dc6c-6032-3b3a0d0048e5\",\"chatMessageId\":\"1611606412024\",\"readOn\":\"2021-01-25T20:26:54Z\"}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "98d27d0624d3b4d36960b0a2b122ceb8"
+ "hash": "358b84270f60dad292e8171b4a10d550"
 }

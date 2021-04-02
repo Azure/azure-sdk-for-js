@@ -8,7 +8,7 @@
 package-name: azure-communication-administration-phoneNumber
 override-client-name: PhoneNumberRestClient
 description: Phone number configuration client
-package-version: 1.0.0-beta.1
+package-version: 1.0.0-beta.4
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/phoneNumber/generated
@@ -16,7 +16,9 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/257f060
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10
-use: "@microsoft.azure/autorest.typescript@5.0.1"
+use-extension:
+  "@autorest/typescript": "6.0.0-dev.20200623.2"
+add-credentials: false
 azure-arm: false
 ```
 
@@ -40,4 +42,18 @@ directive:
   - rename-model:
       from: PhoneNumberSearch
       to: PhoneNumberReservation
+```
+
+### Fix body params on POST and PATCH to be required
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths[*].post.parameters[?(@.in == "body" && @.name == "body")]
+    transform: >
+      $.required = true;
+  - from: swagger-document
+    where: $.paths[*].patch.parameters[?(@.in == "body" && @.name == "body")]
+    transform: >
+      $.required = true;
 ```

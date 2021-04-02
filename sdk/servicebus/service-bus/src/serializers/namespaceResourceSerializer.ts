@@ -43,7 +43,6 @@ export interface NamespaceProperties {
 
 /**
  * @internal
- * @ignore
  * Builds the namespace object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawNamespace
@@ -66,7 +65,6 @@ export function buildNamespace(rawNamespace: any): NamespaceProperties {
 
 /**
  * @internal
- * @ignore
  * Atom XML Serializer for Namespaces.
  */
 export class NamespaceResourceSerializer implements AtomXmlSerializer {

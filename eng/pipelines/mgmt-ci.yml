@@ -13,7 +13,6 @@ trigger:
       - sdk/communication/communication-sms/
       - sdk/core/abort-controller/
       - sdk/core/core-amqp/
-      - sdk/core/core-arm/
       - sdk/core/core-asynciterator-polyfill/
       - sdk/core/core-auth/
       - sdk/core/core-client/

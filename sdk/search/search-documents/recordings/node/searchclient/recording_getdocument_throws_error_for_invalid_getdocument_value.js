@@ -7,19 +7,21 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/indexes(%27hotel-live-test1%27)/docs(%27garbxyz%27)')
   .query(true)
-  .reply(404, "", [ 'Cache-Control',
+  .reply(404, "", [
+  'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Expires',
   '-1',
   'request-id',
-  'f088a8e1-14ac-40f8-b627-1d6fa4f134e1',
+  'afe19624-6fce-49f3-a38a-0415696deeee',
   'elapsed-time',
-  '7',
+  '12',
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 04 Nov 2020 08:16:03 GMT',
+  'Fri, 22 Jan 2021 00:07:45 GMT',
   'Content-Length',
-  '0' ]);
+  '0'
+]);

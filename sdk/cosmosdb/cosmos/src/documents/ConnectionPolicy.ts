@@ -24,7 +24,7 @@ export interface ConnectionPolicy {
 }
 
 /**
- * @ignore
+ * @hidden
  */
 export const defaultConnectionPolicy = Object.freeze({
   connectionMode: ConnectionMode.Gateway,

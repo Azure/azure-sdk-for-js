@@ -29,7 +29,7 @@ module.exports = function(config) {
       "karma-ie-launcher",
       "karma-env-preprocessor",
       "karma-coverage",
-      "karma-remap-istanbul",
+      "karma-sourcemap-loader",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
       "karma-json-preprocessor"
@@ -47,7 +47,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env"],
+      "**/*.js": ["sourcemap", "env"],
       "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
@@ -60,6 +60,7 @@ module.exports = function(config) {
       "FORM_RECOGNIZER_API_KEY",
       "FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL",
       "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL",
+      "FORM_RECOGNIZER_SELECTION_MARK_STORAGE_CONTAINER_SAS_URL",
       "FORM_RECOGNIZER_TARGET_RESOURCE_ID",
       "FORM_RECOGNIZER_TARGET_RESOURCE_REGION",
       "AZURE_CLIENT_ID",
@@ -70,22 +71,17 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit", "json-to-file"],
+    reporters: ["mocha", "coverage", "junit", "json-to-file"],
 
     coverageReporter: {
       // specify a common output directory
       dir: "coverage-browser/",
-      reporters: [{ type: "json", subdir: ".", file: "coverage.json" }]
-    },
-
-    remapIstanbulReporter: {
-      src: "coverage-browser/coverage.json",
-      reports: {
-        lcovonly: "coverage-browser/lcov.info",
-        html: "coverage-browser/html/report",
-        "text-summary": null,
-        cobertura: "./coverage-browser/cobertura-coverage.xml"
-      }
+      reporters: [
+        { type: "json", subdir: ".", file: "coverage.json" },
+        { type: "lcovonly", subdir: ".", file: "lcov.info" },
+        { type: "html", subdir: "html" },
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
+      ]
     },
 
     junitReporter: {

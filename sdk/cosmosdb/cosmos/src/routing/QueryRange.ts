@@ -16,7 +16,7 @@ export class QueryRange {
    * @param {string} rangeMin                - max
    * @param {boolean} isMinInclusive         - isMinInclusive
    * @param {boolean} isMaxInclusive         - isMaxInclusive
-   * @ignore
+   * @hidden
    */
   constructor(
     rangeMin: string,
@@ -67,7 +67,7 @@ export class QueryRange {
   /**
    * Parse a QueryRange from a partitionKeyRange
    * @returns QueryRange
-   * @ignore
+   * @hidden
    */
   public static parsePartitionKeyRange(partitionKeyRange: any) {
     // TODO: paritionkeyrange
@@ -81,7 +81,7 @@ export class QueryRange {
   /**
    * Parse a QueryRange from a dictionary
    * @returns QueryRange
-   * @ignore
+   * @hidden
    */
   public static parseFromDict(queryRangeDict: any) {
     // TODO: queryRangeDictionary

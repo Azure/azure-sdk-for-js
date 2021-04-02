@@ -10,7 +10,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
    * result it returns 'payload' item of the result
    * @constructor OrderByEndpointComponent
    * @param {object} executionContext              - Underlying Execution Context
-   * @ignore
+   * @hidden
    */
   constructor(private executionContext: ExecutionContext) {}
   /**

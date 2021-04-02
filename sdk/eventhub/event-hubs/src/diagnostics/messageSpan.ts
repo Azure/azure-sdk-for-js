@@ -7,7 +7,6 @@ import { EventHubConnectionConfig } from "../eventhubConnectionConfig";
 
 /**
  * @internal
- * @ignore
  */
 export function createMessageSpan(
   parentSpan?: Span | SpanContext | null,

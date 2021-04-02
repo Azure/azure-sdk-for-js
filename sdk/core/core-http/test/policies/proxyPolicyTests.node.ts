@@ -66,8 +66,8 @@ describe("ProxyPolicy (node)", function() {
     });
 
     it("should not assign proxy settings to the web request when noProxyList contain request url", async () => {
-      let request = new WebResource();
-      let policy = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
+      const request = new WebResource();
+      const policy = new ProxyPolicy(emptyRequestPolicy, emptyPolicyOptions, proxySettings);
       request.url = "http://foo.com";
       await policy.sendRequest(request);
       should().not.exist(request.proxySettings);
@@ -113,10 +113,10 @@ describe("getDefaultProxySettings", () => {
 
     it("should return settings with passed port", () => {
       const port = 3030;
-      const proxyUrl = "prot://proxy.microsoft.com";
-      const proxyUrlWithPort = `${proxyUrl}:${port}`;
+      const proxyUrlWithProt = "prot://proxy.microsoft.com";
+      const proxyUrlWithPort = `${proxyUrlWithProt}:${port}`;
       const proxySettings: ProxySettings = getDefaultProxySettings(proxyUrlWithPort)!;
-      proxySettings.host.should.equal(proxyUrl);
+      proxySettings.host.should.equal(proxyUrlWithProt);
       proxySettings.port.should.equal(port);
     });
 
@@ -188,11 +188,11 @@ describe("getDefaultProxySettings", () => {
       });
 
       it("should load settings from environment variables when no proxyUrl passed", () => {
-        const proxyUrl = "http://proxy.azure.com";
-        process.env[Constants.HTTP_PROXY] = proxyUrl;
+        const proxyUrlForAzure = "http://proxy.azure.com";
+        process.env[Constants.HTTP_PROXY] = proxyUrlForAzure;
         const proxySettings: ProxySettings = getDefaultProxySettings()!;
 
-        proxySettings.host.should.equal(proxyUrl);
+        proxySettings.host.should.equal(proxyUrlForAzure);
         proxySettings.port.should.equal(defaultPort);
       });
 

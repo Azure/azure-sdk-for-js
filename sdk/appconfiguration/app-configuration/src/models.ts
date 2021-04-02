@@ -244,7 +244,7 @@ export interface ListSettingsOptions extends OptionalFields {
    *    | abc*         | Matches key names that start with abc |
    *
    * These characters are reserved and must be prefixed with backslash in order
-   * to be specified: * or \ or ,
+   * to be specified: * or \\ or ,
    */
   keyFilter?: string;
 
@@ -262,7 +262,7 @@ export interface ListSettingsOptions extends OptionalFields {
    *    | prod*        | Matches key with label names that start with prod |
    *
    * These characters are reserved and must be prefixed with backslash in order
-   * to be specified: * or \ or ,
+   * to be specified: * or \\ or ,
    */
   labelFilter?: string;
 }

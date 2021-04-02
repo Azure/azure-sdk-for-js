@@ -52,7 +52,6 @@ import { defaultDataTransformer } from "../dataTransformer";
 
 /**
  * @internal
- * @ignore
  */
 export interface SendManagementRequestOptions extends SendRequestOptions {
   /**
@@ -131,7 +130,6 @@ export interface CorrelationRuleFilter {
 
 /**
  * @internal
- * @ignore
  */
 const correlationProperties = [
   "correlationId",
@@ -147,7 +145,6 @@ const correlationProperties = [
 
 /**
  * @internal
- * @ignore
  * Options to set when updating the disposition status
  */
 export interface DispositionStatusOptions extends OperationOptionsBase {
@@ -174,7 +171,6 @@ export interface DispositionStatusOptions extends OperationOptionsBase {
 
 /**
  * @internal
- * @ignore
  * Options passed to the constructor of ManagementClient
  */
 export interface ManagementClientOptions {
@@ -184,7 +180,6 @@ export interface ManagementClientOptions {
 
 /**
  * @internal
- * @ignore
  * @class ManagementClient
  * Describes the ServiceBus Management Client that talks
  * to the $management endpoint over AMQP connection.
@@ -301,29 +296,34 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     internalLogger: ServiceBusLogger,
     sendRequestOptions: SendManagementRequestOptions = {}
   ): Promise<RheaMessage> {
+    if (request.message_id == undefined) {
+      request.message_id = generate_uuid();
+    }
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
-    const actionAfterTimeout = () => {
+    const actionAfterTimeout = (reject: (reason?: any) => void) => {
       const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
       const e: Error = {
         name: "OperationTimeoutError",
         message: desc
       };
 
-      throw e;
+      reject(e);
     };
 
-    const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
+    let waitTimer: ReturnType<typeof setTimeout>;
+    const operationTimeout = new Promise<void>((_, reject) => {
+      waitTimer = setTimeout(() => actionAfterTimeout(reject), retryTimeoutInMs);
+    });
     internalLogger.verbose(`${this.logPrefix} Acquiring lock to get the management req res link.`);
 
     try {
       if (!this.isOpen()) {
-        await this._init(sendRequestOptions?.abortSignal);
+        await Promise.race([this._init(sendRequestOptions?.abortSignal), operationTimeout]);
       }
     } finally {
-      clearTimeout(waitTimer);
+      clearTimeout(waitTimer!);
     }
 
     // time taken by the init operation

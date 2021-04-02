@@ -6,7 +6,6 @@ import { LoadBalancingStrategy, listAvailablePartitions } from "./loadBalancingS
 
 /**
  * @internal
- * @ignore
  */
 export class GreedyLoadBalancingStrategy implements LoadBalancingStrategy {
   /**

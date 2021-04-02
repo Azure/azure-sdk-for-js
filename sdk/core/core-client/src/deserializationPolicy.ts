@@ -12,10 +12,15 @@ import {
   OperationRequest,
   OperationResponseMap,
   FullOperationResponse,
-  OperationSpec
+  OperationSpec,
+  SerializerOptions,
+  XmlOptions,
+  XML_CHARKEY,
+  RequiredSerializerOptions
 } from "./interfaces";
 import { MapperTypeNames } from "./serializer";
 import { isStreamOperation } from "./interfaceHelpers";
+import { getOperationRequestInfo } from "./operationHelpers";
 
 const defaultJsonContentTypes = ["application/json", "text/json"];
 const defaultXmlContentTypes = ["application/xml", "application/atom+xml"];
@@ -38,7 +43,12 @@ export interface DeserializationPolicyOptions {
   /**
    * A function that is able to parse XML. Required for XML support.
    */
-  parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>;
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>;
+
+  /**
+   * Configures behavior of xml parser and builder.
+   */
+  serializerOptions?: SerializerOptions;
 }
 
 /**
@@ -66,12 +76,26 @@ export function deserializationPolicy(options: DeserializationPolicyOptions = {}
   const jsonContentTypes = options.expectedContentTypes?.json ?? defaultJsonContentTypes;
   const xmlContentTypes = options.expectedContentTypes?.xml ?? defaultXmlContentTypes;
   const parseXML = options.parseXML;
+  const serializerOptions = options.serializerOptions;
+  const updatedOptions: RequiredSerializerOptions = {
+    xml: {
+      rootName: serializerOptions?.xml.rootName ?? "",
+      includeRoot: serializerOptions?.xml.includeRoot ?? false,
+      xmlCharKey: serializerOptions?.xml.xmlCharKey ?? XML_CHARKEY
+    }
+  };
 
   return {
     name: deserializationPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const response = await next(request);
-      return deserializeResponseBody(jsonContentTypes, xmlContentTypes, response, parseXML);
+      return deserializeResponseBody(
+        jsonContentTypes,
+        xmlContentTypes,
+        response,
+        updatedOptions,
+        parseXML
+      );
     }
   };
 }
@@ -81,12 +105,13 @@ function getOperationResponseMap(
 ): undefined | OperationResponseMap {
   let result: OperationResponseMap | undefined;
   const request: OperationRequest = parsedResponse.request;
-  const operationSpec = request.additionalInfo?.operationSpec;
+  const operationInfo = getOperationRequestInfo(request);
+  const operationSpec = operationInfo?.operationSpec;
   if (operationSpec) {
-    if (!request.additionalInfo?.operationResponseGetter) {
+    if (!operationInfo?.operationResponseGetter) {
       result = operationSpec.responses[parsedResponse.status];
     } else {
-      result = request.additionalInfo?.operationResponseGetter(operationSpec, parsedResponse);
+      result = operationInfo?.operationResponseGetter(operationSpec, parsedResponse);
     }
   }
   return result;
@@ -94,7 +119,8 @@ function getOperationResponseMap(
 
 function shouldDeserializeResponse(parsedResponse: PipelineResponse): boolean {
   const request: OperationRequest = parsedResponse.request;
-  const shouldDeserialize = request.additionalInfo?.shouldDeserialize;
+  const operationInfo = getOperationRequestInfo(request);
+  const shouldDeserialize = operationInfo?.shouldDeserialize;
   let result: boolean;
   if (shouldDeserialize === undefined) {
     result = true;
@@ -110,14 +136,22 @@ async function deserializeResponseBody(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   response: PipelineResponse,
-  parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>
+  options: RequiredSerializerOptions,
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>
 ): Promise<PipelineResponse> {
-  const parsedResponse = await parse(jsonContentTypes, xmlContentTypes, response, parseXML);
+  const parsedResponse = await parse(
+    jsonContentTypes,
+    xmlContentTypes,
+    response,
+    options,
+    parseXML
+  );
   if (!shouldDeserializeResponse(parsedResponse)) {
     return parsedResponse;
   }
 
-  const operationSpec = parsedResponse.request.additionalInfo?.operationSpec;
+  const operationInfo = getOperationRequestInfo(parsedResponse.request);
+  const operationSpec = operationInfo?.operationSpec;
   if (!operationSpec || !operationSpec.responses) {
     return parsedResponse;
   }
@@ -281,7 +315,8 @@ async function parse(
   jsonContentTypes: string[],
   xmlContentTypes: string[],
   operationResponse: FullOperationResponse,
-  parseXML?: (str: string, opts?: { includeRoot?: boolean }) => Promise<any>
+  opts: RequiredSerializerOptions,
+  parseXML?: (str: string, opts?: XmlOptions) => Promise<any>
 ): Promise<FullOperationResponse> {
   if (!operationResponse.request.streamResponseBody && operationResponse.bodyAsText) {
     const text = operationResponse.bodyAsText;
@@ -301,7 +336,7 @@ async function parse(
         if (!parseXML) {
           throw new Error("Parsing XML not supported.");
         }
-        const body = await parseXML(text);
+        const body = await parseXML(text, opts.xml);
         operationResponse.parsedBody = body;
         return operationResponse;
       }

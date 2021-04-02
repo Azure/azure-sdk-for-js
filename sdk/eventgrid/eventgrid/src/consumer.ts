@@ -54,7 +54,7 @@ export class EventGridConsumer {
   /**
    * Deserializes events encoded in the Event Grid schema.
    *
-   * @param encodedEvents the JSON encoded representation of either a single event or an array of
+   * @param encodedEvents - the JSON encoded representation of either a single event or an array of
    * events, encoded in the Event Grid Schema.
    */
   public async deserializeEventGridEvents(
@@ -64,7 +64,7 @@ export class EventGridConsumer {
   /**
    * Deserializes events encoded in the Event Grid schema.
    *
-   * @param encodedEvents an object representing a single event, encoded in the Event Grid schema.
+   * @param encodedEvents - an object representing a single event, encoded in the Event Grid schema.
    */
   public async deserializeEventGridEvents(
     encodedEvents: object
@@ -98,7 +98,7 @@ export class EventGridConsumer {
   /**
    * Deserializes events encoded in the Cloud Events 1.0 schema.
    *
-   * @param encodedEvents the JSON encoded representation of either a single event or an array of
+   * @param encodedEvents - the JSON encoded representation of either a single event or an array of
    * events, encoded in the Cloud Events 1.0 Schema.
    */
   public async deserializeCloudEvents(encodedEvents: string): Promise<CloudEvent<unknown>[]>;
@@ -106,7 +106,7 @@ export class EventGridConsumer {
   /**
    * Deserializes events encoded in the Cloud Events 1.0 schema.
    *
-   * @param encodedEvents an object representing a single event, encoded in the Cloud Events 1.0 schema.
+   * @param encodedEvents - an object representing a single event, encoded in the Cloud Events 1.0 schema.
    */
   public async deserializeCloudEvents(encodedEvents: object): Promise<CloudEvent<unknown>[]>;
   public async deserializeCloudEvents(

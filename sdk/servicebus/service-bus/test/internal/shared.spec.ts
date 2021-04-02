@@ -60,6 +60,7 @@ describe("shared", () => {
       let messagingError = new MessagingError("hello");
       messagingError.code = unknownCode;
       let translatedError = translateServiceBusError(messagingError) as ServiceBusError;
+      const expectedMessage = unknownCode ? `${unknownCode}: hello` : "hello";
 
       assert.deepEqual(
         {
@@ -71,7 +72,7 @@ describe("shared", () => {
         {
           name: "ServiceBusError",
           code: "GeneralError",
-          message: messagingError.message,
+          message: expectedMessage,
           retryable: messagingError.retryable
         } as ServiceBusError,
         "The code should be intact and the reason code, since it matches our blessed list, should match."
@@ -139,7 +140,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
     [
       {
         body: "hello",
-        _amqpAnnotatedMessage: { body: "hello" }
+        _rawAmqpMessage: { body: "hello" }
       }
     ]
   ];
@@ -171,7 +172,7 @@ it("getMessageIterator doesn't yield empty responses", async () => {
       [
         {
           body: "hello",
-          _amqpAnnotatedMessage: { body: "hello" }
+          _rawAmqpMessage: { body: "hello" }
         }
       ],
       allReceivedMessages,

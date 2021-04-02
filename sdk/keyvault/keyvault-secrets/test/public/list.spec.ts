@@ -39,7 +39,7 @@ describe("Secret client - list secrets in various ways", () => {
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
   it("can purge all secrets", async function(): Promise<void> {
-    // WARNING: When TEST_MODE equals "record", all of the secrets in the indicated KEYVAULT_NAME will be deleted as part of this test.
+    // WARNING: When TEST_MODE equals "record", all of the secrets in the indicated KEYVAULT_URI will be deleted as part of this test.
     if (!isRecordMode()) {
       return this.skip();
     }

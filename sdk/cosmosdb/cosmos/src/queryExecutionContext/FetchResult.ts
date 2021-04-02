@@ -18,7 +18,7 @@ export class FetchResult {
    * @constructor DocumentProducer
    * @param {object} feedReponse                  - The response the document producer got back on a successful fetch
    * @param {object} error                        - The exception meant to be buffered on an unsuccessful fetch
-   * @ignore
+   * @hidden
    */
   constructor(feedResponse: any, error: any) {
     // TODO: feedResponse/error

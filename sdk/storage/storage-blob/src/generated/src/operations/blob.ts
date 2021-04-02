@@ -815,7 +815,8 @@ const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [
     Parameters.snapshot,
     Parameters.versionId,
-    Parameters.timeoutInSeconds
+    Parameters.timeoutInSeconds,
+    Parameters.blobDeleteType
   ],
   headerParameters: [
     Parameters.deleteSnapshots,
@@ -1551,7 +1552,8 @@ const getTagsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.ifTags
+    Parameters.ifTags,
+    Parameters.leaseId0
   ],
   responses: {
     200: {
@@ -1583,7 +1585,8 @@ const setTagsOperationSpec: coreHttp.OperationSpec = {
     Parameters.transactionalContentMD5,
     Parameters.transactionalContentCrc64,
     Parameters.requestId,
-    Parameters.ifTags
+    Parameters.ifTags,
+    Parameters.leaseId0
   ],
   requestBody: {
     parameterPath: [

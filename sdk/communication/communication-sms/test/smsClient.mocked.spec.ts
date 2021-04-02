@@ -12,7 +12,9 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
 import { SmsClient, SendRequest } from "../src/smsClient";
-import { SDK_VERSION } from "../src/constants";
+import { apiVersion } from "../src/generated/src/models/parameters";
+
+const API_VERSION = apiVersion.mapper.defaultValue;
 
 describe("[mocked] SmsClient", async () => {
   const baseUri = "https://contoso.api.fake:443";
@@ -57,7 +59,7 @@ describe("[mocked] SmsClient", async () => {
 
     const request = spy.getCall(0).args[0];
 
-    assert.equal(request.url, `${baseUri}/sms?api-version=${SDK_VERSION}`);
+    assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
     assert.deepEqual(JSON.parse(request.body), { ...sendRequest, sendSmsOptions: {} });
   });
@@ -79,7 +81,7 @@ describe("[mocked] SmsClient", async () => {
 
     const request = spy.getCall(0).args[0];
 
-    assert.equal(request.url, `${baseUri}/sms?api-version=${SDK_VERSION}`);
+    assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
     assert.deepEqual(JSON.parse(request.body), { ...sendRequest, sendSmsOptions: {} });
   });

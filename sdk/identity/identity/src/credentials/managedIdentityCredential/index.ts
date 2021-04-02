@@ -38,19 +38,19 @@ export class ManagedIdentityCredential implements TokenCredential {
    * Creates an instance of ManagedIdentityCredential with the client ID of a
    * user-assigned identity.
    *
-   * @param clientId The client ID of the user-assigned identity.
-   * @param options Options for configuring the client which makes the access token request.
+   * @param clientId - The client ID of the user-assigned identity.
+   * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
    *
-   * @param options Options for configuring the client which makes the access token request.
+   * @param options - Options for configuring the client which makes the access token request.
    */
   constructor(options?: TokenCredentialOptions);
   /**
    * @internal
-   * @ignore
+   * @hidden
    */
   constructor(
     clientIdOrOptions: string | TokenCredentialOptions | undefined,
@@ -128,8 +128,8 @@ export class ManagedIdentityCredential implements TokenCredential {
    * return null.  If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
+   * @param scopes - The list of scopes for which the token will have access.
+   * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
   public async getToken(

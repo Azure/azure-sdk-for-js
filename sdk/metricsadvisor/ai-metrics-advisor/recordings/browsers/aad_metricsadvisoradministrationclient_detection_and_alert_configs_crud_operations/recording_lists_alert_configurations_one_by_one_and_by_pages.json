@@ -1,0 +1,122 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:39:29 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11419.13 - KRSLR2 ProdSlices",
+    "x-ms-request-id": "2cc64aeb-a576-48fa-95d3-1903cfdd0100"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations",
+   "query": {},
+   "requestBody": "{\"name\":\"js-alert-config2-161116796985208933\",\"crossMetricsOperator\":\"OR\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"2055a18d-f09b-4a6c-943d-ecf6334f3844\",\"anomalyScopeType\":\"All\"}]}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "ffaa4141-7625-4002-85f9-a3158d28c11a",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:39:30 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/c09e7105-151b-4b8c-946c-f8d955afb914",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "63",
+    "x-request-id": "ffaa4141-7625-4002-85f9-a3158d28c11a"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/c09e7105-151b-4b8c-946c-f8d955afb914",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"anomalyAlertingConfigurationId\":\"c09e7105-151b-4b8c-946c-f8d955afb914\",\"name\":\"js-alert-config2-161116796985208933\",\"description\":\"\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"2055a18d-f09b-4a6c-943d-ecf6334f3844\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
+   "responseHeaders": {
+    "apim-request-id": "68611696-d52d-4031-805b-c3fb171dfb6c",
+    "content-length": "307",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:39:30 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "42",
+    "x-request-id": "68611696-d52d-4031-805b-c3fb171dfb6c"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/2055a18d-f09b-4a6c-943d-ecf6334f3844/alert/anomaly/configurations",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"anomalyAlertingConfigurationId\":\"941e35e2-bd98-42f5-bb0c-c1c55e55eb99\",\"name\":\"new alert config name\",\"description\":\"new alert config description\",\"crossMetricsOperator\":\"OR\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"2055a18d-f09b-4a6c-943d-ecf6334f3844\",\"anomalyScopeType\":\"TopN\",\"negationOperation\":false,\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}},{\"anomalyDetectionConfigurationId\":\"2055a18d-f09b-4a6c-943d-ecf6334f3844\",\"anomalyScopeType\":\"TopN\",\"negationOperation\":false,\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}}]},{\"anomalyAlertingConfigurationId\":\"c09e7105-151b-4b8c-946c-f8d955afb914\",\"name\":\"js-alert-config2-161116796985208933\",\"description\":\"\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"2055a18d-f09b-4a6c-943d-ecf6334f3844\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}]}",
+   "responseHeaders": {
+    "apim-request-id": "d7eb6ba2-90ce-4b26-a392-925d51d024a3",
+    "content-length": "909",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:39:30 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "59",
+    "x-request-id": "d7eb6ba2-90ce-4b26-a392-925d51d024a3"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/enrichment/anomalyDetection/configurations/2055a18d-f09b-4a6c-943d-ecf6334f3844/alert/anomaly/configurations",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"anomalyAlertingConfigurationId\":\"941e35e2-bd98-42f5-bb0c-c1c55e55eb99\",\"name\":\"new alert config name\",\"description\":\"new alert config description\",\"crossMetricsOperator\":\"OR\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"2055a18d-f09b-4a6c-943d-ecf6334f3844\",\"anomalyScopeType\":\"TopN\",\"negationOperation\":false,\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}},{\"anomalyDetectionConfigurationId\":\"2055a18d-f09b-4a6c-943d-ecf6334f3844\",\"anomalyScopeType\":\"TopN\",\"negationOperation\":false,\"topNAnomalyScope\":{\"top\":3,\"period\":4,\"minTopCount\":2}}]},{\"anomalyAlertingConfigurationId\":\"c09e7105-151b-4b8c-946c-f8d955afb914\",\"name\":\"js-alert-config2-161116796985208933\",\"description\":\"\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"2055a18d-f09b-4a6c-943d-ecf6334f3844\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}]}",
+   "responseHeaders": {
+    "apim-request-id": "6ecf3423-7e7e-4feb-b14a-b960bcda3423",
+    "content-length": "909",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:39:31 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "67",
+    "x-request-id": "6ecf3423-7e7e-4feb-b14a-b960bcda3423"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/c09e7105-151b-4b8c-946c-f8d955afb914",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "de07a8d8-40ae-4d16-8765-207ff5586173",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:39:31 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "49",
+    "x-request-id": "de07a8d8-40ae-4d16-8765-207ff5586173"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "js-alert-config2-": "js-alert-config2-161116796985208933"
+  },
+  "newDate": {}
+ },
+ "hash": "2461214a537e24726284d14928db6cfb"
+}

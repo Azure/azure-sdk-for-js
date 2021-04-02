@@ -11,7 +11,6 @@ import {
 import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
 import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
-import { KeepAlivePolicyOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import {
   ExponentialRetryPolicyOptions,
   exponentialRetryPolicy
@@ -20,22 +19,22 @@ import { tracingPolicy } from "./policies/tracingPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { proxyPolicy } from "./policies/proxyPolicy";
 import { isNode } from "./util/helpers";
 import { formDataPolicy } from "./policies/formDataPolicy";
-import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 
 /**
  * Policies are executed in phases.
  * The execution order is:
- * 1. Policies not in a phase
- * 2. Serialize Phase
- * 3. Retry Phase
+ * 1. Serialize Phase
+ * 2. Policies not in a phase
+ * 3. Deserialize Phase
+ * 4. Retry Phase
  */
-export type PipelinePhase = "Serialize" | "Retry";
+export type PipelinePhase = "Deserialize" | "Serialize" | "Retry";
 
-const ValidPhaseNames = new Set<PipelinePhase>(["Serialize", "Retry"]);
+const ValidPhaseNames = new Set<PipelinePhase>(["Deserialize", "Serialize", "Retry"]);
 
 /**
  * Options when adding a policy to the pipeline.
@@ -52,7 +51,6 @@ export interface AddPolicyOptions {
   afterPolicies?: string[];
   /**
    * The phase that this policy must come after.
-   * By default, policies without a phase occur first.
    */
   afterPhase?: PipelinePhase;
   /**
@@ -148,7 +146,7 @@ class HttpsPipeline implements Pipeline {
       throw new Error(`Invalid phase name: ${options.phase}`);
     }
     if (options.afterPhase && !ValidPhaseNames.has(options.afterPhase)) {
-      throw new Error(`Invalid phase name: ${options.afterPhase}`);
+      throw new Error(`Invalid afterPhase name: ${options.afterPhase}`);
     }
     this._policies.push({
       policy,
@@ -216,9 +214,10 @@ class HttpsPipeline implements Pipeline {
      *
      * Order is first determined by phase:
      *
-     * 1. Policies not in a phase
-     * 2. Serialize
-     * 3. Retry
+     * 1. Serialize Phase
+     * 2. Policies not in a phase
+     * 3. Deserialize Phase
+     * 4. Retry Phase
      *
      * Within each phase, policies are executed in the order
      * they were added unless they were specified to execute
@@ -249,9 +248,13 @@ class HttpsPipeline implements Pipeline {
     const policyMap: Map<string, PolicyGraphNode> = new Map<string, PolicyGraphNode>();
 
     // Track policies for each phase.
-    const noPhase = new Set<PolicyGraphNode>();
     const serializePhase = new Set<PolicyGraphNode>();
+    const noPhase = new Set<PolicyGraphNode>();
+    const deserializePhase = new Set<PolicyGraphNode>();
     const retryPhase = new Set<PolicyGraphNode>();
+
+    // a list of phases in order
+    const orderedPhases = [serializePhase, noPhase, deserializePhase, retryPhase];
 
     // Small helper function to map phase name to each Set bucket.
     function getPhase(phase: PipelinePhase | undefined): Set<PolicyGraphNode> {
@@ -259,6 +262,8 @@ class HttpsPipeline implements Pipeline {
         return retryPhase;
       } else if (phase === "Serialize") {
         return serializePhase;
+      } else if (phase === "Deserialize") {
+        return deserializePhase;
       } else {
         return noPhase;
       }
@@ -341,13 +346,33 @@ class HttpsPipeline implements Pipeline {
       }
     }
 
+    function walkPhases() {
+      let noPhaseRan = false;
+
+      for (const phase of orderedPhases) {
+        walkPhase(phase);
+        if (phase === noPhase) {
+          noPhaseRan = true;
+        }
+        // if the phase isn't complete
+        if (phase.size > 0 && phase !== noPhase) {
+          if (noPhaseRan === false) {
+            // Try running noPhase to see if that unblocks this phase next tick.
+            // This can happen if a phase that happens before noPhase
+            // is waiting on a noPhase policy to complete.
+            walkPhase(noPhase);
+          }
+          // Don't proceed to the next phase until this phase finishes.
+          return;
+        }
+      }
+    }
+
     // Iterate until we've put every node in the result list.
     while (policyMap.size > 0) {
       const initialResultLength = result.length;
       // Keep walking each phase in order until we can order every node.
-      walkPhase(noPhase);
-      walkPhase(serializePhase);
-      walkPhase(retryPhase);
+      walkPhases();
       // The result list *should* get at least one larger each time.
       // Otherwise, we're going to loop forever.
       if (result.length <= initialResultLength) {
@@ -365,16 +390,6 @@ class HttpsPipeline implements Pipeline {
  */
 export function createEmptyPipeline(): Pipeline {
   return HttpsPipeline.create();
-}
-
-/**
- * Options that allow configuring redirect behavior.
- */
-export interface PipelineRedirectOptions extends RedirectPolicyOptions {
-  /**
-   * If true, disables automatic following of redirects.
-   */
-  disable?: boolean;
 }
 
 /**
@@ -399,15 +414,9 @@ export interface PipelineOptions {
   proxyOptions?: ProxySettings;
 
   /**
-   * Options for how HTTP connections should be maintained for future
-   * requests.
-   */
-  keepAliveOptions?: KeepAlivePolicyOptions;
-
-  /**
    * Options for how redirect responses are handled.
    */
-  redirectOptions?: PipelineRedirectOptions;
+  redirectOptions?: RedirectPolicyOptions;
 
   /**
    * Options for adding user agent details to outgoing requests.
@@ -424,16 +433,6 @@ export interface InternalPipelineOptions extends PipelineOptions {
    * Options to configure request/response logging.
    */
   loggingOptions?: LogPolicyOptions;
-
-  /**
-   * Configure whether to decompress response according to Accept-Encoding header (node-fetch only)
-   */
-  decompressResponse?: boolean;
-
-  /**
-   * Send JSON Array payloads as NDJSON.
-   */
-  sendStreamingJson?: boolean;
 }
 
 /**
@@ -443,31 +442,19 @@ export interface InternalPipelineOptions extends PipelineOptions {
 export function createPipelineFromOptions(options: InternalPipelineOptions): Pipeline {
   const pipeline = HttpsPipeline.create();
 
-  if (options.sendStreamingJson) {
-    pipeline.addPolicy(ndJsonPolicy());
-  }
-
   if (isNode) {
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
-
-    if (options.decompressResponse === false) {
-      pipeline.addPolicy(disableResponseDecompressionPolicy());
-    }
+    pipeline.addPolicy(decompressResponsePolicy());
   }
 
   pipeline.addPolicy(formDataPolicy());
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
-  pipeline.addPolicy(keepAlivePolicy(options.keepAliveOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy());
   pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
   pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
-
-  if (!options.redirectOptions?.disable) {
-    pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
-  }
-
+  pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
 
   return pipeline;

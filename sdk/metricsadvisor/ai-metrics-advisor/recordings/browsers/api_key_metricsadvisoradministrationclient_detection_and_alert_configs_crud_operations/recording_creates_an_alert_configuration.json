@@ -1,0 +1,47 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations",
+   "query": {},
+   "requestBody": "{\"name\":\"js-alert-config-161116797944502943\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"c23a2260-1f79-433f-a35d-aa1b6248b7e6\",\"anomalyScopeType\":\"All\"},{\"anomalyDetectionConfigurationId\":\"c23a2260-1f79-433f-a35d-aa1b6248b7e6\",\"anomalyScopeType\":\"All\"}]}",
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "8587d062-87d9-4c65-b12e-e325fcd7ad3d",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:39:39 GMT",
+    "location": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/3f5b82e1-460f-4156-9250-031b8fa0bc1e",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "125",
+    "x-request-id": "8587d062-87d9-4c65-b12e-e325fcd7ad3d"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/3f5b82e1-460f-4156-9250-031b8fa0bc1e",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"anomalyAlertingConfigurationId\":\"3f5b82e1-460f-4156-9250-031b8fa0bc1e\",\"name\":\"js-alert-config-161116797944502943\",\"description\":\"alerting config description\",\"crossMetricsOperator\":\"AND\",\"hookIds\":[],\"metricAlertingConfigurations\":[{\"anomalyDetectionConfigurationId\":\"c23a2260-1f79-433f-a35d-aa1b6248b7e6\",\"anomalyScopeType\":\"All\",\"negationOperation\":false},{\"anomalyDetectionConfigurationId\":\"c23a2260-1f79-433f-a35d-aa1b6248b7e6\",\"anomalyScopeType\":\"All\",\"negationOperation\":false}]}",
+   "responseHeaders": {
+    "apim-request-id": "1159aabc-f01b-433d-a774-97e924c64934",
+    "content-length": "488",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:39:39 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "89",
+    "x-request-id": "1159aabc-f01b-433d-a774-97e924c64934"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "js-alert-config-": "js-alert-config-161116797944502943"
+  },
+  "newDate": {}
+ },
+ "hash": "32a9878e54cb03a6c033253ddc23efa5"
+}

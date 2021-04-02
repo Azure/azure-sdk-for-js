@@ -4,6 +4,6 @@
 import { createClientLogger, AzureLogger } from "@azure/logger";
 
 /**
- * The @azure/logger configuration for this package.
+ * The \@azure/logger configuration for this package.
  */
 export const logger: AzureLogger = createClientLogger("data-tables");

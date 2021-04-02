@@ -22,14 +22,19 @@ import {
   ContainerItem,
   ListContainersIncludeType,
   UserDelegationKeyModel,
-  ServiceFindBlobsByTagsSegmentResponse,
-  FilterBlobItem,
-  ContainerUndeleteResponse
+  ContainerUndeleteResponse,
+  FilterBlobSegmentModel,
+  ServiceFilterBlobsHeaders
 } from "./generatedModels";
 import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
-import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  appendToURLQuery,
+  extractConnectionStringParts,
+  toTags
+} from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
@@ -38,6 +43,12 @@ import { truncatedISO8061Date } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
 import { CommonOptions, StorageClient } from "./StorageClient";
+import { Tags } from "./models";
+import { AccountSASPermissions } from "./sas/AccountSASPermissions";
+import { SASProtocol } from "./sas/SASQueryParameters";
+import { SasIPRange } from "./sas/SasIPRange";
+import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
+import { AccountSASServices } from "./sas/AccountSASServices";
 
 /**
  * Options to configure the {@link BlobServiceClient.getProperties} operation.
@@ -162,34 +173,6 @@ interface ServiceListContainersSegmentOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the {@link BlobServiceClient.findBlobsByTagsSegment} operation.
- *
- * @interface ServiceFindBlobsByTagsSegmentOptions
- */
-interface ServiceFindBlobsByTagsSegmentOptions extends CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ServiceFindBlobsByTagsSegmentOptions
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * Specifies the maximum number of blobs
-   * to return. If the request does not specify maxPageSize, or specifies a
-   * value greater than 5000, the server will return up to 5000 items. Note
-   * that if the listing operation crosses a partition boundary, then the
-   * service will return a continuation token for retrieving the remainder of
-   * the results. For this reason, it is possible that the service will return
-   * fewer results than specified by maxPageSize, or than the default of 5000.
-   * @type {number}
-   * @memberof ServiceFindBlobsByTagsSegmentOptions
-   */
-  maxPageSize?: number;
-}
-
-/**
  * Options to configure the {@link BlobServiceClient.listContainers} operation.
  *
  * @export
@@ -225,6 +208,34 @@ export interface ServiceListContainersOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link BlobServiceClient.findBlobsByTagsSegment} operation.
+ *
+ * @interface ServiceFindBlobsByTagsSegmentOptions
+ */
+interface ServiceFindBlobsByTagsSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ServiceFindBlobsByTagsSegmentOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Specifies the maximum number of blobs
+   * to return. If the request does not specify maxPageSize, or specifies a
+   * value greater than 5000, the server will return up to 5000 items. Note
+   * that if the listing operation crosses a partition boundary, then the
+   * service will return a continuation token for retrieving the remainder of
+   * the results. For this reason, it is possible that the service will return
+   * fewer results than specified by maxPageSize, or than the default of 5000.
+   * @type {number}
+   * @memberof ServiceFindBlobsByTagsSegmentOptions
+   */
+  maxPageSize?: number;
+}
+
+/**
  * Options to configure the {@link BlobServiceClient.findBlobsByTags} operation.
  *
  * @export
@@ -240,6 +251,80 @@ export interface ServiceFindBlobByTagsOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
 }
+
+/**
+ * Blob info from a {@link BlobServiceClient.findBlobsByTags}
+ */
+export interface FilterBlobItem {
+  /**
+   * Blob Name.
+   *
+   * @type {string}
+   * @memberof FilterBlobItem
+   */
+  name: string;
+
+  /**
+   * Container Name.
+   *
+   * @type {string}
+   * @memberof FilterBlobItem
+   */
+  containerName: string;
+
+  /**
+   * Blob Tags.
+   *
+   * @type {Tags}
+   * @memberof FilterBlobItem
+   */
+  tags?: Tags;
+
+  /**
+   * Tag value.
+   *
+   * @deprecated The service no longer returns this value. Use {@link tags} to fetch all matching Blob Tags.
+   * @type {string}
+   * @memberof FilterBlobItem
+   */
+  tagValue: string;
+}
+
+/**
+ * Segment response of {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export interface FilterBlobSegment {
+  serviceEndpoint: string;
+  where: string;
+  blobs: FilterBlobItem[];
+  continuationToken?: string;
+}
+
+/**
+ * The response of {@link BlobServiceClient.findBlobsByTags} operation.
+ */
+export type ServiceFindBlobsByTagsSegmentResponse = FilterBlobSegment &
+  ServiceFilterBlobsHeaders & {
+    /**
+     * The underlying HTTP response.
+     */
+    _response: HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ServiceFilterBlobsHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FilterBlobSegmentModel;
+    };
+  };
 
 /**
  * A user delegation key.
@@ -345,6 +430,46 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
    * @memberof ServiceUndeleteContainerOptions
    */
   destinationContainerName?: string;
+}
+
+/**
+ * Options to configure {@link BlobServiceClient.generateAccountSasUrl} operation.
+ *
+ * @export
+ * @interface ServiceGenerateAccountSasUrlOptions
+ */
+export interface ServiceGenerateAccountSasUrlOptions {
+  /**
+   * The version of the service this SAS will target. If not specified, it will default to the version targeted by the
+   * library.
+   *
+   * @type {string}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  version?: string;
+
+  /**
+   * Optional. SAS protocols allowed.
+   *
+   * @type {SASProtocol}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  protocol?: SASProtocol;
+
+  /**
+   * Optional. When the SAS will take effect.
+   *
+   * @type {Date}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  startsOn?: Date;
+  /**
+   * Optional. IP range allowed.
+   *
+   * @type {SasIPRange}
+   * @memberof ServiceGenerateAccountSasUrlOptions
+   */
+  ipRange?: SasIPRange;
 }
 
 /**
@@ -819,20 +944,32 @@ export class BlobServiceClient extends StorageClient {
     marker?: string,
     options: ServiceFindBlobsByTagsSegmentOptions = {}
   ): Promise<ServiceFindBlobsByTagsSegmentResponse> {
-    // TODO: Rename response.blobs to response.blobItems?
     const { span, spanOptions } = createSpan(
       "BlobServiceClient-findBlobsByTagsSegment",
       options.tracingOptions
     );
 
     try {
-      return await this.serviceContext.filterBlobs({
+      const response = await this.serviceContext.filterBlobs({
         abortSignal: options.abortSignal,
         where: tagFilterSqlExpression,
         marker,
         maxPageSize: options.maxPageSize,
         spanOptions
       });
+
+      const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
+        ...response,
+        _response: response._response, // _response is made non-enumerable
+        blobs: response.blobs.map((blob) => {
+          let tagValue = "";
+          if (blob.tags?.blobTagSet.length === 1) {
+            tagValue = blob.tags.blobTagSet[0].value;
+          }
+          return { ...blob, tags: toTags(blob.tags), tagValue };
+        })
+      };
+      return wrappedResponse;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1267,5 +1404,51 @@ export class BlobServiceClient extends StorageClient {
    */
   public getBlobBatchClient(): BlobBatchClient {
     return new BlobBatchClient(this.url, this.pipeline);
+  }
+
+  /**
+   * Only available for BlobServiceClient constructed with a shared key credential.
+   *
+   * Generates a Blob account Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param {Date} expiresOn Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
+   * @param {AccountSASPermissions} [permissions=AccountSASPermissions.parse("r")] Specifies the list of permissions to be associated with the SAS.
+   * @param {string} [resourceTypes="sco"] Specifies the resource types associated with the shared access signature.
+   * @param {ServiceGenerateAccountSasUrlOptions} [options={}] Optional parameters.
+   * @returns {string} An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   * @memberof BlobServiceClient
+   */
+  public generateAccountSasUrl(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {}
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential"
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    const sas = generateAccountSASQueryParameters(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("b").toString(),
+        ...options
+      },
+      this.credential
+    ).toString();
+
+    return appendToURLQuery(this.url, sas);
   }
 }

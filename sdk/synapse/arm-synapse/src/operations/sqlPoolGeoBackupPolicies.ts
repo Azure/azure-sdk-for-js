@@ -26,6 +26,43 @@ export class SqlPoolGeoBackupPolicies {
   }
 
   /**
+   * Get list of SQL pool geo backup policies
+   * @summary List SQL pool geo backup policies
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlPoolGeoBackupPoliciesListResponse>
+   */
+  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolGeoBackupPoliciesListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, callback: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): void;
+  list(resourceGroupName: string, workspaceName: string, sqlPoolName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.GeoBackupPolicyListResult>, callback?: msRest.ServiceCallback<Models.GeoBackupPolicyListResult>): Promise<Models.SqlPoolGeoBackupPoliciesListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.SqlPoolGeoBackupPoliciesListResponse>;
+  }
+
+  /**
    * Get the specified SQL pool geo backup policy
    * @summary Get a SQL pool geo backup policy
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -65,6 +102,32 @@ export class SqlPoolGeoBackupPolicies {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/geoBackupPolicies",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.GeoBackupPolicyListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  serializer
+};
+
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/geoBackupPolicies/{geoBackupPolicyName}",
@@ -86,7 +149,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.GeoBackupPolicy
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorContract
     }
   },
   serializer

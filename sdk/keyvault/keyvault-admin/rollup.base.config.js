@@ -90,8 +90,7 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "azurekeyvaultadmin",
       globals: {
-        "@azure/core-http": "Azure.Core.HTTP",
-        "@azure/core-arm": "Azure.Core.ARM"
+        "@azure/core-http": "Azure.Core.HTTP"
       },
       sourcemap: true
     },
@@ -134,7 +133,7 @@ export function browserConfig(test = false) {
       json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
     );
     baseConfig.output.file = "dist-test/index.browser.js";
-    // mark fs-extra as external
+
     baseConfig.external = [];
     baseConfig.context = "null";
 

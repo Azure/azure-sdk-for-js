@@ -5,7 +5,6 @@
 
 /**
  * @internal
- * @ignore
  */
 export async function sha256Hmac(secret: string, stringToSign: string): Promise<string> {
   const key = await self.crypto.subtle.importKey(

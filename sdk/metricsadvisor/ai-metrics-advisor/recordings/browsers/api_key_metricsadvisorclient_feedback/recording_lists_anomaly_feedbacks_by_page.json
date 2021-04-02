@@ -1,0 +1,50 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/metricsadvisor/v1.0/feedback/metric/query",
+   "query": {
+    "$top": "2"
+   },
+   "requestBody": "{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"feedbackId\":\"b7cb7277-f8bd-4ec1-a4c0-b687a82e6fc3\",\"createdTime\":\"2021-01-20T18:41:05.284Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Comment\",\"startTime\":null,\"endTime\":null,\"value\":{\"commentValue\":\"This is a comment\"}},{\"feedbackId\":\"ada1a274-319a-4cb7-98c3-916d00ad83e2\",\"createdTime\":\"2021-01-20T18:41:04.113Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Period\",\"value\":{\"periodType\":\"AutoDetect\",\"periodValue\":4}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/feedback/metric/query?$top=2&$skip=2\"}",
+   "responseHeaders": {
+    "apim-request-id": "b123acc3-e711-45ff-ac30-0114d92f1046",
+    "content-length": "841",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:41:16 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "105",
+    "x-request-id": "b123acc3-e711-45ff-ac30-0114d92f1046"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint:443/metricsadvisor/v1.0/feedback/metric/query",
+   "query": {
+    "$top": "2",
+    "$skip": "2"
+   },
+   "requestBody": "{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\"}",
+   "status": 200,
+   "response": "{\"value\":[{\"feedbackId\":\"303f5dad-591c-494e-b298-d7812d50c658\",\"createdTime\":\"2021-01-20T18:41:02.951Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"ChangePoint\",\"startTime\":\"2020-08-05T00:00:00Z\",\"endTime\":\"2020-08-05T00:00:00Z\",\"value\":{\"changePointValue\":\"ChangePoint\"}},{\"feedbackId\":\"4c75adcd-78d5-4b62-84cc-5220ab0ea689\",\"createdTime\":\"2021-01-20T18:41:01.831Z\",\"userPrincipal\":\"kaghiya@microsoft.com\",\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimensionFilter\":{\"dimension\":{\"city\":\"Cairo\",\"category\":\"Home & Garden\"}},\"feedbackType\":\"Anomaly\",\"startTime\":\"2020-08-05T00:00:00Z\",\"endTime\":\"2020-08-07T00:00:00Z\",\"value\":{\"anomalyValue\":\"NotAnomaly\"},\"anomalyDetectionConfigurationId\":null,\"anomalyDetectionConfigurationSnapshot\":null}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/feedback/metric/query?$top=2&$skip=4\"}",
+   "responseHeaders": {
+    "apim-request-id": "a2148dd6-0c7c-4c46-bb59-1088facf2158",
+    "content-length": "1018",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:41:17 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "119",
+    "x-request-id": "a2148dd6-0c7c-4c46-bb59-1088facf2158"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a5a69a57ce5f0f1c05b6d2354d0739b0"
+}

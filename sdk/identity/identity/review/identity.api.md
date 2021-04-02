@@ -36,6 +36,7 @@ export interface AuthenticationRecord {
     authority?: string;
     environment: string;
     homeAccountId: string;
+    localAccountId: string;
     tenantId: string;
     username: string;
 }

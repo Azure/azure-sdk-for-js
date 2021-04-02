@@ -3,6 +3,7 @@
 
 import {
   createPipelineFromOptions,
+  InternalPipelineOptions,
   isTokenCredential,
   signingPolicy,
   TokenCredential
@@ -19,9 +20,16 @@ import { RestorePoller } from "./lro/restore/poller";
 import { SelectiveRestorePoller } from "./lro/selectiveRestore/poller";
 import { BackupOperationState } from "./lro/backup/operation";
 import { RestoreOperationState } from "./lro/restore/operation";
+import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
 import { SelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
+import { KeyVaultClientOptionalParams } from "./generated/models";
 
-export { BackupOperationState, RestoreOperationState, SelectiveRestoreOperationState };
+export {
+  BackupOperationState,
+  RestoreOperationState,
+  SelectiveRestoreOperationState,
+  KeyVaultAdminPollOperationState
+};
 
 /**
  * The KeyVaultBackupClient provides methods to generate backups
@@ -37,7 +45,7 @@ export class KeyVaultBackupClient {
 
   /**
    * @internal
-   * @ignore
+   * @hidden
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -55,9 +63,9 @@ export class KeyVaultBackupClient {
    *
    * let client = new KeyVaultBackupClient(vaultUrl, credentials);
    * ```
-   * @param vaultUrl the URL of the Key Vault. It should have this shape: https://${your-key-vault-name}.vault.azure.net
-   * @param credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param [pipelineOptions] Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
+   * @param vaultUrl - the URL of the Key Vault. It should have this shape: `https://${your-key-vault-name}.vault.azure.net`
+   * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
+   * @param pipelineOptions - Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     vaultUrl: string,
@@ -71,7 +79,6 @@ export class KeyVaultBackupClient {
     const userAgentOptions = pipelineOptions.userAgentOptions;
 
     pipelineOptions.userAgentOptions = {
-      ...pipelineOptions.userAgentOptions,
       userAgentPrefix:
         userAgentOptions && userAgentOptions.userAgentPrefix
           ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
@@ -82,27 +89,24 @@ export class KeyVaultBackupClient {
       ? challengeBasedAuthenticationPolicy(credential)
       : signingPolicy(credential);
 
-    const internalPipelineOptions = {
+    const internalPipelineOptions: InternalPipelineOptions = {
       ...pipelineOptions,
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          logPolicyOptions: {
-            allowedHeaderNames: [
-              "x-ms-keyvault-region",
-              "x-ms-keyvault-network-info",
-              "x-ms-keyvault-service-version"
-            ]
-          }
-        }
+      loggingOptions: {
+        logger: logger.info,
+        allowedHeaderNames: [
+          "x-ms-keyvault-region",
+          "x-ms-keyvault-network-info",
+          "x-ms-keyvault-service-version"
+        ]
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient({
-      apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      ...pipeline
-    });
+    const params: KeyVaultClientOptionalParams = createPipelineFromOptions(
+      internalPipelineOptions,
+      authPolicy
+    );
+    params.apiVersion = pipelineOptions.serviceVersion || LATEST_API_VERSION;
+    this.client = new KeyVaultClient(params);
   }
 
   /**
@@ -131,10 +135,10 @@ export class KeyVaultBackupClient {
    * const backupUri = await poller.pollUntilDone();
    * console.log(backupUri);
    * ```
-   * @summary Starts a full backup operation.
-   * @param blobStorageUri The URL of the blob storage resource, including the path to the container where the backup will end up being stored.
-   * @param sasToken The SAS token.
-   * @param [options] The optional parameters.
+   * Starts a full backup operation.
+   * @param blobStorageUri - The URL of the blob storage resource, including the path to the container where the backup will end up being stored.
+   * @param sasToken - The SAS token.
+   * @param options - The optional parameters.
    */
   public async beginBackup(
     blobStorageUri: string,
@@ -191,11 +195,11 @@ export class KeyVaultBackupClient {
    * const backupUri = await poller.pollUntilDone();
    * console.log(backupUri);
    * ```
-   * @summary Starts a full restore operation.
-   * @param blobStorageUri The URL of the blob storage resource where the previous successful full backup was stored.
-   * @param sasToken The SAS token.
-   * @param folderName The folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
-   * @param [options] The optional parameters.
+   * Starts a full restore operation.
+   * @param blobStorageUri - The URL of the blob storage resource where the previous successful full backup was stored.
+   * @param sasToken - The SAS token.
+   * @param folderName - The folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
+   * @param options - The optional parameters.
    */
   public async beginRestore(
     blobStorageUri: string,
@@ -254,12 +258,12 @@ export class KeyVaultBackupClient {
    * // Waiting until it's done
    * await poller.pollUntilDone();
    * ```
-   * @summary Creates a new role assignment.
-   * @param blobStorageUri The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
-   * @param sasToken The SAS token.
-   * @param folderName The Folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
-   * @param keyName The name of the key that wants to be restored.
-   * @param [options] The optional parameters.
+   * Creates a new role assignment.
+   * @param blobStorageUri - The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
+   * @param sasToken - The SAS token.
+   * @param folderName - The Folder name of the blob where the previous successful full backup was stored. The URL segment after the container name.
+   * @param keyName - The name of the key that wants to be restored.
+   * @param options - The optional parameters.
    */
   public async beginSelectiveRestore(
     blobStorageUri: string,

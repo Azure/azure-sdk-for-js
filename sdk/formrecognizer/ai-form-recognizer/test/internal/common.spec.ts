@@ -95,6 +95,11 @@ describe("getContentType()", () => {
     assert.equal(result, "image/tiff");
   });
 
+  it("identifies ArrayBufferView of image/bmp", async () => {
+    const buffer = new Uint8Array([0x42, 0x4d, 0x36, 0x0d, 0x00, 0x00, 0x00, 0x00]);
+    assert.equal(await getContentType(buffer), "image/bmp");
+  });
+
   it("throws error with input of byte length less than 4", async () => {
     const buffer = new ArrayBuffer(2);
     const view = new Uint8Array(buffer);

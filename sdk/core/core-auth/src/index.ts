@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export { AzureKeyCredential, KeyCredential } from "./azureKeyCredential";
+export { AzureSASCredential, SASCredential } from "./azureSASCredential";
 
 export {
   TokenCredential,
@@ -9,3 +10,5 @@ export {
   AccessToken,
   isTokenCredential
 } from "./tokenCredential";
+
+export { SpanContext, SpanOptions } from "./tracing";

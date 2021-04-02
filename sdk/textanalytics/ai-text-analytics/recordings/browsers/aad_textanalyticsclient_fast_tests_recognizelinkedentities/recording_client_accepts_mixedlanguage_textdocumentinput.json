@@ -1,0 +1,51 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 22 Dec 2020 20:31:53 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11328.13 - SCUS ProdSlices",
+    "x-ms-request-id": "4196b33e-bb1e-4ffa-826f-88989d9e3100"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.1-preview.3/entities/linking",
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
+   "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"language\":\"es\"},{\"id\":\"5\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"language\":\"es\"}]}",
+   "status": 200,
+   "response": "{\"documents\":[{\"id\":\"1\",\"entities\":[{\"bingId\":\"5fbba6b8-85e1-4d41-9444-d9055436e473\",\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":26,\"length\":7,\"confidenceScore\":0.21}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"f8dd5b08-206d-2554-6e4a-893f51f4de7e\",\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":65,\"length\":12,\"confidenceScore\":0.42}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"bingId\":\"5fbba6b8-85e1-4d41-9444-d9055436e473\",\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":50,\"length\":7,\"confidenceScore\":0.2}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"},{\"bingId\":\"f8dd5b08-206d-2554-6e4a-893f51f4de7e\",\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":90,\"length\":12,\"confidenceScore\":0.36}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"bingId\":\"296617ab-4ddb-cc10-beba-56e0f42af76b\",\"name\":\"Saturday\",\"matches\":[{\"text\":\"Saturday\",\"offset\":25,\"length\":8,\"confidenceScore\":0.05}],\"language\":\"en\",\"id\":\"Saturday\",\"url\":\"https://en.wikipedia.org/wiki/Saturday\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"4\",\"entities\":[{\"bingId\":\"9ae3e6ca-81ea-6fa1-ffa0-42e1d7890906\",\"name\":\"Monte Rainier\",\"matches\":[{\"text\":\"Monte Rainier\",\"offset\":29,\"length\":13,\"confidenceScore\":0.81}],\"language\":\"es\",\"id\":\"Monte Rainier\",\"url\":\"https://es.wikipedia.org/wiki/Monte_Rainier\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"5\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-02-01\"}",
+   "responseHeaders": {
+    "apim-request-id": "b286f69b-0ce3-48db-9db9-588efa97ab5a",
+    "content-type": "application/json; charset=utf-8",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5",
+    "date": "Tue, 22 Dec 2020 20:31:53 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "187"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "b5c0ae977c3351ee69ce813f9c6c7b2d"
+}

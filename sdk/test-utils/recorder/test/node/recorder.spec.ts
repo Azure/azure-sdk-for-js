@@ -1,8 +1,8 @@
 import { RecorderEnvironmentSetup, delay, stripNewLines } from "../../src/utils";
 import { record, TestContext, TestContextInterface, TestContextTest } from "../../src";
+
+import { expect } from "chai";
 import MD5 from "md5";
-import chai from "chai";
-const { expect } = chai;
 
 const expectedHttpResponse = "Hello World!";
 const emptyFunction = () => {};

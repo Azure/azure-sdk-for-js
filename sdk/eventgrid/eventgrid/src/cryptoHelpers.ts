@@ -5,7 +5,6 @@ import { createHmac } from "crypto";
 
 /**
  * @internal
- * @ignore
  */
 export async function sha256Hmac(secret: string, stringToSign: string): Promise<string> {
   const decodedSecret = Buffer.from(secret, "base64");

@@ -18,7 +18,7 @@ const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 const documents = [
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
   "I need to take my cat to the veterinarian.",
-  "I will travel to South America in the summer.",
+  "I will travel to South America in the summer."
 ];
 
 export async function main() {
@@ -31,9 +31,9 @@ export async function main() {
   for (const result of results) {
     console.log(`- Document ${result.id}`);
     if (!result.error) {
-      console.log("  Key phrases:");
+      console.log("\tKey phrases:");
       for (const phrase of result.keyPhrases) {
-        console.log(`    ${phrase}`);
+        console.log(`\t- ${phrase}`);
       }
     } else {
       console.error("  Error:", result.error);

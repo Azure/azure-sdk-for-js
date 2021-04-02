@@ -1,0 +1,44 @@
+{
+ "recordings": [
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/7d15bcf9-b229-4356-b1cd-145b5759de6a",
+   "query": {},
+   "requestBody": "{\"hookType\":\"Webhook\",\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\"}}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "f75f6e46-7ac0-483d-a518-4de44f9be512",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:42:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "573",
+    "x-request-id": "f75f6e46-7ac0-483d-a518-4de44f9be512"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/7d15bcf9-b229-4356-b1cd-145b5759de6a",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"hookId\":\"7d15bcf9-b229-4356-b1cd-145b5759de6a\",\"hookName\":\"js-test-webHook-161116815711803040\",\"hookType\":\"Webhook\",\"externalLink\":\"\",\"description\":\"description\",\"admins\":[\"kaghiya@microsoft.com\"],\"hookParameter\":{\"endpoint\":\"https://httpbin.org/post\",\"username\":\"user1\",\"password\":\"pass123\",\"headers\":{},\"certificateKey\":\"\",\"certificatePassword\":\"\"}}",
+   "responseHeaders": {
+    "apim-request-id": "f189acf7-7690-4050-b036-ca40f2a44dc5",
+    "content-length": "353",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:42:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "160",
+    "x-request-id": "f189acf7-7690-4050-b036-ca40f2a44dc5"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "c898bf0c7ba2cc97b135c95a641c2c74"
+}

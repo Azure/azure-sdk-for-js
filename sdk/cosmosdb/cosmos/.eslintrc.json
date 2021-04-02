@@ -9,6 +9,8 @@
     "@typescript-eslint/no-extraneous-class": "error",
     "dot-notation": "off",
     "some-rule": "off",
+    "@azure/azure-sdk/ts-package-json-module": "warn",
+    "@azure/azure-sdk/ts-package-json-types": "warn",
     "@typescript-eslint/tslint/config": [
       "error",
       {

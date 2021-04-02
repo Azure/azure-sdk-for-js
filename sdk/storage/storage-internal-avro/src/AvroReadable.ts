@@ -22,5 +22,5 @@ export interface AvroReadableReadOptions {
 
 export abstract class AvroReadable {
   public abstract get position(): number;
-  public abstract async read(size: number, options?: AvroReadableReadOptions): Promise<Uint8Array>;
+  public abstract read(size: number, options?: AvroReadableReadOptions): Promise<Uint8Array>;
 }

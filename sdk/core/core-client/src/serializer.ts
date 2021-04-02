@@ -12,7 +12,11 @@ import {
   CompositeMapper,
   PolymorphicDiscriminator,
   EnumMapper,
-  BaseMapper
+  BaseMapper,
+  SerializerOptions,
+  XML_CHARKEY,
+  XML_ATTRKEY,
+  RequiredSerializerOptions
 } from "./interfaces";
 
 class SerializerImpl implements Serializer {
@@ -95,9 +99,23 @@ class SerializerImpl implements Serializer {
    *
    * @param {string} objectName Name of the serialized object
    *
+   * @param {options} options additional options to serialization
+   *
    * @returns {object|string|Array|number|boolean|Date|stream} A valid serialized Javascript object
    */
-  serialize(mapper: Mapper, object: any, objectName?: string): any {
+  serialize(
+    mapper: Mapper,
+    object: any,
+    objectName?: string,
+    options: SerializerOptions = { xml: {} }
+  ): any {
+    const updatedOptions: RequiredSerializerOptions = {
+      xml: {
+        rootName: options.xml.rootName ?? "",
+        includeRoot: options.xml.includeRoot ?? false,
+        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY
+      }
+    };
     let payload: any = {};
     const mapperType = mapper.type.name as string;
     if (!objectName) {
@@ -159,7 +177,8 @@ class SerializerImpl implements Serializer {
           mapper as SequenceMapper,
           object,
           objectName,
-          Boolean(this.isXML)
+          Boolean(this.isXML),
+          updatedOptions
         );
       } else if (mapperType.match(/^Dictionary$/i) !== null) {
         payload = serializeDictionaryType(
@@ -167,7 +186,8 @@ class SerializerImpl implements Serializer {
           mapper as DictionaryMapper,
           object,
           objectName,
-          Boolean(this.isXML)
+          Boolean(this.isXML),
+          updatedOptions
         );
       } else if (mapperType.match(/^Composite$/i) !== null) {
         payload = serializeCompositeType(
@@ -175,7 +195,8 @@ class SerializerImpl implements Serializer {
           mapper as CompositeMapper,
           object,
           objectName,
-          Boolean(this.isXML)
+          Boolean(this.isXML),
+          updatedOptions
         );
       }
     }
@@ -191,9 +212,23 @@ class SerializerImpl implements Serializer {
    *
    * @param {string} objectName Name of the deserialized object
    *
+   * @param options Controls behavior of XML parser and builder.
+   *
    * @returns {object|string|Array|number|boolean|Date|stream} A valid deserialized Javascript object
    */
-  deserialize(mapper: Mapper, responseBody: any, objectName: string): any {
+  deserialize(
+    mapper: Mapper,
+    responseBody: any,
+    objectName: string,
+    options: SerializerOptions = { xml: {} }
+  ): any {
+    const updatedOptions: RequiredSerializerOptions = {
+      xml: {
+        rootName: options.xml.rootName ?? "",
+        includeRoot: options.xml.includeRoot ?? false,
+        xmlCharKey: options.xml.xmlCharKey ?? XML_CHARKEY
+      }
+    };
     if (responseBody === undefined || responseBody === null) {
       if (this.isXML && mapper.type.name === "Sequence" && !mapper.xmlIsWrapped) {
         // Edge case for empty XML non-wrapped lists. xml2js can't distinguish
@@ -215,16 +250,23 @@ class SerializerImpl implements Serializer {
     }
 
     if (mapperType.match(/^Composite$/i) !== null) {
-      payload = deserializeCompositeType(this, mapper as CompositeMapper, responseBody, objectName);
+      payload = deserializeCompositeType(
+        this,
+        mapper as CompositeMapper,
+        responseBody,
+        objectName,
+        updatedOptions
+      );
     } else {
       if (this.isXML) {
+        const xmlCharKey = updatedOptions.xml.xmlCharKey;
         /**
          * If the mapper specifies this as a non-composite type value but the responseBody contains
-         * both header ("$") and body ("_") properties, then just reduce the responseBody value to
-         * the body ("_") property.
+         * both header ("$" i.e., XML_ATTRKEY) and body ("#" i.e., XML_CHARKEY) properties,
+         * then just reduce the responseBody value to the body ("#" i.e., XML_CHARKEY) property.
          */
-        if (responseBody["$"] !== undefined && responseBody["_"] !== undefined) {
-          responseBody = responseBody["_"];
+        if (responseBody[XML_ATTRKEY] !== undefined && responseBody[xmlCharKey] !== undefined) {
+          responseBody = responseBody[xmlCharKey];
         }
       }
 
@@ -252,13 +294,20 @@ class SerializerImpl implements Serializer {
       } else if (mapperType.match(/^Base64Url$/i) !== null) {
         payload = base64UrlToByteArray(responseBody);
       } else if (mapperType.match(/^Sequence$/i) !== null) {
-        payload = deserializeSequenceType(this, mapper as SequenceMapper, responseBody, objectName);
+        payload = deserializeSequenceType(
+          this,
+          mapper as SequenceMapper,
+          responseBody,
+          objectName,
+          updatedOptions
+        );
       } else if (mapperType.match(/^Dictionary$/i) !== null) {
         payload = deserializeDictionaryType(
           this,
           mapper as DictionaryMapper,
           responseBody,
-          objectName
+          objectName,
+          updatedOptions
         );
       }
     }
@@ -274,7 +323,7 @@ class SerializerImpl implements Serializer {
 /**
  * Method that creates and returns a Serializer.
  * @param modelMappers Known models to map
- * @param isXML If XML shuold be supported
+ * @param isXML If XML should be supported
  */
 export function createSerializer(
   modelMappers: { [key: string]: any } = {},
@@ -501,7 +550,8 @@ function serializeSequenceType(
   mapper: SequenceMapper,
   object: any,
   objectName: string,
-  isXml: boolean
+  isXml: boolean,
+  options: RequiredSerializerOptions
 ): any {
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
@@ -515,15 +565,18 @@ function serializeSequenceType(
   }
   const tempArray = [];
   for (let i = 0; i < object.length; i++) {
-    const serializedValue = serializer.serialize(elementType, object[i], objectName);
+    const serializedValue = serializer.serialize(elementType, object[i], objectName, options);
     if (isXml && elementType.xmlNamespace) {
       const xmlnsKey = elementType.xmlNamespacePrefix
         ? `xmlns:${elementType.xmlNamespacePrefix}`
         : "xmlns";
       if (elementType.type.name === "Composite") {
-        tempArray[i] = { ...serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
+        tempArray[i] = { ...serializedValue };
+        tempArray[i][XML_ATTRKEY] = { [xmlnsKey]: elementType.xmlNamespace };
       } else {
-        tempArray[i] = { _: serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
+        tempArray[i] = {};
+        tempArray[i][options.xml.xmlCharKey] = serializedValue;
+        tempArray[i][XML_ATTRKEY] = { [xmlnsKey]: elementType.xmlNamespace };
       }
     } else {
       tempArray[i] = serializedValue;
@@ -537,7 +590,8 @@ function serializeDictionaryType(
   mapper: DictionaryMapper,
   object: any,
   objectName: string,
-  isXml: boolean
+  isXml: boolean,
+  options: RequiredSerializerOptions
 ): any {
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
@@ -551,16 +605,17 @@ function serializeDictionaryType(
   }
   const tempDictionary: { [key: string]: any } = {};
   for (const key of Object.keys(object)) {
-    const serializedValue = serializer.serialize(valueType, object[key], objectName);
+    const serializedValue = serializer.serialize(valueType, object[key], objectName, options);
     // If the element needs an XML namespace we need to add it within the $ property
-    tempDictionary[key] = getXmlObjectValue(valueType, serializedValue, isXml);
+    tempDictionary[key] = getXmlObjectValue(valueType, serializedValue, isXml, options);
   }
 
   // Add the namespace to the root element if needed
   if (isXml && mapper.xmlNamespace) {
     const xmlnsKey = mapper.xmlNamespacePrefix ? `xmlns:${mapper.xmlNamespacePrefix}` : "xmlns";
-
-    return { ...tempDictionary, $: { [xmlnsKey]: mapper.xmlNamespace } };
+    const result = tempDictionary;
+    result[XML_ATTRKEY] = { [xmlnsKey]: mapper.xmlNamespace };
+    return result;
   }
 
   return tempDictionary;
@@ -647,7 +702,8 @@ function serializeCompositeType(
   mapper: CompositeMapper,
   object: any,
   objectName: string,
-  isXml: boolean
+  isXml: boolean,
+  options: RequiredSerializerOptions
 ): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, object, "clientName");
@@ -692,7 +748,10 @@ function serializeCompositeType(
           const xmlnsKey = mapper.xmlNamespacePrefix
             ? `xmlns:${mapper.xmlNamespacePrefix}`
             : "xmlns";
-          parentObject.$ = { ...parentObject.$, [xmlnsKey]: mapper.xmlNamespace };
+          parentObject[XML_ATTRKEY] = {
+            ...parentObject[XML_ATTRKEY],
+            [xmlnsKey]: mapper.xmlNamespace
+          };
         }
         const propertyObjectName =
           propertyMapper.serializedName !== ""
@@ -712,16 +771,17 @@ function serializeCompositeType(
         const serializedValue = serializer.serialize(
           propertyMapper,
           toSerialize,
-          propertyObjectName
+          propertyObjectName,
+          options
         );
         if (serializedValue !== undefined && propName !== undefined && propName !== null) {
-          const value = getXmlObjectValue(propertyMapper, serializedValue, isXml);
+          const value = getXmlObjectValue(propertyMapper, serializedValue, isXml, options);
           if (isXml && propertyMapper.xmlIsAttribute) {
-            // $ is the key attributes are kept under in xml2js.
+            // XML_ATTRKEY, i.e., $ is the key attributes are kept under in xml2js.
             // This keeps things simple while preventing name collision
             // with names in user documents.
-            parentObject.$ = parentObject.$ || {};
-            parentObject.$[propName] = serializedValue;
+            parentObject[XML_ATTRKEY] = parentObject[XML_ATTRKEY] || {};
+            parentObject[XML_ATTRKEY][propName] = serializedValue;
           } else if (isXml && propertyMapper.xmlIsWrapped) {
             parentObject[propName] = { [propertyMapper.xmlElementName!]: value };
           } else {
@@ -740,7 +800,8 @@ function serializeCompositeType(
           payload[clientPropName] = serializer.serialize(
             additionalPropertiesMapper,
             object[clientPropName],
-            objectName + '["' + clientPropName + '"]'
+            objectName + '["' + clientPropName + '"]',
+            options
           );
         }
       }
@@ -751,7 +812,12 @@ function serializeCompositeType(
   return object;
 }
 
-function getXmlObjectValue(propertyMapper: Mapper, serializedValue: any, isXml: boolean) {
+function getXmlObjectValue(
+  propertyMapper: Mapper,
+  serializedValue: any,
+  isXml: boolean,
+  options: RequiredSerializerOptions
+) {
   if (!isXml || !propertyMapper.xmlNamespace) {
     return serializedValue;
   }
@@ -762,20 +828,30 @@ function getXmlObjectValue(propertyMapper: Mapper, serializedValue: any, isXml: 
   const xmlNamespace = { [xmlnsKey]: propertyMapper.xmlNamespace };
 
   if (["Composite"].includes(propertyMapper.type.name)) {
-    return { $: xmlNamespace, ...serializedValue };
+    if (serializedValue[XML_ATTRKEY]) {
+      return serializedValue;
+    } else {
+      const result: any = { ...serializedValue };
+      result[XML_ATTRKEY] = xmlNamespace;
+      return result;
+    }
   }
-  return { _: serializedValue, $: xmlNamespace };
+  const result: any = {};
+  result[options.xml.xmlCharKey] = serializedValue;
+  result[XML_ATTRKEY] = xmlNamespace;
+  return result;
 }
 
-function isSpecialXmlProperty(propertyName: string): boolean {
-  return ["$", "_"].includes(propertyName);
+function isSpecialXmlProperty(propertyName: string, options: RequiredSerializerOptions): boolean {
+  return [XML_ATTRKEY, options.xml.xmlCharKey].includes(propertyName);
 }
 
 function deserializeCompositeType(
   serializer: Serializer,
   mapper: CompositeMapper,
   responseBody: any,
-  objectName: string
+  objectName: string,
+  options: RequiredSerializerOptions
 ): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, responseBody, "serializedName");
@@ -803,7 +879,8 @@ function deserializeCompositeType(
           dictionary[headerKey.substring(headerCollectionPrefix.length)] = serializer.deserialize(
             (propertyMapper as DictionaryMapper).type.value,
             responseBody[headerKey],
-            propertyObjectName
+            propertyObjectName,
+            options
           );
         }
 
@@ -811,11 +888,12 @@ function deserializeCompositeType(
       }
       instance[key] = dictionary;
     } else if (serializer.isXML) {
-      if (propertyMapper.xmlIsAttribute && responseBody.$) {
+      if (propertyMapper.xmlIsAttribute && responseBody[XML_ATTRKEY]) {
         instance[key] = serializer.deserialize(
           propertyMapper,
-          responseBody.$[xmlName!],
-          propertyObjectName
+          responseBody[XML_ATTRKEY][xmlName!],
+          propertyObjectName,
+          options
         );
       } else {
         const propertyName = xmlElementName || xmlName || serializedName;
@@ -836,10 +914,20 @@ function deserializeCompositeType(
           */
           const wrapped = responseBody[xmlName!];
           const elementList = wrapped?.[xmlElementName!] ?? [];
-          instance[key] = serializer.deserialize(propertyMapper, elementList, propertyObjectName);
+          instance[key] = serializer.deserialize(
+            propertyMapper,
+            elementList,
+            propertyObjectName,
+            options
+          );
         } else {
           const property = responseBody[propertyName!];
-          instance[key] = serializer.deserialize(propertyMapper, property, propertyObjectName);
+          instance[key] = serializer.deserialize(
+            propertyMapper,
+            property,
+            propertyObjectName,
+            options
+          );
         }
       }
     } else {
@@ -874,12 +962,18 @@ function deserializeCompositeType(
       // paging
       if (Array.isArray(responseBody[key]) && modelProps[key].serializedName === "") {
         propertyInstance = responseBody[key];
-        instance = serializer.deserialize(propertyMapper, propertyInstance, propertyObjectName);
+        instance = serializer.deserialize(
+          propertyMapper,
+          propertyInstance,
+          propertyObjectName,
+          options
+        );
       } else if (propertyInstance !== undefined || propertyMapper.defaultValue !== undefined) {
         serializedValue = serializer.deserialize(
           propertyMapper,
           propertyInstance,
-          propertyObjectName
+          propertyObjectName,
+          options
         );
         instance[key] = serializedValue;
       }
@@ -903,7 +997,8 @@ function deserializeCompositeType(
         instance[responsePropName] = serializer.deserialize(
           additionalPropertiesMapper,
           responseBody[responsePropName],
-          objectName + '["' + responsePropName + '"]'
+          objectName + '["' + responsePropName + '"]',
+          options
         );
       }
     }
@@ -912,7 +1007,7 @@ function deserializeCompositeType(
       if (
         instance[key] === undefined &&
         !handledPropertyNames.includes(key) &&
-        !isSpecialXmlProperty(key)
+        !isSpecialXmlProperty(key, options)
       ) {
         instance[key] = responseBody[key];
       }
@@ -926,7 +1021,8 @@ function deserializeDictionaryType(
   serializer: Serializer,
   mapper: DictionaryMapper,
   responseBody: any,
-  objectName: string
+  objectName: string,
+  options: RequiredSerializerOptions
 ): any {
   /* jshint validthis: true */
   const value = mapper.type.value;
@@ -939,7 +1035,7 @@ function deserializeDictionaryType(
   if (responseBody) {
     const tempDictionary: { [key: string]: any } = {};
     for (const key of Object.keys(responseBody)) {
-      tempDictionary[key] = serializer.deserialize(value, responseBody[key], objectName);
+      tempDictionary[key] = serializer.deserialize(value, responseBody[key], objectName, options);
     }
     return tempDictionary;
   }
@@ -950,7 +1046,8 @@ function deserializeSequenceType(
   serializer: Serializer,
   mapper: SequenceMapper,
   responseBody: any,
-  objectName: string
+  objectName: string,
+  options: RequiredSerializerOptions
 ): any {
   /* jshint validthis: true */
   const element = mapper.type.element;
@@ -968,7 +1065,12 @@ function deserializeSequenceType(
 
     const tempArray = [];
     for (let i = 0; i < responseBody.length; i++) {
-      tempArray[i] = serializer.deserialize(element, responseBody[i], `${objectName}[${i}]`);
+      tempArray[i] = serializer.deserialize(
+        element,
+        responseBody[i],
+        `${objectName}[${i}]`,
+        options
+      );
     }
     return tempArray;
   }

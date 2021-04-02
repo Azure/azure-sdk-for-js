@@ -19,7 +19,6 @@ import { MessageAlreadySettled } from "../util/errors";
 
 /**
  * @internal
- * @ignore
  */
 export function assertValidMessageHandlers(handlers: any) {
   if (
@@ -35,7 +34,6 @@ export function assertValidMessageHandlers(handlers: any) {
 
 /**
  * @internal
- * @ignore
  */
 export async function* getMessageIterator(
   receiver: Pick<ServiceBusReceiver, "receiveMessages">,
@@ -54,7 +52,6 @@ export async function* getMessageIterator(
 
 /**
  * @internal
- * @ignore
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers, "processError">,
@@ -72,7 +69,6 @@ export function wrapProcessErrorHandler(
 
 /**
  * @internal
- * @ignore
  *
  * @param {ServiceBusMessageImpl} message
  * @param {ConnectionContext} context
@@ -93,7 +89,6 @@ export function completeMessage(
 
 /**
  * @internal
- * @ignore
  *
  * @param {ServiceBusMessageImpl} message
  * @param {ConnectionContext} context
@@ -118,7 +113,6 @@ export function abandonMessage(
 
 /**
  * @internal
- * @ignore
  *
  * @param {ServiceBusMessageImpl} message
  * @param {ConnectionContext} context
@@ -143,7 +137,6 @@ export function deferMessage(
 
 /**
  * @internal
- * @ignore
  *
  * @param {ServiceBusMessageImpl} message
  * @param {ConnectionContext} context
@@ -187,7 +180,6 @@ export function deadLetterMessage(
 
 /**
  * @internal
- * @ignore
  *
  * @param {ServiceBusMessageImpl} message
  * @param {DispositionType} operation

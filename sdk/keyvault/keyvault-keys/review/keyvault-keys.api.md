@@ -96,10 +96,10 @@ export interface DeletedKey {
 }
 
 // @public
-export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
+export type DeletionRecoveryLevel = string;
 
 // @public
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" | "A128GCM" | "A192GCM" | "A256GCM" | "A128KW" | "A192KW" | "A256KW" | "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+export type EncryptionAlgorithm = string;
 
 // @public
 export interface EncryptOptions extends KeyOperationsOptions {
@@ -179,10 +179,10 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
 }
 
 // @public
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+export type KeyCurveName = string;
 
 // @public
-export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey" | "import";
+export type KeyOperation = string;
 
 // @public
 export interface KeyOperationsOptions extends CryptographyOptions {
@@ -216,7 +216,7 @@ export interface KeyProperties {
 }
 
 // @public
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
+export type KeyType = string;
 
 // @public
 export interface KeyVaultKey {
@@ -238,6 +238,81 @@ export interface KeyVaultKeyId {
 
 // @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+
+// @public
+export const enum KnownDeletionRecoveryLevel {
+    CustomizedRecoverable = "CustomizedRecoverable",
+    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+    Purgeable = "Purgeable",
+    Recoverable = "Recoverable",
+    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+    RecoverablePurgeable = "Recoverable+Purgeable"
+}
+
+// @public
+export const enum KnownEncryptionAlgorithms {
+    A128CBC = "A128CBC",
+    A128Cbcpad = "A128CBCPAD",
+    A128GCM = "A128GCM",
+    A128KW = "A128KW",
+    A192CBC = "A192CBC",
+    A192Cbcpad = "A192CBCPAD",
+    A192GCM = "A192GCM",
+    A192KW = "A192KW",
+    A256CBC = "A256CBC",
+    A256Cbcpad = "A256CBCPAD",
+    A256GCM = "A256GCM",
+    A256KW = "A256KW",
+    RSA15 = "RSA1_5",
+    RSAOaep = "RSA-OAEP",
+    RSAOaep256 = "RSA-OAEP-256"
+}
+
+// @public
+export const enum KnownKeyCurveNames {
+    P256 = "P-256",
+    P256K = "P-256K",
+    P384 = "P-384",
+    P521 = "P-521"
+}
+
+// @public
+export const enum KnownKeyOperations {
+    Decrypt = "decrypt",
+    Encrypt = "encrypt",
+    Export = "export",
+    Import = "import",
+    Sign = "sign",
+    UnwrapKey = "unwrapKey",
+    Verify = "verify",
+    WrapKey = "wrapKey"
+}
+
+// @public
+export const enum KnownKeyTypes {
+    EC = "EC",
+    ECHSM = "EC-HSM",
+    Oct = "oct",
+    OctHSM = "oct-HSM",
+    RSA = "RSA",
+    RSAHSM = "RSA-HSM"
+}
+
+// @public
+export const enum KnownSignatureAlgorithms {
+    ES256 = "ES256",
+    ES256K = "ES256K",
+    ES384 = "ES384",
+    ES512 = "ES512",
+    PS256 = "PS256",
+    PS384 = "PS384",
+    PS512 = "PS512",
+    RS256 = "RS256",
+    RS384 = "RS384",
+    RS512 = "RS512",
+    Rsnull = "RSNULL"
+}
 
 // @public
 export interface ListDeletedKeysOptions extends coreHttp.OperationOptions {
@@ -288,7 +363,7 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export type SignatureAlgorithm = "PS256" | "PS384" | "PS512" | "RS256" | "RS384" | "RS512" | "ES256" | "ES384" | "ES512" | "ES256K";
+export type SignatureAlgorithm = string;
 
 // @public
 export interface SignOptions extends CryptographyOptions {

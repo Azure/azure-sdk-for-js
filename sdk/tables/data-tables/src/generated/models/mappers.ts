@@ -28,7 +28,10 @@ export const TableQueryResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "TableResponseProperties" }
+            type: {
+              name: "Composite",
+              className: "TableResponseProperties"
+            }
           }
         }
       }
@@ -178,7 +181,10 @@ export const TableEntityQueryResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Dictionary", value: { type: { name: "any" } } }
+            type: {
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
           }
         }
       }
@@ -286,7 +292,12 @@ export const TableServiceProperties: coreHttp.CompositeMapper = {
         xmlElementName: "CorsRule",
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "CorsRule" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "CorsRule"
+            }
+          }
         }
       }
     }
@@ -453,7 +464,9 @@ export const CorsRule: coreHttp.CompositeMapper = {
         }
       },
       maxAgeInSeconds: {
-        constraints: {},
+        constraints: {
+          InclusiveMinimum: 0
+        },
         serializedName: "MaxAgeInSeconds",
         required: true,
         xmlName: "MaxAgeInSeconds",

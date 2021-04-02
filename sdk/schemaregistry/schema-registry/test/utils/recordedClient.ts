@@ -23,10 +23,11 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "azure_tenant_id",
-  SCHEMA_REGISTRY_ENDPOINT: "https://endpoint/"
+  SCHEMA_REGISTRY_ENDPOINT: "https://endpoint",
+  SCHEMA_REGISTRY_GROUP: "group"
 };
 
-const testEnv = new Proxy(replaceableVariables, {
+export const testEnv = new Proxy(replaceableVariables, {
   get: (target, key: string) => {
     return env[key] || target[key];
   }

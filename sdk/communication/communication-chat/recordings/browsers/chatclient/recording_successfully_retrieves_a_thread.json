@@ -2,13 +2,13 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/chat/threads/19%3A4c3fdd89a82d4657a4f6aef1d3fe5d39%40thread.v2",
+   "url": "https://endpoint/chat/threads/19%3Af89f0dd73c0e418fab41e6a68dede24c%40thread.v2",
    "query": {
     "api-version": "2020-09-21-preview2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"19:4c3fdd89a82d4657a4f6aef1d3fe5d39@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2020-09-15T01:15:42Z\",\"createdBy\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-9058-ac00-343a0d000042\",\"members\":[{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-9058-ac00-343a0d000042\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-9170-ac00-343a0d000043\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
+   "response": "{\"id\":\"19:f89f0dd73c0e418fab41e6a68dede24c@thread.v2\",\"topic\":\"test topic\",\"createdOn\":\"2021-01-25T20:26:49Z\",\"createdBy\":\"8:acs:ec403bbc-89a0-4037-a140-7ed471abd0e5_00000007-db1b-dc6c-6032-3b3a0d0048e5\",\"members\":[{\"id\":\"8:acs:ec403bbc-89a0-4037-a140-7ed471abd0e5_00000007-db1b-dc6c-6032-3b3a0d0048e5\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"},{\"id\":\"8:acs:ec403bbc-89a0-4037-a140-7ed471abd0e5_00000007-db1b-e2b3-6032-3b3a0d0048e6\",\"shareHistoryTime\":\"1970-01-01T00:00:00Z\"}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

@@ -91,7 +91,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<any>} The state of that session
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while retrieving session state.
+   * @throws `ServiceBusError` if the service returns an error while retrieving session state.
    */
   getSessionState(options?: OperationOptionsBase): Promise<any>;
 
@@ -101,7 +101,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
    * @param state The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while setting the session state.
+   * @throws `ServiceBusError` if the service returns an error while setting the session state.
    *
    * @param {*} state
    * @returns {Promise<void>}
@@ -111,7 +111,6 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 
 /**
  * @internal
- * @ignore
  */
 export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver {
   public sessionId: string;
@@ -208,7 +207,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<Date> - New lock token expiry date and time in UTC format.
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while renewing session lock.
+   * @throws `ServiceBusError` if the service returns an error while renewing session lock.
    */
   async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
@@ -239,7 +238,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @param state The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while setting the session state.
+   * @throws `ServiceBusError` if the service returns an error while setting the session state.
    */
   async setSessionState(state: any, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
@@ -271,7 +270,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<any> The state of that session
    * @throws Error if the underlying connection or receiver is closed.
-   * @throws MessagingError if the service returns an error while retrieving session state.
+   * @throws `ServiceBusError` if the service returns an error while retrieving session state.
    */
   async getSessionState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
@@ -466,7 +465,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
    * @returns void
    * @throws Error if the underlying connection or receiver is closed.
    * @throws Error if the receiver is already in state of receiving messages.
-   * @throws MessagingError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
+   * @throws `ServiceBusError` if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
    */
   private _registerMessageHandler(
     onMessage: OnMessage,

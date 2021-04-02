@@ -12,7 +12,6 @@ import { LoadBalancingStrategy, listAvailablePartitions } from "./loadBalancingS
  * by only returning a single partition to claim at a time.
  * This minimizes the number of times a partition should need to be stolen.
  * @internal
- * @ignore
  */
 export class BalancedLoadBalancingStrategy implements LoadBalancingStrategy {
   /**

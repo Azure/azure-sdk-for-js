@@ -368,6 +368,18 @@ export const duration: coreHttp.OperationParameter = {
     }
   }
 };
+export const enabledProtocols: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "enabledProtocols"
+  ],
+  mapper: {
+    serializedName: "x-ms-enabled-protocols",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const fileAttributes0: coreHttp.OperationParameter = {
   parameterPath: "fileAttributes",
   mapper: {
@@ -883,6 +895,23 @@ export const restype2: coreHttp.OperationQueryParameter = {
     defaultValue: 'directory',
     type: {
       name: "String"
+    }
+  }
+};
+export const rootSquash: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "rootSquash"
+  ],
+  mapper: {
+    serializedName: "x-ms-root-squash",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "NoRootSquash",
+        "RootSquash",
+        "AllSquash"
+      ]
     }
   }
 };

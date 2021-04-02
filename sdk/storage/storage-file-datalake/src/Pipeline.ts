@@ -202,8 +202,8 @@ export function newPipeline(
     telemetryPolicy,
     generateClientRequestIdPolicy(),
     new StorageBrowserPolicyFactory(),
+    new StorageRetryPolicyFactory(pipelineOptions.retryOptions), // Retry policy should be above any policy that throws retryable errors
     deserializationPolicy(), // Default deserializationPolicy is provided by protocol layer
-    new StorageRetryPolicyFactory(pipelineOptions.retryOptions),
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageDataLakeLoggingAllowedHeaderNames,
@@ -218,9 +218,25 @@ export function newPipeline(
   }
   factories.push(
     isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes)
+      ? attachCredential(
+          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          credential
+        )
       : credential
   );
 
   return new Pipeline(factories, pipelineOptions);
+}
+
+/**
+ * Attach a TokenCredential to an object.
+ *
+ * @export
+ * @param {T} thing
+ * @param {TokenCredential} credential
+ * @returns {T}
+ */
+function attachCredential<T>(thing: T, credential: TokenCredential): T {
+  (thing as any).credential = credential;
+  return thing;
 }

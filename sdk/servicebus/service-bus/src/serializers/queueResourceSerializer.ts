@@ -25,7 +25,6 @@ import {
 
 /**
  * @internal
- * @ignore
  * Builds the queue options object from the user provided options.
  * Handles the differences in casing for the property names,
  * converts values to string and ensures the right order as expected by the service
@@ -56,7 +55,6 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
 
 /**
  * @internal
- * @ignore
  * Builds the queue object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawQueue
@@ -114,7 +112,6 @@ export function buildQueue(rawQueue: any): QueueProperties {
 
 /**
  * @internal
- * @ignore
  * Builds the queue runtime info object from the raw json object gotten after deserializing the
  * response from the service
  * @param rawQueue
@@ -139,7 +136,9 @@ export interface CreateQueueOptions extends OperationOptions {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and available
-   * for consumption by the next receiver. Settable only at queue creation time.
+   * for consumption by the next receiver.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -282,7 +281,9 @@ export interface QueueProperties {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and available
-   * for consumption by the next receiver. Settable only at queue creation time.
+   * for consumption by the next receiver.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -411,7 +412,6 @@ export interface QueueProperties {
 }
 /**
  * @internal
- * @ignore
  * Internal representation of settable options on a queue
  */
 export interface InternalQueueOptions {
@@ -419,7 +419,8 @@ export interface InternalQueueOptions {
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and
    * can be consumed by the next receiver.
-   * Settable only at queue creation time.
+   * (If sessions are enabled, this lock duration is applicable for sessions and not for messages.)
+   *
    * This is to be specified in ISO-8601 duration format
    * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
    *
@@ -611,7 +612,6 @@ export interface QueueRuntimeProperties {
 
 /**
  * @internal
- * @ignore
  * Atom XML Serializer for Queues.
  */
 export class QueueResourceSerializer implements AtomXmlSerializer {

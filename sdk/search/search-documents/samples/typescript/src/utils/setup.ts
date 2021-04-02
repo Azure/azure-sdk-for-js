@@ -189,7 +189,8 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
     suggesters: [
       {
         name: "sg",
-        sourceFields: ["description", "hotelName"]
+        sourceFields: ["description", "hotelName"],
+        searchMode: "analyzingInfixMatching"
       }
     ],
     scoringProfiles: [

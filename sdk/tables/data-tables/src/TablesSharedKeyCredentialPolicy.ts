@@ -15,24 +15,15 @@ import { URL } from "./utils/url";
 
 /**
  * TablesSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
- *
- * @export
- * @class TablesSharedKeyCredentialPolicy
- * @extends {CredentialPolicy}
  */
 export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
   /**
    * Reference to {@link TablesSharedKeyCredential} which generates TablesSharedKeyCredentialPolicy
-   *
-   * @type {TablesSharedKeyCredential}
    */
   private readonly credential: TablesSharedKeyCredentialLike;
 
   /**
    * Creates an instance of TablesSharedKeyCredentialPolicy.
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @param {TablesSharedKeyCredential} factory
    */
   constructor(
     nextPolicy: RequestPolicy,
@@ -45,9 +36,6 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Sends out request.
-   *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
    */
   public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(this.signRequest(request));
@@ -55,10 +43,6 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
 
   /**
    * Signs request.
-   *
-   * @protected
-   * @param {WebResource} request
-   * @returns {WebResource}
    */
   public signRequest(request: WebResourceLike): WebResource {
     const headerValue = getAuthorizationHeader(request, this.credential);

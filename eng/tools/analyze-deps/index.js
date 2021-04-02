@@ -186,7 +186,7 @@ const dumpRushPackages = (rushPackages, internalPackages, external) => {
 };
 
 const resolveRushPackageDeps = (packages, internalPackages, pnpmLock, pkgId, external) => {
-  const yamlKey = `@rush-temp/${packages[pkgId].name.replace("@azure/", "")}`;
+  const yamlKey = `@rush-temp/${packages[pkgId].name.replace(/@[a-z]*\//i, "")}`;
   const packageKey = pnpmLock.dependencies[yamlKey];
   const resolvedDeps = pnpmLock.packages[packageKey].dependencies;
 
@@ -232,18 +232,18 @@ const main = async () => {
     prog: "analyze-deps",
     description: "Analyze dependencies in NodeJS packages."
   });
-  parser.addArgument("--verbose", { help: "verbose output", action: "storeTrue" });
-  parser.addArgument("--external", { help: "include external dependencies in the graph data", action: "storeTrue" });
-  parser.addArgument("--out", { metavar: "FILE", help: "write HTML-formatted report to FILE" });
-  parser.addArgument("--dump", { metavar: "FILE", help: "write JSONP-formatted dependency data to FILE" });
-  parser.addArgument("--packdir", {
+  parser.add_argument("--verbose", { help: "verbose output", action: "store_true" });
+  parser.add_argument("--external", { help: "include external dependencies in the graph data", action: "store_true" });
+  parser.add_argument("--out", { metavar: "FILE", help: "write HTML-formatted report to FILE" });
+  parser.add_argument("--dump", { metavar: "FILE", help: "write JSONP-formatted dependency data to FILE" });
+  parser.add_argument("--packdir", {
     metavar: "DIR",
     help: "analyze packed tarballs in DIR rather than source packages in this repository"
   });
   try {
 
 
-    const args = parser.parseArgs();
+    const args = parser.parse_args();
 
     const context = {
       packages: {},

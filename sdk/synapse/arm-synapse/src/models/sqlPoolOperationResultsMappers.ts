@@ -8,5 +8,7 @@
 
 export {
   discriminators,
-  CloudError
+  ErrorAdditionalInfo,
+  ErrorContract,
+  ErrorResponse
 } from "../models/mappers";

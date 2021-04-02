@@ -8,6 +8,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/privateLinkHubsMappers";
 import * as Parameters from "../models/parameters";
@@ -56,20 +57,20 @@ export class PrivateLinkHubs {
   /**
    * Gets a privateLinkHub
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkHubsGetResponse>
    */
   get(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param callback The callback
    */
   get(resourceGroupName: string, privateLinkHubName: string, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -87,34 +88,34 @@ export class PrivateLinkHubs {
 
   /**
    * Updates a privateLinkHub
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
    * @param privateLinkHubPatchInfo PrivateLinkHub patch request properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkHubsUpdateResponse>
    */
-  update(resourceGroupName: string, privateLinkHubName: string, privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsUpdateResponse>;
+  update(privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
    * @param privateLinkHubPatchInfo PrivateLinkHub patch request properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param callback The callback
    */
-  update(resourceGroupName: string, privateLinkHubName: string, privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
+  update(privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, resourceGroupName: string, privateLinkHubName: string, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
   /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
    * @param privateLinkHubPatchInfo PrivateLinkHub patch request properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, privateLinkHubName: string, privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
-  update(resourceGroupName: string, privateLinkHubName: string, privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>, callback?: msRest.ServiceCallback<Models.PrivateLinkHub>): Promise<Models.PrivateLinkHubsUpdateResponse> {
+  update(privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, resourceGroupName: string, privateLinkHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
+  update(privateLinkHubPatchInfo: Models.PrivateLinkHubPatchInfo, resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>, callback?: msRest.ServiceCallback<Models.PrivateLinkHub>): Promise<Models.PrivateLinkHubsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
+        privateLinkHubPatchInfo,
         resourceGroupName,
         privateLinkHubName,
-        privateLinkHubPatchInfo,
         options
       },
       updateOperationSpec,
@@ -123,34 +124,34 @@ export class PrivateLinkHubs {
 
   /**
    * Creates or updates a privateLinkHub
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
    * @param privateLinkHubInfo PrivateLinkHub create or update request properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkHubsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, privateLinkHubName: string, privateLinkHubInfo: Models.PrivateLinkHub, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsCreateOrUpdateResponse>;
+  createOrUpdate(privateLinkHubInfo: Models.PrivateLinkHub, resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkHubsCreateOrUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
    * @param privateLinkHubInfo PrivateLinkHub create or update request properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, privateLinkHubName: string, privateLinkHubInfo: Models.PrivateLinkHub, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
+  createOrUpdate(privateLinkHubInfo: Models.PrivateLinkHub, resourceGroupName: string, privateLinkHubName: string, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
   /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
    * @param privateLinkHubInfo PrivateLinkHub create or update request properties
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, privateLinkHubName: string, privateLinkHubInfo: Models.PrivateLinkHub, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
-  createOrUpdate(resourceGroupName: string, privateLinkHubName: string, privateLinkHubInfo: Models.PrivateLinkHub, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>, callback?: msRest.ServiceCallback<Models.PrivateLinkHub>): Promise<Models.PrivateLinkHubsCreateOrUpdateResponse> {
+  createOrUpdate(privateLinkHubInfo: Models.PrivateLinkHub, resourceGroupName: string, privateLinkHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkHub>): void;
+  createOrUpdate(privateLinkHubInfo: Models.PrivateLinkHub, resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkHub>, callback?: msRest.ServiceCallback<Models.PrivateLinkHub>): Promise<Models.PrivateLinkHubsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
+        privateLinkHubInfo,
         resourceGroupName,
         privateLinkHubName,
-        privateLinkHubInfo,
         options
       },
       createOrUpdateOperationSpec,
@@ -160,33 +161,13 @@ export class PrivateLinkHubs {
   /**
    * Deletes a privateLinkHub
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
+   * @param privateLinkHubName Name of the privateLinkHub
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, privateLinkHubName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param privateLinkHubName The name of the privateLinkHub
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, privateLinkHubName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        privateLinkHubName,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback);
+  deleteMethod(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,privateLinkHubName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -211,6 +192,24 @@ export class PrivateLinkHubs {
       },
       listOperationSpec,
       callback) as Promise<Models.PrivateLinkHubsListResponse>;
+  }
+
+  /**
+   * Deletes a privateLinkHub
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param privateLinkHubName Name of the privateLinkHub
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, privateLinkHubName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        privateLinkHubName,
+        options
+      },
+      beginDeleteMethodOperationSpec,
+      options);
   }
 
   /**
@@ -274,7 +273,7 @@ export class PrivateLinkHubs {
 const serializer = new msRest.Serializer(Mappers);
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHub",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName
@@ -290,7 +289,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkHubInfoListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorContract
     }
   },
   serializer
@@ -391,30 +390,6 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.privateLinkHubName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorContract
-    }
-  },
-  serializer
-};
-
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Synapse/privateLinkHubs",
@@ -432,7 +407,32 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkHubInfoListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  serializer
+};
+
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/privateLinkHubs/{privateLinkHubName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.privateLinkHubName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorContract
     }
   },
   serializer
@@ -456,7 +456,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkHubInfoListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorContract
     }
   },
   serializer
@@ -480,7 +480,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.PrivateLinkHubInfoListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorContract
     }
   },
   serializer

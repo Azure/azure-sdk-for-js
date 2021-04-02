@@ -9,7 +9,8 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
+  QueryCollectionFormat
 } from "@azure/core-http";
 import {
   TrainRequest as TrainRequestMapper,
@@ -59,18 +60,6 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const modelId: OperationURLParameter = {
   parameterPath: "modelId",
   mapper: {
@@ -101,6 +90,7 @@ export const contentType1: OperationParameter = {
       name: "Enum",
       allowedValues: [
         "application/pdf",
+        "image/bmp",
         "image/jpeg",
         "image/png",
         "image/tiff"
@@ -120,7 +110,7 @@ export const fileStream: OperationParameter = {
   }
 };
 
-export const accept2: OperationParameter = {
+export const accept1: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/json",
@@ -180,7 +170,7 @@ export const composeRequest: OperationParameter = {
   mapper: ComposeRequestMapper
 };
 
-export const accept3: OperationParameter = {
+export const accept2: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue: "application/json, text/json",
@@ -200,6 +190,35 @@ export const locale: OperationQueryParameter = {
       name: "String"
     }
   }
+};
+
+export const language: OperationQueryParameter = {
+  parameterPath: ["options", "language"],
+  mapper: {
+    serializedName: "language",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const pages: OperationQueryParameter = {
+  parameterPath: ["options", "pages"],
+  mapper: {
+    serializedName: "Pages",
+    type: {
+      name: "Sequence",
+      element: {
+        constraints: {
+          Pattern: new RegExp("(^[0-9]+-[0-9]+$)|(^[0-9]+$)")
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: QueryCollectionFormat.Csv
 };
 
 export const op: OperationQueryParameter = {

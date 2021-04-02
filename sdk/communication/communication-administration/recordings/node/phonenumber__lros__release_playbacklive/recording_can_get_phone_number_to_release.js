@@ -1,6 +1,6 @@
 let nock = require("nock");
 
-module.exports.hash = "eedc975deedee97de4ed28a5a0fa98a7";
+module.exports.hash = "d12b9869904001520b971b5ffc5b2a7a";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
@@ -22,14 +22,64 @@ nock("https://endpoint", { encodedQueryParams: true })
           ],
           availableCapabilities: [
             "UserAssignment",
-            "Geographic",
-            "Azure",
-            "Office365",
             "InboundCalling",
-            "OutboundCalling"
+            "OutboundCalling",
+            "Geographic",
+            "Office365",
+            "Azure"
           ],
           assignmentStatus: "Unassigned",
           placeName: "Birmingham, United States",
+          activationState: "Activated"
+        },
+        {
+          phoneNumber: "+18005551234",
+          acquiredCapabilities: [
+            "Azure",
+            "ThirdPartyAppAssignment",
+            "InboundA2PSms",
+            "OutboundA2PSms",
+            "TollFree"
+          ],
+          availableCapabilities: [
+            "Azure",
+            "Office365",
+            "InboundCalling",
+            "OutboundCalling",
+            "ThirdPartyAppAssignment",
+            "ConferenceAssignment",
+            "FirstPartyAppAssignment",
+            "TollFree",
+            "InboundA2PSms",
+            "OutboundA2PSms"
+          ],
+          assignmentStatus: "Unassigned",
+          placeName: "Toll-Free, United States",
+          activationState: "Activated"
+        },
+        {
+          phoneNumber: "+18005551234",
+          acquiredCapabilities: [
+            "Azure",
+            "ThirdPartyAppAssignment",
+            "InboundA2PSms",
+            "OutboundA2PSms",
+            "TollFree"
+          ],
+          availableCapabilities: [
+            "Azure",
+            "Office365",
+            "InboundCalling",
+            "OutboundCalling",
+            "ThirdPartyAppAssignment",
+            "ConferenceAssignment",
+            "FirstPartyAppAssignment",
+            "TollFree",
+            "InboundA2PSms",
+            "OutboundA2PSms"
+          ],
+          assignmentStatus: "Unassigned",
+          placeName: "Toll-Free, United States",
           activationState: "Activated"
         }
       ],
@@ -41,12 +91,12 @@ nock("https://endpoint", { encodedQueryParams: true })
       "Content-Type",
       "application/json; charset=utf-8",
       "MS-CV",
-      "vOjx38nhiEiq/Had2uQR2Q.0",
+      "OBnzY6dkB0WXFkoDrdF7Qw.0",
       "X-Processing-Time",
-      "396ms",
+      "472ms",
       "X-Azure-Ref",
-      "04zl+XwAAAACSi8VRbQPURJ+3BQaRmovRWVZSMzBFREdFMDQxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "03Iy4XwAAAACc6+B1uvi9SprOAMNMSvUVWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 07 Oct 2020 21:57:56 GMT"
+      "Sat, 21 Nov 2020 03:43:24 GMT"
     ]
   );

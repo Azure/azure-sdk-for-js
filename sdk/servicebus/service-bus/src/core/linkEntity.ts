@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Constants,
-  TokenType,
-  defaultLock,
-  RequestResponseLink,
-  MessagingError
-} from "@azure/core-amqp";
+import { Constants, TokenType, defaultLock, RequestResponseLink } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -22,10 +16,10 @@ import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
 import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
+import { ServiceBusError } from "../serviceBusError";
 
 /**
  * @internal
- * @ignore
  * Options passed to the constructor of LinkEntity
  */
 export interface LinkEntityOptions {
@@ -44,7 +38,6 @@ export interface LinkEntityOptions {
  * with the ManagementClient today.
  *
  * @internal
- * @ignore
  */
 export interface RequestResponseLinkOptions {
   senderOptions: SenderOptions;
@@ -54,7 +47,6 @@ export interface RequestResponseLinkOptions {
 
 /**
  * @internal
- * @ignore
  */
 export type ReceiverType =
   | "batching" // batching receiver
@@ -63,7 +55,6 @@ export type ReceiverType =
 
 /**
  * @internal
- * @ignore
  */
 type LinkOptionsT<
   LinkT extends Receiver | AwaitableSender | RequestResponseLink
@@ -77,7 +68,6 @@ type LinkOptionsT<
 
 /**
  * @internal
- * @ignore
  */
 type LinkTypeT<
   LinkT extends Receiver | AwaitableSender | RequestResponseLink
@@ -91,7 +81,6 @@ type LinkTypeT<
 
 /**
  * @internal
- * @ignore
  * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
  */
 export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestResponseLink> {
@@ -471,7 +460,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this._logger.verbose(
       `${this._logPrefix} Connection is reopening, aborting link initialization.`
     );
-    const err = new MessagingError("Connection is reopening, aborting link initialization.");
+    const err = new ServiceBusError(
+      "Connection is reopening, aborting link initialization.",
+      "GeneralError"
+    );
     err.retryable = true;
     throw err;
   }

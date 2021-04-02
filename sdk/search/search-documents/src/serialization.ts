@@ -24,6 +24,7 @@ export function deserialize<OutputT>(obj: unknown): OutputT {
 }
 
 function walk(start: unknown, mapper: (val: any) => any): any {
+  // eslint-disable-next-line @typescript-eslint/ban-types
   const seenMarker = new WeakMap<object, boolean>();
   const result = { value: undefined };
   const queue: { value: any; parent: any; key: string }[] = [

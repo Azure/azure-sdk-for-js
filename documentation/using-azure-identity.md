@@ -310,7 +310,7 @@ locally, you can also add a redirect URI for your development endpoint
 
 A complete example of hosting your own authentication response endpoint can be
 found in the [`authorization code
-sample`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/authorizationCodeSample.ts).
+sample`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/manual/authorizationCodeSample.ts).
 
 ### DefaultAzureCredential
 

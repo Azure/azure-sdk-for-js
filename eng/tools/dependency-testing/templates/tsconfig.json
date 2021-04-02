@@ -1,15 +1,17 @@
 {
-  "extends": "../../tsconfig.tests.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "dist"
   },
   "include": [
-    "./**/*.ts"
+    "./**/*.ts",
+    "../utils/**/*.ts"
   ],
   "exclude": [
     "*.json",
     "**/node_modules/",
     "../node_modules",
-    "../typings"
+    "../typings",
+    "**/browser"
   ]
 }

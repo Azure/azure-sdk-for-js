@@ -51,7 +51,7 @@ async function main() {
   );
   const client = new BlobServiceClient("https://myaccount.blob.core.windows.net/mycontainer/myblob", credential);
 
-  const containerClient = blobServiceClient.getContainerClient("<container-name>");
+  const containerClient = client.getContainerClient("<container-name>");
   const createContainerResponse = await containerClient.create();
   console.log(`Successfully created a container`, createContainerResponse.requestId);
 }

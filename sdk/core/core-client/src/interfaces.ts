@@ -11,10 +11,48 @@ import {
 } from "@azure/core-https";
 
 /**
- * This interface extends a generic `PipelineRequest` to include
- * additional metadata about the request.
+ * Default key used to access the XML attributes.
  */
-export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+export const XML_ATTRKEY = "$";
+/**
+ * Default key used to access the XML value content.
+ */
+export const XML_CHARKEY = "_";
+/**
+ * Options to govern behavior of xml parser and builder.
+ */
+export interface XmlOptions {
+  /**
+   * indicates the name of the root element in the resulting XML when building XML.
+   */
+  rootName?: string;
+  /**
+   * indicates whether the root element is to be included or not in the output when parsing XML.
+   */
+  includeRoot?: boolean;
+  /**
+   * key used to access the XML value content when parsing XML.
+   */
+  xmlCharKey?: string;
+}
+/**
+ * Options to configure serialization/de-serialization behavior.
+ */
+export interface SerializerOptions {
+  /**
+   * Options to configure xml parser/builder behavior.
+   */
+  xml: XmlOptions;
+}
+
+export type RequiredSerializerOptions = {
+  [K in keyof SerializerOptions]: Required<SerializerOptions[K]>;
+};
+
+/**
+ * A type alias for future proofing.
+ */
+export type OperationRequest = PipelineRequest;
 
 /**
  * Metadata that is used to properly parse a response.
@@ -24,6 +62,11 @@ export interface OperationRequestInfo {
    * Used to parse the response.
    */
   operationSpec?: OperationSpec;
+
+  /**
+   * Used to encode the request.
+   */
+  operationArguments?: OperationArguments;
 
   /**
    * A function that returns the proper OperationResponseMap for the given OperationSpec and
@@ -57,6 +100,17 @@ export interface OperationOptions {
    * Options used when tracing is enabled.
    */
   tracingOptions?: OperationTracingOptions;
+  /**
+   * Options to override serialization/de-serialization behavior.
+   */
+  serializerOptions?: SerializerOptions;
+
+  /**
+   * A function to be called each time a response is received from the server
+   * while performing the requested operation.
+   * May be called multiple times.
+   */
+  onResponse?: RawResponseCallback;
 }
 
 /**
@@ -100,7 +154,7 @@ export interface OperationArguments {
   [parameterName: string]: unknown;
 
   /**
-   * The optional arugments that are provided to an operation.
+   * The optional arguments that are provided to an operation.
    */
   options?: OperationOptions;
 }
@@ -285,17 +339,14 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 /**
- * The processed and flattened response to an operation call.
- * Contains merged properties of the parsed body and headers.
+ * A function to be called each time a response is received from the server
+ * while performing the requested operation.
+ * May be called multiple times.
  */
-export interface OperationResponse {
-  /**
-   * The underlying HTTP response containing both raw and deserialized response data.
-   */
-  _response: FullOperationResponse;
-
-  [key: string]: any;
-}
+export type RawResponseCallback = (
+  rawResponse: FullOperationResponse,
+  flatResponse: unknown
+) => void;
 
 /**
  * Used to map raw response objects to final shapes.
@@ -306,8 +357,13 @@ export interface Serializer {
   readonly modelMappers: { [key: string]: any };
   readonly isXML: boolean;
   validateConstraints(mapper: Mapper, value: any, objectName: string): void;
-  serialize(mapper: Mapper, object: any, objectName?: string): any;
-  deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
+  serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
+  deserialize(
+    mapper: Mapper,
+    responseBody: any,
+    objectName: string,
+    options?: SerializerOptions
+  ): any;
 }
 
 export interface MapperConstraints {
@@ -401,23 +457,23 @@ export interface BaseMapper {
    */
   xmlElementName?: string;
   /**
-   * Whether or not the current propery should have a wrapping XML element
+   * Whether or not the current property should have a wrapping XML element
    */
   xmlIsWrapped?: boolean;
   /**
-   * Whether or not the current propery is readonly
+   * Whether or not the current property is readonly
    */
   readOnly?: boolean;
   /**
-   * Whether or not the current propery is a constant
+   * Whether or not the current property is a constant
    */
   isConstant?: boolean;
   /**
-   * Whether or not the current propery is required
+   * Whether or not the current property is required
    */
   required?: boolean;
   /**
-   * Whether or not the current propery allows mull as a value
+   * Whether or not the current property allows mull as a value
    */
   nullable?: boolean;
   /**

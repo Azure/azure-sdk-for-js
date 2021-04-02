@@ -32,7 +32,8 @@ input-file:
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Web/stable/2018-01-01/Web.json
   - https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/eventgrid/data-plane/Microsoft.Communication/stable/2018-01-01/AzureCommunicationServices.json
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200618.1"
+  "@autorest/typescript": "6.0.0-dev.20210121.2"
+hide-clients: true
 ```
 
 ## Customizations

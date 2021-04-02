@@ -3,9 +3,9 @@
 
 /**
  * This sample demonstrates how to analyze sentiment on a more granular level,
- * mining individual opinions from reviews (also known as aspect-based 
+ * mining individual opinions from reviews (also known as aspect-based
  * sentiment analysis).
- * 
+ *
  * In this sample, a bunch of reviews about a hotel are being analyzed for
  * sentiment and different opinions about aspects in the reviews are shown.
  */
@@ -60,27 +60,27 @@ export async function main() {
     const result = results[i];
     console.log(`- Document ${result.id}`);
     if (!result.error) {
-      console.log(`  Document text: ${documents[i]}`);
-      console.log(`  Overall Sentiment: ${result.sentiment}`);
-      console.log("  Sentiment confidence scores:", result.confidenceScores);
-      console.log("  Sentences");
+      console.log(`\tDocument text: ${documents[i].text}`);
+      console.log(`\tOverall Sentiment: ${result.sentiment}`);
+      console.log("\tSentiment confidence scores:", result.confidenceScores);
+      console.log("\tSentences");
       for (const { sentiment, confidenceScores, minedOpinions } of result.sentences) {
-        console.log(`  - Sentence sentiment: ${sentiment}`);
-        console.log("    Confidence scores:", confidenceScores);
-        console.log("    Mined opinions");
+        console.log(`\t- Sentence sentiment: ${sentiment}`);
+        console.log("\t  Confidence scores:", confidenceScores);
+        console.log("\t  Mined opinions");
         for (const { aspect, opinions } of minedOpinions!) {
-          console.log(`      - Aspect text: ${aspect.text}`);
-          console.log(`        Aspect sentiment: ${aspect.sentiment}`);
-          console.log("        Aspect confidence scores:", aspect.confidenceScores);
-          console.log("        Aspect opinions");
+          console.log(`\t\t- Aspect text: ${aspect.text}`);
+          console.log(`\t\t  Aspect sentiment: ${aspect.sentiment}`);
+          console.log("\t\t  Aspect confidence scores:", aspect.confidenceScores);
+          console.log("\t\t  Aspect opinions");
           for (const { text, sentiment } of opinions) {
-            console.log(`        - Text: ${text}`);
-            console.log(`          Sentiment: ${sentiment}`);
+            console.log(`\t\t\t- Text: ${text}`);
+            console.log(`\t\t\t  Sentiment: ${sentiment}`);
           }
         }
       }
     } else {
-      console.error(`  Error: ${result.error}`);
+      console.error(`\tError: ${result.error}`);
     }
   }
 }

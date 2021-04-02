@@ -1,0 +1,66 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:39:31 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11419.13 - KRSLR2 ProdSlices",
+    "x-ms-request-id": "aa8af562-8871-4cdf-bc66-404dc3e40100"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/941e35e2-bd98-42f5-bb0c-c1c55e55eb99",
+   "query": {},
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "a76efab8-69fd-4437-8ad8-4ef52b258b0b",
+    "content-length": "0",
+    "date": "Wed, 20 Jan 2021 18:39:31 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "73",
+    "x-request-id": "a76efab8-69fd-4437-8ad8-4ef52b258b0b"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/metricsadvisor/v1.0/alert/anomaly/configurations/941e35e2-bd98-42f5-bb0c-c1c55e55eb99",
+   "query": {},
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"code\":\"Not Found\",\"message\":\"Not found this AnomalyAlertingConfiguration. TraceId: 8ed0dd66-3e5e-4c59-b1a6-a0c787cd38e2\"}",
+   "responseHeaders": {
+    "apim-request-id": "4438dcae-f715-4504-b9e7-247805a3640e",
+    "content-length": "123",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 20 Jan 2021 18:39:32 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "26",
+    "x-request-id": "4438dcae-f715-4504-b9e7-247805a3640e"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "ddf8f5c0dd32ea625fd952a3fe855033"
+}

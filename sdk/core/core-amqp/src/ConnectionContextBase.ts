@@ -122,9 +122,9 @@ export const ConnectionContextBase = {
     const connectionOptions: ConnectionOptions = {
       transport: Constants.TLS,
       host: parameters.config.host,
-      hostname: parameters.config.host,
+      hostname: parameters.config.amqpHostname ?? parameters.config.host,
       username: parameters.config.sharedAccessKeyName,
-      port: 5671,
+      port: parameters.config.port ?? 5671,
       reconnect: false,
       properties: {
         product: parameters.connectionProperties.product,
@@ -147,10 +147,11 @@ export const ConnectionContextBase = {
       const host = parameters.config.host;
       const endpoint = parameters.config.webSocketEndpointPath || "";
       const socketOptions = parameters.config.webSocketConstructorOptions || {};
+      const port = parameters.config.port ?? 443;
 
       connectionOptions.webSocketOptions = {
         webSocket: socket,
-        url: `wss://${host}:443/${endpoint}`,
+        url: `wss://${host}:${port}/${endpoint}`,
         protocol: ["AMQPWSB10"],
         options: socketOptions
       };

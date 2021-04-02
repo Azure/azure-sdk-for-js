@@ -391,11 +391,11 @@ export const ListHandlesResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ShareProperties: coreHttp.CompositeMapper = {
-  serializedName: "ShareProperties",
+export const SharePropertiesInternal: coreHttp.CompositeMapper = {
+  serializedName: "SharePropertiesInternal",
   type: {
     name: "Composite",
-    className: "ShareProperties",
+    className: "SharePropertiesInternal",
     modelProperties: {
       lastModified: {
         xmlName: "Last-Modified",
@@ -519,17 +519,36 @@ export const ShareProperties: coreHttp.CompositeMapper = {
             "fixed"
           ]
         }
+      },
+      enabledProtocols: {
+        xmlName: "EnabledProtocols",
+        serializedName: "EnabledProtocols",
+        type: {
+          name: "String"
+        }
+      },
+      rootSquash: {
+        xmlName: "RootSquash",
+        serializedName: "RootSquash",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NoRootSquash",
+            "RootSquash",
+            "AllSquash"
+          ]
+        }
       }
     }
   }
 };
 
-export const ShareItem: coreHttp.CompositeMapper = {
+export const ShareItemInternal: coreHttp.CompositeMapper = {
   xmlName: "Share",
-  serializedName: "ShareItem",
+  serializedName: "ShareItemInternal",
   type: {
     name: "Composite",
-    className: "ShareItem",
+    className: "ShareItemInternal",
     modelProperties: {
       name: {
         xmlName: "Name",
@@ -566,7 +585,7 @@ export const ShareItem: coreHttp.CompositeMapper = {
         serializedName: "Properties",
         type: {
           name: "Composite",
-          className: "ShareProperties"
+          className: "SharePropertiesInternal"
         }
       },
       metadata: {
@@ -632,7 +651,7 @@ export const ListSharesResponse: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ShareItem"
+              className: "ShareItemInternal"
             }
           }
         }
@@ -1391,6 +1410,23 @@ export const ShareGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-access-tier-transition-state",
         type: {
           name: "String"
+        }
+      },
+      enabledProtocols: {
+        serializedName: "x-ms-enabled-protocols",
+        type: {
+          name: "String"
+        }
+      },
+      rootSquash: {
+        serializedName: "x-ms-root-squash",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NoRootSquash",
+            "RootSquash",
+            "AllSquash"
+          ]
         }
       },
       errorCode: {

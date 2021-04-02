@@ -1,0 +1,35 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/SomeTenantId/oauth2/v2.0/token",
+      "query": {},
+      "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=SomeClientSecret&scope=https%3A%2F%2Fcommunication.azure.com%2F%2F.default",
+      "status": 200,
+      "response": "",
+      "responseHeaders": {
+        "content-type": "application/json"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/administration/phonenumbers/countries/US/phoneplangroups",
+      "query": {
+        "locale": "en-US",
+        "take": "100",
+        "api-version": "2020-07-20-preview1"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"phonePlanGroups\":[{\"phonePlanGroupId\":\"sanitized\",\"phoneNumberType\":\"Geographic\",\"localizedName\":\"Azure- User - Geographic\",\"localizedDescription\":\"These are numbers used by Azure resources.\"},{\"phonePlanGroupId\":\"sanitized\",\"phoneNumberType\":\"Geographic\",\"localizedName\":\"Azure - Geographic\",\"localizedDescription\":\"These are numbers used by Azure resources.\"},{\"phonePlanGroupId\":\"sanitized\",\"phoneNumberType\":\"TollFree\",\"localizedName\":\"Azure - Toll Free\",\"localizedDescription\":\"These are toll free numbers used by Azure resources.\"}],\"nextLink\":null}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "1cb763e7c4b9a3c4811c4560af6827c2"
+}

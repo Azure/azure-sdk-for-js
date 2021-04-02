@@ -13,7 +13,6 @@ export interface BeginRestoreKeyBackupOptions extends KeyPollerOptions {}
 
 /**
  * @internal
- * @ignore
  * An interface representing the KeyClient. For internal use.
  */
 export interface TestKeyClientInterface {
@@ -52,8 +51,8 @@ export interface RestoreKeyBackupPollOperation
   extends PollOperation<RestoreKeyBackupPollOperationState, KeyVaultKey> {}
 
 /**
- * @summary Reaches to the service and updates the restore key's poll operation.
- * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
+ * Reaches to the service and updates the restore key's poll operation.
+ * @param options - The optional parameters, which are an abortSignal from \@azure/abort-controller and a function that triggers the poller's onProgress function.
  */
 async function update(
   this: RestoreKeyBackupPollOperation,
@@ -84,14 +83,14 @@ async function update(
 }
 
 /**
- * @param [options] The optional parameters, which is only an abortSignal from @azure/abort-controller
+ * @param options - The optional parameters, which is only an abortSignal from \@azure/abort-controller
  */
 async function cancel(this: RestoreKeyBackupPollOperation): Promise<never> {
   throw new Error("Canceling the restoration of a key is not supported.");
 }
 
 /**
- * @summary Serializes the create key's poll operation
+ * Serializes the create key's poll operation
  */
 function toString(this: RestoreKeyBackupPollOperation): string {
   return JSON.stringify({
@@ -100,8 +99,8 @@ function toString(this: RestoreKeyBackupPollOperation): string {
 }
 
 /**
- * @summary Builds a create key's poll operation
- * @param [state] A poll operation's state, in case the new one is intended to follow up where the previous one was left.
+ * Builds a create key's poll operation
+ * @param state - A poll operation's state, in case the new one is intended to follow up where the previous one was left.
  */
 export function makeRestoreKeyBackupPollOperation(
   state: RestoreKeyBackupPollOperationState

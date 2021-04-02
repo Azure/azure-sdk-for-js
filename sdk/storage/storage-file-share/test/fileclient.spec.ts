@@ -610,11 +610,7 @@ describe("FileClient", () => {
 
     await fileClient.clearRange(0, 1024);
     await fileClient.uploadRange("World", 1023, 5);
-
     const result = await fileClient.getRangeListDiff(snapshotRes.snapshot!);
-    console.log(result.clearRanges);
-    console.log(result.ranges);
-    console.log(result.requestId);
 
     assert.ok(result.clearRanges);
     assert.deepStrictEqual(result.clearRanges!.length, 1);
@@ -738,7 +734,6 @@ describe("FileClient", () => {
       // tslint:disable-next-line:no-empty
     } catch (err) {
       assert.equal(err.name, "AbortError");
-      assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
   });

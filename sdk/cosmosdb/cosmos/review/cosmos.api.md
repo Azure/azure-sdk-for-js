@@ -4,6 +4,8 @@
 
 ```ts
 
+import { TokenCredential } from '@azure/identity';
+
 // @public (undocumented)
 export interface Agent {
     // (undocumented)
@@ -487,6 +489,7 @@ export class CosmosClient {
 
 // @public (undocumented)
 export interface CosmosClientOptions {
+    aadCredentials?: TokenCredential;
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;

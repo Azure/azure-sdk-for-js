@@ -78,6 +78,86 @@ export class SqlPoolRestorePoints {
   }
 
   /**
+   * Gets a restore point.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param restorePointName The name of the restore point.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlPoolRestorePointsGetResponse>
+   */
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlPoolRestorePointsGetResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param restorePointName The name of the restore point.
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, callback: msRest.ServiceCallback<Models.RestorePoint>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param restorePointName The name of the restore point.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RestorePoint>): void;
+  get(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RestorePoint>, callback?: msRest.ServiceCallback<Models.RestorePoint>): Promise<Models.SqlPoolRestorePointsGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        restorePointName,
+        options
+      },
+      getOperationSpec,
+      callback) as Promise<Models.SqlPoolRestorePointsGetResponse>;
+  }
+
+  /**
+   * Deletes a restore point.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param restorePointName The name of the restore point.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param restorePointName The name of the restore point.
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param restorePointName The name of the restore point.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, workspaceName: string, sqlPoolName: string, restorePointName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        restorePointName,
+        options
+      },
+      deleteMethodOperationSpec,
+      callback);
+  }
+
+  /**
    * Creates a restore point for a data warehouse.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
@@ -151,6 +231,58 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RestorePointListResult
     },
     default: {
+      bodyMapper: Mappers.ErrorContract
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints/{restorePointName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName,
+    Parameters.restorePointName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RestorePoint
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/restorePoints/{restorePointName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName,
+    Parameters.restorePointName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    default: {
       bodyMapper: Mappers.CloudError
     }
   },
@@ -212,7 +344,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RestorePointListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorContract
     }
   },
   serializer

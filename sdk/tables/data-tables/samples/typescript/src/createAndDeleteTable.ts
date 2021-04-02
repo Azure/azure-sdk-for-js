@@ -13,9 +13,7 @@ async function createAndDeleteTable() {
   console.log("== Delete and create table Sample ==");
 
   // See authenticationMethods sample for other options of creating a new client
-  const serviceClient = TableServiceClient.fromConnectionString(
-    sasConnectionString
-  );
+  const serviceClient = TableServiceClient.fromConnectionString(sasConnectionString);
 
   // Create a new table
   const tableName = "SampleCreateAndDeleteTable";
@@ -32,10 +30,7 @@ async function createAndDeleteTableWithTableClient() {
   const tableName = "SampleCreateAndDeleteTable2";
 
   // Creating a new table client doesn't do a network call
-  const client = TableClient.fromConnectionString(
-    sasConnectionString,
-    tableName
-  );
+  const client = TableClient.fromConnectionString(sasConnectionString, tableName);
 
   // Will attempt to create a table with the tableName specified above
   await client.create();
@@ -44,7 +39,7 @@ async function createAndDeleteTableWithTableClient() {
   await client.delete();
 }
 
-async function main() {
+export async function main() {
   await createAndDeleteTable();
   await createAndDeleteTableWithTableClient();
 }

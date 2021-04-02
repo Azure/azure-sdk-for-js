@@ -25,14 +25,13 @@ import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
 // @public
-export type AuthorizationRule = {
-    claimType: string;
-    claimValue: string;
+export interface AuthorizationRule {
     accessRights?: ("Manage" | "Send" | "Listen")[];
+    claimType: string;
     keyName: string;
     primaryKey?: string;
     secondaryKey?: string;
-};
+}
 
 // @public
 export interface CorrelationRuleFilter {
@@ -83,6 +82,11 @@ export interface CreateSubscriptionOptions extends OperationOptions {
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
+    defaultRuleOptions?: {
+        name: string;
+        filter?: SqlRuleFilter | CorrelationRuleFilter;
+        action?: SqlRuleAction;
+    };
     enableBatchedOperations?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
@@ -217,9 +221,6 @@ export interface ReceiveMessagesOptions extends OperationOptionsBase {
     maxWaitTimeInMs?: number;
 }
 
-// @public
-export type ReceiveMode = "peekLock" | "receiveAndDelete";
-
 export { RetryOptions }
 
 // @public
@@ -301,6 +302,7 @@ export interface ServiceBusConnectionStringProperties {
 
 // @public
 export class ServiceBusError extends MessagingError {
+    constructor(message: string, code: ServiceBusErrorCode);
     constructor(messagingError: MessagingError);
     code: ServiceBusErrorCode;
     }
@@ -362,7 +364,7 @@ export type ServiceBusErrorCode =
 /**
  * The user doesn't have access to the entity.
  */
- | "Unauthorized";
+ | "UnauthorizedAccess";
 
 // @public
 export interface ServiceBusMessage {
@@ -397,7 +399,6 @@ export interface ServiceBusMessageBatch {
 
 // @public
 export interface ServiceBusReceivedMessage extends ServiceBusMessage {
-    readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
     readonly deadLetterErrorDescription?: string;
     readonly deadLetterReason?: string;
     readonly deadLetterSource?: string;
@@ -407,6 +408,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
     readonly expiresAtUtc?: Date;
     lockedUntilUtc?: Date;
     readonly lockToken?: string;
+    readonly _rawAmqpMessage: AmqpAnnotatedMessage;
     readonly sequenceNumber?: Long;
 }
 
@@ -439,7 +441,7 @@ export interface ServiceBusReceiver {
 // @public
 export interface ServiceBusReceiverOptions {
     maxAutoLockRenewalDurationInMs?: number;
-    receiveMode?: ReceiveMode;
+    receiveMode?: "peekLock" | "receiveAndDelete";
     subQueueType?: "deadLetter" | "transferDeadLetter";
 }
 
@@ -450,7 +452,6 @@ export interface ServiceBusSender {
     createMessageBatch(options?: CreateMessageBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
-    open(options?: OperationOptionsBase): Promise<void>;
     scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
 }
@@ -470,7 +471,7 @@ export interface ServiceBusSessionReceiver extends ServiceBusReceiver {
 // @public
 export interface ServiceBusSessionReceiverOptions extends OperationOptionsBase {
     maxAutoLockRenewalDurationInMs?: number;
-    receiveMode?: ReceiveMode;
+    receiveMode?: "peekLock" | "receiveAndDelete";
 }
 
 // @public
@@ -491,7 +492,7 @@ export interface SqlRuleFilter {
 
 // @public
 export interface SubscribeOptions extends OperationOptionsBase {
-    autoComplete?: boolean;
+    autoCompleteMessages?: boolean;
     maxConcurrentCalls?: number;
 }
 
@@ -511,7 +512,7 @@ export interface SubscriptionProperties {
     status: EntityStatus;
     readonly subscriptionName: string;
     readonly topicName: string;
-    userMetadata: string;
+    userMetadata?: string;
 }
 
 // @public

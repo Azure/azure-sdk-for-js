@@ -2,10 +2,6 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: This sample uses the preview of the next version (v7) of the @azure/service-bus package.
-For samples using the current stable version (v1) of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
-
   This sample demonstrates how the defer() function can be used to defer a message for later processing.
 
   In this sample, we have an application that gets cooking instructions out of order. It uses
@@ -21,7 +17,7 @@ const { ServiceBusClient, delay } = require("@azure/service-bus");
 require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
 async function main() {
@@ -46,7 +42,7 @@ async function sendMessages() {
   for (let index = 0; index < data.length; index++) {
     const message = {
       body: data[index],
-      label: "RecipeStep",
+      subject: "RecipeStep",
       contentType: "application/json"
     };
     // the way we shuffle the message order is to introduce a tiny random delay before each of the messages is sent
@@ -111,9 +107,9 @@ async function receiveMessage() {
     receiver.subscribe(
       { processMessage, processError },
       {
-        autoComplete: false
+        autoCompleteMessages: false
       }
-    ); // Disabling autoComplete so we can control when message can be completed, deferred or deadlettered
+    ); // Disabling autoCompleteMessages so we can control when message can be completed, deferred or deadlettered
     await delay(10000);
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);

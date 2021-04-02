@@ -10,14 +10,16 @@ import {
   PhoneNumberAdministrationClient,
   PhoneNumberCapabilitiesUpdates
 } from "../src";
-import { SDK_VERSION } from "../src/phoneNumber/constants";
 import { NumberConfigurationPhoneNumber } from "../src/phoneNumber/generated/src/models";
+import { apiVersion } from "../src/phoneNumber/generated/src/models/parameters";
 import {
   baseHttpClient,
   getAreaCodesHttpClient,
   phoneNumbersCapabilitiesHttpClient
 } from "./utils/mockHttpClients";
 import { TestPhoneNumberAdministrationClient } from "./utils/testPhoneNumberAdministrationClient";
+
+const API_VERSION = apiVersion.mapper.defaultValue;
 
 describe("PhoneNumberAdministrationClient [Mocked]", () => {
   const dateHeader = isNode ? "date" : "x-ms-date";
@@ -118,7 +120,7 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `https://contoso.spool.azure.local/administration/phonenumbers/capabilities/${capabilitiesUpdateId}?api-version=${SDK_VERSION}`
+      `https://contoso.spool.azure.local/administration/phonenumbers/capabilities/${capabilitiesUpdateId}?api-version=${API_VERSION}`
     );
   });
 
@@ -145,7 +147,7 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     const request = spy.getCall(0).args[0];
     assert.equal(
       request.url,
-      `https://contoso.spool.azure.local/administration/phonenumbers/countries/${searchRequest.countryCode}/areacodes?locationType=${searchRequest.locationType}&phonePlanId=${searchRequest.phonePlanId}&api-version=${SDK_VERSION}`
+      `https://contoso.spool.azure.local/administration/phonenumbers/countries/${searchRequest.countryCode}/areacodes?api-version=${API_VERSION}&locationType=${searchRequest.locationType}&phonePlanId=${searchRequest.phonePlanId}`
     );
   });
 });

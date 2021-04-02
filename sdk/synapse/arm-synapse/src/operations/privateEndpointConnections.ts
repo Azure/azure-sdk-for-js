@@ -29,7 +29,7 @@ export class PrivateEndpointConnections {
   /**
    * Gets a private endpoint connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsGetResponse>
@@ -37,14 +37,14 @@ export class PrivateEndpointConnections {
   get(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The optional parameters
    * @param callback The callback
@@ -64,21 +64,22 @@ export class PrivateEndpointConnections {
 
   /**
    * Approve or reject a private endpoint connection.
+   * @param request Request body of private endpoint connection to create.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsCreateResponse>
    */
-  create(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsCreateResponse> {
-    return this.beginCreate(resourceGroupName,workspaceName,privateEndpointConnectionName,options)
+  create(request: Models.PrivateEndpointConnection, resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsCreateResponse> {
+    return this.beginCreate(request,resourceGroupName,workspaceName,privateEndpointConnectionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateEndpointConnectionsCreateResponse>;
   }
 
   /**
    * Delete a private endpoint connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsDeleteMethodResponse>
@@ -91,20 +92,20 @@ export class PrivateEndpointConnections {
   /**
    * Lists private endpoint connection in workspace.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsListResponse>
    */
   list(resourceGroupName: string, workspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param callback The callback
    */
   list(resourceGroupName: string, workspaceName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -122,15 +123,17 @@ export class PrivateEndpointConnections {
 
   /**
    * Approve or reject a private endpoint connection.
+   * @param request Request body of private endpoint connection to create.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreate(resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreate(request: Models.PrivateEndpointConnection, resourceGroupName: string, workspaceName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
+        request,
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
@@ -143,7 +146,7 @@ export class PrivateEndpointConnections {
   /**
    * Delete a private endpoint connection.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param workspaceName The name of the workspace
+   * @param workspaceName The name of the workspace.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -257,6 +260,13 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: "request",
+    mapper: {
+      ...Mappers.PrivateEndpointConnection,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
@@ -287,6 +297,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     202: {
       bodyMapper: Mappers.OperationResource
     },

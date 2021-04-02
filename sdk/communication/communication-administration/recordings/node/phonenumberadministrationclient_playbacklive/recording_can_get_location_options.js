@@ -1,10 +1,10 @@
 let nock = require("nock");
 
-module.exports.hash = "4b6cf5373e97938c5a43411f3e831ff2";
+module.exports.hash = "f43c4bb7c05826fd644a4f3f038c8768";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
-nock("https://endpoint", { encodedQueryParams: true })
+nock("https://endpoint", { encodedQueryParams: false })
   .get(
     "/administration/phonenumbers/countries/US/phoneplangroups/sanitized/phoneplans/sanitized/locationoptions"
   )
@@ -66,6 +66,14 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelId: "city",
                 labelName: "City",
                 options: [
+                  { name: "Anaheim", value: "NOAM-US-CA-AN", locationOptions: [] },
+                  { name: "Burbank", value: "NOAM-US-CA-BU", locationOptions: [] },
+                  { name: "Concord", value: "NOAM-US-CA-CO", locationOptions: [] },
+                  { name: "Fresno", value: "NOAM-US-CA-FR", locationOptions: [] },
+                  { name: "Irvine", value: "NOAM-US-CA-IR", locationOptions: [] },
+                  { name: "Los Angeles", value: "NOAM-US-CA-LA", locationOptions: [] },
+                  { name: "Riverside", value: "NOAM-US-CA-RI", locationOptions: [] },
+                  { name: "Sacramento", value: "NOAM-US-CA-SA", locationOptions: [] },
                   { name: "Salinas", value: "NOAM-US-CA-SL", locationOptions: [] },
                   { name: "San Diego", value: "NOAM-US-CA-SD", locationOptions: [] },
                   { name: "San Francisco", value: "NOAM-US-CA-SF", locationOptions: [] },
@@ -73,7 +81,8 @@ nock("https://endpoint", { encodedQueryParams: true })
                   { name: "Santa Barbara", value: "NOAM-US-CA-SB", locationOptions: [] },
                   { name: "Santa Clarita", value: "NOAM-US-CA-SC", locationOptions: [] },
                   { name: "Santa Rosa", value: "NOAM-US-CA-SR", locationOptions: [] },
-                  { name: "Stockton", value: "NOAM-US-CA-ST", locationOptions: [] }
+                  { name: "Stockton", value: "NOAM-US-CA-ST", locationOptions: [] },
+                  { name: "Truckee", value: "NOAM-US-CA-TR", locationOptions: [] }
                 ]
               }
             ]
@@ -97,7 +106,7 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelId: "city",
                 labelName: "City",
                 options: [
-                  { name: "Grand Junction", value: "NOAM-US-CO-GJ", locationOptions: [] },
+                  { name: "Denver", value: "NOAM-US-CO-DE", locationOptions: [] },
                   { name: "Pueblo", value: "NOAM-US-CO-PU", locationOptions: [] }
                 ]
               }
@@ -137,6 +146,8 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelName: "City",
                 options: [
                   { name: "Cape Coral", value: "NOAM-US-FL-CC", locationOptions: [] },
+                  { name: "Daytona Beach", value: "NOAM-US-FL-DB", locationOptions: [] },
+                  { name: "Fort Lauderdale", value: "NOAM-US-FL-FL", locationOptions: [] },
                   { name: "Gainesville", value: "NOAM-US-FL-GA", locationOptions: [] },
                   { name: "Jacksonville", value: "NOAM-US-FL-JA", locationOptions: [] },
                   { name: "Lakeland", value: "NOAM-US-FL-LA", locationOptions: [] },
@@ -214,14 +225,12 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelId: "city",
                 labelName: "City",
                 options: [
-                  { name: "Alton", value: "NOAM-US-IL-AL", locationOptions: [] },
                   { name: "Aurora", value: "NOAM-US-IL-AU", locationOptions: [] },
-                  { name: "Big Rock", value: "NOAM-US-IL-BK", locationOptions: [] },
                   { name: "Champaign", value: "NOAM-US-IL-CA", locationOptions: [] },
                   { name: "Chicago", value: "NOAM-US-IL-CH", locationOptions: [] },
+                  { name: "Cicero", value: "NOAM-US-IL-CI", locationOptions: [] },
                   { name: "Rock Island", value: "NOAM-US-IL-RI", locationOptions: [] },
-                  { name: "Rockford", value: "NOAM-US-IL-RO", locationOptions: [] },
-                  { name: "Waukegan", value: "NOAM-US-IL-WK", locationOptions: [] }
+                  { name: "Rockford", value: "NOAM-US-IL-RO", locationOptions: [] }
                 ]
               }
             ]
@@ -251,6 +260,7 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelId: "city",
                 labelName: "City",
                 options: [
+                  { name: "Dodge City", value: "NOAM-US-KS-DC", locationOptions: [] },
                   { name: "Kansas City", value: "NOAM-US-KS-KS", locationOptions: [] },
                   { name: "Topeka", value: "NOAM-US-KS-TO", locationOptions: [] },
                   { name: "Wichita", value: "NOAM-US-KS-WI", locationOptions: [] }
@@ -297,11 +307,18 @@ nock("https://endpoint", { encodedQueryParams: true })
               {
                 labelId: "city",
                 labelName: "City",
-                options: [
-                  { name: "Boston", value: "NOAM-US-MA-BO", locationOptions: [] },
-                  { name: "Lowell", value: "NOAM-US-MA-LO", locationOptions: [] },
-                  { name: "Lynn", value: "NOAM-US-MA-LY", locationOptions: [] }
-                ]
+                options: [{ name: "Lowell", value: "NOAM-US-MA-LO", locationOptions: [] }]
+              }
+            ]
+          },
+          {
+            name: "MD",
+            value: "MD",
+            locationOptions: [
+              {
+                labelId: "city",
+                labelName: "City",
+                options: [{ name: "Baltimore", value: "NOAM-US-MD-BA", locationOptions: [] }]
               }
             ]
           },
@@ -332,9 +349,7 @@ nock("https://endpoint", { encodedQueryParams: true })
                   { name: "Lansing", value: "NOAM-US-MI-LA", locationOptions: [] },
                   { name: "Otsego", value: "NOAM-US-MI-OT", locationOptions: [] },
                   { name: "Saginaw", value: "NOAM-US-MI-SA", locationOptions: [] },
-                  { name: "Sault Ste Marie", value: "NOAM-US-MI-SS", locationOptions: [] },
-                  { name: "Troy", value: "NOAM-US-MI-TR", locationOptions: [] },
-                  { name: "Warren", value: "NOAM-US-MI-WA", locationOptions: [] }
+                  { name: "Sault Ste Marie", value: "NOAM-US-MI-SS", locationOptions: [] }
                 ]
               }
             ]
@@ -348,8 +363,10 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelName: "City",
                 options: [
                   { name: "Alexandria", value: "NOAM-US-MN-AL", locationOptions: [] },
+                  { name: "Bloomington", value: "NOAM-US-MN-BL", locationOptions: [] },
                   { name: "Duluth", value: "NOAM-US-MN-DU", locationOptions: [] },
-                  { name: "Minneapolis", value: "NOAM-US-MN-MI", locationOptions: [] }
+                  { name: "Minneapolis", value: "NOAM-US-MN-MI", locationOptions: [] },
+                  { name: "Plymouth", value: "NOAM-US-MN-PL", locationOptions: [] }
                 ]
               }
             ]
@@ -406,6 +423,7 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelId: "city",
                 labelName: "City",
                 options: [
+                  { name: "Asheville", value: "NOAM-US-NC-AS", locationOptions: [] },
                   { name: "Charlotte", value: "NOAM-US-NC-CH", locationOptions: [] },
                   { name: "Fayetteville", value: "NOAM-US-NC-FA", locationOptions: [] },
                   { name: "Greensboro", value: "NOAM-US-NC-GR", locationOptions: [] },
@@ -441,6 +459,17 @@ nock("https://endpoint", { encodedQueryParams: true })
             ]
           },
           {
+            name: "NH",
+            value: "NH",
+            locationOptions: [
+              {
+                labelId: "city",
+                labelName: "City",
+                options: [{ name: "Concord", value: "NOAM-US-NH-CO", locationOptions: [] }]
+              }
+            ]
+          },
+          {
             name: "NJ",
             value: "NJ",
             locationOptions: [
@@ -452,6 +481,7 @@ nock("https://endpoint", { encodedQueryParams: true })
                   { name: "Camden", value: "NOAM-US-NJ-CA", locationOptions: [] },
                   { name: "Edison", value: "NOAM-US-NJ-ED", locationOptions: [] },
                   { name: "Elizabeth", value: "NOAM-US-NJ-EL", locationOptions: [] },
+                  { name: "Jersey City", value: "NOAM-US-NJ-JC", locationOptions: [] },
                   { name: "Newark", value: "NOAM-US-NJ-NE", locationOptions: [] }
                 ]
               }
@@ -559,7 +589,6 @@ nock("https://endpoint", { encodedQueryParams: true })
                 options: [
                   { name: "Erie", value: "NOAM-US-PA-ER", locationOptions: [] },
                   { name: "Lancaster", value: "NOAM-US-PA-LA", locationOptions: [] },
-                  { name: "New Castle", value: "NOAM-US-PA-NC", locationOptions: [] },
                   { name: "Philadelphia", value: "NOAM-US-PA-PI", locationOptions: [] },
                   { name: "Pittsburgh", value: "NOAM-US-PA-PT", locationOptions: [] },
                   { name: "Scranton", value: "NOAM-US-PA-SC", locationOptions: [] }
@@ -631,6 +660,7 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelName: "City",
                 options: [
                   { name: "Abilene", value: "NOAM-US-TX-AB", locationOptions: [] },
+                  { name: "Austin", value: "NOAM-US-TX-AU", locationOptions: [] },
                   { name: "Bryan", value: "NOAM-US-TX-BR", locationOptions: [] },
                   { name: "Corpus Christi", value: "NOAM-US-TX-CC", locationOptions: [] },
                   { name: "Dallas", value: "NOAM-US-TX-DA", locationOptions: [] },
@@ -639,6 +669,7 @@ nock("https://endpoint", { encodedQueryParams: true })
                   { name: "Fort Worth", value: "NOAM-US-TX-FW", locationOptions: [] },
                   { name: "Galveston", value: "NOAM-US-TX-GA", locationOptions: [] },
                   { name: "Hamilton", value: "NOAM-US-TX-HA", locationOptions: [] },
+                  { name: "Houston", value: "NOAM-US-TX-HO", locationOptions: [] },
                   { name: "Huntsville", value: "NOAM-US-TX-HU", locationOptions: [] },
                   { name: "Laredo", value: "NOAM-US-TX-LA", locationOptions: [] },
                   { name: "Lubbock", value: "NOAM-US-TX-LU", locationOptions: [] },
@@ -704,7 +735,6 @@ nock("https://endpoint", { encodedQueryParams: true })
                 labelName: "City",
                 options: [
                   { name: "Eau Claire", value: "NOAM-US-WI-EC", locationOptions: [] },
-                  { name: "Green Bay", value: "NOAM-US-WI-GB", locationOptions: [] },
                   { name: "Kenosha", value: "NOAM-US-WI-KE", locationOptions: [] },
                   { name: "Madison", value: "NOAM-US-WI-MA", locationOptions: [] },
                   { name: "Milwaukee", value: "NOAM-US-WI-MI", locationOptions: [] }
@@ -742,13 +772,15 @@ nock("https://endpoint", { encodedQueryParams: true })
       "chunked",
       "Content-Type",
       "application/json; charset=utf-8",
+      "Request-Context",
+      "appId=",
       "MS-CV",
-      "5hhtbupGKE6m/UAjeCXYBA.0",
+      "zYqyp5H2wUe1K3YfpRcCBw.0",
       "X-Processing-Time",
-      "250ms",
+      "425ms",
       "X-Azure-Ref",
-      "0fyl+XwAAAADi8dQj1GlMSKq5a6A9ZjjbWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+      "0hOUFYAAAAACQh1I8jmuPQZ6BwuOUgCC+RVdSMzBFREdFMDUyMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
       "Date",
-      "Wed, 07 Oct 2020 20:47:58 GMT"
+      "Mon, 18 Jan 2021 19:46:12 GMT"
     ]
   );

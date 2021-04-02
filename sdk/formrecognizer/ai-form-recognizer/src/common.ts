@@ -10,7 +10,12 @@ import { MAX_INPUT_DOCUMENT_SIZE } from "./constants";
 /**
  * Content types supported by Form Recognizer service.
  */
-export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff";
+export type FormContentType =
+  | "application/pdf"
+  | "image/jpeg"
+  | "image/png"
+  | "image/tiff"
+  | "image/bmp";
 
 /**
  * Client options used to configure Form Recognizer API requests.
@@ -107,6 +112,8 @@ export async function getContentType(
     (bytes[0] === 0x4d && bytes[1] === 0x4d && bytes[2] === 0x0 && bytes[3] === 0x2a)
   ) {
     return "image/tiff";
+  } else if (bytes[0] === 0x42 && bytes[1] === 0x4d) {
+    return "image/bmp";
   } else {
     throw new RangeError("content type could not be detected");
   }

@@ -51,10 +51,10 @@ export class DirectorySASPermissions {
           directorySASPermissions.execute = true;
           break;
         case "o":
-          directorySASPermissions.ownership = true;
+          directorySASPermissions.manageOwnership = true;
           break;
         case "p":
-          directorySASPermissions.permission = true;
+          directorySASPermissions.manageAccessControl = true;
           break;
         default:
           throw new RangeError(`Invalid permission ${char}`);
@@ -129,20 +129,23 @@ export class DirectorySASPermissions {
   public execute: boolean = false;
 
   /**
-   * Specifies Ownership access granted.
+   * Specifies Ownership access granted, which allows the caller to set owner, owning group,
+   * or act as the owner when renaming or deleting a blob (file or directory) within a folder
+   * that has the sticky bit set.
    *
    * @type {boolean}
    * @memberof DirectorySASPermissions
    */
-  public ownership: boolean = false;
+  public manageOwnership: boolean = false;
 
   /**
-   * Specifies Permission access granted.
+   * Specifies Permission access granted, which allows the caller to set permissions and
+   * POSIX ACLs on blobs (files and directories).
    *
    * @type {boolean}
    * @memberof DirectorySASPermissions
    */
-  public permission: boolean = false;
+  public manageAccessControl: boolean = false;
 
   /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
@@ -180,10 +183,10 @@ export class DirectorySASPermissions {
     if (this.execute) {
       permissions.push("e");
     }
-    if (this.ownership) {
+    if (this.manageOwnership) {
       permissions.push("o");
     }
-    if (this.permission) {
+    if (this.manageAccessControl) {
       permissions.push("p");
     }
     return permissions.join("");

@@ -143,20 +143,27 @@ export interface WebResourceLike {
   clone(): WebResourceLike;
 }
 
-export function isWebResourceLike(object: any): object is WebResourceLike {
-  if (typeof object !== "object") {
-    return false;
-  }
-  if (
-    typeof object.url === "string" &&
-    typeof object.method === "string" &&
-    typeof object.headers === "object" &&
-    isHttpHeadersLike(object.headers) &&
-    typeof object.validateRequestProperties === "function" &&
-    typeof object.prepare === "function" &&
-    typeof object.clone === "function"
-  ) {
-    return true;
+export function isWebResourceLike(object: unknown): object is WebResourceLike {
+  if (object && typeof object === "object") {
+    const castObject = object as {
+      url: unknown;
+      method: unknown;
+      headers: unknown;
+      validateRequestProperties: unknown;
+      prepare: unknown;
+      clone: unknown;
+    };
+    if (
+      typeof castObject.url === "string" &&
+      typeof castObject.method === "string" &&
+      typeof castObject.headers === "object" &&
+      isHttpHeadersLike(castObject.headers) &&
+      typeof castObject.validateRequestProperties === "function" &&
+      typeof castObject.prepare === "function" &&
+      typeof castObject.clone === "function"
+    ) {
+      return true;
+    }
   }
   return false;
 }
@@ -166,8 +173,6 @@ export function isWebResourceLike(object: any): object is WebResourceLike {
  *
  * This class provides an abstraction over a REST call by being library / implementation agnostic and wrapping the necessary
  * properties to initiate a request.
- *
- * @constructor
  */
 export class WebResource implements WebResourceLike {
   url: string;
@@ -221,7 +226,7 @@ export class WebResource implements WebResourceLike {
   constructor(
     url?: string,
     method?: HttpMethods,
-    body?: any,
+    body?: unknown,
     query?: { [key: string]: any },
     headers?: { [key: string]: any } | HttpHeadersLike,
     streamResponseBody?: boolean,
@@ -268,8 +273,8 @@ export class WebResource implements WebResourceLike {
 
   /**
    * Prepares the request.
-   * @param {RequestPrepareOptions} options Options to provide for preparing the request.
-   * @returns {WebResource} Returns the prepared WebResource (HTTP Request) object that needs to be given to the request pipeline.
+   * @param options - Options to provide for preparing the request.
+   * @returns Returns the prepared WebResource (HTTP Request) object that needs to be given to the request pipeline.
    */
   prepare(options: RequestPrepareOptions): WebResource {
     if (!options) {
@@ -447,7 +452,7 @@ export class WebResource implements WebResourceLike {
       this.headers.set("Content-Type", "application/json; charset=utf-8");
     }
 
-    // set the request body. request.js automatically sets the Content-Length request header, so we need not set it explicilty
+    // set the request body. request.js automatically sets the Content-Length request header, so we need not set it explicitly
     this.body = options.body;
     if (options.body !== undefined && options.body !== null) {
       // body as a stream special case. set the body as-is and check for some special request headers specific to sending a stream.
@@ -485,7 +490,7 @@ export class WebResource implements WebResourceLike {
 
   /**
    * Clone this WebResource HTTP request object.
-   * @returns {WebResource} The clone of this WebResource HTTP request object.
+   * @returns The clone of this WebResource HTTP request object.
    */
   clone(): WebResource {
     const result = new WebResource(
@@ -543,15 +548,15 @@ export interface RequestPrepareOptions {
    * The "object" format should be used when you want to skip url encoding. While using the object format,
    * the object must have a property named value which provides the "query-parameter-value".
    * Example:
-   *    - query-parameter-value in "object" format: { "query-parameter-name": { value: "query-parameter-value", skipUrlEncoding: true } }
-   *    - query-parameter-value in "string" format: { "query-parameter-name": "query-parameter-value"}.
+   *    - query-parameter-value in "object" format: `{ "query-parameter-name": { value: "query-parameter-value", skipUrlEncoding: true } }`
+   *    - query-parameter-value in "string" format: `{ "query-parameter-name": "query-parameter-value"}`.
    * Note: "If options.url already has some query parameters, then the value provided in options.queryParameters will be appended to the url.
    */
   queryParameters?: { [key: string]: any | ParameterValue };
   /**
    * The path template of the request url. Either provide the "url" or provide the "pathTemplate" in
    * the options object. Both the options are mutually exclusive.
-   * Example: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}"
+   * Example: `/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}`
    */
   pathTemplate?: string;
   /**
@@ -567,8 +572,8 @@ export interface RequestPrepareOptions {
    * The "object" format should be used when you want to skip url encoding. While using the object format,
    * the object must have a property named value which provides the "path-parameter-value".
    * Example:
-   *    - path-parameter-value in "object" format: { "path-parameter-name": { value: "path-parameter-value", skipUrlEncoding: true } }
-   *    - path-parameter-value in "string" format: { "path-parameter-name": "path-parameter-value" }.
+   *    - path-parameter-value in "object" format: `{ "path-parameter-name": { value: "path-parameter-value", skipUrlEncoding: true } }`
+   *    - path-parameter-value in "string" format: `{ "path-parameter-name": "path-parameter-value" }`.
    */
   pathParameters?: { [key: string]: any | ParameterValue };
   formData?: { [key: string]: any };
@@ -601,7 +606,7 @@ export interface RequestPrepareOptions {
   /**
    * Provides information on how to deserialize the response body.
    */
-  deserializationMapper?: object;
+  deserializationMapper?: Record<string, unknown>;
   /**
    * Indicates whether this method should JSON.stringify() the request body. Default value: false.
    */
@@ -630,7 +635,6 @@ export interface ParameterValue {
  */
 export interface RequestOptionsBase {
   /**
-   * @property {object} [customHeaders] User defined custom request headers that
    * will be applied before the request is sent.
    */
   customHeaders?: { [key: string]: string };
