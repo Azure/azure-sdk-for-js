@@ -47,10 +47,6 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     DuplicateDetectionHistoryTimeWindow: queue.duplicateDetectionHistoryTimeWindow,
     MaxDeliveryCount: getStringOrUndefined(queue.maxDeliveryCount),
     EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
-    
-    // TODO: found while syncing the ordering. This property is in .net, but not in ours?
-    //IsAnonymousAccessible: false,
-
     AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),    
     Status: getStringOrUndefined(queue.status),
     ForwardTo: getStringOrUndefined(queue.forwardTo),

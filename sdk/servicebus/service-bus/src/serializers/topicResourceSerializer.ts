@@ -44,7 +44,6 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
     EnableBatchedOperations: getStringOrUndefined(topic.enableBatchedOperations),
     // TODO: in .net, but not in here: FilteringMessagesBeforePublishing
-    // TODO: in .net, but not in here: IsAnonymousAccessible
     AuthorizationRules: getRawAuthorizationRules(topic.authorizationRules),
     Status: getStringOrUndefined(topic.status),
     // TODO: in .net, but not in here: ForwardTo
