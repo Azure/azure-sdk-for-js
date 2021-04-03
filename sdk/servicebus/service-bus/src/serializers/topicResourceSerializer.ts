@@ -46,7 +46,6 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     // TODO: in .net, but not in here: FilteringMessagesBeforePublishing
     AuthorizationRules: getRawAuthorizationRules(topic.authorizationRules),
     Status: getStringOrUndefined(topic.status),
-    // TODO: in .net, but not in here: ForwardTo
     UserMetadata: getStringOrUndefined(topic.userMetadata),
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),

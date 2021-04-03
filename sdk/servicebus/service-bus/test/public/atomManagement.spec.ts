@@ -17,9 +17,10 @@ import { ServiceBusAdministrationClient, WithResponse } from "../../src";
 import { EntityStatus, EntityAvailabilityStatus } from "../../src";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
-import { EntityNames } from "./utils/testUtils";
+import { EntityNames, TestClientType } from "./utils/testUtils";
 import { TestConstants } from "./testConstants";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -59,6 +60,40 @@ const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 type AccessRights = ("Manage" | "Send" | "Listen")[];
 const randomDate = new Date();
+
+describe("Atom management - forwarding", () => {
+  let serviceBusClient: ServiceBusClientForTests;
+
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
+
+  after(() => serviceBusClient.test.after());
+
+  afterEach(async () => {
+    serviceBusClient.test.afterEach();
+  });
+
+  it.only("forwarding", async () => {
+    const willForward = await serviceBusClient.test.createTestEntities(TestClientType.PartitionedQueue);
+    const willBeForwardedTo = await serviceBusClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
+
+    // make it so all messages from `willForward` are forwarded to `willBeForwardedTo`
+    const queueProperties = await serviceBusAtomManagementClient.getQueue(willForward.queue!);
+    queueProperties.forwardTo = willBeForwardedTo.queue!;
+    await serviceBusAtomManagementClient.updateQueue(queueProperties);
+
+    const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(willBeForwardedTo);
+    const sender = await serviceBusClient.test.createSender(willForward);    
+    
+    await sender.sendMessages({
+      body: "forwarded message!"
+    });
+
+    const messages = await receiver.receiveMessages(1);
+    assert.deepEqual([{ body: "forwarded message!" }], messages.map(m => ({ body: m.body })));
+  }); 
+});
 
 describe("Atom management - Namespace", function(): void {
   it("Get namespace properties", async () => {
