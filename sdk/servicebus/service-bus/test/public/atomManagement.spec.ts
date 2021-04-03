@@ -61,6 +61,12 @@ const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 type AccessRights = ("Manage" | "Send" | "Listen")[];
 const randomDate = new Date();
 
+/**
+ * These tests are just a sanity check that our updates are actually
+ * _doing_ something. We've run into some bugs where we've done things like
+ * enabled forwarding only to find that forwarding isn't happening even though
+ * we can _read_ the attributes back.
+ */
 describe("Atom management - forwarding", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -74,7 +80,7 @@ describe("Atom management - forwarding", () => {
     serviceBusClient.test.afterEach();
   });
 
-  it.only("forwarding", async () => {
+  it("queue: forwarding", async () => {
     const willForward = await serviceBusClient.test.createTestEntities(TestClientType.PartitionedQueue);
     const willBeForwardedTo = await serviceBusClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
 
@@ -87,11 +93,31 @@ describe("Atom management - forwarding", () => {
     const sender = await serviceBusClient.test.createSender(willForward);    
     
     await sender.sendMessages({
-      body: "forwarded message!"
+      body: "forwarded message with queues!"
     });
 
     const messages = await receiver.receiveMessages(1);
-    assert.deepEqual([{ body: "forwarded message!" }], messages.map(m => ({ body: m.body })));
+    assert.deepEqual([{ body: "forwarded message with queues!" }], messages.map(m => ({ body: m.body })));
+  }); 
+
+  it("subscription: forwarding", async () => {
+    const willForward = await serviceBusClient.test.createTestEntities(TestClientType.PartitionedSubscription);
+    const willBeForwardedTo = await serviceBusClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
+
+    // make it so all messages from `willForward` are forwarded to `willBeForwardedTo`
+    const subscriptionProperties = await serviceBusAtomManagementClient.getSubscription(willForward.topic!, willForward.subscription!);
+    subscriptionProperties.forwardTo = willBeForwardedTo.queue!;
+    await serviceBusAtomManagementClient.updateSubscription(subscriptionProperties);
+
+    const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(willBeForwardedTo);
+    const sender = await serviceBusClient.test.createSender(willForward);    
+    
+    await sender.sendMessages({
+      body: "forwarded message with subscriptions!"
+    });
+
+    const messages = await receiver.receiveMessages(1);
+    assert.deepEqual([{ body: "forwarded message with subscriptions!" }], messages.map(m => ({ body: m.body })));
   }); 
 });
 
