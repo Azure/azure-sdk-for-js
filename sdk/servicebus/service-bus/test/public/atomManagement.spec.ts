@@ -81,8 +81,12 @@ describe("Atom management - forwarding", () => {
   });
 
   it("queue: forwarding", async () => {
-    const willForward = await serviceBusClient.test.createTestEntities(TestClientType.PartitionedQueue);
-    const willBeForwardedTo = await serviceBusClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
+    const willForward = await serviceBusClient.test.createTestEntities(
+      TestClientType.PartitionedQueue
+    );
+    const willBeForwardedTo = await serviceBusClient.test.createTestEntities(
+      TestClientType.UnpartitionedQueue
+    );
 
     // make it so all messages from `willForward` are forwarded to `willBeForwardedTo`
     const queueProperties = await serviceBusAtomManagementClient.getQueue(willForward.queue!);
@@ -90,35 +94,48 @@ describe("Atom management - forwarding", () => {
     await serviceBusAtomManagementClient.updateQueue(queueProperties);
 
     const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(willBeForwardedTo);
-    const sender = await serviceBusClient.test.createSender(willForward);    
-    
+    const sender = await serviceBusClient.test.createSender(willForward);
+
     await sender.sendMessages({
       body: "forwarded message with queues!"
     });
 
     const messages = await receiver.receiveMessages(1);
-    assert.deepEqual([{ body: "forwarded message with queues!" }], messages.map(m => ({ body: m.body })));
-  }); 
+    assert.deepEqual(
+      [{ body: "forwarded message with queues!" }],
+      messages.map((m) => ({ body: m.body }))
+    );
+  });
 
   it("subscription: forwarding", async () => {
-    const willForward = await serviceBusClient.test.createTestEntities(TestClientType.PartitionedSubscription);
-    const willBeForwardedTo = await serviceBusClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
+    const willForward = await serviceBusClient.test.createTestEntities(
+      TestClientType.PartitionedSubscription
+    );
+    const willBeForwardedTo = await serviceBusClient.test.createTestEntities(
+      TestClientType.UnpartitionedQueue
+    );
 
     // make it so all messages from `willForward` are forwarded to `willBeForwardedTo`
-    const subscriptionProperties = await serviceBusAtomManagementClient.getSubscription(willForward.topic!, willForward.subscription!);
+    const subscriptionProperties = await serviceBusAtomManagementClient.getSubscription(
+      willForward.topic!,
+      willForward.subscription!
+    );
     subscriptionProperties.forwardTo = willBeForwardedTo.queue!;
     await serviceBusAtomManagementClient.updateSubscription(subscriptionProperties);
 
     const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(willBeForwardedTo);
-    const sender = await serviceBusClient.test.createSender(willForward);    
-    
+    const sender = await serviceBusClient.test.createSender(willForward);
+
     await sender.sendMessages({
       body: "forwarded message with subscriptions!"
     });
 
     const messages = await receiver.receiveMessages(1);
-    assert.deepEqual([{ body: "forwarded message with subscriptions!" }], messages.map(m => ({ body: m.body })));
-  }); 
+    assert.deepEqual(
+      [{ body: "forwarded message with subscriptions!" }],
+      messages.map((m) => ({ body: m.body }))
+    );
+  });
 });
 
 describe("Atom management - Namespace", function(): void {
