@@ -140,7 +140,7 @@ export class ContainerRepositoryClient {
   ) {
     this.endpoint = endpointUrl;
     this.repository = repository;
-    const matches = endpointUrl.match(/:\/\/([a-zA-Z0-9\.]+)\/*/);
+    const matches = endpointUrl.match(/:\/\/([a-zA-Z0-9.]+)\/*/);
     if (matches) {
       this.registry = matches[1];
     } else {

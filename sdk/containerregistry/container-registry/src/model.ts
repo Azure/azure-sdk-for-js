@@ -46,19 +46,19 @@ export interface RegistryArtifactProperties {
 }
 
 /**
- * Defines values for TagOrderBy. \
+ * Defines values for TagOrderBy.
  *  this contains the known values that the service supports.
  * ### Know values supported by the service
- * **timedesc**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated. \
+ * **timedesc**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated.
  * **timeasc**: Order tags by LastUpdatedOn field, from least recently updated to most recently updated.
  */
 export type TagOrderBy = "timedesc" | "timeasc";
 
 /**
- * Defines values for RegistryArtifactOrderBy. \
+ * Defines values for RegistryArtifactOrderBy.
  *  this contains the known values that the service supports.
  * ### Know values supported by the service
- * **timedesc**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated. \
+ * **timedesc**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated.
  * **timeasc**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
  */
 export type RegistryArtifactOrderBy = "timedesc" | "timeasc";
