@@ -96,7 +96,7 @@ export class SearchIndexClient {
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Search Index client.
    */
-  constructor(endpoint: string, credential: KeyCredential, options: SearchIndexClientOptions = {}) {
+  constructor(endpoint: string, credential: KeyCredential, apiVersion?: string, options: SearchIndexClientOptions = {}) {
     this.endpoint = endpoint;
     this.credential = credential;
     this.options = options;
@@ -137,7 +137,11 @@ export class SearchIndexClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(this.endpoint, this.apiVersion, pipeline);
+    if(!apiVersion) {
+      apiVersion = this.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
   }
 
   private async *listIndexesPage(
@@ -611,7 +615,7 @@ export class SearchIndexClient {
    * @param indexName - Name of the index
    * @param options - SearchClient Options
    */
-  public getSearchClient<T>(indexName: string, options?: GetSearchClientOptions): SearchClient<T> {
-    return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
+  public getSearchClient<T>(indexName: string, apiVersion?: string, options?: GetSearchClientOptions): SearchClient<T> {
+    return new SearchClient<T>(this.endpoint, indexName, this.credential, apiVersion, options || this.options);
   }
 }

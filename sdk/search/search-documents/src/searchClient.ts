@@ -106,6 +106,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
     endpoint: string,
     indexName: string,
     credential: KeyCredential,
+    apiVersion?: string,
     options: SearchClientOptions = {}
   ) {
     this.endpoint = endpoint;
@@ -146,7 +147,11 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
     }
 
-    this.client = new GeneratedClient(this.endpoint, this.indexName, this.apiVersion, pipeline);
+    if(!apiVersion) {
+      apiVersion = this.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, this.indexName, apiVersion, pipeline);
   }
 
   /**

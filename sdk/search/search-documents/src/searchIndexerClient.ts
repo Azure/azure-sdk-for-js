@@ -88,6 +88,7 @@ export class SearchIndexerClient {
   constructor(
     endpoint: string,
     credential: KeyCredential,
+    apiVersion?: string,
     options: SearchIndexerClientOptions = {}
   ) {
     this.endpoint = endpoint;
@@ -128,7 +129,11 @@ export class SearchIndexerClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(this.endpoint, this.apiVersion, pipeline);
+    if(!apiVersion) {
+      apiVersion = this.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
   }
 
   /**
