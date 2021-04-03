@@ -99,7 +99,7 @@
     "@azure/core-amqp": "^2.2.0",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.2.0",
-    "@azure/core-tracing": "1.0.0-preview.11",
+    "@azure/core-tracing": "1.0.0-preview.12",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-auth": "^1.3.0",
     "@azure/logger": "^1.0.0",
