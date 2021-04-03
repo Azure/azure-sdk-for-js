@@ -2,6 +2,10 @@
 
 ## 7.1.0-beta.1 (Unreleased)
 
+- Adds support for passing `NamedKeyCredential` as the credential type to `ServiceBusClient` and `ServiceBusAdminstrationClient`. Also adds support for passing `SASCredential` to `ServiceBusClient`.
+  These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
+  Resolves [#11891](https://github.com/Azure/azure-sdk-for-js/issues/11891).
+
 ## 7.0.4 (2021-03-31)
 
 ### Bug fixes

@@ -14,7 +14,6 @@ export async function main() {
   const endpoint = process.env.ENDPOINT ?? "<endpoint>";
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
   await listRepositories(client);
-
   await deleteRepository(client);
 }
 

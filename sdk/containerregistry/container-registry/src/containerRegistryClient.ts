@@ -3,14 +3,10 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  TokenCredential,
-  OperationOptions,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  isTokenCredential
-} from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
+
 import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -20,11 +16,9 @@ import { logger } from "./logger";
 import { GeneratedClient } from "./generated";
 import { createSpan } from "./tracing";
 import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model";
-import {
-  ContainerRegistryUserCredential,
-  createContainerRegistryUserCredentialPolicy
-} from "./containerRegistryUserCredentialPolicy";
 import { extractNextLink } from "./utils";
+import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChanllengeAuthenticationPolicy";
+import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 
 /**
  * Options for the `deleteRepository` method of `ContainerRegistryClient`.
@@ -45,6 +39,7 @@ export class ContainerRegistryClient {
    */
   public endpoint: string;
   private client: GeneratedClient;
+  private authClient: GeneratedClient;
 
   /**
    * Creates an instance of a ContainerRegistryClient.
@@ -65,7 +60,7 @@ export class ContainerRegistryClient {
    */
   constructor(
     endpointUrl: string,
-    credential: TokenCredential | ContainerRegistryUserCredential,
+    credential: TokenCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpointUrl;
@@ -80,23 +75,25 @@ export class ContainerRegistryClient {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    // The AAD scope for an API is usually the baseUri + "/.default", but it
-    // may be different for your service.
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, `${endpointUrl}/.default`)
-      : createContainerRegistryUserCredentialPolicy(credential);
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       loggingOptions: {
         logger: logger.info,
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-        allowedHeaderNames: ["x-ms-correlation-request-id"]
+        additionalAllowedHeaderNames: ["x-ms-correlation-request-id"]
       }
     };
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new GeneratedClient(endpointUrl, pipeline);
+    this.authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    this.client.pipeline.addPolicy(
+      bearerTokenChallengeAuthenticationPolicy({
+        credential,
+        scopes: `https://management.core.windows.net/.default`,
+        challengeCallbacks: new ChallengeHandler(this.authClient)
+      })
+    );
   }
 
   /**

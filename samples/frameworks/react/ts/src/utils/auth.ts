@@ -7,7 +7,7 @@
 
   For more information on the authentication strategies available for 
   client-side applications, please refer to 
-  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/ClientSideUserAuthentication.md.
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md.
 */
 
 import { InteractiveBrowserCredential } from "@azure/identity";

@@ -19,6 +19,7 @@ import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { EntityNames } from "./utils/testUtils";
 import { TestConstants } from "./testConstants";
+import { AzureNamedKeyCredential } from "@azure/core-auth";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -318,6 +319,26 @@ describe("Atom management - Authentication", function(): void {
       await serviceBusAdministrationClient.deleteQueue(managementQueue2);
     });
   }
+
+  it("AzureNamedKeyCredential from `@azure/core-auth`", async () => {
+    const connectionStringProperties = parseServiceBusConnectionString(
+      env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+    );
+    const host = connectionStringProperties.fullyQualifiedNamespace;
+    const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
+      host,
+      new AzureNamedKeyCredential(
+        connectionStringProperties.sharedAccessKeyName!,
+        connectionStringProperties.sharedAccessKey!
+      )
+    );
+
+    should.equal(
+      (await serviceBusAdministrationClient.getNamespaceProperties()).name,
+      (host.match("(.*).servicebus.windows.net") || [])[1],
+      "Unexpected namespace name in the getNamespaceProperties response"
+    );
+  });
 });
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(

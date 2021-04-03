@@ -21,6 +21,8 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [getSettingOnlyIfChanged.ts][getsettingonlyifchanged]           | Demonstrates getting a setting only if it has changed from what you already have. (This allows your app to avoid downloading the contents of a setting if the value is unchanged.) |
 | [listConfigurationSettings.ts][listconfigurationsettings]       | Demonstrates listing multiple configuration settings using a filter for a key or label.                                                                                            |
 | [listRevisions.ts][listrevisions]                               | Demonstrates listing revisions for a configuration setting.                                                                                                                        |
+| [secretReference.ts][secretreference]                           | SecretReference represents a configuration setting that references as KeyVault secret.                                                                                             |
+| [featureFlag.ts][featureflag]                                   | Feature flags are settings that follow specific JSON schema for the value.                                                                                                         |
 
 ## Prerequisites
 
@@ -81,6 +83,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/getSettingOnlyIfChanged.ts
 [listconfigurationsettings]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listConfigurationSettings.ts
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/listRevisions.ts
+[secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/secretReference.ts
+[featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript/src/featureFlag.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/app-configuration
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfigurationaccount]: https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store

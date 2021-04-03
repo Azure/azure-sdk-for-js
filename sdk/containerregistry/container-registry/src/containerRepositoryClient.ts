@@ -3,15 +3,9 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  TokenCredential,
-  OperationOptions,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  isTokenCredential,
-  RestResponse
-} from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -28,11 +22,9 @@ import {
   RepositoryProperties,
   TagProperties
 } from "./model";
-import {
-  ContainerRegistryUserCredential,
-  createContainerRegistryUserCredentialPolicy
-} from "./containerRegistryUserCredentialPolicy";
 import { extractNextLink } from "./utils";
+import { ChallengeHandler } from "./containerRegistryChallengeHandler";
+import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChanllengeAuthenticationPolicy";
 
 /**
  * Options for the `getProperties` method of `ContainerRepositoryClient`.
@@ -101,6 +93,7 @@ export interface ListTagsOptions extends OperationOptions {
  */
 export class ContainerRepositoryClient {
   private client: GeneratedClient;
+  private authClient: GeneratedClient;
   /**
    * The Azure Container Registry endpoint.
    */
@@ -136,7 +129,7 @@ export class ContainerRepositoryClient {
   constructor(
     endpointUrl: string,
     repository: string,
-    credential: TokenCredential | ContainerRegistryUserCredential,
+    credential: TokenCredential,
     options: ContainerRegistryClientOptions = {}
   ) {
     this.endpoint = endpointUrl;
@@ -153,24 +146,25 @@ export class ContainerRepositoryClient {
       options.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    // The AAD scope for an API is usually the baseUri + "/.default", but it
-    // may be different for your service.
-    const authPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy(credential, `${endpointUrl}/.default`)
-      : createContainerRegistryUserCredentialPolicy(credential);
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       loggingOptions: {
         logger: logger.info,
         // This array contains header names we want to log that are not already
         // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-        allowedHeaderNames: ["x-ms-correlation-request-id"],
-        allowedQueryParameters: ["last", "n"]
+        additionalAllowedHeaderNames: ["x-ms-correlation-request-id"],
+        additionalAllowedQueryParameters: ["last", "n", "orderby", "digest"]
       }
     };
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new GeneratedClient(endpointUrl, pipeline);
+    this.authClient = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
+    const authPolicy = bearerTokenChallengeAuthenticationPolicy({
+      credential,
+      scopes: `https://management.core.windows.net/.default`,
+      challengeCallbacks: new ChallengeHandler(this.authClient)
+    });
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -203,19 +197,18 @@ export class ContainerRepositoryClient {
   public async deleteRegistryArtifact(
     digest: string,
     options: DeleteRegistryArtifactOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan(
       "ContainerRepositoryClient-deleteRegistryArtifact",
       options
     );
 
     try {
-      const result = await this.client.containerRegistryRepository.deleteManifest(
+      await this.client.containerRegistryRepository.deleteManifest(
         this.repository,
         digest,
         updatedOptions
       );
-      return result;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -229,16 +222,11 @@ export class ContainerRepositoryClient {
    * @param tag - the name of the tag to be deleted.
    * @param options -
    */
-  public async deleteTag(tag: string, options: DeleteTagOptions = {}): Promise<RestResponse> {
+  public async deleteTag(tag: string, options: DeleteTagOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-deleteTag", options);
 
     try {
-      const result = await this.client.containerRegistryRepository.deleteTag(
-        this.repository,
-        tag,
-        updatedOptions
-      );
-      return result;
+      await this.client.containerRegistryRepository.deleteTag(this.repository, tag, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -334,19 +322,18 @@ export class ContainerRepositoryClient {
     digest: string,
     value: ContentProperties,
     options: SetManifestPropertiesOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setManifestProperties", {
       ...options,
       value: value
     });
 
     try {
-      const result = await this.client.containerRegistryRepository.updateTagAttributes(
+      await this.client.containerRegistryRepository.updateTagAttributes(
         this.repository,
         digest,
         updatedOptions
       );
-      return result;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -362,18 +349,14 @@ export class ContainerRepositoryClient {
   public async setPermissions(
     value: ContentProperties,
     options: SetPermissionsOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setPermissions", {
       ...options,
       value: value
     });
 
     try {
-      const result = await this.client.containerRegistryRepository.setProperties(
-        this.repository,
-        updatedOptions
-      );
-      return result;
+      await this.client.containerRegistryRepository.setProperties(this.repository, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -391,19 +374,18 @@ export class ContainerRepositoryClient {
     tag: string,
     value: ContentProperties = {},
     options: SetTagPropertiesOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<void> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setTagProperties", {
       ...options,
       value: value
     });
 
     try {
-      const result = await this.client.containerRegistryRepository.updateTagAttributes(
+      await this.client.containerRegistryRepository.updateTagAttributes(
         this.repository,
         tag,
         updatedOptions
       );
-      return result;
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

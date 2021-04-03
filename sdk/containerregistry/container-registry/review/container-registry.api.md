@@ -4,15 +4,14 @@
 
 ```ts
 
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
-import { TokenCredential } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class ContainerRegistryClient {
-    constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
     deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     endpoint: string;
     listRepositories(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
@@ -23,19 +22,11 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 }
 
 // @public
-export class ContainerRegistryUserCredential {
-    constructor(username: string, pass: string);
-    get pass(): string;
-    update(pass: string): void;
-    get username(): string;
-    }
-
-// @public
 export class ContainerRepositoryClient {
-    constructor(endpointUrl: string, repository: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpointUrl: string, repository: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
     delete(options?: DeleteOptions): Promise<DeleteRepositoryResult>;
-    deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<RestResponse>;
-    deleteTag(tag: string, options?: DeleteTagOptions): Promise<RestResponse>;
+    deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<void>;
+    deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
     endpoint: string;
     getProperties(options?: GetPropertiesOptions): Promise<RepositoryProperties>;
     getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<RegistryArtifactProperties>;
@@ -44,9 +35,9 @@ export class ContainerRepositoryClient {
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
     registry: string;
     repository: string;
-    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<RestResponse>;
-    setPermissions(value: ContentProperties, options?: SetPermissionsOptions): Promise<RestResponse>;
-    setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<RestResponse>;
+    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<void>;
+    setPermissions(value: ContentProperties, options?: SetPermissionsOptions): Promise<void>;
+    setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<void>;
 }
 
 // @public

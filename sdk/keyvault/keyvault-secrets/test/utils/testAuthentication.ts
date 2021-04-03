@@ -41,5 +41,5 @@ export async function authenticate(that: Context): Promise<any> {
   const client = new SecretClient(keyVaultUrl, credential);
   const testClient = new TestClient(client);
 
-  return { recorder, client, testClient, secretSuffix };
+  return { recorder, client, testClient, secretSuffix, credential };
 }
