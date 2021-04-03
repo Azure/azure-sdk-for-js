@@ -21,6 +21,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [getSettingOnlyIfChanged.js][getsettingonlyifchanged]           | Demonstrates getting a setting only if it has changed from what you already have. (This allows your app to avoid downloading the contents of a setting if the value is unchanged.) |
 | [listConfigurationSettings.js][listconfigurationsettings]       | Demonstrates listing multiple configuration settings using a filter for a key or label.                                                                                            |
 | [listRevisions.js][listrevisions]                               | Demonstrates listing revisions for a configuration setting.                                                                                                                        |
+| [secretReference.js][secretreference]                           | SecretReference represents a configuration setting that references as KeyVault secret.                                                                                             |
+| [featureFlag.js][featureflag]                                   | Feature flags are settings that follow specific JSON schema for the value.                                                                                                         |
 
 ## Prerequisites
 
@@ -69,6 +71,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getsettingonlyifchanged]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/getSettingOnlyIfChanged.js
 [listconfigurationsettings]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/listConfigurationSettings.js
 [listrevisions]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/listRevisions.js
+[secretreference]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/secretReference.js
+[featureflag]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/javascript/featureFlag.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/app-configuration
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureappconfigurationaccount]: https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store
