@@ -8,13 +8,7 @@ import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
 import { CredentialUnavailable } from "../client/errors";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
-import {
-  AuthenticationRecord,
-  MsalAccountInfo,
-  MsalResult,
-  MsalToken,
-  SupportedAuthenticationRecordVersions
-} from "./types";
+import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequired } from "./errors";
 import { MsalFlowOptions } from "./flows";
 
@@ -22,7 +16,7 @@ import { MsalFlowOptions } from "./flows";
  * Latest AuthenticationRecord version
  * @internal
  */
-const LatestAuthenticationRecordVersion: SupportedAuthenticationRecordVersions = "1.0";
+const LatestAuthenticationRecordVersion = "1.0";
 
 /**
  * Ensures the validity of the MSAL token
@@ -243,9 +237,9 @@ export function serializeAuthenticationRecord(record: AuthenticationRecord): str
  * @returns AuthenticationRecord.
  */
 export function deserializeAuthenticationRecord(serializedRecord: string): AuthenticationRecord {
-  const parsed: AuthenticationRecord = JSON.parse(serializedRecord);
+  const parsed: AuthenticationRecord & { version?: string } = JSON.parse(serializedRecord);
 
-  if (parsed.version !== LatestAuthenticationRecordVersion) {
+  if (parsed.version && parsed.version !== LatestAuthenticationRecordVersion) {
     throw Error("Unsupported AuthenticationRecord version");
   }
 

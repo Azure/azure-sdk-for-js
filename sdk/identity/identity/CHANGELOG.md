@@ -5,9 +5,6 @@
 - Added `clientId` to the `AuthenticationRecord` type.
 - `AuthenticationRecord` no longer has a `serialize` method. This method is now called `serializeAuthenticationRecord` and is a function exported at the top level of the Identity library, similar to `deserializeAuthenticationRecord`.
 - `serializeAuthenticationRecord` now serializes into a JSON string with camel case properties. This makes it re-usable across languages.
-- `AuthenticationRecord` will now include a `version` property.
-    - For now, the version will always be `1.0`.
-    - If `deserializeAuthenticationRecord` receives a version other than `1.0`, it throws a simple error.
 - Added properties `scopes` and `getTokenOptions` to the `AuthenticationRequired` error.
 - `InteractiveBrowserCredential` no longer supports [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) and will only support [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) instead. Therefore the `flow` option introduced in `1.2.4-beta.1` has been removed. More information from the documentation on Implicit Grant Flow:
 

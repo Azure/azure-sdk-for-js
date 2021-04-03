@@ -39,11 +39,6 @@ export interface MsalResult {
 }
 
 /**
- * Supported AuthenticationRecord versions
- */
-export type SupportedAuthenticationRecordVersions = "1.0";
-
-/**
  * The record to use to find the cached tokens in the cache.
  */
 export interface AuthenticationRecord {
@@ -67,8 +62,4 @@ export interface AuthenticationRecord {
    * The username of the logged in account.
    */
   username: string;
-  /**
-   * Version of the authentication record
-   */
-  version: SupportedAuthenticationRecordVersions;
 }

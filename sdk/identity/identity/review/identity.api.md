@@ -38,7 +38,6 @@ export interface AuthenticationRecord {
     homeAccountId: string;
     tenantId: string;
     username: string;
-    version: SupportedAuthenticationRecordVersions;
 }
 
 // @public
@@ -218,9 +217,6 @@ export interface PersistentCredentialOptions extends TokenCredentialOptions {
 
 // @public
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
-
-// @public
-export type SupportedAuthenticationRecordVersions = "1.0";
 
 // @public
 export interface TokenCachePersistenceOptions {
