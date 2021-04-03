@@ -4,7 +4,11 @@
 import { logger, receiverLogger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
-import { isServiceBusMessage, ServiceBusReceivedMessage } from "../serviceBusMessage";
+import {
+  isAmqpAnnotatedMessage,
+  isServiceBusMessage,
+  ServiceBusReceivedMessage
+} from "../serviceBusMessage";
 import { ReceiveMode } from "../models";
 import { isDefined } from "./typeGuards";
 
@@ -253,10 +257,21 @@ export function throwIfNotValidServiceBusMessage(
   msg: unknown,
   errorMessageForWrongType: string
 ): void {
-  if (!isServiceBusMessage(msg)) {
+  if (!isServiceBusMessage(msg) && !isAmqpAnnotatedMessage(msg)) {
     throw new TypeError(errorMessageForWrongType);
   }
-  if (msg.partitionKey && msg.sessionId && msg.partitionKey !== msg.sessionId) {
-    throw new TypeError(PartitionKeySessionIdMismatchError);
+
+  if (isServiceBusMessage(msg)) {
+    if (msg.partitionKey && msg.sessionId && msg.partitionKey !== msg.sessionId) {
+      throw new TypeError(PartitionKeySessionIdMismatchError);
+    }
   }
 }
+
+/** @internal */
+export const errorInvalidMessageTypeSingleOrArray =
+  "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage or an array of type ServiceBusMessage or AmqpAnnotatedMessage.";
+
+/** @internal */
+export const errorInvalidMessageTypeSingle =
+  "Provided value for 'message' must be of type: ServiceBusMessage or AmqpAnnotatedMessage.";
