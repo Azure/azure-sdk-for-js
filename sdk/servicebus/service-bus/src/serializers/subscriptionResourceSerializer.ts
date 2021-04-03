@@ -61,7 +61,6 @@ export function buildSubscriptionOptions(
     UserMetadata: getStringOrUndefined(subscription.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
     AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle),
-    // TODO: EntityAvailabilityStatus does not exist in .net
     EntityAvailabilityStatus: getStringOrUndefined(subscription.availabilityStatus)
   };
 }
