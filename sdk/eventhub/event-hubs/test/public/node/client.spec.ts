@@ -28,6 +28,7 @@ describe("public/node/client.spec.ts", function() {
 
           return service.start();
         });
+
         after("Stopping mock server", async () => {
           return service?.stop();
         });
@@ -54,9 +55,21 @@ describe("public/node/client.spec.ts", function() {
           env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
           "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
         );
+
         // This is of the form <your-namespace>.servicebus.windows.net
         endpoint = (env.EVENTHUB_CONNECTION_STRING.match("Endpoint=sb://(.*)/;") || "")[1];
-        credential = new EnvironmentCredential();
+        if (serviceVersion === "mock") {
+          credential = {
+            getToken() {
+              return Promise.resolve({
+                token: "token",
+                expiresOnTimestamp: Date.now() + 1000 * 60 * 5
+              });
+            }
+          };
+        } else {
+          credential = new EnvironmentCredential();
+        }
       });
 
       it("creates an EventHubProducerClient from an Azure.Identity credential", async function(): Promise<
