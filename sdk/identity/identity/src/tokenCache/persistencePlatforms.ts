@@ -4,7 +4,7 @@
 
 import * as path from "path";
 import { MsalPersistence } from "./types";
-import { isNode15, isNode8, Node15NotSupportedError, Node8NotSupportedError } from "./nodeVersion";
+import { isNode8, Node15NotSupportedError, Node8NotSupportedError } from "./nodeVersion";
 
 /**
  * Local application data folder
@@ -120,13 +120,13 @@ export const msalPersistencePlatforms: Record<
     name: "win32",
     isAvailable: () => process.platform === "win32",
     persistence: ({ name = defaultMsalValues.tokenCache.name } = {}): Promise<MsalPersistence> => {
-      if (isNode8 || isNode15) {
+      if (isNode8) {
         throw isNode8 ? Node8NotSupportedError : Node15NotSupportedError;
       } else {
         const {
           FilePersistenceWithDataProtection,
           DataProtectionScope
-          /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+          /* eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies */
         } = require("@azure/msal-node-extensions");
         return FilePersistenceWithDataProtection.create(
           getPersistencePath(name),
@@ -144,10 +144,10 @@ export const msalPersistencePlatforms: Record<
       const { service, account } = defaultMsalValues.keyChain;
       const persistencePath = getPersistencePath(name || defaultMsalValues.tokenCache.name);
 
-      if (isNode8 || isNode15) {
+      if (isNode8) {
         throw isNode8 ? Node8NotSupportedError : Node15NotSupportedError;
       } else {
-        /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+        /* eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies */
         const { KeychainPersistence, FilePersistence } = require("@azure/msal-node-extensions");
 
         try {
@@ -175,10 +175,10 @@ export const msalPersistencePlatforms: Record<
       const { service, account } = defaultMsalValues.keyRing;
       const persistencePath = getPersistencePath(name || defaultMsalValues.tokenCache.name);
 
-      if (isNode8 || isNode15) {
+      if (isNode8) {
         throw isNode8 ? Node8NotSupportedError : Node15NotSupportedError;
       } else {
-        /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+        /* eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies */
         const { LibSecretPersistence, FilePersistence } = require("@azure/msal-node-extensions");
 
         try {

@@ -78,7 +78,7 @@ describe("ClientCertificateCredential (internal)", function() {
   // To test this, please install @azure/msal-node-extensions and un-skip these tests.
   describe("Persistent tests", function() {
     try {
-      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+      /* eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies */
       require("@azure/msal-node-extensions");
     } catch (e) {
       return;
@@ -104,7 +104,7 @@ describe("ClientCertificateCredential (internal)", function() {
       // Emptying the token cache before we start.
       const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
       const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
+      persistence?.save("{}");
 
       const credential = new ClientCertificateCredential(
         env.AZURE_TENANT_ID,
@@ -139,7 +139,7 @@ describe("ClientCertificateCredential (internal)", function() {
       // Emptying the token cache before we start.
       const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
       const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
+      persistence?.save("{}");
 
       const credential = new ClientCertificateCredential(
         env.AZURE_TENANT_ID,

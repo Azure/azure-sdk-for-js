@@ -11,7 +11,7 @@ import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../s
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { isNode15, isNode8 } from "../../../src/tokenCache/nodeVersion";
+import { isNode8 } from "../../../src/tokenCache/nodeVersion";
 import { Context } from "mocha";
 
 describe("ClientSecretCredential (internal)", function() {
@@ -60,7 +60,7 @@ describe("ClientSecretCredential (internal)", function() {
   // To test this, please install @azure/msal-node-extensions and un-skip these tests.
   describe("Persistent tests", function() {
     try {
-      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+      /* eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies */
       require("@azure/msal-node-extensions");
     } catch (e) {
       return;
@@ -68,7 +68,7 @@ describe("ClientSecretCredential (internal)", function() {
 
     it("Accepts tokenCachePersistenceOptions", async function(this: Context) {
       // msal-node-extensions does not currently support Node 8.
-      if (isNode8 || isNode15) {
+      if (isNode8) {
         this.skip();
       }
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
@@ -84,7 +84,7 @@ describe("ClientSecretCredential (internal)", function() {
       // Emptying the token cache before we start.
       const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
       const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
+      persistence?.save("{}");
 
       const credential = new ClientSecretCredential(
         env.AZURE_TENANT_ID,
@@ -101,7 +101,7 @@ describe("ClientSecretCredential (internal)", function() {
 
     it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Context) {
       // msal-node-extensions does not currently support Node 8.
-      if (isNode8 || isNode15) {
+      if (isNode8) {
         this.skip();
       }
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
@@ -117,7 +117,7 @@ describe("ClientSecretCredential (internal)", function() {
       // Emptying the token cache before we start.
       const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
       const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
+      persistence?.save("{}");
 
       const credential = new ClientSecretCredential(
         env.AZURE_TENANT_ID,

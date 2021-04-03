@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CredentialUnavailable } from "../client/errors";
-import { isNode15, isNode8, Node15NotSupportedError, Node8NotSupportedError } from "./nodeVersion";
+import { isNode8, Node15NotSupportedError, Node8NotSupportedError } from "./nodeVersion";
 import { msalPersistencePlatforms, TokenCachePersistenceOptions } from "./persistencePlatforms";
 import { MsalPersistence, CachePlugin, TokenCacheRegisterOptions } from "./types";
 
@@ -34,7 +34,7 @@ export class TokenCachePersistence {
 
     let extensions: any;
     try {
-      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+      /* eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies */
       extensions = require("@azure/msal-node-extensions");
     } catch (e) {
       throw new CredentialUnavailable(
@@ -42,7 +42,7 @@ export class TokenCachePersistence {
       );
     }
 
-    if (isNode8 || isNode15) {
+    if (isNode8) {
       throw isNode8 ? Node8NotSupportedError : Node15NotSupportedError;
     } else {
       const { PersistenceCachePlugin } = extensions;
