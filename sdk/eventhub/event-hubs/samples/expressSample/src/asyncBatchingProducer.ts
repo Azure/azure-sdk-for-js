@@ -37,7 +37,6 @@ export class AsyncBatchingProducer {
 
   /**
    * Queues up the eventData so it can be sent to Event Hubs.
-   * @param eventData
    */
   public send(eventData: EventData) {
     this._eventQueue.push(eventData);
@@ -124,8 +123,8 @@ export class AsyncBatchingProducer {
 /**
  * This function returns a promise that resolves after the specified amount of time.
  * It also supports cancellation via passing in an `abortSignal`.
- * @param timeInMs The amount of time in milliseconds the function should wait before resolving.
- * @param abortSignal Used to support rejecting the promise immediately.
+ * @param timeInMs - The amount of time in milliseconds the function should wait before resolving.
+ * @param abortSignal - Used to support rejecting the promise immediately.
  */
 function wait(timeInMs: number, abortSignal: AbortSignalLike): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -191,7 +190,6 @@ class AwaitableQueue<T> {
 
   /**
    * Appends new item to the queue.
-   * @param item
    */
   public push(item: T): void {
     if (!this._resolveNextItem(item)) {

@@ -1,0 +1,194 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://endpoint/availablePhoneNumbers/:purchase",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": "{\"searchId\":\"sanitized\"}",
+      "status": 202,
+      "response": "",
+      "responseHeaders": {
+        "content-length": "0",
+        "operation-id": "purchase_sanitized",
+        "operation-location": "/phoneNumbers/operations/purchase_sanitized?api-version=2021-03-07",
+        "purchase-id": "sanitized"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/purchase_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Succeeded\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:02:20.3178686+00:00\",\"id\":\"purchase_sanitized\",\"operationType\":\"Purchase\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "524cf4e38121f49f080ef548c6a66f70"
+}

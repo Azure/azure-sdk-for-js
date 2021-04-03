@@ -10,9 +10,9 @@ import * as coreHttp from "@azure/core-http";
 import { ApiVersion10, AppConfigurationOptionalParams } from "./models";
 
 const packageName = "app-configuration";
-const packageVersion = "1.1.1";
+const packageVersion = "1.2.0-beta.1";
 
-/** @hidden */
+/** @internal */
 export class AppConfigurationContext extends coreHttp.ServiceClient {
   endpoint: string;
   syncToken?: string;

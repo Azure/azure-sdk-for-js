@@ -54,11 +54,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   // (The methods that use `extractConnectionStringParts` expect the url to not have `/` at the end)
   tableEndpoint = tableEndpoint.endsWith("/") ? tableEndpoint.slice(0, -1) : tableEndpoint;
 
-  const isAccountConnectionString =
-    connectionString.search("DefaultEndpointsProtocol=") !== -1 &&
-    connectionString.search("AccountKey=") !== -1;
-
-  if (isAccountConnectionString) {
+  if (isAccountConnectionString(connectionString)) {
     return getAccountConnectionString(
       getValueInConnString(connectionString, "AccountName"),
       getValueInConnString(connectionString, "AccountKey"),
@@ -69,6 +65,17 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     return getSASConnectionString(connectionString, tableEndpoint);
   }
+}
+
+/**
+ * Checks whether a connection string is an Account Connection string or not
+ */
+function isAccountConnectionString(connectionString: string) {
+  const lowercaseConnectionString = connectionString.toLowerCase();
+  return (
+    lowercaseConnectionString.search("defaultendpointsprotocol=") !== -1 &&
+    lowercaseConnectionString.search("accountkey=") !== -1
+  );
 }
 
 function getSASConnectionString(connectionString: string, tableEndpoint: string): ConnectionString {
@@ -95,13 +102,30 @@ function getValueInConnString(
     | "EndpointSuffix"
     | "SharedAccessSignature"
 ): string {
+  const searchKey = argument.toLowerCase();
   const elements = connectionString.split(";");
   for (const element of elements) {
-    if (element.trim().startsWith(argument)) {
-      return element.trim().match(argument + "=(.*)")![1];
+    const trimmedElement = element.trim();
+    const [elementKey, value] = getValuePair(trimmedElement);
+    const key = elementKey.toLowerCase();
+    if (key === searchKey) {
+      return value;
     }
   }
   return "";
+}
+
+function getValuePair(kvp: string): string[] {
+  // If the string is not in kvp format <key>=<valye> return an empty array
+  if (!kvp || kvp.indexOf("=") === -1) {
+    return [];
+  }
+  // Get the substring before the first '='
+  const key = kvp.substr(0, kvp.indexOf("="));
+  // Get the substring after the first '='
+  const value = kvp.substr(kvp.indexOf("=") + 1);
+
+  return [key, value];
 }
 
 /**

@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { FeedOptions } from "../../../src";
 import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 const doc = { id: "myId", pk: "pk" };
 
-describe("ResourceLink Trimming of leading and trailing slashes", function() {
+describe("ResourceLink Trimming of leading and trailing slashes", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   const containerId = "testcontainer";
 
@@ -39,7 +40,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function() {
   });
 });
 
-describe("Test Query Metrics", function() {
+describe("Test Query Metrics", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const collectionId = "testCollection2";
 
@@ -84,7 +85,7 @@ describe("Test Query Metrics", function() {
   });
 });
 
-describe("Partition key in FeedOptions", function() {
+describe("Partition key in FeedOptions", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
   beforeEach(async function() {

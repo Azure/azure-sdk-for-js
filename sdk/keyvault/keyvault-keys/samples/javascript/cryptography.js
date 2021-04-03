@@ -27,8 +27,9 @@ async function main() {
   let myWorkKey = await client.createKey(keyName, "RSA");
 
   const cryptoClient = new CryptographyClient(
-    myWorkKey // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
-  , credential);
+    myWorkKey, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
+    credential
+  );
 
   // Sign and Verify
   const signatureValue = "MySignature";
@@ -45,10 +46,13 @@ async function main() {
   console.log("verify result: ", verifyResult);
 
   // Encrypt and decrypt
-  const encrypt = await cryptoClient.encrypt("RSA1_5", Buffer.from("My Message"));
+  const encrypt = await cryptoClient.encrypt({
+    algorithm: "RSA1_5",
+    plaintext: Buffer.from("My Message")
+  });
   console.log("encrypt result: ", encrypt);
 
-  const decrypt = await cryptoClient.decrypt("RSA1_5", encrypt.result);
+  const decrypt = await cryptoClient.decrypt({ algorithm: "RSA1_5", ciphertext: encrypt.result });
   console.log("decrypt: ", decrypt.result.toString());
 
   // Wrap and unwrap

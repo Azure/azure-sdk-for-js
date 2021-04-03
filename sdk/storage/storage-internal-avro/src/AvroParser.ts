@@ -8,17 +8,11 @@ import { AbortSignalLike } from "@azure/abort-controller";
 /**
  * Options to configure the AvroParser read methods.
  * See {@link AvroParser.readFixedBytes}, {@link AvroParser.readMap} and etc.
- *
- * @export
- * @interface AvroParserReadOptions
  */
 interface AvroParserReadOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof AvroParserReadOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -27,12 +21,9 @@ export class AvroParser {
   /**
    * Reads a fixed number of bytes from the stream.
    *
-   * @static
-   * @param {AvroReadable} [stream]
-   * @param {number} [length]
-   * @param {AvroParserReadOptions} [options={}]
-   * @returns {Promise<Uint8Array>}
-   * @memberof AvroParser
+   * @param stream -
+   * @param length -
+   * @param options -
    */
   public static async readFixedBytes(
     stream: AvroReadable,
@@ -49,11 +40,8 @@ export class AvroParser {
   /**
    * Reads a single byte from the stream.
    *
-   * @static
-   * @param {AvroReadable} [stream]
-   * @param {AvroParserReadOptions} [options={}]
-   * @returns {Promise<number>}
-   * @memberof AvroParser
+   * @param stream -
+   * @param options -
    */
   private static async readByte(
     stream: AvroReadable,
@@ -122,7 +110,7 @@ export class AvroParser {
   public static async readBoolean(
     stream: AvroReadable,
     options: AvroParserReadOptions = {}
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     const b = await AvroParser.readByte(stream, options);
     if (b == 1) {
       return true;
@@ -176,7 +164,7 @@ export class AvroParser {
     }
 
     // FUTURE: need TextDecoder polyfill for IE
-    let utf8decoder = new TextDecoder();
+    const utf8decoder = new TextDecoder();
     return utf8decoder.decode(u8arr);
   }
 
@@ -205,7 +193,7 @@ export class AvroParser {
 
     const pairs: KeyValuePair<T>[] = await AvroParser.readArray(stream, readPairMethod, options);
 
-    let dict: Record<string, T> = {};
+    const dict: Record<string, T> = {};
     for (const pair of pairs) {
       dict[pair.key] = pair.value;
     }
@@ -217,7 +205,7 @@ export class AvroParser {
     readItemMethod: (s: AvroReadable, options?: AvroParserReadOptions) => Promise<T>,
     options: AvroParserReadOptions = {}
   ): Promise<T[]> {
-    let items: T[] = [];
+    const items: T[] = [];
     for (
       let count = await AvroParser.readLong(stream, options);
       count != 0;
@@ -265,8 +253,6 @@ interface ObjectSchema {
 export abstract class AvroType {
   /**
    * Reads an object from the stream.
-   *
-   * @param stream
    */
   public abstract read(
     stream: AvroReadable,
@@ -277,7 +263,7 @@ export abstract class AvroType {
    * Determines the AvroType from the Avro Schema.
    */
   public static fromSchema(schema: string | Object): AvroType {
-    if (typeof schema == "string") {
+    if (typeof schema === "string") {
       return AvroType.fromStringSchema(schema);
     } else if (Array.isArray(schema)) {
       return AvroType.fromArraySchema(schema);
@@ -322,7 +308,7 @@ export abstract class AvroType {
           throw new Error(`Required attribute 'name' doesn't exist on schema: ${schema}`);
         }
 
-        let fields: Record<string, AvroType> = {};
+        const fields: Record<string, AvroType> = {};
         if (!schema.fields) {
           throw new Error(`Required attribute 'fields' doesn't exist on schema: ${schema}`);
         }
@@ -458,7 +444,7 @@ class AvroRecordType extends AvroType {
   }
 
   public async read(stream: AvroReadable, options: AvroParserReadOptions = {}): Promise<Object> {
-    let record: Record<string, Object | null> = {};
+    const record: Record<string, Object | null> = {};
     record["$schema"] = this._name;
     for (const key in this._fields) {
       if (this._fields.hasOwnProperty(key)) {

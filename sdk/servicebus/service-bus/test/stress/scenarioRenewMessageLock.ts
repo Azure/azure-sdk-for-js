@@ -33,7 +33,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioRenewMessageLockOptio
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    completeMessageAfterDuration: options.completeMessageAfterDuration
+    completeMessageAfterDuration: !!options.completeMessageAfterDuration
   };
 }
 
@@ -58,6 +58,7 @@ export async function main() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "renewMessageLock",
     snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"]
   });
   const sbClient = new ServiceBusClient(connectionString);
@@ -70,7 +71,7 @@ export async function main() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
       elapsedTime < testDurationForSendInMs &&
-      stressBase.messagesSent.length < totalNumberOfMessagesToSend
+      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages([sender], numberOfMessagesPerSend);
       elapsedTime = new Date().valueOf() - startedAt.valueOf();

@@ -128,7 +128,7 @@ export interface BaseSearchIndexerSkill {
     description?: string;
     inputs: InputFieldMappingEntry[];
     name?: string;
-    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Custom.WebApiSkill";
+    odatatype: "#Microsoft.Skills.Util.ConditionalSkill" | "#Microsoft.Skills.Text.KeyPhraseExtractionSkill" | "#Microsoft.Skills.Vision.OcrSkill" | "#Microsoft.Skills.Vision.ImageAnalysisSkill" | "#Microsoft.Skills.Text.LanguageDetectionSkill" | "#Microsoft.Skills.Util.ShaperSkill" | "#Microsoft.Skills.Text.MergeSkill" | "#Microsoft.Skills.Text.EntityRecognitionSkill" | "#Microsoft.Skills.Text.SentimentSkill" | "#Microsoft.Skills.Text.SplitSkill" | "#Microsoft.Skills.Text.CustomEntityLookupSkill" | "#Microsoft.Skills.Text.TranslationSkill" | "#Microsoft.Skills.Util.DocumentExtractionSkill" | "#Microsoft.Skills.Custom.WebApiSkill";
     outputs: OutputFieldMappingEntry[];
 }
 
@@ -159,6 +159,9 @@ export type BM25Similarity = Similarity & {
 
 // @public
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
+
+// @public
+export type CharFilterName = string;
 
 // @public
 export type CjkBigramTokenFilter = BaseTokenFilter & {
@@ -269,7 +272,7 @@ export interface CustomAnalyzer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
     tokenFilters?: string[];
-    tokenizer: string;
+    tokenizerName: string;
 }
 
 // @public
@@ -309,6 +312,12 @@ export type CustomEntityLookupSkill = BaseSearchIndexerSkill & {
 
 // @public
 export type CustomEntityLookupSkillLanguage = string;
+
+// @public
+export type CustomNormalizer = LexicalNormalizer & {
+    tokenFilters?: TokenFilterName[];
+    charFilters?: CharFilterName[];
+};
 
 // @public
 export type DataChangeDetectionPolicy = HighWaterMarkChangeDetectionPolicy | SqlIntegratedChangeTrackingPolicy;
@@ -379,6 +388,16 @@ export interface DistanceScoringParameters {
     boostingDistance: number;
     referencePointParameter: string;
 }
+
+// @public
+export type DocumentExtractionSkill = BaseSearchIndexerSkill & {
+    odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
+    parsingMode?: string | null;
+    dataToExtract?: string | null;
+    configuration?: {
+        [propertyName: string]: any;
+    } | null;
+};
 
 // @public
 export interface EdgeNGramTokenFilter {
@@ -455,7 +474,10 @@ export interface FreshnessScoringParameters {
 
 // @public
 export class GeographyPoint {
-    constructor(latitude: number, longitude: number);
+    constructor(geographyPoint: {
+        longitude: number;
+        latitude: number;
+    });
     latitude: number;
     longitude: number;
     toJSON(): Record<string, unknown>;
@@ -527,6 +549,11 @@ export class IndexDocumentsBatch<T> {
     merge(documents: T[]): void;
     mergeOrUpload(documents: T[]): void;
     upload(documents: T[]): void;
+}
+
+// @public
+export interface IndexDocumentsClient<T> {
+    indexDocuments(batch: IndexDocumentsBatch<T>, options: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
 }
 
 // @public
@@ -631,6 +658,7 @@ export type KeyPhraseExtractionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
     defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
     maxKeyPhraseCount?: number | null;
+    modelVersion?: string | null;
 };
 
 // @public
@@ -775,6 +803,11 @@ export const enum KnownBlobIndexerParsingMode {
 export const enum KnownBlobIndexerPDFTextRotationAlgorithm {
     DetectAngles = "detectAngles",
     None = "none"
+}
+
+// @public
+export const enum KnownCharFilterName {
+    HtmlStrip = "html_strip"
 }
 
 // @public
@@ -966,6 +999,15 @@ export const enum KnownLexicalAnalyzerName {
 }
 
 // @public
+export const enum KnownLexicalNormalizerName {
+    AsciiFolding = "asciifolding",
+    Elision = "elision",
+    Lowercase = "lowercase",
+    Standard = "standard",
+    Uppercase = "uppercase"
+}
+
+// @public
 export const enum KnownOcrSkillLanguage {
     Ar = "ar",
     Cs = "cs",
@@ -1009,6 +1051,7 @@ export const enum KnownRegexFlags {
 
 // @public
 export const enum KnownSearchIndexerDataSourceType {
+    AdlsGen2 = "adlsgen2",
     AzureBlob = "azureblob",
     AzureSql = "azuresql",
     AzureTable = "azuretable",
@@ -1122,6 +1165,44 @@ export const enum KnownTextTranslationSkillLanguage {
 }
 
 // @public
+export const enum KnownTokenFilterName {
+    Apostrophe = "apostrophe",
+    ArabicNormalization = "arabic_normalization",
+    AsciiFolding = "asciifolding",
+    CjkBigram = "cjk_bigram",
+    CjkWidth = "cjk_width",
+    Classic = "classic",
+    CommonGram = "common_grams",
+    EdgeNGram = "edgeNGram_v2",
+    Elision = "elision",
+    GermanNormalization = "german_normalization",
+    HindiNormalization = "hindi_normalization",
+    IndicNormalization = "indic_normalization",
+    KeywordRepeat = "keyword_repeat",
+    KStem = "kstem",
+    Length = "length",
+    Limit = "limit",
+    Lowercase = "lowercase",
+    NGram = "nGram_v2",
+    PersianNormalization = "persian_normalization",
+    Phonetic = "phonetic",
+    PorterStem = "porter_stem",
+    Reverse = "reverse",
+    ScandinavianFoldingNormalization = "scandinavian_folding",
+    ScandinavianNormalization = "scandinavian_normalization",
+    Shingle = "shingle",
+    Snowball = "snowball",
+    SoraniNormalization = "sorani_normalization",
+    Stemmer = "stemmer",
+    Stopwords = "stopwords",
+    Trim = "trim",
+    Truncate = "truncate",
+    Unique = "unique",
+    Uppercase = "uppercase",
+    WordDelimiter = "word_delimiter"
+}
+
+// @public
 export enum KnownTokenFilterNames {
     Apostrophe = "apostrophe",
     ArabicNormalization = "arabic_normalization",
@@ -1190,6 +1271,8 @@ export const enum KnownVisualFeature {
 // @public
 export type LanguageDetectionSkill = BaseSearchIndexerSkill & {
     odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
+    defaultCountryHint?: string | null;
+    modelVersion?: string | null;
 };
 
 // @public
@@ -1204,6 +1287,15 @@ export type LexicalAnalyzer = CustomAnalyzer | PatternAnalyzer | LuceneStandardA
 
 // @public
 export type LexicalAnalyzerName = string;
+
+// @public
+export interface LexicalNormalizer {
+    name: string;
+    odatatype: string;
+}
+
+// @public
+export type LexicalNormalizerName = string;
 
 // @public
 export type LexicalTokenizer = ClassicTokenizer | EdgeNGramTokenizer | KeywordTokenizer | MicrosoftLanguageTokenizer | MicrosoftLanguageStemmingTokenizer | NGramTokenizer | PathHierarchyTokenizer | PatternTokenizer | LuceneStandardTokenizer | UaxUrlEmailTokenizer;
@@ -1399,7 +1491,7 @@ export type PhoneticTokenFilter = BaseTokenFilter & {
 };
 
 // @public
-export type QueryType = "simple" | "full";
+export type QueryType = "simple" | "full" | "semantic";
 
 // @public
 export type RegexFlags = string;
@@ -1437,7 +1529,7 @@ export interface ScoringProfile {
 export type ScoringStatistics = "local" | "global";
 
 // @public
-export class SearchClient<T> {
+export class SearchClient<T> implements IndexDocumentsClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
@@ -1446,7 +1538,6 @@ export class SearchClient<T> {
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
-    getSearchIndexingBufferedSenderInstance(options?: SearchIndexingBufferedSenderOptions): SearchIndexingBufferedSender<T>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1495,6 +1586,7 @@ export interface SearchIndex {
     etag?: string;
     fields: SearchField[];
     name: string;
+    normalizers?: LexicalNormalizer[];
     scoringProfiles?: ScoringProfile[];
     similarity?: SimilarityAlgorithm;
     suggesters?: SearchSuggester[];
@@ -1615,7 +1707,7 @@ export interface SearchIndexerLimits {
 }
 
 // @public
-export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | TextTranslationSkill | WebApiSkill | CustomEntityLookupSkill;
+export type SearchIndexerSkill = ConditionalSkill | KeyPhraseExtractionSkill | OcrSkill | ImageAnalysisSkill | LanguageDetectionSkill | ShaperSkill | MergeSkill | EntityRecognitionSkill | SentimentSkill | SplitSkill | CustomEntityLookupSkill | TextTranslationSkill | DocumentExtractionSkill | WebApiSkill;
 
 // @public
 export interface SearchIndexerSkillset {
@@ -1645,7 +1737,8 @@ export interface SearchIndexerWarning {
 }
 
 // @public
-export interface SearchIndexingBufferedSender<T> {
+export class SearchIndexingBufferedSender<T> {
+    constructor(client: IndexDocumentsClient<T>, documentKeyRetriever: (document: T) => string, options?: SearchIndexingBufferedSenderOptions);
     deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
     dispose(): Promise<void>;
     flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;
@@ -1685,9 +1778,9 @@ export interface SearchIndexingBufferedSenderOptions {
     autoFlush?: boolean;
     flushWindowInMs?: number;
     initialBatchActionCount?: number;
-    maxRetries?: number;
-    maxRetryDelayInMs?: number;
-    retryDelayInMs?: number;
+    maxRetriesPerAction?: number;
+    maxThrottlingDelayInMs?: number;
+    throttlingDelayInMs?: number;
 }
 
 // @public
@@ -1766,7 +1859,7 @@ export interface SearchResourceEncryptionKey {
 export type SearchResult<T> = {
     readonly score: number;
     readonly highlights?: {
-        [propertyName: string]: string[];
+        [k in keyof T]?: string[];
     };
     document: T;
 };
@@ -1799,6 +1892,7 @@ export interface ServiceCounters {
     documentCounter: ResourceCounter;
     indexCounter: ResourceCounter;
     indexerCounter: ResourceCounter;
+    skillsetCounter: ResourceCounter;
     storageSizeCounter: ResourceCounter;
     synonymMapCounter: ResourceCounter;
 }
@@ -1844,6 +1938,7 @@ export interface SimpleField {
     indexAnalyzerName?: LexicalAnalyzerName;
     key?: boolean;
     name: string;
+    normalizerName?: LexicalNormalizerName;
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;
     sortable?: boolean;
@@ -1997,6 +2092,9 @@ export type TokenCharacterKind = "letter" | "digit" | "whitespace" | "punctuatio
 
 // @public
 export type TokenFilter = AsciiFoldingTokenFilter | CjkBigramTokenFilter | CommonGramTokenFilter | DictionaryDecompounderTokenFilter | EdgeNGramTokenFilter | ElisionTokenFilter | KeepTokenFilter | KeywordMarkerTokenFilter | LengthTokenFilter | LimitTokenFilter | NGramTokenFilter | PatternCaptureTokenFilter | PatternReplaceTokenFilter | PhoneticTokenFilter | ShingleTokenFilter | SnowballTokenFilter | StemmerTokenFilter | StemmerOverrideTokenFilter | StopwordsTokenFilter | SynonymTokenFilter | TruncateTokenFilter | UniqueTokenFilter | WordDelimiterTokenFilter;
+
+// @public
+export type TokenFilterName = string;
 
 // @public
 export type TruncateTokenFilter = BaseTokenFilter & {

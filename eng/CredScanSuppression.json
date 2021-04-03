@@ -24,6 +24,35 @@
     {
       "hash": "5ETIzLYe9aa9Xx5512Uy6gJiCZ/CL2QzS3nDfN51nz8=",
       "_justification": "Secret used by test code"
-    }
+    },
+    {
+      "placeholder": [
+        "`$`{NPM_TOKEN`}",
+        "azure_client_secret&scope=https%3A%2F%2Fattest.azure.net%2F.default",
+        "azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+        "SecretBaseUnion",
+        "SecureString",
+        "azure_client_secret&scope=https%3A%2F%2Feventhubs.azure.net%2F.default",
+        "pass123",
+        "pwd1",
+        "azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+        "azure_client_secret&scope=https%3A%2F%2Fdigitaltwins.azure.net%2F.default",
+        "p@55wOrd",
+        "nodesdk",
+        "liilef#$DdRGSa_ewkjh",
+        "kt#_gahr!@aGERDXA",
+        "goose",
+        "_password"
+      ],
+      "_justification": "Secret used by test code, it is fake."
+    },
+    {
+        "file":[
+            "sdk/identity/identity/test/azure-identity-chain-test.crt",
+            "sdk/identity/identity/test/azure-identity-test.crt",
+            "sdk/keyvault/keyvault-certificates/ca.key"
+        ],
+        "_justification": "File contains private key used by test code."
+    }  
   ]
 }

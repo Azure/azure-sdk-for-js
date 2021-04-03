@@ -2,10 +2,19 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 import fs from "fs";
 import path from "path";
 
-import { FormRecognizerClient, FormField, FormTrainingClient, CustomFormModel } from "../../../src";
+import {
+  FormRecognizerClient,
+  FormField,
+  FormTrainingClient,
+  CustomFormModel,
+  KnownSelectionMarkState,
+  KnownLanguage,
+  KnownGender
+} from "../../../src";
 import { testPollingOptions, makeCredential, createRecorder } from "../../utils/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { matrix } from "../../utils/matrix";
@@ -28,8 +37,7 @@ matrix([[true, false]] as const, async (useAad) => {
     let client: FormRecognizerClient;
     let recorder: Recorder;
 
-    beforeEach(function() {
-      // eslint-disable-next-line no-invalid-this
+    beforeEach(function(this: Context) {
       recorder = createRecorder(this);
       client = new FormRecognizerClient(endpoint(), makeCredential(useAad));
     });
@@ -152,12 +160,11 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.ok(page);
 
-        /* TODO: layout regression
-          assert.isNotEmpty(page.tables);
-          const [table] = page.tables!;
-          assert.ok(table.boundingBox);
-          assert.equal(table.pageNumber, 1);
-          */
+        // TODO: layout regression
+        // assert.isNotEmpty(page.tables);
+        // const [table] = page.tables!;
+        // assert.ok(table.boundingBox);
+        // assert.equal(table.pageNumber, 1);
 
         assert.equal(page.pageNumber, 1);
         assert.isNotEmpty(page.selectionMarks);
@@ -168,7 +175,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         // Just make sure that this doesn't throw
         const poller = await client.beginRecognizeContentFromUrl(url, {
-          language: "en",
+          language: KnownLanguage.En,
           ...testPollingOptions
         });
 
@@ -186,8 +193,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid language.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
 
@@ -215,8 +223,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid pages.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -261,22 +270,20 @@ matrix([[true, false]] as const, async (useAad) => {
 
         assert.ok(result);
         assert.equal(result.formType, `custom:${modelName}`);
-        assert.equal(result.formTypeConfidence, 1);
 
         const amexMark = result.fields["AMEX_SELECTION_MARK"];
         assert.equal(amexMark.valueType, "selectionMark");
-        assert.equal(amexMark.value, "selected");
+        assert.equal(amexMark.value, KnownSelectionMarkState.Selected);
 
         const [page] = result.pages;
 
         assert.ok(page);
 
-        /* TODO: layout regression
-          assert.isNotEmpty(page.tables);
-          const [table] = page.tables!;
-          assert.ok(table.boundingBox);
-          assert.equal(table.pageNumber, 1);
-          */
+        // TODO: layout regression
+        // assert.isNotEmpty(page.tables);
+        // const [table] = page.tables!;
+        // assert.ok(table.boundingBox);
+        // assert.equal(table.pageNumber, 1);
 
         assert.equal(page.pageNumber, 1);
         assert.isNotEmpty(page.selectionMarks);
@@ -299,16 +306,15 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.equal(receipt.formType, "prebuilt:receipt");
         assert.equal(receipt.fields["ReceiptType"].valueType, "string");
         assert.equal(receipt.fields["ReceiptType"].value as string, "Itemized");
-        /* TODO: known regression
-         * assert.ok(receipt.fields["Tax"], "Expecting valid 'Tax' field");
-         * assert.equal(receipt.fields["Tax"].valueType, "number");
-         * assert.equal(receipt.fields["Tax"].name, "Tax");
-         */
+
+        assert.ok(receipt.fields["Tax"], "Expecting valid 'Tax' field");
+        assert.equal(receipt.fields["Tax"].valueType, "number");
+        assert.equal(receipt.fields["Tax"].name, "Tax");
+
         assert.ok(receipt.fields["Total"], "Expecting valid 'Total' field");
         assert.equal(receipt.fields["Total"].valueType, "number");
-        /* TODO: known regression
-         * assert.equal(receipt.fields["Total"].value as number, 1203.39);
-         */
+
+        assert.equal(receipt.fields["Total"].value as number, 1203.39);
       });
 
       it("jpeg file stream", async () => {
@@ -376,8 +382,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -388,7 +395,10 @@ matrix([[true, false]] as const, async (useAad) => {
         Departments: "Cloud & Al Department",
         Emails: "avery.smith@contoso.com",
         Websites: "https://www.contoso.com/",
-        // TODO: known service issue where phone numbers are not populated
+        // TODO: service bug causes phone numbers not to be normalized
+        // Faxes: "+44 (0) 20 6789 2345",
+        // WorkPhones: "+44 (0) 20 9876 5432",
+        // MobilePhones: "+44 (0) 7911 123456",
         Addresses: "2 Kingdom Street Paddington, London, W2 6BD",
         CompanyNames: "Contoso"
       };
@@ -420,7 +430,8 @@ matrix([[true, false]] as const, async (useAad) => {
         for (const [fieldName, expectedValue] of Object.entries(expectedArrayFieldValues)) {
           const field = businessCard.fields[fieldName] as MaybeTypedFormField<"array">;
           assert.equal(field?.value?.length, 1);
-          assert.equal(field?.value?.[0].value, expectedValue);
+          const value = field?.value?.[0].value;
+          assert.equal(value, expectedValue);
         }
       });
 
@@ -475,8 +486,9 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });
@@ -524,7 +536,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         for (const [fieldName, expectedDate] of Object.entries(expectedDateValues)) {
           const { value: date } = invoice.fields[fieldName] as { value: Date };
-          assert.equal(date.getDay(), expectedDate.getDay());
+          assert.equal(date.getDate(), expectedDate.getDate());
           assert.equal(date.getMonth(), expectedDate.getMonth());
           assert.equal(date.getFullYear(), expectedDate.getFullYear());
         }
@@ -555,7 +567,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
         for (const [fieldName, expectedDate] of Object.entries(expectedDateValues)) {
           const { value: date } = invoice.fields[fieldName] as { value: Date };
-          assert.equal(date.getDay(), expectedDate.getDay());
+          assert.equal(date.getDate(), expectedDate.getDate());
           assert.equal(date.getMonth(), expectedDate.getMonth());
           assert.equal(date.getFullYear(), expectedDate.getFullYear());
         }
@@ -572,8 +584,100 @@ matrix([[true, false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch {
-          // Intentionally left empty
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
+        }
+      });
+    });
+
+    describe("idDocuments", () => {
+      const expectedFieldValues: Record<string, unknown> = {
+        FirstName: "LIAM R.",
+        LastName: "TALBOT",
+        DocumentNumber: "LICWDLACD5DG",
+        Sex: KnownGender.M,
+        Address: "123 STREET ADDRESS YOUR CITY WA 99999-1234",
+        Country: "USA",
+        Region: "Washington"
+      };
+
+      const expectedDateValues: Record<string, Date> = {
+        DateOfBirth: new Date("January 6, 1958 00:00:00+0000"),
+        DateOfExpiration: new Date("August 12, 2020 00:00:00+0000")
+      };
+
+      it("jpg file stream", async () => {
+        const filePath = path.join(ASSET_PATH, "idDocument", "license.jpg");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginRecognizeIdDocuments(stream, {
+          contentType: "image/jpeg",
+          ...testPollingOptions
+        });
+        const documents = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+        const [idDocument] = documents;
+
+        assert.equal(idDocument.formType, "prebuilt:idDocument:driverLicense");
+
+        assert.isNotEmpty(idDocument.pages);
+
+        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues)) {
+          const field = idDocument.fields[fieldName];
+          assert.equal(field?.value, expectedValue);
+        }
+
+        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues)) {
+          const { value: date } = idDocument.fields[fieldName] as { value: Date };
+          assert.equal(date.getDate(), expectedDate.getDate());
+          assert.equal(date.getMonth(), expectedDate.getMonth());
+          assert.equal(date.getFullYear(), expectedDate.getFullYear());
+        }
+      });
+
+      it("url", async () => {
+        const url = makeTestUrl("/license.jpg");
+
+        const poller = await client.beginRecognizeIdDocumentsFromUrl(url, {
+          ...testPollingOptions
+        });
+        const documents = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+        const [idDocument] = documents;
+        assert.equal(idDocument.formType, "prebuilt:idDocument:driverLicense");
+
+        assert.isNotEmpty(idDocument.pages);
+
+        for (const [fieldName, expectedValue] of Object.entries(expectedFieldValues)) {
+          const field = idDocument.fields[fieldName];
+          assert.equal(field?.value, expectedValue);
+        }
+
+        for (const [fieldName, expectedDate] of Object.entries(expectedDateValues)) {
+          const { value: date } = idDocument.fields[fieldName] as { value: Date };
+          assert.equal(date.getDate(), expectedDate.getDate());
+          assert.equal(date.getMonth(), expectedDate.getMonth());
+          assert.equal(date.getFullYear(), expectedDate.getFullYear());
+        }
+      });
+
+      it("invalid locale throws", async () => {
+        const url = makeTestUrl("/license.jpg");
+
+        try {
+          const poller = await client.beginRecognizeIdDocumentsFromUrl(url, {
+            locale: "thisIsNotAValidLocaleString",
+            ...testPollingOptions
+          });
+
+          await poller.pollUntilDone();
+          assert.fail("Expected an exception due to invalid locale.");
+        } catch (ex) {
+          // Just make sure we didn't get a bad error message
+          assert.isFalse((ex as Error).message.includes("<empty>"));
         }
       });
     });

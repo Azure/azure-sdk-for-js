@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import { record, isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
@@ -6,6 +9,7 @@ import { AbortController } from "@azure/abort-controller";
 import { TestTracer, setTracer } from "@azure/core-tracing";
 import { Pipeline } from "@azure/storage-blob";
 import { SDK_VERSION } from "../src/utils/constants";
+import { setSpan, context } from "@azure/core-tracing";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -159,7 +163,9 @@ describe("BlobChangeFeedClient", async () => {
     const rootSpan = tracer.startSpan("root");
 
     const pageIter = changeFeedClient.listChanges({
-      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+      tracingOptions: {
+        tracingContext: setSpan(context.active(), rootSpan)
+      }
     });
     await pageIter.next();
 

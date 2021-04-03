@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreHttp from "@azure/core-http";
 import { Jobs, Providers, Storage, Quotas } from "./operations";
 import { QuantumJobClientContext } from "./quantumJobClientContext";
 import { QuantumJobClientOptionalParams } from "./models";
@@ -13,6 +14,7 @@ import { QuantumJobClientOptionalParams } from "./models";
 export class QuantumJobClient extends QuantumJobClientContext {
   /**
    * Initializes a new instance of the QuantumJobClient class.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
    *                       00000000-0000-0000-0000-000000000000)
    * @param resourceGroupName Name of an Azure resource group.
@@ -20,12 +22,13 @@ export class QuantumJobClient extends QuantumJobClientContext {
    * @param options The parameter options
    */
   constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
     options?: QuantumJobClientOptionalParams
   ) {
-    super(subscriptionId, resourceGroupName, workspaceName, options);
+    super(credentials, subscriptionId, resourceGroupName, workspaceName, options);
     this.jobs = new Jobs(this);
     this.providers = new Providers(this);
     this.storage = new Storage(this);

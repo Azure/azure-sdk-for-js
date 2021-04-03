@@ -6,7 +6,7 @@ export {
   DEFAULT_BATCH_SIZE,
   DEFAULT_FLUSH_WINDOW,
   DEFAULT_RETRY_COUNT
-} from "./searchIndexingBufferedSenderImpl";
+} from "./searchIndexingBufferedSender";
 export {
   AutocompleteRequest,
   AutocompleteOptions,
@@ -38,7 +38,7 @@ export {
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions
 } from "./indexModels";
-export { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
+export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
 export {
@@ -188,7 +188,6 @@ export {
   AnalyzeResult,
   AnalyzedTokenInfo,
   ConditionalSkill,
-  CustomEntityLookupSkill,
   KeyPhraseExtractionSkill,
   OcrSkill,
   ImageAnalysisSkill,
@@ -197,6 +196,12 @@ export {
   MergeSkill,
   EntityRecognitionSkill,
   SentimentSkill,
+  CustomEntityLookupSkill,
+  CustomEntityLookupSkillLanguage,
+  KnownCustomEntityLookupSkillLanguage,
+  DocumentExtractionSkill,
+  CustomEntity,
+  CustomEntityAlias,
   SplitSkill,
   TextTranslationSkill,
   WebApiSkill,
@@ -270,9 +275,13 @@ export {
   LexicalAnalyzer as BaseLexicalAnalyzer,
   CharFilter as BaseCharFilter,
   DataDeletionDetectionPolicy as BaseDataDeletionDetectionPolicy,
-  CustomEntityLookupSkillLanguage,
-  KnownCustomEntityLookupSkillLanguage,
-  CustomEntity,
-  CustomEntityAlias
+  LexicalNormalizer,
+  LexicalNormalizerName,
+  KnownLexicalNormalizerName,
+  CustomNormalizer,
+  TokenFilterName,
+  KnownTokenFilterName,
+  CharFilterName,
+  KnownCharFilterName
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";

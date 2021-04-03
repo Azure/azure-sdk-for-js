@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 
@@ -23,7 +24,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     subject: "cn=MyCert"
   };
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     suffix = authentication.suffix;
     client = authentication.client;
@@ -37,7 +38,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   // The tests follow
 
-  it("can recover a deleted certificate", async function() {
+  it("can recover a deleted certificate", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     const createPoller = await client.beginCreateCertificate(
       certificateName,
@@ -65,7 +66,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     await testClient.flushCertificate(certificateName);
   });
 
-  it("can recover a deleted certificate (non existing)", async function() {
+  it("can recover a deleted certificate (non existing)", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
     let error;
     try {
@@ -81,7 +82,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
   if (isRecordMode() || isPlaybackMode()) {
     // This test can't run live,
     // since the purge operation currently can't be expected to finish anytime soon.
-    it("can restore a certificate", async function() {
+    it("can restore a certificate", async function(this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,
@@ -103,7 +104,10 @@ describe("Certificates client - restore certificates and recover backups", () =>
       // This test implementation of a restore poller only applies for backups that have been recently deleted.
       // Backups might not be ready to be restored in an unknown amount of time.
       // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
-      const restorePoller = await testClient.beginRestoreCertificateBackup(backup as Uint8Array);
+      const restorePoller = await testClient.beginRestoreCertificateBackup(
+        backup as Uint8Array,
+        testPollerProperties
+      );
       const restoredCertificate = await restorePoller.pollUntilDone();
 
       assert.equal(restoredCertificate.name, certificateName);
@@ -138,7 +142,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
 
   if (isNode && !isPlaybackMode()) {
     // On playback mode, the tests happen too fast for the timeout to work
-    it("can restore a key with requestOptions timeout", async function() {
+    it("can restore a key with requestOptions timeout", async function(this: Context) {
       const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
       const createPoller = await client.beginCreateCertificate(
         certificateName,

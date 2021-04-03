@@ -4,13 +4,14 @@
 import assert from "assert";
 import { assertRejects, MockAuthHttpClient } from "../authTestUtils";
 import { IdentityClient } from "../../src/client/identityClient";
-import { ClientSecretCredential, AuthenticationError } from "../../src";
+import { ClientSecretCredential } from "../../src";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
 import { isNode } from "@azure/core-http";
+import { Context } from "mocha";
 
 function isExpectedError(expectedErrorName: string): (error: any) => boolean {
   return (error: any) => {
-    if (!(error instanceof AuthenticationError)) {
+    if (error?.name !== "AuthenticationError") {
       assert.ifError(error);
     }
     return error.errorResponse.error === expectedErrorName;
@@ -55,7 +56,7 @@ describe("IdentityClient", function() {
       mockHttp.tokenCredentialOptions
     );
     await assertRejects(credential.getToken("https://test/.default"), (error) => {
-      assert.strictEqual(error.name, "AuthenticationError");
+      assert.equal(error.name, "CredentialUnavailable");
       return true;
     });
   });
@@ -77,9 +78,8 @@ describe("IdentityClient", function() {
     );
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function() {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function(this: Context) {
     if (!isNode) {
-      // eslint-disable-next-line no-invalid-this
       return this.skip();
     }
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
@@ -122,10 +122,10 @@ describe("IdentityClient", function() {
       mockHttp.tokenCredentialOptions
     );
 
-    await assertRejects(
-      credential.getToken("https://test/.default"),
-      isExpectedError("unknown_error")
-    );
+    await assertRejects(credential.getToken("https://test/.default"), (error) => {
+      assert.equal(error.name, "CredentialUnavailable");
+      return true;
+    });
   });
 
   it("returns null when the token refresh request returns an 'interaction_required' error", async () => {

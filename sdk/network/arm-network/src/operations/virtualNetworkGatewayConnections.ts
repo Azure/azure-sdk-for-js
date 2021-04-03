@@ -235,6 +235,18 @@ export class VirtualNetworkGatewayConnections {
   }
 
   /**
+   * Resets the virtual network gateway connection specified.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  resetConnection(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginResetConnection(resourceGroupName,virtualNetworkGatewayConnectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates or updates a virtual network gateway connection in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway connection.
@@ -395,6 +407,24 @@ export class VirtualNetworkGatewayConnections {
         options
       },
       beginGetIkeSasOperationSpec,
+      options);
+  }
+
+  /**
+   * Resets the virtual network gateway connection specified.
+   * @param resourceGroupName The name of the resource group.
+   * @param virtualNetworkGatewayConnectionName The name of the virtual network gateway Connection.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginResetConnection(resourceGroupName: string, virtualNetworkGatewayConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        virtualNetworkGatewayConnectionName,
+        options
+      },
+      beginResetConnectionOperationSpec,
       options);
   }
 
@@ -764,6 +794,29 @@ const beginGetIkeSasOperationSpec: msRest.OperationSpec = {
         }
       }
     },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginResetConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/resetconnection",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.virtualNetworkGatewayConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
     202: {},
     default: {
       bodyMapper: Mappers.ErrorResponse

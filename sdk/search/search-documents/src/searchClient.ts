@@ -22,7 +22,7 @@ import {
   IndexDocumentsResult
 } from "./generated/data/models";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { deserialize, serialize } from "./serialization";
 import {
   CountDocumentsOptions,
@@ -41,15 +41,13 @@ import {
   DeleteDocumentsOptions,
   SearchDocumentsPageResult,
   MergeOrUploadDocumentsOptions,
-  SearchRequest,
-  SearchIndexingBufferedSenderOptions
+  SearchRequest
 } from "./indexModels";
 import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { encode, decode } from "./base64";
 import * as utils from "./serviceUtils";
-import { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
-import { createSearchIndexingBufferedSender } from "./searchIndexingBufferedSenderImpl";
+import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
@@ -60,7 +58,7 @@ export type SearchClientOptions = PipelineOptions;
  * including querying documents in the index as well as
  * adding, updating, and removing them.
  */
-export class SearchClient<T> {
+export class SearchClient<T> implements IndexDocumentsClient<T> {
   /// Maintenance note: when updating supported API versions,
   /// the ContinuationToken logic will need to be updated below.
 
@@ -164,7 +162,7 @@ export class SearchClient<T> {
       return Number(result._response.bodyAsText);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -212,7 +210,7 @@ export class SearchClient<T> {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -263,7 +261,7 @@ export class SearchClient<T> {
       return deserialize<SearchDocumentsPageResult<Pick<T, Fields>>>(converted);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -359,7 +357,7 @@ export class SearchClient<T> {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -414,7 +412,7 @@ export class SearchClient<T> {
       return deserialize<SuggestDocumentsResult<Pick<T, Fields>>>(modifiedResult);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -441,7 +439,7 @@ export class SearchClient<T> {
       return deserialize<T>(result.body);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -477,7 +475,7 @@ export class SearchClient<T> {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -504,7 +502,7 @@ export class SearchClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -532,7 +530,7 @@ export class SearchClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -560,7 +558,7 @@ export class SearchClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -609,24 +607,13 @@ export class SearchClient<T> {
       return await this.indexDocuments(batch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
     } finally {
       span.end();
     }
-  }
-
-  /**
-   * Gets an instance of SearchIndexingBufferedSender.
-   * @param options - SearchIndexingBufferedSender Options
-   */
-
-  public getSearchIndexingBufferedSenderInstance(
-    options: SearchIndexingBufferedSenderOptions = {}
-  ): SearchIndexingBufferedSender<T> {
-    return createSearchIndexingBufferedSender(this, options);
   }
 
   private encodeContinuationToken(

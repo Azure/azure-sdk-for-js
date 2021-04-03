@@ -21,6 +21,7 @@ import {
 
 import * as chai from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
 
 describe("http request related tests", function() {
   describe("unit tests", () => {
@@ -50,7 +51,7 @@ describe("http request related tests", function() {
         chai.assert.match(
           prefix,
           new RegExp(
-            `^MyCustomUserAgent azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`
+            `^MyCustomUserAgent azsdk-js-app-configuration/${packageVersion}+ core-http/[^ ]+.+$`
           ),
           `Using a custom user agent`
         );
@@ -61,7 +62,7 @@ describe("http request related tests", function() {
 
         chai.assert.match(
           prefix,
-          new RegExp(`^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`),
+          new RegExp(`^azsdk-js-app-configuration/${packageVersion}+ core-http/[^ ]+.+$`),
           `Using the default user agent`
         );
       });
@@ -110,7 +111,7 @@ describe("http request related tests", function() {
     let client: AppConfigurationClient;
     let recorder: Recorder;
 
-    beforeEach(function() {
+    beforeEach(function(this: Context) {
       recorder = startRecorder(this);
       client = createAppConfigurationClientForTests() || this.skip();
     });
@@ -146,7 +147,7 @@ describe("http request related tests", function() {
     let syncTokens: SyncTokens;
     let scope: nock.Scope;
 
-    beforeEach(function() {
+    beforeEach(function(this: Context) {
       if (nock == null || nock.recorder == null) {
         this.skip();
         return;
@@ -168,7 +169,7 @@ describe("http request related tests", function() {
       scope = nock(/.*/);
     });
 
-    afterEach(function() {
+    afterEach(function(this: Context) {
       if (nock == null || nock.recorder == null) {
         return;
       }
@@ -194,7 +195,7 @@ describe("http request related tests", function() {
 
       await assertThrowsRestError(
         async () =>
-          await client.getConfigurationSetting({
+          client.getConfigurationSetting({
             key: "doesntmatter"
           }),
         418
@@ -289,6 +290,38 @@ describe("http request related tests", function() {
       );
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "clearReadOnly=value");
+    });
+  });
+
+  describe("syncToken", async () => {
+    it("update sync token", async () => {
+      const syncTokens = new SyncTokens();
+      syncTokens.addSyncTokenFromHeaderValue("a=value;sn=0");
+      const client = new AppConfigurationClient(
+        "Endpoint=https://endpoint.azconfig.io;Id=abc;Secret=123",
+        { syncTokens } as InternalAppConfigurationClientOptions
+      );
+      assert.equal(
+        syncTokens["_currentSyncTokens"].size,
+        1,
+        "Unexpected number of syncTokens before the `update` call"
+      );
+      client.updateSyncToken("b=value;sn=3");
+      assert.equal(
+        syncTokens["_currentSyncTokens"].size,
+        2,
+        "Unexpected number of syncTokens after the `update` call"
+      );
+      assert.deepEqual(
+        syncTokens["_currentSyncTokens"].get("a"),
+        { id: "a", value: "value", sequenceNumber: 0 },
+        "Unexpected object present for key `a`"
+      );
+      assert.deepEqual(
+        syncTokens["_currentSyncTokens"].get("b"),
+        { id: "b", value: "value", sequenceNumber: 3 },
+        "Unexpected object present for key `b`"
+      );
     });
   });
 });

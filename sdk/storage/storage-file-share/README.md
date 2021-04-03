@@ -149,7 +149,7 @@ const { ShareServiceClient } = require("@azure/storage-file-share");
 
 const connStr = "<connection string>";
 
-const ShareServiceClient = ShareServiceClient.fromConnectionString(connStr);
+const shareServiceClient = ShareServiceClient.fromConnectionString(connStr);
 ```
 
 #### with `StorageSharedKeyCredential`

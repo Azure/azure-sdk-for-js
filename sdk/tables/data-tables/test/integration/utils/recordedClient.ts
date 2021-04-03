@@ -10,7 +10,9 @@ dotenv.config();
 
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "fakeKey";
-const mockSasConnectionString = `TableEndpoint=https://${mockAccountName}.table.core.windows.net/;SharedAccessSignature=mockSAS`;
+const fakeSas =
+  "sv=2019-12-12&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-01-31T05:16:52Z&st=2021-01-26T21:16:52Z&spr=https&sig=fakeSignature";
+const mockSasConnectionString = `TableEndpoint=https://${mockAccountName}.table.core.windows.net/;SharedAccessSignature=${fakeSas}`;
 const replaceableVariables: { [k: string]: string } = {
   // Used in record and playback modes
   // 1. The key-value pairs will be used as the environment variables in playback mode

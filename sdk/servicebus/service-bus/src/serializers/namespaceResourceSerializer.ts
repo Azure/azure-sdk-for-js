@@ -12,8 +12,6 @@ import { getInteger, getString, getDate } from "../util/utils";
 /**
  * Represents the metadata related to a service bus namespace.
  *
- * @export
- * @interface NamespaceProperties
  */
 export interface NamespaceProperties {
   /**
@@ -45,9 +43,8 @@ export interface NamespaceProperties {
  * @internal
  * Builds the namespace object from the raw json object gotten after deserializing the
  * response from the service
- * @param rawNamespace
  */
-export function buildNamespace(rawNamespace: any): NamespaceProperties {
+export function buildNamespace(rawNamespace: Record<string, any>): NamespaceProperties {
   const messagingSku = <"Basic" | "Premium" | "Standard">(
     getString(rawNamespace["MessagingSKU"], "messagingSku")
   );

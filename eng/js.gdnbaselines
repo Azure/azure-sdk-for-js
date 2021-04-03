@@ -3,8 +3,8 @@
   "baselines": {
     "baseline": {
       "name": "baseline",
-      "createdDate": "2021-01-15 20:14:18Z",
-      "lastUpdatedDate": "2021-01-15 20:14:18Z"
+      "createdDate": "2021-01-29 00:17:00Z",
+      "lastUpdatedDate": "2021-01-29 00:17:00Z"
     }
   },
   "results": {
@@ -17,7 +17,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0030",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -30,7 +30,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0030",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -43,7 +43,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0140",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -56,7 +56,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -69,7 +69,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -82,7 +82,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -95,7 +95,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -108,7 +108,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -121,7 +121,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -134,7 +134,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -147,7 +147,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -160,7 +160,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -173,7 +173,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -186,7 +186,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -199,7 +199,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -212,7 +212,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -225,7 +225,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -238,7 +238,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -251,7 +251,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -264,7 +264,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -277,7 +277,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -290,7 +290,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -303,7 +303,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -316,7 +316,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -329,7 +329,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -342,12 +342,12 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "f6a609527fa8b8bf5d60c62fa9d9d4aee465f81ff7aa0da2a70a366563946e83": {
-      "signature": "f6a609527fa8b8bf5d60c62fa9d9d4aee465f81ff7aa0da2a70a366563946e83",
+    "5c7e3a95955681d9b870763306f69dd12b6e4dada0132f42d012a7cd1f0c2fb5": {
+      "signature": "5c7e3a95955681d9b870763306f69dd12b6e4dada0132f42d012a7cd1f0c2fb5",
       "target": "sdk/metricsadvisor/ai-metrics-advisor/test/public/datafeed.spec.ts",
       "memberOf": [
         "baseline"
@@ -355,12 +355,12 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "9e4a2d86e84edb072c90dbd1f07c9e12c3bc2d3e874741ee2c80932a17697530": {
-      "signature": "9e4a2d86e84edb072c90dbd1f07c9e12c3bc2d3e874741ee2c80932a17697530",
+    "6f9f26160f7fac3c87ed3c2b428bce2972f0d458a81d1faa1857326fe1dc1d06": {
+      "signature": "6f9f26160f7fac3c87ed3c2b428bce2972f0d458a81d1faa1857326fe1dc1d06",
       "target": "sdk/metricsadvisor/ai-metrics-advisor/test/public/hookTests.spec.ts",
       "memberOf": [
         "baseline"
@@ -368,7 +368,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -381,7 +381,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -394,7 +394,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -407,7 +407,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0140",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -420,7 +420,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -433,7 +433,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -446,7 +446,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -459,7 +459,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -472,7 +472,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -485,7 +485,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -498,7 +498,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -511,7 +511,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -524,7 +524,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -537,7 +537,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -550,7 +550,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -563,7 +563,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -576,7 +576,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -589,7 +589,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -602,7 +602,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -615,7 +615,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -628,7 +628,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -641,7 +641,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -654,7 +654,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -667,7 +667,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -680,7 +680,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -693,7 +693,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -706,7 +706,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -719,7 +719,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -732,7 +732,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -745,7 +745,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -758,7 +758,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -771,7 +771,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -784,7 +784,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -797,7 +797,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -810,7 +810,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -823,7 +823,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -836,7 +836,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -849,7 +849,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -862,7 +862,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -875,7 +875,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -888,7 +888,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -901,7 +901,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -914,7 +914,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -927,7 +927,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -940,7 +940,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -953,7 +953,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -966,7 +966,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -979,7 +979,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -992,7 +992,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1005,7 +1005,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1018,7 +1018,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1031,7 +1031,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1044,7 +1044,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1057,7 +1057,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1070,7 +1070,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1083,7 +1083,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1096,7 +1096,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1109,7 +1109,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1122,7 +1122,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1135,7 +1135,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1148,7 +1148,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1161,7 +1161,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1174,7 +1174,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1187,7 +1187,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1200,7 +1200,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1213,7 +1213,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1226,7 +1226,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1239,7 +1239,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1252,7 +1252,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1265,7 +1265,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1278,7 +1278,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1291,7 +1291,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1304,7 +1304,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1317,7 +1317,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1330,7 +1330,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1343,7 +1343,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1356,7 +1356,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1369,7 +1369,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1382,7 +1382,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1395,7 +1395,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1408,7 +1408,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1421,7 +1421,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1434,7 +1434,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1447,7 +1447,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1460,7 +1460,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1473,7 +1473,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1486,7 +1486,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1499,7 +1499,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1512,7 +1512,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1525,7 +1525,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1538,7 +1538,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1551,7 +1551,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1564,7 +1564,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1577,7 +1577,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1590,7 +1590,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1603,7 +1603,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1616,7 +1616,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1629,7 +1629,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1642,7 +1642,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1655,7 +1655,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1668,7 +1668,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1681,7 +1681,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1694,7 +1694,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1707,7 +1707,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1720,7 +1720,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1733,7 +1733,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1746,7 +1746,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1759,7 +1759,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1772,7 +1772,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1785,7 +1785,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1798,7 +1798,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1811,7 +1811,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1824,7 +1824,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1837,7 +1837,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1850,7 +1850,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1863,7 +1863,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1876,7 +1876,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1889,7 +1889,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1902,7 +1902,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1915,7 +1915,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -1928,163 +1928,1463 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0020",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "27f236e92ed68e8d8fcaedaa0a9e9bb6e433772b273480a876ddabe46e6a05c8": {
-      "signature": "27f236e92ed68e8d8fcaedaa0a9e9bb6e433772b273480a876ddabe46e6a05c8",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
+    "fd7d7288fefe81f9c82cb690212365bd57ca049db4156a081aac1f1a4527e780": {
+      "signature": "fd7d7288fefe81f9c82cb690212365bd57ca049db4156a081aac1f1a4527e780",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_application_insights_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "ea9f732372857ca6fda3fb202acc9da11fa2740672b59f39272bcd5b17a1a94e": {
-      "signature": "ea9f732372857ca6fda3fb202acc9da11fa2740672b59f39272bcd5b17a1a94e",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
+    "04ad399f919c88cdb733ce4028dc07e61da67388f7e06dedc8ad2e2d39c578b3": {
+      "signature": "04ad399f919c88cdb733ce4028dc07e61da67388f7e06dedc8ad2e2d39c578b3",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_blob_datafeed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "280caa1a89eb158fcbaf6e7fc2ab98d2f1d3e562c2e2297d1b5f6439bb8cc2f5": {
-      "signature": "280caa1a89eb158fcbaf6e7fc2ab98d2f1d3e562c2e2297d1b5f6439bb8cc2f5",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/metricsadvisorclient_hooks/recording_lists_hooks.json",
+    "30b372a8d4971c8d969789766323a678aff7600b21929eac9881ce69c12cf788": {
+      "signature": "30b372a8d4971c8d969789766323a678aff7600b21929eac9881ce69c12cf788",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_cosmos_db_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "6a3f1ee8f34bc8629b278f923fde1d73099ce67fc8715b104a28cac1664239c3": {
-      "signature": "6a3f1ee8f34bc8629b278f923fde1d73099ce67fc8715b104a28cac1664239c3",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/metricsadvisorclient_hooks/recording_lists_hooks_by_page.json",
+    "57562b2ccce459bb12ecac6f0d8306f91019bd5244c381d614c15016a19adbbe": {
+      "signature": "57562b2ccce459bb12ecac6f0d8306f91019bd5244c381d614c15016a19adbbe",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_data_explorer_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "6c69a10f595227454e2b20f6b79a13227bd881648a95e1481630bbdb63b4755e": {
-      "signature": "6c69a10f595227454e2b20f6b79a13227bd881648a95e1481630bbdb63b4755e",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/metricsadvisorclient_hooks/recording_updates_web_hook.json",
+    "15932296c4c7f32410d8807d66773812a24646d9ba114ca9a1e4ac6da277f70a": {
+      "signature": "15932296c4c7f32410d8807d66773812a24646d9ba114ca9a1e4ac6da277f70a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_sql_server_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "45cdec95aa4dc9f10fca74c95ab2a87e363e6f192f9e635bae33039df716e9dc": {
-      "signature": "45cdec95aa4dc9f10fca74c95ab2a87e363e6f192f9e635bae33039df716e9dc",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/metricsadvisorclient_hooks/recording_updates_web_hook.json",
+    "4b78fc98cb40de141060af96ea30dbfa63bb575b307c50f02bafffa05ea2d49a": {
+      "signature": "4b78fc98cb40de141060af96ea30dbfa63bb575b307c50f02bafffa05ea2d49a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_an_azure_table_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "822a2cf56d339fa51f7370f273808a5c3b083fcfc950a51362b5ac3bffd7c74b": {
-      "signature": "822a2cf56d339fa51f7370f273808a5c3b083fcfc950a51362b5ac3bffd7c74b",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+    "e3aae2da0cc4ea8732482130f22afac2a1a510b0f0f4d56cc2b430a739961157": {
+      "signature": "e3aae2da0cc4ea8732482130f22afac2a1a510b0f0f4d56cc2b430a739961157",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_http_request_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "eb497f0c5091b43c194a7a5ba667ac8176480649f91b3b69d5413b04a8357380": {
-      "signature": "eb497f0c5091b43c194a7a5ba667ac8176480649f91b3b69d5413b04a8357380",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+    "351ddc67f7327b4b78165c8c2d2a1f4936a5b5add47355273a87ad1ac2790a50": {
+      "signature": "351ddc67f7327b4b78165c8c2d2a1f4936a5b5add47355273a87ad1ac2790a50",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "a8282ac84d931c54500dcb28d175c0b545ff53a49c6ba62e322034deeaff4ae6": {
-      "signature": "a8282ac84d931c54500dcb28d175c0b545ff53a49c6ba62e322034deeaff4ae6",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/metricsadvisorclient_hooks/recording_lists_hooks.js",
+    "5e95a267777f546535cf68a778052b871d6d6fc68d4350dd717848e90241b415": {
+      "signature": "5e95a267777f546535cf68a778052b871d6d6fc68d4350dd717848e90241b415",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "98848c8733743b13cf460c723d2b9da28fff374c922aa058cd0b2159b2f18521": {
-      "signature": "98848c8733743b13cf460c723d2b9da28fff374c922aa058cd0b2159b2f18521",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/metricsadvisorclient_hooks/recording_lists_hooks_by_page.js",
+    "3e130b6a6556cff84329939707a670b9f74f3d329c0d85043b7a1eaa98691950": {
+      "signature": "3e130b6a6556cff84329939707a670b9f74f3d329c0d85043b7a1eaa98691950",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "9313cfe90caf897148c0e2c27a4449533cb513b4ab0b9d621430f37f078477a3": {
-      "signature": "9313cfe90caf897148c0e2c27a4449533cb513b4ab0b9d621430f37f078477a3",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/metricsadvisorclient_hooks/recording_updates_web_hook.js",
+    "b80b1ecbc428d9c1047b08c17aa75d37320024e5505c100e4b4d60dc24e1766e": {
+      "signature": "b80b1ecbc428d9c1047b08c17aa75d37320024e5505c100e4b4d60dc24e1766e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_mongodb_data_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
-    "df4323d8fc9fe640eb72d2abcfac4d17ed454cefc9464a1bf926e5f99195658e": {
-      "signature": "df4323d8fc9fe640eb72d2abcfac4d17ed454cefc9464a1bf926e5f99195658e",
-      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/metricsadvisorclient_hooks/recording_updates_web_hook.js",
+    "8d312fdf82456212ea858df6b5e25b3984ac5b6fbb5fe974c3ef958277c6c334": {
+      "signature": "8d312fdf82456212ea858df6b5e25b3984ac5b6fbb5fe974c3ef958277c6c334",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_mysql_data_feed.json",
       "memberOf": [
         "baseline"
       ],
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "666c07d63d45c6b3a4f792d872e81498399a937f72afd7dd688e4a931efebb2a": {
+      "signature": "666c07d63d45c6b3a4f792d872e81498399a937f72afd7dd688e4a931efebb2a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_postgresql_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cb0270689c555c222e4fca45d0e1d9ec5eaee8c57d6cd19c971c27af9e526619": {
+      "signature": "cb0270689c555c222e4fca45d0e1d9ec5eaee8c57d6cd19c971c27af9e526619",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_application_insights_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d7864c562ed98be86a3ba7bfc9b762306d236469a8e27bcbbd7f9591ef4d5712": {
+      "signature": "d7864c562ed98be86a3ba7bfc9b762306d236469a8e27bcbbd7f9591ef4d5712",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_blob_datafeed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fd973c9af0ebcbb137d0433b42624ec7f4991c8fcd5e6a5e32481e20535fad2c": {
+      "signature": "fd973c9af0ebcbb137d0433b42624ec7f4991c8fcd5e6a5e32481e20535fad2c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_cosmos_db.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "0f9d0927e7c9a0807e3f1a7badd51a529d69c44c9cdd3879240a1d87a809f123": {
+      "signature": "0f9d0927e7c9a0807e3f1a7badd51a529d69c44c9cdd3879240a1d87a809f123",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_data_explorer_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d8383691d2a20f0e7ce69f8dd2518032674f220914e5a2e17a378f0d9fe756ea": {
+      "signature": "d8383691d2a20f0e7ce69f8dd2518032674f220914e5a2e17a378f0d9fe756ea",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_sql_server_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "980b0fd32006e17f3f6f100fffa1f3cbf1394cb5ccbdfeeea29a4ab7ca92fd2b": {
+      "signature": "980b0fd32006e17f3f6f100fffa1f3cbf1394cb5ccbdfeeea29a4ab7ca92fd2b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_an_azure_table_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5020727d44ae1232f9ecb76683e1054607707cd3232c9d725e657b44b71f74e8": {
+      "signature": "5020727d44ae1232f9ecb76683e1054607707cd3232c9d725e657b44b71f74e8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_http_request_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e14eabf92a4366eee975be008357997d4c7e7b611ca16bfae17d6f06e111a4db": {
+      "signature": "e14eabf92a4366eee975be008357997d4c7e7b611ca16bfae17d6f06e111a4db",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_influxdb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ed952ce0834c8a797805009b239be4cf95eb3578379664caaf5c1b5ad7b52cd2": {
+      "signature": "ed952ce0834c8a797805009b239be4cf95eb3578379664caaf5c1b5ad7b52cd2",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_mongodb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "033f05683abe32a7824951c145d451fa969058d91ad95f0ad56a0d6d08127cf8": {
+      "signature": "033f05683abe32a7824951c145d451fa969058d91ad95f0ad56a0d6d08127cf8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_mysql_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7ab49a0edf8b842eff3e17b2997a801f58d115df7e7ee125140cefa516dbbe0e": {
+      "signature": "7ab49a0edf8b842eff3e17b2997a801f58d115df7e7ee125140cefa516dbbe0e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_deletes_postgresql_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8ff566ed95d31036827a3660eab2c1995b081d8c929e366f8e70d22f78479bb4": {
+      "signature": "8ff566ed95d31036827a3660eab2c1995b081d8c929e366f8e70d22f78479bb4",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_lists_datafeed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9beed84315fa5b44664998eda201ec6217e8c6ef2d42afaa243708a7a762b65e": {
+      "signature": "9beed84315fa5b44664998eda201ec6217e8c6ef2d42afaa243708a7a762b65e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_lists_datafeed_by_pages.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "207ba6ae71cfef7b5ec29825a8f3eaef24f167fc955920438e0e07255e3cde0b": {
+      "signature": "207ba6ae71cfef7b5ec29825a8f3eaef24f167fc955920438e0e07255e3cde0b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_retrieves_an_azure_blob_datafeed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "560cd12fd3555ea9f60592b443d85e04d9bf37fa304981a31f7c9a0e93704710": {
+      "signature": "560cd12fd3555ea9f60592b443d85e04d9bf37fa304981a31f7c9a0e93704710",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_updates_an_azure_blob_datafeed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "aee0a8af1eaabca2aa4d205eee67a7b512590be180091db34e12a4699e5b8c23": {
+      "signature": "aee0a8af1eaabca2aa4d205eee67a7b512590be180091db34e12a4699e5b8c23",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_updates_data_feed_to_have_a_different_data_source_type.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8441d4567d2fc1ca918f02f7c59df6fb13593a93d2875840fc9f91aa63d760b8": {
+      "signature": "8441d4567d2fc1ca918f02f7c59df6fb13593a93d2875840fc9f91aa63d760b8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_creates_an_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5c4fe315520f73172d1f97e73cbecbf2dc734c73298abf5128898cf27bd3f46a": {
+      "signature": "5c4fe315520f73172d1f97e73cbecbf2dc734c73298abf5128898cf27bd3f46a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_creates_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "25a4d32c9fd068bc136b4d587517d55cb615eef5896a2741644e68def68f7b99": {
+      "signature": "25a4d32c9fd068bc136b4d587517d55cb615eef5896a2741644e68def68f7b99",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_deletes_an_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "77662f2c378f76ad1953b7aab93e80523a7bd2289f2f43f87023d5534036488c": {
+      "signature": "77662f2c378f76ad1953b7aab93e80523a7bd2289f2f43f87023d5534036488c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_deletes_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "62ebe5720fb1f50ced9b036e4dcf8b7a2efbcb1eb95dd62ad4a16778b4a4cd90": {
+      "signature": "62ebe5720fb1f50ced9b036e4dcf8b7a2efbcb1eb95dd62ad4a16778b4a4cd90",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_lists_alert_configurations_one_by_one_and_by_pages.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5517fe8ac9a00deb1c413e3e343f6fa0fadf75506ee2302d8c03ea3337d37e49": {
+      "signature": "5517fe8ac9a00deb1c413e3e343f6fa0fadf75506ee2302d8c03ea3337d37e49",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_lists_detection_configurations.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ec015192d4c9663251091810040031ed0bb3542ecd78cca56a86b669ddf1b433": {
+      "signature": "ec015192d4c9663251091810040031ed0bb3542ecd78cca56a86b669ddf1b433",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_lists_detection_configurations_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c4d12f07eb74bd1e0fbb63611c58acf472451344205af5a2d9c5ba24a6cebd84": {
+      "signature": "c4d12f07eb74bd1e0fbb63611c58acf472451344205af5a2d9c5ba24a6cebd84",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_retrieves_an_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7af4bcb5215de6d10062a72ac02b5004f5b798d81da1de32c58f09bfd8662d35": {
+      "signature": "7af4bcb5215de6d10062a72ac02b5004f5b798d81da1de32c58f09bfd8662d35",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_retrieves_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "009f2db0e19042efd7423842bb42bd84ab765820a1d9bed2a4a110e5403fcb04": {
+      "signature": "009f2db0e19042efd7423842bb42bd84ab765820a1d9bed2a4a110e5403fcb04",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_updates_an_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e55cb60312cdc1e04f8ab32382c095246d0672e0ce693c58caf6986fc28b1601": {
+      "signature": "e55cb60312cdc1e04f8ab32382c095246d0672e0ce693c58caf6986fc28b1601",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_detection_and_alert_configs_crud_operations/recording_updates_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5308974573eb91c04bb35691a910106afb972ed1e74ef11f1996aa05139fcbbf": {
+      "signature": "5308974573eb91c04bb35691a910106afb972ed1e74ef11f1996aa05139fcbbf",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_gets_ingestion_progress.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cbdcc288827bbc47e73af6736ac6bc1cf175e8268258a5d8e72d51a2dce2b62f": {
+      "signature": "cbdcc288827bbc47e73af6736ac6bc1cf175e8268258a5d8e72d51a2dce2b62f",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_lists_ingestion_status.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "27dd6e716caabf5006878806414db9a1bc1b3ebb990f7a41f2b57a83d33270e6": {
+      "signature": "27dd6e716caabf5006878806414db9a1bc1b3ebb990f7a41f2b57a83d33270e6",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_lists_ingestion_status_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d315759c8ffbb169cbb87b6ca9d95e1408dfa846d4677c714bc0f5a0c620bd71": {
+      "signature": "d315759c8ffbb169cbb87b6ca9d95e1408dfa846d4677c714bc0f5a0c620bd71",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_lists_ingestion_status_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fb5ee18c9f0514ae2c7f0f61d539ee9d20b294e5d53609a59a0fdc95097656fc": {
+      "signature": "fb5ee18c9f0514ae2c7f0f61d539ee9d20b294e5d53609a59a0fdc95097656fc",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisoradministrationclient_ingestion/recording_refreshes_ingesetion_status.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5aac59316784789ef640da2e8d77801255ef4c7e264cd405b0416837c4f26b4d": {
+      "signature": "5aac59316784789ef640da2e8d77801255ef4c7e264cd405b0416837c4f26b4d",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_gets_root_causes_of_an_incident.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4d0f9fa79bc56887841ff55ffdb2e8f1552f2d0c77a377ee6bd2b4b00a73bebb": {
+      "signature": "4d0f9fa79bc56887841ff55ffdb2e8f1552f2d0c77a377ee6bd2b4b00a73bebb",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listanomaliesfordetectionconfiguration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "04e4f49eac6a29455e6da3bb54e1f7163ca85ac6f1e022c20e1e6a46507654e2": {
+      "signature": "04e4f49eac6a29455e6da3bb54e1f7163ca85ac6f1e022c20e1e6a46507654e2",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listanomaliesfordetectionconfiguration_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8978048f3b08a91a7903142d299bb203177ebc97ce2557daa3f7f9007dead4b9": {
+      "signature": "8978048f3b08a91a7903142d299bb203177ebc97ce2557daa3f7f9007dead4b9",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listanomaliesfordetectionconfiguration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "537e142bfcd2524cf9d2089a3293650db52224aab21e67dc25a59d1cd7c055ad": {
+      "signature": "537e142bfcd2524cf9d2089a3293650db52224aab21e67dc25a59d1cd7c055ad",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listdimensionvaluesfordetectionconfiguration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5ec793d50c75d2a7deb8bdd2e0e1a14cf5600e095fa4fa02319d0a147d3e987e": {
+      "signature": "5ec793d50c75d2a7deb8bdd2e0e1a14cf5600e095fa4fa02319d0a147d3e987e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listdimensionvaluesfordetectionconfiguration_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8470f8f5626170e412e94aab8eb02310c466a28af072672ad1a28eae5f0b332c": {
+      "signature": "8470f8f5626170e412e94aab8eb02310c466a28af072672ad1a28eae5f0b332c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listdimensionvaluesfordetectionconfiguration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cc9709a23e9fd35e87c1e20b36b197f99268d0c490e7a7cb810059eb5edf547e": {
+      "signature": "cc9709a23e9fd35e87c1e20b36b197f99268d0c490e7a7cb810059eb5edf547e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listincidentsfordetectionconfiguration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "db088faf72ee07044134a7571e96f0366ae66e69d45df6f938458e05490a1c82": {
+      "signature": "db088faf72ee07044134a7571e96f0366ae66e69d45df6f938458e05490a1c82",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listincidentsfordetectionconfiguration_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f568a24d98af4a2ea792123da478662b072a374982272980f519e9fdb5808229": {
+      "signature": "f568a24d98af4a2ea792123da478662b072a374982272980f519e9fdb5808229",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listincidentsfordetectionconfiguration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7c676d4829c16f1c6452a1dd7194e6e202ba0403b284d28ef7ee07515c929824": {
+      "signature": "7c676d4829c16f1c6452a1dd7194e6e202ba0403b284d28ef7ee07515c929824",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricdimensionvalues.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c88f805075387fd8f798821b27187397dcb0789999b6591f66469fcdc1902de9": {
+      "signature": "c88f805075387fd8f798821b27187397dcb0789999b6591f66469fcdc1902de9",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricdimensionvalues_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "72fbc075da7c4e4c5650c9bd33cab1e503ca24661666ac0740ba8315a5e14b30": {
+      "signature": "72fbc075da7c4e4c5650c9bd33cab1e503ca24661666ac0740ba8315a5e14b30",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricseriesdefinitions.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "bf13a700547a2e9009e47b13cd93717b60957c8bc3761cf4ef46917b5a74db76": {
+      "signature": "bf13a700547a2e9009e47b13cd93717b60957c8bc3761cf4ef46917b5a74db76",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricseriesdefinitions_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e9a65acf102a10060eb694ec52d0853eff6f4ae0438f9421d694cffefc50ad1f": {
+      "signature": "e9a65acf102a10060eb694ec52d0853eff6f4ae0438f9421d694cffefc50ad1f",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_listmetricseriesdefinitions_with_datetime_string.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "eb558e5a29d2eb1d5782f1c8d525d996e2f738b7d05b10da468e731083147ec5": {
+      "signature": "eb558e5a29d2eb1d5782f1c8d525d996e2f738b7d05b10da468e731083147ec5",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_alerts_for_alert_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "081af64cd0358527bb66f519702b9432eb8aa85ea8fd88d53edccb2e9b11c090": {
+      "signature": "081af64cd0358527bb66f519702b9432eb8aa85ea8fd88d53edccb2e9b11c090",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_alerts_for_alert_configuration_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f54eead542e1315f11365ba535115334b689a7e3dbf4d1a3961b9a3ca1e6564c": {
+      "signature": "f54eead542e1315f11365ba535115334b689a7e3dbf4d1a3961b9a3ca1e6564c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_alerts_for_alert_configuration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ba7f9fddb69677edf8553a62a06158ca2325e4e004acd52e5243096cb4c5af51": {
+      "signature": "ba7f9fddb69677edf8553a62a06158ca2325e4e004acd52e5243096cb4c5af51",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_anomalies_for_alert.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "129ab82b3f186972e820937c18536ff1215e06ea5c21701da66433b3a8c3a0f8": {
+      "signature": "129ab82b3f186972e820937c18536ff1215e06ea5c21701da66433b3a8c3a0f8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_anomalies_for_alert_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a62a5068c1155c83740b9bd8810303e18a8fe4cc03f6e649be6b4e820bffdfbf": {
+      "signature": "a62a5068c1155c83740b9bd8810303e18a8fe4cc03f6e649be6b4e820bffdfbf",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_incidents_for_alert.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4360e41600cc664e1cf5fa68b7012cbd14c1dfc4d5caa2c6b6ebb5f40c6deb05": {
+      "signature": "4360e41600cc664e1cf5fa68b7012cbd14c1dfc4d5caa2c6b6ebb5f40c6deb05",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_incidents_for_alert_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3a55ababb461980f617214b21e3cc0ce01472175c7c1a37cb68bf99dd4f1b975": {
+      "signature": "3a55ababb461980f617214b21e3cc0ce01472175c7c1a37cb68bf99dd4f1b975",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_series_data_for_a_metric.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c605f5c736b874f36c76955185af508220459b628fb61c7d954b81036e65d502": {
+      "signature": "c605f5c736b874f36c76955185af508220459b628fb61c7d954b81036e65d502",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_lists_series_data_for_a_metric_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "016555623c0792d97d683c15c32a9157d04a911d0c9193f37862c94ad95dad0c": {
+      "signature": "016555623c0792d97d683c15c32a9157d04a911d0c9193f37862c94ad95dad0c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_enriched_data_for_a_detection_configuration.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5ee33555c2734c1499ec0a5e85fa8c8b2d651255f538af3a2ef98d7887bca9da": {
+      "signature": "5ee33555c2734c1499ec0a5e85fa8c8b2d651255f538af3a2ef98d7887bca9da",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_enriched_data_for_a_detection_configuration_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4bc3a57a29be1b5890cfa3396321bf124f705f7073e41c3a36125ee1ed407480": {
+      "signature": "4bc3a57a29be1b5890cfa3396321bf124f705f7073e41c3a36125ee1ed407480",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_metric_enrichment_status.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "2dc0196f48229127bb84d0e13bd937ce88df13abf5dbcfee5f5cba5e0e2844ce": {
+      "signature": "2dc0196f48229127bb84d0e13bd937ce88df13abf5dbcfee5f5cba5e0e2844ce",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_metric_enrichment_status_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "afd0b39ef7cb893cce475888c80ed8c8639339bc73643cc9e2f3ad127aacec36": {
+      "signature": "afd0b39ef7cb893cce475888c80ed8c8639339bc73643cc9e2f3ad127aacec36",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient/recording_list_metric_enrichment_status_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "1b535e7aa0a6aea5ad38cbd9172b813b2e71448f537aaeda5ffb8b52a7442937": {
+      "signature": "1b535e7aa0a6aea5ad38cbd9172b813b2e71448f537aaeda5ffb8b52a7442937",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_creates_anomaly_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "8d3a0d4292f5ebc816197860f214cb19b70fbe4686fe58194f3a1254f17c25ba": {
+      "signature": "8d3a0d4292f5ebc816197860f214cb19b70fbe4686fe58194f3a1254f17c25ba",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_creates_changepoint_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "87dd509f3f5137b10fea7fee3aee4c809245599f8ed134feec1f8c1368d0a10b": {
+      "signature": "87dd509f3f5137b10fea7fee3aee4c809245599f8ed134feec1f8c1368d0a10b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_creates_comment_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "4325765536de53db37cfdc64b5b598230c5dc28c7f00f4866912d26e86919a3c": {
+      "signature": "4325765536de53db37cfdc64b5b598230c5dc28c7f00f4866912d26e86919a3c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_creates_period_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3443aec2e527418d04a3c66290ea743ce0a20f9aa51895d19a0127efc6cfaf2d": {
+      "signature": "3443aec2e527418d04a3c66290ea743ce0a20f9aa51895d19a0127efc6cfaf2d",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_lists_anomaly_feedbacks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "5a8fb5a8434b66d1a7dad38cb3633cb2907e3d9b34297f717fad95820755a706": {
+      "signature": "5a8fb5a8434b66d1a7dad38cb3633cb2907e3d9b34297f717fad95820755a706",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_lists_anomaly_feedbacks_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b3edb954a05384e43e0071728ee217d9091c4da12bfc85cf1fa740a28afda1c2": {
+      "signature": "b3edb954a05384e43e0071728ee217d9091c4da12bfc85cf1fa740a28afda1c2",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_lists_anomaly_feedbacks_with_datetime_strings.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "3908c0f9415b608d8c61ba3d9513cd8ef2a073734618739426c6b09574e01c78": {
+      "signature": "3908c0f9415b608d8c61ba3d9513cd8ef2a073734618739426c6b09574e01c78",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_feedback/recording_retrieves_anomaly_feedback.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "752fb97fef9c267a822b85dc6f17c87b5ba84f9be6b8ed689d3ad23d56cad68a": {
+      "signature": "752fb97fef9c267a822b85dc6f17c87b5ba84f9be6b8ed689d3ad23d56cad68a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_creates_email_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "6c0b6e4464db7b1c3112b407dda170eb7fd7ad08943f7a18ac8adbe716cb08d0": {
+      "signature": "6c0b6e4464db7b1c3112b407dda170eb7fd7ad08943f7a18ac8adbe716cb08d0",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_creates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a2289698d8e1fc2724d3010b0d942605ecef667746597b3713047d637072e17e": {
+      "signature": "a2289698d8e1fc2724d3010b0d942605ecef667746597b3713047d637072e17e",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_deletes_email_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c6d8715ce5f171ded87e526bf30c7d2b49dfd73f85d4d6583030b9a9d08841f0": {
+      "signature": "c6d8715ce5f171ded87e526bf30c7d2b49dfd73f85d4d6583030b9a9d08841f0",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_deletes_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c2a5a3a2993451878a02be800bbc09c92d8d03c838f264fbc1469f13ad65b9ed": {
+      "signature": "c2a5a3a2993451878a02be800bbc09c92d8d03c838f264fbc1469f13ad65b9ed",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_lists_hooks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "66c3c783cc9e4b552a5373315c2c5d200e7e63ed47655b8e11b3e5998c1b13f2": {
+      "signature": "66c3c783cc9e4b552a5373315c2c5d200e7e63ed47655b8e11b3e5998c1b13f2",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_lists_hooks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9bcba3b5d2fd0fb3b5d6999b52d62438fb6e6e2a1236eaa035b6a396d7e27874": {
+      "signature": "9bcba3b5d2fd0fb3b5d6999b52d62438fb6e6e2a1236eaa035b6a396d7e27874",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_lists_hooks_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9712e9cbfc1cf3401de6cad39c7814a46a831ace8e530b494b85873674fa999a": {
+      "signature": "9712e9cbfc1cf3401de6cad39c7814a46a831ace8e530b494b85873674fa999a",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_lists_hooks_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "7e1b9e9ddb7322e61f8b9cc79661222da7939086511bbdbf68fd0d0bcb03c0c3": {
+      "signature": "7e1b9e9ddb7322e61f8b9cc79661222da7939086511bbdbf68fd0d0bcb03c0c3",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_updates_email_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "9367766428665aca08a5d78e11873734ea820db8789fc1055963f1cdb01b33cc": {
+      "signature": "9367766428665aca08a5d78e11873734ea820db8789fc1055963f1cdb01b33cc",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0030",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fbb4088b506f395b457bf5eec3f0d66049d936bca251b7d9b156d8c71229eb58": {
+      "signature": "fbb4088b506f395b457bf5eec3f0d66049d936bca251b7d9b156d8c71229eb58",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c93a2f1a6a2b5d59aed174351d9201e38f02e5fc615e352a2f83c937d1a7539b": {
+      "signature": "c93a2f1a6a2b5d59aed174351d9201e38f02e5fc615e352a2f83c937d1a7539b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/aad_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d6448a8827048b15e2f84abd857303b459e3ef91c7da14972e134ace342e822c": {
+      "signature": "d6448a8827048b15e2f84abd857303b459e3ef91c7da14972e134ace342e822c",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "79c8101c30f9e89610dfdf73be40d570e3b6520e30fe514a50910933ff0003d8": {
+      "signature": "79c8101c30f9e89610dfdf73be40d570e3b6520e30fe514a50910933ff0003d8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ebbe72e5d300afdf02a48518c21ffa6f742dd033a221a0fb373db3db4ccbef38": {
+      "signature": "ebbe72e5d300afdf02a48518c21ffa6f742dd033a221a0fb373db3db4ccbef38",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisorclient_hooks/recording_lists_hooks.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "67dd050d04fe3f3f011b531c74dbf48f99cf769d41fae3d68127c669b357ad86": {
+      "signature": "67dd050d04fe3f3f011b531c74dbf48f99cf769d41fae3d68127c669b357ad86",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisorclient_hooks/recording_lists_hooks_by_page.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "e17df0150b590cac7b6fb646a7978074ff9b29b8b7b767df86f3cd25ce4fb438": {
+      "signature": "e17df0150b590cac7b6fb646a7978074ff9b29b8b7b767df86f3cd25ce4fb438",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "cbf20bd9cd6494fa13e67bcc1f523fe0d03f53aa1f51b73d537870edfe1277eb": {
+      "signature": "cbf20bd9cd6494fa13e67bcc1f523fe0d03f53aa1f51b73d537870edfe1277eb",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/browsers/api_key_metricsadvisorclient_hooks/recording_updates_web_hook.json",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b2faef705ca57f1606b763166ebfc5ac687cce09a1899d33841a7e0d77cc930b": {
+      "signature": "b2faef705ca57f1606b763166ebfc5ac687cce09a1899d33841a7e0d77cc930b",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "f5cd31ffb48f5eb7eb2f60f95965fa91231334bcc764889730d6c84851ce78d8": {
+      "signature": "f5cd31ffb48f5eb7eb2f60f95965fa91231334bcc764889730d6c84851ce78d8",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "ea1370d85a93b3e5095fda7c095c4301cf2c6c065ab75593bac03523a66d96f3": {
+      "signature": "ea1370d85a93b3e5095fda7c095c4301cf2c6c065ab75593bac03523a66d96f3",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisorclient_hooks/recording_lists_hooks.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "fc94209ecebd4b0e8ba53a1e936744a2aa260b2240fd57885602e22835eb05aa": {
+      "signature": "fc94209ecebd4b0e8ba53a1e936744a2aa260b2240fd57885602e22835eb05aa",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisorclient_hooks/recording_lists_hooks_by_page.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "a2801453082a5595a087caa2f18ecbfcb38a767b5ba4b0918eae67457392c26d": {
+      "signature": "a2801453082a5595a087caa2f18ecbfcb38a767b5ba4b0918eae67457392c26d",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisorclient_hooks/recording_updates_web_hook.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "eef2ccf5b3ca04d81ea7490426b2b052908ee8c12d0cb2416eb0f7ce6e5156b1": {
+      "signature": "eef2ccf5b3ca04d81ea7490426b2b052908ee8c12d0cb2416eb0f7ce6e5156b1",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/aad_metricsadvisorclient_hooks/recording_updates_web_hook.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "c201eaeb7b9282d7065bb4c3126c5c8274011789b6cbe4245679affbf71859bf": {
+      "signature": "c201eaeb7b9282d7065bb4c3126c5c8274011789b6cbe4245679affbf71859bf",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d5e58c955816704af63eae1a9e4a91556d4c3c5ff4b137f53df95fc075431ff1": {
+      "signature": "d5e58c955816704af63eae1a9e4a91556d4c3c5ff4b137f53df95fc075431ff1",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisoradministrationclient_datafeed_datafeed/recording_creates_influxdb_data_feed.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "eebfb43d08923aaeaf72f91157dbac44f6a13e2ddb978cfe719bf725817587c7": {
+      "signature": "eebfb43d08923aaeaf72f91157dbac44f6a13e2ddb978cfe719bf725817587c7",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisorclient_hooks/recording_lists_hooks.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d21eff017e7977686306e26020e85ca616db2e084268da275e105f3a3def1bf4": {
+      "signature": "d21eff017e7977686306e26020e85ca616db2e084268da275e105f3a3def1bf4",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisorclient_hooks/recording_lists_hooks_by_page.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "b9144cf5c0b2abc6b8d106bce68cfc673668fad5a9c50979f73ce651bc43b596": {
+      "signature": "b9144cf5c0b2abc6b8d106bce68cfc673668fad5a9c50979f73ce651bc43b596",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisorclient_hooks/recording_updates_web_hook.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
+      "expirationDate": null,
+      "type": null
+    },
+    "d1cf3c60bc2373f5d3c25001f086cbd688f4b53ceca382bc0c669898872de536": {
+      "signature": "d1cf3c60bc2373f5d3c25001f086cbd688f4b53ceca382bc0c669898872de536",
+      "target": "sdk/metricsadvisor/ai-metrics-advisor/recordings/node/api_key_metricsadvisorclient_hooks/recording_updates_web_hook.js",
+      "memberOf": [
+        "baseline"
+      ],
+      "tool": "CredentialScanner",
+      "ruleId": "CSCAN-GENERAL0060",
+      "justification": null,
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2097,7 +3397,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2110,7 +3410,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2123,7 +3423,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2136,7 +3436,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2149,7 +3449,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2162,7 +3462,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2175,7 +3475,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2188,7 +3488,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0070",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2201,7 +3501,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2214,7 +3514,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2227,7 +3527,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0070",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2240,7 +3540,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0070",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2253,7 +3553,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2266,7 +3566,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0130",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2279,7 +3579,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2292,7 +3592,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2305,7 +3605,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2318,7 +3618,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2331,7 +3631,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2344,7 +3644,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2357,7 +3657,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2370,7 +3670,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2383,7 +3683,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2396,7 +3696,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2409,7 +3709,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2422,7 +3722,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2435,7 +3735,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2448,7 +3748,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2461,7 +3761,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2474,7 +3774,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2487,7 +3787,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2500,7 +3800,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2513,7 +3813,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2526,7 +3826,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2539,7 +3839,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2552,7 +3852,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2565,7 +3865,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2578,7 +3878,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2591,7 +3891,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2604,7 +3904,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2617,7 +3917,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2630,7 +3930,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2643,7 +3943,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2656,7 +3956,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2669,7 +3969,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2682,7 +3982,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2695,7 +3995,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2708,7 +4008,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2721,7 +4021,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2734,7 +4034,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2747,7 +4047,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2760,7 +4060,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2773,7 +4073,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2786,7 +4086,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2799,7 +4099,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2812,7 +4112,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2825,7 +4125,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2838,7 +4138,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2851,7 +4151,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2864,7 +4164,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2877,7 +4177,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2890,7 +4190,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2903,7 +4203,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2916,7 +4216,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2929,7 +4229,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2942,7 +4242,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2955,7 +4255,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2968,7 +4268,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2981,7 +4281,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -2994,7 +4294,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -3007,7 +4307,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -3020,7 +4320,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -3033,7 +4333,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -3046,7 +4346,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-GENERAL0060",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -3059,7 +4359,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0070",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     },
@@ -3072,7 +4372,7 @@
       "tool": "CredentialScanner",
       "ruleId": "CSCAN-AZURE0070",
       "justification": null,
-      "createdDate": "2021-01-15 20:14:18Z",
+      "createdDate": "2021-01-29 00:17:00Z",
       "expirationDate": null,
       "type": null
     }

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, RequestPrepareOptions, RestError } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
@@ -54,7 +54,7 @@ export const imdsMsi: MSI = {
     clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<boolean> {
-    const { span, options } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ManagedIdentityCredential-pingImdsEndpoint",
       getTokenOptions
     );
@@ -68,21 +68,22 @@ export const imdsMsi: MSI = {
       delete request.headers.Metadata;
     }
 
-    request.spanOptions = options.tracingOptions && options.tracingOptions.spanOptions;
+    request.spanOptions = updatedOptions?.tracingOptions?.spanOptions;
+    request.tracingContext = updatedOptions?.tracingOptions?.tracingContext;
 
     try {
       // Create a request with a timeout since we expect that
       // not having a "Metadata" header should cause an error to be
       // returned quickly from the endpoint, proving its availability.
       const webResource = identityClient.createWebResource(request);
-      webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 500;
+      webResource.timeout = updatedOptions?.requestOptions?.timeout || 500;
 
       try {
         logger.info(`Pinging IMDS endpoint`);
         await identityClient.sendRequest(webResource);
       } catch (err) {
         if (
-          (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) ||
+          (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
           err.name === "AbortError" ||
           err.code === "ECONNREFUSED" || // connection refused
           err.code === "EHOSTDOWN" // host is down
@@ -91,7 +92,7 @@ export const imdsMsi: MSI = {
           // or the host was down, we'll assume the IMDS endpoint isn't available.
           logger.info(`IMDS endpoint unavailable`);
           span.setStatus({
-            code: CanonicalCode.UNAVAILABLE,
+            code: SpanStatusCode.ERROR,
             message: err.message
           });
 
@@ -110,7 +111,7 @@ export const imdsMsi: MSI = {
       // This error should bubble up to the user.
       logger.info(`Error when creating the WebResource for the IMDS endpoint: ${err.message}`);
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
       throw err;

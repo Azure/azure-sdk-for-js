@@ -20,6 +20,7 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the QuantumJobClientContext class.
+   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The Azure subscription ID. This is a GUID-formatted string (e.g.
    *                       00000000-0000-0000-0000-000000000000)
    * @param resourceGroupName Name of an Azure resource group.
@@ -27,11 +28,15 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
    * @param options The parameter options
    */
   constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     subscriptionId: string,
     resourceGroupName: string,
     workspaceName: string,
     options?: QuantumJobClientOptionalParams
   ) {
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
     }
@@ -52,7 +57,7 @@ export class QuantumJobClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(undefined, options);
+    super(credentials, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 

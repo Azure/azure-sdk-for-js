@@ -1,7 +1,6 @@
 # Azure Key Vault Administration client library for JavaScript
 
-Azure Key Vault is a service that allows you to encrypt authentication keys, storage account keys, data encryption keys, .pfx files, and passwords by using secured keys.
-If you would like to know more about Azure Key Vault, you may want to review: [What is Azure Key Vault?][docs-overview]
+Azure Key Vault Managed HSM is a fully-managed, highly-available, single-tenant, standards-compliant cloud service that enables you to safeguard cryptographic keys for your cloud applications using FIPS 140-2 Level 3 validated HSMs. If you would like to know more about Azure Key Vault Managed HSM, you may want to review: [What is Azure Key Vault Managed HSM?][managedhsm]
 
 The package `@azure/keyvault-admin` provides support for the administrative Key Vault tasks. It includes the backup and restore operations for whole Key Vault instances, and the role-based access control (RBAC) operations.
 
@@ -11,7 +10,7 @@ The package `@azure/keyvault-admin` provides support for the administrative Key 
 
 ### Install the package
 
-Install the Azure Key Vault administration client library for JavaScript and TypeScript with [NPM][NPM]:
+Install the Azure Key Vault administration client library for JavaScript and TypeScript with [NPM][npm]:
 
 ```PowerShell
 npm install @azure/keyvault-admin
@@ -21,49 +20,75 @@ npm install @azure/keyvault-admin
 
 To work with the Azure Key Vault Administration client, the following is necessary:
 
-* An [Azure subscription][azure-sub].
-* An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
-* Use [Node.js](https://nodejs.org/) 8.x or higher.
+- An [Azure subscription][azure-sub].
+- An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
+- Use [Node.js](https://nodejs.org/) 8.x or higher.
 
 #### Getting Azure credentials
 
 Use the [Azure CLI][azure-cli] snippet below to create/get client secret credentials.
 
- * Create a service principal and configure its access to Azure resources:
-    ```PowerShell
-    az ad sp create-for-rbac -n <your-application-name> --skip-assignment
-    ```
-    Output:
-    ```json
-    {
-        "appId": "generated-app-ID",
-        "displayName": "some-app-name",
-        "name": "http://some-app-name",
-        "password": "random-password",
-        "tenant": "tenant-ID"
-    }
-    ```
-* Take note of the service principal objectId
-    ```PowerShell
-    az ad sp show --id <appId> --query objectId
-    ```
-    Output:
-    ```
-    "<your-service-principal-object-id>"
-    ```
-* Use the returned credentials above to set  **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables.
+- Create a service principal and configure its access to Azure resources:
+  ```PowerShell
+  az ad sp create-for-rbac -n <your-application-name> --skip-assignment
+  ```
+  Output:
+  ```json
+  {
+    "appId": "generated-app-ID",
+    "displayName": "some-app-name",
+    "name": "http://some-app-name",
+    "password": "random-password",
+    "tenant": "tenant-ID"
+  }
+  ```
+- Take note of the service principal objectId
+  ```PowerShell
+  az ad sp show --id <appId> --query objectId
+  ```
+  Output:
+  ```
+  "<your-service-principal-object-id>"
+  ```
+- Use the returned credentials above to set **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables.
 
 #### Get or create an Azure Key Vault with the Azure CLI
 
-* Create the Key Vault and grant the above mentioned application authorization to perform administrative operations on the Azure Key Vault (replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
-    ```
-    az keyvault create --hsm-name <your-key-vault-name> --resource-group <your-resource-group-name> --administrators <your-service-principal-object-id> --location <your-azure-location>
-    ```
+- Create the Key Vault and grant the above mentioned application authorization to perform administrative operations on the Azure Key Vault (replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
 
-* Use the above mentioned Azure Key Vault name to retrieve details of your Vault which also contains your Azure Key Vault URL:
-    ```PowerShell
-    az keyvault show --hsm-name <your-key-vault-name>
-    ```
+  ```
+  az keyvault create --hsm-name <your-key-vault-name> --resource-group <your-resource-group-name> --administrators <your-service-principal-object-id> --location <your-azure-location>
+  ```
+
+- Use the above mentioned Azure Key Vault name to retrieve details of your Vault which also contains your Azure Key Vault URL:
+  ```PowerShell
+  az keyvault show --hsm-name <your-key-vault-name>
+  ```
+
+#### Activate your managed HSM
+
+All data plane commands are disabled until the HSM is activated. You will not be able to create keys or assign roles. Only the designated administrators that were assigned during the create command can activate the HSM. To activate the HSM you must download the security domain.
+
+To activate your HSM you need:
+
+- Minimum 3 RSA key-pairs (maximum 10)
+- Specify minimum number of keys required to decrypt the security domain (quorum)
+
+To activate the HSM you send at least 3 (maximum 10) RSA public keys to the HSM. The HSM encrypts the security domain with these keys and sends it back. Once this security domain is successfully downloaded, your HSM is ready to use. You also need to specify quorum, which is the minimum number of private keys required to decrypt the security domain.
+
+The example below shows how to use openssl to generate 3 self signed certificate.
+
+```PowerShell
+openssl req -newkey rsa:2048 -nodes -keyout cert_0.key -x509 -days 365 -out cert_0.cer
+openssl req -newkey rsa:2048 -nodes -keyout cert_1.key -x509 -days 365 -out cert_1.cer
+openssl req -newkey rsa:2048 -nodes -keyout cert_2.key -x509 -days 365 -out cert_2.cer
+```
+
+Use the az keyvault security-domain download command to download the security domain and activate your managed HSM. The example below, uses 3 RSA key pairs (only public keys are needed for this command) and sets the quorum to 2.
+
+```PowerShell
+az keyvault security-domain download --hsm-name <your-key-vault-name> --sd-wrapping-keys ./certs/cert_0.cer ./certs/cert_1.cer ./certs/cert_2.cer --sd-quorum 2 --security-domain-file ContosoMHSM-SD.json
+```
 
 #### Get or create an Azure Storage Account with the Azure CLI
 
@@ -95,7 +120,7 @@ In order to control permissions to the Key Vault service, or to generate and res
 
 In both cases, you'll need a **vault URL**, which you may see as "DNS Name" in the portal, and a credential object from the [@azure/identity][identity-npm] package which is used to authenticate with Azure Active Directory.
 
-In the below example, we are using a **client secret credentials (client id, client secret, tenant id)**,  but you can find more ways to authenticate with [Azure Identity][azure-identity]. To use the [DefaultAzureCredential][DAC] provider shown below, or other credential providers provided with the Azure SDK, you should install the [@azure/identity][identity-npm] package:
+In the below example, we are using a **client secret credentials (client id, client secret, tenant id)**, but you can find more ways to authenticate with [Azure Identity][azure-identity]. To use the [DefaultAzureCredential][dac] provider shown below, or other credential providers provided with the Azure SDK, you should install the [@azure/identity][identity-npm] package:
 
 ```PowerShell
 npm install @azure/identity
@@ -159,7 +184,7 @@ The `KeyVaultBackupClient` offers three methods that execute long running operat
 - `beginRestore`, starts restoring all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder.
 - `beginSelectiveRestore`, starts restoring all key versions of a given key using user supplied SAS token pointing to a previously stored Azure Blob storage backup folder.
 
-The methods that begin long running operations return a poller that allows you to wait indefinitely until the operation is complete. More information is available on the examples below.
+The methods that begin long running operations return a poller that allows you to wait indefinitely until the operation is complete. More information is available in the examples below.
 
 ## Examples
 
@@ -171,16 +196,16 @@ We have samples both in JavaScript and TypeScript that show the access control a
 Direct links to the specific JavaScript samples follow:
 
 - Access control (RBAC):
-    - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-    - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-    - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-    - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
-    - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
+  - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
+  - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
+  - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
+  - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
+  - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js)
 - Backup and restore:
-    - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
-    - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
-    - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
-    - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
+  - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
+  - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js)
+  - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
+  - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js)
 
 ## Troubleshooting
 
@@ -207,7 +232,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fkeyvault%2Fkeyvault-admin%2FREADME.png)
 
 <!-- LINKS -->
-[NPM]: https://www.npmjs.com/
+
+[npm]: https://www.npmjs.com/
 [package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin
 [package-npm]: https://www.npmjs.com/package/@azure/keyvault-admin
 [identity-npm]: https://www.npmjs.com/package/@azure/identity
@@ -220,6 +246,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure-identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
 [api-rest]: https://docs.microsoft.com/rest/api/keyvault/
 [compiler-options]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
+
 [dotenv]: https://www.npmjs.com/package/dotenv]
 [DAC]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/README.md
 [storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
@@ -231,6 +258,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
 [JWK]: https://tools.ietf.org/html/rfc7517
 [logging]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/master/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
-
+[managedhsm]: https://docs.microsoft.com/azure/key-vault/managed-hsm/overview
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-net%2Fsdk%2Ftables%2FAzure.Data.Tables%2FREADME.png)

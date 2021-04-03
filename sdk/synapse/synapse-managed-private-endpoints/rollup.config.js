@@ -2,6 +2,7 @@ import rollup from "rollup";
 import nodeResolve from "rollup-plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import cjs from "@rollup/plugin-commonjs";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 /**
  * @type {rollup.RollupFileOptions}
@@ -32,7 +33,7 @@ const config = {
     cjs({
       namedExports: {
         assert: ["ok", "deepEqual", "equal", "fail", "deepStrictEqual", "strictEqual"],
-        "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        ...openTelemetryCommonJs()
       }
     })
   ]

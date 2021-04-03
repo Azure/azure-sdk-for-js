@@ -9,8 +9,7 @@ import {
   operationOptionsToRequestOptionsBase,
   OperationOptions
 } from "@azure/core-http";
-import { TokenCredential } from "@azure/identity";
-import { KeyCredential } from "@azure/core-auth";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import {
   SDK_VERSION,
   DEFAULT_COGNITIVE_SCOPE,
@@ -26,13 +25,14 @@ import {
   toRequestBody,
   getContentType
 } from "./common";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   SourcePath,
-  OperationStatus
+  OperationStatus,
+  ReadingOrder
 } from "./generated/models";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
@@ -82,26 +82,45 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    */
   resumeFrom?: string;
   /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp".
+   * Content type of the input. Supported types are "application/pdf",
+   * "image/jpeg", "image/png", "image/tiff", and "image/bmp".
    */
   contentType?: FormContentType;
   /**
    * The BCP-47 language code of the text in the document.
    *
-   * The supported languages are English ('en'), Dutch (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt'),
-   * simplified Chinese ('zh-Hans') and Spanish ('es') are supported.
+   * See the `KnownLanguage` type for a list of known langauges that the
+   * service supports.
    *
    * Handwritten text is only supported in English ('en').
    *
-   * Content recognition supports auto language identification and multi language documents, so only provide a language code if
-   * you would like to override the service's default behavior and force the document to be processed using a specific language.
+   * Content recognition supports auto language identification and multi
+   * language documents, so only provide a language code if you would like to
+   * override the service's default behavior and force the document to be
+   * processed using a specific language.
+   *
+   * @see KnownLanguage
    */
   language?: string;
   /**
-   * Custom page numbers for multi-page documents(PDF/TIFF). If a value is provided, content information will only be provided for
-   * the selected pages. A range of pages may be denoted using a hyphen.
+   * The reading order algorithm to use when analyzing the page and sorting
+   * the output text lines. Possible values include "basic" (default) and
+   * "natural".
    *
-   * For example, to select pages 1, 3 and 5 through 9, set this property to `["1", "3", "5-9"]`.
+   * The "basic" reading order uses a strict top-to-bottom, right-to-left
+   * reading order.
+   *
+   * The "natural" reading order uses heuristics to mimic the way a human
+   * reader would read the document.
+   */
+  readingOrder?: ReadingOrder;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF). If a value is
+   * provided, content information will only be provided for the selected
+   * pages. A range of pages may be denoted using a hyphen.
+   *
+   * For example, to select pages 1, 3 and 5 through 9, set this property to
+   * `["1", "3", "5-9"]`.
    */
   pages?: string[];
 };
@@ -119,17 +138,17 @@ type GetRecognizedContentResultOptions = FormRecognizerOperationOptions;
 /**
  * Options for recognition of forms
  */
-export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
+export interface RecognizeFormsOptions extends FormRecognizerOperationOptions {
   /**
    * Specifies whether to include text lines and element references in the result
    */
   includeFieldElements?: boolean;
-};
+}
 
 /**
  * Shared options for starting form recognition operations.
  */
-export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
+export interface BeginRecognizeFormsOptions extends RecognizeFormsOptions {
   /**
    * Delay to wait until next poll, in milliseconds
    */
@@ -143,22 +162,25 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
    */
   resumeFrom?: string;
   /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", "image/tiff", and "image/bmp".
+   * Custom page numbers for multi-page documents(PDF/TIFF). If a value is
+   * provided, content information will only be provided for the selected
+   * pages. A range of pages may be denoted using a hyphen.
+   *
+   * For example, to select pages 1, 3 and 5 through 9, set this property to
+   * `["1", "3", "5-9"]`.
+   */
+  pages?: string[];
+  /**
+   * Content type of the input. Supported types are "application/pdf",
+   * "image/jpeg", "image/png", "image/tiff", and "image/bmp".
    */
   contentType?: FormContentType;
-};
+}
 
 /**
  * Options for starting the custom form recognition operation.
  */
-export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
-  /**
-   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
-   *
-   * "image/bmp" is not supported for custom form analysis.
-   */
-  contentType?: Exclude<FormContentType, "image/bmp">;
-}
+export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {}
 
 /**
  * Result type of the Recognize Form Long-Running-Operation (LRO)
@@ -192,6 +214,11 @@ export type BeginRecognizeBusinessCardsOptions = BeginRecognizePrebuiltOptions;
  */
 export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
 
+/**
+ * Options for starting the ID document recognition operation
+ */
+export type BeginRecognizeIdDocumentsOptions = BeginRecognizePrebuiltOptions;
+
 // #endregion
 
 /**
@@ -205,7 +232,6 @@ export class FormRecognizerClient {
 
   /**
    * @internal
-   * @hidden
    * A reference to the auto-generated FormRecognizer HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -361,7 +387,6 @@ export class FormRecognizerClient {
   /**
    * Retrieves result of content recognition operation.
    * @internal
-   * @hidden
    */
   private async getRecognizedContent(
     resultId: string,
@@ -379,7 +404,7 @@ export class FormRecognizerClient {
       return toRecognizeContentResultResponse(analyzeResult);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -575,7 +600,7 @@ export class FormRecognizerClient {
     });
 
     const poller = new FormRecognitionPoller({
-      expectedDocType: "prebuilt:businessCard",
+      expectedDocType: "prebuilt:businesscard",
       createOperation: span("businessCardsInternal", async (finalOptions) => {
         const requestBody = await toRequestBody(businessCard);
         const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
@@ -644,7 +669,7 @@ export class FormRecognizerClient {
     });
 
     const poller = new FormRecognitionPoller({
-      expectedDocType: "prebuilt:businessCard",
+      expectedDocType: "prebuilt:businesscard",
       createOperation: span("businessCardsInternal", async (finalOptions) => {
         return processOperationLocation(
           await this.client.analyzeBusinessCardAsync("application/json", {
@@ -794,6 +819,153 @@ export class FormRecognizerClient {
       }),
       getResult: span("getInvoices", async (finalOptions, resultId) =>
         this.client.getAnalyzeInvoiceResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  // #endregion
+
+  // #region prebuilt::idDocument
+
+  /**
+   * Recognizes data from identification documents using a pre-built ID
+   * document model, enabling you to extract structured data from ID documents
+   * such as first/last name, document number, expiration date, and more.
+   *
+   * For a list of fields that are contained in the response, please refer to
+   * the documentation at the following link:
+   * https://aka.ms/azsdk/formrecognizer/iddocumentfields
+   *
+   * This method returns a long running operation poller that allows you to
+   * wait indefinitely until the operation is completed.
+   *
+   * Note that the onProgress callback will not be invoked if the operation
+   * completes in the first request, and attempting to cancel a completed copy
+   * will result in an error being thrown.
+   *
+   * Example usage:
+   *
+   * ```ts
+   * const path = "./license.jpg";
+   * const readStream = fs.createReadStream(path);
+   *
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeIdDocuments(readStream, {
+   *   onProgress: (state) => { console.log(`status: ${state.status}`); }
+   * });
+   *
+   * const [idDocument] = await poller.pollUntilDone();
+   * ```
+   *
+   * @param idDocument - Input document
+   * @param options - Options for the recognition operation
+   */
+  public async beginRecognizeIdDocuments(
+    idDocument: FormRecognizerRequestBody,
+    options: BeginRecognizeIdDocumentsOptions = {}
+  ): Promise<FormPollerLike> {
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdDocuments", {
+      ...options,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      expectedDocType: "prebuilt:idDocument",
+      createOperation: span("idDocumentsInternal", async (finalOptions) => {
+        const requestBody = await toRequestBody(idDocument);
+        const contentType = finalOptions.contentType ?? (await getContentType(requestBody));
+        return processOperationLocation(
+          await this.client.analyzeIdDocumentAsync(
+            contentType!,
+            requestBody as Blob | ArrayBuffer | ArrayBufferView,
+            operationOptionsToRequestOptionsBase(finalOptions)
+          )
+        );
+      }),
+      getResult: span("getIdDocuments", async (finalOptions, resultId) =>
+        this.client.getAnalyzeIdDocumentResult(
+          resultId,
+          operationOptionsToRequestOptionsBase(finalOptions)
+        )
+      ),
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Recognizes identity document information from a url using pre-built ID
+   * document model, enabling you to extract structured data from ID documents
+   * such as first/last name, document number, expiration date, and more.
+   *
+   * For a list of fields that are contained in the response, please refer to
+   * the documentation at the following link:
+   * https://aka.ms/azsdk/formrecognizer/iddocumentfields
+   *
+   * This method returns a long running operation poller that allows you to
+   * wait indefinitely until the operation is completed.
+   *
+   * Note that the onProgress callback will not be invoked if the operation
+   * completes in the first request, and attempting to cancel a completed copy
+   * will result in an error being thrown.
+   *
+   * Example usage:
+   * ```ts
+   * const url = "<url to the identity document>";
+   *
+   * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+   * const poller = await client.beginRecognizeIdDocumentsFromUrl(url, {
+   *   includeFieldElements: true,
+   *   onProgress: (state) => {
+   *     console.log(`analyzing status: ${state.status}`);
+   *   }
+   * });
+   *
+   * const [idDocument] = await poller.pollUntilDone();
+   * ```
+   *
+   * @param idDocumentUrl - Url to an identity document that is accessible from
+   * the service. Must be a valid, encoded URL to a document of a supported
+   * content type.
+   * @param options - Options for the recognition operation
+   */
+  public async beginRecognizeIdDocumentsFromUrl(
+    idDocumentUrl: string,
+    options: BeginRecognizeIdDocumentsOptions = {}
+  ): Promise<FormPollerLike> {
+    if (options.contentType) {
+      logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
+    }
+
+    const { span } = makeSpanner("FormRecognizerClient-beginRecognizeIdDocumentsFromUrl", {
+      ...options,
+      contentType: undefined,
+      includeTextDetails: options.includeFieldElements
+    });
+
+    const poller = new FormRecognitionPoller({
+      expectedDocType: "prebuilt:idDocument",
+      createOperation: span("idDocumentsInternal", async (finalOptions) => {
+        return processOperationLocation(
+          await this.client.analyzeIdDocumentAsync("application/json", {
+            fileStream: {
+              source: idDocumentUrl
+            },
+            ...operationOptionsToRequestOptionsBase(finalOptions)
+          })
+        );
+      }),
+      getResult: span("getIdDocuments", async (finalOptions, resultId) =>
+        this.client.getAnalyzeIdDocumentResult(
           resultId,
           operationOptionsToRequestOptionsBase(finalOptions)
         )
@@ -1028,7 +1200,7 @@ function makeSpanner<Options extends OperationOptions>(
         return handler(updatedOptions, ...args);
       } catch (e) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: e.message
         });
         throw e;
@@ -1071,7 +1243,7 @@ async function recognizeLayoutInternal(
     });
   } catch (e) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: e.message
     });
     throw e;

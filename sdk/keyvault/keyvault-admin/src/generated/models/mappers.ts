@@ -8,28 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const RoleDefinitionListResult: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RoleDefinitionListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: { type: { name: "Composite", className: "RoleDefinition" } }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const RoleDefinition: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -83,6 +61,47 @@ export const RoleDefinition: coreHttp.CompositeMapper = {
       },
       assignableScopes: {
         serializedName: "properties.assignableScopes",
+        type: {
+          name: "Sequence",
+          element: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const RoleDefinitionProperties: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleDefinitionProperties",
+    modelProperties: {
+      roleName: {
+        serializedName: "roleName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      roleType: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      permissions: {
+        serializedName: "permissions",
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "Permission" } }
+        }
+      },
+      assignableScopes: {
+        serializedName: "assignableScopes",
         type: {
           name: "Sequence",
           element: { type: { name: "String" } }
@@ -169,6 +188,44 @@ export const ErrorModel: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ErrorModel"
+        }
+      }
+    }
+  }
+};
+
+export const RoleDefinitionCreateParameters: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleDefinitionCreateParameters",
+    modelProperties: {
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "RoleDefinitionProperties"
+        }
+      }
+    }
+  }
+};
+
+export const RoleDefinitionListResult: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RoleDefinitionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "RoleDefinition" } }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }

@@ -1,0 +1,39 @@
+{
+  "name": "azure-iot-device-update-samples-js",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Cognitive Services Text Analytics client library samples for Javascript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Cognitive Services",
+    "Text Analytics",
+    "Node.js",
+    "Javascript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/iot-device-update": "latest",
+    "@azure/identity": "latest",
+    "dotenv": "^8.2.0",
+    "uuid": "^8.1.0"
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.0.0",
+    "@types/node": "^8.0.0",
+    "rimraf": "^3.0.0",
+    "typescript": "~3.6.4"
+  }
+}

@@ -3,16 +3,15 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentError,
-  DocumentLinkedEntities,
-  TextDocumentInput
+  TextDocumentInput,
+  EntityLinkingResult
 } from "./generated/models";
 import {
   RecognizeLinkedEntitiesResult,
   makeRecognizeLinkedEntitiesResult,
   makeRecognizeLinkedEntitiesErrorResult
 } from "./recognizeLinkedEntitiesResult";
-import { sortResponseIdObjects } from "./util";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 
 /**
  * Array of `RecognizeLinkedEntitiesResult` objects corresponding to a batch of input documents, and
@@ -32,34 +31,17 @@ export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinke
   modelVersion: string;
 }
 
+/**
+ * @internal
+ */
 export function makeRecognizeLinkedEntitiesResultArray(
   input: TextDocumentInput[],
-  documents: DocumentLinkedEntities[],
-  errors: DocumentError[],
-  modelVersion: string,
-  statistics?: TextDocumentBatchStatistics
+  response: EntityLinkingResult
 ): RecognizeLinkedEntitiesResultArray {
-  const unsortedResult = documents
-    .map(
-      (document): RecognizeLinkedEntitiesResult => {
-        return makeRecognizeLinkedEntitiesResult(
-          document.id,
-          document.entities,
-          document.warnings,
-          document.statistics
-        );
-      }
-    )
-    .concat(
-      errors.map(
-        (error): RecognizeLinkedEntitiesResult => {
-          return makeRecognizeLinkedEntitiesErrorResult(error.id, error.error);
-        }
-      )
-    );
-  const result = sortResponseIdObjects(input, unsortedResult);
-  return Object.assign(result, {
-    statistics,
-    modelVersion
-  });
+  return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
+    input,
+    response,
+    makeRecognizeLinkedEntitiesResult,
+    makeRecognizeLinkedEntitiesErrorResult
+  );
 }

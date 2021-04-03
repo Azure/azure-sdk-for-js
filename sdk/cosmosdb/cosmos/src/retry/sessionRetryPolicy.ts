@@ -18,9 +18,7 @@ export class SessionRetryPolicy implements RetryPolicy {
   public retryAfterInMs = 0;
 
   /**
-   * @constructor SessionReadRetryPolicy
-   * @param {object} globalEndpointManager                           - The GlobalEndpointManager instance.
-   * @property {object} request                                      - The Http request information
+   * @param globalEndpointManager - The GlobalEndpointManager instance.
    */
   constructor(
     private globalEndpointManager: GlobalEndpointManager,
@@ -31,8 +29,8 @@ export class SessionRetryPolicy implements RetryPolicy {
 
   /**
    * Determines whether the request should be retried or not.
-   * @param {object} err - Error returned by the request.
-   * @param {function} callback - The callback function which takes bool argument which specifies whether the request\
+   * @param err - Error returned by the request.
+   * @param callback - The callback function which takes bool argument which specifies whether the request
    * will be retried or not.
    */
   public async shouldRetry(err: ErrorResponse, retryContext?: RetryContext): Promise<boolean> {

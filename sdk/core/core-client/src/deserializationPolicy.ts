@@ -7,7 +7,7 @@ import {
   SendRequest,
   PipelinePolicy,
   RestError
-} from "@azure/core-https";
+} from "@azure/core-rest-pipeline";
 import {
   OperationRequest,
   OperationResponseMap,
@@ -19,7 +19,6 @@ import {
   RequiredSerializerOptions
 } from "./interfaces";
 import { MapperTypeNames } from "./serializer";
-import { isStreamOperation } from "./interfaceHelpers";
 import { getOperationRequestInfo } from "./operationHelpers";
 
 const defaultJsonContentTypes = ["application/json", "text/json"];
@@ -185,9 +184,9 @@ async function deserializeResponseBody(
           valueToDeserialize,
           "operationRes.parsedBody"
         );
-      } catch (error) {
+      } catch (deserializeError) {
         const restError = new RestError(
-          `Error ${error} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
+          `Error ${deserializeError} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
           {
             statusCode: parsedResponse.status,
             request: parsedResponse.request,
@@ -243,7 +242,9 @@ function handleErrorResponse(
 
   const errorResponseSpec = responseSpec ?? operationSpec.responses.default;
 
-  const initialErrorMessage = isStreamOperation(operationSpec)
+  const initialErrorMessage = parsedResponse.request.streamResponseStatusCodes?.has(
+    parsedResponse.status
+  )
     ? `Unexpected status code: ${parsedResponse.status}`
     : (parsedResponse.bodyAsText as string);
 
@@ -318,7 +319,10 @@ async function parse(
   opts: RequiredSerializerOptions,
   parseXML?: (str: string, opts?: XmlOptions) => Promise<any>
 ): Promise<FullOperationResponse> {
-  if (!operationResponse.request.streamResponseBody && operationResponse.bodyAsText) {
+  if (
+    !operationResponse.request.streamResponseStatusCodes?.has(operationResponse.status) &&
+    operationResponse.bodyAsText
+  ) {
     const text = operationResponse.bodyAsText;
     const contentType: string = operationResponse.headers.get("Content-Type") || "";
     const contentComponents: string[] = !contentType

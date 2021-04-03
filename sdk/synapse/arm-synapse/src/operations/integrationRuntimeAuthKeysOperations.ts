@@ -136,7 +136,7 @@ const regenerateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationRuntimeAuthKeys
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -162,7 +162,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.IntegrationRuntimeAuthKeys
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

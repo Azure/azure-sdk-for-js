@@ -1,4 +1,8 @@
-import { ServiceBusClient, ServiceBusReceiver } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ServiceBusReceiver,
+  ServiceBusReceiverOptions
+} from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { iptablesReset, iptablesDrop } from "./utils/iptables";
 import { delay } from "rhea-promise";
@@ -10,11 +14,9 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-
-type ReceiveMode = "receiveAndDelete" | "peekLock";
 interface ScenarioReceiveBatchOptions {
   testDurationInMs?: number;
-  receiveMode?: ReceiveMode;
+  receiveMode?: ServiceBusReceiverOptions["receiveMode"];
   receiveBatchMaxMessageCount?: number;
   receiveBatchMaxWaitTimeInMs?: number;
   delayBetweenReceivesInMs?: number;
@@ -37,14 +39,14 @@ function sanitizeOptions(args: string[]): Required<ScenarioReceiveBatchOptions> 
   });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
-    receiveMode: (options.receiveMode as ReceiveMode) || "peekLock",
+    receiveMode: options.receiveMode || "peekLock",
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
     delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
     numberOfMessagesPerSend: options.numberOfMessagesPerSend || 1,
     delayBetweenSendsInMs: options.delayBetweenSendsInMs || 0,
     totalNumberOfMessagesToSend: options.totalNumberOfMessagesToSend || Infinity,
-    sendAllMessagesBeforeReceiveStarts: options.sendAllMessagesBeforeReceiveStarts,
+    sendAllMessagesBeforeReceiveStarts: !!options.sendAllMessagesBeforeReceiveStarts,
     maxAutoLockRenewalDurationInMs: options.maxAutoLockRenewalDurationInMs || 0, // 0 = disabled
     settleMessageOnReceive: options.settleMessageOnReceive,
     numberOfParallelSends: options.numberOfParallelSends || 5
@@ -74,6 +76,7 @@ export async function scenarioReceiveBatch() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "batchAndReceive",
     snapshotFocus: ["send-info", "receive-info"]
   });
   const sbClient = new ServiceBusClient(connectionString);
@@ -95,7 +98,7 @@ export async function scenarioReceiveBatch() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
       elapsedTime < testDurationForSendInMs &&
-      stressBase.messagesSent.length < totalNumberOfMessagesToSend
+      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages(
         new Array(numberOfParallelSends).fill(sender),

@@ -1,0 +1,708 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1331",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:32 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11530.15 - NCUS ProdSlices",
+    "x-ms-request-id": "7bc9d388-fcfd-4206-a822-3ef6f52d6300"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze",
+   "query": {},
+   "requestBody": "{\"tasks\":{\"entityRecognitionTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"entityRecognitionPiiTasks\":[{\"parameters\":{\"model-version\":\"latest\",\"stringIndexType\":\"Utf16CodeUnit\"}}],\"keyPhraseExtractionTasks\":[{\"parameters\":{\"model-version\":\"latest\"}}]},\"analysisInput\":{\"documents\":[{\"id\":\"56\",\"text\":\":)\"},{\"id\":\"0\",\"text\":\":(\"},{\"id\":\"22\",\"text\":\"\"},{\"id\":\"19\",\"text\":\":P\"},{\"id\":\"1\",\"text\":\":D\"}]}}",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "apim-request-id": "1388d517-6eb7-49df-9366-56aa86febb2f",
+    "date": "Fri, 05 Mar 2021 21:11:37 GMT",
+    "operation-location": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "333"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:37Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:37Z\"},\"completed\":0,\"failed\":0,\"inProgress\":0,\"total\":0}}",
+   "responseHeaders": {
+    "apim-request-id": "e88e8546-8651-45c5-9041-e8126282a5d2",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:37 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "111"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"notStarted\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":0,\"failed\":0,\"inProgress\":3,\"total\":3}}",
+   "responseHeaders": {
+    "apim-request-id": "38f9efc7-3126-4877-a7c7-720807c0e848",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:39 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "936"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "b13a9f0a-2474-4d3a-b01a-091b63d7fa9f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:42 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "1031"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "10f33860-207f-4fa3-8543-ab09a6d97e17",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:44 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "357"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "cf07c895-d3d0-4b8b-a0a4-040ffe181a3e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:47 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "734"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9f00d9c1-7b0c-491a-9677-d5f4e697e33f",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:49 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "191"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9b04aef2-d473-4294-8308-97132bc8544c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:52 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "1063"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "f25a8e83-b436-4e7b-a4ad-f0c01024d396",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:54 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "166"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8bb88f23-2410-40c4-8871-f646e75c292e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:56 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "182"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "115ff9b1-d421-468e-95bd-f9967b467328",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:11:58 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "182"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9a39e5aa-1b5f-40ed-b96b-5e8371500831",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:00 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "186"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8eb9d4c2-ab24-472e-9dd4-4d63121b1ec2",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:03 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "230"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "9b75879f-fde1-47d9-95ff-f19674cdc3e7",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:05 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "154"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "26627696-dea8-4437-b4ef-d96773c75fd9",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:07 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "186"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "7b2b4712-d47b-474a-b62a-dd39ecea1428",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:09 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "131"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "d8157bb9-5cad-4499-bc1b-9160f2754f90",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:11 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "243"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "06cf211f-ff86-4e25-b9ec-ccaf59b28d5c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:15 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "175"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "6f8d91cb-f1bc-47e0-ac17-3dbd57262b36",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:17 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "154"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "721a9dfa-ffff-406b-a082-c2bd0bbedaca",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:19 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "211"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "ef32eecc-43d2-437b-b6b7-5199751388db",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:21 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "215"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "84dbac0b-cf84-4a76-9ad0-0a1d38f5785e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:23 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "179"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "27d3eb27-ee9d-43a1-98f4-3166a345e954",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:25 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "159"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "cf5120cf-1781-4ded-98ae-cac5ada44292",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:28 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "177"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "31f7afd9-ee8a-438c-8990-610aa14a6063",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:30 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "216"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "5d840dc4-17fd-4d09-b987-1a62ea4d7d18",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:32 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "184"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "52c37d8e-87a1-4926-9096-9c8d715b903e",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:34 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "147"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "a804b497-5e6b-44a9-a7da-ba352ecc7f11",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:37 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "186"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8db42f22-5336-4750-b3fa-d1c8af620781",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:39 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "154"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "8fff14ad-c9b2-4b69-84a8-c4f53b3d15cf",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:41 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "202"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "c64c76ce-9210-411a-a8bd-2d1cea559c9c",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:43 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "186"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"running\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":1,\"failed\":0,\"inProgress\":2,\"total\":3,\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "e4e0dae3-2fcc-4c2a-8bb8-c93995135a02",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:45 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "218"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"id\":\"0\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"id\":\"19\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2021-01-15\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"redactedText\":\":)\",\"id\":\"56\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"redactedText\":\":(\",\"id\":\"0\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"redactedText\":\":P\",\"id\":\"19\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"redactedText\":\":D\",\"id\":\"1\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "010eb36c-8e55-430f-9598-08bb8718c6d8",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:48 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "358"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/text/analytics/v3.1-preview.4/analyze/jobs/b3e0dd23-98cf-4395-ac07-9386e0e8282c",
+   "query": {
+    "showStats": "true",
+    "$top": "20"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"jobId\":\"b3e0dd23-98cf-4395-ac07-9386e0e8282c\",\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\",\"createdDateTime\":\"2021-03-05T21:11:37Z\",\"expirationDateTime\":\"2021-03-06T21:11:37Z\",\"status\":\"succeeded\",\"errors\":[],\"tasks\":{\"details\":{\"lastUpdateDateTime\":\"2021-03-05T21:11:38Z\"},\"completed\":3,\"failed\":0,\"inProgress\":0,\"total\":3,\"entityRecognitionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"id\":\"0\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"id\":\"19\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2021-01-15\"}}],\"entityRecognitionPiiTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"redactedText\":\":)\",\"id\":\"56\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"redactedText\":\":(\",\"id\":\"0\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"redactedText\":\":P\",\"id\":\"19\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]},{\"redactedText\":\":D\",\"id\":\"1\",\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"entities\":[],\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2021-01-15\"}}],\"keyPhraseExtractionTasks\":[{\"lastUpdateDateTime\":\"2021-03-05T21:11:38.4978003Z\",\"state\":\"succeeded\",\"results\":{\"statistics\":{\"documentsCount\":5,\"validDocumentsCount\":4,\"erroneousDocumentsCount\":1,\"transactionsCount\":4},\"documents\":[{\"id\":\"56\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"0\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"19\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[],\"statistics\":{\"charactersCount\":2,\"transactionsCount\":1},\"warnings\":[]}],\"errors\":[{\"id\":\"22\",\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocument\",\"message\":\"Document text is empty.\"}}}],\"modelVersion\":\"2020-07-01\"}}]}}",
+   "responseHeaders": {
+    "apim-request-id": "ac40683f-6137-4245-bc5c-8561cd5f3a7d",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Fri, 05 Mar 2021 21:12:48 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "273"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "3d676b43599b8b4e47e17f0b3cff8949"
+}

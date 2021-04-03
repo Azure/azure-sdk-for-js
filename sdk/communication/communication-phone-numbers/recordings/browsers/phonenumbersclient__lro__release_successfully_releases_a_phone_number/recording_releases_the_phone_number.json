@@ -1,0 +1,155 @@
+{
+  "recordings": [
+    {
+      "method": "DELETE",
+      "url": "https://endpoint/phoneNumbers/%2B14155550100",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 202,
+      "response": "",
+      "responseHeaders": {
+        "content-length": "0",
+        "operation-id": "release_sanitized",
+        "operation-location": "/phoneNumbers/operations/release_sanitized?api-version=2021-03-07",
+        "release-id": "sanitized"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"NotStarted\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Running\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://endpoint/phoneNumbers/operations/release_sanitized",
+      "query": {
+        "api-version": "2021-03-07"
+      },
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"status\":\"Succeeded\",\"resourceLocation\":null,\"createdDateTime\":\"2021-03-09T15:13:59.1141095+00:00\",\"id\":\"release_sanitized\",\"operationType\":\"ReleasePhoneNumber\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+      "responseHeaders": {
+        "content-type": "application/json; charset=utf-8"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "d0a5fa6aa3f170f4f167cabd3d1b8ba5"
+}

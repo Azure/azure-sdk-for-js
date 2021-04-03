@@ -4,7 +4,6 @@
 import { assert } from "chai";
 import {
   isCommunicationUserIdentifier,
-  isCallingApplicationIdentifier,
   isPhoneNumberIdentifier,
   getIdentifierKind,
   PhoneNumberIdentifier,
@@ -16,7 +15,6 @@ describe("Identifier models", () => {
   it("type guards", () => {
     const communicationUser = { communicationUserId: "alice" };
     assert.isTrue(isCommunicationUserIdentifier(communicationUser));
-    assert.isFalse(isCallingApplicationIdentifier(communicationUser));
     assert.isFalse(isPhoneNumberIdentifier(communicationUser));
     assert.isFalse(isMicrosoftTeamsUserIdentifier(communicationUser));
     assert.isFalse(isUnknownIdentifier(communicationUser));

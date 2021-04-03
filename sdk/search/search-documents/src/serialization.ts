@@ -97,7 +97,7 @@ function deserializeDates(input: unknown): Date | unknown {
 
 function deserializeGeoPoint(input: unknown): GeographyPoint | unknown {
   if (isGeoJSONPoint(input)) {
-    return new GeographyPoint(input.coordinates[0], input.coordinates[1]);
+    return new GeographyPoint({ longitude: input.coordinates[0], latitude: input.coordinates[1] });
   }
 
   return input;

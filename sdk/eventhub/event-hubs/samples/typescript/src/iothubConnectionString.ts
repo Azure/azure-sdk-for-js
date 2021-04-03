@@ -29,7 +29,7 @@ dotenv.config();
 
 /**
  * Type guard for AmqpError.
- * @param err An unknown error.
+ * @param err - An unknown error.
  */
 function isAmqpError(err: any): err is AmqpError {
   return rheaIsAmqpError(err);
@@ -60,7 +60,7 @@ function generateSasToken(
 
 /**
  * Converts an IotHub Connection string into an Event Hubs-compatible connection string.
- * @param connectionString An IotHub connection string in the format:
+ * @param connectionString - An IotHub connection string in the format:
  * `"HostName=<your-iot-hub>.azure-devices.net;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`
  * @returns An Event Hubs-compatible connection string in the format:
  * `"Endpoint=sb://<hostname>;EntityPath=<your-iot-hub>;SharedAccessKeyName=<KeyName>;SharedAccessKey=<Key>"`

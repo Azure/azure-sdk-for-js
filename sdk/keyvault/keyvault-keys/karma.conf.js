@@ -1,6 +1,6 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
@@ -50,6 +50,7 @@ module.exports = function(config) {
       "AZURE_TENANT_ID",
       "KEYVAULT_NAME",
       "KEYVAULT_URI",
+      "AZURE_MANAGEDHSM_URI",
       "TEST_MODE"
     ],
 

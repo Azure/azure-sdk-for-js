@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { defaultCustomizationsOnRecordings } from "./defaultCustomizations";
 import {
-  isBrowser,
   TestInfo,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
-  generateTestRecordingFilePath,
-  decodeHexEncodingIfExistsInNockFixture
+  generateTestRecordingFilePath
 } from "./utils";
 
 /**
@@ -38,12 +37,7 @@ export abstract class BaseRecorder {
     queryParametersToSkip: []
   };
   protected hash: string;
-  private defaultCustomizationsOnRecordings = !isBrowser()
-    ? [
-        // Decodes "hex" strings in the response from the recorded fixture if any exists.
-        decodeHexEncodingIfExistsInNockFixture
-      ]
-    : [];
+  private defaultCustomizationsOnRecordings = defaultCustomizationsOnRecordings;
 
   constructor(
     platform: "node" | "browsers",
@@ -69,11 +63,22 @@ export abstract class BaseRecorder {
    * @memberof BaseRecorder
    */
   protected filterSecrets(content: any): any {
+    let updatedContent = content;
+    if (typeof content !== "string") {
+      // For the recording as a whole...
+      // Methods such as maskAccessTokenInBrowserRecording may have effects here
+      for (const customization of this.defaultCustomizationsOnRecordings) {
+        updatedContent = customization(updatedContent);
+      }
+    }
+
     const recordingFilterMethod =
-      typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
+      typeof updatedContent === "string"
+        ? filterSecretsFromStrings
+        : filterSecretsRecursivelyFromJSON;
 
     return recordingFilterMethod(
-      content,
+      updatedContent,
       this.environmentSetup.replaceableVariables,
       this.defaultCustomizationsOnRecordings.concat(
         this.environmentSetup.customizationsOnRecordings

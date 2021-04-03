@@ -290,6 +290,9 @@ const updateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.BackupPolicy
     },
+    202: {
+      bodyMapper: Mappers.BackupPolicy
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

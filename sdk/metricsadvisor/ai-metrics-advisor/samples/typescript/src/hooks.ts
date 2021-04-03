@@ -21,13 +21,13 @@ export async function main() {
   await getHook(adminClient, existingHookId);
 
   const createdEmailHook = await createEmailHook(adminClient);
-  const updatedEmailHook = await updateEmailHook(adminClient, createdEmailHook.id!);
+  await updateEmailHook(adminClient, createdEmailHook.id!);
 
   const createdWebHook = await createWebHook(adminClient);
 
   await listHooks(adminClient);
 
-  await deleteHook(adminClient, updatedEmailHook.id!);
+  await deleteHook(adminClient, createdEmailHook.id!);
   await deleteHook(adminClient, createdWebHook.id!);
 }
 

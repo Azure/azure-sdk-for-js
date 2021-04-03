@@ -9,7 +9,8 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public (undocumented)
 export class AccessControlClient extends AccessControlClientContext {
-    createRoleAssignment(createRoleAssignmentOptions: CreateRoleAssignmentOptions, options?: coreHttp.OperationOptions): Promise<AccessControlClientCreateRoleAssignmentResponse>;
+    constructor(credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials, endpoint: string, options?: AccessControlClientOptionalParams);
+    createRoleAssignment(createRoleAssignmentOptions: RoleAssignmentOptions, options?: coreHttp.OperationOptions): Promise<AccessControlClientCreateRoleAssignmentResponse>;
     deleteRoleAssignmentById(roleAssignmentId: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse>;
     getCallerRoleAssignments(options?: coreHttp.OperationOptions): Promise<AccessControlClientGetCallerRoleAssignmentsResponse>;
     getRoleAssignmentById(roleAssignmentId: string, options?: coreHttp.OperationOptions): Promise<AccessControlClientGetRoleAssignmentByIdResponse>;
@@ -104,12 +105,6 @@ export interface AccessControlClientOptionalParams extends coreHttp.ServiceClien
 }
 
 // @public
-export interface CreateRoleAssignmentOptions {
-    principalId: string;
-    roleId: string;
-}
-
-// @public
 export interface ErrorContract {
     error?: ErrorResponse;
 }
@@ -141,6 +136,12 @@ export interface RoleAssignmentDetails {
     id?: string;
     principalId?: string;
     roleId?: string;
+}
+
+// @public
+export interface RoleAssignmentOptions {
+    principalId: string;
+    roleId: string;
 }
 
 // @public

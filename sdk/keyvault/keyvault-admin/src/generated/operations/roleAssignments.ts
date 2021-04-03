@@ -173,6 +173,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     Parameters.scope,
     Parameters.roleAssignmentName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreHttp.OperationSpec = {
@@ -187,14 +188,14 @@ const createOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyVaultError
     }
   },
-  requestBody: Parameters.parameters,
+  requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.vaultBaseUrl,
     Parameters.scope,
     Parameters.roleAssignmentName
   ],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept1],
   mediaType: "json",
   serializer
 };
@@ -216,6 +217,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
     Parameters.scope,
     Parameters.roleAssignmentName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listForScopeOperationSpec: coreHttp.OperationSpec = {
@@ -229,8 +231,9 @@ const listForScopeOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyVaultError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [Parameters.vaultBaseUrl, Parameters.scope],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listForScopeNextOperationSpec: coreHttp.OperationSpec = {
@@ -244,11 +247,12 @@ const listForScopeNextOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyVaultError
     }
   },
-  queryParameters: [Parameters.filter, Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.vaultBaseUrl,
     Parameters.scope,
     Parameters.nextLink
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };

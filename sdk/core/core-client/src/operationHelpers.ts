@@ -12,11 +12,11 @@ import {
 } from "./interfaces";
 
 /**
- * @internal @hidden
+ * @internal
  * Retrieves the value to use for a given operation argument
- * @param operationArguments The arguments passed from the generated client
- * @param parameter The parameter description
- * @param fallbackObject If something isn't found in the arguments bag, look here.
+ * @param operationArguments - The arguments passed from the generated client
+ * @param parameter - The parameter description
+ * @param fallbackObject - If something isn't found in the arguments bag, look here.
  *  Generally used to look at the service client properties.
  */
 export function getOperationArgumentValueFromParameter(

@@ -5,8 +5,8 @@ import { delay } from "@azure/core-amqp";
 import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
- * @param delayInMs The number of milliseconds to be delayed.
- * @param abortSignal The abortSignal associated with the containing operation.
+ * @param delayInMs - The number of milliseconds to be delayed.
+ * @param abortSignal - The abortSignal associated with the containing operation.
  * @internal
  */
 export async function delayWithoutThrow(

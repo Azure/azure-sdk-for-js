@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 
 import {
   MetricAnomalyFeedback,
@@ -20,8 +21,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
+      beforeEach(function(this: Context) {
         ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
       });
 
@@ -135,8 +135,8 @@ matrix([[true, false]] as const, async (useAad) => {
         }
       });
 
-      it("listDimensionValuesForDetectionConfiguration()", async function() {
-        const iterator = client.listDimensionValuesForDetectionConfig(
+      it("listAnomalyDimensionValues()", async function() {
+        const iterator = client.listAnomalyDimensionValues(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           new Date(Date.UTC(2020, 0, 5)),
           new Date(Date.UTC(2020, 10, 5)),
@@ -148,8 +148,8 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result.value, "Expecting second dimension value");
       });
 
-      it("listDimensionValuesForDetectionConfiguration() with datetime strings", async function() {
-        const iterator = client.listDimensionValuesForDetectionConfig(
+      it("listAnomalyDimensionValues() with datetime strings", async function() {
+        const iterator = client.listAnomalyDimensionValues(
           testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
           "2020-01-05T00:00:00.000Z",
           "2020-11-05T00:00:00.000Z",
@@ -161,9 +161,9 @@ matrix([[true, false]] as const, async (useAad) => {
         assert.ok(result.value, "Expecting second dimension value");
       });
 
-      it("listDimensionValuesForDetectionConfiguration() by page", async function() {
+      it("listAnomalyDimensionValues() by page", async function() {
         const iterator = client
-          .listDimensionValuesForDetectionConfig(
+          .listAnomalyDimensionValues(
             testEnv.METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID,
             new Date(Date.UTC(2020, 0, 5)),
             new Date(Date.UTC(2020, 10, 5)),

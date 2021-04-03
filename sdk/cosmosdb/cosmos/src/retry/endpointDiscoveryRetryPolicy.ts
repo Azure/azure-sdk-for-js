@@ -23,8 +23,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
   private static readonly retryAfterInMs = 1000;
 
   /**
-   * @constructor EndpointDiscoveryRetryPolicy
-   * @param {object} globalEndpointManager The GlobalEndpointManager instance.
+   * @param globalEndpointManager - The GlobalEndpointManager instance.
    */
   constructor(
     private globalEndpointManager: GlobalEndpointManager,
@@ -37,7 +36,7 @@ export class EndpointDiscoveryRetryPolicy implements RetryPolicy {
 
   /**
    * Determines whether the request should be retried or not.
-   * @param {object} err - Error returned by the request.
+   * @param err - Error returned by the request.
    */
   public async shouldRetry(
     err: ErrorResponse,

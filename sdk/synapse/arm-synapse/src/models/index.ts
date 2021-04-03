@@ -46,6 +46,16 @@ export interface AutoPauseProperties {
 }
 
 /**
+ * Dynamic Executor Allocation Properties
+ */
+export interface DynamicExecutorAllocation {
+  /**
+   * Indicates whether Dynamic Executor Allocation is enabled or not.
+   */
+  enabled?: boolean;
+}
+
+/**
  * Library requirements for a Big Data pool powered by Apache Spark
  * @summary Spark pool library version requirements
  */
@@ -63,6 +73,44 @@ export interface LibraryRequirements {
    * The filename of the library requirements file.
    */
   filename?: string;
+}
+
+/**
+ * Library/package information of a Big Data pool powered by Apache Spark
+ * @summary Information about a library/package created at the workspace level.
+ */
+export interface LibraryInfo {
+  /**
+   * Name of the library.
+   */
+  name?: string;
+  /**
+   * Storage blob path of library.
+   */
+  path?: string;
+  /**
+   * Storage blob container name.
+   */
+  containerName?: string;
+  /**
+   * The last update time of the library.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly uploadedTimestamp?: Date;
+  /**
+   * Type of the library.
+   */
+  type?: string;
+  /**
+   * Provisioning status of the library/package.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningStatus?: string;
+  /**
+   * Creator Id of the library/package.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creatorId?: string;
 }
 
 /**
@@ -131,13 +179,17 @@ export interface BigDataPoolResourceInfo extends TrackedResource {
    */
   isComputeIsolationEnabled?: boolean;
   /**
-   * Whether library requirements changed.
-   */
-  haveLibraryRequirementsChanged?: boolean;
-  /**
    * Whether session level packages enabled.
    */
   sessionLevelPackagesEnabled?: boolean;
+  /**
+   * The cache size
+   */
+  cacheSize?: number;
+  /**
+   * Dynamic Executor Allocation
+   */
+  dynamicExecutorAllocation?: DynamicExecutorAllocation;
   /**
    * The Spark events folder
    */
@@ -150,6 +202,10 @@ export interface BigDataPoolResourceInfo extends TrackedResource {
    * Library version requirements
    */
   libraryRequirements?: LibraryRequirements;
+  /**
+   * List of custom libraries/packages associated with the spark pool.
+   */
+  customLibraries?: LibraryInfo[];
   /**
    * Spark configuration file to specify additional properties
    */
@@ -172,6 +228,11 @@ export interface BigDataPoolResourceInfo extends TrackedResource {
    * 'MemoryOptimized'
    */
   nodeSizeFamily?: NodeSizeFamily;
+  /**
+   * The time when the Big Data pool was updated successfully.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastSucceededTimestamp?: Date;
 }
 
 /**
@@ -222,11 +283,9 @@ export interface ErrorAdditionalInfo {
 }
 
 /**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.)
- * @summary Error Response
+ * The error detail.
  */
-export interface ErrorResponse {
+export interface ErrorDetail {
   /**
    * The error code.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -246,7 +305,7 @@ export interface ErrorResponse {
    * The error details.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly details?: ErrorResponse[];
+  readonly details?: ErrorDetail[];
   /**
    * The error additional info.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -255,14 +314,15 @@ export interface ErrorResponse {
 }
 
 /**
- * Contains details when the response code indicates an error.
- * @summary Error details.
+ * Common error response for all Azure Resource Manager APIs to return error details for failed
+ * operations. (This also follows the OData error response format.).
+ * @summary Error response
  */
-export interface ErrorContract {
+export interface ErrorResponse {
   /**
-   * The error details.
+   * The error object.
    */
-  error?: ErrorResponse;
+  error?: ErrorDetail;
 }
 
 /**
@@ -363,1886 +423,6 @@ export interface ReplaceAllFirewallRulesOperationResponse {
    * The operation ID
    */
   operationId?: string;
-}
-
-/**
- * Description of an available operation
- */
-export interface AvailableRpOperationDisplayInfo {
-  /**
-   * Operation description
-   */
-  description?: string;
-  /**
-   * Resource type
-   */
-  resource?: string;
-  /**
-   * Resource provider name
-   */
-  provider?: string;
-  /**
-   * Operation name
-   */
-  operation?: string;
-}
-
-/**
- * What is this?
- */
-export interface OperationMetaMetricDimensionSpecification {
-  /**
-   * Dimension display name
-   */
-  displayName?: string;
-  /**
-   * Dimension unique name
-   */
-  name?: string;
-  /**
-   * Whether this metric should be exported for Shoebox
-   */
-  toBeExportedForShoebox?: boolean;
-}
-
-/**
- * What is this?
- */
-export interface OperationMetaMetricSpecification {
-  /**
-   * The source MDM namespace
-   */
-  sourceMdmNamespace?: string;
-  /**
-   * Metric display name
-   */
-  displayName?: string;
-  /**
-   * Metric unique name
-   */
-  name?: string;
-  /**
-   * Metric aggregation type
-   */
-  aggregationType?: string;
-  /**
-   * Metric description
-   */
-  displayDescription?: string;
-  /**
-   * The source MDM account
-   */
-  sourceMdmAccount?: string;
-  /**
-   * Whether the regional MDM account is enabled
-   */
-  enableRegionalMdmAccount?: boolean;
-  /**
-   * Metric units
-   */
-  unit?: string;
-  /**
-   * Metric dimensions
-   */
-  dimensions?: OperationMetaMetricDimensionSpecification[];
-  /**
-   * Whether the metric supports instance-level aggregation
-   */
-  supportsInstanceLevelAggregation?: boolean;
-  /**
-   * Metric filter
-   */
-  metricFilterPattern?: string;
-}
-
-/**
- * What is this?
- */
-export interface OperationMetaLogSpecification {
-  /**
-   * Log display name
-   */
-  displayName?: string;
-  /**
-   * Time range the log covers
-   */
-  blobDuration?: string;
-  /**
-   * Log unique name
-   */
-  name?: string;
-}
-
-/**
- * What is this?
- */
-export interface OperationMetaServiceSpecification {
-  /**
-   * Service metric specifications
-   */
-  metricSpecifications?: OperationMetaMetricSpecification[];
-  /**
-   * Service log specifications
-   */
-  logSpecifications?: OperationMetaLogSpecification[];
-}
-
-/**
- * An operation that is available in this resource provider
- */
-export interface AvailableRpOperation {
-  /**
-   * Display properties of the operation
-   */
-  display?: AvailableRpOperationDisplayInfo;
-  /**
-   * Whether this operation is a data action
-   */
-  isDataAction?: string;
-  /**
-   * Operation name
-   */
-  name?: string;
-  /**
-   * Operation service specification
-   */
-  serviceSpecification?: OperationMetaServiceSpecification;
-  /**
-   * Operation origin
-   */
-  origin?: string;
-}
-
-/**
- * Error details
- */
-export interface ErrorDetail {
-  /**
-   * Error message
-   */
-  message?: string;
-  /**
-   * Error code
-   */
-  code?: string;
-  /**
-   * Error target
-   */
-  target?: string;
-}
-
-/**
- * An operation
- */
-export interface OperationResource {
-  /**
-   * Operation ID
-   */
-  id?: string;
-  /**
-   * Operation name
-   */
-  name?: string;
-  /**
-   * Operation status. Possible values include: 'InProgress', 'Succeeded', 'Failed', 'Canceled'
-   */
-  status?: OperationStatus;
-  /**
-   * Operation properties
-   */
-  properties?: any;
-  /**
-   * Errors from the operation
-   */
-  error?: ErrorDetail;
-  /**
-   * Operation start time
-   */
-  startTime?: Date;
-  /**
-   * Operation start time
-   */
-  endTime?: Date;
-  /**
-   * Completion percentage of the operation
-   */
-  percentComplete?: number;
-}
-
-/**
- * SQL pool SKU
- * @summary Sku
- */
-export interface Sku {
-  /**
-   * The service tier
-   */
-  tier?: string;
-  /**
-   * The SKU name
-   */
-  name?: string;
-  /**
-   * If the SKU supports scale out/in then the capacity integer should be included. If scale out/in
-   * is not possible for the resource this may be omitted.
-   */
-  capacity?: number;
-}
-
-/**
- * A SQL Analytics pool
- * @summary SQL pool
- */
-export interface SqlPool extends TrackedResource {
-  /**
-   * SQL pool SKU
-   */
-  sku?: Sku;
-  /**
-   * Maximum size in bytes
-   */
-  maxSizeBytes?: number;
-  /**
-   * Collation mode
-   */
-  collation?: string;
-  /**
-   * Source database to create from
-   */
-  sourceDatabaseId?: string;
-  /**
-   * Backup database to restore from
-   */
-  recoverableDatabaseId?: string;
-  /**
-   * Resource state
-   */
-  provisioningState?: string;
-  /**
-   * Resource status
-   */
-  status?: string;
-  /**
-   * Snapshot time to restore
-   */
-  restorePointInTime?: string;
-  /**
-   * What is this?
-   */
-  createMode?: string;
-  /**
-   * Date the SQL pool was created
-   */
-  creationDate?: Date;
-}
-
-/**
- * A SQL Analytics pool patch info
- * @summary SQL pool patch info
- */
-export interface SqlPoolPatchInfo {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location?: string;
-  /**
-   * SQL pool SKU
-   */
-  sku?: Sku;
-  /**
-   * Maximum size in bytes
-   */
-  maxSizeBytes?: number;
-  /**
-   * Collation mode
-   */
-  collation?: string;
-  /**
-   * Source database to create from
-   */
-  sourceDatabaseId?: string;
-  /**
-   * Backup database to restore from
-   */
-  recoverableDatabaseId?: string;
-  /**
-   * Resource state
-   */
-  provisioningState?: string;
-  /**
-   * Resource status
-   */
-  status?: string;
-  /**
-   * Snapshot time to restore
-   */
-  restorePointInTime?: string;
-  /**
-   * What is this?
-   */
-  createMode?: string;
-  /**
-   * Date the SQL pool was created
-   */
-  creationDate?: Date;
-}
-
-/**
- * Configuration for metadata sync
- * @summary Metadata sync configuration
- */
-export interface MetadataSyncConfig extends BaseResource {
-  /**
-   * Indicates whether the metadata sync is enabled or disabled
-   */
-  enabled?: boolean;
-  /**
-   * The Sync Interval in minutes.
-   */
-  syncIntervalInMinutes?: number;
-}
-
-/**
- * A database geo backup policy.
- */
-export interface GeoBackupPolicy extends ProxyResource {
-  /**
-   * The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'
-   */
-  state: GeoBackupPolicyState;
-  /**
-   * The storage type of the geo backup policy.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly storageType?: string;
-  /**
-   * Kind of geo backup policy.  This is metadata used for the Azure portal experience.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly kind?: string;
-  /**
-   * Backup policy location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-}
-
-/**
- * A database query.
- */
-export interface QueryMetric {
-  /**
-   * The name of the metric
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The name of the metric for display in user interface
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly displayName?: string;
-  /**
-   * The unit of measurement. Possible values include: 'percentage', 'KB', 'microseconds'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: QueryMetricUnit;
-  /**
-   * The measured value
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: number;
-}
-
-/**
- * A database query.
- */
-export interface QueryInterval {
-  /**
-   * The start time of the measurement interval (ISO8601 format).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly intervalStartTime?: Date;
-  /**
-   * The number of times the query was executed during this interval.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly executionCount?: number;
-  /**
-   * The list of query metrics during this interval.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly metrics?: QueryMetric[];
-}
-
-/**
- * A database query.
- */
-export interface QueryStatistic {
-  /**
-   * The id of the query
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly queryId?: string;
-  /**
-   * The list of query intervals.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly intervals?: QueryInterval[];
-}
-
-/**
- * A database query.
- */
-export interface TopQueries {
-  /**
-   * The function that is used to aggregate each query's metrics. Possible values include: 'min',
-   * 'max', 'avg', 'sum'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly aggregationFunction?: QueryAggregationFunction;
-  /**
-   * The execution type that is used to filter the query instances that are returned. Possible
-   * values include: 'any', 'regular', 'irregular', 'aborted', 'exception'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly executionType?: QueryExecutionType;
-  /**
-   * The duration of the interval (ISO8601 duration format).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly intervalType?: string;
-  /**
-   * The number of requested queries.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfTopQueries?: number;
-  /**
-   * The start time for queries that are returned (ISO8601 format)
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly observationStartTime?: Date;
-  /**
-   * The end time for queries that are returned (ISO8601 format)
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly observationEndTime?: Date;
-  /**
-   * The type of metric to use for ordering the top metrics. Possible values include: 'cpu', 'io',
-   * 'logio', 'duration', 'executionCount'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly observedMetric?: QueryObservedMetricType;
-  /**
-   * The list of queries.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly queries?: QueryStatistic[];
-}
-
-/**
- * Represents the response to a get top queries request.
- */
-export interface TopQueriesListResult {
-  /**
-   * The list of top queries.
-   */
-  value: TopQueries[];
-}
-
-/**
- * User activities of a data warehouse
- */
-export interface DataWarehouseUserActivities extends ProxyResource {
-  /**
-   * Count of running and suspended queries.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly activeQueriesCount?: number;
-}
-
-/**
- * Database restore points.
- */
-export interface RestorePoint extends ProxyResource {
-  /**
-   * Resource location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * The type of restore point. Possible values include: 'CONTINUOUS', 'DISCRETE'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly restorePointType?: RestorePointType;
-  /**
-   * The earliest time to which this database can be restored
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly earliestRestoreDate?: Date;
-  /**
-   * The time the backup was taken
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly restorePointCreationDate?: Date;
-  /**
-   * The label of restore point for backup request by user
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly restorePointLabel?: string;
-}
-
-/**
- * Represents a Sql pool replication link.
- */
-export interface ReplicationLink extends ProxyResource {
-  /**
-   * Location of the workspace that contains this firewall rule.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * Legacy value indicating whether termination is allowed.  Currently always returns true.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isTerminationAllowed?: boolean;
-  /**
-   * Replication mode of this replication link.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly replicationMode?: string;
-  /**
-   * The name of the workspace hosting the partner Sql pool.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly partnerServer?: string;
-  /**
-   * The name of the partner Sql pool.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly partnerDatabase?: string;
-  /**
-   * The Azure Region of the partner Sql pool.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly partnerLocation?: string;
-  /**
-   * The role of the Sql pool in the replication link. Possible values include: 'Primary',
-   * 'Secondary', 'NonReadableSecondary', 'Source', 'Copy'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly role?: ReplicationRole;
-  /**
-   * The role of the partner Sql pool in the replication link. Possible values include: 'Primary',
-   * 'Secondary', 'NonReadableSecondary', 'Source', 'Copy'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly partnerRole?: ReplicationRole;
-  /**
-   * The start time for the replication link.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * The percentage of seeding complete for the replication link.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentComplete?: number;
-  /**
-   * The replication state for the replication link. Possible values include: 'PENDING', 'SEEDING',
-   * 'CATCH_UP', 'SUSPENDED'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly replicationState?: ReplicationState;
-}
-
-/**
- * Represents a Sql pool transparent data encryption configuration.
- */
-export interface TransparentDataEncryption extends ProxyResource {
-  /**
-   * Resource location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * The status of the database transparent data encryption. Possible values include: 'Enabled',
-   * 'Disabled'
-   */
-  status?: TransparentDataEncryptionStatus;
-}
-
-/**
- * A Sql pool blob auditing policy.
- */
-export interface SqlPoolBlobAuditingPolicy extends ProxyResource {
-  /**
-   * Resource kind.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly kind?: string;
-  /**
-   * Specifies the state of the policy. If state is Enabled, storageEndpoint or
-   * isAzureMonitorTargetEnabled are required. Possible values include: 'Enabled', 'Disabled'
-   */
-  state: BlobAuditingPolicyState;
-  /**
-   * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint is required.
-   */
-  storageEndpoint?: string;
-  /**
-   * Specifies the identifier key of the auditing storage account. If state is Enabled and
-   * storageEndpoint is specified, storageAccountAccessKey is required.
-   */
-  storageAccountAccessKey?: string;
-  /**
-   * Specifies the number of days to keep in the audit logs in the storage account.
-   */
-  retentionDays?: number;
-  /**
-   * Specifies the Actions-Groups and Actions to audit.
-   *
-   * The recommended set of action groups to use is the following combination - this will audit all
-   * the queries and stored procedures executed against the database, as well as successful and
-   * failed logins:
-   *
-   * BATCH_COMPLETED_GROUP,
-   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,
-   * FAILED_DATABASE_AUTHENTICATION_GROUP.
-   *
-   * This above combination is also the set that is configured by default when enabling auditing
-   * from the Azure portal.
-   *
-   * The supported action groups to audit are (note: choose only specific groups that cover your
-   * auditing needs. Using unnecessary groups could lead to very large quantities of audit
-   * records):
-   *
-   * APPLICATION_ROLE_CHANGE_PASSWORD_GROUP
-   * BACKUP_RESTORE_GROUP
-   * DATABASE_LOGOUT_GROUP
-   * DATABASE_OBJECT_CHANGE_GROUP
-   * DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP
-   * DATABASE_OBJECT_PERMISSION_CHANGE_GROUP
-   * DATABASE_OPERATION_GROUP
-   * DATABASE_PERMISSION_CHANGE_GROUP
-   * DATABASE_PRINCIPAL_CHANGE_GROUP
-   * DATABASE_PRINCIPAL_IMPERSONATION_GROUP
-   * DATABASE_ROLE_MEMBER_CHANGE_GROUP
-   * FAILED_DATABASE_AUTHENTICATION_GROUP
-   * SCHEMA_OBJECT_ACCESS_GROUP
-   * SCHEMA_OBJECT_CHANGE_GROUP
-   * SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP
-   * SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP
-   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP
-   * USER_CHANGE_PASSWORD_GROUP
-   * BATCH_STARTED_GROUP
-   * BATCH_COMPLETED_GROUP
-   *
-   * These are groups that cover all sql statements and stored procedures executed against the
-   * database, and should not be used in combination with other groups as this will result in
-   * duplicate audit logs.
-   *
-   * For more information, see [Database-Level Audit Action
-   * Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).
-   *
-   * For Database auditing policy, specific Actions can also be specified (note that Actions cannot
-   * be specified for Server auditing policy). The supported actions to audit are:
-   * SELECT
-   * UPDATE
-   * INSERT
-   * DELETE
-   * EXECUTE
-   * RECEIVE
-   * REFERENCES
-   *
-   * The general form for defining an action to be audited is:
-   * {action} ON {object} BY {principal}
-   *
-   * Note that <object> in the above format can refer to an object like a table, view, or stored
-   * procedure, or an entire database or schema. For the latter cases, the forms
-   * DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively.
-   *
-   * For example:
-   * SELECT on dbo.myTable by public
-   * SELECT on DATABASE::myDatabase by public
-   * SELECT on SCHEMA::mySchema by public
-   *
-   * For more information, see [Database-Level Audit
-   * Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)
-   */
-  auditActionsAndGroups?: string[];
-  /**
-   * Specifies the blob storage subscription Id.
-   */
-  storageAccountSubscriptionId?: string;
-  /**
-   * Specifies whether storageAccountAccessKey value is the storage's secondary key.
-   */
-  isStorageSecondaryKeyInUse?: boolean;
-  /**
-   * Specifies whether audit events are sent to Azure Monitor.
-   * In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and
-   * 'isAzureMonitorTargetEnabled' as true.
-   *
-   * When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents'
-   * diagnostic logs category on the database should be also created.
-   * Note that for server level audit you should use the 'master' database as {databaseName}.
-   *
-   * Diagnostic Settings URI format:
-   * PUT
-   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
-   *
-   * For more information, see [Diagnostic Settings REST
-   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
-   * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
-   */
-  isAzureMonitorTargetEnabled?: boolean;
-}
-
-/**
- * A Sql pool operation.
- */
-export interface SqlPoolOperation extends ProxyResource {
-  /**
-   * The name of the Sql pool the operation is being performed on.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseName?: string;
-  /**
-   * The name of operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * The friendly name of operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operationFriendlyName?: string;
-  /**
-   * The percentage of the operation completed.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly percentComplete?: number;
-  /**
-   * The name of the server.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly serverName?: string;
-  /**
-   * The operation start time.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * The operation state. Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed',
-   * 'CancelInProgress', 'Cancelled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: ManagementOperationState;
-  /**
-   * The operation error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errorCode?: number;
-  /**
-   * The operation error description.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errorDescription?: string;
-  /**
-   * The operation error severity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errorSeverity?: number;
-  /**
-   * Whether or not the error is a user error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isUserError?: boolean;
-  /**
-   * The estimated completion time of the operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly estimatedCompletionTime?: Date;
-  /**
-   * The operation description.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-  /**
-   * Whether the operation can be cancelled.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isCancellable?: boolean;
-}
-
-/**
- * The Sql pool usages.
- */
-export interface SqlPoolUsage {
-  /**
-   * The name of the usage metric.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceName?: string;
-  /**
-   * The usage metric display name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly displayName?: string;
-  /**
-   * The current value of the usage metric.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly currentValue?: number;
-  /**
-   * The current limit of the usage metric.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * The units of the usage metric.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: string;
-  /**
-   * The next reset time for the usage metric (ISO8601 format).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextResetTime?: Date;
-}
-
-/**
- * A sensitivity label.
- */
-export interface SensitivityLabel extends ProxyResource {
-  /**
-   * The label name.
-   */
-  labelName?: string;
-  /**
-   * The label ID.
-   */
-  labelId?: string;
-  /**
-   * The information type.
-   */
-  informationType?: string;
-  /**
-   * The information type ID.
-   */
-  informationTypeId?: string;
-  /**
-   * Is sensitivity recommendation disabled. Applicable for recommended sensitivity label only.
-   * Specifies whether the sensitivity recommendation on this column is disabled (dismissed) or
-   * not.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isDisabled?: boolean;
-}
-
-/**
- * A Sql pool schema resource.
- */
-export interface SqlPoolSchema extends ProxyResource {
-}
-
-/**
- * A Sql pool table resource.
- */
-export interface SqlPoolTable extends ProxyResource {
-}
-
-/**
- * A Sql pool column resource.
- */
-export interface SqlPoolColumn extends ProxyResource {
-  /**
-   * The column data type. Possible values include: 'image', 'text', 'uniqueidentifier', 'date',
-   * 'time', 'datetime2', 'datetimeoffset', 'tinyint', 'smallint', 'int', 'smalldatetime', 'real',
-   * 'money', 'datetime', 'float', 'sql_variant', 'ntext', 'bit', 'decimal', 'numeric',
-   * 'smallmoney', 'bigint', 'hierarchyid', 'geometry', 'geography', 'varbinary', 'varchar',
-   * 'binary', 'char', 'timestamp', 'nvarchar', 'nchar', 'xml', 'sysname'
-   */
-  columnType?: ColumnDataType;
-}
-
-/**
- * A Sql pool connection policy.
- */
-export interface SqlPoolConnectionPolicy extends ProxyResource {
-  /**
-   * Resource kind.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly kind?: string;
-  /**
-   * Resource location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * The state of security access.
-   */
-  securityEnabledAccess?: string;
-  /**
-   * The fully qualified host name of the auditing proxy.
-   */
-  proxyDnsName?: string;
-  /**
-   * The port number of the auditing proxy.
-   */
-  proxyPort?: string;
-  /**
-   * The visibility of the auditing proxy.
-   */
-  visibility?: string;
-  /**
-   * Whether server default is enabled or disabled.
-   */
-  useServerDefault?: string;
-  /**
-   * The state of proxy redirection.
-   */
-  redirectionState?: string;
-  /**
-   * The connection policy state.
-   */
-  state?: string;
-}
-
-/**
- * Properties of a Vulnerability Assessment recurring scans.
- */
-export interface VulnerabilityAssessmentRecurringScansProperties {
-  /**
-   * Recurring scans state.
-   */
-  isEnabled?: boolean;
-  /**
-   * Specifies that the schedule scan notification will be is sent to the subscription
-   * administrators. Default value: true.
-   */
-  emailSubscriptionAdmins?: boolean;
-  /**
-   * Specifies an array of e-mail addresses to which the scan notification is sent.
-   */
-  emails?: string[];
-}
-
-/**
- * A Sql pool vulnerability assessment.
- */
-export interface SqlPoolVulnerabilityAssessment extends ProxyResource {
-  /**
-   * A blob storage container path to hold the scan results (e.g.
-   * https://myStorage.blob.core.windows.net/VaScans/).  It is required if server level
-   * vulnerability assessment policy doesn't set
-   */
-  storageContainerPath?: string;
-  /**
-   * A shared access signature (SAS Key) that has write access to the blob container specified in
-   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified,
-   * StorageContainerSasKey is required.
-   */
-  storageContainerSasKey?: string;
-  /**
-   * Specifies the identifier key of the storage account for vulnerability assessment scan results.
-   * If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required.
-   */
-  storageAccountAccessKey?: string;
-  /**
-   * The recurring scans settings
-   */
-  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
-}
-
-/**
- * Properties of a vulnerability assessment scan error.
- */
-export interface VulnerabilityAssessmentScanError {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-}
-
-/**
- * A vulnerability assessment scan record.
- */
-export interface VulnerabilityAssessmentScanRecord extends ProxyResource {
-  /**
-   * The scan ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly scanId?: string;
-  /**
-   * The scan trigger type. Possible values include: 'OnDemand', 'Recurring'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly triggerType?: VulnerabilityAssessmentScanTriggerType;
-  /**
-   * The scan status. Possible values include: 'Passed', 'Failed', 'FailedToRun', 'InProgress'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: VulnerabilityAssessmentScanState;
-  /**
-   * The scan start time (UTC).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: Date;
-  /**
-   * The scan end time (UTC).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endTime?: Date;
-  /**
-   * The scan errors.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errors?: VulnerabilityAssessmentScanError[];
-  /**
-   * The scan results storage container path.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly storageContainerPath?: string;
-  /**
-   * The number of failed security checks.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly numberOfFailedSecurityChecks?: number;
-}
-
-/**
- * A Sql pool security alert policy.
- */
-export interface SqlPoolSecurityAlertPolicy extends ProxyResource {
-  /**
-   * Specifies the state of the policy, whether it is enabled or disabled or a policy has not been
-   * applied yet on the specific Sql pool. Possible values include: 'New', 'Enabled', 'Disabled'
-   */
-  state: SecurityAlertPolicyState;
-  /**
-   * Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection,
-   * Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action
-   */
-  disabledAlerts?: string[];
-  /**
-   * Specifies an array of e-mail addresses to which the alert is sent.
-   */
-  emailAddresses?: string[];
-  /**
-   * Specifies that the alert is sent to the account administrators.
-   */
-  emailAccountAdmins?: boolean;
-  /**
-   * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob
-   * storage will hold all Threat Detection audit logs.
-   */
-  storageEndpoint?: string;
-  /**
-   * Specifies the identifier key of the Threat Detection audit storage account.
-   */
-  storageAccountAccessKey?: string;
-  /**
-   * Specifies the number of days to keep in the Threat Detection audit logs.
-   */
-  retentionDays?: number;
-  /**
-   * Specifies the UTC creation time of the policy.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
-}
-
-/**
- * Properties for an Sql pool vulnerability assessment rule baseline's result.
- */
-export interface SqlPoolVulnerabilityAssessmentRuleBaselineItem {
-  /**
-   * The rule baseline result
-   */
-  result: string[];
-}
-
-/**
- * A Sql pool vulnerability assessment rule baseline.
- */
-export interface SqlPoolVulnerabilityAssessmentRuleBaseline extends ProxyResource {
-  /**
-   * The rule baseline result
-   */
-  baselineResults: SqlPoolVulnerabilityAssessmentRuleBaselineItem[];
-}
-
-/**
- * A Sql pool Vulnerability Assessment scan export resource.
- */
-export interface SqlPoolVulnerabilityAssessmentScansExport extends ProxyResource {
-  /**
-   * Location of the exported report (e.g.
-   * https://myStorage.blob.core.windows.net/VaScans/scans/serverName/databaseName/scan_scanId.xlsx).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly exportedReportLocation?: string;
-}
-
-/**
- * Contains the information necessary to perform a create Sql pool restore point operation.
- */
-export interface CreateSqlPoolRestorePointDefinition {
-  /**
-   * The restore point label to apply
-   */
-  restorePointLabel: string;
-}
-
-/**
- * Workload group operations for a sql pool
- */
-export interface WorkloadGroup extends ProxyResource {
-  /**
-   * The workload group minimum percentage resource.
-   */
-  minResourcePercent: number;
-  /**
-   * The workload group cap percentage resource.
-   */
-  maxResourcePercent: number;
-  /**
-   * The workload group request minimum grant percentage.
-   */
-  minResourcePercentPerRequest: number;
-  /**
-   * The workload group request maximum grant percentage.
-   */
-  maxResourcePercentPerRequest?: number;
-  /**
-   * The workload group importance level.
-   */
-  importance?: string;
-  /**
-   * The workload group query execution timeout.
-   */
-  queryExecutionTimeout?: number;
-}
-
-/**
- * Workload classifier operations for a data warehouse
- */
-export interface WorkloadClassifier extends ProxyResource {
-  /**
-   * The workload classifier member name.
-   */
-  memberName: string;
-  /**
-   * The workload classifier label.
-   */
-  label?: string;
-  /**
-   * The workload classifier context.
-   */
-  context?: string;
-  /**
-   * The workload classifier start time for classification.
-   */
-  startTime?: string;
-  /**
-   * The workload classifier end time for classification.
-   */
-  endTime?: string;
-  /**
-   * The workload classifier importance.
-   */
-  importance?: string;
-}
-
-/**
- * An interface representing DataMaskingPolicy.
- */
-export interface DataMaskingPolicy extends ProxyResource {
-  /**
-   * The state of the data masking policy. Possible values include: 'Disabled', 'Enabled'
-   */
-  dataMaskingState: DataMaskingState;
-  /**
-   * The list of the exempt principals. Specifies the semicolon-separated list of database users
-   * for which the data masking policy does not apply. The specified users receive data results
-   * without masking for all of the database queries.
-   */
-  exemptPrincipals?: string;
-  /**
-   * The list of the application principals. This is a legacy parameter and is no longer used.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly applicationPrincipals?: string;
-  /**
-   * The masking level. This is a legacy parameter and is no longer used.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maskingLevel?: string;
-  /**
-   * The location of the data masking policy.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * The kind of data masking policy. Metadata, used for Azure portal.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly kind?: string;
-  /**
-   * Fully qualified resource ID of the sql pool
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly managedBy?: string;
-}
-
-/**
- * An extended Sql pool blob auditing policy.
- */
-export interface ExtendedSqlPoolBlobAuditingPolicy extends ProxyResource {
-  /**
-   * Specifies condition of where clause when creating an audit.
-   */
-  predicateExpression?: string;
-  /**
-   * Specifies the state of the policy. If state is Enabled, storageEndpoint or
-   * isAzureMonitorTargetEnabled are required. Possible values include: 'Enabled', 'Disabled'
-   */
-  state: BlobAuditingPolicyState;
-  /**
-   * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
-   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
-   */
-  storageEndpoint?: string;
-  /**
-   * Specifies the identifier key of the auditing storage account.
-   * If state is Enabled and storageEndpoint is specified, not specifying the
-   * storageAccountAccessKey will use SQL server system-assigned managed identity to access the
-   * storage.
-   * Prerequisites for using managed identity authentication:
-   * 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).
-   * 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data
-   * Contributor' RBAC role to the server identity.
-   * For more information, see [Auditing to storage using Managed Identity
-   * authentication](https://go.microsoft.com/fwlink/?linkid=2114355)
-   */
-  storageAccountAccessKey?: string;
-  /**
-   * Specifies the number of days to keep in the audit logs in the storage account.
-   */
-  retentionDays?: number;
-  /**
-   * Specifies the Actions-Groups and Actions to audit.
-   *
-   * The recommended set of action groups to use is the following combination - this will audit all
-   * the queries and stored procedures executed against the database, as well as successful and
-   * failed logins:
-   *
-   * BATCH_COMPLETED_GROUP,
-   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,
-   * FAILED_DATABASE_AUTHENTICATION_GROUP.
-   *
-   * This above combination is also the set that is configured by default when enabling auditing
-   * from the Azure portal.
-   *
-   * The supported action groups to audit are (note: choose only specific groups that cover your
-   * auditing needs. Using unnecessary groups could lead to very large quantities of audit
-   * records):
-   *
-   * APPLICATION_ROLE_CHANGE_PASSWORD_GROUP
-   * BACKUP_RESTORE_GROUP
-   * DATABASE_LOGOUT_GROUP
-   * DATABASE_OBJECT_CHANGE_GROUP
-   * DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP
-   * DATABASE_OBJECT_PERMISSION_CHANGE_GROUP
-   * DATABASE_OPERATION_GROUP
-   * DATABASE_PERMISSION_CHANGE_GROUP
-   * DATABASE_PRINCIPAL_CHANGE_GROUP
-   * DATABASE_PRINCIPAL_IMPERSONATION_GROUP
-   * DATABASE_ROLE_MEMBER_CHANGE_GROUP
-   * FAILED_DATABASE_AUTHENTICATION_GROUP
-   * SCHEMA_OBJECT_ACCESS_GROUP
-   * SCHEMA_OBJECT_CHANGE_GROUP
-   * SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP
-   * SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP
-   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP
-   * USER_CHANGE_PASSWORD_GROUP
-   * BATCH_STARTED_GROUP
-   * BATCH_COMPLETED_GROUP
-   *
-   * These are groups that cover all sql statements and stored procedures executed against the
-   * database, and should not be used in combination with other groups as this will result in
-   * duplicate audit logs.
-   *
-   * For more information, see [Database-Level Audit Action
-   * Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).
-   *
-   * For Database auditing policy, specific Actions can also be specified (note that Actions cannot
-   * be specified for Server auditing policy). The supported actions to audit are:
-   * SELECT
-   * UPDATE
-   * INSERT
-   * DELETE
-   * EXECUTE
-   * RECEIVE
-   * REFERENCES
-   *
-   * The general form for defining an action to be audited is:
-   * {action} ON {object} BY {principal}
-   *
-   * Note that <object> in the above format can refer to an object like a table, view, or stored
-   * procedure, or an entire database or schema. For the latter cases, the forms
-   * DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively.
-   *
-   * For example:
-   * SELECT on dbo.myTable by public
-   * SELECT on DATABASE::myDatabase by public
-   * SELECT on SCHEMA::mySchema by public
-   *
-   * For more information, see [Database-Level Audit
-   * Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)
-   */
-  auditActionsAndGroups?: string[];
-  /**
-   * Specifies the blob storage subscription Id.
-   */
-  storageAccountSubscriptionId?: string;
-  /**
-   * Specifies whether storageAccountAccessKey value is the storage's secondary key.
-   */
-  isStorageSecondaryKeyInUse?: boolean;
-  /**
-   * Specifies whether audit events are sent to Azure Monitor.
-   * In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and
-   * 'isAzureMonitorTargetEnabled' as true.
-   *
-   * When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents'
-   * diagnostic logs category on the database should be also created.
-   * Note that for server level audit you should use the 'master' database as {databaseName}.
-   *
-   * Diagnostic Settings URI format:
-   * PUT
-   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
-   *
-   * For more information, see [Diagnostic Settings REST
-   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
-   * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
-   */
-  isAzureMonitorTargetEnabled?: boolean;
-  /**
-   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
-   * to be processed.
-   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
-   */
-  queueDelayMs?: number;
-}
-
-/**
- * Represents a Sql pool data masking rule.
- */
-export interface DataMaskingRule extends ProxyResource {
-  /**
-   * The rule Id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly dataMaskingRuleId?: string;
-  /**
-   * The alias name. This is a legacy parameter and is no longer used.
-   */
-  aliasName?: string;
-  /**
-   * The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName,
-   * tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the
-   * rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless
-   * of the provided value of ruleState. Possible values include: 'Disabled', 'Enabled'
-   */
-  ruleState?: DataMaskingRuleState;
-  /**
-   * The schema name on which the data masking rule is applied.
-   */
-  schemaName: string;
-  /**
-   * The table name on which the data masking rule is applied.
-   */
-  tableName: string;
-  /**
-   * The column name on which the data masking rule is applied.
-   */
-  columnName: string;
-  /**
-   * The masking function that is used for the data masking rule. Possible values include:
-   * 'Default', 'CCN', 'Email', 'Number', 'SSN', 'Text'
-   */
-  maskingFunction: DataMaskingFunction;
-  /**
-   * The numberFrom property of the masking rule. Required if maskingFunction is set to Number,
-   * otherwise this parameter will be ignored.
-   */
-  numberFrom?: string;
-  /**
-   * The numberTo property of the data masking rule. Required if maskingFunction is set to Number,
-   * otherwise this parameter will be ignored.
-   */
-  numberTo?: string;
-  /**
-   * If maskingFunction is set to Text, the number of characters to show unmasked in the beginning
-   * of the string. Otherwise, this parameter will be ignored.
-   */
-  prefixSize?: string;
-  /**
-   * If maskingFunction is set to Text, the number of characters to show unmasked at the end of the
-   * string. Otherwise, this parameter will be ignored.
-   */
-  suffixSize?: string;
-  /**
-   * If maskingFunction is set to Text, the character to use for masking the unexposed part of the
-   * string. Otherwise, this parameter will be ignored.
-   */
-  replacementString?: string;
-  /**
-   * The location of the data masking rule.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * The kind of Data Masking Rule. Metadata, used for Azure portal.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly kind?: string;
-}
-
-/**
- * Details of the data lake storage account associated with the workspace
- */
-export interface DataLakeStorageAccountDetails {
-  /**
-   * Account URL
-   */
-  accountUrl?: string;
-  /**
-   * Filesystem name
-   */
-  filesystem?: string;
-}
-
-/**
- * Virtual Network Profile
- */
-export interface VirtualNetworkProfile {
-  /**
-   * Subnet ID used for computes in workspace
-   */
-  computeSubnetId?: string;
-}
-
-/**
- * Private endpoint details
- */
-export interface PrivateEndpoint extends BaseResource {
-  /**
-   * Resource id of the private endpoint.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-}
-
-/**
- * Connection state details of the private endpoint
- */
-export interface PrivateLinkServiceConnectionState {
-  /**
-   * The private link service connection status.
-   */
-  status?: string;
-  /**
-   * The private link service connection description.
-   */
-  description?: string;
-  /**
-   * The actions required for private link service connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly actionsRequired?: string;
-}
-
-/**
- * A private endpoint connection
- */
-export interface PrivateEndpointConnection extends ProxyResource {
-  /**
-   * The private endpoint which the connection belongs to.
-   */
-  privateEndpoint?: PrivateEndpoint;
-  /**
-   * Connection state of the private endpoint connection.
-   */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /**
-   * Provisioning state of the private endpoint connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: string;
-}
-
-/**
- * Details of the customer managed key associated with the workspace
- */
-export interface WorkspaceKeyDetails {
-  /**
-   * Workspace Key sub-resource name
-   */
-  name?: string;
-  /**
-   * Workspace Key sub-resource key vault url
-   */
-  keyVaultUrl?: string;
-}
-
-/**
- * Details of the customer managed key associated with the workspace
- */
-export interface CustomerManagedKeyDetails {
-  /**
-   * The customer managed key status on the workspace
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: string;
-  /**
-   * The key object of the workspace
-   */
-  key?: WorkspaceKeyDetails;
-}
-
-/**
- * Details of the encryption associated with the workspace
- */
-export interface EncryptionDetails {
-  /**
-   * Double Encryption enabled
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly doubleEncryptionEnabled?: boolean;
-  /**
-   * Customer Managed Key Details
-   */
-  cmk?: CustomerManagedKeyDetails;
-}
-
-/**
- * Managed Virtual Network Settings
- */
-export interface ManagedVirtualNetworkSettings {
-  /**
-   * Prevent Data Exfiltration
-   */
-  preventDataExfiltration?: boolean;
-  /**
-   * Linked Access Check On Target Resource
-   */
-  linkedAccessCheckOnTargetResource?: boolean;
-  /**
-   * Allowed Aad Tenant Ids For Linking
-   */
-  allowedAadTenantIdsForLinking?: string[];
-}
-
-/**
- * Git integration settings
- */
-export interface WorkspaceRepositoryConfiguration {
-  /**
-   * Type of workspace repositoryID configuration. Example WorkspaceVSTSConfiguration,
-   * WorkspaceGitHubConfiguration
-   */
-  type?: string;
-  /**
-   * GitHub Enterprise host name. For example: https://github.mydomain.com
-   */
-  hostName?: string;
-  /**
-   * Account name
-   */
-  accountName?: string;
-  /**
-   * VSTS project name
-   */
-  projectName?: string;
-  /**
-   * Repository name
-   */
-  repositoryName?: string;
-  /**
-   * Collaboration branch
-   */
-  collaborationBranch?: string;
-  /**
-   * Root folder to use in the repository
-   */
-  rootFolder?: string;
-}
-
-/**
- * Purview Configuration
- */
-export interface PurviewConfiguration {
-  /**
-   * Purview Resource ID
-   */
-  purviewResourceId?: string;
-}
-
-/**
- * The workspace managed identity
- */
-export interface ManagedIdentity {
-  /**
-   * The principal ID of the workspace managed identity
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of the workspace managed identity
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantId?: string;
-  /**
-   * The type of managed identity for the workspace. Possible values include: 'None',
-   * 'SystemAssigned'
-   */
-  type?: ResourceIdentityType;
-}
-
-/**
- * A workspace
- */
-export interface Workspace extends TrackedResource {
-  /**
-   * Workspace default data lake storage account details
-   */
-  defaultDataLakeStorage?: DataLakeStorageAccountDetails;
-  /**
-   * SQL administrator login password
-   */
-  sqlAdministratorLoginPassword?: string;
-  /**
-   * Workspace managed resource group. The resource group name uniquely identifies the resource
-   * group within the user subscriptionId. The resource group name must be no longer than 90
-   * characters long, and must be alphanumeric characters (Char.IsLetterOrDigit()) and '-', '_',
-   * '(', ')' and'.'. Note that the name cannot end with '.'
-   */
-  managedResourceGroupName?: string;
-  /**
-   * Resource provisioning state
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * Login for workspace SQL active directory administrator
-   */
-  sqlAdministratorLogin?: string;
-  /**
-   * Virtual Network profile
-   */
-  virtualNetworkProfile?: VirtualNetworkProfile;
-  /**
-   * Connectivity endpoints
-   */
-  connectivityEndpoints?: { [propertyName: string]: string };
-  /**
-   * Setting this to 'default' will ensure that all compute for this workspace is in a virtual
-   * network managed on behalf of the user.
-   */
-  managedVirtualNetwork?: string;
-  /**
-   * Private endpoint connections to the workspace
-   */
-  privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * The encryption details of the workspace
-   */
-  encryption?: EncryptionDetails;
-  /**
-   * The workspace unique identifier
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly workspaceUID?: string;
-  /**
-   * Workspace level configs and feature flags
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly extraProperties?: { [propertyName: string]: any };
-  /**
-   * Managed Virtual Network Settings
-   */
-  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
-  /**
-   * Git integration settings
-   */
-  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
-  /**
-   * Purview Configuration
-   */
-  purviewConfiguration?: PurviewConfiguration;
-  /**
-   * Identity of the workspace
-   */
-  identity?: ManagedIdentity;
-}
-
-/**
- * Workspace active directory administrator
- */
-export interface WorkspaceAadAdminInfo extends BaseResource {
-  /**
-   * Tenant ID of the workspace active directory administrator
-   */
-  tenantId?: string;
-  /**
-   * Login of the workspace active directory administrator
-   */
-  login?: string;
-  /**
-   * Workspace active directory administrator type
-   */
-  administratorType?: string;
-  /**
-   * Object ID of the workspace active directory administrator
-   */
-  sid?: string;
-}
-
-/**
- * Workspace patch details
- */
-export interface WorkspacePatchInfo {
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The identity of the workspace
-   */
-  identity?: ManagedIdentity;
-  /**
-   * SQL administrator login password
-   */
-  sqlAdministratorLoginPassword?: string;
-  /**
-   * Managed Virtual Network Settings
-   */
-  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
-  /**
-   * Git integration settings
-   */
-  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
-  /**
-   * Purview Configuration
-   */
-  purviewConfiguration?: PurviewConfiguration;
-  /**
-   * Resource provisioning state
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * The encryption details of the workspace
-   */
-  encryption?: EncryptionDetails;
-}
-
-/**
- * Grant sql control to managed identity
- */
-export interface ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity {
-  /**
-   * Desired state. Possible values include: 'Enabled', 'Disabled'
-   */
-  desiredState?: DesiredState;
-  /**
-   * Actual state. Possible values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled',
-   * 'Unknown'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly actualState?: ActualState;
-}
-
-/**
- * Sql Control Settings for workspace managed identity
- * @summary Managed Identity Sql Control Settings
- */
-export interface ManagedIdentitySqlControlSettingsModel extends ProxyResource {
-  /**
-   * Grant sql control to managed identity
-   */
-  grantSqlControlToManagedIdentity?: ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity;
-}
-
-/**
- * A restorable dropped Sql pool
- */
-export interface RestorableDroppedSqlPool extends ProxyResource {
-  /**
-   * The geo-location where the resource lives
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * The name of the database
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseName?: string;
-  /**
-   * The edition of the database
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly edition?: string;
-  /**
-   * The max size in bytes of the database
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxSizeBytes?: string;
-  /**
-   * The service level objective name of the database
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly serviceLevelObjective?: string;
-  /**
-   * The elastic pool name of the database
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly elasticPoolName?: string;
-  /**
-   * The creation date of the database (ISO8601 format)
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationDate?: Date;
-  /**
-   * The deletion date of the database (ISO8601 format)
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly deletionDate?: Date;
-  /**
-   * The earliest restore date of the database (ISO8601 format)
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly earliestRestoreDate?: Date;
 }
 
 /**
@@ -3574,6 +1754,292 @@ export interface SsisObjectMetadataStatusResponse {
 }
 
 /**
+ * A workspace key
+ */
+export interface Key extends ProxyResource {
+  /**
+   * Used to activate the workspace after a customer managed key is provided.
+   */
+  isActiveCMK?: boolean;
+  /**
+   * The Key Vault Url of the workspace key.
+   */
+  keyVaultUrl?: string;
+}
+
+/**
+ * Library response details
+ */
+export interface LibraryResource extends SubResource {
+  /**
+   * Name of the library.
+   */
+  libraryResourceName?: string;
+  /**
+   * Storage blob path of library.
+   */
+  path?: string;
+  /**
+   * Storage blob container name.
+   */
+  containerName?: string;
+  /**
+   * The last update time of the library.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly uploadedTimestamp?: Date;
+  /**
+   * Type of the library.
+   */
+  libraryResourceType?: string;
+  /**
+   * Provisioning status of the library/package.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningStatus?: string;
+  /**
+   * Creator Id of the library/package.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creatorId?: string;
+}
+
+/**
+ * Description of an available operation
+ */
+export interface AvailableRpOperationDisplayInfo {
+  /**
+   * Operation description
+   */
+  description?: string;
+  /**
+   * Resource type
+   */
+  resource?: string;
+  /**
+   * Resource provider name
+   */
+  provider?: string;
+  /**
+   * Operation name
+   */
+  operation?: string;
+}
+
+/**
+ * What is this?
+ */
+export interface OperationMetaMetricDimensionSpecification {
+  /**
+   * Dimension display name
+   */
+  displayName?: string;
+  /**
+   * Dimension unique name
+   */
+  name?: string;
+  /**
+   * Whether this metric should be exported for Shoebox
+   */
+  toBeExportedForShoebox?: boolean;
+}
+
+/**
+ * What is this?
+ */
+export interface OperationMetaMetricSpecification {
+  /**
+   * The source MDM namespace
+   */
+  sourceMdmNamespace?: string;
+  /**
+   * Metric display name
+   */
+  displayName?: string;
+  /**
+   * Metric unique name
+   */
+  name?: string;
+  /**
+   * Metric aggregation type
+   */
+  aggregationType?: string;
+  /**
+   * Metric description
+   */
+  displayDescription?: string;
+  /**
+   * The source MDM account
+   */
+  sourceMdmAccount?: string;
+  /**
+   * Whether the regional MDM account is enabled
+   */
+  enableRegionalMdmAccount?: boolean;
+  /**
+   * Metric units
+   */
+  unit?: string;
+  /**
+   * Metric dimensions
+   */
+  dimensions?: OperationMetaMetricDimensionSpecification[];
+  /**
+   * Whether the metric supports instance-level aggregation
+   */
+  supportsInstanceLevelAggregation?: boolean;
+  /**
+   * Metric filter
+   */
+  metricFilterPattern?: string;
+}
+
+/**
+ * What is this?
+ */
+export interface OperationMetaLogSpecification {
+  /**
+   * Log display name
+   */
+  displayName?: string;
+  /**
+   * Time range the log covers
+   */
+  blobDuration?: string;
+  /**
+   * Log unique name
+   */
+  name?: string;
+}
+
+/**
+ * What is this?
+ */
+export interface OperationMetaServiceSpecification {
+  /**
+   * Service metric specifications
+   */
+  metricSpecifications?: OperationMetaMetricSpecification[];
+  /**
+   * Service log specifications
+   */
+  logSpecifications?: OperationMetaLogSpecification[];
+}
+
+/**
+ * An operation that is available in this resource provider
+ */
+export interface AvailableRpOperation {
+  /**
+   * Display properties of the operation
+   */
+  display?: AvailableRpOperationDisplayInfo;
+  /**
+   * Whether this operation is a data action
+   */
+  isDataAction?: string;
+  /**
+   * Operation name
+   */
+  name?: string;
+  /**
+   * Operation service specification
+   */
+  serviceSpecification?: OperationMetaServiceSpecification;
+  /**
+   * Operation origin
+   */
+  origin?: string;
+}
+
+/**
+ * An operation
+ */
+export interface OperationResource {
+  /**
+   * Operation ID
+   */
+  id?: string;
+  /**
+   * Operation name
+   */
+  name?: string;
+  /**
+   * Operation status. Possible values include: 'InProgress', 'Succeeded', 'Failed', 'Canceled'
+   */
+  status?: OperationStatus;
+  /**
+   * Operation properties
+   */
+  properties?: any;
+  /**
+   * Errors from the operation
+   */
+  error?: ErrorDetail;
+  /**
+   * Operation start time
+   */
+  startTime?: Date;
+  /**
+   * Operation start time
+   */
+  endTime?: Date;
+  /**
+   * Completion percentage of the operation
+   */
+  percentComplete?: number;
+}
+
+/**
+ * Connection state details of the private endpoint
+ */
+export interface PrivateLinkServiceConnectionState {
+  /**
+   * The private link service connection status.
+   */
+  status?: string;
+  /**
+   * The private link service connection description.
+   */
+  description?: string;
+  /**
+   * The actions required for private link service connection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actionsRequired?: string;
+}
+
+/**
+ * Private endpoint details
+ */
+export interface PrivateEndpoint extends BaseResource {
+  /**
+   * Resource id of the private endpoint.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * A private endpoint connection
+ */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /**
+   * The private endpoint which the connection belongs to.
+   */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * Connection state of the private endpoint connection.
+   */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * Provisioning state of the private endpoint connection.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+}
+
+/**
  * Properties of a private link resource.
  */
 export interface PrivateLinkResourceProperties {
@@ -3660,6 +2126,1436 @@ export interface PrivateLinkHubPatchInfo {
 export interface PrivateEndpointConnectionForPrivateLinkHub extends PrivateEndpointConnectionForPrivateLinkHubBasic {
   name?: string;
   type?: string;
+}
+
+/**
+ * SQL pool SKU
+ * @summary Sku
+ */
+export interface Sku {
+  /**
+   * The service tier
+   */
+  tier?: string;
+  /**
+   * The SKU name
+   */
+  name?: string;
+  /**
+   * If the SKU supports scale out/in then the capacity integer should be included. If scale out/in
+   * is not possible for the resource this may be omitted.
+   */
+  capacity?: number;
+}
+
+/**
+ * A SQL Analytics pool
+ * @summary SQL pool
+ */
+export interface SqlPool extends TrackedResource {
+  /**
+   * SQL pool SKU
+   */
+  sku?: Sku;
+  /**
+   * Maximum size in bytes
+   */
+  maxSizeBytes?: number;
+  /**
+   * Collation mode
+   */
+  collation?: string;
+  /**
+   * Source database to create from
+   */
+  sourceDatabaseId?: string;
+  /**
+   * Backup database to restore from
+   */
+  recoverableDatabaseId?: string;
+  /**
+   * Resource state
+   */
+  provisioningState?: string;
+  /**
+   * Resource status
+   */
+  status?: string;
+  /**
+   * Snapshot time to restore
+   */
+  restorePointInTime?: Date;
+  /**
+   * What is this?
+   */
+  createMode?: string;
+  /**
+   * Date the SQL pool was created
+   */
+  creationDate?: Date;
+  /**
+   * The storage account type used to store backups for this sql pool. Possible values include:
+   * 'GRS', 'LRS', 'ZRS'
+   */
+  storageAccountType?: StorageAccountType;
+}
+
+/**
+ * A SQL Analytics pool patch info
+ * @summary SQL pool patch info
+ */
+export interface SqlPoolPatchInfo {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The geo-location where the resource lives
+   */
+  location?: string;
+  /**
+   * SQL pool SKU
+   */
+  sku?: Sku;
+  /**
+   * Maximum size in bytes
+   */
+  maxSizeBytes?: number;
+  /**
+   * Collation mode
+   */
+  collation?: string;
+  /**
+   * Source database to create from
+   */
+  sourceDatabaseId?: string;
+  /**
+   * Backup database to restore from
+   */
+  recoverableDatabaseId?: string;
+  /**
+   * Resource state
+   */
+  provisioningState?: string;
+  /**
+   * Resource status
+   */
+  status?: string;
+  /**
+   * Snapshot time to restore
+   */
+  restorePointInTime?: Date;
+  /**
+   * What is this?
+   */
+  createMode?: string;
+  /**
+   * Date the SQL pool was created
+   */
+  creationDate?: Date;
+  /**
+   * The storage account type used to store backups for this sql pool. Possible values include:
+   * 'GRS', 'LRS', 'ZRS'
+   */
+  storageAccountType?: StorageAccountType;
+}
+
+/**
+ * Configuration for metadata sync
+ * @summary Metadata sync configuration
+ */
+export interface MetadataSyncConfig extends BaseResource {
+  /**
+   * Indicates whether the metadata sync is enabled or disabled
+   */
+  enabled?: boolean;
+  /**
+   * The Sync Interval in minutes.
+   */
+  syncIntervalInMinutes?: number;
+}
+
+/**
+ * A database geo backup policy.
+ */
+export interface GeoBackupPolicy extends ProxyResource {
+  /**
+   * The state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'
+   */
+  state: GeoBackupPolicyState;
+  /**
+   * The storage type of the geo backup policy.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageType?: string;
+  /**
+   * Kind of geo backup policy.  This is metadata used for the Azure portal experience.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kind?: string;
+  /**
+   * Backup policy location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+}
+
+/**
+ * A database query.
+ */
+export interface QueryMetric {
+  /**
+   * The name of the metric
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The name of the metric for display in user interface
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * The unit of measurement. Possible values include: 'percentage', 'KB', 'microseconds'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: QueryMetricUnit;
+  /**
+   * The measured value
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: number;
+}
+
+/**
+ * A database query.
+ */
+export interface QueryInterval {
+  /**
+   * The start time of the measurement interval (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly intervalStartTime?: Date;
+  /**
+   * The number of times the query was executed during this interval.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly executionCount?: number;
+  /**
+   * The list of query metrics during this interval.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly metrics?: QueryMetric[];
+}
+
+/**
+ * A database query.
+ */
+export interface QueryStatistic {
+  /**
+   * The id of the query
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly queryId?: string;
+  /**
+   * The list of query intervals.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly intervals?: QueryInterval[];
+}
+
+/**
+ * A database query.
+ */
+export interface TopQueries {
+  /**
+   * The function that is used to aggregate each query's metrics. Possible values include: 'min',
+   * 'max', 'avg', 'sum'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly aggregationFunction?: QueryAggregationFunction;
+  /**
+   * The execution type that is used to filter the query instances that are returned. Possible
+   * values include: 'any', 'regular', 'irregular', 'aborted', 'exception'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly executionType?: QueryExecutionType;
+  /**
+   * The duration of the interval (ISO8601 duration format).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly intervalType?: string;
+  /**
+   * The number of requested queries.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly numberOfTopQueries?: number;
+  /**
+   * The start time for queries that are returned (ISO8601 format)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly observationStartTime?: Date;
+  /**
+   * The end time for queries that are returned (ISO8601 format)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly observationEndTime?: Date;
+  /**
+   * The type of metric to use for ordering the top metrics. Possible values include: 'cpu', 'io',
+   * 'logio', 'duration', 'executionCount'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly observedMetric?: QueryObservedMetricType;
+  /**
+   * The list of queries.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly queries?: QueryStatistic[];
+}
+
+/**
+ * Represents the response to a get top queries request.
+ */
+export interface TopQueriesListResult {
+  /**
+   * The list of top queries.
+   */
+  value: TopQueries[];
+}
+
+/**
+ * User activities of a data warehouse
+ */
+export interface DataWarehouseUserActivities extends ProxyResource {
+  /**
+   * Count of running and suspended queries.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly activeQueriesCount?: number;
+}
+
+/**
+ * Database restore points.
+ */
+export interface RestorePoint extends ProxyResource {
+  /**
+   * Resource location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * The type of restore point. Possible values include: 'CONTINUOUS', 'DISCRETE'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restorePointType?: RestorePointType;
+  /**
+   * The earliest time to which this database can be restored
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly earliestRestoreDate?: Date;
+  /**
+   * The time the backup was taken
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restorePointCreationDate?: Date;
+  /**
+   * The label of restore point for backup request by user
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly restorePointLabel?: string;
+}
+
+/**
+ * Represents a Sql pool replication link.
+ */
+export interface ReplicationLink extends ProxyResource {
+  /**
+   * Location of the workspace that contains this firewall rule.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * Legacy value indicating whether termination is allowed.  Currently always returns true.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isTerminationAllowed?: boolean;
+  /**
+   * Replication mode of this replication link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly replicationMode?: string;
+  /**
+   * The name of the workspace hosting the partner Sql pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly partnerServer?: string;
+  /**
+   * The name of the partner Sql pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly partnerDatabase?: string;
+  /**
+   * The Azure Region of the partner Sql pool.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly partnerLocation?: string;
+  /**
+   * The role of the Sql pool in the replication link. Possible values include: 'Primary',
+   * 'Secondary', 'NonReadableSecondary', 'Source', 'Copy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly role?: ReplicationRole;
+  /**
+   * The role of the partner Sql pool in the replication link. Possible values include: 'Primary',
+   * 'Secondary', 'NonReadableSecondary', 'Source', 'Copy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly partnerRole?: ReplicationRole;
+  /**
+   * The start time for the replication link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The percentage of seeding complete for the replication link.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly percentComplete?: number;
+  /**
+   * The replication state for the replication link. Possible values include: 'PENDING', 'SEEDING',
+   * 'CATCH_UP', 'SUSPENDED'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly replicationState?: ReplicationState;
+}
+
+/**
+ * Maintenance window time range.
+ */
+export interface MaintenanceWindowTimeRange {
+  /**
+   * Day of maintenance window. Possible values include: 'Sunday', 'Monday', 'Tuesday',
+   * 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+   */
+  dayOfWeek?: DayOfWeek;
+  /**
+   * Start time minutes offset from 12am.
+   */
+  startTime?: string;
+  /**
+   * Duration of maintenance window in minutes.
+   */
+  duration?: string;
+}
+
+/**
+ * Maintenance window options.
+ */
+export interface MaintenanceWindowOptions extends ProxyResource {
+  /**
+   * Whether maintenance windows are enabled for the database.
+   */
+  isEnabled?: boolean;
+  /**
+   * Available maintenance cycles e.g. {Saturday, 0, 48*60}, {Wednesday, 0, 24*60}.
+   */
+  maintenanceWindowCycles?: MaintenanceWindowTimeRange[];
+  /**
+   * Minimum duration of maintenance window.
+   */
+  minDurationInMinutes?: number;
+  /**
+   * Default duration for maintenance window.
+   */
+  defaultDurationInMinutes?: number;
+  /**
+   * Minimum number of maintenance windows cycles to be set on the database.
+   */
+  minCycles?: number;
+  /**
+   * Time granularity in minutes for maintenance windows.
+   */
+  timeGranularityInMinutes?: number;
+  /**
+   * Whether we allow multiple maintenance windows per cycle.
+   */
+  allowMultipleMaintenanceWindowsPerCycle?: boolean;
+}
+
+/**
+ * Maintenance windows.
+ */
+export interface MaintenanceWindows extends ProxyResource {
+  timeRanges?: MaintenanceWindowTimeRange[];
+}
+
+/**
+ * Represents a Sql pool transparent data encryption configuration.
+ */
+export interface TransparentDataEncryption extends ProxyResource {
+  /**
+   * Resource location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * The status of the database transparent data encryption. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  status?: TransparentDataEncryptionStatus;
+}
+
+/**
+ * A Sql pool blob auditing policy.
+ */
+export interface SqlPoolBlobAuditingPolicy extends ProxyResource {
+  /**
+   * Resource kind.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kind?: string;
+  /**
+   * Specifies the state of the policy. If state is Enabled, storageEndpoint or
+   * isAzureMonitorTargetEnabled are required. Possible values include: 'Enabled', 'Disabled'
+   */
+  state: BlobAuditingPolicyState;
+  /**
+   * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
+   * is Enabled, storageEndpoint is required.
+   */
+  storageEndpoint?: string;
+  /**
+   * Specifies the identifier key of the auditing storage account. If state is Enabled and
+   * storageEndpoint is specified, storageAccountAccessKey is required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * Specifies the number of days to keep in the audit logs in the storage account.
+   */
+  retentionDays?: number;
+  /**
+   * Specifies the Actions-Groups and Actions to audit.
+   *
+   * The recommended set of action groups to use is the following combination - this will audit all
+   * the queries and stored procedures executed against the database, as well as successful and
+   * failed logins:
+   *
+   * BATCH_COMPLETED_GROUP,
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,
+   * FAILED_DATABASE_AUTHENTICATION_GROUP.
+   *
+   * This above combination is also the set that is configured by default when enabling auditing
+   * from the Azure portal.
+   *
+   * The supported action groups to audit are (note: choose only specific groups that cover your
+   * auditing needs. Using unnecessary groups could lead to very large quantities of audit
+   * records):
+   *
+   * APPLICATION_ROLE_CHANGE_PASSWORD_GROUP
+   * BACKUP_RESTORE_GROUP
+   * DATABASE_LOGOUT_GROUP
+   * DATABASE_OBJECT_CHANGE_GROUP
+   * DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * DATABASE_OBJECT_PERMISSION_CHANGE_GROUP
+   * DATABASE_OPERATION_GROUP
+   * DATABASE_PERMISSION_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_IMPERSONATION_GROUP
+   * DATABASE_ROLE_MEMBER_CHANGE_GROUP
+   * FAILED_DATABASE_AUTHENTICATION_GROUP
+   * SCHEMA_OBJECT_ACCESS_GROUP
+   * SCHEMA_OBJECT_CHANGE_GROUP
+   * SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP
+   * USER_CHANGE_PASSWORD_GROUP
+   * BATCH_STARTED_GROUP
+   * BATCH_COMPLETED_GROUP
+   *
+   * These are groups that cover all sql statements and stored procedures executed against the
+   * database, and should not be used in combination with other groups as this will result in
+   * duplicate audit logs.
+   *
+   * For more information, see [Database-Level Audit Action
+   * Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).
+   *
+   * For Database auditing policy, specific Actions can also be specified (note that Actions cannot
+   * be specified for Server auditing policy). The supported actions to audit are:
+   * SELECT
+   * UPDATE
+   * INSERT
+   * DELETE
+   * EXECUTE
+   * RECEIVE
+   * REFERENCES
+   *
+   * The general form for defining an action to be audited is:
+   * {action} ON {object} BY {principal}
+   *
+   * Note that <object> in the above format can refer to an object like a table, view, or stored
+   * procedure, or an entire database or schema. For the latter cases, the forms
+   * DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively.
+   *
+   * For example:
+   * SELECT on dbo.myTable by public
+   * SELECT on DATABASE::myDatabase by public
+   * SELECT on SCHEMA::mySchema by public
+   *
+   * For more information, see [Database-Level Audit
+   * Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)
+   */
+  auditActionsAndGroups?: string[];
+  /**
+   * Specifies the blob storage subscription Id.
+   */
+  storageAccountSubscriptionId?: string;
+  /**
+   * Specifies whether storageAccountAccessKey value is the storage's secondary key.
+   */
+  isStorageSecondaryKeyInUse?: boolean;
+  /**
+   * Specifies whether audit events are sent to Azure Monitor.
+   * In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and
+   * 'isAzureMonitorTargetEnabled' as true.
+   *
+   * When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents'
+   * diagnostic logs category on the database should be also created.
+   * Note that for server level audit you should use the 'master' database as {databaseName}.
+   *
+   * Diagnostic Settings URI format:
+   * PUT
+   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+   *
+   * For more information, see [Diagnostic Settings REST
+   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
+   * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
+   */
+  isAzureMonitorTargetEnabled?: boolean;
+}
+
+/**
+ * A Sql pool operation.
+ */
+export interface SqlPoolOperation extends ProxyResource {
+  /**
+   * The name of the Sql pool the operation is being performed on.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * The name of operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operation?: string;
+  /**
+   * The friendly name of operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly operationFriendlyName?: string;
+  /**
+   * The percentage of the operation completed.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly percentComplete?: number;
+  /**
+   * The name of the server.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serverName?: string;
+  /**
+   * The operation start time.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The operation state. Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed',
+   * 'CancelInProgress', 'Cancelled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: ManagementOperationState;
+  /**
+   * The operation error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorCode?: number;
+  /**
+   * The operation error description.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorDescription?: string;
+  /**
+   * The operation error severity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorSeverity?: number;
+  /**
+   * Whether or not the error is a user error.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isUserError?: boolean;
+  /**
+   * The estimated completion time of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly estimatedCompletionTime?: Date;
+  /**
+   * The operation description.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * Whether the operation can be cancelled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isCancellable?: boolean;
+}
+
+/**
+ * The Sql pool usages.
+ */
+export interface SqlPoolUsage {
+  /**
+   * The name of the usage metric.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * The name of the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resourceName?: string;
+  /**
+   * The usage metric display name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayName?: string;
+  /**
+   * The current value of the usage metric.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentValue?: number;
+  /**
+   * The current limit of the usage metric.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly limit?: number;
+  /**
+   * The units of the usage metric.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unit?: string;
+  /**
+   * The next reset time for the usage metric (ISO8601 format).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextResetTime?: Date;
+}
+
+/**
+ * A sensitivity label.
+ */
+export interface SensitivityLabel extends ProxyResource {
+  /**
+   * The schema name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly schemaName?: string;
+  /**
+   * The table name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tableName?: string;
+  /**
+   * The column name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly columnName?: string;
+  /**
+   * The label name.
+   */
+  labelName?: string;
+  /**
+   * The label ID.
+   */
+  labelId?: string;
+  /**
+   * The information type.
+   */
+  informationType?: string;
+  /**
+   * The information type ID.
+   */
+  informationTypeId?: string;
+  /**
+   * Is sensitivity recommendation disabled. Applicable for recommended sensitivity label only.
+   * Specifies whether the sensitivity recommendation on this column is disabled (dismissed) or
+   * not.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDisabled?: boolean;
+  /**
+   * Possible values include: 'None', 'Low', 'Medium', 'High', 'Critical'
+   */
+  rank?: SensitivityLabelRank;
+  /**
+   * managed by
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly managedBy?: string;
+}
+
+/**
+ * A Sql pool schema resource.
+ */
+export interface SqlPoolSchema extends ProxyResource {
+}
+
+/**
+ * A Sql pool table resource.
+ */
+export interface SqlPoolTable extends ProxyResource {
+}
+
+/**
+ * A Sql pool column resource.
+ */
+export interface SqlPoolColumn extends ProxyResource {
+  /**
+   * The column data type. Possible values include: 'image', 'text', 'uniqueidentifier', 'date',
+   * 'time', 'datetime2', 'datetimeoffset', 'tinyint', 'smallint', 'int', 'smalldatetime', 'real',
+   * 'money', 'datetime', 'float', 'sql_variant', 'ntext', 'bit', 'decimal', 'numeric',
+   * 'smallmoney', 'bigint', 'hierarchyid', 'geometry', 'geography', 'varbinary', 'varchar',
+   * 'binary', 'char', 'timestamp', 'nvarchar', 'nchar', 'xml', 'sysname'
+   */
+  columnType?: ColumnDataType;
+  /**
+   * Indicates whether column value is computed or not
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isComputed?: boolean;
+}
+
+/**
+ * A Sql pool connection policy.
+ */
+export interface SqlPoolConnectionPolicy extends ProxyResource {
+  /**
+   * Resource kind.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kind?: string;
+  /**
+   * Resource location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * The state of security access.
+   */
+  securityEnabledAccess?: string;
+  /**
+   * The fully qualified host name of the auditing proxy.
+   */
+  proxyDnsName?: string;
+  /**
+   * The port number of the auditing proxy.
+   */
+  proxyPort?: string;
+  /**
+   * The visibility of the auditing proxy.
+   */
+  visibility?: string;
+  /**
+   * Whether server default is enabled or disabled.
+   */
+  useServerDefault?: string;
+  /**
+   * The state of proxy redirection.
+   */
+  redirectionState?: string;
+  /**
+   * The connection policy state.
+   */
+  state?: string;
+}
+
+/**
+ * Properties of a Vulnerability Assessment recurring scans.
+ */
+export interface VulnerabilityAssessmentRecurringScansProperties {
+  /**
+   * Recurring scans state.
+   */
+  isEnabled?: boolean;
+  /**
+   * Specifies that the schedule scan notification will be is sent to the subscription
+   * administrators. Default value: true.
+   */
+  emailSubscriptionAdmins?: boolean;
+  /**
+   * Specifies an array of e-mail addresses to which the scan notification is sent.
+   */
+  emails?: string[];
+}
+
+/**
+ * A Sql pool vulnerability assessment.
+ */
+export interface SqlPoolVulnerabilityAssessment extends ProxyResource {
+  /**
+   * A blob storage container path to hold the scan results (e.g.
+   * https://myStorage.blob.core.windows.net/VaScans/).  It is required if server level
+   * vulnerability assessment policy doesn't set
+   */
+  storageContainerPath?: string;
+  /**
+   * A shared access signature (SAS Key) that has write access to the blob container specified in
+   * 'storageContainerPath' parameter. If 'storageAccountAccessKey' isn't specified,
+   * StorageContainerSasKey is required.
+   */
+  storageContainerSasKey?: string;
+  /**
+   * Specifies the identifier key of the storage account for vulnerability assessment scan results.
+   * If 'StorageContainerSasKey' isn't specified, storageAccountAccessKey is required.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * The recurring scans settings
+   */
+  recurringScans?: VulnerabilityAssessmentRecurringScansProperties;
+}
+
+/**
+ * Properties of a vulnerability assessment scan error.
+ */
+export interface VulnerabilityAssessmentScanError {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+}
+
+/**
+ * A vulnerability assessment scan record.
+ */
+export interface VulnerabilityAssessmentScanRecord extends ProxyResource {
+  /**
+   * The scan ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly scanId?: string;
+  /**
+   * The scan trigger type. Possible values include: 'OnDemand', 'Recurring'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly triggerType?: VulnerabilityAssessmentScanTriggerType;
+  /**
+   * The scan status. Possible values include: 'Passed', 'Failed', 'FailedToRun', 'InProgress'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: VulnerabilityAssessmentScanState;
+  /**
+   * The scan start time (UTC).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: Date;
+  /**
+   * The scan end time (UTC).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTime?: Date;
+  /**
+   * The scan errors.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errors?: VulnerabilityAssessmentScanError[];
+  /**
+   * The scan results storage container path.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly storageContainerPath?: string;
+  /**
+   * The number of failed security checks.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly numberOfFailedSecurityChecks?: number;
+}
+
+/**
+ * A Sql pool security alert policy.
+ */
+export interface SqlPoolSecurityAlertPolicy extends ProxyResource {
+  /**
+   * Specifies the state of the policy, whether it is enabled or disabled or a policy has not been
+   * applied yet on the specific Sql pool. Possible values include: 'New', 'Enabled', 'Disabled'
+   */
+  state: SecurityAlertPolicyState;
+  /**
+   * Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection,
+   * Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action
+   */
+  disabledAlerts?: string[];
+  /**
+   * Specifies an array of e-mail addresses to which the alert is sent.
+   */
+  emailAddresses?: string[];
+  /**
+   * Specifies that the alert is sent to the account administrators.
+   */
+  emailAccountAdmins?: boolean;
+  /**
+   * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob
+   * storage will hold all Threat Detection audit logs.
+   */
+  storageEndpoint?: string;
+  /**
+   * Specifies the identifier key of the Threat Detection audit storage account.
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * Specifies the number of days to keep in the Threat Detection audit logs.
+   */
+  retentionDays?: number;
+  /**
+   * Specifies the UTC creation time of the policy.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationTime?: Date;
+}
+
+/**
+ * Properties for an Sql pool vulnerability assessment rule baseline's result.
+ */
+export interface SqlPoolVulnerabilityAssessmentRuleBaselineItem {
+  /**
+   * The rule baseline result
+   */
+  result: string[];
+}
+
+/**
+ * A Sql pool vulnerability assessment rule baseline.
+ */
+export interface SqlPoolVulnerabilityAssessmentRuleBaseline extends ProxyResource {
+  /**
+   * The rule baseline result
+   */
+  baselineResults: SqlPoolVulnerabilityAssessmentRuleBaselineItem[];
+}
+
+/**
+ * A Sql pool Vulnerability Assessment scan export resource.
+ */
+export interface SqlPoolVulnerabilityAssessmentScansExport extends ProxyResource {
+  /**
+   * Location of the exported report (e.g.
+   * https://myStorage.blob.core.windows.net/VaScans/scans/serverName/databaseName/scan_scanId.xlsx).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly exportedReportLocation?: string;
+}
+
+/**
+ * Contains the information necessary to perform a resource move (rename).
+ */
+export interface ResourceMoveDefinition {
+  /**
+   * The target ID for the resource
+   */
+  id: string;
+}
+
+/**
+ * Contains the information necessary to perform a create Sql pool restore point operation.
+ */
+export interface CreateSqlPoolRestorePointDefinition {
+  /**
+   * The restore point label to apply
+   */
+  restorePointLabel: string;
+}
+
+/**
+ * Workload group operations for a sql pool
+ */
+export interface WorkloadGroup extends ProxyResource {
+  /**
+   * The workload group minimum percentage resource.
+   */
+  minResourcePercent: number;
+  /**
+   * The workload group cap percentage resource.
+   */
+  maxResourcePercent: number;
+  /**
+   * The workload group request minimum grant percentage.
+   */
+  minResourcePercentPerRequest: number;
+  /**
+   * The workload group request maximum grant percentage.
+   */
+  maxResourcePercentPerRequest?: number;
+  /**
+   * The workload group importance level.
+   */
+  importance?: string;
+  /**
+   * The workload group query execution timeout.
+   */
+  queryExecutionTimeout?: number;
+}
+
+/**
+ * Workload classifier operations for a data warehouse
+ */
+export interface WorkloadClassifier extends ProxyResource {
+  /**
+   * The workload classifier member name.
+   */
+  memberName: string;
+  /**
+   * The workload classifier label.
+   */
+  label?: string;
+  /**
+   * The workload classifier context.
+   */
+  context?: string;
+  /**
+   * The workload classifier start time for classification.
+   */
+  startTime?: string;
+  /**
+   * The workload classifier end time for classification.
+   */
+  endTime?: string;
+  /**
+   * The workload classifier importance.
+   */
+  importance?: string;
+}
+
+/**
+ * An interface representing DataMaskingPolicy.
+ */
+export interface DataMaskingPolicy extends ProxyResource {
+  /**
+   * The state of the data masking policy. Possible values include: 'Disabled', 'Enabled'
+   */
+  dataMaskingState: DataMaskingState;
+  /**
+   * The list of the exempt principals. Specifies the semicolon-separated list of database users
+   * for which the data masking policy does not apply. The specified users receive data results
+   * without masking for all of the database queries.
+   */
+  exemptPrincipals?: string;
+  /**
+   * The list of the application principals. This is a legacy parameter and is no longer used.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly applicationPrincipals?: string;
+  /**
+   * The masking level. This is a legacy parameter and is no longer used.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maskingLevel?: string;
+  /**
+   * The location of the data masking policy.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * The kind of data masking policy. Metadata, used for Azure portal.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kind?: string;
+  /**
+   * Fully qualified resource ID of the sql pool
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly managedBy?: string;
+}
+
+/**
+ * An extended Sql pool blob auditing policy.
+ */
+export interface ExtendedSqlPoolBlobAuditingPolicy extends ProxyResource {
+  /**
+   * Specifies condition of where clause when creating an audit.
+   */
+  predicateExpression?: string;
+  /**
+   * Specifies the state of the policy. If state is Enabled, storageEndpoint or
+   * isAzureMonitorTargetEnabled are required. Possible values include: 'Enabled', 'Disabled'
+   */
+  state: BlobAuditingPolicyState;
+  /**
+   * Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state
+   * is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
+   */
+  storageEndpoint?: string;
+  /**
+   * Specifies the identifier key of the auditing storage account.
+   * If state is Enabled and storageEndpoint is specified, not specifying the
+   * storageAccountAccessKey will use SQL server system-assigned managed identity to access the
+   * storage.
+   * Prerequisites for using managed identity authentication:
+   * 1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).
+   * 2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data
+   * Contributor' RBAC role to the server identity.
+   * For more information, see [Auditing to storage using Managed Identity
+   * authentication](https://go.microsoft.com/fwlink/?linkid=2114355)
+   */
+  storageAccountAccessKey?: string;
+  /**
+   * Specifies the number of days to keep in the audit logs in the storage account.
+   */
+  retentionDays?: number;
+  /**
+   * Specifies the Actions-Groups and Actions to audit.
+   *
+   * The recommended set of action groups to use is the following combination - this will audit all
+   * the queries and stored procedures executed against the database, as well as successful and
+   * failed logins:
+   *
+   * BATCH_COMPLETED_GROUP,
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP,
+   * FAILED_DATABASE_AUTHENTICATION_GROUP.
+   *
+   * This above combination is also the set that is configured by default when enabling auditing
+   * from the Azure portal.
+   *
+   * The supported action groups to audit are (note: choose only specific groups that cover your
+   * auditing needs. Using unnecessary groups could lead to very large quantities of audit
+   * records):
+   *
+   * APPLICATION_ROLE_CHANGE_PASSWORD_GROUP
+   * BACKUP_RESTORE_GROUP
+   * DATABASE_LOGOUT_GROUP
+   * DATABASE_OBJECT_CHANGE_GROUP
+   * DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * DATABASE_OBJECT_PERMISSION_CHANGE_GROUP
+   * DATABASE_OPERATION_GROUP
+   * DATABASE_PERMISSION_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_CHANGE_GROUP
+   * DATABASE_PRINCIPAL_IMPERSONATION_GROUP
+   * DATABASE_ROLE_MEMBER_CHANGE_GROUP
+   * FAILED_DATABASE_AUTHENTICATION_GROUP
+   * SCHEMA_OBJECT_ACCESS_GROUP
+   * SCHEMA_OBJECT_CHANGE_GROUP
+   * SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP
+   * SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP
+   * SUCCESSFUL_DATABASE_AUTHENTICATION_GROUP
+   * USER_CHANGE_PASSWORD_GROUP
+   * BATCH_STARTED_GROUP
+   * BATCH_COMPLETED_GROUP
+   *
+   * These are groups that cover all sql statements and stored procedures executed against the
+   * database, and should not be used in combination with other groups as this will result in
+   * duplicate audit logs.
+   *
+   * For more information, see [Database-Level Audit Action
+   * Groups](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-action-groups).
+   *
+   * For Database auditing policy, specific Actions can also be specified (note that Actions cannot
+   * be specified for Server auditing policy). The supported actions to audit are:
+   * SELECT
+   * UPDATE
+   * INSERT
+   * DELETE
+   * EXECUTE
+   * RECEIVE
+   * REFERENCES
+   *
+   * The general form for defining an action to be audited is:
+   * {action} ON {object} BY {principal}
+   *
+   * Note that <object> in the above format can refer to an object like a table, view, or stored
+   * procedure, or an entire database or schema. For the latter cases, the forms
+   * DATABASE::{db_name} and SCHEMA::{schema_name} are used, respectively.
+   *
+   * For example:
+   * SELECT on dbo.myTable by public
+   * SELECT on DATABASE::myDatabase by public
+   * SELECT on SCHEMA::mySchema by public
+   *
+   * For more information, see [Database-Level Audit
+   * Actions](https://docs.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-action-groups-and-actions#database-level-audit-actions)
+   */
+  auditActionsAndGroups?: string[];
+  /**
+   * Specifies the blob storage subscription Id.
+   */
+  storageAccountSubscriptionId?: string;
+  /**
+   * Specifies whether storageAccountAccessKey value is the storage's secondary key.
+   */
+  isStorageSecondaryKeyInUse?: boolean;
+  /**
+   * Specifies whether audit events are sent to Azure Monitor.
+   * In order to send the events to Azure Monitor, specify 'state' as 'Enabled' and
+   * 'isAzureMonitorTargetEnabled' as true.
+   *
+   * When using REST API to configure auditing, Diagnostic Settings with 'SQLSecurityAuditEvents'
+   * diagnostic logs category on the database should be also created.
+   * Note that for server level audit you should use the 'master' database as {databaseName}.
+   *
+   * Diagnostic Settings URI format:
+   * PUT
+   * https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview
+   *
+   * For more information, see [Diagnostic Settings REST
+   * API](https://go.microsoft.com/fwlink/?linkid=2033207)
+   * or [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)
+   */
+  isAzureMonitorTargetEnabled?: boolean;
+  /**
+   * Specifies the amount of time in milliseconds that can elapse before audit actions are forced
+   * to be processed.
+   * The default minimum value is 1000 (1 second). The maximum is 2,147,483,647.
+   */
+  queueDelayMs?: number;
+}
+
+/**
+ * Represents a Sql pool data masking rule.
+ */
+export interface DataMaskingRule extends ProxyResource {
+  /**
+   * The rule Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataMaskingRuleId?: string;
+  /**
+   * The alias name. This is a legacy parameter and is no longer used.
+   */
+  aliasName?: string;
+  /**
+   * The rule state. Used to delete a rule. To delete an existing rule, specify the schemaName,
+   * tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the
+   * rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless
+   * of the provided value of ruleState. Possible values include: 'Disabled', 'Enabled'
+   */
+  ruleState?: DataMaskingRuleState;
+  /**
+   * The schema name on which the data masking rule is applied.
+   */
+  schemaName: string;
+  /**
+   * The table name on which the data masking rule is applied.
+   */
+  tableName: string;
+  /**
+   * The column name on which the data masking rule is applied.
+   */
+  columnName: string;
+  /**
+   * The masking function that is used for the data masking rule. Possible values include:
+   * 'Default', 'CCN', 'Email', 'Number', 'SSN', 'Text'
+   */
+  maskingFunction: DataMaskingFunction;
+  /**
+   * The numberFrom property of the masking rule. Required if maskingFunction is set to Number,
+   * otherwise this parameter will be ignored.
+   */
+  numberFrom?: string;
+  /**
+   * The numberTo property of the data masking rule. Required if maskingFunction is set to Number,
+   * otherwise this parameter will be ignored.
+   */
+  numberTo?: string;
+  /**
+   * If maskingFunction is set to Text, the number of characters to show unmasked in the beginning
+   * of the string. Otherwise, this parameter will be ignored.
+   */
+  prefixSize?: string;
+  /**
+   * If maskingFunction is set to Text, the number of characters to show unmasked at the end of the
+   * string. Otherwise, this parameter will be ignored.
+   */
+  suffixSize?: string;
+  /**
+   * If maskingFunction is set to Text, the character to use for masking the unexposed part of the
+   * string. Otherwise, this parameter will be ignored.
+   */
+  replacementString?: string;
+  /**
+   * The location of the data masking rule.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * The kind of Data Masking Rule. Metadata, used for Azure portal.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kind?: string;
+}
+
+/**
+ * A sensitivity label update operation.
+ */
+export interface SensitivityLabelUpdate extends ProxyResource {
+  /**
+   * Possible values include: 'set', 'remove'
+   */
+  op: SensitivityLabelUpdateKind;
+  /**
+   * Schema name of the column to update.
+   */
+  schema: string;
+  /**
+   * Table name of the column to update.
+   */
+  table: string;
+  /**
+   * Column name to update.
+   */
+  column: string;
+  /**
+   * The sensitivity label information to apply on a column.
+   */
+  sensitivityLabel?: SensitivityLabel;
+}
+
+/**
+ * A list of sensitivity label update operations.
+ */
+export interface SensitivityLabelUpdateList {
+  operations?: SensitivityLabelUpdate[];
+}
+
+/**
+ * A recommended sensitivity label update operation.
+ */
+export interface RecommendedSensitivityLabelUpdate extends ProxyResource {
+  /**
+   * Possible values include: 'enable', 'disable'
+   */
+  op: RecommendedSensitivityLabelUpdateKind;
+  /**
+   * Schema name of the column to update.
+   */
+  schema: string;
+  /**
+   * Table name of the column to update.
+   */
+  table: string;
+  /**
+   * Column name to update.
+   */
+  column: string;
+}
+
+/**
+ * A list of recommended sensitivity label update operations.
+ */
+export interface RecommendedSensitivityLabelUpdateList {
+  operations?: RecommendedSensitivityLabelUpdate[];
 }
 
 /**
@@ -4009,6 +3905,46 @@ export interface ServerVulnerabilityAssessment extends ProxyResource {
 }
 
 /**
+ * The server encryption protector.
+ */
+export interface EncryptionProtector extends ProxyResource {
+  /**
+   * Kind of encryption protector. This is metadata used for the Azure portal experience.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly kind?: string;
+  /**
+   * Resource location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * Subregion of the encryption protector.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly subregion?: string;
+  /**
+   * The name of the server key.
+   */
+  serverKeyName?: string;
+  /**
+   * The encryption protector type like 'ServiceManaged', 'AzureKeyVault'. Possible values include:
+   * 'ServiceManaged', 'AzureKeyVault'
+   */
+  serverKeyType: ServerKeyType;
+  /**
+   * The URI of the server key.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly uri?: string;
+  /**
+   * Thumbprint of the server key.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly thumbprint?: string;
+}
+
+/**
  * Represents server metrics.
  */
 export interface ServerUsage {
@@ -4076,17 +4012,394 @@ export interface RecoverableSqlPool extends ProxyResource {
 }
 
 /**
- * A workspace key
+ * Details of the data lake storage account associated with the workspace
  */
-export interface Key extends ProxyResource {
+export interface DataLakeStorageAccountDetails {
   /**
-   * Used to activate the workspace after a customer managed key is provided.
+   * Account URL
    */
-  isActiveCMK?: boolean;
+  accountUrl?: string;
   /**
-   * The Key Vault Url of the workspace key.
+   * Filesystem name
+   */
+  filesystem?: string;
+}
+
+/**
+ * Virtual Network Profile
+ */
+export interface VirtualNetworkProfile {
+  /**
+   * Subnet ID used for computes in workspace
+   */
+  computeSubnetId?: string;
+}
+
+/**
+ * Details of the customer managed key associated with the workspace
+ */
+export interface WorkspaceKeyDetails {
+  /**
+   * Workspace Key sub-resource name
+   */
+  name?: string;
+  /**
+   * Workspace Key sub-resource key vault url
    */
   keyVaultUrl?: string;
+}
+
+/**
+ * Details of the customer managed key associated with the workspace
+ */
+export interface CustomerManagedKeyDetails {
+  /**
+   * The customer managed key status on the workspace
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: string;
+  /**
+   * The key object of the workspace
+   */
+  key?: WorkspaceKeyDetails;
+}
+
+/**
+ * Details of the encryption associated with the workspace
+ */
+export interface EncryptionDetails {
+  /**
+   * Double Encryption enabled
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly doubleEncryptionEnabled?: boolean;
+  /**
+   * Customer Managed Key Details
+   */
+  cmk?: CustomerManagedKeyDetails;
+}
+
+/**
+ * Managed Virtual Network Settings
+ */
+export interface ManagedVirtualNetworkSettings {
+  /**
+   * Prevent Data Exfiltration
+   */
+  preventDataExfiltration?: boolean;
+  /**
+   * Linked Access Check On Target Resource
+   */
+  linkedAccessCheckOnTargetResource?: boolean;
+  /**
+   * Allowed Aad Tenant Ids For Linking
+   */
+  allowedAadTenantIdsForLinking?: string[];
+}
+
+/**
+ * Git integration settings
+ */
+export interface WorkspaceRepositoryConfiguration {
+  /**
+   * Type of workspace repositoryID configuration. Example WorkspaceVSTSConfiguration,
+   * WorkspaceGitHubConfiguration
+   */
+  type?: string;
+  /**
+   * GitHub Enterprise host name. For example: https://github.mydomain.com
+   */
+  hostName?: string;
+  /**
+   * Account name
+   */
+  accountName?: string;
+  /**
+   * VSTS project name
+   */
+  projectName?: string;
+  /**
+   * Repository name
+   */
+  repositoryName?: string;
+  /**
+   * Collaboration branch
+   */
+  collaborationBranch?: string;
+  /**
+   * Root folder to use in the repository
+   */
+  rootFolder?: string;
+  /**
+   * The last commit ID
+   */
+  lastCommitId?: string;
+  /**
+   * The VSTS tenant ID
+   */
+  tenantId?: string;
+}
+
+/**
+ * Purview Configuration
+ */
+export interface PurviewConfiguration {
+  /**
+   * Purview Resource ID
+   */
+  purviewResourceId?: string;
+}
+
+/**
+ * The workspace managed identity
+ */
+export interface ManagedIdentity {
+  /**
+   * The principal ID of the workspace managed identity
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the workspace managed identity
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * The type of managed identity for the workspace. Possible values include: 'None',
+   * 'SystemAssigned'
+   */
+  type?: ResourceIdentityType;
+}
+
+/**
+ * A workspace
+ */
+export interface Workspace extends TrackedResource {
+  /**
+   * Workspace default data lake storage account details
+   */
+  defaultDataLakeStorage?: DataLakeStorageAccountDetails;
+  /**
+   * SQL administrator login password
+   */
+  sqlAdministratorLoginPassword?: string;
+  /**
+   * Workspace managed resource group. The resource group name uniquely identifies the resource
+   * group within the user subscriptionId. The resource group name must be no longer than 90
+   * characters long, and must be alphanumeric characters (Char.IsLetterOrDigit()) and '-', '_',
+   * '(', ')' and'.'. Note that the name cannot end with '.'
+   */
+  managedResourceGroupName?: string;
+  /**
+   * Resource provisioning state
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * Login for workspace SQL active directory administrator
+   */
+  sqlAdministratorLogin?: string;
+  /**
+   * Virtual Network profile
+   */
+  virtualNetworkProfile?: VirtualNetworkProfile;
+  /**
+   * Connectivity endpoints
+   */
+  connectivityEndpoints?: { [propertyName: string]: string };
+  /**
+   * Setting this to 'default' will ensure that all compute for this workspace is in a virtual
+   * network managed on behalf of the user.
+   */
+  managedVirtualNetwork?: string;
+  /**
+   * Private endpoint connections to the workspace
+   */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * The encryption details of the workspace
+   */
+  encryption?: EncryptionDetails;
+  /**
+   * The workspace unique identifier
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly workspaceUID?: string;
+  /**
+   * Workspace level configs and feature flags
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly extraProperties?: { [propertyName: string]: any };
+  /**
+   * Managed Virtual Network Settings
+   */
+  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
+  /**
+   * Git integration settings
+   */
+  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
+  /**
+   * Purview Configuration
+   */
+  purviewConfiguration?: PurviewConfiguration;
+  /**
+   * The ADLA resource ID.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly adlaResourceId?: string;
+  /**
+   * Enable or Disable pubic network access to workspace. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: WorkspacePublicNetworkAccess;
+  /**
+   * Identity of the workspace
+   */
+  identity?: ManagedIdentity;
+}
+
+/**
+ * Workspace active directory administrator
+ */
+export interface WorkspaceAadAdminInfo extends BaseResource {
+  /**
+   * Tenant ID of the workspace active directory administrator
+   */
+  tenantId?: string;
+  /**
+   * Login of the workspace active directory administrator
+   */
+  login?: string;
+  /**
+   * Workspace active directory administrator type
+   */
+  administratorType?: string;
+  /**
+   * Object ID of the workspace active directory administrator
+   */
+  sid?: string;
+}
+
+/**
+ * Workspace patch details
+ */
+export interface WorkspacePatchInfo {
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The identity of the workspace
+   */
+  identity?: ManagedIdentity;
+  /**
+   * SQL administrator login password
+   */
+  sqlAdministratorLoginPassword?: string;
+  /**
+   * Managed Virtual Network Settings
+   */
+  managedVirtualNetworkSettings?: ManagedVirtualNetworkSettings;
+  /**
+   * Git integration settings
+   */
+  workspaceRepositoryConfiguration?: WorkspaceRepositoryConfiguration;
+  /**
+   * Purview Configuration
+   */
+  purviewConfiguration?: PurviewConfiguration;
+  /**
+   * Resource provisioning state
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * The encryption details of the workspace
+   */
+  encryption?: EncryptionDetails;
+  /**
+   * Enable or Disable pubic network access to workspace. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  publicNetworkAccess?: WorkspacePublicNetworkAccess;
+}
+
+/**
+ * Grant sql control to managed identity
+ */
+export interface ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity {
+  /**
+   * Desired state. Possible values include: 'Enabled', 'Disabled'
+   */
+  desiredState?: DesiredState;
+  /**
+   * Actual state. Possible values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled',
+   * 'Unknown'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly actualState?: ActualState;
+}
+
+/**
+ * Sql Control Settings for workspace managed identity
+ * @summary Managed Identity Sql Control Settings
+ */
+export interface ManagedIdentitySqlControlSettingsModel extends ProxyResource {
+  /**
+   * Grant sql control to managed identity
+   */
+  grantSqlControlToManagedIdentity?: ManagedIdentitySqlControlSettingsModelPropertiesGrantSqlControlToManagedIdentity;
+}
+
+/**
+ * A restorable dropped Sql pool
+ */
+export interface RestorableDroppedSqlPool extends ProxyResource {
+  /**
+   * The geo-location where the resource lives
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * The name of the database
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly databaseName?: string;
+  /**
+   * The edition of the database
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly edition?: string;
+  /**
+   * The max size in bytes of the database
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly maxSizeBytes?: string;
+  /**
+   * The service level objective name of the database
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly serviceLevelObjective?: string;
+  /**
+   * The elastic pool name of the database
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly elasticPoolName?: string;
+  /**
+   * The creation date of the database (ISO8601 format)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly creationDate?: Date;
+  /**
+   * The deletion date of the database (ISO8601 format)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deletionDate?: Date;
+  /**
+   * The earliest restore date of the database (ISO8601 format)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly earliestRestoreDate?: Date;
 }
 
 /**
@@ -4107,6 +4420,49 @@ export interface BigDataPoolsBeginCreateOrUpdateOptionalParams extends msRest.Re
    * Whether to stop any running jobs in the Big Data pool. Default value: false.
    */
   force?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the integration runtime entity. Should only be specified for get. If the ETag matches
+   * the existing entity tag, or if * was provided, then no content will be returned.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimesCreateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the integration runtime entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimesBeginCreateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the integration runtime entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimeObjectMetadataListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The parameters for getting a SSIS object metadata.
+   */
+  getMetadataRequest?: GetSsisObjectMetadataRequest;
 }
 
 /**
@@ -4226,49 +4582,6 @@ export interface SqlPoolTableColumnsListByTableNameNextOptionalParams extends ms
 }
 
 /**
- * Optional Parameters.
- */
-export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * ETag of the integration runtime entity. Should only be specified for get. If the ETag matches
-   * the existing entity tag, or if * was provided, then no content will be returned.
-   */
-  ifNoneMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IntegrationRuntimesCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * ETag of the integration runtime entity. Should only be specified for update, for which it
-   * should match existing entity or can be * for unconditional update.
-   */
-  ifMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IntegrationRuntimesBeginCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * ETag of the integration runtime entity. Should only be specified for update, for which it
-   * should match existing entity or can be * for unconditional update.
-   */
-  ifMatch?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface IntegrationRuntimeObjectMetadataListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The parameters for getting a SSIS object metadata.
-   */
-  getMetadataRequest?: GetSsisObjectMetadataRequest;
-}
-
-/**
  * An interface representing SynapseManagementClientOptions.
  */
 export interface SynapseManagementClientOptions extends AzureServiceClientOptions {
@@ -4297,6 +4610,90 @@ export interface IpFirewallRuleInfoListResult extends Array<IpFirewallRuleInfo> 
   /**
    * Link to next page of results
    */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of integration runtime resources.
+ * @extends Array<IntegrationRuntimeResource>
+ */
+export interface IntegrationRuntimeListResponse extends Array<IntegrationRuntimeResource> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of keys
+ * @extends Array<Key>
+ */
+export interface KeyInfoListResult extends Array<Key> {
+  /**
+   * Link to the next page of results
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of Library resources.
+ * @extends Array<LibraryResource>
+ */
+export interface LibraryListResponse extends Array<LibraryResource> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of private endpoint connections
+ * @extends Array<PrivateEndpointConnection>
+ */
+export interface PrivateEndpointConnectionList extends Array<PrivateEndpointConnection> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of private link resources
+ * @extends Array<PrivateLinkResource>
+ */
+export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of privateLinkHubs
+ * @extends Array<PrivateLinkHub>
+ */
+export interface PrivateLinkHubInfoListResult extends Array<PrivateLinkHub> {
+  /**
+   * Link to the next page of results
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the
+ * PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse.
+ * @extends Array<PrivateEndpointConnectionForPrivateLinkHub>
+ */
+export interface PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse extends Array<PrivateEndpointConnectionForPrivateLinkHub> {
   nextLink?: string;
 }
 
@@ -4539,86 +4936,6 @@ export interface WorkloadClassifierListResult extends Array<WorkloadClassifier> 
 
 /**
  * @interface
- * List of workspaces
- * @extends Array<Workspace>
- */
-export interface WorkspaceInfoListResult extends Array<Workspace> {
-  /**
-   * Link to the next page of results
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * The response to a list restorable dropped Sql pools request
- * @extends Array<RestorableDroppedSqlPool>
- */
-export interface RestorableDroppedSqlPoolListResult extends Array<RestorableDroppedSqlPool> {
-}
-
-/**
- * @interface
- * A list of integration runtime resources.
- * @extends Array<IntegrationRuntimeResource>
- */
-export interface IntegrationRuntimeListResponse extends Array<IntegrationRuntimeResource> {
-  /**
-   * The link to the next page of results, if any remaining results exist.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * A list of private link resources
- * @extends Array<PrivateLinkResource>
- */
-export interface PrivateLinkResourceListResult extends Array<PrivateLinkResource> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * A list of private endpoint connections
- * @extends Array<PrivateEndpointConnection>
- */
-export interface PrivateEndpointConnectionList extends Array<PrivateEndpointConnection> {
-  /**
-   * Link to retrieve next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * List of privateLinkHubs
- * @extends Array<PrivateLinkHub>
- */
-export interface PrivateLinkHubInfoListResult extends Array<PrivateLinkHub> {
-  /**
-   * Link to the next page of results
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * An interface representing the
- * PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse.
- * @extends Array<PrivateEndpointConnectionForPrivateLinkHub>
- */
-export interface PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse extends Array<PrivateEndpointConnectionForPrivateLinkHub> {
-  nextLink?: string;
-}
-
-/**
- * @interface
  * A list of server auditing settings.
  * @extends Array<ServerBlobAuditingPolicy>
  */
@@ -4671,6 +4988,19 @@ export interface ServerVulnerabilityAssessmentListResult extends Array<ServerVul
 
 /**
  * @interface
+ * A list of server encryption protectors.
+ * @extends Array<EncryptionProtector>
+ */
+export interface EncryptionProtectorListResult extends Array<EncryptionProtector> {
+  /**
+   * Link to retrieve next page of results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * Represents the response to a list server metrics request.
  * @extends Array<ServerUsage>
  */
@@ -4697,14 +5027,22 @@ export interface RecoverableSqlPoolListResult extends Array<RecoverableSqlPool> 
 
 /**
  * @interface
- * List of keys
- * @extends Array<Key>
+ * List of workspaces
+ * @extends Array<Workspace>
  */
-export interface KeyInfoListResult extends Array<Key> {
+export interface WorkspaceInfoListResult extends Array<Workspace> {
   /**
    * Link to the next page of results
    */
   nextLink?: string;
+}
+
+/**
+ * @interface
+ * The response to a list restorable dropped Sql pools request
+ * @extends Array<RestorableDroppedSqlPool>
+ */
+export interface RestorableDroppedSqlPoolListResult extends Array<RestorableDroppedSqlPool> {
 }
 
 /**
@@ -4730,171 +5068,6 @@ export type NodeSizeFamily = 'None' | 'MemoryOptimized';
  * @enum {string}
  */
 export type ProvisioningState = 'Provisioning' | 'Succeeded' | 'Deleting' | 'Failed' | 'DeleteError';
-
-/**
- * Defines values for OperationStatus.
- * Possible values include: 'InProgress', 'Succeeded', 'Failed', 'Canceled'
- * @readonly
- * @enum {string}
- */
-export type OperationStatus = 'InProgress' | 'Succeeded' | 'Failed' | 'Canceled';
-
-/**
- * Defines values for GeoBackupPolicyState.
- * Possible values include: 'Disabled', 'Enabled'
- * @readonly
- * @enum {string}
- */
-export type GeoBackupPolicyState = 'Disabled' | 'Enabled';
-
-/**
- * Defines values for QueryAggregationFunction.
- * Possible values include: 'min', 'max', 'avg', 'sum'
- * @readonly
- * @enum {string}
- */
-export type QueryAggregationFunction = 'min' | 'max' | 'avg' | 'sum';
-
-/**
- * Defines values for QueryExecutionType.
- * Possible values include: 'any', 'regular', 'irregular', 'aborted', 'exception'
- * @readonly
- * @enum {string}
- */
-export type QueryExecutionType = 'any' | 'regular' | 'irregular' | 'aborted' | 'exception';
-
-/**
- * Defines values for QueryObservedMetricType.
- * Possible values include: 'cpu', 'io', 'logio', 'duration', 'executionCount'
- * @readonly
- * @enum {string}
- */
-export type QueryObservedMetricType = 'cpu' | 'io' | 'logio' | 'duration' | 'executionCount';
-
-/**
- * Defines values for QueryMetricUnit.
- * Possible values include: 'percentage', 'KB', 'microseconds'
- * @readonly
- * @enum {string}
- */
-export type QueryMetricUnit = 'percentage' | 'KB' | 'microseconds';
-
-/**
- * Defines values for RestorePointType.
- * Possible values include: 'CONTINUOUS', 'DISCRETE'
- * @readonly
- * @enum {string}
- */
-export type RestorePointType = 'CONTINUOUS' | 'DISCRETE';
-
-/**
- * Defines values for ReplicationRole.
- * Possible values include: 'Primary', 'Secondary', 'NonReadableSecondary', 'Source', 'Copy'
- * @readonly
- * @enum {string}
- */
-export type ReplicationRole = 'Primary' | 'Secondary' | 'NonReadableSecondary' | 'Source' | 'Copy';
-
-/**
- * Defines values for ReplicationState.
- * Possible values include: 'PENDING', 'SEEDING', 'CATCH_UP', 'SUSPENDED'
- * @readonly
- * @enum {string}
- */
-export type ReplicationState = 'PENDING' | 'SEEDING' | 'CATCH_UP' | 'SUSPENDED';
-
-/**
- * Defines values for TransparentDataEncryptionStatus.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type TransparentDataEncryptionStatus = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for BlobAuditingPolicyState.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type BlobAuditingPolicyState = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for ManagementOperationState.
- * Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed', 'CancelInProgress',
- * 'Cancelled'
- * @readonly
- * @enum {string}
- */
-export type ManagementOperationState = 'Pending' | 'InProgress' | 'Succeeded' | 'Failed' | 'CancelInProgress' | 'Cancelled';
-
-/**
- * Defines values for ColumnDataType.
- * Possible values include: 'image', 'text', 'uniqueidentifier', 'date', 'time', 'datetime2',
- * 'datetimeoffset', 'tinyint', 'smallint', 'int', 'smalldatetime', 'real', 'money', 'datetime',
- * 'float', 'sql_variant', 'ntext', 'bit', 'decimal', 'numeric', 'smallmoney', 'bigint',
- * 'hierarchyid', 'geometry', 'geography', 'varbinary', 'varchar', 'binary', 'char', 'timestamp',
- * 'nvarchar', 'nchar', 'xml', 'sysname'
- * @readonly
- * @enum {string}
- */
-export type ColumnDataType = 'image' | 'text' | 'uniqueidentifier' | 'date' | 'time' | 'datetime2' | 'datetimeoffset' | 'tinyint' | 'smallint' | 'int' | 'smalldatetime' | 'real' | 'money' | 'datetime' | 'float' | 'sql_variant' | 'ntext' | 'bit' | 'decimal' | 'numeric' | 'smallmoney' | 'bigint' | 'hierarchyid' | 'geometry' | 'geography' | 'varbinary' | 'varchar' | 'binary' | 'char' | 'timestamp' | 'nvarchar' | 'nchar' | 'xml' | 'sysname';
-
-/**
- * Defines values for VulnerabilityAssessmentScanTriggerType.
- * Possible values include: 'OnDemand', 'Recurring'
- * @readonly
- * @enum {string}
- */
-export type VulnerabilityAssessmentScanTriggerType = 'OnDemand' | 'Recurring';
-
-/**
- * Defines values for VulnerabilityAssessmentScanState.
- * Possible values include: 'Passed', 'Failed', 'FailedToRun', 'InProgress'
- * @readonly
- * @enum {string}
- */
-export type VulnerabilityAssessmentScanState = 'Passed' | 'Failed' | 'FailedToRun' | 'InProgress';
-
-/**
- * Defines values for SecurityAlertPolicyState.
- * Possible values include: 'New', 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type SecurityAlertPolicyState = 'New' | 'Enabled' | 'Disabled';
-
-/**
- * Defines values for DataMaskingState.
- * Possible values include: 'Disabled', 'Enabled'
- * @readonly
- * @enum {string}
- */
-export type DataMaskingState = 'Disabled' | 'Enabled';
-
-/**
- * Defines values for DataMaskingRuleState.
- * Possible values include: 'Disabled', 'Enabled'
- * @readonly
- * @enum {string}
- */
-export type DataMaskingRuleState = 'Disabled' | 'Enabled';
-
-/**
- * Defines values for DataMaskingFunction.
- * Possible values include: 'Default', 'CCN', 'Email', 'Number', 'SSN', 'Text'
- * @readonly
- * @enum {string}
- */
-export type DataMaskingFunction = 'Default' | 'CCN' | 'Email' | 'Number' | 'SSN' | 'Text';
-
-/**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'None', 'SystemAssigned'
- * @readonly
- * @enum {string}
- */
-export type ResourceIdentityType = 'None' | 'SystemAssigned';
 
 /**
  * Defines values for IntegrationRuntimeType.
@@ -5009,6 +5182,228 @@ export type IntegrationRuntimeAuthKeyName = 'authKey1' | 'authKey2';
  * @enum {string}
  */
 export type SsisObjectMetadataType = 'Folder' | 'Project' | 'Package' | 'Environment';
+
+/**
+ * Defines values for OperationStatus.
+ * Possible values include: 'InProgress', 'Succeeded', 'Failed', 'Canceled'
+ * @readonly
+ * @enum {string}
+ */
+export type OperationStatus = 'InProgress' | 'Succeeded' | 'Failed' | 'Canceled';
+
+/**
+ * Defines values for StorageAccountType.
+ * Possible values include: 'GRS', 'LRS', 'ZRS'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageAccountType = 'GRS' | 'LRS' | 'ZRS';
+
+/**
+ * Defines values for GeoBackupPolicyState.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type GeoBackupPolicyState = 'Disabled' | 'Enabled';
+
+/**
+ * Defines values for QueryAggregationFunction.
+ * Possible values include: 'min', 'max', 'avg', 'sum'
+ * @readonly
+ * @enum {string}
+ */
+export type QueryAggregationFunction = 'min' | 'max' | 'avg' | 'sum';
+
+/**
+ * Defines values for QueryExecutionType.
+ * Possible values include: 'any', 'regular', 'irregular', 'aborted', 'exception'
+ * @readonly
+ * @enum {string}
+ */
+export type QueryExecutionType = 'any' | 'regular' | 'irregular' | 'aborted' | 'exception';
+
+/**
+ * Defines values for QueryObservedMetricType.
+ * Possible values include: 'cpu', 'io', 'logio', 'duration', 'executionCount'
+ * @readonly
+ * @enum {string}
+ */
+export type QueryObservedMetricType = 'cpu' | 'io' | 'logio' | 'duration' | 'executionCount';
+
+/**
+ * Defines values for QueryMetricUnit.
+ * Possible values include: 'percentage', 'KB', 'microseconds'
+ * @readonly
+ * @enum {string}
+ */
+export type QueryMetricUnit = 'percentage' | 'KB' | 'microseconds';
+
+/**
+ * Defines values for RestorePointType.
+ * Possible values include: 'CONTINUOUS', 'DISCRETE'
+ * @readonly
+ * @enum {string}
+ */
+export type RestorePointType = 'CONTINUOUS' | 'DISCRETE';
+
+/**
+ * Defines values for ReplicationRole.
+ * Possible values include: 'Primary', 'Secondary', 'NonReadableSecondary', 'Source', 'Copy'
+ * @readonly
+ * @enum {string}
+ */
+export type ReplicationRole = 'Primary' | 'Secondary' | 'NonReadableSecondary' | 'Source' | 'Copy';
+
+/**
+ * Defines values for ReplicationState.
+ * Possible values include: 'PENDING', 'SEEDING', 'CATCH_UP', 'SUSPENDED'
+ * @readonly
+ * @enum {string}
+ */
+export type ReplicationState = 'PENDING' | 'SEEDING' | 'CATCH_UP' | 'SUSPENDED';
+
+/**
+ * Defines values for DayOfWeek.
+ * Possible values include: 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+ * 'Saturday'
+ * @readonly
+ * @enum {string}
+ */
+export type DayOfWeek = 'Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday';
+
+/**
+ * Defines values for TransparentDataEncryptionStatus.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type TransparentDataEncryptionStatus = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for BlobAuditingPolicyState.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobAuditingPolicyState = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for ManagementOperationState.
+ * Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed', 'CancelInProgress',
+ * 'Cancelled'
+ * @readonly
+ * @enum {string}
+ */
+export type ManagementOperationState = 'Pending' | 'InProgress' | 'Succeeded' | 'Failed' | 'CancelInProgress' | 'Cancelled';
+
+/**
+ * Defines values for SensitivityLabelRank.
+ * Possible values include: 'None', 'Low', 'Medium', 'High', 'Critical'
+ * @readonly
+ * @enum {string}
+ */
+export type SensitivityLabelRank = 'None' | 'Low' | 'Medium' | 'High' | 'Critical';
+
+/**
+ * Defines values for ColumnDataType.
+ * Possible values include: 'image', 'text', 'uniqueidentifier', 'date', 'time', 'datetime2',
+ * 'datetimeoffset', 'tinyint', 'smallint', 'int', 'smalldatetime', 'real', 'money', 'datetime',
+ * 'float', 'sql_variant', 'ntext', 'bit', 'decimal', 'numeric', 'smallmoney', 'bigint',
+ * 'hierarchyid', 'geometry', 'geography', 'varbinary', 'varchar', 'binary', 'char', 'timestamp',
+ * 'nvarchar', 'nchar', 'xml', 'sysname'
+ * @readonly
+ * @enum {string}
+ */
+export type ColumnDataType = 'image' | 'text' | 'uniqueidentifier' | 'date' | 'time' | 'datetime2' | 'datetimeoffset' | 'tinyint' | 'smallint' | 'int' | 'smalldatetime' | 'real' | 'money' | 'datetime' | 'float' | 'sql_variant' | 'ntext' | 'bit' | 'decimal' | 'numeric' | 'smallmoney' | 'bigint' | 'hierarchyid' | 'geometry' | 'geography' | 'varbinary' | 'varchar' | 'binary' | 'char' | 'timestamp' | 'nvarchar' | 'nchar' | 'xml' | 'sysname';
+
+/**
+ * Defines values for VulnerabilityAssessmentScanTriggerType.
+ * Possible values include: 'OnDemand', 'Recurring'
+ * @readonly
+ * @enum {string}
+ */
+export type VulnerabilityAssessmentScanTriggerType = 'OnDemand' | 'Recurring';
+
+/**
+ * Defines values for VulnerabilityAssessmentScanState.
+ * Possible values include: 'Passed', 'Failed', 'FailedToRun', 'InProgress'
+ * @readonly
+ * @enum {string}
+ */
+export type VulnerabilityAssessmentScanState = 'Passed' | 'Failed' | 'FailedToRun' | 'InProgress';
+
+/**
+ * Defines values for SecurityAlertPolicyState.
+ * Possible values include: 'New', 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityAlertPolicyState = 'New' | 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for DataMaskingState.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type DataMaskingState = 'Disabled' | 'Enabled';
+
+/**
+ * Defines values for DataMaskingRuleState.
+ * Possible values include: 'Disabled', 'Enabled'
+ * @readonly
+ * @enum {string}
+ */
+export type DataMaskingRuleState = 'Disabled' | 'Enabled';
+
+/**
+ * Defines values for DataMaskingFunction.
+ * Possible values include: 'Default', 'CCN', 'Email', 'Number', 'SSN', 'Text'
+ * @readonly
+ * @enum {string}
+ */
+export type DataMaskingFunction = 'Default' | 'CCN' | 'Email' | 'Number' | 'SSN' | 'Text';
+
+/**
+ * Defines values for SensitivityLabelUpdateKind.
+ * Possible values include: 'set', 'remove'
+ * @readonly
+ * @enum {string}
+ */
+export type SensitivityLabelUpdateKind = 'set' | 'remove';
+
+/**
+ * Defines values for RecommendedSensitivityLabelUpdateKind.
+ * Possible values include: 'enable', 'disable'
+ * @readonly
+ * @enum {string}
+ */
+export type RecommendedSensitivityLabelUpdateKind = 'enable' | 'disable';
+
+/**
+ * Defines values for ServerKeyType.
+ * Possible values include: 'ServiceManaged', 'AzureKeyVault'
+ * @readonly
+ * @enum {string}
+ */
+export type ServerKeyType = 'ServiceManaged' | 'AzureKeyVault';
+
+/**
+ * Defines values for WorkspacePublicNetworkAccess.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type WorkspacePublicNetworkAccess = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for ResourceIdentityType.
+ * Possible values include: 'None', 'SystemAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type ResourceIdentityType = 'None' | 'SystemAssigned';
 
 /**
  * Defines values for SensitivityLabelSource.
@@ -5463,6 +5858,986 @@ export type IpFirewallRulesListByWorkspaceNextResponse = IpFirewallRuleInfoListR
 };
 
 /**
+ * Contains response data for the update operation.
+ */
+export type IntegrationRuntimesUpdateResponse = IntegrationRuntimeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type IntegrationRuntimesCreateResponse = IntegrationRuntimeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspace operation.
+ */
+export type IntegrationRuntimesListByWorkspaceResponse = IntegrationRuntimeListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeListResponse;
+    };
+};
+
+/**
+ * Contains response data for the start operation.
+ */
+export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type IntegrationRuntimesBeginCreateResponse = IntegrationRuntimeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
+    };
+};
+
+/**
+ * Contains response data for the beginStart operation.
+ */
+export type IntegrationRuntimesBeginStartResponse = IntegrationRuntimeStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspaceNext operation.
+ */
+export type IntegrationRuntimesListByWorkspaceNextResponse = IntegrationRuntimeListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeListResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeNodeIpAddressGetResponse = IntegrationRuntimeNodeIpAddress & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeNodeIpAddress;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IntegrationRuntimeObjectMetadataListResponse = SsisObjectMetadataListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataListResponse;
+    };
+};
+
+/**
+ * Contains response data for the refresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginRefresh operation.
+ */
+export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMetadataStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SsisObjectMetadataStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNode & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SelfHostedIntegrationRuntimeNode;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntimeNode & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SelfHostedIntegrationRuntimeNode;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeConnectionInfosGetResponse = IntegrationRuntimeConnectionInfo & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeConnectionInfo;
+    };
+};
+
+/**
+ * Contains response data for the regenerate operation.
+ */
+export type IntegrationRuntimeAuthKeysRegenerateResponse = IntegrationRuntimeAuthKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeAuthKeys;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IntegrationRuntimeAuthKeysListResponse = IntegrationRuntimeAuthKeys & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeAuthKeys;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IntegrationRuntimeMonitoringDataListResponse = IntegrationRuntimeMonitoringData & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeMonitoringData;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IntegrationRuntimeStatusGetResponse = IntegrationRuntimeStatusResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspace operation.
+ */
+export type KeysListByWorkspaceResponse = KeyInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KeyInfoListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type KeysGetResponse = Key & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Key;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type KeysCreateOrUpdateResponse = Key & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Key;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type KeysDeleteMethodResponse = Key & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Key;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspaceNext operation.
+ */
+export type KeysListByWorkspaceNextResponse = KeyInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KeyInfoListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type LibraryGetResponse = LibraryResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LibraryResource;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspace operation.
+ */
+export type LibrariesListByWorkspaceResponse = LibraryListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LibraryListResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspaceNext operation.
+ */
+export type LibrariesListByWorkspaceNextResponse = LibraryListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: LibraryListResponse;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the create operation.
+ */
+export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the deleteMethod operation.
+ */
+export type PrivateEndpointConnectionsDeleteMethodResponse = OperationResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationResource;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionList;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type PrivateEndpointConnectionsBeginCreateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the beginDeleteMethod operation.
+ */
+export type PrivateEndpointConnectionsBeginDeleteMethodResponse = OperationResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationResource;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkHubPrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkHubPrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateLinkHubPrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourceListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type PrivateLinkHubsListByResourceGroupResponse = PrivateLinkHubInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHubInfoListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkHubsGetResponse = PrivateLinkHub & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHub;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type PrivateLinkHubsUpdateResponse = PrivateLinkHub & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHub;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateLinkHubsCreateOrUpdateResponse = PrivateLinkHub & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHub;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkHubsListResponse = PrivateLinkHubInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHubInfoListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type PrivateLinkHubsListByResourceGroupNextResponse = PrivateLinkHubInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHubInfoListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateLinkHubsListNextResponse = PrivateLinkHubInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHubInfoListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsPrivateLinkHubListResponse = PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateEndpointConnectionsPrivateLinkHubListNextResponse = PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type SqlPoolsGetResponse = SqlPool & {
@@ -5818,6 +7193,26 @@ export type SqlPoolGeoBackupPoliciesListResponse = GeoBackupPolicyListResult & {
 };
 
 /**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type SqlPoolGeoBackupPoliciesCreateOrUpdateResponse = GeoBackupPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: GeoBackupPolicy;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type SqlPoolGeoBackupPoliciesGetResponse = GeoBackupPolicy & {
@@ -6014,6 +7409,46 @@ export type SqlPoolReplicationLinksListNextResponse = ReplicationLinkListResult 
        * The response body as parsed JSON or XML
        */
       parsedBody: ReplicationLinkListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SqlPoolMaintenanceWindowsGetResponse = MaintenanceWindows & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MaintenanceWindows;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SqlPoolMaintenanceWindowOptionsGetResponse = MaintenanceWindowOptions & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: MaintenanceWindowOptions;
     };
 };
 
@@ -6978,6 +8413,26 @@ export type DataMaskingRulesCreateOrUpdateResponse = DataMaskingRule & {
 };
 
 /**
+ * Contains response data for the get operation.
+ */
+export type DataMaskingRulesGetResponse = DataMaskingRule & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataMaskingRule;
+    };
+};
+
+/**
  * Contains response data for the listBySqlPool operation.
  */
 export type DataMaskingRulesListBySqlPoolResponse = DataMaskingRuleListResult & {
@@ -7214,6 +8669,586 @@ export type SqlPoolWorkloadClassifierListNextResponse = WorkloadClassifierListRe
        * The response body as parsed JSON or XML
        */
       parsedBody: WorkloadClassifierListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkspaceManagedSqlServerBlobAuditingPoliciesGetResponse = ServerBlobAuditingPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerBlobAuditingPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse = ServerBlobAuditingPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerBlobAuditingPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspace operation.
+ */
+export type WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceResponse = ServerBlobAuditingPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerBlobAuditingPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkspaceManagedSqlServerBlobAuditingPoliciesBeginCreateOrUpdateResponse = ServerBlobAuditingPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerBlobAuditingPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspaceNext operation.
+ */
+export type WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceNextResponse = ServerBlobAuditingPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerBlobAuditingPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetResponse = ExtendedServerBlobAuditingPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtendedServerBlobAuditingPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse = ExtendedServerBlobAuditingPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtendedServerBlobAuditingPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspace operation.
+ */
+export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceResponse = ExtendedServerBlobAuditingPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtendedServerBlobAuditingPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesBeginCreateOrUpdateResponse = ExtendedServerBlobAuditingPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtendedServerBlobAuditingPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listByWorkspaceNext operation.
+ */
+export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextResponse = ExtendedServerBlobAuditingPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExtendedServerBlobAuditingPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkspaceManagedSqlServerSecurityAlertPolicyGetResponse = ServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse = ServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkspaceManagedSqlServerSecurityAlertPolicyListResponse = ServerSecurityAlertPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerSecurityAlertPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkspaceManagedSqlServerSecurityAlertPolicyBeginCreateOrUpdateResponse = ServerSecurityAlertPolicy & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerSecurityAlertPolicy;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkspaceManagedSqlServerSecurityAlertPolicyListNextResponse = ServerSecurityAlertPolicyListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerSecurityAlertPolicyListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkspaceManagedSqlServerVulnerabilityAssessmentsGetResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkspaceManagedSqlServerVulnerabilityAssessmentsListResponse = ServerVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkspaceManagedSqlServerVulnerabilityAssessmentsListNextResponse = ServerVulnerabilityAssessmentListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessmentListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkspaceManagedSqlServerEncryptionProtectorGetResponse = EncryptionProtector & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionProtector;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type WorkspaceManagedSqlServerEncryptionProtectorCreateOrUpdateResponse = EncryptionProtector & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionProtector;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkspaceManagedSqlServerEncryptionProtectorListResponse = EncryptionProtectorListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionProtectorListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type WorkspaceManagedSqlServerEncryptionProtectorBeginCreateOrUpdateResponse = EncryptionProtector & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionProtector;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkspaceManagedSqlServerEncryptionProtectorListNextResponse = EncryptionProtectorListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EncryptionProtectorListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkspaceManagedSqlServerUsagesListResponse = ServerUsageListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerUsageListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkspaceManagedSqlServerUsagesListNextResponse = ServerUsageListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerUsageListResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type WorkspaceManagedSqlServerRecoverableSqlPoolsListResponse = RecoverableSqlPoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableSqlPoolListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type WorkspaceManagedSqlServerRecoverableSqlPoolsGetResponse = RecoverableSqlPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableSqlPool;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type WorkspaceManagedSqlServerRecoverableSqlPoolsListNextResponse = RecoverableSqlPoolListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RecoverableSqlPoolListResult;
     };
 };
 
@@ -7664,1345 +9699,5 @@ export type RestorableDroppedSqlPoolsListByWorkspaceResponse = RestorableDropped
        * The response body as parsed JSON or XML
        */
       parsedBody: RestorableDroppedSqlPoolListResult;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type IntegrationRuntimesUpdateResponse = IntegrationRuntimeResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeResource;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type IntegrationRuntimesGetResponse = IntegrationRuntimeResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeResource;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type IntegrationRuntimesCreateResponse = IntegrationRuntimeResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeResource;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspace operation.
- */
-export type IntegrationRuntimesListByWorkspaceResponse = IntegrationRuntimeListResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeListResponse;
-    };
-};
-
-/**
- * Contains response data for the start operation.
- */
-export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeStatusResponse;
-    };
-};
-
-/**
- * Contains response data for the beginCreate operation.
- */
-export type IntegrationRuntimesBeginCreateResponse = IntegrationRuntimeResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeResource;
-    };
-};
-
-/**
- * Contains response data for the beginStart operation.
- */
-export type IntegrationRuntimesBeginStartResponse = IntegrationRuntimeStatusResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeStatusResponse;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspaceNext operation.
- */
-export type IntegrationRuntimesListByWorkspaceNextResponse = IntegrationRuntimeListResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeListResponse;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type IntegrationRuntimeNodeIpAddressGetResponse = IntegrationRuntimeNodeIpAddress & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeNodeIpAddress;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type IntegrationRuntimeObjectMetadataListResponse = SsisObjectMetadataListResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SsisObjectMetadataListResponse;
-    };
-};
-
-/**
- * Contains response data for the refresh operation.
- */
-export type IntegrationRuntimeObjectMetadataRefreshResponse = SsisObjectMetadataStatusResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SsisObjectMetadataStatusResponse;
-    };
-};
-
-/**
- * Contains response data for the beginRefresh operation.
- */
-export type IntegrationRuntimeObjectMetadataBeginRefreshResponse = SsisObjectMetadataStatusResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SsisObjectMetadataStatusResponse;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type IntegrationRuntimeNodesGetResponse = SelfHostedIntegrationRuntimeNode & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SelfHostedIntegrationRuntimeNode;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type IntegrationRuntimeNodesUpdateResponse = SelfHostedIntegrationRuntimeNode & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SelfHostedIntegrationRuntimeNode;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type IntegrationRuntimeConnectionInfosGetResponse = IntegrationRuntimeConnectionInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeConnectionInfo;
-    };
-};
-
-/**
- * Contains response data for the regenerate operation.
- */
-export type IntegrationRuntimeAuthKeysRegenerateResponse = IntegrationRuntimeAuthKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeAuthKeys;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type IntegrationRuntimeAuthKeysListResponse = IntegrationRuntimeAuthKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeAuthKeys;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type IntegrationRuntimeMonitoringDataListResponse = IntegrationRuntimeMonitoringData & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeMonitoringData;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type IntegrationRuntimeStatusGetResponse = IntegrationRuntimeStatusResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IntegrationRuntimeStatusResponse;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PrivateLinkResourcesListNextResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type PrivateEndpointConnectionsDeleteMethodResponse = OperationResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResource;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionList;
-    };
-};
-
-/**
- * Contains response data for the beginCreate operation.
- */
-export type PrivateEndpointConnectionsBeginCreateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the beginDeleteMethod operation.
- */
-export type PrivateEndpointConnectionsBeginDeleteMethodResponse = OperationResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResource;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnectionList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionList;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type PrivateLinkHubsListByResourceGroupResponse = PrivateLinkHubInfoListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHubInfoListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkHubsGetResponse = PrivateLinkHub & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHub;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PrivateLinkHubsUpdateResponse = PrivateLinkHub & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHub;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PrivateLinkHubsCreateOrUpdateResponse = PrivateLinkHub & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHub;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateLinkHubsListResponse = PrivateLinkHubInfoListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHubInfoListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type PrivateLinkHubsListByResourceGroupNextResponse = PrivateLinkHubInfoListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHubInfoListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PrivateLinkHubsListNextResponse = PrivateLinkHubInfoListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkHubInfoListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PrivateEndpointConnectionsPrivateLinkHubListResponse = PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type PrivateEndpointConnectionsPrivateLinkHubListNextResponse = PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionForPrivateLinkHubResourceCollectionResponse;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WorkspaceManagedSqlServerBlobAuditingPoliciesGetResponse = ServerBlobAuditingPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerBlobAuditingPolicy;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type WorkspaceManagedSqlServerBlobAuditingPoliciesCreateOrUpdateResponse = ServerBlobAuditingPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerBlobAuditingPolicy;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspace operation.
- */
-export type WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceResponse = ServerBlobAuditingPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerBlobAuditingPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type WorkspaceManagedSqlServerBlobAuditingPoliciesBeginCreateOrUpdateResponse = ServerBlobAuditingPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerBlobAuditingPolicy;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspaceNext operation.
- */
-export type WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceNextResponse = ServerBlobAuditingPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerBlobAuditingPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesGetResponse = ExtendedServerBlobAuditingPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedServerBlobAuditingPolicy;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesCreateOrUpdateResponse = ExtendedServerBlobAuditingPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedServerBlobAuditingPolicy;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspace operation.
- */
-export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceResponse = ExtendedServerBlobAuditingPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedServerBlobAuditingPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesBeginCreateOrUpdateResponse = ExtendedServerBlobAuditingPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedServerBlobAuditingPolicy;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspaceNext operation.
- */
-export type WorkspaceManagedSqlServerExtendedBlobAuditingPoliciesListByWorkspaceNextResponse = ExtendedServerBlobAuditingPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExtendedServerBlobAuditingPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WorkspaceManagedSqlServerSecurityAlertPolicyGetResponse = ServerSecurityAlertPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicy;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type WorkspaceManagedSqlServerSecurityAlertPolicyCreateOrUpdateResponse = ServerSecurityAlertPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicy;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WorkspaceManagedSqlServerSecurityAlertPolicyListResponse = ServerSecurityAlertPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type WorkspaceManagedSqlServerSecurityAlertPolicyBeginCreateOrUpdateResponse = ServerSecurityAlertPolicy & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicy;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type WorkspaceManagedSqlServerSecurityAlertPolicyListNextResponse = ServerSecurityAlertPolicyListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerSecurityAlertPolicyListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WorkspaceManagedSqlServerVulnerabilityAssessmentsGetResponse = ServerVulnerabilityAssessment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type WorkspaceManagedSqlServerVulnerabilityAssessmentsCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WorkspaceManagedSqlServerVulnerabilityAssessmentsListResponse = ServerVulnerabilityAssessmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessmentListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type WorkspaceManagedSqlServerVulnerabilityAssessmentsListNextResponse = ServerVulnerabilityAssessmentListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessmentListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WorkspaceManagedSqlServerUsagesListResponse = ServerUsageListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerUsageListResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type WorkspaceManagedSqlServerUsagesListNextResponse = ServerUsageListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerUsageListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WorkspaceManagedSqlServerRecoverableSqlpoolsListResponse = RecoverableSqlPoolListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoverableSqlPoolListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WorkspaceManagedSqlServerRecoverableSqlpoolsGetResponse = RecoverableSqlPool & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoverableSqlPool;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type WorkspaceManagedSqlServerRecoverableSqlpoolsListNextResponse = RecoverableSqlPoolListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: RecoverableSqlPoolListResult;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspace operation.
- */
-export type KeysListByWorkspaceResponse = KeyInfoListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyInfoListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type KeysGetResponse = Key & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Key;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type KeysCreateOrUpdateResponse = Key & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Key;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type KeysDeleteMethodResponse = Key & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Key;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspaceNext operation.
- */
-export type KeysListByWorkspaceNextResponse = KeyInfoListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeyInfoListResult;
     };
 };

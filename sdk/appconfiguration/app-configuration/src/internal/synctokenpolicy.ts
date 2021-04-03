@@ -64,8 +64,6 @@ class SyncTokenPolicy extends BaseRequestPolicy {
 export class SyncTokens {
   private _currentSyncTokens = new Map<string, SyncToken>();
 
-  constructor() {}
-
   /**
    * Takes the value from the header named after the constant `SyncTokenHeaderName`
    * and adds it to our list of accumulated sync tokens.
@@ -75,7 +73,7 @@ export class SyncTokens {
    *
    * @param syncTokenHeaderValue - The full value of the sync token header.
    */
-  addSyncTokenFromHeaderValue(syncTokenHeaderValue: string | undefined) {
+  addSyncTokenFromHeaderValue(syncTokenHeaderValue: string | undefined): void {
     if (syncTokenHeaderValue == null || syncTokenHeaderValue === "") {
       // eventually everything gets synced up and we don't have to track
       // these headers anymore

@@ -12,17 +12,18 @@ urlFragment: keyvault-certificates-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Certificates in some common scenarios.
 
-| **File Name**                                   | **Description**                                                                                                                                                                                        |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [backupAndRestore.js][backupandrestore]         | creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it                                                                                 |
-| [contacts.js][contacts]                         | creates, updates and deletes certificate contacts                                                                                                                                                      |
-| [deleteAndRecover.js][deleteandrecover]         | creates a self-signed certificate, then deletes it, then recovers it (soft-delete is required for this sample to run, see: https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete) |
-| [helloWorld.js][helloworld]                     | creates a self-signed certificate, reads it in various ways, updates the tags of the certificate and finally deletes the certificate                                                                   |
-| [issuers.js][issuers]                           | creates, updates and deletes certificate issuers                                                                                                                                                       |
-| [listCertificates.js][listcertificates]         | lists previously created certificates in a single chunk and by page, then changes one of them and lists all the versions of that certificate, then deletes them and lists the deleted certificates.    |
-| [mergeCertificate.js][mergecertificate]         | creates a certificate with an Unknown issuer, then signs this certificate using a fake certificate authority and the mergeCertificate API method                                                       |
-| [operations.js][operations]                     | creates, updates and deletes a certificate's operation                                                                                                                                                 |
-| [purgeAllCertificates.js][purgeallcertificates] | purges all the certificates of a Key Vault (useful for repeated tests)                                                                                                                                 |
+| **File Name**                                   | **Description**                                                                                                                                                                                     |
+| ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [backupAndRestore.js][backupandrestore]         | creates a self-signed certificate, then makes a backup from it, then deletes it and purges it, and finally restores it                                                                              |
+| [contacts.js][contacts]                         | creates, updates and deletes certificate contacts                                                                                                                                                   |
+| [deleteAndRecover.js][deleteandrecover]         | creates a self-signed certificate, then deletes it, then recovers it (soft-delete is required for this sample to run, see: https://docs.microsoft.com/azure/key-vault/key-vault-ovw-soft-delete)    |
+| [helloWorld.js][helloworld]                     | creates a self-signed certificate, reads it in various ways, updates the tags of the certificate and finally deletes the certificate                                                                |
+| [issuers.js][issuers]                           | creates, updates and deletes certificate issuers                                                                                                                                                    |
+| [importCertificate.js][importcertificate]       | imports a PFX and PEM certificate, and then deletes them                                                                                                                                            |
+| [listCertificates.js][listcertificates]         | lists previously created certificates in a single chunk and by page, then changes one of them and lists all the versions of that certificate, then deletes them and lists the deleted certificates. |
+| [mergeCertificate.js][mergecertificate]         | creates a certificate with an Unknown issuer, then signs this certificate using a fake certificate authority and the mergeCertificate API method                                                    |
+| [operations.js][operations]                     | creates, updates and deletes a certificate's operation                                                                                                                                              |
+| [purgeAllCertificates.js][purgeallcertificates] | purges all the certificates of a Key Vault (useful for repeated tests)                                                                                                                              |
 
 ## Prerequisites
 
@@ -70,6 +71,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [contacts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/javascript/contacts.js
 [deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/javascript/deleteAndRecover.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/javascript/helloWorld.js
+[importcertificate]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/javascript/importCertificate.js
 [issuers]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/javascript/issuers.js
 [listcertificates]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/javascript/listCertificates.js
 [mergecertificate]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-certificates/samples/javascript/mergeCertificate.js

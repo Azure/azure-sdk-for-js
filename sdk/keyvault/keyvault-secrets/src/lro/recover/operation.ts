@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { operationOptionsToRequestOptionsBase, RequestOptionsBase } from "@azure/core-http";
 import {
   DeletedSecret,
   GetSecretOptions,
@@ -14,9 +13,9 @@ import {
   KeyVaultSecretPollOperationState
 } from "../keyVaultSecretPoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
-import { KeyVaultClientGetSecretResponse } from "../../generated/models";
 import { getSecretFromSecretBundle } from "../../transformations";
+import { withTrace } from "./poller";
+import { OperationOptions } from "@azure/core-http";
 
 /**
  * An interface representing the state of a delete secret's poll operation
@@ -35,7 +34,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     public state: RecoverDeletedSecretPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private options: OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the recovery of a deleted secret is not supported." });
   }
@@ -44,48 +43,30 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
    * The getSecret method returns the specified secret along with its properties.
    * This operation requires the secrets/get permission.
    */
-  private async getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
-    const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.getSecret", responseOptions);
-
-    let response: KeyVaultClientGetSecretResponse;
-    try {
-      response = await this.client.getSecret(
+  private getSecret(name: string, options: GetSecretOptions = {}): Promise<KeyVaultSecret> {
+    return withTrace("getSecret", options, async (updatedOptions) => {
+      const response = await this.client.getSecret(
         this.vaultUrl,
         name,
         options && options.version ? options.version : "",
-        setParentSpan(span, responseOptions)
+        updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getSecretFromSecretBundle(response);
+      return getSecretFromSecretBundle(response);
+    });
   }
 
   /**
    * The recoverDeletedSecret method recovers the specified deleted secret along with its properties.
    * This operation requires the secrets/recover permission.
    */
-  private async recoverDeletedSecret(
+  private recoverDeletedSecret(
     name: string,
     options: GetSecretOptions = {}
   ): Promise<DeletedSecret> {
-    const responseOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.recoverDeletedSecret", responseOptions);
-
-    let response: KeyVaultClientGetSecretResponse;
-    try {
-      response = await this.client.recoverDeletedSecret(
-        this.vaultUrl,
-        name,
-        setParentSpan(span, responseOptions)
-      );
-    } finally {
-      span.end();
-    }
-
-    return getSecretFromSecretBundle(response);
+    return withTrace("recoverDeletedSecret", options, async (updatedOptions) => {
+      const response = await this.client.recoverDeletedSecret(this.vaultUrl, name, updatedOptions);
+      return getSecretFromSecretBundle(response);
+    });
   }
 
   /**
@@ -102,25 +83,25 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
     const { name } = state;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.options.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
       try {
-        state.result = (await this.getSecret(name, this.requestOptions)).properties;
+        state.result = (await this.getSecret(name, this.options)).properties;
         state.isCompleted = true;
       } catch {
         // Nothing to do here.
       }
       if (!state.isCompleted) {
-        state.result = (await this.recoverDeletedSecret(name, this.requestOptions)).properties;
+        state.result = (await this.recoverDeletedSecret(name, this.options)).properties;
         state.isStarted = true;
       }
     }
 
     if (!state.isCompleted) {
       try {
-        state.result = (await this.getSecret(name, this.requestOptions)).properties;
+        state.result = (await this.getSecret(name, this.options)).properties;
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {

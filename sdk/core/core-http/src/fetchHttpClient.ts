@@ -155,14 +155,19 @@ export abstract class FetchHttpClient implements HttpClient {
       const response: CommonResponse = await this.fetch(httpRequest.url, requestInit);
 
       const headers = parseHeaders(response.headers);
+
+      const streaming =
+        httpRequest.streamResponseStatusCodes?.has(response.status) ||
+        httpRequest.streamResponseBody;
+
       operationResponse = {
         headers: headers,
         request: httpRequest,
         status: response.status,
-        readableStreamBody: httpRequest.streamResponseBody
+        readableStreamBody: streaming
           ? ((response.body as unknown) as NodeJS.ReadableStream)
           : undefined,
-        bodyAsText: !httpRequest.streamResponseBody ? await response.text() : undefined
+        bodyAsText: !streaming ? await response.text() : undefined
       };
 
       const onDownloadProgress = httpRequest.onDownloadProgress;

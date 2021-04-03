@@ -4,14 +4,14 @@
 import {
   TextDocumentBatchStatistics,
   TextDocumentInput,
-  GeneratedClientSentimentResponse
+  SentimentResponse
 } from "./generated/models";
 import {
   AnalyzeSentimentResult,
-  makeAnalyzeSentimentResult,
-  makeAnalyzeSentimentErrorResult
+  makeAnalyzeSentimentErrorResult,
+  makeAnalyzeSentimentResult
 } from "./analyzeSentimentResult";
-import { sortResponseIdObjects } from "./util";
+import { combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion } from "./textAnalyticsResult";
 
 /**
  * Array of `AnalyzeSentimentResult` objects corresponding to a batch of input documents, and
@@ -31,27 +31,17 @@ export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResul
   modelVersion: string;
 }
 
+/**
+ * @internal
+ */
 export function makeAnalyzeSentimentResultArray(
   input: TextDocumentInput[],
-  response: GeneratedClientSentimentResponse
+  response: SentimentResponse
 ): AnalyzeSentimentResultArray {
-  const { documents, errors, modelVersion, statistics } = response;
-  const unsortedResult = documents
-    .map(
-      (document): AnalyzeSentimentResult => {
-        return makeAnalyzeSentimentResult(document);
-      }
-    )
-    .concat(
-      errors.map(
-        (error): AnalyzeSentimentResult => {
-          return makeAnalyzeSentimentErrorResult(error.id, error.error);
-        }
-      )
-    );
-  const result = sortResponseIdObjects(input, unsortedResult);
-  return Object.assign(result, {
-    statistics,
-    modelVersion
-  });
+  return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
+    input,
+    response,
+    makeAnalyzeSentimentResult,
+    makeAnalyzeSentimentErrorResult
+  );
 }

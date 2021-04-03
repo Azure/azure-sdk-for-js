@@ -4,7 +4,6 @@ const endpoint = process.env["endpoint"];
 const key = process.env["key"];
 
 if (!endpoint || !key) {
-  // tslint:disable-next-line:no-console
   console.error("Missing endpoint and key environment variables. Exiting...");
   process.exit(1);
 }

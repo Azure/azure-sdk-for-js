@@ -9,7 +9,7 @@ import crypto from "crypto";
 /**
  * @internal
  */
-export async function generateKey(secret: string, stringToSign: string) {
+export async function generateKey(secret: string, stringToSign: string): Promise<string> {
   const result = encodeURIComponent(
     crypto
       .createHmac("sha256", secret)

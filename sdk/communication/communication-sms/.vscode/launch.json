@@ -15,11 +15,11 @@
         "--timeout",
         "999999",
         "--colors",
-        "${workspaceFolder}/test/*.spec.ts",
-        "${workspaceFolder}/test/node/*.spec.ts"
+        "${workspaceFolder}/test/*.spec.ts"
       ],
       "env": {
-        "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}"
+        "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\"}",
+        "NODE_PATH": "${workspaceFolder}/../../../common/temp/node_modules/.pnpm/node_modules"
       },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",

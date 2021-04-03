@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { Pipeline } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -8,9 +8,6 @@ import { Share } from "./generated/src/operations";
 
 /**
  * ShareClientInternal is the thin wrapper for Share which contains internal helper methods.
- *
- * @export
- * @class ShareClientInternal
  */
 export class ShareClientInternal extends StorageClient {
   private context: Share;

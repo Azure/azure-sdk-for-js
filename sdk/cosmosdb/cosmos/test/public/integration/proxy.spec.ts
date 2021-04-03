@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import * as http from "http";
+import { Context } from "mocha";
 import * as net from "net";
 import { URL } from "url";
 import ProxyAgent from "proxy-agent";
@@ -32,7 +33,7 @@ if (!isBrowser()) {
     const agent = new ProxyAgent(`http://127.0.0.1:${8989}`) as any;
 
     it("nativeApi Client Should successfully execute request", async function() {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         proxy.listen(proxyPort, "127.0.0.1", async () => {
           try {
             const client = new CosmosClient({
@@ -45,8 +46,6 @@ if (!isBrowser()) {
               id: addEntropy("ProxyTest")
             });
             resolve();
-          } catch (err) {
-            throw err;
           } finally {
             proxy.close();
           }
@@ -54,7 +53,7 @@ if (!isBrowser()) {
       });
     });
 
-    it("nativeApi Client Should execute request in error while the proxy setting is not correct", async function() {
+    it("nativeApi Client Should execute request in error while the proxy setting is not correct", async function(this: Context) {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
       return new Promise((resolve, reject) => {
         proxy.listen(proxyPort + 1, "127.0.0.1", async () => {

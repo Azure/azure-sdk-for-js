@@ -176,6 +176,32 @@ export class MongoDBResources {
   }
 
   /**
+   * Migrate an Azure Cosmos DB MongoDB database from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>
+   */
+  migrateMongoDBDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse> {
+    return this.beginMigrateMongoDBDatabaseToAutoscale(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToAutoscaleResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB MongoDB database from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>
+   */
+  migrateMongoDBDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse> {
+    return this.beginMigrateMongoDBDatabaseToManualThroughput(resourceGroupName,accountName,databaseName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesMigrateMongoDBDatabaseToManualThroughputResponse>;
+  }
+
+  /**
    * Lists the MongoDB collection under an existing Azure Cosmos DB database account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -339,6 +365,34 @@ export class MongoDBResources {
   }
 
   /**
+   * Migrate an Azure Cosmos DB MongoDB collection from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>
+   */
+  migrateMongoDBCollectionToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse> {
+    return this.beginMigrateMongoDBCollectionToAutoscale(resourceGroupName,accountName,databaseName,collectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToAutoscaleResponse>;
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB MongoDB collection from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>
+   */
+  migrateMongoDBCollectionToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse> {
+    return this.beginMigrateMongoDBCollectionToManualThroughput(resourceGroupName,accountName,databaseName,collectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.MongoDBResourcesMigrateMongoDBCollectionToManualThroughputResponse>;
+  }
+
+  /**
    * Create or updates Azure Cosmos DB MongoDB database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -401,6 +455,46 @@ export class MongoDBResources {
         options
       },
       beginUpdateMongoDBDatabaseThroughputOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB MongoDB database from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateMongoDBDatabaseToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      beginMigrateMongoDBDatabaseToAutoscaleOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB MongoDB database from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateMongoDBDatabaseToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        options
+      },
+      beginMigrateMongoDBDatabaseToManualThroughputOperationSpec,
       options);
   }
 
@@ -475,6 +569,50 @@ export class MongoDBResources {
       beginUpdateMongoDBCollectionThroughputOperationSpec,
       options);
   }
+
+  /**
+   * Migrate an Azure Cosmos DB MongoDB collection from manual throughput to autoscale
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateMongoDBCollectionToAutoscale(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        options
+      },
+      beginMigrateMongoDBCollectionToAutoscaleOperationSpec,
+      options);
+  }
+
+  /**
+   * Migrate an Azure Cosmos DB MongoDB collection from autoscale to manual throughput
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginMigrateMongoDBCollectionToManualThroughput(resourceGroupName: string, accountName: string, databaseName: string, collectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        collectionName,
+        options
+      },
+      beginMigrateMongoDBCollectionToManualThroughputOperationSpec,
+      options);
+  }
 }
 
 // Operation Specifications
@@ -488,7 +626,7 @@ const listMongoDBDatabasesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -514,7 +652,7 @@ const getMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -540,7 +678,7 @@ const getMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -566,7 +704,7 @@ const listMongoDBCollectionsOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -593,7 +731,7 @@ const getMongoDBCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -620,7 +758,7 @@ const getMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -646,7 +784,7 @@ const beginCreateUpdateMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -680,7 +818,7 @@ const beginDeleteMongoDBDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -705,7 +843,7 @@ const beginUpdateMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = 
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -723,7 +861,61 @@ const beginUpdateMongoDBDatabaseThroughputOperationSpec: msRest.OperationSpec = 
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+    }
+  },
+  serializer
+};
+
+const beginMigrateMongoDBDatabaseToAutoscaleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToAutoscale",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+    }
+  },
+  serializer
+};
+
+const beginMigrateMongoDBDatabaseToManualThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/throughputSettings/default/migrateToManualThroughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
     }
   },
   serializer
@@ -740,7 +932,7 @@ const beginCreateUpdateMongoDBCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -775,7 +967,7 @@ const beginDeleteMongoDBCollectionOperationSpec: msRest.OperationSpec = {
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -801,7 +993,7 @@ const beginUpdateMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec 
     Parameters.collectionName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -820,6 +1012,62 @@ const beginUpdateMongoDBCollectionThroughputOperationSpec: msRest.OperationSpec 
     202: {},
     default: {
       bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginMigrateMongoDBCollectionToAutoscaleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToAutoscale",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+    }
+  },
+  serializer
+};
+
+const beginMigrateMongoDBCollectionToManualThroughputOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbDatabases/{databaseName}/collections/{collectionName}/throughputSettings/default/migrateToManualThroughput",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.collectionName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ThroughputSettingsGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponseUpdatedFormat
     }
   },
   serializer

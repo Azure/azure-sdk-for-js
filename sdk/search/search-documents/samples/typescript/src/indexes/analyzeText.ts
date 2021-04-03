@@ -45,7 +45,7 @@ export async function main() {
   index.analyzers?.push({
     name: "example-analyzer",
     odatatype: "#Microsoft.Azure.Search.CustomAnalyzer",
-    tokenizer: "example-tokenizer",
+    tokenizerName: "example-tokenizer",
     charFilters: ["example-char-filter"],
     tokenFilters: [KnownTokenFilterNames.Lowercase, "example-token-filter"]
   });

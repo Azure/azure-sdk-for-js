@@ -329,6 +329,17 @@ export interface KeyVaultProperties {
 }
 
 /**
+ * Encryption identity for the storage account.
+ */
+export interface EncryptionIdentity {
+  /**
+   * Resource identifier of the UserAssigned identity to be associated with server-side encryption
+   * on the storage account.
+   */
+  encryptionUserAssignedIdentity?: string;
+}
+
+/**
  * The encryption settings on the storage account.
  */
 export interface Encryption {
@@ -351,6 +362,26 @@ export interface Encryption {
    * Properties provided by key vault.
    */
   keyVaultProperties?: KeyVaultProperties;
+  /**
+   * The identity to be used with service-side encryption at rest.
+   */
+  encryptionIdentity?: EncryptionIdentity;
+}
+
+/**
+ * UserAssignedIdentity for the resource.
+ */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the identity.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clientId?: string;
 }
 
 /**
@@ -412,6 +443,9 @@ export interface NetworkRuleSet {
    * 'AzureServices'. Default value: 'AzureServices'.
    */
   bypass?: Bypass;
+  /**
+   * Sets the resource access rules
+   */
   resourceAccessRules?: ResourceAccessRule[];
   /**
    * Sets the virtual network rules
@@ -506,6 +540,17 @@ export interface Identity {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantId?: string;
+  /**
+   * The identity type. Possible values include: 'None', 'SystemAssigned', 'UserAssigned',
+   * 'SystemAssigned,UserAssigned'
+   */
+  type: IdentityType;
+  /**
+   * Gets or sets a list of key value pairs that describe the set of User Assigned identities that
+   * will be used with this storage account. The key is the ARM resource identifier of the
+   * identity. Only 1 User Assigned identity is permitted here.
+   */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
 /**
@@ -625,6 +670,17 @@ export interface StorageAccountCreateParameters {
    * is TLS 1.0 for this property. Possible values include: 'TLS1_0', 'TLS1_1', 'TLS1_2'
    */
   minimumTlsVersion?: MinimumTlsVersion;
+  /**
+   * Indicates whether the storage account permits requests to be authorized with the account
+   * access key via Shared Key. If false, then all requests, including shared access signatures,
+   * must be authorized with Azure Active Directory (Azure AD). The default value is null, which is
+   * equivalent to true.
+   */
+  allowSharedKeyAccess?: boolean;
+  /**
+   * NFS 3.0 protocol support enabled if set to true.
+   */
+  enableNfsV3?: boolean;
 }
 
 /**
@@ -1101,6 +1157,17 @@ export interface StorageAccount extends TrackedResource {
    * is TLS 1.0 for this property. Possible values include: 'TLS1_0', 'TLS1_1', 'TLS1_2'
    */
   minimumTlsVersion?: MinimumTlsVersion;
+  /**
+   * Indicates whether the storage account permits requests to be authorized with the account
+   * access key via Shared Key. If false, then all requests, including shared access signatures,
+   * must be authorized with Azure Active Directory (Azure AD). The default value is null, which is
+   * equivalent to true.
+   */
+  allowSharedKeyAccess?: boolean;
+  /**
+   * NFS 3.0 protocol support enabled if set to true.
+   */
+  enableNfsV3?: boolean;
 }
 
 /**
@@ -1213,6 +1280,13 @@ export interface StorageAccountUpdateParameters {
    * is TLS 1.0 for this property. Possible values include: 'TLS1_0', 'TLS1_1', 'TLS1_2'
    */
   minimumTlsVersion?: MinimumTlsVersion;
+  /**
+   * Indicates whether the storage account permits requests to be authorized with the account
+   * access key via Shared Key. If false, then all requests, including shared access signatures,
+   * must be authorized with Azure Active Directory (Azure AD). The default value is null, which is
+   * equivalent to true.
+   */
+  allowSharedKeyAccess?: boolean;
   /**
    * Optional. Indicates the type of storage account. Currently only StorageV2 value supported by
    * server. Possible values include: 'Storage', 'StorageV2', 'BlobStorage', 'FileStorage',
@@ -1415,7 +1489,8 @@ export interface ListServiceSasResponse {
 }
 
 /**
- * Object to define the number of days after last modification.
+ * Object to define the number of days after object last modification Or last access. Properties
+ * daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
  */
 export interface DateAfterModification {
   /**
@@ -1467,7 +1542,36 @@ export interface DateAfterCreation {
  */
 export interface ManagementPolicySnapShot {
   /**
+   * The function to tier blob snapshot to cool storage. Support blob snapshot currently at Hot
+   * tier
+   */
+  tierToCool?: DateAfterCreation;
+  /**
+   * The function to tier blob snapshot to archive storage. Support blob snapshot currently at Hot
+   * or Cool tier
+   */
+  tierToArchive?: DateAfterCreation;
+  /**
    * The function to delete the blob snapshot
+   */
+  deleteProperty?: DateAfterCreation;
+}
+
+/**
+ * Management policy action for blob version.
+ */
+export interface ManagementPolicyVersion {
+  /**
+   * The function to tier blob version to cool storage. Support blob version currently at Hot tier
+   */
+  tierToCool?: DateAfterCreation;
+  /**
+   * The function to tier blob version to archive storage. Support blob version currently at Hot or
+   * Cool tier
+   */
+  tierToArchive?: DateAfterCreation;
+  /**
+   * The function to delete the blob version
    */
   deleteProperty?: DateAfterCreation;
 }
@@ -1484,6 +1588,10 @@ export interface ManagementPolicyAction {
    * The management policy action for snapshot
    */
   snapshot?: ManagementPolicySnapShot;
+  /**
+   * The management policy action for version
+   */
+  version?: ManagementPolicyVersion;
 }
 
 /**
@@ -1516,7 +1624,8 @@ export interface ManagementPolicyFilter {
    */
   prefixMatch?: string[];
   /**
-   * An array of predefined enum values. Only blockBlob is supported.
+   * An array of predefined enum values. Currently blockBlob supports all tiering and delete
+   * actions. Only delete actions are supported for appendBlob.
    */
   blobTypes: string[];
   /**
@@ -1598,6 +1707,16 @@ export interface EncryptionScopeKeyVaultProperties {
    * scope.
    */
   keyUri?: string;
+  /**
+   * The object identifier of the current versioned Key Vault Key in use.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly currentVersionedKeyIdentifier?: string;
+  /**
+   * Timestamp of last rotation of the Key Vault Key.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly lastKeyRotationTimestamp?: Date;
 }
 
 /**
@@ -1629,6 +1748,11 @@ export interface EncryptionScope extends Resource {
    * scope 'source' attribute is set to 'Microsoft.KeyVault'.
    */
   keyVaultProperties?: EncryptionScopeKeyVaultProperties;
+  /**
+   * A boolean indicating whether or not the service applies a secondary layer of encryption with
+   * platform managed keys for data at rest.
+   */
+  requireInfrastructureEncryption?: boolean;
 }
 
 /**
@@ -1798,7 +1922,7 @@ export interface SystemData {
    */
   lastModifiedByType?: CreatedByType;
   /**
-   * The type of identity that last modified the resource.
+   * The timestamp of resource last modification (UTC)
    */
   lastModifiedAt?: Date;
 }
@@ -2290,6 +2414,12 @@ export interface ChangeFeed {
    * Indicates whether change feed event logging is enabled for the Blob service.
    */
   enabled?: boolean;
+  /**
+   * Indicates the duration of changeFeed retention in days. Minimum value is 1 day and maximum
+   * value is 146000 days (400 years). A null value indicates an infinite retention of the change
+   * feed.
+   */
+  retentionInDays?: number;
 }
 
 /**
@@ -2455,6 +2585,26 @@ export interface SmbSetting {
    * Multichannel setting. Applies to Premium FileStorage only.
    */
   multichannel?: Multichannel;
+  /**
+   * SMB protocol versions supported by server. Valid values are SMB2.1, SMB3.0, SMB3.1.1. Should
+   * be passed as a string with delimiter ';'.
+   */
+  versions?: string;
+  /**
+   * SMB authentication methods supported by server. Valid values are NTLMv2, Kerberos. Should be
+   * passed as a string with delimiter ';'.
+   */
+  authenticationMethods?: string;
+  /**
+   * Kerberos ticket encryption supported by server. Valid values are RC4-HMAC, AES-256. Should be
+   * passed as a string with delimiter ';'
+   */
+  kerberosTicketEncryption?: string;
+  /**
+   * SMB channel encryption supported by server. Valid values are AES-128-CCM, AES-128-GCM,
+   * AES-256-GCM. Should be passed as a string with delimiter ';'.
+   */
+  channelEncryption?: string;
 }
 
 /**
@@ -3386,6 +3536,14 @@ export type RoutingChoice = 'MicrosoftRouting' | 'InternetRouting';
  * @enum {string}
  */
 export type MinimumTlsVersion = 'TLS1_0' | 'TLS1_1' | 'TLS1_2';
+
+/**
+ * Defines values for IdentityType.
+ * Possible values include: 'None', 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned';
 
 /**
  * Defines values for ExtendedLocationTypes.

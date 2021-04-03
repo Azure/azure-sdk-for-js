@@ -4,15 +4,11 @@ parameters:
   ServiceDirectory: not-specified
 
 steps:
-  - ${{if eq(parameters.TestPipeline, 'true')}}:
-    - task: PowerShell@2
-      displayName: Prep template pipeline for release
-      condition: succeeded()
-      inputs:
-        pwsh: true
-        workingDirectory: $(Build.SourcesDirectory)
-        filePath: eng/scripts/SetTestPipelineVersion.ps1
-        arguments: '-BuildID $(Build.BuildId)'
+  - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+    parameters:
+      PackageName: "@azure/template"
+      ServiceDirectory: "template"
+      TestPipeline: ${{ parameters.TestPipeline }}
 
   - pwsh: |
       $folder = "${{parameters.ServiceDirectory}}"
@@ -21,6 +17,8 @@ steps:
     displayName: "Set folder variable for readme links"
 
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
+    parameters:
+      ServiceDirectory: ${{ parameters.ServiceDirectory }}
 
   - script: |
       npm install ./eng/tools/versioning
@@ -37,7 +35,7 @@ steps:
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max --TransitiveDep
+      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
     displayName: "Build libraries"
   - script: |
       node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" --verbose
@@ -57,6 +55,11 @@ steps:
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
+  - template: /eng/common/pipelines/templates/steps/create-apireview.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}
+      ArtifactPath: $(Build.SourcesDirectory)/sdk/${{ parameters.ServiceDirectory }}
+
   # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
   # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
   - task: CopyFiles@2
@@ -69,20 +72,16 @@ steps:
       flattenFolders: true
     displayName: "Copy packages"
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish artifacts"
-    inputs:
-      artifactName: packages
-      path: $(Build.ArtifactStagingDirectory)
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'packages'
 
   - template: ../steps/generate-doc.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish artifacts"
-    inputs:
-      artifactName: documentation
-      path: $(Build.ArtifactStagingDirectory)/Documentation
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)/Documentation'
+      ArtifactName: 'documentation'

@@ -15,17 +15,11 @@ import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * Options to configure the {@link AvroReader.parseObjects} operation.
- *
- * @export
- * @interface AvroParseOptions
  */
 export interface AvroParseOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof AvroParseOptions
    */
   abortSignal?: AbortSignalLike;
 }

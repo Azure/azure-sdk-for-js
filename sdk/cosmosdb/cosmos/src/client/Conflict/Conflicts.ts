@@ -22,15 +22,15 @@ export class Conflicts {
 
   /**
    * Queries all conflicts.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return results in an array or iterate over them one at a time.
    */
   public query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Queries all conflicts.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
+   * @param options - Use to set options like response page size, continuation tokens, etc.
    * @returns {@link QueryIterator} Allows you to return results in an array or iterate over them one at a time.
    */
   public query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
@@ -52,7 +52,7 @@ export class Conflicts {
 
   /**
    * Reads all conflicts
-   * @param options Use to set options like response page size, continuation tokens, etc.
+   * @param options - Use to set options like response page size, continuation tokens, etc.
    */
   public readAll(options?: FeedOptions): QueryIterator<ConflictDefinition & Resource> {
     return this.query<ConflictDefinition & Resource>(undefined, options);

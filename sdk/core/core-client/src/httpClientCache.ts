@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpsClient, DefaultHttpsClient } from "@azure/core-https";
+import { HttpClient, createDefaultHttpClient } from "@azure/core-rest-pipeline";
 
-let cachedHttpsClient: HttpsClient | undefined;
+let cachedHttpClient: HttpClient | undefined;
 
-export function getCachedDefaultHttpsClient(): HttpsClient {
-  if (!cachedHttpsClient) {
-    cachedHttpsClient = new DefaultHttpsClient();
+export function getCachedDefaultHttpClient(): HttpClient {
+  if (!cachedHttpClient) {
+    cachedHttpClient = createDefaultHttpClient();
   }
 
-  return cachedHttpsClient;
+  return cachedHttpClient;
 }

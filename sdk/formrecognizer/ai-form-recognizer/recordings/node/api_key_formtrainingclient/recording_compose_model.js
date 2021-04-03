@@ -1,71 +1,111 @@
 let nock = require('nock');
 
-module.exports.hash = "8240fc77396f323221b3ea2b9fa93643";
+module.exports.hash = "f728c256d475c8390b8fd8293968133e";
 
-module.exports.testInfo = {"uniqueName":{"composedModelName":"composedModelName160580068637409649"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"composedModelName":"composedModelName161714582582900756"},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.1-preview.2/custom/models', {"source":"https://storageaccount/trainingdata?sastoken","sourceFilter":{},"useLabelFile":true,"modelName":"input1"})
+  .post('/formrecognizer/v2.1-preview.3/custom/models', {"source":"https://storageaccount/trainingdata?sastoken","sourceFilter":{},"useLabelFile":true,"modelName":"input1"})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/formrecognizer/v2.1-preview.2/custom/models/7ff2c6c6-afa5-49c7-af49-e879def91de0',
+  'https://endpoint/formrecognizer/v2.1-preview.3/custom/models/c7dd419f-c0ec-49ac-8936-501c4420da95',
   'x-envoy-upstream-service-time',
-  '42',
+  '260',
   'apim-request-id',
-  'c77c1c1f-d990-43ca-8b38-2b8869c4212b',
+  '94006830-e52d-4808-af04-d5a1f64f232a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 19 Nov 2020 15:44:40 GMT'
+  'Tue, 30 Mar 2021 23:10:19 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.1-preview.2/custom/models', {"source":"https://storageaccount/trainingdata?sastoken","sourceFilter":{},"useLabelFile":true,"modelName":"input2"})
+  .post('/formrecognizer/v2.1-preview.3/custom/models', {"source":"https://storageaccount/trainingdata?sastoken","sourceFilter":{},"useLabelFile":true,"modelName":"input2"})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/formrecognizer/v2.1-preview.2/custom/models/c13a66a1-5f5b-46ab-acb9-0e6855e7e937',
+  'https://endpoint/formrecognizer/v2.1-preview.3/custom/models/b9fb3022-af16-4482-be81-cf546089b35f',
   'x-envoy-upstream-service-time',
-  '38',
+  '260',
   'apim-request-id',
-  'e241985f-0fbd-4d1c-9d45-82a5c771c81b',
+  'db199878-eb41-4740-8848-32dbcf217fa6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 19 Nov 2020 15:44:40 GMT'
+  'Tue, 30 Mar 2021 23:10:19 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/7ff2c6c6-afa5-49c7-af49-e879def91de0')
+  .get('/formrecognizer/v2.1-preview.3/custom/models/c7dd419f-c0ec-49ac-8936-501c4420da95')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"7ff2c6c6-afa5-49c7-af49-e879def91de0","modelName":"input1","status":"creating","createdDateTime":"2020-11-19T15:44:40Z","lastUpdatedDateTime":"2020-11-19T15:44:40Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"c7dd419f-c0ec-49ac-8936-501c4420da95","modelName":"input1","status":"creating","createdDateTime":"2021-03-30T23:10:20Z","lastUpdatedDateTime":"2021-03-30T23:10:20Z"}}, [
   'Content-Length',
   '191',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '11',
+  '20',
   'apim-request-id',
-  'd6d0411e-fe69-4721-a28c-1d23a22dd846',
+  '834f75f5-a145-49ca-bc0b-ae62eca57880',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 19 Nov 2020 15:44:40 GMT'
+  'Tue, 30 Mar 2021 23:10:20 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/c13a66a1-5f5b-46ab-acb9-0e6855e7e937')
+  .get('/formrecognizer/v2.1-preview.3/custom/models/b9fb3022-af16-4482-be81-cf546089b35f')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"c13a66a1-5f5b-46ab-acb9-0e6855e7e937","modelName":"input2","status":"creating","createdDateTime":"2020-11-19T15:44:40Z","lastUpdatedDateTime":"2020-11-19T15:44:40Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"b9fb3022-af16-4482-be81-cf546089b35f","modelName":"input2","status":"creating","createdDateTime":"2021-03-30T23:10:20Z","lastUpdatedDateTime":"2021-03-30T23:10:20Z"}}, [
+  'Content-Length',
+  '191',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '22',
+  'apim-request-id',
+  '7806a402-5d1f-4429-932c-415270d6f167',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 30 Mar 2021 23:10:20 GMT'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.1-preview.3/custom/models/c7dd419f-c0ec-49ac-8936-501c4420da95')
+  .query(true)
+  .reply(200, {"modelInfo":{"modelId":"c7dd419f-c0ec-49ac-8936-501c4420da95","modelName":"input1","status":"creating","createdDateTime":"2021-03-30T23:10:20Z","lastUpdatedDateTime":"2021-03-30T23:10:20Z"}}, [
+  'Content-Length',
+  '191',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '22',
+  'apim-request-id',
+  '72a2413a-a89b-4bcc-a3e0-016ee06a755d',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 30 Mar 2021 23:10:20 GMT'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.1-preview.3/custom/models/b9fb3022-af16-4482-be81-cf546089b35f')
+  .query(true)
+  .reply(200, {"modelInfo":{"modelId":"b9fb3022-af16-4482-be81-cf546089b35f","modelName":"input2","status":"creating","createdDateTime":"2021-03-30T23:10:20Z","lastUpdatedDateTime":"2021-03-30T23:10:20Z"}}, [
   'Content-Length',
   '191',
   'Content-Type',
@@ -73,170 +113,110 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '15',
   'apim-request-id',
-  '975451b3-773f-4c43-a09b-a635e84694de',
+  'c8e4a7fd-113f-4f1e-87ba-7a6b2c734035',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 19 Nov 2020 15:44:40 GMT'
+  'Tue, 30 Mar 2021 23:10:20 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/7ff2c6c6-afa5-49c7-af49-e879def91de0')
+  .get('/formrecognizer/v2.1-preview.3/custom/models/c7dd419f-c0ec-49ac-8936-501c4420da95')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"7ff2c6c6-afa5-49c7-af49-e879def91de0","modelName":"input1","status":"creating","createdDateTime":"2020-11-19T15:44:40Z","lastUpdatedDateTime":"2020-11-19T15:44:40Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"c7dd419f-c0ec-49ac-8936-501c4420da95","modelName":"input1","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2021-03-30T23:10:20Z","lastUpdatedDateTime":"2021-03-30T23:10:24Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":0.995},{"fieldName":"CompanyPhoneNumber","accuracy":0.995},{"fieldName":"DatedAs","accuracy":0.995},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":0.995},{"fieldName":"PhoneNumber","accuracy":0.995},{"fieldName":"PurchaseOrderNumber","accuracy":0.995},{"fieldName":"Quantity","accuracy":0.995},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":0.995},{"fieldName":"Tax","accuracy":0.995},{"fieldName":"Total","accuracy":0.995},{"fieldName":"VendorName","accuracy":0.995},{"fieldName":"Website","accuracy":0.995}],"errors":[]}}, [
   'Content-Length',
-  '191',
+  '1263',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '13',
+  '23',
   'apim-request-id',
-  '8cd624bc-8767-4531-96ef-6382659240c0',
+  'd724114f-5d3b-4206-8d38-0bf1c8a5f320',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 19 Nov 2020 15:44:40 GMT'
+  'Tue, 30 Mar 2021 23:10:25 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/c13a66a1-5f5b-46ab-acb9-0e6855e7e937')
+  .get('/formrecognizer/v2.1-preview.3/custom/models/b9fb3022-af16-4482-be81-cf546089b35f')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"c13a66a1-5f5b-46ab-acb9-0e6855e7e937","modelName":"input2","status":"creating","createdDateTime":"2020-11-19T15:44:40Z","lastUpdatedDateTime":"2020-11-19T15:44:40Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"b9fb3022-af16-4482-be81-cf546089b35f","modelName":"input2","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2021-03-30T23:10:20Z","lastUpdatedDateTime":"2021-03-30T23:10:25Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":0.995},{"fieldName":"CompanyPhoneNumber","accuracy":0.995},{"fieldName":"DatedAs","accuracy":0.995},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":0.995},{"fieldName":"PhoneNumber","accuracy":0.995},{"fieldName":"PurchaseOrderNumber","accuracy":0.995},{"fieldName":"Quantity","accuracy":0.995},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":0.995},{"fieldName":"Tax","accuracy":0.995},{"fieldName":"Total","accuracy":0.995},{"fieldName":"VendorName","accuracy":0.995},{"fieldName":"Website","accuracy":0.995}],"errors":[]}}, [
   'Content-Length',
-  '191',
+  '1263',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '12',
+  '19',
   'apim-request-id',
-  '8ec83381-4aa2-42f5-9a4c-08f29eb5e240',
+  '21d582f9-9863-46d2-90d0-95142bc2e11e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 19 Nov 2020 15:44:40 GMT'
+  'Tue, 30 Mar 2021 23:10:25 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/7ff2c6c6-afa5-49c7-af49-e879def91de0')
-  .query(true)
-  .reply(200, {"modelInfo":{"modelId":"7ff2c6c6-afa5-49c7-af49-e879def91de0","modelName":"input1","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2020-11-19T15:44:40Z","lastUpdatedDateTime":"2020-11-19T15:44:43Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"errors":[]}}, [
-  'Content-Length',
-  '1239',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '13',
-  'apim-request-id',
-  '2b6565df-5970-4ec8-9a92-df784712f3ca',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Thu, 19 Nov 2020 15:44:46 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/c13a66a1-5f5b-46ab-acb9-0e6855e7e937')
-  .query(true)
-  .reply(200, {"modelInfo":{"modelId":"c13a66a1-5f5b-46ab-acb9-0e6855e7e937","modelName":"input2","attributes":{"isComposed":false},"status":"ready","createdDateTime":"2020-11-19T15:44:40Z","lastUpdatedDateTime":"2020-11-19T15:44:43Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"errors":[]}}, [
-  'Content-Length',
-  '1239',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '17',
-  'apim-request-id',
-  '8a9a0132-159c-4913-af46-f8884bafef36',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Thu, 19 Nov 2020 15:44:45 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.1-preview.2/custom/models/compose', {"modelIds":["7ff2c6c6-afa5-49c7-af49-e879def91de0","c13a66a1-5f5b-46ab-acb9-0e6855e7e937"],"modelName":"composedModelName160580068637409649"})
+  .post('/formrecognizer/v2.1-preview.3/custom/models/compose', {"modelIds":["c7dd419f-c0ec-49ac-8936-501c4420da95","b9fb3022-af16-4482-be81-cf546089b35f"],"modelName":"composedModelName161714582582900756"})
   .reply(201, "", [
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/formrecognizer/v2.1-preview.2/custom/models/3b5ac5d1-0053-4f83-87c2-19e2aa3053c4',
+  'https://endpoint/formrecognizer/v2.1-preview.3/custom/models/695626ba-0d3f-477c-b932-4b379262c260',
   'x-envoy-upstream-service-time',
-  '73',
+  '274',
   'apim-request-id',
-  'b39d1fbb-bcf9-48ad-a289-0b93992f7072',
+  '179be186-f874-406a-ba45-af224b333430',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 19 Nov 2020 15:44:46 GMT'
+  'Tue, 30 Mar 2021 23:10:25 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/3b5ac5d1-0053-4f83-87c2-19e2aa3053c4')
+  .get('/formrecognizer/v2.1-preview.3/custom/models/695626ba-0d3f-477c-b932-4b379262c260')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"3b5ac5d1-0053-4f83-87c2-19e2aa3053c4","modelName":"composedModelName160580068637409649","status":"creating","createdDateTime":"2020-11-19T15:44:46Z","lastUpdatedDateTime":"2020-11-19T15:44:46Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"695626ba-0d3f-477c-b932-4b379262c260","modelName":"composedModelName161714582582900756","status":"creating","createdDateTime":"2021-03-30T23:10:25Z","lastUpdatedDateTime":"2021-03-30T23:10:25Z"}}, [
   'Content-Length',
   '220',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '14',
+  '20',
   'apim-request-id',
-  'b2947b10-b5dc-433a-aa86-0900e96def49',
+  '1d44b33b-0b3a-427e-afa3-0726539d0ed9',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 19 Nov 2020 15:44:46 GMT'
+  'Tue, 30 Mar 2021 23:10:26 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/3b5ac5d1-0053-4f83-87c2-19e2aa3053c4')
+  .get('/formrecognizer/v2.1-preview.3/custom/models/695626ba-0d3f-477c-b932-4b379262c260')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"3b5ac5d1-0053-4f83-87c2-19e2aa3053c4","modelName":"composedModelName160580068637409649","status":"creating","createdDateTime":"2020-11-19T15:44:46Z","lastUpdatedDateTime":"2020-11-19T15:44:46Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"695626ba-0d3f-477c-b932-4b379262c260","modelName":"composedModelName161714582582900756","attributes":{"isComposed":true},"status":"ready","createdDateTime":"2021-03-30T23:10:25Z","lastUpdatedDateTime":"2021-03-30T23:10:26Z"},"composedTrainResults":[{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":0.995},{"fieldName":"CompanyPhoneNumber","accuracy":0.995},{"fieldName":"DatedAs","accuracy":0.995},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":0.995},{"fieldName":"PhoneNumber","accuracy":0.995},{"fieldName":"PurchaseOrderNumber","accuracy":0.995},{"fieldName":"Quantity","accuracy":0.995},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":0.995},{"fieldName":"Tax","accuracy":0.995},{"fieldName":"Total","accuracy":0.995},{"fieldName":"VendorName","accuracy":0.995},{"fieldName":"Website","accuracy":0.995}],"modelId":"c7dd419f-c0ec-49ac-8936-501c4420da95","errors":[]},{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":0.995},{"fieldName":"CompanyPhoneNumber","accuracy":0.995},{"fieldName":"DatedAs","accuracy":0.995},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":0.995},{"fieldName":"PhoneNumber","accuracy":0.995},{"fieldName":"PurchaseOrderNumber","accuracy":0.995},{"fieldName":"Quantity","accuracy":0.995},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":0.995},{"fieldName":"Tax","accuracy":0.995},{"fieldName":"Total","accuracy":0.995},{"fieldName":"VendorName","accuracy":0.995},{"fieldName":"Website","accuracy":0.995}],"modelId":"b9fb3022-af16-4482-be81-cf546089b35f","errors":[]}]}, [
   'Content-Length',
-  '220',
+  '2427',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '15',
+  '21',
   'apim-request-id',
-  '6e3681c3-5da5-4859-8606-464a25f5fcd7',
+  'f0d7a12a-c7d9-47f8-b4a8-572bc00e10b5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 19 Nov 2020 15:44:46 GMT'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.1-preview.2/custom/models/3b5ac5d1-0053-4f83-87c2-19e2aa3053c4')
-  .query(true)
-  .reply(200, {"modelInfo":{"modelId":"3b5ac5d1-0053-4f83-87c2-19e2aa3053c4","modelName":"composedModelName160580068637409649","attributes":{"isComposed":true},"status":"ready","createdDateTime":"2020-11-19T15:44:46Z","lastUpdatedDateTime":"2020-11-19T15:44:46Z"},"composedTrainResults":[{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"modelId":"7ff2c6c6-afa5-49c7-af49-e879def91de0","errors":[]},{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"modelId":"c13a66a1-5f5b-46ab-acb9-0e6855e7e937","errors":[]}]}, [
-  'Content-Length',
-  '2379',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'x-envoy-upstream-service-time',
-  '14',
-  'apim-request-id',
-  'e94c6f08-e8e2-419f-814b-f57b14a1007c',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Thu, 19 Nov 2020 15:44:51 GMT'
+  'Tue, 30 Mar 2021 23:10:26 GMT'
 ]);

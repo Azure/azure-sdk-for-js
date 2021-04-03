@@ -23,13 +23,6 @@ export class ChangeFeedIterator<T> {
 
   /**
    * @internal
-   * @hidden
-   *
-   * @param clientContext
-   * @param resourceId
-   * @param resourceLink
-   * @param isPartitionedContainer
-   * @param changeFeedOptions
    */
   constructor(
     private clientContext: ClientContext,

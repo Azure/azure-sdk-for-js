@@ -7,8 +7,14 @@ import {
   KeyVaultCertificatePoller,
   KeyVaultCertificatePollerOptions
 } from "../keyVaultCertificatePoller";
+import { createTraceFunction } from "../../../../keyvault-common/src";
 
 export interface DeleteCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
+
+/**
+ * @internal
+ */
+export const withTrace = createTraceFunction("Azure.KeyVault.Certificates.DeleteCertificatePoller");
 
 /**
  * Class that deletes a poller that waits until a certificate finishes being deleted
@@ -23,7 +29,7 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
       vaultUrl,
       client,
       certificateName,
-      requestOptions,
+      operationOptions,
       intervalInMs = 2000,
       resumeFrom
     } = options;
@@ -41,7 +47,7 @@ export class DeleteCertificatePoller extends KeyVaultCertificatePoller<
       },
       vaultUrl,
       client,
-      requestOptions
+      operationOptions
     );
 
     super(operation);

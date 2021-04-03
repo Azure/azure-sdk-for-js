@@ -2,16 +2,13 @@
 // Licensed under the MIT license.
 
 import { createHmac } from "crypto";
-import { RequestPolicy, RequestPolicyOptionsLike, RequestPolicyFactory } from "@azure/core-http";
-
-import { TablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * TablesSharedKeyCredentialLike shape for account key authorization of Azure Tables service.
  */
-export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
+export interface TablesSharedKeyCredentialLike {
   /**
    * Azure  account name; readonly.
    */
@@ -44,16 +41,6 @@ export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike 
   constructor(accountName: string, accountKey: string) {
     this.accountName = accountName;
     this.accountKey = Buffer.from(accountKey, "base64");
-  }
-
-  /**
-   * Creates a {@link TablesSharedKeyCredentialPolicy} object.
-   */
-  public create(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptionsLike
-  ): TablesSharedKeyCredentialPolicy {
-    return new TablesSharedKeyCredentialPolicy(nextPolicy, options, this);
   }
 
   /**

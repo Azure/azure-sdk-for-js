@@ -9,20 +9,6 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
- * Role definition list operation result.
- */
-export interface RoleDefinitionListResult {
-  /**
-   * Role definition list.
-   */
-  value?: RoleDefinition[];
-  /**
-   * The URL to use for getting the next set of results.
-   */
-  nextLink?: string;
-}
-
-/**
  * Role definition.
  */
 export interface RoleDefinition {
@@ -37,7 +23,7 @@ export interface RoleDefinition {
   /**
    * The role definition type.
    */
-  readonly type?: string;
+  readonly type?: RoleDefinitionType;
   /**
    * The role name.
    */
@@ -49,7 +35,7 @@ export interface RoleDefinition {
   /**
    * The role type.
    */
-  roleType?: string;
+  roleType?: RoleType;
   /**
    * Role definition permissions.
    */
@@ -57,7 +43,33 @@ export interface RoleDefinition {
   /**
    * Role definition assignable scopes.
    */
-  assignableScopes?: string[];
+  assignableScopes?: RoleScope[];
+}
+
+/**
+ * Role definition properties.
+ */
+export interface RoleDefinitionProperties {
+  /**
+   * The role name.
+   */
+  roleName?: string;
+  /**
+   * The role definition description.
+   */
+  description?: string;
+  /**
+   * The role type.
+   */
+  roleType?: RoleType;
+  /**
+   * Role definition permissions.
+   */
+  permissions?: Permission[];
+  /**
+   * Role definition assignable scopes.
+   */
+  assignableScopes?: RoleScope[];
 }
 
 /**
@@ -65,21 +77,21 @@ export interface RoleDefinition {
  */
 export interface Permission {
   /**
-   * Allowed actions.
+   * Action permissions that are granted.
    */
   actions?: string[];
   /**
-   * Denied actions.
+   * Action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
   notActions?: string[];
   /**
-   * Allowed Data actions.
+   * Data action permissions that are granted.
    */
-  dataActions?: string[];
+  dataActions?: DataAction[];
   /**
-   * Denied Data actions.
+   * Data action permissions that are excluded but not denied. They may be granted by other role definitions assigned to a principal.
    */
-  notDataActions?: string[];
+  notDataActions?: DataAction[];
 }
 
 /**
@@ -111,6 +123,30 @@ export interface ErrorModel {
 }
 
 /**
+ * Role definition create parameters.
+ */
+export interface RoleDefinitionCreateParameters {
+  /**
+   * Role definition properties.
+   */
+  properties: RoleDefinitionProperties;
+}
+
+/**
+ * Role definition list operation result.
+ */
+export interface RoleDefinitionListResult {
+  /**
+   * Role definition list.
+   */
+  value?: RoleDefinition[];
+  /**
+   * The URL to use for getting the next set of results.
+   */
+  nextLink?: string;
+}
+
+/**
  * Role Assignments
  */
 export interface RoleAssignment {
@@ -137,9 +173,9 @@ export interface RoleAssignment {
  */
 export interface RoleAssignmentPropertiesWithScope {
   /**
-   * The role assignment scope.
+   * The role scope.
    */
-  scope?: string;
+  scope?: RoleScope;
   /**
    * The role definition ID.
    */
@@ -234,6 +270,9 @@ export interface FullBackupOperation {
 }
 
 export interface RestoreOperationParameters {
+  /**
+   * SAS token parameter object containing Azure storage resourceUri and token
+   */
   sasTokenParameters: SASTokenParameter;
   /**
    * The Folder name of the blob where the previous successful full backup was stored
@@ -272,6 +311,9 @@ export interface RestoreOperation {
 }
 
 export interface SelectiveKeyRestoreOperationParameters {
+  /**
+   * SAS token parameter object containing Azure storage resourceUri and token
+   */
   sasTokenParameters: SASTokenParameter;
   /**
    * The Folder name of the blob where the previous successful full backup was stored
@@ -333,7 +375,13 @@ export interface RoleDefinitionFilter {
  * Defines headers for KeyVaultClient_fullBackup operation.
  */
 export interface KeyVaultClientFullBackupHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation.
+   */
   retryAfter?: number;
+  /**
+   * The URI to poll for completion status.
+   */
   azureAsyncOperation?: string;
 }
 
@@ -341,7 +389,13 @@ export interface KeyVaultClientFullBackupHeaders {
  * Defines headers for KeyVaultClient_fullRestoreOperation operation.
  */
 export interface KeyVaultClientFullRestoreOperationHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation.
+   */
   retryAfter?: number;
+  /**
+   * The URI to poll for completion status.
+   */
   azureAsyncOperation?: string;
 }
 
@@ -349,9 +403,124 @@ export interface KeyVaultClientFullRestoreOperationHeaders {
  * Defines headers for KeyVaultClient_selectiveKeyRestoreOperation operation.
  */
 export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
+  /**
+   * The recommended number of seconds to wait before calling the URI specified in Azure-AsyncOperation.
+   */
   retryAfter?: number;
+  /**
+   * The URI to poll for completion status.
+   */
   azureAsyncOperation?: string;
 }
+
+/**
+ * Defines values for RoleDefinitionType.
+ */
+export type RoleDefinitionType =
+  | "Microsoft.Authorization/roleDefinitions"
+  | string;
+/**
+ * Defines values for RoleType.
+ */
+export type RoleType = "AKVBuiltInRole" | "CustomRole" | string;
+/**
+ * Defines values for DataAction.
+ */
+export type DataAction =
+  | "Microsoft.KeyVault/managedHsm/keys/read/action"
+  | "Microsoft.KeyVault/managedHsm/keys/write/action"
+  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action"
+  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action"
+  | "Microsoft.KeyVault/managedHsm/keys/backup/action"
+  | "Microsoft.KeyVault/managedHsm/keys/restore/action"
+  | "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action"
+  | "Microsoft.KeyVault/managedHsm/roleAssignments/read/action"
+  | "Microsoft.KeyVault/managedHsm/roleAssignments/write/action"
+  | "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action"
+  | "Microsoft.KeyVault/managedHsm/keys/encrypt/action"
+  | "Microsoft.KeyVault/managedHsm/keys/decrypt/action"
+  | "Microsoft.KeyVault/managedHsm/keys/wrap/action"
+  | "Microsoft.KeyVault/managedHsm/keys/unwrap/action"
+  | "Microsoft.KeyVault/managedHsm/keys/sign/action"
+  | "Microsoft.KeyVault/managedHsm/keys/verify/action"
+  | "Microsoft.KeyVault/managedHsm/keys/create"
+  | "Microsoft.KeyVault/managedHsm/keys/delete"
+  | "Microsoft.KeyVault/managedHsm/keys/export/action"
+  | "Microsoft.KeyVault/managedHsm/keys/import/action"
+  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/download/action"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/action"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/read"
+  | "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read"
+  | "Microsoft.KeyVault/managedHsm/backup/start/action"
+  | "Microsoft.KeyVault/managedHsm/restore/start/action"
+  | "Microsoft.KeyVault/managedHsm/backup/status/action"
+  | "Microsoft.KeyVault/managedHsm/restore/status/action"
+  | string;
+/**
+ * Defines values for RoleScope.
+ */
+export type RoleScope = "/" | "/keys" | string;
+
+/**
+ * Contains response data for the delete operation.
+ */
+export type RoleDefinitionsDeleteResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type RoleDefinitionsCreateOrUpdateResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type RoleDefinitionsGetResponse = RoleDefinition & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: RoleDefinition;
+  };
+};
 
 /**
  * Optional parameters.

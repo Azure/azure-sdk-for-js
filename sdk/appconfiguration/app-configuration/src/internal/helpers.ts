@@ -10,9 +10,24 @@ import {
   HttpResponseField,
   HttpResponseFields,
   HttpOnlyIfChangedField,
-  HttpOnlyIfUnchangedField
+  HttpOnlyIfUnchangedField,
+  ConfigurationSettingParam
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import {
+  deserializeFeatureFlag,
+  FeatureFlag,
+  featureFlagContentType,
+  FeatureFlagParam,
+  serializeFeatureFlagParam
+} from "../featureFlag";
+import {
+  deserializeSecretReference,
+  SecretReference,
+  secretReferenceContentType,
+  SecretReferenceParam,
+  serializeSecretReferenceParam
+} from "../keyvaultReference";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -110,7 +125,7 @@ export function formatAcceptDateTime(newOptions: {
  * to get the next page of results.
  * @internal
  */
-export function extractAfterTokenFromNextLink(nextLink: string) {
+export function extractAfterTokenFromNextLink(nextLink: string): string {
   const parsedLink = URLBuilder.parse(nextLink);
   const afterToken = parsedLink.getQueryParameterValue("after");
 
@@ -130,7 +145,7 @@ export function extractAfterTokenFromNextLink(nextLink: string) {
  */
 export function makeConfigurationSettingEmpty(
   configurationSetting: Partial<Record<Exclude<keyof ConfigurationSetting, "key">, any>>
-) {
+): void {
   const names: Exclude<keyof ConfigurationSetting, "key">[] = [
     "contentType",
     "etag",
@@ -147,21 +162,47 @@ export function makeConfigurationSettingEmpty(
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
-  const obj: ConfigurationSetting & KeyValue = {
+  const setting: ConfigurationSetting & KeyValue = {
     ...kvp,
     isReadOnly: !!kvp.locked
   };
 
-  delete obj.locked;
-  return obj;
+  delete setting.locked;
+
+  switch (setting.contentType) {
+    case featureFlagContentType: {
+      return deserializeFeatureFlag(setting) ?? setting;
+    }
+    case secretReferenceContentType: {
+      return deserializeSecretReference(setting) ?? setting;
+    }
+    default:
+      return setting;
+  }
 }
 
 /**
- * @hidden
+ * @internal
+ */
+export function serializeAsConfigurationSettingParam(
+  setting: FeatureFlagParam | SecretReferenceParam | ConfigurationSettingParam
+): ConfigurationSettingParam {
+  switch (setting.contentType) {
+    case featureFlagContentType: {
+      return serializeFeatureFlagParam(setting as FeatureFlag);
+    }
+    case secretReferenceContentType: {
+      return serializeSecretReferenceParam(setting as SecretReference);
+    }
+    default:
+      return setting;
+  }
+}
+
+/**
  * @internal
  */
 export function transformKeyValueResponseWithStatusCode<
@@ -176,7 +217,6 @@ export function transformKeyValueResponseWithStatusCode<
 }
 
 /**
- * @hidden
  * @internal
  */
 export function transformKeyValueResponse<
@@ -207,10 +247,9 @@ function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>
  * Translates user-facing field names into their `select` equivalents (these can be
  * seen in the `KnownEnum5`)
  *
- * @param fieldNames fieldNames from users.
+ * @param fieldNames - fieldNames from users.
  * @returns The field names translated into the `select` field equivalents.
  *
- * @hidden
  * @internal
  */
 export function formatFieldsForSelect(

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { TokenCredential } from "@azure/core-http";
 
 import { DataLakeServiceClient } from "../../src";
@@ -16,7 +19,7 @@ export function getTokenCredential(): TokenCredential {
   const accountTokenEnvVar = `DFS_ACCOUNT_TOKEN`;
   let accountToken: string | undefined;
 
-  accountToken = (window as any).__env__[accountTokenEnvVar];
+  accountToken = (self as any).__env__[accountTokenEnvVar];
 
   if (!accountToken || accountToken === "") {
     throw new Error(`${accountTokenEnvVar} environment variables not specified.`);
@@ -34,8 +37,8 @@ export function getGenericDataLakeServiceClient(
 
   let accountName: string | undefined;
   let accountSAS: string | undefined;
-  accountName = (window as any).__env__[accountNameEnvVar];
-  accountSAS = (window as any).__env__[accountSASEnvVar];
+  accountName = (self as any).__env__[accountNameEnvVar];
+  accountSAS = (self as any).__env__[accountSASEnvVar];
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
     throw new Error(
@@ -61,7 +64,7 @@ export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
 
   let accountName: string | undefined;
 
-  accountName = (window as any).__env__[accountNameEnvVar];
+  accountName = (self as any).__env__[accountNameEnvVar];
 
   if (!accountName || accountName === "") {
     throw new Error(`${accountNameEnvVar} environment variables not specified.`);
@@ -88,8 +91,8 @@ export function getAlternateDataLakeServiceClient(): DataLakeServiceClient {
  * Read body from downloading operation methods to string.
  * Works in both Node.js and browsers.
  *
- * @param response Convenience layer methods response with downloaded body
- * @param length Length of Readable stream, needed for Node.js environment
+ * @param response - Convenience layer methods response with downloaded body
+ * @param length - Length of Readable stream, needed for Node.js environment
  */
 export async function bodyToString(
   response: {
@@ -143,7 +146,7 @@ export function arrayBufferEqual(buf1: ArrayBuffer, buf2: ArrayBuffer): boolean 
 }
 
 export function isIE(): boolean {
-  const sAgent = window.navigator.userAgent;
+  const sAgent = self.navigator.userAgent;
   const Idx = sAgent.indexOf("MSIE");
 
   // If IE, return version number.
@@ -170,4 +173,9 @@ export function getBrowserFile(name: string, size: number): File {
   const file = new Blob([uint8Arr]) as any;
   file.name = name;
   return file;
+}
+
+export function getSASConnectionStringFromEnvironment(): string {
+  const env = (self as any).__env__;
+  return `BlobEndpoint=https://${env.DFS_ACCOUNT_NAME}.blob.core.windows.net/;QueueEndpoint=https://${env.DFS_ACCOUNT_NAME}.queue.core.windows.net/;FileEndpoint=https://${env.DFS_ACCOUNT_NAME}.file.core.windows.net/;TableEndpoint=https://${env.DFS_ACCOUNT_NAME}.table.core.windows.net/;SharedAccessSignature=${env.DFS_ACCOUNT_SAS}`;
 }

@@ -231,7 +231,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RestorePointListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -282,6 +282,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -344,7 +345,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RestorePointListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

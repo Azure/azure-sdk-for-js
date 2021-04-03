@@ -189,6 +189,35 @@ export class Accounts {
       beginUpdateOperationSpec,
       options);
   }
+
+  /**
+   * List and describe all NetApp accounts in the resource group.
+   * @summary Describe all NetApp Accounts in a resource group
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AccountsListNextResponse>
+   */
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetAppAccountList>): void;
+  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetAppAccountList>, callback?: msRest.ServiceCallback<Models.NetAppAccountList>): Promise<Models.AccountsListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listNextOperationSpec,
+      callback) as Promise<Models.AccountsListNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -270,7 +299,6 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.NetAppAccount
     },
-    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -327,10 +355,33 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccount
     },
-    201: {
+    202: {
       bodyMapper: Mappers.NetAppAccount
     },
-    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetAppAccountList
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

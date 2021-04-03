@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/create",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "",
    "status": 401,
@@ -13,18 +13,17 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:35 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:13 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "d76cfdf9-e0ed-4094-9758-e02b14a88d41",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "2cce9536-7c96-4910-9cdb-b80b22a7af3e",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -36,46 +35,45 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
+    "cache-control": "no-store, no-cache",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:36 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:13 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10761.15 - EUS ProdSlices",
-    "x-ms-request-id": "a4e02517-1207-4aa6-a946-144335b24f00"
+    "x-ms-ests-server": "2.1.11496.5 - NCUS ProdSlices",
+    "x-ms-request-id": "f1040ff4-2c98-408b-84da-6da16826f700"
    }
   },
   {
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/create",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "{\"policy\":{\"key_props\":{},\"secret_props\":{},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{}},\"issuer\":{\"name\":\"Self\"},\"attributes\":{}},\"attributes\":{}}",
    "status": 202,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxfo87JEiUxNMbPwbBb4fwpygHZwGGp+gyHF1hfEBwcASHRFR5UFKE+lQt1Wb/HfC77u/LfAemxs5Am1QknLQXZq+XYymXHj0evZU9im8KrVfMzQoEo9JExImOO9DTtPkCktB63SWNV5hYLKT+CMRGZwHhiyEPLav2m/gzVG+tDAlRpBYcB46brHZIUFsZ0vHVTmRZDG3xIB29yaIH6xZ+atWEfhGU5T1DF9uk5uQQz9lM61jxEcT3mEuVqBC5XrXX5hrcomZsthwjoP0HYtKY2/Gy2Vl7KsxFOP1ddCWOA8tnioFn9nBuSrukCZs25qZGtXQ7F3c4nBG1Fb5xC4xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJmkqlw2Jt9R2ewfX1+UrvwpNymUnokUfxZrXvPwjw9i9nVEW7+IDm2Y6SZYVzrXs5JH9pUlK0dcTdc/ylJrE8YfVwBFRke3jJHDYD3FpX8hDDNx7OzQZtnKcpe9bUcdNjjDJZOOFSpRyyd7Z2ZNZERJTcP4aOtS2rssMtbmxr9MmyNV09VL+/739pNtg1D2TFH0U1EiisXzjFGa7c3Xg5ZDS6yl7wesx3HYC6JKITevVKOZNNbQ/1CSAMFEe1m9R38T1Hv90nxe+i9QWq0GAGlFgO7u/1TAX2Q1X+fnULzNpY/d+F6Nzl3NNEKILphLfQKA5ZlAGCYav0CAR1YDSSg=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"13fa65bda78345d19f42593a9b6a508d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1355",
+    "content-length": "1345",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:36 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:14 GMT",
     "expires": "-1",
-    "location": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending?api-version=7.1&request_id=76cadfc4a5a04f348bdb589c80e86117",
+    "location": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending?api-version=7.2&request_id=13fa65bda78345d19f42593a9b6a508d",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "202",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "38e91ab4-b013-4d0e-a865-816ee78c359b",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "f17f461a-a7cd-4216-b31a-164325e79441",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -83,27 +81,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxfo87JEiUxNMbPwbBb4fwpygHZwGGp+gyHF1hfEBwcASHRFR5UFKE+lQt1Wb/HfC77u/LfAemxs5Am1QknLQXZq+XYymXHj0evZU9im8KrVfMzQoEo9JExImOO9DTtPkCktB63SWNV5hYLKT+CMRGZwHhiyEPLav2m/gzVG+tDAlRpBYcB46brHZIUFsZ0vHVTmRZDG3xIB29yaIH6xZ+atWEfhGU5T1DF9uk5uQQz9lM61jxEcT3mEuVqBC5XrXX5hrcomZsthwjoP0HYtKY2/Gy2Vl7KsxFOP1ddCWOA8tnioFn9nBuSrukCZs25qZGtXQ7F3c4nBG1Fb5xC4xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJmkqlw2Jt9R2ewfX1+UrvwpNymUnokUfxZrXvPwjw9i9nVEW7+IDm2Y6SZYVzrXs5JH9pUlK0dcTdc/ylJrE8YfVwBFRke3jJHDYD3FpX8hDDNx7OzQZtnKcpe9bUcdNjjDJZOOFSpRyyd7Z2ZNZERJTcP4aOtS2rssMtbmxr9MmyNV09VL+/739pNtg1D2TFH0U1EiisXzjFGa7c3Xg5ZDS6yl7wesx3HYC6JKITevVKOZNNbQ/1CSAMFEe1m9R38T1Hv90nxe+i9QWq0GAGlFgO7u/1TAX2Q1X+fnULzNpY/d+F6Nzl3NNEKILphLfQKA5ZlAGCYav0CAR1YDSSg=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"13fa65bda78345d19f42593a9b6a508d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1355",
+    "content-length": "1345",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:36 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:14 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "cace48be-2076-4af0-8535-ed0bb4202eae",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "47a029cb-ae85-40b1-9766-99b666046217",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -111,27 +108,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxfo87JEiUxNMbPwbBb4fwpygHZwGGp+gyHF1hfEBwcASHRFR5UFKE+lQt1Wb/HfC77u/LfAemxs5Am1QknLQXZq+XYymXHj0evZU9im8KrVfMzQoEo9JExImOO9DTtPkCktB63SWNV5hYLKT+CMRGZwHhiyEPLav2m/gzVG+tDAlRpBYcB46brHZIUFsZ0vHVTmRZDG3xIB29yaIH6xZ+atWEfhGU5T1DF9uk5uQQz9lM61jxEcT3mEuVqBC5XrXX5hrcomZsthwjoP0HYtKY2/Gy2Vl7KsxFOP1ddCWOA8tnioFn9nBuSrukCZs25qZGtXQ7F3c4nBG1Fb5xC4xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJmkqlw2Jt9R2ewfX1+UrvwpNymUnokUfxZrXvPwjw9i9nVEW7+IDm2Y6SZYVzrXs5JH9pUlK0dcTdc/ylJrE8YfVwBFRke3jJHDYD3FpX8hDDNx7OzQZtnKcpe9bUcdNjjDJZOOFSpRyyd7Z2ZNZERJTcP4aOtS2rssMtbmxr9MmyNV09VL+/739pNtg1D2TFH0U1EiisXzjFGa7c3Xg5ZDS6yl7wesx3HYC6JKITevVKOZNNbQ/1CSAMFEe1m9R38T1Hv90nxe+i9QWq0GAGlFgO7u/1TAX2Q1X+fnULzNpY/d+F6Nzl3NNEKILphLfQKA5ZlAGCYav0CAR1YDSSg=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"13fa65bda78345d19f42593a9b6a508d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1355",
+    "content-length": "1345",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:36 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:14 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "5886bb40-b896-40dd-a919-809370368053",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "ec7c7d90-dd68-4f81-bfd5-4d81d62d1c6d",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -139,27 +135,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxfo87JEiUxNMbPwbBb4fwpygHZwGGp+gyHF1hfEBwcASHRFR5UFKE+lQt1Wb/HfC77u/LfAemxs5Am1QknLQXZq+XYymXHj0evZU9im8KrVfMzQoEo9JExImOO9DTtPkCktB63SWNV5hYLKT+CMRGZwHhiyEPLav2m/gzVG+tDAlRpBYcB46brHZIUFsZ0vHVTmRZDG3xIB29yaIH6xZ+atWEfhGU5T1DF9uk5uQQz9lM61jxEcT3mEuVqBC5XrXX5hrcomZsthwjoP0HYtKY2/Gy2Vl7KsxFOP1ddCWOA8tnioFn9nBuSrukCZs25qZGtXQ7F3c4nBG1Fb5xC4xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJmkqlw2Jt9R2ewfX1+UrvwpNymUnokUfxZrXvPwjw9i9nVEW7+IDm2Y6SZYVzrXs5JH9pUlK0dcTdc/ylJrE8YfVwBFRke3jJHDYD3FpX8hDDNx7OzQZtnKcpe9bUcdNjjDJZOOFSpRyyd7Z2ZNZERJTcP4aOtS2rssMtbmxr9MmyNV09VL+/739pNtg1D2TFH0U1EiisXzjFGa7c3Xg5ZDS6yl7wesx3HYC6JKITevVKOZNNbQ/1CSAMFEe1m9R38T1Hv90nxe+i9QWq0GAGlFgO7u/1TAX2Q1X+fnULzNpY/d+F6Nzl3NNEKILphLfQKA5ZlAGCYav0CAR1YDSSg=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"13fa65bda78345d19f42593a9b6a508d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1355",
+    "content-length": "1345",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:38 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:16 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "97ac977b-d10a-4ed7-9daa-52b2c6458945",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "ba81f5ed-35a1-4796-8b55-a7760b9b39fd",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -167,27 +162,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxfo87JEiUxNMbPwbBb4fwpygHZwGGp+gyHF1hfEBwcASHRFR5UFKE+lQt1Wb/HfC77u/LfAemxs5Am1QknLQXZq+XYymXHj0evZU9im8KrVfMzQoEo9JExImOO9DTtPkCktB63SWNV5hYLKT+CMRGZwHhiyEPLav2m/gzVG+tDAlRpBYcB46brHZIUFsZ0vHVTmRZDG3xIB29yaIH6xZ+atWEfhGU5T1DF9uk5uQQz9lM61jxEcT3mEuVqBC5XrXX5hrcomZsthwjoP0HYtKY2/Gy2Vl7KsxFOP1ddCWOA8tnioFn9nBuSrukCZs25qZGtXQ7F3c4nBG1Fb5xC4xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJmkqlw2Jt9R2ewfX1+UrvwpNymUnokUfxZrXvPwjw9i9nVEW7+IDm2Y6SZYVzrXs5JH9pUlK0dcTdc/ylJrE8YfVwBFRke3jJHDYD3FpX8hDDNx7OzQZtnKcpe9bUcdNjjDJZOOFSpRyyd7Z2ZNZERJTcP4aOtS2rssMtbmxr9MmyNV09VL+/739pNtg1D2TFH0U1EiisXzjFGa7c3Xg5ZDS6yl7wesx3HYC6JKITevVKOZNNbQ/1CSAMFEe1m9R38T1Hv90nxe+i9QWq0GAGlFgO7u/1TAX2Q1X+fnULzNpY/d+F6Nzl3NNEKILphLfQKA5ZlAGCYav0CAR1YDSSg=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"13fa65bda78345d19f42593a9b6a508d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1355",
+    "content-length": "1345",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:40 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:17 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "898e70df-933f-4bd7-8c7c-04373dbf43e9",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "37a912ee-2037-478f-ab69-624b52920537",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -195,27 +189,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxfo87JEiUxNMbPwbBb4fwpygHZwGGp+gyHF1hfEBwcASHRFR5UFKE+lQt1Wb/HfC77u/LfAemxs5Am1QknLQXZq+XYymXHj0evZU9im8KrVfMzQoEo9JExImOO9DTtPkCktB63SWNV5hYLKT+CMRGZwHhiyEPLav2m/gzVG+tDAlRpBYcB46brHZIUFsZ0vHVTmRZDG3xIB29yaIH6xZ+atWEfhGU5T1DF9uk5uQQz9lM61jxEcT3mEuVqBC5XrXX5hrcomZsthwjoP0HYtKY2/Gy2Vl7KsxFOP1ddCWOA8tnioFn9nBuSrukCZs25qZGtXQ7F3c4nBG1Fb5xC4xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJmkqlw2Jt9R2ewfX1+UrvwpNymUnokUfxZrXvPwjw9i9nVEW7+IDm2Y6SZYVzrXs5JH9pUlK0dcTdc/ylJrE8YfVwBFRke3jJHDYD3FpX8hDDNx7OzQZtnKcpe9bUcdNjjDJZOOFSpRyyd7Z2ZNZERJTcP4aOtS2rssMtbmxr9MmyNV09VL+/739pNtg1D2TFH0U1EiisXzjFGa7c3Xg5ZDS6yl7wesx3HYC6JKITevVKOZNNbQ/1CSAMFEe1m9R38T1Hv90nxe+i9QWq0GAGlFgO7u/1TAX2Q1X+fnULzNpY/d+F6Nzl3NNEKILphLfQKA5ZlAGCYav0CAR1YDSSg=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"13fa65bda78345d19f42593a9b6a508d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1355",
+    "content-length": "1345",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:42 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:20 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "060386da-038d-483a-9966-cdd55c0468a7",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "a78d2211-603f-49b4-970a-b38fee5fb65a",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -223,27 +216,26 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxfo87JEiUxNMbPwbBb4fwpygHZwGGp+gyHF1hfEBwcASHRFR5UFKE+lQt1Wb/HfC77u/LfAemxs5Am1QknLQXZq+XYymXHj0evZU9im8KrVfMzQoEo9JExImOO9DTtPkCktB63SWNV5hYLKT+CMRGZwHhiyEPLav2m/gzVG+tDAlRpBYcB46brHZIUFsZ0vHVTmRZDG3xIB29yaIH6xZ+atWEfhGU5T1DF9uk5uQQz9lM61jxEcT3mEuVqBC5XrXX5hrcomZsthwjoP0HYtKY2/Gy2Vl7KsxFOP1ddCWOA8tnioFn9nBuSrukCZs25qZGtXQ7F3c4nBG1Fb5xC4xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJmkqlw2Jt9R2ewfX1+UrvwpNymUnokUfxZrXvPwjw9i9nVEW7+IDm2Y6SZYVzrXs5JH9pUlK0dcTdc/ylJrE8YfVwBFRke3jJHDYD3FpX8hDDNx7OzQZtnKcpe9bUcdNjjDJZOOFSpRyyd7Z2ZNZERJTcP4aOtS2rssMtbmxr9MmyNV09VL+/739pNtg1D2TFH0U1EiisXzjFGa7c3Xg5ZDS6yl7wesx3HYC6JKITevVKOZNNbQ/1CSAMFEe1m9R38T1Hv90nxe+i9QWq0GAGlFgO7u/1TAX2Q1X+fnULzNpY/d+F6Nzl3NNEKILphLfQKA5ZlAGCYav0CAR1YDSSg=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"13fa65bda78345d19f42593a9b6a508d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1355",
+    "content-length": "1345",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:45 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:22 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "retry-after": "10",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "998e8b1e-92e1-4756-abb7-a3eff31d2fdb",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "ca390fd2-b5e4-4638-b09d-794a4469fdb9",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -251,82 +243,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApxfo87JEiUxNMbPwbBb4fwpygHZwGGp+gyHF1hfEBwcASHRFR5UFKE+lQt1Wb/HfC77u/LfAemxs5Am1QknLQXZq+XYymXHj0evZU9im8KrVfMzQoEo9JExImOO9DTtPkCktB63SWNV5hYLKT+CMRGZwHhiyEPLav2m/gzVG+tDAlRpBYcB46brHZIUFsZ0vHVTmRZDG3xIB29yaIH6xZ+atWEfhGU5T1DF9uk5uQQz9lM61jxEcT3mEuVqBC5XrXX5hrcomZsthwjoP0HYtKY2/Gy2Vl7KsxFOP1ddCWOA8tnioFn9nBuSrukCZs25qZGtXQ7F3c4nBG1Fb5xC4xQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJmkqlw2Jt9R2ewfX1+UrvwpNymUnokUfxZrXvPwjw9i9nVEW7+IDm2Y6SZYVzrXs5JH9pUlK0dcTdc/ylJrE8YfVwBFRke3jJHDYD3FpX8hDDNx7OzQZtnKcpe9bUcdNjjDJZOOFSpRyyd7Z2ZNZERJTcP4aOtS2rssMtbmxr9MmyNV09VL+/739pNtg1D2TFH0U1EiisXzjFGa7c3Xg5ZDS6yl7wesx3HYC6JKITevVKOZNNbQ/1CSAMFEe1m9R38T1Hv90nxe+i9QWq0GAGlFgO7u/1TAX2Q1X+fnULzNpY/d+F6Nzl3NNEKILphLfQKA5ZlAGCYav0CAR1YDSSg=\",\"cancellation_requested\":false,\"status\":\"completed\",\"target\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"request_id\":\"13fa65bda78345d19f42593a9b6a508d\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "1355",
+    "content-length": "1317",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:47 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "retry-after": "10",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "d59ced56-428f-4305-b38a-0080d0fc3408",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"inProgress\",\"status_details\":\"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "1355",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:49 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "retry-after": "10",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "a58f6b1e-669c-48ae-b7db-98e5c9e1a3e0",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\",\"issuer\":{\"name\":\"Self\"},\"csr\":\"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA1X2KMa3eWqe1UAGDekGRp658VOt0vFNHm7plegF9Qm57jt1OVniXhgQL6E/luV+Hqdp5vQ2aVXArz3+b+2SYSTN+02OXtPLH5O70E6I/B+7/Idl21llBJtdjNEbHkHMSuVwtaHUHnd67u9irUXFyVy3+eTNHJjxo3dePAw2bANxdY4HZAnRb364VvMdQT60OX4rk+00GJyrMjLWYNRUGtzB4UG/PmvW4Ww7vDd1jCcyX5w4dt1vtQUVVPqaHh97520HztmCAMRUH3YuPnQ/GV0CMcqx/3AagFYahzCE3myDrfXTgMcN6f6rYZD8qSwU4pGwsjDP1tSpxtekW6lAOGwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAJ81Sn2H2+iQLXNcg0xgYYg5vaZWmY5xqkwu09ZupGlIKjh2tEtNzfpyOKDboAYd33alZUkjC+JNWpwWsdTHmJUvrjAPddH+aXkM015ENQTJKpPjlXUSJcR2i+NmPkpXrJYoLQAqXvdwmWnuksvJC6eKvRlbhCZW3CQPzSJR1g/95zFLq8XHY5eXS5yjtPTAQVUCxa4kBWEYB9z7EFgLn3ZKlSaE3rswqg45ieoQOVbRPpXqVnS5wpc81BY2eVOQNieVJzPyEfMj4MW9+mtie1StebxdHLQuzGQrciYhvf9llJ2FzuwA2mOPDj0q9f02W0RqS6kdNzi6EFCoVA19qhI=\",\"cancellation_requested\":false,\"status\":\"completed\",\"target\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"request_id\":\"76cadfc4a5a04f348bdb589c80e86117\"}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "1337",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:24 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "3281c11d-c057-47ad-a5da-4650a953c813",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "75f85174-2ada-4936-acba-517b4fa66d55",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -334,26 +269,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"x5t\":\"BtCp8_uCn8Lqf4iYw_CnFKZrL54\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQG+mWrp1jTqK0nxGOkd1pEjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTg1MTUwWhcNMjEwNzAyMTkwMTUwWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVfYoxrd5ap7VQAYN6QZGnrnxU63S8U0ebumV6AX1CbnuO3U5WeJeGBAvoT+W5X4ep2nm9DZpVcCvPf5v7ZJhJM37TY5e08sfk7vQToj8H7v8h2XbWWUEm12M0RseQcxK5XC1odQed3ru72KtRcXJXLf55M0cmPGjd148DDZsA3F1jgdkCdFvfrhW8x1BPrQ5fiuT7TQYnKsyMtZg1FQa3MHhQb8+a9bhbDu8N3WMJzJfnDh23W+1BRVU+poeH3vnbQfO2YIAxFQfdi4+dD8ZXQIxyrH/cBqAVhqHMITebIOt9dOAxw3p/qthkPypLBTikbCyMM/W1KnG16RbqUA4bAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQeATseIe2Hqxu/4ofj8mIKiYr03TAdBgNVHQ4EFgQUHgE7HiHth6sbv+KH4/JiComK9N0wDQYJKoZIhvcNAQELBQADggEBADTNwS9McFqbds/bqIhpPXTQnfmJg4qrwBISI3+NEE80DYO6wdqR6alh+RHswBSKyuRRLYewyOkgfASxZycrgLW9mubEoaD0eJbGOXrlS7h8PprPI4CJoQLPvx9TwML9Yzok5z+Uei7sUqPTHZdDLYSouKtgNCOZKUgd8F7tmEXN+MhrSdNpBQlI898cIyDzBGXGtRPexOsaXuuNYp/n56FuWocr8Z6e7Yobs2aDD80BNtzU0o23V51DfgPx5GKJ9jwhxblOHx7fijQN195Ay6JYqWyGN8zSQ1RJiVd/2lMPK9Xkikig5NGFG6egyYVgHDtQH2sq9M3Vp2jqsTh03d8=\",\"attributes\":{\"enabled\":true,\"nbf\":1593715910,\"exp\":1625252510,\"created\":1593716510,\"updated\":1593716510,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593716497,\"updated\":1593716497}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"x5t\":\"3eByboZg18-T4amUpksjBUV9AhI\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQXtue3Q9PQMueOgSGbWLEvzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxNTIyWhcNMjIwMjE2MTkyNTIyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnF+jzskSJTE0xs/BsFvh/CnKAdnAYan6DIcXWF8QHBwBIdEVHlQUoT6VC3VZv8d8Lvu78t8B6bGzkCbVCSctBdmr5djKZcePR69lT2KbwqtV8zNCgSj0kTEiY470NO0+QKS0HrdJY1XmFgspP4IxEZnAeGLIQ8tq/ab+DNUb60MCVGkFhwHjpusdkhQWxnS8dVOZFkMbfEgHb3JogfrFn5q1YR+EZTlPUMX26Tm5BDP2UzrWPERxPeYS5WoELletdfmGtyiZmy2HCOg/Qdi0pjb8bLZWXsqzEU4/V10JY4Dy2eKgWf2cG5Ku6QJmzbmpka1dDsXdzicEbUVvnELjFAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBRzizW4YzpoENgdq3iGwWTJyYbrWzAdBgNVHQ4EFgQUc4s1uGM6aBDYHat4hsFkycmG61swDQYJKoZIhvcNAQELBQADggEBAIXXJ6xQKkusLherky63tq7YRzK8nM227r+JrwUK7PwHHPSvDsoqucvSAM4zim5iMwxmHmXZgjyHMsnp1JaiRcnAZIAF8HPnEttgmUTPwimHRcWXYEd9OeozMrGRHcwB9c6MnpO9vRRXFSGcmL3rDxUU5LdCkK7FohTx/Gn6TMgn/f2ag5E/nrLdy8QXMKtOjwx9lOBHa0zCFFkDTkwcRsXbh6TBTq1fgC/hRP/U2EHwnyVgM7QD7OY5IjY5Js5ysrd7L9Dlj3o7x7FdvMNJzppDgf641A1/Tytx0BmJrj3VhtpTtkPl8fA7i3tMXizaRMARrbcn22xuUn3W/ED7i5M=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502922,\"exp\":1645039522,\"created\":1613503522,\"updated\":1613503522,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503514,\"updated\":1613503514}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "2665",
+    "content-length": "2624",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:24 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "0ef5e8a6-6afd-4417-845f-d0e9e0cf14eb",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "d30bf450-521c-4cf0-988c-78a20161287b",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -361,26 +295,25 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"deletedDate\":1593716512,\"scheduledPurgeDate\":1601492512,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"x5t\":\"BtCp8_uCn8Lqf4iYw_CnFKZrL54\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQG+mWrp1jTqK0nxGOkd1pEjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTg1MTUwWhcNMjEwNzAyMTkwMTUwWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVfYoxrd5ap7VQAYN6QZGnrnxU63S8U0ebumV6AX1CbnuO3U5WeJeGBAvoT+W5X4ep2nm9DZpVcCvPf5v7ZJhJM37TY5e08sfk7vQToj8H7v8h2XbWWUEm12M0RseQcxK5XC1odQed3ru72KtRcXJXLf55M0cmPGjd148DDZsA3F1jgdkCdFvfrhW8x1BPrQ5fiuT7TQYnKsyMtZg1FQa3MHhQb8+a9bhbDu8N3WMJzJfnDh23W+1BRVU+poeH3vnbQfO2YIAxFQfdi4+dD8ZXQIxyrH/cBqAVhqHMITebIOt9dOAxw3p/qthkPypLBTikbCyMM/W1KnG16RbqUA4bAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQeATseIe2Hqxu/4ofj8mIKiYr03TAdBgNVHQ4EFgQUHgE7HiHth6sbv+KH4/JiComK9N0wDQYJKoZIhvcNAQELBQADggEBADTNwS9McFqbds/bqIhpPXTQnfmJg4qrwBISI3+NEE80DYO6wdqR6alh+RHswBSKyuRRLYewyOkgfASxZycrgLW9mubEoaD0eJbGOXrlS7h8PprPI4CJoQLPvx9TwML9Yzok5z+Uei7sUqPTHZdDLYSouKtgNCOZKUgd8F7tmEXN+MhrSdNpBQlI898cIyDzBGXGtRPexOsaXuuNYp/n56FuWocr8Z6e7Yobs2aDD80BNtzU0o23V51DfgPx5GKJ9jwhxblOHx7fijQN195Ay6JYqWyGN8zSQ1RJiVd/2lMPK9Xkikig5NGFG6egyYVgHDtQH2sq9M3Vp2jqsTh03d8=\",\"attributes\":{\"enabled\":true,\"nbf\":1593715910,\"exp\":1625252510,\"created\":1593716510,\"updated\":1593716510,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593716497,\"updated\":1593716497}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"deletedDate\":1613503524,\"scheduledPurgeDate\":1614108324,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"x5t\":\"3eByboZg18-T4amUpksjBUV9AhI\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQXtue3Q9PQMueOgSGbWLEvzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxNTIyWhcNMjIwMjE2MTkyNTIyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnF+jzskSJTE0xs/BsFvh/CnKAdnAYan6DIcXWF8QHBwBIdEVHlQUoT6VC3VZv8d8Lvu78t8B6bGzkCbVCSctBdmr5djKZcePR69lT2KbwqtV8zNCgSj0kTEiY470NO0+QKS0HrdJY1XmFgspP4IxEZnAeGLIQ8tq/ab+DNUb60MCVGkFhwHjpusdkhQWxnS8dVOZFkMbfEgHb3JogfrFn5q1YR+EZTlPUMX26Tm5BDP2UzrWPERxPeYS5WoELletdfmGtyiZmy2HCOg/Qdi0pjb8bLZWXsqzEU4/V10JY4Dy2eKgWf2cG5Ku6QJmzbmpka1dDsXdzicEbUVvnELjFAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBRzizW4YzpoENgdq3iGwWTJyYbrWzAdBgNVHQ4EFgQUc4s1uGM6aBDYHat4hsFkycmG61swDQYJKoZIhvcNAQELBQADggEBAIXXJ6xQKkusLherky63tq7YRzK8nM227r+JrwUK7PwHHPSvDsoqucvSAM4zim5iMwxmHmXZgjyHMsnp1JaiRcnAZIAF8HPnEttgmUTPwimHRcWXYEd9OeozMrGRHcwB9c6MnpO9vRRXFSGcmL3rDxUU5LdCkK7FohTx/Gn6TMgn/f2ag5E/nrLdy8QXMKtOjwx9lOBHa0zCFFkDTkwcRsXbh6TBTq1fgC/hRP/U2EHwnyVgM7QD7OY5IjY5Js5ysrd7L9Dlj3o7x7FdvMNJzppDgf641A1/Tytx0BmJrj3VhtpTtkPl8fA7i3tMXizaRMARrbcn22xuUn3W/ED7i5M=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502922,\"exp\":1645039522,\"created\":1613503522,\"updated\":1613503522,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503514,\"updated\":1613503514}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "2880",
+    "content-length": "2829",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:24 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "51b22e9a-05e6-4bc7-a089-e9ebd75d6d92",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "4c840c76-e1b7-45c3-acc8-18b87f56be9c",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -388,26 +321,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "163",
+    "content-length": "162",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:24 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "b0458202-f212-46e8-b3dc-442d6481da65",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "158c0de0-bc8c-4d43-953e-0bc170c70ab7",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -415,26 +347,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "163",
+    "content-length": "162",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:52 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:24 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "27a8c41b-0aa2-4ebe-bba5-42c39b043b12",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "237fef5a-ba9b-4928-b563-6b7ff62bcc8c",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -442,26 +373,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "163",
+    "content-length": "162",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:54 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:27 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "a4d4e936-7f41-40ae-b1aa-9b690f63e5fc",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "0dfee5ee-1016-4a1a-82ad-fdf25160d9c0",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -469,26 +399,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "163",
+    "content-length": "162",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:56 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:28 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "41e543e7-46bd-4e16-a256-c3beaf7926dd",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "6650f0f9-3ef5-48fb-b213-5f403ee188ce",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -496,26 +425,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "163",
+    "content-length": "162",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:01:58 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:30 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "a4a53390-5089-41df-8002-65602100f98e",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "326b530d-76b0-46bd-ae80-863fce702f64",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -523,134 +451,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "163",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:00 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "21c56105-77e8-4c2d-8ce3-00b8c46e61ee",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "163",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:02 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "d112b637-2cad-45df-ae1b-162a862afd3d",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "163",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:04 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "4bf0bc19-c7ef-4a61-9f2f-8c45933d6de3",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "163",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:06 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "c2dfefc1-56b8-4450-b534-d870bce2aa53",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
-   "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"deletedDate\":1593716512,\"scheduledPurgeDate\":1601492512,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"x5t\":\"BtCp8_uCn8Lqf4iYw_CnFKZrL54\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQG+mWrp1jTqK0nxGOkd1pEjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTg1MTUwWhcNMjEwNzAyMTkwMTUwWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVfYoxrd5ap7VQAYN6QZGnrnxU63S8U0ebumV6AX1CbnuO3U5WeJeGBAvoT+W5X4ep2nm9DZpVcCvPf5v7ZJhJM37TY5e08sfk7vQToj8H7v8h2XbWWUEm12M0RseQcxK5XC1odQed3ru72KtRcXJXLf55M0cmPGjd148DDZsA3F1jgdkCdFvfrhW8x1BPrQ5fiuT7TQYnKsyMtZg1FQa3MHhQb8+a9bhbDu8N3WMJzJfnDh23W+1BRVU+poeH3vnbQfO2YIAxFQfdi4+dD8ZXQIxyrH/cBqAVhqHMITebIOt9dOAxw3p/qthkPypLBTikbCyMM/W1KnG16RbqUA4bAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQeATseIe2Hqxu/4ofj8mIKiYr03TAdBgNVHQ4EFgQUHgE7HiHth6sbv+KH4/JiComK9N0wDQYJKoZIhvcNAQELBQADggEBADTNwS9McFqbds/bqIhpPXTQnfmJg4qrwBISI3+NEE80DYO6wdqR6alh+RHswBSKyuRRLYewyOkgfASxZycrgLW9mubEoaD0eJbGOXrlS7h8PprPI4CJoQLPvx9TwML9Yzok5z+Uei7sUqPTHZdDLYSouKtgNCOZKUgd8F7tmEXN+MhrSdNpBQlI898cIyDzBGXGtRPexOsaXuuNYp/n56FuWocr8Z6e7Yobs2aDD80BNtzU0o23V51DfgPx5GKJ9jwhxblOHx7fijQN195Ay6JYqWyGN8zSQ1RJiVd/2lMPK9Xkikig5NGFG6egyYVgHDtQH2sq9M3Vp2jqsTh03d8=\",\"attributes\":{\"enabled\":true,\"nbf\":1593715910,\"exp\":1625252510,\"created\":1593716510,\"updated\":1593716510,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593716497,\"updated\":1593716497}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"deletedDate\":1613503524,\"scheduledPurgeDate\":1614108324,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"x5t\":\"3eByboZg18-T4amUpksjBUV9AhI\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQXtue3Q9PQMueOgSGbWLEvzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxNTIyWhcNMjIwMjE2MTkyNTIyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnF+jzskSJTE0xs/BsFvh/CnKAdnAYan6DIcXWF8QHBwBIdEVHlQUoT6VC3VZv8d8Lvu78t8B6bGzkCbVCSctBdmr5djKZcePR69lT2KbwqtV8zNCgSj0kTEiY470NO0+QKS0HrdJY1XmFgspP4IxEZnAeGLIQ8tq/ab+DNUb60MCVGkFhwHjpusdkhQWxnS8dVOZFkMbfEgHb3JogfrFn5q1YR+EZTlPUMX26Tm5BDP2UzrWPERxPeYS5WoELletdfmGtyiZmy2HCOg/Qdi0pjb8bLZWXsqzEU4/V10JY4Dy2eKgWf2cG5Ku6QJmzbmpka1dDsXdzicEbUVvnELjFAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBRzizW4YzpoENgdq3iGwWTJyYbrWzAdBgNVHQ4EFgQUc4s1uGM6aBDYHat4hsFkycmG61swDQYJKoZIhvcNAQELBQADggEBAIXXJ6xQKkusLherky63tq7YRzK8nM227r+JrwUK7PwHHPSvDsoqucvSAM4zim5iMwxmHmXZgjyHMsnp1JaiRcnAZIAF8HPnEttgmUTPwimHRcWXYEd9OeozMrGRHcwB9c6MnpO9vRRXFSGcmL3rDxUU5LdCkK7FohTx/Gn6TMgn/f2ag5E/nrLdy8QXMKtOjwx9lOBHa0zCFFkDTkwcRsXbh6TBTq1fgC/hRP/U2EHwnyVgM7QD7OY5IjY5Js5ysrd7L9Dlj3o7x7FdvMNJzppDgf641A1/Tytx0BmJrj3VhtpTtkPl8fA7i3tMXizaRMARrbcn22xuUn3W/ED7i5M=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502922,\"exp\":1645039522,\"created\":1613503522,\"updated\":1613503522,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503514,\"updated\":1613503514}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "2880",
+    "content-length": "2829",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:08 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "ca8f34dd-fc2c-48c5-a6b1-54263dda48f1",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "6cc4b230-3825-402b-bd9b-f7e99be6e755",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -658,26 +477,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "391",
+    "content-length": "390",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:08 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:32 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "4e489739-99ac-4e08-b19b-dfc688f0f92e",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "8245343c-b883-42ab-b9b8-cb24f06e1be2",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -685,26 +503,25 @@
    "method": "POST",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/recover",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"x5t\":\"BtCp8_uCn8Lqf4iYw_CnFKZrL54\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQG+mWrp1jTqK0nxGOkd1pEjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTg1MTUwWhcNMjEwNzAyMTkwMTUwWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVfYoxrd5ap7VQAYN6QZGnrnxU63S8U0ebumV6AX1CbnuO3U5WeJeGBAvoT+W5X4ep2nm9DZpVcCvPf5v7ZJhJM37TY5e08sfk7vQToj8H7v8h2XbWWUEm12M0RseQcxK5XC1odQed3ru72KtRcXJXLf55M0cmPGjd148DDZsA3F1jgdkCdFvfrhW8x1BPrQ5fiuT7TQYnKsyMtZg1FQa3MHhQb8+a9bhbDu8N3WMJzJfnDh23W+1BRVU+poeH3vnbQfO2YIAxFQfdi4+dD8ZXQIxyrH/cBqAVhqHMITebIOt9dOAxw3p/qthkPypLBTikbCyMM/W1KnG16RbqUA4bAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQeATseIe2Hqxu/4ofj8mIKiYr03TAdBgNVHQ4EFgQUHgE7HiHth6sbv+KH4/JiComK9N0wDQYJKoZIhvcNAQELBQADggEBADTNwS9McFqbds/bqIhpPXTQnfmJg4qrwBISI3+NEE80DYO6wdqR6alh+RHswBSKyuRRLYewyOkgfASxZycrgLW9mubEoaD0eJbGOXrlS7h8PprPI4CJoQLPvx9TwML9Yzok5z+Uei7sUqPTHZdDLYSouKtgNCOZKUgd8F7tmEXN+MhrSdNpBQlI898cIyDzBGXGtRPexOsaXuuNYp/n56FuWocr8Z6e7Yobs2aDD80BNtzU0o23V51DfgPx5GKJ9jwhxblOHx7fijQN195Ay6JYqWyGN8zSQ1RJiVd/2lMPK9Xkikig5NGFG6egyYVgHDtQH2sq9M3Vp2jqsTh03d8=\",\"attributes\":{\"enabled\":true,\"nbf\":1593715910,\"exp\":1625252510,\"created\":1593716510,\"updated\":1593716510,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593716497,\"updated\":1593716497}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"x5t\":\"3eByboZg18-T4amUpksjBUV9AhI\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQXtue3Q9PQMueOgSGbWLEvzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxNTIyWhcNMjIwMjE2MTkyNTIyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnF+jzskSJTE0xs/BsFvh/CnKAdnAYan6DIcXWF8QHBwBIdEVHlQUoT6VC3VZv8d8Lvu78t8B6bGzkCbVCSctBdmr5djKZcePR69lT2KbwqtV8zNCgSj0kTEiY470NO0+QKS0HrdJY1XmFgspP4IxEZnAeGLIQ8tq/ab+DNUb60MCVGkFhwHjpusdkhQWxnS8dVOZFkMbfEgHb3JogfrFn5q1YR+EZTlPUMX26Tm5BDP2UzrWPERxPeYS5WoELletdfmGtyiZmy2HCOg/Qdi0pjb8bLZWXsqzEU4/V10JY4Dy2eKgWf2cG5Ku6QJmzbmpka1dDsXdzicEbUVvnELjFAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBRzizW4YzpoENgdq3iGwWTJyYbrWzAdBgNVHQ4EFgQUc4s1uGM6aBDYHat4hsFkycmG61swDQYJKoZIhvcNAQELBQADggEBAIXXJ6xQKkusLherky63tq7YRzK8nM227r+JrwUK7PwHHPSvDsoqucvSAM4zim5iMwxmHmXZgjyHMsnp1JaiRcnAZIAF8HPnEttgmUTPwimHRcWXYEd9OeozMrGRHcwB9c6MnpO9vRRXFSGcmL3rDxUU5LdCkK7FohTx/Gn6TMgn/f2ag5E/nrLdy8QXMKtOjwx9lOBHa0zCFFkDTkwcRsXbh6TBTq1fgC/hRP/U2EHwnyVgM7QD7OY5IjY5Js5ysrd7L9Dlj3o7x7FdvMNJzppDgf641A1/Tytx0BmJrj3VhtpTtkPl8fA7i3tMXizaRMARrbcn22xuUn3W/ED7i5M=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502922,\"exp\":1645039522,\"created\":1613503522,\"updated\":1613503522,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503514,\"updated\":1613503514}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "2665",
+    "content-length": "2624",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:08 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:33 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "3f500787-668a-44f9-a5d9-fb453147b2b1",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "6f48eda3-f4cd-4b44-8522-2afc735b066c",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -712,26 +529,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "391",
+    "content-length": "390",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:08 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:33 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "8e81a323-b8b8-4fba-a849-d85b8eb4fee1",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "a7c2fde4-afc7-4a32-a09d-f694132482e4",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -739,26 +555,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "391",
+    "content-length": "390",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:08 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:33 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "ad124951-fd93-4d87-94a9-c3d371add7c8",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "ad239c33-b8b6-415a-a726-5f685c5a30c5",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -766,26 +581,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "391",
+    "content-length": "390",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:10 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:34 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "1678beb2-154f-49ae-a105-77385cc99b1d",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "6f9d88d9-6126-4c13-a43e-08cc9ca2f84e",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -793,26 +607,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "391",
+    "content-length": "390",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:12 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:36 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "75765f2b-1523-4154-b331-69fb3962fca4",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "0b2ee6de-75c0-4627-89e4-4d6274b67701",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -820,26 +633,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "391",
+    "content-length": "390",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:14 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:39 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "277e3328-c32f-458a-bb03-013538911033",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "dfaa06d3-89da-477d-a1d3-3c2c102889de",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -847,26 +659,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "391",
+    "content-length": "390",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:16 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:41 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "d5de984d-da26-4f0b-88ef-836aaba629e6",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "febf4eb4-7b7c-4061-991a-4a19417d3937",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -874,323 +685,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
    "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:18 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "84608ab4-5e98-43a8-853b-d29ede5e5d5f",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:20 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "9a5228b8-a6e7-4472-999a-a3eac7d7a92b",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:22 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "ba585b4e-f9fa-46c4-92f7-604a675cfe46",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:25 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "8c022288-531c-4bec-878e-68d1e66f7637",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:27 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "d3891e01-47e7-43dd-8dad-d5f93a5537fe",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:29 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "b014746f-5d5a-4ac2-88a9-4ad6513da1fc",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:31 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "cbaed262-7bca-4e97-80cc-2cc29dfbf939",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:33 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "26bc4a22-c25b-4652-b703-2f79a0a2785e",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:35 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "2c7cf725-1092-432a-b52d-90f369e5d0d4",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:37 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "e78f09de-c4c6-42d7-8f91-f90ce5052c5f",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"A certificate with (name/id) lroRecoverCertificateName-canwaituntilacertificateisrecovered- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "391",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:39 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "4cc6ed64-0a3a-40b3-bc09-4e5242b715b3",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/",
-   "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"x5t\":\"BtCp8_uCn8Lqf4iYw_CnFKZrL54\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQG+mWrp1jTqK0nxGOkd1pEjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTg1MTUwWhcNMjEwNzAyMTkwMTUwWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVfYoxrd5ap7VQAYN6QZGnrnxU63S8U0ebumV6AX1CbnuO3U5WeJeGBAvoT+W5X4ep2nm9DZpVcCvPf5v7ZJhJM37TY5e08sfk7vQToj8H7v8h2XbWWUEm12M0RseQcxK5XC1odQed3ru72KtRcXJXLf55M0cmPGjd148DDZsA3F1jgdkCdFvfrhW8x1BPrQ5fiuT7TQYnKsyMtZg1FQa3MHhQb8+a9bhbDu8N3WMJzJfnDh23W+1BRVU+poeH3vnbQfO2YIAxFQfdi4+dD8ZXQIxyrH/cBqAVhqHMITebIOt9dOAxw3p/qthkPypLBTikbCyMM/W1KnG16RbqUA4bAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQeATseIe2Hqxu/4ofj8mIKiYr03TAdBgNVHQ4EFgQUHgE7HiHth6sbv+KH4/JiComK9N0wDQYJKoZIhvcNAQELBQADggEBADTNwS9McFqbds/bqIhpPXTQnfmJg4qrwBISI3+NEE80DYO6wdqR6alh+RHswBSKyuRRLYewyOkgfASxZycrgLW9mubEoaD0eJbGOXrlS7h8PprPI4CJoQLPvx9TwML9Yzok5z+Uei7sUqPTHZdDLYSouKtgNCOZKUgd8F7tmEXN+MhrSdNpBQlI898cIyDzBGXGtRPexOsaXuuNYp/n56FuWocr8Z6e7Yobs2aDD80BNtzU0o23V51DfgPx5GKJ9jwhxblOHx7fijQN195Ay6JYqWyGN8zSQ1RJiVd/2lMPK9Xkikig5NGFG6egyYVgHDtQH2sq9M3Vp2jqsTh03d8=\",\"attributes\":{\"enabled\":true,\"nbf\":1593715910,\"exp\":1625252510,\"created\":1593716510,\"updated\":1593716510,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593716497,\"updated\":1593716497}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
+   "response": "{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"x5t\":\"3eByboZg18-T4amUpksjBUV9AhI\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQXtue3Q9PQMueOgSGbWLEvzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxNTIyWhcNMjIwMjE2MTkyNTIyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnF+jzskSJTE0xs/BsFvh/CnKAdnAYan6DIcXWF8QHBwBIdEVHlQUoT6VC3VZv8d8Lvu78t8B6bGzkCbVCSctBdmr5djKZcePR69lT2KbwqtV8zNCgSj0kTEiY470NO0+QKS0HrdJY1XmFgspP4IxEZnAeGLIQ8tq/ab+DNUb60MCVGkFhwHjpusdkhQWxnS8dVOZFkMbfEgHb3JogfrFn5q1YR+EZTlPUMX26Tm5BDP2UzrWPERxPeYS5WoELletdfmGtyiZmy2HCOg/Qdi0pjb8bLZWXsqzEU4/V10JY4Dy2eKgWf2cG5Ku6QJmzbmpka1dDsXdzicEbUVvnELjFAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBRzizW4YzpoENgdq3iGwWTJyYbrWzAdBgNVHQ4EFgQUc4s1uGM6aBDYHat4hsFkycmG61swDQYJKoZIhvcNAQELBQADggEBAIXXJ6xQKkusLherky63tq7YRzK8nM227r+JrwUK7PwHHPSvDsoqucvSAM4zim5iMwxmHmXZgjyHMsnp1JaiRcnAZIAF8HPnEttgmUTPwimHRcWXYEd9OeozMrGRHcwB9c6MnpO9vRRXFSGcmL3rDxUU5LdCkK7FohTx/Gn6TMgn/f2ag5E/nrLdy8QXMKtOjwx9lOBHa0zCFFkDTkwcRsXbh6TBTq1fgC/hRP/U2EHwnyVgM7QD7OY5IjY5Js5ysrd7L9Dlj3o7x7FdvMNJzppDgf641A1/Tytx0BmJrj3VhtpTtkPl8fA7i3tMXizaRMARrbcn22xuUn3W/ED7i5M=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502922,\"exp\":1645039522,\"created\":1613503522,\"updated\":1613503522,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503514,\"updated\":1613503514}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "2665",
+    "content-length": "2624",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:41 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:43 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "87bb8d9f-177d-49a7-bf0a-9fe03e8a6202",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "708b4e75-6a3b-4ff5-bae2-12a83a5d36b1",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -1198,26 +711,25 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"deletedDate\":1593716561,\"scheduledPurgeDate\":1601492561,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"x5t\":\"BtCp8_uCn8Lqf4iYw_CnFKZrL54\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQG+mWrp1jTqK0nxGOkd1pEjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTg1MTUwWhcNMjEwNzAyMTkwMTUwWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVfYoxrd5ap7VQAYN6QZGnrnxU63S8U0ebumV6AX1CbnuO3U5WeJeGBAvoT+W5X4ep2nm9DZpVcCvPf5v7ZJhJM37TY5e08sfk7vQToj8H7v8h2XbWWUEm12M0RseQcxK5XC1odQed3ru72KtRcXJXLf55M0cmPGjd148DDZsA3F1jgdkCdFvfrhW8x1BPrQ5fiuT7TQYnKsyMtZg1FQa3MHhQb8+a9bhbDu8N3WMJzJfnDh23W+1BRVU+poeH3vnbQfO2YIAxFQfdi4+dD8ZXQIxyrH/cBqAVhqHMITebIOt9dOAxw3p/qthkPypLBTikbCyMM/W1KnG16RbqUA4bAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQeATseIe2Hqxu/4ofj8mIKiYr03TAdBgNVHQ4EFgQUHgE7HiHth6sbv+KH4/JiComK9N0wDQYJKoZIhvcNAQELBQADggEBADTNwS9McFqbds/bqIhpPXTQnfmJg4qrwBISI3+NEE80DYO6wdqR6alh+RHswBSKyuRRLYewyOkgfASxZycrgLW9mubEoaD0eJbGOXrlS7h8PprPI4CJoQLPvx9TwML9Yzok5z+Uei7sUqPTHZdDLYSouKtgNCOZKUgd8F7tmEXN+MhrSdNpBQlI898cIyDzBGXGtRPexOsaXuuNYp/n56FuWocr8Z6e7Yobs2aDD80BNtzU0o23V51DfgPx5GKJ9jwhxblOHx7fijQN195Ay6JYqWyGN8zSQ1RJiVd/2lMPK9Xkikig5NGFG6egyYVgHDtQH2sq9M3Vp2jqsTh03d8=\",\"attributes\":{\"enabled\":true,\"nbf\":1593715910,\"exp\":1625252510,\"created\":1593716510,\"updated\":1593716510,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593716497,\"updated\":1593716497}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"deletedDate\":1613503544,\"scheduledPurgeDate\":1614108344,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"x5t\":\"3eByboZg18-T4amUpksjBUV9AhI\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQXtue3Q9PQMueOgSGbWLEvzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxNTIyWhcNMjIwMjE2MTkyNTIyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnF+jzskSJTE0xs/BsFvh/CnKAdnAYan6DIcXWF8QHBwBIdEVHlQUoT6VC3VZv8d8Lvu78t8B6bGzkCbVCSctBdmr5djKZcePR69lT2KbwqtV8zNCgSj0kTEiY470NO0+QKS0HrdJY1XmFgspP4IxEZnAeGLIQ8tq/ab+DNUb60MCVGkFhwHjpusdkhQWxnS8dVOZFkMbfEgHb3JogfrFn5q1YR+EZTlPUMX26Tm5BDP2UzrWPERxPeYS5WoELletdfmGtyiZmy2HCOg/Qdi0pjb8bLZWXsqzEU4/V10JY4Dy2eKgWf2cG5Ku6QJmzbmpka1dDsXdzicEbUVvnELjFAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBRzizW4YzpoENgdq3iGwWTJyYbrWzAdBgNVHQ4EFgQUc4s1uGM6aBDYHat4hsFkycmG61swDQYJKoZIhvcNAQELBQADggEBAIXXJ6xQKkusLherky63tq7YRzK8nM227r+JrwUK7PwHHPSvDsoqucvSAM4zim5iMwxmHmXZgjyHMsnp1JaiRcnAZIAF8HPnEttgmUTPwimHRcWXYEd9OeozMrGRHcwB9c6MnpO9vRRXFSGcmL3rDxUU5LdCkK7FohTx/Gn6TMgn/f2ag5E/nrLdy8QXMKtOjwx9lOBHa0zCFFkDTkwcRsXbh6TBTq1fgC/hRP/U2EHwnyVgM7QD7OY5IjY5Js5ysrd7L9Dlj3o7x7FdvMNJzppDgf641A1/Tytx0BmJrj3VhtpTtkPl8fA7i3tMXizaRMARrbcn22xuUn3W/ED7i5M=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502922,\"exp\":1645039522,\"created\":1613503522,\"updated\":1613503522,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503514,\"updated\":1613503514}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "2880",
+    "content-length": "2829",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:41 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:43 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "837fdacb-8b06-42c7-9a25-cd41caa3b664",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "558feb12-d466-4687-be0e-c0e74bda7cab",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -1225,26 +737,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "163",
+    "content-length": "162",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:41 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:43 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "4741ad88-1acd-4a61-a697-199484f71f62",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "da4fcb81-4fb7-48a6-8ad3-da80cfbeb752",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -1252,26 +763,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "163",
+    "content-length": "162",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:41 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:43 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "bbb1fa92-45be-4e07-850f-e88e92fa86a5",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "5d5206d3-a4e8-44c9-9170-9e9fd272f50a",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -1279,26 +789,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "163",
+    "content-length": "162",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:43 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:45 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "9abe1d60-bdbc-4a93-a978-6d02f77581a4",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "af01a70a-cca1-469c-826d-6c75961434c4",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -1306,26 +815,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "163",
+    "content-length": "162",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:45 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:48 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "2f1dc4b7-1ba9-4617-93ad-5c01fd3b723a",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "08a52c7e-10e6-4893-bae5-f733f25d8e92",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -1333,26 +841,77 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "162",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 19:25:50 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "9e665068-254f-4a6e-9541-4f3eba5593b5",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"CertificateNotFound\",\"message\":\"Deleted Certificate not found: lroRecoverCertificateName-canwaituntilacertificateisrecovered-\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "162",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Tue, 16 Feb 2021 19:25:52 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "status": "404",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "4e03cec2-2ed7-4ae6-a5e6-d8b09976b4bd",
+    "x-powered-by": "ASP.NET"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
+   "query": {
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"deletedDate\":1593716561,\"scheduledPurgeDate\":1601492561,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/2dd40a142d1b4ca4b8c6298663432c58\",\"x5t\":\"BtCp8_uCn8Lqf4iYw_CnFKZrL54\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQG+mWrp1jTqK0nxGOkd1pEjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTg1MTUwWhcNMjEwNzAyMTkwMTUwWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDVfYoxrd5ap7VQAYN6QZGnrnxU63S8U0ebumV6AX1CbnuO3U5WeJeGBAvoT+W5X4ep2nm9DZpVcCvPf5v7ZJhJM37TY5e08sfk7vQToj8H7v8h2XbWWUEm12M0RseQcxK5XC1odQed3ru72KtRcXJXLf55M0cmPGjd148DDZsA3F1jgdkCdFvfrhW8x1BPrQ5fiuT7TQYnKsyMtZg1FQa3MHhQb8+a9bhbDu8N3WMJzJfnDh23W+1BRVU+poeH3vnbQfO2YIAxFQfdi4+dD8ZXQIxyrH/cBqAVhqHMITebIOt9dOAxw3p/qthkPypLBTikbCyMM/W1KnG16RbqUA4bAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQeATseIe2Hqxu/4ofj8mIKiYr03TAdBgNVHQ4EFgQUHgE7HiHth6sbv+KH4/JiComK9N0wDQYJKoZIhvcNAQELBQADggEBADTNwS9McFqbds/bqIhpPXTQnfmJg4qrwBISI3+NEE80DYO6wdqR6alh+RHswBSKyuRRLYewyOkgfASxZycrgLW9mubEoaD0eJbGOXrlS7h8PprPI4CJoQLPvx9TwML9Yzok5z+Uei7sUqPTHZdDLYSouKtgNCOZKUgd8F7tmEXN+MhrSdNpBQlI898cIyDzBGXGtRPexOsaXuuNYp/n56FuWocr8Z6e7Yobs2aDD80BNtzU0o23V51DfgPx5GKJ9jwhxblOHx7fijQN195Ay6JYqWyGN8zSQ1RJiVd/2lMPK9Xkikig5NGFG6egyYVgHDtQH2sq9M3Vp2jqsTh03d8=\",\"attributes\":{\"enabled\":true,\"nbf\":1593715910,\"exp\":1625252510,\"created\":1593716510,\"updated\":1593716510,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1593716497,\"updated\":1593716497}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-\",\"deletedDate\":1613503544,\"scheduledPurgeDate\":1614108344,\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"kid\":\"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"sid\":\"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/9118b7a1b3b04b4faba4eb9f301452db\",\"x5t\":\"3eByboZg18-T4amUpksjBUV9AhI\",\"cer\":\"MIIDKDCCAhCgAwIBAgIQXtue3Q9PQMueOgSGbWLEvzANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjEwMjE2MTkxNTIyWhcNMjIwMjE2MTkyNTIyWjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCnF+jzskSJTE0xs/BsFvh/CnKAdnAYan6DIcXWF8QHBwBIdEVHlQUoT6VC3VZv8d8Lvu78t8B6bGzkCbVCSctBdmr5djKZcePR69lT2KbwqtV8zNCgSj0kTEiY470NO0+QKS0HrdJY1XmFgspP4IxEZnAeGLIQ8tq/ab+DNUb60MCVGkFhwHjpusdkhQWxnS8dVOZFkMbfEgHb3JogfrFn5q1YR+EZTlPUMX26Tm5BDP2UzrWPERxPeYS5WoELletdfmGtyiZmy2HCOg/Qdi0pjb8bLZWXsqzEU4/V10JY4Dy2eKgWf2cG5Ku6QJmzbmpka1dDsXdzicEbUVvnELjFAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBRzizW4YzpoENgdq3iGwWTJyYbrWzAdBgNVHQ4EFgQUc4s1uGM6aBDYHat4hsFkycmG61swDQYJKoZIhvcNAQELBQADggEBAIXXJ6xQKkusLherky63tq7YRzK8nM227r+JrwUK7PwHHPSvDsoqucvSAM4zim5iMwxmHmXZgjyHMsnp1JaiRcnAZIAF8HPnEttgmUTPwimHRcWXYEd9OeozMrGRHcwB9c6MnpO9vRRXFSGcmL3rDxUU5LdCkK7FohTx/Gn6TMgn/f2ag5E/nrLdy8QXMKtOjwx9lOBHa0zCFFkDTkwcRsXbh6TBTq1fgC/hRP/U2EHwnyVgM7QD7OY5IjY5Js5ysrd7L9Dlj3o7x7FdvMNJzppDgf641A1/Tytx0BmJrj3VhtpTtkPl8fA7i3tMXizaRMARrbcn22xuUn3W/ED7i5M=\",\"attributes\":{\"enabled\":true,\"nbf\":1613502922,\"exp\":1645039522,\"created\":1613503522,\"updated\":1613503522,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7},\"policy\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/policy\",\"key_props\":{\"exportable\":true,\"kty\":\"RSA\",\"key_size\":2048,\"reuse_key\":false},\"secret_props\":{\"contentType\":\"application/x-pkcs12\"},\"x509_props\":{\"subject\":\"cn=MyCert\",\"sans\":{},\"ekus\":[\"1.3.6.1.5.5.7.3.1\",\"1.3.6.1.5.5.7.3.2\"],\"key_usage\":[\"digitalSignature\",\"keyEncipherment\"],\"validity_months\":12,\"basic_constraints\":{\"ca\":false}},\"lifetime_actions\":[{\"trigger\":{\"lifetime_percentage\":80},\"action\":{\"action_type\":\"AutoRenew\"}}],\"issuer\":{\"name\":\"Self\"},\"attributes\":{\"enabled\":true,\"created\":1613503514,\"updated\":1613503514}},\"pending\":{\"id\":\"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-/pending\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "2880",
+    "content-length": "2829",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 02 Jul 2020 19:02:47 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:53 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "d42b0855-9805-4f5a-b6ce-4794afbfe201",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "b34a84fb-3fa4-43f2-bef7-13d16be1eb74",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -1360,24 +919,23 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canwaituntilacertificateisrecovered-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "date": "Thu, 02 Jul 2020 19:02:47 GMT",
+    "date": "Tue, 16 Feb 2021 19:25:54 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "204",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.8.0",
-    "x-ms-request-id": "22532017-dd1c-496e-85ec-f40efa4dd418",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "90b7ebde-c2d5-4825-ba9d-55e3ef8dc618",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -1386,5 +944,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "8ee4513f20d92497b11caf952ee4f3cc"
+ "hash": "845ff9dc822398f6326879b1132c6b75"
 }

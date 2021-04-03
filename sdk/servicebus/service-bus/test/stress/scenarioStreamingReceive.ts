@@ -1,8 +1,8 @@
 import {
-  ReceiveMode,
   ServiceBusClient,
   ServiceBusReceivedMessage,
-  ServiceBusReceiver
+  ServiceBusReceiver,
+  ServiceBusReceiverOptions
 } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
@@ -18,8 +18,8 @@ const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connectio
 
 interface ScenarioStreamingReceiveOptions {
   testDurationInMs?: number;
-  receiveMode?: ReceiveMode;
-  autoComplete?: boolean;
+  receiveMode?: ServiceBusReceiverOptions["receiveMode"];
+  autoCompleteMessages?: boolean;
   maxConcurrentCalls?: number;
   maxAutoRenewLockDurationInMs?: number;
   manualLockRenewal: boolean;
@@ -47,7 +47,7 @@ interface ScenarioStreamingReceiveOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioStreamingReceiveOptions> {
   const options = parsedArgs<ScenarioStreamingReceiveOptions>(args, {
     boolean: [
-      "autoComplete",
+      "autoCompleteMessages",
       "manualLockRenewal",
       "completeMessageAfterDuration",
       "settleMessageOnReceive"
@@ -61,8 +61,8 @@ function sanitizeOptions(args: string[]): Required<ScenarioStreamingReceiveOptio
   });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
-    receiveMode: (options.receiveMode as ReceiveMode) || "peekLock",
-    autoComplete: options.autoComplete,
+    receiveMode: options.receiveMode || "peekLock",
+    autoCompleteMessages: !!options.autoCompleteMessages,
     maxConcurrentCalls: options.maxConcurrentCalls || 100,
     maxAutoRenewLockDurationInMs: options.maxAutoRenewLockDurationInMs || 0,
     manualLockRenewal: options.manualLockRenewal,
@@ -81,7 +81,7 @@ export async function scenarioStreamingReceive() {
   const {
     testDurationInMs,
     receiveMode,
-    autoComplete,
+    autoCompleteMessages: autoCompleteMessages,
     maxConcurrentCalls,
     manualLockRenewal,
     maxAutoRenewLockDurationInMs,
@@ -98,6 +98,7 @@ export async function scenarioStreamingReceive() {
   const startedAt = new Date();
 
   const stressBase = new SBStressTestsBase({
+    testName: "streamingReceive",
     snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"]
   });
   const sbClient = new ServiceBusClient(connectionString);
@@ -122,7 +123,7 @@ export async function scenarioStreamingReceive() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
     while (
       elapsedTime < testDurationForSendInMs &&
-      stressBase.messagesSent.length < totalNumberOfMessagesToSend
+      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
     ) {
       await stressBase.sendMessages([sender], numberOfMessagesPerSend);
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
@@ -136,8 +137,8 @@ export async function scenarioStreamingReceive() {
     if (receiver.receiveMode === "peekLock") {
       if (settleMessageOnReceive) {
         await delay(delayBeforeCompletingMessageInMs);
-        await stressBase.completeMessage(message, receiver);
-      } else if (!autoComplete && maxAutoRenewLockDurationInMs === 0 && manualLockRenewal) {
+        await stressBase.completeMessage(receiver, message);
+      } else if (!autoCompleteMessages && maxAutoRenewLockDurationInMs === 0 && manualLockRenewal) {
         const elapsedTime = new Date().valueOf() - startedAt.valueOf();
         stressBase.renewMessageLockUntil(
           message,
@@ -155,7 +156,7 @@ export async function scenarioStreamingReceive() {
   await Promise.all([
     sendMessages(),
     stressBase.receiveStreaming(receiver, testDurationInMs, processMessageCallback, {
-      autoComplete,
+      autoCompleteMessages,
       maxConcurrentCalls
     })
   ]);

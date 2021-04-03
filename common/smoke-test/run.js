@@ -13,9 +13,9 @@ async function main() {
   for (let entry of manifest) {
     console.log(`Importing samples for ${entry.Name}...`);
 
-    // Read configuration from package.json's //smokeTestConfiguration field
+    // Read configuration from package.json's //sampleConfiguration field
     const packageJson = require(`${entry.PackageDirectory}/package.json`);
-    const smokeTestConfig = packageJson["//smokeTestConfiguration"] || {};
+    const smokeTestConfig = packageJson["//sampleConfiguration"] || {};
 
     if (smokeTestConfig.skipFolder) {
       continue;
@@ -32,7 +32,7 @@ async function main() {
         entrypoint: sampleModule.main,
         name: entry.Name,
         sampleFile: targetSample,
-        directory: entry.SamplesDirectory,
+        directory: entry.SamplesDirectory
       });
     }
   }
@@ -45,7 +45,7 @@ async function main() {
       exitCode = 1;
       failures.push({
         sample,
-        result,
+        result
       });
     }
   }
@@ -71,7 +71,7 @@ async function executeSample(sample) {
   console.log(`Sample File: ${sample.sampleFile}`);
 
   let result = {
-    success: true,
+    success: true
   };
 
   let currentDir = process.cwd();
@@ -86,7 +86,7 @@ async function executeSample(sample) {
     console.log("FAILURE");
     result = {
       success: false,
-      exception,
+      exception
     };
   } finally {
     // Reset the working directory to the root directory after execution
@@ -102,7 +102,7 @@ async function executeSample(sample) {
 // logs error messages.
 if (process.argv[2] == "--devops-logging") {
   const oldConsoleError = console.error;
-  console.error = function () {
+  console.error = function() {
     // Mutate arguments to use new warning format
     arguments[0] = `##vso[task.logissue type=error]${arguments[0]}`;
     oldConsoleError.call(this, ...arguments);

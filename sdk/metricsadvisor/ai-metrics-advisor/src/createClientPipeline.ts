@@ -9,7 +9,7 @@ import {
   isTokenCredential
 } from "@azure/core-http";
 
-import { TokenCredential } from "@azure/identity";
+import { TokenCredential } from "@azure/core-auth";
 
 import {
   LIB_INFO,

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { ServiceClientOptions, OperationOptions } from "@azure/core-client";
 
 /** The properties for the table query response. */
 export interface TableQueryResponse {
@@ -485,7 +485,7 @@ export const enum KnownGeoReplicationStatusType {
 export type GeoReplicationStatusType = string;
 
 /** Optional parameters. */
-export interface TableQueryOptionalParams extends coreHttp.OperationOptions {
+export interface TableQueryOptionalParams extends OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -495,22 +495,10 @@ export interface TableQueryOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the query operation. */
-export type TableQueryOperationResponse = TableQueryHeaders &
-  TableQueryResponse & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: TableQueryResponse;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: TableQueryHeaders;
-    };
-  };
+export type TableQueryOperationResponse = TableQueryHeaders & TableQueryResponse;
 
 /** Optional parameters. */
-export interface TableCreateOptionalParams extends coreHttp.OperationOptions {
+export interface TableCreateOptionalParams extends OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -520,38 +508,19 @@ export interface TableCreateOptionalParams extends coreHttp.OperationOptions {
 }
 
 /** Contains response data for the create operation. */
-export type TableCreateResponse = TableCreateHeaders &
-  TableResponse & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: TableResponse;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: TableCreateHeaders;
-    };
-  };
+export type TableCreateResponse = TableCreateHeaders & TableResponse;
 
 /** Optional parameters. */
-export interface TableDeleteOptionalParams extends coreHttp.OperationOptions {
+export interface TableDeleteOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
 }
 
 /** Contains response data for the delete operation. */
-export type TableDeleteResponse = TableDeleteHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: TableDeleteHeaders;
-  };
-};
+export type TableDeleteResponse = TableDeleteHeaders;
 
 /** Optional parameters. */
-export interface TableQueryEntitiesOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TableQueryEntitiesOptionalParams extends OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -565,23 +534,10 @@ export interface TableQueryEntitiesOptionalParams
 }
 
 /** Contains response data for the queryEntities operation. */
-export type TableQueryEntitiesResponse = TableQueryEntitiesHeaders &
-  TableEntityQueryResponse & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: TableEntityQueryResponse;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: TableQueryEntitiesHeaders;
-    };
-  };
+export type TableQueryEntitiesResponse = TableQueryEntitiesHeaders & TableEntityQueryResponse;
 
 /** Optional parameters. */
-export interface TableQueryEntitiesWithPartitionAndRowKeyOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TableQueryEntitiesWithPartitionAndRowKeyOptionalParams extends OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -593,22 +549,10 @@ export interface TableQueryEntitiesWithPartitionAndRowKeyOptionalParams
 /** Contains response data for the queryEntitiesWithPartitionAndRowKey operation. */
 export type TableQueryEntitiesWithPartitionAndRowKeyResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders & {
   [propertyName: string]: any;
-} & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: { [propertyName: string]: any };
-    /** The parsed HTTP response headers. */
-    parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
-  };
 };
 
 /** Optional parameters. */
-export interface TableUpdateEntityOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TableUpdateEntityOptionalParams extends OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -622,17 +566,10 @@ export interface TableUpdateEntityOptionalParams
 }
 
 /** Contains response data for the updateEntity operation. */
-export type TableUpdateEntityResponse = TableUpdateEntityHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: TableUpdateEntityHeaders;
-  };
-};
+export type TableUpdateEntityResponse = TableUpdateEntityHeaders;
 
 /** Optional parameters. */
-export interface TableMergeEntityOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TableMergeEntityOptionalParams extends OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -646,17 +583,10 @@ export interface TableMergeEntityOptionalParams
 }
 
 /** Contains response data for the mergeEntity operation. */
-export type TableMergeEntityResponse = TableMergeEntityHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: TableMergeEntityHeaders;
-  };
-};
+export type TableMergeEntityResponse = TableMergeEntityHeaders;
 
 /** Optional parameters. */
-export interface TableDeleteEntityOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TableDeleteEntityOptionalParams extends OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -666,17 +596,10 @@ export interface TableDeleteEntityOptionalParams
 }
 
 /** Contains response data for the deleteEntity operation. */
-export type TableDeleteEntityResponse = TableDeleteEntityHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: TableDeleteEntityHeaders;
-  };
-};
+export type TableDeleteEntityResponse = TableDeleteEntityHeaders;
 
 /** Optional parameters. */
-export interface TableInsertEntityOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TableInsertEntityOptionalParams extends OperationOptions {
   /** Parameter group */
   queryOptions?: QueryOptions;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
@@ -692,22 +615,10 @@ export interface TableInsertEntityOptionalParams
 /** Contains response data for the insertEntity operation. */
 export type TableInsertEntityResponse = TableInsertEntityHeaders & {
   [propertyName: string]: any;
-} & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: { [propertyName: string]: any };
-    /** The parsed HTTP response headers. */
-    parsedHeaders: TableInsertEntityHeaders;
-  };
 };
 
 /** Optional parameters. */
-export interface TableGetAccessPolicyOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TableGetAccessPolicyOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -715,23 +626,10 @@ export interface TableGetAccessPolicyOptionalParams
 }
 
 /** Contains response data for the getAccessPolicy operation. */
-export type TableGetAccessPolicyResponse = TableGetAccessPolicyHeaders &
-  SignedIdentifier[] & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: SignedIdentifier[];
-      /** The parsed HTTP response headers. */
-      parsedHeaders: TableGetAccessPolicyHeaders;
-    };
-  };
+export type TableGetAccessPolicyResponse = TableGetAccessPolicyHeaders & SignedIdentifier[];
 
 /** Optional parameters. */
-export interface TableSetAccessPolicyOptionalParams
-  extends coreHttp.OperationOptions {
+export interface TableSetAccessPolicyOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -741,17 +639,10 @@ export interface TableSetAccessPolicyOptionalParams
 }
 
 /** Contains response data for the setAccessPolicy operation. */
-export type TableSetAccessPolicyResponse = TableSetAccessPolicyHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: TableSetAccessPolicyHeaders;
-  };
-};
+export type TableSetAccessPolicyResponse = TableSetAccessPolicyHeaders;
 
 /** Optional parameters. */
-export interface ServiceSetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+export interface ServiceSetPropertiesOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -759,17 +650,10 @@ export interface ServiceSetPropertiesOptionalParams
 }
 
 /** Contains response data for the setProperties operation. */
-export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ServiceSetPropertiesHeaders;
-  };
-};
+export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders;
 
 /** Optional parameters. */
-export interface ServiceGetPropertiesOptionalParams
-  extends coreHttp.OperationOptions {
+export interface ServiceGetPropertiesOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -777,23 +661,10 @@ export interface ServiceGetPropertiesOptionalParams
 }
 
 /** Contains response data for the getProperties operation. */
-export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders &
-  TableServiceProperties & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: TableServiceProperties;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ServiceGetPropertiesHeaders;
-    };
-  };
+export type ServiceGetPropertiesResponse = ServiceGetPropertiesHeaders & TableServiceProperties;
 
 /** Optional parameters. */
-export interface ServiceGetStatisticsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface ServiceGetStatisticsOptionalParams extends OperationOptions {
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. */
@@ -801,23 +672,10 @@ export interface ServiceGetStatisticsOptionalParams
 }
 
 /** Contains response data for the getStatistics operation. */
-export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders &
-  TableServiceStats & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: TableServiceStats;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ServiceGetStatisticsHeaders;
-    };
-  };
+export type ServiceGetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceStats;
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+export interface GeneratedClientOptionalParams extends ServiceClientOptions {
   /** Specifies the version of the operation to use for this request. */
   version?: string;
   /** Overrides client endpoint. */

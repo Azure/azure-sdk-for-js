@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2015",
+    "target": "es5",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "lib": ["ESNext.AsyncIterable"],
     "outDir": "dist",
-    "rootDir": "."
+    "rootDir": ".",
+    "strict": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
   },
   "include": ["./*.ts"],
   "exclude": ["node_modules"]

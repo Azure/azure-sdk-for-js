@@ -48,7 +48,7 @@ export function isKeyCredentialLike(o: unknown): o is KeyCredential {
   return castO.key !== undefined;
 }
 
-export function parseAndWrap(jsonStringOrObject: string | object): any[] {
+export function parseAndWrap(jsonStringOrObject: string | Record<string, unknown>): any[] {
   if (typeof jsonStringOrObject === "string") {
     const o = JSON.parse(jsonStringOrObject);
     if (Array.isArray(o)) {

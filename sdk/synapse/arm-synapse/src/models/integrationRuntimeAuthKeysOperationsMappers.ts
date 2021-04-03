@@ -8,7 +8,9 @@
 
 export {
   discriminators,
-  CloudError,
+  ErrorAdditionalInfo,
+  ErrorDetail,
+  ErrorResponse,
   IntegrationRuntimeAuthKeys,
   IntegrationRuntimeRegenerateKeyParameters
 } from "../models/mappers";

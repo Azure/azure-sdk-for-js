@@ -63,6 +63,46 @@ export class SqlPoolSensitivityLabels {
   }
 
   /**
+   * Update sensitivity labels of a given SQL Pool using an operations batch.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param parameters
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SensitivityLabelUpdateList, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SensitivityLabelUpdateList, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace
+   * @param sqlPoolName SQL pool name
+   * @param parameters
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SensitivityLabelUpdateList, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  update(resourceGroupName: string, workspaceName: string, sqlPoolName: string, parameters: Models.SensitivityLabelUpdateList, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        workspaceName,
+        sqlPoolName,
+        parameters,
+        options
+      },
+      updateOperationSpec,
+      callback);
+  }
+
+  /**
    * Gets sensitivity labels of a given SQL pool.
    * @summary Gets sensitivity labels of a given SQL pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -433,7 +473,38 @@ const listCurrentOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SensitivityLabelListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Synapse/workspaces/{workspaceName}/sqlPools/{sqlPoolName}/currentSensitivityLabels",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.sqlPoolName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.SensitivityLabelUpdateList,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -642,7 +713,7 @@ const listCurrentNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SensitivityLabelListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

@@ -1,7 +1,7 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 import { BlobLeaseClient } from "@azure/storage-blob";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 import { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models";
 import { createSpan } from "./utils/tracing";
@@ -22,21 +22,12 @@ export class DataLakeLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakeLeaseClient-acquireLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-acquireLease", options);
     try {
-      return await this.client.acquireLease(duration, {
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          spanOptions
-        }
-      });
+      return await this.client.acquireLease(duration, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -50,21 +41,12 @@ export class DataLakeLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakeLeaseClient-changeLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-changeLease", options);
     try {
-      return await this.client.changeLease(proposedLeaseId, {
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          spanOptions
-        }
-      });
+      return await this.client.changeLease(proposedLeaseId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -75,21 +57,12 @@ export class DataLakeLeaseClient {
 
   public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakeLeaseClient-releaseLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-releaseLease", options);
     try {
-      return await this.client.releaseLease({
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          spanOptions
-        }
-      });
+      return await this.client.releaseLease(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -100,21 +73,12 @@ export class DataLakeLeaseClient {
 
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakeLeaseClient-renewLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-renewLease", options);
     try {
-      return await this.client.renewLease({
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          spanOptions
-        }
-      });
+      return await this.client.renewLease(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -128,21 +92,12 @@ export class DataLakeLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
-    const { span, spanOptions } = createSpan(
-      "DataLakeLeaseClient-renewLease",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("DataLakeLeaseClient-renewLease", options);
     try {
-      return await this.client.breakLease(breakPeriod, {
-        ...options,
-        tracingOptions: {
-          ...options.tracingOptions,
-          spanOptions
-        }
-      });
+      return await this.client.breakLease(breakPeriod, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

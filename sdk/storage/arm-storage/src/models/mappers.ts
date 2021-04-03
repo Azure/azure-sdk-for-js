@@ -526,6 +526,22 @@ export const KeyVaultProperties: msRest.CompositeMapper = {
   }
 };
 
+export const EncryptionIdentity: msRest.CompositeMapper = {
+  serializedName: "EncryptionIdentity",
+  type: {
+    name: "Composite",
+    className: "EncryptionIdentity",
+    modelProperties: {
+      encryptionUserAssignedIdentity: {
+        serializedName: "userAssignedIdentity",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Encryption: msRest.CompositeMapper = {
   serializedName: "Encryption",
   type: {
@@ -558,6 +574,37 @@ export const Encryption: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "KeyVaultProperties"
+        }
+      },
+      encryptionIdentity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "EncryptionIdentity"
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: msRest.CompositeMapper = {
+  serializedName: "UserAssignedIdentity",
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        readOnly: true,
+        serializedName: "clientId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -612,14 +659,7 @@ export const VirtualNetworkRule: msRest.CompositeMapper = {
       state: {
         serializedName: "state",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "provisioning",
-            "deprovisioning",
-            "succeeded",
-            "failed",
-            "networkSourceDeleted"
-          ]
+          name: "String"
         }
       }
     }
@@ -844,11 +884,21 @@ export const Identity: msRest.CompositeMapper = {
       },
       type: {
         required: true,
-        isConstant: true,
         serializedName: "type",
-        defaultValue: 'SystemAssigned',
         type: {
           name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserAssignedIdentity"
+            }
+          }
         }
       }
     }
@@ -1030,6 +1080,18 @@ export const StorageAccountCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.minimumTlsVersion",
         type: {
           name: "String"
+        }
+      },
+      allowSharedKeyAccess: {
+        serializedName: "properties.allowSharedKeyAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableNfsV3: {
+        serializedName: "properties.isNfsV3Enabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1738,6 +1800,18 @@ export const StorageAccount: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      allowSharedKeyAccess: {
+        serializedName: "properties.allowSharedKeyAccess",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableNfsV3: {
+        serializedName: "properties.isNfsV3Enabled",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -1916,6 +1990,12 @@ export const StorageAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.minimumTlsVersion",
         type: {
           name: "String"
+        }
+      },
+      allowSharedKeyAccess: {
+        serializedName: "properties.allowSharedKeyAccess",
+        type: {
+          name: "Boolean"
         }
       },
       kind: {
@@ -2319,6 +2399,51 @@ export const ManagementPolicySnapShot: msRest.CompositeMapper = {
     name: "Composite",
     className: "ManagementPolicySnapShot",
     modelProperties: {
+      tierToCool: {
+        serializedName: "tierToCool",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
+      tierToArchive: {
+        serializedName: "tierToArchive",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
+      deleteProperty: {
+        serializedName: "delete",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      }
+    }
+  }
+};
+
+export const ManagementPolicyVersion: msRest.CompositeMapper = {
+  serializedName: "ManagementPolicyVersion",
+  type: {
+    name: "Composite",
+    className: "ManagementPolicyVersion",
+    modelProperties: {
+      tierToCool: {
+        serializedName: "tierToCool",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
+      tierToArchive: {
+        serializedName: "tierToArchive",
+        type: {
+          name: "Composite",
+          className: "DateAfterCreation"
+        }
+      },
       deleteProperty: {
         serializedName: "delete",
         type: {
@@ -2348,6 +2473,13 @@ export const ManagementPolicyAction: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagementPolicySnapShot"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Composite",
+          className: "ManagementPolicyVersion"
         }
       }
     }
@@ -2563,6 +2695,20 @@ export const EncryptionScopeKeyVaultProperties: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      currentVersionedKeyIdentifier: {
+        readOnly: true,
+        serializedName: "currentVersionedKeyIdentifier",
+        type: {
+          name: "String"
+        }
+      },
+      lastKeyRotationTimestamp: {
+        readOnly: true,
+        serializedName: "lastKeyRotationTimestamp",
+        type: {
+          name: "DateTime"
+        }
       }
     }
   }
@@ -2606,6 +2752,12 @@ export const EncryptionScope: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "EncryptionScopeKeyVaultProperties"
+        }
+      },
+      requireInfrastructureEncryption: {
+        serializedName: "properties.requireInfrastructureEncryption",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3688,6 +3840,16 @@ export const ChangeFeed: msRest.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      retentionInDays: {
+        serializedName: "retentionInDays",
+        constraints: {
+          InclusiveMaximum: 146000,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -3943,6 +4105,30 @@ export const SmbSetting: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Multichannel"
+        }
+      },
+      versions: {
+        serializedName: "versions",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationMethods: {
+        serializedName: "authenticationMethods",
+        type: {
+          name: "String"
+        }
+      },
+      kerberosTicketEncryption: {
+        serializedName: "kerberosTicketEncryption",
+        type: {
+          name: "String"
+        }
+      },
+      channelEncryption: {
+        serializedName: "channelEncryption",
+        type: {
+          name: "String"
         }
       }
     }

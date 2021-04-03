@@ -26,8 +26,26 @@ async function main() {
   }
 
   const globalScope = "/";
-  const roleDefinition = (await client.listRoleDefinitions(globalScope).next()).value;
 
+  const roleDefinitionName = uuidv4();
+  const permissions = [
+    {
+      dataActions: [
+        "Microsoft.KeyVault/managedHsm/backup/start/action",
+        "Microsoft.KeyVault/managedHsm/backup/status/action"
+      ]
+    }
+  ];
+  let roleDefinition = await client.upsertRoleDefinition(
+    globalScope,
+    roleDefinitionName,
+    permissions,
+    "Allow backup actions"
+  );
+  console.log(roleDefinition);
+
+  // This sample uses a custom role but you may assign one of the many built-in roles.
+  // Please refer to https://docs.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
   const roleAssignmentName = uuidv4();
   let assignment = await client.createRoleAssignment(
     globalScope,

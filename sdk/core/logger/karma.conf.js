@@ -29,8 +29,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      "test-browser/index.js",
-      { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ],
 
     // list of files / patterns to exclude
@@ -42,7 +42,7 @@ module.exports = function(config) {
       "**/*.js": ["env"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      // "test-browser/index.js": ["coverage"]
+      // "dist-test/index.browser.js": ["coverage"]
     },
 
     // test results reporter to use

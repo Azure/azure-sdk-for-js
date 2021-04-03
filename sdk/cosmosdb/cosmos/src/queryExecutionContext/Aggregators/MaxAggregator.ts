@@ -14,7 +14,6 @@ export class MaxAggregator implements Aggregator {
   private comparer: OrderByDocumentProducerComparator;
   /**
    * Represents an aggregator for MAX operator.
-   * @constructor MaxAggregator
    * @hidden
    */
   constructor() {
@@ -23,11 +22,8 @@ export class MaxAggregator implements Aggregator {
   }
   /**
    * Add the provided item to aggregation result.
-   * @memberof MaxAggregator
-   * @instance
-   * @param other
    */
-  public aggregate(other: MaxAggregateResult) {
+  public aggregate(other: MaxAggregateResult): void {
     if (this.value === undefined) {
       this.value = other.max;
     } else if (
@@ -39,10 +35,8 @@ export class MaxAggregator implements Aggregator {
 
   /**
    * Get the aggregation result.
-   * @memberof MaxAggregator
-   * @instance
    */
-  public getResult() {
+  public getResult(): number {
     return this.value;
   }
 }

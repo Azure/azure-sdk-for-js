@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-02-10/DataLakeStorage.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-06-12/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -131,13 +131,4 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $.properties.Code = { "type": "string" };
-```
-
-### Update service version from "2020-02-10" to "2020-04-08"
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2020-04-08" ];
 ```

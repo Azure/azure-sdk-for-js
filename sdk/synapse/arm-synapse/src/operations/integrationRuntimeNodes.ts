@@ -179,7 +179,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -213,7 +213,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SelfHostedIntegrationRuntimeNode
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer
@@ -239,7 +239,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   serializer

@@ -36,15 +36,18 @@ import {
   MergeSkill,
   EntityRecognitionSkill,
   SentimentSkill,
-  SplitSkill,
+  DocumentExtractionSkill,
   CustomEntityLookupSkill,
+  SplitSkill,
   TextTranslationSkill,
   WebApiSkill,
   LuceneStandardAnalyzer,
   StopAnalyzer,
   PatternAnalyzer as GeneratedPatternAnalyzer,
   CustomAnalyzer,
-  PatternTokenizer
+  PatternTokenizer,
+  LexicalNormalizer,
+  LexicalNormalizerName
 } from "./generated/service/models";
 import {
   LexicalAnalyzer,
@@ -113,14 +116,17 @@ export function convertSkillsToPublic(skills: SearchIndexerSkillUnion[]): Search
       case "#Microsoft.Skills.Text.SplitSkill":
         result.push(skill as SplitSkill);
         break;
-      case "#Microsoft.Skills.Text.CustomEntityLookupSkill":
-        result.push(skill as CustomEntityLookupSkill);
-        break;
       case "#Microsoft.Skills.Text.TranslationSkill":
         result.push(skill as TextTranslationSkill);
         break;
       case "#Microsoft.Skills.Custom.WebApiSkill":
         result.push(skill as WebApiSkill);
+        break;
+      case "#Microsoft.Skills.Text.CustomEntityLookupSkill":
+        result.push(skill as CustomEntityLookupSkill);
+        break;
+      case "#Microsoft.Skills.Util.DocumentExtractionSkill":
+        result.push(skill as DocumentExtractionSkill);
         break;
     }
   }
@@ -189,7 +195,7 @@ export function convertAnalyzersToGenerated(
       case "#Microsoft.Azure.Search.CustomAnalyzer":
         result.push({
           ...analyzer,
-          tokenizer: analyzer.tokenizer
+          tokenizerName: analyzer.tokenizerName
         });
         break;
     }
@@ -224,7 +230,7 @@ export function convertAnalyzersToPublic(
       case "#Microsoft.Azure.Search.CustomAnalyzer":
         result.push({
           ...analyzer,
-          tokenizer: (analyzer as CustomAnalyzer).tokenizer
+          tokenizerName: (analyzer as CustomAnalyzer).tokenizerName
         } as CustomAnalyzer);
         break;
     }
@@ -246,6 +252,7 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
       const searchAnalyzerName: LexicalAnalyzerName | undefined | null = field.searchAnalyzer;
       const indexAnalyzerName: LexicalAnalyzerName | undefined | null = field.indexAnalyzer;
       const synonymMapNames: string[] | undefined = field.synonymMaps;
+      const normalizerNames: LexicalNormalizerName | undefined | null = field.normalizer;
 
       const { retrievable, ...restField } = field;
       const hidden = typeof retrievable === "boolean" ? !retrievable : retrievable;
@@ -256,7 +263,8 @@ export function convertFieldsToPublic(fields: GeneratedSearchField[]): SearchFie
         anayzerName,
         searchAnalyzerName,
         indexAnalyzerName,
-        synonymMapNames
+        synonymMapNames,
+        normalizerNames
       } as SimpleField;
     }
     return result;
@@ -281,7 +289,8 @@ export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearch
         analyzer: field.analyzerName,
         searchAnalyzer: field.searchAnalyzerName,
         indexAnalyzer: field.indexAnalyzerName,
-        synonymMaps: field.synonymMapNames
+        synonymMaps: field.synonymMapNames,
+        normalizer: field.normalizerName
       };
     }
   });
@@ -429,6 +438,7 @@ export function generatedIndexToPublicIndex(generatedIndex: GeneratedSearchIndex
     tokenizers: convertTokenizersToPublic(generatedIndex.tokenizers),
     tokenFilters: generatedIndex.tokenFilters as TokenFilter[],
     charFilters: generatedIndex.charFilters as CharFilter[],
+    normalizers: generatedIndex.normalizers as LexicalNormalizer[],
     scoringProfiles: generatedIndex.scoringProfiles as ScoringProfile[],
     fields: convertFieldsToPublic(generatedIndex.fields),
     similarity: convertSimilarityToPublic(generatedIndex.similarity)
@@ -489,6 +499,7 @@ export function publicIndexToGeneratedIndex(index: SearchIndex): GeneratedSearch
     etag: index.etag,
     tokenFilters: convertTokenFiltersToGenerated(index.tokenFilters),
     charFilters: index.charFilters,
+    normalizers: index.normalizers,
     scoringProfiles: index.scoringProfiles,
     analyzers: convertAnalyzersToGenerated(index.analyzers),
     tokenizers: convertTokenizersToGenerated(index.tokenizers),

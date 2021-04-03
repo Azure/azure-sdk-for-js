@@ -254,7 +254,7 @@ const listByDatabaseAccountOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -280,7 +280,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.notebookWorkspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -306,7 +306,7 @@ const listConnectionInfoOperationSpec: msRest.OperationSpec = {
     Parameters.notebookWorkspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -332,7 +332,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.notebookWorkspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -365,7 +365,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.notebookWorkspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -390,7 +390,7 @@ const beginRegenerateAuthTokenOperationSpec: msRest.OperationSpec = {
     Parameters.notebookWorkspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -415,7 +415,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.notebookWorkspaceName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

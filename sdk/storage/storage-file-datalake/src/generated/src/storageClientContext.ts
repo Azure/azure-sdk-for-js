@@ -41,7 +41,7 @@ export class StorageClientContext extends coreHttp.ServiceClient {
     super(undefined, options);
 
     this.resource = 'filesystem';
-    this.version = '2020-04-08';
+    this.version = '2020-06-12';
     this.baseUri = "{url}";
     this.requestContentType = "application/json; charset=utf-8";
     this.url = url;

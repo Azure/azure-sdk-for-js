@@ -1,67 +1,70 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { PaginatedHealthcareEntities } from "../../healthResult";
+import { PollerLike } from "@azure/core-lro";
+import { PagedAnalyzeHealthcareEntitiesResult } from "../../analyzeHealthcareEntitiesResult";
+import { StringIndexType, delay } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
   BeginAnalyzeHealthcarePollerOperation,
-  BeginAnalyzeHealthcarePollState
+  AnalyzeHealthcareOperationState
 } from "./operation";
 
 /**
- * The status of a health operation
+ * @internal
  */
-export type BeginAnalyzeHealthcareOperationState = PollOperationState<PaginatedHealthcareEntities>;
+export interface HealthcarePollerOptions extends AnalysisPollerOptions {
+  readonly modelVersion?: string;
+  readonly includeStatistics?: boolean;
+  stringIndexType?: StringIndexType;
+}
 
 /**
  * Result type of the Health Long-Running-Operation (LRO)
  */
-export type HealthPollerLike = PollerLike<
-  BeginAnalyzeHealthcareOperationState,
-  PaginatedHealthcareEntities
+export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<
+  AnalyzeHealthcareOperationState,
+  PagedAnalyzeHealthcareEntitiesResult
 >;
 
 /**
  * Class that represents a poller that waits for the healthcare results.
+ * @internal
  */
 export class BeginAnalyzeHealthcarePoller extends AnalysisPoller<
-  BeginAnalyzeHealthcarePollState,
-  PaginatedHealthcareEntities
+  AnalyzeHealthcareOperationState,
+  PagedAnalyzeHealthcareEntitiesResult
 > {
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-  constructor(pollerOptions: AnalysisPollerOptions) {
+  constructor(pollerOptions: HealthcarePollerOptions) {
     const {
       client,
       documents,
       analysisOptions,
+      includeStatistics,
+      modelVersion,
       updateIntervalInMs = 5000,
-      resumeFrom
+      resumeFrom,
+      stringIndexType
     } = pollerOptions;
 
-    let state: BeginAnalyzeHealthcarePollState | undefined;
+    let state: AnalyzeHealthcareOperationState | undefined;
 
     if (resumeFrom) {
       state = JSON.parse(resumeFrom).state;
     }
-    const { includeStatistics, requestOptions, tracingOptions } = analysisOptions || {};
-    const operation = new BeginAnalyzeHealthcarePollerOperation(
-      state || {},
-      client,
-      documents,
-      {
-        health: analysisOptions,
-        polling: {
-          updateIntervalInMs,
-          resumeFrom
-        }
-      },
-      // take out modelVersion from the options that will be sent to the status
-      // API because it is not applicable.
-      { includeStatistics, requestOptions, tracingOptions }
-    );
+    const { abortSignal, requestOptions, tracingOptions } = analysisOptions || {};
+    const operation = new BeginAnalyzeHealthcarePollerOperation(state || {}, client, documents, {
+      requestOptions,
+      modelVersion,
+      updateIntervalInMs,
+      resumeFrom,
+      tracingOptions,
+      includeStatistics,
+      abortSignal,
+      stringIndexType
+    });
 
     super(operation);
 

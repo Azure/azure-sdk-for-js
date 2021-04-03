@@ -31,6 +31,7 @@ export {
   DeletedAccountListResult,
   DeleteRetentionPolicy,
   Encryption,
+  EncryptionIdentity,
   EncryptionScope,
   EncryptionScopeKeyVaultProperties,
   EncryptionService,
@@ -60,6 +61,7 @@ export {
   ManagementPolicyRule,
   ManagementPolicySchema,
   ManagementPolicySnapShot,
+  ManagementPolicyVersion,
   Multichannel,
   NetworkRuleSet,
   ObjectReplicationPolicy,
@@ -89,5 +91,6 @@ export {
   TagProperty,
   TrackedResource,
   UpdateHistoryProperty,
+  UserAssignedIdentity,
   VirtualNetworkRule
 } from "../models/mappers";

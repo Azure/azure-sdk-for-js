@@ -48,10 +48,13 @@ export async function main(): Promise<void> {
   console.log("verify result: ", verifyResult);
 
   // Encrypt and decrypt
-  const encrypt = await cryptoClient.encrypt("RSA1_5", Buffer.from("My Message"));
+  const encrypt = await cryptoClient.encrypt({
+    algorithm: "RSA1_5",
+    plaintext: Buffer.from("My Message")
+  });
   console.log("encrypt result: ", encrypt);
 
-  const decrypt = await cryptoClient.decrypt("RSA1_5", encrypt.result);
+  const decrypt = await cryptoClient.decrypt({ algorithm: "RSA1_5", ciphertext: encrypt.result });
   console.log("decrypt: ", decrypt.result.toString());
 
   // Wrap and unwrap

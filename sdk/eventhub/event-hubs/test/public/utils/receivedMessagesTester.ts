@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { CloseReason, EventHubProducerClient, ReceivedEventData } from "../../../src";
-import {
-  PartitionContext,
-  SubscriptionEventHandlers
-} from "../../../src";
+import { PartitionContext, SubscriptionEventHandlers } from "../../../src";
 import chai from "chai";
 import { delay } from "@azure/core-amqp";
 
@@ -28,9 +25,9 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
   /**
    * Creates a ReceivedMessagesTester
    *
-   * @param expectedPartitions The only partitions we expect to see messages from.
-   * @param expectedMessageBodies The message bodies we expect to get at least once.
-   * @param multipleConsumers If you're running a test that involves multiple consumers there
+   * @param expectedPartitions - The only partitions we expect to see messages from.
+   * @param expectedMessageBodies - The message bodies we expect to get at least once.
+   * @param multipleConsumers - If you're running a test that involves multiple consumers there
    *                      will be errors as they balance. Set this to true to be less picky
    *                      about errors that occur and concentrate on making sure all expected
    *                      messages are received at least once.

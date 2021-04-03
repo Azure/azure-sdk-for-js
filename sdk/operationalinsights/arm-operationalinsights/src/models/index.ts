@@ -22,7 +22,7 @@ export interface DataExport extends BaseResource {
   /**
    * An array of tables to export, for example: [“Heartbeat, SecurityEvent”].
    */
-  tableNames?: string[];
+  tableNames: string[];
   /**
    * The destination resource ID. This can be copied from the Properties entry of the destination
    * resource in Azure.

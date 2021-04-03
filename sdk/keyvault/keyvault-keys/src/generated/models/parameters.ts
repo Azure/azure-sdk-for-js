@@ -18,8 +18,7 @@ import {
   KeyRestoreParameters as KeyRestoreParametersMapper,
   KeyOperationsParameters as KeyOperationsParametersMapper,
   KeySignParameters as KeySignParametersMapper,
-  KeyVerifyParameters as KeyVerifyParametersMapper,
-  KeyExportParameters as KeyExportParametersMapper
+  KeyVerifyParameters as KeyVerifyParametersMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -81,11 +80,6 @@ export const curve: OperationParameter = {
   mapper: KeyCreateParametersMapper
 };
 
-export const releasePolicy: OperationParameter = {
-  parameterPath: ["options", "releasePolicy"],
-  mapper: KeyCreateParametersMapper
-};
-
 export const vaultBaseUrl: OperationURLParameter = {
   parameterPath: "vaultBaseUrl",
   mapper: {
@@ -143,11 +137,6 @@ export const tags1: OperationParameter = {
   mapper: KeyImportParametersMapper
 };
 
-export const releasePolicy1: OperationParameter = {
-  parameterPath: ["options", "releasePolicy"],
-  mapper: KeyImportParametersMapper
-};
-
 export const keyName1: OperationURLParameter = {
   parameterPath: "keyName",
   mapper: {
@@ -171,11 +160,6 @@ export const keyAttributes2: OperationParameter = {
 
 export const tags2: OperationParameter = {
   parameterPath: ["options", "tags"],
-  mapper: KeyUpdateParametersMapper
-};
-
-export const releasePolicy2: OperationParameter = {
-  parameterPath: ["options", "releasePolicy"],
   mapper: KeyUpdateParametersMapper
 };
 
@@ -229,8 +213,8 @@ export const additionalAuthenticatedData: OperationParameter = {
   mapper: KeyOperationsParametersMapper
 };
 
-export const tag: OperationParameter = {
-  parameterPath: ["options", "tag"],
+export const authenticationTag: OperationParameter = {
+  parameterPath: ["options", "authenticationTag"],
   mapper: KeyOperationsParametersMapper
 };
 
@@ -257,11 +241,6 @@ export const digest: OperationParameter = {
 export const signature: OperationParameter = {
   parameterPath: "signature",
   mapper: KeyVerifyParametersMapper
-};
-
-export const environment: OperationParameter = {
-  parameterPath: "environment",
-  mapper: KeyExportParametersMapper
 };
 
 export const nextLink: OperationURLParameter = {

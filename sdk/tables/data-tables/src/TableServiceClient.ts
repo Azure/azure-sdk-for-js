@@ -34,9 +34,11 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
-import { createPipelineFromOptions, InternalPipelineOptions } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
+import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -115,18 +117,26 @@ export class TableServiceClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
-      loggingOptions: {
-        logger: logger.info,
-        allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+    const internalPipelineOptions: InternalClientPipelineOptions = {
+      ...clientOptions,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          additionalAllowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+        },
+        deserializationOptions: {
+          parseXML
+        },
+        serializationOptions: {
+          stringifyXML
+        }
       }
     };
 
-    const pipeline = {
-      ...clientOptions,
-      ...createPipelineFromOptions(internalPipelineOptions, credential)
-    };
-    const client = new GeneratedClient(url, pipeline);
+    const client = new GeneratedClient(url, internalPipelineOptions);
+    if (credential) {
+      client.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+    }
     this.table = client.table;
     this.service = client.service;
   }
@@ -141,7 +151,7 @@ export class TableServiceClient {
     try {
       return this.service.getStatistics(updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -158,7 +168,7 @@ export class TableServiceClient {
     try {
       return this.service.getProperties(updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -179,7 +189,7 @@ export class TableServiceClient {
     try {
       return this.service.setProperties(properties, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -202,7 +212,7 @@ export class TableServiceClient {
         { ...updatedOptions, responsePreference: "return-content" }
       );
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -222,7 +232,7 @@ export class TableServiceClient {
     try {
       return this.table.delete(tableName, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -292,7 +302,7 @@ export class TableServiceClient {
         yield result;
       }
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -300,13 +310,11 @@ export class TableServiceClient {
   }
 
   private async _listTables(options?: InternalListTablesOptions): Promise<ListTableItemsResponse> {
-    const {
-      _response,
-      xMsContinuationNextTableName: nextTableName,
-      value = []
-    } = await this.table.query(options);
+    const { xMsContinuationNextTableName: nextTableName, value = [] } = await this.table.query(
+      options
+    );
 
-    return Object.assign([...value], { _response, nextTableName });
+    return Object.assign([...value], { nextTableName });
   }
 
   /**
@@ -323,7 +331,7 @@ export class TableServiceClient {
     try {
       return this.table.getAccessPolicy(tableName, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -344,7 +352,7 @@ export class TableServiceClient {
     try {
       return this.table.setAccessPolicy(tableName, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();

@@ -1,0 +1,115 @@
+{
+  "name": "@azure/core-util",
+  "version": "1.0.0-beta.1",
+  "description": "Core library for shared utility methods",
+  "sdk-type": "client",
+  "main": "dist/index.js",
+  "module": "dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/src/isNode.js": "./dist-esm/src/isNode.browser.js"
+  },
+  "types": "types/latest/core-util.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
+    }
+  },
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "echo Skipped.",
+    "build:test": "echo Just call build instead",
+    "build:ts": "tsc -p .",
+    "build:types": "downlevel-dts types/latest/ types/3.1/",
+    "build": "npm run build:ts && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
+    "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* types *.tgz *.log",
+    "execute:samples": "echo skipped",
+    "extract-api": "npm run build:ts && api-extractor run --local",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "prebuild": "npm run clean",
+    "test:browser": "npm run build:test:browser && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test:node && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run unit-test:node && npm run build && npm run unit-test:browser && npm run integration-test:node && npm run integration-test:browser",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
+  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/latest/core-util.d.ts",
+    "types/3.1/core-util.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-util/",
+  "sideEffects": false,
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@microsoft/api-extractor": "7.7.11",
+    "@rollup/plugin-commonjs": "11.0.2",
+    "@rollup/plugin-json": "^4.0.0",
+    "@rollup/plugin-multi-entry": "^3.0.0",
+    "@rollup/plugin-node-resolve": "^8.0.0",
+    "@rollup/plugin-replace": "^2.2.0",
+    "@types/chai": "^4.1.6",
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^8.0.0",
+    "@types/sinon": "^9.0.4",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "chai": "^4.2.0",
+    "downlevel-dts": "~0.4.0",
+    "cross-env": "^7.0.2",
+    "eslint": "^7.15.0",
+    "inherits": "^2.0.3",
+    "karma": "^6.2.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-coverage": "^2.0.0",
+    "karma-edge-launcher": "^0.4.2",
+    "karma-env-preprocessor": "^0.1.1",
+    "karma-firefox-launcher": "^1.1.0",
+    "karma-ie-launcher": "^1.0.0",
+    "karma-junit-reporter": "^2.0.1",
+    "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
+    "karma-sourcemap-loader": "^0.3.8",
+    "mocha": "^7.1.1",
+    "mocha-junit-reporter": "^1.18.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.16.3",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "rollup-plugin-terser": "^5.1.1",
+    "rollup-plugin-visualizer": "^4.0.4",
+    "sinon": "^9.0.2",
+    "typescript": "~4.2.0",
+    "util": "^0.12.1",
+    "typedoc": "0.15.2"
+  }
+}

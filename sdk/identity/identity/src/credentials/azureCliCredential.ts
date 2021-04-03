@@ -3,8 +3,8 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/api";
+import { CredentialUnavailable } from "../client/errors";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import * as child_process from "child_process";
 
@@ -39,8 +39,9 @@ export class AzureCliCredential implements TokenCredential {
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     return new Promise((resolve, reject) => {
       try {
-        child_process.exec(
-          `az account get-access-token --output json --resource ${resource}`,
+        child_process.execFile(
+          "az",
+          ["account", "get-access-token", "--output", "json", "--resource", resource],
           { cwd: getSafeWorkingDir() },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
@@ -65,7 +66,7 @@ export class AzureCliCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  ): Promise<AccessToken> {
     return new Promise((resolve, reject) => {
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       logger.getToken.info(`Using the scope ${scope}`);
@@ -118,12 +119,8 @@ export class AzureCliCredential implements TokenCredential {
           }
         })
         .catch((err) => {
-          const code =
-            err.name === AuthenticationErrorName
-              ? CanonicalCode.UNAUTHENTICATED
-              : CanonicalCode.UNKNOWN;
           span.setStatus({
-            code,
+            code: SpanStatusCode.ERROR,
             message: err.message
           });
           logger.getToken.info(formatError(scopes, err));

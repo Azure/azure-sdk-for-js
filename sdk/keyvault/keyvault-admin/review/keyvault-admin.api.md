@@ -21,12 +21,19 @@ export interface BackupClientOptions extends coreHttp.PipelineOptions {
 }
 
 // @public
-export type BackupOperationState = KeyVaultAdminPollOperationState<string>;
+export type BackupOperationState = KeyVaultAdminPollOperationState<BackupResult>;
 
 // @public
 export interface BackupPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
+}
+
+// @public
+export interface BackupResult {
+    backupFolderUri?: string;
+    endTime?: Date;
+    startTime: Date;
 }
 
 // @public
@@ -50,17 +57,28 @@ export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface DeleteRoleDefinitionOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface GetRoleDefinitionOptions extends coreHttp.OperationOptions {
+}
+
+// @public
 export class KeyVaultAccessControlClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: AccessControlClientOptions);
-    createRoleAssignment(roleScope: RoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    deleteRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    getRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    listRoleAssignments(roleScope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
-    listRoleDefinitions(roleScope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
+    constructor(vaultUrl: string, credential: TokenCredential, options?: AccessControlClientOptions);
+    createRoleAssignment(roleScope: KeyVaultRoleScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    deleteRoleAssignment(roleScope: KeyVaultRoleScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    deleteRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: DeleteRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    getRoleAssignment(roleScope: KeyVaultRoleScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    getRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    listRoleAssignments(roleScope: KeyVaultRoleScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
+    listRoleDefinitions(roleScope: KeyVaultRoleScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
+    upsertRoleDefinition(roleScope: KeyVaultRoleScope, name: string, permissions: KeyVaultPermission[], description?: string, options?: UpsertRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     readonly vaultUrl: string;
 }
 
@@ -76,26 +94,29 @@ export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationS
 // @public
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
-    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, string>>;
-    beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, undefined>>;
-    beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, undefined>>;
+    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, BackupResult>>;
+    beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, RestoreResult>>;
+    beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, RestoreResult>>;
     readonly vaultUrl: string;
 }
 
 // @public
+export type KeyVaultDataAction = "Microsoft.KeyVault/managedHsm/keys/read/action" | "Microsoft.KeyVault/managedHsm/keys/write/action" | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action" | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action" | "Microsoft.KeyVault/managedHsm/keys/backup/action" | "Microsoft.KeyVault/managedHsm/keys/restore/action" | "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action" | "Microsoft.KeyVault/managedHsm/roleAssignments/read/action" | "Microsoft.KeyVault/managedHsm/roleAssignments/write/action" | "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action" | "Microsoft.KeyVault/managedHsm/keys/encrypt/action" | "Microsoft.KeyVault/managedHsm/keys/decrypt/action" | "Microsoft.KeyVault/managedHsm/keys/wrap/action" | "Microsoft.KeyVault/managedHsm/keys/unwrap/action" | "Microsoft.KeyVault/managedHsm/keys/sign/action" | "Microsoft.KeyVault/managedHsm/keys/verify/action" | "Microsoft.KeyVault/managedHsm/keys/create" | "Microsoft.KeyVault/managedHsm/keys/delete" | "Microsoft.KeyVault/managedHsm/keys/export/action" | "Microsoft.KeyVault/managedHsm/keys/import/action" | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete" | "Microsoft.KeyVault/managedHsm/securitydomain/download/action" | "Microsoft.KeyVault/managedHsm/securitydomain/upload/action" | "Microsoft.KeyVault/managedHsm/securitydomain/upload/read" | "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read" | "Microsoft.KeyVault/managedHsm/backup/start/action" | "Microsoft.KeyVault/managedHsm/restore/start/action" | "Microsoft.KeyVault/managedHsm/backup/status/action" | "Microsoft.KeyVault/managedHsm/restore/status/action" | string;
+
+// @public
 export interface KeyVaultPermission {
     actions?: string[];
-    dataActions?: string[];
+    dataActions?: KeyVaultDataAction[];
     notActions?: string[];
-    notDataActions?: string[];
+    notDataActions?: KeyVaultDataAction[];
 }
 
 // @public
 export interface KeyVaultRoleAssignment {
     readonly id: string;
+    readonly kind: string;
     readonly name: string;
     properties: KeyVaultRoleAssignmentPropertiesWithScope;
-    readonly type: string;
 }
 
 // @public
@@ -108,7 +129,7 @@ export interface KeyVaultRoleAssignmentProperties {
 export interface KeyVaultRoleAssignmentPropertiesWithScope {
     principalId: string;
     roleDefinitionId: string;
-    scope?: RoleAssignmentScope;
+    scope?: KeyVaultRoleScope;
 }
 
 // @public
@@ -116,15 +137,18 @@ export interface KeyVaultRoleDefinition {
     assignableScopes: string[];
     description: string;
     readonly id: string;
+    readonly kind: string;
     readonly name: string;
     permissions: KeyVaultPermission[];
     roleName: string;
     roleType: string;
-    readonly type: string;
 }
 
 // @public
-export const LATEST_API_VERSION = "7.2-preview";
+export type KeyVaultRoleScope = "/" | "/keys" | string;
+
+// @public
+export const LATEST_API_VERSION = "7.2";
 
 // @public
 export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
@@ -145,21 +169,28 @@ export interface ListRoleDefinitionsPageSettings {
 }
 
 // @public
-export interface RestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
+export interface RestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {
 }
 
 // @public
-export type RoleAssignmentScope = "/" | "/keys" | string;
+export interface RestoreResult {
+    endTime?: Date;
+    startTime: Date;
+}
 
 // @public
 export const SDK_VERSION: string;
 
 // @public
-export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<undefined> {
+export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperationState<RestoreResult> {
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2-preview";
+export type SUPPORTED_API_VERSIONS = "7.2";
+
+// @public
+export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {
+}
 
 
 // (No @packageDocumentation comment for this package)
