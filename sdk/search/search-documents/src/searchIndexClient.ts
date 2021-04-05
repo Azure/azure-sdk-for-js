@@ -144,6 +144,10 @@ export class SearchIndexClient {
 
     if (!apiVersion) {
       apiVersion = this.apiVersion;
+    } else {
+      if (!["2020-06-30-Preview", "2020-06-30"].includes(apiVersion)) {
+        throw new Error(`Invalid Api Version: ${apiVersion}`)
+      }
     }
 
     this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
