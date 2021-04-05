@@ -31,12 +31,12 @@ import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChallenge
 /**
  * Options for the `getProperties` method of `ContainerRepositoryClient`.
  */
-export interface GetPropertiesOptions extends OperationOptions {}
+export interface GetRepositoryPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `delete` method of `ContainerRepositoryClient`.
+ * Options for delete repository operation.
  */
-export interface DeleteOptions extends OperationOptions {}
+export interface DeleteRepositoryOptions extends OperationOptions {}
 
 /**
  * Options for the `deleteRegistryArtifact` method of `ContainerRepositoryClient`.
@@ -64,9 +64,9 @@ export interface GetTagPropertiesOptions extends OperationOptions {}
 export interface SetManifestPropertiesOptions extends OperationOptions {}
 
 /**
- * Options for the `setPermissions` method of `ContainerRepositoryClient`.
+ * Options for the `setProperties` method of `ContainerRepositoryClient`.
  */
-export interface SetPermissionsOptions extends OperationOptions {}
+export interface SetRepositoryPropertiesOptions extends OperationOptions {}
 /**
  * Options for the `setTagProperties` method of `ContainerRepositoryClient`.
  */
@@ -181,7 +181,7 @@ export class ContainerRepositoryClient {
    *
    * @param options - optional configuration for the operation
    */
-  public async delete(options: DeleteOptions = {}): Promise<DeleteRepositoryResult> {
+  public async delete(options: DeleteRepositoryOptions = {}): Promise<DeleteRepositoryResult> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-delete", options);
 
     try {
@@ -248,7 +248,9 @@ export class ContainerRepositoryClient {
    * Retrieves properties of this repository.
    * @param options -
    */
-  public async getProperties(options: GetPropertiesOptions = {}): Promise<RepositoryProperties> {
+  public async getProperties(
+    options: GetRepositoryPropertiesOptions = {}
+  ): Promise<RepositoryProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-getProperties", options);
 
     try {
@@ -281,7 +283,7 @@ export class ContainerRepositoryClient {
 
     let digest: string = tagOrDigest;
     if (!isDigest(tagOrDigest)) {
-      digest = (await this.getTagProperties(tagOrDigest)).digest!; // TODO: swagger update to make digest non-optional
+      digest = (await this.getTagProperties(tagOrDigest)).digest!; // TODO: (jeremymeng) swagger update to make digest non-optional
     }
 
     try {
@@ -364,7 +366,7 @@ export class ContainerRepositoryClient {
    */
   public async setProperties(
     value: ContentProperties,
-    options: SetPermissionsOptions = {}
+    options: SetRepositoryPropertiesOptions = {}
   ): Promise<RepositoryProperties> {
     const { span, updatedOptions } = createSpan("ContainerRepositoryClient-setProperties", {
       ...options,

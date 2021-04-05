@@ -19,12 +19,7 @@ import { ContainerRegistryClientOptions, DeleteRepositoryResult } from "./model"
 import { extractNextLink } from "./utils";
 import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChallengeAuthenticationPolicy";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
-import { ContainerRepositoryClient } from "./containerRepositoryClient";
-
-/**
- * Options for the `deleteRepository` method of `ContainerRegistryClient`.
- */
-export interface DeleteRepositoryOptions extends OperationOptions {}
+import { ContainerRepositoryClient, DeleteRepositoryOptions } from "./containerRepositoryClient";
 
 /**
  * Options for the `listRepositories` method of `ContainerRegistryClient`.

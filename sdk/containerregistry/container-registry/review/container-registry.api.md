@@ -25,11 +25,11 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 // @public
 export class ContainerRepositoryClient {
     constructor(endpointUrl: string, repository: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
-    delete(options?: DeleteOptions): Promise<DeleteRepositoryResult>;
+    delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<void>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
     endpoint: string;
-    getProperties(options?: GetPropertiesOptions): Promise<RepositoryProperties>;
+    getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
     getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<RegistryArtifactProperties>;
     getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<TagProperties>;
     listRegistryArtifacts(options?: ListRegistryArtifactsOptions): PagedAsyncIterableIterator<RegistryArtifactProperties>;
@@ -37,7 +37,7 @@ export class ContainerRepositoryClient {
     registry: string;
     repository: string;
     setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<RegistryArtifactProperties>;
-    setProperties(value: ContentProperties, options?: SetPermissionsOptions): Promise<RepositoryProperties>;
+    setProperties(value: ContentProperties, options?: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
     setTagProperties(tag: string, value: ContentProperties, options?: SetTagPropertiesOptions): Promise<TagProperties>;
 }
 
@@ -47,10 +47,6 @@ export interface ContentProperties {
     canList?: boolean;
     canRead?: boolean;
     canWrite?: boolean;
-}
-
-// @public
-export interface DeleteOptions extends OperationOptions {
 }
 
 // @public
@@ -72,11 +68,11 @@ export interface DeleteTagOptions extends OperationOptions {
 }
 
 // @public
-export interface GetPropertiesOptions extends OperationOptions {
+export interface GetRegistryArtifactPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface GetRegistryArtifactPropertiesOptions extends OperationOptions {
+export interface GetRepositoryPropertiesOptions extends OperationOptions {
 }
 
 // @public
@@ -94,7 +90,6 @@ export interface ListRepositoriesOptions extends OperationOptions {
 
 // @public
 export interface ListTagsOptions extends OperationOptions {
-    digest?: string;
     orderBy?: TagOrderBy;
 }
 
@@ -130,7 +125,7 @@ export interface SetManifestPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface SetPermissionsOptions extends OperationOptions {
+export interface SetRepositoryPropertiesOptions extends OperationOptions {
 }
 
 // @public
