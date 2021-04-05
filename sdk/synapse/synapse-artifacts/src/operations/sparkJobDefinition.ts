@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/// <reference lib="esnext.asynciterable" />
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
@@ -29,7 +30,6 @@ import {
   SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class representing a SparkJobDefinition. */
 export class SparkJobDefinitionImpl implements SparkJobDefinition {
   private readonly client: ArtifactsClientContext;

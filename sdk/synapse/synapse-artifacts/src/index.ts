@@ -6,6 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 /// <reference lib="esnext.asynciterable" />
+
+import "@azure/core-paging";
 export * from "./models";
 export {
   LROPoller,

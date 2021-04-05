@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/// <reference lib="esnext.asynciterable" />
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
@@ -27,7 +28,6 @@ import {
   LinkedServiceGetLinkedServicesByWorkspaceNextResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class representing a LinkedService. */
 export class LinkedServiceImpl implements LinkedService {
   private readonly client: ArtifactsClientContext;
