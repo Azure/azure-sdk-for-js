@@ -6,6 +6,10 @@
   These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
   Resolves [#11891](https://github.com/Azure/azure-sdk-for-js/issues/11891).
 
+### Bug fixes
+
+- Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug w.r.t the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
+
 ## 7.0.4 (2021-03-31)
 
 ### Bug fixes
