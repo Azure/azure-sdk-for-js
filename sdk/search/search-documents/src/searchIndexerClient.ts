@@ -129,7 +129,7 @@ export class SearchIndexerClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    if(!apiVersion) {
+    if (!apiVersion) {
       apiVersion = this.apiVersion;
     }
 

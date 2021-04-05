@@ -147,7 +147,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
     }
 
-    if(!apiVersion) {
+    if (!apiVersion) {
       apiVersion = this.apiVersion;
     }
 
