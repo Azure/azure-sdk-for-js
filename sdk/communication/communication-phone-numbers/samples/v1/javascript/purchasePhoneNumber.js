@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to us the PhoneNumbersClient to purchase a phone number and use it to send a SMS.
+ * @summary Search for a toll-free phone number then purchase it.
  */
 
 const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");

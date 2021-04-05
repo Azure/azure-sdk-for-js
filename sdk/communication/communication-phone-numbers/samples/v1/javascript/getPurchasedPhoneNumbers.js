@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to us the PhoneNumbersClient to list all purchased phone numbers.
+ * @summary Get a list of all purchased phone numbers.
  */
 
 const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");

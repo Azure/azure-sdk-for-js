@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to us the PhoneNumbersClient to update the capabilities of a purchased phone number.
+ * @summary Update the capabilities of a purchased phone number.
  */
 
 import {
@@ -22,7 +22,8 @@ export const main = async () => {
     // create new client
     const client = new PhoneNumbersClient(connectionString);
 
-    const phoneNumberToUpdate = "+16135550147";
+    // You will need to set this environment variable or edit the following values
+    const phoneNumberToUpdate = process.env.PHONE_NUMBER_TO_UPDATE || "";
 
     // This will update the phone number to send and receive sms, but only send calls.
     const updateRequest: PhoneNumberCapabilitiesRequest = {

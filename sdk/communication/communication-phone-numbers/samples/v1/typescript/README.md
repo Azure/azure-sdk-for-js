@@ -12,13 +12,13 @@ urlFragment: communication-phone-numbers-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Services in some common scenarios.
 
-| **File Name**                                                     | **Description**                                                                                       |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| [getPurchasedPhoneNumber.ts][getpurchasedphonenumber]             | Demonstrates how to us the PhoneNumbersClient to get a purchased phone number.                        |
-| [getPurchasedPhoneNumbers.ts][getpurchasedphonenumbers]           | Demonstrates how to us the PhoneNumbersClient to list all purchased phone numbers.                    |
-| [purchasePhoneNumber.ts][purchasephonenumber]                     | Demonstrates how to us the PhoneNumbersClient to purchase a phone number and use it to send a SMS.    |
-| [releasePhoneNumber.ts][releasephonenumber]                       | Demonstrates how to us the PhoneNumbersClient to release phone numbers.                               |
-| [updatePhoneNumberCapabilities.ts][updatephonenumbercapabilities] | Demonstrates how to us the PhoneNumbersClient to update the capabilities of a purchased phone number. |
+| **File Name**                                                     | **Description**                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------- |
+| [getPurchasedPhoneNumber.ts][getpurchasedphonenumber]             | Get a purchased phone number.                         |
+| [getPurchasedPhoneNumbers.ts][getpurchasedphonenumbers]           | Get a list of all purchased phone numbers.            |
+| [purchasePhoneNumber.ts][purchasephonenumber]                     | Search for a toll-free phone number then purchase it. |
+| [releasePhoneNumber.ts][releasephonenumber]                       | Release a purchased phone number.                     |
+| [updatePhoneNumberCapabilities.ts][updatephonenumbercapabilities] | Update the capabilities of a purchased phone number.  |
 
 ## Prerequisites
 
@@ -63,7 +63,7 @@ node dist/getPurchasedPhoneNumber.ts
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node dist/getPurchasedPhoneNumber.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" PHONE_NUMBER_TO_GET="<phone number to get>" node dist/getPurchasedPhoneNumber.js
 ```
 
 ## Next Steps

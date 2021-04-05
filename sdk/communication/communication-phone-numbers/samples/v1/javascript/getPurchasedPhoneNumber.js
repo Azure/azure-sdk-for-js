@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to us the PhoneNumbersClient to get a purchased phone number.
+ * @summary Get a purchased phone number.
  */
 
 const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
@@ -19,7 +19,8 @@ async function main() {
     // create new client
     const client = new PhoneNumbersClient(connectionString);
 
-    const phoneNumberToGet = "+16135550147";
+    // You will need to set this environment variable or edit the following values
+    const phoneNumberToGet = process.env.PHONE_NUMBER_TO_GET || "<phone number to get>";
 
     // get the phone number
     const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);
@@ -31,4 +32,5 @@ async function main() {
     console.error(error);
   }
 }
+
 main();

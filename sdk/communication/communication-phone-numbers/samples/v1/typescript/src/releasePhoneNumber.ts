@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to us the PhoneNumbersClient to release phone numbers.
+ * @summary Release a purchased phone number.
  */
 
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
@@ -19,7 +19,8 @@ export const main = async () => {
     // create new client
     const client = new PhoneNumbersClient(connectionString);
 
-    const phoneNumberToRelease = "+16135550147";
+    // You will need to set this environment variable or edit the following values
+    const phoneNumberToRelease = process.env.PHONE_NUMBER_TO_RELEASE || "";
 
     // get poller to monitor release
     const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease);
