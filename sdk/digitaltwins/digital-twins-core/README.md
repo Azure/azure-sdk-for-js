@@ -6,7 +6,7 @@ This package contains an isomorphic SDK for Azure Digital Twins API to provide a
 
 ### Currently supported environments
 
-- Node.js version 6.x.x or higher
+- Node.js version 8.x.x or higher
 - Browser JavaScript
 
 ### Prerequisites
@@ -44,14 +44,63 @@ You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Do
 
 ## Examples
 
-### TypeScript example for authentication, client creation and listing models in an Azure Digital Twins instance.
+### JavaScript example for authentication, client creation, and performing various operations on a Digital Twins instance
 
-```typescript
-import { DefaultAzureCredential } from "@azure/identity";
-import { DigitalTwinsClient } from "@azure/digital-twins-core";
-import { inspect } from "util";
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { DigitalTwinsClient } = require("@azure/digital-twins-core");
+const { inspect } = require("util");
 
 async function main() {
+  const modelId = `dtmi:model_example;1`;
+  const componentId = `dtmi:component_example;1`;
+  const digitalTwinId = `digitalTwin-example`;
+
+  const temporaryComponent = {
+    "@id": componentId,
+    "@type": "Interface",
+    "@context": "dtmi:dtdl:context;2",
+    displayName: "Component1",
+    contents: [
+      {
+        "@type": "Property",
+        name: "ComponentProp1",
+        schema: "string"
+      }
+    ]
+  };
+
+  const temporaryModel = {
+    "@id": modelId,
+    "@type": "Interface",
+    "@context": "dtmi:dtdl:context;2",
+    displayName: "TempModel",
+    contents: [
+      {
+        "@type": "Property",
+        name: "Prop1",
+        schema: "double"
+      },
+      {
+        "@type": "Component",
+        name: "Component1",
+        schema: componentId
+      }
+    ]
+  };
+
+  const temporaryTwin = {
+    $dtId: digitalTwinId,
+    $metadata: {
+      $model: modelId
+    },
+    Prop1: 42,
+    Component1: {
+      $metadata: {},
+      ComponentProp1: "value1"
+    }
+  };
+
   const url = "<URL to Azure Digital Twins instance>";
 
   // DefaultAzureCredential is provided by @azure/identity. It supports
@@ -63,12 +112,61 @@ async function main() {
   const credential = new DefaultAzureCredential();
   const serviceClient = new DigitalTwinsClient(url, credential);
 
-  // List models
-  const models = serviceClient.listModels();
-  for await (const model of models) {
-    console.log(`Model:`);
-    console.log(inspect(model));
-  }
+  // Create models
+  const newModels = [temporaryComponent, temporaryModel];
+  const models = await serviceClient.createModels(newModels);
+  console.log(`Created Models:`);
+  console.log(inspect(models));
+
+  // Create digital twin
+  const createdTwin = await serviceClient.upsertDigitalTwin(
+    digitalTwinId,
+    JSON.stringify(temporaryTwin)
+  );
+  console.log(`Created Digital Twin:`);
+  console.log(inspect(createdTwin));
+
+  // Update component
+  const componentPath = "Component1";
+  const patch = {
+    op: "replace",
+    path: "/ComponentProp1",
+    value: "value2"
+  };
+  const updateComponentResponse = await serviceClient.updateComponent(
+    digitalTwinId,
+    componentPath,
+    [patch]
+  );
+  console.log(`Update Component response:`);
+  console.log(inspect(updateComponentResponse));
+
+  // Get component
+  const getComponent = await serviceClient.getComponent(digitalTwinId, componentPath);
+  console.log(`Get Component:`);
+  console.log(inspect(getComponent));
+
+  // Delete digital twin
+  const deleteDigitalTwinResponse = await serviceClient.deleteDigitalTwin(digitalTwinId);
+  console.log(`Delete response:`);
+  console.log(inspect(deleteDigitalTwinResponse));
+
+  // Decommission models
+  let decomissionModelResponse = await serviceClient.decomissionModel(modelId);
+  console.log(`Decomission Model response:`);
+  console.log(inspect(decomissionModelResponse));
+  decomissionModelResponse = await serviceClient.decomissionModel(componentId);
+  console.log(`Decomission Component Model response:`);
+  console.log(inspect(decomissionModelResponse));
+
+  // Delete models
+  let deleteModelResponse = await serviceClient.deleteModel(modelId);
+  console.log(`Delete Model response:`);
+  console.log(inspect(deleteModelResponse));
+
+  deleteModelResponse = await serviceClient.deleteModel(componentId);
+  console.log(`Delete Component Model response:`);
+  console.log(inspect(deleteModelResponse));
 }
 
 main().catch((err) => {
