@@ -45,7 +45,12 @@ import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./s
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export type SearchIndexClientOptions = PipelineOptions;
+export interface SearchIndexClientOptions extends PipelineOptions {
+  /**
+   * The API version to use when communicating with the service.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Class to perform operations to manage
@@ -96,12 +101,7 @@ export class SearchIndexClient {
    * @param credential - Used to authenticate requests to the service.
    * @param options - Used to configure the Search Index client.
    */
-  constructor(
-    endpoint: string,
-    credential: KeyCredential,
-    apiVersion?: string,
-    options: SearchIndexClientOptions = {}
-  ) {
+  constructor(endpoint: string, credential: KeyCredential, options: SearchIndexClientOptions = {}) {
     this.endpoint = endpoint;
     this.credential = credential;
     this.options = options;
@@ -142,12 +142,13 @@ export class SearchIndexClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    if (!apiVersion) {
-      apiVersion = this.apiVersion;
-    } else {
-      if (!["2020-06-30-Preview", "2020-06-30"].includes(apiVersion)) {
-        throw new Error(`Invalid Api Version: ${apiVersion}`);
+    let apiVersion = this.apiVersion;
+
+    if (options.apiVersion) {
+      if (!["2020-06-30-Preview", "2020-06-30"].includes(options.apiVersion)) {
+        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
       }
+      apiVersion = options.apiVersion;
     }
 
     this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
@@ -624,17 +625,7 @@ export class SearchIndexClient {
    * @param indexName - Name of the index
    * @param options - SearchClient Options
    */
-  public getSearchClient<T>(
-    indexName: string,
-    apiVersion?: string,
-    options?: GetSearchClientOptions
-  ): SearchClient<T> {
-    return new SearchClient<T>(
-      this.endpoint,
-      indexName,
-      this.credential,
-      apiVersion,
-      options || this.options
-    );
+  public getSearchClient<T>(indexName: string, options?: GetSearchClientOptions): SearchClient<T> {
+    return new SearchClient<T>(this.endpoint, indexName, this.credential, options || this.options);
   }
 }

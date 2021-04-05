@@ -1534,7 +1534,7 @@ export type ScoringStatistics = "local" | "global";
 
 // @public
 export class SearchClient<T> implements IndexDocumentsClient<T> {
-    constructor(endpoint: string, indexName: string, credential: KeyCredential, apiVersion?: string, options?: SearchClientOptions);
+    constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
     autocomplete<Fields extends keyof T>(searchText: string, suggesterName: string, options?: AutocompleteOptions<Fields>): Promise<AutocompleteResult>;
     deleteDocuments(documents: T[], options?: DeleteDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1552,7 +1552,9 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 }
 
 // @public
-export type SearchClientOptions = PipelineOptions;
+export interface SearchClientOptions extends PipelineOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
@@ -1600,7 +1602,7 @@ export interface SearchIndex {
 
 // @public
 export class SearchIndexClient {
-    constructor(endpoint: string, credential: KeyCredential, apiVersion?: string, options?: SearchIndexClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexClientOptions);
     analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult>;
     readonly apiVersion: string;
     createIndex(index: SearchIndex, options?: CreateIndexOptions): Promise<SearchIndex>;
@@ -1612,7 +1614,7 @@ export class SearchIndexClient {
     readonly endpoint: string;
     getIndex(indexName: string, options?: GetIndexOptions): Promise<SearchIndex>;
     getIndexStatistics(indexName: string, options?: GetIndexStatisticsOptions): Promise<SearchIndexStatistics>;
-    getSearchClient<T>(indexName: string, apiVersion?: string, options?: SearchClientOptions): SearchClient<T>;
+    getSearchClient<T>(indexName: string, options?: SearchClientOptions): SearchClient<T>;
     getServiceStatistics(options?: GetServiceStatisticsOptions): Promise<SearchServiceStatistics>;
     getSynonymMap(synonymMapName: string, options?: GetSynonymMapsOptions): Promise<SynonymMap>;
     listIndexes(options?: ListIndexesOptions): IndexIterator;
@@ -1622,7 +1624,9 @@ export class SearchIndexClient {
     }
 
 // @public
-export type SearchIndexClientOptions = PipelineOptions;
+export interface SearchIndexClientOptions extends PipelineOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface SearchIndexer {
@@ -1642,7 +1646,7 @@ export interface SearchIndexer {
 
 // @public
 export class SearchIndexerClient {
-    constructor(endpoint: string, credential: KeyCredential, apiVersion?: string, options?: SearchIndexerClientOptions);
+    constructor(endpoint: string, credential: KeyCredential, options?: SearchIndexerClientOptions);
     readonly apiVersion: string;
     createDataSourceConnection(dataSourceConnection: SearchIndexerDataSourceConnection, options?: CreateDataSourceConnectionOptions): Promise<SearchIndexerDataSourceConnection>;
     createIndexer(indexer: SearchIndexer, options?: CreateIndexerOptions): Promise<SearchIndexer>;
@@ -1669,7 +1673,9 @@ export class SearchIndexerClient {
 }
 
 // @public
-export type SearchIndexerClientOptions = PipelineOptions;
+export interface SearchIndexerClientOptions extends PipelineOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface SearchIndexerDataContainer {
