@@ -34,8 +34,8 @@ export const AuthenticationErrorName = "AuthenticationError";
 // @public
 export interface AuthenticationRecord {
     authority: string;
+    clientId: string;
     homeAccountId: string;
-    serialize: () => string;
     tenantId: string;
     username: string;
 }
@@ -212,6 +212,9 @@ export class ManagedIdentityCredential implements TokenCredential {
     constructor(options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
+
+// @public
+export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
 
 // @public
 export interface TokenCachePersistenceOptions {

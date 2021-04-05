@@ -22,6 +22,7 @@ import {
   Node8NotSupportedError
 } from "../../../src/tokenCache/nodeVersion";
 import { Context } from "mocha";
+import { serializeAuthenticationRecord } from "../../../src/msal/utils";
 
 describe("UsernamePasswordCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -304,7 +305,7 @@ describe("UsernamePasswordCredential (internal)", function() {
       assert.equal(doGetTokenSpy.callCount, 1);
       assert.equal(account?.tenantId, env.AZURE_TENANT_ID);
 
-      const serializedAccount = account?.serialize()!;
+      const serializedAccount = serializeAuthenticationRecord(account!);
 
       const credential2 = new UsernamePasswordCredential(
         env.AZURE_TENANT_ID,
