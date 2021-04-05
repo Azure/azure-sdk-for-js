@@ -7,7 +7,7 @@ import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import sinon from "sinon";
-import { CryptographyClient, KeyVaultKey } from "../../src";
+import { CryptographyClient, DecryptParameters, EncryptParameters, KeyVaultKey } from "../../src";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { JsonWebKey } from "../../src";
 import { stringToUint8Array } from "../utils/crypto";
@@ -226,6 +226,189 @@ describe("internal crypto tests", () => {
         () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
         /not supported in the browser/
       );
+    });
+  });
+
+  describe("cryptography client error handling", function() {
+    let cryptoClient: CryptographyClient;
+    let localProvider: RsaCryptographyProvider;
+
+    beforeEach(() => {
+      localProvider = new RsaCryptographyProvider({});
+      sinon.stub(localProvider, "isSupported").returns(true);
+      for (const operation of [
+        "encrypt",
+        "decrypt",
+        "sign",
+        "wrapKey",
+        "unwrapKey",
+        "signData",
+        "verify",
+        "verifyData"
+      ]) {
+        sinon
+          .stub(localProvider, operation as keyof RsaCryptographyProvider)
+          .throwsException("Error");
+      }
+    });
+
+    afterEach(function() {
+      sinon.reset();
+    });
+
+    describe("hybrid mode", function() {
+      let remoteProvider: RemoteCryptographyProvider;
+
+      beforeEach(() => {
+        const key: KeyVaultKey = {
+          name: "key",
+          id: "https://my_keyvault.vault.azure.net/keys/id/version",
+          properties: {
+            name: "key",
+            vaultUrl: "http://my_keyvault.vault.azure.net",
+            id: "https://my_keyvault.vault.azure.net/keys/id/version"
+          },
+          key: {
+            kid: "https://my_keyvault.vault.azure.net/keys/id/version"
+          }
+        };
+
+        remoteProvider = new RemoteCryptographyProvider(key, tokenCredential);
+        cryptoClient = new CryptographyClient(key, tokenCredential);
+
+        // Setup the crypto client with our stubs
+        cryptoClient["providers"] = [localProvider, remoteProvider];
+        cryptoClient["remoteProvider"] = remoteProvider;
+      });
+
+      describe("when a local provider errors", function() {
+        it("remotes the encrypt operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "encrypt");
+
+          const parameters: EncryptParameters = {
+            algorithm: "RSA-OAEP",
+            plaintext: Buffer.from("text")
+          };
+
+          await cryptoClient.encrypt(parameters);
+          assert.isTrue(remoteStub.calledOnceWith(parameters));
+        });
+
+        it("remotes the decrypt operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "decrypt");
+
+          const parameters: DecryptParameters = {
+            algorithm: "RSA-OAEP",
+            ciphertext: Buffer.from("text")
+          };
+          await cryptoClient.decrypt(parameters);
+          assert.isTrue(remoteStub.calledOnceWith(parameters));
+        });
+
+        it("remotes the wrapKey operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "wrapKey");
+
+          const keyToWrap = Buffer.from("myKey");
+          await cryptoClient.wrapKey("RSA-OAEP", keyToWrap);
+          assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", keyToWrap));
+        });
+
+        it("remotes the unwrapKey operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "unwrapKey");
+
+          const wrappedKey = Buffer.from("myKey");
+          await cryptoClient.unwrapKey("RSA-OAEP", wrappedKey);
+          assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", wrappedKey));
+        });
+
+        it("remotes the sign operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "sign");
+
+          const data = Buffer.from("myKey");
+          await cryptoClient.sign("PS256", data);
+          assert.isTrue(remoteStub.calledOnceWith("PS256", data));
+        });
+
+        it("remotes the signData operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "signData");
+
+          const data = Buffer.from("myKey");
+          await cryptoClient.signData("PS256", data);
+          assert.isTrue(remoteStub.calledOnceWith("PS256", data));
+        });
+
+        it("remotes the verify operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "verify");
+
+          const data = Buffer.from("myKey");
+          const sig = Buffer.from("sig");
+          await cryptoClient.verify("PS256", data, sig);
+          assert.isTrue(remoteStub.calledOnceWith("PS256", data, sig));
+        });
+
+        it("remotes the verifyData operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "verifyData");
+
+          const data = Buffer.from("myKey");
+          const sig = Buffer.from("sig");
+          await cryptoClient.verifyData("PS256", data, sig);
+          assert.isTrue(remoteStub.calledOnceWith("PS256", data, sig));
+        });
+      });
+    });
+
+    describe("local only mode", function() {
+      let cryptoClient: CryptographyClient;
+      let localProvider: RsaCryptographyProvider;
+
+      beforeEach(() => {
+        const jwk: JsonWebKey = {};
+        localProvider = new RsaCryptographyProvider(jwk);
+        sinon.stub(localProvider, "isSupported").returns(true);
+
+        cryptoClient = new CryptographyClient(jwk);
+
+        // Setup the crypto client with our stubs
+        cryptoClient["providers"] = [localProvider];
+      });
+
+      describe("when a local provider errors", function() {
+        it("throws the original encrypt exception", async function() {
+          await assert.isRejected(
+            cryptoClient.encrypt({ algorithm: "RSA-OAEP", plaintext: Buffer.from("text") })
+          );
+        });
+
+        it("throws the original decrypt exception", async function() {
+          await assert.isRejected(
+            cryptoClient.decrypt({ algorithm: "RSA-OAEP", ciphertext: Buffer.from("text") })
+          );
+        });
+
+        it("throws the original wrapKey exception", async function() {
+          await assert.isRejected(cryptoClient.wrapKey("RSA-OAEP", Buffer.from("myKey")));
+        });
+
+        it("throws the original unwrapKey exception", async function() {
+          await assert.isRejected(cryptoClient.unwrapKey("RSA-OAEP", Buffer.from("myKey")));
+        });
+        it("throws the original sign exception", async function() {
+          await assert.isRejected(cryptoClient.sign("PS256", Buffer.from("data")));
+        });
+        it("throws the original signData exception", async function() {
+          await assert.isRejected(cryptoClient.signData("PS256", Buffer.from("data")));
+        });
+        it("throws the original verify exception", async function() {
+          await assert.isRejected(
+            cryptoClient.verify("PS256", Buffer.from("data"), Buffer.from("sig"))
+          );
+        });
+        it("throws the original verifyData exception", async function() {
+          await assert.isRejected(
+            cryptoClient.verifyData("PS256", Buffer.from("data"), Buffer.from("sig"))
+          );
+        });
+      });
     });
   });
 });
