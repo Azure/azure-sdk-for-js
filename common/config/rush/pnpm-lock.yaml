@@ -8751,7 +8751,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opencensus/web-types': 0.0.7
-      '@opentelemetry/api': 0.18.1
+      '@opentelemetry/api': 1.0.0-rc.0
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -8780,7 +8780,7 @@ packages:
     dev: false
     name: '@rush-temp/core-tracing'
     resolution:
-      integrity: sha512-j7lv4DtpRsYrOpZP/yzzXiqAay1Ao6TjiIaSx4JOkvzcJtf3JlX6EtAkcsedxvjNd1UkWo/j3Mtq1yJHlXLGJg==
+      integrity: sha512-Tc2a/MYDRNdd0WnJm+5KhRblSFh/WyKj1V7LrK63PCNzSAgUfzjo2TFHV/2NB/Nvm3fy2UUbNldipZCo0Hdqbw==
       tarball: file:projects/core-tracing.tgz
     version: 0.0.0
   file:projects/core-util.tgz:
