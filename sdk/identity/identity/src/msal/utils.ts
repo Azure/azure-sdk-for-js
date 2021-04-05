@@ -13,6 +13,12 @@ import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
 
 /**
+ * Latest AuthenticationRecord version
+ * @internal
+ */
+const LatestAuthenticationRecordVersion = "1.0";
+
+/**
  * Ensures the validity of the MSAL token
  * @internal
  */
@@ -124,11 +130,12 @@ export class MsalBaseUtilities {
    */
   protected handleResult(
     scopes: string | string[],
+    clientId: string,
     result?: MsalResult,
     getTokenOptions?: GetTokenOptions
   ): AccessToken {
     if (result?.account) {
-      this.account = msalToPublic(result.account);
+      this.account = msalToPublic(clientId, result.account);
     }
     ensureValidMsalToken(scopes, this.logger, result, getTokenOptions);
     this.logger.getToken.info(formatSuccess(scopes));
@@ -180,43 +187,61 @@ export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountI
   };
 }
 
-export function msalToPublic(account: MsalAccountInfo): AuthenticationRecord {
+export function msalToPublic(clientId: string, account: MsalAccountInfo): AuthenticationRecord {
   const record = {
     authority: getAuthorityHost(account.tenantId, account.environment),
     homeAccountId: account.homeAccountId,
     tenantId: account.tenantId || DefaultTenantId,
     username: account.username,
-    serialize: () => serializeAuthenticationRecord(record)
+    clientId,
+    version: LatestAuthenticationRecordVersion
   };
   return record;
 }
 
 /**
- * Serializes a given authentication record to string.
- * @param record - Authentication Record
- * @internal
+ * Serializes an `AuthenticationRecord` into a string.
+ *
+ * The output of a serialized authentication record will contain the following properties:
+ *
+ * - "authority"
+ * - "homeAccountId"
+ * - "clientId"
+ * - "tenantId"
+ * - "username"
+ * - "version"
+ *
+ * To later convert this string to a serialized `AuthenticationRecord`, please use the exported function `deserializeAuthenticationRecord()`.
  */
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string {
-  return JSON.stringify({
-    authority: record.authority,
-    home_account_id: record.homeAccountId,
-    tenant_id: record.tenantId,
-    username: record.username
-  });
+  return JSON.stringify(record);
 }
 
 /**
- * Deserializes a previously serialzied authentication record from a string into an object.
+ * Deserializes a previously serialized authentication record from a string into an object.
+ *
+ * The input string must contain the following properties:
+ *
+ * - "authority"
+ * - "homeAccountId"
+ * - "clientId"
+ * - "tenantId"
+ * - "username"
+ * - "version"
+ *
+ * If the version we receive is unsupported, an error will be thrown.
+ *
+ * At the moment, the only available version is: "1.0", which is always set when the authentication record is serialized.
+ *
  * @param serializedRecord - Authentication record previously serialized into string.
  * @returns AuthenticationRecord.
  */
 export function deserializeAuthenticationRecord(serializedRecord: string): AuthenticationRecord {
-  const parsed = JSON.parse(serializedRecord);
-  return {
-    authority: parsed.authority,
-    homeAccountId: parsed.home_account_id,
-    tenantId: parsed.tenant_id,
-    username: parsed.username,
-    serialize: () => serializedRecord
-  };
+  const parsed: AuthenticationRecord & { version?: string } = JSON.parse(serializedRecord);
+
+  if (parsed.version && parsed.version !== LatestAuthenticationRecordVersion) {
+    throw Error("Unsupported AuthenticationRecord version");
+  }
+
+  return parsed;
 }

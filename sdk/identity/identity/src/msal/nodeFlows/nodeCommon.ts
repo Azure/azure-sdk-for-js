@@ -46,6 +46,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected publicApp: msalNode.PublicClientApplication | undefined;
   protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
   protected msalConfig: msalNode.Configuration;
+  protected clientId: string;
   protected tokenCache: TokenCache | undefined;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
@@ -53,6 +54,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
+    this.clientId = this.msalConfig.auth.clientId;
 
     if (options.tokenCachePersistenceOptions) {
       this.tokenCache = new TokenCachePersistence(options.tokenCachePersistenceOptions);
@@ -162,7 +164,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     }
 
     if (accountsByTenant.length === 1) {
-      this.account = msalToPublic(accountsByTenant[0]);
+      this.account = msalToPublic(this.clientId, accountsByTenant[0]);
     } else {
       this.logger
         .info(`More than one account was found authenticated for this Client ID and Tenant ID.
@@ -209,7 +211,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     try {
       this.logger.info("Attempting to acquire token silently");
       const response = await this.publicApp!.acquireTokenSilent(silentRequest);
-      return this.handleResult(scopes, response || undefined);
+      return this.handleResult(scopes, this.clientId, response || undefined);
     } catch (err) {
       throw this.handleError(scopes, err, options);
     }
