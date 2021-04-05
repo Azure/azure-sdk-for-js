@@ -196,7 +196,7 @@ export class DigitalTwinsClient {
    */
   public updateDigitalTwin(
     digitalTwinId: string,
-    jsonPatch: any,
+    jsonPatch: any, // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
     options: DigitalTwinsUpdateOptionalParams = {}
   ): Promise<DigitalTwinsUpdateResponse> {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateDigitalTwin", options);
@@ -345,7 +345,7 @@ export class DigitalTwinsClient {
   public upsertRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    relationship: any,
+    relationship: any, // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
     options: DigitalTwinsAddRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertRelationship", options);
@@ -621,7 +621,7 @@ export class DigitalTwinsClient {
    */
   public publishTelemetry(
     digitalTwinId: string,
-    payload: any,
+    payload: any, // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
     messageId: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {

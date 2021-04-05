@@ -84,28 +84,28 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function (this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(BUILDING_MODEL_ID);
-    } catch (Exception) {}
+    } catch (Exception) {/* ignored */ }
 
     try {
       await client.deleteModel(FLOOR_MODEL_ID);
-    } catch (Exception) {}
+    } catch (Exception) {/* ignored */ }
 
     try {
       await client.deleteModel(ROOM_MODEL_ID);
-    } catch (Exception) {}
+    } catch (Exception) {/* ignored */ }
   }
 
   async function createModel(): Promise<void> {
@@ -121,13 +121,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
   async function deleteDigitalTwins(): Promise<void> {
     try {
       await client.deleteDigitalTwin(BUILDING_DIGITAL_TWIN_ID);
-    } catch (Exception) {}
+    } catch (Exception) {/* ignored */ }
     try {
       await client.deleteDigitalTwin(FLOOR_DIGITAL_TWIN_ID);
-    } catch (Exception) {}
+    } catch (Exception) {/* ignored */ }
     try {
       await client.deleteDigitalTwin(ROOM_DIGITAL_TWIN_ID);
-    } catch (Exception) {}
+    } catch (Exception) {/* ignored */ }
   }
 
   async function createDigitalTwins(): Promise<void> {
@@ -162,7 +162,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await createDigitalTwins();
   }
 
-  it("create basic relationship", async function() {
+  it("create basic relationship", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -202,13 +202,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(FLOOR_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("create invalid relationship - invalid twin id", async function() {
+  it("create invalid relationship - invalid twin id", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -229,14 +229,14 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(FLOOR_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create invalid relationship - invalid twin target id", async function() {
+  it("create invalid relationship - invalid twin target id", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -257,14 +257,14 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(FLOOR_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create relationship conditionally", async function() {
+  it("create relationship conditionally", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -321,13 +321,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(FLOOR_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("upsert relationship", async function() {
+  it("upsert relationship", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -404,13 +404,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("get relationship", async function() {
+  it("get relationship", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -486,13 +486,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("get relationship not existing", async function() {
+  it("get relationship not existing", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -511,13 +511,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("delete relationship", async function() {
+  it("delete relationship", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -576,13 +576,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("delete relationship not existing", async function() {
+  it("delete relationship not existing", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -601,13 +601,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("update relationship replace", async function() {
+  it("update relationship replace", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -685,13 +685,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("update relationship remove", async function() {
+  it("update relationship remove", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -767,13 +767,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("update relationship add", async function() {
+  it("update relationship add", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -859,13 +859,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("update relationship multiple", async function() {
+  it("update relationship multiple", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -946,13 +946,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("update relationship invalid patch", async function() {
+  it("update relationship invalid patch", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1055,13 +1055,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("update relationship conditionally", async function() {
+  it("update relationship conditionally", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1142,13 +1142,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("update relationship not existing", async function() {
+  it("update relationship not existing", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1171,13 +1171,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("list relationships", async function() {
+  it("list relationships", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1230,13 +1230,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
   });
 
-  it("list incoming relationships", async function() {
+  it("list incoming relationships", async function () {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1289,7 +1289,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     } finally {
       try {
         await client.deleteRelationship(BUILDING_DIGITAL_TWIN_ID, relationshipId);
-      } catch (Exception) {}
+      } catch (Exception) {/* ignored */ }
       await deleteDigitalTwins();
       await deleteModels();
     }
