@@ -10,19 +10,18 @@ import {
   SearchAvailablePhoneNumbersRequest
 } from "@azure/communication-phone-numbers";
 
-
 export const main = async () => {
   console.log("\n== Purchase Phone Number Typescript Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
-  const connectionString = 
-    process.env.COMMUNICATION_CONNECTION_STRING 
-    || "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
+  const connectionString =
+    process.env.COMMUNICATION_CONNECTION_STRING ||
+    "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
   try {
     // create new client
     const client = new PhoneNumbersClient(connectionString);
-  
+
     // create search request
     const searchRequest: SearchAvailablePhoneNumbersRequest = {
       countryCode: "US",
@@ -33,24 +32,24 @@ export const main = async () => {
         calling: "none"
       }
     };
-  
+
     // get poller to monitor search
     const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
-  
+
     console.log("Searching for available phone number for purchase.");
-  
+
     // the search is underway so wait to receive the searchId to perform the purchase
     const searchResults = await searchPoller.pollUntilDone();
-  
+
     if (searchResults.searchId && searchResults.phoneNumbers && searchResults.phoneNumbers.length) {
       const { searchId, phoneNumbers } = searchResults;
-  
+
       console.log("Phone number reserved for purchase.");
       console.log(`Id: ${JSON.stringify(searchId)}`);
-  
+
       // get poller to monitor purchase
       const purchasePoller = await client.beginPurchasePhoneNumbers(searchId);
-  
+
       // Purchase is underway.
       await purchasePoller.pollUntilDone();
       console.log(`Successfully purchased ${phoneNumbers[0]}`);
