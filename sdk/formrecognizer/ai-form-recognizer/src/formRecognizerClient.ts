@@ -564,7 +564,7 @@ export class FormRecognizerClient {
    * from business cards such as name, job title, phone numbers, etc.
    *
    * For a list of fields that are contained in the response, please refer to the documentation at the
-   * following link: https://aka.ms/azsdk/formrecognizer/businesscardfields
+   * following link: https://aka.ms/formrecognizer/businesscardfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -629,7 +629,7 @@ export class FormRecognizerClient {
    * Recognizes business card information from a url using a pre-built business card model, enabling you to extract structured data
    * from business cards such as name, job title, phone numbers, etc.
    *
-   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/businesscardfields
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/formrecognizer/businesscardfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -701,7 +701,7 @@ export class FormRecognizerClient {
    * Recognizes data from invoices using a pre-built invoice model, enabling you to extract structured data
    * from invoices such as customer address, vendor address, purchase order ID, etc.
    *
-   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/invoicefields
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/formrecognizer/invoicefields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -766,7 +766,7 @@ export class FormRecognizerClient {
    * Recognizes invoice information from a URL using a pre-built invoice model, enabling you to extract structured data
    * from invoices such as customer address, vendor address, purchase order ID, etc.
    *
-   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/invoicefields
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/formrecognizer/invoicefields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -841,7 +841,7 @@ export class FormRecognizerClient {
    *
    * For a list of fields that are contained in the response, please refer to
    * the documentation at the following link:
-   * https://aka.ms/azsdk/formrecognizer/iddocumentfields
+   * https://aka.ms/formrecognizer/iddocumentfields
    *
    * This method returns a long running operation poller that allows you to
    * wait indefinitely until the operation is completed.
@@ -909,7 +909,7 @@ export class FormRecognizerClient {
    *
    * For a list of fields that are contained in the response, please refer to
    * the documentation at the following link:
-   * https://aka.ms/azsdk/formrecognizer/iddocumentfields
+   * https://aka.ms/formrecognizer/iddocumentfields
    *
    * This method returns a long running operation poller that allows you to
    * wait indefinitely until the operation is completed.
@@ -985,7 +985,7 @@ export class FormRecognizerClient {
    * Recognizes data from receipts using a pre-built receipt model, enabling you to extract structured data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
-   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
+   * For a list of fields that are contained in the response, please refer to the documentation at the following link: https://aka.ms/formrecognizer/receiptfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -1051,7 +1051,7 @@ export class FormRecognizerClient {
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
    * For a list of fields that are contained in the response, please refer to the documentation at the
-   * following link: https://aka.ms/azsdk/formrecognizer/receiptfields
+   * following link: https://aka.ms/formrecognizer/receiptfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
