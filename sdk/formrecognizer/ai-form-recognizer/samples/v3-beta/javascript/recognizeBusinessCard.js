@@ -9,7 +9,7 @@
  * list of the fields supported by the business card model, see the following
  * link:
  *
- * https://aka.ms/azsdk/formrecognizer/businesscardfields
+ * https://aka.ms/formrecognizer/businesscardfields
  *
  * @summary extract data from an image of a business card
  */
@@ -53,7 +53,7 @@ async function main() {
 
   // For a list of fields that are contained in the response, please refer to
   // the "Supported fields" section at the following link:
-  // https://aka.ms/azsdk/formrecognizer/businesscardfields
+  // https://aka.ms/formrecognizer/businesscardfields
   const contactNames = businessCard.fields["ContactNames"].value;
   if (Array.isArray(contactNames)) {
     console.log("- Contact Names:");

@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to recognize elements of a identity document
+ * This sample demonstrates how to recognize elements of an identity document
  * from a file using a prebuilt model.
  *
  * The prebuilt identity document model can return several fields. For a
  * detailed list of the fields supported by the identity document model, see
  * the following link:
  *
- * https://aka.ms/azsdk/formrecognizer/iddocumentfields
+ * https://aka.ms/formrecognizer/iddocumentfields
  *
- * @summary extract data from an image of a identity document
+ * @summary extract data from an image of an identity document
  */
 
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
@@ -68,7 +68,7 @@ async function main() {
 
   // For a list of fields that are contained in the response, please refer to
   // the "Supported fields" section at the following link:
-  // https://aka.ms/azsdk/formrecognizer/iddocumentfields
+  // https://aka.ms/formrecognizer/iddocumentfields
 
   printField("FirstName");
   printField("LastName");

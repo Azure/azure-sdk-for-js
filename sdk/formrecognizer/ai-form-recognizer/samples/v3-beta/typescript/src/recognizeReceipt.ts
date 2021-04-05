@@ -9,7 +9,7 @@
  * list of the fields supported by the receipt model, see the following
  * link:
  *
- * https://aka.ms/azsdk/formrecognizer/receiptfields
+ * https://aka.ms/formrecognizer/receiptfields
  *
  * @summary extract data from an image of a receipt
  */
@@ -53,7 +53,7 @@ export async function main() {
 
   // For a list of fields that are contained in the response, please refer to
   // the "Supported fields" section at the following link:
-  // https://aka.ms/azsdk/formrecognizer/receiptfields
+  // https://aka.ms/formrecognizer/receiptfields
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(

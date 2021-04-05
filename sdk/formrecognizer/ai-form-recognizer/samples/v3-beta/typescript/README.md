@@ -7,8 +7,8 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [recognizeCustomForm.ts][recognizecustomform]                     | extract information from forms using a custom trained model                                                                    |
 | [recognizeReceipt.ts][recognizereceipt]                           | extract data from an image of a receipt                                                                                        |
 | [recognizeBusinessCard.ts][recognizebusinesscard]                 | extract data from an image of a business card                                                                                  |
-| [recognizeIdDocument.ts][recognizeiddocument]                     | extract data from an image of a identity document                                                                              |
-| [recognizeInvoice.ts][recognizeinvoice]                           | extract data from an image of a invoice                                                                                        |
+| [recognizeIdDocument.ts][recognizeiddocument]                     | extract data from an image of an identity document                                                                             |
+| [recognizeInvoice.ts][recognizeinvoice]                           | extract data from an image of an invoice                                                                                       |
 | [recognizeContent.ts][recognizecontent]                           | extract layout information such as text lines and table structures from a document                                             |
 | [recognizeReceiptFromUrl.ts][recognizereceiptfromurl]             | extract data from a receipt by providing a URL to a file rather than a file stream directly                                    |
 | [trainLabeledModel.ts][trainlabeledmodel]                         | train a custom model with labeled inputs                                                                                       |

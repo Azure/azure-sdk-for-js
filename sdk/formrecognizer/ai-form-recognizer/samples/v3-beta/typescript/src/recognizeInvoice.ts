@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to recognize elements of a invoice from a file
+ * This sample demonstrates how to recognize elements of an invoice from a file
  * using a prebuilt model.
  *
  * The prebuilt invoice model can return several fields. For a detailed list of
  * the fields supported by the invoice model, see the following link:
  *
- * https://aka.ms/azsdk/formrecognizer/invoicefields
+ * https://aka.ms/formrecognizer/invoicefields
  *
- * @summary extract data from an image of a invoice
+ * @summary extract data from an image of an invoice
  */
 
 import { FormRecognizerClient, AzureKeyCredential, FormField } from "@azure/ai-form-recognizer";
