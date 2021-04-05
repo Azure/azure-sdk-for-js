@@ -50,7 +50,6 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(topic.enablePartitioning),
-    // TODO: in .net, but not in here: EnableSubscriptionPartitioning
     EntityAvailabilityStatus: getStringOrUndefined(topic.availabilityStatus),
     EnableExpress: getStringOrUndefined(topic.enableExpress)
   };

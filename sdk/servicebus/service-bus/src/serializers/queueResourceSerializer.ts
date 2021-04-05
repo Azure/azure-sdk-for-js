@@ -55,7 +55,6 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
 
-    // TODO: can't find this in the .net ATOM library.
     EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
     EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
