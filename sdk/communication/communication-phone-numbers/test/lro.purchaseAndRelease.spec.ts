@@ -11,7 +11,7 @@ import { createRecordedClient } from "./utils/recordedClient";
 describe("PhoneNumbersClient - lro - purchase and release", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
-  let phoneNumberToRelease: string;
+  let phoneNumberToRelease: string | undefined;
 
   before(function(this: Context) {
     if (!env.INCLUDE_PHONENUMBER_LIVE_TESTS && !isPlaybackMode()) {
@@ -68,10 +68,8 @@ describe("PhoneNumbersClient - lro - purchase and release", function() {
   });
 
   describe("release", function() {
-    phoneNumberToRelease = "+18332408984";
-
     before(function(this: Context) {
-      if (!phoneNumberToRelease.length) {
+      if (!phoneNumberToRelease) {
         this.skip();
       }
     });
@@ -79,7 +77,7 @@ describe("PhoneNumbersClient - lro - purchase and release", function() {
     it("releases the phone number", async function() {
       console.log(`Will release ${phoneNumberToRelease}`);
 
-      const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease);
+      const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease as string);
 
       await releasePoller.pollUntilDone();
       assert.ok(releasePoller.getOperationState().isCompleted);
