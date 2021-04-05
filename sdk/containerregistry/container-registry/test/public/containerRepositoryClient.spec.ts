@@ -144,6 +144,10 @@ describe("ContainerRepositoryClient functional tests", function() {
     const tagProperties = await repositoryClient.getTagProperties("test1");
     const digest = tagProperties.digest!;
     const artifactProperties = await repositoryClient.getRegistryArtifactProperties(digest);
+    assert.ok(
+      artifactProperties.writeableProperties,
+      "Expect valid artifactProperties.writeableProperties"
+    );
     const original = artifactProperties.writeableProperties!;
 
     try {
