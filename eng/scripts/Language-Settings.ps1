@@ -156,9 +156,10 @@ function Get-javascript-GithubIoDocIndex() {
 # For "latest", we simply set a target package name
 # For "preview", we add @next to the target package name
 function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
-  $metadata = Get-CSVMetadata -MetadataUri $MetadataUri | Where-Object { $_.New -eq "true" }  | Where-Object { $_.Hide -ne "true" } 
-  $previewMetadata = $metadata | Where-Object { $_.VersionPreview }
-  $latestMetadata = $metadata | Where-Object { $_.VersionGA }
+  $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
+  $filteredMetadata = $metadata | Where-Object { $_.New -ieq "true" }  | Where-Object { -not ($_.Hide -ieq "true") } 
+  $previewMetadata = $filteredMetadata | Where-Object { $_.VersionPreview }
+  $latestMetadata = $filteredMetadata | Where-Object { $_.VersionGA }
   $previewPackageList = @()
   $latestPackageList = @()
   for ($i = 0; $i -lt $previewMetadata.Length; $i++) {
