@@ -28,7 +28,7 @@ function makeTestUrl(urlPath: string): string {
 }
 
 type MaybeTypedFormField<T extends FormField["valueType"]> =
-  | Extract<FormField, { valueType?: T }>
+  | Extract<FormField, { valueType: T }>
   | undefined;
 
 matrix([[true, false]] as const, async (useAad) => {

@@ -107,11 +107,11 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    * the output text lines. Possible values include "basic" (default) and
    * "natural".
    *
-   * The "basic" reading order uses a strict top-to-bottom, right-to-left
+   * The "basic" reading order uses a strict top-to-bottom, left-to-right
    * reading order.
    *
-   * The "natural" reading order uses heuristics to mimic the way a human
-   * reader would read the document.
+   * The "natural" reading order uses positional information and heuristics to
+   * keep nearby lines together.
    */
   readingOrder?: ReadingOrder;
   /**
