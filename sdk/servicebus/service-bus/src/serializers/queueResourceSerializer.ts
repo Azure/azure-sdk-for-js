@@ -54,7 +54,6 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     AutoDeleteOnIdle: getStringOrUndefined(queue.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
-
     EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
     EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
