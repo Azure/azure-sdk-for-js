@@ -1,19 +1,20 @@
 {
   "name": "azure-communication-phone-numbers-samples-js",
-  "version": "0.1.0",
-  "description": "Azure Communication Service Phone Numbers client library samples for JavaScript",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Communication Services client library samples for JavaScript",
   "engine": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/communication/communication-phone-numbers"
   },
   "keywords": [
-    "Azure",
-    "Communication",
-    "Node.js",
-    "JavaScript"
+    "azure",
+    "cloud",
+    "communication"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -21,9 +22,8 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-phone-numbers",
-  "sideEffects": false,
   "dependencies": {
-    "@azure/communication-phone-numbers": "latest",
-    "dotenv": "^8.2.0"
+    "@azure/communication-phone-numbers": "next",
+    "dotenv": "latest"
   }
 }
