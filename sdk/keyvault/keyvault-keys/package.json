@@ -50,7 +50,7 @@
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist* types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
+    "clean": "rimraf dist dist-* types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
     "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/keyvault-keys/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",

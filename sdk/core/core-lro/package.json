@@ -74,7 +74,7 @@
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\" \"test/**/*.ts\" \"samples/**/*.ts\"",
-    "clean": "rimraf dist* types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
+    "clean": "rimraf dist dist-* types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\" \"test/**/*.ts\" \"samples/**/*.ts\"",
