@@ -165,7 +165,7 @@ export class CryptographyClient {
    * @param encryptParameters - The encryption parameters, keyed on the encryption algorithm chosen.
    * @param options - Additional options.
    */
-  public async encrypt(
+  public encrypt(
     encryptParameters: EncryptParameters,
     options?: EncryptOptions
   ): Promise<EncryptResult>;
