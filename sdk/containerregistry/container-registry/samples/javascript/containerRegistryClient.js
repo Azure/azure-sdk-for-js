@@ -14,7 +14,6 @@ async function main() {
 
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
   await listRepositories(client);
-
   await deleteRepository(client);
 }
 
@@ -43,6 +42,10 @@ async function deleteRepository(client) {
   console.log(`Tags deleted: ${response.deletedRegistryArtifactDigests.length || 0}`);
 }
 
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
+main()
+  .then(() => {
+    console.log("Sample completes successfully.");
+  })
+  .catch((err) => {
+    console.error("The sample encountered an error:", err);
+  });

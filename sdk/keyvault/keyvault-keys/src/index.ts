@@ -101,7 +101,6 @@ import {
 } from "./cryptographyClientModels";
 
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
-import { LocalSupportedAlgorithmName } from "./cryptography/models";
 import { getKeyFromKeyBundle } from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
 
@@ -157,7 +156,6 @@ export {
   ListPropertiesOfKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
   ListDeletedKeysOptions,
-  LocalSupportedAlgorithmName,
   PageSettings,
   PagedAsyncIterableIterator,
   KeyVaultKeyId,

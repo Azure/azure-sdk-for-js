@@ -10,9 +10,24 @@ import {
   HttpResponseField,
   HttpResponseFields,
   HttpOnlyIfChangedField,
-  HttpOnlyIfUnchangedField
+  HttpOnlyIfUnchangedField,
+  ConfigurationSettingParam
 } from "../models";
 import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import {
+  deserializeFeatureFlag,
+  FeatureFlag,
+  featureFlagContentType,
+  FeatureFlagParam,
+  serializeFeatureFlagParam
+} from "../featureFlag";
+import {
+  deserializeSecretReference,
+  SecretReference,
+  secretReferenceContentType,
+  SecretReferenceParam,
+  serializeSecretReferenceParam
+} from "../keyvaultReference";
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -150,13 +165,41 @@ export function makeConfigurationSettingEmpty(
  * @internal
  */
 export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
-  const obj: ConfigurationSetting & KeyValue = {
+  const setting: ConfigurationSetting & KeyValue = {
     ...kvp,
     isReadOnly: !!kvp.locked
   };
 
-  delete obj.locked;
-  return obj;
+  delete setting.locked;
+
+  switch (setting.contentType) {
+    case featureFlagContentType: {
+      return deserializeFeatureFlag(setting) ?? setting;
+    }
+    case secretReferenceContentType: {
+      return deserializeSecretReference(setting) ?? setting;
+    }
+    default:
+      return setting;
+  }
+}
+
+/**
+ * @internal
+ */
+export function serializeAsConfigurationSettingParam(
+  setting: FeatureFlagParam | SecretReferenceParam | ConfigurationSettingParam
+): ConfigurationSettingParam {
+  switch (setting.contentType) {
+    case featureFlagContentType: {
+      return serializeFeatureFlagParam(setting as FeatureFlag);
+    }
+    case secretReferenceContentType: {
+      return serializeSecretReferenceParam(setting as SecretReference);
+    }
+    default:
+      return setting;
+  }
 }
 
 /**

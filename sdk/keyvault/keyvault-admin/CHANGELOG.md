@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.3 (Unreleased)
+## 4.0.0-beta.3 (2021-04-05)
 
 - Updated the Latest service version to 7.2.
 - Long Running Operations will now use the `status` field to determine whether the operation failed.
@@ -8,6 +8,7 @@
   - We now ensure tracing spans are properly closed with an appropriate status when an operation throws an exception.
   - If a traced operation throws an exception we will now properly record the exception message in the tracing span.
   - Finally, naming conventions have been standardized across the KeyVault libraries taking the format of `Azure.KeyVault.<PACKAGE NAME>.<CLIENT NAME>`.
+- Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
 
 ## 4.0.0-beta.2 (2021-02-09)
 
