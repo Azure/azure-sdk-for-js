@@ -20,6 +20,7 @@ use-extension:
   "@autorest/modelerfour": "4.15.442"
 azure-arm: false
 add-credentials: false
+disable-async-iterators: true
 ```
 
 ### Rename CommunicationError to ChatError
