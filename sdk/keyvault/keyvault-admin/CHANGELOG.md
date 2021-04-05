@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.0-beta.3 (2021-04-05)
+## 4.0.0-beta.3 (2021-04-06)
 
 - Updated the Latest service version to 7.2.
 - Long Running Operations will now use the `status` field to determine whether the operation failed.
