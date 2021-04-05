@@ -237,6 +237,19 @@ TSDoc specifications can be customized using the `tsdoc.json` configuration file
 
 We used to have a git hook that formats your changed files on commit but it was removed because it did not work well for some people for various reasons. If you would like to enable it in your fork, you will need to just revert this [PR](https://github.com/Azure/azure-sdk-for-js/pull/13982/) in your branch and then run `rush update` so the hook script gets copied into `.git/hooks`. Moreover, without the hook, you can manually format changed files by invoking `rush prettier`.
 
+### Enforcing Azure SDK design guidelines
+
+Our libraries follow the [TypeScript SDK design guidelines](https://azure.github.io/azure-sdk/typescript_introduction.html) to enhance the productivity of developers connecting to Azure services. These guidelines are enforced by our custom [ESLint plugin](https://github.com/Azure/azure-sdk-for-js/tree/master/common/tools/eslint-plugin-azure-sdk). Follow these instruction to use the plugin:
+- [add `eslint` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L106)
+- [add `eslint-plugin-azure-sdk` to your `devDependencies`](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L93)
+- add a linting npm script as follows:
+    - ["lint": "eslint package.json api-extractor.json src test --ext .ts"](https://github.com/Azure/azure-sdk-for-js/blob/8ec9801c17b175573a115fc8b2d6cbaeb17b0b09/sdk/template/template/package.json#L49)
+
+You can run the plugin by excuting `rushx lint` inside your package directory.
+
+If the package is internal, it should not follow the design guidelines and in turn should not be linted by the plugin. In this case, use the [internal configuration file](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/.eslintrc.internal.json) instead. For example: `"lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json package.json src test --ext .ts"`
+
+
 ## Onboarding a new library
 
 All libraries must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/policies/repostructure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's `package.json` must contain the required scripts as documented [above](#other-npm-scripts).

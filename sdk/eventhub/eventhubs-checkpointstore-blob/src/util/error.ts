@@ -13,7 +13,7 @@ import { logger, logErrorStackTrace } from "../log";
 export function throwTypeErrorIfParameterMissing(
   methodName: string,
   parameterName: string,
-  parameterValue: any
+  parameterValue: unknown
 ): void {
   if (parameterValue === undefined || parameterValue === null) {
     const error = new TypeError(

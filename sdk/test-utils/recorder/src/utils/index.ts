@@ -364,6 +364,26 @@ export function isContentTypeInNockFixture(
 }
 
 /**
+ * Meant for browser recordings only!
+ *
+ * Returns true if the content-type in the `fixture` matches with
+ * any of the strings provided in the expected content types.
+ *
+ * @private
+ */
+export function isContentTypeInBrowserRecording(
+  fixture: any,
+  expectedContentTypes: string[]
+): boolean {
+  for (const contentType of expectedContentTypes) {
+    if (fixture.responseHeaders?.["content-type"]?.replace(/\s/, "") === contentType) {
+      return true;
+    }
+  }
+  return false;
+}
+
+/**
  * Meant for node recordings only!
  * Decodes "hex" strings in the response from the recorded fixture if any exists.
  * For example, the following part of the nock fixture/recording would be updated.
@@ -437,7 +457,73 @@ export function handleSingleQuotesInUrlPath(fixture: string): string {
 }
 
 /**
+ * Meant for node recordings only!
+ *
+ * Masks access tokens in the json response from nock fixtures.
+ * For example, the following part of the nock fixture/recording would be updated.
+ * from `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"e6z-9_g"}, [`
+ * to   `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"access_token"}, [`
+ *
+ * @param {string} fixture
+ */
+export function maskAccessTokenInNockFixture(fixture: string): string {
+  if (isBrowser()) {
+    throw new Error(
+      `"maskAccessTokenInNockFixture" method is not meant to be used in the browsers`
+    );
+  }
+  // Replaces only if the content-type is json
+  if (isContentTypeInNockFixture(fixture, jsonContentTypes)) {
+    // Matches the nock's reply from the fixture such as below
+    //   `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"e6z-9_g"}, [`
+    const matches = fixture.match(/\.reply\((.*), (.*), .*/);
+    if (matches && matches[2]) {
+      return fixture.replace(/"access_token"\s*:\s*"(.+?)"/, `"access_token":"access_token"`);
+    }
+  }
+  return fixture;
+}
+
+/**
+ * Meant for browser recordings only!
+ *
+ * Masks access tokens in the json recordings of the browser.
+ * For example, the following part of the nock fixture/recording would be updated.
+ * from `"response": "{"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"e6z-9_g"}",`
+ * to   `"response": "{"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}",`
+ *
+ */
+export function maskAccessTokenInBrowserRecording(fixtures: string): string {
+  if (!isBrowser()) {
+    throw new Error(
+      `"maskAccessTokenInBrowserRecording" method is meant to be used in the browsers only`
+    );
+  }
+
+  // fixture is supposed to be an array of JSON recordings at this point
+  for (let i = 0; i < fixtures.length; i++) {
+    // Replaces only if the content-type is json
+    if (isContentTypeInBrowserRecording(fixtures[i], jsonContentTypes)) {
+      if ((fixtures[i] as any).response) {
+        const parsedResponse = JSON.parse((fixtures[i] as any).response);
+        if (parsedResponse["access_token"]) {
+          parsedResponse["access_token"] = "access_token";
+          (fixtures[i] as any).response = JSON.stringify(parsedResponse);
+        }
+      }
+    }
+  }
+  return fixtures;
+}
+
+/**
  * List of binary content types.
  * Currently, "avro/binary" is the only one present.
  */
 export const binaryContentTypes = ["avro/binary"];
+
+/**
+ * List of json content types.
+ * // TODO: Add anything else to the list??
+ */
+export const jsonContentTypes = ["application/json;charset=utf-8"];

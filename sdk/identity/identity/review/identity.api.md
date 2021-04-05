@@ -34,15 +34,19 @@ export const AuthenticationErrorName = "AuthenticationError";
 // @public
 export interface AuthenticationRecord {
     authority: string;
+    clientId: string;
     homeAccountId: string;
-    serialize: () => string;
     tenantId: string;
     username: string;
 }
 
 // @public
 export class AuthenticationRequired extends CredentialUnavailable {
-    constructor(message?: string);
+    constructor(
+    scopes: string[],
+    getTokenOptions?: GetTokenOptions, message?: string);
+    getTokenOptions: GetTokenOptions;
+    scopes: string[];
 }
 
 // @public
@@ -87,8 +91,9 @@ export class ClientCertificateCredential implements TokenCredential {
     }
 
 // @public
-export interface ClientCertificateCredentialOptions extends PersistentCredentialOptions {
+export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
     sendCertificateChain?: boolean;
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -98,7 +103,8 @@ export class ClientSecretCredential implements TokenCredential {
     }
 
 // @public
-export interface ClientSecretCredentialOptions extends PersistentCredentialOptions {
+export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -111,7 +117,7 @@ export const CredentialUnavailableName = "CredentialUnavailable";
 
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
-    constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions);
+    constructor(options?: DefaultAzureCredentialOptions);
 }
 
 // @public
@@ -169,9 +175,6 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
-export type InteractiveBrowserAuthenticationFlow = "implicit-grant" | "auth-code";
-
-// @public
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
@@ -184,7 +187,6 @@ export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions 
     tenantId?: string;
     clientId: string;
     loginStyle?: BrowserLoginStyle;
-    flow?: InteractiveBrowserAuthenticationFlow;
 };
 
 // @public
@@ -195,9 +197,10 @@ export type InteractiveBrowserCredentialOptions = TokenCredentialOptions & Inter
 };
 
 // @public
-export interface InteractiveCredentialOptions extends PersistentCredentialOptions {
+export interface InteractiveCredentialOptions extends TokenCredentialOptions {
     authenticationRecord?: AuthenticationRecord;
     disableAutomaticAuthentication?: boolean;
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -211,9 +214,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
 // @public
-export interface PersistentCredentialOptions extends TokenCredentialOptions {
-    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
-}
+export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
 
 // @public
 export interface TokenCachePersistenceOptions {

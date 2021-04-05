@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msal from "msal";
 import * as msalBrowser from "@azure/msal-browser";
 import { AccessToken } from "@azure/core-http";
 import { DefaultTenantId } from "../../constants";
@@ -12,6 +11,7 @@ import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { AuthenticationRequired } from "../errors";
+import { CredentialUnavailable } from "../../client/errors";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -42,7 +42,7 @@ export function defaultBrowserMsalConfig(
   const authorityHost = getAuthorityHost(tenantId, options.authorityHost);
   return {
     auth: {
-      clientId: options.clientId!, // we just initialized it above
+      clientId: options.clientId!,
       authority: authorityHost,
       knownAuthorities: getKnownAuthorities(tenantId, authorityHost),
       // If the users picked redirect as their login style,
@@ -64,16 +64,21 @@ export function defaultBrowserMsalConfig(
  */
 export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrowserFlow {
   protected loginStyle: BrowserLoginStyle;
+  protected clientId: string;
   protected tenantId: string;
   protected account: AuthenticationRecord | undefined;
-  protected msalConfig: msal.Configuration | msalBrowser.Configuration;
+  protected msalConfig: msalBrowser.Configuration;
   protected disableAutomaticAuthentication?: boolean;
-  protected app?: msal.UserAgentApplication | msalBrowser.PublicClientApplication;
+  protected app?: msalBrowser.PublicClientApplication;
 
   constructor(options: MsalBrowserFlowOptions) {
     super(options);
     this.logger = options.logger;
     this.loginStyle = options.loginStyle;
+    if (!options.clientId) {
+      throw new CredentialUnavailable("A client ID is required in browsers");
+    }
+    this.clientId = options.clientId;
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
@@ -144,6 +149,8 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       }
       if (options?.disableAutomaticAuthentication) {
         throw new AuthenticationRequired(
+          scopes,
+          options,
           "Automatic authentication has been disabled. You may call the authentication() method."
         );
       }

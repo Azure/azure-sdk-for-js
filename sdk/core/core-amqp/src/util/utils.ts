@@ -5,6 +5,7 @@ import AsyncLock from "async-lock";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "./typeGuards";
+import { StandardAbortMessage } from "../errors";
 
 export { AsyncLock };
 /**
@@ -198,9 +199,7 @@ export function delay<T>(
     let onAborted: (() => void) | undefined = undefined;
 
     const rejectOnAbort = (): void => {
-      return reject(
-        new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
-      );
+      return reject(new AbortError(abortErrorMsg ? abortErrorMsg : StandardAbortMessage));
     };
 
     const removeListeners = (): void => {

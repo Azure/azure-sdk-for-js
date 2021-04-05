@@ -5,8 +5,7 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { createSpan } from "../../src/tracing";
 import { setTracer, TestTracer, TestSpan } from "@azure/core-tracing";
-import { SpanKind, TraceFlags } from "@opentelemetry/api";
-import { OperationOptions } from "@azure/core-http";
+import { SpanKind, TraceFlags } from "@azure/core-tracing";
 
 describe("tracing.createSpan", () => {
   it("returns a created span with the right metadata", () => {
@@ -30,50 +29,6 @@ describe("tracing.createSpan", () => {
     assert.isTrue(
       setAttributeSpy.calledOnceWithExactly("az.namespace", "Microsoft.CognitiveServices")
     );
-  });
-
-  it("returns updated SpanOptions", () => {
-    const options: OperationOptions = {};
-    const { span, updatedOptions } = createSpan("testOperation", options);
-    assert.isEmpty(options, "original options should not be modified");
-    assert.notStrictEqual(updatedOptions, options, "should return new object");
-    const expected: OperationOptions = {
-      tracingOptions: {
-        spanOptions: {
-          parent: span.context(),
-          attributes: {
-            "az.namespace": "Microsoft.CognitiveServices"
-          }
-        }
-      }
-    };
-    assert.deepEqual(updatedOptions, expected);
-  });
-
-  it("preserves existing attributes", () => {
-    const options: OperationOptions = {
-      tracingOptions: {
-        spanOptions: {
-          attributes: {
-            foo: "bar"
-          }
-        }
-      }
-    };
-    const { span, updatedOptions } = createSpan("testOperation", options);
-    assert.notStrictEqual(updatedOptions, options, "should return new object");
-    const expected: OperationOptions = {
-      tracingOptions: {
-        spanOptions: {
-          parent: span.context(),
-          attributes: {
-            "az.namespace": "Microsoft.CognitiveServices",
-            foo: "bar"
-          }
-        }
-      }
-    };
-    assert.deepEqual(updatedOptions, expected);
   });
 
   afterEach(() => {

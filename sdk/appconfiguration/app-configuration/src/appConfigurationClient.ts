@@ -50,7 +50,8 @@ import {
   transformKeyValueResponseWithStatusCode,
   transformKeyValue,
   formatAcceptDateTime,
-  formatFieldsForSelect
+  formatFieldsForSelect,
+  serializeAsConfigurationSettingParam
 } from "./internal/helpers";
 import { tracingPolicy } from "@azure/core-http";
 import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
@@ -67,7 +68,7 @@ const packageName = "azsdk-js-app-configuration";
  * User - Agent header. There's a unit test that makes sure it always stays in sync.
  * @internal
  */
-export const packageVersion = "1.1.1";
+export const packageVersion = "1.2.0-beta.1";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -115,6 +116,7 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
  */
 export class AppConfigurationClient {
   private client: AppConfiguration;
+  private _syncTokens: SyncTokens;
   // (for tests)
   private _trace = traceFromTracingHelpers;
 
@@ -164,13 +166,13 @@ export class AppConfigurationClient {
       }
     }
 
-    const syncTokens = appConfigOptions.syncTokens || new SyncTokens();
+    this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
 
     this.client = new AppConfiguration(
       appConfigCredential,
       appConfigEndpoint,
       apiVersion,
-      getGeneratedClientOptions(appConfigEndpoint, syncTokens, appConfigOptions)
+      getGeneratedClientOptions(appConfigEndpoint, this._syncTokens, appConfigOptions)
     );
   }
 
@@ -190,10 +192,11 @@ export class AppConfigurationClient {
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
     return this._trace("addConfigurationSetting", options, async (newOptions) => {
+      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
         label: configurationSetting.label,
-        entity: configurationSetting,
+        entity: keyValue,
         ...newOptions
       });
 
@@ -456,10 +459,11 @@ export class AppConfigurationClient {
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
     return this._trace("setConfigurationSetting", options, async (newOptions) => {
+      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const response = await this.client.putKeyValue(configurationSetting.key, {
         ...newOptions,
         label: configurationSetting.label,
-        entity: configurationSetting,
+        entity: keyValue,
         ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options)
       });
 
@@ -496,8 +500,16 @@ export class AppConfigurationClient {
       }
     });
   }
-}
 
+  /**
+   * Adds an external synchronization token to ensure service requests receive up-to-date values.
+   *
+   * @param syncToken The synchronization token value.
+   */
+  updateSyncToken(syncToken: string): void {
+    this._syncTokens.addSyncTokenFromHeaderValue(syncToken);
+  }
+}
 /**
  * Gets the options for the generated AppConfigurationClient
  * @internal

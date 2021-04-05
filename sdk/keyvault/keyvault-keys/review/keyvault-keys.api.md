@@ -232,7 +232,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1" | "7.2";
+    serviceVersion?: string;
 }
 
 // @public
@@ -379,9 +379,6 @@ export interface ListPropertiesOfKeysOptions extends coreHttp.OperationOptions {
 // @public
 export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOptions {
 }
-
-// @public
-export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;

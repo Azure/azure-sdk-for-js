@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { createSpan, trace } from "../../src/internal/tracingHelpers";
-import { Span, Status, CanonicalCode } from "@opentelemetry/api";
+import { Span, SpanStatus, SpanStatusCode } from "@azure/core-tracing";
 
 import * as assert from "assert";
 import sinon from "sinon";
@@ -12,7 +12,7 @@ import { OperationTracingOptions } from "@azure/core-tracing";
 
 describe("tracingHelpers", () => {
   it("trace OK", async () => {
-    let setStatusStub: sinon.SinonStub<[Status], Span> | undefined;
+    let setStatusStub: sinon.SinonStub<[SpanStatus], Span> | undefined;
     let endStub: sinon.SinonStub | undefined;
 
     const fakeCreateSpan = <
@@ -49,12 +49,12 @@ describe("tracingHelpers", () => {
 
     const [status] = setStatusStub!.args[0];
 
-    assert.equal(status.code, CanonicalCode.OK);
+    assert.equal(status.code, SpanStatusCode.OK);
     assert.equal(endStub?.called, true);
   });
 
   it("trace ERROR", async () => {
-    let setStatusStub: sinon.SinonStub<[Status], Span> | undefined;
+    let setStatusStub: sinon.SinonStub<[SpanStatus], Span> | undefined;
     let endStub: sinon.SinonStub | undefined;
 
     try {
@@ -96,7 +96,7 @@ describe("tracingHelpers", () => {
     assert.ok(setStatusStub, "setStatus should have been called");
     assert.equal(
       setStatusStub?.args[0][0].code,
-      CanonicalCode.INTERNAL,
+      SpanStatusCode.ERROR,
       "Any thrown exception causes the span status to be set to an error"
     );
 

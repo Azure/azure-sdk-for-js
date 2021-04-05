@@ -7,7 +7,7 @@
  */
 
 import { createSpanFunction, OperationTracingOptions } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/api";
+import { Span } from "@azure/core-tracing";
 
 export const createSpan: <T extends {
   tracingOptions?: OperationTracingOptions | undefined;

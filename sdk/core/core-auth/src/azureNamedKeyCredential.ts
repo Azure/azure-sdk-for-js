@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isObjectWithProperties } from "./typeguards";
+
 /**
  * Represents a credential defined by a static API name and key.
  */
@@ -70,4 +72,17 @@ export class AzureNamedKeyCredential implements NamedKeyCredential {
     this._name = newName;
     this._key = newKey;
   }
+}
+
+/**
+ * Tests an object to determine whether it implements NamedKeyCredential.
+ *
+ * @param credential - The assumed NamedKeyCredential to be tested.
+ */
+export function isNamedKeyCredential(credential: unknown): credential is NamedKeyCredential {
+  return (
+    isObjectWithProperties(credential, ["name", "key"]) &&
+    typeof credential.key === "string" &&
+    typeof credential.name === "string"
+  );
 }

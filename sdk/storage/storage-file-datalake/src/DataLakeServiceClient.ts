@@ -30,7 +30,7 @@ import {
 import { createSpan } from "./utils/tracing";
 import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms";
 import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
 import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
@@ -195,7 +195,7 @@ export class DataLakeServiceClient extends StorageClient {
       return await this.blobServiceClient.getUserDelegationKey(startsOn, expiresOn, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -370,7 +370,7 @@ export class DataLakeServiceClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -419,7 +419,7 @@ export class DataLakeServiceClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

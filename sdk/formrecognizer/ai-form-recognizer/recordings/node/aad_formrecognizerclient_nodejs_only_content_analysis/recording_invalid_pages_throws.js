@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "afd5d9d32355d093bb48a5ff52fb85c6";
+module.exports.hash = "74b0a721ea9c3a41da1fece133538168";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1331',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,23 +24,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4547ee6a-35a5-4745-b4bc-1fece5112500',
+  '76ed0fe9-d799-4538-837e-79d299393802',
   'x-ms-ests-server',
-  '2.1.11251.20 - SCUS ProdSlices',
+  '2.1.11562.10 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=AtKvOEOlunhAo7nAPZA_Nj_GLH8mAQAAAAkxStcOAAAA; expires=Sun, 20-Dec-2020 21:50:03 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AjzFVQ1mzahOgLFbzhWoi1fGLH8mEAAAACKn9dcOAAAA; expires=Thu, 29-Apr-2021 23:14:44 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 20 Nov 2020 21:50:02 GMT',
-  'Content-Length',
-  '1331'
+  'Tue, 30 Mar 2021 23:14:44 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.1-preview.2/layout/analyze', {"source":"https://storageaccount/testingdata/Invoice_1.pdf?sastoken"})
+  .post('/formrecognizer/v2.1-preview.3/layout/analyze', {"source":"https://storageaccount/testingdata/Invoice_1.pdf?sastoken"})
   .query(true)
   .reply(400, {"error":{"code":"InvalidPageRange","message":"The Pages parameter exceeds the number of pages."}}, [
   'Content-Length',
@@ -46,13 +46,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '598',
+  '780',
   'apim-request-id',
-  'a85875c2-dfb1-4e0f-9780-5363e942af8d',
+  '5c416509-b2e7-4f2e-981b-04834c507fa3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 20 Nov 2020 21:50:02 GMT'
+  'Tue, 30 Mar 2021 23:14:45 GMT'
 ]);

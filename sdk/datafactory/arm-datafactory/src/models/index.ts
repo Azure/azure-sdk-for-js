@@ -164,6 +164,11 @@ export interface AzureKeyVaultSecretReference {
  */
 export interface FactoryIdentity {
   /**
+   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned',
+   * 'SystemAssigned,UserAssigned'
+   */
+  type: FactoryIdentityType;
+  /**
    * The principal id of the identity.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -706,6 +711,23 @@ export interface PipelineFolder {
 }
 
 /**
+ * Pipeline ElapsedTime Metric Policy.
+ */
+export interface PipelineElapsedTimeMetricPolicy {
+  /**
+   * TimeSpan value, after which an Azure Monitoring Metric is fired.
+   */
+  duration?: any;
+}
+
+/**
+ * Pipeline Policy.
+ */
+export interface PipelinePolicy {
+  elapsedTimeMetric?: PipelineElapsedTimeMetricPolicy;
+}
+
+/**
  * Pipeline resource type.
  */
 export interface PipelineResource extends SubResource {
@@ -741,6 +763,7 @@ export interface PipelineResource extends SubResource {
    * The folder that this Pipeline is in. If not specified, Pipeline will appear at the root level.
    */
   folder?: PipelineFolder;
+  policy?: PipelinePolicy;
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
@@ -5169,7 +5192,7 @@ export interface SftpServerLinkedService {
   port?: any;
   /**
    * The authentication type to be used to connect to the FTP server. Possible values include:
-   * 'Basic', 'SshPublicKey'
+   * 'Basic', 'SshPublicKey', 'MultiFactor'
    */
   authenticationType?: SftpAuthenticationType;
   /**
@@ -5322,6 +5345,11 @@ export interface HttpLinkedService {
    * authentication.
    */
   password?: SecretBaseUnion;
+  /**
+   * The additional HTTP headers in the request to RESTful API used for authorization. Type: object
+   * (or Expression with resultType object).
+   */
+  authHeaders?: any;
   /**
    * Base64 encoded certificate data for ClientCertificate authentication. For on-premises copy
    * with ClientCertificate authentication, either CertThumbprint or EmbeddedCertData/Password
@@ -5571,6 +5599,11 @@ export interface RestServiceLinkedService {
    * The password used in Basic authentication type.
    */
   password?: SecretBaseUnion;
+  /**
+   * The additional HTTP headers in the request to RESTful API used for authorization. Type: object
+   * (or Expression with resultType object).
+   */
+  authHeaders?: any;
   /**
    * The application's client ID used in AadServicePrincipal authentication type.
    */
@@ -6456,6 +6489,11 @@ export interface ODataLinkedService {
    * Password of the OData service.
    */
   password?: SecretBaseUnion;
+  /**
+   * The additional HTTP headers in the request to RESTful API used for authorization. Type: object
+   * (or Expression with resultType object).
+   */
+  authHeaders?: any;
   /**
    * Specify the tenant information (domain name or tenant ID) under which your application
    * resides. Type: string (or Expression with resultType string).
@@ -15354,17 +15392,18 @@ export interface WebActivityAuthentication {
   pfx?: SecretBaseUnion;
   /**
    * Web activity authentication user name for basic authentication or ClientID when used for
-   * ServicePrincipal
+   * ServicePrincipal. Type: string (or Expression with resultType string).
    */
-  username?: string;
+  username?: any;
   /**
    * Password for the PFX file or basic authentication / Secret when used for ServicePrincipal
    */
   password?: SecretBaseUnion;
   /**
-   * Resource for which Azure Auth token will be requested when using MSI Authentication.
+   * Resource for which Azure Auth token will be requested when using MSI Authentication. Type:
+   * string (or Expression with resultType string).
    */
-  resource?: string;
+  resource?: any;
   /**
    * TenantId for which Azure Auth token will be requested when using ServicePrincipal
    * Authentication. Type: string (or Expression with resultType string).
@@ -24962,6 +25001,14 @@ export interface ManagedPrivateEndpointListResponse extends Array<ManagedPrivate
 }
 
 /**
+ * Defines values for FactoryIdentityType.
+ * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned'
+ * @readonly
+ * @enum {string}
+ */
+export type FactoryIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned';
+
+/**
  * Defines values for GlobalParameterType.
  * Possible values include: 'Object', 'String', 'Int', 'Float', 'Bool', 'Array'
  * @readonly
@@ -25202,11 +25249,11 @@ export type SapHanaAuthenticationType = 'Basic' | 'Windows';
 
 /**
  * Defines values for SftpAuthenticationType.
- * Possible values include: 'Basic', 'SshPublicKey'
+ * Possible values include: 'Basic', 'SshPublicKey', 'MultiFactor'
  * @readonly
  * @enum {string}
  */
-export type SftpAuthenticationType = 'Basic' | 'SshPublicKey';
+export type SftpAuthenticationType = 'Basic' | 'SshPublicKey' | 'MultiFactor';
 
 /**
  * Defines values for FtpAuthenticationType.

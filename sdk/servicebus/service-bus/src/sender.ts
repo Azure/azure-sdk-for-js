@@ -16,7 +16,7 @@ import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 import { CreateMessageBatchOptions } from "./models";
 import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import { CanonicalCode, Link, SpanKind } from "@opentelemetry/api";
+import { SpanStatusCode, Link, SpanKind } from "@azure/core-tracing";
 import { senderLogger as logger } from "./log";
 import { ServiceBusError } from "./serviceBusError";
 import { createServiceBusSpan } from "./diagnostics/tracing";
@@ -213,11 +213,11 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
     try {
       const result = await this._sender.sendBatch(batch, options);
-      sendSpan.setStatus({ code: CanonicalCode.OK });
+      sendSpan.setStatus({ code: SpanStatusCode.OK });
       return result;
     } catch (error) {
       sendSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

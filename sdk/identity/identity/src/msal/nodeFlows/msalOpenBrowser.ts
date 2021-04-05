@@ -9,7 +9,8 @@ import stoppable from "stoppable";
 import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { MsalNodeOptions, MsalNode } from "./nodeCommon";
-import { msalToPublic } from "../transformations";
+import { msalToPublic } from "../utils";
+import { CredentialUnavailable } from "../../client/errors";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through opening a browser window.
@@ -18,6 +19,14 @@ import { msalToPublic } from "../transformations";
 export interface MSALOpenBrowserOptions extends MsalNodeOptions {
   redirectUri: string;
 }
+
+/**
+ * A call to open(), but mockable
+ * @internal
+ */
+export const interactiveBrowserMockable = {
+  open
+};
 
 /**
  * This MSAL client sets up a web server to listen for redirect callbacks, then calls to the MSAL's public application's `acquireTokenByDeviceCode` during `doGetToken`
@@ -81,7 +90,7 @@ export class MsalOpenBrowser extends MsalNode {
         this.acquireTokenByCode(tokenRequest)
           .then((authResponse) => {
             if (authResponse?.account) {
-              this.account = msalToPublic(authResponse.account);
+              this.account = msalToPublic(this.clientId, authResponse.account);
             }
             const successMessage = `Authentication Complete. You can close the browser and return to the application.`;
             if (authResponse && authResponse.expiresOn) {
@@ -174,6 +183,11 @@ export class MsalOpenBrowser extends MsalNode {
     };
 
     const response = await this.publicApp!.getAuthCodeUrl(authCodeUrlParameters);
-    await open(response);
+
+    try {
+      await interactiveBrowserMockable.open(response, { wait: true });
+    } catch (e) {
+      throw new CredentialUnavailable(`Could not open a browser window. Error: ${e.message}`);
+    }
   }
 }

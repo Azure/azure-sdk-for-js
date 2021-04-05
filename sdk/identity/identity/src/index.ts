@@ -6,9 +6,8 @@ import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
 export { AuthenticationRecord } from "./msal/types";
 export { AuthenticationRequired } from "./msal/errors";
-export { deserializeAuthenticationRecord } from "./msal/transformations";
+export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
 export { TokenCredentialOptions } from "./client/identityClient";
-export { PersistentCredentialOptions } from "./credentials/persistentCredentialOptions";
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 export { TokenCachePersistenceOptions } from "./tokenCache/persistencePlatforms";
 
@@ -31,8 +30,7 @@ export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCr
 export {
   InteractiveBrowserCredentialOptions,
   InteractiveBrowserCredentialBrowserOptions,
-  BrowserLoginStyle,
-  InteractiveBrowserAuthenticationFlow
+  BrowserLoginStyle
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
