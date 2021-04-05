@@ -287,7 +287,7 @@ describe("internal crypto tests", () => {
 
           const parameters: EncryptParameters = {
             algorithm: "RSA-OAEP",
-            plaintext: Buffer.from("text")
+            plaintext: stringToUint8Array("text")
           };
 
           await cryptoClient.encrypt(parameters);
@@ -299,7 +299,7 @@ describe("internal crypto tests", () => {
 
           const parameters: DecryptParameters = {
             algorithm: "RSA-OAEP",
-            ciphertext: Buffer.from("text")
+            ciphertext: stringToUint8Array("text")
           };
           await cryptoClient.decrypt(parameters);
           assert.isTrue(remoteStub.calledOnceWith(parameters));
@@ -308,7 +308,7 @@ describe("internal crypto tests", () => {
         it("remotes the wrapKey operation", async function() {
           const remoteStub = sinon.stub(remoteProvider, "wrapKey");
 
-          const keyToWrap = Buffer.from("myKey");
+          const keyToWrap = stringToUint8Array("myKey");
           await cryptoClient.wrapKey("RSA-OAEP", keyToWrap);
           assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", keyToWrap));
         });
@@ -316,7 +316,7 @@ describe("internal crypto tests", () => {
         it("remotes the unwrapKey operation", async function() {
           const remoteStub = sinon.stub(remoteProvider, "unwrapKey");
 
-          const wrappedKey = Buffer.from("myKey");
+          const wrappedKey = stringToUint8Array("myKey");
           await cryptoClient.unwrapKey("RSA-OAEP", wrappedKey);
           assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", wrappedKey));
         });
@@ -324,7 +324,7 @@ describe("internal crypto tests", () => {
         it("remotes the sign operation", async function() {
           const remoteStub = sinon.stub(remoteProvider, "sign");
 
-          const data = Buffer.from("myKey");
+          const data = stringToUint8Array("myKey");
           await cryptoClient.sign("PS256", data);
           assert.isTrue(remoteStub.calledOnceWith("PS256", data));
         });
@@ -332,7 +332,7 @@ describe("internal crypto tests", () => {
         it("remotes the signData operation", async function() {
           const remoteStub = sinon.stub(remoteProvider, "signData");
 
-          const data = Buffer.from("myKey");
+          const data = stringToUint8Array("myKey");
           await cryptoClient.signData("PS256", data);
           assert.isTrue(remoteStub.calledOnceWith("PS256", data));
         });
@@ -340,8 +340,8 @@ describe("internal crypto tests", () => {
         it("remotes the verify operation", async function() {
           const remoteStub = sinon.stub(remoteProvider, "verify");
 
-          const data = Buffer.from("myKey");
-          const sig = Buffer.from("sig");
+          const data = stringToUint8Array("myKey");
+          const sig = stringToUint8Array("sig");
           await cryptoClient.verify("PS256", data, sig);
           assert.isTrue(remoteStub.calledOnceWith("PS256", data, sig));
         });
@@ -349,8 +349,8 @@ describe("internal crypto tests", () => {
         it("remotes the verifyData operation", async function() {
           const remoteStub = sinon.stub(remoteProvider, "verifyData");
 
-          const data = Buffer.from("myKey");
-          const sig = Buffer.from("sig");
+          const data = stringToUint8Array("myKey");
+          const sig = stringToUint8Array("sig");
           await cryptoClient.verifyData("PS256", data, sig);
           assert.isTrue(remoteStub.calledOnceWith("PS256", data, sig));
         });
@@ -358,9 +358,6 @@ describe("internal crypto tests", () => {
     });
 
     describe("local only mode", function() {
-      let cryptoClient: CryptographyClient;
-      let localProvider: RsaCryptographyProvider;
-
       beforeEach(() => {
         const jwk: JsonWebKey = {};
         localProvider = new RsaCryptographyProvider(jwk);
@@ -375,37 +372,37 @@ describe("internal crypto tests", () => {
       describe("when a local provider errors", function() {
         it("throws the original encrypt exception", async function() {
           await assert.isRejected(
-            cryptoClient.encrypt({ algorithm: "RSA-OAEP", plaintext: Buffer.from("text") })
+            cryptoClient.encrypt({ algorithm: "RSA-OAEP", plaintext: stringToUint8Array("text") })
           );
         });
 
         it("throws the original decrypt exception", async function() {
           await assert.isRejected(
-            cryptoClient.decrypt({ algorithm: "RSA-OAEP", ciphertext: Buffer.from("text") })
+            cryptoClient.decrypt({ algorithm: "RSA-OAEP", ciphertext: stringToUint8Array("text") })
           );
         });
 
         it("throws the original wrapKey exception", async function() {
-          await assert.isRejected(cryptoClient.wrapKey("RSA-OAEP", Buffer.from("myKey")));
+          await assert.isRejected(cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array("myKey")));
         });
 
         it("throws the original unwrapKey exception", async function() {
-          await assert.isRejected(cryptoClient.unwrapKey("RSA-OAEP", Buffer.from("myKey")));
+          await assert.isRejected(cryptoClient.unwrapKey("RSA-OAEP", stringToUint8Array("myKey")));
         });
         it("throws the original sign exception", async function() {
-          await assert.isRejected(cryptoClient.sign("PS256", Buffer.from("data")));
+          await assert.isRejected(cryptoClient.sign("PS256", stringToUint8Array("data")));
         });
         it("throws the original signData exception", async function() {
-          await assert.isRejected(cryptoClient.signData("PS256", Buffer.from("data")));
+          await assert.isRejected(cryptoClient.signData("PS256", stringToUint8Array("data")));
         });
         it("throws the original verify exception", async function() {
           await assert.isRejected(
-            cryptoClient.verify("PS256", Buffer.from("data"), Buffer.from("sig"))
+            cryptoClient.verify("PS256", stringToUint8Array("data"), stringToUint8Array("sig"))
           );
         });
         it("throws the original verifyData exception", async function() {
           await assert.isRejected(
-            cryptoClient.verifyData("PS256", Buffer.from("data"), Buffer.from("sig"))
+            cryptoClient.verifyData("PS256", stringToUint8Array("data"), stringToUint8Array("sig"))
           );
         });
       });
