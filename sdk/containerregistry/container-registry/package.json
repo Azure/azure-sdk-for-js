@@ -5,7 +5,9 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {},
+  "browser": {
+    "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js"
+  },
   "types": "types/container-registry.d.ts",
   "//metadata": {
     "constantPaths": [

@@ -9,6 +9,7 @@ import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { URL } from "./url";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
@@ -138,12 +139,9 @@ export class ContainerRepositoryClient {
   ) {
     this.endpoint = endpointUrl;
     this.repository = repository;
-    const matches = endpointUrl.match(/:\/\/([a-zA-Z0-9.]+)\/*/);
-    if (matches) {
-      this.registry = matches[1];
-    } else {
-      throw new Error(`Expecting a valid endpointUrl, got ${endpointUrl}`);
-    }
+    const parsedUrl = new URL(endpointUrl);
+    this.registry = parsedUrl.hostname;
+
     // The below code helps us set a proper User-Agent header on all requests
     const libInfo = `azsdk-js-container-registry/${SDK_VERSION}`;
     if (!options.userAgentOptions) {
