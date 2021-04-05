@@ -1,5 +1,9 @@
 # Release History
 
+## 4.2.0-beta.6 (Unreleased)
+
+- Updated `CryptographyClient` to ensure that any local cryptography error is properly handled. We will now try to perform the operation locally where we can but fallback to KeyVault if the local operation fails.
+
 ## 4.2.0-beta.5 (2021-04-05)
 
 - Added local cryptography support for encryption / decryption for `A128CBCPAD`, `A192CBCPAD`, and `A256CBCPAD`.
