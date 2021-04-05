@@ -178,9 +178,8 @@ main().catch((err) => {
 
 ### Additional Examples
 
-Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digital-twins-core/samples)
-directory for additional examples on how to use this library.
+Additional examples can be found in the
+[samples directory](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digital-twins-core/samples).
 
 ## Troubleshooting
 
@@ -195,6 +194,10 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+
+## Next steps
+
+Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digital-twins-core/samples) directory for detailed examples that demonstrate how to use the client libraries.
 
 ## Contributing
 
