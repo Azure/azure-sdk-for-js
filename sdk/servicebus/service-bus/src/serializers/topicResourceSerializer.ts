@@ -43,7 +43,6 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
     DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
     EnableBatchedOperations: getStringOrUndefined(topic.enableBatchedOperations),
-    // TODO: in .net, but not in here: FilteringMessagesBeforePublishing
     AuthorizationRules: getRawAuthorizationRules(topic.authorizationRules),
     Status: getStringOrUndefined(topic.status),
     UserMetadata: getStringOrUndefined(topic.userMetadata),
