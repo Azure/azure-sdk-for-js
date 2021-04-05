@@ -86,8 +86,6 @@ export interface ListRegistryArtifactsOptions extends OperationOptions {
 export interface ListTagsOptions extends OperationOptions {
   /** orderby query parameter */
   orderBy?: TagOrderBy;
-  /** filter by digest */
-  digest?: string;
 }
 
 function isDigest(tagOrDigest: string): boolean {
@@ -463,7 +461,7 @@ export class ContainerRepositoryClient {
         n: continuationState.maxPageSize,
         orderby: options.orderBy
       };
-      let currentPage = await this.client.containerRegistryRepository.getManifests(
+      const currentPage = await this.client.containerRegistryRepository.getManifests(
         this.repository,
         optionsComplete
       );
@@ -483,28 +481,28 @@ export class ContainerRepositoryClient {
           };
         });
       }
-      while (continuationState.continuationToken) {
-        currentPage = await this.client.containerRegistryRepository.getManifestsNext(
-          this.repository,
-          continuationState.continuationToken,
-          options
+    }
+    while (continuationState.continuationToken) {
+      const currentPage = await this.client.containerRegistryRepository.getManifestsNext(
+        this.repository,
+        continuationState.continuationToken,
+        options
+      );
+      if (currentPage.link) {
+        continuationState.continuationToken = currentPage.link.substr(
+          1,
+          currentPage.link.indexOf(">") - 1
         );
-        if (currentPage.link) {
-          continuationState.continuationToken = currentPage.link.substr(
-            1,
-            currentPage.link.indexOf(">") - 1
-          );
-        } else {
-          continuationState.continuationToken = undefined;
-        }
-        if (currentPage.manifests) {
-          yield currentPage.manifests.map((t) => {
-            return {
-              ...t,
-              repository: currentPage.repository!
-            };
-          });
-        }
+      } else {
+        continuationState.continuationToken = undefined;
+      }
+      if (currentPage.manifests) {
+        yield currentPage.manifests.map((t) => {
+          return {
+            ...t,
+            repository: currentPage.repository!
+          };
+        });
       }
     }
   }
@@ -553,7 +551,7 @@ export class ContainerRepositoryClient {
         n: continuationState.maxPageSize,
         orderby: options.orderBy
       };
-      let currentPage = await this.client.containerRegistryRepository.getTags(
+      const currentPage = await this.client.containerRegistryRepository.getTags(
         this.repository,
         optionsComplete
       );
@@ -566,21 +564,21 @@ export class ContainerRepositoryClient {
           };
         });
       }
-      while (continuationState.continuationToken) {
-        currentPage = await this.client.containerRegistryRepository.getTagsNext(
-          this.repository,
-          continuationState.continuationToken,
-          options
-        );
-        continuationState.continuationToken = extractNextLink(currentPage.link);
-        if (currentPage.tagAttributeBases) {
-          yield currentPage.tagAttributeBases.map((t) => {
-            return {
-              ...t,
-              repository: currentPage.repository
-            };
-          });
-        }
+    }
+    while (continuationState.continuationToken) {
+      const currentPage = await this.client.containerRegistryRepository.getTagsNext(
+        this.repository,
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = extractNextLink(currentPage.link);
+      if (currentPage.tagAttributeBases) {
+        yield currentPage.tagAttributeBases.map((t) => {
+          return {
+            ...t,
+            repository: currentPage.repository
+          };
+        });
       }
     }
   }

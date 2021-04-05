@@ -192,21 +192,21 @@ export class ContainerRegistryClient {
         ...options,
         n: continuationState.maxPageSize
       };
-      let currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
+      const currentPage = await this.client.containerRegistry.getRepositories(optionsComplete);
       if (currentPage.repositories) {
         yield currentPage.repositories;
       }
       continuationState.continuationToken = extractNextLink(currentPage.link);
-      while (continuationState.continuationToken) {
-        currentPage = await this.client.containerRegistry.getRepositoriesNext(
-          continuationState.continuationToken,
-          options
-        );
-        if (currentPage.repositories) {
-          yield currentPage.repositories;
-        }
-        continuationState.continuationToken = extractNextLink(currentPage.link);
+    }
+    while (continuationState.continuationToken) {
+      const currentPage = await this.client.containerRegistry.getRepositoriesNext(
+        continuationState.continuationToken,
+        options
+      );
+      if (currentPage.repositories) {
+        yield currentPage.repositories;
       }
+      continuationState.continuationToken = extractNextLink(currentPage.link);
     }
   }
 }
