@@ -6,4 +6,4 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export const SDK_VERSION="1.0.0-beta.4"
+export const SDK_VERSION = "1.0.0-beta.4";
