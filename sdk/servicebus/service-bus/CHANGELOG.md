@@ -1,10 +1,21 @@
 # Release History
 
+## 7.0.5 (2021-04-06)
+
+- Adds support for passing `NamedKeyCredential` as the credential type to `ServiceBusClient` and `ServiceBusAdminstrationClient`. Also adds support for passing `SASCredential` to `ServiceBusClient`.
+  These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
+  Resolves [#11891](https://github.com/Azure/azure-sdk-for-js/issues/11891).
+
+### Bug fixes
+
+- Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug w.r.t the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
+
 ## 7.0.4 (2021-03-31)
 
 ### Bug fixes
 
 - `ServiceBusSessionReceiver.receiveMessages` and `ServiceBusSessionReceiver.subscribe` methods are updated to handle errors on the AMQP connection like a network disconnect in [#13956](https://github.com/Azure/azure-sdk-for-js/pull/13956). Previously, these methods only handled errors on the AMQP link or session.
+
   - This previously resulted in the promise returned by the `receiveMessages` method never getting fulfilled and the `subscribe` method not calling the user provided error handler.
   - The `receiveMessages` method will now throw `SessionLockLostError` when used in `peekLock` mode and return messages collected so far when used in `receiveAndDelete` mode to avoid data loss if errors on the AMQP connection are encountered.
   - When using the `subscribe`, the user provided `processError` callback will now be called with `SessionLockLostError` if errors on the AMQP connection are encountered.
