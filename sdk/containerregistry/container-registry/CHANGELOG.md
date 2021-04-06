@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.1 (Unreleased)
+## 1.0.0-beta.1 (2021-04-06)
 
 - Initial version of Azure Container Registry client SDK library.
 - This release is a preview of our efforts to create a client library that is user friendly and
