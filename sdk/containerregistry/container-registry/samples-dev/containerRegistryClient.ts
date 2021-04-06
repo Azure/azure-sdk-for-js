@@ -3,21 +3,22 @@
 
 /**
  * @summary Demonstrates the use of a ContainerRegistryClient.
+ * @azsdk-weight 10
  */
 
-const { ContainerRegistryClient } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import { ContainerRegistryClient } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
-  const endpoint = process.env.ENDPOINT || "<endpoint>";
-
+export async function main() {
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
   await listRepositories(client);
   await deleteRepository(client);
 }
 
-async function listRepositories(client) {
+async function listRepositories(client: ContainerRegistryClient) {
   console.log("Listing repositories");
   const iterator = client.listRepositories();
   for await (const repository of iterator) {
@@ -36,16 +37,22 @@ async function listRepositories(client) {
   }
 }
 
-async function deleteRepository(client) {
+async function deleteRepository(client: ContainerRegistryClient) {
   const response = await client.deleteRepository("hello-world");
-  console.log(`Artifacts deleted: ${response.deletedRegistryArtifactDigests.length || 0}`);
-  console.log(`Tags deleted: ${response.deletedRegistryArtifactDigests.length || 0}`);
+  console.log(
+    `Artifacts deleted: ${(response &&
+      response.deletedRegistryArtifactDigests &&
+      response.deletedRegistryArtifactDigests.length) ||
+      0}`
+  );
+  console.log(
+    `Tags deleted: ${(response &&
+      response.deletedRegistryArtifactDigests &&
+      response.deletedRegistryArtifactDigests.length) ||
+      0}`
+  );
 }
 
-main()
-  .then(() => {
-    console.log("Sample completes successfully.");
-  })
-  .catch((err) => {
-    console.error("The sample encountered an error:", err);
-  });
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

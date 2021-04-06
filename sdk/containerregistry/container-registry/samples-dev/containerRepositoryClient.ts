@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates the use of a ContainerRegistryClient.
+ * @summary Demonstrates the use of a ContainerRepositoryClient.
+ * @azsdk-weight 5
  */
 
 import { ContainerRepositoryClient, RegistryArtifactProperties } from "@azure/container-registry";
@@ -11,14 +12,14 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  const endpoint = process.env.ENDPOINT ?? "<endpoint>";
-  const repository = process.env.REPOSITORY_NAME ?? "<repository name>";
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
+  const repository = process.env.REPOSITORY_NAME || "<repository name>";
 
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
   await getProperties(client);
   await listTags(client);
   const artifacts = await listArtifacts(client);
-  if (artifacts?.length) {
+  if (artifacts && artifacts.length) {
     const digest = artifacts[0].digest;
     if (digest) {
       await getArtifactProperties(client, digest);

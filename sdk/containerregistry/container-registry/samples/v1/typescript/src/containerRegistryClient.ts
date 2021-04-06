@@ -11,7 +11,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  const endpoint = process.env.ENDPOINT ?? "<endpoint>";
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
   await listRepositories(client);
   await deleteRepository(client);
@@ -38,8 +38,18 @@ async function listRepositories(client: ContainerRegistryClient) {
 
 async function deleteRepository(client: ContainerRegistryClient) {
   const response = await client.deleteRepository("hello-world");
-  console.log(`Artifacts deleted: ${response?.deletedRegistryArtifactDigests?.length ?? 0}`);
-  console.log(`Tags deleted: ${response?.deletedRegistryArtifactDigests?.length ?? 0}`);
+  console.log(
+    `Artifacts deleted: ${(response &&
+      response.deletedRegistryArtifactDigests &&
+      response.deletedRegistryArtifactDigests.length) ||
+      0}`
+  );
+  console.log(
+    `Tags deleted: ${(response &&
+      response.deletedRegistryArtifactDigests &&
+      response.deletedRegistryArtifactDigests.length) ||
+      0}`
+  );
 }
 
 main().catch((err) => {

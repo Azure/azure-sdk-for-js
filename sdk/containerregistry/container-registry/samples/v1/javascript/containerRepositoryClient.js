@@ -7,10 +7,11 @@
 
 const { ContainerRepositoryClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
-  const endpoint = process.env.ENDPOINT || "<endpoint>";
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.REPOSITORY_NAME || "<repository name>";
 
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
