@@ -71,7 +71,7 @@ export interface ProjectInfo {
 async function isAzureSDKPackage(fileName: string): Promise<boolean> {
   const f = await import(fileName);
 
-  if ((f.name as string).startsWith("@azure/")) {
+  if ((f.name as string).startsWith("@azure/") || (f.name as string).startsWith("@azure-rest/")) {
     return true;
   } else {
     return false;
