@@ -5,7 +5,6 @@ import { message } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
 import { logErrorStackTrace, logger } from "./log";
-import { isDefined } from "./util/typeGuards";
 
 /**
  * The default data transformer that will be used by the Azure SDK.
@@ -125,11 +124,7 @@ export const defaultDataTransformer = {
 export function isRheaAmqpSection(
   possibleSection: any | RheaAmqpSection
 ): possibleSection is RheaAmqpSection {
-  return (
-    possibleSection != null &&
-    typeof possibleSection.typecode === "number" &&
-    isDefined(possibleSection.content)
-  );
+  return possibleSection != null && typeof possibleSection.typecode === "number";
 }
 
 /**
