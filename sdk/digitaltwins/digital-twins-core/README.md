@@ -51,10 +51,9 @@ You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Do
 ### Create the DigitalTwinsClient
 
 To create a new `DigitalTwinsClient`, you need the endpoint to an Azure Digital Twins instance and credentials.
-Here, we use `DefaultAzureCredential` for credentials.
-DefaultAzureCredential is provided by [`@azure/identity`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity).
+Here, we use `DefaultAzureCredential` for credentials from the package `@azure/identity`.
 It supports different authentication mechanisms and determines the appropriate credential type based of the environment it is executing in.
-See `@azure/identity` in [GitHub](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity) for more information on authenticating with DefaultAzureCredential or other implementations of TokenCredential.
+See the [readme for @azure/identity](https://www.npmjs.com/package/@azure/identity) for more information on the different authentication options you can use.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
