@@ -582,7 +582,7 @@ export function fromRheaMessage(
   rawMessage.bodyType = bodyType;
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _rawAmqpMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
+    _rawAmqpMessage: rawMessage,
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
