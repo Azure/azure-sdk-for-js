@@ -71,7 +71,7 @@ export interface ServiceBusMessageBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param message - An individual service bus message.
+   * @param message - The message to add to the batch.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
   tryAddMessage(
