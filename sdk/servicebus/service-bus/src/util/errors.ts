@@ -270,7 +270,7 @@ export function throwIfNotValidServiceBusMessage(
 
 /** @internal */
 export const errorInvalidMessageTypeSingleOrArray =
-  "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage or an array of type ServiceBusMessage or AmqpAnnotatedMessage.";
+  "Provided value for 'messages' must be of type: ServiceBusMessage, AmqpAnnotatedMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage or AmqpAnnotatedMessage.";
 
 /** @internal */
 export const errorInvalidMessageTypeSingle =
