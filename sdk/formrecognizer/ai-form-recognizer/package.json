@@ -51,14 +51,14 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
+    "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-browser dist-test test-browser temp types *.tgz *.log",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist* test-browser temp types *.tgz *.log test-results.*xml",
+    "execute:samples": "dev-tool samples run samples-dev/",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  \"dist-esm/test/*/{,!(browser)/**/}*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -136,6 +136,42 @@
       "trainUnlabeledModel.js",
       "copyModel.js",
       "deleteAllModels.js"
-    ]
+    ],
+    "disableDocsMs": true,
+    "productName": "Azure Form Recognizer",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "azure-form-recognizer"
+    ],
+    "requiredResources": {
+      "Azure Cognitive Services account": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+    },
+    "extraFiles": {
+      "./assets/businessCard/business-card-english.jpg": [
+        "typescript/assets/businessCard/business-card-english.jpg",
+        "javascript/assets/businessCard/business-card-english.jpg"
+      ],
+      "./assets/forms/Form_1.jpg": [
+        "typescript/assets/forms/Form_1.jpg",
+        "javascript/assets/forms/Form_1.jpg"
+      ],
+      "./assets/forms/selection_mark_form.pdf": [
+        "typescript/assets/forms/selection_mark_form.pdf",
+        "javascript/assets/forms/selection_mark_form.pdf"
+      ],
+      "./assets/idDocument/license.jpg": [
+        "typescript/assets/idDocument/license.jpg",
+        "javascript/assets/idDocument/license.jpg"
+      ],
+      "./assets/invoice/sample_invoice.jpg": [
+        "typescript/assets/invoice/sample_invoice.jpg",
+        "javascript/assets/invoice/sample_invoice.jpg"
+      ],
+      "./assets/receipt/contoso-allinone.jpg": [
+        "typescript/assets/receipt/contoso-allinone.jpg",
+        "javascript/assets/receipt/contoso-allinone.jpg"
+      ]
+    }
   }
 }

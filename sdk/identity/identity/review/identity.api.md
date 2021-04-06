@@ -34,8 +34,8 @@ export const AuthenticationErrorName = "AuthenticationError";
 // @public
 export interface AuthenticationRecord {
     authority: string;
+    clientId: string;
     homeAccountId: string;
-    serialize: () => string;
     tenantId: string;
     username: string;
 }
@@ -91,8 +91,9 @@ export class ClientCertificateCredential implements TokenCredential {
     }
 
 // @public
-export interface ClientCertificateCredentialOptions extends PersistentCredentialOptions {
+export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
     sendCertificateChain?: boolean;
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -102,7 +103,8 @@ export class ClientSecretCredential implements TokenCredential {
     }
 
 // @public
-export interface ClientSecretCredentialOptions extends PersistentCredentialOptions {
+export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -195,9 +197,10 @@ export type InteractiveBrowserCredentialOptions = TokenCredentialOptions & Inter
 };
 
 // @public
-export interface InteractiveCredentialOptions extends PersistentCredentialOptions {
+export interface InteractiveCredentialOptions extends TokenCredentialOptions {
     authenticationRecord?: AuthenticationRecord;
     disableAutomaticAuthentication?: boolean;
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
@@ -211,9 +214,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
 // @public
-export interface PersistentCredentialOptions extends TokenCredentialOptions {
-    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
-}
+export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
 
 // @public
 export interface TokenCachePersistenceOptions {

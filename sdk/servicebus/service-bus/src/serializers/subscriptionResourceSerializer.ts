@@ -36,6 +36,12 @@ export function buildSubscriptionOptions(
   subscription: CreateSubscriptionOptions
 ): InternalSubscriptionOptions {
   return {
+    // NOTE: this ordering is extremely important. As an example, misordering of the ForwardTo property
+    // resulted in a customer bug where the Forwarding attributes appeared to be set but the portal was
+    // not picking up on it.
+    //
+    // The authority on this ordering is here:
+    // https://github.com/Azure/azure-sdk-for-net/blob/8af2dfc32c96ef3e340f9d20013bf588d97ea756/sdk/servicebus/Azure.Messaging.ServiceBus/src/Administration/SubscriptionPropertiesExtensions.cs#L191
     LockDuration: subscription.lockDuration,
     RequiresSession: getStringOrUndefined(subscription.requiresSession),
     DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTimeToLive),

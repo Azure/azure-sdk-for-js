@@ -109,7 +109,7 @@ describe("ChatClient", function() {
     });
 
     it("successfully unsubscribes a listener", function(done) {
-      function listener() {
+      function listener(): void {
         assert.fail();
       }
 
@@ -124,7 +124,7 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully listens to typingIndicatorReceivedEvents", function(done) {
-      function listener() {
+      function listener(): void {
         done();
       }
 
@@ -135,7 +135,7 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully listens to chatMessageEditedEvents", function(done) {
-      function listener() {
+      function listener(): void {
         done();
       }
 
@@ -151,7 +151,7 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully listens to chatMessageReceivedEvents", function(done) {
-      function listener() {
+      function listener(): void {
         done();
       }
 
@@ -163,7 +163,7 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully listens to chatMessageDeletedEvents", function(done) {
-      function listener() {
+      function listener(): void {
         done();
       }
 
@@ -177,7 +177,7 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully listens to chatThreadCreatedEvents", function(done) {
-      function listener() {
+      function listener(): void {
         done();
       }
 
@@ -192,7 +192,7 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully listens to chatThreadDeletedEvents", function(done) {
-      function listener() {
+      function listener(): void {
         done();
       }
 
@@ -209,7 +209,7 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully listens to chatThreadPropertiesUpdatedEvents", function(done) {
-      function listener() {
+      function listener(): void {
         done();
       }
 
@@ -220,7 +220,7 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully listens to participantsAddedEvents", function(done) {
-      function listener() {
+      function listener(): void {
         done();
       }
 
@@ -234,7 +234,7 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully listens to participantsRemovedEvents", function(done) {
-      function listener() {
+      function listener(): void {
         done();
       }
 
@@ -244,10 +244,10 @@ describe("ChatClient", function() {
       chatThreadClient.removeParticipant(testUser2);
     }).timeout(8000);
 
-    it("successfully listens to readReceiptReceivedEvents", function(done) {
+    it("successfully listens to readReceiptReceivedEvents", function(this: Context, done) {
       // TODO: Read receipt notification is timing out even with increased timeout
       this.skip();
-      function listener() {
+      function listener(): void {
         done();
       }
 

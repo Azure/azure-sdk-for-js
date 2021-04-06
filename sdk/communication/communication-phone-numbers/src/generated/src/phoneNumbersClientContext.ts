@@ -19,7 +19,8 @@ export class PhoneNumbersClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the PhoneNumbersClientContext class.
-   * @param endpoint The communication resource, for example https://resourcename.communication.azure.com
+   * @param endpoint The communication resource, for example
+   *                 https://resourcename.communication.azure.com.
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: PhoneNumbersClientOptionalParams) {
