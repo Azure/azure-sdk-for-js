@@ -66,7 +66,7 @@ export const defaultDataTransformer = {
    * @param body - The AMQP message body
    * @return decoded body or the given body as-is.
    */
-  decode(body: any): any {
+  decode(body: unknown): unknown {
     let actualContent = body;
 
     if (isRheaAmqpSection(body)) {
@@ -86,8 +86,8 @@ export const defaultDataTransformer = {
    * @return The decoded/raw body and the body type.
    */
   decodeWithType(
-    body: any | RheaAmqpSection
-  ): { body: any; bodyType: "data" | "sequence" | "value" } {
+    body: unknown | RheaAmqpSection
+  ): { body: unknown; bodyType: "data" | "sequence" | "value" } {
     try {
       if (isRheaAmqpSection(body)) {
         switch (body.typecode) {
@@ -118,42 +118,6 @@ export const defaultDataTransformer = {
       throw err;
     }
   }
-
-  /**
-   * A function that takes the body property from an AMQP message
-   * (an AMQP Data type (data section in rhea terms)) and returns the decoded message body.
-   * If it cannot decode the body then it returns the body
-   * as-is.
-   * @param body - The AMQP message body
-   * @returns decoded body or the given body as-is.
-   */
-  // decode(body: unknown): any {
-  //   let processedBody: any = body;
-  //   try {
-  //     if (isObjectWithProperties(body, ["content"]) && isBuffer(body.content)) {
-  //       // This indicates that we are getting the AMQP described type. Let us try decoding it.
-  //       processedBody = body.content;
-  //     }
-  //     try {
-  //       // Trying to stringify and JSON.parse() anything else will fail flat and we shall return
-  //       // the original type back
-  //       const bodyStr: string = processedBody.toString("utf8");
-  //       processedBody = JSON.parse(bodyStr);
-  //     } catch (err) {
-  //       logger.verbose(
-  //         "[decode] An error occurred while trying JSON.parse() on the received body. " +
-  //           "The error is %O",
-  //         err
-  //       );
-  //     }
-  //   } catch (err) {
-  //     logger.verbose(
-  //       "[decode] An error occurred while decoding the received message body. The error is: %O",
-  //       err
-  //     );
-  //   }
-  //   return processedBody;
-  // }
 };
 
 /** @internal */
