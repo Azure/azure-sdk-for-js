@@ -618,12 +618,9 @@ export function isServiceBusMessage(possible: unknown): possible is ServiceBusMe
  * @internal
  * @ignore
  */
-export function isAmqpAnnotatedMessage(possible: any): possible is AmqpAnnotatedMessage {
+export function isAmqpAnnotatedMessage(possible: unknown): possible is AmqpAnnotatedMessage {
   return (
-    possible != null &&
-    typeof possible === "object" &&
-    "body" in possible &&
-    "bodyType" in possible &&
+    isObjectWithProperties(possible, ["body", "bodyType"]) &&
     possible.constructor.name !== ServiceBusMessageImpl.name
   );
 }
