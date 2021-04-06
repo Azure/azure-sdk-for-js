@@ -6,13 +6,16 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "@azure/test-utils-perfstress": "^1.0.0",
+  "dependencies": {
     "@azure/ai-metrics-advisor": "1.0.0-beta.3",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/test-utils-perfstress": "^1.0.0",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
     "@types/node": "^8.0.0",
-    "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
     "tslib": "^2.0.0",
     "ts-node": "^9.0.0",
     "typescript": "~4.2.0"
