@@ -149,7 +149,11 @@ export class MsalBaseUtilities {
    * Handles MSAL errors.
    */
   protected handleError(scopes: string[], error: Error, getTokenOptions?: GetTokenOptions): Error {
-    if (error.name === "AuthError" || error.name === "ClientAuthError") {
+    if (
+      error.name === "AuthError" ||
+      error.name === "ClientAuthError" ||
+      error.name === "BrowserAuthError"
+    ) {
       const msalError = error as msalCommon.AuthError;
       switch (msalError.errorCode) {
         case "endpoints_resolution_error":
@@ -167,10 +171,11 @@ export class MsalBaseUtilities {
           break;
       }
     }
-    if (error.name === "ClientConfigurationError") {
-      return error;
-    }
-    if (error.name === "AbortError") {
+    if (
+      error.name === "ClientConfigurationError" ||
+      error.name === "BrowserConfigurationAuthError" ||
+      error.name === "AbortError"
+    ) {
       return error;
     }
     return new AuthenticationRequired(scopes, getTokenOptions, error.message);
