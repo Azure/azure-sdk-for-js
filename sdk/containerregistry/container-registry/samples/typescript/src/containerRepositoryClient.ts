@@ -30,7 +30,7 @@ export async function main() {
 
 async function listTags(client: ContainerRepositoryClient) {
   console.log("Listing tags");
-  const iterator = client.listTags();
+  const iterator = client.listTags({ orderBy: "timeasc" });
   for await (const tag of iterator) {
     console.log(`  tag: ${tag.name}`);
     console.log(`  digest: ${tag.digest}`);

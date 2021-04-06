@@ -8,7 +8,7 @@ import {
   ChallengeCallbackOptions,
   ChallengeCallbacks,
   parseWWWAuthenticate
-} from "./bearerTokenChanllengeAuthenticationPolicy";
+} from "./bearerTokenChallengeAuthenticationPolicy";
 import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
@@ -78,8 +78,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
       this.options
     );
 
-    // Step 5 - Authorize Request.  Note, we don't use SetAuthorizationHeader here, because it
-    // sets an AAD access token header, and at this point we're done with AAD and using an ACR access token.
+    // Step 5 - Authorize Request.  At this point we're done with AAD and using an ACR access token.
     options.setAuthorizationHeader(acrAccessToken);
 
     return true;

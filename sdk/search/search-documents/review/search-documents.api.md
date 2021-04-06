@@ -109,6 +109,12 @@ export interface BaseLexicalAnalyzer {
 }
 
 // @public
+export interface BaseLexicalNormalizer {
+    name: string;
+    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
+}
+
+// @public
 export interface BaseLexicalTokenizer {
     name: string;
     odatatype: "#Microsoft.Azure.Search.ClassicTokenizer" | "#Microsoft.Azure.Search.EdgeNGramTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizer" | "#Microsoft.Azure.Search.KeywordTokenizerV2" | "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer" | "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer" | "#Microsoft.Azure.Search.NGramTokenizer" | "#Microsoft.Azure.Search.PathHierarchyTokenizerV2" | "#Microsoft.Azure.Search.PatternTokenizer" | "#Microsoft.Azure.Search.StandardTokenizer" | "#Microsoft.Azure.Search.StandardTokenizerV2" | "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
@@ -314,7 +320,8 @@ export type CustomEntityLookupSkill = BaseSearchIndexerSkill & {
 export type CustomEntityLookupSkillLanguage = string;
 
 // @public
-export type CustomNormalizer = LexicalNormalizer & {
+export type CustomNormalizer = BaseLexicalNormalizer & {
+    odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
     tokenFilters?: TokenFilterName[];
     charFilters?: CharFilterName[];
 };
@@ -1289,10 +1296,7 @@ export type LexicalAnalyzer = CustomAnalyzer | PatternAnalyzer | LuceneStandardA
 export type LexicalAnalyzerName = string;
 
 // @public
-export interface LexicalNormalizer {
-    name: string;
-    odatatype: string;
-}
+export type LexicalNormalizer = CustomNormalizer;
 
 // @public
 export type LexicalNormalizerName = string;
@@ -1548,7 +1552,9 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
 }
 
 // @public
-export type SearchClientOptions = PipelineOptions;
+export interface SearchClientOptions extends PipelineOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface SearchDocumentsPageResult<T> extends SearchDocumentsResultBase {
@@ -1618,7 +1624,9 @@ export class SearchIndexClient {
     }
 
 // @public
-export type SearchIndexClientOptions = PipelineOptions;
+export interface SearchIndexClientOptions extends PipelineOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface SearchIndexer {
@@ -1665,7 +1673,9 @@ export class SearchIndexerClient {
 }
 
 // @public
-export type SearchIndexerClientOptions = PipelineOptions;
+export interface SearchIndexerClientOptions extends PipelineOptions {
+    apiVersion?: string;
+}
 
 // @public
 export interface SearchIndexerDataContainer {

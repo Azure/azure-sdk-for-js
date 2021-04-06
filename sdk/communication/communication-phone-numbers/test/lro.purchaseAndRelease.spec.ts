@@ -8,9 +8,10 @@ import { PhoneNumberSearchResult, SearchAvailablePhoneNumbersRequest } from "../
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { createRecordedClient } from "./utils/recordedClient";
 
-describe("PhoneNumbersClient - lro - purchase", function() {
+describe("PhoneNumbersClient - lro - purchase and release", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
+  let phoneNumberToRelease: string | undefined;
 
   before(function(this: Context) {
     if (!env.INCLUDE_PHONENUMBER_LIVE_TESTS && !isPlaybackMode()) {
@@ -28,7 +29,7 @@ describe("PhoneNumbersClient - lro - purchase", function() {
     }
   });
 
-  describe("successfully purchases a phone number", function() {
+  describe("purchase", function() {
     let searchResults: PhoneNumberSearchResult;
 
     it("finds phone number to purchase", async function() {
@@ -49,14 +50,38 @@ describe("PhoneNumbersClient - lro - purchase", function() {
       assert.isNotEmpty(searchResults.searchId);
       assert.isNotEmpty(searchResults.phoneNumbers);
       assert.equal(searchResults.phoneNumbers.length, 1);
+
+      [phoneNumberToRelease] = searchResults.phoneNumbers;
     }).timeout(20000);
 
-    it("purchases the phone number from the search", async function() {
+    it("purchases the phone number from the search", async function(this: Context) {
+      if (!searchResults) {
+        this.skip();
+      }
+
       const purchasePoller = await client.beginPurchasePhoneNumbers(searchResults.searchId);
 
       await purchasePoller.pollUntilDone();
       assert.ok(purchasePoller.getOperationState().isCompleted);
-      console.log(`Purchased ${searchResults.phoneNumbers[0]}`);
+      console.log(`Purchased ${phoneNumberToRelease}`);
+    }).timeout(45000);
+  });
+
+  describe("release", function() {
+    before(function(this: Context) {
+      if (!phoneNumberToRelease) {
+        this.skip();
+      }
+    });
+
+    it("releases the phone number", async function() {
+      console.log(`Will release ${phoneNumberToRelease}`);
+
+      const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease as string);
+
+      await releasePoller.pollUntilDone();
+      assert.ok(releasePoller.getOperationState().isCompleted);
+      console.log(`Released: ${phoneNumberToRelease}`);
     }).timeout(45000);
   });
 });

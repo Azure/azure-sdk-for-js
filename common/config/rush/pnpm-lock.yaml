@@ -122,6 +122,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-RVG1Ad3Afv9gwFFmpeCXQAm+Sa0L8KEZRJJAAZEGoYDb6EoO1iQDVmoBz720h8mdrGpi0D60xNU/KhriIwuZfQ==
+  /@azure/arm-containerregistry/8.0.0:
+    dependencies:
+      '@azure/ms-rest-azure-js': 2.1.0
+      '@azure/ms-rest-js': 2.3.0
+      tslib: 1.14.1
+    dev: false
+    resolution:
+      integrity: sha512-8v+3YtATbaFv5qMGvhFVR+qx1QPc1+NBy2MWWoJ69SmEE1X91ySvXDbEa0Pr7znm/bqbBYWOLJN5L3Aa7Q0fpg==
   /@azure/communication-common/1.0.0-beta.6:
     dependencies:
       '@azure/abort-controller': 1.0.4
@@ -368,6 +376,18 @@ packages:
     dev: false
     resolution:
       integrity: sha512-l7z0DPCi2Hp88w12JhDTtx5d0Y3+vhfE7JKJb9O7sEz71Cwp053N8piTtTnnk/tUor9oZHgEKi/p3tQQmLPjvA==
+  /@azure/ms-rest-azure-env/2.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-dG76W7ElfLi+fbTjnZVGj+M9e0BIEJmRxU6fHaUQ12bZBe8EJKYb2GV50YWNaP2uJiVQ5+7nXEVj1VN1UQtaEw==
+  /@azure/ms-rest-azure-js/2.1.0:
+    dependencies:
+      '@azure/core-auth': 1.3.0
+      '@azure/ms-rest-js': 2.3.0
+      tslib: 1.14.1
+    dev: false
+    resolution:
+      integrity: sha512-CjZjB8apvXl5h97Ck6SbeeCmU0sk56YPozPtTyGudPp1RGoHXNjFNtoOvwOG76EdpmMpxbK10DqcygI16Lu60Q==
   /@azure/ms-rest-js/1.11.2_debug@3.2.7:
     dependencies:
       '@azure/core-auth': 1.3.0
@@ -398,6 +418,20 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-2AyQ1IKmLGKW7DU3/x3TsTBzZLcbC9YRI+yuDPuXAQrv3zar340K9wsxU413kHFIDjkWNCo9T0w5VtwcyWxhbQ==
+  /@azure/ms-rest-js/2.3.0:
+    dependencies:
+      '@azure/core-auth': 1.3.0
+      abort-controller: 3.0.0
+      form-data: 2.5.1
+      node-fetch: 2.6.1
+      tough-cookie: 3.0.1
+      tslib: 1.14.1
+      tunnel: 0.0.6
+      uuid: 3.4.0
+      xml2js: 0.4.23
+    dev: false
+    resolution:
+      integrity: sha512-8NOnHgovi61NpcUld53zRkY/IcQJBBO48VeMntNTUtaPo8yYYTnu1hWRvp6b6vpBnur7HGmuj692J9li5Kx6/Q==
   /@azure/ms-rest-nodeauth/0.9.3_debug@3.2.7:
     dependencies:
       '@azure/ms-rest-azure-env': 1.1.2
@@ -418,6 +452,14 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-aFHRw/IHhg3I9ZJW+Va4L+sCirFHMVIu6B7lFdL5mGLfG3xC5vDIdd957LRXFgy2OiKFRUC0QaKknd0YCsQIqA==
+  /@azure/ms-rest-nodeauth/3.0.9:
+    dependencies:
+      '@azure/ms-rest-azure-env': 2.0.0
+      '@azure/ms-rest-js': 2.3.0
+      adal-node: 0.1.28
+    dev: false
+    resolution:
+      integrity: sha512-+GdDHUJlWtIDanRZemFooLy68NsBDhN/Oni9DSFeoXIFNGlSe1IOes8/IRkQdrNXyUvBanuzzR7I5WYYzYQsmA==
   /@azure/msal-browser/2.9.0:
     dependencies:
       '@azure/msal-common': 2.1.0
@@ -1378,6 +1420,14 @@ packages:
       node: ^8.10.0 || ^10.13.0 || >=11.10.1
     resolution:
       integrity: sha512-aGPS6kz//j7XLSlgpzU2SeTqHPsmRYxFztj2vPuMMFJXZudpRSehE3WCV+BaxwZFvfAqMoSd86TEuM0PQ59E/A==
+  /abort-controller/3.0.0:
+    dependencies:
+      event-target-shim: 5.0.1
+    dev: false
+    engines:
+      node: '>=6.5'
+    resolution:
+      integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==
   /accepts/1.3.7:
     dependencies:
       mime-types: 2.1.29
@@ -2987,6 +3037,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+  /event-target-shim/5.0.1:
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-i/2XbnSz/uxRCU6+NdVJgKWDTM427+MqYbkQzD321DuCQJUqOuJKIA0IM2+W2xtYHdKOmZ4dR6fExsd4SXL+WQ==
   /eventemitter3/4.0.7:
     dev: false
     resolution:
@@ -3892,6 +3948,12 @@ packages:
       node: '>= 0.10'
     resolution:
       integrity: sha512-agE4QfB2Lkp9uICn7BAqoscw4SZP9kTE2hxiFI3jBPmXJfdqiahTbUuKGsMoN2GtqL9AxhYioAcVvgsb1HvRbA==
+  /ip-regex/2.1.0:
+    dev: false
+    engines:
+      node: '>=4'
+    resolution:
+      integrity: sha1-+ni/XS5pE8kRzp+BnuUUa7bYROk=
   /ip/1.1.5:
     dev: false
     resolution:
@@ -7003,6 +7065,16 @@ packages:
       node: '>=0.8'
     resolution:
       integrity: sha512-nlLsUzgm1kfLXSXfRZMc1KLAugd4hqJHDTvc2hDIwS3mZAfMEuMbc03SujMF+GEcpaX/qboeycw6iO8JwVv2+g==
+  /tough-cookie/3.0.1:
+    dependencies:
+      ip-regex: 2.1.0
+      psl: 1.8.0
+      punycode: 2.1.1
+    dev: false
+    engines:
+      node: '>=6'
+    resolution:
+      integrity: sha512-yQyJ0u4pZsv9D4clxO69OEjLWYw+jbgspjTue4lTQZLfV0c5l1VmK2y1JK8E9ahdpltPOaAThPcp5nKPUgSnsg==
   /tough-cookie/4.0.0:
     dependencies:
       psl: 1.8.0
@@ -8240,8 +8312,10 @@ packages:
     version: 0.0.0
   file:projects/container-registry.tgz:
     dependencies:
+      '@azure/arm-containerregistry': 8.0.0
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/identity': 1.2.4
+      '@azure/ms-rest-nodeauth': 3.0.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
       '@types/chai': 4.2.15
@@ -8279,7 +8353,7 @@ packages:
     dev: false
     name: '@rush-temp/container-registry'
     resolution:
-      integrity: sha512-JhtYDaf7z6RTEdl5ryiX5e+awRFuUAz93kZlWwHyjAlM9XmwIAFJAplLk08suRJiL7xBtGiU5/g9nonNK1giww==
+      integrity: sha512-IIrFxaQMLlk2yFjJSxEzxlXGLIiZrxf+bj494+37WNrc7WyRZXoX6zvhkYiza5/xawd3GvM5hp7wzvQNo9h1Qw==
       tarball: file:projects/container-registry.tgz
     version: 0.0.0
   file:projects/core-amqp.tgz:
