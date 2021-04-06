@@ -2,7 +2,6 @@
 
 ## 2.0.0-beta.2 (Unreleased)
 
-- Bug fix: Replaced cases where `instanceof` was used to compare errors with comparisons on the error names. Uneven updates on our dependencies would cause `instanceof` to mismatch our error comparisons. Comparing by error name makes sure dependency changes won't alter our logic.
 - Added `clientId` to the `AuthenticationRecord` type.
 - `AuthenticationRecord` no longer has a `serialize` method. This method is now called `serializeAuthenticationRecord` and is a function exported at the top level of the Identity library, similar to `deserializeAuthenticationRecord`.
 - `serializeAuthenticationRecord` now serializes into a JSON string with camel case properties. This makes it re-usable across languages.
