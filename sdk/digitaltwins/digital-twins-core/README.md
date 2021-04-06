@@ -250,7 +250,7 @@ for await (const incomingRelationship of incomingRelationships) {
 #### Create event route
 
 To create an event route, provide an ID of an event route (in this case, "myEventRouteId") and event route data containing the endpoint and optional filter like the example shown below.
-For more information on filtering events, see [this documentation](https://docs.microsoft.com/en-us/azure/digital-twins/how-to-manage-routes-apis-cli#filter-events).
+For more information on filtering events, see [this documentation](https://docs.microsoft.com/azure/digital-twins/how-to-manage-routes-apis-cli#filter-events).
 
 ```javascript
 const eventHubEndpointName = "myEventHubEndpointName";
