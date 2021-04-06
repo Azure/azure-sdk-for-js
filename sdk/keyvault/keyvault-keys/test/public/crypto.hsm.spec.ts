@@ -11,6 +11,7 @@ import { authenticate } from "../utils/testAuthentication";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 import TestClient from "../utils/testClient";
 import { getServiceVersion, onVersions } from "../utils/utils.common";
+import { isNode } from "@azure/core-http";
 
 onVersions({ minVer: "7.2" }).describe(
   "CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
@@ -41,11 +42,6 @@ onVersions({ minVer: "7.2" }).describe(
       keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     });
 
-    afterEach(async function() {
-      await testClient?.flushKey(keyName);
-      await recorder.stop();
-    });
-
     describe("with AES crypto algorithms", async function() {
       it("encrypts and decrypts using AES-GCM", async function(this: Context) {
         keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
@@ -65,29 +61,34 @@ onVersions({ minVer: "7.2" }).describe(
           authenticationTag: encryptResult.authenticationTag
         });
         assert.equal(text, uint8ArrayToString(decryptResult.result));
+        await testClient?.flushKey(keyName);
+        await recorder.stop();
       });
 
-      it("encrypts and decrypts using AES-CBC", async function(this: Context) {
+      it.only("encrypts and decrypts using AES-CBC", async function(this: Context) {
+        if (!isNode) {
+          this.skip();
+        }
         keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
         cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
         const text = this.test!.title;
+        // We are using a predictable IV to support our recorded tests; however, you should use a cryptographically secure IV or omit it and
+        // let the client library generate it for you.
+        const iv = stringToUint8Array("xxxxxxxxxxxxxxxx");
         const encryptResult = await cryptoClient.encrypt({
           algorithm: "A256CBCPAD",
           plaintext: stringToUint8Array(text),
-          iv: stringToUint8Array(text)
+          iv
         });
-        // There is a service-level issue where `iv` is not returned
-        // from the service as part of the result. Until it's resolved
-        // we have to pend this and just pass the same iv
-        // back to decrypt for now.
-        // assert.exists(encryptResult.iv);
 
         const decryptResult = await cryptoClient.decrypt({
           algorithm: "A256CBCPAD",
           ciphertext: encryptResult.result!,
-          iv: stringToUint8Array(text) // Replace with `encryptResult.iv!` once ADO 9361749 is resolved.
+          iv
         });
         assert.equal(uint8ArrayToString(decryptResult.result), text);
+        await testClient?.flushKey(keyName);
+        await recorder.stop();
       });
     });
   }

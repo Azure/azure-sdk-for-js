@@ -107,8 +107,7 @@ az keyvault security-domain download --hsm-name $hsmName --security-domain-file 
 
 Log "Security domain downloaded to '$sdPath'; Managed HSM is now active at '$hsmUrl'"
 
-# TODO: Without a conservative sleep I get a 403: The managed HSM resource is currently in Provisioned state. but this runs after ARM template completes.
-# Talk to the right folks to get that sorted out
+# Force a sleep to wait for Managed HSM activation to propagate through Cosmos replication. Issue tracked in AzDo.
 Log "Sleeping..."
 Start-Sleep -Seconds 30
 
