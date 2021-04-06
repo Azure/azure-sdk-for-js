@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.0-beta.2 (2021-04-05)
+## 12.0.0-beta.2 (2021-04-06)
 
 - Update open-telemetry dependency to 1.0.0-rc.0 [#14208](https://github.com/Azure/azure-sdk-for-js/pull/14208)
 - Update @azure/core-client and @azure/core-rest-pipeline dependencies to 1.0.0 [#14318](https://github.com/Azure/azure-sdk-for-js/pull/14318)
