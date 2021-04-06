@@ -1,0 +1,50 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fdev.azuresynapse.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 05 Apr 2021 22:15:59 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11562.10 - SCUS ProdSlices",
+    "x-ms-request-id": "1c106eb6-c49c-4606-bd61-888571656a00"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://testaccount.dev.azuresynapse.net/bigDataPools",
+   "query": {
+    "api-version": "2019-06-01-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"properties\":{\"creationDate\":\"2020-11-19T21:41:05.3233333Z\",\"sparkVersion\":\"2.4\",\"nodeCount\":4,\"nodeSize\":\"Small\",\"nodeSizeFamily\":\"MemoryOptimized\",\"autoScale\":{\"enabled\":false,\"minNodeCount\":3,\"maxNodeCount\":10},\"autoPause\":{\"enabled\":true,\"delayInMinutes\":15},\"isComputeIsolationEnabled\":false,\"sessionLevelPackagesEnabled\":false,\"cacheSize\":0,\"dynamicExecutorAllocation\":{\"enabled\":false},\"lastSucceededTimestamp\":\"2020-11-19T21:41:13.2833333Z\",\"provisioningState\":\"Succeeded\"},\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.ProjectArcadia/workspaces/xysynapsetest/sparkComputes/HamonsSpark\",\"name\":\"HamonsSpark\",\"type\":\"Microsoft.ProjectArcadia/workspaces/sparkComputes\",\"location\":\"westus2\",\"tags\":{}},{\"properties\":{\"creationDate\":\"2021-01-11T06:04:11.4733333Z\",\"sparkVersion\":\"2.4\",\"nodeCount\":0,\"nodeSize\":\"Small\",\"nodeSizeFamily\":\"MemoryOptimized\",\"autoScale\":{\"enabled\":true,\"minNodeCount\":3,\"maxNodeCount\":10},\"autoPause\":{\"enabled\":true,\"delayInMinutes\":15},\"isComputeIsolationEnabled\":false,\"sessionLevelPackagesEnabled\":false,\"cacheSize\":0,\"dynamicExecutorAllocation\":{\"enabled\":false},\"lastSucceededTimestamp\":\"2021-01-11T06:04:18.1666667Z\",\"provisioningState\":\"Succeeded\"},\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.ProjectArcadia/workspaces/xysynapsetest/sparkComputes/jianghaospool\",\"name\":\"jianghaospool\",\"type\":\"Microsoft.ProjectArcadia/workspaces/sparkComputes\",\"location\":\"westus2\",\"tags\":{}},{\"properties\":{\"creationDate\":\"2020-11-18T19:10:21.6Z\",\"sparkVersion\":\"2.4\",\"nodeCount\":10,\"nodeSize\":\"Small\",\"nodeSizeFamily\":\"MemoryOptimized\",\"autoScale\":{\"enabled\":true,\"minNodeCount\":3,\"maxNodeCount\":10},\"autoPause\":{\"enabled\":true,\"delayInMinutes\":15},\"isComputeIsolationEnabled\":false,\"sessionLevelPackagesEnabled\":false,\"cacheSize\":0,\"dynamicExecutorAllocation\":{\"enabled\":false},\"lastSucceededTimestamp\":\"2020-11-18T19:10:25.52Z\",\"provisioningState\":\"Succeeded\"},\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.ProjectArcadia/workspaces/xysynapsetest/sparkComputes/testsparkpool\",\"name\":\"testsparkpool\",\"type\":\"Microsoft.ProjectArcadia/workspaces/sparkComputes\",\"location\":\"westus2\",\"tags\":{}}]}",
+   "responseHeaders": {
+    "content-length": "2299",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Mon, 05 Apr 2021 22:15:59 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "4c7defe3-74c1-4888-8308-868a5ed4710c"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a338136bc3147a1576b8d512fcadaa55"
+}
