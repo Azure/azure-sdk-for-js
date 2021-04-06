@@ -13,7 +13,7 @@ import { resolveTenantId } from "../../util/resolveTenantId";
 import { TokenCache } from "../../tokenCache/types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalFlow, MsalFlowOptions } from "../flows";
-import { AuthenticationRequired } from "../errors";
+import { AuthenticationRequiredError } from "../errors";
 import { AuthenticationRecord } from "../types";
 import {
   defaultLoggerCallback,
@@ -198,7 +198,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     await this.getActiveAccount();
     if (!this.account) {
-      throw new AuthenticationRequired(scopes, options);
+      throw new AuthenticationRequiredError(scopes, options);
     }
 
     const silentRequest: msalNode.SilentFlowRequest = {
@@ -233,11 +233,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     options.correlationId = options?.correlationId || this.generateUuid();
     await this.init(options);
     return this.getTokenSilent(scopes, options).catch((err) => {
-      if (err.name !== "AuthenticationRequired") {
+      if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }
       if (options?.disableAutomaticAuthentication) {
-        throw new AuthenticationRequired(
+        throw new AuthenticationRequiredError(
           scopes,
           options,
           "Automatic authentication has been disabled. You may call the authentication() method."

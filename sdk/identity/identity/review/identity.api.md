@@ -41,7 +41,7 @@ export interface AuthenticationRecord {
 }
 
 // @public
-export class AuthenticationRequired extends CredentialUnavailable {
+export class AuthenticationRequiredError extends CredentialUnavailableError {
     constructor(
     scopes: string[],
     getTokenOptions?: GetTokenOptions, message?: string);
@@ -108,12 +108,12 @@ export interface ClientSecretCredentialOptions extends TokenCredentialOptions {
 }
 
 // @public
-export class CredentialUnavailable extends Error {
+export class CredentialUnavailableError extends Error {
     constructor(message?: string);
 }
 
 // @public
-export const CredentialUnavailableName = "CredentialUnavailable";
+export const CredentialUnavailableErrorName = "CredentialUnavailableError";
 
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {

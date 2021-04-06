@@ -2,6 +2,7 @@
 
 ## 2.0.0-beta.2 (Unreleased)
 
+- Breaking change: Renamed errors `CredentialUnavailable` to `CredentialUnavailableError`, and `AuthenticationRequired` to `AuthenticationRequiredError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
 - Added `clientId` to the `AuthenticationRecord` type.
 - `AuthenticationRecord` no longer has a `serialize` method. This method is now called `serializeAuthenticationRecord` and is a function exported at the top level of the Identity library, similar to `deserializeAuthenticationRecord`.
 - `serializeAuthenticationRecord` now serializes into a JSON string with camel case properties. This makes it re-usable across languages.
