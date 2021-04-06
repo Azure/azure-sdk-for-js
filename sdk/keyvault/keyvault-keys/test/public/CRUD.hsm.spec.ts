@@ -39,7 +39,7 @@ onVersions({ minVer: "7.2" }).describe(
       await recorder.stop();
     });
 
-    it.only("can create an OCT key with options", async function(this: Context) {
+    it("can create an OCT key with options", async function(this: Context) {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       const options: CreateOctKeyOptions = {
         hsm: true
