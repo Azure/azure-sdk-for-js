@@ -45,7 +45,12 @@ import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./s
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export type SearchIndexClientOptions = PipelineOptions;
+export interface SearchIndexClientOptions extends PipelineOptions {
+  /**
+   * The API version to use when communicating with the service.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Class to perform operations to manage
@@ -137,7 +142,16 @@ export class SearchIndexClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(this.endpoint, this.apiVersion, pipeline);
+    let apiVersion = this.apiVersion;
+
+    if (options.apiVersion) {
+      if (!["2020-06-30-Preview", "2020-06-30"].includes(options.apiVersion)) {
+        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
+      }
+      apiVersion = options.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
   }
 
   private async *listIndexesPage(

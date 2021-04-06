@@ -46,7 +46,6 @@ import {
   PatternAnalyzer as GeneratedPatternAnalyzer,
   CustomAnalyzer,
   PatternTokenizer,
-  LexicalNormalizer,
   LexicalNormalizerName
 } from "./generated/service/models";
 import {
@@ -70,7 +69,8 @@ import {
   DataDeletionDetectionPolicy,
   SimilarityAlgorithm,
   SearchResourceEncryptionKey,
-  PatternAnalyzer
+  PatternAnalyzer,
+  LexicalNormalizer
 } from "./serviceModels";
 import { SuggestDocumentsResult, SuggestResult, SearchResult } from "./indexModels";
 import {
