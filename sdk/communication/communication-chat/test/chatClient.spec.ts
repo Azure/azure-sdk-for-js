@@ -11,7 +11,7 @@ import { CommunicationIdentifier } from "@azure/communication-common";
 import { Context } from "mocha";
 
 describe("ChatClient", function() {
-  let threadId: string;
+  let threadId: string | undefined;
   let recorder: Recorder;
   let chatClient: ChatClient;
   let chatThreadClient: ChatThreadClient;
@@ -61,13 +61,13 @@ describe("ChatClient", function() {
     }).timeout(8000);
 
     it("successfully retrieves a thread client", async function() {
-      chatThreadClient = await chatClient.getChatThreadClient(threadId);
+      chatThreadClient = await chatClient.getChatThreadClient(threadId!);
       assert.isNotNull(chatThreadClient);
       assert.equal(chatThreadClient.threadId, threadId);
     });
 
     it("successfully deletes a thread", async function() {
-      await chatClient.deleteChatThread(threadId);
+      await chatClient.deleteChatThread(threadId!);
     });
   });
 
@@ -84,10 +84,10 @@ describe("ChatClient", function() {
         participants: [{ id: testUser }]
       };
       const chatThreadResult = await chatClient.createChatThread(request);
-      threadId = chatThreadResult.chatThread?.id!;
+      threadId = chatThreadResult.chatThread?.id;
 
       // Create ChatThreadClient
-      chatThreadClient = chatClient.getChatThreadClient(threadId);
+      chatThreadClient = chatClient.getChatThreadClient(threadId!);
     });
 
     beforeEach(async function() {
@@ -143,11 +143,14 @@ describe("ChatClient", function() {
 
       // Edit message
       const message = { content: "content" };
-      chatThreadClient.sendMessage(message).then((result) => {
-        chatThreadClient.updateMessage(result.id, {
-          content: "new content"
-        });
-      });
+      chatThreadClient
+        .sendMessage(message)
+        .then((result) => {
+          return chatThreadClient.updateMessage(result.id, {
+            content: "new content"
+          });
+        })
+        .catch((error) => console.error(error));
     }).timeout(8000);
 
     it("successfully listens to chatMessageReceivedEvents", function(done) {
@@ -171,9 +174,12 @@ describe("ChatClient", function() {
 
       // Delete message
       const message = { content: `content` };
-      chatThreadClient.sendMessage(message).then((result) => {
-        chatThreadClient.deleteMessage(result.id);
-      });
+      chatThreadClient
+        .sendMessage(message)
+        .then((result) => {
+          return chatThreadClient.deleteMessage(result.id);
+        })
+        .catch((error) => console.error(error));
     }).timeout(8000);
 
     it("successfully listens to chatThreadCreatedEvents", function(done) {
@@ -203,9 +209,12 @@ describe("ChatClient", function() {
         topic: "test delete thread event",
         participants: [{ id: testUser }]
       };
-      chatClient.createChatThread(request).then((result) => {
-        chatClient.deleteChatThread(result.chatThread?.id!);
-      });
+      chatClient
+        .createChatThread(request)
+        .then((result) => {
+          return chatClient.deleteChatThread(result.chatThread?.id as string);
+        })
+        .catch((error) => console.error(error));
     }).timeout(8000);
 
     it("successfully listens to chatThreadPropertiesUpdatedEvents", function(done) {
@@ -255,11 +264,14 @@ describe("ChatClient", function() {
 
       // Send read receipt
       const message = { content: "content" };
-      chatThreadClient.sendMessage(message).then((result) => {
-        chatThreadClient.sendReadReceipt({
-          chatMessageId: result.id
-        });
-      });
+      chatThreadClient
+        .sendMessage(message)
+        .then((result) => {
+          return chatThreadClient.sendReadReceipt({
+            chatMessageId: result.id
+          });
+        })
+        .catch((error) => console.error(error));
     }).timeout(8000);
   });
 });

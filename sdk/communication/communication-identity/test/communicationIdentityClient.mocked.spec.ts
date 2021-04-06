@@ -70,10 +70,10 @@ describe("CommunicationIdentityClient [Mocked]", () => {
 
   it("[createUser] excludes _response from results", async () => {
     const client = new TestCommunicationIdentityClient();
-    const user = await client.createUserTest();
+    const newUser = await client.createUserTest();
 
-    assert.isTrue(isCommunicationUserIdentifier(user));
-    assert.equal(user.communicationUserId, "identity");
-    assert.isFalse("_response" in user);
+    assert.isTrue(isCommunicationUserIdentifier(newUser));
+    assert.equal(newUser.communicationUserId, "identity");
+    assert.isFalse("_response" in newUser);
   });
 });
