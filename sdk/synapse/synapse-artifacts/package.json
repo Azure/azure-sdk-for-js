@@ -126,7 +126,7 @@
       },
       {
         "path": "swagger/README.md",
-        "prefix": "pacage-version"
+        "prefix": "package-version"
       }
     ]
   }
