@@ -29,6 +29,24 @@
 
 4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.
 
+### Changes since 4.0.2
+
+- Added the optional `serviceVersion` property to the `CertificateClient` optional parameters to control the version of the Key Vault service being used by the client.
+  - It defaults to the latest supported API version, which currently is `7.1`.
+  - Other supported service version at the moment is `7.0`.
+- Added `recoverableDays` as an optional property to `CertificateProperties` which denotes the number of days in which the certificate can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
+- Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
+  - `KVPollerLike` is now an alias of `PollerLike`.
+  - `KVPollerLike` is considered deprecated. Use `PollerLike`.
+- If the policy in the options has contentType `application/x-pem-file` when using the `importCertificate`
+  method, we now encode the bytes of the certificate as an ASCII string instead of base64 which is the default
+  treatment. This is to fix [bug 7407](https://github.com/Azure/azure-sdk-for-js/issues/7407)
+
+### Changes since 4.1.0-preview.1
+
+- Renamed the `apiVersion` property to the `CertificateClient` constructor as `serviceVersion`.
+- Moved from service version `7.1-preview` to `7.1`.
+
 ## 4.0.2 (2020-06-01)
 
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
