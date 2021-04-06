@@ -65,7 +65,7 @@ onVersions({ minVer: "7.2" }).describe(
         await recorder.stop();
       });
 
-      it.only("encrypts and decrypts using AES-CBC", async function(this: Context) {
+      it("encrypts and decrypts using AES-CBC", async function(this: Context) {
         if (!isNode) {
           this.skip();
         }
