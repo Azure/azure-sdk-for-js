@@ -3,7 +3,7 @@
 ## 2.0.0-beta.2 (2021-04-06)
 
 - Added `clientId` to the `AuthenticationRecord` type.
-- `AuthenticationRecord` no longer has a `serialize` method. This method is now called `serializeAuthenticationRecord` and is a function exported at the top level of the Identity library, similar to `deserializeAuthenticationRecord`.
+- The `serialize()` method on the `AuthenticationRecord` object that allows an authenticated account to be stored as a string and re-used in another credential at any time, is removed in favor of a standalone function `serializeAuthenticationRecord` similar to how we have the `deserializeAuthenticationRecord` function.
 - `serializeAuthenticationRecord` now serializes into a JSON string with camel case properties. This makes it re-usable across languages.
 - Removed the interface `PersistentCredentialOptions` (introduced in `2.0.0-beta.1`) and instead inlined the options for the persistent cache feature in the options of individual credentials.
 - Added properties `scopes` and `getTokenOptions` to the `AuthenticationRequired` error.
