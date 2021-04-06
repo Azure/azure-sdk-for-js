@@ -19,7 +19,7 @@ Samples for v2 and documentation are still available here:
 [Package for v2.1.0 (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/2.1.0) |
 [Samples for v2.1.0](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples)
 
-## Getting Started
+## Getting started
 
 ### Install the package
 
@@ -492,7 +492,7 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message
 export DEBUG=azure:*:(error|warning),rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
-## Next Steps
+## Next steps
 
 ### More sample code
 

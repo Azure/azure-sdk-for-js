@@ -1,4 +1,4 @@
-# Azure Service Bus client library for Javascript
+# Azure Service Bus client library for JavaScript
 
 [Azure Service Bus](https://azure.microsoft.com/services/service-bus/) is a highly-reliable cloud messaging service from Microsoft.
 
@@ -19,7 +19,7 @@ Resources for `@azure/service-bus` version 7:
 **NOTE**: If you are using version 1.1.10 or lower and want to migrate to the latest version
 of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7][migrationguide]
 
-## Getting Started
+## Getting started
 
 ### Install the package
 
@@ -412,7 +412,7 @@ export DEBUG=azure:service-bus:error,azure:core-amqp:error,rhea-promise:error,rh
     node your-test-script.js &> out.log
   ```
 
-## Next Steps
+## Next steps
 
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 directory for detailed examples on how to use this library to send and receive messages to/from
