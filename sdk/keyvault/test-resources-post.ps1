@@ -106,3 +106,8 @@ if (Test-Path $sdpath) {
 az keyvault security-domain download --hsm-name $hsmName --security-domain-file $sdPath --sd-quorum 2 --sd-wrapping-keys $wrappingFiles
 
 Log "Security domain downloaded to '$sdPath'; Managed HSM is now active at '$hsmUrl'"
+
+Log "Creating new role assignment for $username"
+New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto Officer" -SignInName $username
+New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto User" -SignInName $username
+Log "Created 'Managed HSM Crypto Officer' and 'Managed HSM Crypto User' role assignments for $username"
