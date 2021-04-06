@@ -149,8 +149,9 @@ export class MsalBaseUtilities {
    * Handles MSAL errors.
    */
   protected handleError(scopes: string[], error: Error, getTokenOptions?: GetTokenOptions): Error {
-    if (error instanceof msalCommon.AuthError) {
-      switch (error.errorCode) {
+    if (error.name === "AuthError" || error.name === "ClientAuthError") {
+      const msalError = error as msalCommon.AuthError;
+      switch (msalError.errorCode) {
         case "endpoints_resolution_error":
           this.logger.info(formatError(scopes, error.message));
           return new CredentialUnavailable(error.message);
@@ -158,7 +159,7 @@ export class MsalBaseUtilities {
         case "interaction_required":
         case "login_required":
           this.logger.info(
-            formatError(scopes, `Authentication returned errorCode ${error.errorCode}`)
+            formatError(scopes, `Authentication returned errorCode ${msalError.errorCode}`)
           );
           break;
         default:
@@ -166,7 +167,7 @@ export class MsalBaseUtilities {
           break;
       }
     }
-    if (error instanceof msalCommon.ClientConfigurationError) {
+    if (error.name === "ClientConfigurationError") {
       return error;
     }
     if (error.name === "AbortError") {
