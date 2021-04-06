@@ -263,10 +263,10 @@ async function main() {
 
   const subscription = client.subscribe(
     {
-      processEvents: async(events, context) => {
+      processEvents: async (events, context) => {
         // event processing code goes here
       },
-      processError: async(err, context) => {
+      processError: async (err, context) => {
         // error reporting/handling code here
       }
     },
@@ -394,10 +394,10 @@ async function main() {
   const subscription = client.subscribe(
     partitionIds[0],
     {
-      processEvents: async(events, context) => {
+      processEvents: async (events, context) => {
         // event processing code goes here
       },
-      processError: async(err, context) => {
+      processError: async (err, context) => {
         // error reporting/handling code here
       }
     },
