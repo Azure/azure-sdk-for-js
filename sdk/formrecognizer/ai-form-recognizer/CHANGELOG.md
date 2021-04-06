@@ -1,5 +1,8 @@
 # Release History
 
+## 3.1.0-beta.4 (Unreleased)
+
+
 ## 3.1.0-beta.3 (2021-04-06)
 
 - Split `FormField` into several different interfaces. This should not cause any API compatibility issues except in certain edge cases (undefined `valueType`), but should result in more accurate type refinement when dealing with FormField values and should significantly improve documentation and code hinting of these values through IntelliSense.
