@@ -31,6 +31,53 @@ function addApiVersion(payload: PipelineTopology | LivePipeline | string | {} = 
   };
 }
 
+export type RequestType = "PipelineTopologySet" | "PipelineTopologyGet" | "PipelineTopologyDelete" | "LivePipelineTopologyGet"
+
+
+export function createRequest(request: "PipelineTopologySet", payload: PipelineTopology): Request;
+export function createRequest(request: RequestType, payload: LivePipeline): Request;
+export function createRequest(request: "PipelineTopologyDelete", payload: string): Request;
+export function createRequest(request: "PipelineTopologyGet", payload: string): Request;
+export function createRequest(request: "LivePipelineTopologyGet", payload: string): Request;
+export function createRequest(request: RequestType): Request;
+export function createRequest(request: RequestType, payload?: any): Request {
+  //const payloadData = typeof payload === "string" ? {name: payload} : payload
+  return {
+    methodName: request,
+    payload: addApiVersion(payload ?? {})
+  }
+}
+
+
+// export function createRequest(request: "PipelineTopologySet", pipelineTopology: PipelineTopology): Request;
+// export function createRequest(request: RequestType, livePipeline: LivePipeline): Request;
+// export function createRequest(request: "PipelineTopologyDelete", name: string): Request;
+// export function createRequest(request: "PipelineTopologyGet", name: string): Request;
+// export function createRequest(request: "LivePipelineTopologyGet", name: string): Request;
+// export function createRequest(request: RequestType): Request;
+// export function createRequest(request: RequestType, payloadData?: any): Request {
+//   switch (request) {
+//     case "PipelineTopologySet": 
+//       return {
+//         methodName: PipelineTopologySetRequest.serializedName!,
+//         payload: addApiVersion(payloadData)
+//       }
+//     case "PipelineTopologyGet": 
+//     case "PipelineTopologyDelete":
+//       return {
+//         methodName: PipelineTopologyGetRequest.serializedName!,
+//         payload: addApiVersion(payloadData)
+//       }
+//     default:
+//       return {methodName: "", payload: addApiVersion()}
+//   }
+
+//   return {
+//     methodName: request,
+//     payload: addApiVersion(payloadData)
+//   }
+// }
+
 /**
  * @public Create a set request for a media graph topology used to invoke a method using an Azure IoT Client
  * @param graph - The PipelineTopology

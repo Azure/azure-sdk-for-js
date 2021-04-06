@@ -22,11 +22,14 @@ import {
   createLivePipelineGetRequest,
   createLivePipelineDeActivateRequest,
   createLivePipelineDeleteRequest,
-  createPipelineTopologyDeleteRequest
+  createPipelineTopologyDeleteRequest,
+  createRequest
 } from "@azure/media-video-analyzer-edge";
+
+
 import { Client } from "azure-iothub";
 
-function buildGraphTopology() {
+function buildPipelineTopology() {
   const rtspSource: RtspSource = {
     name: "rtspSource",
     endpoint: {
@@ -41,13 +44,13 @@ function buildGraphTopology() {
     "@type": "#Microsoft.VideoAnalyzer.RtspSource"
   };
 
-  const graphNodeInput: NodeInput = {
+  const nodeInput: NodeInput = {
     nodeName: "rtspSource"
   };
 
   const assetSink: AssetSink = {
     name: "assetSink",
-    inputs: [graphNodeInput],
+    inputs: [nodeInput],
     assetContainerSasUrl:
       "https://sampleAsset-${System.PipelineTopologyName}-${System.LivePipelineName}.com",
     localMediaCachePath: "/var/lib/azuremediaservices/tmp/",
@@ -55,7 +58,7 @@ function buildGraphTopology() {
     "@type": "#Microsoft.VideoAnalyzer.AssetSink"
   };
 
-  const graphTopology: PipelineTopology = {
+  const pipelineTopology: PipelineTopology = {
     name: "jsTestGraph",
     properties: {
       description: "description for jsTestGraph",
@@ -69,12 +72,12 @@ function buildGraphTopology() {
     }
   };
 
-  return graphTopology;
+  return pipelineTopology;
 }
 
-function buildGraphInstance(graphTopologyName: string) {
-  const graphInstance: LivePipeline = {
-    name: graphTopologyName,
+function buildLivePipeline(PipelineTopologyName: string) {
+  const livePipeline: LivePipeline = {
+    name: PipelineTopologyName,
     properties: {
       description: "description for jsTestGraphInstance",
       topologyName: "jsTestGraph",
@@ -82,11 +85,10 @@ function buildGraphInstance(graphTopologyName: string) {
     }
   };
 
-  return graphInstance;
+  return livePipeline;
 }
 
 export async function main() {
-  console.log("== Sample Template ==");
   const device_id = "lva-sample-device";
   const module_id = "moduleId";
   const connectionString = "connectionString";
@@ -99,48 +101,49 @@ export async function main() {
     });
   };
 
-  const graphTopology = buildGraphTopology();
-  const graphInstance = buildGraphInstance(graphTopology.name);
+  const pipelineTopology = buildPipelineTopology();
+  const livePipeline = buildLivePipeline(pipelineTopology.name);
 
-  const setGraphTopRequest = createPipelineTopologySetRequest(graphTopology);
-  const setRequestResult2 = await invokeMethodHelper(setGraphTopRequest);
-  console.log(setRequestResult2);
+  const request = createRequest("PipelineTopologySet", pipelineTopology);
+  //const setPipelineTopRequest = createPipelineTopologySetRequest(pipelineTopology);
+  const setPipelineTopResponse = await invokeMethodHelper(request);
+  console.log(setPipelineTopResponse);
 
-  const listGraphRequest = createPipelineTopologyListRequest();
-  const listGraphResponse = await invokeMethodHelper(listGraphRequest);
-  console.log(listGraphResponse);
+  const listPipelineTopologyRequest = createPipelineTopologyListRequest();
+  const listPipelineTopologyResponse = await invokeMethodHelper(listPipelineTopologyRequest);
+  console.log(listPipelineTopologyResponse);
 
-  const getGraphRequest = createPipelineTopologyGetRequest(graphTopology.name);
-  const getGraphResponse = await invokeMethodHelper(getGraphRequest);
-  console.log(getGraphResponse);
+  const getPipelineTopologyRequest = createPipelineTopologyGetRequest(pipelineTopology.name);
+  const getPipelineTopologyResponse = await invokeMethodHelper(getPipelineTopologyRequest);
+  console.log(getPipelineTopologyResponse);
 
-  const setGraphInstanceRequest = createLivePipelineSetRequest(graphInstance);
-  const setGraphResponse = await invokeMethodHelper(setGraphInstanceRequest);
-  console.log(setGraphResponse);
+  const setLivePipelineRequest = createLivePipelineSetRequest(livePipeline);
+  const setLivePipelineResponse = await invokeMethodHelper(setLivePipelineRequest);
+  console.log(setLivePipelineResponse);
 
-  const listGraphInstanceRequest = createLivePipelineListRequest();
-  const listGraphInstanceResponse = await invokeMethodHelper(listGraphInstanceRequest);
-  console.log(listGraphInstanceResponse);
+  const listLivePipelineRequest = createLivePipelineListRequest();
+  const listLivePipelineResponse = await invokeMethodHelper(listLivePipelineRequest);
+  console.log(listLivePipelineResponse);
 
-  const activateGraphRequest = createLivePipelineActivateRequest(graphInstance.name);
-  const activateGraphResponse = await invokeMethodHelper(activateGraphRequest);
-  console.log(activateGraphResponse);
+  const activateLivePipelineRequest = createLivePipelineActivateRequest(livePipeline.name);
+  const activateLivePipelineResponse = await invokeMethodHelper(activateLivePipelineRequest);
+  console.log(activateLivePipelineResponse);
 
-  const getGraphInstanceRequest = createLivePipelineGetRequest(graphInstance.name);
-  const getGraphInstanceResponse = await invokeMethodHelper(getGraphInstanceRequest);
-  console.log(getGraphInstanceResponse);
+  const getLivePipelineRequest = createLivePipelineGetRequest(livePipeline.name);
+  const getLivePipelineResponse = await invokeMethodHelper(getLivePipelineRequest);
+  console.log(getLivePipelineResponse);
 
-  const deactivateGraphRequest = createLivePipelineDeActivateRequest(graphInstance.name);
-  const deactivateGraphResponse = await invokeMethodHelper(deactivateGraphRequest);
-  console.log(deactivateGraphResponse);
+  const deactivateLivePipelineRequest = createLivePipelineDeActivateRequest(livePipeline.name);
+  const deactivateLivePipelineResponse = await invokeMethodHelper(deactivateLivePipelineRequest);
+  console.log(deactivateLivePipelineResponse);
 
-  const deleteGraphInstanceRequest = createLivePipelineDeleteRequest(graphInstance.name);
-  const deleteGraphInstanceResponse = await invokeMethodHelper(deleteGraphInstanceRequest);
-  console.log(deleteGraphInstanceResponse);
+  const deleteLivePipelineRequest = createLivePipelineDeleteRequest(livePipeline.name);
+  const deleteLivePipelineResponse = await invokeMethodHelper(deleteLivePipelineRequest);
+  console.log(deleteLivePipelineResponse);
 
-  const deleteGraphTopRequest = createPipelineTopologyDeleteRequest(graphTopology.name);
-  const deleteGraphTopResponse = await invokeMethodHelper(deleteGraphTopRequest);
-  console.log(deleteGraphTopResponse);
+  const deletePipelineTopRequest = createPipelineTopologyDeleteRequest(pipelineTopology.name);
+  const deletePipelineTopResponse = await invokeMethodHelper(deletePipelineTopRequest);
+  console.log(deletePipelineTopResponse);
 }
 
 main().catch((err) => {

@@ -59,6 +59,24 @@ export function createPipelineTopologyListRequest(): Request;
 // @public
 export function createPipelineTopologySetRequest(graph: PipelineTopology): Request;
 
+// @public (undocumented)
+export function createRequest(request: "PipelineTopologySet", payload: PipelineTopology): Request;
+
+// @public (undocumented)
+export function createRequest(request: RequestType, payload: LivePipeline): Request;
+
+// @public (undocumented)
+export function createRequest(request: "PipelineTopologyDelete", payload: string): Request;
+
+// @public (undocumented)
+export function createRequest(request: "PipelineTopologyGet", payload: string): Request;
+
+// @public (undocumented)
+export function createRequest(request: "LivePipelineTopologyGet", payload: string): Request;
+
+// @public (undocumented)
+export function createRequest(request: RequestType): Request;
+
 // @public
 export interface Credentials {
     "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials" | "#Microsoft.VideoAnalyzer.HttpHeaderCredentials" | "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
@@ -502,6 +520,9 @@ export interface Request {
     // (undocumented)
     payload: Payload;
 }
+
+// @public (undocumented)
+export type RequestType = "PipelineTopologySet" | "PipelineTopologyGet" | "PipelineTopologyDelete" | "LivePipelineTopologyGet";
 
 // @public
 export type RtspSource = Source & {

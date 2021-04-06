@@ -3,7 +3,7 @@
   "version": "1.0.0-beta.1",
   "description": "A JavaScript sdk for Azure Media Video Analytics Edge",
   "sdk-type": "client",
-  "main": "dist/index.js",
+  "main": "dist/index",
   "module": "dist-esm/src/index.js",
   "browser": {},
   "types": "types/media-video-analyzer-edge.d.ts",
