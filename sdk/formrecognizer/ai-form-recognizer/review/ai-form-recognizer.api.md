@@ -155,7 +155,28 @@ export interface FieldData {
 }
 
 // @public
+export interface FormArrayField extends FormFieldCommon {
+    value?: FormField[];
+    // (undocumented)
+    valueType: "array";
+}
+
+// @public
 export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff" | "image/bmp";
+
+// @public
+export interface FormCountryField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "country";
+}
+
+// @public
+export interface FormDateField extends FormFieldCommon {
+    value?: Date;
+    // (undocumented)
+    valueType: "date";
+}
 
 // @public
 export type FormElement = FormWord | FormLine | FormSelectionMark;
@@ -168,50 +189,34 @@ export interface FormElementCommon {
 }
 
 // @public
-export type FormField = {
+export type FormField = FormUnknownField | FormStringField | FormNumberField | FormDateField | FormTimeField | FormPhoneNumberField | FormIntegerField | FormSelectionMarkField | FormArrayField | FormObjectField | FormGenderField | FormCountryField;
+
+// @public
+export interface FormFieldCommon {
     confidence?: number;
     labelData?: FieldData;
     name?: string;
     valueData?: FieldData;
-} & ({
-    value?: string;
-    valueType?: "string";
-} | {
-    value?: number;
-    valueType?: "number";
-} | {
-    value?: Date;
-    valueType?: "date";
-} | {
-    value?: string;
-    valueType?: "time";
-} | {
-    value?: string;
-    valueType?: "phoneNumber";
-} | {
-    value?: number;
-    valueType?: "integer";
-} | {
-    value?: FormField[];
-    valueType?: "array";
-} | {
-    value?: Record<string, FormField>;
-    valueType?: "object";
-} | {
-    value?: SelectionMarkState;
-    valueType?: "selectionMark";
-} | {
-    value?: string;
-    valueType?: "gender";
-} | {
-    value?: string;
-    valueType?: "country";
-});
+}
 
 // @public
 export interface FormFieldsReport {
     accuracy: number;
     fieldName: string;
+}
+
+// @public
+export interface FormGenderField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "gender";
+}
+
+// @public
+export interface FormIntegerField extends FormFieldCommon {
+    value?: number;
+    // (undocumented)
+    valueType: "integer";
 }
 
 // @public
@@ -229,6 +234,20 @@ export type FormModelResponse = CustomFormModel & {
         parsedBody: Model;
     };
 };
+
+// @public
+export interface FormNumberField extends FormFieldCommon {
+    value?: number;
+    // (undocumented)
+    valueType: "number";
+}
+
+// @public
+export interface FormObjectField extends FormFieldCommon {
+    value?: Record<string, FormField>;
+    // (undocumented)
+    valueType: "object";
+}
 
 // @public
 export interface FormPage {
@@ -250,6 +269,13 @@ export interface FormPageArray extends Array<FormPage> {
 export interface FormPageRange {
     firstPageNumber: number;
     lastPageNumber: number;
+}
+
+// @public
+export interface FormPhoneNumberField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "phoneNumber";
 }
 
 // @public
@@ -298,6 +324,20 @@ export interface FormSelectionMark extends FormElementCommon {
 }
 
 // @public
+export interface FormSelectionMarkField extends FormFieldCommon {
+    value?: SelectionMarkState;
+    // (undocumented)
+    valueType: "selectionMark";
+}
+
+// @public
+export interface FormStringField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "string";
+}
+
+// @public
 export interface FormTable {
     boundingBox?: Point2D[];
     cells: FormTableCell[];
@@ -322,6 +362,13 @@ export interface FormTableCell {
 }
 
 // @public
+export interface FormTimeField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "time";
+}
+
+// @public
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
     beginCopyModel(modelId: string, target: CopyAuthorization, options?: BeginCopyModelOptions): Promise<PollerLike<CopyModelOperationState, CustomFormModelInfo>>;
@@ -341,6 +388,13 @@ export interface FormTrainingPollOperationOptions<TState extends PollOperationSt
     onProgress?: (state: TState) => void;
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface FormUnknownField extends FormFieldCommon {
+    value?: unknown;
+    // (undocumented)
+    valueType?: undefined;
 }
 
 // @public
