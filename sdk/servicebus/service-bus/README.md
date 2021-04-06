@@ -91,7 +91,7 @@ const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credentia
 
 More information about this constructor is available in the [API documentation][sbclient_tokencred_overload]
 
-### Key concepts
+## Key concepts
 
 Once you've initialized a `ServiceBusClient`, you can interact with these resources within a
 Service Bus Namespace:
@@ -110,7 +110,7 @@ To interact with these resources, one should be familiar with the following SDK 
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
-### Examples
+## Examples
 
 The following sections provide code snippets that cover some of the common tasks using Azure Service Bus
 
