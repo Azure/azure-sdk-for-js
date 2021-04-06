@@ -1,5 +1,8 @@
 # Release History
 
+## 11.2.0-beta.2 (Unreleased)
+
+
 ## 11.2.0-beta.1 (2021-04-06)
 
 - Added Support for new skills such as `CustomEntityLookupSkill`, `DocumentExtractionSkill`, etc. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
