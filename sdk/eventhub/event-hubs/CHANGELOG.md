@@ -1,5 +1,8 @@
 # Release History
 
+## 5.5.1 (Unreleased)
+
+
 ## 5.5.0 (2021-04-06)
 
 - Updates the methods on the `CheckpointStore` interface to accept
