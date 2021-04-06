@@ -10,8 +10,7 @@ Use the client library for Azure Container Registry to:
 - Delete images and artifacts, repositories and tags
 
 [Source code][source] |
-[Package (NPM)]<!--[package]--> |
-[API reference documentation]<!--[api_docs]--> |
+[Package (NPM)][package] | <!--[API reference documentation][api_docs] |-->
 [REST API documentation][rest_docs] |
 [Product documentation][product_docs] |
 [Samples][samples]
@@ -82,9 +81,9 @@ const { ContainerRegistryClient } = require("@azure/container-registry");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
-  // Get the service endpoint from the environment
+  // endpoint should be in the form of "https://myregistryname.azurecr.io"
+  // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.REGISTRY_ENDPOINT;
-  // Create a new ContainerRegistryClient
   const client = new ContainerRegistryClient(endpoint, new DefaultAzureCredential());
 
   console.log("Listing repositories");
@@ -92,25 +91,12 @@ async function main() {
   for await (const repository of iterator) {
     console.log(`  repository: ${repository}`);
   }
-
-  console.log("  by pages");
-  const pages = client.listRepositories().byPage({ maxPageSize: 2 });
-  let result = await pages.next();
-  while (!result.done) {
-    console.log("    -- page -- ");
-    for (const repository of result.value) {
-      console.log(`    repository: ${repository}`);
-    }
-    result = await pages.next();
-  }
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
 ```
-
-Create several code examples for how someone would use your library to accomplish a common task with the service.
 
 ## Troubleshooting
 
