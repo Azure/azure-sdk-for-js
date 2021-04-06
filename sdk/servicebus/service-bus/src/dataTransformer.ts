@@ -124,7 +124,13 @@ export const defaultDataTransformer = {
 export function isRheaAmqpSection(
   possibleSection: any | RheaAmqpSection
 ): possibleSection is RheaAmqpSection {
-  return possibleSection != null && typeof possibleSection.typecode === "number";
+  return (
+    possibleSection != null &&
+    typeof possibleSection.typecode === "number" &&
+    (possibleSection.typecode === dataSectionTypeCode ||
+      possibleSection.typecode === valueSectionTypeCode ||
+      possibleSection.typecode === sequenceSectionTypeCode)
+  );
 }
 
 /**
