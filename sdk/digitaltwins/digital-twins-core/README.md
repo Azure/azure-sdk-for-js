@@ -25,18 +25,22 @@ npm install @azure/digital-twins-core
 
 #### JavaScript Bundle
 
-To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our
+[bundling documentation](https://aka.ms/AzureSDKBundling).
 
 #### CORS
 
-Azure Digital Twins doesn't currently support Cross-Origin Resource Sharing (CORS). As a result, this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
+Azure Digital Twins doesn't currently support Cross-Origin Resource Sharing (CORS).
+As a result, this library cannot be used to make direct calls to the template service from a browser.
+Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/master/samples/cors/ts/README.md) for guidance.
 
 ## Key concepts
 
 ### Azure Digital Twins
 
-Azure Digital Twins is an Azure IoT service that creates comprehensive models of the physical environment. It can create spatial intelligence graphs to model the relationships and interactions between people, spaces, and devices.
-You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Documentation](https://docs.microsoft.com/azure/digital-twins/)
+Azure Digital Twins is an Azure IoT service that creates comprehensive models of the physical environment.
+It can create spatial intelligence graphs to model the relationships and interactions between people, spaces, and devices.
+You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Documentation](https://docs.microsoft.com/azure/digital-twins/).
 
 ### `DigitalTwinsClient`
 
@@ -44,136 +48,275 @@ You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Do
 
 ## Examples
 
-### JavaScript example for authentication, client creation, and performing various operations on a Digital Twins instance
+### Create the DigitalTwinsClient
+
+To create a new `DigitalTwinsClient`, you need the endpoint to an Azure Digital Twins instance and credentials.
+Here, we use `DefaultAzureCredential` for credentials.
+DefaultAzureCredential is provided by [`@azure/identity`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity).
+It supports different authentication mechanisms and determines the appropriate credential type based of the environment it is executing in.
+See `@azure/identity` in [GitHub](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity) for more information on authenticating with DefaultAzureCredential or other implementations of TokenCredential.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digital-twins-core");
-const { inspect } = require("util");
 
-async function main() {
-  const modelId = `dtmi:model_example;1`;
-  const componentId = `dtmi:component_example;1`;
-  const digitalTwinId = `digitalTwin-example`;
+const url = "<URL to Azure Digital Twins instance>";
+const credential = new DefaultAzureCredential();
+const serviceClient = new DigitalTwinsClient(url, credential);
+```
 
-  const temporaryComponent = {
-    "@id": componentId,
-    "@type": "Interface",
-    "@context": "dtmi:dtdl:context;2",
-    displayName: "Component1",
-    contents: [
-      {
-        "@type": "Property",
-        name: "ComponentProp1",
-        schema: "string"
-      }
-    ]
-  };
+### Create, list, get, decommission, and delete models
 
-  const temporaryModel = {
-    "@id": modelId,
-    "@type": "Interface",
-    "@context": "dtmi:dtdl:context;2",
-    displayName: "TempModel",
-    contents: [
-      {
-        "@type": "Property",
-        name: "Prop1",
-        schema: "double"
-      },
-      {
-        "@type": "Component",
-        name: "Component1",
-        schema: componentId
-      }
-    ]
-  };
+#### Create models
 
-  const temporaryTwin = {
-    $dtId: digitalTwinId,
-    $metadata: {
-      $model: modelId
-    },
-    Prop1: 42,
-    Component1: {
-      $metadata: {},
-      ComponentProp1: "value1"
+In order to create models, we pass in a list of models to `createModels`.
+Here, we only create one model.
+
+```javascript
+const myComponent = {
+  "@id": "dtmi:my_component;1",
+  "@type": "Interface",
+  "@context": "dtmi:dtdl:context;2",
+  displayName: "Component1",
+  contents: [
+    {
+      "@type": "Property",
+      name: "ComponentProp1",
+      schema: "string"
     }
-  };
+  ]
+};
 
-  const url = "<URL to Azure Digital Twins instance>";
+const models = await serviceClient.createModels([myComponent]);
+```
 
-  // DefaultAzureCredential is provided by @azure/identity. It supports
-  // different authentication mechanisms and determines the appropriate
-  // credential type based of the environment it is executing in. See
-  // https://www.npmjs.com/package/@azure/identity for more information on
-  // authenticating with DefaultAzureCredential or other implementations of
-  // TokenCredential.
-  const credential = new DefaultAzureCredential();
-  const serviceClient = new DigitalTwinsClient(url, credential);
+#### List models
 
-  // Create models
-  const newModels = [temporaryComponent, temporaryModel];
-  const models = await serviceClient.createModels(newModels);
-  console.log(`Created Models:`);
-  console.log(inspect(models));
+We use `listModels` to list all the models.
 
-  // Create digital twin
-  const createdTwin = await serviceClient.upsertDigitalTwin(
-    digitalTwinId,
-    JSON.stringify(temporaryTwin)
-  );
-  console.log(`Created Digital Twin:`);
-  console.log(inspect(createdTwin));
-
-  // Update component
-  const componentPath = "Component1";
-  const patch = {
-    op: "replace",
-    path: "/ComponentProp1",
-    value: "value2"
-  };
-  const updateComponentResponse = await serviceClient.updateComponent(
-    digitalTwinId,
-    componentPath,
-    [patch]
-  );
-  console.log(`Update Component response:`);
-  console.log(inspect(updateComponentResponse));
-
-  // Get component
-  const getComponent = await serviceClient.getComponent(digitalTwinId, componentPath);
-  console.log(`Get Component:`);
-  console.log(inspect(getComponent));
-
-  // Delete digital twin
-  const deleteDigitalTwinResponse = await serviceClient.deleteDigitalTwin(digitalTwinId);
-  console.log(`Delete response:`);
-  console.log(inspect(deleteDigitalTwinResponse));
-
-  // Decommission models
-  let decomissionModelResponse = await serviceClient.decomissionModel(modelId);
-  console.log(`Decomission Model response:`);
-  console.log(inspect(decomissionModelResponse));
-  decomissionModelResponse = await serviceClient.decomissionModel(componentId);
-  console.log(`Decomission Component Model response:`);
-  console.log(inspect(decomissionModelResponse));
-
-  // Delete models
-  let deleteModelResponse = await serviceClient.deleteModel(modelId);
-  console.log(`Delete Model response:`);
-  console.log(inspect(deleteModelResponse));
-
-  deleteModelResponse = await serviceClient.deleteModel(componentId);
-  console.log(`Delete Component Model response:`);
-  console.log(inspect(deleteModelResponse));
+```javascript
+const models = await serviceClient.listModels();
+for await (const model of models) {
+  console.log(`Model ID: ${model.id}`);
 }
+```
 
-main().catch((err) => {
-  console.log("error code: ", err.code);
-  console.log("error message: ", err.message);
-  console.log("error stack: ", err.stack);
-});
+#### Get model
+
+We can get a specific model using `getModel` with the model ID.
+
+```javascript
+const model = await serviceClient.getModel("<model ID>");
+```
+
+#### Decommission model
+
+We can decommission a model using `decomissionModel` with the model ID.
+
+```javascript
+await serviceClient.decomissionModel("<model ID>");
+```
+
+#### Delete model
+
+We can delete a model using `deleteModel` with the model ID.
+
+```javascript
+await serviceClient.deleteModel("<model ID>");
+```
+
+### Create, get, query, and delete digital twins
+
+#### Create digital twin
+
+To create a twin, you will need to provide an ID for the digital twin and a JSON string containing the digital twin object.
+
+```javascript
+const digitalTwinId = "myTwin";
+const newTwin = "<JSON containing the digitalTwin object>";
+const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, newTwin);
+```
+
+#### Get digital twin
+
+We can get a digital twin using `getDigitalTwin` with the digital twin ID.
+
+```javascript
+const digitalTwinId = "myTwin";
+const twin = await serviceClient.getDigitalTwin(digitalTwinId);
+console.log(`DigitalTwin's etag: ${twin.eTag}`);
+console.log(`DigitalTwin: ${twin.body}`);
+```
+
+#### Query digital twins
+
+Query the Azure Digital Twins instance for digital twins using the [Azure Digital Twins query language](https://docs.microsoft.com/azure/digital-twins/how-to-query-graph).
+Here's an example of how to query for digital twins and how to iterate over the results.
+
+```javascript
+const query = "SELECT * FROM digitaltwins";
+const queryResult = serviceClient.queryTwins(query);
+for await (const item of queryResult) {
+  console.log(`DigitalTwin: ${item}`);
+}
+```
+
+#### Delete digital twin
+
+We can delete a digital twin using `deleteDigitalTwin` with the digital twin ID.
+
+```javascript
+const digitalTwinId = "myTwin";
+await serviceClient.deleteDigitalTwin(digitalTwinId);
+```
+
+### Get and update digital twin components
+
+#### Get digital twin component
+
+We can get a digital twin component using `getComponent` with the digital twin ID and the path of the component.
+
+```javascript
+const digitalTwinId = "myTwin";
+const componentPath = "Component1";
+const component = await serviceClient.getComponent(digitalTwinId, componentPath);
+console.log(`Component: ${component}`);
+```
+
+#### Update digital twin component
+
+To update a digital twin component (i.e., replace, remove, or add a component property or sub-property within a digital twin), you need to provide a digital twin ID, component path, and a list of patch objects with the properties `op` and `path`.
+The value of `op` is "replace", "remove", or "add", and the value of `path` is the path to the digital twin component being updated.
+For "replace" and "add" operations, the `value` property should be included with your desired value of the component property.
+
+```javascript
+const digitalTwinId = "myTwin";
+const componentPath = "Component1";
+const patch = {
+  op: "replace",
+  path: "/ComponentProp1",
+  value: "value2"
+};
+const updateComponentResponse = await serviceClient.updateComponent(digitalTwinId, componentPath, [
+  patch
+]);
+```
+
+### Create and list digital twin relationships
+
+#### Create digital twin relationships
+
+`upsertRelationship` creates a relationship on a digital twin provided with ID of a digital twin, name of relationship (in this case, "has"), ID of an relationship (in this case "BuildingHasFloor") and the object representing the relationship to be created.
+The object must contain property with key "\$targetId" to specify the target of the relationship.
+
+```javascript
+const relationship = {
+  $relationshipId: "BuildingHasFloor",
+  $sourceId: "BuildingTwin",
+  $relationshipName: "has",
+  $targetId: "FloorTwin",
+  isAccessRestricted: false
+};
+
+await serviceClient.upsertRelationship(
+  relationship["$sourceId"],
+  relationship["$relationshipId"],
+  relationship
+);
+```
+
+#### List digital twin relationships
+
+For a digital twin, `listRelationships` and `listIncomingRelationships` list all the relationships and all incoming relationships, respectively.
+
+```javascript
+const digitalTwinId = "myTwin";
+const relationships = serviceClient.listRelationships(digitalTwinId);
+for await (const relationship of relationships) {
+  console.log(`Relationship: ${relationship}`);
+}
+```
+
+```javascript
+const digitalTwinId = "myTwin";
+const incomingRelationships = serviceClient.listIncomingRelationships(digitalTwinId);
+for await (const incomingRelationship of incomingRelationships) {
+  console.log(`Relationship: ${incomingRelationship}`);
+}
+```
+
+### Create, get, list, and delete event routes
+
+#### Create event route
+
+To create an event route, provide an ID of an event route (in this case, "myEventRouteId") and event route data containing the endpoint and optional filter like the example shown below.
+For more information on filtering events, see [this documentation](https://docs.microsoft.com/en-us/azure/digital-twins/how-to-manage-routes-apis-cli#filter-events).
+
+```javascript
+const eventHubEndpointName = "myEventHubEndpointName";
+const eventRouteId = "myEventRouteId";
+const eventFilter =
+  "$eventType = 'DigitalTwinTelemetryMessages' or $eventType = 'DigitalTwinLifecycleNotification'";
+await serviceClient.upsertEventRoute(eventRouteId, eventHubEndpointName, eventFilter);
+```
+
+#### Get event route
+
+We can get an event route using `getEventRoute` with the event route ID.
+
+```javascript
+const eventRouteId = "myEventRouteId";
+const eventRoute = serviceClient.getEventRoute(eventRouteId);
+console.log(`EventRoute: ${eventRoute}`);
+```
+
+#### List event routes
+
+We can list event routes using `listEventRoutes`.
+
+```javascript
+const eventRoutes = serviceClient.listEventRoutes();
+for await (const eventRoute of eventRoutes) {
+  console.log(`EventRoute: ${eventRoute}`);
+}
+```
+
+#### Delete event route
+
+We can delete an event route using `deleteEventRoute` with the event route ID.
+
+```javascript
+const eventRouteId = "myEventRouteId";
+await serviceClient.deleteEventRoute(eventRouteId);
+```
+
+### Publish telemetry messages for a digital twin
+
+To publish a telemetry message for a digital twin, you need to provide the digital twin ID, the payload, and a unique ID for the message.
+
+```javascript
+const digitalTwinId = "<digital twin ID>";
+const telemetryPayload = '{"Telemetry1": 5}';
+const response = await serviceClient.publishTelemetry(
+  digitalTwinId,
+  telemetryPayload,
+  "<unique message ID>"
+);
+```
+
+You can also publish a telemetry message for a specific component in a digital twin.
+In addition to the digital twin ID, payload, and unique message ID, you need to specify the target component path.
+
+```javascript
+const digitalTwinId = "<digital twin ID>";
+const componentPath = "<component path>";
+const telemetryPayload = '{"Telemetry1": 5}';
+const response = await serviceClient.publishComponentTelemetry(
+  digitalTwinId,
+  componentPath,
+  telemetryPayload,
+  "<unique message ID>"
+);
 ```
 
 ### Additional Examples
@@ -197,7 +340,8 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 ## Next steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digital-twins-core/samples) directory for detailed examples that demonstrate how to use the client libraries.
+- Take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digital-twins-core/samples) directory for detailed examples that demonstrate how to use the client libraries.
+- Explore the Azure Digital Twins [documentation](https://docs.microsoft.com/azure/digital-twins/)
 
 ## Contributing
 
