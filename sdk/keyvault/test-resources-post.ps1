@@ -107,13 +107,12 @@ az keyvault security-domain download --hsm-name $hsmName --security-domain-file 
 
 Log "Security domain downloaded to '$sdPath'; Managed HSM is now active at '$hsmUrl'"
 
-Log "Sleeping..."
-
 # TODO: Without a conservative sleep I get a 403: The managed HSM resource is currently in Provisioned state. but this runs after ARM template completes.
 # Talk to the right folks to get that sorted out
-Start-Sleep -Seconds 60
+Log "Sleeping..."
+Start-Sleep -Seconds 30
 
-Log "Creating new role assignment for $username"
-New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto Officer" -ObjectID $username
-New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto User" -ObjectID $username
-Log "Created 'Managed HSM Crypto Officer' and 'Managed HSM Crypto User' role assignments for $username"
+Log "Creating additional required role assignments for resource access."
+New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto Officer" -ObjectID $DeploymentOutputs["CLIENT_OBJECT_ID"]
+New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM Crypto User" -ObjectID $DeploymentOutputs["CLIENT_OBJECT_ID"]
+Log "Done."
