@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import url from "url";
 import { diag } from "@opentelemetry/api";
 import { Sender, SenderResult } from "../../types";
 import {
@@ -9,7 +9,6 @@ import {
   ApplicationInsightsClientOptionalParams
 } from "../../generated";
 import { AzureExporterInternalConfig } from "../../config";
-import { URL } from "@azure/core-http/types/latest/src/url";
 
 /**
  * Exporter HTTP sender class
@@ -53,9 +52,9 @@ export class HttpSender implements Sender {
 
   handlePermanentRedirect(location: string | undefined) {
     if (location) {
-      let locUrl = new URL(location);
+      let locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
-        this._appInsightsClient.host = locUrl.host;
+        this._appInsightsClient.host = "https://" + locUrl.host;
       }
     }
   }
