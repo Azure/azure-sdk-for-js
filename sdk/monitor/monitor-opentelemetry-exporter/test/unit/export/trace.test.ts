@@ -144,12 +144,11 @@ describe("#AzureMonitorBaseExporter", () => {
         let redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
         let redirectLocation = redirectHost + "/v2/track";
         // Redirect endpoint
-        const redirectScope = nock(redirectHost)
-          .post("/v2/track", () => {
-            return true;
-          });
+        const redirectScope = nock(redirectHost).post("/v2/track", () => {
+          return true;
+        });
         redirectScope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
-        scope.reply(308, {}, { "location": redirectLocation });
+        scope.reply(308, {}, { location: redirectLocation });
 
         let result = await exporter.exportEnvelopesPrivate([envelope]);
         // Redirect triggered so telemetry must be persisted
