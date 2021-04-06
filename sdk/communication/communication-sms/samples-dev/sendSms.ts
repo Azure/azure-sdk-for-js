@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the SmsClient to send
+ * @summary Demonstrates how to use the SmsClient to send
  * an SMS message
  */
 
-const { SmsClient } = require("@azure/communication-sms");
+import { SmsClient } from "@azure/communication-sms";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+export const main = async () => {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
@@ -33,7 +33,7 @@ async function main() {
     }
   }
   console.log("== Done: Send SMS Message ==");
-}
+};
 
 main().catch((error) => {
   console.error("Encountered an error while sending SMS: ");

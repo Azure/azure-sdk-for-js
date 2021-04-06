@@ -2,16 +2,17 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the configure the options
+ * @summary Demonstrates how to configure the options
  * when sending an SMS message
  */
 
-const { SmsClient } = require("@azure/communication-sms");
+import { SmsClient } from "@azure/communication-sms";
 
-const dotenv = require("dotenv");
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+export const main = async () => {
   console.log("== Send SMS Message With Options ==");
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
@@ -39,7 +40,7 @@ async function main() {
     }
   }
   console.log("== Done: Send SMS Message With Options ==");
-}
+};
 
 main().catch((error) => {
   console.error("Encountered an error while sending sms: ");

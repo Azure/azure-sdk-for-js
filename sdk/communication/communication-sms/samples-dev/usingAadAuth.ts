@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
+/**
+ *   @summary (ONLY AVAILABLE IN NODE.JS RUNTIME) Demonstrates how to instantiate SmsClient using AAD token credentials.
+ */
+
 /*
   ONLY AVAILABLE IN NODE.JS RUNTIME
   If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
-
-  This sample demonstrates how to instantiate SmsClient using AAD token credentials.
 
   Setup :
     Please ensure that your Communication Services resource is in US East, US East 2, or West Europe
@@ -21,16 +23,17 @@
       
     - Environment setup for the sample
       - From the overview page of your AAD Application, note down the `CLIENT ID` and `TENANT ID`. In the "Certificates & Secrets" tab, create a secret and note that down.
-      - Make sure you have AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET as environment variables to successfully execute the sample (can leverage process.env).
+      - Make sure you have AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET as environment variables to successfully execute the sample(Can leverage process.env).
 */
 
-const { SmsClient } = require("@azure/communication-sms");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { SmsClient } from "@azure/communication-sms";
+import { DefaultAzureCredential } from "@azure/identity";
 
-const dotenv = require("dotenv");
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+export async function main() {
   const endpoint =
     process.env["COMMUNICATION_ENDPOINT"] || "https://<resource-name>.communication.azure.com";
   // Azure AD Credential information is required to run this sample:

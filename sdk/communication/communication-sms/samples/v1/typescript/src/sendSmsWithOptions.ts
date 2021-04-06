@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the configure the options
+ * @summary Demonstrates how to configure the options
  * when sending an SMS message
  */
 
