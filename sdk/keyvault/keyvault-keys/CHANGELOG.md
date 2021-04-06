@@ -1,5 +1,8 @@
 # Release History
 
+## 4.2.0-beta.6 (Unreleased)
+
+
 ## 4.2.0-beta.5 (2021-04-06)
 
 - Added local cryptography support for encryption / decryption for `A128CBCPAD`, `A192CBCPAD`, and `A256CBCPAD`.

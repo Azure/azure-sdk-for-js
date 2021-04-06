@@ -1,5 +1,8 @@
 # Release History
 
+## 4.2.0-beta.5 (Unreleased)
+
+
 ## 4.2.0-beta.4 (2021-04-06)
 
 - Improved tracing across the various KeyVault libraries. By switching to a consistent naming convention, ensuring spans are always closed appropriately, and setting the correct status when an operation errors developers can expect an improved experience when enabling distributed tracing.
