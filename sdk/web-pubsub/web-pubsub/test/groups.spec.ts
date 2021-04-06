@@ -19,7 +19,10 @@ describe("Group client working with a group", function() {
   });
 
   it("can broadcast to groups", async () => {
-    let res = await client.sendToAll("hello");
+    let res = await client.sendToAll("hello", { contentType: "text/plain" });
+    assert.equal(res._response.status, 202);
+
+    res = await client.sendToAll({ x: 1, y: 2 });
     assert.equal(res._response.status, 202);
 
     const binaryMessage = new Uint8Array(10);

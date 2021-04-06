@@ -106,8 +106,12 @@ export class WebPubsubGroup {
     readonly hubName: string;
     removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<RestResponse>;
     removeUser(username: string, options?: GroupRemoveUserOptions): Promise<RestResponse>;
-    sendToAll(message: string, options?: HubSendToAllOptions): Promise<RestResponse>;
-    sendToAll(message: HttpRequestBody, options?: HubSendToAllOptions): Promise<RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "GroupSendTextToAllOptions" needs to be exported by the entry point index.d.ts
+    sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "JSONTypes" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "GroupSendToAllOptions" needs to be exported by the entry point index.d.ts
+    sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<RestResponse>;
+    sendToAll(message: HttpRequestBody, options?: GroupSendToAllOptions): Promise<RestResponse>;
 }
 
 // @public
@@ -124,12 +128,18 @@ export class WebPubSubServiceClient {
     hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
     removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
-    sendToAll(message: string, options?: HubSendToAllOptions): Promise<RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "HubSendTextToAllOptions" needs to be exported by the entry point index.d.ts
+    sendToAll(message: string, options: HubSendTextToAllOptions): Promise<RestResponse>;
+    sendToAll(message: JSONTypes, options?: HubSendTextToAllOptions): Promise<RestResponse>;
     sendToAll(message: HttpRequestBody, options?: HubSendToAllOptions): Promise<RestResponse>;
-    sendToConnection(connectionId: string, message: string, options?: HubSendToConnectionOptions): Promise<RestResponse>;
-    sendToConnection(connectionId: string, message: HttpRequestBody, options?: HubSendToConnectionOptions): Promise<RestResponse>;
-    sendToUser(username: string, message: string, options?: HubSendToUserOptions): Promise<RestResponse>;
-    sendToUser(username: string, message: HttpRequestBody, options?: HubSendToUserOptions): Promise<RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "HubSendTextToConnectionOptions" needs to be exported by the entry point index.d.ts
+    sendToConnection(connectionId: string, message: string, options: HubSendTextToConnectionOptions): Promise<RestResponse>;
+    sendToConnection(connectionId: string, message: JSONTypes, options?: HubSendToConnectionOptions): Promise<RestResponse>;
+    sendToConnection(connectionId: string, message: HttpRequestBody | JSONTypes, options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions): Promise<RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "HubSendTextToUserOptions" needs to be exported by the entry point index.d.ts
+    sendToUser(username: string, message: string, options: HubSendTextToUserOptions): Promise<RestResponse>;
+    sendToUser(username: string, message: JSONTypes, options: HubSendTextToUserOptions): Promise<RestResponse>;
+    sendToUser(username: string, message: HttpRequestBody, options?: HubSendToUserOptions | HubSendTextToUserOptions): Promise<RestResponse>;
 }
 
 

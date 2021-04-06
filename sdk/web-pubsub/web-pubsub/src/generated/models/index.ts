@@ -47,6 +47,8 @@ export const enum KnownEnum2 {
  * **joinLeaveGroup**
  */
 export type Enum2 = string;
+/** Defines values for ContentType. */
+export type ContentType = "application/json" | "application/octet-stream";
 
 /** Optional parameters. */
 export interface WebPubSubSendToAll$binaryOptionalParams

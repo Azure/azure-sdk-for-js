@@ -2,6 +2,7 @@ import * as coreHttp from "@azure/core-http";
 import * as Parameters from "../models/parameters";
 import { AzureWebPubSubServiceRestAPIContext } from "../azureWebPubSubServiceRestAPIContext";
 import {
+  ContentType,
   WebPubSubSendToAll$binaryOptionalParams,
   WebPubSubSendToAll$textOptionalParams,
   WebPubSubCloseClientConnectionOptionalParams,
@@ -32,13 +33,13 @@ export class WebPubSub {
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
    * @param contentType Upload file type
-   * @param payloadMessage The payload body.
+   * @param message The payload body.
    * @param options The options parameters.
    */
   sendToAll(
     hub: string,
-    contentType: "application/octet-stream",
-    payloadMessage: coreHttp.HttpRequestBody,
+    contentType: ContentType,
+    message: coreHttp.HttpRequestBody,
     options?: WebPubSubSendToAll$binaryOptionalParams
   ): Promise<coreHttp.RestResponse>;
   /**
@@ -46,13 +47,13 @@ export class WebPubSub {
    * @param hub Target hub name, which should start with alphabetic characters and only contain
    *            alpha-numeric characters or underscore.
    * @param contentType Upload file type
-   * @param payloadMessage The payload body.
+   * @param message The payload body.
    * @param options The options parameters.
    */
   sendToAll(
     hub: string,
     contentType: "text/plain",
-    payloadMessage: string,
+    message: string,
     options?: WebPubSubSendToAll$textOptionalParams
   ): Promise<coreHttp.RestResponse>;
   /**
@@ -63,7 +64,7 @@ export class WebPubSub {
     ...args:
       | [
           string,
-          "application/octet-stream",
+          ContentType,
           coreHttp.HttpRequestBody,
           WebPubSubSendToAll$binaryOptionalParams?
         ]
@@ -71,29 +72,35 @@ export class WebPubSub {
   ): Promise<coreHttp.RestResponse> {
     let operationSpec: coreHttp.OperationSpec;
     let operationArguments: coreHttp.OperationArguments;
-    if (args[1] === "application/octet-stream") {
+    let options;
+    if (
+      args[1] === "application/json" ||
+      args[1] === "application/octet-stream"
+    ) {
       operationSpec = sendToAll$binaryOperationSpec;
       operationArguments = {
         hub: args[0],
         contentType: args[1],
-        payloadMessage: args[2],
+        message: args[2],
         options: args[3]
       };
+      options = args[3];
     } else if (args[1] === "text/plain") {
       operationSpec = sendToAll$textOperationSpec;
       operationArguments = {
         hub: args[0],
         contentType: args[1],
-        payloadMessage: args[2],
+        message: args[2],
         options: args[3]
       };
+      options = args[3];
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[1]}".`
       );
     }
     operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
-      operationArguments.options || {}
+      options || {}
     );
     return this.client.sendOperationRequest(
       operationArguments,
@@ -108,7 +115,7 @@ export class WebPubSub {
    * @param connectionId The connection Id.
    * @param options The options parameters.
    */
-  checkConnectionExistence(
+  connectionExists(
     hub: string,
     connectionId: string,
     options?: coreHttp.OperationOptions
@@ -120,7 +127,7 @@ export class WebPubSub {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      checkConnectionExistenceOperationSpec
+      connectionExistsOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
@@ -153,14 +160,14 @@ export class WebPubSub {
    *            alpha-numeric characters or underscore.
    * @param connectionId The connection Id.
    * @param contentType Upload file type
-   * @param payloadMessage The payload body.
+   * @param message The payload body.
    * @param options The options parameters.
    */
   sendToConnection(
     hub: string,
     connectionId: string,
-    contentType: "application/octet-stream",
-    payloadMessage: coreHttp.HttpRequestBody,
+    contentType: ContentType,
+    message: coreHttp.HttpRequestBody,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse>;
   /**
@@ -169,14 +176,14 @@ export class WebPubSub {
    *            alpha-numeric characters or underscore.
    * @param connectionId The connection Id.
    * @param contentType Upload file type
-   * @param payloadMessage The payload body.
+   * @param message The payload body.
    * @param options The options parameters.
    */
   sendToConnection(
     hub: string,
     connectionId: string,
     contentType: "text/plain",
-    payloadMessage: string,
+    message: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse>;
   /**
@@ -188,7 +195,7 @@ export class WebPubSub {
       | [
           string,
           string,
-          "application/octet-stream",
+          ContentType,
           coreHttp.HttpRequestBody,
           coreHttp.OperationOptions?
         ]
@@ -196,31 +203,37 @@ export class WebPubSub {
   ): Promise<coreHttp.RestResponse> {
     let operationSpec: coreHttp.OperationSpec;
     let operationArguments: coreHttp.OperationArguments;
-    if (args[2] === "application/octet-stream") {
+    let options;
+    if (
+      args[2] === "application/json" ||
+      args[2] === "application/octet-stream"
+    ) {
       operationSpec = sendToConnection$binaryOperationSpec;
       operationArguments = {
         hub: args[0],
         connectionId: args[1],
         contentType: args[2],
-        payloadMessage: args[3],
+        message: args[3],
         options: args[4]
       };
+      options = args[4];
     } else if (args[2] === "text/plain") {
       operationSpec = sendToConnection$textOperationSpec;
       operationArguments = {
         hub: args[0],
         connectionId: args[1],
         contentType: args[2],
-        payloadMessage: args[3],
+        message: args[3],
         options: args[4]
       };
+      options = args[4];
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[2]}".`
       );
     }
     operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
-      operationArguments.options || {}
+      options || {}
     );
     return this.client.sendOperationRequest(
       operationArguments,
@@ -235,7 +248,7 @@ export class WebPubSub {
    * @param group Target group name, which length should be greater than 0 and less than 1025.
    * @param options The options parameters.
    */
-  checkGroupExistence(
+  groupExists(
     hub: string,
     group: string,
     options?: coreHttp.OperationOptions
@@ -247,7 +260,7 @@ export class WebPubSub {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      checkGroupExistenceOperationSpec
+      groupExistsOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
@@ -257,14 +270,14 @@ export class WebPubSub {
    *            alpha-numeric characters or underscore.
    * @param group Target group name, which length should be greater than 0 and less than 1025.
    * @param contentType Upload file type
-   * @param payloadMessage The payload body.
+   * @param message The payload body.
    * @param options The options parameters.
    */
   sendToGroup(
     hub: string,
     group: string,
-    contentType: "application/octet-stream",
-    payloadMessage: coreHttp.HttpRequestBody,
+    contentType: ContentType,
+    message: coreHttp.HttpRequestBody,
     options?: WebPubSubSendToGroup$binaryOptionalParams
   ): Promise<coreHttp.RestResponse>;
   /**
@@ -273,14 +286,14 @@ export class WebPubSub {
    *            alpha-numeric characters or underscore.
    * @param group Target group name, which length should be greater than 0 and less than 1025.
    * @param contentType Upload file type
-   * @param payloadMessage The payload body.
+   * @param message The payload body.
    * @param options The options parameters.
    */
   sendToGroup(
     hub: string,
     group: string,
     contentType: "text/plain",
-    payloadMessage: string,
+    message: string,
     options?: WebPubSubSendToGroup$textOptionalParams
   ): Promise<coreHttp.RestResponse>;
   /**
@@ -292,7 +305,7 @@ export class WebPubSub {
       | [
           string,
           string,
-          "application/octet-stream",
+          ContentType,
           coreHttp.HttpRequestBody,
           WebPubSubSendToGroup$binaryOptionalParams?
         ]
@@ -306,31 +319,37 @@ export class WebPubSub {
   ): Promise<coreHttp.RestResponse> {
     let operationSpec: coreHttp.OperationSpec;
     let operationArguments: coreHttp.OperationArguments;
-    if (args[2] === "application/octet-stream") {
+    let options;
+    if (
+      args[2] === "application/json" ||
+      args[2] === "application/octet-stream"
+    ) {
       operationSpec = sendToGroup$binaryOperationSpec;
       operationArguments = {
         hub: args[0],
         group: args[1],
         contentType: args[2],
-        payloadMessage: args[3],
+        message: args[3],
         options: args[4]
       };
+      options = args[4];
     } else if (args[2] === "text/plain") {
       operationSpec = sendToGroup$textOperationSpec;
       operationArguments = {
         hub: args[0],
         group: args[1],
         contentType: args[2],
-        payloadMessage: args[3],
+        message: args[3],
         options: args[4]
       };
+      options = args[4];
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[2]}".`
       );
     }
     operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
-      operationArguments.options || {}
+      options || {}
     );
     return this.client.sendOperationRequest(
       operationArguments,
@@ -397,7 +416,7 @@ export class WebPubSub {
    * @param userId Target user Id.
    * @param options The options parameters.
    */
-  checkUserExistence(
+  userExists(
     hub: string,
     userId: string,
     options?: coreHttp.OperationOptions
@@ -409,7 +428,7 @@ export class WebPubSub {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      checkUserExistenceOperationSpec
+      userExistsOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
@@ -419,14 +438,14 @@ export class WebPubSub {
    *            alpha-numeric characters or underscore.
    * @param userId The user Id.
    * @param contentType Upload file type
-   * @param payloadMessage The payload body.
+   * @param message The payload body.
    * @param options The options parameters.
    */
   sendToUser(
     hub: string,
     userId: string,
-    contentType: "application/octet-stream",
-    payloadMessage: coreHttp.HttpRequestBody,
+    contentType: ContentType,
+    message: coreHttp.HttpRequestBody,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse>;
   /**
@@ -435,14 +454,14 @@ export class WebPubSub {
    *            alpha-numeric characters or underscore.
    * @param userId The user Id.
    * @param contentType Upload file type
-   * @param payloadMessage The payload body.
+   * @param message The payload body.
    * @param options The options parameters.
    */
   sendToUser(
     hub: string,
     userId: string,
     contentType: "text/plain",
-    payloadMessage: string,
+    message: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse>;
   /**
@@ -454,7 +473,7 @@ export class WebPubSub {
       | [
           string,
           string,
-          "application/octet-stream",
+          ContentType,
           coreHttp.HttpRequestBody,
           coreHttp.OperationOptions?
         ]
@@ -462,31 +481,37 @@ export class WebPubSub {
   ): Promise<coreHttp.RestResponse> {
     let operationSpec: coreHttp.OperationSpec;
     let operationArguments: coreHttp.OperationArguments;
-    if (args[2] === "application/octet-stream") {
+    let options;
+    if (
+      args[2] === "application/json" ||
+      args[2] === "application/octet-stream"
+    ) {
       operationSpec = sendToUser$binaryOperationSpec;
       operationArguments = {
         hub: args[0],
         userId: args[1],
         contentType: args[2],
-        payloadMessage: args[3],
+        message: args[3],
         options: args[4]
       };
+      options = args[4];
     } else if (args[2] === "text/plain") {
       operationSpec = sendToUser$textOperationSpec;
       operationArguments = {
         hub: args[0],
         userId: args[1],
         contentType: args[2],
-        payloadMessage: args[3],
+        message: args[3],
         options: args[4]
       };
+      options = args[4];
     } else {
       throw new TypeError(
         `"contentType" must be a valid value but instead was "${args[2]}".`
       );
     }
     operationArguments.options = coreHttp.operationOptionsToRequestOptionsBase(
-      operationArguments.options || {}
+      options || {}
     );
     return this.client.sendOperationRequest(
       operationArguments,
@@ -502,7 +527,7 @@ export class WebPubSub {
    * @param userId Target user Id.
    * @param options The options parameters.
    */
-  checkUserExistenceInGroup(
+  userExistsInGroup(
     hub: string,
     group: string,
     userId: string,
@@ -516,7 +541,7 @@ export class WebPubSub {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      checkUserExistenceInGroupOperationSpec
+      userExistsInGroupOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
@@ -680,7 +705,7 @@ const sendToAll$binaryOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/:send",
   httpMethod: "POST",
   responses: { 202: {}, default: {} },
-  requestBody: Parameters.payloadMessage,
+  requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion, Parameters.excluded],
   urlParameters: [Parameters.$host, Parameters.hub],
   headerParameters: [Parameters.contentType],
@@ -691,14 +716,14 @@ const sendToAll$textOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/:send",
   httpMethod: "POST",
   responses: { 202: {}, default: {} },
-  requestBody: Parameters.payloadMessage1,
+  requestBody: Parameters.message1,
   queryParameters: [Parameters.apiVersion, Parameters.excluded],
   urlParameters: [Parameters.$host, Parameters.hub],
   headerParameters: [Parameters.contentType1],
   mediaType: "text",
   serializer
 };
-const checkConnectionExistenceOperationSpec: coreHttp.OperationSpec = {
+const connectionExistsOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/connections/{connectionId}",
   httpMethod: "HEAD",
   responses: { 200: {}, 404: {}, default: {} },
@@ -718,7 +743,7 @@ const sendToConnection$binaryOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/connections/{connectionId}/:send",
   httpMethod: "POST",
   responses: { 202: {}, default: {} },
-  requestBody: Parameters.payloadMessage,
+  requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.connectionId],
   headerParameters: [Parameters.contentType],
@@ -729,14 +754,14 @@ const sendToConnection$textOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/connections/{connectionId}/:send",
   httpMethod: "POST",
   responses: { 202: {}, default: {} },
-  requestBody: Parameters.payloadMessage1,
+  requestBody: Parameters.message1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.connectionId],
   headerParameters: [Parameters.contentType1],
   mediaType: "text",
   serializer
 };
-const checkGroupExistenceOperationSpec: coreHttp.OperationSpec = {
+const groupExistsOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/groups/{group}",
   httpMethod: "HEAD",
   responses: { 200: {}, 404: {}, default: {} },
@@ -748,7 +773,7 @@ const sendToGroup$binaryOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/groups/{group}/:send",
   httpMethod: "POST",
   responses: { 202: {}, default: {} },
-  requestBody: Parameters.payloadMessage,
+  requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion, Parameters.excluded],
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.group],
   headerParameters: [Parameters.contentType],
@@ -759,7 +784,7 @@ const sendToGroup$textOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/groups/{group}/:send",
   httpMethod: "POST",
   responses: { 202: {}, default: {} },
-  requestBody: Parameters.payloadMessage1,
+  requestBody: Parameters.message1,
   queryParameters: [Parameters.apiVersion, Parameters.excluded],
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.group],
   headerParameters: [Parameters.contentType1],
@@ -792,7 +817,7 @@ const removeConnectionFromGroupOperationSpec: coreHttp.OperationSpec = {
   ],
   serializer
 };
-const checkUserExistenceOperationSpec: coreHttp.OperationSpec = {
+const userExistsOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}",
   httpMethod: "HEAD",
   responses: { 200: {}, 404: {}, default: {} },
@@ -804,7 +829,7 @@ const sendToUser$binaryOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}/:send",
   httpMethod: "POST",
   responses: { 202: {}, default: {} },
-  requestBody: Parameters.payloadMessage,
+  requestBody: Parameters.message,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.userId],
   headerParameters: [Parameters.contentType],
@@ -815,14 +840,14 @@ const sendToUser$textOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}/:send",
   httpMethod: "POST",
   responses: { 202: {}, default: {} },
-  requestBody: Parameters.payloadMessage1,
+  requestBody: Parameters.message1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.hub, Parameters.userId],
   headerParameters: [Parameters.contentType1],
   mediaType: "text",
   serializer
 };
-const checkUserExistenceInGroupOperationSpec: coreHttp.OperationSpec = {
+const userExistsInGroupOperationSpec: coreHttp.OperationSpec = {
   path: "/api/hubs/{hub}/users/{userId}/groups/{group}",
   httpMethod: "HEAD",
   responses: { 200: {}, 404: {}, default: {} },

@@ -19,6 +19,7 @@ import { createSpan } from "./tracing";
 import { logger } from "./logger";
 import { parseConnectionString } from "./parseConnectionString";
 import jwt from "jsonwebtoken";
+import { getContentTypeForMessage } from "./utils";
 
 /**
  * Options for closing a connection to a hub.
@@ -31,7 +32,7 @@ export interface CloseConnectionOptions extends OperationOptions {
 }
 
 /**
- * Options for sending messages to hubs, groups, users, or connections.
+ * Options for sending messages to hubs.
  */
 export interface HubSendToAllOptions extends OperationOptions {
   /**
@@ -39,6 +40,18 @@ export interface HubSendToAllOptions extends OperationOptions {
    */
   excludedConnections?: string[];
 }
+
+/**
+ * Options for sending text messages to hubs.
+ */
+export interface HubSendTextToAllOptions extends HubSendToAllOptions {
+  contentType: "text/plain";
+}
+
+/**
+ * Types which can be serialized and sent as JSON.
+ */
+export type JSONTypes = string | number | boolean | object;
 
 /**
  * Options for constructing a HubAdmin client.
@@ -71,10 +84,23 @@ export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOption
 export interface HubSendToConnectionOptions extends OperationOptions {}
 
 /**
+ * Options for sending a text message to a connection.
+ */
+export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptions {
+  contentType: "text/plain";
+}
+
+/**
  * Options for sending a message to a user.
  */
 export interface HubSendToUserOptions extends OperationOptions {}
 
+/**
+ * Options for sending a text message to a user.
+ */
+export interface HubSendTextToUserOptions extends HubSendToUserOptions {
+  contentType: "text/plain";
+}
 /**
  * Options for checking if the service is healthy.
  */
@@ -116,11 +142,6 @@ export interface GetAuthenticationTokenResponse {
 
 /**
  * Client for connecting to a Web PubSub hub
- *
- *   ()=()
- *   (^;^) Web PubSub Hub Cub says Hi!
- *   C   C
- *   ()_()
  */
 export class WebPubSubServiceClient {
   private readonly client: GeneratedClient;
@@ -260,10 +281,20 @@ export class WebPubSubServiceClient {
   /**
    * Broadcast a text message to all connections on this hub.
    *
-   * @param message The message to send
+   * @param message The text message to send
    * @param options Additional options
    */
-  public async sendToAll(message: string, options?: HubSendToAllOptions): Promise<RestResponse>;
+  public async sendToAll(message: string, options: HubSendTextToAllOptions): Promise<RestResponse>;
+  /**
+   * Broadcast a JSON message to all connections on this hub.
+   *
+   * @param message The JSON message to send
+   * @param options Additional options
+   */
+  public async sendToAll(
+    message: JSONTypes,
+    options?: HubSendToAllOptions
+  ): Promise<RestResponse>;
   /**
    * Broadcast a binary message to all connections on this hub.
    *
@@ -276,25 +307,23 @@ export class WebPubSubServiceClient {
   ): Promise<RestResponse>;
 
   public async sendToAll(
-    message: string | HttpRequestBody,
-    options: HubSendToAllOptions = {}
+    message: HttpRequestBody | JSONTypes,
+    options: HubSendToAllOptions | HubSendTextToAllOptions = {}
   ): Promise<RestResponse> {
     const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
       "WebPubSubManagementClient-hub-sendToAll",
       normalizedOptions
     );
+
+    const contentType = getContentTypeForMessage(message, updatedOptions);
     try {
-      if (typeof message === "string") {
-        return this.client.webPubSub.sendToAll(this.hubName, "text/plain", message, updatedOptions);
-      } else {
-        return this.client.webPubSub.sendToAll(
-          this.hubName,
-          "application/octet-stream",
-          message,
-          updatedOptions
-        );
-      }
+      return this.client.webPubSub.sendToAll(
+        this.hubName,
+        contentType as any,
+        contentType === 'application/json' ? JSON.stringify(message) : message,
+        updatedOptions
+      );
     } finally {
       span.end();
     }
@@ -304,13 +333,26 @@ export class WebPubSubServiceClient {
    * Send a text message to a specific user
    *
    * @param username User name to send to
-   * @param message The message to send
+   * @param message The text message to send
    * @param options Additional options
    */
   public sendToUser(
     username: string,
     message: string,
-    options?: HubSendToUserOptions
+    options: HubSendTextToUserOptions
+  ): Promise<RestResponse>;
+
+  /**
+   * Send a JSON message to a specific user
+   *
+   * @param username User name to send to
+   * @param message The josn message to send
+   * @param options Additional options
+   */
+  public sendToUser(
+    username: string,
+    message: JSONTypes,
+    options: HubSendTextToUserOptions
   ): Promise<RestResponse>;
 
   /**
@@ -323,11 +365,11 @@ export class WebPubSubServiceClient {
   public sendToUser(
     username: string,
     message: HttpRequestBody,
-    options?: HubSendToUserOptions
+    options?: HubSendToUserOptions | HubSendTextToUserOptions
   ): Promise<RestResponse>;
   public sendToUser(
     username: string,
-    message: string | HttpRequestBody,
+    message: JSONTypes | HttpRequestBody,
     options: HubSendToUserOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan(
@@ -335,24 +377,16 @@ export class WebPubSubServiceClient {
       options
     );
 
+    const contentType = getContentTypeForMessage(message, updatedOptions);
+
     try {
-      if (typeof message === "string") {
-        return this.client.webPubSub.sendToUser(
-          this.hubName,
-          username,
-          "text/plain",
-          message,
-          updatedOptions
-        );
-      } else {
-        return this.client.webPubSub.sendToUser(
-          this.hubName,
-          username,
-          "application/octet-stream",
-          message,
-          updatedOptions
-        );
-      }
+      return this.client.webPubSub.sendToUser(
+        this.hubName,
+        username,
+        contentType as any,
+        contentType === 'application/json' ? JSON.stringify(message) : message,
+        updatedOptions
+      );
     } finally {
       span.end();
     }
@@ -368,8 +402,22 @@ export class WebPubSubServiceClient {
   public sendToConnection(
     connectionId: string,
     message: string,
+    options: HubSendTextToConnectionOptions
+  ): Promise<RestResponse>;
+
+  /**
+   * Send a binary message to a specific connection
+   *
+   * @param connectionId Connection id to send to
+   * @param message The JSON message
+   * @param options Additional options
+   */
+  public sendToConnection(
+    connectionId: string,
+    message: JSONTypes,
     options?: HubSendToConnectionOptions
   ): Promise<RestResponse>;
+
   /**
    * Send a binary message to a specific connection
    *
@@ -379,8 +427,8 @@ export class WebPubSubServiceClient {
    */
   public sendToConnection(
     connectionId: string,
-    message: HttpRequestBody,
-    options?: HubSendToConnectionOptions
+    message: HttpRequestBody | JSONTypes,
+    options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions
   ): Promise<RestResponse>;
   public sendToConnection(
     connectionId: string,
@@ -391,25 +439,16 @@ export class WebPubSubServiceClient {
       "WebPubSubManagementClient-hub-sendToConnection",
       options
     );
+    const contentType = getContentTypeForMessage(message, updatedOptions);
 
     try {
-      if (typeof message === "string") {
-        return this.client.webPubSub.sendToConnection(
-          this.hubName,
-          connectionId,
-          "text/plain",
-          message,
-          updatedOptions
-        );
-      } else {
-        return this.client.webPubSub.sendToConnection(
-          this.hubName,
-          connectionId,
-          "application/octet-stream",
-          message,
-          updatedOptions
-        );
-      }
+      return this.client.webPubSub.sendToConnection(
+        this.hubName,
+        connectionId,
+        contentType as any,
+        contentType === 'application/json' ? JSON.stringify(message) : message,
+        updatedOptions
+      );
     } finally {
       span.end();
     }
@@ -431,7 +470,7 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      const res = await this.client.webPubSub.checkConnectionExistence(
+      const res = await this.client.webPubSub.connectionExists(
         this.hubName,
         connectionId,
         updatedOptions
@@ -513,11 +552,7 @@ export class WebPubSubServiceClient {
     const { span, updatedOptions } = createSpan("WebPubSubManagementClient-hub-hasGroup", options);
 
     try {
-      const res = await this.client.webPubSub.checkGroupExistence(
-        this.hubName,
-        groupName,
-        updatedOptions
-      );
+      const res = await this.client.webPubSub.groupExists(this.hubName, groupName, updatedOptions);
 
       if (res._response.status === 200) {
         return true;
@@ -547,11 +582,7 @@ export class WebPubSubServiceClient {
     const { span, updatedOptions } = createSpan("WebPubSubManagementClient-hub-hasUser", options);
 
     try {
-      const res = await this.client.webPubSub.checkUserExistence(
-        this.hubName,
-        username,
-        updatedOptions
-      );
+      const res = await this.client.webPubSub.userExists(this.hubName, username, updatedOptions);
 
       if (res._response.status === 200) {
         return true;

@@ -32,19 +32,19 @@ export const apiVersion: OperationQueryParameter = {
 export const contentType: OperationParameter = {
   parameterPath: "contentType",
   mapper: {
-    defaultValue: "application/octet-stream",
-    isConstant: true,
     serializedName: "Content-Type",
+    required: true,
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: ["application/json", "application/octet-stream"]
     }
   }
 };
 
-export const payloadMessage: OperationParameter = {
-  parameterPath: "payloadMessage",
+export const message: OperationParameter = {
+  parameterPath: "message",
   mapper: {
-    serializedName: "payloadMessage",
+    serializedName: "message",
     required: true,
     type: {
       name: "Stream"
@@ -64,10 +64,10 @@ export const contentType1: OperationParameter = {
   }
 };
 
-export const payloadMessage1: OperationParameter = {
-  parameterPath: "payloadMessage",
+export const message1: OperationParameter = {
+  parameterPath: "message",
   mapper: {
-    serializedName: "payloadMessage",
+    serializedName: "message",
     required: true,
     type: {
       name: "String"

@@ -10,8 +10,9 @@ import {
 } from "@azure/core-http";
 import { AzureWebPubSubServiceRestAPI as GeneratedClient } from "./generated/azureWebPubSubServiceRestAPI";
 import { createSpan } from "./tracing";
-import { HubSendToAllOptions } from "./hubClient";
 import normalizeSendToAllOptions from "./normalizeOptions";
+import { getContentTypeForMessage } from "./utils";
+import { JSONTypes } from "./hubClient";
 
 /**
  * Options for constructing a GroupAdmin client.
@@ -42,6 +43,27 @@ export interface GroupRemoveUserOptions extends OperationOptions {}
  * Options for removing a connection from a group
  */
 export interface GroupRemoveConnectionOptions extends OperationOptions {}
+
+/**
+ * Options for sending messages to a group.
+ */
+export interface GroupSendToAllOptions extends OperationOptions {
+  /**
+   * Connection ids to exclude from receiving this message.
+   */
+  excludedConnections?: string[];
+}
+
+/**
+ * Options for sending text messages to a group..
+ */
+export interface GroupSendTextToAllOptions extends OperationOptions {
+  /**
+   * Connection ids to exclude from receiving this message.
+   */
+  excludedConnections?: string[];
+  contentType: "text/plain";
+}
 
 /**
  * Client for connecting to a Web PubSub group.
@@ -176,7 +198,7 @@ export class WebPubsubGroup {
     const { span, updatedOptions } = createSpan("WebPubSubManagementClient-group-hasUser", options);
 
     try {
-      const res = await this.client.webPubSub.checkUserExistenceInGroup(
+      const res = await this.client.webPubSub.userExistsInGroup(
         this.hubName,
         this.groupName,
         username,
@@ -232,8 +254,14 @@ export class WebPubsubGroup {
    * @param message The message to send
    * @param options Additional options
    */
-  public async sendToAll(message: string, options?: HubSendToAllOptions): Promise<RestResponse>;
-
+  public async sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<RestResponse>;
+  /**
+   * Send a json message to every connection in this group
+   *
+   * @param message The message to send
+   * @param options Additional options
+   */
+ public async sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<RestResponse>;
   /**
    * Send a binary message to every connection in this group
    *
@@ -242,11 +270,11 @@ export class WebPubsubGroup {
    */
   public async sendToAll(
     message: HttpRequestBody,
-    options?: HubSendToAllOptions
+    options?: GroupSendToAllOptions
   ): Promise<RestResponse>;
   public async sendToAll(
     message: string | HttpRequestBody,
-    options: HubSendToAllOptions = {}
+    options:  GroupSendToAllOptions | GroupSendTextToAllOptions = {}
   ): Promise<RestResponse> {
     const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
@@ -254,24 +282,16 @@ export class WebPubsubGroup {
       normalizedOptions
     );
 
+    const contentType = getContentTypeForMessage(message, updatedOptions);
+
     try {
-      if (typeof message === "string") {
-        return this.client.webPubSub.sendToGroup(
-          this.hubName,
-          this.groupName,
-          "text/plain",
-          message,
-          updatedOptions
-        );
-      } else {
-        return this.client.webPubSub.sendToGroup(
-          this.hubName,
-          this.groupName,
-          "application/octet-stream",
-          message,
-          updatedOptions
-        );
-      }
+      return this.client.webPubSub.sendToGroup(
+        this.hubName,
+        this.groupName,
+        contentType as any,
+        contentType === 'application/json' ? JSON.stringify(message) : message,
+        updatedOptions
+      );
     } finally {
       span.end();
     }

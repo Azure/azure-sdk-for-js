@@ -38,7 +38,10 @@ describe("HubClient", () => {
     });
 
     it("can broadcast", async () => {
-      let res = await client.sendToAll("hello");
+      let res = await client.sendToAll("hello", { contentType: "text/plain" });
+      assert.equal(res._response.status, 202);
+
+      res = await client.sendToAll({ x: 1, y: 2 });
       assert.equal(res._response.status, 202);
 
       const binaryMessage = new Uint8Array(10);
@@ -47,7 +50,10 @@ describe("HubClient", () => {
     });
 
     it("can send messages to a user", async () => {
-      let res = await client.sendToUser("brian", "hello");
+      let res = await client.sendToUser("brian", "hello", { contentType: "text/plain" });
+      assert.equal(res._response.status, 202);
+
+      res = await client.sendToUser("brian", { x: 1, y: 2 });
       assert.equal(res._response.status, 202);
 
       const binaryMessage = new Uint8Array(10);
@@ -56,10 +62,13 @@ describe("HubClient", () => {
     });
 
     it("can send messages to a connection", async () => {
-      let res = await client.sendToConnection("xxxx", "hello");
+      let res = await client.sendToConnection("xxxx", "hello", { contentType: "text/plain" });
       assert.equal(res._response.status, 202);
 
+      res = await client.sendToConnection("xxxx", { x: 1, y: 2 });
+      assert.equal(res._response.status, 202);
       const binaryMessage = new Uint8Array(10);
+
       res = await client.sendToConnection("xxxx", binaryMessage.buffer);
       assert.equal(res._response.status, 202);
     });
