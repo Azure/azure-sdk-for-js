@@ -55,7 +55,7 @@ export class HttpSender implements Sender {
     if (location) {
       let locUrl = new URL(location);
       if (locUrl && locUrl.host) {
-        this._appInsightsClient["baseUri"] = locUrl.host;
+        this._appInsightsClient.host = locUrl.host;
       }
     }
   }
