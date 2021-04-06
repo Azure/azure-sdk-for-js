@@ -1,0 +1,40 @@
+{
+  "name": "azure-ai-document-translator-samples-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Document Translator client library samples for TypeScript",
+  "engine": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/documenttranslator/ai-document-translator"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator",
+  "dependencies": {
+    "@azure-rest/ai-document-translator": "next",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "typescript": "~4.2.0",
+    "rimraf": "latest"
+  }
+}
