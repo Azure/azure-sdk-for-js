@@ -66,10 +66,15 @@ export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
 export {
   bearerTokenAuthenticationPolicy,
   BearerTokenAuthenticationPolicyOptions,
-  bearerTokenAuthenticationPolicyName,
+  bearerTokenAuthenticationPolicyName
+} from "./policies/bearerTokenAuthenticationPolicy";
+export {
+  bearerTokenChallengeAuthenticationPolicy,
+  BearerTokenChallengeAuthenticationPolicyOptions,
+  bearerTokenChallengeAuthenticationPolicyName,
   ChallengeCallbackOptions,
   retrieveToken,
   defaultAuthenticateRequest,
   defaultAuthenticateRequestOnChallenge
-} from "./policies/bearerTokenAuthenticationPolicy";
+} from "./policies/bearerTokenChallengeAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
