@@ -4,6 +4,7 @@
 import chai from "chai";
 import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src";
 import * as dotenv from "dotenv";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 dotenv.config();
 
 export class TestMessage {
@@ -34,6 +35,39 @@ export class TestMessage {
     };
   }
 
+  static getSampleForAmqpAnnotatedMessage(randomTag?: string): AmqpAnnotatedMessage {
+    if (randomTag == null) {
+      randomTag = Math.random().toString();
+    }
+
+    return {
+      body: `message body ${randomTag}`,
+      bodyType: "data",
+      header: {
+        deliveryCount: 10,
+        durable: false,
+        firstAcquirer: false,
+        priority: 20,
+        timeToLive: 100000
+      },
+      applicationProperties: {
+        propOne: 1,
+        propTwo: "two",
+        propThree: true,
+        propFour: Date()
+      },
+      // deliveryAnnotations - TODO: should this be removed for sending?
+      footer: {
+        propFooter: "foot"
+      },
+      messageAnnotations: { propMsgAnnotate: "annotation" },
+      properties: {
+        contentEncoding: "application/json; charset=utf-8",
+        correlationId: randomTag // Add more fields }
+      }
+    };
+  }
+
   static getSessionSample(): ServiceBusMessage & Required<Pick<ServiceBusMessage, "sessionId">> {
     const randomNumber = Math.random();
     return {
@@ -50,7 +84,8 @@ export class TestMessage {
       applicationProperties: {
         propOne: 1,
         propTwo: "two",
-        propThree: true
+        propThree: true,
+        propFour: Date()
       },
       sessionId: TestMessage.sessionId,
       replyToSessionId: "some-other-session-id"
