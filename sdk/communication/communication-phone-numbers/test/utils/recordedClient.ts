@@ -60,6 +60,15 @@ export function createRecordedClient(
   };
 }
 
+export const canCreateRecordedClientWithToken = (): boolean => {
+  try {
+    new DefaultAzureCredential();
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export function createRecordedClientWithToken(
   context: Context
 ):

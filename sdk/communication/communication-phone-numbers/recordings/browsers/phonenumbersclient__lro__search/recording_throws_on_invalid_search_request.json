@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/availablePhoneNumbers/countries/US/:search",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"person\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"quantity\":1}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"InvalidInput\",\"message\":\"We are unable to find phone plans to match your requested capabilities.\",\"target\":\"areacode\"}}",
+   "responseHeaders": {
+    "content-type": "application/json"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "878287a1f48ad2632c994dc4ce5ff9bb"
+}
