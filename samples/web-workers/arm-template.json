@@ -1,0 +1,113 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "baseName": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().name]",
+      "metadata": {
+        "description": "The base resource name."
+      }
+    },
+    "origin": {
+      "type": "string",
+      "defaultValue": "http://localhost:1234",
+      "metadata": {
+        "description": "The application origin for configuring CORS policies. By default it'll be set to http://localhost:1234 locally."
+      }
+    }
+  },
+  "variables": {
+    "storageAccount": "[concat(replace(parameters('baseName'), '-', ''), 'workerstorage')]",
+    "storageContainer": "[concat(replace(parameters('baseName'), '-', ''), 'workerstorage', '/default/blobs')]",
+    "location": "[resourceGroup().location]"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2020-08-01-preview",
+      "name": "[variables('storageAccount')]",
+      "location": "[variables('location')]",
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "kind": "StorageV2",
+      "properties": {
+        "networkAcls": {
+          "bypass": "AzureServices",
+          "virtualNetworkRules": [],
+          "ipRules": [],
+          "defaultAction": "Allow"
+        },
+        "supportsHttpsTrafficOnly": true,
+        "encryption": {
+          "services": {
+            "file": {
+              "keyType": "Account",
+              "enabled": true
+            },
+            "blob": {
+              "keyType": "Account",
+              "enabled": true
+            }
+          },
+          "keySource": "Microsoft.Storage"
+        },
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices",
+      "apiVersion": "2020-08-01-preview",
+      "name": "[concat(variables('storageAccount'), '/default')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccount'))]"
+      ],
+      "sku": {
+        "name": "Standard_RAGRS",
+        "tier": "Standard"
+      },
+      "properties": {
+        "cors": {
+          "corsRules": [
+            {
+              "allowedOrigins": ["[parameters('origin')]"],
+              "allowedMethods": ["GET", "OPTIONS", "PUT", "POST"],
+              "maxAgeInSeconds": 0,
+              "exposedHeaders": ["*"],
+              "allowedHeaders": ["*"]
+            }
+          ]
+        },
+        "deleteRetentionPolicy": {
+          "enabled": false
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2020-08-01-preview",
+      "name": "[variables('storageContainer')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('storageAccount'), 'default')]",
+        "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccount'))]"
+      ],
+      "properties": {
+        "defaultEncryptionScope": "$account-encryption-key",
+        "denyEncryptionScopeOverride": false,
+        "publicAccess": "None"
+      }
+    }
+  ],
+  "outputs": {
+    "react_app_blob_uri": {
+      "type": "string",
+      "value": "[reference(variables('storageAccount')).primaryEndpoints.blob]"
+    },
+    "react_app_blob_container": {
+      "type": "string",
+      "value": "[last(split(variables('storageContainer'), '/'))]"
+    }
+  }
+}
