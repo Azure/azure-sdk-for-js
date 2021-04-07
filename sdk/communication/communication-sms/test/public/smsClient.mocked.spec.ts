@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  HttpClient,
-  isNode
-} from "@azure/core-http";
+import { HttpClient, isNode } from "@azure/core-http";
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
@@ -31,7 +28,7 @@ describe("[mocked] SmsClient", async () => {
     it("can instantiate with a connection string", async () => {
       new SmsClient(connectionString);
     });
-  
+
     it("can instantiate with a url and KeyCredential ", async () => {
       new SmsClient(baseUri, new AzureKeyCredential("banana"));
     });
