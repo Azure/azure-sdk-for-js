@@ -38,6 +38,10 @@ export interface ChallengeCallbackOptions {
    */
   request: PipelineRequest;
   /**
+   * Response containing the challenge.
+   */
+  response?: PipelineResponse;
+  /**
    * Function that allows easily assigning a token to the request.
    */
   setAuthorizationHeader: (token: string) => void;
@@ -55,14 +59,12 @@ export interface ChallengeCallbacks {
   authorizeRequest?(options: ChallengeCallbackOptions): Promise<void>;
   /**
    * Allows to handle authentication challenges and to re-authorize the request.
+   * The response containing the challenge is `options.response`.
    * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
    * allows developers to easily assign a token to the ongoing request.
    * If this method returns true, the underlying request will be sent once again.
    */
-  authorizeRequestOnChallenge(
-    challenge: string,
-    options: ChallengeCallbackOptions
-  ): Promise<boolean>;
+  authorizeRequestOnChallenge(options: ChallengeCallbackOptions): Promise<boolean>;
 }
 
 /**
@@ -114,13 +116,26 @@ export async function defaultAuthorizeRequest(options: ChallengeCallbackOptions)
 }
 
 /**
+ * We will retrieve the challenge only if the response status code was 401,
+ * and if the response contained the header "WWW-Authenticate" with a non-empty value.
+ */
+function getChallenge(response: PipelineResponse): string | undefined {
+  const challenge = response.headers.get("WWW-Authenticate");
+  if (response.status === 401 && challenge) {
+    return challenge;
+  }
+  return;
+}
+
+/**
  * Default authorize request on challenge
  */
 export async function defaultAuthorizeRequestOnChallenge(
-  challenge: string,
-  options: ChallengeCallbackOptions
+  options: ChallengeCallbackOptions & { response: PipelineResponse }
 ): Promise<boolean> {
   const { scopes, setAuthorizationHeader } = options;
+
+  const challenge = getChallenge(options?.response);
 
   if (!challenge) {
     return false;
@@ -152,22 +167,8 @@ export function bearerTokenChallengeAuthenticationPolicy(
   const callbacks = {
     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
     authorizeRequestOnChallenge:
-      challengeCallbacks?.authorizeRequestOnChallenge ?? defaultAuthorizeRequestOnChallenge,
-    // If any of the properties is set to undefined, it will replace the default values.
-    ...challengeCallbacks
+      challengeCallbacks?.authorizeRequestOnChallenge ?? defaultAuthorizeRequestOnChallenge
   };
-
-  /**
-   * We will retrieve the challenge only if the response status code was 401,
-   * and if the response contained the header "WWW-Authenticate" with a non-empty value.
-   */
-  function getChallenge(response: PipelineResponse): string | undefined {
-    const challenge = response.headers.get("WWW-Authenticate");
-    if (response.status === 401 && challenge) {
-      return challenge;
-    }
-    return;
-  }
 
   // This function encapsulates the entire process of reliably retrieving the token
   // The options are left out of the public API until there's demand to configure this.
@@ -214,13 +215,17 @@ export function bearerTokenChallengeAuthenticationPolicy(
         error = err;
         response = err.response;
       }
-      const challenge = getChallenge(response);
 
-      if (challenge && callbacks?.authorizeRequestOnChallenge) {
+      if (
+        response.status === 401 &&
+        callbacks?.authorizeRequestOnChallenge &&
+        getChallenge(response)
+      ) {
         // processes challenge
-        const shouldSendRequest = await callbacks.authorizeRequestOnChallenge(challenge, {
+        const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
           scopes,
           request,
+          response,
           previousToken: cycler.cachedToken,
           getToken: cycler.getToken,
           setAuthorizationHeader

@@ -67,11 +67,14 @@ function parseCAEChallenge(challenges: string): any[] {
 }
 
 async function authorizeRequestOnChallenge(
-  challenge: string,
-  options: ChallengeCallbackOptions
+  options: ChallengeCallbackOptions & { response: PipelineResponse }
 ): Promise<boolean> {
   const { scopes, setAuthorizationHeader } = options;
 
+  const challenge = options.response.headers.get("WWW-Authenticate");
+  if (!challenge) {
+    throw new Error("Missing challenge");
+  }
   const challenges: TestChallenge[] = parseCAEChallenge(challenge) || [];
 
   const parsedChallenge = challenges.find((x) => x.claims);
