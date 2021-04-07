@@ -52,5 +52,4 @@ describe("SmsClient [Playback/Record]", async () => {
   });
 
   describe("when sending SMS", smsClientSuites);
-
 });

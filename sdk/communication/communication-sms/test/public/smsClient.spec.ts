@@ -27,7 +27,7 @@ describe("SmsClient [Live]", async () => {
 
   afterEach(async function(this: Context) {
     await recorder.stop();
-  });  
+  });
 
   describe("when sending SMS", smsClientSuites);
 });
