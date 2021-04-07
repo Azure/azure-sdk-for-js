@@ -9,7 +9,7 @@
  * @azsdk-weight 40
  */
 
-import DocumentTranslator from "../"; //"@azure-rest/ai-document-translator";
+import DocumentTranslator from "@azure-rest/ai-document-translator";
 
 import * as dotenv from "dotenv";
 dotenv.config();
