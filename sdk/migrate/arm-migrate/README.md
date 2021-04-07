@@ -1,6 +1,6 @@
-## Azure AzureMigrate SDK for JavaScript
+## Azure AzureMigrateV2 SDK for JavaScript
 
-This package contains an isomorphic SDK for AzureMigrate.
+This package contains an isomorphic SDK for AzureMigrateV2.
 
 ### Currently supported environments
 
@@ -9,33 +9,32 @@ This package contains an isomorphic SDK for AzureMigrate.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-migrate
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get assessmentOptions as an example written in TypeScript.
+#### nodejs - client creation and listBySubscription projects as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
-npm install @azure/ms-rest-nodeauth
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+```bash
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
-```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { AzureMigrate, AzureMigrateModels, AzureMigrateMappers } from "@azure/arm-migrate";
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
+```typescript
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { AzureMigrateV2 } = require("@azure/arm-migrate");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new AzureMigrate(creds, subscriptionId);
-  const locationName = "testlocationName";
-  client.assessmentOptions.get(locationName).then((result) => {
+  const client = new AzureMigrateV2(creds, subscriptionId);
+  client.projects.listBySubscription().then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -44,11 +43,11 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get assessmentOptions as an example written in JavaScript.
+#### browser - Authentication, client creation and listBySubscription projects as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -77,9 +76,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmMigrate.AzureMigrate(res.creds, subscriptionId);
-        const locationName = "testlocationName";
-        client.assessmentOptions.get(locationName).then((result) => {
+        const client = new Azure.ArmMigrate.AzureMigrateV2(res.creds, subscriptionId);
+        client.projects.listBySubscription().then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -97,5 +95,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmigrate%2Farm-migrate%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/migrate/arm-migrate/README.png)
