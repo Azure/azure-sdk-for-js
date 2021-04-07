@@ -8,7 +8,8 @@ import {
   TokenCredential,
   AccessToken,
   AggregateAuthenticationError,
-  CredentialUnavailableError
+  CredentialUnavailableError,
+  AuthenticationRequiredError
 } from "../../src";
 
 function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
@@ -21,6 +22,15 @@ describe("ChainedTokenCredential", function() {
   it("returns the first token received from a credential", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
+      mockCredential(
+        Promise.reject(
+          new AuthenticationRequiredError(
+            ["https://vault.azure.net/.default"],
+            {},
+            "authentication-required."
+          )
+        )
+      ),
       mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
       mockCredential(Promise.resolve({ token: "secondToken", expiresOnTimestamp: 0 }))
     );

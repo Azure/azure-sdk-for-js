@@ -41,7 +41,7 @@ export interface AuthenticationRecord {
 }
 
 // @public
-export class AuthenticationRequiredError extends CredentialUnavailableError {
+export class AuthenticationRequiredError extends Error {
     constructor(
     scopes: string[],
     getTokenOptions?: GetTokenOptions, message?: string);
