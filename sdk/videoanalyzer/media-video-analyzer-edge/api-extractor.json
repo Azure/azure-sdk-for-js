@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/media-analytics-edge.d.ts"
+    "publicTrimmedFilePath": "types/media-video-analyzer-edge.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

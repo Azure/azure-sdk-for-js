@@ -7,7 +7,7 @@ import {
   UnsecuredEndpoint,
   NodeInput,
   AssetSink,
-  createPipelineTopologySetRequest
+  createRequest
 } from "../src";
 
 describe("test", () => {
@@ -53,7 +53,7 @@ describe("test", () => {
       }
     };
 
-    const setGraphTopRequest = createPipelineTopologySetRequest(graphTopology);
+    const setGraphTopRequest = createRequest("pipelineTopologySet", graphTopology);
     assert.strictEqual(setGraphTopRequest.payload["@apiVersion"], "1.0");
   });
 });

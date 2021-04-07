@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/**
- * Demonstrates something
- */
-
 import {
   PipelineTopology,
   Request,
@@ -13,19 +9,8 @@ import {
   NodeInput,
   AssetSink,
   LivePipeline,
-  createPipelineTopologySetRequest,
-  createLivePipelineListRequest,
-  createPipelineTopologyListRequest,
-  createPipelineTopologyGetRequest,
-  createLivePipelineSetRequest,
-  createLivePipelineActivateRequest,
-  createLivePipelineGetRequest,
-  createLivePipelineDeActivateRequest,
-  createLivePipelineDeleteRequest,
-  createPipelineTopologyDeleteRequest,
   createRequest
 } from "@azure/media-video-analyzer-edge";
-
 
 import { Client } from "azure-iothub";
 
@@ -90,11 +75,11 @@ function buildLivePipeline(PipelineTopologyName: string) {
 
 export async function main() {
   const device_id = "lva-sample-device";
-  const module_id = "moduleId";
+  const module_id = "mediaEdge";
   const connectionString = "connectionString";
   const iotHubClient = Client.fromConnectionString(connectionString);
 
-  const invokeMethodHelper = async (methodRequest: Request) => {
+  const invokeMethodHelper = async (methodRequest: Request<any>) => {
     return await iotHubClient.invokeDeviceMethod(device_id, module_id, {
       methodName: methodRequest.methodName,
       payload: methodRequest.payload
@@ -104,44 +89,54 @@ export async function main() {
   const pipelineTopology = buildPipelineTopology();
   const livePipeline = buildLivePipeline(pipelineTopology.name);
 
-  const request = createRequest("PipelineTopologySet", pipelineTopology);
+  //const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);
+  const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);
   //const setPipelineTopRequest = createPipelineTopologySetRequest(pipelineTopology);
-  const setPipelineTopResponse = await invokeMethodHelper(request);
+  const setPipelineTopResponse = await invokeMethodHelper(pipelineTopologySetRequest);
   console.log(setPipelineTopResponse);
 
-  const listPipelineTopologyRequest = createPipelineTopologyListRequest();
+  //const listPipelineTopologyRequest = createPipelineTopologyListRequest();
+  const listPipelineTopologyRequest = createRequest("pipelineTopologyList");
   const listPipelineTopologyResponse = await invokeMethodHelper(listPipelineTopologyRequest);
   console.log(listPipelineTopologyResponse);
 
-  const getPipelineTopologyRequest = createPipelineTopologyGetRequest(pipelineTopology.name);
+  //const getPipelineTopologyRequest = createPipelineTopologyGetRequest(pipelineTopology.name);
+  const getPipelineTopologyRequest = createRequest("pipelineTopologyGet", pipelineTopology.name);
   const getPipelineTopologyResponse = await invokeMethodHelper(getPipelineTopologyRequest);
   console.log(getPipelineTopologyResponse);
 
-  const setLivePipelineRequest = createLivePipelineSetRequest(livePipeline);
+  //const setLivePipelineRequest = createLivePipelineSetRequest(livePipeline);
+  const setLivePipelineRequest = createRequest("livePipelineSet", livePipeline);
   const setLivePipelineResponse = await invokeMethodHelper(setLivePipelineRequest);
   console.log(setLivePipelineResponse);
 
-  const listLivePipelineRequest = createLivePipelineListRequest();
+  //const listLivePipelineRequest = createLivePipelineListRequest();
+  const listLivePipelineRequest = createRequest("livePipelineList");
   const listLivePipelineResponse = await invokeMethodHelper(listLivePipelineRequest);
   console.log(listLivePipelineResponse);
 
-  const activateLivePipelineRequest = createLivePipelineActivateRequest(livePipeline.name);
+  //const activateLivePipelineRequest = createLivePipelineActivateRequest(livePipeline.name);
+  const activateLivePipelineRequest = createRequest("livePipelineActivate", livePipeline.name);
   const activateLivePipelineResponse = await invokeMethodHelper(activateLivePipelineRequest);
   console.log(activateLivePipelineResponse);
 
-  const getLivePipelineRequest = createLivePipelineGetRequest(livePipeline.name);
+  //const getLivePipelineRequest = createLivePipelineGetRequest(livePipeline.name);
+  const getLivePipelineRequest = createRequest("livePipelineGet", livePipeline.name);
   const getLivePipelineResponse = await invokeMethodHelper(getLivePipelineRequest);
   console.log(getLivePipelineResponse);
 
-  const deactivateLivePipelineRequest = createLivePipelineDeActivateRequest(livePipeline.name);
+  //const deactivateLivePipelineRequest = createLivePipelineDeActivateRequest(livePipeline.name);
+  const deactivateLivePipelineRequest = createRequest("livePipelineDeactivate", livePipeline.name);
   const deactivateLivePipelineResponse = await invokeMethodHelper(deactivateLivePipelineRequest);
   console.log(deactivateLivePipelineResponse);
 
-  const deleteLivePipelineRequest = createLivePipelineDeleteRequest(livePipeline.name);
+  //const deleteLivePipelineRequest = createLivePipelineDeleteRequest(livePipeline.name);
+  const deleteLivePipelineRequest = createRequest("livePipelineDelete", livePipeline.name);
   const deleteLivePipelineResponse = await invokeMethodHelper(deleteLivePipelineRequest);
   console.log(deleteLivePipelineResponse);
 
-  const deletePipelineTopRequest = createPipelineTopologyDeleteRequest(pipelineTopology.name);
+  //const deletePipelineTopRequest = createPipelineTopologyDeleteRequest(pipelineTopology.name);
+  const deletePipelineTopRequest = createRequest("pipelineTopologyDelete", pipelineTopology.name);
   const deletePipelineTopResponse = await invokeMethodHelper(deletePipelineTopRequest);
   console.log(deletePipelineTopResponse);
 }

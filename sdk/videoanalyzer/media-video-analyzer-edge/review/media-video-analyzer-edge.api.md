@@ -29,53 +29,35 @@ export type CognitiveServicesVisionExtension = ExtensionProcessorBase & {
     extensionConfiguration?: string;
 };
 
-// @public
-export function createLivePipelineActivateRequest(name: string): Request;
-
-// @public
-export function createLivePipelineDeActivateRequest(name: string): Request;
-
-// @public
-export function createLivePipelineDeleteRequest(name: string): Request;
-
-// @public
-export function createLivePipelineGetRequest(name: string): Request;
-
-// @public
-export function createLivePipelineListRequest(): Request;
-
-// @public
-export function createLivePipelineSetRequest(instance: LivePipeline): Request;
-
-// @public
-export function createPipelineTopologyDeleteRequest(name: string): Request;
-
-// @public
-export function createPipelineTopologyGetRequest(name: string): Request;
-
-// @public
-export function createPipelineTopologyListRequest(): Request;
-
-// @public
-export function createPipelineTopologySetRequest(graph: PipelineTopology): Request;
+// @public (undocumented)
+export function createRequest(request: "pipelineTopologySet", payload: PipelineTopology): Request<PipelineTopology>;
 
 // @public (undocumented)
-export function createRequest(request: "PipelineTopologySet", payload: PipelineTopology): Request;
+export function createRequest(request: "pipelineTopologyGet", payload: string): Request<string>;
 
 // @public (undocumented)
-export function createRequest(request: RequestType, payload: LivePipeline): Request;
+export function createRequest(request: "pipelineTopologyList"): Request<{}>;
 
 // @public (undocumented)
-export function createRequest(request: "PipelineTopologyDelete", payload: string): Request;
+export function createRequest(request: "pipelineTopologyDelete", payload: string): Request<string>;
 
 // @public (undocumented)
-export function createRequest(request: "PipelineTopologyGet", payload: string): Request;
+export function createRequest(request: "livePipelineSet", payload: LivePipeline): Request<LivePipeline>;
 
 // @public (undocumented)
-export function createRequest(request: "LivePipelineTopologyGet", payload: string): Request;
+export function createRequest(request: "livePipelineGet", payload: string): Request<string>;
 
 // @public (undocumented)
-export function createRequest(request: RequestType): Request;
+export function createRequest(request: "livePipelineList"): Request<{}>;
+
+// @public (undocumented)
+export function createRequest(request: "livePipelineDelete", payload: string): Request<string>;
+
+// @public (undocumented)
+export function createRequest(request: "livePipelineActivate", payload: string): Request<string>;
+
+// @public (undocumented)
+export function createRequest(request: "livePipelineDeactivate", payload: string): Request<string>;
 
 // @public
 export interface Credentials {
@@ -497,6 +479,11 @@ export type PipelineTopologySetRequestBody = MethodRequest & PipelineTopology & 
     methodName: "PipelineTopologySetRequestBody";
 };
 
+// @public (undocumented)
+export type PipelineTopologySetRequestPayload = PipelineTopology & {
+    "@apiVersion": string;
+};
+
 // @public
 export interface Point {
     x: string;
@@ -514,15 +501,17 @@ export interface Processor {
 export type ProcessorUnion = Processor | MotionDetectionProcessor | ObjectTrackingProcessor | LineCrossingProcessor | ExtensionProcessorBaseUnion | SignalGateProcessor;
 
 // @public (undocumented)
-export interface Request {
+export interface Request<T> {
     // (undocumented)
     methodName: string;
     // (undocumented)
-    payload: Payload;
+    payload: T & {
+        "@apiVersion": string;
+    };
 }
 
 // @public (undocumented)
-export type RequestType = "PipelineTopologySet" | "PipelineTopologyGet" | "PipelineTopologyDelete" | "LivePipelineTopologyGet";
+export type RequestType = "pipelineTopologySet" | "pipelineTopologyGet" | "pipelineTopologyList" | "pipelineTopologyDelete" | "livePipelineSet" | "livePipelineGet" | "livePipelineList" | "livePipelineDelete" | "livePipelineActivate" | "livePipelineDeactivate";
 
 // @public
 export type RtspSource = Source & {
