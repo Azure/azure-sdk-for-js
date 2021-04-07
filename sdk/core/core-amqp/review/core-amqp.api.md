@@ -45,6 +45,7 @@ export interface AmqpAnnotatedMessage {
 // @public
 export const AmqpAnnotatedMessage: {
     fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
+    toRheaMessage(msg: AmqpAnnotatedMessage): Message;
 };
 
 // @public
