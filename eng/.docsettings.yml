@@ -46,19 +46,6 @@ required_readme_sections:
   - ^Next steps$
   - ^Contributing$
 
-known_presence_issues:
-  - ["CHANGELOG.md", "6421"]
-  - ["sdk/applicationinsights/applicationinsights-query/CHANGELOG.md", "6421"]
-  - ["sdk/batch/batch/CHANGELOG.md", "6421"]
-  - ["sdk/eventgrid/eventgrid/CHANGELOG.md", "6421"]
-  - ["sdk/graphrbac/graph/CHANGELOG.md", "6421"]
-  - ["sdk/operationalinsights/loganalytics/CHANGELOG.md", "6421"]
-  - ["sdk/servicefabric/servicefabric/CHANGELOG.md", "6421"]
-  - ["sdk/storage/storage-datalake/CHANGELOG.md", "6421"]
-  - ["sdk/template/template/CHANGELOG.md", "6421"]
-  - ["sdk/test-utils/recorder/CHANGELOG.md", "6421"]
-  - ["sdk/test-utils/perfstress/CHANGELOG.md", "6421"]
-
 known_content_issues:
   - ["README.md",  "#1583"]
   - ["sdk/appconfiguration/app-configuration/README.md",  "#1583"]
@@ -68,47 +55,47 @@ known_content_issues:
       "sdk/cognitiveservices/cognitiveservices-anomalydetector/README.md",
        "#1583",
     ]
-  - ["sdk/cognitiveservices/cognitiveservices-autosuggest/README.md",  "#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-autosuggest/README.md",  "#Azure/autorest.typescript#895"]
   - [
       "sdk/cognitiveservices/cognitiveservices-computervision/README.md",
-       "#895",
+       "#Azure/autorest.typescript#895",
     ]
   - [
       "sdk/cognitiveservices/cognitiveservices-contentmoderator/README.md",
-       "#895",
+       "#Azure/autorest.typescript#895",
     ]
   - [
       "sdk/cognitiveservices/cognitiveservices-customimagesearch/README.md",
-       "#895",
+       "#Azure/autorest.typescript#895",
     ]
-  - ["sdk/cognitiveservices/cognitiveservices-customsearch/README.md",  "#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-customsearch/README.md",  "#Azure/autorest.typescript#895"]
   - [
       "sdk/cognitiveservices/cognitiveservices-customvision-prediction/README.md",
-       "#895",
+       "#Azure/autorest.typescript#895",
     ]
   - [
       "sdk/cognitiveservices/cognitiveservices-customvision-training/README.md",
-       "#895",
+       "#Azure/autorest.typescript#895",
     ]
-  - ["sdk/cognitiveservices/cognitiveservices-entitysearch/README.md",  "#895"]
-  - ["sdk/cognitiveservices/cognitiveservices-face/README.md",  "#895"]
-  - ["sdk/cognitiveservices/cognitiveservices-imagesearch/README.md",  "#895"]
-  - ["sdk/cognitiveservices/cognitiveservices-localsearch/README.md",  "#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-entitysearch/README.md",  "#Azure/autorest.typescript#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-face/README.md",  "#Azure/autorest.typescript#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-imagesearch/README.md",  "#Azure/autorest.typescript#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-localsearch/README.md",  "#Azure/autorest.typescript#895"]
   - [
       "sdk/cognitiveservices/cognitiveservices-luis-authoring/README.md",
-       "#895",
+       "#Azure/autorest.typescript#895",
     ]
-  - ["sdk/cognitiveservices/cognitiveservices-luis-runtime/README.md",  "#895"]
-  - ["sdk/cognitiveservices/cognitiveservices-newssearch/README.md",  "#895"]
-  - ["sdk/cognitiveservices/cognitiveservices-qnamaker/README.md",  "#895"]
-  - ["sdk/cognitiveservices/cognitiveservices-spellcheck/README.md",  "#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-luis-runtime/README.md",  "#Azure/autorest.typescript#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-newssearch/README.md",  "#Azure/autorest.typescript#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-qnamaker/README.md",  "#Azure/autorest.typescript#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-spellcheck/README.md",  "#Azure/autorest.typescript#895"]
   - [
       "sdk/cognitiveservices/cognitiveservices-textanalytics/README.md",
-       "#895",
+       "#Azure/autorest.typescript#895",
     ]
-  - ["sdk/cognitiveservices/cognitiveservices-videosearch/README.md",  "#895"]
-  - ["sdk/cognitiveservices/cognitiveservices-visualsearch/README.md",  "#895"]
-  - ["sdk/cognitiveservices/cognitiveservices-websearch/README.md",  "#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-videosearch/README.md",  "#Azure/autorest.typescript#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-visualsearch/README.md",  "#Azure/autorest.typescript#895"]
+  - ["sdk/cognitiveservices/cognitiveservices-websearch/README.md",  "#Azure/autorest.typescript#895"]
   - ["sdk/core/abort-controller/README.md",  "#14714"]
   - ["sdk/core/core-amqp/README.md",  "#14715"]
   - ["sdk/core/core-auth/README.md",  "#14716"]
