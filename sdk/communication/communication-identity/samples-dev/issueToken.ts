@@ -2,25 +2,25 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the CommunicationIdentityClient to
- * issue a user token.
+ * @summary Demonstrates how to use the CommunicationIdentityClient to
+ * issue a new user token.
  */
 
-const { CommunicationIdentityClient } = require("@azure/communication-identity");
+import { CommunicationIdentityClient, TokenScope } from "@azure/communication-identity";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
-async function main() {
-  console.log("\n== Issue Token Javascript Sample ==\n");
+export const main = async () => {
+  console.log("\n== Issue Token TypeScript Sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
-  const scopes = ["chat"];
+  const scopes: TokenScope[] = ["chat"];
 
   // Create user
   console.log("Creating User");
@@ -34,7 +34,7 @@ async function main() {
   const { token } = await client.getToken(user, scopes);
 
   console.log(`Issued token: ${token}`);
-}
+};
 
 main().catch((error) => {
   console.error("Encountered an error while issuing token: ");
