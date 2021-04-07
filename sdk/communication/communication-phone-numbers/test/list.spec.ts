@@ -48,16 +48,5 @@ describe("PhoneNumbersClient - lists", function() {
 
     assert.isTrue(countWhenSkipped > 0);
     assert.equal(countWhenSkipped, all - 1);
-  }).timeout(20000);
-
-  // TODO: revisit when service returns nextLink
-  it("can list by page", async function() {
-    for await (const page of client.listPurchasedPhoneNumbers().byPage()) {
-      assert.isArray(page);
-
-      for (const purchased of page) {
-        assert.match(purchased.phoneNumber, /\+\d{1}\d{3}\d{3}\d{4}/g);
-      }
-    }
-  }).timeout(20000);
+  }).timeout(25000);
 });

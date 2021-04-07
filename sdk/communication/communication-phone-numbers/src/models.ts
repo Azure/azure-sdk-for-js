@@ -28,12 +28,6 @@ export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
    * The default value is 0.
    */
   skip?: number;
-
-  /**
-   * An optional parameter for how many entries to return, for pagination purposes.
-   * The default value is 100.
-   */
-  top?: number;
 }
 
 /**

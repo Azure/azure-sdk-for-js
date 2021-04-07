@@ -48,7 +48,7 @@ describe("PhoneNumbersClient - lro - update [AAD]", function() {
     const phoneNumber = await updatePoller.pollUntilDone();
     assert.notDeepEqual(phoneNumber.capabilities, capabilities);
     assert.deepEqual(phoneNumber.capabilities, update);
-  }).timeout(45000);
+  }).timeout(30000);
 
   it("can cancel update polling", async function() {
     const { capabilities } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);

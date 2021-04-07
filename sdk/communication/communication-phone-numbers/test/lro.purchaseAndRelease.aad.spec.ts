@@ -16,7 +16,7 @@ describe("PhoneNumbersClient - lro - purchase and release [AAD]", function() {
   let client: PhoneNumbersClient;
 
   before(function(this: Context) {
-    const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS == "true";
+    const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
     const shouldSkip =
       !canCreateRecordedClientWithToken() || (!isPlaybackMode() && !includePhoneNumberLiveTests);
 
