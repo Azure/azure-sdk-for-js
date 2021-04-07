@@ -245,7 +245,10 @@ export function bearerTokenChallengeAuthenticationPolicy(
   };
 }
 
-type ValidParsedWWWAuthenticateProperties =
+/**
+ * Defined supported names of WWW-Authenticate name-value pairs.
+ */
+export type ValidParsedWWWAuthenticateProperties =
   // "authorization_uri" was used in the track 1 version of KeyVault.
   // This is not a relevant property anymore, since the service is consistently answering with "authorization".
   // | "authorization_uri"
@@ -256,7 +259,10 @@ type ValidParsedWWWAuthenticateProperties =
   | "scope"
   | "service";
 
-type ParsedWWWAuthenticate = {
+/**
+ * Represents the result of `parseWWWAuthenticate()`;
+ */
+export type ParsedWWWAuthenticate = {
   [Key in ValidParsedWWWAuthenticateProperties]?: string;
 };
 

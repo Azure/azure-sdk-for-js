@@ -74,6 +74,9 @@ export {
   bearerTokenChallengeAuthenticationPolicyName,
   ChallengeCallbacks,
   ChallengeCallbackOptions,
-  retrieveToken
+  retrieveToken,
+  ValidParsedWWWAuthenticateProperties,
+  ParsedWWWAuthenticate,
+  parseWWWAuthenticate
 } from "./policies/bearerTokenChallengeAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
