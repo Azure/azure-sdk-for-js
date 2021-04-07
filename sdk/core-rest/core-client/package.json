@@ -19,7 +19,7 @@
     "build:test:node": "npm run build:ts && npm run bundle:test:node",
     "build:ts": "tsc -p .",
     "build": "npm run build:ts && rollup -c 2>&1 && api-extractor run --local",
-    "bundle:test": "rollup -c rollup.test.config.js 2>&1",
+    "bundle:test": "tsc -p . && rollup -c 2>&1",
     "bundle:test:browser": "cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "bundle:test:node": "cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
