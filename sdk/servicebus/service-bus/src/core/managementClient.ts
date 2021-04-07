@@ -48,7 +48,7 @@ import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
-import { defaultDataTransformer } from "../dataTransformer";
+import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
 import { isDefined, isObjectWithProperties } from "../util/typeGuards";
 
 /**
@@ -492,6 +492,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
           const message = fromRheaMessage(decodedMessage as any);
+
           message.body = defaultDataTransformer.decode(message.body);
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
@@ -592,8 +593,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const item = messages[i];
       if (!item.messageId) item.messageId = generate_uuid();
       item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-      const amqpMessage = toRheaMessage(item);
-      amqpMessage.body = defaultDataTransformer.encode(amqpMessage.body);
+      const amqpMessage = toRheaMessage(item, defaultDataTransformer);
 
       try {
         const entry: any = {
@@ -1014,7 +1014,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       const result = await this._makeManagementRequest(request, receiverLogger, options);
       return result.body["session-state"]
-        ? defaultDataTransformer.decode(result.body["session-state"])
+        ? tryToJsonDecode(result.body["session-state"])
         : result.body["session-state"];
     } catch (err) {
       const error = translateServiceBusError(err);

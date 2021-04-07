@@ -381,9 +381,6 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 }
 
 // @public
-export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
-
-// @public
 export const logger: import("@azure/logger").AzureLogger;
 
 export { PagedAsyncIterableIterator }

@@ -21,19 +21,6 @@ import {
   WrapResult
 } from "..";
 
-/**
- * A union type representing the names of all of the locally supported algorithms.
- */
-export type LocalSupportedAlgorithmName =
-  | "RSA1_5"
-  | "RSA-OAEP"
-  | "PS256"
-  | "RS256"
-  | "PS384"
-  | "RS384"
-  | "PS512"
-  | "RS512";
-
 export class LocalCryptographyUnsupportedError extends Error {}
 
 /**

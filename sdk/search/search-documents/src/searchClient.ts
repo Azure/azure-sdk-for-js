@@ -51,7 +51,12 @@ import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export type SearchClientOptions = PipelineOptions;
+export interface SearchClientOptions extends PipelineOptions {
+  /**
+   * The API version to use when communicating with the service.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Class used to perform operations against a search index,
@@ -65,7 +70,7 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30";
+  public readonly apiVersion: string = "2020-06-30-Preview";
 
   /**
    * The endpoint of the search service
@@ -146,7 +151,16 @@ export class SearchClient<T> implements IndexDocumentsClient<T> {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
     }
 
-    this.client = new GeneratedClient(this.endpoint, this.indexName, this.apiVersion, pipeline);
+    let apiVersion = this.apiVersion;
+
+    if (options.apiVersion) {
+      if (!["2020-06-30-Preview", "2020-06-30"].includes(options.apiVersion)) {
+        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
+      }
+      apiVersion = options.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, this.indexName, apiVersion, pipeline);
   }
 
   /**

@@ -101,7 +101,6 @@ import {
 } from "./cryptographyClientModels";
 
 import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
-import { LocalSupportedAlgorithmName } from "./cryptography/models";
 import { getKeyFromKeyBundle } from "./transformations";
 import { createTraceFunction } from "../../keyvault-common/src";
 
@@ -157,7 +156,6 @@ export {
   ListPropertiesOfKeysOptions,
   ListPropertiesOfKeyVersionsOptions,
   ListDeletedKeysOptions,
-  LocalSupportedAlgorithmName,
   PageSettings,
   PagedAsyncIterableIterator,
   KeyVaultKeyId,
@@ -292,7 +290,7 @@ export class KeyClient {
         }
       };
     }
-    return withTrace("KeyClient.createKey", unflattenedOptions, async (updatedOptions) => {
+    return withTrace("createKey", unflattenedOptions, async (updatedOptions) => {
       const response = await this.client.createKey(this.vaultUrl, name, keyType, updatedOptions);
       return getKeyFromKeyBundle(response);
     });
@@ -398,7 +396,7 @@ export class KeyClient {
       };
     }
 
-    return withTrace(`KeyClient.importKey`, unflattenedOptions, async (updatedOptions) => {
+    return withTrace(`importKey`, unflattenedOptions, async (updatedOptions) => {
       const response = await this.client.importKey(this.vaultUrl, name, key, updatedOptions);
       return getKeyFromKeyBundle(response);
     });
@@ -472,7 +470,7 @@ export class KeyClient {
     keyVersion: string,
     options: UpdateKeyPropertiesOptions = {}
   ): Promise<KeyVaultKey> {
-    return withTrace(`KeyClient.updateKeyProperties`, options, async (updatedOptions) => {
+    return withTrace(`updateKeyProperties`, options, async (updatedOptions) => {
       const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = updatedOptions;
       const unflattenedOptions = {
         ...remainingOptions,
@@ -506,7 +504,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
-    return withTrace(`KeyClient.getKey`, options, async (updatedOptions) => {
+    return withTrace(`getKey`, options, async (updatedOptions) => {
       const response = await this.client.getKey(
         this.vaultUrl,
         name,
@@ -531,7 +529,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public getDeletedKey(name: string, options: GetDeletedKeyOptions = {}): Promise<DeletedKey> {
-    return withTrace(`KeyClient.getDeletedKey`, options, async (updatedOptions) => {
+    return withTrace(`getDeletedKey`, options, async (updatedOptions) => {
       const response = await this.client.getDeletedKey(this.vaultUrl, name, updatedOptions);
       return getKeyFromKeyBundle(response);
     });
@@ -554,7 +552,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public purgeDeletedKey(name: string, options: PurgeDeletedKeyOptions = {}): Promise<void> {
-    return withTrace(`KeyClient.purgeDeletedKey`, options, async (updatedOptions) => {
+    return withTrace(`purgeDeletedKey`, options, async (updatedOptions) => {
       await this.client.purgeDeletedKey(this.vaultUrl, name, updatedOptions);
     });
   }
@@ -619,7 +617,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public backupKey(name: string, options: BackupKeyOptions = {}): Promise<Uint8Array | undefined> {
-    return withTrace(`KeyClient.backupKey`, options, async (updatedOptions) => {
+    return withTrace(`backupKey`, options, async (updatedOptions) => {
       const response = await this.client.backupKey(this.vaultUrl, name, updatedOptions);
       return response.value;
     });
@@ -644,7 +642,7 @@ export class KeyClient {
     backup: Uint8Array,
     options: RestoreKeyBackupOptions = {}
   ): Promise<KeyVaultKey> {
-    return withTrace(`KeyClient.restoreKeyBackup`, options, async (updatedOptions) => {
+    return withTrace(`restoreKeyBackup`, options, async (updatedOptions) => {
       const response = await this.client.restoreKey(this.vaultUrl, backup, updatedOptions);
       return getKeyFromKeyBundle(response);
     });
@@ -669,7 +667,7 @@ export class KeyClient {
         ...options
       };
       const currentSetResponse = await withTrace(
-        "KeyClient.listPropertiesOfKeyVersionsPage",
+        "listPropertiesOfKeyVersionsPage",
         optionsComplete,
         async (updatedOptions) => this.client.getKeyVersions(this.vaultUrl, name, updatedOptions)
       );
@@ -681,7 +679,7 @@ export class KeyClient {
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await withTrace(
-        "KeyClient.listPropertiesOfKeyVersionsPage",
+        "listPropertiesOfKeyVersionsPage",
         options || {},
         async (updatedOptions) =>
           this.client.getKeyVersions(continuationState.continuationToken!, name, updatedOptions)
@@ -765,7 +763,7 @@ export class KeyClient {
         ...options
       };
       const currentSetResponse = await withTrace(
-        "KeyClient.listPropertiesOfKeysPage",
+        "listPropertiesOfKeysPage",
         optionsComplete,
         async (updatedOptions) => this.client.getKeys(this.vaultUrl, updatedOptions)
       );
@@ -857,7 +855,7 @@ export class KeyClient {
         ...options
       };
       const currentSetResponse = await withTrace(
-        "KeyClient.listDeletedKeysPage",
+        "listDeletedKeysPage",
         optionsComplete,
         async (updatedOptions) => this.client.getDeletedKeys(this.vaultUrl, updatedOptions)
       );
@@ -868,7 +866,7 @@ export class KeyClient {
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await withTrace(
-        "KeyClient.listDeletedKeysPage",
+        "listDeletedKeysPage",
         options || {},
         async (updatedOptions) =>
           this.client.getDeletedKeys(continuationState.continuationToken!, updatedOptions)

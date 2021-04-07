@@ -13,14 +13,14 @@
     "**/dist/*": true,
     "**/*.map": true,
     "**/dist-*/*": true,
-    "**/test-dist/*": true,
+    "**/dist-test/*": true,
     "**/node_modules": true,
     "**/bower_components": true,
     "**/*.code-search": true,
     "**/types/*": true,
     "**/coverage/*": true,
     "**/*.d.ts": true,
-    "**/test-browser/*": true
+    "**/dist-test/*": true
   },
   "typescript.tsdk": "..\\..\\core\\core-http\\node_modules\\typescript\\lib"
 }

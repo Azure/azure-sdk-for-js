@@ -30,8 +30,10 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/appconfiguration/app-configuration",
   "dependencies": {
-    "@azure/app-configuration": "latest",
-    "dotenv": "latest"
+    "@azure/app-configuration": "next",
+    "dotenv": "latest",
+    "@azure/keyvault-secrets": "^4.2.0-beta.4",
+    "@azure/identity": "^1.1.0"
   },
   "devDependencies": {
     "typescript": "~4.2.0",
