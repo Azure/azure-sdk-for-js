@@ -86,9 +86,7 @@
     ]
   },
   "//sampleConfiguration": {
-    "skip": [
-      "backupAndRestore.js"
-    ]
+    "skipFolder": true
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",

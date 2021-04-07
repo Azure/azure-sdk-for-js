@@ -121,5 +121,8 @@
     "sinon": "^9.0.2",
     "typescript": "~4.2.0",
     "typedoc": "0.15.2"
+  },
+  "//sampleConfiguration": {
+    "skipFolder": true
   }
 }

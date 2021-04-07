@@ -149,5 +149,8 @@
     "typescript": "~4.2.0",
     "url": "^0.11.0",
     "typedoc": "0.15.2"
+  },
+  "//sampleConfiguration": {
+    "skipFolder": true
   }
 }

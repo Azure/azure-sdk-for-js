@@ -99,15 +99,7 @@
     ]
   },
   "//sampleConfiguration": {
-    "skip": [
-      "advanced.js",
-      "anonymousCred.js",
-      "basic.js",
-      "customPipeline.js",
-      "iterators-files-and-directories.js",
-      "iterators-shares.js",
-      "sharedKeyCred.js"
-    ]
+    "skipFolder": true
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",

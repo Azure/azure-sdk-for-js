@@ -87,12 +87,7 @@
     ]
   },
   "//sampleConfiguration": {
-    "skip": [
-      "receiveMessagesLoop.js",
-      "receiveMessagesStreaming.js",
-      "useProxy.js",
-      "usingAadAuth.js"
-    ]
+    "skipFolder": true
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
