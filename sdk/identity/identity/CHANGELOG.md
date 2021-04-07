@@ -1,5 +1,8 @@
 # Release History
 
+## 2.0.0-beta.3 (Unreleased)
+
+
 ## 2.0.0-beta.2 (2021-04-06)
 
 - Breaking change: Renamed errors `CredentialUnavailable` to `CredentialUnavailableError`, and `AuthenticationRequired` to `AuthenticationRequiredError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
