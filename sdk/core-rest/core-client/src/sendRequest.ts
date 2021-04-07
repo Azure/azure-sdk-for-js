@@ -34,7 +34,7 @@ export async function sendRequest(
   const body = JSON.stringify(options.body);
 
   const request = createPipelineRequest({
-    url: url.toString(),
+    url,
     method,
     body,
     headers,
@@ -42,10 +42,7 @@ export async function sendRequest(
   });
 
   const result = await pipeline.sendRequest(httpClient, request);
-  let rawHeaders: RawHttpHeaders = {};
-  for (const [key, value] of result.headers) {
-    rawHeaders[key] = value;
-  }
+  const rawHeaders: RawHttpHeaders = result.headers.toJSON();
 
   let parsedBody = undefined;
 
@@ -71,20 +68,10 @@ export async function sendRequest(
  * @returns returns the content-type
  */
 function getContentType(body: any): string {
-  try {
-    const jsonBody = JSON.stringify(body);
-    JSON.parse(jsonBody);
-    return "application/json; charset=UTF-8";
-  } catch {}
-
-  if (typeof body === "string") {
-    return "text/plain";
-  }
-
   if (ArrayBuffer.isView(body)) {
     return "application/octet-stream";
   }
 
-  // Default, we may want to log a warning
+  // By default return json
   return "application/json; charset=UTF-8";
 }

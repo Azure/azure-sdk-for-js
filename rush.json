@@ -334,7 +334,7 @@
     },
     {
       "packageName": "@azure-rest/ai-document-translator",
-      "projectFolder": "sdk/documenttranslator/ai-document-translator",
+      "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
       "versionPolicyName": "client"
     },
     {

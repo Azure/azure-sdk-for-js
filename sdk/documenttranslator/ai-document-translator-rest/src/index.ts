@@ -1,5 +1,5 @@
-import DocumentTranslator from "./documentTranslationClient";
-export * from "./documentTranslationClient";
+import DocumentTranslator from "./documentTranslator";
+export * from "./documentTranslator";
 export * from "./models";
 export * from "./parameters";
 export * from "./responses";

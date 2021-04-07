@@ -87,7 +87,8 @@ export async function main() {
 
     // The checkStatus operation returns a retry-after header that contains the
     // time in seconds to wait before sending the next polling request
-    const waitTime = Number.parseInt(operationState.headers["retry-after"] || "5");
+    const parsedRetryAfter = Number.parseInt(operationState.headers["retry-after"] || "5");
+    const waitTime = Number.isInteger(parsedRetryAfter) ? parsedRetryAfter : 5;
     await wait(waitTime);
   } while (!terminalStates.includes(operationState.body.status));
 
@@ -104,9 +105,7 @@ export async function main() {
 // Helper function to wait/sleep for N seconds
 function wait(seconds: number): Promise<void> {
   return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, seconds * 1000);
+    setTimeout(resolve, seconds * 1000);
   });
 }
 

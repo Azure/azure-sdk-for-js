@@ -2,7 +2,7 @@
   "name": "@azure-rest/ai-document-translator",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "description": "An isomorphic low level client library for the Azure Document Translator service.",
+  "description": "An isomorphic rest level client library for the Azure Document Translator service.",
   "version": "1.0.0-beta.1",
   "keywords": [
     "node",

@@ -266,14 +266,12 @@ export interface DocumentTranslationFactory {
   (endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): void;
 }
 
-export default function DocumentTranslation(
+export default function DocumentTranslator(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {}
 ): DocumentTranslationClient {
-  const baseUrl =
-    options.baseUrl ||
-    "{endpoint}/translator/text/batch/v1.0-preview.1".replace(/{endpoint}/g, endpoint);
+  const baseUrl = options.baseUrl || `${endpoint}/translator/text/batch/v1.0-preview.1`;
   options = {
     ...options,
     credentials: {

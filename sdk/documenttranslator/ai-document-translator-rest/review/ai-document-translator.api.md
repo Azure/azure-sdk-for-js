@@ -143,11 +143,6 @@ export interface DocumentStatusResponse {
 }
 
 // @public (undocumented)
-function DocumentTranslation(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): DocumentTranslationClient;
-
-export default DocumentTranslation;
-
-// @public (undocumented)
 export type DocumentTranslationClient = Client & {
     path: Routes;
 };
@@ -157,6 +152,11 @@ export interface DocumentTranslationFactory {
     // (undocumented)
     (endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): void;
 }
+
+// @public (undocumented)
+function DocumentTranslator(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): DocumentTranslationClient;
+
+export default DocumentTranslator;
 
 // @public (undocumented)
 export type ErrorCodeV2 = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable" | "ResourceNotFound" | "Unauthorized" | "RequestRateTooHigh";

@@ -5,15 +5,12 @@ import {
   createDefaultHttpClient,
   HttpClient,
   PipelinePolicy,
-  PipelineRequest,
-  SendRequest,
-  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "./common";
+import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
 
-let cachedHttpsClient: HttpClient | undefined;
-const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
+let cachedHttpClient: HttpClient | undefined;
 
 /**
  * Creates a default rest pipeline to re-use accross Rest Level Clients
@@ -24,18 +21,24 @@ export function createDefaultPipeline(
   options: ClientOptions = {}
 ): Pipeline {
   const pipeline = createPipelineFromOptions(options);
+  pipeline.removePolicy({ name: "exponentialRetryPolicy" });
 
   if (credential) {
-    const credentialPolicy = isTokenCredential(credential)
-      ? bearerTokenAuthenticationPolicy({
-          credential,
-          scopes: options.credentials?.scopes || `${baseUrl}/.default`,
-        })
-      : keyCredentialAuthenticationPolicy(
-          credential,
-          options.credentials?.apiKeyHeaderName || API_KEY_HEADER_NAME
-        );
-
+    let credentialPolicy: PipelinePolicy;
+    if (isTokenCredential(credential)) {
+      credentialPolicy = bearerTokenAuthenticationPolicy({
+        credential,
+        scopes: options.credentials?.scopes || `${baseUrl}/.default`,
+      });
+    } else {
+      if (!options.credentials?.apiKeyHeaderName) {
+        throw new Error(`Missing API Key Header Name`);
+      }
+      credentialPolicy = keyCredentialAuthenticationPolicy(
+        credential,
+        options.credentials?.apiKeyHeaderName
+      );
+    }
     pipeline.addPolicy(credentialPolicy);
   }
 
@@ -43,27 +46,9 @@ export function createDefaultPipeline(
 }
 
 export function getCachedDefaultHttpsClient(): HttpClient {
-  if (!cachedHttpsClient) {
-    cachedHttpsClient = createDefaultHttpClient();
+  if (!cachedHttpClient) {
+    cachedHttpClient = createDefaultHttpClient();
   }
 
-  return cachedHttpsClient;
-}
-
-/**
- * The programmatic identifier of the bearerTokenAuthenticationPolicy.
- */
-export const keyCredentialAuthenticationPolicyName = "keyCredentialAuthenticationPolicy";
-
-export function keyCredentialAuthenticationPolicy(
-  credential: KeyCredential,
-  apiKeyHeaderName: string
-): PipelinePolicy {
-  return {
-    name: keyCredentialAuthenticationPolicyName,
-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      request.headers.set(apiKeyHeaderName, credential.key);
-      return next(request);
-    },
-  };
+  return cachedHttpClient;
 }

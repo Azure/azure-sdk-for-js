@@ -7,7 +7,7 @@
 import { KeyCredential } from '@azure/core-auth';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
-import { PipelineRequest } from '@azure/core-rest-pipeline';
+import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -54,14 +54,9 @@ export function getClient(baseUrl: string, options?: PipelineOptions): Client;
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: PipelineOptions): Client;
 
 // @public
-export type HttpResponse = {
-    request: PipelineRequest;
-    status: number;
+export type HttpResponse = Omit<PipelineResponse, "headers"> & {
     headers: RawHttpHeaders;
     body: unknown;
-    bodyAsText?: string | null;
-    blobBody?: Promise<Blob>;
-    readableStreamBody?: NodeJS.ReadableStream;
 };
 
 // @public

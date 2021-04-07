@@ -70,10 +70,10 @@ npx cross-env ENDPOINT="<endpoint>" DOCUMENT_TRANSLATOR_API_KEY="<document trans
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[listformats]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator/samples/v1/typescript/src/listFormats.ts
-[translatefromblob]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator/samples/v1/typescript/src/translateFromBlob.ts
+[listformats]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/listFormats.ts
+[translatefromblob]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/translateFromBlob.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-document-translator
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

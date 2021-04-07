@@ -10,9 +10,9 @@
  * @summary translates a collection of documents
  */
 
-const DocumentTranslator = require("@azure-rest/ai-document-translator");
+import DocumentTranslator, { BatchSubmissionRequest } from "@azure-rest/ai-document-translator";
 
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
@@ -36,7 +36,7 @@ const targetContainer = process.env["TARGET_CONTAINER"] || "";
  * This is the body that we need to send to the /batch endpoint
  * to start a translation job on all the documents in sourceContainer
  */
-const batchSubmissionRequest = {
+const batchSubmissionRequest: BatchSubmissionRequest = {
   inputs: [
     {
       source: { sourceUrl: sourceContainer },
@@ -45,7 +45,7 @@ const batchSubmissionRequest = {
   ]
 };
 
-async function main() {
+export async function main() {
   console.log("== Translate documents in a container sample ==");
 
   // Create a new client
@@ -86,7 +86,8 @@ async function main() {
 
     // The checkStatus operation returns a retry-after header that contains the
     // time in seconds to wait before sending the next polling request
-    const waitTime = Number.parseInt(operationState.headers["retry-after"] || "5");
+    const parsedRetryAfter = Number.parseInt(operationState.headers["retry-after"] || "5");
+    const waitTime = Number.isInteger(parsedRetryAfter) ? parsedRetryAfter : 5;
     await wait(waitTime);
   } while (!terminalStates.includes(operationState.body.status));
 
@@ -101,16 +102,14 @@ async function main() {
 }
 
 // Helper function to wait/sleep for N seconds
-function wait(seconds) {
+function wait(seconds: number): Promise<void> {
   return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve();
-    }, seconds * 1000);
+    setTimeout(resolve, seconds * 1000);
   });
 }
 
 // Helper function that extracts the batch id from operation-location header
-function extractBatchId(batchUrl = "") {
+function extractBatchId(batchUrl: string = "") {
   const parts = batchUrl.split("/");
 
   return parts[parts.length - 1];
