@@ -279,24 +279,10 @@ export function toRheaMessage(
   encoder: Pick<typeof defaultDataTransformer, "encode">
 ): RheaMessage {
   if (isAmqpAnnotatedMessage(msg)) {
-    const amqpMsg: RheaMessage = {
-      body: encoder.encode(msg.body, msg.bodyType ?? "data"),
-      message_annotations: {}
+    return {
+      ...AmqpAnnotatedMessage.toRheaMessage(msg),
+      body: encoder.encode(msg.body, msg.bodyType ?? "data")
     };
-
-    if (msg.applicationProperties != null) {
-      amqpMsg.application_properties = msg.applicationProperties;
-    }
-
-    if (msg.messageAnnotations != null) {
-      amqpMsg.message_annotations = msg.messageAnnotations;
-    }
-
-    if (msg.deliveryAnnotations != null) {
-      amqpMsg.delivery_annotations = msg.deliveryAnnotations;
-    }
-
-    return amqpMsg;
   }
 
   let bodyType: "data" | "sequence" | "value" = "data";
