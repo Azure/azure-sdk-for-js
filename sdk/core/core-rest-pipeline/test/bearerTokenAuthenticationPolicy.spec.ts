@@ -51,8 +51,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     assert(
       fakeGetToken.calledWith(tokenScopes, {
         abortSignal: undefined,
-        tracingOptions: undefined,
-        claims: undefined
+        tracingOptions: undefined
       }),
       "fakeGetToken called incorrectly."
     );
