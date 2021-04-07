@@ -11,7 +11,6 @@ export {
   HubHasGroupOptions,
   HubHasUserOptions,
   HubAdminClientOptions,
-  HubIsServiceHealthyOptions,
   HubRemoveUserFromAllGroupsOptions,
   HubSendToConnectionOptions,
   HubSendToUserOptions

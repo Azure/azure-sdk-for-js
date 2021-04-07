@@ -254,14 +254,20 @@ export class WebPubsubGroup {
    * @param message The message to send
    * @param options Additional options
    */
-  public async sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<RestResponse>;
+  public async sendToAll(
+    message: string,
+    options: GroupSendTextToAllOptions
+  ): Promise<RestResponse>;
   /**
    * Send a json message to every connection in this group
    *
    * @param message The message to send
    * @param options Additional options
    */
- public async sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<RestResponse>;
+  public async sendToAll(
+    message: JSONTypes,
+    options?: GroupSendToAllOptions
+  ): Promise<RestResponse>;
   /**
    * Send a binary message to every connection in this group
    *
@@ -274,7 +280,7 @@ export class WebPubsubGroup {
   ): Promise<RestResponse>;
   public async sendToAll(
     message: string | HttpRequestBody,
-    options:  GroupSendToAllOptions | GroupSendTextToAllOptions = {}
+    options: GroupSendToAllOptions | GroupSendTextToAllOptions = {}
   ): Promise<RestResponse> {
     const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
@@ -289,7 +295,7 @@ export class WebPubsubGroup {
         this.hubName,
         this.groupName,
         contentType as any,
-        contentType === 'application/json' ? JSON.stringify(message) : message,
+        contentType === "application/json" ? JSON.stringify(message) : message,
         updatedOptions
       );
     } finally {

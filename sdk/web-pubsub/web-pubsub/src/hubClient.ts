@@ -101,10 +101,6 @@ export interface HubSendToUserOptions extends OperationOptions {}
 export interface HubSendTextToUserOptions extends HubSendToUserOptions {
   contentType: "text/plain";
 }
-/**
- * Options for checking if the service is healthy.
- */
-export interface HubIsServiceHealthyOptions extends OperationOptions {}
 
 /**
  * Options for auth a client
@@ -140,6 +136,24 @@ export interface GetAuthenticationTokenResponse {
   url: string;
 }
 
+
+export type Permission = 'joinLeaveGroup' | 'sendToGroup';
+
+export interface HubGrantPermissionOptions extends OperationOptions {
+  /**
+   * If not set, grant the permission to all the targets. If set, grant the permission to
+   * the specific target. The meaning of the target depends on the specific permission.
+   */
+  targetName?: string;
+}
+
+export interface HubRevokePermissionOptions extends OperationOptions {
+  /**
+   * If not set, revoke the permission from all the targets. If set, revoke the permission
+   * from the specific target. The meaning of the target depends on the specific permission.
+   */
+  targetName?: string;
+}
 /**
  * Client for connecting to a Web PubSub hub
  */
@@ -291,10 +305,7 @@ export class WebPubSubServiceClient {
    * @param message The JSON message to send
    * @param options Additional options
    */
-  public async sendToAll(
-    message: JSONTypes,
-    options?: HubSendToAllOptions
-  ): Promise<RestResponse>;
+  public async sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<RestResponse>;
   /**
    * Broadcast a binary message to all connections on this hub.
    *
@@ -321,7 +332,7 @@ export class WebPubSubServiceClient {
       return this.client.webPubSub.sendToAll(
         this.hubName,
         contentType as any,
-        contentType === 'application/json' ? JSON.stringify(message) : message,
+        contentType === "application/json" ? JSON.stringify(message) : message,
         updatedOptions
       );
     } finally {
@@ -384,7 +395,7 @@ export class WebPubSubServiceClient {
         this.hubName,
         username,
         contentType as any,
-        contentType === 'application/json' ? JSON.stringify(message) : message,
+        contentType === "application/json" ? JSON.stringify(message) : message,
         updatedOptions
       );
     } finally {
@@ -446,7 +457,7 @@ export class WebPubSubServiceClient {
         this.hubName,
         connectionId,
         contentType as any,
-        contentType === 'application/json' ? JSON.stringify(message) : message,
+        contentType === "application/json" ? JSON.stringify(message) : message,
         updatedOptions
       );
     } finally {
@@ -598,6 +609,32 @@ export class WebPubSubServiceClient {
           res._response
         );
       }
+    } finally {
+      span.end();
+    }
+  }
+
+  public async grantPermission(connectionId: string, permission: Permission, options: HubGrantPermissionOptions = {}) {
+    const { span, updatedOptions } = createSpan(
+      "WebPubSubManagementClient-hub-grantPermission",
+      options
+    );
+
+    try {
+      return this.client.webPubSub.grantPermission(this.hubName, permission, connectionId, updatedOptions);
+    } finally {
+      span.end();
+    }
+  }
+
+  public async revokePermission(connectionId: string, permission: Permission, options: HubRevokePermissionOptions = {}) {
+    const { span, updatedOptions } = createSpan(
+      "WebPubSubManagementClient-hub-revokePermission",
+      options
+    );
+
+    try {
+      return this.client.webPubSub.revokePermission(this.hubName, permission, connectionId, updatedOptions);
     } finally {
       span.end();
     }

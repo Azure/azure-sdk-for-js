@@ -86,6 +86,28 @@ describe("HubClient", () => {
       assert.ok(!res);
     });
 
+    it.only("can grant permissions to connections", async () => {
+      let error;
+      try {
+        await client.grantPermission("xxx", "joinLeaveGroup", { targetName: "x"});
+      } catch (e) {
+        error = e;
+      }
+      // grantPermission validates connection ids, so we expect an error here.
+      assert.equal(error.statusCode, 404)
+    });
+
+    it.only("can revoke permissions from connections", async () => {
+      let error;
+      try {
+        await client.revokePermission("xxx", "joinLeaveGroup", { targetName: "x"});
+      } catch (e) {
+        error = e;
+      }
+      // grantPermission validates connection ids, so we expect an error here.
+      assert.equal(error.statusCode, 404)
+    });
+
     afterEach(async function() {
       if (recorder) {
         recorder.stop();
