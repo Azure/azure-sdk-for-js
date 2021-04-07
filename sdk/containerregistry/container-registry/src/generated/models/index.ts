@@ -79,22 +79,22 @@ export interface TagList {
   /** Image name */
   repository: string;
   /** List of tag attribute details */
-  tagAttributeBases?: TagAttributesBase[];
+  tagAttributeBases: TagAttributesBase[];
   link?: string;
 }
 
 /** Tag attribute details */
 export interface TagAttributesBase {
   /** Tag name */
-  name?: string;
+  name: string;
   /** Tag digest */
-  digest?: string;
+  digest: string;
   /** Tag created time */
   createdOn: Date;
   /** Tag last update time */
   lastUpdatedOn: Date;
   /** Writeable properties of the resource */
-  writeableProperties?: ContentProperties;
+  writeableProperties: ContentProperties;
 }
 
 /** Tag attributes */
@@ -102,15 +102,15 @@ export interface TagProperties {
   /** Image name */
   repository: string;
   /** Tag name */
-  name?: string;
+  name: string;
   /** Tag digest */
-  digest?: string;
+  digest: string;
   /** Tag created time */
   createdOn: Date;
   /** Tag last update time */
   lastUpdatedOn: Date;
   /** Writeable properties of the resource */
-  writeableProperties?: ContentProperties;
+  writeableProperties: ContentProperties;
 }
 
 /** Manifest attributes */
@@ -662,6 +662,9 @@ export interface ContainerRegistryRepositorySetPropertiesOptionalParams
   value?: ContentProperties;
 }
 
+/** Contains response data for the setProperties operation. */
+export type ContainerRegistryRepositorySetPropertiesResponse = RepositoryProperties;
+
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryGetTagsOptionalParams
   extends coreClient.OperationOptions {
@@ -689,6 +692,9 @@ export interface ContainerRegistryRepositoryUpdateTagAttributesOptionalParams
   value?: ContentProperties;
 }
 
+/** Contains response data for the updateTagAttributes operation. */
+export type ContainerRegistryRepositoryUpdateTagAttributesResponse = TagProperties;
+
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryGetManifestsOptionalParams
   extends coreClient.OperationOptions {
@@ -713,6 +719,9 @@ export interface ContainerRegistryRepositoryUpdateManifestAttributesOptionalPara
   /** Repository attribute value */
   value?: ContentProperties;
 }
+
+/** Contains response data for the updateManifestAttributes operation. */
+export type ContainerRegistryRepositoryUpdateManifestAttributesResponse = RegistryArtifactProperties;
 
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryGetTagsNextOptionalParams

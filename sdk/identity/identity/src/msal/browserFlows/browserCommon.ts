@@ -10,8 +10,8 @@ import { getAuthorityHost, getKnownAuthorities, MsalBaseUtilities } from "../uti
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { AuthenticationRequired } from "../errors";
-import { CredentialUnavailable } from "../../client/errors";
+import { AuthenticationRequiredError } from "../errors";
+import { CredentialUnavailableError } from "../../client/errors";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -76,7 +76,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     this.logger = options.logger;
     this.loginStyle = options.loginStyle;
     if (!options.clientId) {
-      throw new CredentialUnavailable("A client ID is required in browsers");
+      throw new CredentialUnavailableError("A client ID is required in browsers");
     }
     this.clientId = options.clientId;
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
@@ -144,11 +144,11 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       await this.login(scopes);
     }
     return this.getTokenSilent(scopes).catch((err) => {
-      if (err.name !== "AuthenticationRequired") {
+      if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }
       if (options?.disableAutomaticAuthentication) {
-        throw new AuthenticationRequired(
+        throw new AuthenticationRequiredError(
           scopes,
           options,
           "Automatic authentication has been disabled. You may call the authentication() method."

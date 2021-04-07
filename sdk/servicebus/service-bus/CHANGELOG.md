@@ -1,10 +1,17 @@
 # Release History
 
-## 7.1.0-beta.1 (Unreleased)
+## 7.1.0-beta.1 (2021-04-07)
 
+### New Features
+
+- Enable encoding the body of a message to the 'value' or 'sequence' sections (via AmqpAnnotatedMessage.bodyType). Using this encoding is not required but does allow you to take advantage of native AMQP serialization for supported primitives or sequences.
 - Adds support for passing `NamedKeyCredential` as the credential type to `ServiceBusClient` and `ServiceBusAdminstrationClient`. Also adds support for passing `SASCredential` to `ServiceBusClient`.
   These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
   Resolves [#11891](https://github.com/Azure/azure-sdk-for-js/issues/11891).
+
+### Bug fixes
+
+- Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug w.r.t the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
 
 ## 7.0.4 (2021-03-31)
 
