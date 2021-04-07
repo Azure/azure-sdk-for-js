@@ -9,7 +9,7 @@
  * @azsdk-weight 40
  */
 
-import DocumentTranslator from "@azure-rest/ai-document-translator";
+import DocumentTranslator from "../"; //"@azure-rest/ai-document-translator";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -23,7 +23,7 @@ export async function main() {
   const client = DocumentTranslator(endpoint, { key: apiKey });
   const formats = await client.path("/documents/formats").get();
 
-  if (formats.status !== 200) {
+  if (formats.status !== "200") {
     throw formats.body.error;
   }
 

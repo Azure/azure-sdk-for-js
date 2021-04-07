@@ -14,7 +14,7 @@ export type ClientOptions = PipelineOptions & {
 /**
  * Represents the shape of an HttpResponse
  */
-export type HttpResponse = Omit<PipelineResponse, "headers"> & {
+export type HttpResponse = Omit<PipelineResponse, "headers" | "status"> & {
   /**
    * The HTTP response headers.
    */
@@ -23,4 +23,8 @@ export type HttpResponse = Omit<PipelineResponse, "headers"> & {
    * Parsed body
    */
   body: unknown;
+  /**
+   * The HTTP status code of the response.
+   */
+  status: string;
 };

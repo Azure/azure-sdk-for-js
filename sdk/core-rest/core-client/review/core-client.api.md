@@ -13,16 +13,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface Client {
-    path: (path: string, ...args: Array<any>) => {
-        get: (options?: RequestParameters) => Promise<HttpResponse>;
-        post: (options?: RequestParameters) => Promise<HttpResponse>;
-        put: (options?: RequestParameters) => Promise<HttpResponse>;
-        patch: (options?: RequestParameters) => Promise<HttpResponse>;
-        delete: (options?: RequestParameters) => Promise<HttpResponse>;
-        head: (options?: RequestParameters) => Promise<HttpResponse>;
-        options: (options?: RequestParameters) => Promise<HttpResponse>;
-        trace: (options?: RequestParameters) => Promise<HttpResponse>;
-    };
+    path: unknown;
     pathUnchecked: (path: string, ...args: Array<any>) => {
         get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
         post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
@@ -54,9 +45,10 @@ export function getClient(baseUrl: string, options?: PipelineOptions): Client;
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: PipelineOptions): Client;
 
 // @public
-export type HttpResponse = Omit<PipelineResponse, "headers"> & {
+export type HttpResponse = Omit<PipelineResponse, "headers" | "status"> & {
     headers: RawHttpHeaders;
     body: unknown;
+    status: string;
 };
 
 // @public

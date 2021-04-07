@@ -56,7 +56,7 @@ export async function sendRequest(
     bodyAsText: result.bodyAsText,
     request,
     headers: rawHeaders,
-    status: result.status,
+    status: `${result.status}`,
     body: parsedBody,
   };
 }

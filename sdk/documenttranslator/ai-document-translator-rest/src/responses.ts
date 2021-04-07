@@ -26,10 +26,8 @@ export interface SubmitBatchRequest202Headers {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export type SubmitBatchRequest202Response = HttpResponse & SubmitBatchRequest202Properties;
-
-export interface SubmitBatchRequest202Properties {
-  status: 202;
+export interface SubmitBatchRequest202Response extends HttpResponse {
+  status: "202";
   headers: RawHttpHeaders & SubmitBatchRequest202Headers;
 }
 
@@ -44,10 +42,8 @@ export interface SubmitBatchRequest202Properties {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export type SubmitBatchRequest400Response = HttpResponse & SubmitBatchRequest400Properties;
-
-export interface SubmitBatchRequest400Properties {
-  status: 400;
+export interface SubmitBatchRequest400Response extends HttpResponse {
+  status: "400";
   body: ErrorResponseV2;
 }
 
@@ -62,10 +58,8 @@ export interface SubmitBatchRequest400Properties {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export type SubmitBatchRequest401Response = HttpResponse & SubmitBatchRequest401Properties;
-
-export interface SubmitBatchRequest401Properties {
-  status: 401;
+export interface SubmitBatchRequest401Response extends HttpResponse {
+  status: "401";
   body: ErrorResponseV2;
 }
 
@@ -80,10 +74,8 @@ export interface SubmitBatchRequest401Properties {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export type SubmitBatchRequest429Response = HttpResponse & SubmitBatchRequest429Properties;
-
-export interface SubmitBatchRequest429Properties {
-  status: 429;
+export interface SubmitBatchRequest429Response extends HttpResponse {
+  status: "429";
   body: ErrorResponseV2;
 }
 
@@ -98,10 +90,8 @@ export interface SubmitBatchRequest429Properties {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export type SubmitBatchRequest500Response = HttpResponse & SubmitBatchRequest500Properties;
-
-export interface SubmitBatchRequest500Properties {
-  status: 500;
+export interface SubmitBatchRequest500Response extends HttpResponse {
+  status: "500";
   body: ErrorResponseV2;
 }
 
@@ -116,10 +106,8 @@ export interface SubmitBatchRequest500Properties {
  * If the glossary is invalid or unreachable during translation, an error is indicated in the document status.
  * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
  */
-export type SubmitBatchRequest503Response = HttpResponse & SubmitBatchRequest503Properties;
-
-export interface SubmitBatchRequest503Properties {
-  status: 503;
+export interface SubmitBatchRequest503Response extends HttpResponse {
+  status: "503";
   body: ErrorResponseV2;
 }
 
@@ -155,10 +143,8 @@ export interface GetOperations200Headers {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperations200Response = HttpResponse & GetOperations200Properties;
-
-export interface GetOperations200Properties {
-  status: 200;
+export interface GetOperations200Response extends HttpResponse {
+  status: "200";
   body: BatchStatusResponse;
   headers: RawHttpHeaders & GetOperations200Headers;
 }
@@ -188,10 +174,8 @@ export interface GetOperations200Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperations400Response = HttpResponse & GetOperations400Properties;
-
-export interface GetOperations400Properties {
-  status: 400;
+export interface GetOperations400Response extends HttpResponse {
+  status: "400";
   body: ErrorResponseV2;
 }
 
@@ -220,10 +204,8 @@ export interface GetOperations400Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperations401Response = HttpResponse & GetOperations401Properties;
-
-export interface GetOperations401Properties {
-  status: 401;
+export interface GetOperations401Response extends HttpResponse {
+  status: "401";
   body: ErrorResponseV2;
 }
 
@@ -252,10 +234,8 @@ export interface GetOperations401Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperations429Response = HttpResponse & GetOperations429Properties;
-
-export interface GetOperations429Properties {
-  status: 429;
+export interface GetOperations429Response extends HttpResponse {
+  status: "429";
   body: ErrorResponseV2;
 }
 
@@ -284,10 +264,8 @@ export interface GetOperations429Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperations500Response = HttpResponse & GetOperations500Properties;
-
-export interface GetOperations500Properties {
-  status: 500;
+export interface GetOperations500Response extends HttpResponse {
+  status: "500";
   body: ErrorResponseV2;
 }
 
@@ -316,10 +294,8 @@ export interface GetOperations500Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperations503Response = HttpResponse & GetOperations503Properties;
-
-export interface GetOperations503Properties {
-  status: 503;
+export interface GetOperations503Response extends HttpResponse {
+  status: "503";
   body: ErrorResponseV2;
 }
 
@@ -331,51 +307,39 @@ export interface GetDocumentStatus200Headers {
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export type GetDocumentStatus200Response = HttpResponse & GetDocumentStatus200Properties;
-
-export interface GetDocumentStatus200Properties {
-  status: 200;
+export interface GetDocumentStatus200Response extends HttpResponse {
+  status: "200";
   body: DocumentStatusDetail;
   headers: RawHttpHeaders & GetDocumentStatus200Headers;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export type GetDocumentStatus401Response = HttpResponse & GetDocumentStatus401Properties;
-
-export interface GetDocumentStatus401Properties {
-  status: 401;
+export interface GetDocumentStatus401Response extends HttpResponse {
+  status: "401";
   body: ErrorResponseV2;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export type GetDocumentStatus404Response = HttpResponse & GetDocumentStatus404Properties;
-
-export interface GetDocumentStatus404Properties {
-  status: 404;
+export interface GetDocumentStatus404Response extends HttpResponse {
+  status: "404";
   body: ErrorResponseV2;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export type GetDocumentStatus429Response = HttpResponse & GetDocumentStatus429Properties;
-
-export interface GetDocumentStatus429Properties {
-  status: 429;
+export interface GetDocumentStatus429Response extends HttpResponse {
+  status: "429";
   body: ErrorResponseV2;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export type GetDocumentStatus500Response = HttpResponse & GetDocumentStatus500Properties;
-
-export interface GetDocumentStatus500Properties {
-  status: 500;
+export interface GetDocumentStatus500Response extends HttpResponse {
+  status: "500";
   body: ErrorResponseV2;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export type GetDocumentStatus503Response = HttpResponse & GetDocumentStatus503Properties;
-
-export interface GetDocumentStatus503Properties {
-  status: 503;
+export interface GetDocumentStatus503Response extends HttpResponse {
+  status: "503";
   body: ErrorResponseV2;
 }
 
@@ -390,10 +354,8 @@ export interface GetOperationStatus200Headers {
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export type GetOperationStatus200Response = HttpResponse & GetOperationStatus200Properties;
-
-export interface GetOperationStatus200Properties {
-  status: 200;
+export interface GetOperationStatus200Response extends HttpResponse {
+  status: "200";
   body: BatchStatusDetail;
   headers: RawHttpHeaders & GetOperationStatus200Headers;
 }
@@ -402,10 +364,8 @@ export interface GetOperationStatus200Properties {
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export type GetOperationStatus401Response = HttpResponse & GetOperationStatus401Properties;
-
-export interface GetOperationStatus401Properties {
-  status: 401;
+export interface GetOperationStatus401Response extends HttpResponse {
+  status: "401";
   body: ErrorResponseV2;
 }
 
@@ -413,10 +373,8 @@ export interface GetOperationStatus401Properties {
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export type GetOperationStatus404Response = HttpResponse & GetOperationStatus404Properties;
-
-export interface GetOperationStatus404Properties {
-  status: 404;
+export interface GetOperationStatus404Response extends HttpResponse {
+  status: "404";
   body: ErrorResponseV2;
 }
 
@@ -424,10 +382,8 @@ export interface GetOperationStatus404Properties {
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export type GetOperationStatus429Response = HttpResponse & GetOperationStatus429Properties;
-
-export interface GetOperationStatus429Properties {
-  status: 429;
+export interface GetOperationStatus429Response extends HttpResponse {
+  status: "429";
   body: ErrorResponseV2;
 }
 
@@ -435,10 +391,8 @@ export interface GetOperationStatus429Properties {
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export type GetOperationStatus500Response = HttpResponse & GetOperationStatus500Properties;
-
-export interface GetOperationStatus500Properties {
-  status: 500;
+export interface GetOperationStatus500Response extends HttpResponse {
+  status: "500";
   body: ErrorResponseV2;
 }
 
@@ -446,10 +400,8 @@ export interface GetOperationStatus500Properties {
  * Returns the status for a document translation request.
  * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
  */
-export type GetOperationStatus503Response = HttpResponse & GetOperationStatus503Properties;
-
-export interface GetOperationStatus503Properties {
-  status: 503;
+export interface GetOperationStatus503Response extends HttpResponse {
+  status: "503";
   body: ErrorResponseV2;
 }
 
@@ -460,10 +412,8 @@ export interface GetOperationStatus503Properties {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export type CancelOperation200Response = HttpResponse & CancelOperation200Properties;
-
-export interface CancelOperation200Properties {
-  status: 200;
+export interface CancelOperation200Response extends HttpResponse {
+  status: "200";
   body: BatchStatusDetail;
 }
 
@@ -474,10 +424,8 @@ export interface CancelOperation200Properties {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export type CancelOperation401Response = HttpResponse & CancelOperation401Properties;
-
-export interface CancelOperation401Properties {
-  status: 401;
+export interface CancelOperation401Response extends HttpResponse {
+  status: "401";
   body: ErrorResponseV2;
 }
 
@@ -488,10 +436,8 @@ export interface CancelOperation401Properties {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export type CancelOperation404Response = HttpResponse & CancelOperation404Properties;
-
-export interface CancelOperation404Properties {
-  status: 404;
+export interface CancelOperation404Response extends HttpResponse {
+  status: "404";
   body: ErrorResponseV2;
 }
 
@@ -502,10 +448,8 @@ export interface CancelOperation404Properties {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export type CancelOperation429Response = HttpResponse & CancelOperation429Properties;
-
-export interface CancelOperation429Properties {
-  status: 429;
+export interface CancelOperation429Response extends HttpResponse {
+  status: "429";
   body: ErrorResponseV2;
 }
 
@@ -516,10 +460,8 @@ export interface CancelOperation429Properties {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export type CancelOperation500Response = HttpResponse & CancelOperation500Properties;
-
-export interface CancelOperation500Properties {
-  status: 500;
+export interface CancelOperation500Response extends HttpResponse {
+  status: "500";
   body: ErrorResponseV2;
 }
 
@@ -530,10 +472,8 @@ export interface CancelOperation500Properties {
  * All documents that have completed translation will not be cancelled and will be charged.
  * All pending documents will be cancelled if possible.
  */
-export type CancelOperation503Response = HttpResponse & CancelOperation503Properties;
-
-export interface CancelOperation503Properties {
-  status: 503;
+export interface CancelOperation503Response extends HttpResponse {
+  status: "503";
   body: ErrorResponseV2;
 }
 
@@ -566,11 +506,8 @@ export interface GetOperationDocumentsStatus200Headers {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperationDocumentsStatus200Response = HttpResponse &
-  GetOperationDocumentsStatus200Properties;
-
-export interface GetOperationDocumentsStatus200Properties {
-  status: 200;
+export interface GetOperationDocumentsStatus200Response extends HttpResponse {
+  status: "200";
   body: DocumentStatusResponse;
   headers: RawHttpHeaders & GetOperationDocumentsStatus200Headers;
 }
@@ -597,11 +534,8 @@ export interface GetOperationDocumentsStatus200Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperationDocumentsStatus400Response = HttpResponse &
-  GetOperationDocumentsStatus400Properties;
-
-export interface GetOperationDocumentsStatus400Properties {
-  status: 400;
+export interface GetOperationDocumentsStatus400Response extends HttpResponse {
+  status: "400";
   body: ErrorResponseV2;
 }
 
@@ -627,11 +561,8 @@ export interface GetOperationDocumentsStatus400Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperationDocumentsStatus401Response = HttpResponse &
-  GetOperationDocumentsStatus401Properties;
-
-export interface GetOperationDocumentsStatus401Properties {
-  status: 401;
+export interface GetOperationDocumentsStatus401Response extends HttpResponse {
+  status: "401";
   body: ErrorResponseV2;
 }
 
@@ -657,11 +588,8 @@ export interface GetOperationDocumentsStatus401Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperationDocumentsStatus404Response = HttpResponse &
-  GetOperationDocumentsStatus404Properties;
-
-export interface GetOperationDocumentsStatus404Properties {
-  status: 404;
+export interface GetOperationDocumentsStatus404Response extends HttpResponse {
+  status: "404";
   body: ErrorResponseV2;
 }
 
@@ -687,11 +615,8 @@ export interface GetOperationDocumentsStatus404Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperationDocumentsStatus429Response = HttpResponse &
-  GetOperationDocumentsStatus429Properties;
-
-export interface GetOperationDocumentsStatus429Properties {
-  status: 429;
+export interface GetOperationDocumentsStatus429Response extends HttpResponse {
+  status: "429";
   body: ErrorResponseV2;
 }
 
@@ -717,11 +642,8 @@ export interface GetOperationDocumentsStatus429Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperationDocumentsStatus500Response = HttpResponse &
-  GetOperationDocumentsStatus500Properties;
-
-export interface GetOperationDocumentsStatus500Properties {
-  status: 500;
+export interface GetOperationDocumentsStatus500Response extends HttpResponse {
+  status: "500";
   body: ErrorResponseV2;
 }
 
@@ -747,11 +669,8 @@ export interface GetOperationDocumentsStatus500Properties {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export type GetOperationDocumentsStatus503Response = HttpResponse &
-  GetOperationDocumentsStatus503Properties;
-
-export interface GetOperationDocumentsStatus503Properties {
-  status: 503;
+export interface GetOperationDocumentsStatus503Response extends HttpResponse {
+  status: "503";
   body: ErrorResponseV2;
 }
 
@@ -764,10 +683,8 @@ export interface GetDocumentFormats200Headers {
  * The list of supported document formats supported by the Document Translation service.
  * The list includes the common file extension, as well as the content-type if using the upload API.
  */
-export type GetDocumentFormats200Response = HttpResponse & GetDocumentFormats200Properties;
-
-export interface GetDocumentFormats200Properties {
-  status: 200;
+export interface GetDocumentFormats200Response extends HttpResponse {
+  status: "200";
   body: FileFormatListResult;
   headers: RawHttpHeaders & GetDocumentFormats200Headers;
 }
@@ -776,10 +693,8 @@ export interface GetDocumentFormats200Properties {
  * The list of supported document formats supported by the Document Translation service.
  * The list includes the common file extension, as well as the content-type if using the upload API.
  */
-export type GetDocumentFormats429Response = HttpResponse & GetDocumentFormats429Properties;
-
-export interface GetDocumentFormats429Properties {
-  status: 429;
+export interface GetDocumentFormats429Response extends HttpResponse {
+  status: "429";
   body: ErrorResponseV2;
 }
 
@@ -787,10 +702,8 @@ export interface GetDocumentFormats429Properties {
  * The list of supported document formats supported by the Document Translation service.
  * The list includes the common file extension, as well as the content-type if using the upload API.
  */
-export type GetDocumentFormats500Response = HttpResponse & GetDocumentFormats500Properties;
-
-export interface GetDocumentFormats500Properties {
-  status: 500;
+export interface GetDocumentFormats500Response extends HttpResponse {
+  status: "500";
   body: ErrorResponseV2;
 }
 
@@ -798,10 +711,8 @@ export interface GetDocumentFormats500Properties {
  * The list of supported document formats supported by the Document Translation service.
  * The list includes the common file extension, as well as the content-type if using the upload API.
  */
-export type GetDocumentFormats503Response = HttpResponse & GetDocumentFormats503Properties;
-
-export interface GetDocumentFormats503Properties {
-  status: 503;
+export interface GetDocumentFormats503Response extends HttpResponse {
+  status: "503";
   body: ErrorResponseV2;
 }
 
@@ -814,10 +725,8 @@ export interface GetGlossaryFormats200Headers {
  * The list of supported glossary formats supported by the Document Translation service.
  * The list includes the common file extension used.
  */
-export type GetGlossaryFormats200Response = HttpResponse & GetGlossaryFormats200Properties;
-
-export interface GetGlossaryFormats200Properties {
-  status: 200;
+export interface GetGlossaryFormats200Response extends HttpResponse {
+  status: "200";
   body: FileFormatListResult;
   headers: RawHttpHeaders & GetGlossaryFormats200Headers;
 }
@@ -826,10 +735,8 @@ export interface GetGlossaryFormats200Properties {
  * The list of supported glossary formats supported by the Document Translation service.
  * The list includes the common file extension used.
  */
-export type GetGlossaryFormats429Response = HttpResponse & GetGlossaryFormats429Properties;
-
-export interface GetGlossaryFormats429Properties {
-  status: 429;
+export interface GetGlossaryFormats429Response extends HttpResponse {
+  status: "429";
   body: ErrorResponseV2;
 }
 
@@ -837,10 +744,8 @@ export interface GetGlossaryFormats429Properties {
  * The list of supported glossary formats supported by the Document Translation service.
  * The list includes the common file extension used.
  */
-export type GetGlossaryFormats500Response = HttpResponse & GetGlossaryFormats500Properties;
-
-export interface GetGlossaryFormats500Properties {
-  status: 500;
+export interface GetGlossaryFormats500Response extends HttpResponse {
+  status: "500";
   body: ErrorResponseV2;
 }
 
@@ -848,10 +753,8 @@ export interface GetGlossaryFormats500Properties {
  * The list of supported glossary formats supported by the Document Translation service.
  * The list includes the common file extension used.
  */
-export type GetGlossaryFormats503Response = HttpResponse & GetGlossaryFormats503Properties;
-
-export interface GetGlossaryFormats503Properties {
-  status: 503;
+export interface GetGlossaryFormats503Response extends HttpResponse {
+  status: "503";
   body: ErrorResponseV2;
 }
 
@@ -861,38 +764,26 @@ export interface GetDocumentStorageSource200Headers {
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
-export type GetDocumentStorageSource200Response = HttpResponse &
-  GetDocumentStorageSource200Properties;
-
-export interface GetDocumentStorageSource200Properties {
-  status: 200;
+export interface GetDocumentStorageSource200Response extends HttpResponse {
+  status: "200";
   body: StorageSourceListResult;
   headers: RawHttpHeaders & GetDocumentStorageSource200Headers;
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
-export type GetDocumentStorageSource429Response = HttpResponse &
-  GetDocumentStorageSource429Properties;
-
-export interface GetDocumentStorageSource429Properties {
-  status: 429;
+export interface GetDocumentStorageSource429Response extends HttpResponse {
+  status: "429";
   body: ErrorResponseV2;
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
-export type GetDocumentStorageSource500Response = HttpResponse &
-  GetDocumentStorageSource500Properties;
-
-export interface GetDocumentStorageSource500Properties {
-  status: 500;
+export interface GetDocumentStorageSource500Response extends HttpResponse {
+  status: "500";
   body: ErrorResponseV2;
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
-export type GetDocumentStorageSource503Response = HttpResponse &
-  GetDocumentStorageSource503Properties;
-
-export interface GetDocumentStorageSource503Properties {
-  status: 503;
+export interface GetDocumentStorageSource503Response extends HttpResponse {
+  status: "503";
   body: ErrorResponseV2;
 }

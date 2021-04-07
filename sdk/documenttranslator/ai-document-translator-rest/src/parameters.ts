@@ -5,7 +5,8 @@ export interface SubmitBatchRequestBodyParam {
   body?: BatchSubmissionRequest;
 }
 
-export type SubmitBatchRequestParameters = RequestParameters & SubmitBatchRequestBodyParam;
+export type SubmitBatchRequestParameters = RequestParameters &
+  SubmitBatchRequestBodyParam;
 
 export interface GetOperationsQueryParamProperties {
   /**
@@ -48,7 +49,8 @@ export interface GetOperationsQueryParam {
   queryParameters?: GetOperationsQueryParamProperties;
 }
 
-export type GetOperationsParameters = RequestParameters & GetOperationsQueryParam;
+export type GetOperationsParameters = RequestParameters &
+  GetOperationsQueryParam;
 export type GetDocumentStatusParameters = RequestParameters;
 export type GetOperationStatusParameters = RequestParameters;
 export type CancelOperationParameters = RequestParameters;

@@ -47,71 +47,53 @@ export interface CancelOperation {
     get(options?: GetOperationStatusParameters): Promise<GetOperationStatus200Response | GetOperationStatus401Response | GetOperationStatus404Response | GetOperationStatus429Response | GetOperationStatus500Response | GetOperationStatus503Response>;
 }
 
-// @public (undocumented)
-export interface CancelOperation200Properties {
+// @public
+export interface CancelOperation200Response extends HttpResponse {
     // (undocumented)
     body: BatchStatusDetail;
     // (undocumented)
-    status: 200;
+    status: "200";
 }
 
 // @public
-export type CancelOperation200Response = HttpResponse & CancelOperation200Properties;
-
-// @public (undocumented)
-export interface CancelOperation401Properties {
+export interface CancelOperation401Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 401;
+    status: "401";
 }
 
 // @public
-export type CancelOperation401Response = HttpResponse & CancelOperation401Properties;
-
-// @public (undocumented)
-export interface CancelOperation404Properties {
+export interface CancelOperation404Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 404;
+    status: "404";
 }
 
 // @public
-export type CancelOperation404Response = HttpResponse & CancelOperation404Properties;
-
-// @public (undocumented)
-export interface CancelOperation429Properties {
+export interface CancelOperation429Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 429;
+    status: "429";
 }
 
 // @public
-export type CancelOperation429Response = HttpResponse & CancelOperation429Properties;
-
-// @public (undocumented)
-export interface CancelOperation500Properties {
+export interface CancelOperation500Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 500;
+    status: "500";
 }
 
 // @public
-export type CancelOperation500Response = HttpResponse & CancelOperation500Properties;
-
-// @public (undocumented)
-export interface CancelOperation503Properties {
+export interface CancelOperation503Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 503;
+    status: "503";
 }
-
-// @public
-export type CancelOperation503Response = HttpResponse & CancelOperation503Properties;
 
 // @public (undocumented)
 export type CancelOperationParameters = RequestParameters;
@@ -198,51 +180,39 @@ export interface GetDocumentFormats200Headers {
     "retry-after"?: string;
 }
 
-// @public (undocumented)
-export interface GetDocumentFormats200Properties {
+// @public
+export interface GetDocumentFormats200Response extends HttpResponse {
     // (undocumented)
     body: FileFormatListResult;
     // (undocumented)
     headers: RawHttpHeaders & GetDocumentFormats200Headers;
     // (undocumented)
-    status: 200;
+    status: "200";
 }
 
 // @public
-export type GetDocumentFormats200Response = HttpResponse & GetDocumentFormats200Properties;
-
-// @public (undocumented)
-export interface GetDocumentFormats429Properties {
+export interface GetDocumentFormats429Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 429;
+    status: "429";
 }
 
 // @public
-export type GetDocumentFormats429Response = HttpResponse & GetDocumentFormats429Properties;
-
-// @public (undocumented)
-export interface GetDocumentFormats500Properties {
+export interface GetDocumentFormats500Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 500;
+    status: "500";
 }
 
 // @public
-export type GetDocumentFormats500Response = HttpResponse & GetDocumentFormats500Properties;
-
-// @public (undocumented)
-export interface GetDocumentFormats503Properties {
+export interface GetDocumentFormats503Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 503;
+    status: "503";
 }
-
-// @public
-export type GetDocumentFormats503Response = HttpResponse & GetDocumentFormats503Properties;
 
 // @public (undocumented)
 export type GetDocumentFormatsParameters = RequestParameters;
@@ -258,73 +228,55 @@ export interface GetDocumentStatus200Headers {
     etag?: string;
 }
 
-// @public (undocumented)
-export interface GetDocumentStatus200Properties {
+// @public
+export interface GetDocumentStatus200Response extends HttpResponse {
     // (undocumented)
     body: DocumentStatusDetail;
     // (undocumented)
     headers: RawHttpHeaders & GetDocumentStatus200Headers;
     // (undocumented)
-    status: 200;
+    status: "200";
 }
 
 // @public
-export type GetDocumentStatus200Response = HttpResponse & GetDocumentStatus200Properties;
-
-// @public (undocumented)
-export interface GetDocumentStatus401Properties {
+export interface GetDocumentStatus401Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 401;
+    status: "401";
 }
 
 // @public
-export type GetDocumentStatus401Response = HttpResponse & GetDocumentStatus401Properties;
-
-// @public (undocumented)
-export interface GetDocumentStatus404Properties {
+export interface GetDocumentStatus404Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 404;
+    status: "404";
 }
 
 // @public
-export type GetDocumentStatus404Response = HttpResponse & GetDocumentStatus404Properties;
-
-// @public (undocumented)
-export interface GetDocumentStatus429Properties {
+export interface GetDocumentStatus429Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 429;
+    status: "429";
 }
 
 // @public
-export type GetDocumentStatus429Response = HttpResponse & GetDocumentStatus429Properties;
-
-// @public (undocumented)
-export interface GetDocumentStatus500Properties {
+export interface GetDocumentStatus500Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 500;
+    status: "500";
 }
 
 // @public
-export type GetDocumentStatus500Response = HttpResponse & GetDocumentStatus500Properties;
-
-// @public (undocumented)
-export interface GetDocumentStatus503Properties {
+export interface GetDocumentStatus503Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 503;
+    status: "503";
 }
-
-// @public
-export type GetDocumentStatus503Response = HttpResponse & GetDocumentStatus503Properties;
 
 // @public (undocumented)
 export type GetDocumentStatusParameters = RequestParameters;
@@ -339,51 +291,39 @@ export interface GetDocumentStorageSource200Headers {
     "retry-after"?: string;
 }
 
-// @public (undocumented)
-export interface GetDocumentStorageSource200Properties {
+// @public
+export interface GetDocumentStorageSource200Response extends HttpResponse {
     // (undocumented)
     body: StorageSourceListResult;
     // (undocumented)
     headers: RawHttpHeaders & GetDocumentStorageSource200Headers;
     // (undocumented)
-    status: 200;
+    status: "200";
 }
 
 // @public
-export type GetDocumentStorageSource200Response = HttpResponse & GetDocumentStorageSource200Properties;
-
-// @public (undocumented)
-export interface GetDocumentStorageSource429Properties {
+export interface GetDocumentStorageSource429Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 429;
+    status: "429";
 }
 
 // @public
-export type GetDocumentStorageSource429Response = HttpResponse & GetDocumentStorageSource429Properties;
-
-// @public (undocumented)
-export interface GetDocumentStorageSource500Properties {
+export interface GetDocumentStorageSource500Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 500;
+    status: "500";
 }
 
 // @public
-export type GetDocumentStorageSource500Response = HttpResponse & GetDocumentStorageSource500Properties;
-
-// @public (undocumented)
-export interface GetDocumentStorageSource503Properties {
+export interface GetDocumentStorageSource503Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 503;
+    status: "503";
 }
-
-// @public
-export type GetDocumentStorageSource503Response = HttpResponse & GetDocumentStorageSource503Properties;
 
 // @public (undocumented)
 export type GetDocumentStorageSourceParameters = RequestParameters;
@@ -398,51 +338,39 @@ export interface GetGlossaryFormats200Headers {
     "retry-after"?: string;
 }
 
-// @public (undocumented)
-export interface GetGlossaryFormats200Properties {
+// @public
+export interface GetGlossaryFormats200Response extends HttpResponse {
     // (undocumented)
     body: FileFormatListResult;
     // (undocumented)
     headers: RawHttpHeaders & GetGlossaryFormats200Headers;
     // (undocumented)
-    status: 200;
+    status: "200";
 }
 
 // @public
-export type GetGlossaryFormats200Response = HttpResponse & GetGlossaryFormats200Properties;
-
-// @public (undocumented)
-export interface GetGlossaryFormats429Properties {
+export interface GetGlossaryFormats429Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 429;
+    status: "429";
 }
 
 // @public
-export type GetGlossaryFormats429Response = HttpResponse & GetGlossaryFormats429Properties;
-
-// @public (undocumented)
-export interface GetGlossaryFormats500Properties {
+export interface GetGlossaryFormats500Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 500;
+    status: "500";
 }
 
 // @public
-export type GetGlossaryFormats500Response = HttpResponse & GetGlossaryFormats500Properties;
-
-// @public (undocumented)
-export interface GetGlossaryFormats503Properties {
+export interface GetGlossaryFormats503Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 503;
+    status: "503";
 }
-
-// @public
-export type GetGlossaryFormats503Response = HttpResponse & GetGlossaryFormats503Properties;
 
 // @public (undocumented)
 export type GetGlossaryFormatsParameters = RequestParameters;
@@ -458,84 +386,63 @@ export interface GetOperationDocumentsStatus200Headers {
     etag?: string;
 }
 
-// @public (undocumented)
-export interface GetOperationDocumentsStatus200Properties {
+// @public
+export interface GetOperationDocumentsStatus200Response extends HttpResponse {
     // (undocumented)
     body: DocumentStatusResponse;
     // (undocumented)
     headers: RawHttpHeaders & GetOperationDocumentsStatus200Headers;
     // (undocumented)
-    status: 200;
+    status: "200";
 }
 
 // @public
-export type GetOperationDocumentsStatus200Response = HttpResponse & GetOperationDocumentsStatus200Properties;
-
-// @public (undocumented)
-export interface GetOperationDocumentsStatus400Properties {
+export interface GetOperationDocumentsStatus400Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 400;
+    status: "400";
 }
 
 // @public
-export type GetOperationDocumentsStatus400Response = HttpResponse & GetOperationDocumentsStatus400Properties;
-
-// @public (undocumented)
-export interface GetOperationDocumentsStatus401Properties {
+export interface GetOperationDocumentsStatus401Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 401;
+    status: "401";
 }
 
 // @public
-export type GetOperationDocumentsStatus401Response = HttpResponse & GetOperationDocumentsStatus401Properties;
-
-// @public (undocumented)
-export interface GetOperationDocumentsStatus404Properties {
+export interface GetOperationDocumentsStatus404Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 404;
+    status: "404";
 }
 
 // @public
-export type GetOperationDocumentsStatus404Response = HttpResponse & GetOperationDocumentsStatus404Properties;
-
-// @public (undocumented)
-export interface GetOperationDocumentsStatus429Properties {
+export interface GetOperationDocumentsStatus429Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 429;
+    status: "429";
 }
 
 // @public
-export type GetOperationDocumentsStatus429Response = HttpResponse & GetOperationDocumentsStatus429Properties;
-
-// @public (undocumented)
-export interface GetOperationDocumentsStatus500Properties {
+export interface GetOperationDocumentsStatus500Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 500;
+    status: "500";
 }
 
 // @public
-export type GetOperationDocumentsStatus500Response = HttpResponse & GetOperationDocumentsStatus500Properties;
-
-// @public (undocumented)
-export interface GetOperationDocumentsStatus503Properties {
+export interface GetOperationDocumentsStatus503Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 503;
+    status: "503";
 }
-
-// @public
-export type GetOperationDocumentsStatus503Response = HttpResponse & GetOperationDocumentsStatus503Properties;
 
 // @public (undocumented)
 export type GetOperationDocumentsStatusParameters = RequestParameters & GetOperationDocumentsStatusQueryParam;
@@ -570,73 +477,55 @@ export interface GetOperations200Headers {
     etag?: string;
 }
 
-// @public (undocumented)
-export interface GetOperations200Properties {
+// @public
+export interface GetOperations200Response extends HttpResponse {
     // (undocumented)
     body: BatchStatusResponse;
     // (undocumented)
     headers: RawHttpHeaders & GetOperations200Headers;
     // (undocumented)
-    status: 200;
+    status: "200";
 }
 
 // @public
-export type GetOperations200Response = HttpResponse & GetOperations200Properties;
-
-// @public (undocumented)
-export interface GetOperations400Properties {
+export interface GetOperations400Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 400;
+    status: "400";
 }
 
 // @public
-export type GetOperations400Response = HttpResponse & GetOperations400Properties;
-
-// @public (undocumented)
-export interface GetOperations401Properties {
+export interface GetOperations401Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 401;
+    status: "401";
 }
 
 // @public
-export type GetOperations401Response = HttpResponse & GetOperations401Properties;
-
-// @public (undocumented)
-export interface GetOperations429Properties {
+export interface GetOperations429Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 429;
+    status: "429";
 }
 
 // @public
-export type GetOperations429Response = HttpResponse & GetOperations429Properties;
-
-// @public (undocumented)
-export interface GetOperations500Properties {
+export interface GetOperations500Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 500;
+    status: "500";
 }
 
 // @public
-export type GetOperations500Response = HttpResponse & GetOperations500Properties;
-
-// @public (undocumented)
-export interface GetOperations503Properties {
+export interface GetOperations503Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 503;
+    status: "503";
 }
-
-// @public
-export type GetOperations503Response = HttpResponse & GetOperations503Properties;
 
 // @public (undocumented)
 export type GetOperationsParameters = RequestParameters & GetOperationsQueryParam;
@@ -665,73 +554,55 @@ export interface GetOperationStatus200Headers {
     etag?: string;
 }
 
-// @public (undocumented)
-export interface GetOperationStatus200Properties {
+// @public
+export interface GetOperationStatus200Response extends HttpResponse {
     // (undocumented)
     body: BatchStatusDetail;
     // (undocumented)
     headers: RawHttpHeaders & GetOperationStatus200Headers;
     // (undocumented)
-    status: 200;
+    status: "200";
 }
 
 // @public
-export type GetOperationStatus200Response = HttpResponse & GetOperationStatus200Properties;
-
-// @public (undocumented)
-export interface GetOperationStatus401Properties {
+export interface GetOperationStatus401Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 401;
+    status: "401";
 }
 
 // @public
-export type GetOperationStatus401Response = HttpResponse & GetOperationStatus401Properties;
-
-// @public (undocumented)
-export interface GetOperationStatus404Properties {
+export interface GetOperationStatus404Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 404;
+    status: "404";
 }
 
 // @public
-export type GetOperationStatus404Response = HttpResponse & GetOperationStatus404Properties;
-
-// @public (undocumented)
-export interface GetOperationStatus429Properties {
+export interface GetOperationStatus429Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 429;
+    status: "429";
 }
 
 // @public
-export type GetOperationStatus429Response = HttpResponse & GetOperationStatus429Properties;
-
-// @public (undocumented)
-export interface GetOperationStatus500Properties {
+export interface GetOperationStatus500Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 500;
+    status: "500";
 }
 
 // @public
-export type GetOperationStatus500Response = HttpResponse & GetOperationStatus500Properties;
-
-// @public (undocumented)
-export interface GetOperationStatus503Properties {
+export interface GetOperationStatus503Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 503;
+    status: "503";
 }
-
-// @public
-export type GetOperationStatus503Response = HttpResponse & GetOperationStatus503Properties;
 
 // @public (undocumented)
 export type GetOperationStatusParameters = RequestParameters;
@@ -802,71 +673,53 @@ export interface SubmitBatchRequest202Headers {
     "operation-location"?: string;
 }
 
-// @public (undocumented)
-export interface SubmitBatchRequest202Properties {
+// @public
+export interface SubmitBatchRequest202Response extends HttpResponse {
     // (undocumented)
     headers: RawHttpHeaders & SubmitBatchRequest202Headers;
     // (undocumented)
-    status: 202;
+    status: "202";
 }
 
 // @public
-export type SubmitBatchRequest202Response = HttpResponse & SubmitBatchRequest202Properties;
-
-// @public (undocumented)
-export interface SubmitBatchRequest400Properties {
+export interface SubmitBatchRequest400Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 400;
+    status: "400";
 }
 
 // @public
-export type SubmitBatchRequest400Response = HttpResponse & SubmitBatchRequest400Properties;
-
-// @public (undocumented)
-export interface SubmitBatchRequest401Properties {
+export interface SubmitBatchRequest401Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 401;
+    status: "401";
 }
 
 // @public
-export type SubmitBatchRequest401Response = HttpResponse & SubmitBatchRequest401Properties;
-
-// @public (undocumented)
-export interface SubmitBatchRequest429Properties {
+export interface SubmitBatchRequest429Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 429;
+    status: "429";
 }
 
 // @public
-export type SubmitBatchRequest429Response = HttpResponse & SubmitBatchRequest429Properties;
-
-// @public (undocumented)
-export interface SubmitBatchRequest500Properties {
+export interface SubmitBatchRequest500Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 500;
+    status: "500";
 }
 
 // @public
-export type SubmitBatchRequest500Response = HttpResponse & SubmitBatchRequest500Properties;
-
-// @public (undocumented)
-export interface SubmitBatchRequest503Properties {
+export interface SubmitBatchRequest503Response extends HttpResponse {
     // (undocumented)
     body: ErrorResponseV2;
     // (undocumented)
-    status: 503;
+    status: "503";
 }
-
-// @public
-export type SubmitBatchRequest503Response = HttpResponse & SubmitBatchRequest503Properties;
 
 // @public (undocumented)
 export interface SubmitBatchRequestBodyParam {

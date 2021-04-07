@@ -19,19 +19,7 @@ export interface Client {
    * This method will be used to send request that would check the path to provide
    * strong types
    */
-  path: (
-    path: string,
-    ...args: Array<any>
-  ) => {
-    get: (options?: RequestParameters) => Promise<HttpResponse>;
-    post: (options?: RequestParameters) => Promise<HttpResponse>;
-    put: (options?: RequestParameters) => Promise<HttpResponse>;
-    patch: (options?: RequestParameters) => Promise<HttpResponse>;
-    delete: (options?: RequestParameters) => Promise<HttpResponse>;
-    head: (options?: RequestParameters) => Promise<HttpResponse>;
-    options: (options?: RequestParameters) => Promise<HttpResponse>;
-    trace: (options?: RequestParameters) => Promise<HttpResponse>;
-  };
+  path: unknown;
   /**
    * This method allows arbitrary paths and doesn't provide strong types
    */
@@ -85,7 +73,6 @@ export function getClient(
   }
 
   const pipeline = createDefaultPipeline(baseUrl, credentials, options);
-  pipeline.removePolicy({ name: "exponentialRetryPolicy" });
   const client = (path: string, ...args: Array<any>) => {
     return {
       get: (options: RequestParameters = {}): Promise<HttpResponse> => {

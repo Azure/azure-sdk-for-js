@@ -11,7 +11,7 @@
  * @azsdk-weight 40
  */
 
-import DocumentTranslator, { BatchSubmissionRequest } from "@azure-rest/ai-document-translator";
+import DocumentTranslator, { BatchSubmissionRequest } from "../"; // "@azure-rest/ai-document-translator";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -58,7 +58,7 @@ export async function main() {
   });
 
   // If we get a non-success status code, throw an error
-  if (formats.status !== 202) {
+  if (formats.status !== "202") {
     throw formats.body.error;
   }
 
@@ -81,7 +81,7 @@ export async function main() {
     operationState = await checkStatus.get();
 
     // If we get a non-success status code, throw the error
-    if (operationState.status !== 200) {
+    if (operationState.status !== "200") {
       throw operationState.body.error;
     }
 
@@ -95,7 +95,7 @@ export async function main() {
   // Now that the operation is complete, we can list the translated documents
   const documents = await client.path("/batches/{id}/documents", batchId).get();
 
-  if (documents.status !== 200) {
+  if (documents.status !== "200") {
     throw documents.body.error;
   }
 
