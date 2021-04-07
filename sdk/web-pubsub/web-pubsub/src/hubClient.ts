@@ -136,8 +136,7 @@ export interface GetAuthenticationTokenResponse {
   url: string;
 }
 
-
-export type Permission = 'joinLeaveGroup' | 'sendToGroup';
+export type Permission = "joinLeaveGroup" | "sendToGroup";
 
 export interface HubGrantPermissionOptions extends OperationOptions {
   /**
@@ -614,27 +613,45 @@ export class WebPubSubServiceClient {
     }
   }
 
-  public async grantPermission(connectionId: string, permission: Permission, options: HubGrantPermissionOptions = {}) {
+  public async grantPermission(
+    connectionId: string,
+    permission: Permission,
+    options: HubGrantPermissionOptions = {}
+  ) {
     const { span, updatedOptions } = createSpan(
       "WebPubSubManagementClient-hub-grantPermission",
       options
     );
 
     try {
-      return this.client.webPubSub.grantPermission(this.hubName, permission, connectionId, updatedOptions);
+      return this.client.webPubSub.grantPermission(
+        this.hubName,
+        permission,
+        connectionId,
+        updatedOptions
+      );
     } finally {
       span.end();
     }
   }
 
-  public async revokePermission(connectionId: string, permission: Permission, options: HubRevokePermissionOptions = {}) {
+  public async revokePermission(
+    connectionId: string,
+    permission: Permission,
+    options: HubRevokePermissionOptions = {}
+  ) {
     const { span, updatedOptions } = createSpan(
       "WebPubSubManagementClient-hub-revokePermission",
       options
     );
 
     try {
-      return this.client.webPubSub.revokePermission(this.hubName, permission, connectionId, updatedOptions);
+      return this.client.webPubSub.revokePermission(
+        this.hubName,
+        permission,
+        connectionId,
+        updatedOptions
+      );
     } finally {
       span.end();
     }
