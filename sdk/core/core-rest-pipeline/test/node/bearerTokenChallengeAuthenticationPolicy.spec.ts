@@ -66,7 +66,7 @@ function parseCAEChallenge(challenges: string): any[] {
     );
 }
 
-async function authenticateRequestOnChallenge(
+async function authorizeRequestOnChallenge(
   challenge: string,
   options: ChallengeCallbackOptions
 ): Promise<boolean> {
@@ -92,7 +92,7 @@ async function authenticateRequestOnChallenge(
     return false;
   }
 
-  setAuthorizationHeader(accessToken);
+  setAuthorizationHeader(accessToken.token);
   return true;
 }
 
@@ -158,12 +158,12 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
-        async authenticateRequest({ previousToken, setAuthorizationHeader }) {
+        async authorizeRequest({ previousToken, setAuthorizationHeader }) {
           if (previousToken) {
-            setAuthorizationHeader(previousToken);
+            setAuthorizationHeader(previousToken.token);
           }
         },
-        authenticateRequestOnChallenge
+        authorizeRequestOnChallenge
       }
     });
     pipeline.addPolicy(bearerPolicy);
@@ -261,12 +261,12 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
-        async authenticateRequest({ previousToken, setAuthorizationHeader }) {
+        async authorizeRequest({ previousToken, setAuthorizationHeader }) {
           if (previousToken) {
-            setAuthorizationHeader(previousToken);
+            setAuthorizationHeader(previousToken.token);
           }
         },
-        authenticateRequestOnChallenge
+        authorizeRequestOnChallenge
       }
     });
     pipeline.addPolicy(bearerPolicy);
@@ -321,12 +321,12 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: "",
       credential,
       challengeCallbacks: {
-        async authenticateRequest({ previousToken, setAuthorizationHeader }) {
+        async authorizeRequest({ previousToken, setAuthorizationHeader }) {
           if (previousToken) {
-            setAuthorizationHeader(previousToken);
+            setAuthorizationHeader(previousToken.token);
           }
         },
-        authenticateRequestOnChallenge
+        authorizeRequestOnChallenge
       }
     });
     pipeline.addPolicy(bearerPolicy);

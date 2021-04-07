@@ -52,14 +52,14 @@ export interface ChallengeCallbacks {
    * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
    * allows developers to easily assign a token to the ongoing request.
    */
-  authenticateRequest?(options: ChallengeCallbackOptions): Promise<void>;
+  authorizeRequest?(options: ChallengeCallbackOptions): Promise<void>;
   /**
-   * Allows to handle authentication challenges and to re-authenticate the request.
+   * Allows to handle authentication challenges and to re-authorize the request.
    * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
    * allows developers to easily assign a token to the ongoing request.
    * If this method returns true, the underlying request will be sent once again.
    */
-  authenticateRequestOnChallenge(
+  authorizeRequestOnChallenge(
     challenge: string,
     options: ChallengeCallbackOptions
   ): Promise<boolean>;
@@ -79,7 +79,7 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
   scopes: string | string[];
   /**
    * Allows for the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
-   * If provided, it must contain at least the `authenticateRequestOnChallenge` method.
+   * If provided, it must contain at least the `authorizeRequestOnChallenge` method.
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */
   challengeCallbacks?: ChallengeCallbacks;
@@ -103,9 +103,9 @@ export async function retrieveToken(
 }
 
 /**
- * Default authenticate request
+ * Default authorize request
  */
-export async function defaultAuthenticateRequest(options: ChallengeCallbackOptions): Promise<void> {
+export async function defaultAuthorizeRequest(options: ChallengeCallbackOptions): Promise<void> {
   const accessToken = await retrieveToken(options);
   if (!accessToken) {
     return;
@@ -114,9 +114,9 @@ export async function defaultAuthenticateRequest(options: ChallengeCallbackOptio
 }
 
 /**
- * Default authenticate request on challenge
+ * Default authorize request on challenge
  */
-export async function defaultAuthenticateRequestOnChallenge(
+export async function defaultAuthorizeRequestOnChallenge(
   challenge: string,
   options: ChallengeCallbackOptions
 ): Promise<boolean> {
@@ -150,9 +150,9 @@ export function bearerTokenChallengeAuthenticationPolicy(
 ): PipelinePolicy {
   const { credential, scopes, challengeCallbacks } = options;
   const callbacks = {
-    authenticateRequest: challengeCallbacks?.authenticateRequest ?? defaultAuthenticateRequest,
-    authenticateRequestOnChallenge:
-      challengeCallbacks?.authenticateRequestOnChallenge ?? defaultAuthenticateRequestOnChallenge,
+    authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
+    authorizeRequestOnChallenge:
+      challengeCallbacks?.authorizeRequestOnChallenge ?? defaultAuthorizeRequestOnChallenge,
     // If any of the properties is set to undefined, it will replace the default values.
     ...challengeCallbacks
   };
@@ -196,8 +196,8 @@ export function bearerTokenChallengeAuthenticationPolicy(
         request.headers.set("Authorization", `Bearer ${token}`);
       }
 
-      if (callbacks?.authenticateRequest) {
-        await callbacks.authenticateRequest({
+      if (callbacks?.authorizeRequest) {
+        await callbacks.authorizeRequest({
           scopes,
           request,
           previousToken: cycler.cachedToken,
@@ -216,9 +216,9 @@ export function bearerTokenChallengeAuthenticationPolicy(
       }
       const challenge = getChallenge(response);
 
-      if (challenge && callbacks?.authenticateRequestOnChallenge) {
+      if (challenge && callbacks?.authorizeRequestOnChallenge) {
         // processes challenge
-        const shouldSendRequest = await callbacks.authenticateRequestOnChallenge(challenge, {
+        const shouldSendRequest = await callbacks.authorizeRequestOnChallenge(challenge, {
           scopes,
           request,
           previousToken: cycler.cachedToken,
