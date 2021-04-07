@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 /**
- *  These are a duplicate of the public SmsClient.spec.ts tests, but with additional logic to enable recording/playback.
+ * ###WORKAROUND###
+ *  This duplicates the public SmsClient.spec.ts tests, but with additional logic to enable recording/playback.
  *  This is a workaround because Http Requests with Randomized UUIDs do not play well with the recorder
  *  These tests will be skipped in Live Mode since the public tests run in live mode only.
  */
@@ -13,9 +14,9 @@ import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import * as sinon from "sinon";
 import { Uuid } from "../../src/utils/uuid";
-import { recorderConfiguration } from "../utils/recordedClient";
+import { recorderConfiguration } from "../public/utils/recordedClient";
 import { Context } from "mocha";
-import smsClientSuites from "../public/suites/smsClientSuites";
+import sendSmsSuites from "../public/suites/smsClient.send";
 
 if (isNode) {
   dotenv.config();
@@ -23,10 +24,6 @@ if (isNode) {
 
 describe("SmsClient [Playback/Record]", async () => {
   let recorder: Recorder;
-
-  before(async function(this: Context) {
-    this.smsClient = new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string);
-  });
 
   beforeEach(async function(this: Context) {
     recorder = record(this, recorderConfiguration);
@@ -40,6 +37,8 @@ describe("SmsClient [Playback/Record]", async () => {
       sinon.stub(Uuid, "generateUuid").returns("sanitized");
       sinon.stub(Date, "now").returns(0);
     }
+
+    this.smsClient = new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string);
   });
 
   afterEach(async function(this: Context) {
@@ -51,5 +50,5 @@ describe("SmsClient [Playback/Record]", async () => {
     }
   });
 
-  describe("when sending SMS", smsClientSuites);
+  describe("when sending SMS", sendSmsSuites);
 });

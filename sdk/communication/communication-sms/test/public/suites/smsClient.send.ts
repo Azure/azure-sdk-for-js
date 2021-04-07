@@ -1,30 +1,10 @@
 import { assert } from "chai";
-import { SmsSendRequest, SmsSendOptions, SmsSendResult } from "../../../src/smsClient";
+import { SmsSendRequest, SmsSendOptions } from "../../../src/smsClient";
 import { env } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
+import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers";
 
 export default function suites() {
-  // helper functions
-  const expectSuccessResult = (actualSmsResult: SmsSendResult, expectedRecipient: string): void => {
-    assert.equal(actualSmsResult.httpStatusCode, 202);
-    assert.equal(actualSmsResult.to, expectedRecipient);
-    assert.isString(actualSmsResult.messageId);
-    assert.isTrue(actualSmsResult.successful);
-    assert.notExists(actualSmsResult.errorMessage, "no error message for success");
-  };
-
-  const expectFailureResult = (
-    actualSmsResult: SmsSendResult,
-    expectedRecipient: string,
-    expectedErrorMessage: string
-  ): void => {
-    assert.equal(actualSmsResult.httpStatusCode, 400);
-    assert.equal(actualSmsResult.to, expectedRecipient);
-    assert.notExists(actualSmsResult.messageId, "no message id for errors");
-    assert.isFalse(actualSmsResult.successful);
-    assert.equal(actualSmsResult.errorMessage, expectedErrorMessage);
-  };
-
   it("can send an SMS message", async function(this: Context) {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
@@ -35,7 +15,7 @@ export default function suites() {
     });
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
-    expectSuccessResult(results[0], validToNumber);
+    assertIsSuccessResult(results[0], validToNumber);
   });
 
   it("can send an SMS message with options passed in", async function(this: Context) {
@@ -54,10 +34,9 @@ export default function suites() {
     );
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
-    expectSuccessResult(results[0], validToNumber);
+    assertIsSuccessResult(results[0], validToNumber);
   });
 
-  // This runs in live mode only
   it("sends a new message each time send is called", async function(this: Context) {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
@@ -75,8 +54,8 @@ export default function suites() {
     const firstResults = await this.smsClient.send(sendRequest, options);
     const secondResults = await this.smsClient.send(sendRequest, options);
 
-    expectSuccessResult(firstResults[0], validToNumber);
-    expectSuccessResult(secondResults[0], validToNumber);
+    assertIsSuccessResult(firstResults[0], validToNumber);
+    assertIsSuccessResult(secondResults[0], validToNumber);
     assert.notEqual(firstResults[0].messageId, secondResults[0].messageId);
   });
 
@@ -98,8 +77,8 @@ export default function suites() {
       "must return as many results as there were recipients"
     );
 
-    expectSuccessResult(results[0], validToNumber);
-    expectFailureResult(results[1], invalidToNumber, "Invalid To phone number format.");
+    assertIsSuccessResult(results[0], validToNumber);
+    assertIsFailureResult(results[1], invalidToNumber, "Invalid To phone number format.");
   });
 
   it("throws an exception when sending from a number you don't own", async function(this: Context) {

@@ -8,6 +8,7 @@ import { assert } from "chai";
 import sinon from "sinon";
 import { SmsClient, SmsSendRequest } from "../../src/smsClient";
 import { FakeHttpClient } from "./utils/fakeHttpClient";
+import { TokenCredential } from "@azure/identity";
 
 const TEST_NUMBER = "+14255550123";
 
@@ -32,6 +33,15 @@ describe("[mocked] SmsClient", async () => {
     it("can instantiate with a url and KeyCredential ", async () => {
       new SmsClient(baseUri, new AzureKeyCredential("banana"));
     });
+
+    it("can instantiate with a token", async () => {
+      let fakeToken:TokenCredential = {
+        getToken: async (_scopes) => {
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        }
+      };
+      new SmsClient(baseUri, fakeToken);
+    })
   });
 
   describe("when sending an SMS", () => {
