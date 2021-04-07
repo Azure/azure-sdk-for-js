@@ -13,7 +13,6 @@ import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersist
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { isNode8, Node8NotSupportedError } from "../../../src/tokenCache/nodeVersion";
 import { Context } from "mocha";
-import { serializeAuthenticationRecord } from "../../../src/msal/utils";
 
 describe("UsernamePasswordCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
