@@ -14,7 +14,7 @@
 
 ## 1.3.0 (2021-04-05)
 
-### Breaking Changes
+### Tracing Changes
 
 - Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
