@@ -5,9 +5,9 @@
 ## Configuration
 
 ```yaml
-package-name: "@azure-rest/ai-document-translation"
-title: DocumentTranslation
-description: Document translation Client
+package-name: "@azure-rest/ai-document-translator"
+title: DocumentTranslator
+description: Document Translator Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
