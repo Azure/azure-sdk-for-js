@@ -102,7 +102,7 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DetectObjectsResponse>
    */
-  detectObjects(url: string, options?: msRest.RequestOptionsBase): Promise<Models.DetectObjectsResponse>;
+  detectObjects(url: string, options?: Models.ComputerVisionClientDetectObjectsOptionalParams): Promise<Models.DetectObjectsResponse>;
   /**
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
@@ -113,8 +113,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectObjects(url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectResult>): void;
-  detectObjects(url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectResult>, callback?: msRest.ServiceCallback<Models.DetectResult>): Promise<Models.DetectObjectsResponse> {
+  detectObjects(url: string, options: Models.ComputerVisionClientDetectObjectsOptionalParams, callback: msRest.ServiceCallback<Models.DetectResult>): void;
+  detectObjects(url: string, options?: Models.ComputerVisionClientDetectObjectsOptionalParams | msRest.ServiceCallback<Models.DetectResult>, callback?: msRest.ServiceCallback<Models.DetectResult>): Promise<Models.DetectObjectsResponse> {
     return this.sendOperationRequest(
       {
         url,
@@ -331,7 +331,7 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetAreaOfInterestResponse>
    */
-  getAreaOfInterest(url: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAreaOfInterestResponse>;
+  getAreaOfInterest(url: string, options?: Models.ComputerVisionClientGetAreaOfInterestOptionalParams): Promise<Models.GetAreaOfInterestResponse>;
   /**
    * @param url Publicly reachable URL of an image.
    * @param callback The callback
@@ -342,8 +342,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAreaOfInterest(url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
-  getAreaOfInterest(url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AreaOfInterestResult>, callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>): Promise<Models.GetAreaOfInterestResponse> {
+  getAreaOfInterest(url: string, options: Models.ComputerVisionClientGetAreaOfInterestOptionalParams, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
+  getAreaOfInterest(url: string, options?: Models.ComputerVisionClientGetAreaOfInterestOptionalParams | msRest.ServiceCallback<Models.AreaOfInterestResult>, callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>): Promise<Models.GetAreaOfInterestResponse> {
     return this.sendOperationRequest(
       {
         url,
@@ -458,7 +458,7 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.GetAreaOfInterestInStreamResponse>
    */
-  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.GetAreaOfInterestInStreamResponse>;
+  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientGetAreaOfInterestInStreamOptionalParams): Promise<Models.GetAreaOfInterestInStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
@@ -469,8 +469,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
-  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AreaOfInterestResult>, callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>): Promise<Models.GetAreaOfInterestInStreamResponse> {
+  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options: Models.ComputerVisionClientGetAreaOfInterestInStreamOptionalParams, callback: msRest.ServiceCallback<Models.AreaOfInterestResult>): void;
+  getAreaOfInterestInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientGetAreaOfInterestInStreamOptionalParams | msRest.ServiceCallback<Models.AreaOfInterestResult>, callback?: msRest.ServiceCallback<Models.AreaOfInterestResult>): Promise<Models.GetAreaOfInterestInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
@@ -524,7 +524,7 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.DetectObjectsInStreamResponse>
    */
-  detectObjectsInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.DetectObjectsInStreamResponse>;
+  detectObjectsInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientDetectObjectsInStreamOptionalParams): Promise<Models.DetectObjectsInStreamResponse>;
   /**
    * @param image An image stream.
    * @param callback The callback
@@ -535,8 +535,8 @@ class ComputerVisionClient extends ComputerVisionClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  detectObjectsInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.DetectResult>): void;
-  detectObjectsInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DetectResult>, callback?: msRest.ServiceCallback<Models.DetectResult>): Promise<Models.DetectObjectsInStreamResponse> {
+  detectObjectsInStream(image: msRest.HttpRequestBody, options: Models.ComputerVisionClientDetectObjectsInStreamOptionalParams, callback: msRest.ServiceCallback<Models.DetectResult>): void;
+  detectObjectsInStream(image: msRest.HttpRequestBody, options?: Models.ComputerVisionClientDetectObjectsInStreamOptionalParams | msRest.ServiceCallback<Models.DetectResult>, callback?: msRest.ServiceCallback<Models.DetectResult>): Promise<Models.DetectObjectsInStreamResponse> {
     return this.sendOperationRequest(
       {
         image,
@@ -759,7 +759,8 @@ const analyzeImageOperationSpec: msRest.OperationSpec = {
     Parameters.visualFeatures,
     Parameters.details,
     Parameters.language0,
-    Parameters.descriptionExclude
+    Parameters.descriptionExclude,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: {
@@ -775,7 +776,7 @@ const analyzeImageOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ImageAnalysis
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -790,7 +791,8 @@ const describeImageOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.maxCandidates,
     Parameters.language0,
-    Parameters.descriptionExclude
+    Parameters.descriptionExclude,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: {
@@ -806,7 +808,7 @@ const describeImageOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ImageDescription
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -817,6 +819,9 @@ const detectObjectsOperationSpec: msRest.OperationSpec = {
   path: "detect",
   urlParameters: [
     Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: {
@@ -832,7 +837,7 @@ const detectObjectsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DetectResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -849,7 +854,7 @@ const listModelsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ListModelsResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -863,7 +868,8 @@ const analyzeImageByDomainOperationSpec: msRest.OperationSpec = {
     Parameters.model
   ],
   queryParameters: [
-    Parameters.language0
+    Parameters.language0,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: {
@@ -879,7 +885,7 @@ const analyzeImageByDomainOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DomainModelResults
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -893,7 +899,8 @@ const recognizePrintedTextOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.detectOrientation,
-    Parameters.language1
+    Parameters.language1,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: {
@@ -909,7 +916,7 @@ const recognizePrintedTextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.OcrResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -922,7 +929,8 @@ const tagImageOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint
   ],
   queryParameters: [
-    Parameters.language0
+    Parameters.language0,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: {
@@ -938,7 +946,7 @@ const tagImageOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TagResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -953,7 +961,8 @@ const generateThumbnailOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.width,
     Parameters.height,
-    Parameters.smartCropping
+    Parameters.smartCropping,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: {
@@ -984,6 +993,9 @@ const getAreaOfInterestOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
+  queryParameters: [
+    Parameters.modelVersion
+  ],
   requestBody: {
     parameterPath: {
       url: "url"
@@ -998,7 +1010,7 @@ const getAreaOfInterestOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AreaOfInterestResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -1011,7 +1023,9 @@ const readOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint
   ],
   queryParameters: [
-    Parameters.language0
+    Parameters.language2,
+    Parameters.pages,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: {
@@ -1027,7 +1041,7 @@ const readOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ReadHeaders
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError,
+      bodyMapper: Mappers.ComputerVisionOcrError,
       headersMapper: Mappers.ReadHeaders
     }
   },
@@ -1046,7 +1060,7 @@ const getReadResultOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ReadOperationResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionOcrError
     }
   },
   serializer
@@ -1062,7 +1076,8 @@ const analyzeImageInStreamOperationSpec: msRest.OperationSpec = {
     Parameters.visualFeatures,
     Parameters.details,
     Parameters.language0,
-    Parameters.descriptionExclude
+    Parameters.descriptionExclude,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: "image",
@@ -1080,7 +1095,7 @@ const analyzeImageInStreamOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ImageAnalysis
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -1091,6 +1106,9 @@ const getAreaOfInterestInStreamOperationSpec: msRest.OperationSpec = {
   path: "areaOfInterest",
   urlParameters: [
     Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: "image",
@@ -1108,7 +1126,7 @@ const getAreaOfInterestInStreamOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AreaOfInterestResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -1123,7 +1141,8 @@ const describeImageInStreamOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.maxCandidates,
     Parameters.language0,
-    Parameters.descriptionExclude
+    Parameters.descriptionExclude,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: "image",
@@ -1141,7 +1160,7 @@ const describeImageInStreamOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ImageDescription
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -1152,6 +1171,9 @@ const detectObjectsInStreamOperationSpec: msRest.OperationSpec = {
   path: "detect",
   urlParameters: [
     Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: "image",
@@ -1169,7 +1191,7 @@ const detectObjectsInStreamOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DetectResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -1184,7 +1206,8 @@ const generateThumbnailInStreamOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.width,
     Parameters.height,
-    Parameters.smartCropping
+    Parameters.smartCropping,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: "image",
@@ -1219,7 +1242,8 @@ const analyzeImageByDomainInStreamOperationSpec: msRest.OperationSpec = {
     Parameters.model
   ],
   queryParameters: [
-    Parameters.language0
+    Parameters.language0,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: "image",
@@ -1237,7 +1261,7 @@ const analyzeImageByDomainInStreamOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.DomainModelResults
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -1251,7 +1275,8 @@ const recognizePrintedTextInStreamOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.detectOrientation,
-    Parameters.language1
+    Parameters.language1,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: "image",
@@ -1269,7 +1294,7 @@ const recognizePrintedTextInStreamOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.OcrResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -1282,7 +1307,8 @@ const tagImageInStreamOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint
   ],
   queryParameters: [
-    Parameters.language0
+    Parameters.language0,
+    Parameters.modelVersion
   ],
   requestBody: {
     parameterPath: "image",
@@ -1300,7 +1326,7 @@ const tagImageInStreamOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.TagResult
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError
+      bodyMapper: Mappers.ComputerVisionErrorResponse
     }
   },
   serializer
@@ -1313,7 +1339,8 @@ const readInStreamOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint
   ],
   queryParameters: [
-    Parameters.language0
+    Parameters.language2,
+    Parameters.pages
   ],
   requestBody: {
     parameterPath: "image",
@@ -1331,7 +1358,7 @@ const readInStreamOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ReadInStreamHeaders
     },
     default: {
-      bodyMapper: Mappers.ComputerVisionError,
+      bodyMapper: Mappers.ComputerVisionOcrError,
       headersMapper: Mappers.ReadInStreamHeaders
     }
   },
