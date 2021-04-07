@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
+import { HttpClient } from "@azure/core-http";
 
 import { Uuid } from "../../src/utils/uuid";
 import { generateSendMessageRequest } from "../../src/utils/smsUtils";
 
-import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
 import { apiVersion } from "../../src/generated/src/models/parameters";
 import { SmsClient, SmsSendRequest } from "../../src/smsClient";
+import { FakeHttpClient } from "../public/utils/fakeHttpClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 const TEST_NUMBER = "+14255550123";
@@ -20,27 +20,7 @@ describe("[mocked] SmsClient Internal", async () => {
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
   let sendRequestSpy: sinon.SinonSpy;
   let uuidStub: sinon.SinonStub;
-  const mockHttpClient: HttpClient = {
-    async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
-      return {
-        status: 202,
-        headers: new HttpHeaders(),
-        request: httpRequest,
-        parsedBody: {
-          value: [
-            {
-              to: TEST_NUMBER,
-              messageId: "id",
-              httpStatusCode: 202,
-              errorMessage: null,
-              repeatabilityResult: "accepted",
-              successful: true
-            }
-          ]
-        }
-      };
-    }
-  };
+  const mockHttpClient: HttpClient = new FakeHttpClient(TEST_NUMBER);
   const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
 
   const testSendRequest: SmsSendRequest = {
@@ -48,14 +28,6 @@ describe("[mocked] SmsClient Internal", async () => {
     to: [TEST_NUMBER],
     message: "message"
   };
-
-  it("can instantiate with a connection string", async () => {
-    new SmsClient(connectionString);
-  });
-
-  it("can instantiate with a url and KeyCredential ", async () => {
-    new SmsClient(baseUri, new AzureKeyCredential("banana"));
-  });
 
   describe("when sending an SMS", () => {
     let smsClient: SmsClient;

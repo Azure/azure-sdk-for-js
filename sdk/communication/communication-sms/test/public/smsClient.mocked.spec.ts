@@ -3,9 +3,6 @@
 
 import {
   HttpClient,
-  HttpHeaders,
-  WebResourceLike,
-  HttpOperationResponse,
   isNode
 } from "@azure/core-http";
 
@@ -13,6 +10,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
 import { SmsClient, SmsSendRequest } from "../../src/smsClient";
+import { FakeHttpClient } from "./utils/fakeHttpClient";
 
 const TEST_NUMBER = "+14255550123";
 
@@ -21,27 +19,7 @@ describe("[mocked] SmsClient", async () => {
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
   const dateHeader = isNode ? "date" : "x-ms-date";
   let sendRequestSpy: sinon.SinonSpy;
-  const mockHttpClient: HttpClient = {
-    async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
-      return {
-        status: 202,
-        headers: new HttpHeaders(),
-        request: httpRequest,
-        parsedBody: {
-          value: [
-            {
-              to: TEST_NUMBER,
-              messageId: "id",
-              httpStatusCode: 202,
-              errorMessage: null,
-              repeatabilityResult: "accepted",
-              successful: true
-            }
-          ]
-        }
-      };
-    }
-  };
+  const mockHttpClient: HttpClient = new FakeHttpClient(TEST_NUMBER);
 
   const testSendRequest: SmsSendRequest = {
     from: TEST_NUMBER,
@@ -49,12 +27,14 @@ describe("[mocked] SmsClient", async () => {
     message: "message"
   };
 
-  it("can instantiate with a connection string", async () => {
-    new SmsClient(connectionString);
-  });
-
-  it("can instantiate with a url and KeyCredential ", async () => {
-    new SmsClient(baseUri, new AzureKeyCredential("banana"));
+  describe("when instantiating SMS client", () => {
+    it("can instantiate with a connection string", async () => {
+      new SmsClient(connectionString);
+    });
+  
+    it("can instantiate with a url and KeyCredential ", async () => {
+      new SmsClient(baseUri, new AzureKeyCredential("banana"));
+    });
   });
 
   describe("when sending an SMS", () => {
