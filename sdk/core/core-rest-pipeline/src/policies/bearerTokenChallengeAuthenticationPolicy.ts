@@ -40,7 +40,29 @@ export interface ChallengeCallbackOptions {
   /**
    * Function that allows easily assigning a token to the request.
    */
-  setAuthorizationHeader: (accessToken: AccessToken) => void;
+  setAuthorizationHeader: (token: string) => void;
+}
+
+/**
+ * Options to override the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
+ */
+export interface ChallengeCallbacks {
+  /**
+   * Allows for the authentication of the main request of this policy before it's sent.
+   * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
+   * allows developers to easily assign a token to the ongoing request.
+   */
+  authenticateRequest?(options: ChallengeCallbackOptions): Promise<void>;
+  /**
+   * Allows to handle authentication challenges and to re-authenticate the request.
+   * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
+   * allows developers to easily assign a token to the ongoing request.
+   * If this method returns true, the underlying request will be sent once again.
+   */
+  authenticateRequestOnChallenge(
+    challenge: string,
+    options: ChallengeCallbackOptions
+  ): Promise<boolean>;
 }
 
 /**
@@ -60,24 +82,7 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
    * If provided, it must contain at least the `authenticateRequestOnChallenge` method.
    * If provided, after a request is sent, if it has a challenge, it can be processed to re-send the original request with the relevant challenge information.
    */
-  challengeCallbacks?: {
-    /**
-     * Allows for the authentication of the main request of this policy before it's sent.
-     * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
-     * allows developers to easily assign a token to the ongoing request.
-     */
-    authenticateRequest?(options: ChallengeCallbackOptions): Promise<void>;
-    /**
-     * Allows to handle authentication challenges and to re-authenticate the request.
-     * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
-     * allows developers to easily assign a token to the ongoing request.
-     * If this method returns true, the underlying request will be sent once again.
-     */
-    authenticateRequestOnChallenge(
-      challenge: string,
-      options: ChallengeCallbackOptions
-    ): Promise<boolean>;
-  };
+  challengeCallbacks?: ChallengeCallbacks;
 }
 
 /**
@@ -105,7 +110,7 @@ export async function defaultAuthenticateRequest(options: ChallengeCallbackOptio
   if (!accessToken) {
     return;
   }
-  options.setAuthorizationHeader(accessToken);
+  options.setAuthorizationHeader(accessToken.token);
 }
 
 /**
@@ -132,7 +137,7 @@ export async function defaultAuthenticateRequestOnChallenge(
     return false;
   }
 
-  setAuthorizationHeader(accessToken);
+  setAuthorizationHeader(accessToken.token);
   return true;
 }
 
@@ -145,8 +150,9 @@ export function bearerTokenChallengeAuthenticationPolicy(
 ): PipelinePolicy {
   const { credential, scopes, challengeCallbacks } = options;
   const callbacks = {
-    authenticateRequest: defaultAuthenticateRequest,
-    authenticateRequestOnChallenge: defaultAuthenticateRequestOnChallenge,
+    authenticateRequest: challengeCallbacks?.authenticateRequest ?? defaultAuthenticateRequest,
+    authenticateRequestOnChallenge:
+      challengeCallbacks?.authenticateRequestOnChallenge ?? defaultAuthenticateRequestOnChallenge,
     // If any of the properties is set to undefined, it will replace the default values.
     ...challengeCallbacks
   };
@@ -186,8 +192,8 @@ export function bearerTokenChallengeAuthenticationPolicy(
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       // Allows users to easily set the authorization header.
-      function setAuthorizationHeader(accessToken: AccessToken): void {
-        request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+      function setAuthorizationHeader(token: string): void {
+        request.headers.set("Authorization", `Bearer ${token}`);
       }
 
       if (callbacks?.authenticateRequest) {
