@@ -38,6 +38,10 @@ export interface AmqpAnnotatedMessage {
    * The message body.
    */
   body: any;
+  /**
+   * The AMQP section where the data was decoded from.
+   */
+  bodyType?: "data" | "sequence" | "value";
 }
 
 /**
