@@ -111,7 +111,7 @@ export class MsalClientCertificate extends MsalNode {
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.
-      return this.handleResult(scopes, result || undefined);
+      return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (err) {
       throw this.handleError(scopes, err, options);
     }

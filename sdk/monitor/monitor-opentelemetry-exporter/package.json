@@ -86,11 +86,11 @@
   },
   "dependencies": {
     "@azure/core-http": "^1.2.0",
-    "@opentelemetry/api": "^0.17.0",
-    "@opentelemetry/core": "^0.17.0",
-    "@opentelemetry/resources": "^0.17.0",
-    "@opentelemetry/semantic-conventions": "^0.17.0",
-    "@opentelemetry/tracing": "^0.17.0",
+    "@opentelemetry/api": "^0.18.1",
+    "@opentelemetry/core": "^0.18.2",
+    "@opentelemetry/resources": "^0.18.2",
+    "@opentelemetry/semantic-conventions": "^0.18.2",
+    "@opentelemetry/tracing": "^0.18.2",
     "tslib": "^2.0.0"
   },
   "sideEffects": false,

@@ -74,8 +74,8 @@ import {
   FieldMapping,
   IndexingParameters,
   IndexingSchedule,
-  LexicalNormalizer,
-  LexicalNormalizerName
+  LexicalNormalizerName,
+  CustomNormalizer
 } from "./generated/service/models";
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -659,6 +659,11 @@ export type TokenFilter =
  * Contains the possible cases for CharFilter.
  */
 export type CharFilter = MappingCharFilter | PatternReplaceCharFilter;
+
+/**
+ * Contains the possible cases for LexicalNormalizer.
+ */
+export type LexicalNormalizer = CustomNormalizer;
 
 /**
  * Contains the possible cases for ScoringFunction.

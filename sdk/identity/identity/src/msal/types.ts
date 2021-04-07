@@ -51,6 +51,10 @@ export interface AuthenticationRecord {
    */
   homeAccountId: string;
   /**
+   * The associated client ID.
+   */
+  clientId: string;
+  /**
    * The associated tenant ID.
    */
   tenantId: string;
@@ -58,17 +62,4 @@ export interface AuthenticationRecord {
    * The username of the logged in account.
    */
   username: string;
-  /**
-   * Function that returns a serialized version of the `AuthenticationRecord`.
-   *
-   * The output of a serialized authentication record will contain the following properties:
-   *
-   *   "authority",
-   *   "home_account_id",
-   *   "tenant_id",
-   *   "username"
-   *
-   * To later use a serialized `AuthenticationRecord`, please use the exported function `deserializeAuthenticationRecord()`.
-   */
-  serialize: () => string;
 }

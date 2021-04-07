@@ -701,6 +701,11 @@
       "packageName": "@azure-tests/perf-search-documents",
       "projectFolder": "sdk/search/perf-tests/search-documents",
       "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
+      "versionPolicyName": "test"
     }
   ]
 }

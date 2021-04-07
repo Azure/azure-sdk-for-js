@@ -17,14 +17,17 @@ import {
   ContainerRegistryRepositoryCreateManifestResponse,
   ContainerRegistryRepositoryGetPropertiesResponse,
   ContainerRegistryRepositorySetPropertiesOptionalParams,
+  ContainerRegistryRepositorySetPropertiesResponse,
   ContainerRegistryRepositoryGetTagsOptionalParams,
   ContainerRegistryRepositoryGetTagsResponse,
   ContainerRegistryRepositoryGetTagPropertiesResponse,
   ContainerRegistryRepositoryUpdateTagAttributesOptionalParams,
+  ContainerRegistryRepositoryUpdateTagAttributesResponse,
   ContainerRegistryRepositoryGetManifestsOptionalParams,
   ContainerRegistryRepositoryGetManifestsResponse,
   ContainerRegistryRepositoryGetRegistryArtifactPropertiesResponse,
   ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams,
+  ContainerRegistryRepositoryUpdateManifestAttributesResponse,
   ContainerRegistryRepositoryGetTagsNextOptionalParams,
   ContainerRegistryRepositoryGetTagsNextResponse,
   ContainerRegistryRepositoryGetManifestsNextOptionalParams,
@@ -120,7 +123,7 @@ export class ContainerRegistryRepository {
   setProperties(
     name: string,
     options?: ContainerRegistryRepositorySetPropertiesOptionalParams
-  ): Promise<void> {
+  ): Promise<ContainerRegistryRepositorySetPropertiesResponse> {
     return this.client.sendOperationRequest(
       { name, options },
       setPropertiesOperationSpec
@@ -169,7 +172,7 @@ export class ContainerRegistryRepository {
     name: string,
     reference: string,
     options?: ContainerRegistryRepositoryUpdateTagAttributesOptionalParams
-  ): Promise<void> {
+  ): Promise<ContainerRegistryRepositoryUpdateTagAttributesResponse> {
     return this.client.sendOperationRequest(
       { name, reference, options },
       updateTagAttributesOperationSpec
@@ -235,7 +238,7 @@ export class ContainerRegistryRepository {
     name: string,
     digest: string,
     options?: ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams
-  ): Promise<void> {
+  ): Promise<ContainerRegistryRepositoryUpdateManifestAttributesResponse> {
     return this.client.sendOperationRequest(
       { name, digest, options },
       updateManifestAttributesOperationSpec
@@ -344,7 +347,9 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.RepositoryProperties
+    },
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -396,7 +401,9 @@ const updateTagAttributesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}/_tags/{reference}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.TagProperties
+    },
     default: {
       bodyMapper: Mappers.AcrErrors
     }
@@ -456,7 +463,9 @@ const updateManifestAttributesOperationSpec: coreClient.OperationSpec = {
   path: "/acr/v1/{name}/_manifests/{digest}",
   httpMethod: "PATCH",
   responses: {
-    200: {},
+    200: {
+      bodyMapper: Mappers.RegistryArtifactProperties
+    },
     default: {
       bodyMapper: Mappers.AcrErrors
     }
