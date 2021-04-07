@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
 import {
+  PipelineRequest,
   ChallengeCallbackOptions,
   ChallengeCallbacks,
   parseWWWAuthenticate
-} from "./bearerTokenChallengeAuthenticationPolicy";
+} from "@azure/core-rest-pipeline";
 import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
@@ -40,12 +40,12 @@ export class ChallengeHandler implements ChallengeCallbacks {
   /**
    * Updates  the authentication context based on the challenge.
    */
-  async authenticateRequestOnChallenge(
-    challenge: string,
-    options: ChallengeCallbackOptions
-  ): Promise<boolean> {
+  async authorizeRequestOnChallenge(options: ChallengeCallbackOptions): Promise<boolean> {
     // Once we're here, we've completed Step 1.
-
+    const challenge = options.response?.headers.get("WWW-Authenticate");
+    if (!challenge) {
+      throw new Error("Failed to retrieve challenge from response headers");
+    }
     // Step 2: Parse challenge string to retrieve serviceName and scope, where scope is the ACR Scope
     const { service, scope } = parseWWWAuthenticate(challenge);
 

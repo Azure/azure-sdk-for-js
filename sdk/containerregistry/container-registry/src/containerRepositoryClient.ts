@@ -4,7 +4,10 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { TokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import {
+  InternalPipelineOptions,
+  bearerTokenChallengeAuthenticationPolicy
+} from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import "@azure/core-paging";
@@ -27,7 +30,6 @@ import {
 } from "./model";
 import { extractNextLink } from "./utils";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
-import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChallengeAuthenticationPolicy";
 
 /**
  * Options for the `getProperties` method of `ContainerRepositoryClient`.
