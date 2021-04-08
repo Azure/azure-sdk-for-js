@@ -7,6 +7,7 @@ products:
   - azure-cognitive-services
   - azure-document-translator
 urlFragment: ai-document-translator-typescript
+disableDocsMs: true
 ---
 
 # Azure Document Translator client library samples for TypeScript

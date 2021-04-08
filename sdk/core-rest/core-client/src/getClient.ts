@@ -119,7 +119,7 @@ export function getClient(
 function isCredential(
   param: (TokenCredential | KeyCredential) | PipelineOptions
 ): param is TokenCredential | KeyCredential {
-  if ((param as any).key || isTokenCredential(param)) {
+  if ((param as KeyCredential).key !== undefined || isTokenCredential(param)) {
     return true;
   }
 

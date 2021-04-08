@@ -4,9 +4,12 @@
 /**
  * This sample demonstrates how translate a colletion of documents stored in a Azure Storage Blob container
  * and output the translated documents to another container.
+ *
  * Translating documents is considered a Long Running Operation because it may take a long time to complete,
  * specially if translating large files or a batch with several files.
+ *
  * To handle these long running operations we need to call a few different endpoints, to track the status of the operation
+ *
  * @summary translates a collection of documents
  * @azsdk-weight 40
  */

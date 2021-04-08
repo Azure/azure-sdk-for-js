@@ -28,5 +28,5 @@ extends:
   parameters:
     ServiceDirectory: documenttranslator
     Artifacts:
-      - name: azure-ai-document-translator-rest
+      - name: azure-rest-ai-document-translator
         safeName: azurerestaidocumenttranslator

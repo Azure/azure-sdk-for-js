@@ -28,7 +28,7 @@ export function createDefaultPipeline(
     if (isTokenCredential(credential)) {
       credentialPolicy = bearerTokenAuthenticationPolicy({
         credential,
-        scopes: options.credentials?.scopes || `${baseUrl}/.default`,
+        scopes: options.credentials?.scopes ?? `${baseUrl}/.default`,
       });
     } else {
       if (!options.credentials?.apiKeyHeaderName) {
