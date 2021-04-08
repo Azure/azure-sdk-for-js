@@ -8,14 +8,14 @@ products:
 urlFragment: communication-identity-typescript
 ---
 
-# Azure Communication Services client library samples for TypeScript
+# Azure Communication Services - Identity client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Communication Services in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Communication Services - Identity in some common scenarios.
 
-| **File Name**                   | **Description**                                                                    |
-| ------------------------------- | ---------------------------------------------------------------------------------- |
-| [issueToken.ts][issuetoken]     | Demonstrates how to use the CommunicationIdentityClient to issue a new user token. |
-| [revokeTokens.ts][revoketokens] | Demonstrates how to use the CommunicationIdentityClient to revoke a user's tokens. |
+| **File Name**                   | **Description**         |
+| ------------------------------- | ----------------------- |
+| [issueToken.ts][issuetoken]     | Issue a new user token. |
+| [revokeTokens.ts][revoketokens] | Revoke user tokens.     |
 
 ## Prerequisites
 
@@ -27,7 +27,9 @@ Before running the samples in Node, they must be compiled to JavaScript using th
 npm install -g typescript
 ```
 
-You need [an Azure subscription][freesub] to run these sample programs.
+You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
+
+- [Azure Communication Services account][createinstance_azurecommunicationservicesaccount]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -71,5 +73,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-identity/samples/v1/typescript/src/revokeTokens.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-identity
 [freesub]: https://azure.microsoft.com/free/
+[createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-identity/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

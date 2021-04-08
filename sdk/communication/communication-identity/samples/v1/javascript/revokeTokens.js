@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to use the CommunicationIdentityClient to
- * revoke a user's tokens.
+ * @summary Revoke user tokens.
  */
 
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
