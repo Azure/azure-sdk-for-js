@@ -40,7 +40,7 @@ function getSampleAmqpAnnotatedMessage(randomTag?: string): AmqpAnnotatedMessage
     body: `message body ${randomTag}`,
     bodyType: "data",
     header: {
-      deliveryCount: 10,
+      deliveryCount: 10, // TODO: Doesn't make sense to set on the message to be sent, should this be removed for sending?
       durable: false,
       firstAcquirer: false,
       priority: 20,
@@ -60,7 +60,7 @@ function getSampleAmqpAnnotatedMessage(randomTag?: string): AmqpAnnotatedMessage
     properties: {
       contentEncoding: "application/json; charset=utf-8",
       correlationId: randomTag,
-      messageId: generateUuid() // Add more fields }
+      messageId: generateUuid()
     }
   };
 }
