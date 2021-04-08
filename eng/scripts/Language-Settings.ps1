@@ -162,38 +162,52 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
   $latestMetadata = $filteredMetadata | Where-Object { $_.VersionGA }
   $previewPackageList = @()
   $latestPackageList = @()
-  for ($i = 0; $i -lt $previewMetadata.Length; $i++) {
-    $preview_object = @{}
-    $preview_object["name"] = "$($previewMetadata[$i].Package)@next"
-    $previewPackageList += $preview_object
-  }
-  for ($i = 0; $i -lt $latestMetadata.Length; $i++) {
-    $latest_object = @{}
-    $latest_object["name"] = "$($latestMetadata[$i].Package)"
-    $latestPackageList += $latest_object
-  }
+    
   # Read package list from package.json
   $pkgLatestJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo[0])
-  $pkgPreviewJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo[1])
   if (-not (Test-Path $pkgLatestJsonLoc)) {
     Write-Error "Unable to locate latest package csv at location $pkgLatestJsonLoc, exiting."
     exit(1)
   }
+  $pkgPreviewJsonLoc = (Join-Path -Path $ciRepo -ChildPath $locationInDocRepo[1])
   if (-not (Test-Path $pkgPreviewJsonLoc)) {
     Write-Error "Unable to locate latest package csv at location $pkgPreviewJsonLoc, exiting."
     exit(1)
   }
-  
   $allLatestCSVRows = Get-Content $pkgLatestJsonLoc | Out-String | ConvertFrom-Json
   $allPreviewCSVRows = Get-Content $pkgPreviewJsonLoc | Out-String | ConvertFrom-Json
   $latestPackages = $allLatestCSVRows.npm_package_sources
+  $previewPackages = $allPreviewCSVRows.npm_package_sources
+  for ($i = 0; $i -lt $previewMetadata.Length; $i++) {
+    $preview_object = $latestPackages | Where-Object { $_.name -like $($previewMetadata[$i].Package) }
+    if (!$preview_object) {
+      $preview_object = $previewPackages | Where-Object { $_.name -like $($previewMetadata[$i].Package) }
+    }
+    if (!$preview_object) {
+      $preview_object = @{}
+    }
+    $preview_object["name"] = "$($previewMetadata[$i].Package)@next"
+    $previewPackageList += $preview_object
+  }
+  for ($i = 0; $i -lt $latestMetadata.Length; $i++) {
+    $latest_object = $latestPackages | Where-Object { $_.name -like $($latestMetadata[$i].Package) }
+    if (!$latest_object) {
+      $latest_object = $previewPackages | Where-Object { $_.name -like $($latestMetadata[$i].Package) }
+    }
+    if (!$latest_object) {
+      $latest_object = @{}
+    }
+    $latest_object["name"] = "$latestMetadata[$i].Package"
+    $latestPackageList += $latest_object
+  }
+
+
   for ($j = 0; $j -lt $latestPackages.Length; $j++) {
     $pkg = $latestPackages[$j].name
     if (!($filteredMetadata.Package -contains $pkg)) {
       $latestPackageList += $latestPackages[$j]
     }
   }
-  $previewPackages = $allPreviewCSVRows.npm_package_sources
   for ($j = 0; $j -lt $previewPackages.Length; $j++) {
     $pkg = "$($previewPackages[$j].name)" -replace "(.*)@next", "`$1"
     if (!($filteredMetadata.Package -contains $pkg)) {
