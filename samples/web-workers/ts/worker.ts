@@ -1,3 +1,4 @@
+/// <reference lib="webworker"/>
 import "./polyfill.worker";
 
 import { ContainerClient } from "@azure/storage-blob";

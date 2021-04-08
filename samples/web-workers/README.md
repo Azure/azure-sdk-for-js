@@ -41,7 +41,7 @@ Once the deployment completes, head over to the "outputs" tab and copy the outpu
 
 Once the above resources are created you'll want to ensure our application has the necessary environment variables. To do this, copy `sample.env` as `.env` and provide the necessary environment variables to configure the application. You can get the values from the output tab of the deployment.
 
-> Remember: we are using a connection string to keep this sample simple; however, parcel will embed the connection string into your published bundle which is not suitable for production as it may leak secrets. For production client side applications, you may visit the [@azure/identity][identity] docs and learn more about securing application access in the browser.
+> Remember: we are using a connection string to keep this sample simple; however, parcel will embed the connection string into your published bundle which is not suitable for production as it may leak secrets. For production client side applications, you may be interested in the [@azure/identity][identity] package which provides a set of credential implementations for both NodeJS and the browser.
 
 Install the various packages as well as the TypeScript compiler using:
 
@@ -63,4 +63,4 @@ Parcel will bundle your application code and launch a server running at `http://
 [freesub]: https://azure.microsoft.com/free
 [storageblob]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
 [storageblobsas]: https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-using-a-shared-access-signature
-[identity]: https://docs.microsoft.com/javascript/api/@azure/identity
+[identity]: https://www.npmjs.com/package/@azure/identity
