@@ -61,7 +61,10 @@ export class ChainedTokenCredential implements TokenCredential {
       try {
         token = await this._sources[i].getToken(scopes, updatedOptions);
       } catch (err) {
-        if (err.name === "CredentialUnavailableError") {
+        if (
+          err.name === "CredentialUnavailableError" ||
+          err.name === "AuthenticationRequiredError"
+        ) {
           errors.push(err);
         } else {
           logger.getToken.info(formatError(scopes, err));

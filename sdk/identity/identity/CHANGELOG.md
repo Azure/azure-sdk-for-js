@@ -2,6 +2,7 @@
 
 ## 2.0.0-beta.3 (Unreleased)
 
+- `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError` which is to allow the next credential in the chain to be tried.
 
 ## 2.0.0-beta.2 (2021-04-06)
 
