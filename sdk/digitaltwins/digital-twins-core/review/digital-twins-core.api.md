@@ -99,14 +99,17 @@ export class DigitalTwinsClient {
     listModels(dependeciesFor?: string[], includeModelDefinition?: boolean, resultsPerPage?: number, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<DigitalTwinsModelData, DigitalTwinModelsListResponse>;
     listRelationships(digitalTwinId: string, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse>;
     publishComponentTelemetry(digitalTwinId: string, componentName: string, payload: string, messageId: string, options?: OperationOptions): Promise<RestResponse>;
-    publishTelemetry(digitalTwinId: string, payload: any, messageId: string, options?: OperationOptions): Promise<RestResponse>;
+    publishTelemetry(digitalTwinId: string, payload: any, // eslint-disable-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
+    messageId: string, options?: OperationOptions): Promise<RestResponse>;
     queryTwins(query: string, resultsPerPage?: number, options?: OperationOptions & PageSettings): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
     updateComponent(digitalTwinId: string, componentName: string, jsonPatch: any[], options?: DigitalTwinsUpdateComponentOptionalParams): Promise<DigitalTwinsUpdateComponentResponse>;
-    updateDigitalTwin(digitalTwinId: string, jsonPatch: any, options?: DigitalTwinsUpdateOptionalParams): Promise<DigitalTwinsUpdateResponse>;
+    updateDigitalTwin(digitalTwinId: string, jsonPatch: any, // eslint-disable-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
+    options?: DigitalTwinsUpdateOptionalParams): Promise<DigitalTwinsUpdateResponse>;
     updateRelationship(digitalTwinId: string, relationshipId: string, jsonPatch: any[], options?: DigitalTwinsUpdateRelationshipOptionalParams): Promise<DigitalTwinsUpdateRelationshipResponse>;
     upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: DigitalTwinsAddOptionalParams): Promise<DigitalTwinsAddResponse>;
     upsertEventRoute(eventRouteId: string, endpointId: string, filter: string, options?: OperationOptions): Promise<RestResponse>;
-    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, options?: DigitalTwinsAddRelationshipOptionalParams): Promise<DigitalTwinsAddRelationshipResponse>;
+    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, // eslint-disable-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
+    options?: DigitalTwinsAddRelationshipOptionalParams): Promise<DigitalTwinsAddRelationshipResponse>;
 }
 
 // @public (undocumented)
