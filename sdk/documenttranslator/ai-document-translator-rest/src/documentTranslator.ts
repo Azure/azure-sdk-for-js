@@ -252,11 +252,7 @@ export interface Routes {
   /** Resource for '/batches' has methods for the following verbs: post, get */
   (path: "/batches"): GetOperations;
   /** Resource for '/batches/{id}/documents/{documentId}' has methods for the following verbs: get */
-  (
-    path: "/batches/{id}/documents/{documentId}",
-    id: string,
-    documentId: string
-  ): GetDocumentStatus;
+  (path: "/batches/{id}/documents/{documentId}", id: string, documentId: string): GetDocumentStatus;
   /** Resource for '/batches/{id}' has methods for the following verbs: get, delete */
   (path: "/batches/{id}", id: string): CancelOperation;
   /** Resource for '/batches/{id}/documents' has methods for the following verbs: get */
@@ -274,11 +270,7 @@ export type DocumentTranslator = Client & {
 };
 
 export interface DocumentTranslatorFactory {
-  (
-    endpoint: string,
-    credentials: TokenCredential | KeyCredential,
-    options?: ClientOptions
-  ): void;
+  (endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): void;
 }
 
 export default function DocumentTranslator(
@@ -288,10 +280,7 @@ export default function DocumentTranslator(
 ): DocumentTranslator {
   const baseUrl =
     options.baseUrl ||
-    "{endpoint}/translator/text/batch/v1.0-preview.1".replace(
-      /{endpoint}/g,
-      endpoint
-    );
+    "{endpoint}/translator/text/batch/v1.0-preview.1".replace(/{endpoint}/g, endpoint);
   options = {
     ...options,
     credentials: {
