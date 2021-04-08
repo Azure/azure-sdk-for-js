@@ -83,6 +83,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updateandupsertentities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/samples/v12/typescript/src/updateAndUpsertEntities.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/data-tables
 [freesub]: https://azure.microsoft.com/free/
-[createinstance_azurestorageinstance]: https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-quickstart-portal
+[createinstance_azurestorageinstance]: https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/tables/data-tables/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
