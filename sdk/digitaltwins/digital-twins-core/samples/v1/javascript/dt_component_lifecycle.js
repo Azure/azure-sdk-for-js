@@ -2,14 +2,17 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 /**
- * @summary Scenario example of how to:
-  - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
-  - create model, component and twin
-  - create digital twin based on the model
-  - update component
-  - get component
-  - delete twin
-  - decommission and delete model, component
+ * This sample illustrates the lifecycle of a component using a scenario that shows how to:
+ * - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
+ * - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
+ * - create model, component and twin
+ * - create digital twin based on the model
+ * - update component
+ * - get component
+ * - delete twin
+ * - decommission and delete model, component
+ *
+ * @summary demonstrates the lifecycle (create, update, get, decommission, delete) of a component
  */
 
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -74,10 +77,8 @@ async function main() {
   };
 
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
-  let url;
-  if (process.env.AZURE_DIGITALTWINS_URL) {
-    url = process.env.AZURE_DIGITALTWINS_URL;
-  } else {
+  const url = process.env.AZURE_DIGITALTWINS_URL;
+  if (url === undefined) {
     throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
 

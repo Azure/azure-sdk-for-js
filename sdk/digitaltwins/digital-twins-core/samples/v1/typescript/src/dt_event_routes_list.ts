@@ -11,12 +11,9 @@ import { inspect } from "util";
 
 async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
-  let url: string;
-  if (process.env.AZURE_DIGITALTWINS_URL) {
-    url = process.env.AZURE_DIGITALTWINS_URL
-  }
-  else {
-    throw new Error('Required environment variable AZURE_DIGITALTWINS_URL is not set.')
+  const url = process.env.AZURE_DIGITALTWINS_URL;
+  if (url === undefined) {
+    throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
 
   // DefaultAzureCredential is provided by @azure/identity. It supports

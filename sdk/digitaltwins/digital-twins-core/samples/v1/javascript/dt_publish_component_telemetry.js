@@ -12,10 +12,8 @@ const { v4 } = require("uuid");
 
 async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
-  let url;
-  if (process.env.AZURE_DIGITALTWINS_URL) {
-    url = process.env.AZURE_DIGITALTWINS_URL;
-  } else {
+  const url = process.env.AZURE_DIGITALTWINS_URL;
+  if (url === undefined) {
     throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
 

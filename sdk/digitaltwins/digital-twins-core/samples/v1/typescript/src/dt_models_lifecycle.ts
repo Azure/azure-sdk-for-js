@@ -2,13 +2,15 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 /**
- * @summary Scenario example of how to:
-  - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
-  - create two models, one model and one component model
-  - get created models by modelIds one by one
-  - list all models by listing them using the paginated API
-  - decommission the created models
-  - delete the created models
+ * This sample illustrates the lifecycle of a model using a scenario that shows how to:
+ * - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
+ * - create two models, one model and one component model
+ * - get created models by modelIds one by one
+ * - list all models by listing them using the paginated API
+ * - decommission the created models
+ * - delete the created models
+ * 
+ * @summary demonstrates the lifecycle (create, get, list, decommission, delete) of a model
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -19,8 +21,12 @@ import { v4 } from "uuid";
 // For the purpose of this example we will create temporary model and a temporary component model using random Ids.
 // We have to make sure these model Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
-  const modelId = `dtmi:model_${v4().split('-').join("")};1`;
-  const componentId = `dtmi:component_${v4().split('-').join("")};1`;
+  const modelId = `dtmi:model_${v4()
+    .split("-")
+    .join("")};1`;
+  const componentId = `dtmi:component_${v4()
+    .split("-")
+    .join("")};1`;
 
   const temporaryComponent = {
     "@id": componentId,
@@ -66,12 +72,9 @@ async function main() {
   };
 
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
-  let url: string;
-  if (process.env.AZURE_DIGITALTWINS_URL) {
-    url = process.env.AZURE_DIGITALTWINS_URL
-  }
-  else {
-    throw new Error('Required environment variable AZURE_DIGITALTWINS_URL is not set.')
+  const url = process.env.AZURE_DIGITALTWINS_URL;
+  if (url === undefined) {
+    throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
 
   // DefaultAzureCredential is provided by @azure/identity. It supports

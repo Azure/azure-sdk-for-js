@@ -10,28 +10,26 @@ import { DigitalTwinsClient } from "@azure/digital-twins-core";
 import { inspect } from "util";
 
 async function main() {
-  try {
-    // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
-    let url: string;
-    if (process.env.AZURE_DIGITALTWINS_URL) {
-      url = process.env.AZURE_DIGITALTWINS_URL;
-    } else {
-      throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
-    }
-
-    // DefaultAzureCredential is provided by @azure/identity. It supports
-    // different authentication mechanisms and determines the appropriate
-    // credential type based of the environment it is executing in. See
-    // https://www.npmjs.com/package/@azure/identity for more information on
-    // authenticating with DefaultAzureCredential or other implementations of
-    // TokenCredential.
-    const credential = new DefaultAzureCredential();
-    const serviceClient = new DigitalTwinsClient(url, credential);
-
-    console.log(inspect(serviceClient));
-  } catch (err) {
-    console.log(err);
+  // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
+  const url = process.env.AZURE_DIGITALTWINS_URL;
+  if (url === undefined) {
+    throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
+
+  // DefaultAzureCredential is provided by @azure/identity. It supports
+  // different authentication mechanisms and determines the appropriate
+  // credential type based of the environment it is executing in. See
+  // https://www.npmjs.com/package/@azure/identity for more information on
+  // authenticating with DefaultAzureCredential or other implementations of
+  // TokenCredential.
+  const credential = new DefaultAzureCredential();
+  const serviceClient = new DigitalTwinsClient(url, credential);
+
+  console.log(inspect(serviceClient));
 }
 
-main();
+main().catch((err) => {
+  console.log("error code: ", err.code);
+  console.log("error message: ", err.message);
+  console.log("error stack: ", err.stack);
+});

@@ -2,12 +2,14 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 /**
- * @summary Scenario example of how to:
-  - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
-  - create digital twin based on a model
-  - get digital twin
-  - update digital twin using JSON patch
-  - delete digital twin
+ * This sample illustrates the lifecycle of a digital twin using a scenario that shows how to:
+ * - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
+ * - create digital twin based on a model
+ * - get digital twin
+ * - update digital twin using JSON patch
+ * - delete digital twin
+ * 
+ * @summary demonstrates the lifecycle (create, get, update, delete) of a digital twin
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,10 +23,8 @@ import building from "./dtdl/models/building.json";
 // We have to make sure these Ids are unique within the DT instance so we use generated UUIDs.
 async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
-  let url: string;
-  if (process.env.AZURE_DIGITALTWINS_URL) {
-    url = process.env.AZURE_DIGITALTWINS_URL;
-  } else {
+  const url = process.env.AZURE_DIGITALTWINS_URL;
+  if (url === undefined) {
     throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
 

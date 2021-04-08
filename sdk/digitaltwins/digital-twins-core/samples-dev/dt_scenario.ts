@@ -2,36 +2,39 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 /**
- * @summary This sample creates all the models in \DTDL\Models folder in the ADT service instance
-  and creates the corresponding twins in \DTDL\DigitalTwins folder
-  The Diagram for the Hospital model looks like this:
-      +------------+
-      |  Building  +-----isEquippedWith-----+
-      +------------+                        |
-            |                               v
-           has                           +-----+
-            |                            | HVAC|
-            v                            +-----+
-      +------------+                        |
-      |   Floor    +<--controlsTemperature--+
-      +------------+
-            |
-         contains
-            |
-            v
-      +------------+                 +-----------------+
-      |   Room     |-with component->| WifiAccessPoint |
-      +------------+                 +-----------------+
-  Scenario example of how to:
-  - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
-  - create models from file
-  - get created models by modelIds one by one
-  - get all models by listing them using the pagianted API
-  - delete the created eventRoutes
-  - delete the created relationships
-  - delete the created digital twins
-  - decommission the created models
-  - delete the created models
+ * This sample creates all the models in \DTDL\Models folder in the ADT service instance
+ * and creates the corresponding twins in \DTDL\DigitalTwins folder
+ * The Diagram for the Hospital model looks like this:
+ * +------------+
+ * |  Building  +-----isEquippedWith-----+
+ * +------------+                        |
+ *       |                               v
+ *      has                           +-----+
+ *       |                            | HVAC|
+ *       v                            +-----+
+ * +------------+                        |
+ * |   Floor    +<--controlsTemperature--+
+ * +------------+
+ *       |
+ *    contains
+ *       |
+ *       v
+ * +------------+                 +-----------------+
+ * |   Room     |-with component->| WifiAccessPoint |
+ * +------------+                 +-----------------+
+ * 
+ * Scenario example of how to:
+ * - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
+ * - create models from file
+ * - get created models by modelIds one by one
+ * - get all models by listing them using the pagianted API
+ * - delete the created eventRoutes
+ * - delete the created relationships
+ * - delete the created digital twins
+ * - decommission the created models
+ * - delete the created models
+ * 
+ * @summary Demonstrates a scenario with models, digital twins, event routes, and relationships using the DTDL examples found in the DTDL folder.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -54,10 +57,8 @@ import hospitalRelationships from "./dtdl/relationships/hospitalRelationships.js
 
 async function main() {
   // AZURE_DIGITALTWINS_URL: The URL to your Azure Digital Twins instance
-  let url: string;
-  if (process.env.AZURE_DIGITALTWINS_URL) {
-    url = process.env.AZURE_DIGITALTWINS_URL;
-  } else {
+  const url = process.env.AZURE_DIGITALTWINS_URL;
+  if (url === undefined) {
     throw new Error("Required environment variable AZURE_DIGITALTWINS_URL is not set.");
   }
 
