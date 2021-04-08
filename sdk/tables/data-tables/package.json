@@ -132,7 +132,7 @@
       "azure-data-tables"
     ],
     "requiredResources": {
-      "Azure Storage instance": "https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-quickstart-portal"
+      "Azure Storage instance": "https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal"
     }
   },
   "//metadata": {
