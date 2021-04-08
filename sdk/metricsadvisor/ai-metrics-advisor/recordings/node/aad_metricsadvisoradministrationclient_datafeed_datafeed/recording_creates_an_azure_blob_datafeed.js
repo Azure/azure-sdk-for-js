@@ -5,7 +5,7 @@ module.exports.hash = "e63471a38236c5985bbc85fedfb02984";
 module.exports.testInfo = {"uniqueName":{"js-test-datafeed-":"js-test-datafeed-161070010542107518","js-test-appInsightsFeed-":"js-test-appInsightsFeed-161070010542102492","js-test-sqlServerFeed-":"js-test-sqlServerFeed-161070010542102400","js-test-cosmosFeed-":"js-test-cosmosFeed-161070010542200153","js-test-dataExplorerFeed-":"js-test-dataExplorerFeed-161070010542200658","js-test-tableFeed-":"js-test-tableFeed-161070010542200056","js-test-httpRequestFeed-":"js-test-httpRequestFeed-161070010542207035","js-test-influxdbFeed-":"js-test-influxdbFeed-161070010542202167","js-test-mongoDbFeed-":"js-test-mongoDbFeed-161070010542202854","js-test-mySqlFeed-":"js-test-mySqlFeed-161070010542206773","js-test-postgreSqlFeed-":"js-test-postgreSqlFeed-161070010542201274"},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',

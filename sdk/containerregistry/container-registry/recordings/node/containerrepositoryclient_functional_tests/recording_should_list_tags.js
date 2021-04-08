@@ -6,7 +6,7 @@ module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
 nock("https://login.microsoftonline.com:443", { encodedQueryParams: true })
   .post(
-    "/azure_tenant_id/oauth2/v2.0/token",
+    "/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
     "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagement.core.windows.net%2F.default"
   )
   .reply(
@@ -178,7 +178,7 @@ nock("https://myregistry.azurecr.io:443", { encodedQueryParams: true })
 
 nock("https://login.microsoftonline.com:443", { encodedQueryParams: true })
   .post(
-    "/azure_tenant_id/oauth2/token",
+    "/12345678-1234-1234-1234-123456789012/oauth2/token",
     "grant_type=client_credentials&client_id=azure_client_id&resource=https%3A%2F%2Fmanagement.core.windows.net%2F&client_secret=azure_client_secret"
   )
   .query(true)
@@ -367,7 +367,7 @@ nock("https://management.azure.com:443", { encodedQueryParams: true })
 
 nock("https://login.microsoftonline.com:443", { encodedQueryParams: true })
   .post(
-    "/azure_tenant_id/oauth2/v2.0/token",
+    "/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
     "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagement.core.windows.net%2F.default"
   )
   .reply(

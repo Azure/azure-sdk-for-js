@@ -14,7 +14,7 @@ nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryPar
   'x-content-type-options',
   'nosniff',
   'www-authenticate',
-  'Bearer authorization="https://login.windows-ppe.net/azure_tenant_id", resource="https://managedhsm-int.azure-int.net"',
+  'Bearer authorization="https://login.windows-ppe.net/12345678-1234-1234-1234-123456789012", resource="https://managedhsm-int.azure-int.net"',
   'x-frame-options',
   'SAMEORIGIN',
   'content-length',

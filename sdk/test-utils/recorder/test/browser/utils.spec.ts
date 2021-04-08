@@ -75,7 +75,7 @@ describe("Browser utils", () => {
         input: [
           {
             method: "POST",
-            url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+            url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
             query: {},
             requestBody:
               "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
@@ -101,7 +101,7 @@ describe("Browser utils", () => {
         output: [
           {
             method: "POST",
-            url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+            url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
             query: {},
             requestBody:
               "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
@@ -130,7 +130,7 @@ describe("Browser utils", () => {
         input: [
           {
             method: "POST",
-            url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+            url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
             query: {},
             requestBody:
               "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
@@ -147,7 +147,7 @@ describe("Browser utils", () => {
         output: [
           {
             method: "POST",
-            url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+            url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
             query: {},
             requestBody:
               "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
@@ -167,7 +167,7 @@ describe("Browser utils", () => {
         input: [
           {
             method: "POST",
-            url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+            url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
             query: {},
             requestBody:
               "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
@@ -184,7 +184,7 @@ describe("Browser utils", () => {
         output: [
           {
             method: "POST",
-            url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+            url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
             query: {},
             requestBody:
               "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
@@ -277,7 +277,7 @@ describe("Browser utils", () => {
         name: `"avro/binary" matches`,
         input: {
           method: "POST",
-          url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+          url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
           query: {},
           requestBody:
             "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
@@ -297,7 +297,7 @@ describe("Browser utils", () => {
         name: `"avro/binary" matches with an array of expected content types`,
         input: {
           method: "POST",
-          url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+          url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
           query: {},
           requestBody:
             "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
@@ -317,7 +317,7 @@ describe("Browser utils", () => {
         name: `"text/plain" should not match with an array of different content types`,
         input: {
           method: "POST",
-          url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+          url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
           query: {},
           requestBody:
             "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",
@@ -337,7 +337,7 @@ describe("Browser utils", () => {
         name: "application/json; charset=utf-8",
         input: {
           method: "POST",
-          url: "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+          url: "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
           query: {},
           requestBody:
             "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fvault.azure.net%2F.default",

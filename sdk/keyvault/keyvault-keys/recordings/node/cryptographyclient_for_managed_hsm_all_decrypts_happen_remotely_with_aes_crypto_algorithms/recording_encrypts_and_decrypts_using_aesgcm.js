@@ -15,7 +15,7 @@ nock("https://azure_managedhsm.managedhsm.azure.net:443", { encodedQueryParams: 
     "x-content-type-options",
     "nosniff",
     "www-authenticate",
-    'Bearer authorization="https://login.microsoftonline.com/azure_tenant_id", resource="https://managedhsm.azure.net"',
+    'Bearer authorization="https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012", resource="https://managedhsm.azure.net"',
     "x-frame-options",
     "SAMEORIGIN",
     "content-length",
@@ -32,7 +32,7 @@ nock("https://azure_managedhsm.managedhsm.azure.net:443", { encodedQueryParams: 
 
 nock("https://login.microsoftonline.com:443", { encodedQueryParams: true })
   .post(
-    "/azure_tenant_id/oauth2/v2.0/token",
+    "/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
     "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default"
   )
   .reply(
@@ -131,7 +131,7 @@ nock("https://azure_managedhsm.managedhsm.azure.net:443", { encodedQueryParams: 
     "x-content-type-options",
     "nosniff",
     "www-authenticate",
-    'Bearer authorization="https://login.microsoftonline.com/azure_tenant_id", resource="https://managedhsm.azure.net"',
+    'Bearer authorization="https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012", resource="https://managedhsm.azure.net"',
     "x-frame-options",
     "SAMEORIGIN",
     "content-length",
@@ -152,7 +152,7 @@ nock("https://azure_managedhsm.managedhsm.azure.net:443", { encodedQueryParams: 
 
 nock("https://login.microsoftonline.com:443", { encodedQueryParams: true })
   .post(
-    "/azure_tenant_id/oauth2/v2.0/token",
+    "/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
     "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default"
   )
   .reply(

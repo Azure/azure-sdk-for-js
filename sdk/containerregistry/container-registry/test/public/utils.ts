@@ -10,7 +10,7 @@ import { ContainerRegistryClient, ContainerRepositoryClient } from "../../src";
 // are mapped to below.
 const replaceableVariables: Record<string, string> = {
   CONTAINER_REGISTRY_ENDPOINT: "https://myregistry.azurecr.io",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   SUBSCRIPTION_ID: "subscription_id",

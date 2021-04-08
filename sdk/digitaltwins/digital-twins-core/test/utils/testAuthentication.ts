@@ -13,7 +13,7 @@ export async function authenticate(that: Mocha.Context): Promise<any> {
     replaceableVariables: {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
+      AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
       AZURE_DIGITALTWINS_URL: "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net"
     },
     customizationsOnRecordings: [

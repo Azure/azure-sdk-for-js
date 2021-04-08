@@ -12,7 +12,7 @@ import "./env";
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
   ISOLATED_ATTESTATION_URL: "https://isolated_attestation_url",
   AAD_ATTESTATION_URL: "https://aad_attestation_url",
   policySigningCertificate0: "policy_signing_certificate0",
