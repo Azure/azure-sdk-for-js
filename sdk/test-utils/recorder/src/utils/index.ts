@@ -505,10 +505,14 @@ export function maskAccessTokenInBrowserRecording(fixtures: string): string {
     // Replaces only if the content-type is json
     if (isContentTypeInBrowserRecording(fixtures[i], jsonContentTypes)) {
       if ((fixtures[i] as any).response) {
-        const parsedResponse = JSON.parse((fixtures[i] as any).response);
-        if (parsedResponse["access_token"]) {
-          parsedResponse["access_token"] = "access_token";
-          (fixtures[i] as any).response = JSON.stringify(parsedResponse);
+        try {
+          const parsedResponse = JSON.parse((fixtures[i] as any).response);
+          if (parsedResponse["access_token"]) {
+            parsedResponse["access_token"] = "access_token";
+            (fixtures[i] as any).response = JSON.stringify(parsedResponse);
+          }
+        } catch (_) {
+          // Skip for non-JSON parsable content
         }
       }
     }
