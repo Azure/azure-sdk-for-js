@@ -196,7 +196,8 @@ export class DigitalTwinsClient {
    */
   public updateDigitalTwin(
     digitalTwinId: string,
-    jsonPatch: any, // eslint-disable-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
+    jsonPatch: any,
     options: DigitalTwinsUpdateOptionalParams = {}
   ): Promise<DigitalTwinsUpdateResponse> {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateDigitalTwin", options);
@@ -345,7 +346,8 @@ export class DigitalTwinsClient {
   public upsertRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    relationship: any, // eslint-disable-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
+    relationship: any,
     options: DigitalTwinsAddRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertRelationship", options);
@@ -621,7 +623,8 @@ export class DigitalTwinsClient {
    */
   public publishTelemetry(
     digitalTwinId: string,
-    payload: any, // eslint-disable-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
+    payload: any,
     messageId: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
