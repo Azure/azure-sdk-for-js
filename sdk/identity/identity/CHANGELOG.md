@@ -2,9 +2,7 @@
 
 ## 2.0.0-beta.3 (Unreleased)
 
-- `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now doesn't extend `CredentialUnavailableError`.
-  - `AuthenticationRequiredError`, besides being useful to express when a manual authentication with `authenticate()` is required, it also shares a similarity with `CredentialUnavailableError` in which both were designed to tell `ChainedTokenCredential` to move ahead and try another credential.
-  - Because of how prone to errors is `instanceof`, we intentionally want to focus on asserting errors through the `error.name` property of each error.
+- `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError` which is to allow the next credential in the chain to be tried.
 
 ## 2.0.0-beta.2 (2021-04-06)
 
