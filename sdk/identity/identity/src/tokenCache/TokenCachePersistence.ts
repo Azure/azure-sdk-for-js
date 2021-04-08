@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { CredentialUnavailableError } from "../client/errors";
-import { isNode8, Node8NotSupportedError } from "./nodeVersion";
 import { msalPersistencePlatforms, TokenCachePersistenceOptions } from "./persistencePlatforms";
+import { isNode8, Node8NotSupportedError } from "./requireMsalNodeExtensions";
 import { MsalPersistence, CachePlugin, TokenCacheRegisterOptions } from "./types";
 
 /**

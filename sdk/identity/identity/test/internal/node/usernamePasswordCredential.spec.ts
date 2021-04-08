@@ -11,8 +11,11 @@ import { UsernamePasswordCredential, TokenCachePersistenceOptions } from "../../
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { isNode8, Node8NotSupportedError } from "../../../src/tokenCache/nodeVersion";
 import { Context } from "mocha";
+import {
+  Node8NotSupportedError,
+  requireMsalNodeExtensions
+} from "../../../src/tokenCache/requireMsalNodeExtensions";
 
 describe("UsernamePasswordCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -62,17 +65,12 @@ describe("UsernamePasswordCredential (internal)", function() {
   // To test this, please install @azure/msal-node-extensions and un-skip these tests.
   describe("Persistent tests", function() {
     try {
-      /* eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies */
-      require("@azure/msal-node-extensions");
+      requireMsalNodeExtensions();
     } catch (e) {
       return;
     }
 
     it("Persistence throws on Node 8, as expected", async function(this: Context) {
-      if (!isNode8) {
-        this.skip();
-      }
-
       const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
         name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
         allowUnencryptedStorage: true
@@ -92,10 +90,6 @@ describe("UsernamePasswordCredential (internal)", function() {
     });
 
     it("Accepts tokenCachePersistenceOptions", async function(this: Context) {
-      // msal-node-extensions does not currently support Node 8.
-      if (isNode8) {
-        this.skip();
-      }
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform === "darwin") {
         this.skip();
@@ -129,10 +123,6 @@ describe("UsernamePasswordCredential (internal)", function() {
     });
 
     it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Context) {
-      // msal-node-extensions does not currently support Node 8.
-      if (isNode8) {
-        this.skip();
-      }
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform === "darwin") {
         this.skip();

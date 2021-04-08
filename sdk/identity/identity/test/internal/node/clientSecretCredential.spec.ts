@@ -11,8 +11,8 @@ import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../s
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersistence";
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
-import { isNode8 } from "../../../src/tokenCache/nodeVersion";
 import { Context } from "mocha";
+import { requireMsalNodeExtensions } from "../../../src/tokenCache/requireMsalNodeExtensions";
 
 describe("ClientSecretCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -60,17 +60,12 @@ describe("ClientSecretCredential (internal)", function() {
   // To test this, please install @azure/msal-node-extensions and un-skip these tests.
   describe("Persistent tests", function() {
     try {
-      /* eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies */
-      require("@azure/msal-node-extensions");
+      requireMsalNodeExtensions();
     } catch (e) {
       return;
     }
 
     it("Accepts tokenCachePersistenceOptions", async function(this: Context) {
-      // msal-node-extensions does not currently support Node 8.
-      if (isNode8) {
-        this.skip();
-      }
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform === "darwin") {
         this.skip();
@@ -100,10 +95,6 @@ describe("ClientSecretCredential (internal)", function() {
     });
 
     it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Context) {
-      // msal-node-extensions does not currently support Node 8.
-      if (isNode8) {
-        this.skip();
-      }
       // OSX asks for passwords on CI, so we need to skip these tests from our automation
       if (process.platform === "darwin") {
         this.skip();
