@@ -206,6 +206,12 @@ export type RecognizeCategorizedEntitiesAction = {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  loggingOptOut?: boolean;
 };
 
 /**
@@ -229,6 +235,12 @@ export type RecognizePiiEntitiesAction = {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  loggingOptOut?: boolean;
 };
 
 /**
@@ -257,6 +269,35 @@ export type RecognizeLinkedEntitiesAction = {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  loggingOptOut?: boolean;
+};
+
+/**
+ * Options for an analyze sentiment action.
+ */
+export type AnalyzeSentimentAction = {
+  /**
+   * The version of the text analytics model used by this operation on this
+   * batch of input documents.
+   */
+  modelVersion?: string;
+  /**
+   * Specifies the measurement unit used to calculate the offset and length properties.
+   * Possible units are "TextElements_v8", "UnicodeCodePoint", and "Utf16CodeUnit".
+   * The default is the JavaScript's default which is "Utf16CodeUnit".
+   */
+  stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  loggingOptOut?: boolean;
 };
 
 /**
@@ -279,6 +320,10 @@ export interface TextAnalyticsActions {
    * A collection of descriptions of entities linking actions.
    */
   recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
+  /**
+   * A collection of descriptions of sentiment analysis actions.
+   */
+  analyzeSentimentActions?: AnalyzeSentimentAction[];
 }
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -1004,6 +1049,9 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     // https://github.com/Azure/azure-sdk-for-js/issues/14079
     entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
       compose(setStrEncodingParam, compose(setModelVersionParam, AddParamsToTask))
+    ),
+    sentimentTasks: actions.analyzeSentimentActions?.map(
+      compose(setStrEncodingParam, AddParamsToTask)
     )
   };
 }

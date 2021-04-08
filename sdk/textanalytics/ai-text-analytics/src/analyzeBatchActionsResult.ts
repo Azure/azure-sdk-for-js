@@ -3,15 +3,15 @@
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
+  AnalyzeSentimentResultArray,
+  makeAnalyzeSentimentResultArray
+} from "./analyzeSentimentResultArray";
+import {
   ExtractKeyPhrasesResultArray,
   makeExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
 import {
   AnalyzeJobState as GeneratedResponse,
-  TasksStateTasksEntityLinkingTasksItem,
-  TasksStateTasksEntityRecognitionPiiTasksItem,
-  TasksStateTasksEntityRecognitionTasksItem,
-  TasksStateTasksKeyPhraseExtractionTasksItem,
   TextDocumentInput
 } from "./generated/models";
 import {
@@ -48,6 +48,10 @@ export interface AnalyzeBatchActionsResult {
    * Array of the results for each linked entities recognition action.
    */
   recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
+  /**
+   * Array of the results for each analyze sentiment action.
+   */
+  analyzeSentimentResults: AnalyzeSentimentActionResult[];
 }
 
 /**
@@ -169,6 +173,28 @@ export type RecognizeLinkedEntitiesActionResult =
   | RecognizeLinkedEntitiesActionErrorResult;
 
 /**
+ * The error of an analyze sentiment action.
+ */
+export type AnalyzeSentimentActionErrorResult = TextAnalyticsActionErrorResult;
+
+/**
+ * The results of a succeeded analyze sentiment action.
+ */
+export interface AnalyzeSentimentActionSuccessResult extends TextAnalyticsActionSuccessState {
+  /**
+   * Array of the results for each analyze sentiment action.
+   */
+  results: AnalyzeSentimentResultArray;
+}
+
+/**
+ * The result of an analyze sentiment action.
+ */
+export type AnalyzeSentimentActionResult =
+  | AnalyzeSentimentActionSuccessResult
+  | AnalyzeSentimentActionErrorResult;
+
+/**
  * The results of an analyze batch actions operation represented as a paged iterator that
  * iterates over the results of the requested actions.
  */
@@ -199,7 +225,8 @@ type TextAnalyticsActionType =
   | "RecognizeCategorizedEntities"
   | "RecognizePiiEntities"
   | "ExtractKeyPhrases"
-  | "RecognizeLinkedEntities";
+  | "RecognizeLinkedEntities"
+  | "AnalyzeSentiment";
 
 /**
  * The type of an action error with the type of the action that erred and its
@@ -242,6 +269,12 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
     case "keyPhraseExtractionTasks": {
       return "ExtractKeyPhrases";
     }
+    case "entityLinkingTasks": {
+      return "RecognizeLinkedEntities";
+    }
+    case "sentimentTasks": {
+      return "AnalyzeSentiment";
+    }
     default: {
       throw new Error(`unexpected action type from the service: ${taskType}`);
     }
@@ -257,7 +290,7 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
 export function parseActionError(erredActions: TextAnalyticsError): TextAnalyticsActionError {
   if (erredActions.target) {
     const regex = new RegExp(
-      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks)\/(\d+)/
+      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks|sentimentTasks)\/(\d+)/
     );
     const result = regex.exec(erredActions.target);
     if (result !== null) {
@@ -290,7 +323,8 @@ function categorizeActionErrors(
   recognizeEntitiesActionErrors: TextAnalyticsActionError[],
   recognizePiiEntitiesActionErrors: TextAnalyticsActionError[],
   extractKeyPhrasesActionErrors: TextAnalyticsActionError[],
-  recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[]
+  recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[],
+  analyzeSentimentActionErrors: TextAnalyticsActionError[]
 ): void {
   for (const error of erredActions) {
     const actionError = parseActionError(error);
@@ -311,6 +345,10 @@ function categorizeActionErrors(
         recognizeLinkedEntitiesActionErrors.push(actionError);
         break;
       }
+      case "AnalyzeSentiment": {
+        analyzeSentimentActionErrors.push(actionError);
+        break;
+      }
     }
   }
 }
@@ -323,141 +361,44 @@ function categorizeActionErrors(
 function createErredAction(
   error: TextAnalyticsActionError,
   lastUpdateDateTime: Date
-): RecognizeCategorizedEntitiesActionErrorResult {
+): TextAnalyticsActionErrorResult {
   return { error: intoTextAnalyticsError(error), failedOn: lastUpdateDateTime };
 }
 
-/**
- * Creates a list of results for recognize categorized entities actions.
- * @param documents - list of input documents
- * @param succeededTasks - list of succeeded action results
- * @param erredActions - list of erred actions
- * @internal
- */
-function makeRecognizeCategorizedEntitiesActionResult(
-  documents: TextDocumentInput[],
-  succeededTasks: TasksStateTasksEntityRecognitionTasksItem[],
-  erredActions: TextAnalyticsActionError[]
-): RecognizeCategorizedEntitiesActionResult[] {
-  let errorIndex = 0;
-  function convertTasksToActions(
-    actions: RecognizeCategorizedEntitiesActionResult[],
-    task: TasksStateTasksEntityRecognitionTasksItem
-  ): RecognizeCategorizedEntitiesActionResult[] {
-    const { results: actionResults, lastUpdateDateTime } = task;
-    if (actionResults !== undefined) {
-      const recognizeEntitiesResults = makeRecognizeCategorizedEntitiesResultArray(
-        documents,
-        actionResults
-      );
-      return [
-        ...actions,
-        {
-          results: recognizeEntitiesResults,
-          completedOn: lastUpdateDateTime
-        }
-      ];
-    } else {
-      return [...actions, createErredAction(erredActions[errorIndex++], lastUpdateDateTime)];
-    }
-  }
-  return succeededTasks.reduce(convertTasksToActions, []);
+interface TaskSuccessResult<T> {
+  results?: T;
+  lastUpdateDateTime: Date;
 }
+
+type ActionResult<TSuccess> =
+  | {
+      results: TSuccess;
+      completedOn: Date;
+    }
+  | TextAnalyticsActionErrorResult;
 
 /**
  * Creates a list of results for recognize pii entities actions.
  * @param documents - list of input documents
+ * @param makeResultsArray - a function to convert the results of a service response to the SDK's one
  * @param succeededTasks - list of succeeded action results
  * @param erredActions - list of erred actions
  * @internal
  */
-function makeRecognizePiiEntitiesActionResult(
+function makeActionResult<TTaskResult, TActionResult>(
   documents: TextDocumentInput[],
-  succeededTasks: TasksStateTasksEntityRecognitionPiiTasksItem[],
+  makeResultsArray: (docs: TextDocumentInput[], x: TTaskResult) => TActionResult,
+  succeededTasks: TaskSuccessResult<TTaskResult>[],
   erredActions: TextAnalyticsActionError[]
-): RecognizePiiEntitiesActionResult[] {
+): ActionResult<TActionResult>[] {
   let errorIndex = 0;
   function convertTasksToActions(
-    actions: RecognizePiiEntitiesActionResult[],
-    task: TasksStateTasksEntityRecognitionPiiTasksItem
-  ): RecognizePiiEntitiesActionResult[] {
+    actions: ActionResult<TActionResult>[],
+    task: TaskSuccessResult<TTaskResult>
+  ): ActionResult<TActionResult>[] {
     const { results: actionResults, lastUpdateDateTime } = task;
     if (actionResults !== undefined) {
-      const recognizeEntitiesResults = makeRecognizePiiEntitiesResultArray(
-        documents,
-        actionResults
-      );
-      return [
-        ...actions,
-        {
-          results: recognizeEntitiesResults,
-          completedOn: lastUpdateDateTime
-        }
-      ];
-    } else {
-      return [...actions, createErredAction(erredActions[errorIndex++], lastUpdateDateTime)];
-    }
-  }
-  return succeededTasks.reduce(convertTasksToActions, []);
-}
-
-/**
- * Creates a list of results for extract key phrases actions.
- * @param documents - list of input documents
- * @param succeededTasks - list of succeeded action results
- * @param erredActions - list of erred actions
- * @internal
- */
-function makeExtractKeyPhrasesActionResult(
-  documents: TextDocumentInput[],
-  succeededTasks: TasksStateTasksKeyPhraseExtractionTasksItem[],
-  erredActions: TextAnalyticsActionError[]
-): ExtractKeyPhrasesActionResult[] {
-  let errorIndex = 0;
-  function convertTasksToActions(
-    actions: ExtractKeyPhrasesActionResult[],
-    task: TasksStateTasksKeyPhraseExtractionTasksItem
-  ): ExtractKeyPhrasesActionResult[] {
-    const { results: actionResults, lastUpdateDateTime } = task;
-    if (actionResults !== undefined) {
-      const extractKeyPhrasesResults = makeExtractKeyPhrasesResultArray(documents, actionResults);
-      return [
-        ...actions,
-        {
-          results: extractKeyPhrasesResults,
-          completedOn: lastUpdateDateTime
-        }
-      ];
-    } else {
-      return [...actions, createErredAction(erredActions[errorIndex++], lastUpdateDateTime)];
-    }
-  }
-  return succeededTasks.reduce(convertTasksToActions, []);
-}
-
-/**
- * Creates a list of results for recognize linked entities actions.
- * @param documents - list of input documents
- * @param succeededTasks - list of succeeded action results
- * @param erredActions - list of erred actions
- * @internal
- */
-function makeRecognizeLinkedEntitiesActionResult(
-  documents: TextDocumentInput[],
-  succeededTasks: TasksStateTasksEntityLinkingTasksItem[],
-  erredActions: TextAnalyticsActionError[]
-): RecognizeLinkedEntitiesActionResult[] {
-  let errorIndex = 0;
-  function convertTasksToActions(
-    actions: RecognizeLinkedEntitiesActionResult[],
-    task: TasksStateTasksEntityLinkingTasksItem
-  ): RecognizeLinkedEntitiesActionResult[] {
-    const { results: actionResults, lastUpdateDateTime } = task;
-    if (actionResults !== undefined) {
-      const recognizeEntitiesResults = makeRecognizeLinkedEntitiesResultArray(
-        documents,
-        actionResults
-      );
+      const recognizeEntitiesResults = makeResultsArray(documents, actionResults);
       return [
         ...actions,
         {
@@ -487,33 +428,45 @@ export function createAnalyzeBatchActionsResult(
   const recognizePiiEntitiesActionErrors: TextAnalyticsActionError[] = [];
   const extractKeyPhrasesActionErrors: TextAnalyticsActionError[] = [];
   const recognizeLinkedEntitiesActionErrors: TextAnalyticsActionError[] = [];
+  const analyzeSentimentActionErrors: TextAnalyticsActionError[] = [];
   categorizeActionErrors(
     response?.errors ?? [],
     recognizeEntitiesActionErrors,
     recognizePiiEntitiesActionErrors,
     extractKeyPhrasesActionErrors,
-    recognizeLinkedEntitiesActionErrors
+    recognizeLinkedEntitiesActionErrors,
+    analyzeSentimentActionErrors
   );
   return {
-    recognizeEntitiesResults: makeRecognizeCategorizedEntitiesActionResult(
+    recognizeEntitiesResults: makeActionResult(
       documents,
+      makeRecognizeCategorizedEntitiesResultArray,
       response.tasks.entityRecognitionTasks ?? [],
       recognizeEntitiesActionErrors
     ),
-    recognizePiiEntitiesResults: makeRecognizePiiEntitiesActionResult(
+    recognizePiiEntitiesResults: makeActionResult(
       documents,
+      makeRecognizePiiEntitiesResultArray,
       response.tasks.entityRecognitionPiiTasks ?? [],
       recognizePiiEntitiesActionErrors
     ),
-    extractKeyPhrasesResults: makeExtractKeyPhrasesActionResult(
+    extractKeyPhrasesResults: makeActionResult(
       documents,
+      makeExtractKeyPhrasesResultArray,
       response.tasks.keyPhraseExtractionTasks ?? [],
       extractKeyPhrasesActionErrors
     ),
-    recognizeLinkedEntitiesResults: makeRecognizeLinkedEntitiesActionResult(
+    recognizeLinkedEntitiesResults: makeActionResult(
       documents,
+      makeRecognizeLinkedEntitiesResultArray,
       response.tasks.entityLinkingTasks ?? [],
       recognizeLinkedEntitiesActionErrors
+    ),
+    analyzeSentimentResults: makeActionResult(
+      documents,
+      makeAnalyzeSentimentResultArray,
+      response.tasks.sentimentTasks ?? [],
+      analyzeSentimentActionErrors
     )
   };
 }

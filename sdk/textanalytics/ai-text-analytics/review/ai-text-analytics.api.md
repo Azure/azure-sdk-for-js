@@ -34,6 +34,7 @@ export type AnalyzeBatchActionsPollerLike = PollerLike<AnalyzeBatchActionsOperat
 
 // @public
 export interface AnalyzeBatchActionsResult {
+    analyzeSentimentResults: AnalyzeSentimentActionResult[];
     extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
     recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
     recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
@@ -61,6 +62,24 @@ export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuc
 
 // @public
 export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {
+}
+
+// @public
+export type AnalyzeSentimentAction = {
+    modelVersion?: string;
+    stringIndexType?: StringIndexType;
+    loggingOptOut?: boolean;
+};
+
+// @public
+export type AnalyzeSentimentActionErrorResult = TextAnalyticsActionErrorResult;
+
+// @public
+export type AnalyzeSentimentActionResult = AnalyzeSentimentActionSuccessResult | AnalyzeSentimentActionErrorResult;
+
+// @public
+export interface AnalyzeSentimentActionSuccessResult extends TextAnalyticsActionSuccessState {
+    results: AnalyzeSentimentResultArray;
 }
 
 // @public
@@ -350,6 +369,7 @@ export enum PiiEntityDomainType {
 export type RecognizeCategorizedEntitiesAction = {
     modelVersion?: string;
     stringIndexType?: StringIndexType;
+    loggingOptOut?: boolean;
 };
 
 // @public
@@ -389,6 +409,7 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
 export type RecognizeLinkedEntitiesAction = {
     modelVersion?: string;
     stringIndexType?: StringIndexType;
+    loggingOptOut?: boolean;
 };
 
 // @public
@@ -429,6 +450,7 @@ export type RecognizePiiEntitiesAction = {
     domain?: PiiEntityDomainType;
     modelVersion?: string;
     stringIndexType?: StringIndexType;
+    loggingOptOut?: boolean;
 };
 
 // @public
@@ -528,6 +550,7 @@ export interface TextAnalyticsActionErrorResult {
 
 // @public
 export interface TextAnalyticsActions {
+    analyzeSentimentActions?: AnalyzeSentimentAction[];
     extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
     recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
     recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];

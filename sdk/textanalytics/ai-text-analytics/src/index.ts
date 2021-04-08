@@ -31,7 +31,8 @@ export {
   OperationMetadata,
   AnalyzeBatchActionsOperationMetadata,
   StringIndexType,
-  RecognizeLinkedEntitiesAction
+  RecognizeLinkedEntitiesAction,
+  AnalyzeSentimentAction
 } from "./textAnalyticsClient";
 export { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 export {
@@ -106,7 +107,10 @@ export {
   ExtractKeyPhrasesActionSuccessResult,
   RecognizeLinkedEntitiesActionResult,
   RecognizeLinkedEntitiesActionSuccessResult,
-  RecognizeLinkedEntitiesActionErrorResult
+  RecognizeLinkedEntitiesActionErrorResult,
+  AnalyzeSentimentActionErrorResult,
+  AnalyzeSentimentActionResult,
+  AnalyzeSentimentActionSuccessResult
 } from "./analyzeBatchActionsResult";
 export {
   ErrorCode,

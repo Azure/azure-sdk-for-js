@@ -9,7 +9,7 @@
 import * as coreClient from "@azure/core-client";
 import { GeneratedClientOptionalParams } from "./models";
 
-/** @internal */
+/** @hidden */
 export class GeneratedClientContext extends coreClient.ServiceClient {
   endpoint: string;
 
