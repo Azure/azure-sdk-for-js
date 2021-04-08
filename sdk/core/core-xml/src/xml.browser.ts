@@ -6,8 +6,7 @@ import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common";
 
 if (!document || !DOMParser || !Node || !XMLSerializer) {
   throw new Error(
-    `This library depends on the following DOM objects: ["document", "DOMParser", "Node", "XMLSerializer"] to parse XML, but some of these are undefined. 
-    You may provide a polyfill to make these globally available in order to support your environment.`
+    `This library depends on the following DOM objects: ["document", "DOMParser", "Node", "XMLSerializer"] to parse XML, but some of these are undefined. You may provide a polyfill to make these globally available in order to support your environment.`
   );
 }
 

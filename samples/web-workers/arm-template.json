@@ -91,6 +91,10 @@
     "azure_storage_blob_connection_string": {
       "type": "string",
       "value": "[concat('BlobEndpoint=https://',variables('storageAccountName'),'.blob.core.windows.net/','blobs',';SharedAccessSignature=', listAccountSas(variables('storageAccountName'), '2019-06-01', variables('accountSasProperties')).accountSasToken)]"
+    },
+    "azure_storage_blob_container_name": {
+      "type": "string",
+      "value": "[concat('default/', variables('storageContainerName'))]"
     }
   }
 }

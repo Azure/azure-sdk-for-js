@@ -6,6 +6,3 @@ worker.onmessage = function(event) {
   worker?.terminate()
   worker = undefined
 }
-
-
-export {};
