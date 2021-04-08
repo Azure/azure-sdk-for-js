@@ -2,7 +2,7 @@
 
 ## 2.0.0-beta.3 (Unreleased)
 
-- Enabled `TokenCachePersistenceOptions` on Node 15.
+- Enabled `TokenCachePersistenceOptions` on Node 15. Node 15 was disabled because of a bug, but the bug ended up being in our tests, not in the source.
 
 ## 2.0.0-beta.2 (2021-04-06)
 
