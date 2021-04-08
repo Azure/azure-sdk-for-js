@@ -51,7 +51,7 @@ available via `npm run-script`:
     npm run clean && npm run check-format && npm run lint && npm run compile-prod && npm run docs && npm run pack-prod
   test-ts
     mocha -r ts-node/register -r ./src/test/common/setup.ts ./src/test/**/*.spec.ts --recursive --timeout 100000 -i -g .*ignore.js
-  test-browser
+  dist-test
     karma start ./karma.config.js --single-run
 ```
 

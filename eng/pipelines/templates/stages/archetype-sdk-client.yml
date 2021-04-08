@@ -56,8 +56,13 @@ stages:
             - TestType=node|browser
             - DependencyVersion=^$
             - ${{ each filter in parameters.MatrixFilters }}:
-              - ${{ filter}}
-          MatrixReplace: ${{ parameters.MatrixReplace }}
+              - ${{ filter }}
+          MatrixReplace:
+            # Temporarily replace macOS agents with ubuntu agents because of ongoing pool capacity issues
+            - Pool=Azure.Pipelines/azsdk-pool-mms-ubuntu-1804-general
+            - OsVmImage=macOS-10.15/MMSUbuntu18.04
+            - ${{ each replacement in parameters.MatrixReplace }}:
+              - ${{ replacement }}
 
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
   - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
