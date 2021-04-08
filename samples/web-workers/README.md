@@ -1,6 +1,6 @@
 # Using the Azure SDK for JS in Web Workers
 
-Using the Azure SDK in Node or browsers' main process is supported out of the box; however, when using the Azure SDK in other runtimes a polyfill may be necessary.
+Using the Azure SDK in Node or a browser's main process is supported out of the box; however, when using the Azure SDK in other runtimes a polyfill may be necessary.
 
 In this sample we demonstrate how to polyfill the necessary APIs for using our libraries in web workers.
 
@@ -16,7 +16,7 @@ When used in the browser, our XML parsing library relies on DOM APIs to support 
 
 > Note: Not all client libraries use XML. When running in a web worker, our library will emit a useful error explaining what APIs are required if they are missing so that you can add them as needed.
 
-In these samples we used [JSDOM][jsdom] but you can use any library that provides a DOM implementation.
+In these samples we use [JSDOM][jsdom] but you can use any library that provides a DOM implementation.
 
 [webworkers]: https://developer.mozilla.org/docs/Web/API/Web_Workers_API
 [jsdom]: https://www.npmjs.com/package/jsdom
@@ -59,8 +59,8 @@ Parcel will bundle your application code and launch a server running at `http://
 
 [webworkers]: https://developer.mozilla.org/docs/Web/API/Web_Workers_API
 [jsdom]: https://www.npmjs.com/package/jsdom
-[typescript]: 
-[freesub]:
-[storageblob]:
-[storageblobsas]:
-[identity]:
+[typescript]: https://www.typescriptlang.org/docs/home.html
+[freesub]: https://azure.microsoft.com/free
+[storageblob]: https://docs.microsoft.com/javascript/api/@azure/storage-blob
+[storageblobsas]: https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-using-a-shared-access-signature
+[identity]: https://docs.microsoft.com/javascript/api/@azure/identity
