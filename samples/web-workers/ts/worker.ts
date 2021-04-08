@@ -9,7 +9,7 @@ if (!azureStorageBlobConnectionString) {
   throw "Required environment variable AZURE_STORAGE_BLOB_CONNECTION_STRING is either missing or empty."
 }
 
-const containerClient = new ContainerClient(azureStorageBlobConnectionString)
+const containerClient = new ContainerClient(azureStorageBlobConnectionString, "default/blobs")
 const blockBlobClient = containerClient.getBlockBlobClient("sample.txt")
 
 const data = "Hello, Web Workers!"
