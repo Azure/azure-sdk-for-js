@@ -1,8 +1,9 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft.
+// Licensed under the MIT license.
 
 "use strict";
 
+import { PipelineOptions } from "@azure/core-http";
 import * as fs from "fs";
 import * as url from "url";
 import * as localFetchers from "./localModelFetchers";
@@ -23,11 +24,14 @@ function isLocalPath(p: string): boolean {
   }
 }
 
-export async function modelFetcher(
-  dtmi: string,
-  endpoint: string,
-  resolveDependencies: boolean,
-  tryFromExpanded: boolean
+interface modelFetcherParams {
+  pipeline: PipelineOptions
+  dtmis: string[];
+  endpoint: string;
+  dependencyResolution: Dependency
+}
+
+export async function modelFetcher({dtmis, endpoint, resolveDependencies}: modelFetcherParams
 ): Promise<{ [dtmi: string]: JSON | Array<JSON> }> {
   if (isLocalPath(endpoint)) {
     const formattedDirectory = endpoint.includes("file://")

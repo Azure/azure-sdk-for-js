@@ -634,7 +634,7 @@
     },
     {
       "packageName": "@azure/iot-plugandplay-models-repo-tool",
-      "projectFolder": "sdk/iotplugandplay/models-repo-tool",
+      "projectFolder": "sdk/iot/modelsrepository",
       "versionPolicyName": "core"
     }
   ]

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
-  
+
 "use strict";
 
 import * as dtmiConventions from "./dtmiConventions";

@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
 // exporting the resolver api
