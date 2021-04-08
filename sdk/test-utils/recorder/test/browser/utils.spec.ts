@@ -241,8 +241,7 @@ describe("Browser utils", () => {
             responseHeaders: {
               "content-security-policy": "default-src 'self'",
               "content-type": "application/json; charset=utf-8",
-              "strict-transport-security": "max-age=31536000; includeSubDomains",
-              "x-ms-server-latency": "0"
+              "strict-transport-security": "max-age=31536000; includeSubDomains"
             }
           }
         ],
