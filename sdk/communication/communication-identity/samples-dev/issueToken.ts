@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to use the CommunicationIdentityClient to
- * issue a new user token.
+ * @summary Issue a new user token.
  */
 
 import { CommunicationIdentityClient, TokenScope } from "@azure/communication-identity";

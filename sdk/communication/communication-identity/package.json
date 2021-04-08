@@ -39,12 +39,12 @@
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "//sampleConfiguration": {
-    "productName": "Azure Communication Services",
+    "productName": "Azure Communication Services - Identity",
     "productSlugs": [
       "azure",
       "azure-communication-services"
     ],
-    "requiredResource": {
+    "requiredResources": {
       "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     }
   },
