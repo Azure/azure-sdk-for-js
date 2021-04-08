@@ -6,18 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { createSpanFunction, OperationTracingOptions } from "@azure/core-tracing";
-import { Span } from "@azure/core-tracing";
+import { createSpanFunction } from "@azure/core-tracing";
 
-export const createSpan: <T extends {
-  tracingOptions?: OperationTracingOptions | undefined;
-}>(
-  operationName: string,
-  operationOptions: T | undefined
-) => {
-  span: Span;
-  updatedOptions: T;
-} = createSpanFunction({
+export const createSpan = createSpanFunction({
   namespace: "Azure.Synapse.Artifacts",
   packagePrefix: "Microsoft.Synapse"
 });

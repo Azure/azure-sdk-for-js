@@ -92,6 +92,7 @@ export type CharFilterUnion =
   | CharFilter
   | MappingCharFilter
   | PatternReplaceCharFilter;
+export type LexicalNormalizerUnion = LexicalNormalizer | CustomNormalizer;
 export type SimilarityUnion = Similarity | ClassicSimilarity | BM25Similarity;
 
 /** Represents a datasource definition, which can be used to configure an indexer. */
@@ -595,7 +596,7 @@ export interface SearchIndex {
   /** The character filters for the index. */
   charFilters?: CharFilterUnion[];
   /** The normalizers for the index. */
-  normalizers?: LexicalNormalizer[];
+  normalizers?: LexicalNormalizerUnion[];
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your data when you want full assurance that no one, not even Microsoft, can decrypt your data in Azure Cognitive Search. Once you have encrypted your data, it will always remain encrypted. Azure Cognitive Search will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your data will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
   encryptionKey?: SearchResourceEncryptionKey | null;
   /** The type of similarity algorithm to be used when scoring and ranking the documents matching a search query. The similarity algorithm can only be defined at index creation time and cannot be modified on existing indexes. If null, the ClassicSimilarity algorithm is used. */
@@ -761,8 +762,8 @@ export interface CharFilter {
 
 /** Base type for normalizers. */
 export interface LexicalNormalizer {
-  /** Identifies the concrete type of the normalizer. */
-  odatatype: string;
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
   /** The name of the normalizer. It must only contain letters, digits, spaces, dashes or underscores, can only start and end with alphanumeric characters, and is limited to 128 characters. It cannot end in '.microsoft' nor '.lucene', nor be named 'asciifolding', 'standard', 'lowercase', 'uppercase', or 'elision'. */
   name: string;
 }
@@ -1654,6 +1655,8 @@ export type PatternReplaceCharFilter = CharFilter & {
 
 /** Allows you to configure normalization for filterable, sortable, and facetable fields, which by default operate with strict matching. This is a user-defined configuration consisting of at least one or more filters, which modify the token that is stored. */
 export type CustomNormalizer = LexicalNormalizer & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
   /** A list of token filters used to filter out or modify the input token. For example, you can specify a lowercase filter that converts all characters to lowercase. The filters are run in the order in which they are listed. */
   tokenFilters?: TokenFilterName[];
   /** A list of character filters used to prepare input text before it is processed. For instance, they can replace certain characters or symbols. The filters are run in the order in which they are listed. */

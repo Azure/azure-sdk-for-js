@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import url from "url";
 import { diag } from "@opentelemetry/api";
 import { Sender, SenderResult } from "../../types";
 import {
@@ -48,5 +48,14 @@ export class HttpSender implements Sender {
    */
   async shutdown(): Promise<void> {
     diag.info("HttpSender shutting down");
+  }
+
+  handlePermanentRedirect(location: string | undefined) {
+    if (location) {
+      let locUrl = new url.URL(location);
+      if (locUrl && locUrl.host) {
+        this._appInsightsClient.host = "https://" + locUrl.host;
+      }
+    }
   }
 }

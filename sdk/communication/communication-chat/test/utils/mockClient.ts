@@ -65,7 +65,7 @@ export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
   readOn: new Date("2020-06-26T18:06:06Z")
 };
 
-export const generateHttpClient = (status: number, parsedBody?: any): HttpClient => {
+export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {
     async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
       return {

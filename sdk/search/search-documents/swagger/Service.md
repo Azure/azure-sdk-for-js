@@ -278,3 +278,13 @@ directive:
     transform: >
       $["x-ms-client-name"] = "tokenizerName"
 ```
+
+### Add discriminator to LexicalNormalizer
+
+```yaml
+directive:
+  from: swagger-document
+  where: $.definitions.LexicalNormalizer
+  transform: >
+    $["discriminator"] = "@odata.type";
+```

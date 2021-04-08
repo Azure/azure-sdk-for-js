@@ -8,6 +8,7 @@
 
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
+import { IntegrationRuntimes } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,7 +16,7 @@ import { ArtifactsClientContext } from "../artifactsClientContext";
 import { IntegrationRuntimesListResponse, IntegrationRuntimesGetResponse } from "../models";
 
 /** Class representing a IntegrationRuntimes. */
-export class IntegrationRuntimes {
+export class IntegrationRuntimesImpl implements IntegrationRuntimes {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -31,9 +32,9 @@ export class IntegrationRuntimes {
    * @param options The options parameters.
    */
   async list(options?: coreHttp.OperationOptions): Promise<IntegrationRuntimesListResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options || {});
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
@@ -58,10 +59,10 @@ export class IntegrationRuntimes {
     integrationRuntimeName: string,
     options?: coreHttp.OperationOptions
   ): Promise<IntegrationRuntimesGetResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       integrationRuntimeName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);

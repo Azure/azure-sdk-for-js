@@ -1,13 +1,18 @@
 # Release History
 
-## 5.5.0 (Unreleased)
+## 5.5.1 (Unreleased)
 
-- Allows passing `NamedKeyCredential` and `SASCredential` as the credential type to `EventHubConsumerClient` and `EventHubProducerClient`.
-  These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
+
+## 5.5.0 (2021-04-06)
 
 - Updates the methods on the `CheckpointStore` interface to accept
   an optional `options` parameter that can be used to pass in an
   `abortSignal` and `tracingOptions`.
+
+### New features:
+
+- Allows passing `NamedKeyCredential` and `SASCredential` as the credential type to `EventHubConsumerClient` and `EventHubProducerClient`.
+  These credential types support rotation via their `update` methods and are an alternative to using the `SharedAccessKeyName/SharedAccessKey` or `SharedAccessSignature` properties in a connection string.
 
 ### Tracing updates
 

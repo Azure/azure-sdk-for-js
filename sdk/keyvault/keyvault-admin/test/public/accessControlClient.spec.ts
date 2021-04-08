@@ -207,7 +207,7 @@ describe("KeyVaultAccessControlClient", () => {
 
   it("createRoleAssignment, getRoleAssignment and deleteRoleAssignment", async function() {
     const assignmentName = generateFakeUUID();
-    const roleName = "Managed HSM Crypto User";
+    const roleName = "Managed HSM Crypto Auditor";
 
     let roleDefinition: KeyVaultRoleDefinition | undefined;
 

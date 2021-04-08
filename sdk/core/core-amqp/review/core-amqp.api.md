@@ -28,6 +28,7 @@ export interface AmqpAnnotatedMessage {
         [key: string]: any;
     };
     body: any;
+    bodyType?: "data" | "sequence" | "value";
     deliveryAnnotations?: {
         [key: string]: any;
     };

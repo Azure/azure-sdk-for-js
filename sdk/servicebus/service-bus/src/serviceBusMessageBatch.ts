@@ -6,7 +6,11 @@ import {
   toRheaMessage,
   getMessagePropertyTypeMismatchError
 } from "./serviceBusMessage";
-import { throwIfNotValidServiceBusMessage, throwTypeErrorIfParameterMissing } from "./util/errors";
+import {
+  errorInvalidMessageTypeSingle,
+  throwIfNotValidServiceBusMessage,
+  throwTypeErrorIfParameterMissing
+} from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
@@ -17,6 +21,7 @@ import {
 import { SpanContext } from "@azure/core-tracing";
 import { convertTryAddOptionsForCompatibility, instrumentMessage } from "./diagnostics/tracing";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { defaultDataTransformer } from "./dataTransformer";
 
 /**
@@ -66,10 +71,13 @@ export interface ServiceBusMessageBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param message - An individual service bus message.
+   * @param message - The message to add to the batch.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
+  tryAddMessage(
+    message: ServiceBusMessage | AmqpAnnotatedMessage,
+    options?: TryAddOptions
+  ): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -229,12 +237,12 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param originalMessage - An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAddMessage(originalMessage: ServiceBusMessage, options: TryAddOptions = {}): boolean {
+  public tryAddMessage(
+    originalMessage: ServiceBusMessage | AmqpAnnotatedMessage,
+    options: TryAddOptions = {}
+  ): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", originalMessage);
-    throwIfNotValidServiceBusMessage(
-      originalMessage,
-      "Provided value for 'message' must be of type ServiceBusMessage."
-    );
+    throwIfNotValidServiceBusMessage(originalMessage, errorInvalidMessageTypeSingle);
 
     options = convertTryAddOptionsForCompatibility(options);
 
@@ -246,8 +254,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     );
 
     // Convert ServiceBusMessage to AmqpMessage.
-    const amqpMessage = toRheaMessage(message);
-    amqpMessage.body = defaultDataTransformer.encode(message.body);
+    const amqpMessage = toRheaMessage(message, defaultDataTransformer);
 
     let encodedMessage: Buffer;
     try {

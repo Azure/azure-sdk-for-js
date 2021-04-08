@@ -10,20 +10,7 @@ devDependency and should be used only for the tests of an SDK library.
 
 The idea employed in this library is inspired by [mocha-tags](https://www.npmjs.com/package/mocha-tags).
 
-## Key concepts
-
-- Our guideline recommends that service client supporting multiple service API version takes an API
-  version via the `serviceVersion` property of its constructor options bag `*ClientOptions`.
-- Service API versions supported by the SDK library under test is specified for a top-level Mocha
-  `describe()` test suite. We loop through them and run the test suite on each version.
-  - Testing of multi-service-version support is only done in `live` test mode. For other test modes
-    (`record`, `soft-record`, and `playback`), tests are only running for the latest version, or a
-    chosen version specified via options in case the latest version is not the latest stable version.
-- Optionally a list or range of versions can be specified for a nested `describe()` test suite or
-  `it()` test case. If the version being tested is not in the range of versions supported by this
-  test suite/case, then the test suite/case is skipped.
-
-## Get started
+## Getting started
 
 We're about to go through how to set up your project to use the `@azure/test-utils-multi-version`
 package.
@@ -90,6 +77,19 @@ rush update
 ```
 
 And you're ready to test your library for multiple service API versions!
+
+## Key concepts
+
+- Our guideline recommends that service client supporting multiple service API version takes an API
+  version via the `serviceVersion` property of its constructor options bag `*ClientOptions`.
+- Service API versions supported by the SDK library under test is specified for a top-level Mocha
+  `describe()` test suite. We loop through them and run the test suite on each version.
+  - Testing of multi-service-version support is only done in `live` test mode. For other test modes
+    (`record`, `soft-record`, and `playback`), tests are only running for the latest version, or a
+    chosen version specified via options in case the latest version is not the latest stable version.
+- Optionally a list or range of versions can be specified for a nested `describe()` test suite or
+  `it()` test case. If the version being tested is not in the range of versions supported by this
+  test suite/case, then the test suite/case is skipped.
 
 ## Examples
 

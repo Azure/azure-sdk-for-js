@@ -83,7 +83,7 @@ describe("ClientCertificateCredential", function() {
     } catch (e) {
       error = e;
     }
-    assert.equal(error?.name, "CredentialUnavailable");
+    assert.equal(error?.name, "CredentialUnavailableError");
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });
 

@@ -20,7 +20,8 @@ import {
   RetryOperationType,
   RetryOptions,
   delay,
-  retry
+  retry,
+  AmqpAnnotatedMessage
 } from "@azure/core-amqp";
 import {
   ServiceBusMessage,
@@ -36,8 +37,8 @@ import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
-import { defaultDataTransformer } from "../dataTransformer";
 import { isDefined } from "../util/typeGuards";
+import { defaultDataTransformer } from "../dataTransformer";
 
 /**
  * @internal
@@ -353,11 +354,13 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    *
    * @param data - Message to send. Will be sent as UTF8-encoded JSON string.
    */
-  async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
+  async send(
+    data: ServiceBusMessage | AmqpAnnotatedMessage,
+    options?: OperationOptionsBase
+  ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      const amqpMessage = toRheaMessage(data);
-      amqpMessage.body = defaultDataTransformer.encode(data.body);
+      const amqpMessage = toRheaMessage(data, defaultDataTransformer);
 
       // TODO: this body of logic is really similar to what's in sendMessages. Unify what we can.
       let encodedMessage;
@@ -395,7 +398,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * Batch message.
    */
   async sendMessages(
-    inputMessages: ServiceBusMessage[],
+    inputMessages: ServiceBusMessage[] | AmqpAnnotatedMessage[],
     options?: OperationOptionsBase
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -413,8 +416,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const encodedMessages = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < inputMessages.length; i++) {
-        const amqpMessage = toRheaMessage(inputMessages[i]);
-        amqpMessage.body = defaultDataTransformer.encode(inputMessages[i].body);
+        const amqpMessage = toRheaMessage(inputMessages[i], defaultDataTransformer);
         amqpMessages[i] = amqpMessage;
         try {
           encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
