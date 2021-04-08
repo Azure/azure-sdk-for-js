@@ -167,7 +167,9 @@ export function bearerTokenChallengeAuthenticationPolicy(
   const callbacks = {
     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
     authorizeRequestOnChallenge:
-      challengeCallbacks?.authorizeRequestOnChallenge ?? defaultAuthorizeRequestOnChallenge
+      challengeCallbacks?.authorizeRequestOnChallenge ?? defaultAuthorizeRequestOnChallenge,
+    // keep all other properties
+    ...challengeCallbacks
   };
 
   // This function encapsulates the entire process of reliably retrieving the token
