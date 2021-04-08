@@ -2,13 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import {
-  LocalSupportedAlgorithmName,
-  KeyClient,
-  CryptographyClient,
-  SignatureAlgorithm,
-  KeyVaultKey
-} from "../../src";
+import { KeyClient, CryptographyClient, SignatureAlgorithm, KeyVaultKey } from "../../src";
 import * as chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
@@ -213,7 +207,7 @@ describe("Local cryptography public tests", () => {
         // Local Cryptography Client part
         const localCryptoClient = new CryptographyClient(keyVaultKey.key!);
         const verifyResult = await localCryptoClient.verifyData(
-          localAlgorithmName as LocalSupportedAlgorithmName,
+          localAlgorithmName,
           digest,
           signature.result
         );

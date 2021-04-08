@@ -11,9 +11,10 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class ContainerRegistryClient {
-    constructor(endpointUrl: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
     deleteRepository(name: string, options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     endpoint: string;
+    getRepositoryClient(repository: string): ContainerRepositoryClient;
     listRepositories(options?: ListRepositoriesOptions): PagedAsyncIterableIterator<string, string[]>;
     }
 
@@ -22,30 +23,22 @@ export interface ContainerRegistryClientOptions extends PipelineOptions {
 }
 
 // @public
-export class ContainerRegistryUserCredential {
-    constructor(username: string, pass: string);
-    get pass(): string;
-    update(pass: string): void;
-    get username(): string;
-    }
-
-// @public
 export class ContainerRepositoryClient {
-    constructor(endpointUrl: string, repository: string, credential: TokenCredential | ContainerRegistryUserCredential, options?: ContainerRegistryClientOptions);
-    delete(options?: DeleteOptions): Promise<DeleteRepositoryResult>;
+    constructor(endpointUrl: string, repository: string, credential: TokenCredential, options?: ContainerRegistryClientOptions);
+    delete(options?: DeleteRepositoryOptions): Promise<DeleteRepositoryResult>;
     deleteRegistryArtifact(digest: string, options?: DeleteRegistryArtifactOptions): Promise<void>;
     deleteTag(tag: string, options?: DeleteTagOptions): Promise<void>;
     endpoint: string;
-    getProperties(options?: GetPropertiesOptions): Promise<RepositoryProperties>;
+    getProperties(options?: GetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
     getRegistryArtifactProperties(tagOrDigest: string, options?: GetRegistryArtifactPropertiesOptions): Promise<RegistryArtifactProperties>;
     getTagProperties(tag: string, options?: GetTagPropertiesOptions): Promise<TagProperties>;
     listRegistryArtifacts(options?: ListRegistryArtifactsOptions): PagedAsyncIterableIterator<RegistryArtifactProperties>;
     listTags(options?: ListTagsOptions): PagedAsyncIterableIterator<TagProperties>;
     registry: string;
     repository: string;
-    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<void>;
-    setPermissions(value: ContentProperties, options?: SetPermissionsOptions): Promise<void>;
-    setTagProperties(tag: string, value?: ContentProperties, options?: SetTagPropertiesOptions): Promise<void>;
+    setManifestProperties(digest: string, value: ContentProperties, options?: SetManifestPropertiesOptions): Promise<RegistryArtifactProperties>;
+    setProperties(value: ContentProperties, options?: SetRepositoryPropertiesOptions): Promise<RepositoryProperties>;
+    setTagProperties(tag: string, value: ContentProperties, options?: SetTagPropertiesOptions): Promise<TagProperties>;
 }
 
 // @public
@@ -54,10 +47,6 @@ export interface ContentProperties {
     canList?: boolean;
     canRead?: boolean;
     canWrite?: boolean;
-}
-
-// @public
-export interface DeleteOptions extends OperationOptions {
 }
 
 // @public
@@ -79,11 +68,11 @@ export interface DeleteTagOptions extends OperationOptions {
 }
 
 // @public
-export interface GetPropertiesOptions extends OperationOptions {
+export interface GetRegistryArtifactPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface GetRegistryArtifactPropertiesOptions extends OperationOptions {
+export interface GetRepositoryPropertiesOptions extends OperationOptions {
 }
 
 // @public
@@ -92,7 +81,7 @@ export interface GetTagPropertiesOptions extends OperationOptions {
 
 // @public
 export interface ListRegistryArtifactsOptions extends OperationOptions {
-    orderby?: string;
+    orderBy?: RegistryArtifactOrderBy;
 }
 
 // @public
@@ -101,16 +90,11 @@ export interface ListRepositoriesOptions extends OperationOptions {
 
 // @public
 export interface ListTagsOptions extends OperationOptions {
-    digest?: string;
-    orderby?: string;
+    orderBy?: TagOrderBy;
 }
 
 // @public
-export interface ManifestAttributesManifestReferences {
-    cpuArchitecture: string;
-    digest: string;
-    operatingSystem: string;
-}
+export type RegistryArtifactOrderBy = "timedesc" | "timeasc";
 
 // @public
 export interface RegistryArtifactProperties {
@@ -119,7 +103,7 @@ export interface RegistryArtifactProperties {
     digest?: string;
     lastUpdatedOn?: Date;
     operatingSystem?: string;
-    references?: ManifestAttributesManifestReferences[];
+    registryArtifacts?: RegistryArtifactProperties[];
     repository?: string;
     size?: number;
     tags?: string[];
@@ -141,7 +125,7 @@ export interface SetManifestPropertiesOptions extends OperationOptions {
 }
 
 // @public
-export interface SetPermissionsOptions extends OperationOptions {
+export interface SetRepositoryPropertiesOptions extends OperationOptions {
 }
 
 // @public
@@ -149,13 +133,16 @@ export interface SetTagPropertiesOptions extends OperationOptions {
 }
 
 // @public
+export type TagOrderBy = "timedesc" | "timeasc";
+
+// @public
 export interface TagProperties {
     createdOn: Date;
-    digest?: string;
+    digest: string;
     lastUpdatedOn: Date;
-    name?: string;
+    name: string;
     repository: string;
-    writeableProperties?: ContentProperties;
+    writeableProperties: ContentProperties;
 }
 
 

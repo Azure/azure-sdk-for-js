@@ -12,10 +12,6 @@ import { getPhoneNumberHttpClient } from "./utils/mockHttpClients";
 import { SDK_VERSION } from "../src/utils/constants";
 import { Context } from "mocha";
 
-if (isNode) {
-  require("dotenv").config();
-}
-
 describe("PhoneNumbersClient - headers", function() {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";

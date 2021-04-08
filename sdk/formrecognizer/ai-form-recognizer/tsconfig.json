@@ -2,8 +2,10 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "declarationDir": "./types",
+    "paths": {
+      "@azure/ai-form-recognizer": ["./src/index"]
+    }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"],
-  "exclude": ["node_modules", "types", "temp", "browser", "dist*", "./dom-shims.d.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

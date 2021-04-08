@@ -1,11 +1,25 @@
 # Release History
 
-## 2.0.0-beta.2 (Unreleased)
+## 2.0.0-beta.3 (Unreleased)
 
-- Added properties `scopes` and `getTokenOptions` to the `AuthenticationRequired` error.
+
+## 2.0.0-beta.2 (2021-04-06)
+
+- Breaking change: Renamed errors `CredentialUnavailable` to `CredentialUnavailableError`, and `AuthenticationRequired` to `AuthenticationRequiredError`, to align with the naming convention used for error classes in the Azure SDKs in JavaScript.
+- Added `clientId` to the `AuthenticationRecord` type, alongsides the `tenantId` that this interface already had. Together they can be used to re-authenticate after recovering a previously serialized `AuthenticationRecord`.
+- The `serialize()` method on the `AuthenticationRecord` object that allows an authenticated account to be stored as a string and re-used in another credential at any time, is removed in favor of a standalone function `serializeAuthenticationRecord` similar to how we have the `deserializeAuthenticationRecord` function.
+- `serializeAuthenticationRecord` now serializes into a JSON string with camel case properties. This makes it re-usable across languages.
+- Removed the interface `PersistentCredentialOptions` (introduced in `2.0.0-beta.1`) and instead inlined the options for the persistent cache feature in the options of individual credentials.
+- Added properties `scopes` and `getTokenOptions` to the AuthenticationRequired error. These properties hold the values used by the `getToken()` method on your credential to fetch the access token. You should pass these to the `authenticate()` method on your credential if you wanted to do manual authentication after catching the `AuthenticationRequired` error.
 - `InteractiveBrowserCredential` no longer supports [Implicit Grant Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow) and will only support [Auth Code Flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) instead. Therefore the `flow` option introduced in `1.2.4-beta.1` has been removed. More information from the documentation on Implicit Grant Flow:
 
 > With the plans for [third party cookies to be removed from browsers](https://docs.microsoft.com/azure/active-directory/develop/reference-third-party-cookies-spas), the **implicit grant flow is no longer a suitable authentication method**. The [silent SSO features](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow#getting-access-tokens-silently-in-the-background) of the implicit flow do not work without third party cookies, causing applications to break when they attempt to get a new token. We strongly recommend that all new applications use the authorization code flow that now supports single page apps in place of the implicit flow, and that [existing single page apps begin migrating to the authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/migrate-spa-implicit-to-auth-code) as well.
+
+## 1.3.0 (2021-04-05)
+
+### Tracing Changes
+
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
 
 ## 2.0.0-beta.1 (2021-03-24)
 
@@ -47,8 +61,6 @@ This update marks the preview for the first major version update of the `@azure/
 - `DefaultAzureCredential`'s implementation for browsers is simplified to throw the `BrowserNotSupportedError` in its constructor. Previously, we relied on getting the same error from trying to instantiate the different  credentials that `DefaultAzureCredential` supports in Node.js.
   - As before, please use only the `InteractiveBrowserCredential` in your browser applications.
 - For the `InteractiveBrowserCredential` for node, replaced the use of the `express` module with a native http server for Node, shrinking the resulting identity module considerably.
-
-
 
 ## 1.2.4 (2021-03-08)
 

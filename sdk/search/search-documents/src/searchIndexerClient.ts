@@ -44,7 +44,12 @@ import { odataMetadataPolicy } from "./odataMetadataPolicy";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export type SearchIndexerClientOptions = PipelineOptions;
+export interface SearchIndexerClientOptions extends PipelineOptions {
+  /**
+   * The API version to use when communicating with the service.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Class to perform operations to manage
@@ -55,7 +60,7 @@ export class SearchIndexerClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30";
+  public readonly apiVersion: string = "2020-06-30-Preview";
 
   /**
    * The endpoint of the search service
@@ -128,7 +133,16 @@ export class SearchIndexerClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(this.endpoint, this.apiVersion, pipeline);
+    let apiVersion = this.apiVersion;
+
+    if (options.apiVersion) {
+      if (!["2020-06-30-Preview", "2020-06-30"].includes(options.apiVersion)) {
+        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
+      }
+      apiVersion = options.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
   }
 
   /**

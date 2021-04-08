@@ -226,6 +226,7 @@ export const TagList: coreClient.CompositeMapper = {
       },
       tagAttributeBases: {
         serializedName: "tags",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -253,12 +254,14 @@ export const TagAttributesBase: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       digest: {
         serializedName: "digest",
+        required: true,
         type: {
           name: "String"
         }
@@ -302,12 +305,14 @@ export const TagProperties: coreClient.CompositeMapper = {
       },
       name: {
         serializedName: "tag.name",
+        required: true,
         type: {
           name: "String"
         }
       },
       digest: {
         serializedName: "tag.digest",
+        required: true,
         type: {
           name: "String"
         }
