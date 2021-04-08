@@ -19,7 +19,10 @@ describe("SmsClient Using Token Based Authentication [Live]", async () => {
 
   beforeEach(async function(this: Context) {
     recorder = record(this, recorderConfiguration);
-    recorder.skip(undefined, "A UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved.");
+    recorder.skip(
+      undefined,
+      "A UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
 
     const credential = createCredential();
     const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)

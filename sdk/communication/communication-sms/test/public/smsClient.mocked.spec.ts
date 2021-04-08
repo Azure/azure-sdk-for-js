@@ -35,13 +35,13 @@ describe("[mocked] SmsClient", async () => {
     });
 
     it("can instantiate with a token", async () => {
-      let fakeToken:TokenCredential = {
+      let fakeToken: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
         }
       };
       new SmsClient(baseUri, fakeToken);
-    })
+    });
   });
 
   describe("when sending an SMS", () => {

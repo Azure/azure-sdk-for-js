@@ -18,7 +18,10 @@ describe("SmsClient [Live]", async () => {
 
   beforeEach(async function(this: Context) {
     recorder = record(this, recorderConfiguration);
-    recorder.skip(undefined, "A UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved.");
+    recorder.skip(
+      undefined,
+      "A UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     this.smsClient = new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string);
   });
 
