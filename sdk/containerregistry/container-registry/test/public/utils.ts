@@ -32,14 +32,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
   // variable or query parameter replacement.  The
   // `customizationsOnRecordings` field allows us to make arbitrary
   // replacements within recordings.
-  customizationsOnRecordings: [
-    (recording: string): string =>
-      recording.replace(/"refresh_token":"[^"]*"/g, `"refresh_token":"refresh_token"`),
-    (recording: string): string =>
-      recording.replace(/access_token=(.+?)(&|")/, `access_token=access_token$2`),
-    (recording: string): string =>
-      recording.replace(/refresh_token=(.+?)(&|")/, `refresh_token=refresh_token$2`)
-  ]
+  customizationsOnRecordings: []
 };
 
 export function createRegistryClient(): ContainerRegistryClient {
