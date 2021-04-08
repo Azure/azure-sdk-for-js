@@ -178,29 +178,31 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
   $allPreviewCSVRows = Get-Content $pkgPreviewJsonLoc | Out-String | ConvertFrom-Json
   $latestPackages = $allLatestCSVRows.npm_package_sources
   $previewPackages = $allPreviewCSVRows.npm_package_sources
+  $properties = @{
+    name = ''
+  }
   for ($i = 0; $i -lt $previewMetadata.Length; $i++) {
-    $preview_object = $latestPackages | Where-Object { $_.name -like $($previewMetadata[$i].Package) }
-    if (!$preview_object) {
-      $preview_object = $previewPackages | Where-Object { $_.name -like $($previewMetadata[$i].Package) }
+    $preview_object_target_config = $previewPackages | Where-Object { $_.name -like $($previewMetadata[$i].Package) }
+    if (!$preview_object_target_config) {
+      $preview_object_target_config = $latestPackages | Where-Object { $_.name -like $($previewMetadata[$i].Package) }
     }
-    if (!$preview_object) {
-      $preview_object = @{}
+    if (!$preview_object_target_config) {
+      $preview_object_target_config = New-Object psobject -Property $properties
     }
-    $preview_object["name"] = "$($previewMetadata[$i].Package)@next"
-    $previewPackageList += $preview_object
+    $preview_object_target_config.name = "$($previewMetadata[$i].Package)@$($previewMetadata[$i].VersionPreview)"
+    $previewPackageList += $preview_object_target_config
   }
   for ($i = 0; $i -lt $latestMetadata.Length; $i++) {
-    $latest_object = $latestPackages | Where-Object { $_.name -like $($latestMetadata[$i].Package) }
-    if (!$latest_object) {
-      $latest_object = $previewPackages | Where-Object { $_.name -like $($latestMetadata[$i].Package) }
+    $latest_object_target_config = $latestPackages | Where-Object { $_.name -like $($latestMetadata[$i].Package) }
+    if (!$latest_object_target_config) {
+      $latest_object_target_config = $previewPackages | Where-Object { $_.name -like $($latestMetadata[$i].Package) }
     }
-    if (!$latest_object) {
-      $latest_object = @{}
+    if (!$latest_object_target_config) {
+      $latest_object_target_config = New-Object psobject -Property $properties
     }
-    $latest_object["name"] = "$latestMetadata[$i].Package"
-    $latestPackageList += $latest_object
+    $latest_object_target_config.name = $latestMetadata[$i].Package
+    $latestPackageList += $latest_object_target_config
   }
-
 
   for ($j = 0; $j -lt $latestPackages.Length; $j++) {
     $pkg = $latestPackages[$j].name
