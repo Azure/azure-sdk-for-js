@@ -3,10 +3,10 @@
 # tests pipeline. This is useful for when we want to test in different
 # environments: Prod, Canary, etc.
 parameters:
-- name: Location
-  displayName: Location
-  type: string
-  default: canadacentral
+  - name: Location
+    displayName: Location
+    type: string
+    default: canadacentral
 
 trigger: none
 
@@ -20,3 +20,17 @@ stages:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+      CloudConfig:
+        Public:
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          Location: "canadacentral"
+        Canary:
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          Location: "centraluseuap"
+        UsGov:
+          SubscriptionConfiguration: $(sub-config-gov-test-resources-test)
+          Location: "usgovvirginia"
+        China:
+          SubscriptionConfiguration: $(sub-config-cn-test-resources)
+          Location: "chinaeast2"
+      SupportedClouds: "Public,Canary,UsGov,China"
