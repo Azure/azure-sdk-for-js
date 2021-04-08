@@ -7,7 +7,7 @@
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["DOM", "ESNext.AsyncIterable"],
+    "lib": ["DOM", "ESNext.AsyncIterable", "webworker"],
     "noFallthroughCasesInSwitch": true,
     "module": "es2020",
     "moduleResolution": "node",

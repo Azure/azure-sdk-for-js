@@ -1,5 +1,4 @@
 import "./polyfill.worker";
-
 import { ContainerClient } from "@azure/storage-blob";
 
 const azureStorageBlobConnectionString = process.env.AZURE_STORAGE_BLOB_CONNECTION_STRING
@@ -7,6 +6,7 @@ const azureStorageBlobConnectionString = process.env.AZURE_STORAGE_BLOB_CONNECTI
 if (!azureStorageBlobConnectionString) {
   throw "Required environment variable AZURE_STORAGE_BLOB_CONNECTION_STRING is either missing or empty."
 }
+console.log("azureStorageBlobConnectionString", azureStorageBlobConnectionString);
 
 const containerClient = new ContainerClient(azureStorageBlobConnectionString)
 const blockBlobClient = containerClient.getBlockBlobClient("sample.txt")
