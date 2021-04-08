@@ -8,9 +8,9 @@ products:
 urlFragment: communication-phone-numbers-javascript
 ---
 
-# Azure Communication Services client library samples for JavaScript
+# Azure Communication Services - Phone Numbers client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Communication Services in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Phone Numbers in some common scenarios.
 
 | **File Name**                                                     | **Description**                                       |
 | ----------------------------------------------------------------- | ----------------------------------------------------- |
@@ -24,7 +24,9 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 The sample programs are compatible with Node.js >=12.0.0.
 
-You need [an Azure subscription][freesub] to run these sample programs.
+You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
+
+- [Azure Communication Services account][createinstance_azurecommunicationservicesaccount]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -65,4 +67,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [updatephonenumbercapabilities]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/communication/communication-phone-numbers/samples/v1/javascript/updatePhoneNumberCapabilities.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-phone-numbers
 [freesub]: https://azure.microsoft.com/free/
+[createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/communication/communication-phone-numbers/README.md

@@ -7,8 +7,12 @@
 
 const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
 
+// Load the .env file if it exists
+const dotenv = require("dotenv");
+dotenv.config();
+
 export const main = async () => {
-  console.log("\n== Release Phone Numbers Typescript Sample ==\n");
+  console.log("\n== Release Phone Numbers Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
   const connectionString =

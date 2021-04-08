@@ -7,8 +7,12 @@
 
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
 export async function main() {
-  console.log("\n== Get a Purchased Phone Number Javascript Sample ==\n");
+  console.log("\n== Get a Purchased Phone Number Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
   const connectionString =
