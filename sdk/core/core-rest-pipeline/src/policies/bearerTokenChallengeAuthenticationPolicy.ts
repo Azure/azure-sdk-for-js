@@ -107,7 +107,7 @@ export async function retrieveToken(
 /**
  * Default authorize request
  */
-export async function defaultAuthorizeRequest(options: ChallengeCallbackOptions): Promise<void> {
+async function defaultAuthorizeRequest(options: ChallengeCallbackOptions): Promise<void> {
   const accessToken = await retrieveToken(options);
   if (!accessToken) {
     return;
@@ -130,7 +130,7 @@ function getChallenge(response: PipelineResponse): string | undefined {
 /**
  * Default authorize request on challenge
  */
-export async function defaultAuthorizeRequestOnChallenge(
+async function defaultAuthorizeRequestOnChallenge(
   options: ChallengeCallbackOptions & { response: PipelineResponse }
 ): Promise<boolean> {
   const { scopes, setAuthorizationHeader } = options;
@@ -199,15 +199,13 @@ export function bearerTokenChallengeAuthenticationPolicy(
         request.headers.set("Authorization", `Bearer ${token}`);
       }
 
-      if (callbacks?.authorizeRequest) {
-        await callbacks.authorizeRequest({
-          scopes,
-          request,
-          previousToken: cycler.cachedToken,
-          getToken: cycler.getToken,
-          setAuthorizationHeader
-        });
-      }
+      await callbacks.authorizeRequest({
+        scopes,
+        request,
+        previousToken: cycler.cachedToken,
+        getToken: cycler.getToken,
+        setAuthorizationHeader
+      });
 
       let response: PipelineResponse;
       let error: Error | undefined;
@@ -218,11 +216,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
         response = err.response;
       }
 
-      if (
-        response.status === 401 &&
-        callbacks?.authorizeRequestOnChallenge &&
-        getChallenge(response)
-      ) {
+      if (response?.status === 401 && getChallenge(response)) {
         // processes challenge
         const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
           scopes,
