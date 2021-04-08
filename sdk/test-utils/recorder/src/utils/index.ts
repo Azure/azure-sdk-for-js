@@ -474,12 +474,11 @@ export function maskAccessTokenInNockFixture(fixture: string): string {
   }
   // Replaces only if the content-type is json
   if (isContentTypeInNockFixture(fixture, jsonContentTypes)) {
-    // Matches the nock's reply from the fixture such as below
-    //   `.reply(200, {"token_type":"Bearer","expires_in":86399,"access_token":"e6z-9_g"}, [`
-    const matches = fixture.match(/\.reply\((.*), (.*), .*/);
-    if (matches && matches[2]) {
-      return fixture.replace(/"access_token"\s*:\s*"(.+?)"/, `"access_token":"access_token"`);
-    }
+    return fixture
+      .replace(/"access_token"\s*:\s*"(.+?)"/, `"access_token":"access_token"`)
+      .replace(/"refresh_token"\s*:\s*"[^"]*"/, `"refresh_token":"refresh_token"`)
+      .replace(/access_token=(.+?)(&|")/, `access_token=access_token$2`) // x-www-form-urlencoded request body
+      .replace(/refresh_token=(.+?)(&|")/, `refresh_token=refresh_token$2`); // x-www-form-urlencoded request body
   }
   return fixture;
 }
