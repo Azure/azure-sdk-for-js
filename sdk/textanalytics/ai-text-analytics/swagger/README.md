@@ -12,12 +12,12 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/d2982a8962885e8506b5ebc0b33cb8caf1dc7551/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.4/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/433545de4adc3c9cc2ec7747ed9af74c42195a0c/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.5/TextAnalytics.json
 add-credentials: false
-package-version: 5.1.0-beta.5
+package-version: 5.1.0-beta.6
 v3: true
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20210121.2"
+  "@autorest/typescript": "6.0.0-alpha.20210309.1"
 hide-clients: true
 ```
 
