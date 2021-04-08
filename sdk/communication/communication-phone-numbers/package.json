@@ -121,7 +121,7 @@
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {
-    "productName": "Azure Communication Services",
+    "productName": "Azure Communication Services - Phone Numbers",
     "productSlugs": [
       "azure",
       "azure-communication-services"
