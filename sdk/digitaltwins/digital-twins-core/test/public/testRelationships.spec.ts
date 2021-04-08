@@ -84,13 +84,13 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
+  beforeEach(async function(this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
@@ -174,7 +174,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     await createDigitalTwins();
   }
 
-  it("create basic relationship", async function () {
+  it("create basic relationship", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -222,7 +222,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("create invalid relationship - invalid twin id", async function () {
+  it("create invalid relationship - invalid twin id", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -252,7 +252,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create invalid relationship - invalid twin target id", async function () {
+  it("create invalid relationship - invalid twin target id", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -282,7 +282,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create relationship conditionally", async function () {
+  it("create relationship conditionally", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -347,7 +347,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("upsert relationship", async function () {
+  it("upsert relationship", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -432,7 +432,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("get relationship", async function () {
+  it("get relationship", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -516,7 +516,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("get relationship not existing", async function () {
+  it("get relationship not existing", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -543,7 +543,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("delete relationship", async function () {
+  it("delete relationship", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -610,7 +610,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("delete relationship not existing", async function () {
+  it("delete relationship not existing", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -637,7 +637,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship replace", async function () {
+  it("update relationship replace", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -723,7 +723,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship remove", async function () {
+  it("update relationship remove", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -807,7 +807,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship add", async function () {
+  it("update relationship add", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -901,7 +901,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship multiple", async function () {
+  it("update relationship multiple", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -990,7 +990,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship invalid patch", async function () {
+  it("update relationship invalid patch", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1101,7 +1101,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship conditionally", async function () {
+  it("update relationship conditionally", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1190,7 +1190,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("update relationship not existing", async function () {
+  it("update relationship not existing", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1221,7 +1221,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("list relationships", async function () {
+  it("list relationships", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 
@@ -1282,7 +1282,7 @@ describe("DigitalTwins Relationships - create, read, list, delete operations", (
     }
   });
 
-  it("list incoming relationships", async function () {
+  it("list incoming relationships", async function() {
     await setUpModels();
     await setUpDigitalTwins();
 

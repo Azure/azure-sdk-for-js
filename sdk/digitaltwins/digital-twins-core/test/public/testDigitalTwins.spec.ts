@@ -39,13 +39,13 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
+  beforeEach(async function(this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
@@ -86,7 +86,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   }
 
-  it("create a simple digital twin", async function () {
+  it("create a simple digital twin", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "create-simple-digitaltwin");
 
     await setUpModels();
@@ -132,7 +132,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   });
 
-  it("create digitaltwin without model", async function () {
+  it("create digitaltwin without model", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "create-digitaltwin-without-model");
 
     await deleteDigitalTwin(digitalTwinId);
@@ -157,7 +157,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create invalid digitaltwin", async function () {
+  it("create invalid digitaltwin", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "create-invalid-digitaltwin");
 
     await deleteDigitalTwin(digitalTwinId);
@@ -181,7 +181,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("create digitaltwin conditionally if missing", async function () {
+  it("create digitaltwin conditionally if missing", async function() {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "create-digitaltwin-conditionally-if-missing"
@@ -210,8 +210,8 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
       should.equal(
         error.message,
         `If-None-Match: * header was specified but a twin with the id ` +
-        digitalTwinId +
-        ` was found. Please specify a different twin id.`
+          digitalTwinId +
+          ` was found. Please specify a different twin id.`
       );
     } finally {
       await deleteDigitalTwin(digitalTwinId);
@@ -220,7 +220,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update a simple digital twin", async function () {
+  it("update a simple digital twin", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "upsert-simple-digitaltwin");
 
     await setUpModels();
@@ -293,7 +293,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   });
 
-  it("upsert digital twin invalid conditions", async function () {
+  it("upsert digital twin invalid conditions", async function() {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "upsert-digitaltwin-invalid-conditions"
@@ -328,7 +328,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("get digitaltwin", async function () {
+  it("get digitaltwin", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "get-digitaltwin");
 
     await setUpModels();
@@ -355,7 +355,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   });
 
-  it("get digitaltwin not existing", async function () {
+  it("get digitaltwin not existing", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "get-digitaltwin-not-existing");
 
     await setUpModels();
@@ -374,7 +374,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete digitaltwin", async function () {
+  it("delete digitaltwin", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "delete-digitaltwin");
 
     await setUpModels();
@@ -413,7 +413,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete digitaltwin not existing", async function () {
+  it("delete digitaltwin not existing", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "delete-digitaltwin-not-exisiting");
 
     await setUpModels();
@@ -432,7 +432,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete digitaltwin if present", async function () {
+  it("delete digitaltwin if present", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "delete-digitaltwin-if-present");
 
     await setUpModels();
@@ -474,7 +474,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("delete digital twin invalid conditions", async function () {
+  it("delete digital twin invalid conditions", async function() {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "delete-digitaltwin-invalid-conditions"
@@ -511,7 +511,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update digital twin replace", async function () {
+  it("update digital twin replace", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-replace");
 
     await setUpModels();
@@ -557,7 +557,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin remove", async function () {
+  it("update digital twin remove", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-remove");
 
     await setUpModels();
@@ -602,7 +602,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin add", async function () {
+  it("update digital twin add", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-add");
 
     await setUpModels();
@@ -647,7 +647,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin multiple", async function () {
+  it("update digital twin multiple", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-multiple");
 
     await setUpModels();
@@ -697,7 +697,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin invalid patch", async function () {
+  it("update digital twin invalid patch", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-invalid-patch");
 
     await setUpModels();
@@ -731,7 +731,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update digital twin confditionally if present", async function () {
+  it("update digital twin confditionally if present", async function() {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "update-digitaltwin-conditionally-if-present"
@@ -777,7 +777,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, false, "Error was thrown");
   });
 
-  it("update digital twin invalid conditions", async function () {
+  it("update digital twin invalid conditions", async function() {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "update-digitaltwin-invalid-conditions"
@@ -821,7 +821,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("update digital twin not existing", async function () {
+  it("update digital twin not existing", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "update-digitaltwin-not-existing");
 
     await setUpModels();
@@ -848,7 +848,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("query digital twin", async function () {
+  it("query digital twin", async function() {
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "query-digitaltwin");
 
     await setUpModels();
@@ -883,7 +883,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     }
   });
 
-  it("query digital twin invalid expression", async function () {
+  it("query digital twin invalid expression", async function() {
     const digitalTwinId = recorder.getUniqueName(
       "digitalTwin",
       "query-digitaltwin-invalid-expression"
@@ -896,7 +896,9 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     try {
       const query = "foo";
       const queryResult = client.queryTwins(query);
-      for await (const _ of queryResult) {/* ignored */ }
+      for await (const _ of queryResult) {
+        /* ignored */
+      }
     } catch (error) {
       errorWasThrown = true;
       assert.include(
@@ -911,7 +913,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
     should.equal(errorWasThrown, true, "Error was not thrown");
   });
 
-  it("publish telemetry", async function () {
+  it("publish telemetry", async function() {
     recorder.skip(undefined, "The method creates a unique Id");
 
     const digitalTwinId = recorder.getUniqueName("digitalTwin", "publish-telemetry");
