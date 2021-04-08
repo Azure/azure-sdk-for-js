@@ -26,7 +26,7 @@
   },
   "variables": {
     "storageAccountName": "[concat(replace(parameters('baseName'), '-', ''), 'storage')]",
-    "storageContainerName": "/default/blobs",
+    "storageContainerName": "blobs",
     "location": "[resourceGroup().location]",
     "accountSasProperties": {
       "signedServices": "b",
@@ -53,11 +53,35 @@
       },
       "resources": [
         {
-          "type": "blobServices/containers",
+          "type": "blobServices",
           "apiVersion": "2019-06-01",
-          "name": "[variables('storageContainerName')",
+          "name": "default",
           "dependsOn": [
             "[variables('storageAccountName')]"
+          ],
+          "properties": {
+            "cors": {
+              "corsRules": [
+                {
+                  "allowedOrigins": ["[parameters('origin')]"],
+                  "allowedMethods": ["GET", "OPTIONS", "PUT", "POST"],
+                  "maxAgeInSeconds": 0,
+                  "exposedHeaders": ["*"],
+                  "allowedHeaders": ["*"]
+                }
+              ]
+            }
+          },
+          "resources": [
+            {
+              "type": "containers",
+              "apiVersion": "2019-06-01",
+              "name": "[variables('storageContainerName')]",
+              "dependsOn": [
+                "[resourceId('Microsoft.Storage/storageAccounts/blobServices', variables('storageAccountName'), 'default')]",
+                "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
+              ]
+            }
           ]
         }
       ]
@@ -66,7 +90,7 @@
   "outputs": {
     "azure_storage_blob_connection_string": {
       "type": "string",
-      "value": "[concat('BlobEndpoint=https://',variables('storageAccountName'),'.blob.core.windows.net/',';SharedAccessSignature=', listAccountSas(variables('storageAccountName'), '2019-06-01', variables('accountSasProperties')).accountSasToken)]"
+      "value": "[concat('BlobEndpoint=https://',variables('storageAccountName'),'.blob.core.windows.net/','blobs',';SharedAccessSignature=', listAccountSas(variables('storageAccountName'), '2019-06-01', variables('accountSasProperties')).accountSasToken)]"
     }
   }
 }
