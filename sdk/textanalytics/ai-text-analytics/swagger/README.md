@@ -5,6 +5,8 @@
 ## Configuration
 
 ```yaml
+use: /home/dealmaha/corev2-v6
+use-core-v2: true
 package-name: "@azure/ai-text-analytics"
 title: GeneratedClient
 description: TextAnalytics Client
@@ -16,8 +18,6 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/433545d
 add-credentials: false
 package-version: 5.1.0-beta.6
 v3: true
-use-extension:
-  "@autorest/typescript": "6.0.0-alpha.20210309.1"
 hide-clients: true
 ```
 
