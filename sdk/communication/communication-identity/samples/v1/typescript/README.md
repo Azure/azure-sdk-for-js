@@ -15,7 +15,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | **File Name**                   | **Description**                                                                    |
 | ------------------------------- | ---------------------------------------------------------------------------------- |
 | [issueToken.ts][issuetoken]     | Demonstrates how to use the CommunicationIdentityClient to issue a new user token. |
-| [revokeTokens.ts][revoketokens] | Demonstrates how to use the CommunicationIdentityClient to issue a new user token. |
+| [revokeTokens.ts][revoketokens] | Demonstrates how to use the CommunicationIdentityClient to revoke a user's tokens. |
 
 ## Prerequisites
 

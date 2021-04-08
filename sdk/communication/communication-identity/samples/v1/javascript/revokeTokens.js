@@ -3,7 +3,7 @@
 
 /**
  * @summary Demonstrates how to use the CommunicationIdentityClient to
- * issue a new user token.
+ * revoke a user's tokens.
  */
 
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
@@ -17,7 +17,7 @@ const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 export const main = async () => {
-  console.log("\n== Issue Token Typescript Sample ==\n");
+  console.log("\n== Revoke Token sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
 
