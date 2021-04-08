@@ -84,9 +84,9 @@ export interface CommunicationError {
    */
   readonly details?: CommunicationError[];
   /**
-   * The Communication Services error.
+   * The inner error if any.
    */
-  innerError?: CommunicationError;
+  readonly innerError?: CommunicationError;
 }
 
 export interface CommunicationIdentityAccessTokenRequest {

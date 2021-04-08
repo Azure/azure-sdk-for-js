@@ -1,6 +1,9 @@
 # Release History
 
-## 4.2.0-beta.5 (2021-04-05)
+## 4.2.0-beta.6 (Unreleased)
+
+
+## 4.2.0-beta.5 (2021-04-06)
 
 - Added local cryptography support for encryption / decryption for `A128CBCPAD`, `A192CBCPAD`, and `A256CBCPAD`.
 - For AES-CBC encryption we will now generate an IV if the user did not pass it in, making `iv` optional for those parameters.
@@ -10,6 +13,7 @@
   - Finally, naming conventions have been standardized across the KeyVault libraries taking the format of `Azure.KeyVault.<PACKAGE NAME>.<CLIENT NAME>`.
 - Fixed an issue where retrying a failed initial Key Vault request may result in an empty body.
 - [Breaking] Removed the now unused `LocalCryptographyAlgorithmName` type (Added in 4.2.0-beta.1 to support `LocalCryptographyClient` and unused since 4.2.0-beta.4)
+- Updated `CryptographyClient` to ensure that any local cryptography error is properly handled. We will now try to perform the operation locally where we can but fallback to KeyVault if the local operation fails.
 
 ## 4.2.0-beta.4 (2021-03-09)
 
