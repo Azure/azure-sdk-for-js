@@ -8,7 +8,7 @@
  * - get digital twin
  * - update digital twin using JSON patch
  * - delete digital twin
- * 
+ *
  * @summary demonstrates the lifecycle (create, get, update, delete) of a digital twin
  */
 

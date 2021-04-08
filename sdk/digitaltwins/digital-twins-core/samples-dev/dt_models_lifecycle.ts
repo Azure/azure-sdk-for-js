@@ -9,7 +9,7 @@
  * - list all models by listing them using the paginated API
  * - decommission the created models
  * - delete the created models
- * 
+ *
  * @summary demonstrates the lifecycle (create, get, list, decommission, delete) of a model
  */
 

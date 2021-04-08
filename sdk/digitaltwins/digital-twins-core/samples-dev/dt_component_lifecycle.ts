@@ -11,7 +11,7 @@
  * - get component
  * - delete twin
  * - decommission and delete model, component
- * 
+ *
  * @summary demonstrates the lifecycle (create, update, get, decommission, delete) of a component
  */
 

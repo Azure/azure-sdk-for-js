@@ -22,7 +22,7 @@
  * +------------+                 +-----------------+
  * |   Room     |-with component->| WifiAccessPoint |
  * +------------+                 +-----------------+
- * 
+ *
  * Scenario example of how to:
  * - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
  * - create models from file
@@ -33,7 +33,7 @@
  * - delete the created digital twins
  * - decommission the created models
  * - delete the created models
- * 
+ *
  * @summary Demonstrates a scenario with models, digital twins, event routes, and relationships using the DTDL examples found in the DTDL folder.
  */
 
