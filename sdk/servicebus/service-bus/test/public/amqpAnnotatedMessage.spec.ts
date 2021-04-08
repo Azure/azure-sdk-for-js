@@ -105,7 +105,6 @@ describe("AmqpAnnotatedMessage", function(): void {
       ["deliveryCount"],
       "Unexpected header on the AmqpAnnotatedMessage"
     );
-    console.log(msgs[0]._rawAmqpMessage.properties!.messageId, testMessage.properties!.messageId);
     assert.deepEqualExcluding(
       msgs[0]._rawAmqpMessage.properties!,
       testMessage.properties!,
