@@ -87,7 +87,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/core-util": "^1.0.0-beta.1",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "2.0.0-beta.2",
+    "@azure/identity": "2.0.0-beta.3",
     "@azure/ms-rest-nodeauth": "^3.0.8",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
