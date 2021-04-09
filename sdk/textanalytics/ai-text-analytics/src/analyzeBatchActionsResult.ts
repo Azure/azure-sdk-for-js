@@ -10,10 +10,7 @@ import {
   ExtractKeyPhrasesResultArray,
   makeExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
-import {
-  AnalyzeJobState as GeneratedResponse,
-  TextDocumentInput
-} from "./generated/models";
+import { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
 import {
   makeRecognizeCategorizedEntitiesResultArray,
   RecognizeCategorizedEntitiesResultArray
