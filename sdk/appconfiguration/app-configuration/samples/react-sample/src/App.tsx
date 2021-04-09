@@ -1,14 +1,15 @@
-import React from 'react';
-import './App.css';
+/*
+  Copyright (c) Microsoft Corporation.
+  Licensed under the MIT license.
+*/
 
-function App() {
+import React from "react";
+import Header from "./components/Header";
+
+function App(): JSX.Element {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
+    <div className="container text-center">
+      <Header />
     </div>
   );
 }
