@@ -79,7 +79,7 @@ export const skip: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-07",
+    defaultValue: "2021-04-05-preview6",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -183,7 +183,7 @@ export const createChatThreadRequest: OperationParameter = {
 export const repeatabilityRequestId: OperationParameter = {
   parameterPath: ["options", "repeatabilityRequestId"],
   mapper: {
-    serializedName: "repeatability-request-id",
+    serializedName: "repeatability-Request-Id",
     type: {
       name: "String"
     }

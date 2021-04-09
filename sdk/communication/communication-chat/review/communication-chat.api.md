@@ -86,6 +86,9 @@ export interface ChatMessage {
     deletedOn?: Date;
     editedOn?: Date;
     id: string;
+    properties?: {
+        [propertyName: string]: any;
+    };
     sender?: CommunicationIdentifierKind;
     senderDisplayName?: string;
     sequenceId: string;
@@ -234,6 +237,9 @@ export interface RestListReadReceiptsOptions extends coreHttp.OperationOptions {
 // @public
 export interface RestUpdateMessageOptions {
     content?: string;
+    properties?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
@@ -243,6 +249,9 @@ export interface SendChatMessageResult {
 
 // @public
 export interface SendMessageOptions extends OperationOptions {
+    properties?: {
+        [propertyName: string]: any;
+    };
     senderDisplayName?: string;
     type?: ChatMessageType;
 }
