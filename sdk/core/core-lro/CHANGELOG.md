@@ -1,7 +1,8 @@
 # Release History
 
-## 1.0.5 (Unreleased)
+## 1.0.5 (2021-04-12)
 
+- Bug fix: Update compiled artifacts to use es6 instead of cjs modules.
 
 ## 1.0.4 (2021-03-30)
 
