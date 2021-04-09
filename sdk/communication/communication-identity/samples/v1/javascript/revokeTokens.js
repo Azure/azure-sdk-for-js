@@ -2,22 +2,21 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the CommunicationIdentityClient to
- * issue a new user token.
+ * @summary Revoke user tokens.
  */
 
-import { CommunicationIdentityClient } from "@azure/communication-identity";
+const { CommunicationIdentityClient } = require("@azure/communication-identity");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
-export const main = async () => {
-  console.log("\n== Issue Token Typescript Sample ==\n");
+async function main() {
+  console.log("\n== Revoke Token sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
 
@@ -46,7 +45,7 @@ export const main = async () => {
   await client.revokeTokens(user);
 
   console.log("Tokens Revoked");
-};
+}
 
 main().catch((error) => {
   console.error("Encountered an error while issuing/refreshing token: ");

@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the CommunicationIdentityClient to
- * issue a user token.
+ * @summary Issue a new user token.
  */
 
 const { CommunicationIdentityClient } = require("@azure/communication-identity");
@@ -17,7 +16,7 @@ const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
 async function main() {
-  console.log("\n== Issue Token Javascript Sample ==\n");
+  console.log("\n== Issue Token Sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
   const scopes = ["chat"];
