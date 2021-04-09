@@ -2,28 +2,31 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to us the PhoneNumbersClient search for an available
- * phone number and then purchase the phone number that is found.
+ * @summary Search for a toll-free phone number then purchase it.
  */
 
-const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
+import {
+  PhoneNumbersClient,
+  SearchAvailablePhoneNumbersRequest
+} from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
-// You will need to set this environment variable or edit the following values
-const connectionString =
-  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
+export async function main() {
+  console.log("\n== Purchase Phone Number Sample ==\n");
 
-async function main() {
-  console.log("\n== Purchase Phone Number Javascript Sample ==\n");
+  // You will need to set this environment variable or edit the following values
+  const connectionString =
+    process.env.COMMUNICATION_CONNECTION_STRING ||
+    "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
   // create new client
   const client = new PhoneNumbersClient(connectionString);
 
   // create search request
-  const searchRequest = {
+  const searchRequest: SearchAvailablePhoneNumbersRequest = {
     countryCode: "US",
     phoneNumberType: "tollFree",
     assignmentType: "application",
@@ -59,8 +62,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("Encountered an error while purchasing phone number: ");
-  console.error("Request: \n", error.request);
-  console.error("\nResponse: \n", error.response);
-  console.error(error);
+  console.log("The sample encountered an error:", error);
+  process.exit(1);
 });

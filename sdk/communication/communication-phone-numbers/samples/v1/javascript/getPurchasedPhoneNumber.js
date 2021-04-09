@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to us the PhoneNumbersClient
- * to get a purchased phone number.
+ * @summary Get a purchased phone number.
  */
 
 const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
@@ -12,18 +11,21 @@ const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
 const dotenv = require("dotenv");
 dotenv.config();
 
-// You will need to set this environment variable or edit the following values
-const connectionString =
-  process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
-
 async function main() {
-  console.log("\n== Get a Purchased Phone Number Javascript Sample ==\n");
+  console.log("\n== Get a Purchased Phone Number Sample ==\n");
+
+  // You will need to set this environment variable or edit the following values
+  const connectionString =
+    process.env.COMMUNICATION_CONNECTION_STRING ||
+    "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
   // create new client
   const client = new PhoneNumbersClient(connectionString);
 
-  const phoneNumberToGet = "<phone-number-to-get>";
+  // You will need to set this environment variable or edit the following values
+  const phoneNumberToGet = process.env.PHONE_NUMBER_TO_GET || "<phone number to get>";
 
+  // get the phone number
   const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);
 
   console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
@@ -31,8 +33,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("Encountered an error while updating the phone number: ");
-  console.error("Request: \n", error.request);
-  console.error("\nResponse: \n", error.response);
-  console.error(error);
+  console.log("The sample encountered an error:", error);
+  process.exit(1);
 });
