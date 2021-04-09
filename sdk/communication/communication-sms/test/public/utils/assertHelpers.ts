@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { SmsSendResult } from "../../../src/smsClient";
+import { SmsSendResult } from "../../../src";
 
 export const assertIsSuccessResult = (
   actualSmsResult: SmsSendResult,

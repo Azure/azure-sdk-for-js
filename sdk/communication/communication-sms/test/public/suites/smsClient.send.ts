@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import { SmsSendRequest, SmsSendOptions } from "../../../src/smsClient";
+import { SmsSendRequest, SmsSendOptions } from "../../../src";
 import { env } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
 import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers";

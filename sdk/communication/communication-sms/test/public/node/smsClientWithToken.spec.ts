@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { env, record, Recorder } from "@azure/test-utils-recorder";
-import { SmsClient } from "../../../src/smsClient";
+import { SmsClient } from "../../../src";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import { parseConnectionString } from "@azure/communication-common";

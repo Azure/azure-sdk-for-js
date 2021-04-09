@@ -6,7 +6,7 @@ import { HttpClient, isNode } from "@azure/core-http";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
-import { SmsClient, SmsSendRequest } from "../../src/smsClient";
+import { SmsClient, SmsSendRequest } from "../../src";
 import { FakeHttpClient } from "./utils/fakeHttpClient";
 import { TokenCredential } from "@azure/identity";
 
