@@ -53,7 +53,7 @@ node getPurchasedPhoneNumber.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_COMMUNICATION_SAMPLES_CONNECTION_STRING="<azure communication samples connection string>" AZURE_COMMUNICATION_PHONE_NUMBER_TO_GET="<azure communication phone number to get>" AZURE_PHONE_NUMBER="<azure phone number>" node getPurchasedPhoneNumber.js
+npx cross-env COMMUNICATION_SAMPLES_CONNECTION_STRING="<communication samples connection string>" PHONE_NUMBER_TO_GET="<phone number to get>" AZURE_PHONE_NUMBER="<azure phone number>" node getPurchasedPhoneNumber.js
 ```
 
 ## Next Steps

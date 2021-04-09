@@ -19,7 +19,7 @@ export async function main() {
 
   // You will need to set this environment variable or edit the following values
   const connectionString =
-    process.env.AZURE_COMMUNICATION_SAMPLES_CONNECTION_STRING ||
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
   // create new client
