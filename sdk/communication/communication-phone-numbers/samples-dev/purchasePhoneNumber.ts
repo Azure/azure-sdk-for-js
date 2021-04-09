@@ -14,7 +14,7 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export const main = async () => {
+export async function main() {
   console.log("\n== Purchase Phone Number Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -59,7 +59,7 @@ export const main = async () => {
   } else {
     console.log("Did not find any phone numbers.");
   }
-};
+}
 
 main().catch((error) => {
   console.log("The sample encountered an error:", error);

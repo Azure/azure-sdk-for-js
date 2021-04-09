@@ -11,7 +11,7 @@ const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
 const dotenv = require("dotenv");
 dotenv.config();
 
-export const main = async () => {
+async function main() {
   console.log("\n== Purchase Phone Number Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -56,8 +56,7 @@ export const main = async () => {
   } else {
     console.log("Did not find any phone numbers.");
   }
-};
-
+}
 main().catch((error) => {
   console.log("The sample encountered an error:", error);
   process.exit(1);

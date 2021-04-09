@@ -14,7 +14,7 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export const main = async () => {
+export async function main() {
   console.log("\n== Purchase Phone Number Sample ==\n");
 
   // You will need to set this environment variable or edit the following values

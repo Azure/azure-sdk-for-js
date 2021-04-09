@@ -11,7 +11,7 @@ const { PhoneNumbersClient } = require("@azure/communication-phone-numbers");
 const dotenv = require("dotenv");
 dotenv.config();
 
-export const main = async () => {
+async function main() {
   console.log("\n== Update Phone Number Capabilities Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
@@ -39,8 +39,7 @@ export const main = async () => {
   // Update is underway.
   const { capabilities } = await updatePoller.pollUntilDone();
   console.log(`These are the update capabilities: ${capabilities}`);
-};
-
+}
 main().catch((error) => {
   console.log("The sample encountered an error:", error);
   process.exit(1);
