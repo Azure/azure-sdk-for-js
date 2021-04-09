@@ -26,7 +26,10 @@ export async function main() {
   const client = new PhoneNumbersClient(connectionString);
 
   // You will need to set this environment variable or edit the following values
-  const phoneNumberToUpdate = process.env.AZURE_COMMUNICATION_PHONE_NUMBER_TO_UPDATE || process.env.AZURE_PHONE_NUMBER || "<phone number to update>";
+  const phoneNumberToUpdate =
+    process.env.AZURE_COMMUNICATION_PHONE_NUMBER_TO_UPDATE ||
+    process.env.AZURE_PHONE_NUMBER ||
+    "<phone number to update>";
 
   // This will update the phone number to send and receive sms, but only send calls.
   const updateRequest: PhoneNumberCapabilitiesRequest = {

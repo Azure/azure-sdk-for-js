@@ -23,7 +23,10 @@ export async function main() {
   const client = new PhoneNumbersClient(connectionString);
 
   // You will need to set this environment variable or edit the following values
-  const phoneNumberToRelease = process.env.AZURE_COMMUNICATION_PHONE_NUMBER_TO_RELEASE || process.env.AZURE_PHONE_NUMBER || "<phone number to release>";
+  const phoneNumberToRelease =
+    process.env.AZURE_COMMUNICATION_PHONE_NUMBER_TO_RELEASE ||
+    process.env.AZURE_PHONE_NUMBER ||
+    "<phone number to release>";
 
   // get poller to monitor release
   const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease);

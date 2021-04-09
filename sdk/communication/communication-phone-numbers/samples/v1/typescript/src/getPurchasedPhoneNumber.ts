@@ -23,7 +23,10 @@ export async function main() {
   const client = new PhoneNumbersClient(connectionString);
 
   // You will need to set this environment variable or edit the following values
-  const phoneNumberToGet = process.env.AZURE_COMMUNICATION_PHONE_NUMBER_TO_GET || process.env.AZURE_PHONE_NUMBER || "<phone number to get>";
+  const phoneNumberToGet =
+    process.env.AZURE_COMMUNICATION_PHONE_NUMBER_TO_GET ||
+    process.env.AZURE_PHONE_NUMBER ||
+    "<phone number to get>";
 
   // get the phone number
   const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);
