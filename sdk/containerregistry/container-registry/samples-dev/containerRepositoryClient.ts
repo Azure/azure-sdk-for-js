@@ -3,20 +3,26 @@
 
 /**
  * @summary Demonstrates the use of a ContainerRepositoryClient.
+ * @azsdk-weight 5
  */
 
-const { ContainerRepositoryClient } = require("@azure/container-registry");
-const { DefaultAzureCredential } = require("@azure/identity");
-require("dotenv").config();
+import { ContainerRepositoryClient, RegistryArtifactProperties } from "@azure/container-registry";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
-  const endpoint = process.env.ENDPOINT || "<endpoint>";
+export async function main() {
+  // endpoint should be in the form of "https://myregistryname.azurecr.io"
+  // where "myregistryname" is the actual name of your registry
+  const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.REPOSITORY_NAME || "<repository name>";
 
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
   await getProperties(client);
   await listTags(client);
+
   const artifacts = await listArtifacts(client);
+
   if (artifacts && artifacts.length) {
     const digest = artifacts[0].digest;
     if (digest) {
@@ -25,9 +31,14 @@ async function main() {
       await deleteArtifact(client, digest);
     }
   }
+
+  // Advanced: listing by pages
+  const pageSize = 2;
+  await listTagsByPages(client, pageSize);
+  await listArtifactsByPages(client, pageSize);
 }
 
-async function listTags(client) {
+async function listTags(client: ContainerRepositoryClient) {
   console.log("Listing tags");
   const iterator = client.listTags({ orderBy: "timeasc" });
   for await (const tag of iterator) {
@@ -36,9 +47,11 @@ async function listTags(client) {
     console.log(`  created on: ${tag.createdOn}`);
     console.log(`  last updated on: ${tag.lastUpdatedOn}`);
   }
+}
 
-  console.log("  by pages");
-  const pages = client.listTags().byPage({ maxPageSize: 2 });
+async function listTagsByPages(client: ContainerRepositoryClient, pagesSize: number) {
+  console.log("Listing tags by pages");
+  const pages = client.listTags().byPage({ maxPageSize: pagesSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -53,9 +66,11 @@ async function listTags(client) {
   }
 }
 
-async function listArtifacts(client) {
+async function listArtifacts(
+  client: ContainerRepositoryClient
+): Promise<RegistryArtifactProperties[]> {
   console.log("Listing artifacts");
-  const artifacts = [];
+  const artifacts: RegistryArtifactProperties[] = [];
   const iterator = client.listRegistryArtifacts();
   for await (const artifact of iterator) {
     artifacts.push(artifact);
@@ -64,8 +79,12 @@ async function listArtifacts(client) {
     console.log(`  last updated on: ${artifact.lastUpdatedOn}`);
   }
 
-  console.log("  by pages");
-  const pages = client.listRegistryArtifacts().byPage({ maxPageSize: 2 });
+  return artifacts;
+}
+
+async function listArtifactsByPages(client: any, pageSize: number) {
+  console.log("Listing artifacts by pages");
+  const pages = client.listRegistryArtifacts().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -77,11 +96,9 @@ async function listArtifacts(client) {
     }
     result = await pages.next();
   }
-
-  return artifacts;
 }
 
-async function getProperties(client) {
+async function getProperties(client: ContainerRepositoryClient) {
   console.log("Retrieving repository properties...");
   const properties = await client.getProperties();
   console.log(`  name: ${properties.name}`);
@@ -98,7 +115,7 @@ async function getProperties(client) {
   }
 }
 
-async function getArtifactProperties(client, digest) {
+async function getArtifactProperties(client: ContainerRepositoryClient, digest: string) {
   console.log(`Retrieving registry artifact properties for ${digest}`);
   const properties = await client.getRegistryArtifactProperties(digest);
   console.log(`  created on: ${properties.createdOn}`);
@@ -108,7 +125,7 @@ async function getArtifactProperties(client, digest) {
   console.log(`  size : ${properties.size} bytes`);
 }
 
-async function deleteArtifact(client, digest) {
+async function deleteArtifact(client: ContainerRepositoryClient, digest: string) {
   console.log(`Deleting registry artifact for ${digest}`);
   await client.deleteRegistryArtifact(digest);
 }
