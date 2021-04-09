@@ -59,7 +59,7 @@ export async function main() {
   } else {
     console.log("Did not find any phone numbers.");
   }
-};
+}
 
 main().catch((error) => {
   console.log("The sample encountered an error:", error);

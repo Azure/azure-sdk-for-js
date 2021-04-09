@@ -32,7 +32,7 @@ export async function main() {
   await releasePoller.pollUntilDone();
 
   console.log("Successfully release phone number.");
-};
+}
 
 main().catch((error) => {
   console.log("The sample encountered an error:", error);

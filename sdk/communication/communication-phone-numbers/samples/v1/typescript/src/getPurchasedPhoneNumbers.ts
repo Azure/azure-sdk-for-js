@@ -28,7 +28,7 @@ export async function main() {
     console.log(`The phone number id is: ${phoneNumber.id}`);
     console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
   }
-};
+}
 
 main().catch((error) => {
   console.log("The sample encountered an error:", error);

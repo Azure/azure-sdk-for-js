@@ -42,7 +42,7 @@ export async function main() {
   // Update is underway.
   const { capabilities } = await updatePoller.pollUntilDone();
   console.log(`These are the update capabilities: ${capabilities}`);
-};
+}
 
 main().catch((error) => {
   console.log("The sample encountered an error:", error);
