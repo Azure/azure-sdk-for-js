@@ -130,11 +130,7 @@
       "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     },
     "skip": [
-      "getPurchasedPhoneNumber.js",
-      "getPurchasedPhoneNumbers.js",
-      "purchasePhoneNumber.js",
-      "releasePhoneNumber.js",
-      "updatePhoneNumberCapabilities.js"
+      "purchasePhoneNumber.js"
     ]
   }
 }
