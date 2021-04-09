@@ -20,7 +20,9 @@ export async function main() {
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
   await getProperties(client);
   await listTags(client);
+
   const artifacts = await listArtifacts(client);
+
   if (artifacts && artifacts.length) {
     const digest = artifacts[0].digest;
     if (digest) {
@@ -29,6 +31,11 @@ export async function main() {
       await deleteArtifact(client, digest);
     }
   }
+
+  // Advanced: listing by pages
+  const pageSize = 2;
+  await listTagsByPages(client, pageSize);
+  await listArtifactsByPages(client, pageSize);
 }
 
 async function listTags(client: ContainerRepositoryClient) {
@@ -40,9 +47,11 @@ async function listTags(client: ContainerRepositoryClient) {
     console.log(`  created on: ${tag.createdOn}`);
     console.log(`  last updated on: ${tag.lastUpdatedOn}`);
   }
+}
 
-  console.log("  by pages");
-  const pages = client.listTags().byPage({ maxPageSize: 2 });
+async function listTagsByPages(client: ContainerRepositoryClient, pagesSize: number) {
+  console.log("Listing tags by pages");
+  const pages = client.listTags().byPage({ maxPageSize: pagesSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -70,8 +79,12 @@ async function listArtifacts(
     console.log(`  last updated on: ${artifact.lastUpdatedOn}`);
   }
 
-  console.log("  by pages");
-  const pages = client.listRegistryArtifacts().byPage({ maxPageSize: 2 });
+  return artifacts;
+}
+
+async function listArtifactsByPages(client: any, pageSize: number) {
+  console.log("Listing artifacts by pages");
+  const pages = client.listRegistryArtifacts().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -83,8 +96,6 @@ async function listArtifacts(
     }
     result = await pages.next();
   }
-
-  return artifacts;
 }
 
 async function getProperties(client: ContainerRepositoryClient) {

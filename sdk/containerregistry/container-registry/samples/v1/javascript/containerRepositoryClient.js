@@ -11,13 +11,17 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 async function main() {
+  // endpoint should be in the form of "https://myregistryname.azurecr.io"
+  // where "myregistryname" is the actual name of your registry
   const endpoint = process.env.CONTAINER_REGISTRY_ENDPOINT || "<endpoint>";
   const repository = process.env.REPOSITORY_NAME || "<repository name>";
 
   const client = new ContainerRepositoryClient(endpoint, repository, new DefaultAzureCredential());
   await getProperties(client);
   await listTags(client);
+
   const artifacts = await listArtifacts(client);
+
   if (artifacts && artifacts.length) {
     const digest = artifacts[0].digest;
     if (digest) {
@@ -26,6 +30,11 @@ async function main() {
       await deleteArtifact(client, digest);
     }
   }
+
+  // Advanced: listing by pages
+  const pageSize = 2;
+  await listTagsByPages(client, pageSize);
+  await listArtifactsByPages(client, pageSize);
 }
 
 async function listTags(client) {
@@ -37,9 +46,11 @@ async function listTags(client) {
     console.log(`  created on: ${tag.createdOn}`);
     console.log(`  last updated on: ${tag.lastUpdatedOn}`);
   }
+}
 
-  console.log("  by pages");
-  const pages = client.listTags().byPage({ maxPageSize: 2 });
+async function listTagsByPages(client, pagesSize) {
+  console.log("Listing tags by pages");
+  const pages = client.listTags().byPage({ maxPageSize: pagesSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -65,8 +76,12 @@ async function listArtifacts(client) {
     console.log(`  last updated on: ${artifact.lastUpdatedOn}`);
   }
 
-  console.log("  by pages");
-  const pages = client.listRegistryArtifacts().byPage({ maxPageSize: 2 });
+  return artifacts;
+}
+
+async function listArtifactsByPages(client, pageSize) {
+  console.log("Listing artifacts by pages");
+  const pages = client.listRegistryArtifacts().byPage({ maxPageSize: pageSize });
   let result = await pages.next();
   while (!result.done) {
     console.log("    -- page -- ");
@@ -78,8 +93,6 @@ async function listArtifacts(client) {
     }
     result = await pages.next();
   }
-
-  return artifacts;
 }
 
 async function getProperties(client) {

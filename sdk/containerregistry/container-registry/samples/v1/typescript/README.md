@@ -71,7 +71,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [containerregistryclient]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/typescript/src/containerRegistryClient.ts
 [containerrepositoryclient]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/containerregistry/container-registry/samples/v1/typescript/src/containerRepositoryClient.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/container-registry
+[apiref]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-container-registry/1.0.0-beta.1/index.html
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecontainerregistry]: https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/containerregistry/container-registry/README.md
