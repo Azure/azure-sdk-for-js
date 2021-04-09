@@ -87,7 +87,7 @@ async function authorizeRequestOnChallenge(
 
   const accessToken = await retrieveToken({
     ...options,
-    scopes: parsedChallenge.scope || scopes,
+    scopes: parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
   });
 
@@ -127,7 +127,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
   it("tests that the scope and the claim have been passed through to getToken correctly", async function() {
     const expected = {
-      scope: "http://localhost/.default",
+      scope: ["http://localhost/.default"],
       challengeClaims: JSON.stringify({
         access_token: { foo: "bar" }
       })
@@ -137,7 +137,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     const responses: PipelineResponse[] = [
       {
         headers: createHttpHeaders({
-          "WWW-Authenticate": `Bearer scope="${expected.scope}", claims="${encodeString(
+          "WWW-Authenticate": `Bearer scope="${expected.scope[0]}", claims="${encodeString(
             expected.challengeClaims
           )}"`
         }),
@@ -158,7 +158,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     const pipeline = createEmptyPipeline();
     const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
-      scopes: "",
+      scopes: [],
       credential,
       challengeCallbacks: {
         async authorizeRequest({ previousToken, setAuthorizationHeader }) {
@@ -207,13 +207,13 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
   it("tests that the challenge is processed even we already had a token", async function() {
     const expected = [
       {
-        scope: "http://localhost/.default",
+        scope: ["http://localhost/.default"],
         challengeClaims: JSON.stringify({
           access_token: { foo: "bar" }
         })
       },
       {
-        scope: "http://localhost/.default2",
+        scope: ["http://localhost/.default2"],
         challengeClaims: JSON.stringify({
           access_token: { foo2: "bar2" }
         })
@@ -224,7 +224,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     const responses: PipelineResponse[] = [
       {
         headers: createHttpHeaders({
-          "WWW-Authenticate": `Bearer scope="${expected[0].scope}", claims="${encodeString(
+          "WWW-Authenticate": `Bearer scope="${expected[0].scope[0]}", claims="${encodeString(
             expected[0].challengeClaims
           )}"`
         }),
@@ -238,7 +238,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       },
       {
         headers: createHttpHeaders({
-          "WWW-Authenticate": `Bearer scope="${expected[1].scope}", claims="${encodeString(
+          "WWW-Authenticate": `Bearer scope="${expected[1].scope[0]}", claims="${encodeString(
             expected[1].challengeClaims
           )}"`
         }),
@@ -261,7 +261,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     const pipeline = createEmptyPipeline();
     const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
-      scopes: "",
+      scopes: [],
       credential,
       challengeCallbacks: {
         async authorizeRequest({ previousToken, setAuthorizationHeader }) {
@@ -321,7 +321,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
     const pipeline = createEmptyPipeline();
     const bearerPolicy = bearerTokenChallengeAuthenticationPolicy({
       // Intentionally left empty, as it should be replaced by the challenge.
-      scopes: "",
+      scopes: [],
       credential,
       challengeCallbacks: {
         async authorizeRequest({ previousToken, setAuthorizationHeader }) {

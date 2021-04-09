@@ -19,7 +19,7 @@ export interface ChallengeCallbackOptions {
   /**
    * The scopes for which the bearer token applies.
    */
-  scopes: string | string[];
+  scopes: string[];
   /**
    * Additional claims to be included in the token.
    * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
@@ -78,7 +78,7 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
   /**
    * The scopes for which the bearer token applies.
    */
-  scopes: string | string[];
+  scopes: string[];
   /**
    * Allows for the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
    * If provided, it must contain at least the `authorizeRequestOnChallenge` method.
@@ -144,7 +144,7 @@ async function defaultAuthorizeRequestOnChallenge(
 
   const accessToken = await retrieveToken({
     ...options,
-    scopes: scope || scopes,
+    scopes: scope ? [scope] : scopes,
     claims
   });
 
