@@ -15,7 +15,7 @@ dotenv.config();
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
-export const main = async () => {
+export async function main() {
   console.log("\n== Revoke Token sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
@@ -45,7 +45,7 @@ export const main = async () => {
   await client.revokeTokens(user);
 
   console.log("Tokens Revoked");
-};
+}
 
 main().catch((error) => {
   console.error("Encountered an error while issuing/refreshing token: ");

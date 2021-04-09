@@ -15,7 +15,7 @@ dotenv.config();
 const connectionString =
   process.env["COMMUNICATION_CONNECTION_STRING"] || "<communication service connection string>";
 
-export const main = async () => {
+export async function main() {
   console.log("\n== Issue Token Sample ==\n");
 
   const client = new CommunicationIdentityClient(connectionString);
@@ -33,7 +33,7 @@ export const main = async () => {
   const { token } = await client.getToken(user, scopes);
 
   console.log(`Issued token: ${token}`);
-};
+}
 
 main().catch((error) => {
   console.error("Encountered an error while issuing token: ");
