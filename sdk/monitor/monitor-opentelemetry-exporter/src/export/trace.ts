@@ -23,11 +23,9 @@ import { readableSpanToEnvelope } from "../utils/spanUtils";
  */
 export class AzureMonitorTraceExporter implements SpanExporter {
   private readonly _persister: PersistentStorage;
-
   private readonly _sender: Sender;
-
+  private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
-
   private readonly _options: AzureExporterInternalConfig;
 
   /**
@@ -35,6 +33,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
    * @param AzureExporterConfig - Exporter configuration.
    */
   constructor(options: AzureExporterConfig = {}) {
+    this._numConsecutiveRedirects = 0;
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
     this._options = {
       ...DEFAULT_EXPORTER_CONFIG
@@ -112,20 +111,31 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           code: ExportResultCode.FAILED
         };
       }
-    } catch (senderErr) {
-      if (this._isNetworkError(senderErr)) {
+    } catch (error) {
+      const restError = error as RestError;
+      if (restError.statusCode && restError.statusCode === 308) {
+        // Permanent redirect
+        if (restError.response && restError.response.headers) {
+          let location = restError.response.headers.get("location");
+          this._handleRedirect(location);
+          return await this._persist(envelopes);
+        }
+      } else if (restError.statusCode && isRetriable(restError.statusCode)) {
+        return await this._persist(envelopes);
+      }
+      if (this._isNetworkError(restError)) {
         diag.error(
           "Retrying due to transient client side error. Error message:",
-          senderErr.message
+          restError.message
         );
         return await this._persist(envelopes);
-      } else {
-        diag.error(
-          "Envelopes could not be exported and are not retriable. Error message:",
-          senderErr.message
-        );
-        return { code: ExportResultCode.FAILED, error: senderErr };
       }
+
+      diag.error(
+        "Envelopes could not be exported and are not retriable. Error message:",
+        restError.message
+      );
+      return { code: ExportResultCode.FAILED, error: restError };
     }
   }
 
@@ -164,12 +174,20 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     }
   }
 
-  private _isNetworkError(error: Error): boolean {
-    if (error instanceof RestError) {
-      if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
-        return true;
-      }
+  private _isNetworkError(error: RestError): boolean {
+    if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
+      return true;
     }
     return false;
+  }
+
+  private _handleRedirect(location: string | undefined) {
+    if (location) {
+      this._numConsecutiveRedirects++;
+      // To prevent circular redirects
+      if (this._numConsecutiveRedirects < 10) {
+        this._sender.handlePermanentRedirect(location);
+      }
+    }
   }
 }

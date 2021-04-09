@@ -5,7 +5,10 @@ import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from 
 import { CommunicationAccessToken } from "../../src";
 import { CommunicationIdentityAccessTokenResult } from "../../src/generated/src/models";
 
-export const createMockHttpClient = <T = {}>(status: number = 200, parsedBody?: T): HttpClient => {
+export const createMockHttpClient = <T = Record<string, unknown>>(
+  status: number = 200,
+  parsedBody?: T
+): HttpClient => {
   return {
     async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
       return {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
+import { AggregateAuthenticationError, CredentialUnavailableError } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
@@ -61,7 +61,10 @@ export class ChainedTokenCredential implements TokenCredential {
       try {
         token = await this._sources[i].getToken(scopes, updatedOptions);
       } catch (err) {
-        if (err.name === "CredentialUnavailable") {
+        if (
+          err.name === "CredentialUnavailableError" ||
+          err.name === "AuthenticationRequiredError"
+        ) {
           errors.push(err);
         } else {
           logger.getToken.info(formatError(scopes, err));
@@ -85,7 +88,7 @@ export class ChainedTokenCredential implements TokenCredential {
     logger.getToken.info(formatSuccess(scopes));
 
     if (token === null) {
-      throw new CredentialUnavailable("Failed to retrieve a valid token");
+      throw new CredentialUnavailableError("Failed to retrieve a valid token");
     }
     return token;
   }

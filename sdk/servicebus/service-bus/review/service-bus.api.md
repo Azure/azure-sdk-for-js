@@ -400,7 +400,7 @@ export interface ServiceBusMessageBatch {
     // @internal
     readonly _messageSpanContexts: SpanContext[];
     readonly sizeInBytes: number;
-    tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
+    tryAddMessage(message: ServiceBusMessage | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
 }
 
 // @public
@@ -459,7 +459,7 @@ export interface ServiceBusSender {
     entityPath: string;
     isClosed: boolean;
     scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
-    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
+    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], options?: OperationOptionsBase): Promise<void>;
 }
 
 // @public

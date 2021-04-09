@@ -137,6 +137,32 @@ describe("#AzureMonitorBaseExporter", () => {
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
         assert.strictEqual(exporter["_retryTimer"], "foo");
       });
+
+      it("should handle redirects in Azure Monitor", async () => {
+        const exporter = new TestExporter();
+
+        let redirectHost = "https://ukwest-0.in.applicationinsights.azure.com";
+        let redirectLocation = redirectHost + "/v2/track";
+        // Redirect endpoint
+        const redirectScope = nock(redirectHost).post("/v2/track", () => {
+          return true;
+        });
+        redirectScope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
+        scope.reply(308, {}, { location: redirectLocation });
+
+        let result = await exporter.exportEnvelopesPrivate([envelope]);
+        // Redirect triggered so telemetry must be persisted
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        let persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+        assert.strictEqual(exporter["_numConsecutiveRedirects"], 1);
+        // After redirect return 200
+        result = await exporter.exportEnvelopesPrivate([envelope]);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        assert.strictEqual(persistedEnvelopes, null);
+      });
     });
   });
 });

@@ -47,7 +47,7 @@ describe("ChatThreadClient", function() {
     };
 
     const chatThreadResult = await chatClient.createChatThread(request, options);
-    threadId = chatThreadResult.chatThread?.id!;
+    threadId = chatThreadResult.chatThread?.id as string;
 
     // Create ChatThreadClient
     chatThreadClient = await chatClient.getChatThreadClient(threadId);
