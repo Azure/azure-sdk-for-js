@@ -24,7 +24,7 @@ export const main = async () => {
     const client = new PhoneNumbersClient(connectionString);
 
     // You will need to set this environment variable or edit the following values
-    const phoneNumberToRelease = process.env.PHONE_NUMBER_TO_RELEASE || "";
+    const phoneNumberToRelease = process.env.PHONE_NUMBER_TO_RELEASE || "<phone number to release>";
 
     // get poller to monitor release
     const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease);
