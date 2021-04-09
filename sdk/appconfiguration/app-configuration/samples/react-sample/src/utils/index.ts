@@ -12,7 +12,7 @@ export function getEnvironmentVariable(name: string): string {
   return value;
 }
 
-const clientId = getEnvironmentVariable("AZURE_CLIENT_ID");
-const tenantId = getEnvironmentVariable("AZURE_TENANT_ID");
+const clientId = getEnvironmentVariable("REACT_APP_AZURE_CLIENT_ID");
+const tenantId = getEnvironmentVariable("REACT_APP_AZURE_TENANT_ID");
 
 export const credential = new InteractiveBrowserCredential({ clientId, tenantId });
