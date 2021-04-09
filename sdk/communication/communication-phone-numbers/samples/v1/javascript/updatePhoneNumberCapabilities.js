@@ -19,31 +19,29 @@ export const main = async () => {
     process.env.COMMUNICATION_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
-  try {
-    // create new client
-    const client = new PhoneNumbersClient(connectionString);
+  // create new client
+  const client = new PhoneNumbersClient(connectionString);
 
-    // You will need to set this environment variable or edit the following values
-    const phoneNumberToUpdate = process.env.PHONE_NUMBER_TO_UPDATE || "<phone number to update>";
+  // You will need to set this environment variable or edit the following values
+  const phoneNumberToUpdate = process.env.PHONE_NUMBER_TO_UPDATE || "<phone number to update>";
 
-    // This will update the phone number to send and receive sms, but only send calls.
-    const updateRequest = {
-      sms: "inbound+outbound",
-      calling: "outbound"
-    };
+  // This will update the phone number to send and receive sms, but only send calls.
+  const updateRequest = {
+    sms: "inbound+outbound",
+    calling: "outbound"
+  };
 
-    const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
-      phoneNumberToUpdate,
-      updateRequest
-    );
+  const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
+    phoneNumberToUpdate,
+    updateRequest
+  );
 
-    // Update is underway.
-    const { capabilities } = await updatePoller.pollUntilDone();
-    console.log(`These are the update capabilities: ${capabilities}`);
-  } catch (error) {
-    console.log("The sample encountered an error:");
-    console.error(error);
-  }
+  // Update is underway.
+  const { capabilities } = await updatePoller.pollUntilDone();
+  console.log(`These are the update capabilities: ${capabilities}`);
 };
 
-main();
+main().catch((error) => {
+  console.log("The sample encountered an error:", error);
+  process.exit(1);
+});

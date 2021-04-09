@@ -19,20 +19,18 @@ export const main = async () => {
     process.env.COMMUNICATION_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
-  try {
-    // create new client
-    const client = new PhoneNumbersClient(connectionString);
+  // create new client
+  const client = new PhoneNumbersClient(connectionString);
 
-    const phoneNumbers = await client.listPurchasedPhoneNumbers();
+  const phoneNumbers = await client.listPurchasedPhoneNumbers();
 
-    for await (const phoneNumber of phoneNumbers) {
-      console.log(`The id is the same as the phone number: ${phoneNumber.id}`);
-      console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
-    }
-  } catch (error) {
-    console.log("The sample encountered an error:");
-    console.error(error);
+  for await (const phoneNumber of phoneNumbers) {
+    console.log(`The phone number id is: ${phoneNumber.id}`);
+    console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
   }
 };
 
-main();
+main().catch((error) => {
+  console.log("The sample encountered an error:", error);
+  process.exit(1);
+});

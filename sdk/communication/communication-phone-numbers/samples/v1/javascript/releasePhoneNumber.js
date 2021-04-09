@@ -19,23 +19,22 @@ export const main = async () => {
     process.env.COMMUNICATION_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
-  try {
-    // create new client
-    const client = new PhoneNumbersClient(connectionString);
+  // create new client
+  const client = new PhoneNumbersClient(connectionString);
 
-    // You will need to set this environment variable or edit the following values
-    const phoneNumberToRelease = process.env.PHONE_NUMBER_TO_RELEASE || "<phone number to release>";
+  // You will need to set this environment variable or edit the following values
+  const phoneNumberToRelease = process.env.PHONE_NUMBER_TO_RELEASE || "<phone number to release>";
 
-    // get poller to monitor release
-    const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease);
+  // get poller to monitor release
+  const releasePoller = await client.beginReleasePhoneNumber(phoneNumberToRelease);
 
-    // Release is underway.
-    await releasePoller.pollUntilDone();
-    console.log("Successfully release phone number.");
-  } catch (error) {
-    console.log("The sample encountered an error:");
-    console.error(error);
-  }
+  // Release is underway.
+  await releasePoller.pollUntilDone();
+
+  console.log("Successfully release phone number.");
 };
 
-main();
+main().catch((error) => {
+  console.log("The sample encountered an error:", error);
+  process.exit(1);
+});
