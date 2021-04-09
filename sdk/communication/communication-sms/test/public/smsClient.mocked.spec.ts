@@ -6,7 +6,7 @@ import { HttpClient, isNode } from "@azure/core-http";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
-import { SmsClient, SmsSendRequest } from "../../src";
+import { SmsClient, SmsClientOptions, SmsSendRequest } from "../../src";
 import { FakeHttpClient } from "./utils/fakeHttpClient";
 import { TokenCredential } from "@azure/identity";
 
@@ -49,7 +49,8 @@ describe("[mocked] SmsClient", async () => {
     beforeEach(() => {
       sendRequestSpy = sinon.spy(mockHttpClient, "sendRequest");
       sinon.useFakeTimers();
-      smsClient = new SmsClient(connectionString, { httpClient: mockHttpClient });
+      //workaround: casting because min testing has issues when the httpClient in src has extra optional fields
+      smsClient = new SmsClient(connectionString, { httpClient: mockHttpClient } as SmsClientOptions);
     });
 
     it("sends with the correct headers", async () => {
