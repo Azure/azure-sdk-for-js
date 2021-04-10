@@ -208,7 +208,9 @@ describe("ManagedIdentityCredential", function() {
     await assertRejects(
       promise,
       (error: AuthenticationError) =>
-        error.message.indexOf("Failed to retrieve IMDS token after 3 retries.") > -1
+        error.message.indexOf(
+          `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+        ) > -1
     );
   });
 

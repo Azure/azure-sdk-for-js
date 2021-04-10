@@ -162,6 +162,9 @@ export const imdsMsi: MSI = {
       }
     }
 
-    throw new AuthenticationError(404, "Failed to retrieve IMDS token after 3 retries.");
+    throw new AuthenticationError(
+      404,
+      `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+    );
   }
 };
