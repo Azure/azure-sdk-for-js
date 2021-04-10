@@ -11,14 +11,14 @@ import { SmsClient } from "@azure/communication-sms";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export async function main () {
+export async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
   const client = new SmsClient(connectionString);
   const sendResults = await client.send({
     // Phone numbers must be in E.164 format
-    from: "<from-phone-number>", 
+    from: "<from-phone-number>",
     to: ["<to-phone-number-1>", "<to-phone-number-2>"],
     message: "Hello World via SMS!"
   });
@@ -33,7 +33,7 @@ export async function main () {
     }
   }
   console.log("== Done: Send SMS Message ==");
-};
+}
 
 main().catch((error) => {
   console.error("Encountered an error while sending SMS: ");

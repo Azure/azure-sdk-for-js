@@ -26,7 +26,7 @@ export const main = async () => {
     },
     {
       //delivery reports are delivered via EventGrid
-      enableDeliveryReport: true, 
+      enableDeliveryReport: true,
       //tags are applied to the delivery report
       tag: "marketing"
     }
