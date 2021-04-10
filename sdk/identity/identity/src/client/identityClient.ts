@@ -62,24 +62,16 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       authorityHost: DefaultAuthorityHost,
       ...options
     };
-
-    const pipelines = createPipelineFromOptions({
-      ...options,
-      deserializationOptions: {
-        expectedContentTypes: {
-          json: ["application/json", "text/json", "text/plain"]
-        }
-      }
-    });
-    pipelines.requestPolicyFactories!.push(exponentialRetryPolicy(
-      retryOptions.maxRetries,
-      retryOptions.retryDelayInMs,
-      retryOptions.maxRetryDelayInMs
-    ))
-
-    super(  
+    super(
       undefined,
-      pipelines
+      createPipelineFromOptions({
+        ...options,
+        deserializationOptions: {
+          expectedContentTypes: {
+            json: ["application/json", "text/json", "text/plain"]
+          }
+        }
+      })
     );
 
     this.baseUri = this.authorityHost = options.authorityHost || DefaultAuthorityHost;

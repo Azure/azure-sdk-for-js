@@ -11,6 +11,11 @@ import {
 } from "../../../src/credentials/managedIdentityCredential/constants";
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
 import { OAuthErrorResponse } from "../../../src/client/errors";
+import Sinon from "sinon";
+import {
+  imdsMsi,
+  imdsMsiRetryConfig
+} from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 
 interface AuthRequestDetails {
   requests: WebResource[];
@@ -21,8 +26,10 @@ describe("ManagedIdentityCredential", function() {
   // There are no types available for this dependency, at least at the time this test file was written.
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   const mockFs = require("mock-fs");
-
   let envCopy: string = "";
+  let sandbox: Sinon.SinonSandbox;
+  let clock: Sinon.SinonFakeTimers;
+
   beforeEach(() => {
     envCopy = JSON.stringify(process.env);
     delete process.env.IDENTITY_ENDPOINT;
@@ -30,6 +37,11 @@ describe("ManagedIdentityCredential", function() {
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
     delete process.env.IDENTITY_SERVER_THUMBPRINT;
+    sandbox = Sinon.createSandbox();
+    clock = sandbox.useFakeTimers({
+      now: Date.now(),
+      shouldAdvanceTime: true
+    });
   });
   afterEach(() => {
     mockFs.restore();
@@ -39,6 +51,8 @@ describe("ManagedIdentityCredential", function() {
     process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
     process.env.MSI_SECRET = env.MSI_SECRET;
     process.env.IDENTITY_SERVER_THUMBPRINT = env.IDENTITY_SERVER_THUMBPRINT;
+    sandbox.restore();
+    clock.restore();
   });
 
   it("sends an authorization request with a modified resource name", async function() {
@@ -168,6 +182,33 @@ describe("ManagedIdentityCredential", function() {
       credential.getToken("scopes"),
       (error: AuthenticationError) =>
         error.message.indexOf("No managed identity endpoint found.") > -1
+    );
+  });
+
+  it("IMDS MSI retries on 404", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
+
+    const stub = sandbox.stub(imdsMsi, "isAvailable");
+    stub.returns(Promise.resolve(true));
+
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [{ status: 404 }, { status: 404 }, { status: 404 }, { status: 404 }]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+
+    const promise = credential.getToken("scopes");
+
+    // 30ms -> 60ms -> 120ms = 240ms
+    imdsMsiRetryConfig.nextDelayInMs = 30;
+    clock.tick(240);
+
+    await assertRejects(
+      promise,
+      (error: AuthenticationError) =>
+        error.message.indexOf("Failed to retrieve IMDS token after 3 retries.") > -1
     );
   });
 
