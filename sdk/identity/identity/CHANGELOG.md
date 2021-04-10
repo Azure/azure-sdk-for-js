@@ -4,6 +4,7 @@
 
 - The feature of persistence caching of credentials (introduced in 2.0.0-beta.1) is now supported on Node.js 15 as well.
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError` which is to allow the next credential in the chain to be tried.
+- `ManagedIdentityCredential` now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints. 
 
 ## 2.0.0-beta.2 (2021-04-06)
 
