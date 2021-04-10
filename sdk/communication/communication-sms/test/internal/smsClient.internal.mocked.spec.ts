@@ -10,7 +10,7 @@ import { assert } from "chai";
 import sinon from "sinon";
 import { apiVersion } from "../../src/generated/src/models/parameters";
 import { SmsClient, SmsSendRequest } from "../../src/smsClient";
-import { FakeHttpClient } from "../public/utils/fakeHttpClient";
+import { MockHttpClient } from "../public/utils/mockHttpClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 const TEST_NUMBER = "+14255550123";
@@ -20,7 +20,7 @@ describe("[mocked] SmsClient Internal", async () => {
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
   let sendRequestSpy: sinon.SinonSpy;
   let uuidStub: sinon.SinonStub;
-  const mockHttpClient: HttpClient = new FakeHttpClient(TEST_NUMBER);
+  const mockHttpClient: HttpClient = new MockHttpClient(TEST_NUMBER);
   const mockedGuid = "42bf408f-1931-4314-8971-2b538625a2b0";
 
   const testSendRequest: SmsSendRequest = {

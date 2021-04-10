@@ -7,7 +7,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import sinon from "sinon";
 import { SmsClient, SmsClientOptions, SmsSendRequest } from "../../src";
-import { FakeHttpClient } from "./utils/fakeHttpClient";
+import { MockHttpClient } from "./utils/mockHttpClient";
 import { TokenCredential } from "@azure/identity";
 
 const TEST_NUMBER = "+14255550123";
@@ -17,7 +17,7 @@ describe("[mocked] SmsClient", async () => {
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
   const dateHeader = isNode ? "date" : "x-ms-date";
   let sendRequestSpy: sinon.SinonSpy;
-  const mockHttpClient: HttpClient = new FakeHttpClient(TEST_NUMBER);
+  const mockHttpClient: HttpClient = new MockHttpClient(TEST_NUMBER);
 
   const testSendRequest: SmsSendRequest = {
     from: TEST_NUMBER,

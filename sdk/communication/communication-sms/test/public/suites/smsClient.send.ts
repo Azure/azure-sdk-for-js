@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { assert } from "chai";
 import { SmsSendRequest, SmsSendOptions } from "../../../src";
 import { env } from "@azure/test-utils-recorder";
