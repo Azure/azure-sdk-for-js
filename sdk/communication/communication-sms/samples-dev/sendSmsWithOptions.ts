@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to configure the options
- * when sending an SMS message
+ * @summary Configure SMS options when sending a message
  */
 
 import { SmsClient } from "@azure/communication-sms";
@@ -20,13 +19,16 @@ export const main = async () => {
   const client = new SmsClient(connectionString);
   const sendResults = await client.send(
     {
-      from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-      to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
-      message: "Weekly Promotion!" // The message being sent
+      // Phone numbers must be in E.164 format
+      from: "<from-phone-number>",
+      to: ["<to-phone-number-1>", "<to-phone-number-2>"],
+      message: "Weekly Promotion!"
     },
     {
-      enableDeliveryReport: true, //delivery reports are delivered via EventGrid
-      tag: "marketing" //a tag to apply to the delivery report
+      //delivery reports are delivered via EventGrid
+      enableDeliveryReport: true, 
+      //tags are applied to the delivery report
+      tag: "marketing"
     }
   );
 

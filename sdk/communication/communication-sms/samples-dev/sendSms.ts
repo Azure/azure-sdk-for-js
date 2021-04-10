@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Demonstrates how to use the SmsClient to send
- * an SMS message
+ * @summary Send an SMS message to 1 or more recipients
  */
 
 import { SmsClient } from "@azure/communication-sms";
@@ -12,15 +11,16 @@ import { SmsClient } from "@azure/communication-sms";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-export const main = async () => {
+export async function main () {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
   const client = new SmsClient(connectionString);
   const sendResults = await client.send({
-    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-    to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
-    message: "Hello World via SMS!" // The message being sent
+    // Phone numbers must be in E.164 format
+    from: "<from-phone-number>", 
+    to: ["<to-phone-number-1>", "<to-phone-number-2>"],
+    message: "Hello World via SMS!"
   });
 
   // individual messages can encounter errors during sending

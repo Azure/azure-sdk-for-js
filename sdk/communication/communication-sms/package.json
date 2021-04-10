@@ -124,12 +124,12 @@
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {
-    "productName": "Azure Communication Services",
+    "productName": "Azure Communication Services - SMS",
     "productSlugs": [
       "azure",
       "azure-communication-services"
     ],
-    "requiredResource": {
+    "requiredResources": {
       "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     },
     "skip": [
