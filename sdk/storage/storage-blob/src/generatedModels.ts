@@ -25,7 +25,9 @@ export {
   BlobGetPropertiesResponse as BlobGetPropertiesResponseModel,
   BlobPropertiesInternal as BlobProperties,
   BlobUndeleteResponse,
-  BlobHttpHeaders,
+  BlobHttpHeaders as BlobHTTPHeaders,
+  BlobSetHttpHeadersHeaders as BlobSetHTTPHeadersHeaders,
+  BlobSetHttpHeadersResponse as BlobSetHTTPHeadersResponse,
   BlobSetMetadataResponse,
   BlobSetTagsResponse,
   BlobCreateSnapshotResponse,
@@ -149,18 +151,3 @@ export {
   ContainerRenameResponse,
   ContainerRenameHeaders
 } from "./generated/src/models";
-
-import {
-  BlobHttpHeaders,
-  BlobSetHttpHeadersResponse,
-  BlobSetHttpHeadersHeaders
-} from "./generated/src/models";
-
-/** Contains response data for the setHttpHeaders operation. */
-export type BlobSetHTTPHeadersResponse = BlobSetHttpHeadersResponse;
-
-/** Defines headers for Blob_setHttpHeaders operation. */
-export type BlobSetHTTPHeadersHeaders = BlobSetHttpHeadersHeaders;
-
-/** Defines headers for Blob_setHttpHeaders operation. */
-export type BlobHTTPHeaders = BlobHttpHeaders;

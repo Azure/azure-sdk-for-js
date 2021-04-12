@@ -751,10 +751,7 @@ export interface BlobHierarchyListSegmentModel {
 }
 
 // @public
-export type BlobHTTPHeaders = BlobHttpHeaders;
-
-// @public
-export interface BlobHttpHeaders {
+export interface BlobHTTPHeaders {
     blobCacheControl?: string;
     blobContentDisposition?: string;
     blobContentEncoding?: string;
@@ -1102,10 +1099,16 @@ export interface BlobServiceStatistics {
     geoReplication?: GeoReplication;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobSetHttpHeadersHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type BlobSetHTTPHeadersHeaders = BlobSetHttpHeadersHeaders;
+export interface BlobSetHTTPHeadersHeaders {
+    blobSequenceNumber?: number;
+    clientRequestId?: string;
+    date?: Date;
+    etag?: string;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface BlobSetHTTPHeadersOptions extends CommonOptions {
@@ -1114,10 +1117,12 @@ export interface BlobSetHTTPHeadersOptions extends CommonOptions {
     customerProvidedKey?: CpkInfo;
 }
 
-// Warning: (ae-forgotten-export) The symbol "BlobSetHttpHeadersResponse" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type BlobSetHTTPHeadersResponse = BlobSetHttpHeadersResponse;
+export type BlobSetHTTPHeadersResponse = BlobSetHTTPHeadersHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: BlobSetHTTPHeadersHeaders;
+    };
+};
 
 // @public
 export interface BlobSetMetadataHeaders {

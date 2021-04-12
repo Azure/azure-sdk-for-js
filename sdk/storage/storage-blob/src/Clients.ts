@@ -1382,7 +1382,7 @@ export class BlobClient extends StorageClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        //cpkInfo: options.customerProvidedKey,
+        // cpkInfo: options.customerProvidedKey,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
