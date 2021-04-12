@@ -47,6 +47,7 @@ export {
   ImmutabilityPolicy,
   ImmutabilityPolicyProperties,
   IPRule,
+  KeyCreationTime,
   KeyPolicy,
   KeyVaultProperties,
   LastAccessTimeTrackingPolicy,

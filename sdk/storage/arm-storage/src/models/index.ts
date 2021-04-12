@@ -276,6 +276,14 @@ export interface KeyPolicy {
 }
 
 /**
+ * Storage account keys creation time.
+ */
+export interface KeyCreationTime {
+  key1?: Date;
+  key2?: Date;
+}
+
+/**
  * A service that allows server-side encryption to be used.
  */
 export interface EncryptionService {
@@ -1122,10 +1130,10 @@ export interface StorageAccount extends TrackedResource {
    */
   readonly keyPolicy?: KeyPolicy;
   /**
-   * Gets the list of storage account keys creation time.
+   * Storage account keys creation time.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly keyCreationTime?: { [propertyName: string]: Date } | { [propertyName: string]: string };
+  readonly keyCreationTime?: KeyCreationTime;
   /**
    * Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object
    * from the secondary location of the storage account. Only available if the SKU name is

@@ -460,6 +460,28 @@ export const KeyPolicy: msRest.CompositeMapper = {
   }
 };
 
+export const KeyCreationTime: msRest.CompositeMapper = {
+  serializedName: "KeyCreationTime",
+  type: {
+    name: "Composite",
+    className: "KeyCreationTime",
+    modelProperties: {
+      key1: {
+        serializedName: "key1",
+        type: {
+          name: "DateTime"
+        }
+      },
+      key2: {
+        serializedName: "key2",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
 export const EncryptionService: msRest.CompositeMapper = {
   serializedName: "EncryptionService",
   type: {
@@ -1763,12 +1785,8 @@ export const StorageAccount: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.keyCreationTime",
         type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "DateTime"
-            }
-          }
+          name: "Composite",
+          className: "KeyCreationTime"
         }
       },
       secondaryEndpoints: {
