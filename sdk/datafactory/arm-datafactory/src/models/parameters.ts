@@ -233,6 +233,16 @@ export const pipelineName: msRest.OperationURLParameter = {
     }
   }
 };
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const referencePipelineRunId: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

@@ -3631,6 +3631,217 @@ export const ManagedVirtualNetworkReference: msRest.CompositeMapper = {
   }
 };
 
+export const ArmIdWrapper: msRest.CompositeMapper = {
+  serializedName: "ArmIdWrapper",
+  type: {
+    name: "Composite",
+    className: "ArmIdWrapper",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkConnectionState: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkConnectionState",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkConnectionState",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      actionsRequired: {
+        serializedName: "actionsRequired",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RemotePrivateEndpointConnection: msRest.CompositeMapper = {
+  serializedName: "RemotePrivateEndpointConnection",
+  type: {
+    name: "Composite",
+    className: "RemotePrivateEndpointConnection",
+    modelProperties: {
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpoint: {
+        serializedName: "privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "ArmIdWrapper"
+        }
+      },
+      privateLinkServiceConnectionState: {
+        serializedName: "privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkConnectionState"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpointConnectionResource: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnectionResource",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "RemotePrivateEndpointConnection"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkConnectionApprovalRequest: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkConnectionApprovalRequest",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkConnectionApprovalRequest",
+    modelProperties: {
+      privateLinkServiceConnectionState: {
+        serializedName: "privateLinkServiceConnectionState",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkConnectionState"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkConnectionApprovalRequestResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkConnectionApprovalRequestResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkConnectionApprovalRequestResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkConnectionApprovalRequest"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourceProperties: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResourceProperties",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourceProperties",
+    modelProperties: {
+      groupId: {
+        readOnly: true,
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      requiredMembers: {
+        readOnly: true,
+        serializedName: "requiredMembers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      requiredZoneNames: {
+        readOnly: true,
+        serializedName: "requiredZoneNames",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResource: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResource",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "PrivateLinkResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateLinkResourcesWrapper: msRest.CompositeMapper = {
+  serializedName: "PrivateLinkResourcesWrapper",
+  type: {
+    name: "Composite",
+    className: "PrivateLinkResourcesWrapper",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateLinkResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const Transformation: msRest.CompositeMapper = {
   serializedName: "Transformation",
   type: {
@@ -3907,14 +4118,12 @@ export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
         }
       },
       servicePrincipalId: {
-        required: true,
         serializedName: "typeProperties.servicePrincipalId",
         type: {
           name: "Object"
         }
       },
       servicePrincipalKey: {
-        required: true,
         serializedName: "typeProperties.servicePrincipalKey",
         type: {
           name: "Composite",
@@ -3929,7 +4138,6 @@ export const AzureDataExplorerLinkedService: msRest.CompositeMapper = {
         }
       },
       tenant: {
-        required: true,
         serializedName: "typeProperties.tenant",
         type: {
           name: "Object"
@@ -8853,6 +9061,90 @@ export const GoogleCloudStorageLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const OracleCloudStorageLinkedService: msRest.CompositeMapper = {
+  serializedName: "OracleCloudStorage",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    uberParent: "LinkedService",
+    className: "OracleCloudStorageLinkedService",
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      accessKeyId: {
+        serializedName: "typeProperties.accessKeyId",
+        type: {
+          name: "Object"
+        }
+      },
+      secretAccessKey: {
+        serializedName: "typeProperties.secretAccessKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      serviceUrl: {
+        serializedName: "typeProperties.serviceUrl",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
+export const AmazonS3CompatibleLinkedService: msRest.CompositeMapper = {
+  serializedName: "AmazonS3Compatible",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    uberParent: "LinkedService",
+    className: "AmazonS3CompatibleLinkedService",
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      accessKeyId: {
+        serializedName: "typeProperties.accessKeyId",
+        type: {
+          name: "Object"
+        }
+      },
+      secretAccessKey: {
+        serializedName: "typeProperties.secretAccessKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      serviceUrl: {
+        serializedName: "typeProperties.serviceUrl",
+        type: {
+          name: "Object"
+        }
+      },
+      forcePathStyle: {
+        serializedName: "typeProperties.forcePathStyle",
+        type: {
+          name: "Object"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: LinkedService.type.additionalProperties
+  }
+};
+
 export const AzureFileStorageLinkedService: msRest.CompositeMapper = {
   serializedName: "AzureFileStorage",
   type: {
@@ -9340,6 +9632,43 @@ export const CosmosDbLinkedService: msRest.CompositeMapper = {
           className: "SecretBase"
         }
       },
+      servicePrincipalId: {
+        serializedName: "typeProperties.servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalCredentialType: {
+        serializedName: "typeProperties.servicePrincipalCredentialType",
+        type: {
+          name: "String"
+        }
+      },
+      servicePrincipalCredential: {
+        serializedName: "typeProperties.servicePrincipalCredential",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      tenant: {
+        serializedName: "typeProperties.tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
+        type: {
+          name: "Object"
+        }
+      },
+      connectionMode: {
+        serializedName: "typeProperties.connectionMode",
+        type: {
+          name: "String"
+        }
+      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -9429,6 +9758,36 @@ export const AzureBatchLinkedService: msRest.CompositeMapper = {
   }
 };
 
+export const SqlAlwaysEncryptedProperties: msRest.CompositeMapper = {
+  serializedName: "SqlAlwaysEncryptedProperties",
+  type: {
+    name: "Composite",
+    className: "SqlAlwaysEncryptedProperties",
+    modelProperties: {
+      alwaysEncryptedAkvAuthType: {
+        required: true,
+        serializedName: "alwaysEncryptedAkvAuthType",
+        type: {
+          name: "String"
+        }
+      },
+      servicePrincipalId: {
+        serializedName: "servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      servicePrincipalKey: {
+        serializedName: "servicePrincipalKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      }
+    }
+  }
+};
+
 export const AzureSqlMILinkedService: msRest.CompositeMapper = {
   serializedName: "AzureSqlMI",
   type: {
@@ -9481,6 +9840,13 @@ export const AzureSqlMILinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "Object"
+        }
+      },
+      alwaysEncryptedSettings: {
+        serializedName: "typeProperties.alwaysEncryptedSettings",
+        type: {
+          name: "Composite",
+          className: "SqlAlwaysEncryptedProperties"
         }
       }
     },
@@ -9541,6 +9907,13 @@ export const AzureSqlDatabaseLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      alwaysEncryptedSettings: {
+        serializedName: "typeProperties.alwaysEncryptedSettings",
+        type: {
+          name: "Composite",
+          className: "SqlAlwaysEncryptedProperties"
+        }
       }
     },
     additionalProperties: LinkedService.type.additionalProperties
@@ -9580,6 +9953,13 @@ export const SqlServerLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.encryptedCredential",
         type: {
           name: "Object"
+        }
+      },
+      alwaysEncryptedSettings: {
+        serializedName: "typeProperties.alwaysEncryptedSettings",
+        type: {
+          name: "Composite",
+          className: "SqlAlwaysEncryptedProperties"
         }
       }
     },
@@ -9756,6 +10136,12 @@ export const AzureBlobStorageLinkedService: msRest.CompositeMapper = {
         serializedName: "typeProperties.azureCloudType",
         type: {
           name: "Object"
+        }
+      },
+      accountKind: {
+        serializedName: "typeProperties.accountKind",
+        type: {
+          name: "String"
         }
       },
       encryptedCredential: {
@@ -12469,6 +12855,58 @@ export const GoogleCloudStorageLocation: msRest.CompositeMapper = {
   }
 };
 
+export const OracleCloudStorageLocation: msRest.CompositeMapper = {
+  serializedName: "OracleCloudStorageLocation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DatasetLocation.type.polymorphicDiscriminator,
+    uberParent: "DatasetLocation",
+    className: "OracleCloudStorageLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties,
+      bucketName: {
+        serializedName: "bucketName",
+        type: {
+          name: "Object"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
+export const AmazonS3CompatibleLocation: msRest.CompositeMapper = {
+  serializedName: "AmazonS3CompatibleLocation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DatasetLocation.type.polymorphicDiscriminator,
+    uberParent: "DatasetLocation",
+    className: "AmazonS3CompatibleLocation",
+    modelProperties: {
+      ...DatasetLocation.type.modelProperties,
+      bucketName: {
+        serializedName: "bucketName",
+        type: {
+          name: "Object"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: DatasetLocation.type.additionalProperties
+  }
+};
+
 export const AzureFileStorageLocation: msRest.CompositeMapper = {
   serializedName: "AzureFileStorageLocation",
   type: {
@@ -14914,6 +15352,154 @@ export const GoogleCloudStorageReadSettings: msRest.CompositeMapper = {
     polymorphicDiscriminator: StoreReadSettings.type.polymorphicDiscriminator,
     uberParent: "StoreReadSettings",
     className: "GoogleCloudStorageReadSettings",
+    modelProperties: {
+      ...StoreReadSettings.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      prefix: {
+        serializedName: "prefix",
+        type: {
+          name: "Object"
+        }
+      },
+      fileListPath: {
+        serializedName: "fileListPath",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      partitionRootPath: {
+        serializedName: "partitionRootPath",
+        type: {
+          name: "Object"
+        }
+      },
+      deleteFilesAfterCompletion: {
+        serializedName: "deleteFilesAfterCompletion",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: StoreReadSettings.type.additionalProperties
+  }
+};
+
+export const OracleCloudStorageReadSettings: msRest.CompositeMapper = {
+  serializedName: "OracleCloudStorageReadSettings",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: StoreReadSettings.type.polymorphicDiscriminator,
+    uberParent: "StoreReadSettings",
+    className: "OracleCloudStorageReadSettings",
+    modelProperties: {
+      ...StoreReadSettings.type.modelProperties,
+      recursive: {
+        serializedName: "recursive",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFolderPath: {
+        serializedName: "wildcardFolderPath",
+        type: {
+          name: "Object"
+        }
+      },
+      wildcardFileName: {
+        serializedName: "wildcardFileName",
+        type: {
+          name: "Object"
+        }
+      },
+      prefix: {
+        serializedName: "prefix",
+        type: {
+          name: "Object"
+        }
+      },
+      fileListPath: {
+        serializedName: "fileListPath",
+        type: {
+          name: "Object"
+        }
+      },
+      enablePartitionDiscovery: {
+        serializedName: "enablePartitionDiscovery",
+        type: {
+          name: "Boolean"
+        }
+      },
+      partitionRootPath: {
+        serializedName: "partitionRootPath",
+        type: {
+          name: "Object"
+        }
+      },
+      deleteFilesAfterCompletion: {
+        serializedName: "deleteFilesAfterCompletion",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeStart: {
+        serializedName: "modifiedDatetimeStart",
+        type: {
+          name: "Object"
+        }
+      },
+      modifiedDatetimeEnd: {
+        serializedName: "modifiedDatetimeEnd",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: StoreReadSettings.type.additionalProperties
+  }
+};
+
+export const AmazonS3CompatibleReadSettings: msRest.CompositeMapper = {
+  serializedName: "AmazonS3CompatibleReadSettings",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: StoreReadSettings.type.polymorphicDiscriminator,
+    uberParent: "StoreReadSettings",
+    className: "AmazonS3CompatibleReadSettings",
     modelProperties: {
       ...StoreReadSettings.type.modelProperties,
       recursive: {
@@ -20222,6 +20808,46 @@ export const CosmosDbMongoDbApiSink: msRest.CompositeMapper = {
   }
 };
 
+export const MongoDbV2Sink: msRest.CompositeMapper = {
+  serializedName: "MongoDbV2Sink",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySink.type.polymorphicDiscriminator,
+    uberParent: "CopySink",
+    className: "MongoDbV2Sink",
+    modelProperties: {
+      ...CopySink.type.modelProperties,
+      writeBehavior: {
+        serializedName: "writeBehavior",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySink.type.additionalProperties
+  }
+};
+
+export const MongoDbAtlasSink: msRest.CompositeMapper = {
+  serializedName: "MongoDbAtlasSink",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySink.type.polymorphicDiscriminator,
+    uberParent: "CopySink",
+    className: "MongoDbAtlasSink",
+    modelProperties: {
+      ...CopySink.type.modelProperties,
+      writeBehavior: {
+        serializedName: "writeBehavior",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySink.type.additionalProperties
+  }
+};
+
 export const SalesforceServiceCloudSink: msRest.CompositeMapper = {
   serializedName: "SalesforceServiceCloudSink",
   type: {
@@ -24900,6 +25526,35 @@ export const ManagedPrivateEndpointListResponse: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateEndpointConnectionListResponse: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnectionListResponse",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionListResponse",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnectionResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const discriminators = {
   'SecretBase.SecureString' : SecureString,
   'SecretBase.AzureKeyVaultSecret' : AzureKeyVaultSecretReference,
@@ -25001,6 +25656,8 @@ export const discriminators = {
   'LinkedService.AzureMySql' : AzureMySqlLinkedService,
   'LinkedService.Oracle' : OracleLinkedService,
   'LinkedService.GoogleCloudStorage' : GoogleCloudStorageLinkedService,
+  'LinkedService.OracleCloudStorage' : OracleCloudStorageLinkedService,
+  'LinkedService.AmazonS3Compatible' : AmazonS3CompatibleLinkedService,
   'LinkedService.AzureFileStorage' : AzureFileStorageLinkedService,
   'LinkedService.FileServer' : FileServerLinkedService,
   'LinkedService.HDInsight' : HDInsightLinkedService,
@@ -25119,6 +25776,8 @@ export const discriminators = {
   'DatasetLocation.SftpLocation' : SftpLocation,
   'DatasetLocation.FtpServerLocation' : FtpServerLocation,
   'DatasetLocation.GoogleCloudStorageLocation' : GoogleCloudStorageLocation,
+  'DatasetLocation.OracleCloudStorageLocation' : OracleCloudStorageLocation,
+  'DatasetLocation.AmazonS3CompatibleLocation' : AmazonS3CompatibleLocation,
   'DatasetLocation.AzureFileStorageLocation' : AzureFileStorageLocation,
   'DatasetLocation.FileServerLocation' : FileServerLocation,
   'DatasetLocation.AmazonS3Location' : AmazonS3Location,
@@ -25170,6 +25829,8 @@ export const discriminators = {
   'StoreReadSettings.SftpReadSettings' : SftpReadSettings,
   'StoreReadSettings.FtpReadSettings' : FtpReadSettings,
   'StoreReadSettings.GoogleCloudStorageReadSettings' : GoogleCloudStorageReadSettings,
+  'StoreReadSettings.OracleCloudStorageReadSettings' : OracleCloudStorageReadSettings,
+  'StoreReadSettings.AmazonS3CompatibleReadSettings' : AmazonS3CompatibleReadSettings,
   'StoreReadSettings.AzureFileStorageReadSettings' : AzureFileStorageReadSettings,
   'StoreReadSettings.FileServerReadSettings' : FileServerReadSettings,
   'StoreReadSettings.AmazonS3ReadSettings' : AmazonS3ReadSettings,
@@ -25288,6 +25949,8 @@ export const discriminators = {
   'Activity.HDInsightPig' : HDInsightPigActivity,
   'Activity.HDInsightHive' : HDInsightHiveActivity,
   'CopySink.CosmosDbMongoDbApiSink' : CosmosDbMongoDbApiSink,
+  'CopySink.MongoDbV2Sink' : MongoDbV2Sink,
+  'CopySink.MongoDbAtlasSink' : MongoDbAtlasSink,
   'CopySink.SalesforceServiceCloudSink' : SalesforceServiceCloudSink,
   'CopySink.SalesforceSink' : SalesforceSink,
   'CopySink.AzureDataExplorerSink' : AzureDataExplorerSink,

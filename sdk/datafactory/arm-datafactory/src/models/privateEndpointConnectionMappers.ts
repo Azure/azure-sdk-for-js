@@ -315,7 +315,6 @@ export {
   LinkedIntegrationRuntimeRbacAuthorization,
   LinkedIntegrationRuntimeType,
   LinkedService,
-  LinkedServiceListResponse,
   LinkedServiceReference,
   LinkedServiceResource,
   LogLocationSettings,

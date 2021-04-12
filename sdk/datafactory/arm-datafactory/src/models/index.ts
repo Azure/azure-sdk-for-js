@@ -506,7 +506,7 @@ export interface ParameterSpecification {
 /**
  * Contains the possible cases for LinkedService.
  */
-export type LinkedServiceUnion = LinkedService | SharePointOnlineListLinkedService | SnowflakeLinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTableLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksDeltaLakeLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | AzureMariaDBLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceServiceCloudLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbAtlasLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | MicrosoftAccessLinkedService | InformixLinkedService | OdbcLinkedService | AzureMLServiceLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | GoogleCloudStorageLinkedService | AzureFileStorageLinkedService | FileServerLinkedService | HDInsightLinkedService | CommonDataServiceForAppsLinkedService | DynamicsCrmLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlMILinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
+export type LinkedServiceUnion = LinkedService | SharePointOnlineListLinkedService | SnowflakeLinkedService | AzureFunctionLinkedService | AzureDataExplorerLinkedService | SapTableLinkedService | GoogleAdWordsLinkedService | OracleServiceCloudLinkedService | DynamicsAXLinkedService | ResponsysLinkedService | AzureDatabricksDeltaLakeLinkedService | AzureDatabricksLinkedService | AzureDataLakeAnalyticsLinkedService | HDInsightOnDemandLinkedService | SalesforceMarketingCloudLinkedService | NetezzaLinkedService | VerticaLinkedService | ZohoLinkedService | XeroLinkedService | SquareLinkedService | SparkLinkedService | ShopifyLinkedService | ServiceNowLinkedService | QuickBooksLinkedService | PrestoLinkedService | PhoenixLinkedService | PaypalLinkedService | MarketoLinkedService | AzureMariaDBLinkedService | MariaDBLinkedService | MagentoLinkedService | JiraLinkedService | ImpalaLinkedService | HubspotLinkedService | HiveLinkedService | HBaseLinkedService | GreenplumLinkedService | GoogleBigQueryLinkedService | EloquaLinkedService | DrillLinkedService | CouchbaseLinkedService | ConcurLinkedService | AzurePostgreSqlLinkedService | AmazonMWSLinkedService | SapHanaLinkedService | SapBWLinkedService | SftpServerLinkedService | FtpServerLinkedService | HttpLinkedService | AzureSearchLinkedService | CustomDataSourceLinkedService | AmazonRedshiftLinkedService | AmazonS3LinkedService | RestServiceLinkedService | SapOpenHubLinkedService | SapEccLinkedService | SapCloudForCustomerLinkedService | SalesforceServiceCloudLinkedService | SalesforceLinkedService | Office365LinkedService | AzureBlobFSLinkedService | AzureDataLakeStoreLinkedService | CosmosDbMongoDbApiLinkedService | MongoDbV2LinkedService | MongoDbAtlasLinkedService | MongoDbLinkedService | CassandraLinkedService | WebLinkedService | ODataLinkedService | HdfsLinkedService | MicrosoftAccessLinkedService | InformixLinkedService | OdbcLinkedService | AzureMLServiceLinkedService | AzureMLLinkedService | TeradataLinkedService | Db2LinkedService | SybaseLinkedService | PostgreSqlLinkedService | MySqlLinkedService | AzureMySqlLinkedService | OracleLinkedService | GoogleCloudStorageLinkedService | OracleCloudStorageLinkedService | AmazonS3CompatibleLinkedService | AzureFileStorageLinkedService | FileServerLinkedService | HDInsightLinkedService | CommonDataServiceForAppsLinkedService | DynamicsCrmLinkedService | DynamicsLinkedService | CosmosDbLinkedService | AzureKeyVaultLinkedService | AzureBatchLinkedService | AzureSqlMILinkedService | AzureSqlDatabaseLinkedService | SqlServerLinkedService | AzureSqlDWLinkedService | AzureTableStorageLinkedService | AzureBlobStorageLinkedService | AzureStorageLinkedService;
 
 /**
  * The Azure Data Factory nested object which contains the information and credential which can be
@@ -2129,6 +2129,114 @@ export interface ManagedVirtualNetworkReference {
 }
 
 /**
+ * A wrapper for an ARM resource id
+ */
+export interface ArmIdWrapper {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * The state of a private link connection
+ */
+export interface PrivateLinkConnectionState {
+  /**
+   * Status of a private link connection
+   */
+  status?: string;
+  /**
+   * Description of a private link connection
+   */
+  description?: string;
+  /**
+   * ActionsRequired for a private link connection
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * A remote private endpoint connection
+ */
+export interface RemotePrivateEndpointConnection {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * PrivateEndpoint of a remote private endpoint connection
+   */
+  privateEndpoint?: ArmIdWrapper;
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+}
+
+/**
+ * Private Endpoint Connection ARM resource.
+ */
+export interface PrivateEndpointConnectionResource extends SubResource {
+  /**
+   * Core resource properties
+   */
+  properties?: RemotePrivateEndpointConnection;
+}
+
+/**
+ * A request to approve or reject a private endpoint connection
+ */
+export interface PrivateLinkConnectionApprovalRequest {
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+}
+
+/**
+ * Private Endpoint Connection Approval ARM resource.
+ */
+export interface PrivateLinkConnectionApprovalRequestResource extends SubResource {
+  /**
+   * Core resource properties
+   */
+  properties?: PrivateLinkConnectionApprovalRequest;
+}
+
+/**
+ * Properties of a private link resource
+ */
+export interface PrivateLinkResourceProperties {
+  /**
+   * GroupId of a private link resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * RequiredMembers of a private link resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * RequiredZoneNames of a private link resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredZoneNames?: string[];
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource extends SubResource {
+  /**
+   * Core resource properties
+   */
+  properties?: PrivateLinkResourceProperties;
+}
+
+/**
+ * Wrapper for a collection of private link resources
+ */
+export interface PrivateLinkResourcesWrapper {
+  value: PrivateLinkResource[];
+}
+
+/**
  * A data flow transformation.
  */
 export interface Transformation {
@@ -2383,11 +2491,11 @@ export interface AzureDataExplorerLinkedService {
    * The ID of the service principal used to authenticate against Azure Data Explorer. Type: string
    * (or Expression with resultType string).
    */
-  servicePrincipalId: any;
+  servicePrincipalId?: any;
   /**
    * The key of the service principal used to authenticate against Kusto.
    */
-  servicePrincipalKey: SecretBaseUnion;
+  servicePrincipalKey?: SecretBaseUnion;
   /**
    * Database name for connection. Type: string (or Expression with resultType string).
    */
@@ -2396,7 +2504,7 @@ export interface AzureDataExplorerLinkedService {
    * The name or ID of the tenant to which the service principal belongs. Type: string (or
    * Expression with resultType string).
    */
-  tenant: any;
+  tenant?: any;
 }
 
 /**
@@ -7255,6 +7363,103 @@ export interface GoogleCloudStorageLinkedService {
 }
 
 /**
+ * Linked service for Oracle Cloud Storage.
+ */
+export interface OracleCloudStorageLinkedService {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "OracleCloudStorage";
+  /**
+   * The integration runtime reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * Linked service description.
+   */
+  description?: string;
+  /**
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the linked service.
+   */
+  annotations?: any[];
+  /**
+   * The access key identifier of the Oracle Cloud Storage Identity and Access Management (IAM)
+   * user. Type: string (or Expression with resultType string).
+   */
+  accessKeyId?: any;
+  /**
+   * The secret access key of the Oracle Cloud Storage Identity and Access Management (IAM) user.
+   */
+  secretAccessKey?: SecretBaseUnion;
+  /**
+   * This value specifies the endpoint to access with the Oracle Cloud Storage Connector. This is
+   * an optional property; change it only if you want to try a different service endpoint or want
+   * to switch between https and http. Type: string (or Expression with resultType string).
+   */
+  serviceUrl?: any;
+  /**
+   * The encrypted credential used for authentication. Credentials are encrypted using the
+   * integration runtime credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
+ * Linked service for Amazon S3 Compatible.
+ */
+export interface AmazonS3CompatibleLinkedService {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AmazonS3Compatible";
+  /**
+   * The integration runtime reference.
+   */
+  connectVia?: IntegrationRuntimeReference;
+  /**
+   * Linked service description.
+   */
+  description?: string;
+  /**
+   * Parameters for linked service.
+   */
+  parameters?: { [propertyName: string]: ParameterSpecification };
+  /**
+   * List of tags that can be used for describing the linked service.
+   */
+  annotations?: any[];
+  /**
+   * The access key identifier of the Amazon S3 Compatible Identity and Access Management (IAM)
+   * user. Type: string (or Expression with resultType string).
+   */
+  accessKeyId?: any;
+  /**
+   * The secret access key of the Amazon S3 Compatible Identity and Access Management (IAM) user.
+   */
+  secretAccessKey?: SecretBaseUnion;
+  /**
+   * This value specifies the endpoint to access with the Amazon S3 Compatible Connector. This is
+   * an optional property; change it only if you want to try a different service endpoint or want
+   * to switch between https and http. Type: string (or Expression with resultType string).
+   */
+  serviceUrl?: any;
+  /**
+   * If true, use S3 path-style access instead of virtual hosted-style access. Default value is
+   * false. Type: boolean (or Expression with resultType boolean).
+   */
+  forcePathStyle?: any;
+  /**
+   * The encrypted credential used for authentication. Credentials are encrypted using the
+   * integration runtime credential manager. Type: string (or Expression with resultType string).
+   */
+  encryptedCredential?: any;
+}
+
+/**
  * Azure File Storage linked service.
  */
 export interface AzureFileStorageLinkedService {
@@ -7748,6 +7953,41 @@ export interface CosmosDbLinkedService {
    */
   accountKey?: SecretBaseUnion;
   /**
+   * The client ID of the application in Azure Active Directory used for Server-To-Server
+   * authentication. Type: string (or Expression with resultType string).
+   */
+  servicePrincipalId?: any;
+  /**
+   * The service principal credential type to use in Server-To-Server authentication.
+   * 'ServicePrincipalKey' for key/secret, 'ServicePrincipalCert' for certificate. Type: string (or
+   * Expression with resultType string). Possible values include: 'ServicePrincipalKey',
+   * 'ServicePrincipalCert'
+   */
+  servicePrincipalCredentialType?: CosmosDbServicePrincipalCredentialType;
+  /**
+   * The credential of the service principal object in Azure Active Directory. If
+   * servicePrincipalCredentialType is 'ServicePrincipalKey', servicePrincipalCredential can be
+   * SecureString or AzureKeyVaultSecretReference. If servicePrincipalCredentialType is
+   * 'ServicePrincipalCert', servicePrincipalCredential can only be AzureKeyVaultSecretReference.
+   */
+  servicePrincipalCredential?: SecretBaseUnion;
+  /**
+   * The name or ID of the tenant to which the service principal belongs. Type: string (or
+   * Expression with resultType string).
+   */
+  tenant?: any;
+  /**
+   * Indicates the azure cloud type of the service principle auth. Allowed values are AzurePublic,
+   * AzureChina, AzureUsGovernment, AzureGermany. Default value is the data factory regions’ cloud
+   * type. Type: string (or Expression with resultType string).
+   */
+  azureCloudType?: any;
+  /**
+   * The connection mode used to access CosmosDB account. Type: string (or Expression with
+   * resultType string). Possible values include: 'Gateway', 'Direct'
+   */
+  connectionMode?: CosmosDbConnectionMode;
+  /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
@@ -7837,6 +8077,26 @@ export interface AzureBatchLinkedService {
 }
 
 /**
+ * Sql always encrypted properties.
+ */
+export interface SqlAlwaysEncryptedProperties {
+  /**
+   * Sql always encrypted AKV authentication type. Type: string (or Expression with resultType
+   * string). Possible values include: 'ServicePrincipal', 'ManagedIdentity'
+   */
+  alwaysEncryptedAkvAuthType: SqlAlwaysEncryptedAkvAuthType;
+  /**
+   * The client ID of the application in Azure Active Directory used for Azure Key Vault
+   * authentication. Type: string (or Expression with resultType string).
+   */
+  servicePrincipalId?: any;
+  /**
+   * The key of the service principal used to authenticate against Azure Key Vault.
+   */
+  servicePrincipalKey?: SecretBaseUnion;
+}
+
+/**
  * Azure SQL Managed Instance linked service.
  */
 export interface AzureSqlMILinkedService {
@@ -7893,6 +8153,10 @@ export interface AzureSqlMILinkedService {
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
+  /**
+   * Sql always encrypted properties.
+   */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
 }
 
 /**
@@ -7952,6 +8216,10 @@ export interface AzureSqlDatabaseLinkedService {
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
+  /**
+   * Sql always encrypted properties.
+   */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
 }
 
 /**
@@ -7996,6 +8264,10 @@ export interface SqlServerLinkedService {
    * integration runtime credential manager. Type: string (or Expression with resultType string).
    */
   encryptedCredential?: any;
+  /**
+   * Sql always encrypted properties.
+   */
+  alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
 }
 
 /**
@@ -8174,6 +8446,12 @@ export interface AzureBlobStorageLinkedService {
    * type. Type: string (or Expression with resultType string).
    */
   azureCloudType?: any;
+  /**
+   * Specify the kind of your storage account. Allowed values are: Storage (general purpose v1),
+   * StorageV2 (general purpose v2), BlobStorage, or BlockBlobStorage. Type: string (or Expression
+   * with resultType string).
+   */
+  accountKind?: string;
   /**
    * The encrypted credential used for authentication. Credentials are encrypted using the
    * integration runtime credential manager. Type: string (or Expression with resultType string).
@@ -12555,7 +12833,7 @@ export interface AzureBlobDataset {
 /**
  * Contains the possible cases for DatasetLocation.
  */
-export type DatasetLocationUnion = DatasetLocation | HdfsLocation | HttpServerLocation | SftpLocation | FtpServerLocation | GoogleCloudStorageLocation | AzureFileStorageLocation | FileServerLocation | AmazonS3Location | AzureDataLakeStoreLocation | AzureBlobFSLocation | AzureBlobStorageLocation;
+export type DatasetLocationUnion = DatasetLocation | HdfsLocation | HttpServerLocation | SftpLocation | FtpServerLocation | GoogleCloudStorageLocation | OracleCloudStorageLocation | AmazonS3CompatibleLocation | AzureFileStorageLocation | FileServerLocation | AmazonS3Location | AzureDataLakeStoreLocation | AzureBlobFSLocation | AzureBlobStorageLocation;
 
 /**
  * Dataset location.
@@ -12678,6 +12956,62 @@ export interface GoogleCloudStorageLocation {
   bucketName?: any;
   /**
    * Specify the version of Google Cloud Storage. Type: string (or Expression with resultType
+   * string).
+   */
+  version?: any;
+}
+
+/**
+ * The location of Oracle Cloud Storage dataset.
+ */
+export interface OracleCloudStorageLocation {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "OracleCloudStorageLocation";
+  /**
+   * Specify the folder path of dataset. Type: string (or Expression with resultType string)
+   */
+  folderPath?: any;
+  /**
+   * Specify the file name of dataset. Type: string (or Expression with resultType string).
+   */
+  fileName?: any;
+  /**
+   * Specify the bucketName of Oracle Cloud Storage. Type: string (or Expression with resultType
+   * string)
+   */
+  bucketName?: any;
+  /**
+   * Specify the version of Oracle Cloud Storage. Type: string (or Expression with resultType
+   * string).
+   */
+  version?: any;
+}
+
+/**
+ * The location of Amazon S3 Compatible dataset.
+ */
+export interface AmazonS3CompatibleLocation {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AmazonS3CompatibleLocation";
+  /**
+   * Specify the folder path of dataset. Type: string (or Expression with resultType string)
+   */
+  folderPath?: any;
+  /**
+   * Specify the file name of dataset. Type: string (or Expression with resultType string).
+   */
+  fileName?: any;
+  /**
+   * Specify the bucketName of Amazon S3 Compatible. Type: string (or Expression with resultType
+   * string)
+   */
+  bucketName?: any;
+  /**
+   * Specify the version of Amazon S3 Compatible. Type: string (or Expression with resultType
    * string).
    */
   version?: any;
@@ -14678,7 +15012,7 @@ export interface DistcpSettings {
 /**
  * Contains the possible cases for StoreReadSettings.
  */
-export type StoreReadSettingsUnion = StoreReadSettings | HdfsReadSettings | HttpReadSettings | SftpReadSettings | FtpReadSettings | GoogleCloudStorageReadSettings | AzureFileStorageReadSettings | FileServerReadSettings | AmazonS3ReadSettings | AzureDataLakeStoreReadSettings | AzureBlobFSReadSettings | AzureBlobStorageReadSettings;
+export type StoreReadSettingsUnion = StoreReadSettings | HdfsReadSettings | HttpReadSettings | SftpReadSettings | FtpReadSettings | GoogleCloudStorageReadSettings | OracleCloudStorageReadSettings | AmazonS3CompatibleReadSettings | AzureFileStorageReadSettings | FileServerReadSettings | AmazonS3ReadSettings | AzureDataLakeStoreReadSettings | AzureBlobFSReadSettings | AzureBlobStorageReadSettings;
 
 /**
  * Connector read setting.
@@ -14968,6 +15302,126 @@ export interface GoogleCloudStorageReadSettings {
 }
 
 /**
+ * Oracle Cloud Storage read settings.
+ */
+export interface OracleCloudStorageReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "OracleCloudStorageReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Oracle Cloud Storage wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Oracle Cloud Storage wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * The prefix filter for the Oracle Cloud Storage object name. Type: string (or Expression with
+   * resultType string).
+   */
+  prefix?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
+ * Amazon S3 Compatible read settings.
+ */
+export interface AmazonS3CompatibleReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "AmazonS3CompatibleReadSettings";
+  /**
+   * The maximum concurrent connection count for the source data store. Type: integer (or
+   * Expression with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * If true, files under the folder path will be read recursively. Default is true. Type: boolean
+   * (or Expression with resultType boolean).
+   */
+  recursive?: any;
+  /**
+   * Amazon S3 Compatible wildcardFolderPath. Type: string (or Expression with resultType string).
+   */
+  wildcardFolderPath?: any;
+  /**
+   * Amazon S3 Compatible wildcardFileName. Type: string (or Expression with resultType string).
+   */
+  wildcardFileName?: any;
+  /**
+   * The prefix filter for the S3 Compatible object name. Type: string (or Expression with
+   * resultType string).
+   */
+  prefix?: any;
+  /**
+   * Point to a text file that lists each file (relative path to the path configured in the
+   * dataset) that you want to copy. Type: string (or Expression with resultType string).
+   */
+  fileListPath?: any;
+  /**
+   * Indicates whether to enable partition discovery.
+   */
+  enablePartitionDiscovery?: boolean;
+  /**
+   * Specify the root path where partition discovery starts from. Type: string (or Expression with
+   * resultType string).
+   */
+  partitionRootPath?: any;
+  /**
+   * Indicates whether the source files need to be deleted after copy completion. Default is false.
+   * Type: boolean (or Expression with resultType boolean).
+   */
+  deleteFilesAfterCompletion?: any;
+  /**
+   * The start of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeStart?: any;
+  /**
+   * The end of file's modified datetime. Type: string (or Expression with resultType string).
+   */
+  modifiedDatetimeEnd?: any;
+}
+
+/**
  * Azure File Storage read settings.
  */
 export interface AzureFileStorageReadSettings {
@@ -15088,7 +15542,7 @@ export interface FileServerReadSettings {
 }
 
 /**
- * Azure data lake store read settings.
+ * Amazon S3 read settings.
  */
 export interface AmazonS3ReadSettings {
   /**
@@ -20564,7 +21018,7 @@ export interface StagingSettings {
 /**
  * Contains the possible cases for CopySink.
  */
-export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | SalesforceServiceCloudSink | SalesforceSink | AzureDataExplorerSink | CommonDataServiceForAppsSink | DynamicsCrmSink | DynamicsSink | MicrosoftAccessSink | InformixSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SnowflakeSink | SqlDWSink | SqlMISink | AzureSqlSink | SqlServerSink | SqlSink | CosmosDbSqlApiSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | BinarySink | ParquetSink | AvroSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink | AzureDatabricksDeltaLakeSink | AzureMySqlSink | AzurePostgreSqlSink | RestSink | OrcSink | JsonSink | DelimitedTextSink;
+export type CopySinkUnion = CopySink | CosmosDbMongoDbApiSink | MongoDbV2Sink | MongoDbAtlasSink | SalesforceServiceCloudSink | SalesforceSink | AzureDataExplorerSink | CommonDataServiceForAppsSink | DynamicsCrmSink | DynamicsSink | MicrosoftAccessSink | InformixSink | OdbcSink | AzureSearchIndexSink | AzureBlobFSSink | AzureDataLakeStoreSink | OracleSink | SnowflakeSink | SqlDWSink | SqlMISink | AzureSqlSink | SqlServerSink | SqlSink | CosmosDbSqlApiSink | DocumentDbCollectionSink | FileSystemSink | BlobSink | BinarySink | ParquetSink | AvroSink | AzureTableSink | AzureQueueSink | SapCloudForCustomerSink | AzureDatabricksDeltaLakeSink | AzureMySqlSink | AzurePostgreSqlSink | RestSink | OrcSink | JsonSink | DelimitedTextSink;
 
 /**
  * A copy activity sink.
@@ -20611,6 +21065,84 @@ export interface CosmosDbMongoDbApiSink {
    * Polymorphic Discriminator
    */
   type: "CosmosDbMongoDbApiSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Specifies whether the document with same key to be overwritten (upsert) rather than throw
+   * exception (insert). The default value is "insert". Type: string (or Expression with resultType
+   * string). Type: string (or Expression with resultType string).
+   */
+  writeBehavior?: any;
+}
+
+/**
+ * A copy activity MongoDB sink.
+ */
+export interface MongoDbV2Sink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "MongoDbV2Sink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Specifies whether the document with same key to be overwritten (upsert) rather than throw
+   * exception (insert). The default value is "insert". Type: string (or Expression with resultType
+   * string). Type: string (or Expression with resultType string).
+   */
+  writeBehavior?: any;
+}
+
+/**
+ * A copy activity MongoDB Atlas sink.
+ */
+export interface MongoDbAtlasSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "MongoDbAtlasSink";
   /**
    * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
    */
@@ -24842,6 +25374,28 @@ export interface ManagedPrivateEndpointsGetOptionalParams extends msRest.Request
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface PrivateEndpointConnectionCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the private endpoint connection entity.  Should only be specified for update, for
+   * which it should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PrivateEndpointConnectionGetOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the private endpoint connection entity. Should only be specified for get. If the ETag
+   * matches the existing entity tag, or if * was provided, then no content will be returned.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
  * An interface representing DataFactoryManagementClientOptions.
  */
 export interface DataFactoryManagementClientOptions extends AzureServiceClientOptions {
@@ -24994,6 +25548,18 @@ export interface ManagedVirtualNetworkListResponse extends Array<ManagedVirtualN
  * @extends Array<ManagedPrivateEndpointResource>
  */
 export interface ManagedPrivateEndpointListResponse extends Array<ManagedPrivateEndpointResource> {
+  /**
+   * The link to the next page of results, if any remaining results exist.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * A list of linked service resources.
+ * @extends Array<PrivateEndpointConnectionResource>
+ */
+export interface PrivateEndpointConnectionListResponse extends Array<PrivateEndpointConnectionResource> {
   /**
    * The link to the next page of results, if any remaining results exist.
    */
@@ -25343,6 +25909,30 @@ export type DynamicsDeploymentType = 'Online' | 'OnPremisesWithIfd';
  * @enum {string}
  */
 export type DynamicsAuthenticationType = 'Office365' | 'Ifd' | 'AADServicePrincipal';
+
+/**
+ * Defines values for CosmosDbServicePrincipalCredentialType.
+ * Possible values include: 'ServicePrincipalKey', 'ServicePrincipalCert'
+ * @readonly
+ * @enum {string}
+ */
+export type CosmosDbServicePrincipalCredentialType = 'ServicePrincipalKey' | 'ServicePrincipalCert';
+
+/**
+ * Defines values for CosmosDbConnectionMode.
+ * Possible values include: 'Gateway', 'Direct'
+ * @readonly
+ * @enum {string}
+ */
+export type CosmosDbConnectionMode = 'Gateway' | 'Direct';
+
+/**
+ * Defines values for SqlAlwaysEncryptedAkvAuthType.
+ * Possible values include: 'ServicePrincipal', 'ManagedIdentity'
+ * @readonly
+ * @enum {string}
+ */
+export type SqlAlwaysEncryptedAkvAuthType = 'ServicePrincipal' | 'ManagedIdentity';
 
 /**
  * Defines values for OrcCompressionCodec.
@@ -27236,5 +27826,105 @@ export type ManagedPrivateEndpointsListByFactoryNextResponse = ManagedPrivateEnd
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedPrivateEndpointListResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByFactory operation.
+ */
+export type PrivateEndPointConnectionsListByFactoryResponse = PrivateEndpointConnectionListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResponse;
+    };
+};
+
+/**
+ * Contains response data for the listByFactoryNext operation.
+ */
+export type PrivateEndPointConnectionsListByFactoryNextResponse = PrivateEndpointConnectionListResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResponse;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateEndpointConnectionCreateOrUpdateResponse = PrivateEndpointConnectionResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionResource;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResourcesWrapper & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesWrapper;
     };
 };
