@@ -154,7 +154,7 @@ describe("SmsClient [Playback/Live]", async () => {
       );
       assert.fail("Should have thrown an error");
     } catch (e) {
-      assert.equal(e.statusCode, 404);
+      assert.equal(e.statusCode, 401);
     }
   });
 
