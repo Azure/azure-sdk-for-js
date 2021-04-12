@@ -1,4 +1,4 @@
-# Azure Document Translator Rest-Level library for JavaScript
+# Azure Document Translator Rest-Level client library for JavaScript
 
 [Azure Document Translator](https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview) is a cloud-based feature of the Azure Translator service and is part of the Azure Cognitive Service family of REST APIs. The Document Translation API translates documents to and from 90 languages and dialects while preserving document structure and data format.
 
