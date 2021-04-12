@@ -9,3 +9,12 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
+
+.feature-button-visible {
+  visibility: visible;
+}
+
+.feature-button-hidden {
+  visibility: visible;
+  cursor: not-allowed;
+}
