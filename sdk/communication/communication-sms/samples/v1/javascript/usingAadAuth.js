@@ -2,7 +2,7 @@
 // Licensed under the MIT Licence.
 
 /**
- *   @summary (ONLY AVAILABLE IN NODE.JS RUNTIME) Demonstrates how to instantiate SmsClient using AAD token credentials.
+ *   @summary (ONLY AVAILABLE IN NODE.JS RUNTIME) Uses AAD token credentials when sending a SMS message.
  */
 
 /*
@@ -42,7 +42,7 @@ async function main() {
     !process.env.AZURE_CLIENT_ID ||
     !process.env.AZURE_CLIENT_SECRET
   ) {
-    console.warn(
+    console.error(
       "Azure AD authentication information not provided, but it is required to run this sample. Exiting."
     );
     return;
@@ -50,9 +50,10 @@ async function main() {
 
   const client = new SmsClient(endpoint, new DefaultAzureCredential());
   const sendResults = await client.send({
+    // Phone numbers must be in E.164 format
     from: "<from-phone-number>",
     to: ["<to-phone-number-1>"],
-    message: "Hello World via SMS!" // The message being sent
+    message: "Hello World via SMS!"
   });
 
   for (const sendResult of sendResults) {
