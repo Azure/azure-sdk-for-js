@@ -12,11 +12,11 @@ urlFragment: communication-sms-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - SMS in some common scenarios.
 
-| **File Name**                               | **Description**                                                                            |
-| ------------------------------------------- | ------------------------------------------------------------------------------------------ |
-| [sendSms.js][sendsms]                       | Send an SMS message to 1 or more recipients                                                |
-| [sendSmsWithOptions.js][sendsmswithoptions] | Configure SMS options when sending a message                                               |
-| [usingAadAuth.js][usingaadauth]             | (ONLY AVAILABLE IN NODE.JS RUNTIME) Uses AAD token credentials when sending a SMS message. |
+| **File Name**                               | **Description**                                                                           |
+| ------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| [sendSms.js][sendsms]                       | Send an SMS message to 1 or more recipients                                               |
+| [sendSmsWithOptions.js][sendsmswithoptions] | Configure SMS options when sending a message                                              |
+| [usingAadAuth.js][usingaadauth]             | (ONLY AVAILABLE IN NODE.JS RUNTIME) Use AAD token credentials when sending a SMS message. |
 
 ## Prerequisites
 

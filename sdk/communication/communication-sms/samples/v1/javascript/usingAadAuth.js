@@ -2,7 +2,7 @@
 // Licensed under the MIT Licence.
 
 /**
- *   @summary (ONLY AVAILABLE IN NODE.JS RUNTIME) Uses AAD token credentials when sending a SMS message.
+ *   @summary (ONLY AVAILABLE IN NODE.JS RUNTIME) Use AAD token credentials when sending a SMS message.
  */
 
 /*
@@ -66,7 +66,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("Encountered an error while sending sms: ");
-  console.error("Request: \n", error.request);
-  console.error("\nResponse: \n", error.response);
+  console.error("Encountered an error while sending SMS: ", error);
+  process.exit(1);
 });

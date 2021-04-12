@@ -45,7 +45,6 @@ export const main = async () => {
 };
 
 main().catch((error) => {
-  console.error("Encountered an error while sending sms: ");
-  console.error("Request: \n", error.request);
-  console.error("\nResponse: \n", error.response);
+  console.error("Encountered an error while sending SMS: ", error);
+  process.exit(1);
 });
