@@ -8,7 +8,7 @@ import Header from "./components/Header";
 
 function App(): JSX.Element {
   return (
-    <div className="container text-center">
+    <div className="container">
       <Header />
     </div>
   );
