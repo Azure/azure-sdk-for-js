@@ -8,16 +8,13 @@ import { MsalFlow } from "../msal/flows";
 import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/browserCommon";
-import {
-  InteractiveBrowserCredentialBrowserOptions,
-  InteractiveBrowserCredentialOptions
-} from "./interactiveBrowserCredentialOptions";
+import { SinglePageApplicationCredentialOptions } from "./singlePageApplicationCredentialOptions";
 
-const logger = credentialLogger("InteractiveBrowserCredential");
+const logger = credentialLogger("SinglePageApplicationCredential");
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
- * using the interactive login flow.
+ * using the authorization code flow.
  *
  * This credential uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
  * On NodeJS, it will open a browser window while it listens for a redirect response from the authentication service.
@@ -26,36 +23,33 @@ const logger = credentialLogger("InteractiveBrowserCredential");
  * It's recommended that the AAD Applications used are configured to authenticate using Single Page Applications.
  * More information here: [link](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
  */
-export class InteractiveBrowserCredential implements TokenCredential {
+export class SinglePageApplicationCredential implements TokenCredential {
   private msalFlow: MsalFlow;
   private disableAutomaticAuthentication?: boolean;
 
   /**
-   * Creates an instance of the InteractiveBrowserCredential with the
+   * Creates an instance of the SinglePageApplicationCredential with the
    * details needed to authenticate against Azure Active Directory with
    * a user identity.
    *
    * @param options - Options for configuring the client which makes the authentication request.
    */
-  constructor(
-    options: InteractiveBrowserCredentialBrowserOptions | InteractiveBrowserCredentialOptions
-  ) {
+  constructor(options: SinglePageApplicationCredentialOptions) {
     if (!options?.clientId) {
       const error = new Error(
-        "The parameter `clientId` cannot be left undefined for the `InteractiveBrowserCredential`"
+        "The parameter `clientId` cannot be left undefined for the `SinglePageApplicationCredential`"
       );
       logger.info(formatError("", error));
       throw error;
     }
 
-    const browserOptions = options as InteractiveBrowserCredentialBrowserOptions;
-    const loginStyle = browserOptions.loginStyle || "popup";
+    const loginStyle = options.loginStyle || "popup";
     const loginStyles = ["redirect", "popup"];
 
     if (loginStyles.indexOf(loginStyle) === -1) {
       const error = new Error(
         `Invalid loginStyle: ${
-          browserOptions.loginStyle
+          options.loginStyle
         }. Should be any of the following: ${loginStyles.join(", ")}.`
       );
       logger.info(formatError("", error));

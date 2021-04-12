@@ -75,9 +75,6 @@ export class AzureCliCredential implements TokenCredential {
 }
 
 // @public
-export type BrowserLoginStyle = "redirect" | "popup";
-
-// @public
 export class ChainedTokenCredential implements TokenCredential {
     constructor(...sources: TokenCredential[]);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
@@ -176,18 +173,10 @@ export { GetTokenOptions }
 
 // @public
 export class InteractiveBrowserCredential implements TokenCredential {
-    constructor(options?: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions);
+    constructor(options?: InteractiveBrowserCredentialOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
-
-// @public
-export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions & InteractiveCredentialOptions & {
-    redirectUri?: string | (() => string);
-    tenantId?: string;
-    clientId: string;
-    loginStyle?: BrowserLoginStyle;
-};
 
 // @public
 export type InteractiveBrowserCredentialOptions = TokenCredentialOptions & InteractiveCredentialOptions & {
@@ -215,6 +204,21 @@ export class ManagedIdentityCredential implements TokenCredential {
 
 // @public
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string;
+
+// @public
+export class SinglePageApplicationCredential implements TokenCredential {
+    constructor(_options: SinglePageApplicationCredentialOptions);
+    authenticate(): Promise<AuthenticationRecord | undefined>;
+    getToken(): Promise<AccessToken>;
+}
+
+// @public
+export type SinglePageApplicationCredentialOptions = TokenCredentialOptions & InteractiveCredentialOptions & {
+    redirectUri?: string | (() => string);
+    tenantId?: string;
+    clientId: string;
+    loginStyle?: BrowserLoginStyle;
+};
 
 // @public
 export interface TokenCachePersistenceOptions {
@@ -251,6 +255,10 @@ export interface VisualStudioCodeCredentialOptions extends TokenCredentialOption
     tenantId?: string;
 }
 
+
+// Warnings were encountered during analysis:
+//
+// src/credentials/singlePageApplicationCredentialOptions.ts:46:5 - (ae-forgotten-export) The symbol "BrowserLoginStyle" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

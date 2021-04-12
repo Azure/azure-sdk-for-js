@@ -2,7 +2,7 @@
 
 This package contains some simple manual verification for the use of Azure
 Identity with other Azure SDK libraries in the browser.  For now, it just tests
-that the `InteractiveBrowserCredential` works with the `@azure/service-bus`
+that the `SinglePageApplicationCredential` works with the `@azure/service-bus`
 library.
 
 ## Usage

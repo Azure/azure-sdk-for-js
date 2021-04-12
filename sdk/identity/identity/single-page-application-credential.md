@@ -1,0 +1,36 @@
+# Single Page Application Credential
+
+The `SinglePageApplicationCredential` uses [Authorization Code Flow][AuthCodeFlow], which uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636). Under the hood it uses [@azure/msal-browser](https://www.npmjs.com/package/@azure/msal-browser).
+
+Follow the instructions for [creating your single-page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
+
+When using `SinglePageApplicationCredential`, you will be required to pass a `clientId` in the constructor parameters. Also, a `redirectUri` can be provided to determine the proper redirection URI with the adequate port, as follows:
+
+```ts
+const credential = new SinglePageApplicationCredential({
+  // You'll need to provide a client ID if you have an application configured.
+  clientId: "my-client-id",
+  // You may provide a tenant ID based on the resource you are trying to access.
+  tenantId: "my-tenant-id",
+  // You may provide a redirectUri based on the redirectUri configured in your AAD application:
+  redirectUri: "http://localhost:8080/"
+});
+```
+
+Azure Active Directory enterprise applications configured with redirect URIs for `Web` environments are no longer supported by the Authorization Code Flow. You will have to configure your AAD application to use Single Page Application redirect URis (type `spa`).
+
+## CORS error
+
+If you attempt to use the Authorization Code Flow and you get an error similar to this one:
+
+```
+access to XMLHttpRequest at 'https://login.microsoftonline.com/common/v2.0/oauth2/token' from origin 'yourApp.com' has been blocked by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+```
+
+Then you need to visit your app registration and update the redirect URI you're using to the type `spa` (for "single page application").
+
+## Sample code
+
+You can see a sample project that uses `SinglePageApplicationCredential` here: [link to the sample project](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/test/manual).
+
+[AuthCodeFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow

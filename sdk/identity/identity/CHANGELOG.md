@@ -2,6 +2,7 @@
 
 ## 2.0.0-beta.3 (Unreleased)
 
+- Breaking change: Separated the browser-specific features of `InteractiveBrowserCredential` into a new credential: `SinglePageApplicationCredential`. The browser an Node functionalities are fundamentally different and require parameters that weren't available both in NodeJS and browsers. Moving forward, in-browser authentication will be possible only through `SinglePageApplicationCredential`.
 - The feature of persistence caching of credentials (introduced in 2.0.0-beta.1) is now supported on Node.js 15 as well.
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError` which is to allow the next credential in the chain to be tried.
 

@@ -12,9 +12,25 @@ Authenticating your application, users, and principals is an integral part of wo
 
 ## Authenticating client side browser applications
 
-For client side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience and is the only credential type that we support in the browser. To get started, you will want to configure an AAD application for interactive browser authentication. Please refer to the [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for additional information on how to configure your app registration for the browser.
+For client side applications running in the browser, the `SinglePageApplicationCredential` provides the simplest user authentication experience and is the only credential type that we support in the browser. To get started, you will want to configure an AAD application for interactive browser authentication. Please refer to the [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for additional information on how to configure your app registration for the browser.
 
-You may also refer to [Authenticating a user account interactively in the browser](#authenticating-a-user-account-interactively-in-the-browser) for an example of how you can use the `InteractiveBrowserCredential` once the app registration is configured.
+Note that this credential can only be used with Azure services that support CORS. For example, `@azure/service-bus`.
+
+An example follows:
+
+```ts
+import { ServiceBusClient } from "@azure/service-bus";
+
+function withSinglePageApplicationCredential() {
+  const credential = new SinglePageApplicationCredential({
+    tenantId: "<YOUR_TENANT_ID>",
+    clientId: "<YOUR_CLIENT_ID>",
+    redirectUri: "<YOUR_REDIRECT_URI>"
+  });
+
+  const client = new ServiceBusClient("hostname.servicebus.windows.net", credential);
+}
+```
 
 ## Authenticating server side applications
 
@@ -68,11 +84,9 @@ function withDefaultAzureCredential() {
 }
 ```
 
-### Authenticating a user account interactively in the browser
+### Authenticating with the default system browser
 
 For clients that have a default browser available and for client-side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience. In the sample below an application authenticates a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
-
-> For client side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. You will also need to configure your app registration for single-page applications. Please refer to the [Single-Page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) for more information.
 
 ```ts
 function withInteractiveBrowserCredential() {

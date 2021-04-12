@@ -27,11 +27,9 @@ export {
 } from "./credentials/visualStudioCodeCredential";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
-export {
-  InteractiveBrowserCredentialOptions,
-  InteractiveBrowserCredentialBrowserOptions,
-  BrowserLoginStyle
-} from "./credentials/interactiveBrowserCredentialOptions";
+export { InteractiveBrowserCredentialOptions } from "./credentials/interactiveBrowserCredentialOptions";
+export { SinglePageApplicationCredential } from "./credentials/singlePageApplicationCredential";
+export { SinglePageApplicationCredentialOptions } from "./credentials/singlePageApplicationCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";
 export {

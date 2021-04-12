@@ -5,7 +5,7 @@ import * as React from "react";
 import * as ReactDOM from "react-dom";
 
 import {
-  InteractiveBrowserCredential,
+  SinglePageApplicationCredential,
   BrowserLoginStyle
 } from "@azure/identity";
 import { ServiceBusClient } from "@azure/service-bus";
@@ -65,11 +65,11 @@ function Radio(options: {
 }
 
 let lastLoginStyle: BrowserLoginStyle | undefined;
-let cachedCredential: InteractiveBrowserCredential | undefined;
+let cachedCredential: SinglePageApplicationCredential | undefined;
 function getCredential(
   clientDetails: ClientDetails,
   cacheCredential: boolean
-): InteractiveBrowserCredential | undefined {
+): SinglePageApplicationCredential | undefined {
   if (!cacheCredential) {
     cachedCredential = undefined;
     lastLoginStyle = undefined;
@@ -79,7 +79,7 @@ function getCredential(
   const { tenantId, clientId, loginStyle } = clientDetails;
 
   if (tenantId && clientId && loginStyle) {
-    cachedCredential = new InteractiveBrowserCredential({
+    cachedCredential = new SinglePageApplicationCredential({
       tenantId,
       clientId,
       loginStyle

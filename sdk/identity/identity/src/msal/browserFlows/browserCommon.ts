@@ -5,7 +5,7 @@ import * as msalBrowser from "@azure/msal-browser";
 import { AccessToken } from "@azure/core-http";
 import { DefaultTenantId } from "../../constants";
 import { resolveTenantId } from "../../util/resolveTenantId";
-import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
+import { BrowserLoginStyle } from "../../credentials/singlePageApplicationCredentialOptions";
 import { getAuthorityHost, getKnownAuthorities, MsalBaseUtilities } from "../utils";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRecord } from "../types";

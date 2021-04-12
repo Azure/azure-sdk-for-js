@@ -9,10 +9,7 @@ import { trace } from "../util/tracing";
 import { AuthenticationRecord } from "../msal/types";
 import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
 import { MsalFlow } from "../msal/flows";
-import {
-  InteractiveBrowserCredentialBrowserOptions,
-  InteractiveBrowserCredentialOptions
-} from "./interactiveBrowserCredentialOptions";
+import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -36,9 +33,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    *
    * @param options - Options for configuring the client which makes the authentication requests.
    */
-  constructor(
-    options: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions = {}
-  ) {
+  constructor(options: InteractiveBrowserCredentialOptions = {}) {
     const redirectUri =
       typeof options.redirectUri === "function"
         ? options.redirectUri()

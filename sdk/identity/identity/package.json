@@ -15,6 +15,7 @@
     "./dist-esm/src/credentials/defaultAzureCredential.js": "./dist-esm/src/credentials/defaultAzureCredential.browser.js",
     "./dist-esm/src/credentials/authorizationCodeCredential.js": "./dist-esm/src/credentials/authorizationCodeCredential.browser.js",
     "./dist-esm/src/credentials/interactiveBrowserCredential.js": "./dist-esm/src/credentials/interactiveBrowserCredential.browser.js",
+    "./dist-esm/src/credentials/singlePageApplicationCredential.js": "./dist-esm/src/credentials/singlePageApplicationCredential.browser.js",
     "./dist-esm/src/credentials/visualStudioCodeCredential.js": "./dist-esm/src/credentials/visualStudioCodeCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js"
