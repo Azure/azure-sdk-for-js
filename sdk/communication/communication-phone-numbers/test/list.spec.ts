@@ -30,23 +30,4 @@ describe("PhoneNumbersClient - lists", function() {
 
     assert.isTrue(all > 0);
   }).timeout(20000);
-
-  it("can skip a phone number", async function() {
-    let all = 0;
-    let countWhenSkipped = 0;
-
-    for await (const purchased of client.listPurchasedPhoneNumbers()) {
-      assert.match(purchased.phoneNumber, /\+\d{1}\d{3}\d{3}\d{4}/g);
-      all++;
-    }
-    assert.isTrue(all > 0);
-
-    for await (const purchased of client.listPurchasedPhoneNumbers({ skip: 1 })) {
-      assert.match(purchased.phoneNumber, /\+\d{1}\d{3}\d{3}\d{4}/g);
-      countWhenSkipped++;
-    }
-
-    assert.isTrue(countWhenSkipped > 0);
-    assert.equal(countWhenSkipped, all - 1);
-  }).timeout(25000);
 });
