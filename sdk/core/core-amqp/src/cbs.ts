@@ -16,7 +16,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import { logErrorStackTrace, logger } from "./log";
 import { StandardAbortMessage, translate } from "./errors";
-import { defaultLock } from "./util/utils";
+import { defaultCancellableLock } from "./util/utils";
 import { RequestResponseLink } from "./requestResponseLink";
 
 /**
@@ -87,9 +87,13 @@ export class CbsClient {
       // Acquire the lock and establish an amqp connection if it does not exist.
       if (!this.connection.isOpen()) {
         logger.verbose("The CBS client is trying to establish an AMQP connection.");
-        await defaultLock.acquire(this.connectionLock, () => {
-          return this.connection.open({ abortSignal });
-        });
+        await defaultCancellableLock.acquire(
+          this.connectionLock,
+          () => {
+            return this.connection.open({ abortSignal });
+          },
+          { abortSignal: abortSignal }
+        );
       }
 
       if (!this._isCbsSenderReceiverLinkOpen()) {
