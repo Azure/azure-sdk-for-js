@@ -11,7 +11,7 @@ import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
 
-describe("Authentication", () => {
+describe.only("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
   let recorder: Recorder;
 
