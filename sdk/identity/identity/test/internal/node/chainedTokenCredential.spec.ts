@@ -20,7 +20,7 @@ describe("ChainedTokenCredential", function() {
       new TestMockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 }))
     );
 
-    const infoSpy = Sinon.spy(chainedTokenCredentialLogger, "info");
+    const infoSpy = Sinon.spy(chainedTokenCredentialLogger.parent, "info");
     const getTokenInfoSpy = Sinon.spy(chainedTokenCredentialLogger.getToken, "info");
 
     const accessToken = await chainedTokenCredential.getToken("<scope>");

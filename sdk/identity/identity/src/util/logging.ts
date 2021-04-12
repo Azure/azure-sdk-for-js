@@ -94,7 +94,7 @@ export function credentialLoggerInstance(
   const fullTitle = parent ? `${parent.fullTitle} ${title}` : title;
 
   function info(message: string): void {
-    (parent || log).info(`${fullTitle} => ${message}`);
+    log.info(`${fullTitle} => ${message}`);
   }
 
   return {
@@ -109,6 +109,7 @@ export function credentialLoggerInstance(
  * It has all the properties of a CredentialLoggerInstance, plus other logger instances, one per method.
  */
 export interface CredentialLogger extends CredentialLoggerInstance {
+  parent: AzureLogger;
   getToken: CredentialLoggerInstance;
 }
 
@@ -123,8 +124,10 @@ export interface CredentialLogger extends CredentialLoggerInstance {
  *
  */
 export function credentialLogger(title: string, log: AzureLogger = logger): CredentialLogger {
-  const instance = credentialLoggerInstance(title, undefined, log);
-  const credLogger = instance as CredentialLogger;
-  credLogger.getToken = credentialLoggerInstance("=> getToken()", instance, log);
-  return credLogger;
+  const credLogger = credentialLoggerInstance(title, undefined, log);
+  return {
+    ...credLogger,
+    parent: log,
+    getToken: credentialLoggerInstance("=> getToken()", credLogger, log)
+  };
 }
