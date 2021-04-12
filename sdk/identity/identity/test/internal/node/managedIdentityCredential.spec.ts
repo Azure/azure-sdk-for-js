@@ -12,10 +12,7 @@ import {
 import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
 import { OAuthErrorResponse } from "../../../src/client/errors";
 import Sinon from "sinon";
-import {
-  imdsMsi,
-  imdsMsiRetryConfig
-} from "../../../src/credentials/managedIdentityCredential/imdsMsi";
+import { imdsMsiRetryConfig } from "../../../src/credentials/managedIdentityCredential/imdsMsi";
 
 interface AuthRequestDetails {
   requests: WebResource[];
@@ -185,14 +182,46 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("IMDS MSI retries on 404", async function() {
+  it("IMDS MSI retries and succeeds on 404", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
-    const stub = sandbox.stub(imdsMsi, "isAvailable");
-    stub.returns(Promise.resolve(true));
+    const mockHttpClient = new MockAuthHttpClient({
+      authResponse: [
+        // First response says the IMDS endpoint is available.
+        { status: 200 },
+        { status: 404 },
+        // Retries one time and fails
+        { status: 404 },
+        // Retries a second time and succeeds
+        {
+          status: 200,
+          parsedBody: {
+            access_token: "token"
+          }
+        }
+      ]
+    });
+
+    const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
+      ...mockHttpClient.tokenCredentialOptions
+    });
+
+    const response = await credential.getToken("scopes");
+    assert.equal(response.token, "token");
+  });
+
+  it("IMDS MSI retries up to a limit on 404", async function() {
+    process.env.AZURE_CLIENT_ID = "errclient";
 
     const mockHttpClient = new MockAuthHttpClient({
-      authResponse: [{ status: 404 }, { status: 404 }, { status: 404 }, { status: 404 }]
+      // First response says the IMDS endpoint is available.
+      authResponse: [
+        { status: 200 },
+        { status: 404 },
+        { status: 404 },
+        { status: 404 },
+        { status: 404 }
+      ]
     });
 
     const credential = new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, {
@@ -201,8 +230,9 @@ describe("ManagedIdentityCredential", function() {
 
     const promise = credential.getToken("scopes");
 
+    imdsMsiRetryConfig.startDelayInMs = 30;
+
     // 30ms -> 60ms -> 120ms = 240ms
-    imdsMsiRetryConfig.nextDelayInMs = 30;
     clock.tick(240);
 
     await assertRejects(

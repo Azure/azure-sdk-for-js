@@ -57,7 +57,7 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
 // 30s -> 60s -> 120s
 export const imdsMsiRetryConfig = {
   maxRetries: 3,
-  nextDelayInMs: 30 * 1000,
+  startDelayInMs: 30 * 1000,
   intervalIncrement: 2
 };
 
@@ -143,6 +143,7 @@ export const imdsMsi: MSI = {
       `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
     );
 
+    let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
     for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
       try {
         return await msiGenericGetToken(
@@ -153,9 +154,8 @@ export const imdsMsi: MSI = {
         );
       } catch (error) {
         if (error.statusCode === 404) {
-          const nextDelay = imdsMsiRetryConfig.nextDelayInMs;
-          imdsMsiRetryConfig.nextDelayInMs *= imdsMsiRetryConfig.intervalIncrement;
-          await delay(nextDelay);
+          await delay(nextDelayInMs);
+          nextDelayInMs *= imdsMsiRetryConfig.intervalIncrement;
           continue;
         }
         throw error;
