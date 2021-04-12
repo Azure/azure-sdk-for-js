@@ -38,4 +38,34 @@ describe("ChainedTokenCredential", function() {
     infoSpy.restore();
     getTokenInfoSpy.restore();
   });
+
+  it("Doesn't throw with a clossure credential", async () => {
+    function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
+      return {
+        getToken: () => returnPromise
+      };
+    }
+
+    const chainedTokenCredential = new ChainedTokenCredential(
+      mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 }))
+    );
+
+    const infoSpy = Sinon.spy(chainedTokenCredentialLogger.parent, "info");
+    const getTokenInfoSpy = Sinon.spy(chainedTokenCredentialLogger.getToken, "info");
+
+    const accessToken = await chainedTokenCredential.getToken("<scope>");
+    assert.notStrictEqual(accessToken, null);
+
+    assert.equal(
+      infoSpy.getCalls()[0].args.join(" "),
+      "ChainedTokenCredential => getToken() => Result for Object: SUCCESS. Scopes: <scope>."
+    );
+    assert.equal(
+      getTokenInfoSpy.getCalls()[0].args[0],
+      "Result for Object: SUCCESS. Scopes: <scope>."
+    );
+
+    infoSpy.restore();
+    getTokenInfoSpy.restore();
+  });
 });
