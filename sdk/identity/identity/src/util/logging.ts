@@ -94,7 +94,7 @@ export function credentialLoggerInstance(
   const fullTitle = parent ? `${parent.fullTitle} ${title}` : title;
 
   function info(message: string): void {
-    log.info(`${fullTitle} => ${message}`);
+    log.info(`${fullTitle} =>`, message);
   }
 
   return {

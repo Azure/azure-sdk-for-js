@@ -27,7 +27,7 @@ describe("ChainedTokenCredential", function() {
     assert.notStrictEqual(accessToken, null);
 
     assert.equal(
-      infoSpy.getCalls()[0].args[0],
+      infoSpy.getCalls()[0].args.join(" "),
       "ChainedTokenCredential => getToken() => Result for TestMockCredential: SUCCESS. Scopes: <scope>."
     );
     assert.equal(
