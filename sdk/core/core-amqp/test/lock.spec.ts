@@ -102,9 +102,14 @@ describe("CancellableAsyncLock", function() {
       const queue: Promise<number>[] = [];
       for (const task of tasks) {
         queue.push(task);
-        task.then(() => {
-          queue.splice(queue.indexOf(task), 1);
-        });
+        task
+          .then(() => {
+            queue.splice(queue.indexOf(task), 1);
+            return;
+          })
+          .catch(() => {
+            /* no-op */
+          });
       }
 
       const results = [];
@@ -153,6 +158,7 @@ describe("CancellableAsyncLock", function() {
           .then((value) => {
             results.push(value);
             tasks.splice(tasks.indexOf(task), 1);
+            return;
           })
           .catch((err) => {
             results.push(err);
@@ -225,6 +231,7 @@ describe("CancellableAsyncLock", function() {
           .then((value) => {
             results.push(value);
             tasks.splice(tasks.indexOf(task), 1);
+            return;
           })
           .catch((err) => {
             results.push(err);
@@ -297,6 +304,7 @@ describe("CancellableAsyncLock", function() {
           .then((value) => {
             results.push(value);
             tasks.splice(tasks.indexOf(task), 1);
+            return;
           })
           .catch((err) => {
             results.push(err);

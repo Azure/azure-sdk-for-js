@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { OperationTimeoutError } from "rhea-promise";
 import { StandardAbortMessage } from "../errors";
@@ -52,6 +55,10 @@ export interface CancellableAsyncLock {
   ): Promise<T>;
 }
 
+/**
+ * Describes the components related to a specific task.
+ * @internal
+ */
 interface TaskDetails {
   abortListener?: () => void;
   abortSignal?: AbortSignalLike;
@@ -105,7 +112,7 @@ export class CancellableAsyncLockImpl implements CancellableAsyncLock {
 
     // Handle cancellation by removing the task from the queue when cancelled.
     if (abortSignal) {
-      const abortListener = () => {
+      const abortListener = (): void => {
         this._removeTaskDetails(key, taskDetails);
         rejecter(new AbortError(StandardAbortMessage));
       };
@@ -128,7 +135,14 @@ export class CancellableAsyncLockImpl implements CancellableAsyncLock {
     return promise as Promise<T>;
   }
 
-  private async _execute(key: string) {
+  /**
+   * Iterates over all the pending tasks for a given `key` serially.
+   *
+   * Note: If the pending tasks are already being iterated by an early
+   * _execute invocation, this returns immediately.
+   * @returns
+   */
+  private async _execute(key: string): Promise<void> {
     // If the key already exists in the set, then exit because
     // tasks are already being processed.
     if (this._executionRunningSet.has(key)) {
@@ -179,14 +193,22 @@ export class CancellableAsyncLockImpl implements CancellableAsyncLock {
 
     const index = taskQueue.indexOf(taskDetails);
     if (index !== -1) {
-      const [taskDetails] = taskQueue.splice(index, 1);
+      const [details] = taskQueue.splice(index, 1);
       // Cleanup the task rejection code paths.
-      cleanupTaskDetails(taskDetails);
+      cleanupTaskDetails(details);
     }
   }
 }
 
-function getPromiseParts() {
+/**
+ * @internal
+ * Returns a promise and the promise's resolve and reject methods.
+ */
+function getPromiseParts(): {
+  promise: Promise<unknown>;
+  resolver: (value: unknown) => void;
+  rejecter: (reason: Error) => void;
+} {
   let resolver: (value: unknown) => void;
   let rejecter: (reason: Error) => void;
 
@@ -202,6 +224,10 @@ function getPromiseParts() {
   };
 }
 
+/**
+ * @internal
+ * Removes any abort listener or pending timeout from a task.
+ */
 function cleanupTaskDetails(taskDetails: TaskDetails): void {
   // Cleanup the task rejection code paths.
   if (taskDetails.tid) clearTimeout(taskDetails.tid);
