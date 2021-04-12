@@ -1,3 +1,5 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 export interface BatchSubmissionRequest {
   /** The input list of documents or folders containing documents */
   inputs: BatchRequest[];

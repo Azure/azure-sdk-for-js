@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   SubmitBatchRequestParameters,
   GetOperationsParameters,
@@ -96,7 +99,7 @@ export interface GetOperations {
    *
    * $top indicates the total number of records the user wants to be returned across all pages.
    * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
-   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
+   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
    *
    * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
    * The default sorting is descending by createdDateTimeUtc.
@@ -181,7 +184,7 @@ export interface GetOperationDocumentsStatus {
    *
    * $top indicates the total number of records the user wants to be returned across all pages.
    * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
-   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), @nextLink will contain the link to the next page.
+   * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
    *
    * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
    * The default sorting is descending by createdDateTimeUtc.
@@ -251,11 +254,11 @@ export interface GetDocumentStorageSource {
 export interface Routes {
   /** Resource for '/batches' has methods for the following verbs: post, get */
   (path: "/batches"): GetOperations;
-  /** Resource for '/batches/{id}/documents/{documentId}' has methods for the following verbs: get */
+  /** Resource for '/batches/\{id\}/documents/\{documentId\}' has methods for the following verbs: get */
   (path: "/batches/{id}/documents/{documentId}", id: string, documentId: string): GetDocumentStatus;
-  /** Resource for '/batches/{id}' has methods for the following verbs: get, delete */
+  /** Resource for '/batches/\{id\}' has methods for the following verbs: get, delete */
   (path: "/batches/{id}", id: string): CancelOperation;
-  /** Resource for '/batches/{id}/documents' has methods for the following verbs: get */
+  /** Resource for '/batches/\{id\}/documents' has methods for the following verbs: get */
   (path: "/batches/{id}/documents", id: string): GetOperationDocumentsStatus;
   /** Resource for '/documents/formats' has methods for the following verbs: get */
   (path: "/documents/formats"): GetDocumentFormats;
@@ -265,7 +268,7 @@ export interface Routes {
   (path: "/storagesources"): GetDocumentStorageSource;
 }
 
-export type DocumentTranslator = Client & {
+export type DocumentTranslatorClient = Client & {
   path: Routes;
 };
 
@@ -277,7 +280,7 @@ export default function DocumentTranslator(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {}
-): DocumentTranslator {
+): DocumentTranslatorClient {
   const baseUrl =
     options.baseUrl ||
     "{endpoint}/translator/text/batch/v1.0-preview.1".replace(/{endpoint}/g, endpoint);
@@ -289,5 +292,5 @@ export default function DocumentTranslator(
     }
   };
 
-  return getClient(baseUrl, credentials, options) as DocumentTranslator;
+  return getClient(baseUrl, credentials, options) as DocumentTranslatorClient;
 }

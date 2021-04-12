@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import DocumentTranslator from "./documentTranslator";
 export * from "./documentTranslator";
 export * from "./models";

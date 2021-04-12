@@ -125,14 +125,14 @@ export interface DocumentStatusResponse {
 }
 
 // @public (undocumented)
-export type DocumentTranslator = Client & {
-    path: Routes;
-};
+function DocumentTranslator(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): DocumentTranslatorClient;
+
+export default DocumentTranslator;
 
 // @public (undocumented)
-function DocumentTranslator_2(endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): DocumentTranslator;
-
-export default DocumentTranslator_2;
+export type DocumentTranslatorClient = Client & {
+    path: Routes;
+};
 
 // @public (undocumented)
 export interface DocumentTranslatorFactory {
