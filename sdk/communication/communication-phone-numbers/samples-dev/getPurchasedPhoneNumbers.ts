@@ -12,7 +12,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main() {
-  console.log("\n== Get a Purchased Phone Numbers Sample ==\n");
+  console.log("\n== Get Purchased Phone Numbers Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
   const connectionString =
