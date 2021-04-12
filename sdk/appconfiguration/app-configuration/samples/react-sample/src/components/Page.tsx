@@ -50,7 +50,7 @@ const featureFlag2 = {
   }
 };
 
-export default function Header(): JSX.Element {
+export default function Page(): JSX.Element {
   const feature1 = "react-app-feature-1";
   const feature2 = "react-app-feature-2";
   const [feature1ClassName, setFeature1ClassName] = useState<string>("feature-button-hidden");

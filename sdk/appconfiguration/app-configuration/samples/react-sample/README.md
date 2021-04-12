@@ -1,46 +1,74 @@
-# Getting Started with Create React App
+# Feature Flag Sample (TypeScript)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This sample application shows how to use the Feature Flags.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+The samples are compatible with Node.js >= 8.0.0.
 
-### `npm start`
+You need [an Azure subscription][freesub] and the following resources created to run this sample:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Create an App Configuration resource
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+You can use the [Azure Portal](https://portal.azure.com) or the [Azure CLI](https://docs.microsoft.com/cli/azure) to create an Azure App Configuration resource.
 
-### `npm test`
+Example (Azure CLI):
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+az appconfig create --name <app-configuration-resource-name> --resource-group <resource-group-name> --location eastus
+```
 
-### `npm run build`
+## Running the sample
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Have `REACT_APP_APPCONFIG_CONNECTION_STRING` populated in the .env file.
+2. Create the following feature flags using the portal.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+   ```json
+   // Feature flag 1
+   {
+      "id": "react-app-feature-1",
+      "description": "",
+      "enabled": false,
+      "conditions": {
+        "client_filters": []
+      }
+   }
+   // Feature flag 2
+   {
+      "id": "react-app-feature-2",
+      "description": "",
+      "enabled": true,
+      "conditions": {
+        "client_filters": [
+          {
+            "name": "Microsoft.TimeWindow",
+            "parameters": {
+              "Start": "Mon, 12 Apr 2021 07:00:00 GMT",
+              "End": "Wed, 14 Apr 2021 07:00:00 GMT"
+            }
+          }
+        ]
+      }
+   }
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Install the various packages as well as the TypeScript compiler using:
 
-### `npm run eject`
+   ```bash
+   npm install
+   ```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+4. Run the sample app:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+   ```bash
+   npm start
+   ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Next Steps
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Take a look at our [Samples][samples] for more information about the APIs that are available.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+[react]: https://create-react-app.dev/
+[typescript]: https://www.typescriptlang.org/docs/home.html
+[freesub]: https://azure.microsoft.com/free
+[samples]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript

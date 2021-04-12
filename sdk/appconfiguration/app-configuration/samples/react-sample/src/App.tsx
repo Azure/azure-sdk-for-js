@@ -4,12 +4,12 @@
 */
 
 import React from "react";
-import Header from "./components/Header";
+import Page from "./components/Page";
 
 function App(): JSX.Element {
   return (
     <div className="container">
-      <Header />
+      <Page />
     </div>
   );
 }
