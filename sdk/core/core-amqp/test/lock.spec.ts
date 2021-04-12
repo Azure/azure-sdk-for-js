@@ -3,6 +3,7 @@
 
 import { AbortController, AbortError } from "@azure/abort-controller";
 import * as chai from "chai";
+import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../src";
 const should = chai.should();
 
@@ -170,7 +171,7 @@ describe("CancellableAsyncLock", function() {
       tasks.length.should.equal(0, "Queue of tasks not empty.");
       results.length.should.equal(5, "Unexpected number of tasks completed.");
 
-      const expectedResults = [0, Error, Error, 1, 3];
+      const expectedResults = [0, OperationTimeoutError, OperationTimeoutError, 1, 3];
 
       for (let i = 0; i < results.length; i++) {
         const value = results[i];

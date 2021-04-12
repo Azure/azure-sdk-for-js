@@ -1,4 +1,5 @@
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { OperationTimeoutError } from "rhea-promise";
 import { StandardAbortMessage } from "../errors";
 import { logger } from "../log";
 
@@ -95,7 +96,9 @@ export class CancellableAsyncLockImpl implements CancellableAsyncLock {
     if (typeof acquireTimeoutInMs === "number") {
       const tid = setTimeout(() => {
         this._removeTaskDetails(key, taskDetails);
-        rejecter(new Error(`The task timed out waiting to acquire a lock for ${key}`));
+        rejecter(
+          new OperationTimeoutError(`The task timed out waiting to acquire a lock for ${key}`)
+        );
       }, acquireTimeoutInMs);
       taskDetails.tid = tid;
     }
