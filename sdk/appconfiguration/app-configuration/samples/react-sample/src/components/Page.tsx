@@ -108,7 +108,7 @@ export default function Page(): JSX.Element {
       </Navbar>
       <Jumbotron>
         <h1>Feature Flag Sample!</h1>
-        <p>This sample expects the following feature flags in the App Config account.</p>
+        <p>This sample expects the following feature flags in the App Config account, please create them using the Azure portal.</p>
         <Alert variant="light">
           <Alert.Heading>Feature Flag 1</Alert.Heading>
           <Container>
