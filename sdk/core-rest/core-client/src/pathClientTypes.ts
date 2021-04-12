@@ -10,13 +10,18 @@ export type RequestParameters = {
    */
   headers?: RawHttpHeaders;
   /**
+   * Sets the accept header to send to the service
+   * defaults to 'application/json'
+   */
+  accept?: string;
+  /**
    * Body to send with the request
    */
   body?: unknown;
   /**
    * Query parameters to send with the request
    */
-  queryParameters?: { [key: string]: any };
+  queryParameters?: Record<string, unknown>;
   /**
    * Set an explicit content-type to send with the request
    */

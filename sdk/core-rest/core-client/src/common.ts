@@ -1,4 +1,4 @@
-import { PipelineOptions, RawHttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
+import { PipelineOptions, RawHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
 
 /**
  * General options that a Rest Level Client can take
@@ -14,7 +14,11 @@ export type ClientOptions = PipelineOptions & {
 /**
  * Represents the shape of an HttpResponse
  */
-export type HttpResponse = Omit<PipelineResponse, "headers" | "status"> & {
+export type HttpResponse = {
+  /**
+   * The request that generated this response.
+   */
+  request: PipelineRequest;
   /**
    * The HTTP response headers.
    */

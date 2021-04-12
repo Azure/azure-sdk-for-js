@@ -29,7 +29,11 @@ export function buildRequestUrl(
   if (options.queryParameters) {
     const queryParams = options.queryParameters;
     for (const key of Object.keys(queryParams)) {
-      url.searchParams.append(key, queryParams[key]);
+      const param = queryParams[key] as any;
+      if (!param.toString || typeof param.toString !== "function") {
+        throw new Error(`Query parameters must be able to be represented as string, ${key} can't`);
+      }
+      url.searchParams.append(key, param.toString());
     }
   }
 

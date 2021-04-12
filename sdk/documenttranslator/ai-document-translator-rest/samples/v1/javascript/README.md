@@ -10,9 +10,9 @@ urlFragment: ai-document-translator-javascript
 disableDocsMs: true
 ---
 
-# Azure Document Translator client library samples for JavaScript
+# Azure Document Translator rest client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Document Translator in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Document Translator rest in some common scenarios.
 
 | **File Name**                             | **Description**                               |
 | ----------------------------------------- | --------------------------------------------- |

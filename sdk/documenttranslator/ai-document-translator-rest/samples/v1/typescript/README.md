@@ -10,9 +10,9 @@ urlFragment: ai-document-translator-typescript
 disableDocsMs: true
 ---
 
-# Azure Document Translator client library samples for TypeScript
+# Azure Document Translator rest client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Document Translator in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Document Translator rest in some common scenarios.
 
 | **File Name**                             | **Description**                               |
 | ----------------------------------------- | --------------------------------------------- |

@@ -7838,7 +7838,7 @@ packages:
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
-      prettier: 1.19.1
+      prettier: 2.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
       source-map-support: 0.5.19
@@ -7848,7 +7848,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-document-translator'
     resolution:
-      integrity: sha512-rDLxnotxbZpbq8g1KSYqpzjyT0mll3vjeVUOQLTMjDQ3m5b+3nQqtoCgqIVja7pUGm5qkB7dJAkCK1JVAxR9Ig==
+      integrity: sha512-N6NditA1ysjzHQqcQQNyInb0nddtoPnjl35QJL/1DVeoAC8n5H1LgKGLWc39APweT1fn5+oO+1hjgK4vHd5uHA==
       tarball: file:projects/ai-document-translator.tgz
     version: 0.0.0
   file:projects/ai-form-recognizer.tgz:

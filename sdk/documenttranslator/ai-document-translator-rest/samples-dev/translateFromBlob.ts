@@ -44,9 +44,9 @@ const batchSubmissionRequest: BatchSubmissionRequest = {
   inputs: [
     {
       source: { sourceUrl: sourceContainer },
-      targets: [{ language: "fr", targetUrl: targetContainer }]
-    }
-  ]
+      targets: [{ language: "fr", targetUrl: targetContainer }],
+    },
+  ],
 };
 
 export async function main() {
@@ -57,7 +57,7 @@ export async function main() {
 
   // Call the /batches path to initiate the translation job
   const formats = await client.path("/batches").post({
-    body: batchSubmissionRequest
+    body: batchSubmissionRequest,
   });
 
   // If we get a non-success status code, throw an error

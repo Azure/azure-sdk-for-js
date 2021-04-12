@@ -7,7 +7,7 @@
 import { KeyCredential } from '@azure/core-auth';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
-import { PipelineResponse } from '@azure/core-rest-pipeline';
+import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -45,7 +45,8 @@ export function getClient(baseUrl: string, options?: PipelineOptions): Client;
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: PipelineOptions): Client;
 
 // @public
-export type HttpResponse = Omit<PipelineResponse, "headers" | "status"> & {
+export type HttpResponse = {
+    request: PipelineRequest;
     headers: RawHttpHeaders;
     body: unknown;
     status: string;
@@ -59,10 +60,9 @@ export type PathUncheckedResponse = HttpResponse & {
 // @public
 export type RequestParameters = {
     headers?: RawHttpHeaders;
+    accept?: string;
     body?: unknown;
-    queryParameters?: {
-        [key: string]: any;
-    };
+    queryParameters?: Record<string, unknown>;
     contentType?: string;
     allowInsecureConnection?: boolean;
 };
@@ -70,7 +70,5 @@ export type RequestParameters = {
 // @public
 export type RouteParams<TRoute extends string> = TRoute extends `{${infer _Param}}/${infer Tail}` ? [pathParam: string, ...pathParams: RouteParams<Tail>] : TRoute extends `{${infer _Param}}` ? [pathParam: string] : TRoute extends `${infer _Prefix}:${infer Tail}` ? RouteParams<`{${Tail}}`> : [];
 
-
-// (No @packageDocumentation comment for this package)
 
 ```

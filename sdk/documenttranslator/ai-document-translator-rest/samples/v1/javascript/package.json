@@ -2,7 +2,7 @@
   "name": "azure-ai-document-translator-samples-js",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Document Translator client library samples for JavaScript",
+  "description": "Azure Document Translator rest client library samples for JavaScript",
   "engine": {
     "node": ">=12.0.0"
   },

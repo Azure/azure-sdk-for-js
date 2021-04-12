@@ -8,7 +8,7 @@ import {
   BatchStatusDetail,
   DocumentStatusResponse,
   FileFormatListResult,
-  StorageSourceListResult
+  StorageSourceListResult,
 } from "./models";
 import { HttpResponse } from "@azure-rest/core-client";
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
@@ -132,7 +132,7 @@ export interface GetOperations200Headers {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -163,7 +163,7 @@ export interface GetOperations200Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -193,7 +193,7 @@ export interface GetOperations400Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -223,7 +223,7 @@ export interface GetOperations401Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -253,7 +253,7 @@ export interface GetOperations429Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -283,7 +283,7 @@ export interface GetOperations500Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of batches based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -497,7 +497,7 @@ export interface GetOperationDocumentsStatus200Headers {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -525,7 +525,7 @@ export interface GetOperationDocumentsStatus200Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -552,7 +552,7 @@ export interface GetOperationDocumentsStatus400Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -579,7 +579,7 @@ export interface GetOperationDocumentsStatus401Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -606,7 +606,7 @@ export interface GetOperationDocumentsStatus404Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -633,7 +633,7 @@ export interface GetOperationDocumentsStatus429Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.
@@ -660,7 +660,7 @@ export interface GetOperationDocumentsStatus500Response extends HttpResponse {
  *
  * $top indicates the total number of records the user wants to be returned across all pages.
  * $skip indicates the number of records to skip from the list of document status held by the server based on the sorting method specified.  By default, we sort by descending start time.
- * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink  will contain the link to the next page.
+ * $maxpagesize is the maximum items returned in a page.  If more items are requested via $top (or $top is not specified and there are more items to be returned), \@nextLink will contain the link to the next page.
  *
  * $orderBy query parameter can be used to sort the returned list (ex "$orderBy=createdDateTimeUtc asc" or "$orderBy=createdDateTimeUtc desc").
  * The default sorting is descending by createdDateTimeUtc.

@@ -4,9 +4,12 @@
 /**
  * This sample demonstrates how translate a colletion of documents stored in a Azure Storage Blob container
  * and output the translated documents to another container.
+ *
  * Translating documents is considered a Long Running Operation because it may take a long time to complete,
  * specially if translating large files or a batch with several files.
+ *
  * To handle these long running operations we need to call a few different endpoints, to track the status of the operation
+ *
  * @summary translates a collection of documents
  */
 
@@ -40,9 +43,9 @@ const batchSubmissionRequest: BatchSubmissionRequest = {
   inputs: [
     {
       source: { sourceUrl: sourceContainer },
-      targets: [{ language: "fr", targetUrl: targetContainer }]
-    }
-  ]
+      targets: [{ language: "fr", targetUrl: targetContainer }],
+    },
+  ],
 };
 
 export async function main() {
@@ -53,11 +56,11 @@ export async function main() {
 
   // Call the /batches path to initiate the translation job
   const formats = await client.path("/batches").post({
-    body: batchSubmissionRequest
+    body: batchSubmissionRequest,
   });
 
   // If we get a non-success status code, throw an error
-  if (formats.status !== 202) {
+  if (formats.status !== "202") {
     throw formats.body.error;
   }
 
@@ -80,7 +83,7 @@ export async function main() {
     operationState = await checkStatus.get();
 
     // If we get a non-success status code, throw the error
-    if (operationState.status !== 200) {
+    if (operationState.status !== "200") {
       throw operationState.body.error;
     }
 
@@ -94,7 +97,7 @@ export async function main() {
   // Now that the operation is complete, we can list the translated documents
   const documents = await client.path("/batches/{id}/documents", batchId).get();
 
-  if (documents.status !== 200) {
+  if (documents.status !== "200") {
     throw documents.body.error;
   }
 

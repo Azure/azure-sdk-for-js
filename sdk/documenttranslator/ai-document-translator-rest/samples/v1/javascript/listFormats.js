@@ -22,7 +22,7 @@ async function main() {
   const client = DocumentTranslator(endpoint, { key: apiKey });
   const formats = await client.path("/documents/formats").get();
 
-  if (formats.status !== 200) {
+  if (formats.status !== "200") {
     throw formats.body.error;
   }
 

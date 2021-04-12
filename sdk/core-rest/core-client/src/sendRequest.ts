@@ -25,13 +25,13 @@ export async function sendRequest(
 ): Promise<HttpResponse> {
   const httpClient = getCachedDefaultHttpsClient();
 
+  const body = options.body !== undefined ? JSON.stringify(options.body) : undefined;
+
   const headers = createHttpHeaders({
-    accept: "application/json",
-    "content-type": options.contentType || getContentType(options.body),
+    ...(body !== undefined && { accept: options.accept ?? "application/json" }),
+    "content-type": options.contentType ?? getContentType(options.body),
     ...(options.headers ? options.headers : {}),
   });
-
-  const body = JSON.stringify(options.body);
 
   const request = createPipelineRequest({
     url,
@@ -53,7 +53,6 @@ export async function sendRequest(
   }
 
   return {
-    bodyAsText: result.bodyAsText,
     request,
     headers: rawHeaders,
     status: `${result.status}`,

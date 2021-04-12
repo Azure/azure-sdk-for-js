@@ -10,7 +10,7 @@ import {
   GetOperationDocumentsStatusParameters,
   GetDocumentFormatsParameters,
   GetGlossaryFormatsParameters,
-  GetDocumentStorageSourceParameters
+  GetDocumentStorageSourceParameters,
 } from "./parameters";
 import {
   SubmitBatchRequest202Response,
@@ -61,7 +61,7 @@ import {
   GetDocumentStorageSource200Response,
   GetDocumentStorageSource429Response,
   GetDocumentStorageSource500Response,
-  GetDocumentStorageSource503Response
+  GetDocumentStorageSource503Response,
 } from "./responses";
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -288,8 +288,8 @@ export default function DocumentTranslator(
     ...options,
     credentials: {
       scopes: ["https://cognitiveservices.azure.com/.default"],
-      apiKeyHeaderName: "Ocp-Apim-Subscription-Key"
-    }
+      apiKeyHeaderName: "Ocp-Apim-Subscription-Key",
+    },
   };
 
   return getClient(baseUrl, credentials, options) as DocumentTranslatorClient;
