@@ -99,17 +99,12 @@ export default function Page(): JSX.Element {
           <ul className="navbar-nav">
             <li className="nav-item active">
               <a className="nav-link" href="#">
-                Home <span className="sr-only">(current)</span>
+                Home
               </a>
             </li>
             <li className="nav-item">
               <a className={feature1ClassName.concat(" nav-link")} href="#">
                 Beta Feature (Feature 1)
-              </a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="#">
-                Pricing
               </a>
             </li>
             <li className="nav-item dropdown">
