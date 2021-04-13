@@ -16,7 +16,7 @@ Use the client library to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure-rest/ai-document-translator) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/ai-document-translator) |
+[API reference documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/document-translation/overview) |
 [Product documentation](https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator-rest/samples)
 
