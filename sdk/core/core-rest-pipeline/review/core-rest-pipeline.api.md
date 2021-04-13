@@ -50,18 +50,16 @@ export const bearerTokenChallengeAuthenticationPolicyName = "bearerTokenChalleng
 export interface BearerTokenChallengeAuthenticationPolicyOptions {
     challengeCallbacks?: ChallengeCallbacks;
     credential: TokenCredential;
-    scopes: string | string[];
+    scopes: string[];
 }
 
 // @public
 export interface ChallengeCallbackOptions {
     claims?: string;
     getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
-    previousToken?: AccessToken;
     request: PipelineRequest;
     response?: PipelineResponse;
-    scopes: string | string[];
-    setAuthorizationHeader: (token: string) => void;
+    scopes: string[];
 }
 
 // @public

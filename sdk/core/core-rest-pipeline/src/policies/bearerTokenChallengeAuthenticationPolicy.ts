@@ -26,10 +26,6 @@ export interface ChallengeCallbackOptions {
    */
   claims?: string;
   /**
-   * Copy of the last token used, if any.
-   */
-  previousToken?: AccessToken;
-  /**
    * Function that retrieves either a cached token or a new token.
    */
   getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
@@ -41,10 +37,6 @@ export interface ChallengeCallbackOptions {
    * Response containing the challenge.
    */
   response?: PipelineResponse;
-  /**
-   * Function that allows easily assigning a token to the request.
-   */
-  setAuthorizationHeader: (token: string) => void;
 }
 
 /**
@@ -112,7 +104,8 @@ async function defaultAuthorizeRequest(options: ChallengeCallbackOptions): Promi
   if (!accessToken) {
     return;
   }
-  options.setAuthorizationHeader(accessToken.token);
+
+  options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
 }
 
 /**
@@ -131,29 +124,9 @@ function getChallenge(response: PipelineResponse): string | undefined {
  * Default authorize request on challenge
  */
 async function defaultAuthorizeRequestOnChallenge(
-  options: ChallengeCallbackOptions & { response: PipelineResponse }
+  _options: ChallengeCallbackOptions & { response: PipelineResponse }
 ): Promise<boolean> {
-  const { scopes, setAuthorizationHeader } = options;
-
-  const challenge = getChallenge(options?.response);
-
-  if (!challenge) {
-    return false;
-  }
-  const { scope, claims } = parseWWWAuthenticate(challenge);
-
-  const accessToken = await retrieveToken({
-    ...options,
-    scopes: scope ? [scope] : scopes,
-    claims
-  });
-
-  if (!accessToken) {
-    return false;
-  }
-
-  setAuthorizationHeader(accessToken.token);
-  return true;
+  return false;
 }
 
 /**
@@ -194,17 +167,10 @@ export function bearerTokenChallengeAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      // Allows users to easily set the authorization header.
-      function setAuthorizationHeader(token: string): void {
-        request.headers.set("Authorization", `Bearer ${token}`);
-      }
-
       await callbacks.authorizeRequest({
         scopes,
         request,
-        previousToken: cycler.cachedToken,
-        getToken: cycler.getToken,
-        setAuthorizationHeader
+        getToken: cycler.getToken
       });
 
       let response: PipelineResponse;
@@ -222,9 +188,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
           scopes,
           request,
           response,
-          previousToken: cycler.cachedToken,
-          getToken: cycler.getToken,
-          setAuthorizationHeader
+          getToken: cycler.getToken
         });
 
         if (shouldSendRequest) {
