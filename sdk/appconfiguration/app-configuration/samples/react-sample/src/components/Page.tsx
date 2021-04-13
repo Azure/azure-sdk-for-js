@@ -42,10 +42,10 @@ const featureFlag2 = {
 };
 
 export default function Page(): JSX.Element {
-  const feature1 = "react-app-feature-1";
-  const feature2 = "react-app-feature-2";
-  const [feature1ClassName, setFeature1ClassName] = useState<string>("feature-button-hidden");
-  const [feature2ClassName, setFeature2ClassName] = useState<string>("feature-button-hidden");
+  const feature1Name = "react-app-feature-1";
+  const feature2Name = "react-app-feature-2";
+  const [feature1, setFeature1] = useState<{ enabled: boolean }>({ enabled: false });
+  const [feature2, setFeature2] = useState<{ enabled: boolean }>({ enabled: false });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const getFeatureFlags = async (keys: string[]): Promise<void> => {
@@ -58,7 +58,7 @@ export default function Page(): JSX.Element {
     );
     if (isFeatureFlag(setting1)) {
       console.log(`${setting1.key} is enabled : ${setting1.enabled}`, setting1);
-      setFeature1ClassName(setting1.enabled ? "feature-button-visible" : "feature-button-hidden");
+      setFeature1({ enabled: setting1.enabled });
     }
     if (isFeatureFlag(setting2)) {
       console.log(`${setting2.key} is enabled : ${setting2.enabled}`, setting2);
@@ -68,7 +68,7 @@ export default function Page(): JSX.Element {
         const withinRange =
           now - Date.parse(clientFilter.parameters.start) > 0 &&
           Date.parse(clientFilter.parameters.end) - now > 0;
-        setFeature2ClassName(withinRange ? "feature-button-visible" : "feature-button-hidden");
+        setFeature2({ enabled: withinRange });
       }
     }
   };
@@ -76,7 +76,7 @@ export default function Page(): JSX.Element {
   useEffect(() => {
     const connectionString = getEnvironmentVariable("REACT_APP_APPCONFIG_CONNECTION_STRING");
     client = new AppConfigurationClient(connectionString);
-    getFeatureFlags([feature1, feature2]);
+    getFeatureFlags([feature1Name, feature2Name]);
   }, [getFeatureFlags]);
   return (
     <React.Fragment>
@@ -103,7 +103,12 @@ export default function Page(): JSX.Element {
               </a>
             </li>
             <li className="nav-item">
-              <a className={feature1ClassName.concat(" nav-link")} href="#">
+              <a
+                className={(feature1 ? "feature-button-visible" : "feature-button-hidden").concat(
+                  " nav-link"
+                )}
+                href="#"
+              >
                 Beta Feature (Feature 1)
               </a>
             </li>
@@ -121,7 +126,12 @@ export default function Page(): JSX.Element {
                 <a className="dropdown-item" href="#">
                   Action
                 </a>
-                <a className={feature2ClassName.concat(" dropdown-item")} href="#">
+                <a
+                  className={(feature2 ? "feature-button-visible" : "feature-button-hidden").concat(
+                    " dropdown-item"
+                  )}
+                  href="#"
+                >
                   Another action (Feature 2 - Time Window)
                 </a>
               </div>
@@ -178,7 +188,10 @@ export default function Page(): JSX.Element {
             </div>
           </div>
         </div>
-        <a className="nav-link" href="https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript">
+        <a
+          className="nav-link"
+          href="https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript"
+        >
           Link to App Config Samples
         </a>
       </div>
