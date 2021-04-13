@@ -126,7 +126,15 @@ export {
   IndexingResult,
   QueryType,
   SearchMode,
-  ScoringStatistics
+  ScoringStatistics,
+  Answers,
+  KnownAnswers,
+  QueryLanguage,
+  KnownQueryLanguage,
+  Speller,
+  KnownSpeller,
+  CaptionResult,
+  AnswerResult
 } from "./generated/data/models";
 export {
   RegexFlags,

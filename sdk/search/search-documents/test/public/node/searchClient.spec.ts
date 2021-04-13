@@ -12,7 +12,9 @@ import {
   SearchClient,
   SearchIndexClient,
   AutocompleteResult,
-  IndexDocumentsBatch
+  IndexDocumentsBatch,
+  KnownSpeller,
+  KnownQueryLanguage
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex, WAIT_TIME, createRandomIndexName } from "../utils/setup";
@@ -250,5 +252,27 @@ describe("SearchClient", function(this: Suite) {
     assert.equal(getDocumentResult.description, "Modified Description");
     const documentCount = await searchClient.getDocumentsCount();
     assert.equal(documentCount, 11);
+  });
+
+  it("search with speller", async function() {
+    const searchResults = await searchClient.search("budjet", {
+      skip: 0,
+      top: 5,
+      includeTotalCount: true,
+      queryLanguage: KnownQueryLanguage.EnUs,
+      speller: KnownSpeller.Lexicon
+    });
+    assert.equal(searchResults.count, 6);    
+  });
+
+  it("search with semantic ranking", async function() {
+    const searchResults = await searchClient.search("luxury", {
+      skip: 0,
+      top: 5,
+      includeTotalCount: true,
+      queryLanguage: KnownQueryLanguage.EnUs,
+      queryType: 'semantic'
+    });
+    assert.equal(searchResults.count, 1);    
   });
 });
