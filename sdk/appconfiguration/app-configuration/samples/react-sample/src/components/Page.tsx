@@ -57,11 +57,11 @@ export default function Page(): JSX.Element {
       )
     );
     if (isFeatureFlag(setting1)) {
-      console.log(`${setting1.key} is enabled : ${setting1.enabled}`, setting1);
+      // console.log(`${setting1.key} is enabled : ${setting1.enabled}`, setting1);
       setFeature1({ enabled: setting1.enabled });
     }
     if (isFeatureFlag(setting2)) {
-      console.log(`${setting2.key} is enabled : ${setting2.enabled}`, setting2);
+      // console.log(`${setting2.key} is enabled : ${setting2.enabled}`, setting2);
       const clientFilter = setting2.conditions.clientFilters?.[0];
       if (isFeatureFlagClientFilter("timeWindow", clientFilter)) {
         const now = Date.now();
@@ -77,7 +77,7 @@ export default function Page(): JSX.Element {
     const connectionString = getEnvironmentVariable("REACT_APP_APPCONFIG_CONNECTION_STRING");
     client = new AppConfigurationClient(connectionString);
     getFeatureFlags([feature1Name, feature2Name]);
-  }, [getFeatureFlags]);
+  }, []);
   return (
     <React.Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
