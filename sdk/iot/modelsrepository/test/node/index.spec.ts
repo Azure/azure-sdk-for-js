@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {DtmiResolver} from "../../src";
+import { DtmiResolver } from "../../src";
 import * as coreHttp from "@azure/core-http";
 import * as fs from "fs";
 
@@ -14,69 +14,80 @@ import * as path from "path";
 interface remoteResolutionScenario {
   name: string;
   clientOptions: {
-      dependencyResolution: string;
-      repositoryLocation: string;
+    dependencyResolution: string;
+    repositoryLocation: string;
   };
   dtmis: {
-      dtmi: string;
-      expectedURI: string
-      expectedOutput: {
-          fakeDtdl: string;
-      };
+    dtmi: string;
+    expectedURI: string;
+    expectedOutput: {
+      fakeDtdl: string;
+    };
   }[];
-};
+}
 
 const remoteResolutionScenarios: remoteResolutionScenario[] = [
   {
-    name: 'dependencyResolution: disabled, single DTMI, no dependencies',
+    name: "dependencyResolution: disabled, single DTMI, no dependencies",
     clientOptions: {
-      dependencyResolution: 'disabled',
-      repositoryLocation: 'devicemodels.contoso.com',
+      dependencyResolution: "disabled",
+      repositoryLocation: "devicemodels.contoso.com"
     },
-    dtmis: [{
-      dtmi: 'dtmi:contoso:FakeDeviceManagement:DeviceInformation;1',
-      expectedURI: 'https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json',
-      expectedOutput: {fakeDtdl: 'fakeBodyAsText'}
-    }]
+    dtmis: [
+      {
+        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+        expectedURI:
+          "https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
+        expectedOutput: { fakeDtdl: "fakeBodyAsText" }
+      }
+    ]
   },
   {
-    name: 'dependencyResolution: enabled, single DTMI, no dependencies',
+    name: "dependencyResolution: enabled, single DTMI, no dependencies",
     clientOptions: {
-      dependencyResolution: 'enabled',
-      repositoryLocation: 'devicemodels.contoso.com',
+      dependencyResolution: "enabled",
+      repositoryLocation: "devicemodels.contoso.com"
     },
-    dtmis: [{
-      dtmi: 'dtmi:contoso:FakeDeviceManagement:DeviceInformation;1',
-      expectedURI: 'https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json',
-      expectedOutput: {fakeDtdl: 'fakeBodyAsText'}
-    }]
+    dtmis: [
+      {
+        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+        expectedURI:
+          "https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
+        expectedOutput: { fakeDtdl: "fakeBodyAsText" }
+      }
+    ]
   },
   {
-    name: 'dependencyResolution: tryFromExpanded, single DTMI, no dependencies',
+    name: "dependencyResolution: tryFromExpanded, single DTMI, no dependencies",
     clientOptions: {
-      dependencyResolution: 'tryFromExpanded',
-      repositoryLocation: 'devicemodels.contoso.com',
+      dependencyResolution: "tryFromExpanded",
+      repositoryLocation: "devicemodels.contoso.com"
     },
-    dtmis: [{
-      dtmi: 'dtmi:contoso:FakeDeviceManagement:DeviceInformation;1',
-      expectedURI: 'https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json',
-      expectedOutput: {fakeDtdl: 'fakeBodyAsText'}
-    }]
+    dtmis: [
+      {
+        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+        expectedURI:
+          "https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
+        expectedOutput: { fakeDtdl: "fakeBodyAsText" }
+      }
+    ]
   },
   {
-    name: 'dependencyResolution: disabled, multiple DTMI, no dependencies',
+    name: "dependencyResolution: disabled, multiple DTMI, no dependencies",
     clientOptions: {
-      dependencyResolution: 'tryFromExpanded',
-      repositoryLocation: 'devicemodels.contoso.com',
+      dependencyResolution: "tryFromExpanded",
+      repositoryLocation: "devicemodels.contoso.com"
     },
-    dtmis: [{
-      dtmi: 'dtmi:contoso:FakeDeviceManagement:DeviceInformation;1',
-      expectedURI: 'https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json',
-      expectedOutput: {fakeDtdl: 'fakeBodyAsText'}
-    }]
-  },
-] 
-
+    dtmis: [
+      {
+        dtmi: "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1",
+        expectedURI:
+          "https://devicemodels.contoso.com/dtmi/contoso/fakedevicemanagement/deviceinformation-1.json",
+        expectedOutput: { fakeDtdl: "fakeBodyAsText" }
+      }
+    ]
+  }
+];
 
 describe("resolver - node", function() {
   afterEach(function() {
@@ -85,10 +96,8 @@ describe("resolver - node", function() {
 
   describe("remote URL resolution", function() {
     remoteResolutionScenarios.forEach((scenario: remoteResolutionScenario) => {
-      it(scenario.name, function(done) {
-        
-      })
-    })
+      it(scenario.name, function(done) {});
+    });
     describe("simple DTDL resolution", function() {
       it("should return a promise that resolves to a mapping from a DTMI to a JSON object", function(done) {
         const fakeDtmi: string = "dtmi:contoso:FakeDeviceManagement:DeviceInformation;1";

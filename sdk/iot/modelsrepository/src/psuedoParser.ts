@@ -19,7 +19,7 @@ export class PseudoParser {
       expandedMap[model["@id"]] = model;
       this._expand(model, expandedMap);
     });
-    
+
     return expandedMap;
   }
 

@@ -6,10 +6,7 @@
   "description": "Reports current temperature and provides desired temperature control.",
   "contents": [
     {
-      "@type": [
-        "Telemetry",
-        "Temperature"
-      ],
+      "@type": ["Telemetry", "Temperature"],
       "name": "temperature",
       "displayName": "Temperature",
       "description": "Temperature in degrees Celsius.",
@@ -17,10 +14,7 @@
       "unit": "degreeCelsius"
     },
     {
-      "@type": [
-        "Property",
-        "Temperature"
-      ],
+      "@type": ["Property", "Temperature"],
       "name": "targetTemperature",
       "schema": "double",
       "displayName": "Target Temperature",
@@ -29,10 +23,7 @@
       "writable": true
     },
     {
-      "@type": [
-        "Property",
-        "Temperature"
-      ],
+      "@type": ["Property", "Temperature"],
       "name": "maxTempSinceLastReboot",
       "schema": "double",
       "unit": "degreeCelsius",

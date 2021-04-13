@@ -5,7 +5,7 @@
  * Demonstrates resolving/obtaining a particular model definition from a remote model repository
  */
 
-const DtmiResolver = require('../../dist-esm/src/client');
+const DtmiResolver = require("../../dist-esm/src/client");
 
 // You can change the endpoint and dtmi you'd like to access
 const repositoryLocation = "https://devicemodels.azure.com/";
