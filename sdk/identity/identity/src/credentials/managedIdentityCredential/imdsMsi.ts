@@ -54,10 +54,10 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   };
 }
 
-// 30s -> 60s -> 120s
+// 800ms -> 1600ms -> 3200ms
 export const imdsMsiRetryConfig = {
   maxRetries: 3,
-  startDelayInMs: 30 * 1000,
+  startDelayInMs: 800,
   intervalIncrement: 2
 };
 

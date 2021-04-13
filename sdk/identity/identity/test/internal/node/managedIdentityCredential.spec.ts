@@ -230,10 +230,10 @@ describe("ManagedIdentityCredential", function() {
 
     const promise = credential.getToken("scopes");
 
-    imdsMsiRetryConfig.startDelayInMs = 30;
+    imdsMsiRetryConfig.startDelayInMs = 80; // 800ms / 10
 
-    // 30ms -> 60ms -> 120ms = 240ms
-    clock.tick(240);
+    // 800ms -> 1600ms -> 3200ms, results in 6400ms, / 10 = 640ms
+    clock.tick(640);
 
     await assertRejects(
       promise,
