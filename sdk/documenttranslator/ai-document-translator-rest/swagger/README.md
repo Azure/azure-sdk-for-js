@@ -19,4 +19,6 @@ low-level-client: true
 add-credentials: true
 credential-scopes: "https://cognitiveservices.azure.com/.default"
 credential-key-header-name: "Ocp-Apim-Subscription-Key"
+use-extension:
+  "@autorest/typescript": "~/projects/autorest.typescript"
 ```
