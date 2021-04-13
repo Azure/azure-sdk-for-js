@@ -118,7 +118,7 @@ export default function Page(): JSX.Element {
               </Col>
               <Col>
                 <Row>
-                  <h4>// Description</h4>
+                  <h4>== Description ==</h4>
                 </Row>
                 <Row>
                   <p>
@@ -139,7 +139,7 @@ export default function Page(): JSX.Element {
               </Col>
               <Col>
                 <Row>
-                  <h4>// Description</h4>
+                  <h4>== Description ==</h4>
                 </Row>
                 <Row>
                   <p>
