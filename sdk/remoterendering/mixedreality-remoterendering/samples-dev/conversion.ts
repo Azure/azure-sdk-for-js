@@ -7,9 +7,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-//import { v4 as uuid } from "uuid";
-
-//const uuid = require("uuid").v4;
+import { v4 as uuid } from "uuid";
 
 import {
   RemoteRenderingClient,
@@ -27,17 +25,17 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const accountDomain = process.env["REMOTE_RENDERING_ARR_ACCOUNT_DOMAIN"] || "<account domain>";
-const accountId = process.env["REMOTE_RENDERING_ARR_ACCOUNT_ID"] || "<account ID>";
+const accountDomain = process.env["REMOTERENDERING_ARR_ACCOUNT_DOMAIN"] || "<account domain>";
+const accountId = process.env["REMOTERENDERING_ARR_ACCOUNT_ID"] || "<account ID>";
 const accountKey = new AzureKeyCredential(
-  process.env["REMOTE_RENDERING_ARR_ACCOUNT_KEY"] || "<account key>"
+  process.env["REMOTERENDERING_ARR_ACCOUNT_KEY"] || "<account key>"
 );
-const serviceEndpoint = process.env["REMOTE_RENDERING_ARR_SERVICE_ENDPOINT"] || "<serviceEndpoint>";
+const serviceEndpoint = process.env["REMOTERENDERING_ARR_SERVICE_ENDPOINT"] || "<serviceEndpoint>";
 const storageAccountName =
-  process.env["REMOTE_RENDERING_ARR_STORAGE_ACCOUNT_NAME"] || "<storageAccountName>";
+  process.env["REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME"] || "<storageAccountName>";
 const blobContainerName =
-  process.env["REMOTE_RENDERING_ARR_BLOB_CONTAINER_NAME"] || "<blobStorageName>";
-const sasToken = process.env["REMOTE_RENDERING_ARR_SAS_TOKEN"] || "<sasToken>";
+  process.env["REMOTERENDERING_ARR_BLOB_CONTAINER_NAME"] || "<blobStorageName>";
+const sasToken = process.env["REMOTERENDERING_ARR_SAS_TOKEN"] || "<sasToken>";
 
 export async function main() {
   console.log("== Convert an asset example ==");
@@ -61,8 +59,7 @@ export async function main() {
   var conversionOptions: AssetConversionSettings = { inputSettings, outputSettings };
 
   // A randomly generated GUID is a good choice for a conversionId.
-  //var conversionId: string = uuid();
-  var conversionId: string = "asslkdjas";
+  var conversionId: string = uuid();
 
   console.log("== Starting the conversion ==");
 
