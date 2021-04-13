@@ -50,24 +50,22 @@ export const bearerTokenChallengeAuthenticationPolicyName = "bearerTokenChalleng
 export interface BearerTokenChallengeAuthenticationPolicyOptions {
     challengeCallbacks?: ChallengeCallbacks;
     credential: TokenCredential;
-    scopes: string | string[];
+    scopes: string[];
 }
 
 // @public
 export interface ChallengeCallbackOptions {
     claims?: string;
-    getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
-    previousToken?: AccessToken;
+    getAccessToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     request: PipelineRequest;
     response?: PipelineResponse;
-    scopes: string | string[];
-    setAuthorizationHeader: (token: string) => void;
+    scopes: string[];
 }
 
 // @public
 export interface ChallengeCallbacks {
     authorizeRequest?(options: ChallengeCallbackOptions): Promise<void>;
-    authorizeRequestOnChallenge(options: ChallengeCallbackOptions): Promise<boolean>;
+    authorizeRequestOnChallenge?(options: ChallengeCallbackOptions): Promise<boolean>;
 }
 
 // @public
@@ -161,14 +159,6 @@ export function ndJsonPolicy(): PipelinePolicy;
 
 // @public
 export const ndJsonPolicyName = "ndJsonPolicy";
-
-// @public
-export type ParsedWWWAuthenticate = {
-    [Key in ValidParsedWWWAuthenticateProperties]?: string;
-};
-
-// @public
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
 
 // @public
 export interface Pipeline {
@@ -304,9 +294,6 @@ export interface RestErrorOptions {
 }
 
 // @public
-export function retrieveToken(options: ChallengeCallbackOptions): Promise<AccessToken | undefined>;
-
-// @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 
 // @public
@@ -360,9 +347,6 @@ export const userAgentPolicyName = "userAgentPolicy";
 export interface UserAgentPolicyOptions {
     userAgentPrefix?: string;
 }
-
-// @public
-export type ValidParsedWWWAuthenticateProperties = "authorization" | "claims" | "resource" | "scope" | "service";
 
 
 // (No @packageDocumentation comment for this package)

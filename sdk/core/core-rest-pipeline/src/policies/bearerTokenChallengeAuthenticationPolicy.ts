@@ -19,20 +19,19 @@ export interface ChallengeCallbackOptions {
   /**
    * The scopes for which the bearer token applies.
    */
-  scopes: string | string[];
+  scopes: string[];
   /**
    * Additional claims to be included in the token.
    * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
    */
   claims?: string;
   /**
-   * Copy of the last token used, if any.
+   * Function that retrieves either a cached access token or a new access token.
    */
-  previousToken?: AccessToken;
-  /**
-   * Function that retrieves either a cached token or a new token.
-   */
-  getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+  getAccessToken: (
+    scopes: string | string[],
+    options: GetTokenOptions
+  ) => Promise<AccessToken | null>;
   /**
    * Request that the policy is trying to fulfill.
    */
@@ -41,10 +40,6 @@ export interface ChallengeCallbackOptions {
    * Response containing the challenge.
    */
   response?: PipelineResponse;
-  /**
-   * Function that allows easily assigning a token to the request.
-   */
-  setAuthorizationHeader: (token: string) => void;
 }
 
 /**
@@ -52,19 +47,15 @@ export interface ChallengeCallbackOptions {
  */
 export interface ChallengeCallbacks {
   /**
-   * Allows for the authentication of the main request of this policy before it's sent.
-   * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
-   * allows developers to easily assign a token to the ongoing request.
+   * Allows for the authorization of the main request of this policy before it's sent.
    */
   authorizeRequest?(options: ChallengeCallbackOptions): Promise<void>;
   /**
    * Allows to handle authentication challenges and to re-authorize the request.
    * The response containing the challenge is `options.response`.
-   * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
-   * allows developers to easily assign a token to the ongoing request.
    * If this method returns true, the underlying request will be sent once again.
    */
-  authorizeRequestOnChallenge(options: ChallengeCallbackOptions): Promise<boolean>;
+  authorizeRequestOnChallenge?(options: ChallengeCallbackOptions): Promise<boolean>;
 }
 
 /**
@@ -78,7 +69,7 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
   /**
    * The scopes for which the bearer token applies.
    */
-  scopes: string | string[];
+  scopes: string[];
   /**
    * Allows for the processing of [Continuous Access Evaluation](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) challenges.
    * If provided, it must contain at least the `authorizeRequestOnChallenge` method.
@@ -90,10 +81,8 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
 /**
  * Retrieves a token from a token cache or a credential.
  */
-export async function retrieveToken(
-  options: ChallengeCallbackOptions
-): Promise<AccessToken | undefined> {
-  const { scopes, claims, getToken, request } = options;
+async function retrieveAccessToken(options: ChallengeCallbackOptions): Promise<AccessToken | null> {
+  const { scopes, claims, getAccessToken, request } = options;
 
   const getTokenOptions: GetTokenOptions = {
     claims,
@@ -101,18 +90,19 @@ export async function retrieveToken(
     tracingOptions: request.tracingOptions
   };
 
-  return (await getToken(scopes, getTokenOptions)) || undefined;
+  return getAccessToken(scopes, getTokenOptions);
 }
 
 /**
  * Default authorize request
  */
-export async function defaultAuthorizeRequest(options: ChallengeCallbackOptions): Promise<void> {
-  const accessToken = await retrieveToken(options);
+async function defaultAuthorizeRequest(options: ChallengeCallbackOptions): Promise<void> {
+  const accessToken = await retrieveAccessToken(options);
   if (!accessToken) {
     return;
   }
-  options.setAuthorizationHeader(accessToken.token);
+
+  options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
 }
 
 /**
@@ -128,35 +118,6 @@ function getChallenge(response: PipelineResponse): string | undefined {
 }
 
 /**
- * Default authorize request on challenge
- */
-export async function defaultAuthorizeRequestOnChallenge(
-  options: ChallengeCallbackOptions & { response: PipelineResponse }
-): Promise<boolean> {
-  const { scopes, setAuthorizationHeader } = options;
-
-  const challenge = getChallenge(options?.response);
-
-  if (!challenge) {
-    return false;
-  }
-  const { scope, claims } = parseWWWAuthenticate(challenge);
-
-  const accessToken = await retrieveToken({
-    ...options,
-    scopes: scope || scopes,
-    claims
-  });
-
-  if (!accessToken) {
-    return false;
-  }
-
-  setAuthorizationHeader(accessToken.token);
-  return true;
-}
-
-/**
  * A policy that can request a token from a TokenCredential implementation and
  * then apply it to the Authorization header of a request as a Bearer token.
  */
@@ -166,8 +127,8 @@ export function bearerTokenChallengeAuthenticationPolicy(
   const { credential, scopes, challengeCallbacks } = options;
   const callbacks = {
     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
-    authorizeRequestOnChallenge:
-      challengeCallbacks?.authorizeRequestOnChallenge ?? defaultAuthorizeRequestOnChallenge,
+    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
+    // keep all other properties
     ...challengeCallbacks
   };
 
@@ -193,20 +154,11 @@ export function bearerTokenChallengeAuthenticationPolicy(
      * - Retrieve a token with the challenge information, then re-send the request.
      */
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      // Allows users to easily set the authorization header.
-      function setAuthorizationHeader(token: string): void {
-        request.headers.set("Authorization", `Bearer ${token}`);
-      }
-
-      if (callbacks?.authorizeRequest) {
-        await callbacks.authorizeRequest({
-          scopes,
-          request,
-          previousToken: cycler.cachedToken,
-          getToken: cycler.getToken,
-          setAuthorizationHeader
-        });
-      }
+      await callbacks.authorizeRequest({
+        scopes,
+        request,
+        getAccessToken: cycler.getToken
+      });
 
       let response: PipelineResponse;
       let error: Error | undefined;
@@ -218,8 +170,8 @@ export function bearerTokenChallengeAuthenticationPolicy(
       }
 
       if (
-        response.status === 401 &&
-        callbacks?.authorizeRequestOnChallenge &&
+        callbacks.authorizeRequestOnChallenge &&
+        response?.status === 401 &&
         getChallenge(response)
       ) {
         // processes challenge
@@ -227,9 +179,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
           scopes,
           request,
           response,
-          previousToken: cycler.cachedToken,
-          getToken: cycler.getToken,
-          setAuthorizationHeader
+          getAccessToken: cycler.getToken
         });
 
         if (shouldSendRequest) {
@@ -244,53 +194,4 @@ export function bearerTokenChallengeAuthenticationPolicy(
       }
     }
   };
-}
-
-/**
- * Defined supported names of WWW-Authenticate name-value pairs.
- */
-export type ValidParsedWWWAuthenticateProperties =
-  // "authorization_uri" was used in the track 1 version of KeyVault.
-  // This is not a relevant property anymore, since the service is consistently answering with "authorization".
-  // | "authorization_uri"
-  | "authorization"
-  | "claims"
-  // Even though the service is moving to "scope", both "resource" and "scope" should be supported.
-  | "resource"
-  | "scope"
-  | "service";
-
-/**
- * Represents the result of `parseWWWAuthenticate()`;
- */
-export type ParsedWWWAuthenticate = {
-  [Key in ValidParsedWWWAuthenticateProperties]?: string;
-};
-
-/**
- * Parses an WWW-Authenticate response.
- * This transforms a string value like:
- * `Bearer authorization="some_authorization", resource="https://some.url"`
- * into an object like:
- * `{ authorization: "some_authorization", resource: "https://some.url" }`
- * @param wwwAuthenticate - String value in the WWW-Authenticate header
- */
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
-  // First we split the string by either `,`, `, ` or ` `.
-  const parts = wwwAuthenticate.split(/, *| +/);
-  // Then we only keep the strings with an equal sign after a word and before a quote.
-  // also splitting these sections by their equal sign
-  const keyValues = parts.reduce<string[][]>(
-    (acc, str) => (str.match(/\w="/) ? [...acc, str.split("=")] : acc),
-    []
-  );
-  // Then we transform these key-value pairs back into an object.
-  const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
-    (result, [key, value]: string[]) => ({
-      ...result,
-      [key]: value.slice(1, -1)
-    }),
-    {}
-  );
-  return parsed;
 }
