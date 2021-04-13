@@ -184,9 +184,6 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
   for ($i = 0; $i -lt $previewMetadata.Length; $i++) {
     $preview_object_target_config = $previewPackages | Where-Object { $_.name -like $($previewMetadata[$i].Package) }
     if (!$preview_object_target_config) {
-      $preview_object_target_config = $latestPackages | Where-Object { $_.name -like $($previewMetadata[$i].Package) }
-    }
-    if (!$preview_object_target_config) {
       $preview_object_target_config = New-Object psobject -Property $properties
     }
     $preview_object_target_config.name = "$($previewMetadata[$i].Package)@$($previewMetadata[$i].VersionPreview)"
@@ -194,9 +191,6 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
   }
   for ($i = 0; $i -lt $latestMetadata.Length; $i++) {
     $latest_object_target_config = $latestPackages | Where-Object { $_.name -like $($latestMetadata[$i].Package) }
-    if (!$latest_object_target_config) {
-      $latest_object_target_config = $previewPackages | Where-Object { $_.name -like $($latestMetadata[$i].Package) }
-    }
     if (!$latest_object_target_config) {
       $latest_object_target_config = New-Object psobject -Property $properties
     }
@@ -212,7 +206,7 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
   }
   for ($j = 0; $j -lt $previewPackages.Length; $j++) {
     $pkg = "$($previewPackages[$j].name)" -replace "(.*)@next", "`$1"
-    if (!($filteredMetadata.Package -contains $pkg)) {
+    if (!($filteredMetadata.Package -contains $pkg -or $previewPackageList.name -contains $pkg)) {
       $previewPackageList += $previewPackages[$j]
     }
   }
