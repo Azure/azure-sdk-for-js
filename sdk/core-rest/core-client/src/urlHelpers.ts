@@ -1,4 +1,5 @@
 import { RequestParameters } from "./pathClientTypes";
+import { URL } from "./url";
 
 /**
  * Builds the request url, filling in query and path parameters
