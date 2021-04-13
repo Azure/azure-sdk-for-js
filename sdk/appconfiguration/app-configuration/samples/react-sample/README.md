@@ -33,7 +33,7 @@ az appconfig create --name <app-configuration-resource-name> --resource-group <r
         "client_filters": []
       }
    }
-   // Feature flag 2
+   // Feature flag 2 // Make sure to update the Start and End times as you wish .
    {
       "id": "react-app-feature-2",
       "description": "",
