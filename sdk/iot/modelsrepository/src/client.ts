@@ -16,10 +16,8 @@ import { DtmiResolver, ResolverError } from "./resolver";
 import { HttpFetcher } from "./httpModelFetcher";
 import { FilesystemFetcher } from "./filesystemModelFetcher";
 import { isLocalPath } from "./modelFetcherHelper";
-import * as path from 'path';
+import * as path from "path";
 import { PseudoParser } from "./psuedoParser";
-
-
 
 export interface ModelsRepositoryClientOptions extends PipelineOptions, OperationOptions {
   repositoryLocation: string | undefined;
@@ -48,16 +46,16 @@ export class ModelsRepositoryClient {
     this._fetcher = this._createFetcher(this._repositoryLocation, options);
     this._resolver = new DtmiResolver(this._fetcher);
     this._pseudoParser = new PseudoParser(this._resolver);
-    
+
     // Store api version here (for now). Currently doesn't do anything
     this._apiVersion = options?.apiVersion || constants.DEFAULT_API_VERSION;
   }
 
   private _checkDefaultDependencyResolution(customRepository: boolean) {
     if (customRepository) {
-      return 'enabled';
+      return "enabled";
     } else {
-      return 'tryFromExpanded';
+      return "tryFromExpanded";
     }
   }
 
@@ -92,30 +90,31 @@ export class ModelsRepositoryClient {
 
   private _createFetcher(location: string, options: any) {
     // Return a Fetcher based upon the type of location
-    let locationURL;      
+    let locationURL;
     let fetcher;
     if (isLocalPath(location)) {
       const localPath = path.normalize(location);
       // POSIX Filesystem Path or Windows Filesystem Path
-      logger.info(`Repository location identified as filesystem path - using FilesystemFetcher`)
+      logger.info(`Repository location identified as filesystem path - using FilesystemFetcher`);
       fetcher = new FilesystemFetcher(localPath);
     } else {
       locationURL = new URL(location);
-      if (locationURL.protocol in ['http', 'https']) {
+      if (locationURL.protocol in ["http", "https"]) {
         logger.info(`Repository location identified as HTTP/HTTPS endpoint - using HttpFetcher`);
         const pipeline = this._createPipeline(options);
         fetcher = new HttpFetcher(location, pipeline);
-      } 
-      else if (locationURL.protocol === 'file') {
+      } else if (locationURL.protocol === "file") {
         // filesystem URI
-        logger.info('Repository Location identified as filesystem URI - using FilesystemFetcher');
+        logger.info("Repository Location identified as filesystem URI - using FilesystemFetcher");
         const localPath = fileURLToPath(location);
         fetcher = new FilesystemFetcher(localPath);
-      } else if (locationURL.protocol === '' && location.startsWith('/')) {
-      } else if (locationURL.protocol === '' && location.search(/\.[a-zA-Z]{2,63}$/)) {
+      } else if (locationURL.protocol === "" && location.startsWith("/")) {
+      } else if (locationURL.protocol === "" && location.search(/\.[a-zA-Z]{2,63}$/)) {
         // Web URL with protocol unspecified - default to HTTPS
-        logger.info('Repository Location identified as remote endpoint without protocol specified - using HttpFetcher');
-        const fLocation = 'https://' + location;
+        logger.info(
+          "Repository Location identified as remote endpoint without protocol specified - using HttpFetcher"
+        );
+        const fLocation = "https://" + location;
         const pipeline = this._createPipeline(options);
         fetcher = new HttpFetcher(fLocation, pipeline);
         // TODO: make the next line match a regex specified.
@@ -123,8 +122,6 @@ export class ModelsRepositoryClient {
         throw new EvalError(`Unable to identify location: ${location}`);
       }
     }
-
-
   }
 
   getModels(dtmi: string, options: any): Promise<{ [dtmi: string]: any }>;
@@ -136,34 +133,31 @@ export class ModelsRepositoryClient {
     }
 
     const dependencyResolution = options.dependencyResolution || this._dependencyResolution;
-    
+
     if (dependencyResolution === constants.DEPENDENCY_MODE_DISABLED) {
-      logger.info('Getting models w/ dependency resolution mode: disabled');
+      logger.info("Getting models w/ dependency resolution mode: disabled");
       logger.info(`Retreiving model(s): ${dtmis}...`);
       modelMap = this._resolver.resolve(dtmis);
-    }
-    else if (dependencyResolution === constants.DEPENDENCY_MODE_ENABLED) {
+    } else if (dependencyResolution === constants.DEPENDENCY_MODE_ENABLED) {
       logger.info(`Getting models w/ dependency resolution mode: enabled`);
       logger.info(`Retreiving model(s): ${dtmis}...`);
       const baseModelMap = this._resolver.resolve(dtmis);
       const baseModelList = [baseModelMap.values()];
       logger.info(`Retreiving model dependencies for ${dtmis}...`);
       modelMap = this._pseudoParser.expand(baseModelList);
-    }
-    else if (dependencyResolution === constants.DEPENDENCY_MODE_TRY_FROM_EXPANDED) {
+    } else if (dependencyResolution === constants.DEPENDENCY_MODE_TRY_FROM_EXPANDED) {
       logger.info(`Getting models w/ dependency resolution mode: tryFromExpanded`);
       try {
         logger.info(`Retreiving expanded model(s): ${dtmis}...`);
-        modelMap = this._resolver.resolve(dtmis, {expandedModel: true});
+        modelMap = this._resolver.resolve(dtmis, { expandedModel: true });
       } catch (e) {
-        if (e instanceof ResolverError) {}
-        else {
+        if (e instanceof ResolverError) {
+        } else {
           Promise.reject(e);
         }
       }
-    }
-    else {
-      Promise.reject(EvalError(`Invalid dependency resolution mode: ${dependencyResolution}`))
+    } else {
+      Promise.reject(EvalError(`Invalid dependency resolution mode: ${dependencyResolution}`));
     }
 
     return modelMap;

@@ -40,7 +40,6 @@
 //     this._fetcher.
 //   }
 
-
 //   static createHttpFetcher(location) {
 
 //   }
@@ -49,9 +48,6 @@
 //     return new ModelFetcher()
 //   }
 // }
-
-
-
 
 // export async function modelFetcher({
 //   dtmis,

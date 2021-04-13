@@ -31,12 +31,11 @@ export class DtmiResolver {
   resolve(dtmis: string[], expandedModel?: boolean) {
     let modelMap: any = {};
 
-
     for (let dtmi of dtmis) {
       let dtdl: any[] | any;
       let dtdlPath = dtmiToPath(dtmi);
       if (expandedModel) {
-        dtdlPath = dtdlPath.replace('.json', '.expanded.json');
+        dtdlPath = dtdlPath.replace(".json", ".expanded.json");
       }
       logger.info(`Model ${dtmi} located in repository at ${dtdlPath}`);
 
@@ -52,12 +51,14 @@ export class DtmiResolver {
 
       if (expandedModel) {
         for (let model of dtdl) {
-          modelMap[model['@id']] = model;
+          modelMap[model["@id"]] = model;
         }
       } else {
         let model = dtdl;
-        if (model['@id'] != dtmi) {
-          return Promise.reject(new ResolverError(`DTMI mismatch - Request: ${dtmi}, Response ${model['@id']}`));
+        if (model["@id"] != dtmi) {
+          return Promise.reject(
+            new ResolverError(`DTMI mismatch - Request: ${dtmi}, Response ${model["@id"]}`)
+          );
         }
 
         modelMap[`${dtmi}`] = dtdl;

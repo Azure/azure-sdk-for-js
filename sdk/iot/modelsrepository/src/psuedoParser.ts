@@ -16,20 +16,22 @@ export class PseudoParser {
     let expandedMap: any = {};
 
     for (let model of models) {
-      expandedMap[model['@id']] = model;
+      expandedMap[model["@id"]] = model;
       this._expand(model, expandedMap);
     }
     return expandedMap;
   }
 
   private _expand(model: DTDL, modelMap: any) {
-    logger.info(`Expanding model: ${model['@id']}`);
+    logger.info(`Expanding model: ${model["@id"]}`);
     let dependencies = this._getModelDependencies(model);
-    let dependenciesToResolve = dependencies.filter((dependency: string) => {return !(dependency in modelMap)});
+    let dependenciesToResolve = dependencies.filter((dependency: string) => {
+      return !(dependency in modelMap);
+    });
     if (dependenciesToResolve.length !== 0) {
       logger.info(`Outstanding dependencies found: ${dependenciesToResolve}`);
       let resolvedDependenciesMap = this._resolver.resolve(dependenciesToResolve);
-      modelMap = {...modelMap, ...resolvedDependenciesMap};
+      modelMap = { ...modelMap, ...resolvedDependenciesMap };
       for (let dependencyModel of resolvedDependenciesMap.values()) {
         this._expand(dependencyModel, modelMap);
       }
@@ -55,13 +57,13 @@ export class PseudoParser {
     }
 
     if (model.extends !== undefined) {
-      if (typeof model.extends === 'string') {
-        dependencies.push(model.extends); 
+      if (typeof model.extends === "string") {
+        dependencies.push(model.extends);
       } else if (Array.isArray(model.extends)) {
-        model.extends.forEach(element => {
-          if (typeof element === 'string') {
+        model.extends.forEach((element) => {
+          if (typeof element === "string") {
             dependencies.push(element);
-          } else if (typeof element === 'object') {
+          } else if (typeof element === "object") {
             dependencies.push(this._getModelDependencies(element));
           }
         });
@@ -71,5 +73,4 @@ export class PseudoParser {
     dependencies = Array.from(new Set(dependencies));
     return dependencies;
   }
-
 }

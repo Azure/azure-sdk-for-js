@@ -11,6 +11,6 @@ export const DEFAULT_USER_AGENT = `azsdk-node-modelsrepository/${SDK_VERSION} ($
 export const DEFAULT_REPOSITORY_LOCATION = "https://devicemodels.azure.com";
 export const DEFAULT_API_VERSION = "2021-02-11";
 
-export const DEPENDENCY_MODE_DISABLED = 'disabled';
-export const DEPENDENCY_MODE_ENABLED = 'enabled';
-export const DEPENDENCY_MODE_TRY_FROM_EXPANDED = 'tryFromExpanded';
+export const DEPENDENCY_MODE_DISABLED = "disabled";
+export const DEPENDENCY_MODE_ENABLED = "enabled";
+export const DEPENDENCY_MODE_TRY_FROM_EXPANDED = "tryFromExpanded";

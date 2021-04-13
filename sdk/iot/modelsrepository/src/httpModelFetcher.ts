@@ -8,8 +8,6 @@ import { logger } from "./logger";
 import { RequestPrepareOptions } from "@azure/core-http";
 import { Fetcher } from "./fetcher";
 
-
-
 export class HttpFetcher extends Fetcher {
   private _pipeline: coreHttp.ServiceClient;
   private _baseURL: string;
@@ -25,10 +23,10 @@ export class HttpFetcher extends Fetcher {
     const myURL = this._baseURL + path;
     const request: RequestPrepareOptions = {
       url: myURL,
-      method: 'GET'
-    }
+      method: "GET"
+    };
     const res: coreHttp.HttpOperationResponse = await this._pipeline.sendRequest(request);
-    
+
     if (res.status >= 200 && res.status < 400) {
       const dtdlAsString = res.bodyAsText || "";
       const parsedDtdl = JSON.parse(dtdlAsString);
@@ -51,8 +49,6 @@ export class HttpFetcher extends Fetcher {
     }
   }
 }
-
-
 
 // async function recursiveFetcher(
 //   dtmi: string,
@@ -131,5 +127,5 @@ export class HttpFetcher extends Fetcher {
 //     );
 //   }
 // }
-// 
+//
 // export { fetcher, recursiveFetcher };
