@@ -13,7 +13,7 @@ import { ClientOptions } from "@azure-rest/core-client";
 
 const replaceableVariables: { [k: string]: string } = {
   DOCUMENT_TRANSLATOR_API_KEY: "api_key",
-  ENDPOINT: "https://endpoint/"
+  ENDPOINT: "https://endpoint/",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -28,9 +28,9 @@ export const environmentSetup: RecorderEnvironmentSetup = {
     (recording: string): string => {
       const replaced = recording.replace("endpoint:443", "endpoint");
       return replaced;
-    }
+    },
   ],
-  queryParametersToSkip: []
+  queryParametersToSkip: [],
 };
 
 export function createClient(options?: ClientOptions): DocumentTranslatorClient {

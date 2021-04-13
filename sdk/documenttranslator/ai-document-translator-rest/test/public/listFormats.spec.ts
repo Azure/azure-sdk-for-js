@@ -12,12 +12,12 @@ describe("List Document Formats", () => {
   let recorder: Recorder;
   let client: DocumentTranslatorClient;
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = createRecorder(this);
     client = createClient();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

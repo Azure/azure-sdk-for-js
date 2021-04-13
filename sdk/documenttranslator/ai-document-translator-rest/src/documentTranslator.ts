@@ -2,71 +2,71 @@
 // Licensed under the MIT license.
 
 import {
-  SubmitBatchRequestParameters,
-  GetOperationsParameters,
-  GetDocumentStatusParameters,
-  GetOperationStatusParameters,
-  CancelOperationParameters,
-  GetOperationDocumentsStatusParameters,
-  GetDocumentFormatsParameters,
-  GetGlossaryFormatsParameters,
-  GetDocumentStorageSourceParameters,
+  StartTranslationParameters,
+  GetTranslationsParameters,
+  GetDocumentParameters,
+  GetTranslationStatusParameters,
+  CancelTranslationParameters,
+  GetDocumentsParameters,
+  GetSupportedDocumentFormatsParameters,
+  GetSupportedGlossaryFormatsParameters,
+  GetSupportedStorageSourcesParameters,
 } from "./parameters";
 import {
-  SubmitBatchRequest202Response,
-  SubmitBatchRequest400Response,
-  SubmitBatchRequest401Response,
-  SubmitBatchRequest429Response,
-  SubmitBatchRequest500Response,
-  SubmitBatchRequest503Response,
-  GetOperations200Response,
-  GetOperations400Response,
-  GetOperations401Response,
-  GetOperations429Response,
-  GetOperations500Response,
-  GetOperations503Response,
-  GetDocumentStatus200Response,
-  GetDocumentStatus401Response,
-  GetDocumentStatus404Response,
-  GetDocumentStatus429Response,
-  GetDocumentStatus500Response,
-  GetDocumentStatus503Response,
-  GetOperationStatus200Response,
-  GetOperationStatus401Response,
-  GetOperationStatus404Response,
-  GetOperationStatus429Response,
-  GetOperationStatus500Response,
-  GetOperationStatus503Response,
-  CancelOperation200Response,
-  CancelOperation401Response,
-  CancelOperation404Response,
-  CancelOperation429Response,
-  CancelOperation500Response,
-  CancelOperation503Response,
-  GetOperationDocumentsStatus200Response,
-  GetOperationDocumentsStatus400Response,
-  GetOperationDocumentsStatus401Response,
-  GetOperationDocumentsStatus404Response,
-  GetOperationDocumentsStatus429Response,
-  GetOperationDocumentsStatus500Response,
-  GetOperationDocumentsStatus503Response,
-  GetDocumentFormats200Response,
-  GetDocumentFormats429Response,
-  GetDocumentFormats500Response,
-  GetDocumentFormats503Response,
-  GetGlossaryFormats200Response,
-  GetGlossaryFormats429Response,
-  GetGlossaryFormats500Response,
-  GetGlossaryFormats503Response,
-  GetDocumentStorageSource200Response,
-  GetDocumentStorageSource429Response,
-  GetDocumentStorageSource500Response,
-  GetDocumentStorageSource503Response,
+  StartTranslation202Response,
+  StartTranslation400Response,
+  StartTranslation401Response,
+  StartTranslation429Response,
+  StartTranslation500Response,
+  StartTranslation503Response,
+  GetTranslations200Response,
+  GetTranslations400Response,
+  GetTranslations401Response,
+  GetTranslations429Response,
+  GetTranslations500Response,
+  GetTranslations503Response,
+  GetDocument200Response,
+  GetDocument401Response,
+  GetDocument404Response,
+  GetDocument429Response,
+  GetDocument500Response,
+  GetDocument503Response,
+  GetTranslationStatus200Response,
+  GetTranslationStatus401Response,
+  GetTranslationStatus404Response,
+  GetTranslationStatus429Response,
+  GetTranslationStatus500Response,
+  GetTranslationStatus503Response,
+  CancelTranslation200Response,
+  CancelTranslation401Response,
+  CancelTranslation404Response,
+  CancelTranslation429Response,
+  CancelTranslation500Response,
+  CancelTranslation503Response,
+  GetDocuments200Response,
+  GetDocuments400Response,
+  GetDocuments401Response,
+  GetDocuments404Response,
+  GetDocuments429Response,
+  GetDocuments500Response,
+  GetDocuments503Response,
+  GetSupportedDocumentFormats200Response,
+  GetSupportedDocumentFormats429Response,
+  GetSupportedDocumentFormats500Response,
+  GetSupportedDocumentFormats503Response,
+  GetSupportedGlossaryFormats200Response,
+  GetSupportedGlossaryFormats429Response,
+  GetSupportedGlossaryFormats500Response,
+  GetSupportedGlossaryFormats503Response,
+  GetSupportedStorageSources200Response,
+  GetSupportedStorageSources429Response,
+  GetSupportedStorageSources500Response,
+  GetSupportedStorageSources503Response,
 } from "./responses";
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
-export interface GetOperations {
+export interface GetTranslations {
   /**
    * Use this API to submit a bulk (batch) translation request to the Document Translation service.
    * Each request can contain multiple documents and must contain a source and destination container for each document.
@@ -79,14 +79,14 @@ export interface GetOperations {
    * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
    */
   post(
-    options?: SubmitBatchRequestParameters
+    options?: StartTranslationParameters
   ): Promise<
-    | SubmitBatchRequest202Response
-    | SubmitBatchRequest400Response
-    | SubmitBatchRequest401Response
-    | SubmitBatchRequest429Response
-    | SubmitBatchRequest500Response
-    | SubmitBatchRequest503Response
+    | StartTranslation202Response
+    | StartTranslation400Response
+    | StartTranslation401Response
+    | StartTranslation429Response
+    | StartTranslation500Response
+    | StartTranslation503Response
   >;
   /**
    * Returns a list of batch requests submitted and the status for each request.
@@ -114,66 +114,66 @@ export interface GetOperations {
    * This reduces the risk of the client making assumptions about the data returned.
    */
   get(
-    options?: GetOperationsParameters
+    options?: GetTranslationsParameters
   ): Promise<
-    | GetOperations200Response
-    | GetOperations400Response
-    | GetOperations401Response
-    | GetOperations429Response
-    | GetOperations500Response
-    | GetOperations503Response
+    | GetTranslations200Response
+    | GetTranslations400Response
+    | GetTranslations401Response
+    | GetTranslations429Response
+    | GetTranslations500Response
+    | GetTranslations503Response
   >;
 }
 
-export interface GetDocumentStatus {
+export interface GetDocument {
   /** Returns the translation status for a specific document based on the request Id and document Id. */
   get(
-    options?: GetDocumentStatusParameters
+    options?: GetDocumentParameters
   ): Promise<
-    | GetDocumentStatus200Response
-    | GetDocumentStatus401Response
-    | GetDocumentStatus404Response
-    | GetDocumentStatus429Response
-    | GetDocumentStatus500Response
-    | GetDocumentStatus503Response
+    | GetDocument200Response
+    | GetDocument401Response
+    | GetDocument404Response
+    | GetDocument429Response
+    | GetDocument500Response
+    | GetDocument503Response
   >;
 }
 
-export interface CancelOperation {
+export interface CancelTranslation {
   /**
    * Returns the status for a document translation request.
    * The status includes the overall request status, as well as the status for documents that are being translated as part of that request.
    */
   get(
-    options?: GetOperationStatusParameters
+    options?: GetTranslationStatusParameters
   ): Promise<
-    | GetOperationStatus200Response
-    | GetOperationStatus401Response
-    | GetOperationStatus404Response
-    | GetOperationStatus429Response
-    | GetOperationStatus500Response
-    | GetOperationStatus503Response
+    | GetTranslationStatus200Response
+    | GetTranslationStatus401Response
+    | GetTranslationStatus404Response
+    | GetTranslationStatus429Response
+    | GetTranslationStatus500Response
+    | GetTranslationStatus503Response
   >;
   /**
-   * Cancel a currently processing or queued operation.
-   * Cancel a currently processing or queued operation.
-   * An operation will not be cancelled if it is already completed or failed or cancelling. A bad request will be returned.
+   * Cancel a currently processing or queued translation.
+   * Cancel a currently processing or queued translation.
+   * A translation will not be cancelled if it is already completed or failed or cancelling. A bad request will be returned.
    * All documents that have completed translation will not be cancelled and will be charged.
    * All pending documents will be cancelled if possible.
    */
   delete(
-    options?: CancelOperationParameters
+    options?: CancelTranslationParameters
   ): Promise<
-    | CancelOperation200Response
-    | CancelOperation401Response
-    | CancelOperation404Response
-    | CancelOperation429Response
-    | CancelOperation500Response
-    | CancelOperation503Response
+    | CancelTranslation200Response
+    | CancelTranslation401Response
+    | CancelTranslation404Response
+    | CancelTranslation429Response
+    | CancelTranslation500Response
+    | CancelTranslation503Response
   >;
 }
 
-export interface GetOperationDocumentsStatus {
+export interface GetDocuments {
   /**
    * Returns the status for all documents in a batch document translation request.
    *
@@ -197,75 +197,75 @@ export interface GetOperationDocumentsStatus {
    * This reduces the risk of the client making assumptions about the data returned.
    */
   get(
-    options?: GetOperationDocumentsStatusParameters
+    options?: GetDocumentsParameters
   ): Promise<
-    | GetOperationDocumentsStatus200Response
-    | GetOperationDocumentsStatus400Response
-    | GetOperationDocumentsStatus401Response
-    | GetOperationDocumentsStatus404Response
-    | GetOperationDocumentsStatus429Response
-    | GetOperationDocumentsStatus500Response
-    | GetOperationDocumentsStatus503Response
+    | GetDocuments200Response
+    | GetDocuments400Response
+    | GetDocuments401Response
+    | GetDocuments404Response
+    | GetDocuments429Response
+    | GetDocuments500Response
+    | GetDocuments503Response
   >;
 }
 
-export interface GetDocumentFormats {
+export interface GetSupportedDocumentFormats {
   /**
    * The list of supported document formats supported by the Document Translation service.
    * The list includes the common file extension, as well as the content-type if using the upload API.
    */
   get(
-    options?: GetDocumentFormatsParameters
+    options?: GetSupportedDocumentFormatsParameters
   ): Promise<
-    | GetDocumentFormats200Response
-    | GetDocumentFormats429Response
-    | GetDocumentFormats500Response
-    | GetDocumentFormats503Response
+    | GetSupportedDocumentFormats200Response
+    | GetSupportedDocumentFormats429Response
+    | GetSupportedDocumentFormats500Response
+    | GetSupportedDocumentFormats503Response
   >;
 }
 
-export interface GetGlossaryFormats {
+export interface GetSupportedGlossaryFormats {
   /**
    * The list of supported glossary formats supported by the Document Translation service.
    * The list includes the common file extension used.
    */
   get(
-    options?: GetGlossaryFormatsParameters
+    options?: GetSupportedGlossaryFormatsParameters
   ): Promise<
-    | GetGlossaryFormats200Response
-    | GetGlossaryFormats429Response
-    | GetGlossaryFormats500Response
-    | GetGlossaryFormats503Response
+    | GetSupportedGlossaryFormats200Response
+    | GetSupportedGlossaryFormats429Response
+    | GetSupportedGlossaryFormats500Response
+    | GetSupportedGlossaryFormats503Response
   >;
 }
 
-export interface GetDocumentStorageSource {
+export interface GetSupportedStorageSources {
   /** Returns a list of storage sources/options supported by the Document Translation service. */
   get(
-    options?: GetDocumentStorageSourceParameters
+    options?: GetSupportedStorageSourcesParameters
   ): Promise<
-    | GetDocumentStorageSource200Response
-    | GetDocumentStorageSource429Response
-    | GetDocumentStorageSource500Response
-    | GetDocumentStorageSource503Response
+    | GetSupportedStorageSources200Response
+    | GetSupportedStorageSources429Response
+    | GetSupportedStorageSources500Response
+    | GetSupportedStorageSources503Response
   >;
 }
 
 export interface Routes {
   /** Resource for '/batches' has methods for the following verbs: post, get */
-  (path: "/batches"): GetOperations;
+  (path: "/batches"): GetTranslations;
   /** Resource for '/batches/\{id\}/documents/\{documentId\}' has methods for the following verbs: get */
-  (path: "/batches/{id}/documents/{documentId}", id: string, documentId: string): GetDocumentStatus;
+  (path: "/batches/{id}/documents/{documentId}", id: string, documentId: string): GetDocument;
   /** Resource for '/batches/\{id\}' has methods for the following verbs: get, delete */
-  (path: "/batches/{id}", id: string): CancelOperation;
+  (path: "/batches/{id}", id: string): CancelTranslation;
   /** Resource for '/batches/\{id\}/documents' has methods for the following verbs: get */
-  (path: "/batches/{id}/documents", id: string): GetOperationDocumentsStatus;
+  (path: "/batches/{id}/documents", id: string): GetDocuments;
   /** Resource for '/documents/formats' has methods for the following verbs: get */
-  (path: "/documents/formats"): GetDocumentFormats;
+  (path: "/documents/formats"): GetSupportedDocumentFormats;
   /** Resource for '/glossaries/formats' has methods for the following verbs: get */
-  (path: "/glossaries/formats"): GetGlossaryFormats;
+  (path: "/glossaries/formats"): GetSupportedGlossaryFormats;
   /** Resource for '/storagesources' has methods for the following verbs: get */
-  (path: "/storagesources"): GetDocumentStorageSource;
+  (path: "/storagesources"): GetSupportedStorageSources;
 }
 
 export type DocumentTranslatorClient = Client & {
