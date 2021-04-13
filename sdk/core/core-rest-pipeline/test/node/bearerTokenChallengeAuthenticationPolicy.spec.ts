@@ -134,7 +134,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       })
     };
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
     const responses: PipelineResponse[] = [
       {
         headers: createHttpHeaders({
@@ -142,12 +142,12 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
             expected.challengeClaims
           )}"`
         }),
-        request,
+        request: pipelineRequest,
         status: 401
       },
       {
         headers: createHttpHeaders(),
-        request,
+        request: pipelineRequest,
         status: 200
       }
     ];
@@ -191,7 +191,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       }
     };
 
-    await pipeline.sendRequest(testHttpsClient, request);
+    await pipeline.sendRequest(testHttpsClient, pipelineRequest);
 
     // Our goal is to test that:
     // - Only one getToken request was sent.
@@ -226,7 +226,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       }
     ];
 
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
     const responses: PipelineResponse[] = [
       {
         headers: createHttpHeaders({
@@ -234,12 +234,12 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
             expected[0].challengeClaims
           )}"`
         }),
-        request,
+        request: pipelineRequest,
         status: 401
       },
       {
         headers: createHttpHeaders(),
-        request,
+        request: pipelineRequest,
         status: 200
       },
       {
@@ -248,12 +248,12 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
             expected[1].challengeClaims
           )}"`
         }),
-        request,
+        request: pipelineRequest,
         status: 401
       },
       {
         headers: createHttpHeaders(),
-        request,
+        request: pipelineRequest,
         status: 200
       }
     ];
@@ -305,9 +305,9 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       }
     };
 
-    await pipeline.sendRequest(testHttpsClient, request);
+    await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     clock.tick(5000);
-    await pipeline.sendRequest(testHttpsClient, request);
+    await pipeline.sendRequest(testHttpsClient, pipelineRequest);
 
     // Our goal is to test that:
     // - After a second challenge was received, we processed it and retrieved the token again.
@@ -336,7 +336,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
   });
 
   it("service errors without challenges should bubble up", async function() {
-    const request = createPipelineRequest({ url: "https://example.com" });
+    const pipelineRequest = createPipelineRequest({ url: "https://example.com" });
     const credential = new MockRefreshAzureCredential([]);
 
     const pipeline = createEmptyPipeline();
@@ -375,7 +375,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
 
     let error: Error | undefined;
     try {
-      await pipeline.sendRequest(testHttpsClient, request);
+      await pipeline.sendRequest(testHttpsClient, pipelineRequest);
     } catch (e) {
       error = e;
     }
