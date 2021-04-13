@@ -5,14 +5,24 @@ import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { createRecordedClient } from "./utils/recordedClient";
+import {
+  canCreateRecordedClientWithToken,
+  createRecordedClientWithToken
+} from "./utils/recordedClient";
 
-describe("PhoneNumbersClient - get phone number", function() {
+describe("PhoneNumbersClient - get phone number [AAD]", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
 
+  before(function(this: Context) {
+    if (!canCreateRecordedClientWithToken()) {
+      this.skip();
+    }
+  });
+
   beforeEach(function(this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
+    const recordedClient = createRecordedClientWithToken(this);
+    ({ client, recorder } = recordedClient!);
   });
 
   afterEach(async function(this: Context) {
