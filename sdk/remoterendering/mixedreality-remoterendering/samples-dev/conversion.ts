@@ -44,17 +44,18 @@ export async function main() {
 
   const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
 
-  var storageContainerUrl: string =
-    storageAccountName + ".blob.core.windows.net/" + blobContainerName;
+  var storageContainerUrl: string = "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
 
   var inputSettings: AssetConversionInputSettings = {
     storageContainerUrl,
     storageContainerReadListSas: sasToken,
-    relativeInputAssetPath: "testBox.fbx"
+    relativeInputAssetPath: "testBox.fbx",
+    blobPrefix: "Input"
   };
   var outputSettings: AssetConversionOutputSettings = {
     storageContainerUrl,
-    storageContainerWriteSas: sasToken
+    storageContainerWriteSas: sasToken,
+    blobPrefix: "Output"
   };
   var conversionOptions: AssetConversionSettings = { inputSettings, outputSettings };
 

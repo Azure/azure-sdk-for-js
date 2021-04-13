@@ -31,10 +31,12 @@ import {
   UpdateSessionSettings
 } from "./generated/models/index";
 
-import { constructAuthenticationEndpointFromDomain } from "../authentication/authenticationEndpoint";
 import { RemoteRenderingClientOptions } from "./options";
+
+import { constructAuthenticationEndpointFromDomain } from "../authentication/authenticationEndpoint";
 import { MixedRealityTokenCredential } from "../authentication/mixedRealityTokenCredential";
 import { StaticAccessTokenCredential } from "../authentication/staticAccessTokenCredential";
+import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
 
 import { SDK_VERSION } from "./constants";
 import { logger } from "./logger";
@@ -43,7 +45,6 @@ import { createSpan } from "./tracing";
 import { PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { MixedRealityAccountKeyCredential } from "../authentication/mixedRealityAccountKeyCredential";
 
 import { RemoteRendering } from "./generated/operations";
 import { AssetConversionPoller, AssetConversionOperationState } from "./lro/assetConversionPoller";
@@ -194,12 +195,13 @@ export class RemoteRenderingClient {
       }
     };
 
-    const tokenCredential: TokenCredential = (credential instanceof AzureKeyCredential)
-      ? new MixedRealityAccountKeyCredential(accountId, credential as AzureKeyCredential)
-      // TODO Make this more type safe.
-      : (credential.hasOwnProperty("token") !== undefined) 
-      ? new StaticAccessTokenCredential(credential as AccessToken)
-      : (credential as TokenCredential);
+    const tokenCredential: TokenCredential =
+      credential instanceof AzureKeyCredential
+        ? new MixedRealityAccountKeyCredential(accountId, credential as AzureKeyCredential)
+        : // TODO Make this more type safe.
+        credential.hasOwnProperty("token") !== undefined
+        ? new StaticAccessTokenCredential(credential as AccessToken)
+        : (credential as TokenCredential);
 
     const authenticationEndpoint =
       options.authenticationEndpointUrl ?? constructAuthenticationEndpointFromDomain(accountDomain);
