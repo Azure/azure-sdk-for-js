@@ -1,26 +1,35 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode, Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { SearchAvailablePhoneNumbersRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { createRecordedClient } from "./utils/recordedClient";
+import {
+  canCreateRecordedClientWithToken,
+  createRecordedClientWithToken
+} from "./utils/recordedClient";
 
-describe("PhoneNumbersClient - lro - purchase and release", function() {
+describe("PhoneNumbersClient - lro - purchase and release [AAD]", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
 
   before(function(this: Context) {
     const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
-    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
+    const shouldSkip =
+      !canCreateRecordedClientWithToken() || (!isPlaybackMode() && !includePhoneNumberLiveTests);
+
+    if (shouldSkip) {
       this.skip();
     }
   });
 
   beforeEach(function(this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
+    const recordedClient = createRecordedClientWithToken(this);
+    if (recordedClient) {
+      ({ client, recorder } = recordedClient);
+    }
   });
 
   afterEach(async function(this: Context) {

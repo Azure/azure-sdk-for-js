@@ -6,9 +6,12 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { SearchAvailablePhoneNumbersRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { createRecordedClient } from "./utils/recordedClient";
+import {
+  canCreateRecordedClientWithToken,
+  createRecordedClientWithToken
+} from "./utils/recordedClient";
 
-describe("PhoneNumbersClient - lro - search", function() {
+describe("PhoneNumbersClient - lro - search [AAD]", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
   const searchRequest: SearchAvailablePhoneNumbersRequest = {
@@ -21,8 +24,15 @@ describe("PhoneNumbersClient - lro - search", function() {
     }
   };
 
+  before(function(this: Context) {
+    if (!canCreateRecordedClientWithToken()) {
+      this.skip();
+    }
+  });
+
   beforeEach(function(this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
+    const recordedClient = createRecordedClientWithToken(this);
+    ({ client, recorder } = recordedClient!);
   });
 
   afterEach(async function(this: Context) {
