@@ -5,6 +5,11 @@
 
 import { DTDL } from "./DTDL";
 
+export function isLocalPath(p: string): boolean {
+  const myRegex = RegExp(/^(?:[a-zA-Z]\:|\\\\[\w\.]+\\[\w.$]+)\\(?:[\w]+\\)*\w([\w.])+$/g);
+  return !!p.match(myRegex);
+}
+
 export function flattenDtdlResponse(input: DTDL[]) {
   const newResult: { [x: string]: DTDL } = {};
   for (let i = 0; i++; i < input.length) {

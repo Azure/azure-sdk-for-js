@@ -1,52 +1,69 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-"use strict";
+import { dtmiToPath } from "./dtmiConventions";
+import { logger } from "./logger";
 
-import { modelFetcher } from "./modelFetcherHandler";
+export class FetcherError extends Error {
+  cause: Error | undefined;
 
-interface resolverOptions {
-  resolveDependencies: "disabled" | "enabled" | "tryFromExpanded";
-}
-
-function checkIfTryFromExpanded(options?: resolverOptions): boolean {
-  if (options && options.resolveDependencies && options.resolveDependencies === "tryFromExpanded") {
-    return true;
+  constructor(message: string, cause?: Error) {
+    super(message);
+    this.cause = cause;
   }
-  return false;
 }
 
-function checkIfResolveDependencies(options?: resolverOptions): boolean {
-  if (options && options.resolveDependencies && options.resolveDependencies === "enabled") {
-    return true;
+export class ResolverError extends Error {
+  cause: Error | undefined;
+
+  constructor(message: string, cause?: Error) {
+    super(message);
+    this.cause = cause;
   }
-  return false;
 }
 
-/**
- * resolve - get interfaces (dtdls) associated to a given dtmi
- *
- * @param dtmi code used to label and organize dtdl
- * @param endpoint URL or local path for dtdl repository
- * @param options object containing optional parameters
- *
- * @returns Promise that resolves to mapping of dtmi(s) to JSON dtdl(s)
- */
-function resolve(dtmi: string, endpoint: string): Promise<{ [dtmi: string]: any }>;
-function resolve(
-  dtmi: string,
-  endpoint: string,
-  options: resolverOptions
-): Promise<{ [dtmi: string]: any }>;
-function resolve(
-  dtmi: string,
-  endpoint: string,
-  options?: resolverOptions
-): Promise<{ [dtmi: string]: any }> {
-  const tryFromExpanded = checkIfTryFromExpanded(options);
-  const resolveDependencies = checkIfResolveDependencies(options);
+export class DtmiResolver {
+  private _fetcher;
+  constructor(fetcher: any) {
+    this._fetcher = fetcher;
+  }
 
-  return modelFetcher(dtmi, endpoint, resolveDependencies, tryFromExpanded);
+  resolve(dtmis: string[], expandedModel?: boolean) {
+    let modelMap: any = {};
+
+
+    for (let dtmi of dtmis) {
+      let dtdl: any[] | any;
+      let dtdlPath = dtmiToPath(dtmi);
+      if (expandedModel) {
+        dtdlPath = dtdlPath.replace('.json', '.expanded.json');
+      }
+      logger.info(`Model ${dtmi} located in repository at ${dtdlPath}`);
+
+      try {
+        dtdl = this._fetcher.fetch(dtdlPath);
+      } catch (e) {
+        if (e instanceof FetcherError) {
+          return Promise.reject(new ResolverError(`Failed to resolve dtmi: ${dtmi}`, e));
+        } else {
+          return Promise.reject(e);
+        }
+      }
+
+      if (expandedModel) {
+        for (let model of dtdl) {
+          modelMap[model['@id']] = model;
+        }
+      } else {
+        let model = dtdl;
+        if (model['@id'] != dtmi) {
+          return Promise.reject(new ResolverError(`DTMI mismatch - Request: ${dtmi}, Response ${model['@id']}`));
+        }
+
+        modelMap[`${dtmi}`] = dtdl;
+      }
+    }
+
+    return modelMap;
+  }
 }
-
-export { resolve };

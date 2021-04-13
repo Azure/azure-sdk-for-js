@@ -12,6 +12,6 @@ interface Contents {
 export interface DTDL extends JSON {
   "@context": any[];
   "@id": string;
-  extends: string;
+  extends: string | Array<any>;
   contents: Contents[];
 }

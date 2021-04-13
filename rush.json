@@ -633,7 +633,7 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/iot-plugandplay-models-repo-tool",
+      "packageName": "@azure/iot-modelsrepository-client",
       "projectFolder": "sdk/iot/modelsrepository",
       "versionPolicyName": "core"
     }
