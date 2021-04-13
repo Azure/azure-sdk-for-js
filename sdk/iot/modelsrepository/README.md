@@ -24,10 +24,10 @@ npm install @azure/iot-modelsrepository-client
 ##### Sample code
 
 ```ts
-import {ModelsRepositoryClient} from "@azure/iot-modelsrepository-client";
+import { ModelsRepositoryClient } from "@azure/iot-modelsrepository-client";
 
-const client = new ModelsRepositoryClient('https://devicemodels.azure.com');
-const result = await client.getModels('dtmi:azure:DeviceManagement:DeviceInformation;1');
+const client = new ModelsRepositoryClient("https://devicemodels.azure.com");
+const result = await client.getModels("dtmi:azure:DeviceManagement:DeviceInformation;1");
 console.log(result);
 ```
 
@@ -36,6 +36,7 @@ console.log(result);
 ##### Sample code
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -47,11 +48,14 @@ console.log(result);
       const repositoryLocation = "<Repository_Location>";
       // async / await OR chaining can be used.
       const client = new Azure.IotModelsrepositoryClient.ModelsRepositoryClient(repositoryLocation);
-      client.getModels(dtmi).then((result) => {
-        console.log(`The result is: ${result}`);
-      }).catch((err) => {
-        console.log(`An error occured: ${err}`);
-      });
+      client
+        .getModels(dtmi)
+        .then((result) => {
+          console.log(`The result is: ${result}`);
+        })
+        .catch((err) => {
+          console.log(`An error occured: ${err}`);
+        });
     </script>
   </head>
   <body></body>
