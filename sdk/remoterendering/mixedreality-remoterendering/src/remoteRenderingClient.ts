@@ -236,17 +236,38 @@ export class RemoteRenderingClient {
     assetConversionSettings: AssetConversionSettings,
     options?: OperationOptions
   ): Promise<AssetConversionPollerLike> {
-    let assetConversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
-      this.accountId,
-      conversionId,
-      { settings: assetConversionSettings },
-      options
-    );
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginConversion", {
+      conversionId: conversionId,
+      ...options
+    });
 
-    let poller = new AssetConversionPoller(this, assetConversion);
+    try {
+      let assetConversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
+        this.accountId,
+        conversionId,
+        { settings: assetConversionSettings },
+        updatedOptions
+      );
 
-    await poller.poll();
-    return poller;
+      let poller = new AssetConversionPoller(this, assetConversion);
+
+      // TODO Do I want this?
+      await poller.poll();
+
+      return poller;
+    } catch (e) {
+      // There are different standard codes available for different errors:
+      // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
+
   }
 
   /**
