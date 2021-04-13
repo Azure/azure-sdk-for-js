@@ -169,7 +169,7 @@ export class RemoteRenderingClient {
     this.accountId = accountId;
 
     // The below code helps us set a proper User-Agent header on all requests
-    const libInfo = `azsdk-js-mixedreality-authentication/${SDK_VERSION}`;
+    const libInfo = `azsdk-js-mixedreality-remoterendering/${SDK_VERSION}`;
 
     if (!options.userAgentOptions) {
       options.userAgentOptions = {};
@@ -194,9 +194,10 @@ export class RemoteRenderingClient {
       }
     };
 
-    const tokenCredential: TokenCredential = (credential as AzureKeyCredential)
+    const tokenCredential: TokenCredential = (credential instanceof AzureKeyCredential)
       ? new MixedRealityAccountKeyCredential(accountId, credential as AzureKeyCredential)
-      : (credential as AccessToken)
+      // TODO Make this more type safe.
+      : (credential.hasOwnProperty("token") !== undefined) 
       ? new StaticAccessTokenCredential(credential as AccessToken)
       : (credential as TokenCredential);
 

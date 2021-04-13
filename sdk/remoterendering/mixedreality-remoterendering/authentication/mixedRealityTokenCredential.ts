@@ -31,8 +31,7 @@ export class MixedRealityTokenCredential implements TokenCredential {
     credential: TokenCredential,
     options: MixedRealityStsClientOptions
   ): TokenCredential {
-    var token = credential as StaticAccessTokenCredential;
-    if (token) {
+    if (credential instanceof StaticAccessTokenCredential) {
       // Static access tokens are assumed to be Mixed Reality access tokens already, so we don't need to exchange
       // them using the MixedRealityTokenCredential.
       return credential;

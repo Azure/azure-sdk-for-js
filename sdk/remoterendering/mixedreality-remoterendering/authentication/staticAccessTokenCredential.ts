@@ -11,6 +11,6 @@ export class StaticAccessTokenCredential implements TokenCredential {
   }
 
   getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
-    return new Promise((resolve, _reject) => { resolve(this.token); });
+    return Promise.resolve(this.token);
   }
 }
