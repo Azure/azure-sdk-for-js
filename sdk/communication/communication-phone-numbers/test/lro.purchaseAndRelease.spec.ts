@@ -72,5 +72,5 @@ describe("PhoneNumbersClient - lro - purchase and release", function() {
     assert.ok(releasePoller.getOperationState().isCompleted);
 
     console.log(`Released: ${purchasedPhoneNumber}`);
-  }).timeout(0);
+  }).timeout(60000);
 });
