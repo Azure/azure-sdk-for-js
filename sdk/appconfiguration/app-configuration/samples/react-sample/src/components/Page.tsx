@@ -47,7 +47,6 @@ export default function Page(): JSX.Element {
   const [feature1, setFeature1] = useState<{ enabled: boolean }>({ enabled: false });
   const [feature2, setFeature2] = useState<{ enabled: boolean }>({ enabled: false });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getFeatureFlags = async (keys: string[]): Promise<void> => {
     const [setting1, setting2] = await Promise.all(
       keys.map((key: string) =>
@@ -78,6 +77,7 @@ export default function Page(): JSX.Element {
     client = new AppConfigurationClient(connectionString);
     getFeatureFlags([feature1Name, feature2Name]);
   }, []);
+
   return (
     <React.Fragment>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
