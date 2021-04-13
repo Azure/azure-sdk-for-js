@@ -45,7 +45,6 @@ import { createSpan } from "./tracing";
 import { PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-
 import { RemoteRendering } from "./generated/operations";
 import { AssetConversionPoller, AssetConversionOperationState } from "./lro/assetConversionPoller";
 import {
@@ -293,7 +292,6 @@ export class RemoteRenderingClient {
         updatedOptions
       );
 
-      // TODO Presumably, this may not carry a conversion object.
       return Promise.resolve(result);
     } catch (e) {
       span.setStatus({
@@ -342,17 +340,34 @@ export class RemoteRenderingClient {
     renderingSessionSettings: RenderingSessionSettings,
     options?: OperationOptions
   ): Promise<RenderingSessionPollerLike> {
-    let renderingSession: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
-      this.accountId,
-      sessionId,
-      renderingSessionSettings,
-      options
-    );
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginSession", {
+      conversionId: sessionId,
+      ...options
+    });
 
-    let poller = new RenderingSessionPoller(this, renderingSession);
+    try {
+      let renderingSession: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
+        this.accountId,
+        sessionId,
+        renderingSessionSettings,
+        updatedOptions
+      );
 
-    await poller.poll();
-    return poller;
+      let poller = new RenderingSessionPoller(this, renderingSession);
+
+      // Do I want this?
+      await poller.poll();
+      
+      return poller;
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -431,9 +446,28 @@ export class RemoteRenderingClient {
     sessionId: string,
     options?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    sessionId = sessionId;
-    options = options;
-    throw new Error("Not yet implemented.");
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-EndSession", {
+      conversionId: sessionId,
+      ...options
+    });
+
+    try {
+      let result = await this.operations.stopSession(
+        this.accountId,
+        sessionId,
+        updatedOptions
+      );
+
+      return Promise.resolve(result);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**

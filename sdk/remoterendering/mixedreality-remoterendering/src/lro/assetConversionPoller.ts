@@ -65,7 +65,10 @@ class AssetConversionOperation
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: AssetConversionOperationState) => void;
   }): Promise<AssetConversionOperation> {
-    return this.client.getConversion(this.state.latestResponse.conversionId).then((res) => { this.state.latestResponse = res; return this; });
+    return this.client.getConversion(this.state.latestResponse.conversionId).then((res) => {
+      this.state.latestResponse = res;
+      return this;
+    });
   }
 
   cancel(_options?: { abortSignal?: AbortSignalLike }): Promise<AssetConversionOperation> {

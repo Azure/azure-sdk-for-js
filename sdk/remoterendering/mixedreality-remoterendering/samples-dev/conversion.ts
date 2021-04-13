@@ -44,7 +44,8 @@ export async function main() {
 
   const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
 
-  var storageContainerUrl: string = "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
+  var storageContainerUrl: string =
+    "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
 
   var inputSettings: AssetConversionInputSettings = {
     storageContainerUrl,
@@ -57,7 +58,7 @@ export async function main() {
     storageContainerWriteSas: sasToken,
     blobPrefix: "Output"
   };
-  var conversionOptions: AssetConversionSettings = { inputSettings, outputSettings };
+  var conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
   // A randomly generated GUID is a good choice for a conversionId.
   var conversionId: string = uuid();
@@ -66,7 +67,7 @@ export async function main() {
 
   var conversionPoller: AssetConversionPollerLike = await client.beginConversion(
     conversionId,
-    conversionOptions
+    conversionSettings
   );
 
   console.log("== Polling ==");
@@ -82,7 +83,6 @@ export async function main() {
   }
 }
 
-main();
-//.catch((err) => {
-// console.error("The sample encountered an error:", err);
-//});
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

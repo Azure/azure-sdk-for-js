@@ -15,19 +15,14 @@ export interface RenderingSessionOperationState
   latestResponse: WithResponse<RenderingSession>;
 }
 
-export class RenderingSessionOperationStateImpl
-  implements PollOperationState<WithResponse<RenderingSession>> {
-  private client: RemoteRenderingClient;
+export class RenderingSessionOperationStateImpl implements RenderingSessionOperationState {
   latestResponse: WithResponse<RenderingSession>;
 
-  constructor(client: RemoteRenderingClient, conversionState: WithResponse<RenderingSession>) {
-    this.client = client;
+  constructor(conversionState: WithResponse<RenderingSession>) {
     this.latestResponse = conversionState;
   }
 
   get isStarted(): boolean {
-    // TODO
-    this.client = this.client;
     return true;
   }
 
@@ -54,17 +49,22 @@ export class RenderingSessionOperationStateImpl
 
 class RenderingSessionOperation
   implements PollOperation<RenderingSessionOperationStateImpl, RenderingSession> {
+  private client: RemoteRenderingClient;
   state: RenderingSessionOperationStateImpl;
 
-  constructor(state: RenderingSessionOperationStateImpl) {
+  constructor(client: RemoteRenderingClient, state: RenderingSessionOperationStateImpl) {
     this.state = state;
+    this.client = client;
   }
 
   update(_options?: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: RenderingSessionOperationStateImpl) => void;
   }): Promise<RenderingSessionOperation> {
-    throw new Error("Not yet implemented.");
+    return this.client.getSession(this.state.latestResponse.sessionId).then((res) => {
+      this.state.latestResponse = res;
+      return this;
+    });
   }
 
   /**
@@ -100,8 +100,8 @@ export class RenderingSessionPoller extends Poller<
 
   constructor(client: RemoteRenderingClient, RenderingSession: WithResponse<RenderingSession>) {
     super(
-      new RenderingSessionOperation(
-        new RenderingSessionOperationStateImpl(client, RenderingSession)
+      new RenderingSessionOperation(client, 
+        new RenderingSessionOperationStateImpl(RenderingSession)
       )
     );
   }
