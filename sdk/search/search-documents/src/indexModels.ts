@@ -374,7 +374,7 @@ export interface SearchRequestOptions<Fields> {
   /** 
    * This parameter is only valid if the query type is 'semantic'. If set, the query returns answers
    * extracted from key passages in the highest ranked documents. The number of answers returned can
-   * be configured by appending the pipe character '|' followed by the 'count-<number of answers>' option
+   * be configured by appending the pipe character '|' followed by the 'count-\<number of answers\>' option
    * after the answers parameter value, such as 'extractive|count-3'. Default count is 1.
    */
   answers?: Answers;
