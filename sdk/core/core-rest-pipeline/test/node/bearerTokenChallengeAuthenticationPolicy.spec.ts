@@ -84,7 +84,7 @@ async function authorizeRequestOnChallenge(
     cachedChallenge = challenge;
   }
 
-  const accessToken = await options.getToken(
+  const accessToken = await options.getAccessToken(
     parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
     {
       ...options,
@@ -163,12 +163,12 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: [],
       credential,
       challengeCallbacks: {
-        async authorizeRequest({ request, getToken }) {
+        async authorizeRequest({ request, getAccessToken }) {
           if (firstRequest) {
             firstRequest = false;
             // send first request without the Authorization header
           } else {
-            const token = await getToken([], {});
+            const token = await getAccessToken([], {});
             request.headers.set("Authorization", `Bearer ${token}`);
           }
         },
@@ -272,13 +272,13 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: [],
       credential,
       challengeCallbacks: {
-        async authorizeRequest({ request, getToken }) {
+        async authorizeRequest({ request, getAccessToken }) {
           if (firstRequest) {
             firstRequest = false;
             // send first request without the Authorization header
           } else {
             if (!previousToken) {
-              previousToken = await getToken([], {});
+              previousToken = await getAccessToken([], {});
               if (!previousToken) {
                 throw new Error("Failed to retrieve an access token");
               }
@@ -346,12 +346,12 @@ describe("bearerTokenAuthenticationPolicy with challenge", function() {
       scopes: [],
       credential,
       challengeCallbacks: {
-        async authorizeRequest({ request, getToken }) {
+        async authorizeRequest({ request, getAccessToken }) {
           if (firstRequest) {
             firstRequest = false;
             // send first request without the Authorization header
           } else {
-            const token = await getToken([], {});
+            const token = await getAccessToken([], {});
             request.headers.set("Authorization", `Bearer ${token}`);
           }
         },

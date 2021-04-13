@@ -73,7 +73,6 @@ export {
   BearerTokenChallengeAuthenticationPolicyOptions,
   bearerTokenChallengeAuthenticationPolicyName,
   ChallengeCallbacks,
-  ChallengeCallbackOptions,
-  retrieveToken
+  ChallengeCallbackOptions
 } from "./policies/bearerTokenChallengeAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";

@@ -56,7 +56,7 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
 // @public
 export interface ChallengeCallbackOptions {
     claims?: string;
-    getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    getAccessToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     request: PipelineRequest;
     response?: PipelineResponse;
     scopes: string[];
@@ -65,7 +65,7 @@ export interface ChallengeCallbackOptions {
 // @public
 export interface ChallengeCallbacks {
     authorizeRequest?(options: ChallengeCallbackOptions): Promise<void>;
-    authorizeRequestOnChallenge(options: ChallengeCallbackOptions): Promise<boolean>;
+    authorizeRequestOnChallenge?(options: ChallengeCallbackOptions): Promise<boolean>;
 }
 
 // @public
@@ -292,9 +292,6 @@ export interface RestErrorOptions {
     response?: PipelineResponse;
     statusCode?: number;
 }
-
-// @public
-export function retrieveToken(options: ChallengeCallbackOptions): Promise<AccessToken | undefined>;
 
 // @public
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;

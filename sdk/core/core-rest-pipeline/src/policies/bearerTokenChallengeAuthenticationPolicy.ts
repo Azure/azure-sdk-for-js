@@ -26,9 +26,12 @@ export interface ChallengeCallbackOptions {
    */
   claims?: string;
   /**
-   * Function that retrieves either a cached token or a new token.
+   * Function that retrieves either a cached access token or a new access token.
    */
-  getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+  getAccessToken: (
+    scopes: string | string[],
+    options: GetTokenOptions
+  ) => Promise<AccessToken | null>;
   /**
    * Request that the policy is trying to fulfill.
    */
@@ -44,19 +47,15 @@ export interface ChallengeCallbackOptions {
  */
 export interface ChallengeCallbacks {
   /**
-   * Allows for the authentication of the main request of this policy before it's sent.
-   * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
-   * allows developers to easily assign a token to the ongoing request.
+   * Allows for the authorization of the main request of this policy before it's sent.
    */
   authorizeRequest?(options: ChallengeCallbackOptions): Promise<void>;
   /**
    * Allows to handle authentication challenges and to re-authorize the request.
    * The response containing the challenge is `options.response`.
-   * The `setAuthorizationHeader` parameter received through the `ChallengeCallbackOptions`
-   * allows developers to easily assign a token to the ongoing request.
    * If this method returns true, the underlying request will be sent once again.
    */
-  authorizeRequestOnChallenge(options: ChallengeCallbackOptions): Promise<boolean>;
+  authorizeRequestOnChallenge?(options: ChallengeCallbackOptions): Promise<boolean>;
 }
 
 /**
@@ -82,10 +81,8 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
 /**
  * Retrieves a token from a token cache or a credential.
  */
-export async function retrieveToken(
-  options: ChallengeCallbackOptions
-): Promise<AccessToken | undefined> {
-  const { scopes, claims, getToken, request } = options;
+async function retrieveAccessToken(options: ChallengeCallbackOptions): Promise<AccessToken | null> {
+  const { scopes, claims, getAccessToken, request } = options;
 
   const getTokenOptions: GetTokenOptions = {
     claims,
@@ -93,14 +90,14 @@ export async function retrieveToken(
     tracingOptions: request.tracingOptions
   };
 
-  return (await getToken(scopes, getTokenOptions)) || undefined;
+  return getAccessToken(scopes, getTokenOptions);
 }
 
 /**
  * Default authorize request
  */
 async function defaultAuthorizeRequest(options: ChallengeCallbackOptions): Promise<void> {
-  const accessToken = await retrieveToken(options);
+  const accessToken = await retrieveAccessToken(options);
   if (!accessToken) {
     return;
   }
@@ -121,15 +118,6 @@ function getChallenge(response: PipelineResponse): string | undefined {
 }
 
 /**
- * Default authorize request on challenge
- */
-async function defaultAuthorizeRequestOnChallenge(
-  _options: ChallengeCallbackOptions & { response: PipelineResponse }
-): Promise<boolean> {
-  return false;
-}
-
-/**
  * A policy that can request a token from a TokenCredential implementation and
  * then apply it to the Authorization header of a request as a Bearer token.
  */
@@ -139,8 +127,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
   const { credential, scopes, challengeCallbacks } = options;
   const callbacks = {
     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
-    authorizeRequestOnChallenge:
-      challengeCallbacks?.authorizeRequestOnChallenge ?? defaultAuthorizeRequestOnChallenge,
+    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
     // keep all other properties
     ...challengeCallbacks
   };
@@ -170,7 +157,7 @@ export function bearerTokenChallengeAuthenticationPolicy(
       await callbacks.authorizeRequest({
         scopes,
         request,
-        getToken: cycler.getToken
+        getAccessToken: cycler.getToken
       });
 
       let response: PipelineResponse;
@@ -182,13 +169,17 @@ export function bearerTokenChallengeAuthenticationPolicy(
         response = err.response;
       }
 
-      if (response?.status === 401 && getChallenge(response)) {
+      if (
+        callbacks.authorizeRequestOnChallenge &&
+        response?.status === 401 &&
+        getChallenge(response)
+      ) {
         // processes challenge
         const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
           scopes,
           request,
           response,
-          getToken: cycler.getToken
+          getAccessToken: cycler.getToken
         });
 
         if (shouldSendRequest) {
