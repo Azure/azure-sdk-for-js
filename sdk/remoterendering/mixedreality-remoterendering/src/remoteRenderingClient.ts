@@ -318,13 +318,57 @@ export class RemoteRenderingClient {
     throw new Error("Not yet implemented.");
   }
 
+  private async *getAllConversionsPagingPage(
+    options?: OperationOptions
+  ): AsyncIterableIterator<AssetConversion[]> {
+    let result = await this.operations.listConversions(this.accountId, options);
+    yield result.conversions;
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this.operations.listConversionsNext(this.accountId, continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.conversions;
+    }
+  }
+  
+  private async *getAllConversionsPagingAll(
+    options?: OperationOptions
+  ): AsyncIterableIterator<AssetConversion> {
+    for await (const page of this.getAllConversionsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
   /**
    * Gets a list of all conversions.
    * @param options The options parameters.
    */
   public listConversions(options?: OperationOptions): PagedAsyncIterableIterator<AssetConversion> {
-    options = options;
-    throw new Error("Not yet implemented.");
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
+      ...options
+    });
+    try {
+      const iter = this.getAllConversionsPagingAll(updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: () => {
+          return this.getAllConversionsPagingPage(updatedOptions);
+        }
+      };
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**

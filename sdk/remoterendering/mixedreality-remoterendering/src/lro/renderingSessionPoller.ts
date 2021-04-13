@@ -100,7 +100,8 @@ export class RenderingSessionPoller extends Poller<
 
   constructor(client: RemoteRenderingClient, RenderingSession: WithResponse<RenderingSession>) {
     super(
-      new RenderingSessionOperation(client, 
+      new RenderingSessionOperation(
+        client,
         new RenderingSessionOperationStateImpl(RenderingSession)
       )
     );
