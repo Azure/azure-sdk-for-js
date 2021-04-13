@@ -267,7 +267,6 @@ export class RemoteRenderingClient {
     } finally {
       span.end();
     }
-
   }
 
   /**
