@@ -8,6 +8,14 @@
 
 import * as coreHttp from "@azure/core-http";
 
+/**
+ * Defines values for FileType.
+ * Possible values include: 'File'
+ * @readonly
+ * @enum {string}
+ */
+ export type FileType = "File";
+
 /** Storage service properties. */
 export interface FileServiceProperties {
   /** A summary of request statistics grouped by API in hourly aggregates for files. */
@@ -1001,7 +1009,7 @@ export interface FileGetPropertiesHeaders {
   /** A set of name-value pairs associated with this file as user-defined metadata. */
   metadata?: { [propertyName: string]: string };
   /** Returns the type File. Reserved for future use. */
-  fileType?: string;
+  fileType?: FileType;
   /** The size of the file in bytes. This header returns the value of the 'x-ms-content-length' header that is stored with the file. */
   contentLength?: number;
   /** The content type specified for the file. The default content type is 'application/octet-stream' */
@@ -1435,24 +1443,6 @@ export interface CopyFileSmbInfo {
   setArchiveAttribute?: boolean;
 }
 
-/** Known values of {@link ShareAccessTier} that the service accepts. */
-export const enum KnownShareAccessTier {
-  TransactionOptimized = "TransactionOptimized",
-  Hot = "Hot",
-  Cool = "Cool"
-}
-
-/**
- * Defines values for ShareAccessTier. \
- * {@link KnownShareAccessTier} can be used interchangeably with ShareAccessTier,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **TransactionOptimized** \
- * **Hot** \
- * **Cool**
- */
-export type ShareAccessTier = string;
-
 /** Known values of {@link StorageErrorCode} that the service accepts. */
 export const enum KnownStorageErrorCode {
   AccountAlreadyExists = "AccountAlreadyExists",
@@ -1611,6 +1601,8 @@ export type LeaseStateType =
 export type LeaseDurationType = "infinite" | "fixed";
 /** Defines values for ShareRootSquash. */
 export type ShareRootSquash = "NoRootSquash" | "RootSquash" | "AllSquash";
+/** Defines values for ShareAccessTier. */
+export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 /** Defines values for DeleteSnapshotsOptionType. */
 export type DeleteSnapshotsOptionType = "include" | "include-leased";
 /** Defines values for CopyStatusType. */

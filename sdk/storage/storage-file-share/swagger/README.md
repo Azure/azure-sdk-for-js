@@ -816,6 +816,16 @@ directive:
       delete $["enum"];
 ```
 
+### Define ShareAccessTier to enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["AccessTierOptional"]["x-ms-enum"]
+    transform: >
+      $["modelAsString"] = false;
+```
+
 ### Update service version from "2020-04-08" to "2020-06-12"
 
 ```yaml

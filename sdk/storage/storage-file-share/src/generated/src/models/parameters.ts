@@ -233,7 +233,8 @@ export const accessTier: OperationParameter = {
     serializedName: "x-ms-access-tier",
     xmlName: "x-ms-access-tier",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: ["TransactionOptimized", "Hot", "Cool"]
     }
   }
 };

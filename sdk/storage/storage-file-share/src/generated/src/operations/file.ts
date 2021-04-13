@@ -712,6 +712,7 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
     Parameters.contentLength,
     Parameters.contentMD5
   ],
+  contentType: "application/octet-stream",
   isXML: true,
   serializer: xmlSerializer
 };

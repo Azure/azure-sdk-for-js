@@ -69,10 +69,13 @@ export {
   FileListHandlesHeaders,
   CorsRule,
   Metrics,
+  FileSetHttpHeadersHeaders as FileSetHTTPHeadersHeaders,
+  FileSetHttpHeadersResponse as FileSetHTTPHeadersResponse,
   FileSetMetadataHeaders,
   FileStartCopyHeaders,
   FileUploadRangeFromURLHeaders,
   FileUploadRangeHeaders,
+  FileType,
   ServiceGetPropertiesHeaders,
   ListSharesResponse as ListSharesResponseModel,
   RetentionPolicy,
@@ -107,7 +110,7 @@ export {
   ShareRootSquash
 } from "./generated/src/models";
 
-import { ShareSetPropertiesResponse, ShareSetPropertiesHeaders, FileSetHttpHeadersResponse, FileSetHttpHeadersHeaders } from "./generated/src/models";
+import { ShareSetPropertiesResponse, ShareSetPropertiesHeaders } from "./generated/src/models";
 
 /**
  * Contains response data for the setQuota operation.
@@ -118,13 +121,3 @@ export type ShareSetQuotaResponse = ShareSetPropertiesResponse;
  * Defines headers for setQuota operation.
  */
 export type ShareSetQuotaHeaders = ShareSetPropertiesHeaders;
-
-/**
- * Contains response data for the setHttpHeaders operation.
- */
-export type FileSetHTTPHeadersResponse = FileSetHttpHeadersResponse;
-
-/**
- * Defines headers for File_setHttpHeaders operation. 
- */
-export type FileSetHTTPHeadersHeaders = FileSetHttpHeadersHeaders;

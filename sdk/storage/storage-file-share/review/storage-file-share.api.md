@@ -667,7 +667,7 @@ export interface FileGetPropertiesHeaders {
     fileLastWriteOn?: Date;
     fileParentId?: string;
     filePermissionKey?: string;
-    fileType?: string;
+    fileType?: FileType;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
@@ -855,10 +855,23 @@ export interface FileServiceProperties {
     protocol?: ShareProtocolSettings;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileSetHttpHeadersHeaders" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type FileSetHTTPHeadersHeaders = FileSetHttpHeadersHeaders;
+export interface FileSetHTTPHeadersHeaders {
+    date?: Date;
+    errorCode?: string;
+    etag?: string;
+    fileAttributes?: string;
+    fileChangeOn?: Date;
+    fileCreatedOn?: Date;
+    fileId?: string;
+    fileLastWriteOn?: Date;
+    fileParentId?: string;
+    filePermissionKey?: string;
+    isServerEncrypted?: boolean;
+    lastModified?: Date;
+    requestId?: string;
+    version?: string;
+}
 
 // @public
 export interface FileSetHttpHeadersOptions extends FileAndDirectorySetPropertiesCommonOptions, CommonOptions {
@@ -866,10 +879,12 @@ export interface FileSetHttpHeadersOptions extends FileAndDirectorySetProperties
     leaseAccessConditions?: LeaseAccessConditions;
 }
 
-// Warning: (ae-forgotten-export) The symbol "FileSetHttpHeadersResponse" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type FileSetHTTPHeadersResponse = FileSetHttpHeadersResponse;
+export type FileSetHTTPHeadersResponse = FileSetHTTPHeadersHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: FileSetHTTPHeadersHeaders;
+    };
+};
 
 // @public
 export interface FileSetMetadataHeaders {
@@ -939,8 +954,8 @@ export class FileSystemAttributes {
     toString(): string;
 }
 
-// @public (undocumented)
-export type FileType = string;
+// @public
+export type FileType = "File";
 
 // @public
 export interface FileUploadRangeFromURLHeaders {
@@ -1320,7 +1335,7 @@ export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
 }
 
 // @public
-export type ShareAccessTier = string;
+export type ShareAccessTier = "TransactionOptimized" | "Hot" | "Cool";
 
 // Warning: (ae-forgotten-export) The symbol "StorageClient" needs to be exported by the entry point index.d.ts
 //
