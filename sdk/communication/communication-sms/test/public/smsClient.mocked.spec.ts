@@ -35,7 +35,7 @@ describe("[mocked] SmsClient", async () => {
     });
 
     it("can instantiate with a token", async () => {
-      let fakeToken: TokenCredential = {
+      const fakeToken: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
         }
@@ -49,7 +49,7 @@ describe("[mocked] SmsClient", async () => {
     beforeEach(() => {
       sendRequestSpy = sinon.spy(mockHttpClient, "sendRequest");
       sinon.useFakeTimers();
-      //workaround: casting because min testing has issues when the httpClient in src has extra optional fields
+      // workaround: casting because min testing has issues when the httpClient in src has extra optional fields
       smsClient = new SmsClient(connectionString, {
         httpClient: mockHttpClient
       } as SmsClientOptions);

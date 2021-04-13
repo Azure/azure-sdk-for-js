@@ -11,6 +11,8 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1327',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,25 +24,23 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'dca2bb52-1937-4f1f-929e-afe35bb10a00',
+  'e1c0b018-8063-4e1e-8582-f98314bc0600',
   'x-ms-ests-server',
-  '2.1.11562.11 - NCUS ProdSlices',
+  '2.1.11654.13 - WUS2 ProdSlices',
   'Set-Cookie',
-  'fpc=ArPAlQBQ5yFAhLDFLkkAYkCMQo4QAwAAADAqANgOAAAA; expires=Fri, 07-May-2021 22:33:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvhzfhQPcbVKkxIUSp2B3bmMQo4QAwAAACj3BtgOAAAA; expires=Thu, 13-May-2021 02:21:31 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 07 Apr 2021 22:33:23 GMT',
-  'Content-Length',
-  '1327'
+  'Tue, 13 Apr 2021 02:21:30 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/sms', {"from":"+14255550123","smsRecipients":[{"to":"+14255550123","repeatabilityRequestId":"sanitized","repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":true,"tag":"SMS_LIVE_TEST"}})
   .query(true)
-  .reply(202, {"value":[{"to":"+14255550123","messageId":"Outgoing_20210407223325cd1645b3-63b7-4be3-8778-0f90eed706e8_noam","httpStatusCode":202,"repeatabilityResult":"accepted","successful":true}]}, [
+  .reply(202, {"value":[{"to":"+14255550123","messageId":"Outgoing_20210413022131d226fc7c-bcb3-4401-80f6-b289f02ff32d_noam","httpStatusCode":202,"repeatabilityResult":"accepted","successful":true}]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -48,21 +48,21 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'PaF58QKtFkGRQVzmCugYgQ.0',
+  'Lg7HZVJ6iEqYDOShvKFkLw.0',
   'api-supported-versions',
   '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
   'X-Processing-Time',
-  '609ms',
+  '637ms',
   'X-Azure-Ref',
-  '0NDNuYAAAAAD8G8AgJgT5R6VtVvf7IzhHWVZSMzBFREdFMDMxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0KwB1YAAAAABf4qMXOdhARJ3GwJEidAFcWVZSMzBFREdFMDQxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Wed, 07 Apr 2021 22:33:24 GMT'
+  'Tue, 13 Apr 2021 02:21:31 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/sms', {"from":"+14255550123","smsRecipients":[{"to":"+14255550123","repeatabilityRequestId":"sanitized","repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":true,"tag":"SMS_LIVE_TEST"}})
   .query(true)
-  .reply(202, {"value":[{"to":"+14255550123","messageId":"Outgoing_2021040722332552675c52-e07f-42f2-9dbb-26f7f19c9be5_noam","httpStatusCode":202,"repeatabilityResult":"accepted","successful":true}]}, [
+  .reply(202, {"value":[{"to":"+14255550123","messageId":"Outgoing_202104130221326cebdb93-9bdc-488e-b949-126dd4524c5c_noam","httpStatusCode":202,"repeatabilityResult":"accepted","successful":true}]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -70,13 +70,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'DndZ9y7/aEeWuzYbAZHUlw.0',
+  'eSM49A+eCkqq+g1CmTNXcw.0',
   'api-supported-versions',
   '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
   'X-Processing-Time',
-  '628ms',
+  '665ms',
   'X-Azure-Ref',
-  '0NTNuYAAAAACCNeO7uA/ZT4QyDeBl7zuCWVZSMzBFREdFMDMxNQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0KwB1YAAAAABqPYIjD4WkSaYWDbx8UwL9WVZSMzBFREdFMDQxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Wed, 07 Apr 2021 22:33:25 GMT'
+  'Tue, 13 Apr 2021 02:21:32 GMT'
 ]);

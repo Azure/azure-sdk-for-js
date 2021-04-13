@@ -7,7 +7,7 @@ import { env } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
 import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers";
 
-export default function suites() {
+export default function suites(): void {
   it("can send an SMS message", async function(this: Context) {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
@@ -101,7 +101,7 @@ export default function suites() {
       );
       assert.fail("Should have thrown an error");
     } catch (e) {
-      assert.equal(e.statusCode, 404);
+      assert.equal(e.statusCode, 404); // TODO: Change this
     }
   });
 
