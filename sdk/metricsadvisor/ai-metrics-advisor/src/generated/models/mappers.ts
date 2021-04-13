@@ -41,8 +41,8 @@ export const UsageStats: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      datafeedCount: {
-        serializedName: "datafeedCount",
+      dataFeedCount: {
+        serializedName: "dataFeedCount",
         readOnly: true,
         type: {
           name: "Number"
@@ -103,6 +103,20 @@ export const AnomalyAlertingConfiguration: coreHttp.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["AND", "OR", "XOR"]
+        }
+      },
+      splitAlertByDimensions: {
+        constraints: {
+          UniqueItems: true
+        },
+        serializedName: "splitAlertByDimensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       hookIds: {
@@ -333,6 +347,14 @@ export const ValueCondition: coreHttp.CompositeMapper = {
           allowedValues: ["Both", "Down", "Up"]
         }
       },
+      type: {
+        defaultValue: "Value",
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: ["Value", "Mean"]
+        }
+      },
       metricId: {
         serializedName: "metricId",
         type: {
@@ -371,6 +393,20 @@ export const AnomalyAlertingConfigurationPatch: coreHttp.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["AND", "OR", "XOR"]
+        }
+      },
+      splitAlertByDimensions: {
+        constraints: {
+          UniqueItems: true
+        },
+        serializedName: "splitAlertByDimensions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       hookIds: {
@@ -444,7 +480,7 @@ export const AlertResultList: coreHttp.CompositeMapper = {
     modelProperties: {
       nextLink: {
         serializedName: "@nextLink",
-        required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -510,7 +546,7 @@ export const AnomalyResultList: coreHttp.CompositeMapper = {
     modelProperties: {
       nextLink: {
         serializedName: "@nextLink",
-        required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -611,6 +647,20 @@ export const AnomalyProperty: coreHttp.CompositeMapper = {
           name: "Enum",
           allowedValues: ["Active", "Resolved"]
         }
+      },
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      expectedValue: {
+        serializedName: "expectedValue",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -623,7 +673,7 @@ export const IncidentResultList: coreHttp.CompositeMapper = {
     modelProperties: {
       nextLink: {
         serializedName: "@nextLink",
-        required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -739,6 +789,20 @@ export const IncidentProperty: coreHttp.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Active", "Resolved"]
+        }
+      },
+      valueOfRootNode: {
+        serializedName: "valueOfRootNode",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      expectedValueOfRootNode: {
+        serializedName: "expectedValueOfRootNode",
+        readOnly: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -1449,7 +1513,7 @@ export const AnomalyDimensionList: coreHttp.CompositeMapper = {
     modelProperties: {
       nextLink: {
         serializedName: "@nextLink",
-        required: true,
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -1588,6 +1652,134 @@ export const RootCause: coreHttp.CompositeMapper = {
   }
 };
 
+export const DataSourceCredential: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataSourceCredential",
+    uberParent: "DataSourceCredential",
+    polymorphicDiscriminator: {
+      serializedName: "dataSourceCredentialType",
+      clientName: "dataSourceCredentialType"
+    },
+    modelProperties: {
+      dataSourceCredentialType: {
+        serializedName: "dataSourceCredentialType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "AzureSQLConnectionString",
+            "DataLakeGen2SharedKey",
+            "ServicePrincipal",
+            "ServicePrincipalInKV"
+          ]
+        }
+      },
+      dataSourceCredentialId: {
+        serializedName: "dataSourceCredentialId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      dataSourceCredentialName: {
+        serializedName: "dataSourceCredentialName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      dataSourceCredentialDescription: {
+        serializedName: "dataSourceCredentialDescription",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataSourceCredentialList: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataSourceCredentialList",
+    modelProperties: {
+      nextLink: {
+        serializedName: "@nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        constraints: {
+          UniqueItems: true
+        },
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataSourceCredential"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DataSourceCredentialPatch: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataSourceCredentialPatch",
+    uberParent: "DataSourceCredentialPatch",
+    polymorphicDiscriminator: {
+      serializedName: "dataSourceCredentialType",
+      clientName: "dataSourceCredentialType"
+    },
+    modelProperties: {
+      dataSourceCredentialType: {
+        serializedName: "dataSourceCredentialType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "AzureApplicationInsights",
+            "AzureBlob",
+            "AzureCosmosDB",
+            "AzureDataExplorer",
+            "AzureDataLakeStorageGen2",
+            "AzureEventHubs",
+            "AzureTable",
+            "Elasticsearch",
+            "HttpRequest",
+            "InfluxDB",
+            "MongoDB",
+            "MySql",
+            "PostgreSql",
+            "SqlServer"
+          ]
+        }
+      },
+      dataSourceCredentialName: {
+        serializedName: "dataSourceCredentialName",
+        type: {
+          name: "String"
+        }
+      },
+      dataSourceCredentialDescription: {
+        serializedName: "dataSourceCredentialDescription",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataFeedList: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1638,6 +1830,7 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
             "AzureCosmosDB",
             "AzureDataExplorer",
             "AzureDataLakeStorageGen2",
+            "AzureEventHubs",
             "AzureTable",
             "Elasticsearch",
             "HttpRequest",
@@ -1764,7 +1957,6 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         }
       },
       needRollup: {
-        defaultValue: "NeedRollup",
         serializedName: "needRollup",
         type: {
           name: "Enum",
@@ -1885,6 +2077,26 @@ export const DataFeedDetail: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Basic",
+            "ManagedIdentity",
+            "AzureSQLConnectionString",
+            "DataLakeGen2SharedKey",
+            "ServicePrincipal",
+            "ServicePrincipalInKV"
+          ]
+        }
+      },
+      credentialId: {
+        serializedName: "credentialId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1974,6 +2186,7 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
             "AzureCosmosDB",
             "AzureDataExplorer",
             "AzureDataLakeStorageGen2",
+            "AzureEventHubs",
             "AzureTable",
             "Elasticsearch",
             "HttpRequest",
@@ -2129,6 +2342,26 @@ export const DataFeedDetailPatch: coreHttp.CompositeMapper = {
       },
       actionLinkTemplate: {
         serializedName: "actionLinkTemplate",
+        type: {
+          name: "String"
+        }
+      },
+      authenticationType: {
+        serializedName: "authenticationType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Basic",
+            "ManagedIdentity",
+            "AzureSQLConnectionString",
+            "DataLakeGen2SharedKey",
+            "ServicePrincipal",
+            "ServicePrincipalInKV"
+          ]
+        }
+      },
+      credentialId: {
+        serializedName: "credentialId",
         type: {
           name: "String"
         }
@@ -2910,6 +3143,119 @@ export const EnrichmentStatus: coreHttp.CompositeMapper = {
   }
 };
 
+export const AzureSQLConnectionStringParam: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureSQLConnectionStringParam",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataLakeGen2SharedKeyParam: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataLakeGen2SharedKeyParam",
+    modelProperties: {
+      accountKey: {
+        serializedName: "accountKey",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalParam: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalParam",
+    modelProperties: {
+      clientId: {
+        serializedName: "clientId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientSecret: {
+        serializedName: "clientSecret",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalInKVParam: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalInKVParam",
+    modelProperties: {
+      keyVaultEndpoint: {
+        serializedName: "keyVaultEndpoint",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultClientId: {
+        serializedName: "keyVaultClientId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultClientSecret: {
+        serializedName: "keyVaultClientSecret",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      servicePrincipalIdNameInKV: {
+        serializedName: "servicePrincipalIdNameInKV",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      servicePrincipalSecretNameInKV: {
+        serializedName: "servicePrincipalSecretNameInKV",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AzureApplicationInsightsParameter: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3021,7 +3367,6 @@ export const SqlSourceParameter: coreHttp.CompositeMapper = {
     modelProperties: {
       connectionString: {
         serializedName: "connectionString",
-        required: true,
         type: {
           name: "String"
         }
@@ -3051,7 +3396,6 @@ export const AzureDataLakeStorageGen2Parameter: coreHttp.CompositeMapper = {
       },
       accountKey: {
         serializedName: "accountKey",
-        required: true,
         type: {
           name: "String"
         }
@@ -3072,6 +3416,29 @@ export const AzureDataLakeStorageGen2Parameter: coreHttp.CompositeMapper = {
       },
       fileTemplate: {
         serializedName: "fileTemplate",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureEventHubsParameter: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureEventHubsParameter",
+    modelProperties: {
+      connectionString: {
+        serializedName: "connectionString",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      consumerGroup: {
+        serializedName: "consumerGroup",
         required: true,
         type: {
           name: "String"
@@ -3404,6 +3771,174 @@ export const WebhookHookParameter: coreHttp.CompositeMapper = {
   }
 };
 
+export const AzureSQLConnectionStringCredential: coreHttp.CompositeMapper = {
+  serializedName: "AzureSQLConnectionString",
+  type: {
+    name: "Composite",
+    className: "AzureSQLConnectionStringCredential",
+    uberParent: "DataSourceCredential",
+    polymorphicDiscriminator:
+      DataSourceCredential.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataSourceCredential.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "AzureSQLConnectionStringParam"
+        }
+      }
+    }
+  }
+};
+
+export const DataLakeGen2SharedKeyCredential: coreHttp.CompositeMapper = {
+  serializedName: "DataLakeGen2SharedKey",
+  type: {
+    name: "Composite",
+    className: "DataLakeGen2SharedKeyCredential",
+    uberParent: "DataSourceCredential",
+    polymorphicDiscriminator:
+      DataSourceCredential.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataSourceCredential.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "DataLakeGen2SharedKeyParam"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalCredential: coreHttp.CompositeMapper = {
+  serializedName: "ServicePrincipal",
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalCredential",
+    uberParent: "DataSourceCredential",
+    polymorphicDiscriminator:
+      DataSourceCredential.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataSourceCredential.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "ServicePrincipalParam"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalInKVCredential: coreHttp.CompositeMapper = {
+  serializedName: "ServicePrincipalInKV",
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalInKVCredential",
+    uberParent: "DataSourceCredential",
+    polymorphicDiscriminator:
+      DataSourceCredential.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataSourceCredential.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "ServicePrincipalInKVParam"
+        }
+      }
+    }
+  }
+};
+
+export const AzureSQLConnectionStringCredentialPatch: coreHttp.CompositeMapper = {
+  serializedName: "AzureSQLConnectionString",
+  type: {
+    name: "Composite",
+    className: "AzureSQLConnectionStringCredentialPatch",
+    uberParent: "DataSourceCredentialPatch",
+    polymorphicDiscriminator:
+      DataSourceCredentialPatch.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataSourceCredentialPatch.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "AzureSQLConnectionStringParam"
+        }
+      }
+    }
+  }
+};
+
+export const DataLakeGen2SharedKeyCredentialPatch: coreHttp.CompositeMapper = {
+  serializedName: "DataLakeGen2SharedKey",
+  type: {
+    name: "Composite",
+    className: "DataLakeGen2SharedKeyCredentialPatch",
+    uberParent: "DataSourceCredentialPatch",
+    polymorphicDiscriminator:
+      DataSourceCredentialPatch.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataSourceCredentialPatch.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "DataLakeGen2SharedKeyParam"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalCredentialPatch: coreHttp.CompositeMapper = {
+  serializedName: "ServicePrincipal",
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalCredentialPatch",
+    uberParent: "DataSourceCredentialPatch",
+    polymorphicDiscriminator:
+      DataSourceCredentialPatch.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataSourceCredentialPatch.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "ServicePrincipalParam"
+        }
+      }
+    }
+  }
+};
+
+export const ServicePrincipalInKVCredentialPatch: coreHttp.CompositeMapper = {
+  serializedName: "ServicePrincipalInKV",
+  type: {
+    name: "Composite",
+    className: "ServicePrincipalInKVCredentialPatch",
+    uberParent: "DataSourceCredentialPatch",
+    polymorphicDiscriminator:
+      DataSourceCredentialPatch.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataSourceCredentialPatch.type.modelProperties,
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "ServicePrincipalInKVParam"
+        }
+      }
+    }
+  }
+};
+
 export const AzureApplicationInsightsDataFeed: coreHttp.CompositeMapper = {
   serializedName: "AzureApplicationInsights",
   type: {
@@ -3498,6 +4033,26 @@ export const AzureDataLakeStorageGen2DataFeed: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AzureDataLakeStorageGen2Parameter"
+        }
+      }
+    }
+  }
+};
+
+export const AzureEventHubsDataFeed: coreHttp.CompositeMapper = {
+  serializedName: "AzureEventHubs",
+  type: {
+    name: "Composite",
+    className: "AzureEventHubsDataFeed",
+    uberParent: "DataFeedDetail",
+    polymorphicDiscriminator: DataFeedDetail.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetail.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "AzureEventHubsParameter"
         }
       }
     }
@@ -3764,6 +4319,26 @@ export const AzureDataLakeStorageGen2DataFeedPatch: coreHttp.CompositeMapper = {
   }
 };
 
+export const AzureEventHubsDataFeedPatch: coreHttp.CompositeMapper = {
+  serializedName: "AzureEventHubs",
+  type: {
+    name: "Composite",
+    className: "AzureEventHubsDataFeedPatch",
+    uberParent: "DataFeedDetailPatch",
+    polymorphicDiscriminator: DataFeedDetailPatch.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DataFeedDetailPatch.type.modelProperties,
+      dataSourceParameter: {
+        serializedName: "dataSourceParameter",
+        type: {
+          name: "Composite",
+          className: "AzureEventHubsParameter"
+        }
+      }
+    }
+  }
+};
+
 export const AzureTableDataFeedPatch: coreHttp.CompositeMapper = {
   serializedName: "AzureTable",
   type: {
@@ -3935,14 +4510,12 @@ export const AnomalyFeedback: coreHttp.CompositeMapper = {
       ...MetricFeedback.type.modelProperties,
       startTime: {
         serializedName: "startTime",
-        required: true,
         type: {
           name: "DateTime"
         }
       },
       endTime: {
         serializedName: "endTime",
-        required: true,
         type: {
           name: "DateTime"
         }
@@ -3982,14 +4555,12 @@ export const ChangePointFeedback: coreHttp.CompositeMapper = {
       ...MetricFeedback.type.modelProperties,
       startTime: {
         serializedName: "startTime",
-        required: true,
         type: {
           name: "DateTime"
         }
       },
       endTime: {
         serializedName: "endTime",
-        required: true,
         type: {
           name: "DateTime"
         }
@@ -4167,6 +4738,21 @@ export const GeneratedClientCreateAnomalyDetectionConfigurationHeaders: coreHttp
   }
 };
 
+export const GeneratedClientCreateCredentialHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GeneratedClientCreateCredentialHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const GeneratedClientCreateDataFeedHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4213,16 +4799,27 @@ export const GeneratedClientCreateHookHeaders: coreHttp.CompositeMapper = {
 };
 
 export let discriminators = {
+  DataSourceCredential: DataSourceCredential,
+  DataSourceCredentialPatch: DataSourceCredentialPatch,
   DataFeedDetail: DataFeedDetail,
   DataFeedDetailPatch: DataFeedDetailPatch,
   MetricFeedback: MetricFeedback,
   HookInfo: HookInfo,
   HookInfoPatch: HookInfoPatch,
+  "DataSourceCredential.AzureSQLConnectionString": AzureSQLConnectionStringCredential,
+  "DataSourceCredential.DataLakeGen2SharedKey": DataLakeGen2SharedKeyCredential,
+  "DataSourceCredential.ServicePrincipal": ServicePrincipalCredential,
+  "DataSourceCredential.ServicePrincipalInKV": ServicePrincipalInKVCredential,
+  "DataSourceCredentialPatch.AzureSQLConnectionString": AzureSQLConnectionStringCredentialPatch,
+  "DataSourceCredentialPatch.DataLakeGen2SharedKey": DataLakeGen2SharedKeyCredentialPatch,
+  "DataSourceCredentialPatch.ServicePrincipal": ServicePrincipalCredentialPatch,
+  "DataSourceCredentialPatch.ServicePrincipalInKV": ServicePrincipalInKVCredentialPatch,
   "DataFeedDetail.AzureApplicationInsights": AzureApplicationInsightsDataFeed,
   "DataFeedDetail.AzureBlob": AzureBlobDataFeed,
   "DataFeedDetail.AzureCosmosDB": AzureCosmosDBDataFeed,
   "DataFeedDetail.AzureDataExplorer": AzureDataExplorerDataFeed,
   "DataFeedDetail.AzureDataLakeStorageGen2": AzureDataLakeStorageGen2DataFeed,
+  "DataFeedDetail.AzureEventHubs": AzureEventHubsDataFeed,
   "DataFeedDetail.AzureTable": AzureTableDataFeed,
   "DataFeedDetail.Elasticsearch": ElasticsearchDataFeed,
   "DataFeedDetail.HttpRequest": HttpRequestDataFeed,
@@ -4236,6 +4833,7 @@ export let discriminators = {
   "DataFeedDetailPatch.AzureCosmosDB": AzureCosmosDBDataFeedPatch,
   "DataFeedDetailPatch.AzureDataExplorer": AzureDataExplorerDataFeedPatch,
   "DataFeedDetailPatch.AzureDataLakeStorageGen2": AzureDataLakeStorageGen2DataFeedPatch,
+  "DataFeedDetailPatch.AzureEventHubs": AzureEventHubsDataFeedPatch,
   "DataFeedDetailPatch.AzureTable": AzureTableDataFeedPatch,
   "DataFeedDetailPatch.Elasticsearch": ElasticsearchDataFeedPatch,
   "DataFeedDetailPatch.HttpRequest": HttpRequestDataFeedPatch,
