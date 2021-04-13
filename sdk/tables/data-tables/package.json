@@ -129,7 +129,7 @@
     "productName": "Azure Data Tables",
     "productSlugs": [
       "azure",
-      "azure-data-tables"
+      "azure-table-storage"
     ],
     "requiredResources": {
       "Azure Storage instance": "https://docs.microsoft.com/azure/storage/tables/table-storage-quickstart-portal"
