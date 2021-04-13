@@ -1,0 +1,16 @@
+<Navbar bg="light" expand="xl">
+  <Navbar.Brand href="#home">App Config</Navbar.Brand>
+  <Navbar.Toggle aria-controls="basic-navbar-nav" />
+  <Navbar.Collapse id="basic-navbar-nav">
+    <Nav className="mr-auto">
+      <Nav.Link>Home</Nav.Link>
+      <Nav.Link className={feature1ClassName}>Beta Feature (Feature 1) </Nav.Link>
+      <NavDropdown title="Dropdown" id="basic-nav-dropdown">
+        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+        <NavDropdown.Item className={feature2ClassName}>
+          Another action (Feature 2 - Time Window){" "}
+        </NavDropdown.Item>
+      </NavDropdown>
+    </Nav>
+  </Navbar.Collapse>
+</Navbar>

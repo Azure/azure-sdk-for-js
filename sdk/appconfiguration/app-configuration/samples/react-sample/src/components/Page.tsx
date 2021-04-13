@@ -5,16 +5,6 @@
 
 import React from "react";
 import { useEffect, useState } from "react";
-import {
-  Navbar,
-  Nav,
-  NavDropdown,
-  Jumbotron,
-  Alert,
-  Row,
-  Col,
-  Container
-} from "react-bootstrap";
 import { getEnvironmentVariable } from "../utils";
 import {
   AppConfigurationClient,
@@ -87,74 +77,116 @@ export default function Page(): JSX.Element {
     client = new AppConfigurationClient(connectionString);
     getFeatureFlags([feature1, feature2]);
   }, [getFeatureFlags]);
-
   return (
     <React.Fragment>
-      <Navbar bg="light" expand="xl">
-        <Navbar.Brand href="#home">App Config</Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="mr-auto">
-            <Nav.Link>Home</Nav.Link>
-            <Nav.Link className={feature1ClassName}>Beta Feature (Feature 1) </Nav.Link>
-            <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item className={feature2ClassName}>
-                Another action (Feature 2 - Time Window){" "}
-              </NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-      <Jumbotron>
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <a className="navbar-brand" href="#">
+          App Config
+        </a>
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNavDropdown"
+          aria-controls="navbarNavDropdown"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul className="navbar-nav">
+            <li className="nav-item active">
+              <a className="nav-link" href="#">
+                Home <span className="sr-only">(current)</span>
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className={feature1ClassName.concat(" nav-link")} href="#">
+                Beta Feature (Feature 1)
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Pricing
+              </a>
+            </li>
+            <li className="nav-item dropdown">
+              <a
+                className="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdownMenuLink"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                Dropdown link
+              </a>
+              <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a className="dropdown-item" href="#">
+                  Action
+                </a>
+                <a className={feature2ClassName.concat(" dropdown-item")} href="#">
+                  Another action (Feature 2 - Time Window)
+                </a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div className="jumbotron">
         <h1>Feature Flag Sample!</h1>
-        <p>This sample expects the following feature flags in the App Config account, please create them using the Azure portal.</p>
-        <Alert variant="light">
-          <Alert.Heading>Feature Flag 1</Alert.Heading>
-          <Container>
-            <Row>
-              <Col>
+        <p>
+          This sample expects the following feature flags in the App Config account, please create
+          them using the Azure portal.
+        </p>
+        <div className="alert alert-light">
+          <h4 className="alert-heading">Feature Flag 1</h4>
+          <div className="container">
+            <div className="row">
+              <div className="col">
                 <pre>{JSON.stringify(featureFlag1, null, 2)}</pre>
-              </Col>
-              <Col>
-                <Row>
+              </div>
+              <div className="col">
+                <div>
                   <h4>== Description ==</h4>
-                </Row>
-                <Row>
+                </div>
+                <div>
                   <p>
                     "Beta Feature (Feature 1)" button on the header will be disabled based on the
                     enabled flag.
                   </p>
-                </Row>
-              </Col>
-            </Row>
-          </Container>
-        </Alert>
-        <Alert variant="light">
-          <Alert.Heading>Feature Flag 2</Alert.Heading>
-          <Container>
-            <Row>
-              <Col>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="alert alert-light">
+          <h4 className="alert-heading">Feature Flag 2</h4>
+          <div className="container">
+            <div className="row">
+              <div className="col">
                 <pre>{JSON.stringify(featureFlag2, null, 2)}</pre>
-              </Col>
-              <Col>
-                <Row>
+              </div>
+              <div className="col">
+                <div className="row">
                   <h4>== Description ==</h4>
-                </Row>
-                <Row>
+                </div>
+                <div className="row">
                   <p>
                     "Another action (Feature 2 - Time Window)" button in the dropdown will be
                     enabled based on the time window from the client filter.
                   </p>
-                </Row>
-              </Col>
-            </Row>
-          </Container>
-        </Alert>
-        <Nav.Link href="https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript">
-          Link to Samples
-        </Nav.Link>
-      </Jumbotron>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <a className="nav-link" href="https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript">
+          Link to App Config Samples
+        </a>
+      </div>
     </React.Fragment>
   );
 }

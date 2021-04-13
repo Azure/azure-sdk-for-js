@@ -15,10 +15,13 @@ code {
 }
 
 .feature-button-visible {
-  visibility: visible;
 }
 
 .feature-button-hidden {
-  visibility: visible;
   cursor: not-allowed;
+}
+
+.show > .dropdown-menu {
+  display: block;
+  position: absolute;
 }
