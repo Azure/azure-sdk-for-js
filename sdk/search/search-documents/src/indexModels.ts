@@ -368,10 +368,10 @@ export interface SearchRequestOptions<Fields> {
    */
   queryLanguage?: QueryLanguage;
   /**
-   * Improve search recall by spell-correcting individual search query terms. 
+   * Improve search recall by spell-correcting individual search query terms.
    */
   speller?: Speller;
-  /** 
+  /**
    * This parameter is only valid if the query type is 'semantic'. If set, the query returns answers
    * extracted from key passages in the highest ranked documents. The number of answers returned can
    * be configured by appending the pipe character '|' followed by the 'count-\<number of answers\>' option

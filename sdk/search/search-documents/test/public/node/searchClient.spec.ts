@@ -262,7 +262,7 @@ describe("SearchClient", function(this: Suite) {
       queryLanguage: KnownQueryLanguage.EnUs,
       speller: KnownSpeller.Lexicon
     });
-    assert.equal(searchResults.count, 6);    
+    assert.equal(searchResults.count, 6);
   });
 
   it("search with semantic ranking", async function() {
@@ -271,8 +271,8 @@ describe("SearchClient", function(this: Suite) {
       top: 5,
       includeTotalCount: true,
       queryLanguage: KnownQueryLanguage.EnUs,
-      queryType: 'semantic'
+      queryType: "semantic"
     });
-    assert.equal(searchResults.count, 1);    
+    assert.equal(searchResults.count, 1);
   });
 });
