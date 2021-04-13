@@ -20,11 +20,12 @@ export class MixedRealityAccountKeyCredential implements TokenCredential {
   }
 
   getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
-    return new Promise((resolve, _reject) =>
-      resolve({
-        token: this.accountId + ":" + this.accountKey,
-        expiresOnTimestamp: Number.MAX_VALUE
-      })
+    return new Promise((resolve, _reject) => {
+        resolve({
+          token: this.accountId + ":" + this.accountKey,
+          expiresOnTimestamp: Number.MAX_VALUE
+        });
+      }
     );
   }
 }
