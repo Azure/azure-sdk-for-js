@@ -79,7 +79,7 @@ export interface GetTranslations {
    * If a file with the same name already exists at the destination, it will be overwritten. The targetUrl for each target language must be unique.
    */
   post(
-    options?: StartTranslationParameters
+    options: StartTranslationParameters
   ): Promise<
     | StartTranslation202Response
     | StartTranslation400Response
@@ -281,7 +281,7 @@ export default function DocumentTranslator(
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {}
 ): DocumentTranslatorClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}/translator/text/batch/v1.0-preview.1`;
+  const baseUrl = options.baseUrl ?? `${endpoint}/translator/text/batch/v1.0`;
   options = {
     ...options,
     credentials: {

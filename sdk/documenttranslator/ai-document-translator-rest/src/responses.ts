@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import {
-  ErrorResponseV2,
+  TranslationErrorResponse,
   BatchStatusResponse,
   DocumentStatusDetail,
   BatchStatusDetail,
@@ -47,7 +47,7 @@ export interface StartTranslation202Response extends HttpResponse {
  */
 export interface StartTranslation400Response extends HttpResponse {
   status: "400";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -63,7 +63,7 @@ export interface StartTranslation400Response extends HttpResponse {
  */
 export interface StartTranslation401Response extends HttpResponse {
   status: "401";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -79,7 +79,7 @@ export interface StartTranslation401Response extends HttpResponse {
  */
 export interface StartTranslation429Response extends HttpResponse {
   status: "429";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -95,7 +95,7 @@ export interface StartTranslation429Response extends HttpResponse {
  */
 export interface StartTranslation500Response extends HttpResponse {
   status: "500";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -111,7 +111,7 @@ export interface StartTranslation500Response extends HttpResponse {
  */
 export interface StartTranslation503Response extends HttpResponse {
   status: "503";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 export interface GetTranslations200Headers {
@@ -179,7 +179,7 @@ export interface GetTranslations200Response extends HttpResponse {
  */
 export interface GetTranslations400Response extends HttpResponse {
   status: "400";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -209,7 +209,7 @@ export interface GetTranslations400Response extends HttpResponse {
  */
 export interface GetTranslations401Response extends HttpResponse {
   status: "401";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -239,7 +239,7 @@ export interface GetTranslations401Response extends HttpResponse {
  */
 export interface GetTranslations429Response extends HttpResponse {
   status: "429";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -269,7 +269,7 @@ export interface GetTranslations429Response extends HttpResponse {
  */
 export interface GetTranslations500Response extends HttpResponse {
   status: "500";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -299,7 +299,7 @@ export interface GetTranslations500Response extends HttpResponse {
  */
 export interface GetTranslations503Response extends HttpResponse {
   status: "503";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 export interface GetDocument200Headers {
@@ -319,31 +319,31 @@ export interface GetDocument200Response extends HttpResponse {
 /** Returns the translation status for a specific document based on the request Id and document Id. */
 export interface GetDocument401Response extends HttpResponse {
   status: "401";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
 export interface GetDocument404Response extends HttpResponse {
   status: "404";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
 export interface GetDocument429Response extends HttpResponse {
   status: "429";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
 export interface GetDocument500Response extends HttpResponse {
   status: "500";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
 export interface GetDocument503Response extends HttpResponse {
   status: "503";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 export interface GetTranslationStatus200Headers {
@@ -369,7 +369,7 @@ export interface GetTranslationStatus200Response extends HttpResponse {
  */
 export interface GetTranslationStatus401Response extends HttpResponse {
   status: "401";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -378,7 +378,7 @@ export interface GetTranslationStatus401Response extends HttpResponse {
  */
 export interface GetTranslationStatus404Response extends HttpResponse {
   status: "404";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -387,7 +387,7 @@ export interface GetTranslationStatus404Response extends HttpResponse {
  */
 export interface GetTranslationStatus429Response extends HttpResponse {
   status: "429";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -396,7 +396,7 @@ export interface GetTranslationStatus429Response extends HttpResponse {
  */
 export interface GetTranslationStatus500Response extends HttpResponse {
   status: "500";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -405,7 +405,7 @@ export interface GetTranslationStatus500Response extends HttpResponse {
  */
 export interface GetTranslationStatus503Response extends HttpResponse {
   status: "503";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -429,7 +429,7 @@ export interface CancelTranslation200Response extends HttpResponse {
  */
 export interface CancelTranslation401Response extends HttpResponse {
   status: "401";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -441,7 +441,7 @@ export interface CancelTranslation401Response extends HttpResponse {
  */
 export interface CancelTranslation404Response extends HttpResponse {
   status: "404";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -453,7 +453,7 @@ export interface CancelTranslation404Response extends HttpResponse {
  */
 export interface CancelTranslation429Response extends HttpResponse {
   status: "429";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -465,7 +465,7 @@ export interface CancelTranslation429Response extends HttpResponse {
  */
 export interface CancelTranslation500Response extends HttpResponse {
   status: "500";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -477,7 +477,7 @@ export interface CancelTranslation500Response extends HttpResponse {
  */
 export interface CancelTranslation503Response extends HttpResponse {
   status: "503";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 export interface GetDocuments200Headers {
@@ -539,7 +539,7 @@ export interface GetDocuments200Response extends HttpResponse {
  */
 export interface GetDocuments400Response extends HttpResponse {
   status: "400";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -566,7 +566,7 @@ export interface GetDocuments400Response extends HttpResponse {
  */
 export interface GetDocuments401Response extends HttpResponse {
   status: "401";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -593,7 +593,7 @@ export interface GetDocuments401Response extends HttpResponse {
  */
 export interface GetDocuments404Response extends HttpResponse {
   status: "404";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -620,7 +620,7 @@ export interface GetDocuments404Response extends HttpResponse {
  */
 export interface GetDocuments429Response extends HttpResponse {
   status: "429";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -647,7 +647,7 @@ export interface GetDocuments429Response extends HttpResponse {
  */
 export interface GetDocuments500Response extends HttpResponse {
   status: "500";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -674,7 +674,7 @@ export interface GetDocuments500Response extends HttpResponse {
  */
 export interface GetDocuments503Response extends HttpResponse {
   status: "503";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 export interface GetSupportedDocumentFormats200Headers {
@@ -698,7 +698,7 @@ export interface GetSupportedDocumentFormats200Response extends HttpResponse {
  */
 export interface GetSupportedDocumentFormats429Response extends HttpResponse {
   status: "429";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -707,7 +707,7 @@ export interface GetSupportedDocumentFormats429Response extends HttpResponse {
  */
 export interface GetSupportedDocumentFormats500Response extends HttpResponse {
   status: "500";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -716,7 +716,7 @@ export interface GetSupportedDocumentFormats500Response extends HttpResponse {
  */
 export interface GetSupportedDocumentFormats503Response extends HttpResponse {
   status: "503";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 export interface GetSupportedGlossaryFormats200Headers {
@@ -740,7 +740,7 @@ export interface GetSupportedGlossaryFormats200Response extends HttpResponse {
  */
 export interface GetSupportedGlossaryFormats429Response extends HttpResponse {
   status: "429";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -749,7 +749,7 @@ export interface GetSupportedGlossaryFormats429Response extends HttpResponse {
  */
 export interface GetSupportedGlossaryFormats500Response extends HttpResponse {
   status: "500";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /**
@@ -758,7 +758,7 @@ export interface GetSupportedGlossaryFormats500Response extends HttpResponse {
  */
 export interface GetSupportedGlossaryFormats503Response extends HttpResponse {
   status: "503";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 export interface GetSupportedStorageSources200Headers {
@@ -776,17 +776,17 @@ export interface GetSupportedStorageSources200Response extends HttpResponse {
 /** Returns a list of storage sources/options supported by the Document Translation service. */
 export interface GetSupportedStorageSources429Response extends HttpResponse {
   status: "429";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
 export interface GetSupportedStorageSources500Response extends HttpResponse {
   status: "500";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }
 
 /** Returns a list of storage sources/options supported by the Document Translation service. */
 export interface GetSupportedStorageSources503Response extends HttpResponse {
   status: "503";
-  body: ErrorResponseV2;
+  body: TranslationErrorResponse;
 }

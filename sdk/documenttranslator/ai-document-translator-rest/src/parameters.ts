@@ -5,7 +5,7 @@ import { RequestParameters } from "@azure-rest/core-client";
 import { BatchSubmissionRequest } from "./models";
 
 export interface StartTranslationBodyParam {
-  body?: BatchSubmissionRequest;
+  body: BatchSubmissionRequest;
 }
 
 export type StartTranslationParameters = RequestParameters & StartTranslationBodyParam;
