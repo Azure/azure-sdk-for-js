@@ -27,7 +27,7 @@ describe("PhoneNumbersClient - lro - update", function() {
   it("can update a phone number's capabilities", async function() {
     const { capabilities } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
     const update: PhoneNumberCapabilitiesRequest = isPlaybackMode()
-      ? { calling: "none", sms: "outbound" }
+      ? { calling: "inbound+outbound", sms: "inbound" }
       : buildCapabilityUpdate(capabilities);
 
     const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
@@ -38,15 +38,13 @@ describe("PhoneNumbersClient - lro - update", function() {
     const phoneNumber = await updatePoller.pollUntilDone();
     assert.notDeepEqual(phoneNumber.capabilities, capabilities);
     assert.deepEqual(phoneNumber.capabilities, update);
-  }).timeout(45000);
+  }).timeout(30000);
 
-  it("can cancel an update", async function() {
-    const { capabilities: originalCapabilities } = await client.getPurchasedPhoneNumber(
-      purchasedPhoneNumber
-    );
+  it("can cancel update polling", async function() {
+    const { capabilities } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
     const update: PhoneNumberCapabilitiesRequest = isPlaybackMode()
-      ? { calling: "inbound+outbound", sms: "inbound+outbound" }
-      : buildCapabilityUpdate(originalCapabilities);
+      ? { calling: "inbound", sms: "outbound" }
+      : buildCapabilityUpdate(capabilities);
 
     const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
       purchasedPhoneNumber,
@@ -56,9 +54,5 @@ describe("PhoneNumbersClient - lro - update", function() {
     await updatePoller.cancelOperation();
     assert.ok(updatePoller.isStopped);
     assert.ok(updatePoller.getOperationState().isCancelled);
-
-    const { capabilities } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
-    assert.notDeepEqual(capabilities, update);
-    assert.deepEqual(capabilities, originalCapabilities);
   }).timeout(5000);
 });
