@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /*
   Copyright (c) Microsoft Corporation.
   Licensed under the MIT license.
@@ -117,7 +118,6 @@ export default function Page(): JSX.Element {
                 href="#"
                 id="navbarDropdownMenuLink"
                 data-toggle="dropdown"
-                aria-haspopup="true"
                 aria-expanded="false"
               >
                 Dropdown link
