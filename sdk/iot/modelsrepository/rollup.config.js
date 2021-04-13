@@ -1,11 +1,13 @@
-import resolve from "@rollup/plugin-node-resolve";
-import auto from "@rollup/plugin-auto-install";
+import * as base from "./rollup.base.config";
 
-export default {
-  input: "dist-esm/index.js",
-  output: {
-    file: "bundle.js",
-    format: "cjs"
-  },
-  plugins: [auto(), resolve()]
-};
+const inputs = [];
+
+if (!process.env.ONLY_BROWSER) {
+  inputs.push(base.nodeConfig());
+}
+
+if (!process.env.ONLY_NODE) {
+  inputs.push(base.browserConfig());
+}
+
+export default inputs;

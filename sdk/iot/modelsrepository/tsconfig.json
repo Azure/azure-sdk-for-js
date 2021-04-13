@@ -1,34 +1,9 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "lib": [],
-    "declaration": true,
+    "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "declarationMap": true,
-    "inlineSources": true,
-    "sourceMap": true,
-    "importHelpers": true,
-    "strict": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "outDir": "./out"
+    "lib": ["dom", "esnext"]
   },
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist",
-    "dist-samples",
-    "dist-esm",
-    "./samples/**/*.ts"
-  ]
+  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
 }

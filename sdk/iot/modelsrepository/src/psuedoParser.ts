@@ -12,13 +12,14 @@ export class PseudoParser {
     this._resolver = resolver;
   }
 
-  expand(models: any[]) {
+  expand(models: DTDL[]) {
     let expandedMap: any = {};
 
-    for (let model of models) {
+    models.forEach((model: DTDL) => {
       expandedMap[model["@id"]] = model;
       this._expand(model, expandedMap);
-    }
+    });
+    
     return expandedMap;
   }
 

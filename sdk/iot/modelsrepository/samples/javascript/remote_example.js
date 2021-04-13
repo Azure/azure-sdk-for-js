@@ -5,19 +5,18 @@
  * Demonstrates resolving/obtaining a particular model definition from a remote model repository
  */
 
-const resolver = require("../../out/src/index.js");
+const DtmiResolver = require('../../dist-esm/src/client');
 
 // You can change the endpoint and dtmi you'd like to access
-const repositoryEndpoint = "https://devicemodels.azure.com/";
+const repositoryLocation = "https://devicemodels.azure.com/";
 const dtmi = process.argv[2] || "dtmi:rigado:FlicButton;2";
 
-console.log(repositoryEndpoint, dtmi);
+console.log(repositoryLocation, dtmi);
 
 async function main() {
   // This is where you can change the options for how you want to resolve the dependencies.
-  const result = await resolver.resolve(dtmi, repositoryEndpoint, {
-    resolveDependencies: "tryFromExpanded"
-  });
+  const client = new DtmiResolver(repositoryLocation);
+  const result = await client.getmodels(dtmi);
   console.log(result);
   Object.keys(result).forEach((fetchedDtmi) => {
     console.log(`DTMI is: ${fetchedDtmi}`);
