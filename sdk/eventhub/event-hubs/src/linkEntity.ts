@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import { v4 as uuid } from "uuid";
-import { Constants, TokenType, defaultLock, isSasTokenProvider } from "@azure/core-amqp";
+import { Constants, TokenType, defaultCancellableLock, isSasTokenProvider } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
 import { logger } from "./log";
+import { getRetryAttemptTimeoutInMs } from "./util/retries";
 
 /**
  * @hidden
@@ -126,9 +127,15 @@ export class LinkEntity {
       this.name,
       this.address
     );
-    await defaultLock.acquire(this._context.cbsSession.cbsLock, () => {
-      return this._context.cbsSession.init();
-    });
+    await defaultCancellableLock.acquire(
+      this._context.cbsSession.cbsLock,
+      () => {
+        return this._context.cbsSession.init();
+      },
+      {
+        acquireTimeoutInMs: getRetryAttemptTimeoutInMs(undefined)
+      }
+    );
     let tokenObject: AccessToken;
     let tokenType: TokenType;
     if (isSasTokenProvider(this._context.tokenCredential)) {
@@ -162,9 +169,15 @@ export class LinkEntity {
       this.name,
       this.address
     );
-    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
-    });
+    await defaultCancellableLock.acquire(
+      this._context.negotiateClaimLock,
+      () => {
+        return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
+      },
+      {
+        acquireTimeoutInMs: getRetryAttemptTimeoutInMs(undefined)
+      }
+    );
     logger.verbose(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
       this._context.connectionId,

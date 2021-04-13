@@ -18,7 +18,7 @@ import {
   RetryConfig,
   RetryOperationType,
   RetryOptions,
-  defaultLock,
+  defaultCancellableLock,
   retry,
   translate
 } from "@azure/core-amqp";
@@ -32,7 +32,7 @@ import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { defaultDataTransformer } from "./dataTransformer";
-import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
+
 /**
  * Describes the EventHubSender that will send event data to EventHub.
  * @internal
@@ -460,19 +460,13 @@ export class EventHubSender extends LinkEntity {
     const senderOptions = this._createSenderOptions(timeoutInMs);
 
     const createLinkPromise = async (): Promise<void> => {
-      return waitForTimeoutOrAbortOrResolve({
-        actionFn: () => {
-          return defaultLock.acquire(this.senderLock, () => {
-            return this._init(senderOptions);
-          });
+      return defaultCancellableLock.acquire(
+        this.senderLock,
+        () => {
+          return this._init(senderOptions);
         },
-        abortSignal: options?.abortSignal,
-        timeoutMs: timeoutInMs,
-        timeoutMessage:
-          `[${this._context.connectionId}] Sender "${this.name}" ` +
-          `with address "${this.address}", cannot be created right now, due ` +
-          `to operation timeout.`
-      });
+        { abortSignal: options.abortSignal, acquireTimeoutInMs: timeoutInMs }
+      );
     };
 
     const config: RetryConfig<void> = {

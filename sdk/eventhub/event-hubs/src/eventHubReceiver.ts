@@ -794,14 +794,29 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     const retryOptions = this.options.retryOptions || {};
-    const config: RetryConfig<ReceivedEventData[]> = {
-      connectionHost: this._context.config.host,
-      connectionId: this._context.connectionId,
-      operation: retrieveEvents,
-      operationType: RetryOperationType.receiveMessage,
-      abortSignal: abortSignal,
-      retryOptions: retryOptions
-    };
+
+    const config: RetryConfig<ReceivedEventData[]> = Object.defineProperties(
+      {
+        operation: retrieveEvents,
+        operationType: RetryOperationType.receiveMessage,
+        abortSignal: abortSignal,
+        retryOptions: retryOptions
+      },
+      {
+        connectionId: {
+          enumerable: true,
+          get: () => {
+            return this._context.connectionId;
+          }
+        },
+        connectionHost: {
+          enumerable: true,
+          get: () => {
+            return this._context.config.host;
+          }
+        }
+      }
+    );
     return retry<ReceivedEventData[]>(config);
   }
 }

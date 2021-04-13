@@ -9,7 +9,7 @@ import {
   RetryOperationType,
   RetryOptions,
   SendRequestOptions,
-  defaultLock,
+  defaultCancellableLock,
   isSasTokenProvider,
   retry,
   translate
@@ -33,7 +33,6 @@ import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "
 import { SpanStatusCode } from "@azure/core-tracing";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
-import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
 
 /**
  * Describes the runtime information of an Event Hub.
@@ -407,16 +406,13 @@ export class ManagementClient extends LinkEntity {
           const initOperationStartTime = Date.now();
 
           try {
-            await waitForTimeoutOrAbortOrResolve({
-              actionFn: () => {
-                return defaultLock.acquire(this.managementLock, () => {
-                  return this._init();
-                });
+            await defaultCancellableLock.acquire(
+              this.managementLock,
+              () => {
+                return this._init();
               },
-              abortSignal: options?.abortSignal,
-              timeoutMs: retryTimeoutInMs,
-              timeoutMessage: `The request with message_id "${request.message_id}" timed out. Please try again later.`
-            });
+              { abortSignal, acquireTimeoutInMs: retryTimeoutInMs }
+            );
           } catch (err) {
             const translatedError = translate(err);
             logger.warning(
@@ -451,13 +447,22 @@ export class ManagementClient extends LinkEntity {
         return this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
       };
 
-      const config: RetryConfig<Message> = {
-        operation: sendOperationPromise,
-        connectionId: this._context.connectionId,
-        operationType: RetryOperationType.management,
-        abortSignal: abortSignal,
-        retryOptions: retryOptions
-      };
+      const config: RetryConfig<Message> = Object.defineProperties(
+        {
+          operation: sendOperationPromise,
+          operationType: RetryOperationType.management,
+          abortSignal: abortSignal,
+          retryOptions: retryOptions
+        },
+        {
+          connectionId: {
+            enumerable: true,
+            get: () => {
+              return this._context.connectionId;
+            }
+          }
+        }
+      );
       return (await retry<Message>(config)).body;
     } catch (err) {
       const translatedError = translate(err);
