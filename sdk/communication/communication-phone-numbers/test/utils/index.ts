@@ -21,7 +21,7 @@ export const buildCapabilityUpdate = (
   const values: PhoneNumberCapabilityType[] = ["none", "inbound", "outbound", "inbound+outbound"];
 
   return {
-    sms: shuffle(values).find((val) => val !== capabilities.sms && val !== "inbound"),
+    sms: shuffle(values).find((val) => val !== capabilities.sms && val !== "inbound" && val !== "none"),
     calling: shuffle(values).find((val) => val !== capabilities.calling)
   };
 };

@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "58c0d6d8d019a17b041af464506a0011";
+module.exports.hash = "eda1f822cedbcd5d3605248e629a8354";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,8 +11,6 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1327',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -26,15 +24,17 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-ms-request-id',
   'sanitized',
   'x-ms-ests-server',
-  '2.1.11562.11 - WUS2 ProdSlices',
+  '2.1.11622.22 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AmaFr2-Cs2VCtiSCzRkBTexWyo4SCAAAAG3L_tcOAAAA; expires=Thu, 06-May-2021 21:40:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhuoueNwlX1KtEq5fHxGsQhWyo4SBgAAABX9B9gOAAAA; expires=Thu, 13-May-2021 20:59:46 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 06 Apr 2021 21:40:23 GMT'
+  'Tue, 13 Apr 2021 20:59:46 GMT',
+  'Content-Length',
+  '1327'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -48,7 +48,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'FTUgPMxB4EWfMd/GcXDZDg.0',
+  'x2ANwEie80KI6d/qpoQy/A.0',
   'Operation-Location',
   '/phoneNumbers/operations/search_sanitized?api-version=2021-03-07',
   'operation-id',
@@ -58,11 +58,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'api-supported-versions',
   '2021-03-07',
   'X-Processing-Time',
-  '5185ms',
+  '2522ms',
   'X-Azure-Ref',
-  '0SdVsYAAAAABvPMd2jxueRrk+16EYE7cNWVZSMzBFREdFMDQxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0QgZ2YAAAAADXCjvpqDxJR6Gtu0ZXzGFTWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 06 Apr 2021 21:40:30 GMT',
+  'Tue, 13 Apr 2021 20:59:48 GMT',
   'Content-Length',
   '0'
 ]);

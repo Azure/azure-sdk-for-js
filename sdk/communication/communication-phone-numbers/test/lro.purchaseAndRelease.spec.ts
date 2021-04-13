@@ -6,71 +6,84 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { SearchAvailablePhoneNumbersRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { createRecordedClient } from "./utils/recordedClient";
+import { matrix } from "./utils/matrix";
+import {
+  canCreateRecordedClientWithToken,
+  createRecordedClient,
+  createRecordedClientWithToken
+} from "./utils/recordedClient";
 
-describe("PhoneNumbersClient - lro - purchase and release", function() {
-  let recorder: Recorder;
-  let client: PhoneNumbersClient;
+matrix([[true, false]], async function(useAad) {
+  describe(`PhoneNumbersClient - lro - purchase and release${useAad ? " [AAD]" : ""}`, function() {
+    let recorder: Recorder;
+    let client: PhoneNumbersClient;
 
-  before(function(this: Context) {
-    const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
-    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
-      this.skip();
-    }
-  });
-
-  beforeEach(function(this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
-  });
-
-  afterEach(async function(this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-  });
-
-  it("can purchase and release a phone number", async function(this: Context) {
-    // search for phone number
-    const searchRequest: SearchAvailablePhoneNumbersRequest = {
-      countryCode: "US",
-      phoneNumberType: "tollFree",
-      assignmentType: "application",
-      capabilities: {
-        sms: "inbound+outbound",
-        calling: "none"
+    before(function(this: Context) {
+      if (useAad && !canCreateRecordedClientWithToken()) {
+        this.skip();
       }
-    };
-    const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
-    const searchResults = await searchPoller.pollUntilDone();
 
-    assert.ok(searchPoller.getOperationState().isCompleted);
-    assert.isNotEmpty(searchResults.searchId);
-    assert.isNotEmpty(searchResults.phoneNumbers);
-    assert.equal(searchResults.phoneNumbers.length, 1);
+      const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
+      if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
+        this.skip();
+      }
+    });
 
-    const purchasedPhoneNumber = searchResults.phoneNumbers[0];
-    assert.isNotEmpty(purchasedPhoneNumber);
+    beforeEach(function(this: Context) {
+      ({ client, recorder } = useAad
+        ? createRecordedClientWithToken(this)!
+        : createRecordedClient(this));
+    });
 
-    // purchase phone number
-    const purchasePoller = await client.beginPurchasePhoneNumbers(searchResults.searchId);
+    afterEach(async function(this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+    });
 
-    await purchasePoller.pollUntilDone();
-    assert.ok(purchasePoller.getOperationState().isCompleted);
+    it("can purchase and release a phone number", async function(this: Context) {
+      // search for phone number
+      const searchRequest: SearchAvailablePhoneNumbersRequest = {
+        countryCode: "US",
+        phoneNumberType: "tollFree",
+        assignmentType: "application",
+        capabilities: {
+          sms: "inbound+outbound",
+          calling: "none"
+        }
+      };
+      const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
+      const searchResults = await searchPoller.pollUntilDone();
 
-    console.log(`Purchased ${purchasedPhoneNumber}`);
+      assert.ok(searchPoller.getOperationState().isCompleted);
+      assert.isNotEmpty(searchResults.searchId);
+      assert.isNotEmpty(searchResults.phoneNumbers);
+      assert.equal(searchResults.phoneNumbers.length, 1);
 
-    // get phone number to ensure it was purchased
-    const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
-    assert.equal(purchasedPhoneNumber, phoneNumber);
+      const purchasedPhoneNumber = searchResults.phoneNumbers[0];
+      assert.isNotEmpty(purchasedPhoneNumber);
 
-    // release phone number
-    console.log(`Will release ${purchasedPhoneNumber}`);
+      // purchase phone number
+      const purchasePoller = await client.beginPurchasePhoneNumbers(searchResults.searchId);
 
-    const releasePoller = await client.beginReleasePhoneNumber(purchasedPhoneNumber as string);
+      await purchasePoller.pollUntilDone();
+      assert.ok(purchasePoller.getOperationState().isCompleted);
 
-    await releasePoller.pollUntilDone();
-    assert.ok(releasePoller.getOperationState().isCompleted);
+      console.log(`Purchased ${purchasedPhoneNumber}`);
 
-    console.log(`Released: ${purchasedPhoneNumber}`);
-  }).timeout(60000);
+      // get phone number to ensure it was purchased
+      const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
+      assert.equal(purchasedPhoneNumber, phoneNumber);
+
+      // release phone number
+      console.log(`Will release ${purchasedPhoneNumber}`);
+
+      const releasePoller = await client.beginReleasePhoneNumber(purchasedPhoneNumber as string);
+
+      await releasePoller.pollUntilDone();
+      assert.ok(releasePoller.getOperationState().isCompleted);
+
+      console.log(`Released: ${purchasedPhoneNumber}`);
+    }).timeout(60000);
+  });
 });

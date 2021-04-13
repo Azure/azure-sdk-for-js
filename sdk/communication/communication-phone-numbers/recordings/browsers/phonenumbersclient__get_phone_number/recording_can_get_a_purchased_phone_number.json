@@ -8,7 +8,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"inbound\",\"sms\":\"outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-03-26T22:41:03.6935096+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}",
+   "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-03-26T22:41:03.6935096+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -18,5 +18,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "253a24ed4ecb28e5359013fe95fd92ac"
+ "hash": "9b48c99747b8d694d1693146c9f46244"
 }

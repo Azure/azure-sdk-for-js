@@ -8,7 +8,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-03-26T22:41:03.6935096+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}",
+   "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"inbound\",\"sms\":\"outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-03-26T22:41:03.6935096+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -19,7 +19,7 @@
    "query": {
     "api-version": "2021-03-07"
    },
-   "requestBody": "{\"calling\":\"inbound\",\"sms\":\"outbound\"}",
+   "requestBody": "{\"calling\":\"outbound\",\"sms\":\"inbound+outbound\"}",
    "status": 202,
    "response": "{\"capabilitiesUpdateId\":\"sanitized\"}",
    "responseHeaders": {
@@ -35,5 +35,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "0d1167424fb074cde4ee058f9569fff1"
+ "hash": "ade22a01faa7444771c83a30f821abab"
 }
