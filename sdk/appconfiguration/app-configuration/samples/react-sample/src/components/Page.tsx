@@ -104,9 +104,7 @@ export default function Page(): JSX.Element {
             </li>
             <li className="nav-item">
               <a
-                className={(feature1 ? "feature-button-visible" : "feature-button-hidden").concat(
-                  " nav-link"
-                )}
+                className={(feature1.enabled ? "" : "cursor-disabled").concat(" nav-link")}
                 href="#"
               >
                 Beta Feature (Feature 1)
@@ -127,9 +125,7 @@ export default function Page(): JSX.Element {
                   Action
                 </a>
                 <a
-                  className={(feature2 ? "feature-button-visible" : "feature-button-hidden").concat(
-                    " dropdown-item"
-                  )}
+                  className={(feature2.enabled ? "" : "cursor-disabled").concat(" dropdown-item")}
                   href="#"
                 >
                   Another action (Feature 2 - Time Window)

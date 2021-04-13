@@ -14,14 +14,6 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.feature-button-visible {
-}
-
-.feature-button-hidden {
+.cursor-disabled {
   cursor: not-allowed;
-}
-
-.show > .dropdown-menu {
-  display: block;
-  position: absolute;
 }
