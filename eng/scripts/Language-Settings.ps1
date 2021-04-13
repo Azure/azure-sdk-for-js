@@ -216,8 +216,8 @@ function Update-javascript-CIConfig($ciRepo, $locationInDocRepo) {
       $previewPackageList += $previewPackages[$j]
     }
   }
-  $allLatestCSVRows.npm_package_sources = ($latestPackageList | Sort-Object | Get-Unique)
-  $allPreviewCSVRows.npm_package_sources = ($latestPackageList | Sort-Object | Get-Unique)
+  $allLatestCSVRows.npm_package_sources = $latestPackageList
+  $allPreviewCSVRows.npm_package_sources = $previewPackageList
   $allLatestCSVRows | ConvertTo-Json -depth 100 | Out-File $pkgLatestJsonLoc         
   $allPreviewCSVRows | ConvertTo-Json -depth 100 | Out-File $pkgPreviewJsonLoc                                               
 }
