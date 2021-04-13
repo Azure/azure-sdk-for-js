@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the configure the options
- * when sending an SMS message
+ * @summary Configure SMS options when sending a message
  */
 
-const { SmsClient } = require("@azure/communication-sms");
+import { SmsClient } from "@azure/communication-sms";
 
-const dotenv = require("dotenv");
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+export const main = async () => {
   console.log("== Send SMS Message With Options ==");
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
@@ -19,13 +19,16 @@ async function main() {
   const client = new SmsClient(connectionString);
   const sendResults = await client.send(
     {
-      from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-      to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
-      message: "Weekly Promotion!" // The message being sent
+      // Phone numbers must be in E.164 format
+      from: "<from-phone-number>",
+      to: ["<to-phone-number-1>", "<to-phone-number-2>"],
+      message: "Weekly Promotion!"
     },
     {
-      enableDeliveryReport: true, //delivery reports are delivered via EventGrid
-      tag: "marketing" //a tag to apply to the delivery report
+      //delivery reports are delivered via EventGrid
+      enableDeliveryReport: true,
+      //tags are applied to the delivery report
+      tag: "marketing"
     }
   );
 
@@ -39,10 +42,9 @@ async function main() {
     }
   }
   console.log("== Done: Send SMS Message With Options ==");
-}
+};
 
 main().catch((error) => {
-  console.error("Encountered an error while sending sms: ");
-  console.error("Request: \n", error.request);
-  console.error("\nResponse: \n", error.response);
+  console.error("Encountered an error while sending SMS: ", error);
+  process.exit(1);
 });

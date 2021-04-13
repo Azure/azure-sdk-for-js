@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT Licence.
 
+/**
+ *   @summary (ONLY AVAILABLE IN NODE.JS RUNTIME) Use AAD token credentials when sending a SMS message.
+ */
+
 /*
   ONLY AVAILABLE IN NODE.JS RUNTIME
   If you are using the browser, you can use the InteractiveBrowserCredential provided via @azure/identity or any other feasible implementation of TokenCredential.
-
-  This sample demonstrates how to instantiate SmsClient using AAD token credentials.
 
   Setup :
     Please ensure that your Communication Services resource is in US East, US East 2, or West Europe
@@ -40,7 +42,7 @@ export async function main() {
     !process.env.AZURE_CLIENT_ID ||
     !process.env.AZURE_CLIENT_SECRET
   ) {
-    console.warn(
+    console.error(
       "Azure AD authentication information not provided, but it is required to run this sample. Exiting."
     );
     return;
@@ -48,9 +50,10 @@ export async function main() {
 
   const client = new SmsClient(endpoint, new DefaultAzureCredential());
   const sendResults = await client.send({
-    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-    to: ["<to-phone-number-1>"], // The list of E.164 formatted phone numbers to which message is being sent
-    message: "Hello World via SMS!" // The message being sent
+    // Phone numbers must be in E.164 format
+    from: "<from-phone-number>",
+    to: ["<to-phone-number-1>"],
+    message: "Hello World via SMS!"
   });
 
   for (const sendResult of sendResults) {
@@ -63,7 +66,6 @@ export async function main() {
 }
 
 main().catch((error) => {
-  console.error("Encountered an error while sending sms: ");
-  console.error("Request: \n", error.request);
-  console.error("\nResponse: \n", error.response);
+  console.error("Encountered an error while sending SMS: ", error);
+  process.exit(1);
 });

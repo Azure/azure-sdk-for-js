@@ -2,25 +2,25 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to use the SmsClient to send
- * an SMS message
+ * @summary Send an SMS message to 1 or more recipients
  */
 
-import { SmsClient } from "@azure/communication-sms";
+const { SmsClient } = require("@azure/communication-sms");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
-export const main = async () => {
+async function main() {
   const connectionString =
     process.env["COMMUNICATION_CONNECTION_STRING"] ||
     "endpoint=https://<resource-name>.communication.azure.com/;<access-key>";
   const client = new SmsClient(connectionString);
   const sendResults = await client.send({
-    from: "<from-phone-number>", // Your E.164 formatted phone number used to send SMS
-    to: ["<to-phone-number-1>", "<to-phone-number-2>"], // The list of E.164 formatted phone numbers to which message is being sent
-    message: "Hello World via SMS!" // The message being sent
+    // Phone numbers must be in E.164 format
+    from: "<from-phone-number>",
+    to: ["<to-phone-number-1>", "<to-phone-number-2>"],
+    message: "Hello World via SMS!"
   });
 
   // individual messages can encounter errors during sending
@@ -33,10 +33,9 @@ export const main = async () => {
     }
   }
   console.log("== Done: Send SMS Message ==");
-};
+}
 
 main().catch((error) => {
-  console.error("Encountered an error while sending SMS: ");
-  console.error("Request: \n", error.request);
-  console.error("\nResponse: \n", error.response);
+  console.error("Encountered an error while sending SMS: ", error);
+  process.exit(1);
 });
