@@ -170,7 +170,7 @@ export class ContainerRepositoryClient {
     this.client = new GeneratedClient(endpointUrl, internalPipelineOptions);
     const authPolicy = bearerTokenChallengeAuthenticationPolicy({
       credential,
-      scopes: `https://management.core.windows.net/.default`,
+      scopes: [`https://management.core.windows.net/.default`],
       challengeCallbacks: new ChallengeHandler(this.authClient)
     });
     this.client.pipeline.addPolicy(authPolicy);

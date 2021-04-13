@@ -6,9 +6,9 @@ import { GetTokenOptions } from "@azure/core-auth";
 import {
   PipelineRequest,
   ChallengeCallbackOptions,
-  ChallengeCallbacks,
-  parseWWWAuthenticate
+  ChallengeCallbacks
 } from "@azure/core-rest-pipeline";
+import { parseWWWAuthenticate } from "@azure/core-util";
 import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
@@ -79,7 +79,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
     );
 
     // Step 5 - Authorize Request.  At this point we're done with AAD and using an ACR access token.
-    options.setAuthorizationHeader(acrAccessToken);
+    options.request.headers.set("Authorization", `Bearer ${acrAccessToken}`);
 
     return true;
   }
