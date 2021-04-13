@@ -156,7 +156,7 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
 
 // @public (undocumented)
 export interface AzureDataLakeStorageGen2Parameter {
-    accountKey: string;
+    accountKey?: string;
     accountName: string;
     directoryTemplate: string;
     fileSystemName: string;
@@ -342,7 +342,7 @@ export interface DataPointAnomaly {
 }
 
 // @public
-export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureTable" | "Elasticsearch" | "HttpRequest" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
+export type DataSourceType = "AzureApplicationInsights" | "AzureBlob" | "AzureCosmosDB" | "AzureDataExplorer" | "AzureDataLakeStorageGen2" | "AzureEventHubs" | "AzureTable" | "Elasticsearch" | "HttpRequest" | "InfluxDB" | "MongoDB" | "MySql" | "PostgreSql" | "SqlServer";
 
 // @public
 export interface DetectionConditionsCommon {
@@ -709,8 +709,8 @@ export type MetricAnomalyAlertScope = {
 // @public
 export type MetricAnomalyFeedback = {
     feedbackType: "Anomaly";
-    startTime: Date;
-    endTime: Date;
+    startTime?: Date;
+    endTime?: Date;
     value: "AutoDetect" | "Anomaly" | "NotAnomaly";
     readonly anomalyDetectionConfigurationId?: string;
     readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
@@ -738,7 +738,7 @@ export type MetricBoundaryCondition = {
 // @public
 export type MetricChangePointFeedback = {
     feedbackType: "ChangePoint";
-    startTime: Date;
+    startTime?: Date;
     value: "AutoDetect" | "ChangePoint" | "NotChangePoint";
 } & MetricFeedbackCommon;
 
@@ -979,7 +979,7 @@ export type SQLServerDataFeedSource = {
 
 // @public (undocumented)
 export interface SqlSourceParameter {
-    connectionString: string;
+    connectionString?: string;
     query: string;
 }
 

@@ -668,11 +668,11 @@ export type MetricAnomalyFeedback = {
   /**
    * the start timestamp of feedback timerange
    */
-  startTime: Date;
+  startTime?: Date;
   /**
    * the end timestamp of feedback timerange, when equals to startTime means only one timestamp
    */
-  endTime: Date;
+  endTime?: Date;
   /**
    * feedback value
    */
@@ -703,7 +703,7 @@ export type MetricChangePointFeedback = {
   /**
    * the start timestamp of feedback timerange
    */
-  startTime: Date;
+  startTime?: Date;
   /**
    * value for ChangePointValue
    */
