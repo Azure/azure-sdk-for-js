@@ -412,7 +412,7 @@ export interface FileCreateResponse extends PathCreateResponse {
 }
 
 // @public
-export type FileExpiryMode = string;
+export type FileExpiryMode = "NeverExpire" | "RelativeToCreation" | "RelativeToNow" | "Absolute";
 
 // @public (undocumented)
 export interface FileFlushOptions extends CommonOptions {

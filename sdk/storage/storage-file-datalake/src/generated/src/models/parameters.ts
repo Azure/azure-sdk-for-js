@@ -735,7 +735,13 @@ export const expiryOptions: OperationParameter = {
     serializedName: "x-ms-expiry-option",
     required: true,
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "NeverExpire",
+        "RelativeToCreation",
+        "RelativeToNow",
+        "Absolute"
+      ]
     }
   }
 };

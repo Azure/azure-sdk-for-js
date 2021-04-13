@@ -571,25 +571,6 @@ export interface SourceModifiedAccessConditions {
   sourceIfUnmodifiedSince?: Date;
 }
 
-/** Known values of {@link PathExpiryOptions} that the service accepts. */
-export const enum KnownPathExpiryOptions {
-  NeverExpire = "NeverExpire",
-  RelativeToCreation = "RelativeToCreation",
-  RelativeToNow = "RelativeToNow",
-  Absolute = "Absolute"
-}
-
-/**
- * Defines values for PathExpiryOptions. \
- * {@link KnownPathExpiryOptions} can be used interchangeably with PathExpiryOptions,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **NeverExpire** \
- * **RelativeToCreation** \
- * **RelativeToNow** \
- * **Absolute**
- */
-export type PathExpiryOptions = string;
 /** Defines values for PathResourceType. */
 export type PathResourceType = "directory" | "file";
 /** Defines values for PathRenameMode. */
@@ -612,6 +593,12 @@ export type PathLeaseAction =
   | "release";
 /** Defines values for PathGetPropertiesAction. */
 export type PathGetPropertiesAction = "getAccessControl" | "getStatus";
+/** Defines values for PathExpiryOptions. */
+export type PathExpiryOptions =
+  | "NeverExpire"
+  | "RelativeToCreation"
+  | "RelativeToNow"
+  | "Absolute";
 
 /** Optional parameters. */
 export interface ServiceListFileSystemsOptionalParams
