@@ -161,14 +161,6 @@ export function ndJsonPolicy(): PipelinePolicy;
 export const ndJsonPolicyName = "ndJsonPolicy";
 
 // @public
-export type ParsedWWWAuthenticate = {
-    [Key in ValidParsedWWWAuthenticateProperties]?: string;
-};
-
-// @public
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
-
-// @public
 export interface Pipeline {
     addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
     clone(): Pipeline;
@@ -358,9 +350,6 @@ export const userAgentPolicyName = "userAgentPolicy";
 export interface UserAgentPolicyOptions {
     userAgentPrefix?: string;
 }
-
-// @public
-export type ValidParsedWWWAuthenticateProperties = "authorization" | "claims" | "resource" | "scope" | "service";
 
 
 // (No @packageDocumentation comment for this package)
