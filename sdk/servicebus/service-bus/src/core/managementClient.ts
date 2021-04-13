@@ -19,7 +19,8 @@ import {
   Constants,
   MessagingError,
   RequestResponseLink,
-  SendRequestOptions
+  SendRequestOptions,
+  RetryOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -168,6 +169,10 @@ export interface DispositionStatusOptions extends OperationOptionsBase {
    * This should only be provided if `session` is enabled for a Queue or Topic.
    */
   sessionId?: string;
+  /**
+   * Retry options.
+   */
+  retryOptions: RetryOptions | undefined;
 }
 
 /**
@@ -831,7 +836,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async updateDispositionStatus(
     lockToken: string,
     dispositionType: DispositionType,
-    options?: DispositionStatusOptions & SendManagementRequestOptions
+    // TODO: mgmt link retry<> will come in the next PR.
+    options?: Omit<DispositionStatusOptions, "retryOptions"> & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     if (!options) options = {};

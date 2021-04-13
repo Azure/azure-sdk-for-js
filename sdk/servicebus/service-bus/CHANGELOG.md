@@ -12,6 +12,8 @@
 ### Bug fixes
 
 - Some of the queue properties such as "forwardTo" and "autoDeleteOnIdle" were not being set as requested through the `ServiceBusAdministrationClient.createQueue` method because of a bug w.r.t the ordering of XML properties. The issue has been fixed in [#14692](https://github.com/Azure/azure-sdk-for-js/pull/14692).
+- Settling messages now use the `retryOptions` passed to `ServiceBusClient`, making it more resilient against network failures.
+  [PR#TBD](TBD)
 
 ## 7.0.4 (2021-03-31)
 
