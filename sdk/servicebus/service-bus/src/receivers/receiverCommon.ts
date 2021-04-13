@@ -218,9 +218,13 @@ export function settleMessageOperation(
 
   let error: Error | undefined;
   if (message.delivery.remote_settled) {
+    const condition = isDefined(message.sessionId)
+      ? ErrorNameConditionMapper.SessionLockLostError
+      : ErrorNameConditionMapper.MessageLockLostError;
+
     error = translateServiceBusError({
       description: MessageAlreadySettled,
-      condition: ErrorNameConditionMapper.SessionLockLostError
+      condition
     });
   } else if (
     !isDeferredMessage &&

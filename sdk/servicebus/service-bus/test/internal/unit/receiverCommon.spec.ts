@@ -4,6 +4,7 @@
 import {
   getMessageIterator,
   settleMessage,
+  settleMessageOperation,
   wrapProcessErrorHandler
 } from "../../../src/receivers/receiverCommon";
 import chai from "chai";
@@ -15,6 +16,9 @@ import { MessagingError } from "@azure/core-amqp";
 import { DispositionType, ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
 import { ConnectionContext } from "../../../src/connectionContext";
 import { DispositionStatusOptions } from "../../../src/core/managementClient";
+import { Delivery } from "rhea-promise";
+import { MessageAlreadySettled } from "../../../src/util/errors";
+import { assertThrows } from "../../public/utils/testUtils";
 const assert = chai.assert;
 
 describe("shared receiver code", () => {
@@ -132,6 +136,59 @@ describe("shared receiver code", () => {
       );
 
       assert.equal(numTimesCalled, 2);
+    });
+
+    it("already settled message throws message indicating lock was lost (non-session)", async () => {
+      const fakeMessage = ({
+        delivery: {
+          remote_settled: true
+        } as Delivery
+      } as any) as ServiceBusMessageImpl;
+
+      await assertThrows(
+        () =>
+          settleMessageOperation(
+            fakeMessage,
+            DispositionType.defer,
+            {} as ConnectionContext,
+            "entityPath",
+            {
+              retryOptions: undefined
+            }
+          ),
+        {
+          name: "ServiceBusError",
+          message: MessageAlreadySettled,
+          code: "MessageLockLost"
+        }
+      );
+    });
+
+    it("already settled message throws message indicating lock was lost (session)", async () => {
+      const fakeMessage = ({
+        sessionId: "any session id",
+        delivery: {
+          remote_settled: true
+        } as Delivery
+      } as any) as ServiceBusMessageImpl;
+
+      await assertThrows(
+        () =>
+          settleMessageOperation(
+            fakeMessage,
+            DispositionType.defer,
+            {} as ConnectionContext,
+            "entityPath",
+            {
+              retryOptions: undefined
+            }
+          ),
+        {
+          name: "ServiceBusError",
+          message: MessageAlreadySettled,
+          code: "SessionLockLost"
+        }
+      );
     });
   });
 });

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
+const assert = chai.assert;
 import { ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -196,4 +197,32 @@ export enum EntityNames {
   MANAGEMENT_RULE_2 = "management-rule-2",
   MANAGEMENT_NEW_ENTITY_1 = "management-new-entity-1",
   MANAGEMENT_NEW_ENTITY_2 = "management-new-entity-2"
+}
+
+/**
+ * Asserts that `fn` throws an error and assert.deepEqual compares all fields common
+ * between `expectedErr` and `err`.
+ *
+ * @param fn A function to execute.
+ * @param expectedErr The error fields you expect.
+ * @returns The error thrown, if equal to expectedErr.
+ */
+export async function assertThrows<T>(
+  fn: () => Promise<T>,
+  expectedErr: Record<string, any>
+): Promise<Error> {
+  try {
+    await fn();
+  } catch (err) {
+    const comparableObj: Record<string, any> = {};
+
+    for (const k in expectedErr) {
+      comparableObj[k] = err[k];
+    }
+
+    assert.deepEqual(comparableObj, expectedErr);
+    return err;
+  }
+
+  throw new Error("assert failure: error was expected, but none was thrown");
 }
