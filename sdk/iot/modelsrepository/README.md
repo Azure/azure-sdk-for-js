@@ -1,41 +1,66 @@
 # Azure IoT Resolver library for Javascript
 
-The Azure IoT Resolver library for Javascript provides implementations for interacting with the Azure IoT Model Repository. Use the Azure IoT Resolver library for Javascript to pull DTDL files from remote endpoints.
+This package contains an isomorphic Client Library for Azure IoT Models Repository in Javascript. Use the Azure IoT Resolver library for Javascript to pull DTDL files from remote endpoints.
 
 ## Key concepts
 
 The Azure IoT Resolver library for Javascript is written to interact with the Azure IoT PlugAndPlay Models Repository, for those developers who wish to write applications in Javascript to do so.
 
-## Examples
+### Currently supported environments
 
-_THIS WILL CHANGE WHEN MERGED INTO THE MONOREPO_
+- Node.js version 10.x.x or higher
+- Browser JavaScript
 
-To run the javascript examples, go to the samples directory:
+### How to Install
 
-```bash
-// FROM THIS DIRECTORY
-$ npm install
-$ npx tsc
-$ cd samples/javascript
-$ node example.js
+```
+npm install @azure/iot-modelsrepository-client
 ```
 
-## Run the temporary test script
+### How to use
 
-```bash
-// FROM THIS DIRECTORY
-$ npm install
-$ npx tsc
-$ npm run temp-unit-test
+#### nodejs - Authentication, client creation and get ioTSpaces as an example written in TypeScript.
+
+##### Sample code
+
+```ts
+import {ModelsRepositoryClient} from "@azure/iot-modelsrepository-client";
+
+const client = new ModelsRepositoryClient('https://devicemodels.azure.com');
+const result = await client.getModels('dtmi:azure:DeviceManagement:DeviceInformation;1');
+console.log(result);
 ```
 
-### General
+#### browser - Authentication, client creation and get ioTSpaces as an example written in JavaScript.
 
-TODO
+##### Sample code
 
-### Additional documentation
+- index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>@azure/iot-modelsrepository-client sample</title>
+    <script src="node_modules/@azure/iot-modelsrepository-client/dist/client.browser.js"></script>
+    <script type="text/javascript">
+      const dtmi = "<Subscription_Id>";
+      const repositoryLocation = "<Repository_Location>";
+      // async / await OR chaining can be used.
+      const client = new Azure.IotModelsrepositoryClient.ModelsRepositoryClient(repositoryLocation);
+      client.getModels(dtmi).then((result) => {
+        console.log(`The result is: ${result}`);
+      }).catch((err) => {
+        console.log(`An error occured: ${err}`);
+      });
+    </script>
+  </head>
+  <body></body>
+</html>
+```
 
-TODO
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 ## Contributing
 
