@@ -73,7 +73,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [listformats]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/listFormats.ts
 [translatefromblob]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/documenttranslator/ai-document-translator-rest/samples/v1/typescript/src/translateFromBlob.ts
-[apiref]: https://docs.microsoft.com/en-us/azure/cognitive-services/translator/document-translation/overview
+[apiref]: https://docs.microsoft.com/azure/cognitive-services/translator/document-translation/overview
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/documenttranslator/ai-document-translator-rest/README.md
