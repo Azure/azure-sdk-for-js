@@ -2,6 +2,7 @@
 
 ## 2.0.0-beta.3 (Unreleased)
 
+- All of the credentials now allow specifying a default `correlationId` on the constructor options. If set, this default `correlationId` will be used if no `correlationId` is specified during the `getToken()` or `authenticate()` method calls.
 - Fixed issue with the logging of success messages on the `DefaultAzureCredential` and the `ChainedTokenCredential`. These messages will now mention the internal credential that succeeded.
 - The feature of persistence caching of credentials (introduced in 2.0.0-beta.1) is now supported on Node.js 15 as well.
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError` which is to allow the next credential in the chain to be tried.
