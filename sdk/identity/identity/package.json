@@ -86,7 +86,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/msal-common": "~4.0.1",
-    "@azure/msal-node": "^1.0.0",
+    "@azure/msal-node": "^1.0.2",
     "@azure/msal-browser": "2.9.0",
     "@types/stoppable": "^1.1.0",
     "events": "^3.0.0",
