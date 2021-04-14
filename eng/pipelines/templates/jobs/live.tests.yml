@@ -1,0 +1,211 @@
+parameters:
+- name: PackageName
+  type: string
+  default: ""
+- name: ServiceDirectory
+  type: string
+  default: ""
+- name: EnvVars
+  type: object
+  default: {}
+- name: MaxParallel
+  type: number
+  default: 0
+- name: TimeoutInMinutes
+  type: number
+  default: 0
+- name: PublishCodeCoverage
+  type: boolean
+  default: false
+- name: PreSteps
+  type: object
+  default: []
+- name: PostSteps
+  type: object
+  default: []
+- name: Location
+  type: string
+  default: ''
+- name: CloudConfig
+  type: object
+  default: {}
+- name: Matrix
+  type: string
+- name: DependsOn
+  type: string
+  default: ''
+- name: UsePlatformContainer
+  type: boolean
+  default: false
+
+
+jobs:
+  - job:
+    dependsOn: ${{ parameters.DependsOn }}
+    condition: ne(${{ parameters.Matrix }}, '{}')
+    strategy:
+      maxParallel: ${{ parameters.MaxParallel }}
+      matrix: $[ ${{ parameters.Matrix }} ]
+
+    variables:
+      - template: ../variables/globals.yml
+      - name: ArmTemplateParameters
+        value: '@{}'
+
+    pool:
+      name: $(Pool)
+      vmImage: $(OSVmImage)
+
+    timeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
+
+    ${{ if eq(parameters.UsePlatformContainer, 'true') }}:
+      container: $[ variables['Container'] ]
+
+    steps:
+      - template: ../steps/common.yml
+
+      - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
+        parameters:
+          AgentImage: $(OSVmImage)
+
+      - ${{ if ne(parameters.ServiceDirectory, '') }}:
+        - template: /eng/common/TestResources/deploy-test-resources.yml
+          parameters:
+            ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}:
+              Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
+            ServiceDirectory: '${{ parameters.ServiceDirectory }}'
+            SubscriptionConfiguration: ${{ parameters.CloudConfig.SubscriptionConfiguration }}
+            ArmTemplateParameters: $(ArmTemplateParameters)
+
+      - script: |
+          node common/scripts/install-run-rush.js install
+        displayName: "Install dependencies"
+
+      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+      - script: |
+          node common/scripts/install-run-rush.js build -t "${{parameters.PackageName}}" --verbose -p max
+        displayName: "Build libraries"
+
+      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+      - script: |
+          node common/scripts/install-run-rush.js build:test -t "${{parameters.PackageName}}" --verbose -p max
+        displayName: "Build test assets"
+        condition: and(succeededOrFailed(),eq(variables['DependencyVersion'],''))
+
+      - script: |
+          npm install
+          node index.js --artifact-name "${{parameters.PackageName}}" --version-type $(DependencyVersion) --source-dir "$(Build.SourcesDirectory)" --test-folder "test/public"
+        displayName: "Convert tests to run against package references"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/dependency-testing
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+
+      - script: |
+          node common/scripts/install-run-rush.js update
+        displayName: "Rush update"
+        workingDirectory: $(Build.SourcesDirectory)
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+
+      - script: |
+          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js build
+        displayName: "Build test package"
+        workingDirectory: $(PackageTestPath)
+        condition: and(succeededOrFailed(),ne(variables['DependencyVersion'],''))
+
+      - ${{ parameters.PreSteps }}
+
+      - pwsh: |
+          npm install
+          node getPackagePath.js --repo-root "$(Build.SourcesDirectory)" --package-name "${{parameters.PackageName}}"
+        workingDirectory: $(Build.SourcesDirectory)/eng/tools/eng-package-utils
+        displayName: "Get package path"
+
+      - template: ../steps/use-node-test-version.yml
+
+      # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+      # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+      - script: |
+          node ../../../common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
+        displayName: "Integration test libraries"
+        workingDirectory: $(PackagePath)
+        condition: and(succeededOrFailed(),ne(variables['TestType'],'sample'),eq(variables['DependencyVersion'],''))
+        env:
+          TEST_MODE: "live"
+          SERVICE_VERSION: $(ServiceVersion)
+          ${{ insert }}: ${{ parameters.EnvVars }}
+
+      - script: |
+          node $(Build.SourcesDirectory)/common/scripts/install-run-rushx.js integration-test:$(TestType) --verbose -p max
+        displayName: "Integration test libraries"
+        workingDirectory: $(PackageTestPath)
+        condition: and(succeeded(),ne(variables['TestType'],'sample'),ne(variables['DependencyVersion'],''))
+        env:
+          TEST_MODE: "live"
+          SERVICE_VERSION: $(ServiceVersion)
+          ${{ insert }}: ${{ parameters.EnvVars }}
+
+      - ${{ parameters.PostSteps }}
+
+      - script: |
+          node ../../../common/scripts/install-run-rushx.js execute:samples
+        displayName: "Execute Samples"
+        workingDirectory: $(PackagePath)
+        env:
+          TEST_MODE: "live"
+          ${{ insert }}: ${{ parameters.EnvVars }}
+        condition: and(succeeded(),eq(variables['TestType'],'sample'))
+
+      - ${{ if ne(parameters.ServiceDirectory, '') }}:
+        - template: /eng/common/TestResources/remove-test-resources.yml
+          parameters:
+            ServiceDirectory: "${{ parameters.ServiceDirectory }}"
+            SubscriptionConfiguration: '${{ parameters.CloudConfig.SubscriptionConfiguration }}'
+
+      - task: PublishCodeCoverageResults@1
+        displayName: "Publish NodeJs Code Coverage to DevOps"
+        continueOnError: true
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: "$(PackagePath)/coverage/cobertura-coverage.xml"
+
+      - task: PublishPipelineArtifact@1
+        displayName: "Publish Browser Code Coverage Report Artifact"
+        continueOnError: true
+        condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
+        inputs:
+          path: "$(PackagePath)/coverage-browser"
+          artifact: BrowserCodeCoverageReport
+
+      # Unlink node_modules folders to significantly improve performance of subsequent tasks
+      # which need to walk the directory tree (and are hardcoded to follow symlinks).
+      # Retry for 30 seconds, since this command may fail with error "Another rush command is already
+      # running in this repository" if the previous rush command was killed.
+      - pwsh: |
+          for ($i=0; $i -lt 30; $i++) {
+            node eng/tools/rush-runner.js unlink
+            if ($lastexitcode -eq 0) {
+              break
+            }
+            else {
+              start-sleep 1
+            }
+          }
+        condition: always()
+        displayName: "Unlink dependencies"
+
+      # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+      # PublishTestResults.searchFolder only supports absolute paths, not relative.
+      - task: PublishTestResults@2
+        inputs:
+          searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
+          testResultsFiles: "$(TestResultsFiles)"
+          testRunTitle: "$(OSName) - $(TestType) - Integration Tests - [Node $(NodeTestVersion)]"
+        condition: >
+          and(
+            always(),
+            ne(variables['TestResultsFiles'], ''),
+            or(eq(variables['TestType'], 'node'), eq(variables['TestType'], 'browser'))
+          )
+        displayName: "Publish $(TestType) integration test results"

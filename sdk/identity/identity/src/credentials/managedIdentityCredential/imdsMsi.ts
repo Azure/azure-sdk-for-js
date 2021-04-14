@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions, RestError } from "@azure/core-http";
+import {
+  AccessToken,
+  delay,
+  GetTokenOptions,
+  RequestPrepareOptions,
+  RestError
+} from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { AuthenticationError } from "../../client/errors";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
@@ -46,6 +53,13 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
     }
   };
 }
+
+// 800ms -> 1600ms -> 3200ms
+export const imdsMsiRetryConfig = {
+  maxRetries: 3,
+  startDelayInMs: 800,
+  intervalIncrement: 2
+};
 
 export const imdsMsi: MSI = {
   async isAvailable(
@@ -129,11 +143,28 @@ export const imdsMsi: MSI = {
       `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
     );
 
-    return msiGenericGetToken(
-      identityClient,
-      prepareRequestOptions(resource, clientId),
-      expiresInParser,
-      getTokenOptions
+    let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
+    for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
+      try {
+        return await msiGenericGetToken(
+          identityClient,
+          prepareRequestOptions(resource, clientId),
+          expiresInParser,
+          getTokenOptions
+        );
+      } catch (error) {
+        if (error.statusCode === 404) {
+          await delay(nextDelayInMs);
+          nextDelayInMs *= imdsMsiRetryConfig.intervalIncrement;
+          continue;
+        }
+        throw error;
+      }
+    }
+
+    throw new AuthenticationError(
+      404,
+      `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
     );
   }
 };

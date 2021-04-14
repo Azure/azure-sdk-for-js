@@ -223,7 +223,7 @@ describe("Blob Checkpoint Store", function(): void {
       ]);
       fail("Should have thrown an error - this isn't a normal claim collision issue");
     } catch (err) {
-      (err instanceof RestError).should.be.ok;
+      should.equal(err instanceof RestError, true, "Error is unexpected type.");
       // 404 because the container is missing (since we deleted it up above)
       (err as RestError).statusCode!.should.equal(404);
     }
@@ -257,14 +257,30 @@ describe("Blob Checkpoint Store", function(): void {
       "testConsumerGroup"
     );
 
-    ownershipList.length.should.equal(1);
-    ownershipList[0].ownerId.should.equal("Id1");
-    ownershipList[0].partitionId.should.equal("0");
-    ownershipList[0].consumerGroup.should.equal("testConsumerGroup");
-    ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-    ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[0].etag!.should.not.undefined;
+    should.equal(ownershipList.length, 1, "Unexpected number of ownerships in list.");
+    should.equal(ownershipList[0].ownerId, "Id1", "The 1st ownership item has the wrong ownerId.");
+    should.equal(
+      ownershipList[0].consumerGroup,
+      "testConsumerGroup",
+      "The 1st ownership item has the wrong consumerGroup."
+    );
+    should.equal(
+      ownershipList[0].fullyQualifiedNamespace,
+      "testNamespace.servicebus.windows.net",
+      "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+    );
+    should.equal(
+      ownershipList[0].eventHubName,
+      "testEventHub",
+      "The 1st ownership item has the wrong eventHubName."
+    );
+    should.equal(
+      ownershipList[0].partitionId,
+      "0",
+      "The 1st ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[0].etag, "etag should exist.");
 
     debug(
       `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${ownershipList[0].etag}`
@@ -299,14 +315,31 @@ describe("Blob Checkpoint Store", function(): void {
       "testEventHub",
       "testConsumerGroup"
     );
-    ownershipList.length.should.equal(1);
-    ownershipList[0].ownerId.should.equal("Id1");
-    ownershipList[0].partitionId.should.equal("0");
-    ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-    ownershipList[0].consumerGroup.should.equal("testConsumerGroup");
-    ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[0].etag!.should.not.undefined;
+
+    should.equal(ownershipList.length, 1, "Unexpected number of ownerships in list.");
+    should.equal(ownershipList[0].ownerId, "Id1", "The 1st ownership item has the wrong ownerId.");
+    should.equal(
+      ownershipList[0].consumerGroup,
+      "testConsumerGroup",
+      "The 1st ownership item has the wrong consumerGroup."
+    );
+    should.equal(
+      ownershipList[0].fullyQualifiedNamespace,
+      "testNamespace.servicebus.windows.net",
+      "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+    );
+    should.equal(
+      ownershipList[0].eventHubName,
+      "testEventHub",
+      "The 1st ownership item has the wrong eventHubName."
+    );
+    should.equal(
+      ownershipList[0].partitionId,
+      "0",
+      "The 1st ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[0].etag, "etag should exist.");
     debug(
       `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${ownershipList[0].etag}`
     );
@@ -345,23 +378,48 @@ describe("Blob Checkpoint Store", function(): void {
       "testEventHub",
       "testConsumerGroup"
     );
-    ownershipList.length.should.equal(3);
 
-    ownershipList[0].partitionId.should.equal("0");
-    ownershipList[0].ownerId.should.equal("Id1");
-    ownershipList[0].consumerGroup.should.equal("testConsumerGroup");
-    ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-    ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[0].etag!.should.not.undefined;
+    should.equal(ownershipList.length, 3, "Unexpected number of ownerships in list.");
 
-    ownershipList[1].partitionId.should.equal("1");
-    ownershipList[1].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[1].etag!.should.not.undefined;
+    should.equal(ownershipList[0].ownerId, "Id1", "The 1st ownership item has the wrong ownerId.");
+    should.equal(
+      ownershipList[0].consumerGroup,
+      "testConsumerGroup",
+      "The 1st ownership item has the wrong consumerGroup."
+    );
+    should.equal(
+      ownershipList[0].fullyQualifiedNamespace,
+      "testNamespace.servicebus.windows.net",
+      "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+    );
+    should.equal(
+      ownershipList[0].eventHubName,
+      "testEventHub",
+      "The 1st ownership item has the wrong eventHubName."
+    );
+    should.equal(
+      ownershipList[0].partitionId,
+      "0",
+      "The 1st ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[0].etag, "etag should exist.");
 
-    ownershipList[2].partitionId.should.equal("2");
-    ownershipList[2].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[2].etag!.should.not.undefined;
+    should.equal(
+      ownershipList[1].partitionId,
+      "1",
+      "The 2nd ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[1].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[1].etag, "etag should exist.");
+
+    should.equal(
+      ownershipList[2].partitionId,
+      "2",
+      "The 3rd ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[2].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[2].etag, "etag should exist.");
   });
 
   describe("listCheckpoints", function() {

@@ -3,23 +3,38 @@
 
 import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
-import { AccessToken } from "@azure/core-http";
+import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
-import { CredentialUnavailable } from "../client/errors";
+import { CredentialUnavailableError } from "../client/errors";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
-import { AuthenticationRequired } from "./errors";
+import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
+
+/**
+ * Latest AuthenticationRecord version
+ * @internal
+ */
+const LatestAuthenticationRecordVersion = "1.0";
 
 /**
  * Ensures the validity of the MSAL token
  * @internal
  */
-export function ensureValidMsalToken(logger: CredentialLogger, msalToken?: MsalToken): void {
+export function ensureValidMsalToken(
+  scopes: string | string[],
+  logger: CredentialLogger,
+  msalToken?: MsalToken,
+  getTokenOptions?: GetTokenOptions
+): void {
   const error = (message: string): Error => {
     logger.getToken.info(message);
-    return new AuthenticationRequired(message);
+    return new AuthenticationRequiredError(
+      Array.isArray(scopes) ? scopes : [scopes],
+      getTokenOptions,
+      message
+    );
   };
   if (!msalToken) {
     throw error("No response");
@@ -113,11 +128,16 @@ export class MsalBaseUtilities {
    * If the result has an account, we update the local account reference.
    * If the token received is invalid, an error will be thrown depending on what's missing.
    */
-  protected handleResult(scopes: string | string[], result?: MsalResult): AccessToken {
+  protected handleResult(
+    scopes: string | string[],
+    clientId: string,
+    result?: MsalResult,
+    getTokenOptions?: GetTokenOptions
+  ): AccessToken {
     if (result?.account) {
-      this.account = msalToPublic(result.account);
+      this.account = msalToPublic(clientId, result.account);
     }
-    ensureValidMsalToken(this.logger, result);
+    ensureValidMsalToken(scopes, this.logger, result, getTokenOptions);
     this.logger.getToken.info(formatSuccess(scopes));
     return {
       token: result!.accessToken!,
@@ -128,17 +148,22 @@ export class MsalBaseUtilities {
   /**
    * Handles MSAL errors.
    */
-  protected handleError(scopes: string[], error: Error): Error {
-    if (error instanceof msalCommon.AuthError) {
-      switch (error.errorCode) {
+  protected handleError(scopes: string[], error: Error, getTokenOptions?: GetTokenOptions): Error {
+    if (
+      error.name === "AuthError" ||
+      error.name === "ClientAuthError" ||
+      error.name === "BrowserAuthError"
+    ) {
+      const msalError = error as msalCommon.AuthError;
+      switch (msalError.errorCode) {
         case "endpoints_resolution_error":
           this.logger.info(formatError(scopes, error.message));
-          return new CredentialUnavailable(error.message);
+          return new CredentialUnavailableError(error.message);
         case "consent_required":
         case "interaction_required":
         case "login_required":
           this.logger.info(
-            formatError(scopes, `Authentication returned errorCode ${error.errorCode}`)
+            formatError(scopes, `Authentication returned errorCode ${msalError.errorCode}`)
           );
           break;
         default:
@@ -146,13 +171,14 @@ export class MsalBaseUtilities {
           break;
       }
     }
-    if (error instanceof msalCommon.ClientConfigurationError) {
+    if (
+      error.name === "ClientConfigurationError" ||
+      error.name === "BrowserConfigurationAuthError" ||
+      error.name === "AbortError"
+    ) {
       return error;
     }
-    if (error.name === "AbortError") {
-      return error;
-    }
-    return new AuthenticationRequired(error.message);
+    return new AuthenticationRequiredError(scopes, getTokenOptions, error.message);
   }
 }
 
@@ -167,43 +193,61 @@ export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountI
   };
 }
 
-export function msalToPublic(account: MsalAccountInfo): AuthenticationRecord {
+export function msalToPublic(clientId: string, account: MsalAccountInfo): AuthenticationRecord {
   const record = {
     authority: getAuthorityHost(account.tenantId, account.environment),
     homeAccountId: account.homeAccountId,
     tenantId: account.tenantId || DefaultTenantId,
     username: account.username,
-    serialize: () => serializeAuthenticationRecord(record)
+    clientId,
+    version: LatestAuthenticationRecordVersion
   };
   return record;
 }
 
 /**
- * Serializes a given authentication record to string.
- * @param record - Authentication Record
- * @internal
+ * Serializes an `AuthenticationRecord` into a string.
+ *
+ * The output of a serialized authentication record will contain the following properties:
+ *
+ * - "authority"
+ * - "homeAccountId"
+ * - "clientId"
+ * - "tenantId"
+ * - "username"
+ * - "version"
+ *
+ * To later convert this string to a serialized `AuthenticationRecord`, please use the exported function `deserializeAuthenticationRecord()`.
  */
 export function serializeAuthenticationRecord(record: AuthenticationRecord): string {
-  return JSON.stringify({
-    authority: record.authority,
-    home_account_id: record.homeAccountId,
-    tenant_id: record.tenantId,
-    username: record.username
-  });
+  return JSON.stringify(record);
 }
 
 /**
- * Deserializes a previously serialzied authentication record from a string into an object.
+ * Deserializes a previously serialized authentication record from a string into an object.
+ *
+ * The input string must contain the following properties:
+ *
+ * - "authority"
+ * - "homeAccountId"
+ * - "clientId"
+ * - "tenantId"
+ * - "username"
+ * - "version"
+ *
+ * If the version we receive is unsupported, an error will be thrown.
+ *
+ * At the moment, the only available version is: "1.0", which is always set when the authentication record is serialized.
+ *
  * @param serializedRecord - Authentication record previously serialized into string.
  * @returns AuthenticationRecord.
  */
 export function deserializeAuthenticationRecord(serializedRecord: string): AuthenticationRecord {
-  const parsed = JSON.parse(serializedRecord);
-  return {
-    authority: parsed.authority,
-    homeAccountId: parsed.home_account_id,
-    tenantId: parsed.tenant_id,
-    username: parsed.username,
-    serialize: () => serializedRecord
-  };
+  const parsed: AuthenticationRecord & { version?: string } = JSON.parse(serializedRecord);
+
+  if (parsed.version && parsed.version !== LatestAuthenticationRecordVersion) {
+    throw Error("Unsupported AuthenticationRecord version");
+  }
+
+  return parsed;
 }

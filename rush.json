@@ -498,11 +498,6 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "testhub",
-      "projectFolder": "sdk/eventhub/testhub",
-      "versionPolicyName": "utility"
-    },
-    {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
       "versionPolicyName": "client"
@@ -673,6 +668,26 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-keyvault-keys",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-keys",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-keyvault-certificates",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-certificates",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-keyvault-secrets",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-secrets",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-identity",
+      "projectFolder": "sdk/identity/perf-tests/identity",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixedreality-authentication",
       "projectFolder": "sdk/mixedreality/mixedreality-authentication",
       "versionPolicyName": "client"
@@ -681,6 +696,16 @@
       "packageName": "@azure/iot-device-update",
       "projectFolder": "sdk/deviceupdate/iot-device-update",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tests/perf-search-documents",
+      "projectFolder": "sdk/search/perf-tests/search-documents",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
+      "versionPolicyName": "test"
     }
   ]
 }

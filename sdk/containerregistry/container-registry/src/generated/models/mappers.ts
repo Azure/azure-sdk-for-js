@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const AcrErrors: coreHttp.CompositeMapper = {
+export const AcrErrors: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcrErrors",
@@ -29,7 +29,7 @@ export const AcrErrors: coreHttp.CompositeMapper = {
   }
 };
 
-export const AcrErrorInfo: coreHttp.CompositeMapper = {
+export const AcrErrorInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcrErrorInfo",
@@ -56,7 +56,7 @@ export const AcrErrorInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const Manifest: coreHttp.CompositeMapper = {
+export const Manifest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Manifest",
@@ -71,7 +71,7 @@ export const Manifest: coreHttp.CompositeMapper = {
   }
 };
 
-export const Repositories: coreHttp.CompositeMapper = {
+export const Repositories: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Repositories",
@@ -97,7 +97,7 @@ export const Repositories: coreHttp.CompositeMapper = {
   }
 };
 
-export const RepositoryProperties: coreHttp.CompositeMapper = {
+export const RepositoryProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RepositoryProperties",
@@ -148,7 +148,7 @@ export const RepositoryProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContentProperties: coreHttp.CompositeMapper = {
+export const ContentProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContentProperties",
@@ -181,7 +181,7 @@ export const ContentProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const DeleteRepositoryResult: coreHttp.CompositeMapper = {
+export const DeleteRepositoryResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DeleteRepositoryResult",
@@ -212,7 +212,7 @@ export const DeleteRepositoryResult: coreHttp.CompositeMapper = {
   }
 };
 
-export const TagList: coreHttp.CompositeMapper = {
+export const TagList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TagList",
@@ -226,6 +226,7 @@ export const TagList: coreHttp.CompositeMapper = {
       },
       tagAttributeBases: {
         serializedName: "tags",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -246,19 +247,21 @@ export const TagList: coreHttp.CompositeMapper = {
   }
 };
 
-export const TagAttributesBase: coreHttp.CompositeMapper = {
+export const TagAttributesBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TagAttributesBase",
     modelProperties: {
       name: {
         serializedName: "name",
+        required: true,
         type: {
           name: "String"
         }
       },
       digest: {
         serializedName: "digest",
+        required: true,
         type: {
           name: "String"
         }
@@ -288,7 +291,7 @@ export const TagAttributesBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const TagProperties: coreHttp.CompositeMapper = {
+export const TagProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TagProperties",
@@ -302,12 +305,14 @@ export const TagProperties: coreHttp.CompositeMapper = {
       },
       name: {
         serializedName: "tag.name",
+        required: true,
         type: {
           name: "String"
         }
       },
       digest: {
         serializedName: "tag.digest",
+        required: true,
         type: {
           name: "String"
         }
@@ -337,7 +342,7 @@ export const TagProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const AcrManifests: coreHttp.CompositeMapper = {
+export const AcrManifests: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcrManifests",
@@ -370,7 +375,7 @@ export const AcrManifests: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestAttributesBase: coreHttp.CompositeMapper = {
+export const ManifestAttributesBase: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManifestAttributesBase",
@@ -446,7 +451,7 @@ export const ManifestAttributesBase: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestAttributesManifestReferences: coreHttp.CompositeMapper = {
+export const ManifestAttributesManifestReferences: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManifestAttributesManifestReferences",
@@ -476,7 +481,7 @@ export const ManifestAttributesManifestReferences: coreHttp.CompositeMapper = {
   }
 };
 
-export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
+export const RegistryArtifactProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RegistryArtifactProperties",
@@ -557,7 +562,7 @@ export const RegistryArtifactProperties: coreHttp.CompositeMapper = {
   }
 };
 
-export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreHttp.CompositeMapper = {
+export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className:
@@ -589,7 +594,7 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
   }
 };
 
-export const AcrRefreshToken: coreHttp.CompositeMapper = {
+export const AcrRefreshToken: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcrRefreshToken",
@@ -604,7 +609,7 @@ export const AcrRefreshToken: coreHttp.CompositeMapper = {
   }
 };
 
-export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreHttp.CompositeMapper = {
+export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className:
@@ -643,7 +648,7 @@ export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrle
   }
 };
 
-export const AcrAccessToken: coreHttp.CompositeMapper = {
+export const AcrAccessToken: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcrAccessToken",
@@ -658,7 +663,7 @@ export const AcrAccessToken: coreHttp.CompositeMapper = {
   }
 };
 
-export const RepositoryTags: coreHttp.CompositeMapper = {
+export const RepositoryTags: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RepositoryTags",
@@ -684,7 +689,7 @@ export const RepositoryTags: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageSignature: coreHttp.CompositeMapper = {
+export const ImageSignature: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ImageSignature",
@@ -712,7 +717,7 @@ export const ImageSignature: coreHttp.CompositeMapper = {
   }
 };
 
-export const Jwk: coreHttp.CompositeMapper = {
+export const Jwk: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Jwk",
@@ -734,7 +739,7 @@ export const Jwk: coreHttp.CompositeMapper = {
   }
 };
 
-export const JWKHeader: coreHttp.CompositeMapper = {
+export const JWKHeader: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "JWKHeader",
@@ -773,7 +778,7 @@ export const JWKHeader: coreHttp.CompositeMapper = {
   }
 };
 
-export const History: coreHttp.CompositeMapper = {
+export const History: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "History",
@@ -788,7 +793,7 @@ export const History: coreHttp.CompositeMapper = {
   }
 };
 
-export const FsLayer: coreHttp.CompositeMapper = {
+export const FsLayer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FsLayer",
@@ -803,7 +808,7 @@ export const FsLayer: coreHttp.CompositeMapper = {
   }
 };
 
-export const Descriptor: coreHttp.CompositeMapper = {
+export const Descriptor: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Descriptor",
@@ -848,7 +853,7 @@ export const Descriptor: coreHttp.CompositeMapper = {
   }
 };
 
-export const Annotations: coreHttp.CompositeMapper = {
+export const Annotations: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Annotations",
@@ -930,7 +935,7 @@ export const Annotations: coreHttp.CompositeMapper = {
   }
 };
 
-export const TagAttributesTag: coreHttp.CompositeMapper = {
+export const TagAttributesTag: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TagAttributesTag",
@@ -945,7 +950,7 @@ export const TagAttributesTag: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestAttributesManifest: coreHttp.CompositeMapper = {
+export const ManifestAttributesManifest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManifestAttributesManifest",
@@ -972,7 +977,7 @@ export const ManifestAttributesManifest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestChangeableAttributes: coreHttp.CompositeMapper = {
+export const ManifestChangeableAttributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManifestChangeableAttributes",
@@ -1017,7 +1022,7 @@ export const ManifestChangeableAttributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestListAttributes: coreHttp.CompositeMapper = {
+export const ManifestListAttributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManifestListAttributes",
@@ -1051,7 +1056,7 @@ export const ManifestListAttributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const Platform: coreHttp.CompositeMapper = {
+export const Platform: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Platform",
@@ -1106,7 +1111,7 @@ export const Platform: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestWrapper: coreHttp.CompositeMapper = {
+export const ManifestWrapper: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManifestWrapper",
@@ -1214,7 +1219,7 @@ export const ManifestWrapper: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestList: coreHttp.CompositeMapper = {
+export const ManifestList: coreClient.CompositeMapper = {
   serializedName: "application/vnd.docker.distribution.manifest.list.v2+json",
   type: {
     name: "Composite",
@@ -1243,7 +1248,7 @@ export const ManifestList: coreHttp.CompositeMapper = {
   }
 };
 
-export const V2Manifest: coreHttp.CompositeMapper = {
+export const V2Manifest: coreClient.CompositeMapper = {
   serializedName: "application/vnd.docker.distribution.manifest.v2+json",
   type: {
     name: "Composite",
@@ -1279,7 +1284,7 @@ export const V2Manifest: coreHttp.CompositeMapper = {
   }
 };
 
-export const OCIManifest: coreHttp.CompositeMapper = {
+export const OCIManifest: coreClient.CompositeMapper = {
   serializedName: "application/vnd.oci.image.manifest.v1+json",
   type: {
     name: "Composite",
@@ -1316,7 +1321,7 @@ export const OCIManifest: coreHttp.CompositeMapper = {
   }
 };
 
-export const OCIIndex: coreHttp.CompositeMapper = {
+export const OCIIndex: coreClient.CompositeMapper = {
   serializedName: "application/vnd.oci.image.index.v1+json",
   type: {
     name: "Composite",
@@ -1346,7 +1351,7 @@ export const OCIIndex: coreHttp.CompositeMapper = {
   }
 };
 
-export const V1Manifest: coreHttp.CompositeMapper = {
+export const V1Manifest: coreClient.CompositeMapper = {
   serializedName: "application/vnd.oci.image.manifest.v1+json",
   type: {
     name: "Composite",
@@ -1411,7 +1416,7 @@ export const V1Manifest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryGetRepositoriesHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryGetRepositoriesHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryGetRepositoriesHeaders",
@@ -1426,7 +1431,7 @@ export const ContainerRegistryGetRepositoriesHeaders: coreHttp.CompositeMapper =
   }
 };
 
-export const ContainerRegistryGetRepositoriesNextHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryGetRepositoriesNextHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryGetRepositoriesNextHeaders",
@@ -1441,7 +1446,7 @@ export const ContainerRegistryGetRepositoriesNextHeaders: coreHttp.CompositeMapp
   }
 };
 
-export const ContainerRegistryRepositoryCreateManifestHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryRepositoryCreateManifestHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryRepositoryCreateManifestHeaders",
@@ -1468,7 +1473,7 @@ export const ContainerRegistryRepositoryCreateManifestHeaders: coreHttp.Composit
   }
 };
 
-export const ContainerRegistryRepositoryGetTagsHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryRepositoryGetTagsHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryRepositoryGetTagsHeaders",
@@ -1483,7 +1488,7 @@ export const ContainerRegistryRepositoryGetTagsHeaders: coreHttp.CompositeMapper
   }
 };
 
-export const ContainerRegistryRepositoryGetManifestsHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryRepositoryGetManifestsHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryRepositoryGetManifestsHeaders",
@@ -1498,7 +1503,7 @@ export const ContainerRegistryRepositoryGetManifestsHeaders: coreHttp.CompositeM
   }
 };
 
-export const ContainerRegistryRepositoryGetTagsNextHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryRepositoryGetTagsNextHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryRepositoryGetTagsNextHeaders",
@@ -1513,7 +1518,7 @@ export const ContainerRegistryRepositoryGetTagsNextHeaders: coreHttp.CompositeMa
   }
 };
 
-export const ContainerRegistryRepositoryGetManifestsNextHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryRepositoryGetManifestsNextHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryRepositoryGetManifestsNextHeaders",
@@ -1528,7 +1533,7 @@ export const ContainerRegistryRepositoryGetManifestsNextHeaders: coreHttp.Compos
   }
 };
 
-export const ContainerRegistryBlobGetBlobHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobGetBlobHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobGetBlobHeaders",
@@ -1549,7 +1554,7 @@ export const ContainerRegistryBlobGetBlobHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryBlobCheckBlobExistsHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobCheckBlobExistsHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobCheckBlobExistsHeaders",
@@ -1570,7 +1575,7 @@ export const ContainerRegistryBlobCheckBlobExistsHeaders: coreHttp.CompositeMapp
   }
 };
 
-export const ContainerRegistryBlobDeleteBlobHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobDeleteBlobHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobDeleteBlobHeaders",
@@ -1585,7 +1590,7 @@ export const ContainerRegistryBlobDeleteBlobHeaders: coreHttp.CompositeMapper = 
   }
 };
 
-export const ContainerRegistryBlobMountBlobHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobMountBlobHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobMountBlobHeaders",
@@ -1612,7 +1617,7 @@ export const ContainerRegistryBlobMountBlobHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryBlobGetUploadStatusHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobGetUploadStatusHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobGetUploadStatusHeaders",
@@ -1633,7 +1638,7 @@ export const ContainerRegistryBlobGetUploadStatusHeaders: coreHttp.CompositeMapp
   }
 };
 
-export const ContainerRegistryBlobUploadChunkHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobUploadChunkHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobUploadChunkHeaders",
@@ -1660,7 +1665,7 @@ export const ContainerRegistryBlobUploadChunkHeaders: coreHttp.CompositeMapper =
   }
 };
 
-export const ContainerRegistryBlobCompleteUploadHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobCompleteUploadHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobCompleteUploadHeaders",
@@ -1687,7 +1692,7 @@ export const ContainerRegistryBlobCompleteUploadHeaders: coreHttp.CompositeMappe
   }
 };
 
-export const ContainerRegistryBlobStartUploadHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobStartUploadHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobStartUploadHeaders",
@@ -1714,7 +1719,7 @@ export const ContainerRegistryBlobStartUploadHeaders: coreHttp.CompositeMapper =
   }
 };
 
-export const ContainerRegistryBlobGetChunkHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobGetChunkHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobGetChunkHeaders",
@@ -1735,7 +1740,7 @@ export const ContainerRegistryBlobGetChunkHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ContainerRegistryBlobCheckChunkExistsHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryBlobCheckChunkExistsHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerRegistryBlobCheckChunkExistsHeaders",

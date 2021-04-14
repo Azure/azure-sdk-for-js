@@ -274,11 +274,56 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
  * @internal
  * Converts given ServiceBusMessage to RheaMessage
  */
-export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
+export function toRheaMessage(
+  msg: ServiceBusMessage | ServiceBusReceivedMessage | AmqpAnnotatedMessage,
+  encoder: Pick<typeof defaultDataTransformer, "encode">
+): RheaMessage {
+  if (isAmqpAnnotatedMessage(msg)) {
+    const amqpMsg: RheaMessage = {
+      body: encoder.encode(msg.body, msg.bodyType ?? "data"),
+      message_annotations: {}
+    };
+
+    if (msg.applicationProperties != null) {
+      amqpMsg.application_properties = msg.applicationProperties;
+    }
+
+    if (msg.messageAnnotations != null) {
+      amqpMsg.message_annotations = msg.messageAnnotations;
+    }
+
+    if (msg.deliveryAnnotations != null) {
+      amqpMsg.delivery_annotations = msg.deliveryAnnotations;
+    }
+
+    return amqpMsg;
+  }
+
+  let bodyType: "data" | "sequence" | "value" = "data";
+
+  if (isServiceBusReceivedMessage(msg)) {
+    /*
+     * TODO: this is a bit complicated.
+     *
+     * It seems reasonable to expect to be able to round-trip a message (ie,
+     * receive a message, and then send it again, possibly to another queue / topic).
+     * If the user does that we need to make sure to respect their original AMQP
+     * type so when the message is re - encoded we don't put 'body' into the wrong spot.
+     *
+     * The complication is that we need to decide if we're okay with respecting a field
+     * from the rawAmqpMessage, which up until now we've treated as just vestigial
+     * information on send. My hope is that the use case of "alter the sb message in some
+     * incompatible way with the underying _rawAmqpMessage.bodyType" is not common
+     * enough for us to try to do anything more than what I'm doing here.
+     */
+    bodyType = msg._rawAmqpMessage.bodyType ?? "data";
+  }
+
   const amqpMsg: RheaMessage = {
-    body: msg.body,
+    body: encoder.encode(msg.body, bodyType),
     message_annotations: {}
   };
+
   if (msg.applicationProperties != null) {
     amqpMsg.application_properties = msg.applicationProperties;
   }
@@ -291,6 +336,7 @@ export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
         "Length of 'sessionId' property on the message cannot be greater than 128 characters."
       );
     }
+
     amqpMsg.group_id = msg.sessionId;
   }
   if (msg.replyTo != null) {
@@ -451,8 +497,11 @@ export function fromRheaMessage(
       body: undefined
     };
   }
+
+  const { body, bodyType } = defaultDataTransformer.decodeWithType(msg.body);
+
   const sbmsg: ServiceBusMessage = {
-    body: msg.body
+    body: body
   };
 
   if (msg.application_properties != null) {
@@ -537,8 +586,12 @@ export function fromRheaMessage(
     }
   }
 
+  const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+  rawMessage.bodyType = bodyType;
+
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _rawAmqpMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
+    _rawAmqpMessage: rawMessage,
+    _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
@@ -567,6 +620,26 @@ export function fromRheaMessage(
  */
 export function isServiceBusMessage(possible: unknown): possible is ServiceBusMessage {
   return isObjectWithProperties(possible, ["body"]);
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isAmqpAnnotatedMessage(possible: unknown): possible is AmqpAnnotatedMessage {
+  return (
+    isObjectWithProperties(possible, ["body", "bodyType"]) &&
+    possible.constructor.name !== ServiceBusMessageImpl.name
+  );
+}
+
+/**
+ * @internal
+ */
+export function isServiceBusReceivedMessage(
+  possible: unknown
+): possible is ServiceBusReceivedMessage {
+  return isServiceBusMessage(possible) && "_rawAmqpMessage" in possible;
 }
 
 /**
@@ -773,11 +846,24 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (receiveMode === "receiveAndDelete") {
       this.lockToken = undefined;
     }
+
+    let actualBodyType:
+      | ReturnType<typeof defaultDataTransformer["decodeWithType"]>["bodyType"]
+      | undefined = undefined;
+
     if (msg.body) {
-      this.body = defaultDataTransformer.decode(msg.body);
+      try {
+        const result = defaultDataTransformer.decodeWithType(msg.body);
+
+        this.body = result.body;
+        actualBodyType = result.bodyType;
+      } catch (err) {
+        this.body = undefined;
+      }
     }
     // TODO: _rawAmqpMessage is already being populated in fromRheaMessage(), no need to do it twice
     this._rawAmqpMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+    this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
   }
 

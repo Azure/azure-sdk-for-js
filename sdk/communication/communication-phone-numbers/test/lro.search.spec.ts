@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isPlaybackMode, Recorder, env } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { SearchAvailablePhoneNumbersRequest } from "../src";
@@ -21,12 +21,6 @@ describe("PhoneNumbersClient - lro - search", function() {
     }
   };
 
-  before(function(this: Context) {
-    if (!env.INCLUDE_PHONENUMBER_LIVE_TESTS && !isPlaybackMode()) {
-      this.skip();
-    }
-  });
-
   beforeEach(function(this: Context) {
     ({ client, recorder } = createRecordedClient(this));
   });
@@ -45,7 +39,30 @@ describe("PhoneNumbersClient - lro - search", function() {
     assert.ok(searchPoller.getOperationState().isCompleted);
   }).timeout(20000);
 
-  it("can cancel search", async function() {
+  it("throws on invalid search request", async function() {
+    // person and toll free is an invalid combination
+    const invalidSearchRequest: SearchAvailablePhoneNumbersRequest = {
+      countryCode: "US",
+      phoneNumberType: "tollFree",
+      assignmentType: "person",
+      capabilities: {
+        sms: "inbound+outbound",
+        calling: "none"
+      }
+    };
+
+    try {
+      const searchPoller = await client.beginSearchAvailablePhoneNumbers(invalidSearchRequest);
+      await searchPoller.pollUntilDone();
+    } catch (error) {
+      assert.equal(error.statusCode, 400);
+      return;
+    }
+
+    assert.fail("beginSearchAvailablePhoneNumbers should have thrown an exception.");
+  });
+
+  it("can cancel search polling", async function() {
     const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
 
     await searchPoller.cancelOperation();

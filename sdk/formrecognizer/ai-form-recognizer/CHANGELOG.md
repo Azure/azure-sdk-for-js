@@ -1,7 +1,16 @@
 # Release History
 
-## 3.1.0-beta.3 (Unreleased)
+## 3.1.0-beta.3 (2021-04-06)
 
+- Split `FormField` into several different interfaces. This should not cause any API compatibility issues except in certain edge cases (undefined `valueType`), but should result in more accurate type refinement when dealing with FormField values and should significantly improve documentation and code hinting of these values through IntelliSense.
+- Added support for recognizing identity documents (such as driver licenses and passports) through the `beginRecognizeIdDocuments` method and its URL-based counterpart `beginRecognizeIdDocumentsFromUrl`. The identity document model is prebuilt and may be used without training a model.
+- Introduced two new form field value types: `"gender"` and `"country"`. These value types appear in the identity document recognition responses.
+  - The `"gender"` value type signifies the gender or sex of an individual and is represented by a string that is one of three values: "M", "F", or "X".
+  - The `"country"` value type indicates a specific country and is represented by a three-letter country code string (ISO 3166-1 alpha-3).
+- Added support for the `pages` option to all form recognition methods (custom forms and all prebuilt models). This option works the same as in the content recognition methods, and allows for the specification of which pages within a multi-page document (PDF or TIFF formats) should be considered during analysis and included in the response.
+- Added support for a `readingOrder` option to the content recognition methods. This option enables you to control the algorithm that the service uses to determine how recognized lines of text should be ordered.
+- Custom model recognition now supports bitmap images through the "image/bmp" content-type (content recognition and all prebuilt models already support this content type).
+- Migrated to the 2.1-preview.3 Form Recognizer service endpoint for all REST API calls.
 
 ## 3.1.0-beta.2 (2021-02-09)
 

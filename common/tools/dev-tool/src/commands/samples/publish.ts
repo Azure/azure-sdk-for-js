@@ -102,6 +102,28 @@ function createPackageJson(info: SampleGenerationInfo, outputKind: OutputKind): 
   };
 }
 
+/**
+ * Determines whether a module specifier is a package dependency.
+ *
+ * A dependency is a module specifier that does not refer to a node builtin and
+ * is not a relative path.
+ *
+ * Absolute path imports are not supported in samples (because the package base
+ * is not fixed relative to the source file).
+ *
+ * @param moduleSpecifier - the string given to `import` or `require`
+ * @returns - true if `moduleSpecifier` should be considered a reference to a
+ * node module dependency
+ */
+function isDependency(moduleSpecifier: string): boolean {
+  if (nodeBuiltins.includes(moduleSpecifier)) return false;
+
+  // This seems like a reasonable test for "is a relative path" as long as
+  // absolute path imports are forbidden.
+  const isRelativePath = /^\.\.?\//.test(moduleSpecifier);
+  return !isRelativePath;
+}
+
 async function processSources(
   projectInfo: ProjectInfo,
   sources: string[],
@@ -177,7 +199,7 @@ async function processSources(
             if (tag.tagName.text === "summary") {
               log.debug("Found summary tag on node:", node.getText(sourceFile));
               // Replace is required due to multi-line splitting messing with table formatting
-              summary = tag.comment?.replace(/\s*\n\s*/, " ");
+              summary = tag.comment?.replace(/\s*\r?\n\s*/g, " ");
             } else if (
               tag.tagName.text.startsWith(`${AZSDK_META_TAG_PREFIX}`) &&
               tag.comment !== undefined
@@ -217,7 +239,7 @@ async function processSources(
         }
       }),
       summary: summary ?? fail(`${relativeSourcePath} does not include an @summary tag.`),
-      importedModules: importedModules.filter((name) => !nodeBuiltins.includes(name)),
+      importedModules: importedModules.filter(isDependency),
       usedEnvironmentVariables,
       azSdkTags
     };
@@ -328,10 +350,10 @@ async function makeSampleGenerationInfo(
                 packageJson.dependencies[dependency];
               if (dependencyVersion === undefined) {
                 log.error(
-                  `Dependency "${dependency}", imported by ${source.filePath}, has an unknown version.`
+                  `Dependency "${dependency}", imported by ${source.filePath}, has an unknown version. (Are you missing "./" for a relative path?)`
                 );
                 log.error(
-                  "Specify a version for it by including it in the package's `devDependencies`."
+                  `Specify a version for "${dependency}" by including it in the package's "devDependencies".`
                 );
               }
 

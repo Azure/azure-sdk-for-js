@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+/// <reference lib="esnext.asynciterable" />
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { LinkedService } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -26,9 +28,8 @@ import {
   LinkedServiceGetLinkedServicesByWorkspaceNextResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class representing a LinkedService. */
-export class LinkedService {
+export class LinkedServiceImpl implements LinkedService {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -90,10 +91,10 @@ export class LinkedService {
   ): Promise<LinkedServiceGetLinkedServicesByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getLinkedServicesByWorkspace",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -125,7 +126,7 @@ export class LinkedService {
   ): Promise<LROPoller<LinkedServiceCreateOrUpdateLinkedServiceResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateLinkedService",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
@@ -171,10 +172,10 @@ export class LinkedService {
     linkedServiceName: string,
     options?: LinkedServiceGetLinkedServiceOptionalParams
   ): Promise<LinkedServiceGetLinkedServiceResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-getLinkedService", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getLinkedService", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -202,7 +203,10 @@ export class LinkedService {
     linkedServiceName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteLinkedService", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-deleteLinkedService",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -248,7 +252,10 @@ export class LinkedService {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-renameLinkedService", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-renameLinkedService",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       linkedServiceName,
       request,
@@ -296,11 +303,11 @@ export class LinkedService {
   ): Promise<LinkedServiceGetLinkedServicesByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getLinkedServicesByWorkspaceNext",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(

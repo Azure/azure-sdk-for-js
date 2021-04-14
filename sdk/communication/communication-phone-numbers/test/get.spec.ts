@@ -10,10 +10,9 @@ import { createRecordedClient } from "./utils/recordedClient";
 describe("PhoneNumbersClient - get phone number", function() {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
-  let includePhoneNumberLiveTests: boolean;
 
   beforeEach(function(this: Context) {
-    ({ client, recorder, includePhoneNumberLiveTests } = createRecordedClient(this));
+    ({ client, recorder } = createRecordedClient(this));
   });
 
   afterEach(async function(this: Context) {
@@ -23,15 +22,11 @@ describe("PhoneNumbersClient - get phone number", function() {
   });
 
   it("can get a purchased phone number", async function(this: Context) {
-    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
-      this.skip();
-    }
-
     const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
     const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
     assert.strictEqual(purchasedPhoneNumber, phoneNumber);
-  });
+  }).timeout(5000);
 
   it("errors if phone number not found", async function() {
     const fake = "+14155550100";
