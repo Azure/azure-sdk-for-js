@@ -308,4 +308,10 @@ export interface TokenCredentialOptions extends PipelineOptions {
    * The default is "https://login.microsoftonline.com".
    */
   authorityHost?: string;
+  /**
+   * Optionally, a single correlationId can be configured as the default `correlationId`
+   * for all of the outgoing requests. This value can be replaced by specifying a custom
+   * `correlationId` on the options sent to the `getToken()` method (or the `authenticate()` method).
+   */
+  correlationId?: string;
 }

@@ -70,6 +70,7 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected msalConfig: msalBrowser.Configuration;
   protected disableAutomaticAuthentication?: boolean;
   protected app?: msalBrowser.PublicClientApplication;
+  protected defaultCorrelationId?: string;
 
   constructor(options: MsalBrowserFlowOptions) {
     super(options);
@@ -82,6 +83,10 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
     this.msalConfig = defaultBrowserMsalConfig(options);
     this.disableAutomaticAuthentication = options.disableAutomaticAuthentication;
+
+    if (options.correlationId) {
+      this.defaultCorrelationId = options.correlationId;
+    }
 
     if (options.authenticationRecord) {
       this.account = {

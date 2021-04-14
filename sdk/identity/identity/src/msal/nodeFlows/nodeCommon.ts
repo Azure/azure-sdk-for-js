@@ -50,11 +50,16 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected tokenCache: TokenCache | undefined;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
+  protected defaultCorrelationId?: string;
 
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.clientId = this.msalConfig.auth.clientId;
+
+    if (options.correlationId) {
+      this.defaultCorrelationId = options.correlationId;
+    }
 
     if (options.tokenCachePersistenceOptions) {
       this.tokenCache = new TokenCachePersistence(options.tokenCachePersistenceOptions);
@@ -204,7 +209,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     const silentRequest: msalNode.SilentFlowRequest = {
       // To be able to re-use the account, the Token Cache must also have been provided.
       account: publicToMsal(this.account),
-      correlationId: options?.correlationId,
+      correlationId: options?.correlationId || this.defaultCorrelationId,
       scopes
     };
 
@@ -230,7 +235,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     scopes: string[],
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
-    options.correlationId = options?.correlationId || this.generateUuid();
+    options.correlationId =
+      options?.correlationId || this.defaultCorrelationId || this.generateUuid();
     await this.init(options);
     return this.getTokenSilent(scopes, options).catch((err) => {
       if (err.name !== "AuthenticationRequiredError") {
