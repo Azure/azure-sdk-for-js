@@ -103,14 +103,14 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
 }
 
 export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory {
+  if (!proxySettings) {
+    proxySettings = getDefaultProxySettings();
+  }
+  if (!noProxyListLoaded) {
+    noProxyList.push(...loadNoProxy());
+  }
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      if (!proxySettings) {
-        proxySettings = getDefaultProxySettings();
-      }
-      if (!noProxyListLoaded) {
-        noProxyList.push(...loadNoProxy());
-      }
       return new ProxyPolicy(nextPolicy, options, proxySettings!);
     }
   };
