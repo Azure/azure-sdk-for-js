@@ -38,24 +38,24 @@ export async function main() {
 
   const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
 
-  var sessionSettings: RenderingSessionSettings = {
+  let sessionSettings: RenderingSessionSettings = {
     maxLeaseTimeInMinutes: 4,
     size: KnownRenderingServerSize.Standard
   };
 
   // A randomly generated GUID is a good choice for a conversionId.
-  var sessionId: string = uuid();
+  let sessionId: string = uuid();
 
   console.log("== Starting the session ==");
 
-  var sessionPoller: RenderingSessionPollerLike = await client.beginSession(
+  let sessionPoller: RenderingSessionPollerLike = await client.beginSession(
     sessionId,
     sessionSettings
   );
 
   console.log("== Polling ==");
 
-  var session: RenderingSession = await sessionPoller.pollUntilDone();
+  let session: RenderingSession = await sessionPoller.pollUntilDone();
 
   console.log("== Check results ==");
 

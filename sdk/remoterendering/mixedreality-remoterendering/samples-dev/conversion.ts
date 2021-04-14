@@ -44,35 +44,35 @@ export async function main() {
 
   const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
 
-  var storageContainerUrl: string =
+  let storageContainerUrl: string =
     "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
 
-  var inputSettings: AssetConversionInputSettings = {
+  let inputSettings: AssetConversionInputSettings = {
     storageContainerUrl,
     storageContainerReadListSas: sasToken,
     relativeInputAssetPath: "testBox.fbx",
     blobPrefix: "Input"
   };
-  var outputSettings: AssetConversionOutputSettings = {
+  let outputSettings: AssetConversionOutputSettings = {
     storageContainerUrl,
     storageContainerWriteSas: sasToken,
     blobPrefix: "Output"
   };
-  var conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+  let conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
   // A randomly generated GUID is a good choice for a conversionId.
-  var conversionId: string = uuid();
+  let conversionId: string = uuid();
 
   console.log("== Starting the conversion ==");
 
-  var conversionPoller: AssetConversionPollerLike = await client.beginConversion(
+  let conversionPoller: AssetConversionPollerLike = await client.beginConversion(
     conversionId,
     conversionSettings
   );
 
   console.log("== Polling ==");
 
-  var conversion: AssetConversion = await conversionPoller.pollUntilDone();
+  let conversion: AssetConversion = await conversionPoller.pollUntilDone();
 
   console.log("== Check results ==");
 

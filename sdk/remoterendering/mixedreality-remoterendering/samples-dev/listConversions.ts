@@ -45,6 +45,8 @@ export async function main() {
       );
     }
   }
+  
+  console.log("== All conversions listed ==");
 }
 
 main().catch((err) => {
