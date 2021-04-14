@@ -606,8 +606,10 @@ export function fromRheaMessage(
         : undefined,
     ...sbmsg,
     ...props,
-    deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string,
-    deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as string
+    deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
+    deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
+      | string
+      | undefined
   };
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
