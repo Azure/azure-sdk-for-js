@@ -591,7 +591,6 @@ export function fromRheaMessage(
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
     _rawAmqpMessage: rawMessage,
-    _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
