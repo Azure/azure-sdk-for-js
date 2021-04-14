@@ -32,7 +32,6 @@ matrix([[true, false]], async function(useAad) {
       recorder = record(this, recorderConfiguration);
 
       if (isLiveMode()) {
-        console.log("Skipping because public tests will run instead.");
         this.skip();
       } else if (isPlaybackMode()) {
         sinon.stub(Uuid, "generateUuid").returns("sanitized");
