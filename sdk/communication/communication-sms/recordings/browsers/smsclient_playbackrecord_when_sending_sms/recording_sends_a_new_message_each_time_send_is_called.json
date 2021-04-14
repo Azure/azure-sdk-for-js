@@ -8,7 +8,7 @@
    },
    "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_2021041302214033bde1c1-70c9-4267-8037-c16dc1fa15ae_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_2021041401384093c29530-dfd2-4ff3-9bcd-c784b7cd5e52_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }
@@ -21,7 +21,7 @@
    },
    "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_202104130221417a7c781d-124b-4bc9-9923-9625d52ad36e_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_20210414013840c5e242ce-d8c0-4799-aefe-0ec6da11d7f9_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

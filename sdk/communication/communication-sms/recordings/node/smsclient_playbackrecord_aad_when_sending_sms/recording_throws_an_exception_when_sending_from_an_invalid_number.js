@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "eeff82b8ae33893e424efcce27438830";
+module.exports.hash = "e40572f5ed6d1f0cd7c4a5809ef38226";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,37 +22,37 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '3fcdc6ba-fc00-4b47-b2c4-c33f96abbc00',
+  '3ff76588-e2fb-49b6-b8e4-3450ae2ac800',
   'x-ms-ests-server',
-  '2.1.11622.22 - SCUS ProdSlices',
+  '2.1.11622.22 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AsZBMvdV-e5EuFb5Bt9qQ6aMQo4QBwAAAI8-CNgOAAAA; expires=Fri, 14-May-2021 01:38:33 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AsZBMvdV-e5EuFb5Bt9qQ6aMQo4QBgAAAI8-CNgOAAAA; expires=Fri, 14-May-2021 01:38:27 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 14 Apr 2021 01:38:32 GMT',
+  'Wed, 14 Apr 2021 01:38:26 GMT',
   'Content-Length',
   '1327'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/sms', {"from":"+14255550123","smsRecipients":[{"to":"+14255550123","repeatabilityRequestId":"sanitized","repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":true,"tag":"SMS_LIVE_TEST"}})
+  .post('/sms', {"from":"+1425555012345","smsRecipients":[{"to":"+14255550123","repeatabilityRequestId":"sanitized","repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":true,"tag":"SMS_LIVE_TEST"}})
   .query(true)
-  .reply(404, "", [
+  .reply(400, {"From":["Invalid From phone number format"]}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
   'Request-Context',
   'appId=',
   'MS-CV',
-  'd17KM8i6RUunFtWdzGpZyw.0',
-  'api-supported-versions',
-  '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
+  'CGR5GuOBa0af8TVlDoru+g.0',
   'X-Processing-Time',
-  '428ms',
+  '12ms',
   'X-Azure-Ref',
-  '0mUd2YAAAAADfPNM0W1NYS4szxZM/USFwWVZSMzBFREdFMDQwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0k0d2YAAAAACT42XVvIzjTKQ6W+yXZgqkWVZSMzBFREdFMDQwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Wed, 14 Apr 2021 01:38:33 GMT',
-  'Content-Length',
-  '0'
+  'Wed, 14 Apr 2021 01:38:26 GMT'
 ]);

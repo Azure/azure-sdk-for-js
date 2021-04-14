@@ -8,7 +8,7 @@
    },
    "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"},{\"to\":\"+1425555012345\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_202104130221412e2cf9fc-d960-46b5-850a-9969f686fa26_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+1425555012345\",\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"successful\":false}]}",
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_202104140138416967b3d9-f24e-4663-acf9-de9c7a869d35_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+1425555012345\",\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"successful\":false}]}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

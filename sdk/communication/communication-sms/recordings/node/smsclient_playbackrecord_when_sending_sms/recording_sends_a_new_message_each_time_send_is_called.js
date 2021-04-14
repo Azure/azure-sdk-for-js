@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/sms', {"from":"+14255550123","smsRecipients":[{"to":"+14255550123","repeatabilityRequestId":"sanitized","repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":true,"tag":"SMS_LIVE_TEST"}})
   .query(true)
-  .reply(202, {"value":[{"to":"+14255550123","messageId":"Outgoing_20210413022125f252d039-47cb-4adb-8feb-9781e196ae24_noam","httpStatusCode":202,"repeatabilityResult":"accepted","successful":true}]}, [
+  .reply(202, {"value":[{"to":"+14255550123","messageId":"Outgoing_20210414013828e5905091-e190-4c5b-a79e-c8495fe7fb3f_noam","httpStatusCode":202,"repeatabilityResult":"accepted","successful":true}]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -15,21 +15,21 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'DuBB8Csg5k2BIC3lngUJ6g.0',
+  'ZmYnkPzSP0etITBUhXEvdQ.0',
   'api-supported-versions',
   '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
   'X-Processing-Time',
-  '624ms',
+  '412ms',
   'X-Azure-Ref',
-  '0JQB1YAAAAACBFL1ECY6rTJmfWfXTk1I6WVZSMzBFREdFMDQxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0lEd2YAAAAABXDbz5AlT+TZ5eW7djv1CDWVZSMzBFREdFMDQwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 13 Apr 2021 02:21:25 GMT'
+  'Wed, 14 Apr 2021 01:38:28 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/sms', {"from":"+14255550123","smsRecipients":[{"to":"+14255550123","repeatabilityRequestId":"sanitized","repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"}],"message":"test message","smsSendOptions":{"enableDeliveryReport":true,"tag":"SMS_LIVE_TEST"}})
   .query(true)
-  .reply(202, {"value":[{"to":"+14255550123","messageId":"Outgoing_202104130221261d8b2da4-e529-477e-83c3-6214456199e2_noam","httpStatusCode":202,"repeatabilityResult":"accepted","successful":true}]}, [
+  .reply(202, {"value":[{"to":"+14255550123","messageId":"Outgoing_2021041401382933eb6bdb-b494-49dc-9a5a-d95412248c25_noam","httpStatusCode":202,"repeatabilityResult":"accepted","successful":true}]}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -37,13 +37,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'PaNA0yjK+0+eqOSx8uQglQ.0',
+  'YZp5v4EUqEW9suYFg98xoQ.0',
   'api-supported-versions',
   '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
   'X-Processing-Time',
-  '598ms',
+  '466ms',
   'X-Azure-Ref',
-  '0JgB1YAAAAABTOHKmKcOFRYYQ8v1uWvfMWVZSMzBFREdFMDQxMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '0lEd2YAAAAACGCcWlRThPQqKWH2+WNvWDWVZSMzBFREdFMDQwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 13 Apr 2021 02:21:26 GMT'
+  'Wed, 14 Apr 2021 01:38:28 GMT'
 ]);
