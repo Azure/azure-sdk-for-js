@@ -172,10 +172,13 @@ export function deadLetterMessage(
     retryOptions
   };
 
-  return settleMessage(message, DispositionType.deadletter, context, entityPath, {
-    ...dispositionStatusOptions,
-    retryOptions
-  });
+  return settleMessage(
+    message,
+    DispositionType.deadletter,
+    context,
+    entityPath,
+    dispositionStatusOptions
+  );
 }
 
 /**
