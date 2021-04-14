@@ -512,6 +512,8 @@ export enum RetryOperationType {
     // (undocumented)
     management = "management",
     // (undocumented)
+    messageSettlement = "settlement",
+    // (undocumented)
     receiveMessage = "receiveMessage",
     // (undocumented)
     receiverLink = "receiverLink",
