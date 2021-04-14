@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { RemoteRenderingClient, WithResponse } from "../remoteRenderingClient";
+import { WithResponse } from "../remoteRenderingClient";
 import { RenderingSession, KnownRenderingSessionStatus } from "../generated/models/index";
-
+import { getSessionInternal } from "../internal/commonQueries";
 import { delay, AbortSignalLike } from "@azure/core-http";
+import { RemoteRendering } from "../generated/operations";
 
 export interface RenderingSessionOperationState
   extends PollOperationState<WithResponse<RenderingSession>> {
@@ -49,19 +50,21 @@ export class RenderingSessionOperationStateImpl implements RenderingSessionOpera
 
 class RenderingSessionOperation
   implements PollOperation<RenderingSessionOperationStateImpl, RenderingSession> {
-  private client: RemoteRenderingClient;
+  private accountId: string;
+  private operations: RemoteRendering;
   state: RenderingSessionOperationStateImpl;
 
-  constructor(client: RemoteRenderingClient, state: RenderingSessionOperationStateImpl) {
+  constructor(accountId: string, operations: RemoteRendering, state: RenderingSessionOperationStateImpl) {
+    this.accountId = accountId;
+    this.operations = operations;
     this.state = state;
-    this.client = client;
   }
 
   update(_options?: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: RenderingSessionOperationStateImpl) => void;
   }): Promise<RenderingSessionOperation> {
-    return this.client.getSession(this.state.latestResponse.sessionId).then((res) => {
+    return getSessionInternal(this.accountId, this.operations, this.state.latestResponse.sessionId, "RenderingSessionOperation-Update").then((res) => {
       this.state.latestResponse = res;
       return this;
     });
@@ -98,10 +101,11 @@ export class RenderingSessionPoller extends Poller<
    */
   public intervalInMs: number = 10000;
 
-  constructor(client: RemoteRenderingClient, RenderingSession: WithResponse<RenderingSession>) {
+  constructor(accountId: string, operations: RemoteRendering, RenderingSession: WithResponse<RenderingSession>) {
     super(
       new RenderingSessionOperation(
-        client,
+        accountId,
+        operations,
         new RenderingSessionOperationStateImpl(RenderingSession)
       )
     );

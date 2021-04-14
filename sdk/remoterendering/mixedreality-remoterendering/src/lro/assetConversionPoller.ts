@@ -58,7 +58,11 @@ class AssetConversionOperation
   private operations: RemoteRendering;
   state: AssetConversionOperationStateImpl;
 
-  constructor(accountId: string, operations: RemoteRendering, state: AssetConversionOperationStateImpl) {
+  constructor(
+    accountId: string,
+    operations: RemoteRendering,
+    state: AssetConversionOperationStateImpl
+  ) {
     this.operations = operations;
     this.accountId = accountId;
     this.state = state;
@@ -68,7 +72,12 @@ class AssetConversionOperation
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: AssetConversionOperationState) => void;
   }): Promise<AssetConversionOperation> {
-    return getConversionInternal(this.accountId, this.operations, this.state.latestResponse.conversionId, "AssetConversionPoller-Update").then((res) => {
+    return getConversionInternal(
+      this.accountId,
+      this.operations,
+      this.state.latestResponse.conversionId,
+      "AssetConversionOperation-Update"
+    ).then((res) => {
       this.state.latestResponse = res;
       return this;
     });
@@ -92,9 +101,17 @@ export class AssetConversionPoller extends Poller<
    */
   public intervalInMs: number = 10000;
 
-  constructor(accountId: string, operations: RemoteRendering, assetConversion: WithResponse<AssetConversion>) {
+  constructor(
+    accountId: string,
+    operations: RemoteRendering,
+    assetConversion: WithResponse<AssetConversion>
+  ) {
     super(
-      new AssetConversionOperation(accountId, operations, new AssetConversionOperationStateImpl(assetConversion))
+      new AssetConversionOperation(
+        accountId,
+        operations,
+        new AssetConversionOperationStateImpl(assetConversion)
+      )
     );
   }
 

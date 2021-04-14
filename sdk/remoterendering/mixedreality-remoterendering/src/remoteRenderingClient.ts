@@ -23,7 +23,6 @@ import {
   RenderingSessionSettings,
   RemoteRenderingCreateSessionResponse,
   UpdateSessionSettings,
-  RemoteRenderingGetSessionResponse
 } from "./generated/models/index";
 
 import { RemoteRenderingClientOptions } from "./options";
@@ -47,7 +46,7 @@ import {
   RenderingSessionOperationState
 } from "./lro/renderingSessionPoller";
 
-import { getConversionInternal } from "./internal/commonQueries";
+import { getConversionInternal, getSessionInternal } from "./internal/commonQueries";
 
 export {
   AssetConversionOperationState,
@@ -277,7 +276,13 @@ export class RemoteRenderingClient {
     conversionId: string,
     options?: OperationOptions
   ): Promise<WithResponse<AssetConversion>> {
-    return getConversionInternal(this.accountId, this.operations, conversionId, "RemoteRenderingClient-GetConversion", options);
+    return getConversionInternal(
+      this.accountId,
+      this.operations,
+      conversionId,
+      "RemoteRenderingClient-GetConversion",
+      options
+    );
   }
 
   /**
@@ -289,15 +294,15 @@ export class RemoteRenderingClient {
     conversionId: string,
     options?: OperationOptions
   ): Promise<AssetConversionPollerLike> {
-      let assetConversion: WithResponse<AssetConversion> = await getConversionInternal(
-        this.accountId,
-        this.operations,
-        conversionId,
-        "RemoteRenderingClient-GetConversionPoller",
-        options
-      );
+    let assetConversion: WithResponse<AssetConversion> = await getConversionInternal(
+      this.accountId,
+      this.operations,
+      conversionId,
+      "RemoteRenderingClient-GetConversionPoller",
+      options
+    );
 
-      return new AssetConversionPoller(this.accountId, this.operations, assetConversion);
+    return new AssetConversionPoller(this.accountId, this.operations, assetConversion);
   }
 
   private async *getAllConversionsPagingPage(
@@ -383,7 +388,7 @@ export class RemoteRenderingClient {
         updatedOptions
       );
 
-      let poller = new RenderingSessionPoller(this, renderingSession);
+      let poller = new RenderingSessionPoller(this.accountId, this.operations, renderingSession);
 
       // Do I want this?
       await poller.poll();
@@ -411,22 +416,7 @@ export class RemoteRenderingClient {
     sessionId: string,
     options?: OperationOptions
   ): Promise<WithResponse<RenderingSession>> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetSession", {
-      sessionId,
-      ...options
-    });
-
-    try {
-      return this.operations.getSession(this.accountId, sessionId, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return getSessionInternal(this.accountId, this.operations, sessionId, "RemoteRenderingClient-GetSession", options);
   }
 
   /**
@@ -438,28 +428,14 @@ export class RemoteRenderingClient {
     sessionId: string,
     options?: OperationOptions
   ): Promise<RenderingSessionPollerLike> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetSessionPoller", {
-      sessionId,
-      ...options
-    });
-
-    try {
-      let renderingSession: RemoteRenderingGetSessionResponse = await this.operations.getSession(
+      let renderingSession: WithResponse<RenderingSession> = await getSessionInternal(
         this.accountId,
+        this.operations,
         sessionId,
-        updatedOptions
+        "RemoteRenderingClient-GetSessionPoller",
+        options
       );
-
-      return new RenderingSessionPoller(this, renderingSession);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      return new RenderingSessionPoller(this.accountId, this.operations, renderingSession);
   }
 
   /**
