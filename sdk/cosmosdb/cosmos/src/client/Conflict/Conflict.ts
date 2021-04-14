@@ -30,7 +30,7 @@ export class Conflict {
     public readonly container: Container,
     public readonly id: string,
     private readonly clientContext: ClientContext,
-    private partitionKey?: PartitionKey,
+    private partitionKey?: PartitionKey
   ) {
     this.partitionKey = partitionKey;
   }
