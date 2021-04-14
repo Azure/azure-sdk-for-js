@@ -227,6 +227,7 @@ export { TokenCredential }
 // @public
 export interface TokenCredentialOptions extends PipelineOptions {
     authorityHost?: string;
+    correlationId?: string;
 }
 
 // @public
