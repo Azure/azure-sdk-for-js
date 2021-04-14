@@ -4,7 +4,7 @@ languages:
   - javascript
 products:
   - azure
-  - azure-data-tables
+  - azure-table-storage
 urlFragment: data-tables-javascript
 ---
 
