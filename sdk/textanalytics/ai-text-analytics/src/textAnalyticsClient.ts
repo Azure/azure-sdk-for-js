@@ -107,7 +107,14 @@ export interface TextAnalyticsClientOptions extends CommonClientOptions {
 /**
  * Options for the detect languages operation.
  */
-export type DetectLanguageOptions = TextAnalyticsOperationOptions;
+export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  loggingOptOut?: boolean;
+}
 
 /**
  * Options for the recognize entities operation.
@@ -119,6 +126,12 @@ export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperat
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  loggingOptOut?: boolean;
 }
 
 /**
@@ -140,6 +153,12 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  loggingOptOut?: boolean;
 }
 
 /**
@@ -172,12 +191,25 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * Specifies the list of Pii categories to return.
    */
   categoriesFilter?: PiiCategory[];
+  /**
+   * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
+   * will not log your input text for pii entities recognition. Setting this parameter to false,
+   * enables input logging.
+   */
+  loggingOptOut?: boolean;
 }
 
 /**
  * Options for the extract key phrases operation.
  */
-export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
+export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  loggingOptOut?: boolean;
+}
 
 /**
  * Options for the recognize linked entities operation.
@@ -189,6 +221,12 @@ export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOp
    * The default is the JavaScript's default which is "Utf16CodeUnit".
    */
   stringIndexType?: StringIndexType;
+  /**
+   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
+   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
+   * disables input logging and may limit our ability to remediate issues that occur.
+   */
+  loggingOptOut?: boolean;
 }
 
 /**
@@ -236,9 +274,9 @@ export type RecognizePiiEntitiesAction = {
    */
   stringIndexType?: StringIndexType;
   /**
-   * If set to true, you opt-out of having your text input logged for troubleshooting. By default, Text Analytics
-   * logs your input text for 48 hours, solely to allow for troubleshooting issues. Setting this parameter to true,
-   * disables input logging and may limit our ability to remediate issues that occur.
+   * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
+   * will not log your input text for pii entities recognition. Setting this parameter to false,
+   * enables input logging.
    */
   loggingOptOut?: boolean;
 };
@@ -252,6 +290,12 @@ export interface ExtractKeyPhrasesAction {
    * batch of input documents.
    */
   modelVersion?: string;
+  /**
+   * If set to false, you opt-in to have your text input logged for troubleshooting. By default, Text Analytics
+   * will not log your input text for pii entities recognition. Setting this parameter to false,
+   * enables input logging.
+   */
+  loggingOptOut?: boolean;
 }
 
 /**
@@ -1113,7 +1157,8 @@ function makeAnalyzeSentimentOptionsModel(
     stringIndexType: params.stringIndexType,
     tracingOptions: params.tracingOptions,
     onResponse: params.onResponse,
-    serializerOptions: params.serializerOptions
+    serializerOptions: params.serializerOptions,
+    loggingOptOut: params.loggingOptOut
   };
 }
 
@@ -1135,6 +1180,7 @@ function makePiiEntitiesOptionsModel(
     tracingOptions: params.tracingOptions,
     piiCategories: params.categoriesFilter,
     onResponse: params.onResponse,
-    serializerOptions: params.serializerOptions
+    serializerOptions: params.serializerOptions,
+    loggingOptOut: params.loggingOptOut
   };
 }

@@ -88,6 +88,7 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 // @public
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
     includeOpinionMining?: boolean;
+    loggingOptOut?: boolean;
     stringIndexType?: StringIndexType;
 }
 
@@ -123,6 +124,7 @@ export interface BeginAnalyzeBatchActionsOptions extends OperationOptions {
 
 // @public
 export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOperationOptions {
+    loggingOptOut?: boolean;
     resumeFrom?: string;
     stringIndexType?: StringIndexType;
     updateIntervalInMs?: number;
@@ -152,7 +154,9 @@ export interface DetectLanguageInput {
 }
 
 // @public
-export type DetectLanguageOptions = TextAnalyticsOperationOptions;
+export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
+    loggingOptOut?: boolean;
+}
 
 // @public
 export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
@@ -211,6 +215,7 @@ export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalSer
 
 // @public
 export interface ExtractKeyPhrasesAction {
+    loggingOptOut?: boolean;
     modelVersion?: string;
 }
 
@@ -229,7 +234,9 @@ export interface ExtractKeyPhrasesActionSuccessResult extends TextAnalyticsActio
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
+export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
+    loggingOptOut?: boolean;
+}
 
 // @public
 export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
@@ -388,6 +395,7 @@ export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperationOptions {
+    loggingOptOut?: boolean;
     stringIndexType?: StringIndexType;
 }
 
@@ -428,6 +436,7 @@ export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
+    loggingOptOut?: boolean;
     stringIndexType?: StringIndexType;
 }
 
@@ -471,6 +480,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     categoriesFilter?: PiiEntityCategory[];
     domainFilter?: PiiEntityDomainType;
+    loggingOptOut?: boolean;
     stringIndexType?: StringIndexType;
 }
 
