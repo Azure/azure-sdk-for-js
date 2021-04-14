@@ -2,6 +2,7 @@
 
 ## 1.3.1 (Unreleased)
 
+- Adds an optional property `correlationId` to the `GetTokenOptions`.
 
 ## 1.3.0 (2021-03-30)
 

@@ -26,6 +26,10 @@ export interface TokenCredential {
  */
 export interface GetTokenOptions {
   /**
+   * A correlation Id can be send through the `getToken` calls, so that underlying requests can be better associated and traced through the HTTP logs.
+   */
+  correlationId?: string;
+  /**
    * The signal which can be used to abort requests.
    */
   abortSignal?: AbortSignalLike;
