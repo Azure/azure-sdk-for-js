@@ -73,7 +73,7 @@ class RenderingSessionOperation
       this.operations,
       this.state.latestResponse.sessionId,
       "RenderingSessionOperation-Update"
-    )
+    );
     return this;
   }
 
@@ -87,8 +87,13 @@ class RenderingSessionOperation
    * @param options - Optional properties passed to the operation's update method.
    */
   async cancel(options?: { abortSignal?: AbortSignalLike }): Promise<RenderingSessionOperation> {
-    await endSessionInternal(this.accountId, this.operations, this.state.latestResponse.sessionId,
-      "RenderingSessionOperation-Cancel", options);
+    await endSessionInternal(
+      this.accountId,
+      this.operations,
+      this.state.latestResponse.sessionId,
+      "RenderingSessionOperation-Cancel",
+      options
+    );
     return this;
   }
 

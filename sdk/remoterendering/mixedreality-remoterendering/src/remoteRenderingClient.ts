@@ -46,7 +46,11 @@ import {
   RenderingSessionOperationState
 } from "./lro/renderingSessionPoller";
 
-import { endSessionInternal, getConversionInternal, getSessionInternal } from "./internal/commonQueries";
+import {
+  endSessionInternal,
+  getConversionInternal,
+  getSessionInternal
+} from "./internal/commonQueries";
 
 export {
   AssetConversionOperationState,
@@ -491,7 +495,13 @@ export class RemoteRenderingClient {
     sessionId: string,
     options?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    return endSessionInternal(this.accountId, this.operations, sessionId, "RemoteRenderingClient-EndSession", options);
+    return endSessionInternal(
+      this.accountId,
+      this.operations,
+      sessionId,
+      "RemoteRenderingClient-EndSession",
+      options
+    );
   }
 
   private async *getAllSessionsPagingPage(
