@@ -157,9 +157,7 @@ describe("shared receiver code", () => {
             }
           ),
         {
-          name: "ServiceBusError",
-          message: MessageAlreadySettled,
-          code: "MessageLockLost"
+          message: MessageAlreadySettled
         }
       );
     });
@@ -184,9 +182,7 @@ describe("shared receiver code", () => {
             }
           ),
         {
-          name: "ServiceBusError",
-          message: MessageAlreadySettled,
-          code: "SessionLockLost"
+          message: MessageAlreadySettled
         }
       );
     });
