@@ -8,7 +8,7 @@ import {
   CommunicationIdentityClient,
   CommunicationUserToken,
   TokenScope
-} from "../../src";
+} from "../../../src";
 import {
   getTokenHttpClient,
   createUserHttpClient,

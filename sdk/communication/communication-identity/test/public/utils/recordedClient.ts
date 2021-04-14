@@ -12,7 +12,7 @@ import {
   isPlaybackMode
 } from "@azure/test-utils-recorder";
 import { isNode, TokenCredential } from "@azure/core-http";
-import { CommunicationIdentityClient } from "../../src";
+import { CommunicationIdentityClient } from "../../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 

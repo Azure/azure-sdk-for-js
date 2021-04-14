@@ -8,7 +8,7 @@ import {
 } from "@azure/communication-common";
 import { assert } from "chai";
 import sinon from "sinon";
-import { CommunicationIdentityClient } from "../src";
+import { CommunicationIdentityClient } from "../../src";
 import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient";
 import { getTokenHttpClient } from "./utils/mockHttpClients";
 
