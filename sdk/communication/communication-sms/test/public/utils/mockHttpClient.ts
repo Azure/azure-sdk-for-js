@@ -4,7 +4,7 @@
 import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
 
 export class MockHttpClient implements HttpClient {
-  constructor(private _number: string) {}
+  constructor(private _phoneNumber: string) {}
 
   async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
     return {
@@ -14,7 +14,7 @@ export class MockHttpClient implements HttpClient {
       parsedBody: {
         value: [
           {
-            to: this._number,
+            to: this._phoneNumber,
             messageId: "id",
             httpStatusCode: 202,
             errorMessage: null,

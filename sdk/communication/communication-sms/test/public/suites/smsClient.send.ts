@@ -7,7 +7,7 @@ import { env } from "@azure/test-utils-recorder";
 import { Context } from "mocha";
 import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers";
 
-export default function suites(): void {
+export default function testCases(): void {
   it("can send an SMS message", async function(this: Context) {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
