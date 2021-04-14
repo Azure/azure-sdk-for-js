@@ -9,12 +9,16 @@
 
 import {
   RemoteRenderingClient,
-  KnownAssetConversionStatus
+  KnownRenderingSessionStatus,
+  KnownRenderingServerSize
 } from "@azure/mixedreality-remoterendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
+import { v4 as uuid } from "uuid";
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+import { delay } from "@azure/core-http";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
@@ -32,19 +36,31 @@ export async function main() {
 
   const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
 
-  console.log("== Starting listing conversions ==");
+  console.log("== Creating a test session to query ==");
 
-  for await (const conversion of client.listConversions()) {
-    if (conversion.status == KnownAssetConversionStatus.Succeeded) {
+  const sessionId: string = uuid();
+  await client.beginSession(sessionId, { maxLeaseTimeInMinutes: 5, size: KnownRenderingServerSize.Standard});
+  await delay(10000);
+  
+  console.log("== Starting listing sessions ==");
+
+  for await (const session of client.listSessions()) {
+    if (session.status == KnownRenderingSessionStatus.Starting) {
       console.log(
-        `Conversion ${conversion.conversionId} succeeded: Output written to ${conversion.output?.outputAssetUrl}`
+        `Session ${session.sessionId} is starting`
       );
-    } else if (conversion.status == KnownAssetConversionStatus.Failed) {
+    } else if (session.status == KnownRenderingSessionStatus.Ready) {
       console.log(
-        `Conversion ${conversion.conversionId} failed: ${conversion.error?.code} ${conversion.error?.message}`
+        `Session ${session.sessionId} is ready`
       );
     }
   }
+
+  console.log("== All sessions listed ==");
+
+  console.log("== Stop the test session ==");
+
+  client.endSession(sessionId);
 }
 
 main().catch((err) => {

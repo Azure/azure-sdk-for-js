@@ -1,12 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// TODO:
-// * Work out how responses are normally obtained
-// * Should there be a synchronous version of the API?
-// * Generate the artifact (a doc model file: https://api-extractor.com/pages/setup/generating_docs/)
-// * Upload to apiview
-
 import {
   TokenCredential,
   OperationOptions,
@@ -28,7 +22,8 @@ import {
   RenderingSession,
   RenderingSessionSettings,
   RemoteRenderingCreateSessionResponse,
-  UpdateSessionSettings
+  UpdateSessionSettings,
+  RemoteRenderingGetSessionResponse
 } from "./generated/models/index";
 
 import { RemoteRenderingClientOptions } from "./options";
@@ -49,7 +44,7 @@ import { RemoteRendering } from "./generated/operations";
 import { AssetConversionPoller, AssetConversionOperationState } from "./lro/assetConversionPoller";
 import {
   RenderingSessionPoller,
-  RenderingSessionOperationStateImpl
+  RenderingSessionOperationState
 } from "./lro/renderingSessionPoller";
 
 export {
@@ -58,7 +53,7 @@ export {
   AssetConversionSettings,
   RenderingSession,
   RenderingSessionSettings,
-  RenderingSessionOperationStateImpl as RenderingSessionOperationState,
+  RenderingSessionOperationState,
   UpdateSessionSettings,
   RemoteRenderingClientOptions
 };
@@ -92,7 +87,7 @@ export type AssetConversionPollerLike = PollerLike<
   WithResponse<AssetConversion>
 >;
 export type RenderingSessionPollerLike = PollerLike<
-  RenderingSessionOperationStateImpl,
+  RenderingSessionOperationState,
   WithResponse<RenderingSession>
 >;
 
@@ -286,7 +281,7 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let result = await this.operations.getConversion(
+      let result: RemoteRenderingCreateConversionResponse = await this.operations.getConversion(
         this.accountId,
         conversionId,
         updatedOptions
@@ -313,9 +308,28 @@ export class RemoteRenderingClient {
     conversionId: string,
     options?: OperationOptions
   ): Promise<AssetConversionPollerLike> {
-    conversionId = conversionId;
-    options = options;
-    throw new Error("Not yet implemented.");
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetConversionPoller", {
+      conversionId,
+      ...options
+    });
+
+    try {
+      let assetConversion: RemoteRenderingCreateConversionResponse = await this.operations.getConversion(
+        this.accountId,
+        conversionId,
+        updatedOptions
+      );
+
+      return new AssetConversionPoller(this, assetConversion);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   private async *getAllConversionsPagingPage(
@@ -325,12 +339,16 @@ export class RemoteRenderingClient {
     yield result.conversions;
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this.operations.listConversionsNext(this.accountId, continuationToken, options);
+      result = await this.operations.listConversionsNext(
+        this.accountId,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.conversions;
     }
   }
-  
+
   private async *getAllConversionsPagingAll(
     options?: OperationOptions
   ): AsyncIterableIterator<AssetConversion> {
@@ -401,7 +419,7 @@ export class RemoteRenderingClient {
 
       // Do I want this?
       await poller.poll();
-      
+
       return poller;
     } catch (e) {
       span.setStatus({
@@ -454,10 +472,29 @@ export class RemoteRenderingClient {
   public async getSessionPoller(
     sessionId: string,
     options?: OperationOptions
-  ): Promise<AssetConversionPollerLike> {
-    sessionId = sessionId;
-    options = options;
-    throw new Error("Not yet implemented.");
+  ): Promise<RenderingSessionPollerLike> {
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetSessionPoller", {
+      sessionId,
+      ...options
+    });
+
+    try {
+      let renderingSession: RemoteRenderingGetSessionResponse = await this.operations.getSession(
+        this.accountId,
+        sessionId,
+        updatedOptions
+      );
+
+      return new RenderingSessionPoller(this, renderingSession);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -496,11 +533,7 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let result = await this.operations.stopSession(
-        this.accountId,
-        sessionId,
-        updatedOptions
-      );
+      let result = await this.operations.stopSession(this.accountId, sessionId, updatedOptions);
 
       return Promise.resolve(result);
     } catch (e) {
@@ -514,12 +547,60 @@ export class RemoteRenderingClient {
     }
   }
 
+  private async *getAllSessionsPagingPage(
+    options?: OperationOptions
+  ): AsyncIterableIterator<RenderingSession[]> {
+    let result = await this.operations.listSessions(this.accountId, options);
+    yield result.sessions;
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this.operations.listSessionsNext(
+        this.accountId,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.sessions;
+    }
+  }
+
+  private async *getAllSessionsPagingAll(
+    options?: OperationOptions
+  ): AsyncIterableIterator<RenderingSession> {
+    for await (const page of this.getAllSessionsPagingPage(options)) {
+      yield* page;
+    }
+  }
+
   /**
    * Gets a list of all sessions.
    * @param options The options parameters.
    */
   public listSessions(options?: OperationOptions): PagedAsyncIterableIterator<RenderingSession> {
-    options = options;
-    throw new Error("Not yet implemented.");
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-ListConversion", {
+      ...options
+    });
+    try {
+      const iter = this.getAllSessionsPagingAll(updatedOptions);
+      return {
+        next() {
+          return iter.next();
+        },
+        [Symbol.asyncIterator]() {
+          return this;
+        },
+        byPage: () => {
+          return this.getAllSessionsPagingPage(updatedOptions);
+        }
+      };
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
