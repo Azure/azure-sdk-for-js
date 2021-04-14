@@ -29,10 +29,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   customizationsOnRecordings: [
     // Replace the recorded AccessToken value with a fake one.
     (recording: string): string =>
-      recording.replace(
-        /"AccessToken":"[^"]*"/g,
-        `"AccessToken":"<access_token>"`
-      )
+      recording.replace(/"AccessToken":"[^"]*"/g, `"AccessToken":"<access_token>"`)
   ]
 };
 
@@ -44,7 +41,7 @@ export function getEnv(name: string): string {
 }
 
 export function createClient(): RemoteRenderingClient {
-  const serviceEndpoint = getEnv("REMOTERENDERING_ARR_SERVICE_ENDPOINT")
+  const serviceEndpoint = getEnv("REMOTERENDERING_ARR_SERVICE_ENDPOINT");
   const accountDomain = getEnv("REMOTERENDERING_ARR_ACCOUNT_DOMAIN");
   const accountId = getEnv("REMOTERENDERING_ARR_ACCOUNT_ID");
   const accountKey = getEnv("REMOTERENDERING_ARR_ACCOUNT_KEY");

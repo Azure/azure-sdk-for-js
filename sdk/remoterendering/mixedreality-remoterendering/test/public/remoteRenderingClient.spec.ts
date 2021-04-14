@@ -118,7 +118,10 @@ describe("RemoteRendering functional tests", () => {
 
   it("simple conversion", async () => {
     let storageContainerUrl: string =
-    "https://" + getEnv("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") + ".blob.core.windows.net/" + getEnv("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
+      "https://" +
+      getEnv("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
+      ".blob.core.windows.net/" +
+      getEnv("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
 
     let inputSettings: AssetConversionInputSettings = {
       storageContainerUrl,
@@ -140,8 +143,15 @@ describe("RemoteRendering functional tests", () => {
       conversionSettings
     );
     assert.equal(conversionPoller.getOperationState().latestResponse.conversionId, conversionId);
-    assert.equal(conversionPoller.getOperationState().latestResponse.settings.inputSettings.relativeInputAssetPath, inputSettings.relativeInputAssetPath);
-    assert.notEqual(conversionPoller.getOperationState().latestResponse.status, KnownAssetConversionStatus.Failed);
+    assert.equal(
+      conversionPoller.getOperationState().latestResponse.settings.inputSettings
+        .relativeInputAssetPath,
+      inputSettings.relativeInputAssetPath
+    );
+    assert.notEqual(
+      conversionPoller.getOperationState().latestResponse.status,
+      KnownAssetConversionStatus.Failed
+    );
 
     let conversion: AssetConversion = await client.getConversion(conversionId);
     assert.equal(conversion.conversionId, conversionId);
@@ -155,12 +165,10 @@ describe("RemoteRendering functional tests", () => {
     assert.isTrue(conversion2.output?.outputAssetUrl?.endsWith("Output/testBox.arrAsset"));
 
     let foundConversion: boolean = false;
-    for await (const c of client.listConversions())
-    {
-        if (c.conversionId == conversionId)
-        {
-            foundConversion = true;
-        }
+    for await (const c of client.listConversions()) {
+      if (c.conversionId == conversionId) {
+        foundConversion = true;
+      }
     }
     assert.isTrue(foundConversion);
   });
