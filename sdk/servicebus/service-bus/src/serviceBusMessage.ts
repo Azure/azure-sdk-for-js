@@ -550,7 +550,12 @@ export function fromRheaMessage(
     }
   }
 
-  const props: any = {};
+  type PartialWritable<T> = Partial<
+    {
+      -readonly [P in keyof T]: T[P];
+    }
+  >;
+  const props: PartialWritable<ServiceBusReceivedMessage> = {};
   if (msg.message_annotations != null) {
     if (msg.message_annotations[Constants.deadLetterSource] != null) {
       props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
@@ -572,10 +577,11 @@ export function fromRheaMessage(
       props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
     }
   }
-  if (msg.ttl != null && msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()) {
-    props.expiresAtUtc = new Date(Constants.maxDurationValue);
-  } else {
-    props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
+  if (msg.ttl == null) msg.ttl = Constants.maxDurationValue;
+  if (props.enqueuedTimeUtc) {
+    props.expiresAtUtc = new Date(
+      Math.min(props.enqueuedTimeUtc.getTime() + msg.ttl, Constants.maxDurationValue)
+    );
   }
 
   const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
@@ -583,7 +589,6 @@ export function fromRheaMessage(
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {
     _rawAmqpMessage: rawMessage,
-    _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
@@ -599,8 +604,10 @@ export function fromRheaMessage(
         : undefined,
     ...sbmsg,
     ...props,
-    deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason,
-    deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription
+    deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
+    deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
+      | string
+      | undefined
   };
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
