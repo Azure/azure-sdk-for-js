@@ -40,7 +40,7 @@ export interface JobManifestTasks {
   entityRecognitionPiiTasks?: PiiTask[];
   keyPhraseExtractionTasks?: KeyPhrasesTask[];
   entityLinkingTasks?: EntityLinkingTask[];
-  sentimentTasks?: SentimentTask[];
+  sentimentAnalysisTasks?: SentimentAnalysisTask[];
 }
 
 export interface EntitiesTask {
@@ -72,6 +72,7 @@ export interface KeyPhrasesTask {
 
 export interface KeyPhrasesTaskParameters {
   modelVersion?: string;
+  loggingOptOut?: boolean;
 }
 
 export interface EntityLinkingTask {
@@ -84,13 +85,14 @@ export interface EntityLinkingTaskParameters {
   stringIndexType?: StringIndexType;
 }
 
-export interface SentimentTask {
-  parameters?: SentimentTaskParameters;
+export interface SentimentAnalysisTask {
+  parameters?: SentimentAnalysisTaskParameters;
 }
 
-export interface SentimentTaskParameters {
+export interface SentimentAnalysisTaskParameters {
   modelVersion?: string;
   loggingOptOut?: boolean;
+  opinionMining?: boolean;
   stringIndexType?: StringIndexType;
 }
 
@@ -159,7 +161,7 @@ export interface TasksStateTasks {
   entityRecognitionPiiTasks?: TasksStateTasksEntityRecognitionPiiTasksItem[];
   keyPhraseExtractionTasks?: TasksStateTasksKeyPhraseExtractionTasksItem[];
   entityLinkingTasks?: TasksStateTasksEntityLinkingTasksItem[];
-  sentimentTasks?: TasksStateTasksSentimentTasksItem[];
+  sentimentAnalysisTasks?: TasksStateTasksSentimentAnalysisTasksItem[];
 }
 
 export interface TaskState {
@@ -343,7 +345,7 @@ export interface Match {
   length: number;
 }
 
-export interface Components10Ojo84SchemasTasksstatePropertiesTasksPropertiesSentimenttasksItemsAllof1 {
+export interface Components1C6O47FSchemasTasksstatePropertiesTasksPropertiesSentimentanalysistasksItemsAllof1 {
   results?: SentimentResponse;
 }
 
@@ -582,8 +584,8 @@ export type TasksStateTasksKeyPhraseExtractionTasksItem = TaskState &
 export type TasksStateTasksEntityLinkingTasksItem = TaskState &
   ComponentsIfu7BjSchemasTasksstatePropertiesTasksPropertiesEntitylinkingtasksItemsAllof1 & {};
 
-export type TasksStateTasksSentimentTasksItem = TaskState &
-  Components10Ojo84SchemasTasksstatePropertiesTasksPropertiesSentimenttasksItemsAllof1 & {};
+export type TasksStateTasksSentimentAnalysisTasksItem = TaskState &
+  Components1C6O47FSchemasTasksstatePropertiesTasksPropertiesSentimentanalysistasksItemsAllof1 & {};
 
 export type HealthcareEntity = Entity & {
   assertion?: HealthcareAssertion;

@@ -342,6 +342,15 @@ export type AnalyzeSentimentAction = {
    * disables input logging and may limit our ability to remediate issues that occur.
    */
   loggingOptOut?: boolean;
+  /**
+   * Whether to mine the opinions of a sentence and conduct more  granular
+   * analysis around the aspects of a product or service (also known as
+   * aspect-based sentiment analysis). If set to true, the returned
+   * `SentenceSentiment` objects will have property `opinions` containing
+   * the result of this analysis.
+   * More information about the feature can be found here: {@link https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining}
+   */
+  includeOpinionMining?: boolean;
 };
 
 /**
@@ -1094,7 +1103,7 @@ function compileAnalyzeInput(actions: TextAnalyticsActions): GeneratedActions {
     entityLinkingTasks: actions.recognizeLinkedEntitiesActions?.map(
       compose(setStrEncodingParam, compose(setModelVersionParam, AddParamsToTask))
     ),
-    sentimentTasks: actions.analyzeSentimentActions?.map(
+    sentimentAnalysisTasks: actions.analyzeSentimentActions?.map(
       compose(setStrEncodingParam, AddParamsToTask)
     )
   };

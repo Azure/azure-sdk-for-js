@@ -69,6 +69,7 @@ export type AnalyzeSentimentAction = {
     modelVersion?: string;
     stringIndexType?: StringIndexType;
     loggingOptOut?: boolean;
+    includeOpinionMining?: boolean;
 };
 
 // @public

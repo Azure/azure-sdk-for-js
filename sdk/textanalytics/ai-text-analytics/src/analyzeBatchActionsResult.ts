@@ -269,7 +269,7 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
     case "entityLinkingTasks": {
       return "RecognizeLinkedEntities";
     }
-    case "sentimentTasks": {
+    case "sentimentAnalysisTasks": {
       return "AnalyzeSentiment";
     }
     default: {
@@ -287,7 +287,7 @@ function convertTaskTypeToActionType(taskType: string): TextAnalyticsActionType 
 export function parseActionError(erredActions: TextAnalyticsError): TextAnalyticsActionError {
   if (erredActions.target) {
     const regex = new RegExp(
-      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks|sentimentTasks)\/(\d+)/
+      /#\/tasks\/(entityRecognitionTasks|entityRecognitionPiiTasks|keyPhraseExtractionTasks|entityLinkingTasks|sentimentAnalysisTasks)\/(\d+)/
     );
     const result = regex.exec(erredActions.target);
     if (result !== null) {
@@ -462,7 +462,7 @@ export function createAnalyzeBatchActionsResult(
     analyzeSentimentResults: makeActionResult(
       documents,
       makeAnalyzeSentimentResultArray,
-      response.tasks.sentimentTasks ?? [],
+      response.tasks.sentimentAnalysisTasks ?? [],
       analyzeSentimentActionErrors
     )
   };

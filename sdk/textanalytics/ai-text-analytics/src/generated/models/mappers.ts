@@ -143,14 +143,14 @@ export const JobManifestTasks: coreClient.CompositeMapper = {
           }
         }
       },
-      sentimentTasks: {
-        serializedName: "sentimentTasks",
+      sentimentAnalysisTasks: {
+        serializedName: "sentimentAnalysisTasks",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "SentimentTask"
+              className: "SentimentAnalysisTask"
             }
           }
         }
@@ -188,6 +188,7 @@ export const EntitiesTaskParameters: coreClient.CompositeMapper = {
         }
       },
       loggingOptOut: {
+        defaultValue: false,
         serializedName: "loggingOptOut",
         type: {
           name: "Boolean"
@@ -296,6 +297,13 @@ export const KeyPhrasesTaskParameters: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      loggingOptOut: {
+        defaultValue: false,
+        serializedName: "loggingOptOut",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -330,6 +338,7 @@ export const EntityLinkingTaskParameters: coreClient.CompositeMapper = {
         }
       },
       loggingOptOut: {
+        defaultValue: false,
         serializedName: "loggingOptOut",
         type: {
           name: "Boolean"
@@ -345,26 +354,26 @@ export const EntityLinkingTaskParameters: coreClient.CompositeMapper = {
   }
 };
 
-export const SentimentTask: coreClient.CompositeMapper = {
+export const SentimentAnalysisTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SentimentTask",
+    className: "SentimentAnalysisTask",
     modelProperties: {
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Composite",
-          className: "SentimentTaskParameters"
+          className: "SentimentAnalysisTaskParameters"
         }
       }
     }
   }
 };
 
-export const SentimentTaskParameters: coreClient.CompositeMapper = {
+export const SentimentAnalysisTaskParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SentimentTaskParameters",
+    className: "SentimentAnalysisTaskParameters",
     modelProperties: {
       modelVersion: {
         defaultValue: "latest",
@@ -374,7 +383,14 @@ export const SentimentTaskParameters: coreClient.CompositeMapper = {
         }
       },
       loggingOptOut: {
+        defaultValue: false,
         serializedName: "loggingOptOut",
+        type: {
+          name: "Boolean"
+        }
+      },
+      opinionMining: {
+        serializedName: "opinionMining",
         type: {
           name: "Boolean"
         }
@@ -697,14 +713,14 @@ export const TasksStateTasks: coreClient.CompositeMapper = {
           }
         }
       },
-      sentimentTasks: {
-        serializedName: "sentimentTasks",
+      sentimentAnalysisTasks: {
+        serializedName: "sentimentAnalysisTasks",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "TasksStateTasksSentimentTasksItem"
+              className: "TasksStateTasksSentimentAnalysisTasksItem"
             }
           }
         }
@@ -1436,11 +1452,11 @@ export const Match: coreClient.CompositeMapper = {
   }
 };
 
-export const Components10Ojo84SchemasTasksstatePropertiesTasksPropertiesSentimenttasksItemsAllof1: coreClient.CompositeMapper = {
+export const Components1C6O47FSchemasTasksstatePropertiesTasksPropertiesSentimentanalysistasksItemsAllof1: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className:
-      "Components10Ojo84SchemasTasksstatePropertiesTasksPropertiesSentimenttasksItemsAllof1",
+      "Components1C6O47FSchemasTasksstatePropertiesTasksPropertiesSentimentanalysistasksItemsAllof1",
     modelProperties: {
       results: {
         serializedName: "results",
@@ -1957,7 +1973,7 @@ export const HealthcareAssertion: coreClient.CompositeMapper = {
         serializedName: "conditionality",
         type: {
           name: "Enum",
-          allowedValues: ["Hypothetical", "Conditional"]
+          allowedValues: ["hypothetical", "conditional"]
         }
       },
       certainty: {
@@ -1965,11 +1981,11 @@ export const HealthcareAssertion: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: [
-            "Positive",
-            "PositivePossible",
-            "NeutralPossible",
-            "NegativePossible",
-            "Negative"
+            "positive",
+            "positivePossible",
+            "neutralPossible",
+            "negativePossible",
+            "negative"
           ]
         }
       },
@@ -2385,13 +2401,13 @@ export const TasksStateTasksEntityLinkingTasksItem: coreClient.CompositeMapper =
   }
 };
 
-export const TasksStateTasksSentimentTasksItem: coreClient.CompositeMapper = {
+export const TasksStateTasksSentimentAnalysisTasksItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TasksStateTasksSentimentTasksItem",
+    className: "TasksStateTasksSentimentAnalysisTasksItem",
     modelProperties: {
       ...TaskState.type.modelProperties,
-      ...Components10Ojo84SchemasTasksstatePropertiesTasksPropertiesSentimenttasksItemsAllof1
+      ...Components1C6O47FSchemasTasksstatePropertiesTasksPropertiesSentimentanalysistasksItemsAllof1
         .type.modelProperties
     }
   }
