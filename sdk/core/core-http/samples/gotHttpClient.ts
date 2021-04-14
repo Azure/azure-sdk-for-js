@@ -33,11 +33,11 @@ function toOutgoingHeaders(headers: coreHttp.HttpHeadersLike): GotHeaders {
  */
 function toIncomingHeaders(headers: IncomingHttpHeaders): coreHttp.HttpHeadersLike {
   const result = new coreHttp.HttpHeaders();
-  for (const key of Object.keys(headers)) {
-    if (Array.isArray(headers[key]) && headers[key]?.length) {
-      result.set(key, headers[key]![0]);
-    } else {
-      result.set(key, (headers[key] as string) || "");
+  for (const [key, value] of Object.entries(headers)) {
+    if (Array.isArray(value) && value?.length) {
+      result.set(key, value![0]);
+    } else if (value) {
+      result.set(key, value);
     }
   }
 
