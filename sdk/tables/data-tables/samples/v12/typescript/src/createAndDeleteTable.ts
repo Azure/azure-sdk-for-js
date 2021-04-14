@@ -1,13 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/**
+ * This sample demonstrates create and delete a table
+ *
+ * @summary creates and deletes a table
+ */
 
-const { TableServiceClient, TableClient } = require("@azure/data-tables");
+import { TableServiceClient, TableClient } from "@azure/data-tables";
+import { v4 } from "uuid";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 const sasConnectionString = process.env["SAS_CONNECTION_STRING"] || "";
+const tableSufix = v4().replace(/-/g, "");
 
 async function createAndDeleteTable() {
   console.log("== Delete and create table Sample ==");
@@ -16,7 +23,7 @@ async function createAndDeleteTable() {
   const serviceClient = TableServiceClient.fromConnectionString(sasConnectionString);
 
   // Create a new table
-  const tableName = "SampleCreateAndDeleteTable";
+  const tableName = `SampleCreateAndDeleteTable${tableSufix}`;
   await serviceClient.createTable(tableName);
 
   // Deletes the table
@@ -39,7 +46,7 @@ async function createAndDeleteTableWithTableClient() {
   await client.delete();
 }
 
-async function main() {
+export async function main() {
   await createAndDeleteTable();
   await createAndDeleteTableWithTableClient();
 }

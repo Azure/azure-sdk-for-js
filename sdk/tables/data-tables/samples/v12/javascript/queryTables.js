@@ -1,13 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/**
+ * This sample demonstrates how to query tables
+ *
+ * @summary queries tables
+ */
 
 const { odata, TableServiceClient } = require("@azure/data-tables");
+const { v4 } = require("uuid");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
 
 const accountConnectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
+const tableSufix = v4().replace(/-/g, "");
 
 async function queryTables() {
   console.log("== Query tables Sample ==");
@@ -16,7 +23,7 @@ async function queryTables() {
   const serviceClient = TableServiceClient.fromConnectionString(accountConnectionString);
 
   // Create a new table
-  const tableName = "OfficeSupplies3p1";
+  const tableName = `queryTables${tableSufix}`;
   await serviceClient.createTable(tableName);
 
   // list the tables with a filter query, queryOptions is optional.

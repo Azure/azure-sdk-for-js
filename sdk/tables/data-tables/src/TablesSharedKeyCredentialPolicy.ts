@@ -78,7 +78,7 @@ function getCanonicalizedResourceString(
   request: PipelineRequest,
   credential: TablesSharedKeyCredentialLike
 ): string {
-  // https://docs.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
+  // https://docs.microsoft.com/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
   const url = new URL(request.url);
   const path = url.pathname || "/";
   let canonicalizedResourceString = "/" + credential.accountName + path;

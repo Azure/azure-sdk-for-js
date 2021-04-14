@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/**
+ * This sample demonstrates how to query entities in a table
+ *
+ * @summary queries entities in a table
+ */
 
 const { odata, TableClient } = require("@azure/data-tables");
+const { v4 } = require("uuid");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -9,15 +15,19 @@ dotenv.config();
 
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
+const tableSufix = v4().replace(/-/g, "");
 
 async function listEntities() {
   console.log("== List entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = "OfficeSupplies4p1";
+  const tableName = `queryEntitiesTable${tableSufix}`;
+  console.log(tableName);
 
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
+  // Create the table
+  await client.create();
 
   const partitionKey = "Stationery";
   const marker = {
@@ -58,6 +68,9 @@ async function listEntities() {
   for await (const product of priceListResults) {
     console.log(`${product.name}: ${product.price}`);
   }
+
+  // Delete the table for cleanup
+  await client.delete();
 }
 
 // Sample of how to retreive the top N entities for a query
@@ -67,10 +80,13 @@ async function listTopNEntities() {
   const partitionKey = "Stationery";
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = "OfficeSupplies4p1";
+  const tableName = `listTopNEntitiesTable${tableSufix}`;
 
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
+
+  // Create the table
+  await client.create();
 
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities({
@@ -92,6 +108,9 @@ async function listTopNEntities() {
 
   console.log(`Top entities: ${topEntities.length}`);
   // Top entities: 1
+
+  // Delete the table to cleanup
+  await client.delete();
 }
 
 async function main() {

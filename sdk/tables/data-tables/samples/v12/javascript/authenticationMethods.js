@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * This sample demonstrates how to use the different methods of authentication
+ * to make calls to the Azure Tables Service
+ *
+ * @summary authenticates using different authentication methods
+ */
 const { TableServiceClient, TablesSharedKeyCredential } = require("@azure/data-tables");
 
 // Load the .env file if it exists
