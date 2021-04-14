@@ -47,6 +47,8 @@ import {
   RenderingSessionOperationState
 } from "./lro/renderingSessionPoller";
 
+import { getConversionInternal } from "./internal/commonQueries";
+
 export {
   AssetConversionOperationState,
   AssetConversion,
@@ -246,7 +248,7 @@ export class RemoteRenderingClient {
         updatedOptions
       );
 
-      let poller = new AssetConversionPoller(this, assetConversion);
+      let poller = new AssetConversionPoller(this.accountId, this.operations, assetConversion);
 
       // TODO Do I want this?
       await poller.poll();
@@ -275,26 +277,7 @@ export class RemoteRenderingClient {
     conversionId: string,
     options?: OperationOptions
   ): Promise<WithResponse<AssetConversion>> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetConversion", {
-      conversionId: conversionId,
-      ...options
-    });
-
-    try {
-      return await this.operations.getConversion(
-        this.accountId,
-        conversionId,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return getConversionInternal(this.accountId, this.operations, conversionId, "RemoteRenderingClient-GetConversion", options);
   }
 
   /**
@@ -306,28 +289,15 @@ export class RemoteRenderingClient {
     conversionId: string,
     options?: OperationOptions
   ): Promise<AssetConversionPollerLike> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-GetConversionPoller", {
-      conversionId,
-      ...options
-    });
-
-    try {
-      let assetConversion: RemoteRenderingCreateConversionResponse = await this.operations.getConversion(
+      let assetConversion: WithResponse<AssetConversion> = await getConversionInternal(
         this.accountId,
+        this.operations,
         conversionId,
-        updatedOptions
+        "RemoteRenderingClient-GetConversionPoller",
+        options
       );
 
-      return new AssetConversionPoller(this, assetConversion);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      return new AssetConversionPoller(this.accountId, this.operations, assetConversion);
   }
 
   private async *getAllConversionsPagingPage(
@@ -511,7 +481,12 @@ export class RemoteRenderingClient {
     });
 
     try {
-      return this.operations.updateSession(this.accountId, sessionId, updateSessionSettings, updatedOptions);
+      return this.operations.updateSession(
+        this.accountId,
+        sessionId,
+        updateSessionSettings,
+        updatedOptions
+      );
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

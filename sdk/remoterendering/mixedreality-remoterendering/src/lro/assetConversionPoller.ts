@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { RemoteRenderingClient, WithResponse } from "../remoteRenderingClient";
+import { WithResponse } from "../remoteRenderingClient";
 import { AssetConversion, KnownAssetConversionStatus } from "../generated/models/index";
-
+import { RemoteRendering } from "../generated/operations";
+import { getConversionInternal } from "../internal/commonQueries";
 import { delay, AbortSignalLike } from "@azure/core-http";
 
 export interface AssetConversionOperationState
@@ -53,19 +54,21 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
 
 class AssetConversionOperation
   implements PollOperation<AssetConversionOperationStateImpl, AssetConversion> {
-  private client: RemoteRenderingClient;
+  private accountId: string;
+  private operations: RemoteRendering;
   state: AssetConversionOperationStateImpl;
 
-  constructor(client: RemoteRenderingClient, state: AssetConversionOperationStateImpl) {
+  constructor(accountId: string, operations: RemoteRendering, state: AssetConversionOperationStateImpl) {
+    this.operations = operations;
+    this.accountId = accountId;
     this.state = state;
-    this.client = client;
   }
 
   update(_options?: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: AssetConversionOperationState) => void;
   }): Promise<AssetConversionOperation> {
-    return this.client.getConversion(this.state.latestResponse.conversionId).then((res) => {
+    return getConversionInternal(this.accountId, this.operations, this.state.latestResponse.conversionId, "AssetConversionPoller-Update").then((res) => {
       this.state.latestResponse = res;
       return this;
     });
@@ -89,9 +92,9 @@ export class AssetConversionPoller extends Poller<
    */
   public intervalInMs: number = 10000;
 
-  constructor(client: RemoteRenderingClient, assetConversion: WithResponse<AssetConversion>) {
+  constructor(accountId: string, operations: RemoteRendering, assetConversion: WithResponse<AssetConversion>) {
     super(
-      new AssetConversionOperation(client, new AssetConversionOperationStateImpl(assetConversion))
+      new AssetConversionOperation(accountId, operations, new AssetConversionOperationStateImpl(assetConversion))
     );
   }
 
