@@ -21,6 +21,9 @@ az appconfig create --name <app-configuration-resource-name> --resource-group <r
 ## Running the sample
 
 1. Have `REACT_APP_APPCONFIG_CONNECTION_STRING` populated in the .env file.
+
+   **NOTE: We are using a connection string to keep this sample simple; however, this will embed the connection string into your published bundle which is not suitable for production as it would make the secrets public. For production client side applications, we recommend the [@azure/identity][identity] package which provides a set of credential implementations for both NodeJS and the browser.**
+
 2. Create the following feature flags using the portal.
 
    ```json
@@ -72,3 +75,4 @@ Take a look at our [Samples][samples] for more information about the APIs that a
 [typescript]: https://www.typescriptlang.org/docs/home.html
 [freesub]: https://azure.microsoft.com/free
 [samples]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/appconfiguration/app-configuration/samples/v1/typescript
+[identity]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md
