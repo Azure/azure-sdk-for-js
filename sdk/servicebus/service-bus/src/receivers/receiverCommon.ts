@@ -194,7 +194,7 @@ export function settleMessage(
     operation: () => {
       return _settleMessageOperation(message, operation, context, entityPath, options);
     },
-    operationType: RetryOperationType.receiverLink,
+    operationType: RetryOperationType.messageSettlement,
     abortSignal: options?.abortSignal,
     retryOptions: options?.retryOptions
   });
