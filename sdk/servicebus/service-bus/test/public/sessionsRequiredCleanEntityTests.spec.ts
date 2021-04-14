@@ -10,7 +10,7 @@ import {
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../../src";
 import { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src";
-import { TestMessage } from "./utils/testUtils";
+import { TestClientType, TestMessage } from "./utils/testUtils";
 const should = chai.should();
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic
@@ -23,10 +23,9 @@ describe("sessions tests -  requires completely clean entity for each test", () 
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
   let receiver: ServiceBusSessionReceiver;
+  const randomTestClientType = getRandomTestClientTypeWithSessions();
 
-  const testClientType = getRandomTestClientTypeWithSessions();
-
-  async function beforeEachNoSessionTest(): Promise<void> {
+  async function beforeEachNoSessionTest(testClientType: TestClientType): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
@@ -51,85 +50,99 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     // }
   }
 
-  async function afterEachTest(): Promise<void> {
-    await serviceBusClient.test.afterEach();
-    // special circumstance since we're destroying everything after each of these tests.
-    await serviceBusClient.test.after();
-  }
+  afterEach(() => serviceBusClient.test.afterEach());
+  after(() => serviceBusClient.test.after());
 
-  describe("Peek session", function(): void {
-    afterEach(async () => {
-      await afterEachTest();
-    });
+  // These tests really do need to run against both queues and subscriptions.
+  //
+  // The main issue is that subscriptions, unlike queues, allow you to create a receiver
+  // even if no messages for a particular session are available. Previously this test
+  // made the assumption that if the receiver was created then we could immediately peek() and
+  // get a message.
+  //
+  // If things are slow then it's entirely possible the message gets sent, doesn't yet
+  // get processed into the subscription and we peek into the empty subscription. peek() internally
+  // is implemented by peeking from a given sequence number, which means that an empty subscription is a
+  // really fast call that returns no messages (ie, no messages available past this sequence number).
+  //
+  // So to compensate for this (since speed isn't what we're testing) I just receiveMessages(1) prior to the
+  // peek, which _does_ wait for messages to arrive before returning.
+  [
+    getRandomTestClientTypeWithSessions("queue"),
+    getRandomTestClientTypeWithSessions("subscription")
+  ].forEach((testClientType) => {
+    describe(testClientType + "Peek session", function(): void {
+      async function peekSession(
+        sessionReceiverType: "acceptsession" | "acceptnextsession" | ":hell"
+      ): Promise<void> {
+        const testMessage = TestMessage.getSessionSample();
+        await sender.sendMessages(testMessage);
 
-    async function eachTest(useSessionId: boolean): Promise<void> {
-      await beforeEachNoSessionTest();
-      await peekSession(useSessionId);
-    }
+        const entityNames = serviceBusClient.test.getTestEntities(testClientType);
 
-    async function peekSession(useSessionId: boolean): Promise<void> {
-      const testMessage = TestMessage.getSessionSample();
-      await sender.sendMessages(testMessage);
+        if (sessionReceiverType === "acceptsession") {
+          receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
+            entityNames,
+            testMessage.sessionId!
+          );
+        } else if (sessionReceiverType === "acceptnextsession") {
+          receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
+        } else {
+          should.fail(`Invalid session receiver type for test: ${sessionReceiverType}`);
+        }
 
-      const entityNames = serviceBusClient.test.getTestEntities(testClientType);
+        await ensureMessageExists(receiver);
 
-      if (useSessionId) {
-        receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
-          entityNames,
-          testMessage.sessionId!
+        const peekedMsgs = await receiver.peekMessages(1);
+
+        should.equal(peekedMsgs.length, 1, "Unexpected number of messages browsed");
+        should.equal(
+          peekedMsgs[0].body,
+          testMessage.body,
+          "MessageBody is different than expected"
         );
-      } else {
-        receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
+        should.equal(
+          peekedMsgs[0].messageId,
+          testMessage.messageId,
+          "MessageId is different than expected"
+        );
+        should.equal(
+          peekedMsgs[0].sessionId,
+          testMessage.sessionId,
+          "SessionId is different than expected"
+        );
+
+        const msgs = await receiver.receiveMessages(1);
+        should.equal(msgs.length, 1, "Unexpected number of messages received");
+        should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
+        should.equal(
+          msgs[0].messageId,
+          testMessage.messageId,
+          "MessageId is different than expected"
+        );
+        should.equal(
+          msgs[0].sessionId,
+          testMessage.sessionId,
+          "SessionId is different than expected"
+        );
+
+        await receiver.completeMessage(msgs[0]);
       }
 
-      // At this point AMQP receiver link has not been established.
-      // peekMessages() will not establish the link if sessionId was provided
-      const peekedMsgs = await receiver.peekMessages(1);
-      should.equal(peekedMsgs.length, 1, "Unexpected number of messages browsed");
-      should.equal(peekedMsgs[0].body, testMessage.body, "MessageBody is different than expected");
-      should.equal(
-        peekedMsgs[0].messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(
-        peekedMsgs[0].sessionId,
-        testMessage.sessionId,
-        "SessionId is different than expected"
-      );
+      it("acceptSession(sessionId)", async function(): Promise<void> {
+        await beforeEachNoSessionTest(testClientType);
+        await peekSession("acceptsession");
+      });
 
-      const msgs = await receiver.receiveMessages(1);
-      should.equal(msgs.length, 1, "Unexpected number of messages received");
-      should.equal(msgs[0].body, testMessage.body, "MessageBody is different than expected");
-      should.equal(
-        msgs[0].messageId,
-        testMessage.messageId,
-        "MessageId is different than expected"
-      );
-      should.equal(
-        msgs[0].sessionId,
-        testMessage.sessionId,
-        "SessionId is different than expected"
-      );
-
-      await receiver.completeMessage(msgs[0]);
-    }
-
-    it(testClientType + " - Peek Session with sessionId", async function(): Promise<void> {
-      await eachTest(true);
-    });
-
-    it(testClientType + " - Peek Session without sessionId", async function(): Promise<void> {
-      await eachTest(false);
+      it("acceptNextSession()", async function(): Promise<void> {
+        await beforeEachNoSessionTest(testClientType);
+        await peekSession("acceptnextsession");
+      });
     });
   });
 
-  describe(testClientType + ": SessionReceiver with no sessionId", function(): void {
+  describe(randomTestClientType + ": SessionReceiver with no sessionId", function(): void {
     const testSessionId2 = "my-session2";
-
-    afterEach(async () => {
-      await afterEachTest();
-    });
 
     const testMessagesWithDifferentSessionIds: ServiceBusMessage[] = [
       {
@@ -148,7 +161,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await sender.sendMessages(testMessagesWithDifferentSessionIds[0]);
       await sender.sendMessages(testMessagesWithDifferentSessionIds[1]);
 
-      const entityNames = serviceBusClient.test.getTestEntities(testClientType);
+      const entityNames = serviceBusClient.test.getTestEntities(randomTestClientType);
       receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
 
       let msgs = await receiver.receiveMessages(2);
@@ -189,19 +202,18 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       await testPeekMsgsLength(receiver, 0);
     }
 
-    it("complete() removes message from random session", async function(): Promise<void> {
-      await beforeEachNoSessionTest();
-      await testComplete_batching();
-    });
+    it(
+      randomTestClientType + ": complete() removes message from random session",
+      async function(): Promise<void> {
+        await beforeEachNoSessionTest(randomTestClientType);
+        await testComplete_batching();
+      }
+    );
   });
 
   describe.skip(
-    testClientType + ": SessionReceiver with empty string as sessionId",
+    randomTestClientType + ": SessionReceiver with empty string as sessionId",
     function(): void {
-      afterEach(async () => {
-        await afterEachTest();
-      });
-
       // Sending messages with different session id, so that we know for sure we pick the right one
       // and that Service Bus is not choosing a random one for us
       const testMessagesWithDifferentSessionIds: ServiceBusMessage[] = [
@@ -221,7 +233,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         await sender.sendMessages(testMessagesWithDifferentSessionIds[0]);
         await sender.sendMessages(testMessagesWithDifferentSessionIds[1]);
 
-        const entityNames = serviceBusClient.test.getTestEntities(testClientType);
+        const entityNames = serviceBusClient.test.getTestEntities(randomTestClientType);
 
         // get the next available session ID rather than specifying one
         receiver = await serviceBusClient.test.acceptSessionWithPeekLock(entityNames, "");
@@ -247,9 +259,26 @@ describe("sessions tests -  requires completely clean entity for each test", () 
       }
 
       it("complete() removes message from random session", async function(): Promise<void> {
-        await beforeEachNoSessionTest();
+        await beforeEachNoSessionTest(randomTestClientType);
         await testComplete_batching();
       });
     }
   );
 });
+
+/**
+ * A simple workaround to ensure that a message is actually available, prior to peeking.
+ *
+ * Without this it's possible to be too fast, and attempt to peek (with a sequence number) and
+ * get no messages, which isn't an error or obvious.
+ *
+ * This behavior only manifests with subscriptions. Queues won't even let you create a receiver
+ * when a session does not have any messages.
+ */
+async function ensureMessageExists(receiver: ServiceBusSessionReceiver) {
+  const messages = await receiver.receiveMessages(1);
+  should.equal(messages.length, 1, "Should receive a single message");
+
+  // put it right back.
+  await receiver.abandonMessage(messages[0]);
+}
