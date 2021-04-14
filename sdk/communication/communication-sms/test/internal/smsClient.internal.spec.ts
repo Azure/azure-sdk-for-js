@@ -14,41 +14,49 @@ import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import * as sinon from "sinon";
 import { Uuid } from "../../src/utils/uuid";
-import { recorderConfiguration } from "../public/utils/recordedClient";
+import { createCredential, recorderConfiguration } from "../public/utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "../public/suites/smsClient.send";
+import { matrix } from "../public/utils/matrix";
+import { parseConnectionString } from "@azure/communication-common";
 
 if (isNode) {
   dotenv.config();
 }
 
-describe("SmsClient [Playback/Record]", async () => {
-  let recorder: Recorder;
+matrix([[true, false]], async function(useAad) {
+  describe(`SmsClient [Playback/Record]${useAad ? " [AAD]" : ""}`, async () => {
+    let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
-    recorder = record(this, recorderConfiguration);
+    beforeEach(async function(this: Context) {
+      recorder = record(this, recorderConfiguration);
 
-    if (isLiveMode()) {
-      console.log("Skipping because public tests will run instead.");
-      this.skip();
-    }
+      if (isLiveMode()) {
+        console.log("Skipping because public tests will run instead.");
+        this.skip();
+      } else if (isPlaybackMode()) {
+        sinon.stub(Uuid, "generateUuid").returns("sanitized");
+        sinon.stub(Date, "now").returns(0);
+      }
+      const connectionString = env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string;
+      if (useAad) {
+        const token = createCredential() || this.skip();
+        const { endpoint } = parseConnectionString(connectionString);
+        this.smsClient = new SmsClient(endpoint, token);
+      } else {
+        this.smsClient = new SmsClient(connectionString);
+      }
+    });
 
-    if (isPlaybackMode()) {
-      sinon.stub(Uuid, "generateUuid").returns("sanitized");
-      sinon.stub(Date, "now").returns(0);
-    }
+    afterEach(async function(this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+      if (isPlaybackMode()) {
+        sinon.restore();
+      }
+    });
 
-    this.smsClient = new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING as string);
+    describe("when sending SMS", sendSmsSuites);
   });
-
-  afterEach(async function(this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-    if (isPlaybackMode()) {
-      sinon.restore();
-    }
-  });
-
-  describe("when sending SMS", sendSmsSuites);
 });
