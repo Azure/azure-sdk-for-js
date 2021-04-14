@@ -1,16 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getMessageIterator, wrapProcessErrorHandler } from "../../../src/receivers/shared";
+import {
+  getMessageIterator,
+  settleMessage,
+  settleMessageOperation,
+  wrapProcessErrorHandler
+} from "../../../src/receivers/receiverCommon";
 import chai from "chai";
 import { ServiceBusReceiver } from "../../../src/receivers/receiver";
 import { ServiceBusLogger } from "../../../src/log";
 import { ProcessErrorArgs } from "../../../src/models";
 import { ServiceBusError, translateServiceBusError } from "../../../src/serviceBusError";
 import { MessagingError } from "@azure/core-amqp";
+import { DispositionType, ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
+import { ConnectionContext } from "../../../src/connectionContext";
+import { DispositionStatusOptions } from "../../../src/core/managementClient";
+import { Delivery } from "rhea-promise";
+import { MessageAlreadySettled } from "../../../src/util/errors";
+import { assertThrows } from "../../public/utils/testUtils";
 const assert = chai.assert;
 
-describe("shared", () => {
+describe("shared receiver code", () => {
   describe("translateServiceBusError", () => {
     [
       new Error("Plain error"),
@@ -76,6 +87,103 @@ describe("shared", () => {
           retryable: messagingError.retryable
         } as ServiceBusError,
         "The code should be intact and the reason code, since it matches our blessed list, should match."
+      );
+    });
+  });
+
+  describe("settleMessage", () => {
+    it("retry options are used and arguments plumbed through", async () => {
+      const expectedFakeMessage = ({} as any) as ServiceBusMessageImpl;
+      const expectedFakeContext = ({
+        connectionId: "hello"
+      } as any) as ConnectionContext;
+
+      let numTimesCalled = 0;
+
+      await settleMessage(
+        expectedFakeMessage,
+        DispositionType.deadletter,
+        expectedFakeContext,
+        "entityPath",
+        {
+          retryOptions: {
+            maxRetries: 1,
+            retryDelayInMs: 0
+          },
+          sessionId: "here just to prove that we're propagating options"
+        },
+        async (
+          message: ServiceBusMessageImpl,
+          operation: DispositionType,
+          context: ConnectionContext,
+          entityPath: string,
+          options: DispositionStatusOptions
+        ) => {
+          ++numTimesCalled;
+
+          assert.deepEqual(message, expectedFakeMessage);
+          assert.deepEqual(context, expectedFakeContext);
+          assert.deepEqual(operation, DispositionType.deadletter);
+          assert.deepEqual(entityPath, "entityPath");
+          assert.deepEqual(options.sessionId, "here just to prove that we're propagating options");
+
+          if (numTimesCalled < 2) {
+            const err = new Error("Force retries until the last iteration");
+            (err as any).retryable = true;
+            throw err;
+          }
+        }
+      );
+
+      assert.equal(numTimesCalled, 2);
+    });
+
+    it("already settled message throws message indicating lock was lost (non-session)", async () => {
+      const fakeMessage = ({
+        delivery: {
+          remote_settled: true
+        } as Delivery
+      } as any) as ServiceBusMessageImpl;
+
+      await assertThrows(
+        () =>
+          settleMessageOperation(
+            fakeMessage,
+            DispositionType.defer,
+            {} as ConnectionContext,
+            "entityPath",
+            {
+              retryOptions: undefined
+            }
+          ),
+        {
+          message: MessageAlreadySettled
+        }
+      );
+    });
+
+    it("already settled message throws message indicating lock was lost (session)", async () => {
+      const fakeMessage = ({
+        sessionId: "any session id",
+        delivery: {
+          remote_settled: true
+        } as Delivery
+      } as any) as ServiceBusMessageImpl;
+
+      await assertThrows(
+        () =>
+          settleMessageOperation(
+            fakeMessage,
+            DispositionType.defer,
+            {} as ConnectionContext,
+            "entityPath",
+            {
+              retryOptions: undefined
+            }
+          ),
+        {
+          message: MessageAlreadySettled
+        }
       );
     });
   });
