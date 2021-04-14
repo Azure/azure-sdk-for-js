@@ -281,7 +281,7 @@ export default function DocumentTranslator(
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {}
 ): DocumentTranslatorClient {
-  const baseUrl = options.baseUrl ?? `${endpoint}/translator/text/batch/v1.0`;
+  const baseUrl = options.baseUrl ?? `${endpoint}/translator/text/batch/v1.0-preview.1`;
   options = {
     ...options,
     credentials: {

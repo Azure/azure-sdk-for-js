@@ -6,7 +6,6 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { fail } from "assert";
 
 describe("List Document Formats", () => {
   let recorder: Recorder;
@@ -25,7 +24,7 @@ describe("List Document Formats", () => {
     const result = await client.path("/documents/formats").get();
 
     if (result.status !== "200") {
-      fail(`GET "/documents/formats" failed with ${result.status}`);
+      assert.fail(`GET "/documents/formats" failed with ${result.status}`);
     }
 
     assert.equal(result.body.value.length, 17);
