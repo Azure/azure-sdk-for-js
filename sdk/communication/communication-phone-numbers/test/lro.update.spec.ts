@@ -6,7 +6,6 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumberCapabilitiesRequest } from "../src";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { buildCapabilityUpdate } from "./utils";
 import { matrix } from "./utils/matrix";
 import {
   canCreateRecordedClientWithToken,
@@ -39,18 +38,14 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("can update a phone number's capabilities", async function() {
-      const { capabilities } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
-      const update: PhoneNumberCapabilitiesRequest = isPlaybackMode()
-        ? { calling: "none", sms: "outbound" }
-        : buildCapabilityUpdate(capabilities);
-
+      const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" }
       const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
         purchasedPhoneNumber,
         update
       );
 
       const phoneNumber = await updatePoller.pollUntilDone();
-      assert.notDeepEqual(phoneNumber.capabilities, capabilities);
+      assert.ok(updatePoller.getOperationState().isCompleted);
       assert.deepEqual(phoneNumber.capabilities, update);
     }).timeout(30000);
   });
