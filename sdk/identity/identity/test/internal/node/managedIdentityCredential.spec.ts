@@ -182,7 +182,7 @@ describe("ManagedIdentityCredential", function() {
     );
   });
 
-  it("IMDS MSI retries and succeeds on 404", async function() {
+  it.only("IMDS MSI retries and succeeds on 404", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const mockHttpClient = new MockAuthHttpClient({
@@ -210,7 +210,7 @@ describe("ManagedIdentityCredential", function() {
     assert.equal(response.token, "token");
   });
 
-  it("IMDS MSI retries up to a limit on 404", async function() {
+  it.only("IMDS MSI retries up to a limit on 404", async function() {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const mockHttpClient = new MockAuthHttpClient({
