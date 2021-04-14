@@ -8,23 +8,6 @@
 import { IncomingHttpHeaders } from "http";
 import * as coreHttp from "@azure/core-http";
 import got from "got";
-import { Headers as GotHeaders } from "got";
-
-/**
- * Translate from core-http headers to got headers
- * @param headers
- * @returns
- */
-function toOutgoingHeaders(headers: coreHttp.HttpHeadersLike): GotHeaders {
-  let result: Record<string, string> = {};
-  for (const key of headers.headerNames()) {
-    if (key) {
-      result[key] = headers.get(key) || "";
-    }
-  }
-
-  return result;
-}
 
 /**
  * Translates got incoming headers into core-http headers
@@ -37,7 +20,7 @@ function toIncomingHeaders(headers: IncomingHttpHeaders): coreHttp.HttpHeadersLi
     if (Array.isArray(value) && value?.length) {
       result.set(key, value![0]);
     } else if (value) {
-      result.set(key, value);
+      result.set(key, value as string);
     }
   }
 
@@ -54,11 +37,9 @@ export class GotHttpClient implements coreHttp.HttpClient {
     httpRequest: coreHttp.WebResourceLike
   ): Promise<coreHttp.HttpOperationResponse> {
     console.log(`sending request using 'got' package...`);
-    const method = httpRequest.method;
-    const headers = toOutgoingHeaders(httpRequest.headers);
     const response = await got(httpRequest.url, {
-      method,
-      headers,
+      method: httpRequest.method,
+      headers: httpRequest.headers.rawHeaders(),
       searchParams: httpRequest.query,
       retry: 0
     });
