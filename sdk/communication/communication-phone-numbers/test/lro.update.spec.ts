@@ -53,21 +53,5 @@ matrix([[true, false]], async function(useAad) {
       assert.notDeepEqual(phoneNumber.capabilities, capabilities);
       assert.deepEqual(phoneNumber.capabilities, update);
     }).timeout(30000);
-
-    it("can cancel update polling", async function() {
-      const { capabilities } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
-      const update: PhoneNumberCapabilitiesRequest = isPlaybackMode()
-        ? { calling: "outbound", sms: "inbound+outbound" }
-        : buildCapabilityUpdate(capabilities);
-
-      const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
-        purchasedPhoneNumber,
-        update
-      );
-
-      await updatePoller.cancelOperation();
-      assert.ok(updatePoller.isStopped);
-      assert.ok(updatePoller.getOperationState().isCancelled);
-    }).timeout(5000);
   });
 });

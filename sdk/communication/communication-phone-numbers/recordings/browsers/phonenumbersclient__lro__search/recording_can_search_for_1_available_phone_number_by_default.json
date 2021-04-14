@@ -6,7 +6,7 @@
    "query": {
     "api-version": "2021-03-07"
    },
-   "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"quantity\":1}",
+   "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"quantity\":1}",
    "status": 202,
    "response": "",
    "responseHeaders": {
@@ -53,7 +53,7 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2021-04-13T21:36:02.8085754+00:00\"}",
+   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outboubd\",\"sms\":\"none\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2021-04-13T21:36:02.8085754+00:00\"}",
    "responseHeaders": {
     "content-type": "application/json; charset=utf-8"
    }

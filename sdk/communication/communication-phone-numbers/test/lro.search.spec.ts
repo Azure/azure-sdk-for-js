@@ -22,12 +22,16 @@ matrix([[true, false]], async function(useAad) {
       phoneNumberType: "tollFree",
       assignmentType: "application",
       capabilities: {
-        sms: "inbound+outbound",
-        calling: "none"
+        sms: "none",
+        calling: "outbound"
       }
     };
 
     before(function(this: Context) {
+      // SKIPPING BECAUSE TOLL-FREE ACQUISITION IS DISABLED
+      // STOP SKIPPING WHEN SERVICE ENABLES ACQUISITION
+      this.skip();
+
       if (useAad && !canCreateRecordedClientWithToken()) {
         this.skip();
       }
@@ -75,13 +79,5 @@ matrix([[true, false]], async function(useAad) {
 
       assert.fail("beginSearchAvailablePhoneNumbers should have thrown an exception.");
     });
-
-    it("can cancel search polling", async function() {
-      const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
-
-      await searchPoller.cancelOperation();
-      assert.ok(searchPoller.isStopped);
-      assert.ok(searchPoller.getOperationState().isCancelled);
-    }).timeout(20000);
   });
 });

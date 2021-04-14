@@ -38,7 +38,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/availablePhoneNumbers/countries/US/:search', {"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"none","sms":"inbound+outbound"},"quantity":1})
+  .post('/availablePhoneNumbers/countries/US/:search', {"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"outbound","sms":"none"},"quantity":1})
   .query(true)
   .reply(202, "", [
   'Location',

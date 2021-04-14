@@ -5,7 +5,7 @@ module.exports.hash = "8018e7a3e03e1b24fcb95ca7061259d1";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/availablePhoneNumbers/countries/US/:search', {"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"none","sms":"inbound+outbound"},"quantity":1})
+  .post('/availablePhoneNumbers/countries/US/:search', {"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"outbound","sms":"none"},"quantity":1})
   .query(true)
   .reply(202, "", [
   'Location',
@@ -89,7 +89,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/availablePhoneNumbers/searchResults/sanitized')
   .query(true)
-  .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"none","sms":"inbound+outbound"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2021-04-13T21:15:53.3681276+00:00"}, [
+  .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"outbound","sms":"none"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2021-04-13T21:15:53.3681276+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
