@@ -281,13 +281,11 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let result: RemoteRenderingCreateConversionResponse = await this.operations.getConversion(
+      return await this.operations.getConversion(
         this.accountId,
         conversionId,
         updatedOptions
       );
-
-      return Promise.resolve(result);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -449,10 +447,7 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let result = await this.operations.getSession(this.accountId, sessionId, updatedOptions);
-
-      // TODO Presumably, this may not carry a session object.
-      return Promise.resolve(result);
+      return this.operations.getSession(this.accountId, sessionId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -510,10 +505,22 @@ export class RemoteRenderingClient {
     updateSessionSettings: UpdateSessionSettings,
     options?: OperationOptions
   ): Promise<WithResponse<RenderingSession>> {
-    sessionId = sessionId;
-    updateSessionSettings = updateSessionSettings;
-    options = options;
-    throw new Error("Not yet implemented.");
+    const { span, updatedOptions } = createSpan("RemoteRenderingClient-UpdateSession", {
+      conversionId: sessionId,
+      ...options
+    });
+
+    try {
+      return this.operations.updateSession(this.accountId, sessionId, updateSessionSettings, updatedOptions);
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -533,9 +540,7 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let result = await this.operations.stopSession(this.accountId, sessionId, updatedOptions);
-
-      return Promise.resolve(result);
+      return this.operations.stopSession(this.accountId, sessionId, updatedOptions);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -554,11 +559,7 @@ export class RemoteRenderingClient {
     yield result.sessions;
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this.operations.listSessionsNext(
-        this.accountId,
-        continuationToken,
-        options
-      );
+      result = await this.operations.listSessionsNext(this.accountId, continuationToken, options);
       continuationToken = result.nextLink;
       yield result.sessions;
     }

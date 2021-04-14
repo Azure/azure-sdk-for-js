@@ -39,20 +39,19 @@ export async function main() {
   console.log("== Creating a test session to query ==");
 
   const sessionId: string = uuid();
-  await client.beginSession(sessionId, { maxLeaseTimeInMinutes: 5, size: KnownRenderingServerSize.Standard});
+  await client.beginSession(sessionId, {
+    maxLeaseTimeInMinutes: 5,
+    size: KnownRenderingServerSize.Standard
+  });
   await delay(10000);
-  
+
   console.log("== Starting listing sessions ==");
 
   for await (const session of client.listSessions()) {
     if (session.status == KnownRenderingSessionStatus.Starting) {
-      console.log(
-        `Session ${session.sessionId} is starting`
-      );
+      console.log(`Session ${session.sessionId} is starting`);
     } else if (session.status == KnownRenderingSessionStatus.Ready) {
-      console.log(
-        `Session ${session.sessionId} is ready`
-      );
+      console.log(`Session ${session.sessionId} is ready`);
     }
   }
 
