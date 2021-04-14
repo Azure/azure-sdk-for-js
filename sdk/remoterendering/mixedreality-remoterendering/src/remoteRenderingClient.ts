@@ -46,7 +46,7 @@ import {
   RenderingSessionOperationState
 } from "./lro/renderingSessionPoller";
 
-import { getConversionInternal, getSessionInternal } from "./internal/commonQueries";
+import { endSessionInternal, getConversionInternal, getSessionInternal } from "./internal/commonQueries";
 
 export {
   AssetConversionOperationState,
@@ -491,22 +491,7 @@ export class RemoteRenderingClient {
     sessionId: string,
     options?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOptions } = createSpan("RemoteRenderingClient-EndSession", {
-      conversionId: sessionId,
-      ...options
-    });
-
-    try {
-      return this.operations.stopSession(this.accountId, sessionId, updatedOptions);
-    } catch (e) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return endSessionInternal(this.accountId, this.operations, sessionId, "RemoteRenderingClient-EndSession", options);
   }
 
   private async *getAllSessionsPagingPage(

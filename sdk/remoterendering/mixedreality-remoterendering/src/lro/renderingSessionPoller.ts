@@ -4,7 +4,7 @@
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
 import { WithResponse } from "../remoteRenderingClient";
 import { RenderingSession, KnownRenderingSessionStatus } from "../generated/models/index";
-import { getSessionInternal } from "../internal/commonQueries";
+import { getSessionInternal, endSessionInternal } from "../internal/commonQueries";
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { RemoteRendering } from "../generated/operations";
 
@@ -64,19 +64,17 @@ class RenderingSessionOperation
     this.state = state;
   }
 
-  update(_options?: {
+  async update(_options?: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: RenderingSessionOperationStateImpl) => void;
   }): Promise<RenderingSessionOperation> {
-    return getSessionInternal(
+    this.state.latestResponse = await getSessionInternal(
       this.accountId,
       this.operations,
       this.state.latestResponse.sessionId,
       "RenderingSessionOperation-Update"
-    ).then((res) => {
-      this.state.latestResponse = res;
-      return this;
-    });
+    )
+    return this;
   }
 
   /**
@@ -88,8 +86,10 @@ class RenderingSessionOperation
    *
    * @param options - Optional properties passed to the operation's update method.
    */
-  cancel(_options?: { abortSignal?: AbortSignalLike }): Promise<RenderingSessionOperation> {
-    throw new Error("Not yet implemented.");
+  async cancel(options?: { abortSignal?: AbortSignalLike }): Promise<RenderingSessionOperation> {
+    await endSessionInternal(this.accountId, this.operations, this.state.latestResponse.sessionId,
+      "RenderingSessionOperation-Cancel", options);
+    return this;
   }
 
   /**

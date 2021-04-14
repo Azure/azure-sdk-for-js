@@ -68,23 +68,21 @@ class AssetConversionOperation
     this.state = state;
   }
 
-  update(_options?: {
+  async update(_options?: {
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: AssetConversionOperationState) => void;
   }): Promise<AssetConversionOperation> {
-    return getConversionInternal(
+    this.state.latestResponse = await getConversionInternal(
       this.accountId,
       this.operations,
       this.state.latestResponse.conversionId,
       "AssetConversionOperation-Update"
-    ).then((res) => {
-      this.state.latestResponse = res;
-      return this;
-    });
+    );
+    return this;
   }
 
   cancel(_options?: { abortSignal?: AbortSignalLike }): Promise<AssetConversionOperation> {
-    throw new Error("Not yet implemented.");
+    throw new Error("Cancel operation is not supported.");
   }
 
   toString(): string {

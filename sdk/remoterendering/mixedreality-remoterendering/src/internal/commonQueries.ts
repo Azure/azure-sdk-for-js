@@ -57,3 +57,28 @@ export async function getSessionInternal(
     span.end();
   }
 }
+
+export async function endSessionInternal(
+  accountId: string,
+  operations: RemoteRendering,
+  sessionId: string,
+  tracingSpanName: string,
+  options?: OperationOptions
+): Promise<WithResponse<{}>> {
+  const { span, updatedOptions } = createSpan(tracingSpanName, {
+    conversionId: sessionId,
+    ...options
+  });
+
+  try {
+    return operations.stopSession(accountId, sessionId, updatedOptions);
+  } catch (e) {
+    span.setStatus({
+      code: SpanStatusCode.ERROR,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
+}
