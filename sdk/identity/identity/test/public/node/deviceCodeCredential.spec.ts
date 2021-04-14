@@ -68,7 +68,7 @@ describe("DeviceCodeCredential", function() {
   });
 
   // Setting the MSAL options to cancel doesn't seem to be cancelling MSAL. I'm waiting for them to mention how to do this.
-  it("allows cancelling the authentication", async function() {
+  it("allows cancelling the authentication", async function(this: Context) {
     if (isPlaybackMode()) {
       // We're automatically replacing the DeviceCode polling interval on the recorder settings,
       // which makes it so this test fails on playback.
