@@ -3,9 +3,9 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ServiceBusMessage } from "../../src";
-import { TestMessage } from "../public/utils/testUtils";
-import { fromRheaMessage, toRheaMessage } from "../../src/serviceBusMessage";
+import { ServiceBusMessage } from "../../../src";
+import { TestMessage } from "../../public/utils/testUtils";
+import { fromRheaMessage, toRheaMessage } from "../../../src/serviceBusMessage";
 import { Message as RheaMessage } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 
