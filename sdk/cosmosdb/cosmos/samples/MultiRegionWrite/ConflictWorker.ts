@@ -10,6 +10,8 @@ import {
   OperationType,
   Resource,
   StatusCodes
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
 } from "../../dist";
 import logger from "./logger";
 import lwwSprocDef from "./lwwSprocDef";
@@ -238,7 +240,7 @@ export class ConflictWorker {
         (p: number, c: ItemDefinition) => (c !== null ? ++p : p),
         -1
       );
-      if (numberOfConflicts > 1) {
+      if (numberOfConflicts > 0) {
         console.log(
           `2) Caused ${numberOfConflicts} delete conflicts, verifying conflict resolution`
         );
