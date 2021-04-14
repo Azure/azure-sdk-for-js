@@ -6,16 +6,17 @@ This repository is designed to be used as a runtime companion to code that is ge
 
 The top-most type in this runtime repository is the ServiceClient class. This class contains some properties that may benefit from a little explanation.
 
-- **HttpClient** - The [HttpClient][httpclient] interface is a really simple type that just requires an implementing type to have one method: `sendRequest(WebResource): Promise<HttpOperationResponse>`. This method takes an HTTP request object (WebResource) and returns a Promise that resolves to an HTTP response (HttpOperationResponse). We provide default HttpClients based on your operating environment ([Fetch-based for Node.js][fetchhttpclient] and [XHR-based for browser][xhrhttpclient], but you are free to implement your own HttpClient type and to provide it in the [ServiceClientOptions][serviceclientoptions] parameter to the [ServiceClient's constructor][]serviceclient_constructor]. This is particularly useful if you are migrating to use ms-rest-js from an application that already had special HTTP logic, or if you need to test a part of your application that makes HTTP requests and you want to provide a Mock HttpClient (like we do [here][mockhttpclient]). An demo example is available at in [GotHttpClient.ts][gothttpclient]
+- **HttpClient** - The [HttpClient][httpclient] interface is a really simple type that just requires an implementing type to have one method: `sendRequest(WebResource): Promise<HttpOperationResponse>`. This method takes an HTTP request object (WebResource) and returns a Promise that resolves to an HTTP response (HttpOperationResponse). We provide default HttpClients based on your operating environment ([Fetch-based for Node.js][fetchHttpClient] and [XHR-based for browser][xhrHttpClient], but you are free to implement your own HttpClient type and to provide it in the [ServiceClientOptions][serviceclientoptions] parameter to the [ServiceClient's constructor][]serviceclient_constructor]. This is particularly useful if you are migrating to use ms-rest-js from an application that already had special HTTP logic, or if you need to test a part of your application that makes HTTP requests and you want to provide a Mock HttpClient (like we do [here][mockhttpclient]). An demo example is available at in [GotHttpClient.ts][gothttpclient].
 - **RequestPolicyCreators** - This array contains [functions][create_function] that create [RequestPolicy][requestpolicy] types. In the simplest scenario, you can use a ServiceClient to send an HTTP request and that request will be provided to the ServiceClient object and it will pass that request directly to your HttpClient implementation. [RequestPolicies][requestpolicy] are a way of allowing you to transform every request you send through your ServiceClient before it reaches your HttpClient. Other frameworks and libraries call these objects [Interceptors][okhttp_interceptors] or [Filters][javax_filters]. A [RequestPolicy][requestpolicy] can be simplified down to the following illustration:
-  <pre>
-      ------- (1) ----------------- (2) ------- (3) ------- (4) -------------- (5)   ~~~~~~~
-      |     | --> |               | --> |     | --> |     | --> |            | -->  ~       ~
-      | App |     | ServiceClient |     | RP1 |     | RPn |     | HttpClient |    ~ Network  ~
-      |     | <-- |               | <-- |     | <-- |     | <-- |            | <--  ~       ~
-      ------- (8) -----------------     ------- (7) ------- (6) --------------       ~~~~~~~
-  </pre>
+<pre>
+    ------- (1) ----------------- (2) ------- (3) ------- (4) -------------- (5)   ~~~~~~~
+    |     | --> |               | --> |     | --> |     | --> |            | -->  ~       ~
+    | App |     | ServiceClient |     | RP1 |     | RPn |     | HttpClient |    ~ Network  ~
+    |     | <-- |               | <-- |     | <-- |     | <-- |            | <--  ~       ~
+    ------- (8) -----------------     ------- (7) ------- (6) --------------       ~~~~~~~
+</pre>
   In this illustration, we're looking at an application that uses a ServiceClient.
+  
   1. First the application creates and gives an HTTP request ([WebResourceLike][webresourcelike]) object to the [ServiceClient's sendRequest()][serviceclient_sendrequest] method. When this method is called, the ServiceClient [creates the pipeline][serviceclient_createpipeline] that is used to transform the request. This pipeline is a singly-linked list of [RequestPolicies][requestpolicy] that ends with the ServiceClient's [HttpClient][httpclient].
   2. Once the pipeline is created, the ServiceClient calls the first RequestPolicy's sendRequest() method with the HTTP request object provided to the ServiceClient's sendRequest() method. In the first RequestPolicy's sendRequest() method, the RequestPolicy either does something to the HTTP request (such as adding a [User-Agent header][add_user_agent_header]) or does something because of the HTTP request (such as [emitting logs][emit_logs]).
   3. Each [RequestPolicy][requestpolicy] has a [nextPolicy][nextpolicy] property that points at the next RequestPolicy in the pipeline. When the current RequestPolicy is finished reacting to the HTTP request, it will call sendRequest() on the next policy in the pipeline.
@@ -27,8 +28,8 @@ The top-most type in this runtime repository is the ServiceClient class. This cl
 
 [autorest_typescript]: https://github.com/Azure/autorest.typescript
 [httpclient]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/httpClient.ts#L9
-[fetchhttpclient]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/nodeFetchHttpClient.ts
-[xhrhttpclient]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/xhrHttpClient.ts
+[fetchHttpClient]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/nodeFetchHttpClient.ts
+[xhrHttpClient]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/xhrHttpClient.ts
 [serviceclientoptions]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/serviceClient.ts#L93
 [serviceclient_constructor]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/src/serviceClient.ts#L185
 [mockhttpclient]: https://github.com/Azure/azure-sdk-for-js/blob/20a9bbccd75dedb365703c5d2e466b29c6572473/sdk/core/core-http/test/serviceClientTests.ts#L40
