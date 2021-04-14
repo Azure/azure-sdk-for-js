@@ -38,7 +38,7 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("can update a phone number's capabilities", async function() {
-      const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" }
+      const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
       const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
         purchasedPhoneNumber,
         update
