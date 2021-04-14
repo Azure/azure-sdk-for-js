@@ -166,6 +166,18 @@ export class RemoteRenderingClient {
     credential: TokenCredential | AzureKeyCredential | AccessToken,
     options: RemoteRenderingClientOptions = {}
   ) {
+    if (!endpoint) {
+      throw new Error("Argument cannot be null or empty: 'endpoint'.");
+    }
+
+    if (!accountId) {
+      throw new Error("Argument cannot be null or empty: 'accountId'.");
+    }
+
+    if (!accountDomain) {
+      throw new Error("Argument cannot be null or empty: 'accountDomain'.");
+    }
+
     this.accountId = accountId;
 
     // The below code helps us set a proper User-Agent header on all requests

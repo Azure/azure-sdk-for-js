@@ -41,7 +41,6 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
 
   get error(): Error | undefined {
     if (this.latestResponse.error != null) {
-      //TODO Add details.
       return new Error(this.latestResponse.error.message);
     }
     return undefined;
