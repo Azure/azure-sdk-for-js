@@ -4,11 +4,27 @@ import { PipelineOptions, RawHttpHeaders, PipelineRequest } from "@azure/core-re
  * General options that a Rest Level Client can take
  */
 export type ClientOptions = PipelineOptions & {
+  /**
+   * Credentials information
+   */
   credentials?: {
-    scopes?: string | string[];
+    /**
+     * Authentication scopes for AAD
+     */
+    scopes?: string[];
+    /**
+     * Heder name for Client Secret authentication
+     */
     apiKeyHeaderName?: string;
   };
+  /**
+   * Base url for the client
+   */
   baseUrl?: string;
+  /**
+   * Options for setting a custom apiVersion.
+   */
+  apiVersion?: string;
 };
 
 /**

@@ -29,10 +29,11 @@ export interface Client {
 // @public
 export type ClientOptions = PipelineOptions & {
     credentials?: {
-        scopes?: string | string[];
+        scopes?: string[];
         apiKeyHeaderName?: string;
     };
     baseUrl?: string;
+    apiVersion?: string;
 };
 
 // @public
@@ -42,7 +43,7 @@ export function createDefaultPipeline(baseUrl: string, credential?: TokenCredent
 export function getClient(baseUrl: string, options?: PipelineOptions): Client;
 
 // @public
-export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: PipelineOptions): Client;
+export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
 export type HttpResponse = {

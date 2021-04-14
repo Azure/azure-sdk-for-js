@@ -1,7 +1,7 @@
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import { PipelineOptions } from "@azure/core-rest-pipeline";
+import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
-import { HttpResponse } from "./common";
+import { ClientOptions, HttpResponse } from "./common";
 import { RequestParameters } from "./pathClientTypes";
 import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
@@ -53,59 +53,51 @@ export function getClient(baseUrl: string, options?: PipelineOptions): Client;
 export function getClient(
   baseUrl: string,
   credentials?: TokenCredential | KeyCredential,
-  options?: PipelineOptions
+  options?: ClientOptions
 ): Client;
 export function getClient(
   baseUrl: string,
   credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | PipelineOptions,
-  opts: PipelineOptions = {}
+  options: ClientOptions = {}
 ): Client {
   let credentials: TokenCredential | KeyCredential | undefined;
-  let options = opts;
+  let clientOptions = options;
 
   if (credentialsOrPipelineOptions) {
     if (isCredential(credentialsOrPipelineOptions)) {
       credentials = credentialsOrPipelineOptions;
-      options = opts;
+      clientOptions = options;
     } else {
-      options = credentialsOrPipelineOptions || {};
+      clientOptions = credentialsOrPipelineOptions || {};
     }
   }
 
-  const pipeline = createDefaultPipeline(baseUrl, credentials, options);
+  const pipeline = createDefaultPipeline(baseUrl, credentials, clientOptions);
   const client = (path: string, ...args: Array<any>) => {
     return {
       get: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        const url = buildRequestUrl(baseUrl, path, args, options);
-        return sendRequest("GET", url, pipeline, options);
+        return buildSendRequest("GET", clientOptions, baseUrl, path, pipeline, options, args);
       },
       post: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        const url = buildRequestUrl(baseUrl, path, args, options);
-        return sendRequest("POST", url, pipeline, options);
+        return buildSendRequest("POST", clientOptions, baseUrl, path, pipeline, options, args);
       },
       put: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        const url = buildRequestUrl(baseUrl, path, args, options);
-        return sendRequest("PUT", url, pipeline, options);
+        return buildSendRequest("PUT", clientOptions, baseUrl, path, pipeline, options, args);
       },
       patch: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        const url = buildRequestUrl(baseUrl, path, args, options);
-        return sendRequest("PATCH", url, pipeline, options);
+        return buildSendRequest("PATCH", clientOptions, baseUrl, path, pipeline, options, args);
       },
       delete: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        const url = buildRequestUrl(baseUrl, path, args, options);
-        return sendRequest("DELETE", url, pipeline, options);
+        return buildSendRequest("DELETE", clientOptions, baseUrl, path, pipeline, options, args);
       },
       head: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        const url = buildRequestUrl(baseUrl, path, args, options);
-        return sendRequest("HEAD", url, pipeline, options);
+        return buildSendRequest("HEAD", clientOptions, baseUrl, path, pipeline, options, args);
       },
       options: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        const url = buildRequestUrl(baseUrl, path, args, options);
-        return sendRequest("OPTIONS", url, pipeline, options);
+        return buildSendRequest("OPTIONS", clientOptions, baseUrl, path, pipeline, options, args);
       },
       trace: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        const url = buildRequestUrl(baseUrl, path, args, options);
-        return sendRequest("TRACE", url, pipeline, options);
+        return buildSendRequest("TRACE", clientOptions, baseUrl, path, pipeline, options, args);
       },
     };
   };
@@ -114,6 +106,28 @@ export function getClient(
     path: client,
     pathUnchecked: client,
   };
+}
+
+function buildSendRequest(
+  method: HttpMethods,
+  clientOptions: ClientOptions,
+  baseUrl: string,
+  path: string,
+  pipeline: Pipeline,
+  requestOptions: RequestParameters = {},
+  args: string[] = []
+) {
+  // If the client has an api-version and the request doesn't specify one, inject the one in the client options
+  if (!requestOptions.queryParameters?.["api-version"] && clientOptions.apiVersion) {
+    if (!requestOptions.queryParameters) {
+      requestOptions.queryParameters = {};
+    }
+
+    requestOptions.queryParameters["api-version"] = clientOptions.apiVersion;
+  }
+
+  const url = buildRequestUrl(baseUrl, path, args, requestOptions);
+  return sendRequest(method, url, pipeline, requestOptions);
 }
 
 function isCredential(
