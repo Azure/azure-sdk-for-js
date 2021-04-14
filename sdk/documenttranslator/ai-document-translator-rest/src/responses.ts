@@ -3,12 +3,12 @@
 
 import {
   TranslationErrorResponse,
-  BatchStatusResponse,
-  DocumentStatusDetail,
-  BatchStatusDetail,
-  DocumentStatusResponse,
-  FileFormatListResult,
-  StorageSourceListResult,
+  TranslationsStatus,
+  DocumentStatus,
+  TranslationStatus,
+  DocumentsStatus,
+  SupportedFileFormats,
+  SupportedStorageSources,
 } from "./models";
 import { HttpResponse } from "@azure-rest/core-client";
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
@@ -114,7 +114,7 @@ export interface StartTranslation503Response extends HttpResponse {
   body: TranslationErrorResponse;
 }
 
-export interface GetTranslations200Headers {
+export interface GetTranslationsStatus200Headers {
   /** Indicates how long to wait before making a new request. */
   "retry-after"?: string;
   /** The ETag response-header field provides the current value of the entity tag for the requested variant. Used with If-Match, If-None-Match and If-Range to implement optimistic concurrency control. */
@@ -146,10 +146,10 @@ export interface GetTranslations200Headers {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslations200Response extends HttpResponse {
+export interface GetTranslationsStatus200Response extends HttpResponse {
   status: "200";
-  body: BatchStatusResponse;
-  headers: RawHttpHeaders & GetTranslations200Headers;
+  body: TranslationsStatus;
+  headers: RawHttpHeaders & GetTranslationsStatus200Headers;
 }
 
 /**
@@ -177,7 +177,7 @@ export interface GetTranslations200Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslations400Response extends HttpResponse {
+export interface GetTranslationsStatus400Response extends HttpResponse {
   status: "400";
   body: TranslationErrorResponse;
 }
@@ -207,7 +207,7 @@ export interface GetTranslations400Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslations401Response extends HttpResponse {
+export interface GetTranslationsStatus401Response extends HttpResponse {
   status: "401";
   body: TranslationErrorResponse;
 }
@@ -237,7 +237,7 @@ export interface GetTranslations401Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslations429Response extends HttpResponse {
+export interface GetTranslationsStatus429Response extends HttpResponse {
   status: "429";
   body: TranslationErrorResponse;
 }
@@ -267,7 +267,7 @@ export interface GetTranslations429Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslations500Response extends HttpResponse {
+export interface GetTranslationsStatus500Response extends HttpResponse {
   status: "500";
   body: TranslationErrorResponse;
 }
@@ -297,12 +297,12 @@ export interface GetTranslations500Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetTranslations503Response extends HttpResponse {
+export interface GetTranslationsStatus503Response extends HttpResponse {
   status: "503";
   body: TranslationErrorResponse;
 }
 
-export interface GetDocument200Headers {
+export interface GetDocumentStatus200Headers {
   /** Indicates how long to wait before making a new request. */
   "retry-after"?: string;
   /** The ETag response-header field provides the current value of the entity tag for the requested variant. Used with If-Match, If-None-Match and If-Range to implement optimistic concurrency control. */
@@ -310,38 +310,38 @@ export interface GetDocument200Headers {
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocument200Response extends HttpResponse {
+export interface GetDocumentStatus200Response extends HttpResponse {
   status: "200";
-  body: DocumentStatusDetail;
-  headers: RawHttpHeaders & GetDocument200Headers;
+  body: DocumentStatus;
+  headers: RawHttpHeaders & GetDocumentStatus200Headers;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocument401Response extends HttpResponse {
+export interface GetDocumentStatus401Response extends HttpResponse {
   status: "401";
   body: TranslationErrorResponse;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocument404Response extends HttpResponse {
+export interface GetDocumentStatus404Response extends HttpResponse {
   status: "404";
   body: TranslationErrorResponse;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocument429Response extends HttpResponse {
+export interface GetDocumentStatus429Response extends HttpResponse {
   status: "429";
   body: TranslationErrorResponse;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocument500Response extends HttpResponse {
+export interface GetDocumentStatus500Response extends HttpResponse {
   status: "500";
   body: TranslationErrorResponse;
 }
 
 /** Returns the translation status for a specific document based on the request Id and document Id. */
-export interface GetDocument503Response extends HttpResponse {
+export interface GetDocumentStatus503Response extends HttpResponse {
   status: "503";
   body: TranslationErrorResponse;
 }
@@ -359,7 +359,7 @@ export interface GetTranslationStatus200Headers {
  */
 export interface GetTranslationStatus200Response extends HttpResponse {
   status: "200";
-  body: BatchStatusDetail;
+  body: TranslationStatus;
   headers: RawHttpHeaders & GetTranslationStatus200Headers;
 }
 
@@ -417,7 +417,7 @@ export interface GetTranslationStatus503Response extends HttpResponse {
  */
 export interface CancelTranslation200Response extends HttpResponse {
   status: "200";
-  body: BatchStatusDetail;
+  body: TranslationStatus;
 }
 
 /**
@@ -480,7 +480,7 @@ export interface CancelTranslation503Response extends HttpResponse {
   body: TranslationErrorResponse;
 }
 
-export interface GetDocuments200Headers {
+export interface GetDocumentsStatus200Headers {
   /** Indicates how long to wait before making a new request. */
   "retry-after"?: string;
   /** The ETag response-header field provides the current value of the entity tag for the requested variant. Used with If-Match, If-None-Match and If-Range to implement optimistic concurrency control. */
@@ -509,10 +509,10 @@ export interface GetDocuments200Headers {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocuments200Response extends HttpResponse {
+export interface GetDocumentsStatus200Response extends HttpResponse {
   status: "200";
-  body: DocumentStatusResponse;
-  headers: RawHttpHeaders & GetDocuments200Headers;
+  body: DocumentsStatus;
+  headers: RawHttpHeaders & GetDocumentsStatus200Headers;
 }
 
 /**
@@ -537,7 +537,7 @@ export interface GetDocuments200Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocuments400Response extends HttpResponse {
+export interface GetDocumentsStatus400Response extends HttpResponse {
   status: "400";
   body: TranslationErrorResponse;
 }
@@ -564,7 +564,7 @@ export interface GetDocuments400Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocuments401Response extends HttpResponse {
+export interface GetDocumentsStatus401Response extends HttpResponse {
   status: "401";
   body: TranslationErrorResponse;
 }
@@ -591,7 +591,7 @@ export interface GetDocuments401Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocuments404Response extends HttpResponse {
+export interface GetDocumentsStatus404Response extends HttpResponse {
   status: "404";
   body: TranslationErrorResponse;
 }
@@ -618,7 +618,7 @@ export interface GetDocuments404Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocuments429Response extends HttpResponse {
+export interface GetDocumentsStatus429Response extends HttpResponse {
   status: "429";
   body: TranslationErrorResponse;
 }
@@ -645,7 +645,7 @@ export interface GetDocuments429Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocuments500Response extends HttpResponse {
+export interface GetDocumentsStatus500Response extends HttpResponse {
   status: "500";
   body: TranslationErrorResponse;
 }
@@ -672,7 +672,7 @@ export interface GetDocuments500Response extends HttpResponse {
  * Note: If the server can't honor $top and/or $skip, the server must return an error to the client informing about it instead of just ignoring the query options.
  * This reduces the risk of the client making assumptions about the data returned.
  */
-export interface GetDocuments503Response extends HttpResponse {
+export interface GetDocumentsStatus503Response extends HttpResponse {
   status: "503";
   body: TranslationErrorResponse;
 }
@@ -688,7 +688,7 @@ export interface GetSupportedDocumentFormats200Headers {
  */
 export interface GetSupportedDocumentFormats200Response extends HttpResponse {
   status: "200";
-  body: FileFormatListResult;
+  body: SupportedFileFormats;
   headers: RawHttpHeaders & GetSupportedDocumentFormats200Headers;
 }
 
@@ -730,7 +730,7 @@ export interface GetSupportedGlossaryFormats200Headers {
  */
 export interface GetSupportedGlossaryFormats200Response extends HttpResponse {
   status: "200";
-  body: FileFormatListResult;
+  body: SupportedFileFormats;
   headers: RawHttpHeaders & GetSupportedGlossaryFormats200Headers;
 }
 
@@ -769,7 +769,7 @@ export interface GetSupportedStorageSources200Headers {
 /** Returns a list of storage sources/options supported by the Document Translation service. */
 export interface GetSupportedStorageSources200Response extends HttpResponse {
   status: "200";
-  body: StorageSourceListResult;
+  body: SupportedStorageSources;
   headers: RawHttpHeaders & GetSupportedStorageSources200Headers;
 }
 

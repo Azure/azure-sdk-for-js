@@ -28,8 +28,10 @@ export async function sendRequest(
   const body = options.body !== undefined ? JSON.stringify(options.body) : undefined;
 
   const headers = createHttpHeaders({
-    ...(body !== undefined && { accept: options.accept ?? "application/json" }),
-    "content-type": options.contentType ?? getContentType(options.body),
+    accept: options.accept ?? "application/json",
+    ...(body !== undefined && {
+      "content-type": options.contentType ?? getContentType(options.body),
+    }),
     ...(options.headers ? options.headers : {}),
   });
 

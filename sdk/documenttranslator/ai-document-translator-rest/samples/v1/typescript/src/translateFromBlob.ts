@@ -13,7 +13,7 @@
  * @summary translates a collection of documents
  */
 
-import DocumentTranslator, { BatchSubmissionRequest } from "@azure-rest/ai-document-translator";
+import DocumentTranslator, { StartTranslationDetails } from "@azure-rest/ai-document-translator";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -39,7 +39,7 @@ const targetContainer = process.env["TARGET_CONTAINER"] || "";
  * This is the body that we need to send to the /batch endpoint
  * to start a translation job on all the documents in sourceContainer
  */
-const batchSubmissionRequest: BatchSubmissionRequest = {
+const batchSubmissionRequest: StartTranslationDetails = {
   inputs: [
     {
       source: { sourceUrl: sourceContainer },

@@ -3,11 +3,11 @@
 
 import {
   StartTranslationParameters,
-  GetTranslationsParameters,
-  GetDocumentParameters,
+  GetTranslationsStatusParameters,
+  GetDocumentStatusParameters,
   GetTranslationStatusParameters,
   CancelTranslationParameters,
-  GetDocumentsParameters,
+  GetDocumentsStatusParameters,
   GetSupportedDocumentFormatsParameters,
   GetSupportedGlossaryFormatsParameters,
   GetSupportedStorageSourcesParameters,
@@ -19,18 +19,18 @@ import {
   StartTranslation429Response,
   StartTranslation500Response,
   StartTranslation503Response,
-  GetTranslations200Response,
-  GetTranslations400Response,
-  GetTranslations401Response,
-  GetTranslations429Response,
-  GetTranslations500Response,
-  GetTranslations503Response,
-  GetDocument200Response,
-  GetDocument401Response,
-  GetDocument404Response,
-  GetDocument429Response,
-  GetDocument500Response,
-  GetDocument503Response,
+  GetTranslationsStatus200Response,
+  GetTranslationsStatus400Response,
+  GetTranslationsStatus401Response,
+  GetTranslationsStatus429Response,
+  GetTranslationsStatus500Response,
+  GetTranslationsStatus503Response,
+  GetDocumentStatus200Response,
+  GetDocumentStatus401Response,
+  GetDocumentStatus404Response,
+  GetDocumentStatus429Response,
+  GetDocumentStatus500Response,
+  GetDocumentStatus503Response,
   GetTranslationStatus200Response,
   GetTranslationStatus401Response,
   GetTranslationStatus404Response,
@@ -43,13 +43,13 @@ import {
   CancelTranslation429Response,
   CancelTranslation500Response,
   CancelTranslation503Response,
-  GetDocuments200Response,
-  GetDocuments400Response,
-  GetDocuments401Response,
-  GetDocuments404Response,
-  GetDocuments429Response,
-  GetDocuments500Response,
-  GetDocuments503Response,
+  GetDocumentsStatus200Response,
+  GetDocumentsStatus400Response,
+  GetDocumentsStatus401Response,
+  GetDocumentsStatus404Response,
+  GetDocumentsStatus429Response,
+  GetDocumentsStatus500Response,
+  GetDocumentsStatus503Response,
   GetSupportedDocumentFormats200Response,
   GetSupportedDocumentFormats429Response,
   GetSupportedDocumentFormats500Response,
@@ -66,7 +66,7 @@ import {
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
-export interface GetTranslations {
+export interface GetTranslationsStatus {
   /**
    * Use this API to submit a bulk (batch) translation request to the Document Translation service.
    * Each request can contain multiple documents and must contain a source and destination container for each document.
@@ -114,28 +114,28 @@ export interface GetTranslations {
    * This reduces the risk of the client making assumptions about the data returned.
    */
   get(
-    options?: GetTranslationsParameters
+    options?: GetTranslationsStatusParameters
   ): Promise<
-    | GetTranslations200Response
-    | GetTranslations400Response
-    | GetTranslations401Response
-    | GetTranslations429Response
-    | GetTranslations500Response
-    | GetTranslations503Response
+    | GetTranslationsStatus200Response
+    | GetTranslationsStatus400Response
+    | GetTranslationsStatus401Response
+    | GetTranslationsStatus429Response
+    | GetTranslationsStatus500Response
+    | GetTranslationsStatus503Response
   >;
 }
 
-export interface GetDocument {
+export interface GetDocumentStatus {
   /** Returns the translation status for a specific document based on the request Id and document Id. */
   get(
-    options?: GetDocumentParameters
+    options?: GetDocumentStatusParameters
   ): Promise<
-    | GetDocument200Response
-    | GetDocument401Response
-    | GetDocument404Response
-    | GetDocument429Response
-    | GetDocument500Response
-    | GetDocument503Response
+    | GetDocumentStatus200Response
+    | GetDocumentStatus401Response
+    | GetDocumentStatus404Response
+    | GetDocumentStatus429Response
+    | GetDocumentStatus500Response
+    | GetDocumentStatus503Response
   >;
 }
 
@@ -173,7 +173,7 @@ export interface CancelTranslation {
   >;
 }
 
-export interface GetDocuments {
+export interface GetDocumentsStatus {
   /**
    * Returns the status for all documents in a batch document translation request.
    *
@@ -197,15 +197,15 @@ export interface GetDocuments {
    * This reduces the risk of the client making assumptions about the data returned.
    */
   get(
-    options?: GetDocumentsParameters
+    options?: GetDocumentsStatusParameters
   ): Promise<
-    | GetDocuments200Response
-    | GetDocuments400Response
-    | GetDocuments401Response
-    | GetDocuments404Response
-    | GetDocuments429Response
-    | GetDocuments500Response
-    | GetDocuments503Response
+    | GetDocumentsStatus200Response
+    | GetDocumentsStatus400Response
+    | GetDocumentsStatus401Response
+    | GetDocumentsStatus404Response
+    | GetDocumentsStatus429Response
+    | GetDocumentsStatus500Response
+    | GetDocumentsStatus503Response
   >;
 }
 
@@ -253,13 +253,13 @@ export interface GetSupportedStorageSources {
 
 export interface Routes {
   /** Resource for '/batches' has methods for the following verbs: post, get */
-  (path: "/batches"): GetTranslations;
+  (path: "/batches"): GetTranslationsStatus;
   /** Resource for '/batches/\{id\}/documents/\{documentId\}' has methods for the following verbs: get */
-  (path: "/batches/{id}/documents/{documentId}", id: string, documentId: string): GetDocument;
+  (path: "/batches/{id}/documents/{documentId}", id: string, documentId: string): GetDocumentStatus;
   /** Resource for '/batches/\{id\}' has methods for the following verbs: get, delete */
   (path: "/batches/{id}", id: string): CancelTranslation;
   /** Resource for '/batches/\{id\}/documents' has methods for the following verbs: get */
-  (path: "/batches/{id}/documents", id: string): GetDocuments;
+  (path: "/batches/{id}/documents", id: string): GetDocumentsStatus;
   /** Resource for '/documents/formats' has methods for the following verbs: get */
   (path: "/documents/formats"): GetSupportedDocumentFormats;
   /** Resource for '/glossaries/formats' has methods for the following verbs: get */

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface BatchSubmissionRequest {
+export interface StartTranslationDetails {
   /** The input list of documents or folders containing documents */
   inputs: BatchRequest[];
 }
@@ -110,14 +110,14 @@ export interface InnerTranslationError {
   innerError?: InnerTranslationError;
 }
 
-export interface BatchStatusResponse {
+export interface TranslationsStatus {
   /** The summary status of individual operation */
-  value: BatchStatusDetail[];
+  value: TranslationStatus[];
   /** Url for the next page.  Null if no more pages available */
   nextLink?: string;
 }
 
-export interface BatchStatusDetail {
+export interface TranslationStatus {
   /** Id of the operation. */
   id: string;
   /** Operation created date time */
@@ -149,7 +149,7 @@ export interface StatusSummary {
   totalCharacterCharged: number;
 }
 
-export interface DocumentStatusDetail {
+export interface DocumentStatus {
   /** Location of the document or folder */
   path?: string;
   /** Location of the source document */
@@ -172,14 +172,14 @@ export interface DocumentStatusDetail {
   characterCharged?: number;
 }
 
-export interface DocumentStatusResponse {
+export interface DocumentsStatus {
   /** The detail status of individual documents */
-  value: DocumentStatusDetail[];
+  value: DocumentStatus[];
   /** Url for the next page.  Null if no more pages available */
   nextLink?: string;
 }
 
-export interface FileFormatListResult {
+export interface SupportedFileFormats {
   /** list of objects */
   value: FileFormat[];
 }
@@ -197,7 +197,7 @@ export interface FileFormat {
   versions?: string[];
 }
 
-export interface StorageSourceListResult {
+export interface SupportedStorageSources {
   /** list of objects */
   value: "AzureBlob"[];
 }

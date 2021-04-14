@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "@azure-rest/core-client";
-import { BatchSubmissionRequest } from "./models";
+import { StartTranslationDetails } from "./models";
 
 export interface StartTranslationBodyParam {
-  body: BatchSubmissionRequest;
+  body: StartTranslationDetails;
 }
 
 export type StartTranslationParameters = RequestParameters & StartTranslationBodyParam;
 
-export interface GetTranslationsQueryParamProperties {
+export interface GetTranslationsStatusQueryParamProperties {
   /**
    * $top indicates the total number of records the user wants to be returned across all pages.
    *
@@ -47,16 +47,16 @@ export interface GetTranslationsQueryParamProperties {
   $orderBy?: string[];
 }
 
-export interface GetTranslationsQueryParam {
-  queryParameters?: GetTranslationsQueryParamProperties;
+export interface GetTranslationsStatusQueryParam {
+  queryParameters?: GetTranslationsStatusQueryParamProperties;
 }
 
-export type GetTranslationsParameters = RequestParameters & GetTranslationsQueryParam;
-export type GetDocumentParameters = RequestParameters;
+export type GetTranslationsStatusParameters = RequestParameters & GetTranslationsStatusQueryParam;
+export type GetDocumentStatusParameters = RequestParameters;
 export type GetTranslationStatusParameters = RequestParameters;
 export type CancelTranslationParameters = RequestParameters;
 
-export interface GetDocumentsQueryParamProperties {
+export interface GetDocumentsStatusQueryParamProperties {
   /**
    * $top indicates the total number of records the user wants to be returned across all pages.
    *
@@ -93,11 +93,11 @@ export interface GetDocumentsQueryParamProperties {
   $orderBy?: string[];
 }
 
-export interface GetDocumentsQueryParam {
-  queryParameters?: GetDocumentsQueryParamProperties;
+export interface GetDocumentsStatusQueryParam {
+  queryParameters?: GetDocumentsStatusQueryParamProperties;
 }
 
-export type GetDocumentsParameters = RequestParameters & GetDocumentsQueryParam;
+export type GetDocumentsStatusParameters = RequestParameters & GetDocumentsStatusQueryParam;
 export type GetSupportedDocumentFormatsParameters = RequestParameters;
 export type GetSupportedGlossaryFormatsParameters = RequestParameters;
 export type GetSupportedStorageSourcesParameters = RequestParameters;
