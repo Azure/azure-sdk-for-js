@@ -579,11 +579,9 @@ export function fromRheaMessage(
   }
   if (msg.ttl == null) msg.ttl = Constants.maxDurationValue;
   if (props.enqueuedTimeUtc) {
-    if (msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()) {
-      props.expiresAtUtc = new Date(Constants.maxDurationValue);
-    } else {
-      props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl);
-    }
+    props.expiresAtUtc = new Date(
+      Math.min(props.enqueuedTimeUtc.getTime() + msg.ttl, Constants.maxDurationValue)
+    );
   }
 
   const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
