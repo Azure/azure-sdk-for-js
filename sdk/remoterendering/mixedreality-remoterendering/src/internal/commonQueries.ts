@@ -34,26 +34,26 @@ export async function getConversionInternal(
 }
 
 export async function getSessionInternal(
-    accountId: string,
-    operations: RemoteRendering,
-    sessionId: string,
-    tracingSpanName: string,
-    options?: OperationOptions
+  accountId: string,
+  operations: RemoteRendering,
+  sessionId: string,
+  tracingSpanName: string,
+  options?: OperationOptions
 ): Promise<WithResponse<RenderingSession>> {
-    const { span, updatedOptions } = createSpan(tracingSpanName, {
-        sessionId,
-        ...options
-      });
-  
-      try {
-        return operations.getSession(accountId, sessionId, updatedOptions);
-      } catch (e) {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: e.message
-        });
-        throw e;
-      } finally {
-        span.end();
-      }
+  const { span, updatedOptions } = createSpan(tracingSpanName, {
+    sessionId,
+    ...options
+  });
+
+  try {
+    return operations.getSession(accountId, sessionId, updatedOptions);
+  } catch (e) {
+    span.setStatus({
+      code: SpanStatusCode.ERROR,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
 }

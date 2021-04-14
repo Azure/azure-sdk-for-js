@@ -22,7 +22,7 @@ import {
   RenderingSession,
   RenderingSessionSettings,
   RemoteRenderingCreateSessionResponse,
-  UpdateSessionSettings,
+  UpdateSessionSettings
 } from "./generated/models/index";
 
 import { RemoteRenderingClientOptions } from "./options";
@@ -416,7 +416,13 @@ export class RemoteRenderingClient {
     sessionId: string,
     options?: OperationOptions
   ): Promise<WithResponse<RenderingSession>> {
-    return getSessionInternal(this.accountId, this.operations, sessionId, "RemoteRenderingClient-GetSession", options);
+    return getSessionInternal(
+      this.accountId,
+      this.operations,
+      sessionId,
+      "RemoteRenderingClient-GetSession",
+      options
+    );
   }
 
   /**
@@ -428,14 +434,14 @@ export class RemoteRenderingClient {
     sessionId: string,
     options?: OperationOptions
   ): Promise<RenderingSessionPollerLike> {
-      let renderingSession: WithResponse<RenderingSession> = await getSessionInternal(
-        this.accountId,
-        this.operations,
-        sessionId,
-        "RemoteRenderingClient-GetSessionPoller",
-        options
-      );
-      return new RenderingSessionPoller(this.accountId, this.operations, renderingSession);
+    let renderingSession: WithResponse<RenderingSession> = await getSessionInternal(
+      this.accountId,
+      this.operations,
+      sessionId,
+      "RemoteRenderingClient-GetSessionPoller",
+      options
+    );
+    return new RenderingSessionPoller(this.accountId, this.operations, renderingSession);
   }
 
   /**

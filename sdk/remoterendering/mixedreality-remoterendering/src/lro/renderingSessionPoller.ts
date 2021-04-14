@@ -54,7 +54,11 @@ class RenderingSessionOperation
   private operations: RemoteRendering;
   state: RenderingSessionOperationStateImpl;
 
-  constructor(accountId: string, operations: RemoteRendering, state: RenderingSessionOperationStateImpl) {
+  constructor(
+    accountId: string,
+    operations: RemoteRendering,
+    state: RenderingSessionOperationStateImpl
+  ) {
     this.accountId = accountId;
     this.operations = operations;
     this.state = state;
@@ -64,7 +68,12 @@ class RenderingSessionOperation
     abortSignal?: AbortSignalLike;
     fireProgress?: (state: RenderingSessionOperationStateImpl) => void;
   }): Promise<RenderingSessionOperation> {
-    return getSessionInternal(this.accountId, this.operations, this.state.latestResponse.sessionId, "RenderingSessionOperation-Update").then((res) => {
+    return getSessionInternal(
+      this.accountId,
+      this.operations,
+      this.state.latestResponse.sessionId,
+      "RenderingSessionOperation-Update"
+    ).then((res) => {
       this.state.latestResponse = res;
       return this;
     });
@@ -101,7 +110,11 @@ export class RenderingSessionPoller extends Poller<
    */
   public intervalInMs: number = 10000;
 
-  constructor(accountId: string, operations: RemoteRendering, RenderingSession: WithResponse<RenderingSession>) {
+  constructor(
+    accountId: string,
+    operations: RemoteRendering,
+    RenderingSession: WithResponse<RenderingSession>
+  ) {
     super(
       new RenderingSessionOperation(
         accountId,
