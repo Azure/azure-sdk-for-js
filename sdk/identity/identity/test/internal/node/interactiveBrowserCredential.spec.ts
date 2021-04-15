@@ -10,7 +10,7 @@ import { env } from "@azure/test-utils-recorder";
 import { InteractiveBrowserCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalOpenBrowser";
-import { isNode8 } from "../../../src/tokenCache/nodeVersion";
+import { isNode8 } from "../../../src/tokenCache/requireMsalNodeExtensions";
 
 describe("InteractiveBrowserCredential (internal)", function() {
   let cleanup: MsalTestCleanup;

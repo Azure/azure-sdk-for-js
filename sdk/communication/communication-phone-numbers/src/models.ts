@@ -22,19 +22,7 @@ export type GetPurchasedPhoneNumberOptions = OperationOptions;
 /**
  * Additional options that can be passed to the list phone numbers request.
  */
-export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
-  /**
-   * An optional parameter for how many entries to skip, for pagination purposes.
-   * The default value is 0.
-   */
-  skip?: number;
-
-  /**
-   * An optional parameter for how many entries to return, for pagination purposes.
-   * The default value is 100.
-   */
-  top?: number;
-}
+export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {}
 
 /**
  * Represents a phone number search request to find phone numbers.

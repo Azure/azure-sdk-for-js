@@ -71,6 +71,7 @@ export function msalNodeTestSetup(
         recording.replace(/device_code":"[^"]*/g, `device_code":"DEVICE_CODE`),
       (recording: string): string =>
         recording.replace(/device_code=[^&]*/g, `device_code=DEVICE_CODE`),
+      (recording: string): string => recording.replace(/"interval": *[0-9]*/g, `"interval": 0.1`),
       // This last part is a JWT token that comes from the service, that has three parts joined by a dot.
       // Our fake id_token has the following parts encoded in base64 and joined by a dot:
       // - {"typ":"JWT","alg":"RS256","kid":"kid"}

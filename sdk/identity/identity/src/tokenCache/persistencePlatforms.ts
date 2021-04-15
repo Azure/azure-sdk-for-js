@@ -4,7 +4,7 @@
 
 import * as path from "path";
 import { MsalPersistence } from "./types";
-import { isNode15, isNode8, Node15NotSupportedError, Node8NotSupportedError } from "./nodeVersion";
+import { requireMsalNodeExtensions } from "./requireMsalNodeExtensions";
 
 /**
  * Local application data folder
@@ -120,19 +120,14 @@ export const msalPersistencePlatforms: Record<
     name: "win32",
     isAvailable: () => process.platform === "win32",
     persistence: ({ name = defaultMsalValues.tokenCache.name } = {}): Promise<MsalPersistence> => {
-      if (isNode8 || isNode15) {
-        throw isNode8 ? Node8NotSupportedError : Node15NotSupportedError;
-      } else {
-        const {
-          FilePersistenceWithDataProtection,
-          DataProtectionScope
-          /* eslint-disable-next-line @typescript-eslint/no-require-imports */
-        } = require("@azure/msal-node-extensions");
-        return FilePersistenceWithDataProtection.create(
-          getPersistencePath(name),
-          DataProtectionScope.CurrentUser
-        );
-      }
+      const {
+        FilePersistenceWithDataProtection,
+        DataProtectionScope
+      } = requireMsalNodeExtensions();
+      return FilePersistenceWithDataProtection.create(
+        getPersistencePath(name),
+        DataProtectionScope.CurrentUser
+      );
     }
   },
 
@@ -144,25 +139,20 @@ export const msalPersistencePlatforms: Record<
       const { service, account } = defaultMsalValues.keyChain;
       const persistencePath = getPersistencePath(name || defaultMsalValues.tokenCache.name);
 
-      if (isNode8 || isNode15) {
-        throw isNode8 ? Node8NotSupportedError : Node15NotSupportedError;
-      } else {
-        /* eslint-disable-next-line @typescript-eslint/no-require-imports */
-        const { KeychainPersistence, FilePersistence } = require("@azure/msal-node-extensions");
+      const { KeychainPersistence, FilePersistence } = requireMsalNodeExtensions();
 
-        try {
-          const persistence = await KeychainPersistence.create(persistencePath, service, account);
-          // If we don't encounter an error when trying to read from the keychain, then we should be good to go.
-          await persistence.load();
-          return persistence;
-        } catch (e) {
-          // If we got an error while trying to read from the keyring,
-          // we will proceed only if the user has specified that unencrypted storage is allowed.
-          if (!allowUnencryptedStorage) {
-            throw new Error("MSAL was unable to read from the system's keyring.");
-          }
-          return FilePersistence.create(persistencePath);
+      try {
+        const persistence = await KeychainPersistence.create(persistencePath, service, account);
+        // If we don't encounter an error when trying to read from the keychain, then we should be good to go.
+        await persistence.load();
+        return persistence;
+      } catch (e) {
+        // If we got an error while trying to read from the keyring,
+        // we will proceed only if the user has specified that unencrypted storage is allowed.
+        if (!allowUnencryptedStorage) {
+          throw new Error("MSAL was unable to read from the system's keyring.");
         }
+        return FilePersistence.create(persistencePath);
       }
     }
   },
@@ -175,25 +165,20 @@ export const msalPersistencePlatforms: Record<
       const { service, account } = defaultMsalValues.keyRing;
       const persistencePath = getPersistencePath(name || defaultMsalValues.tokenCache.name);
 
-      if (isNode8 || isNode15) {
-        throw isNode8 ? Node8NotSupportedError : Node15NotSupportedError;
-      } else {
-        /* eslint-disable-next-line @typescript-eslint/no-require-imports */
-        const { LibSecretPersistence, FilePersistence } = require("@azure/msal-node-extensions");
+      const { LibSecretPersistence, FilePersistence } = requireMsalNodeExtensions();
 
-        try {
-          const persistence = await LibSecretPersistence.create(persistencePath, service, account);
-          // If we don't encounter an error when trying to read from the keyring, then we should be good to go.
-          await persistence.load();
-          return persistence;
-        } catch (e) {
-          // If we got an error while trying to read from the keyring,
-          // we will proceed only if the user has specified that unencrypted storage is allowed.
-          if (!allowUnencryptedStorage) {
-            throw new Error("MSAL was unable to read from the system's keyring.");
-          }
-          return FilePersistence.create(persistencePath);
+      try {
+        const persistence = await LibSecretPersistence.create(persistencePath, service, account);
+        // If we don't encounter an error when trying to read from the keyring, then we should be good to go.
+        await persistence.load();
+        return persistence;
+      } catch (e) {
+        // If we got an error while trying to read from the keyring,
+        // we will proceed only if the user has specified that unencrypted storage is allowed.
+        if (!allowUnencryptedStorage) {
+          throw new Error("MSAL was unable to read from the system's keyring.");
         }
+        return FilePersistence.create(persistencePath);
       }
     }
   }

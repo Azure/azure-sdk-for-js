@@ -3,7 +3,7 @@
 import * as Ora from "ora";
 
 export default (text: string): any => {
-  return new Ora({
+  return new (Ora as any).default({
     spinner: "clock",
     text
   });

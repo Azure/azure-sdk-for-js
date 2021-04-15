@@ -11,6 +11,8 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1327',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,19 +24,17 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f07b1783-5978-4379-8794-796417850500',
+  '83569dc5-057d-4b7e-952d-b580dc712f00',
   'x-ms-ests-server',
-  '2.1.11530.17 - NCUS ProdSlices',
+  '2.1.11622.22 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AgZBS4WldpFGladJ1Qsmy2uMQo4QAQAAALs03tcOAAAA; expires=Mon, 12-Apr-2021 04:21:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApKuUgUjL2hBrhmifNv3y6OMQo4QAQAAAOzzAtgOAAAA; expires=Mon, 10-May-2021 01:18:37 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 13 Mar 2021 04:21:16 GMT',
-  'Content-Length',
-  '1327'
+  'Sat, 10 Apr 2021 01:18:36 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Request-Context',
   'appId=',
   'MS-CV',
-  'p8PaRVblvUyGotI9ZtANVQ.0',
+  'I0HWlenDdE+N2dtU9ynvow.0',
   'api-supported-versions',
   '2020-07-20-preview1, 2020-08-20-preview, 2021-03-07',
   'X-Processing-Time',
-  '607ms',
+  '484ms',
   'X-Azure-Ref',
-  '0vD1MYAAAAAACaRWFf8/9RI9M2ELIEJH1WVZSMzBFREdFMDQwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '07fxwYAAAAAAq1Ywx6AVeQYAFJnTlCKb/WVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Sat, 13 Mar 2021 04:21:16 GMT'
+  'Sat, 10 Apr 2021 01:18:37 GMT'
 ]);

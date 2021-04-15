@@ -241,10 +241,9 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   async settleMessage(
     message: ServiceBusMessageImpl,
     operation: DispositionType,
-    options?: DispositionStatusOptions
+    options: DispositionStatusOptions
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (!options) options = {};
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
         return reject(new Error(`operation: '${operation}' is not a valid operation.`));
       }
@@ -268,7 +267,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
             "message may or may not be successful"
         };
         return reject(translateServiceBusError(e));
-      }, Constants.defaultOperationTimeoutInMs);
+      }, options.retryOptions?.timeoutInMs ?? Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,
