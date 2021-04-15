@@ -43,7 +43,11 @@ export function startRecorder(that: any): Recorder {
       AZURE_TENANT_ID: "azuretenantid"
     },
     customizationsOnRecordings: [],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
+    requestBodyTransformations: [
+      (body: string) =>
+        body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id")
+    ]
   };
 
   return record(that, recorderEnvSetup);
