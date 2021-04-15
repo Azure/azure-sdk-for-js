@@ -26,6 +26,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/communication-chat": "latest",
+    "@azure/communication-identity": "latest",
     "@azure/identity": "^1.1.0",
     "dotenv": "^8.2.0"
   }

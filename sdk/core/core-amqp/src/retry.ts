@@ -46,7 +46,8 @@ export enum RetryOperationType {
   senderLink = "senderLink",
   sendMessage = "sendMessage",
   receiveMessage = "receiveMessage",
-  session = "session"
+  session = "session",
+  messageSettlement = "settlement"
 }
 
 /**

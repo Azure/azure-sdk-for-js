@@ -302,7 +302,10 @@ describe("Receiver unit tests", () => {
       const messageSession = await MessageSession.create(
         connectionContext,
         "entity path",
-        undefined
+        undefined,
+        {
+          retryOptions: undefined
+        }
       );
 
       const impl = new ServiceBusSessionReceiverImpl(
