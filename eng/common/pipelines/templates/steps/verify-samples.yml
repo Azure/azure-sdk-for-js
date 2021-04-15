@@ -7,7 +7,6 @@ parameters:
     default: eng/common/scripts
   - name: Condition
     type: boolean
-    default: succeeded()
 
 steps:
   - pwsh: |
