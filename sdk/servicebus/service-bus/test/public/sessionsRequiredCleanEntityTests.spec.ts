@@ -53,17 +53,13 @@ describe("sessions tests -  requires completely clean entity for each test", () 
   afterEach(() => serviceBusClient.test.afterEach());
   after(() => serviceBusClient.test.after());
 
-  // These tests really do need to run against both queues and subscriptions.
+  // These tests really do need to run against both queues and subscriptions as they seem 
+  // to behave differently on occasion when it runs against subscriptions.
   //
-  // The main issue is that subscriptions, unlike queues, allow you to create a receiver
-  // even if no messages for a particular session are available. Previously this test
-  // made the assumption that if the receiver was created then we could immediately peek() and
-  // get a message.
-  //
-  // If things are slow then it's entirely possible the message gets sent, doesn't yet
-  // get processed into the subscription and we peek into the empty subscription. peek() internally
-  // is implemented by peeking from a given sequence number, which means that an empty subscription is a
-  // really fast call that returns no messages (ie, no messages available past this sequence number).
+  // Basically, this test can fail if there is a delay between the message being accepted into the 
+  // entity and it actually being available in the queue or subscription. If that happens, when we peek, 
+  // it'll end up peeking into an empty entity which just works out as a really fast call that returns 
+  // no messages.
   //
   // So to compensate for this (since speed isn't what we're testing) I just receiveMessages(1) prior to the
   // peek, which _does_ wait for messages to arrive before returning.
