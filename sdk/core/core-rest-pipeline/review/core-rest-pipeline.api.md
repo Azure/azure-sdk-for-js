@@ -29,6 +29,21 @@ export interface Agent {
 }
 
 // @public
+export interface AuthorizeRequestOnChallengeOptions {
+    getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    request: PipelineRequest;
+    response: PipelineResponse;
+    scopes: string[];
+}
+
+// @public
+export interface AuthorizeRequestOptions {
+    getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    request: PipelineRequest;
+    scopes: string[];
+}
+
+// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
@@ -54,18 +69,9 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
 }
 
 // @public
-export interface ChallengeCallbackOptions {
-    claims?: string;
-    getAccessToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
-    request: PipelineRequest;
-    response?: PipelineResponse;
-    scopes: string[];
-}
-
-// @public
 export interface ChallengeCallbacks {
-    authorizeRequest?(options: ChallengeCallbackOptions): Promise<void>;
-    authorizeRequestOnChallenge?(options: ChallengeCallbackOptions): Promise<boolean>;
+    authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
+    authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 }
 
 // @public
