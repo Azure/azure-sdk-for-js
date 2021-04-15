@@ -44,10 +44,12 @@ export function startRecorder(that: any): Recorder {
     },
     customizationsOnRecordings: [],
     queryParametersToSkip: [],
-    requestBodyTransformations: [
-      (body: string) =>
-        body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id")
-    ]
+    requestBodyTransformations: {
+      stringTransforms: [
+        (body: string) =>
+          body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id")
+      ]
+    }
   };
 
   return record(that, recorderEnvSetup);
