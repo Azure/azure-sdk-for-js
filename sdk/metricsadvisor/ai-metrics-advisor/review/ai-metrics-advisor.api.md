@@ -357,13 +357,7 @@ export interface DataFeedSchema {
 }
 
 // @public
-export type DataFeedSource = (AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource | UnknownDataFeedSource) & {
-    authenticationType?: DataFeedSourceAuthenticationType;
-    credentialId?: string;
-};
-
-// @public
-export type DataFeedSourceAuthenticationType = "Basic" | "ManagedIdentity" | "AzureSQLConnectionString" | "DataLakeGen2SharedKey" | "ServicePrincipal" | "ServicePrincipalInKV";
+export type DataFeedSource = AzureApplicationInsightsDataFeedSource | AzureBlobDataFeedSource | AzureCosmosDBDataFeedSource | AzureDataExplorerDataFeedSource | AzureDataLakeStorageGen2DataFeedSource | AzureTableDataFeedSource | ElasticsearchDataFeedSource | HttpRequestDataFeedSource | InfluxDBDataFeedSource | MySqlDataFeedSource | PostgreSqlDataFeedSource | SQLServerDataFeedSource | MongoDBDataFeedSource | UnknownDataFeedSource;
 
 // @public
 export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> & {
@@ -800,9 +794,9 @@ export type MetricAnomalyAlertScope = {
 // @public
 export type MetricAnomalyFeedback = {
     feedbackType: "Anomaly";
-    startTime?: Date;
-    endTime?: Date;
-    value?: "AutoDetect" | "Anomaly" | "NotAnomaly";
+    startTime: Date;
+    endTime: Date;
+    value: "AutoDetect" | "Anomaly" | "NotAnomaly";
     readonly anomalyDetectionConfigurationId?: string;
     readonly anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
 } & MetricFeedbackCommon;
@@ -832,8 +826,8 @@ export type MetricBoundaryCondition = {
 // @public
 export type MetricChangePointFeedback = {
     feedbackType: "ChangePoint";
-    startTime?: Date;
-    value?: "AutoDetect" | "ChangePoint" | "NotChangePoint";
+    startTime: Date;
+    value: "AutoDetect" | "ChangePoint" | "NotChangePoint";
 } & MetricFeedbackCommon;
 
 // @public
@@ -841,7 +835,7 @@ export type MetricCommentFeedback = {
     feedbackType: "Comment";
     startTime?: Date;
     endTime?: Date;
-    comment?: string;
+    comment: string;
 } & MetricFeedbackCommon;
 
 // @public
@@ -892,8 +886,8 @@ export type MetricFeedbackUnion = MetricAnomalyFeedback | MetricChangePointFeedb
 // @public
 export type MetricPeriodFeedback = {
     feedbackType: "Period";
-    periodType?: "AutoDetect" | "AssignValue";
-    periodValue?: number;
+    periodType: "AutoDetect" | "AssignValue";
+    periodValue: number;
 } & MetricFeedbackCommon;
 
 // @public

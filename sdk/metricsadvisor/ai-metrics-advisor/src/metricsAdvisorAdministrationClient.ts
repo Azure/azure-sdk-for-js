@@ -241,6 +241,7 @@ export class MetricsAdvisorAdministrationClient {
         dataFeedName: name,
         ...toServiceGranularity(granularity),
         ...source,
+        // TODO: (jeremymeng) transform authenticationType and credentialId
         metrics: schema.metrics,
         dimension: schema.dimensions,
         timestampColumn: schema.timestampColumn,
@@ -475,6 +476,7 @@ export class MetricsAdvisorAdministrationClient {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
       const patchBody = {
         // source
+        // TODO: (jeremymeng) transform authenticationType and credentialId
         dataSourceType: patch.source.dataSourceType,
         dataSourceParameter: patch.source.dataSourceParameter,
         // name and description
