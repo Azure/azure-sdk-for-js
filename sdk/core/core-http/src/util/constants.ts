@@ -3,7 +3,7 @@
 
 export const Constants = {
   /**
-   * The core-http version
+   * The core-http version - For debugging
    */
   coreHttpVersion: "1.2.5",
 
