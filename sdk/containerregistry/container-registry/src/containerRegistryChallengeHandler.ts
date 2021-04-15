@@ -5,7 +5,7 @@ import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-c
 import { GetTokenOptions } from "@azure/core-auth";
 import {
   PipelineRequest,
-  ChallengeCallbackOptions,
+  AuthorizeRequestOnChallengeOptions,
   ChallengeCallbacks
 } from "@azure/core-rest-pipeline";
 import { parseWWWAuthenticate } from "@azure/core-util";
@@ -40,7 +40,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
   /**
    * Updates  the authentication context based on the challenge.
    */
-  async authorizeRequestOnChallenge(options: ChallengeCallbackOptions): Promise<boolean> {
+  async authorizeRequestOnChallenge(options: AuthorizeRequestOnChallengeOptions): Promise<boolean> {
     // Once we're here, we've completed Step 1.
     const challenge = options.response?.headers.get("WWW-Authenticate");
     if (!challenge) {
