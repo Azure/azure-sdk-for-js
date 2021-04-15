@@ -116,7 +116,7 @@ describe("DeviceCodeCredential", function() {
     assert.ok(account);
   });
 
-  it("supports tracing", async function(this: Context) {
+  it.skip("supports tracing", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
       this.skip();

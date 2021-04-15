@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/fa72181c6b05abf1d96d65d380092f3efe3129ba/specification/cognitiveservices/data-plane/TranslatorText/preview/v1.0-preview.1/TranslatorBatch.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/ebbdda9f9ba6cab2fbd4efccad59019a62649ea6/specification/cognitiveservices/data-plane/TranslatorText/preview/v1.0-preview.1/TranslatorBatch.json
 package-version: 1.0.0-beta.1
 hide-clients: true
 low-level-client: true
@@ -21,4 +21,20 @@ credential-scopes: "https://cognitiveservices.azure.com/.default"
 credential-key-header-name: "Ocp-Apim-Subscription-Key"
 use-extension:
   "@autorest/typescript": "https://aka.ms/azsdk/typescript/rlc"
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.StartTranslationDetails
+    transform: >
+      throw new Error("Hello World 1")
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions
+    transform: >
+      throw new Error("Hello World 2")
 ```
