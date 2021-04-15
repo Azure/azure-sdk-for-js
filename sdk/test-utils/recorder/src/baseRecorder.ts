@@ -35,7 +35,7 @@ export abstract class BaseRecorder {
     replaceableVariables: {},
     customizationsOnRecordings: [],
     queryParametersToSkip: [],
-    requestBodyTransformations: []
+    requestBodyTransformations: { stringTransforms: [], jsonTransforms: [] }
   };
   protected hash: string;
   private defaultCustomizationsOnRecordings = defaultCustomizationsOnRecordings;

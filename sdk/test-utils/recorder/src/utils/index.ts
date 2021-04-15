@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { URLBuilder } from "@azure/core-http";
+import { RequestBodyTransformsType } from "./requestBodyTransform";
 
 export { testHasChanged } from "./recordings";
 
@@ -52,9 +53,7 @@ export interface RecorderEnvironmentSetup {
    *  - Record mode: These callbacks will be applied on the request body before the recording is saved
    *  - Playback mode: These callbacks will be applied on the request body of the new requests
    */
-  requestBodyTransformations?: Array<
-    ((body: string) => string) | ((body: { [x: string]: unknown }) => { [x: string]: unknown })
-  >;
+  requestBodyTransformations?: RequestBodyTransformsType;
   /**
    * Used in record and playback modes
    *

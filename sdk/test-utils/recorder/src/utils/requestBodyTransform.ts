@@ -1,15 +1,18 @@
-export type RequestBodyType = string | { [x: string]: unknown };
+export type RequestBodyTransformsType = {
+  stringTransforms: Array<(body: string) => string>;
+  jsonTransforms: Array<(body: { [x: string]: unknown }) => { [x: string]: unknown }>;
+};
 /**
  * Under construction
  */
 export function applyRequestBodyTransformations(
   runtime: "node" | "browser",
   fixture: string | { [x: string]: unknown },
-  requestBodyTransformations: (
-    | ((body: string) => string)
-    | ((body: { [x: string]: unknown }) => { [x: string]: unknown })
-  )[]
+  requestBodyTransformations?: RequestBodyTransformsType
 ): string | { [x: string]: unknown } {
+  if (!requestBodyTransformations) {
+    return fixture;
+  }
   if (runtime === "node") {
     if (typeof fixture !== "string") {
       return fixture;
@@ -23,8 +26,8 @@ export function applyRequestBodyTransformations(
     if (matches?.[2] && typeof matches[2] === "string") {
       let updatedBody = matches[2]; // Must be string - either normal or JSON-stringified
       // normal string
-      for (const transformation of requestBodyTransformations) {
-        updatedBody = transformation(updatedBody as any) as string;
+      for (const transformation of requestBodyTransformations.stringTransforms) {
+        updatedBody = transformation(updatedBody);
       }
       updatedFixture = fixture.replace(matches[2], updatedBody);
       // TODO: JSON stringified
@@ -34,7 +37,7 @@ export function applyRequestBodyTransformations(
 
     matches = updatedFixture.match(/\.post\((.*)\, (.*)\)\n\s*.reply\(/);
     if (matches?.[0]) {
-      for (const transformation of requestBodyTransformations) {
+      for (const transformation of requestBodyTransformations.stringTransforms) {
         console.log(`.filteringRequestBody(${transformation.toString()})`);
         updatedFixture = updatedFixture.replace(
           matches[0],

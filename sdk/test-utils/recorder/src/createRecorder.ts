@@ -89,7 +89,7 @@ export class NockRecorder extends BaseRecorder {
         updatedFixture = applyRequestBodyTransformations(
           "node",
           fixture,
-          this.environmentSetup.requestBodyTransformations || []
+          this.environmentSetup.requestBodyTransformations
         ) as string;
         updatedFixture = updatedFixture.toString().replace(/\.query\(.*\)/, ".query(true)");
         file.write(this.filterSecrets(updatedFixture) + "\n");
