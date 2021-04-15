@@ -6,7 +6,7 @@ import * as sinon from "sinon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   bearerTokenChallengeAuthenticationPolicy,
-  ChallengeCallbackOptions,
+  AuthorizeRequestOnChallengeOptions,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
@@ -66,7 +66,7 @@ function parseCAEChallenge(challenges: string): any[] {
 }
 
 async function authorizeRequestOnChallenge(
-  options: ChallengeCallbackOptions & { response: PipelineResponse }
+  options: AuthorizeRequestOnChallengeOptions
 ): Promise<boolean> {
   const { scopes } = options;
 

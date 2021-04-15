@@ -13,18 +13,34 @@ export const bearerTokenChallengeAuthenticationPolicyName =
   "bearerTokenChallengeAuthenticationPolicy";
 
 /**
- * Options sent to the challenge callbacks
+ * Options sent to the authorizeRequest callback
  */
-export interface ChallengeCallbackOptions {
+export interface AuthorizeRequestOptions {
   /**
    * The scopes for which the bearer token applies.
    */
   scopes: string[];
   /**
-   * Additional claims to be included in the token.
-   * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
+   * Function that retrieves either a cached access token or a new access token.
    */
-  claims?: string;
+  getAccessToken: (
+    scopes: string | string[],
+    options: GetTokenOptions
+  ) => Promise<AccessToken | null>;
+  /**
+   * Request that the policy is trying to fulfill.
+   */
+  request: PipelineRequest;
+}
+
+/**
+ * Options sent to the authorizeRequestOnChallenge callback
+ */
+export interface AuthorizeRequestOnChallengeOptions {
+  /**
+   * The scopes for which the bearer token applies.
+   */
+  scopes: string[];
   /**
    * Function that retrieves either a cached access token or a new access token.
    */
@@ -39,7 +55,7 @@ export interface ChallengeCallbackOptions {
   /**
    * Response containing the challenge.
    */
-  response?: PipelineResponse;
+  response: PipelineResponse;
 }
 
 /**
@@ -49,13 +65,14 @@ export interface ChallengeCallbacks {
   /**
    * Allows for the authorization of the main request of this policy before it's sent.
    */
-  authorizeRequest?(options: ChallengeCallbackOptions): Promise<void>;
+  authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
   /**
    * Allows to handle authentication challenges and to re-authorize the request.
    * The response containing the challenge is `options.response`.
    * If this method returns true, the underlying request will be sent once again.
+   * The request may be modified before being sent.
    */
-  authorizeRequestOnChallenge?(options: ChallengeCallbackOptions): Promise<boolean>;
+  authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 }
 
 /**
@@ -79,30 +96,19 @@ export interface BearerTokenChallengeAuthenticationPolicyOptions {
 }
 
 /**
- * Retrieves a token from a token cache or a credential.
+ * Default authorize request handler
  */
-async function retrieveAccessToken(options: ChallengeCallbackOptions): Promise<AccessToken | null> {
-  const { scopes, claims, getAccessToken, request } = options;
-
+async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
+  const { scopes, getAccessToken, request } = options;
   const getTokenOptions: GetTokenOptions = {
-    claims,
     abortSignal: request.abortSignal,
     tracingOptions: request.tracingOptions
   };
+  const accessToken = await getAccessToken(scopes, getTokenOptions);
 
-  return getAccessToken(scopes, getTokenOptions);
-}
-
-/**
- * Default authorize request
- */
-async function defaultAuthorizeRequest(options: ChallengeCallbackOptions): Promise<void> {
-  const accessToken = await retrieveAccessToken(options);
-  if (!accessToken) {
-    return;
+  if (accessToken) {
+    options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
   }
-
-  options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
 }
 
 /**
