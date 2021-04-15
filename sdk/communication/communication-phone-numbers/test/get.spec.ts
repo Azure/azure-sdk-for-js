@@ -5,41 +5,51 @@ import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { createRecordedClient } from "./utils/recordedClient";
+import { matrix } from "./utils/matrix";
+import {
+  canCreateRecordedClientWithToken,
+  createRecordedClient,
+  createRecordedClientWithToken
+} from "./utils/recordedClient";
 
-describe("PhoneNumbersClient - get phone number", function() {
-  let recorder: Recorder;
-  let client: PhoneNumbersClient;
-  let includePhoneNumberLiveTests: boolean;
+matrix([[true, false]], async function(useAad) {
+  describe(`PhoneNumbersClient - get phone number${useAad ? " [AAD]" : ""}`, function() {
+    let recorder: Recorder;
+    let client: PhoneNumbersClient;
 
-  beforeEach(function(this: Context) {
-    ({ client, recorder, includePhoneNumberLiveTests } = createRecordedClient(this));
-  });
+    before(function(this: Context) {
+      if (useAad && !canCreateRecordedClientWithToken()) {
+        this.skip();
+      }
+    });
 
-  afterEach(async function(this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
-  });
+    beforeEach(function(this: Context) {
+      ({ client, recorder } = useAad
+        ? createRecordedClientWithToken(this)!
+        : createRecordedClient(this));
+    });
 
-  it("can get a purchased phone number", async function(this: Context) {
-    if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
-      this.skip();
-    }
+    afterEach(async function(this: Context) {
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+    });
 
-    const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
-    const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
+    it("can get a purchased phone number", async function(this: Context) {
+      const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
+      const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
-    assert.strictEqual(purchasedPhoneNumber, phoneNumber);
-  });
+      assert.strictEqual(purchasedPhoneNumber, phoneNumber);
+    }).timeout(7000);
 
-  it("errors if phone number not found", async function() {
-    const fake = "+14155550100";
-    try {
-      await client.getPurchasedPhoneNumber(fake);
-    } catch (e) {
-      assert.strictEqual(e.code, "PhoneNumberNotFound");
-      assert.strictEqual(e.message, "The specified phone number +14155550100 cannot be found.");
-    }
+    it("errors if phone number not found", async function() {
+      const fake = "+14155550100";
+      try {
+        await client.getPurchasedPhoneNumber(fake);
+      } catch (e) {
+        assert.strictEqual(e.code, "PhoneNumberNotFound");
+        assert.strictEqual(e.message, "The specified phone number +14155550100 cannot be found.");
+      }
+    });
   });
 });

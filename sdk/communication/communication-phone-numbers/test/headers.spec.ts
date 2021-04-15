@@ -11,6 +11,7 @@ import { PhoneNumbersClient } from "../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "./utils/mockHttpClients";
 import { SDK_VERSION } from "../src/utils/constants";
 import { Context } from "mocha";
+import { canCreateRecordedClientWithToken } from "./utils/recordedClient";
 
 describe("PhoneNumbersClient - headers", function() {
   const endpoint = "https://contoso.spool.azure.local";
@@ -78,7 +79,7 @@ describe("PhoneNumbersClient - headers", function() {
   });
 
   it("sets bearer authorization header with TokenCredential", async function(this: Context) {
-    if (!isNode || isPlaybackMode()) {
+    if (!canCreateRecordedClientWithToken() || isPlaybackMode()) {
       this.skip();
     }
 

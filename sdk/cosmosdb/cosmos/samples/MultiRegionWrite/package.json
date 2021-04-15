@@ -1,7 +1,7 @@
 {
   "name": "multiregionwrite",
   "version": "0.0.1",
-  "description": "Demonstrates the ability to read between multiple regions and handling conflicts",
+  "description": "Demonstrates the ability to read between multiple regions and handle conflicts",
   "main": "app.ts",
   "scripts": {
     "start": "ts-node app.ts"
