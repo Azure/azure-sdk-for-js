@@ -28,7 +28,6 @@ import {
   ServiceBusReceivedMessage,
   ServiceBusMessage,
   ServiceBusMessageImpl,
-  getMessagePropertyTypeMismatchError,
   toRheaMessage,
   fromRheaMessage
 } from "../serviceBusMessage";
@@ -598,9 +597,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const item = messages[i];
       if (!item.messageId) item.messageId = generate_uuid();
       item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-      const amqpMessage = toRheaMessage(item, defaultDataTransformer);
 
       try {
+        const amqpMessage = toRheaMessage(item, defaultDataTransformer);
+
         const entry: any = {
           message: RheaMessageUtil.encode(amqpMessage),
           "message-id": item.messageId
@@ -620,16 +620,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
       } catch (err) {
-        let error: Error;
-        if (err instanceof TypeError || err.name === "TypeError") {
-          // `RheaMessageUtil.encode` can fail if message properties are of invalid type
-          // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-          // Errors in such cases do not have user-friendly message or call stack
-          // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          error = translateServiceBusError(getMessagePropertyTypeMismatchError(item) || err);
-        } else {
-          error = translateServiceBusError(err);
-        }
+        const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
           `${this.logPrefix} An error occurred while encoding the item at position ${i} in the messages array`
