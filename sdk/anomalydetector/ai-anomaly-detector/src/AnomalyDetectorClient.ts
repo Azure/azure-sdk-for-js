@@ -11,7 +11,6 @@ import {
   AnomalyDetectorClientModelInfo,
   AnomalyDetectorClientTrainMultivariateModelResponse,
   AnomalyDetectorClientGetMultivariateModelResponse,
-  AnomalyDetectorClientDeleteMultivariateModelResponse,
   AnomalyDetectorClientDetectAnomalyResponse,
   DetectionRequest,
   AnomalyDetectorClientGetDetectionResultResponse,
@@ -277,10 +276,10 @@ export class AnomalyDetectorClient {
    * @param modelId - Model identifier.
    * @param options - The options parameters.
    */
-  public deleteMultivariateModel(
+  public async deleteMultivariateModel(
     modelId: string,
     options?: DeleteMultivariateModelOptions
-  ): Promise<AnomalyDetectorClientDeleteMultivariateModelResponse> {
+  ): Promise<void> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "anomalyDetectorClient-deleteMultivariateModel",
@@ -288,7 +287,7 @@ export class AnomalyDetectorClient {
     );
 
     try {
-      return this.client.deleteMultivariateModel(modelId, finalOptions);
+      await this.client.deleteMultivariateModel(modelId, finalOptions);
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

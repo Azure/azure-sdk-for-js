@@ -142,5 +142,3 @@ export {
   GeneratedClientExportModelHeaders as AnomalyDetectorClientExportModelHeaders,
   GeneratedClientTrainMultivariateModelHeaders as AnomalyDetectorClientTrainMultivariateModelHeaders
 } from "./generated/models";
-
-export { RestResponse as AnomalyDetectorClientDeleteMultivariateModelResponse } from "@azure/core-http";

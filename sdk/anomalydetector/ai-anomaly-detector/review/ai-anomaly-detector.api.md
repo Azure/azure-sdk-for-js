@@ -4,7 +4,6 @@
 
 ```ts
 
-import { RestResponse as AnomalyDetectorClientDeleteMultivariateModelResponse } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
@@ -30,7 +29,7 @@ export interface AnomalyContributor {
 // @public
 export class AnomalyDetectorClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: AnomalyDetectorClientOptions);
-    deleteMultivariateModel(modelId: string, options?: DeleteMultivariateModelOptions): Promise<AnomalyDetectorClientDeleteMultivariateModelResponse>;
+    deleteMultivariateModel(modelId: string, options?: DeleteMultivariateModelOptions): Promise<void>;
     detectAnomaly(modelId: string, detectionRequest: DetectionRequest, options?: DetectAnomalyOptions): Promise<AnomalyDetectorClientDetectAnomalyResponse>;
     detectChangePoint(body: DetectChangePointRequest, options?: DetectChangePointOptions): Promise<AnomalyDetectorClientDetectChangePointResponse>;
     detectEntireSeries(body: DetectRequest, options?: DetectEntireSeriesOptions): Promise<AnomalyDetectorClientDetectEntireResponse>;
@@ -42,8 +41,6 @@ export class AnomalyDetectorClient {
     listMultivariateModelNext(nextLink: string, options?: ListMultivariateModelNextOptionalParams): Promise<AnomalyDetectorClientListMultivariateModelNextResponse>;
     trainMultivariateModel(modelRequest: AnomalyDetectorClientModelInfo, options?: TrainMultivariateModelOptions): Promise<AnomalyDetectorClientTrainMultivariateModelResponse>;
 }
-
-export { AnomalyDetectorClientDeleteMultivariateModelResponse }
 
 // @public
 export interface AnomalyDetectorClientDetectAnomalyHeaders {
