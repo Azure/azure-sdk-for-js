@@ -53,12 +53,12 @@ describe("sessions tests -  requires completely clean entity for each test", () 
   afterEach(() => serviceBusClient.test.afterEach());
   after(() => serviceBusClient.test.after());
 
-  // These tests really do need to run against both queues and subscriptions as they seem 
+  // These tests really do need to run against both queues and subscriptions as they seem
   // to behave differently on occasion when it runs against subscriptions.
   //
-  // Basically, this test can fail if there is a delay between the message being accepted into the 
-  // entity and it actually being available in the queue or subscription. If that happens, when we peek, 
-  // it'll end up peeking into an empty entity which just works out as a really fast call that returns 
+  // Basically, this test can fail if there is a delay between the message being accepted into the
+  // entity and it actually being available in the queue or subscription. If that happens, when we peek,
+  // it'll end up peeking into an empty entity which just works out as a really fast call that returns
   // no messages.
   //
   // So to compensate for this (since speed isn't what we're testing) I just receiveMessages(1) prior to the
