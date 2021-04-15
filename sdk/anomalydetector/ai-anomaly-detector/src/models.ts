@@ -37,7 +37,15 @@ export enum TimeGranularity {
   /**
    * Per second time granularity
    */
-  perSecond = "secondly"
+  perSecond = "secondly",
+  /**
+   * Per microsecond time granularity
+   */
+  perMicrosecond = "microsecond",
+  /**
+   * None
+   */
+  none = "none"
 }
 
 export interface DetectRequest {
@@ -101,5 +109,38 @@ export {
   DetectLastPointResponse,
   DetectChangePointResponse,
   DetectEntireResponse,
-  TimeSeriesPoint
+  TimeSeriesPoint,
+  GeneratedClientTrainMultivariateModelResponse as AnomalyDetectorClientTrainMultivariateModelResponse,
+  GeneratedClientGetMultivariateModelResponse as AnomalyDetectorClientGetMultivariateModelResponse,
+  GeneratedClientDetectAnomalyResponse as AnomalyDetectorClientDetectAnomalyResponse,
+  DetectionRequest,
+  DetectionResult,
+  DetectionResultSummary,
+  DetectionStatus,
+  AnomalyState,
+  AnomalyValue,
+  AnomalyContributor,
+  GeneratedClientGetDetectionResultResponse as AnomalyDetectorClientGetDetectionResultResponse,
+  GeneratedClientExportModelResponse as AnomalyDetectorClientExportModelResponse,
+  GeneratedClientListMultivariateModelOptionalParams as ListMultivariateModelOptionalParams,
+  GeneratedClientListMultivariateModelNextOptionalParams as ListMultivariateModelNextOptionalParams,
+  GeneratedClientListMultivariateModelResponse as AnomalyDetectorClientListMultivariateModelResponse,
+  GeneratedClientListMultivariateModelNextResponse as AnomalyDetectorClientListMultivariateModelNextResponse,
+  Model as AnomalyDetectorClientModel,
+  ModelInfo as AnomalyDetectorClientModelInfo,
+  ModelList as AnomalyDetectorClientModelList,
+  ModelSnapshot as AnomalyDetectorClientModelSnapshot,
+  ModelStatus as AnomalyDetectorClientModelStatus,
+  ModelState as AnomalyDetectorClientModelState,
+  VariableState as AnomalyDetectorClientVariableState,
+  ErrorResponse as AnomalyDetectorClientErrorResponse,
+  AlignPolicy,
+  AlignMode,
+  DiagnosticsInfo,
+  FillNAMethod,
+  GeneratedClientDetectAnomalyHeaders as AnomalyDetectorClientDetectAnomalyHeaders,
+  GeneratedClientExportModelHeaders as AnomalyDetectorClientExportModelHeaders,
+  GeneratedClientTrainMultivariateModelHeaders as AnomalyDetectorClientTrainMultivariateModelHeaders
 } from "./generated/models";
+
+export { RestResponse as AnomalyDetectorClientDeleteMultivariateModelResponse } from "@azure/core-http";
