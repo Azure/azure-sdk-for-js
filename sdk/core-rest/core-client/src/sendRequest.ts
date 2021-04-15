@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   createHttpHeaders,
   createPipelineRequest,
@@ -11,10 +14,10 @@ import { HttpResponse } from "./common";
 
 /**
  * Helper function to send request used by the client
- * @param method method to use to send the request
- * @param url url to send the request to
- * @param pipeline pipeline with the policies to run when sending the request
- * @param options request options
+ * @param method - method to use to send the request
+ * @param url - url to send the request to
+ * @param pipeline - pipeline with the policies to run when sending the request
+ * @param options - request options
  * @returns returns and HttpResponse
  */
 export async function sendRequest(
@@ -65,7 +68,7 @@ export async function sendRequest(
 /**
  * Function to determine the content-type of a body
  * this is used if an explicit content-type is not provided
- * @param body body in the request
+ * @param body - body in the request
  * @returns returns the content-type
  */
 function getContentType(body: any): string {
