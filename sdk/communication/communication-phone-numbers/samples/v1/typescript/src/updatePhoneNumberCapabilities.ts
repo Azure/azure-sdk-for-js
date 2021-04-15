@@ -19,14 +19,17 @@ export async function main() {
 
   // You will need to set this environment variable or edit the following values
   const connectionString =
-    process.env.COMMUNICATION_CONNECTION_STRING ||
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
   // create new client
   const client = new PhoneNumbersClient(connectionString);
 
-  // You will need to set this environment variable or edit the following values
-  const phoneNumberToUpdate = process.env.PHONE_NUMBER_TO_UPDATE || "<phone number to update>";
+  // You will need to set any of these environment variables or edit the following values
+  const phoneNumberToUpdate =
+    process.env.PHONE_NUMBER_TO_UPDATE ||
+    process.env.AZURE_PHONE_NUMBER ||
+    "<phone number to update>";
 
   // This will update the phone number to send and receive sms, but only send calls.
   const updateRequest: PhoneNumberCapabilitiesRequest = {

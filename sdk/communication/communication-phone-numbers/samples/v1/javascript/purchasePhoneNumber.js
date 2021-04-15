@@ -16,7 +16,7 @@ async function main() {
 
   // You will need to set this environment variable or edit the following values
   const connectionString =
-    process.env.COMMUNICATION_CONNECTION_STRING ||
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
   // create new client
@@ -57,6 +57,7 @@ async function main() {
     console.log("Did not find any phone numbers.");
   }
 }
+
 main().catch((error) => {
   console.log("The sample encountered an error:", error);
   process.exit(1);
