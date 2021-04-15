@@ -53,6 +53,14 @@
       "path": "sdk/core/core-client"
     },
     {
+      "name": "rest-core-client",
+      "path": "sdk/core-rest/core-client"
+    },
+    {
+      "name": "ai-document-translator",
+      "path": "sdk/documenttranslator/ai-document-translator-rest"
+    },
+    {
       "name": "core-crypto",
       "path": "sdk/core/core-crypto"
     },
