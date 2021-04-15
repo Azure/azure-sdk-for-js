@@ -5,7 +5,7 @@ languages:
 products:
   - azure
   - azure-cognitive-services
-  - azure-document-translator
+  - azure-translator
 urlFragment: ai-document-translator-typescript
 disableDocsMs: true
 ---
