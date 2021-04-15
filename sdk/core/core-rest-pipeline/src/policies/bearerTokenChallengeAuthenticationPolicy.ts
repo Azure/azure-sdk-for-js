@@ -23,10 +23,7 @@ export interface AuthorizeRequestOptions {
   /**
    * Function that retrieves either a cached access token or a new access token.
    */
-  getAccessToken: (
-    scopes: string | string[],
-    options: GetTokenOptions
-  ) => Promise<AccessToken | null>;
+  getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
   /**
    * Request that the policy is trying to fulfill.
    */
@@ -44,10 +41,7 @@ export interface AuthorizeRequestOnChallengeOptions {
   /**
    * Function that retrieves either a cached access token or a new access token.
    */
-  getAccessToken: (
-    scopes: string | string[],
-    options: GetTokenOptions
-  ) => Promise<AccessToken | null>;
+  getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
   /**
    * Request that the policy is trying to fulfill.
    */

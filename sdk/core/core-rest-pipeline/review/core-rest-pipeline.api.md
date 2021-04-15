@@ -30,7 +30,7 @@ export interface Agent {
 
 // @public
 export interface AuthorizeRequestOnChallengeOptions {
-    getAccessToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     request: PipelineRequest;
     response: PipelineResponse;
     scopes: string[];
@@ -38,7 +38,7 @@ export interface AuthorizeRequestOnChallengeOptions {
 
 // @public
 export interface AuthorizeRequestOptions {
-    getAccessToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
     request: PipelineRequest;
     scopes: string[];
 }
