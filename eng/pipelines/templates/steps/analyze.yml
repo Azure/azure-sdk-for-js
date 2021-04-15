@@ -36,10 +36,6 @@ steps:
         Directory: sdk/${{ parameters.ServiceDirectory }}
       CheckLinkGuidance: $true
 
-  - template: /eng/common/pipelines/templates/steps/verify-samples.yml
-    parameters:
-      ServiceDirectory: ${{ parameters.ServiceDirectory }}
-
   - script: |
       npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
