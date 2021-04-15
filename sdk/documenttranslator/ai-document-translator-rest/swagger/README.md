@@ -22,19 +22,3 @@ credential-key-header-name: "Ocp-Apim-Subscription-Key"
 use-extension:
   "@autorest/typescript": "https://aka.ms/azsdk/typescript/rlc"
 ```
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.StartTranslationDetails
-    transform: >
-      throw new Error("Hello World 1")
-```
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions
-    transform: >
-      throw new Error("Hello World 2")
-```
