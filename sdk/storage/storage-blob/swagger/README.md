@@ -1111,34 +1111,12 @@ directive:
       delete $.Expiry["format"];
 ```
 
-### Change EncryptionAlgorithm definition to string
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.EncryptionAlgorithm
-    transform: >
-      delete $["enum"];
-      delete $["x-ms-enum"];
-```
-
 ### Change BlobDeleteType definition to string
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.BlobDeleteType
-    transform: >
-      delete $["enum"];
-      delete $["x-ms-enum"];
-```
-
-### Change SyncCopyStatusType in Blob_CopyFromURL to string type
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=copy&sync"]["put"]["responses"]["202"]["headers"]["x-ms-copy-status"]
     transform: >
       delete $["enum"];
       delete $["x-ms-enum"];
@@ -1214,6 +1192,60 @@ directive:
     where: $.definitions.StorageError
     transform: >
       $.properties.Code = { "type": "string" };
+```
+
+### Define AccessTier as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["AccessTier"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define ArchiveStatus as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["ArchiveStatus"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define GeoReplication as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["definitions"]["GeoReplication"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define BlobPublicAccess as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["BlobPublicAccess"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+```
+
+### Define RehydratePriority as enum type
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["parameters"]["RehydratePriority"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
+  - from: swagger-document
+    where: $["definitions"]["RehydratePriority"]["x-ms-enum"]
+    transform: >
+      delete $["modelAsString"]
 ```
 
 ### Hide AllowPermanentDelete

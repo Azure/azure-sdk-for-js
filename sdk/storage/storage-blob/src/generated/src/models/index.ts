@@ -1666,7 +1666,7 @@ export interface BlobCopyFromURLHeaders {
   /** String identifier for this copy operation. */
   copyId?: string;
   /** State of the copy operation identified by x-ms-copy-id. */
-  copyStatus?: string;
+  copyStatus?: SyncCopyStatusType;
   /** This response header is returned so that the client can check for the integrity of the copied content. This header is only returned if the source content MD5 was specified. */
   contentMD5?: Uint8Array;
   /** This response header is returned so that the client can check for the integrity of the copied content. */
@@ -2484,8 +2484,8 @@ export interface CpkInfo {
   encryptionKey?: string;
   /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
   encryptionKeySha256?: string;
-  /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
-  encryptionAlgorithm?: string;
+  /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is \"AES256\". Must be provided if the x-ms-encryption-key header is provided. */
+  encryptionAlgorithm?: EncryptionAlgorithmType;
 }
 
 /** Parameter group */
@@ -2555,78 +2555,6 @@ export const enum KnownPublicAccessType {
  * **blob**
  */
 export type PublicAccessType = string;
-
-/** Known values of {@link AccessTier} that the service accepts. */
-export const enum KnownAccessTier {
-  P4 = "P4",
-  P6 = "P6",
-  P10 = "P10",
-  P15 = "P15",
-  P20 = "P20",
-  P30 = "P30",
-  P40 = "P40",
-  P50 = "P50",
-  P60 = "P60",
-  P70 = "P70",
-  P80 = "P80",
-  Hot = "Hot",
-  Cool = "Cool",
-  Archive = "Archive"
-}
-
-/**
- * Defines values for AccessTier. \
- * {@link KnownAccessTier} can be used interchangeably with AccessTier,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **P4** \
- * **P6** \
- * **P10** \
- * **P15** \
- * **P20** \
- * **P30** \
- * **P40** \
- * **P50** \
- * **P60** \
- * **P70** \
- * **P80** \
- * **Hot** \
- * **Cool** \
- * **Archive**
- */
-export type AccessTier = string;
-
-/** Known values of {@link ArchiveStatus} that the service accepts. */
-export const enum KnownArchiveStatus {
-  RehydratePendingToHot = "rehydrate-pending-to-hot",
-  RehydratePendingToCool = "rehydrate-pending-to-cool"
-}
-
-/**
- * Defines values for ArchiveStatus. \
- * {@link KnownArchiveStatus} can be used interchangeably with ArchiveStatus,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **rehydrate-pending-to-hot** \
- * **rehydrate-pending-to-cool**
- */
-export type ArchiveStatus = string;
-
-/** Known values of {@link RehydratePriority} that the service accepts. */
-export const enum KnownRehydratePriority {
-  High = "High",
-  Standard = "Standard"
-}
-
-/**
- * Defines values for RehydratePriority. \
- * {@link KnownRehydratePriority} can be used interchangeably with RehydratePriority,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **High** \
- * **Standard**
- */
-export type RehydratePriority = string;
 
 /** Known values of {@link BlobExpiryOptions} that the service accepts. */
 export const enum KnownBlobExpiryOptions {
@@ -2923,6 +2851,28 @@ export type ListBlobsIncludeItem =
 export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
 /** Defines values for CopyStatusType. */
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
+/** Defines values for AccessTier. */
+export type AccessTier =
+  | "P4"
+  | "P6"
+  | "P10"
+  | "P15"
+  | "P20"
+  | "P30"
+  | "P40"
+  | "P50"
+  | "P60"
+  | "P70"
+  | "P80"
+  | "Hot"
+  | "Cool"
+  | "Archive";
+/** Defines values for ArchiveStatus. */
+export type ArchiveStatus =
+  | "rehydrate-pending-to-hot"
+  | "rehydrate-pending-to-cool";
+/** Defines values for RehydratePriority. */
+export type RehydratePriority = "High" | "Standard";
 /** Defines values for PathRenameMode. */
 export type PathRenameMode = "legacy" | "posix";
 /** Defines values for DeleteSnapshotsOptionType. */
@@ -2933,6 +2883,10 @@ export type BlockListType = "committed" | "uncommitted" | "all";
 export type SequenceNumberActionType = "max" | "update" | "increment";
 /** Defines values for QueryFormatType. */
 export type QueryFormatType = "delimited" | "json" | "arrow";
+/** Defines values for SyncCopyStatusType. */
+export type SyncCopyStatusType = "success";
+/** Defines values for EncryptionAlgorithmType. */
+export type EncryptionAlgorithmType = "AES256";
 
 /** Optional parameters. */
 export interface ServiceSetPropertiesOptionalParams

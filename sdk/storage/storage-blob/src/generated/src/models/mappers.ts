@@ -1246,7 +1246,23 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         serializedName: "AccessTier",
         xmlName: "AccessTier",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "P4",
+            "P6",
+            "P10",
+            "P15",
+            "P20",
+            "P30",
+            "P40",
+            "P50",
+            "P60",
+            "P70",
+            "P80",
+            "Hot",
+            "Cool",
+            "Archive"
+          ]
         }
       },
       accessTierInferred: {
@@ -1260,7 +1276,11 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         serializedName: "ArchiveStatus",
         xmlName: "ArchiveStatus",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "rehydrate-pending-to-hot",
+            "rehydrate-pending-to-cool"
+          ]
         }
       },
       customerProvidedKeySha256: {
@@ -1309,7 +1329,8 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         serializedName: "RehydratePriority",
         xmlName: "RehydratePriority",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["High", "Standard"]
         }
       },
       lastAccessedOn: {
@@ -4847,7 +4868,8 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-rehydrate-priority",
         xmlName: "x-ms-rehydrate-priority",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["High", "Standard"]
         }
       },
       lastAccessed: {
@@ -6159,8 +6181,9 @@ export const BlobCopyFromURLHeaders: coreHttp.CompositeMapper = {
         }
       },
       copyStatus: {
+        defaultValue: "success",
+        isConstant: true,
         serializedName: "x-ms-copy-status",
-        xmlName: "x-ms-copy-status",
         type: {
           name: "String"
         }

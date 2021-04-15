@@ -149,5 +149,7 @@ export {
   BlockBlobPutBlobFromUrlResponse,
   BlockBlobPutBlobFromUrlHeaders,
   ContainerRenameResponse,
-  ContainerRenameHeaders
+  ContainerRenameHeaders,
+  SyncCopyStatusType,
+  EncryptionAlgorithmType
 } from "./generated/src/models";

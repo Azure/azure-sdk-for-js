@@ -38,7 +38,7 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = string;
+export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive";
 
 // @public
 export type AccountKind = "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
@@ -266,7 +266,7 @@ export interface AppendPositionAccessConditions {
 }
 
 // @public
-export type ArchiveStatus = string;
+export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool";
 
 export { BaseRequestPolicy }
 
@@ -429,7 +429,7 @@ export interface BlobCopyFromURLHeaders {
     clientRequestId?: string;
     contentMD5?: Uint8Array;
     copyId?: string;
-    copyStatus?: string;
+    copyStatus?: SyncCopyStatusType;
     date?: Date;
     errorCode?: string;
     etag?: string;
@@ -2038,7 +2038,7 @@ export interface CorsRule {
 
 // @public
 export interface CpkInfo {
-    encryptionAlgorithm?: string;
+    encryptionAlgorithm?: EncryptionAlgorithmType;
     encryptionKey?: string;
     encryptionKeySha256?: string;
 }
@@ -2061,6 +2061,9 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 export type DeleteSnapshotsOptionType = "include" | "only";
 
 export { deserializationPolicy }
+
+// @public
+export type EncryptionAlgorithmType = "AES256";
 
 // @public
 export interface FilterBlobItem {
@@ -2695,7 +2698,7 @@ export interface Range {
 }
 
 // @public
-export type RehydratePriority = string;
+export type RehydratePriority = "High" | "Standard";
 
 export { RequestPolicy }
 
@@ -3076,6 +3079,9 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: StorageSharedKeyCredential);
     protected signRequest(request: WebResource): WebResource;
 }
+
+// @public
+export type SyncCopyStatusType = "success";
 
 // @public
 export interface TagConditions {

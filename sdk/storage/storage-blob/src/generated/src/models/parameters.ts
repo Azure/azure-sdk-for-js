@@ -1064,10 +1064,11 @@ export const encryptionKeySha256: OperationParameter = {
 };
 
 export const encryptionAlgorithm: OperationParameter = {
-  parameterPath: ["options", "cpkInfo", "encryptionAlgorithm"],
+  parameterPath: ["options", "encryptionAlgorithm"],
   mapper: {
+    defaultValue: "AES256",
+    isConstant: true,
     serializedName: "x-ms-encryption-algorithm",
-    xmlName: "x-ms-encryption-algorithm",
     type: {
       name: "String"
     }
@@ -1238,7 +1239,23 @@ export const tier: OperationParameter = {
     serializedName: "x-ms-access-tier",
     xmlName: "x-ms-access-tier",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "P4",
+        "P6",
+        "P10",
+        "P15",
+        "P20",
+        "P30",
+        "P40",
+        "P50",
+        "P60",
+        "P70",
+        "P80",
+        "Hot",
+        "Cool",
+        "Archive"
+      ]
     }
   }
 };
@@ -1249,7 +1266,8 @@ export const rehydratePriority: OperationParameter = {
     serializedName: "x-ms-rehydrate-priority",
     xmlName: "x-ms-rehydrate-priority",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: ["High", "Standard"]
     }
   }
 };
@@ -1377,7 +1395,23 @@ export const tier1: OperationParameter = {
     required: true,
     xmlName: "x-ms-access-tier",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "P4",
+        "P6",
+        "P10",
+        "P15",
+        "P20",
+        "P30",
+        "P40",
+        "P50",
+        "P60",
+        "P70",
+        "P80",
+        "Hot",
+        "Cool",
+        "Archive"
+      ]
     }
   }
 };
