@@ -51,7 +51,8 @@ export class TestMessage {
       applicationProperties: {
         propOne: 1,
         propTwo: "two",
-        propThree: true
+        propThree: true,
+        propFour: Date()
       },
       sessionId: TestMessage.sessionId,
       replyToSessionId: "some-other-session-id"

@@ -278,51 +278,59 @@ export function toRheaMessage(
   msg: ServiceBusMessage | ServiceBusReceivedMessage | AmqpAnnotatedMessage,
   encoder: Pick<typeof defaultDataTransformer, "encode">
 ): RheaMessage {
+  let amqpMsg: RheaMessage;
   if (isAmqpAnnotatedMessage(msg)) {
-    const amqpMsg: RheaMessage = {
-      body: encoder.encode(msg.body, msg.bodyType ?? "data"),
+    amqpMsg = {
+      ...AmqpAnnotatedMessage.toRheaMessage(msg),
+      body: encoder.encode(msg.body, msg.bodyType ?? "data")
+    };
+  } else {
+    let bodyType: "data" | "sequence" | "value" = "data";
+
+    if (isServiceBusReceivedMessage(msg)) {
+      /*
+       * TODO: this is a bit complicated.
+       *
+       * It seems reasonable to expect to be able to round-trip a message (ie,
+       * receive a message, and then send it again, possibly to another queue / topic).
+       * If the user does that we need to make sure to respect their original AMQP
+       * type so when the message is re - encoded we don't put 'body' into the wrong spot.
+       *
+       * The complication is that we need to decide if we're okay with respecting a field
+       * from the rawAmqpMessage, which up until now we've treated as just vestigial
+       * information on send. My hope is that the use case of "alter the sb message in some
+       * incompatible way with the underying _rawAmqpMessage.bodyType" is not common
+       * enough for us to try to do anything more than what I'm doing here.
+       */
+      bodyType = msg._rawAmqpMessage.bodyType ?? "data";
+    }
+
+    // TODO: it seems sensible that we'd also do this for AMQPAnnotated message.
+    const validationError = getMessagePropertyTypeMismatchError(msg);
+
+    if (validationError) {
+      throw validationError;
+    }
+
+    amqpMsg = {
+      body: encoder.encode(msg.body, bodyType),
       message_annotations: {}
     };
 
-    if (msg.applicationProperties != null) {
-      amqpMsg.application_properties = msg.applicationProperties;
-    }
+    amqpMsg.ttl = msg.timeToLive;
+  }
 
-    if (msg.messageAnnotations != null) {
-      amqpMsg.message_annotations = msg.messageAnnotations;
-    }
+  if (amqpMsg.ttl != null && amqpMsg.ttl !== Constants.maxDurationValue) {
+    amqpMsg.creation_time = Date.now();
+    amqpMsg.absolute_expiry_time = Math.min(
+      Constants.maxAbsoluteExpiryTime,
+      amqpMsg.creation_time + amqpMsg.ttl
+    );
+  }
 
-    if (msg.deliveryAnnotations != null) {
-      amqpMsg.delivery_annotations = msg.deliveryAnnotations;
-    }
-
+  if (isAmqpAnnotatedMessage(msg)) {
     return amqpMsg;
   }
-
-  let bodyType: "data" | "sequence" | "value" = "data";
-
-  if (isServiceBusReceivedMessage(msg)) {
-    /*
-     * TODO: this is a bit complicated.
-     *
-     * It seems reasonable to expect to be able to round-trip a message (ie,
-     * receive a message, and then send it again, possibly to another queue / topic).
-     * If the user does that we need to make sure to respect their original AMQP
-     * type so when the message is re - encoded we don't put 'body' into the wrong spot.
-     *
-     * The complication is that we need to decide if we're okay with respecting a field
-     * from the rawAmqpMessage, which up until now we've treated as just vestigial
-     * information on send. My hope is that the use case of "alter the sb message in some
-     * incompatible way with the underying _rawAmqpMessage.bodyType" is not common
-     * enough for us to try to do anything more than what I'm doing here.
-     */
-    bodyType = msg._rawAmqpMessage.bodyType ?? "data";
-  }
-
-  const amqpMsg: RheaMessage = {
-    body: encoder.encode(msg.body, bodyType),
-    message_annotations: {}
-  };
 
   if (msg.applicationProperties != null) {
     amqpMsg.application_properties = msg.applicationProperties;
@@ -361,15 +369,6 @@ export function toRheaMessage(
   }
   if (msg.replyToSessionId != null) {
     amqpMsg.reply_to_group_id = msg.replyToSessionId;
-  }
-  if (msg.timeToLive != null && msg.timeToLive !== Constants.maxDurationValue) {
-    amqpMsg.ttl = msg.timeToLive;
-    amqpMsg.creation_time = Date.now();
-    if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
-      amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
-    } else {
-      amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
-    }
   }
   if (msg.partitionKey != null) {
     if (msg.partitionKey.length > Constants.maxPartitionKeyLength) {
