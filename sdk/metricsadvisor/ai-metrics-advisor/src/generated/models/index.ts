@@ -608,7 +608,6 @@ export interface DataSourceCredential {
 }
 
 export interface DataSourceCredentialList {
-<<<<<<< HEAD
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
@@ -629,8 +628,6 @@ export interface DataSourceCredentialPatch {
 }
 
 export interface DataFeedList {
-=======
->>>>>>> 065ebee67 (changes from GA swagger)
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly nextLink?: string;
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
@@ -1269,40 +1266,56 @@ export type AzureSQLConnectionStringCredential = DataSourceCredential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "AzureSQLConnectionString";
 <<<<<<< HEAD
+<<<<<<< HEAD
   parameters: AzureSQLConnectionStringParam;
 =======
   parameters?: AzureSQLConnectionStringParam;
 >>>>>>> 065ebee67 (changes from GA swagger)
+=======
+  parameters: AzureSQLConnectionStringParam;
+>>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type DataLakeGen2SharedKeyCredential = DataSourceCredential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "DataLakeGen2SharedKey";
 <<<<<<< HEAD
+<<<<<<< HEAD
   parameters: DataLakeGen2SharedKeyParam;
 =======
   parameters?: DataLakeGen2SharedKeyParam;
 >>>>>>> 065ebee67 (changes from GA swagger)
+=======
+  parameters: DataLakeGen2SharedKeyParam;
+>>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type ServicePrincipalCredential = DataSourceCredential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "ServicePrincipal";
 <<<<<<< HEAD
+<<<<<<< HEAD
   parameters: ServicePrincipalParam;
 =======
   parameters?: ServicePrincipalParam;
 >>>>>>> 065ebee67 (changes from GA swagger)
+=======
+  parameters: ServicePrincipalParam;
+>>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type ServicePrincipalInKVCredential = DataSourceCredential & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceCredentialType: "ServicePrincipalInKV";
 <<<<<<< HEAD
+<<<<<<< HEAD
   parameters: ServicePrincipalInKVParam;
 =======
   parameters?: ServicePrincipalInKVParam;
 >>>>>>> 065ebee67 (changes from GA swagger)
+=======
+  parameters: ServicePrincipalInKVParam;
+>>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type AzureSQLConnectionStringCredentialPatch = DataSourceCredentialPatch & {
@@ -1332,36 +1345,37 @@ export type ServicePrincipalInKVCredentialPatch = DataSourceCredentialPatch & {
 export type AzureApplicationInsightsDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureApplicationInsights";
-  dataSourceParameter?: AzureApplicationInsightsParameter;
+  dataSourceParameter: AzureApplicationInsightsParameter;
 };
 
 export type AzureBlobDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureBlob";
-  dataSourceParameter?: AzureBlobParameter;
+  dataSourceParameter: AzureBlobParameter;
 };
 
 export type AzureCosmosDBDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureCosmosDB";
-  dataSourceParameter?: AzureCosmosDBParameter;
+  dataSourceParameter: AzureCosmosDBParameter;
 };
 
 export type AzureDataExplorerDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureDataExplorer";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter: SqlSourceParameter;
 };
 
 export type AzureDataLakeStorageGen2DataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureDataLakeStorageGen2";
-  dataSourceParameter?: AzureDataLakeStorageGen2Parameter;
+  dataSourceParameter: AzureDataLakeStorageGen2Parameter;
 };
 
 export type AzureEventHubsDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureEventHubs";
+<<<<<<< HEAD
   dataSourceParameter?: AzureEventHubsParameter;
 <<<<<<< HEAD
 };
@@ -1372,54 +1386,57 @@ export type AzureEventHubsDataFeed = DataFeedDetail & {
   dataSourceParameter: AzureEventHubsParameter;
 =======
 >>>>>>> 065ebee67 (changes from GA swagger)
+=======
+  dataSourceParameter: AzureEventHubsParameter;
+>>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type AzureTableDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "AzureTable";
-  dataSourceParameter?: AzureTableParameter;
+  dataSourceParameter: AzureTableParameter;
 };
 
 export type ElasticsearchDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "Elasticsearch";
-  dataSourceParameter?: ElasticsearchParameter;
+  dataSourceParameter: ElasticsearchParameter;
 };
 
 export type HttpRequestDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "HttpRequest";
-  dataSourceParameter?: HttpRequestParameter;
+  dataSourceParameter: HttpRequestParameter;
 };
 
 export type InfluxDBDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "InfluxDB";
-  dataSourceParameter?: InfluxDBParameter;
+  dataSourceParameter: InfluxDBParameter;
 };
 
 export type MySqlDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "MySql";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter: SqlSourceParameter;
 };
 
 export type PostgreSqlDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "PostgreSql";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter: SqlSourceParameter;
 };
 
 export type SQLServerDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "SqlServer";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter: SqlSourceParameter;
 };
 
 export type MongoDBDataFeed = DataFeedDetail & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   dataSourceType: "MongoDB";
-  dataSourceParameter?: MongoDBParameter;
+  dataSourceParameter: MongoDBParameter;
 };
 
 export type AzureApplicationInsightsDataFeedPatch = DataFeedDetailPatch & {
@@ -1511,6 +1528,7 @@ export type AnomalyFeedback = MetricFeedback & {
   feedbackType: "Anomaly";
   /** the start timestamp of feedback time range */
 <<<<<<< HEAD
+<<<<<<< HEAD
   startTime: Date;
   /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
   endTime: Date;
@@ -1521,6 +1539,12 @@ export type AnomalyFeedback = MetricFeedback & {
   endTime?: Date;
   value?: AnomalyFeedbackValue;
 >>>>>>> 065ebee67 (changes from GA swagger)
+=======
+  startTime: Date;
+  /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
+  endTime: Date;
+  value: AnomalyFeedbackValue;
+>>>>>>> 6b36e7253 (Run codegen on latest swagger)
   /** the corresponding anomaly detection configuration of this feedback */
   anomalyDetectionConfigurationId?: string;
   anomalyDetectionConfigurationSnapshot?: AnomalyDetectionConfiguration;
@@ -1530,6 +1554,7 @@ export type ChangePointFeedback = MetricFeedback & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   feedbackType: "ChangePoint";
   /** the start timestamp of feedback time range */
+<<<<<<< HEAD
 <<<<<<< HEAD
   startTime: Date;
   /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
@@ -1541,6 +1566,12 @@ export type ChangePointFeedback = MetricFeedback & {
   endTime?: Date;
   value?: ChangePointFeedbackValue;
 >>>>>>> 065ebee67 (changes from GA swagger)
+=======
+  startTime: Date;
+  /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
+  endTime: Date;
+  value: ChangePointFeedbackValue;
+>>>>>>> 6b36e7253 (Run codegen on latest swagger)
 };
 
 export type CommentFeedback = MetricFeedback & {
@@ -1550,25 +1581,25 @@ export type CommentFeedback = MetricFeedback & {
   startTime?: Date;
   /** the end timestamp of feedback time range, when equals to startTime means only one timestamp */
   endTime?: Date;
-  value?: CommentFeedbackValue;
+  value: CommentFeedbackValue;
 };
 
 export type PeriodFeedback = MetricFeedback & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   feedbackType: "Period";
-  value?: PeriodFeedbackValue;
+  value: PeriodFeedbackValue;
 };
 
 export type EmailHookInfo = HookInfo & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   hookType: "Email";
-  hookParameter?: EmailHookParameter;
+  hookParameter: EmailHookParameter;
 };
 
 export type WebhookHookInfo = HookInfo & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   hookType: "Webhook";
-  hookParameter?: WebhookHookParameter;
+  hookParameter: WebhookHookParameter;
 };
 
 export type EmailHookInfoPatch = HookInfoPatch & {
