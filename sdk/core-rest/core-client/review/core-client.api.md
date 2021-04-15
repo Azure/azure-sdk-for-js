@@ -13,7 +13,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface Client {
-    path: unknown;
+    path: Function;
     pathUnchecked: (path: string, ...args: Array<any>) => {
         get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
         post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;

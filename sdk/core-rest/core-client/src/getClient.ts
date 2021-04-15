@@ -19,7 +19,7 @@ export interface Client {
    * This method will be used to send request that would check the path to provide
    * strong types
    */
-  path: unknown;
+  path: Function;
   /**
    * This method allows arbitrary paths and doesn't provide strong types
    */
