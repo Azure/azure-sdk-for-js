@@ -34,14 +34,22 @@ export class SignalRSharedPrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRSharedPrivateLinkResourcesListResponse>
    */
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRSharedPrivateLinkResourcesListResponse>;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRSharedPrivateLinkResourcesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -49,8 +57,20 @@ export class SignalRSharedPrivateLinkResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>, callback?: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>): Promise<Models.SignalRSharedPrivateLinkResourcesListResponse> {
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>,
+    callback?: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>
+  ): Promise<Models.SignalRSharedPrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +78,8 @@ export class SignalRSharedPrivateLinkResources {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SignalRSharedPrivateLinkResourcesListResponse>;
+      callback
+    ) as Promise<Models.SignalRSharedPrivateLinkResourcesListResponse>;
   }
 
   /**
@@ -70,7 +91,12 @@ export class SignalRSharedPrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRSharedPrivateLinkResourcesGetResponse>
    */
-  get(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRSharedPrivateLinkResourcesGetResponse>;
+  get(
+    sharedPrivateLinkResourceName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRSharedPrivateLinkResourcesGetResponse>;
   /**
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
    * @param resourceGroupName The name of the resource group that contains the resource. You can
@@ -78,7 +104,12 @@ export class SignalRSharedPrivateLinkResources {
    * @param resourceName The name of the resource.
    * @param callback The callback
    */
-  get(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.SharedPrivateLinkResource>): void;
+  get(
+    sharedPrivateLinkResourceName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.SharedPrivateLinkResource>
+  ): void;
   /**
    * @param sharedPrivateLinkResourceName The name of the shared private link resource
    * @param resourceGroupName The name of the resource group that contains the resource. You can
@@ -87,8 +118,20 @@ export class SignalRSharedPrivateLinkResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedPrivateLinkResource>): void;
-  get(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedPrivateLinkResource>, callback?: msRest.ServiceCallback<Models.SharedPrivateLinkResource>): Promise<Models.SignalRSharedPrivateLinkResourcesGetResponse> {
+  get(
+    sharedPrivateLinkResourceName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedPrivateLinkResource>
+  ): void;
+  get(
+    sharedPrivateLinkResourceName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedPrivateLinkResource>,
+    callback?: msRest.ServiceCallback<Models.SharedPrivateLinkResource>
+  ): Promise<Models.SignalRSharedPrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         sharedPrivateLinkResourceName,
@@ -97,7 +140,8 @@ export class SignalRSharedPrivateLinkResources {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SignalRSharedPrivateLinkResourcesGetResponse>;
+      callback
+    ) as Promise<Models.SignalRSharedPrivateLinkResourcesGetResponse>;
   }
 
   /**
@@ -110,9 +154,22 @@ export class SignalRSharedPrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>
    */
-  createOrUpdate(sharedPrivateLinkResourceName: string, parameters: Models.SharedPrivateLinkResource, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(sharedPrivateLinkResourceName,parameters,resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse>;
+  createOrUpdate(
+    sharedPrivateLinkResourceName: string,
+    parameters: Models.SharedPrivateLinkResource,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      sharedPrivateLinkResourceName,
+      parameters,
+      resourceGroupName,
+      resourceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.SignalRSharedPrivateLinkResourcesCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -124,9 +181,18 @@ export class SignalRSharedPrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(sharedPrivateLinkResourceName,resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    sharedPrivateLinkResourceName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      sharedPrivateLinkResourceName,
+      resourceGroupName,
+      resourceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -139,7 +205,13 @@ export class SignalRSharedPrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(sharedPrivateLinkResourceName: string, parameters: Models.SharedPrivateLinkResource, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    sharedPrivateLinkResourceName: string,
+    parameters: Models.SharedPrivateLinkResource,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         sharedPrivateLinkResourceName,
@@ -149,7 +221,8 @@ export class SignalRSharedPrivateLinkResources {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -161,7 +234,12 @@ export class SignalRSharedPrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(sharedPrivateLinkResourceName: string, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    sharedPrivateLinkResourceName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         sharedPrivateLinkResourceName,
@@ -170,7 +248,8 @@ export class SignalRSharedPrivateLinkResources {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -179,26 +258,43 @@ export class SignalRSharedPrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRSharedPrivateLinkResourcesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRSharedPrivateLinkResourcesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRSharedPrivateLinkResourcesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>, callback?: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>): Promise<Models.SignalRSharedPrivateLinkResourcesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>,
+    callback?: msRest.ServiceCallback<Models.SharedPrivateLinkResourceList>
+  ): Promise<Models.SignalRSharedPrivateLinkResourcesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SignalRSharedPrivateLinkResourcesListNextResponse>;
+      callback
+    ) as Promise<Models.SignalRSharedPrivateLinkResourcesListNextResponse>;
   }
 }
 
@@ -206,18 +302,11 @@ export class SignalRSharedPrivateLinkResources {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedPrivateLinkResourceList
@@ -231,19 +320,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   urlParameters: [
     Parameters.sharedPrivateLinkResourceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedPrivateLinkResource
@@ -257,19 +343,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   urlParameters: [
     Parameters.sharedPrivateLinkResourceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -293,19 +376,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/sharedPrivateLinkResources/{sharedPrivateLinkResourceName}",
   urlParameters: [
     Parameters.sharedPrivateLinkResourceName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -321,15 +401,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.SharedPrivateLinkResourceList

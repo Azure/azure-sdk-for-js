@@ -34,14 +34,22 @@ export class SignalRPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRPrivateEndpointConnectionsListResponse>
    */
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRPrivateEndpointConnectionsListResponse>;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRPrivateEndpointConnectionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
    * @param resourceName The name of the resource.
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group that contains the resource. You can
    * obtain this value from the Azure Resource Manager API or the portal.
@@ -49,8 +57,20 @@ export class SignalRPrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>): void;
-  list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionList>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>): Promise<Models.SignalRPrivateEndpointConnectionsListResponse> {
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>
+  ): void;
+  list(
+    resourceGroupName: string,
+    resourceName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionList>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>
+  ): Promise<Models.SignalRPrivateEndpointConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -58,7 +78,8 @@ export class SignalRPrivateEndpointConnections {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.SignalRPrivateEndpointConnectionsListResponse>;
+      callback
+    ) as Promise<Models.SignalRPrivateEndpointConnectionsListResponse>;
   }
 
   /**
@@ -70,7 +91,12 @@ export class SignalRPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRPrivateEndpointConnectionsGetResponse>
    */
-  get(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRPrivateEndpointConnectionsGetResponse>;
+  get(
+    privateEndpointConnectionName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRPrivateEndpointConnectionsGetResponse>;
   /**
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param resourceGroupName The name of the resource group that contains the resource. You can
@@ -78,7 +104,12 @@ export class SignalRPrivateEndpointConnections {
    * @param resourceName The name of the resource.
    * @param callback The callback
    */
-  get(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  get(
+    privateEndpointConnectionName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
   /**
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param resourceGroupName The name of the resource group that contains the resource. You can
@@ -87,8 +118,20 @@ export class SignalRPrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  get(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.SignalRPrivateEndpointConnectionsGetResponse> {
+  get(
+    privateEndpointConnectionName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
+  get(
+    privateEndpointConnectionName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): Promise<Models.SignalRPrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         privateEndpointConnectionName,
@@ -97,7 +140,8 @@ export class SignalRPrivateEndpointConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.SignalRPrivateEndpointConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.SignalRPrivateEndpointConnectionsGetResponse>;
   }
 
   /**
@@ -110,7 +154,13 @@ export class SignalRPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRPrivateEndpointConnectionsUpdateResponse>
    */
-  update(privateEndpointConnectionName: string, parameters: Models.PrivateEndpointConnection, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRPrivateEndpointConnectionsUpdateResponse>;
+  update(
+    privateEndpointConnectionName: string,
+    parameters: Models.PrivateEndpointConnection,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRPrivateEndpointConnectionsUpdateResponse>;
   /**
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param parameters The resource of private endpoint and its properties
@@ -119,7 +169,13 @@ export class SignalRPrivateEndpointConnections {
    * @param resourceName The name of the resource.
    * @param callback The callback
    */
-  update(privateEndpointConnectionName: string, parameters: Models.PrivateEndpointConnection, resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  update(
+    privateEndpointConnectionName: string,
+    parameters: Models.PrivateEndpointConnection,
+    resourceGroupName: string,
+    resourceName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
   /**
    * @param privateEndpointConnectionName The name of the private endpoint connection
    * @param parameters The resource of private endpoint and its properties
@@ -129,8 +185,22 @@ export class SignalRPrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(privateEndpointConnectionName: string, parameters: Models.PrivateEndpointConnection, resourceGroupName: string, resourceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  update(privateEndpointConnectionName: string, parameters: Models.PrivateEndpointConnection, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.SignalRPrivateEndpointConnectionsUpdateResponse> {
+  update(
+    privateEndpointConnectionName: string,
+    parameters: Models.PrivateEndpointConnection,
+    resourceGroupName: string,
+    resourceName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
+  update(
+    privateEndpointConnectionName: string,
+    parameters: Models.PrivateEndpointConnection,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): Promise<Models.SignalRPrivateEndpointConnectionsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         privateEndpointConnectionName,
@@ -140,7 +210,8 @@ export class SignalRPrivateEndpointConnections {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.SignalRPrivateEndpointConnectionsUpdateResponse>;
+      callback
+    ) as Promise<Models.SignalRPrivateEndpointConnectionsUpdateResponse>;
   }
 
   /**
@@ -152,9 +223,18 @@ export class SignalRPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(privateEndpointConnectionName,resourceGroupName,resourceName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    privateEndpointConnectionName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      privateEndpointConnectionName,
+      resourceGroupName,
+      resourceName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -166,7 +246,12 @@ export class SignalRPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(privateEndpointConnectionName: string, resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    privateEndpointConnectionName: string,
+    resourceGroupName: string,
+    resourceName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         privateEndpointConnectionName,
@@ -175,7 +260,8 @@ export class SignalRPrivateEndpointConnections {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -184,26 +270,43 @@ export class SignalRPrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.SignalRPrivateEndpointConnectionsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SignalRPrivateEndpointConnectionsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.SignalRPrivateEndpointConnectionsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionList>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>): Promise<Models.SignalRPrivateEndpointConnectionsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionList>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionList>
+  ): Promise<Models.SignalRPrivateEndpointConnectionsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.SignalRPrivateEndpointConnectionsListNextResponse>;
+      callback
+    ) as Promise<Models.SignalRPrivateEndpointConnectionsListNextResponse>;
   }
 }
 
@@ -211,18 +314,11 @@ export class SignalRPrivateEndpointConnections {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.resourceName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionList
@@ -236,19 +332,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.privateEndpointConnectionName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
@@ -262,19 +355,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.privateEndpointConnectionName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -295,19 +385,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/signalR/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.privateEndpointConnectionName,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},
@@ -323,15 +410,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionList

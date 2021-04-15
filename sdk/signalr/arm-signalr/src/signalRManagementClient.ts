@@ -13,7 +13,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { SignalRManagementClientContext } from "./signalRManagementClientContext";
 
-
 class SignalRManagementClient extends SignalRManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -30,7 +29,11 @@ class SignalRManagementClient extends SignalRManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SignalRManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.SignalRManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.signalR = new operations.SignalR(this);
