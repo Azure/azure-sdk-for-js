@@ -45,15 +45,11 @@ import {
   DataFeedStatus,
   GetIngestionProgressResponse,
   AnomalyAlertConfiguration,
+  DataSourceCredentialUnion,
+  DataSourceCredentialPatch,
   CredentialsPageResponse
 } from "./models";
-import {
-  DataSourceCredentialPatchUnion,
-  DataSourceCredentialUnion,
-  DataSourceType,
-  HookInfoUnion,
-  NeedRollupEnum
-} from "./generated/models";
+import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
   fromServiceAnomalyDetectionConfiguration,
   fromServiceDataFeedDetailUnion,
@@ -64,7 +60,8 @@ import {
   toServiceAnomalyDetectionConfigurationPatch,
   toServiceAlertConfiguration,
   toServiceAlertConfigurationPatch,
-  toServiceGranularity
+  toServiceGranularity,
+  toServiceCredentialPatch
 } from "./transforms";
 
 /**
@@ -1556,13 +1553,43 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * Retrieves data source credential for the given id
+   * Creates data source credential for the given id
    * @param id -
    * @param options -
    */
 
+  public async createDataSourceCredential(
+    _credential: DataSourceCredentialUnion,
+    options: OperationOptions = {}
+  ): Promise<DataSourceCredentialUnion> {
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "MetricsAdvisorAdministrationClient-createDataSourceCredential",
+      options
+    );
+    try {
+      // @ts-ignore
+      const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
+      // const result = await this.client.createCredential(credential, requestOptions);
+      throw new Error("Not yet implemented");
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves data source credential for the given id
+   * @param _id -
+   * @param options -
+   */
+
   public async getDataSourceCredential(
-    id: string,
+    _id: string,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1570,9 +1597,10 @@ export class MetricsAdvisorAdministrationClient {
       options
     );
     try {
+      // @ts-ignore
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      const result = await this.client.getCredential(id, requestOptions);
-      return result;
+      // const result = await this.client.getCredential(id, requestOptions);
+      throw new Error("Not Yet Implemented"); // return result;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1606,7 +1634,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async updateDataSourceCredential(
     id: string,
-    patch: DataSourceCredentialPatchUnion,
+    patch: DataSourceCredentialPatch,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -1615,7 +1643,11 @@ export class MetricsAdvisorAdministrationClient {
     );
     try {
       const requestOptions = operationOptionsToRequestOptionsBase(finalOptions);
-      return await this.client.updateCredential(id, patch, requestOptions);
+      return await this.client.updateCredential(
+        id,
+        toServiceCredentialPatch(patch),
+        requestOptions
+      );
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

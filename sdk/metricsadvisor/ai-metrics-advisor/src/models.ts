@@ -24,23 +24,11 @@ import {
   AlertSnoozeCondition,
   IngestionStatusType,
   EntityStatus as DataFeedDetailStatus,
-  AuthenticationTypeEnum as DataFeedAuthenticationType,
+  AuthenticationTypeEnum as DataFeedSourceAuthenticationType,
   AzureSQLConnectionStringParam,
   DataLakeGen2SharedKeyParam,
   ServicePrincipalParam,
-  ServicePrincipalInKVParam,
-  DataSourceCredential,
-  AzureSQLConnectionStringCredential,
-  DataLakeGen2SharedKeyCredential,
-  ServicePrincipalCredential,
-  ServicePrincipalInKVCredential,
-  DataSourceCredentialUnion,
-  DataSourceCredentialPatch,
-  AzureSQLConnectionStringCredentialPatch,
-  DataLakeGen2SharedKeyCredentialPatch,
-  ServicePrincipalCredentialPatch,
-  ServicePrincipalInKVCredentialPatch,
-  DataSourceCredentialPatchUnion
+  ServicePrincipalInKVParam
 } from "./generated/models";
 
 export {
@@ -63,23 +51,11 @@ export {
   EmailHookParameter,
   WebhookHookParameter,
   DataFeedDetailStatus,
-  DataFeedAuthenticationType,
+  DataFeedSourceAuthenticationType,
   AzureSQLConnectionStringParam,
   DataLakeGen2SharedKeyParam,
   ServicePrincipalParam,
-  ServicePrincipalInKVParam,
-  DataSourceCredential,
-  AzureSQLConnectionStringCredential,
-  DataLakeGen2SharedKeyCredential,
-  ServicePrincipalCredential,
-  ServicePrincipalInKVCredential,
-  DataSourceCredentialUnion,
-  DataSourceCredentialPatch,
-  AzureSQLConnectionStringCredentialPatch,
-  DataLakeGen2SharedKeyCredentialPatch,
-  ServicePrincipalCredentialPatch,
-  ServicePrincipalInKVCredentialPatch,
-  DataSourceCredentialPatchUnion
+  ServicePrincipalInKVParam
 };
 
 // not used directly here but needed by public API surface.
@@ -346,7 +322,9 @@ export type DataFeed = {
  */
 export type AzureApplicationInsightsDataFeedSource = {
   dataSourceType: "AzureApplicationInsights";
-  dataSourceParameter?: AzureApplicationInsightsParameter;
+  dataSourceParameter: AzureApplicationInsightsParameter & {
+    authenticationType?: "Basic";
+  };
 };
 
 /**
@@ -354,7 +332,9 @@ export type AzureApplicationInsightsDataFeedSource = {
  */
 export type AzureBlobDataFeedSource = {
   dataSourceType: "AzureBlob";
-  dataSourceParameter?: AzureBlobParameter;
+  dataSourceParameter: AzureBlobParameter & {
+    authenticationType?: "Basic" | "ManagedIdentity";
+  };
 };
 
 /**
@@ -362,7 +342,9 @@ export type AzureBlobDataFeedSource = {
  */
 export type AzureCosmosDBDataFeedSource = {
   dataSourceType: "AzureCosmosDB";
-  dataSourceParameter?: AzureCosmosDBParameter;
+  dataSourceParameter: AzureCosmosDBParameter & {
+    authenticationType?: "Basic";
+  };
 };
 
 /**
@@ -370,7 +352,16 @@ export type AzureCosmosDBDataFeedSource = {
  */
 export type AzureDataExplorerDataFeedSource = {
   dataSourceType: "AzureDataExplorer";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter: SqlSourceParameter &
+    (
+      | {
+          authenticationType?: "Basic" | "ManagedIdentity";
+        }
+      | {
+          authenticationType: "ServicePrincipal" | "ServicePrincipalInKV";
+          credentialId: string;
+        }
+    );
 };
 
 /**
@@ -378,7 +369,21 @@ export type AzureDataExplorerDataFeedSource = {
  */
 export type AzureDataLakeStorageGen2DataFeedSource = {
   dataSourceType: "AzureDataLakeStorageGen2";
-  dataSourceParameter?: AzureDataLakeStorageGen2Parameter;
+  dataSourceParameter: AzureDataLakeStorageGen2Parameter &
+    (
+      | {
+          authenticationType?: "Basic";
+          /** Account key */
+          accountKey: string;
+        }
+      | {
+          authenticationType: "ManagedIdentity";
+        }
+      | {
+          authenticationType: "ServicePrincipal" | "ServicePrincipalInKV" | "DataLakeGen2SharedKey";
+          credentialId: string;
+        }
+    );
 };
 
 /**
@@ -386,7 +391,9 @@ export type AzureDataLakeStorageGen2DataFeedSource = {
  */
 export type ElasticsearchDataFeedSource = {
   dataSourceType: "Elasticsearch";
-  dataSourceParameter?: ElasticsearchParameter;
+  dataSourceParameter: ElasticsearchParameter & {
+    authenticationType?: "Basic";
+  };
 };
 
 /**
@@ -394,7 +401,9 @@ export type ElasticsearchDataFeedSource = {
  */
 export type AzureTableDataFeedSource = {
   dataSourceType: "AzureTable";
-  dataSourceParameter?: AzureTableParameter;
+  dataSourceParameter: AzureTableParameter & {
+    authenticationType?: "Basic";
+  };
 };
 
 /**
@@ -402,7 +411,9 @@ export type AzureTableDataFeedSource = {
  */
 export type HttpRequestDataFeedSource = {
   dataSourceType: "HttpRequest";
-  dataSourceParameter?: HttpRequestParameter;
+  dataSourceParameter: HttpRequestParameter & {
+    authenticationType?: "Basic";
+  };
 };
 
 /**
@@ -410,7 +421,9 @@ export type HttpRequestDataFeedSource = {
  */
 export type InfluxDBDataFeedSource = {
   dataSourceType: "InfluxDB";
-  dataSourceParameter?: InfluxDBParameter;
+  dataSourceParameter: InfluxDBParameter & {
+    authenticationType?: "Basic";
+  };
 };
 
 /**
@@ -418,7 +431,9 @@ export type InfluxDBDataFeedSource = {
  */
 export type MySqlDataFeedSource = {
   dataSourceType: "MySql";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter: SqlSourceParameter & {
+    authenticationType?: "Basic";
+  };
 };
 
 /**
@@ -426,7 +441,9 @@ export type MySqlDataFeedSource = {
  */
 export type PostgreSqlDataFeedSource = {
   dataSourceType: "PostgreSql";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter: SqlSourceParameter & {
+    authenticationType?: "Basic";
+  };
 };
 
 /**
@@ -434,7 +451,9 @@ export type PostgreSqlDataFeedSource = {
  */
 export type MongoDBDataFeedSource = {
   dataSourceType: "MongoDB";
-  dataSourceParameter?: MongoDBParameter;
+  dataSourceParameter: MongoDBParameter & {
+    authenticationType?: "Basic";
+  };
 };
 
 /**
@@ -442,7 +461,7 @@ export type MongoDBDataFeedSource = {
  */
 export type UnknownDataFeedSource = {
   dataSourceType: "Unknown";
-  dataSourceParameter?: unknown;
+  dataSourceParameter: unknown;
 };
 
 /**
@@ -450,7 +469,19 @@ export type UnknownDataFeedSource = {
  */
 export type SQLServerDataFeedSource = {
   dataSourceType: "SqlServer";
-  dataSourceParameter?: SqlSourceParameter;
+  dataSourceParameter: SqlSourceParameter &
+    (
+      | {
+          authenticationType?: "Basic" | "ManagedIdentity";
+        }
+      | {
+          authenticationType:
+            | "ServicePrincipal"
+            | "ServicePrincipalInKV"
+            | "AzureSQLConnectionString";
+          credentialId: string;
+        }
+    );
 };
 
 /**
@@ -474,7 +505,7 @@ export type DataFeedSource = (
 ) & {
   //TODO: (jeremymeng) improve to only allow credentialId for applicable credential types
   /** authentication type for corresponding data source */
-  authenticationType?: DataFeedAuthenticationType;
+  authenticationType?: DataFeedSourceAuthenticationType;
   /** The credential entity id */
   credentialId?: string;
 };
@@ -490,7 +521,7 @@ export type DataFeedPatch = {
   /**
    * Source of the data feed.
    */
-  source: DataFeedSource;
+  source: DataFeedSourcePatch;
   /**
    * Schema of the data in the data feed, including names of metrics, dimensions, and timestamp columns.
    */
@@ -510,6 +541,15 @@ export type DataFeedPatch = {
      */
     status?: DataFeedDetailStatus;
   };
+
+/**
+ * A alias type of supported data sources to pass to Update Data Feed operation.
+ *
+ * When not changing the data source type, the dataSourceParameter is not required.
+ * When changing to a different data source type, both dataSourceType and dataSourceParameter are required.
+ */
+export type DataFeedSourcePatch = Omit<DataFeedSource, "dataSourceParameter"> &
+  { [P in "dataSourceParameter"]?: DataFeedSource[P] };
 
 /**
  * The logical operator to apply across multiple {@link MetricAlertConfiguration}
@@ -813,7 +853,7 @@ export interface NotificationHook {
  */
 export type EmailNotificationHook = {
   hookType: "Email";
-  hookParameter?: EmailHookParameter;
+  hookParameter: EmailHookParameter;
 } & NotificationHook;
 
 /**
@@ -821,7 +861,7 @@ export type EmailNotificationHook = {
  */
 export type WebNotificationHook = {
   hookType: "Webhook";
-  hookParameter?: WebhookHookParameter;
+  hookParameter: WebhookHookParameter;
 } & NotificationHook;
 
 /**
@@ -1801,30 +1841,6 @@ export interface HooksPageResponse extends Array<NotificationHookUnion> {
 }
 
 /**
- * Contains response data for the listHooks operation.
- */
-export interface CredentialsPageResponse extends Array<DataSourceCredentialUnion> {
-  /**
-   * Continuation token to pass to `byPage()` to resume listing of more results if available.
-   */
-  continuationToken?: string;
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: any;
-  };
-}
-
-/**
  * Contains response data for the getDataFeedIngestionProgress operation.
  */
 export type GetIngestionProgressResponse = {
@@ -1854,3 +1870,68 @@ export type GetIngestionProgressResponse = {
     parsedBody: any;
   };
 };
+
+export interface DataSourceCredentialCommon {
+  /**
+   * Unique id of data source credential
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Name of data source credential */
+  name: string;
+  /** Description of data source credential */
+  description?: string;
+}
+
+export interface AzureSqlConnectionStringCredential extends DataSourceCredentialCommon {
+  type: "AzureSQLConnectionString";
+  parameters: AzureSQLConnectionStringParam;
+}
+
+export interface DataLakeGen2SharedKeyCredential extends DataSourceCredentialCommon {
+  type: "DataLakeGen2SharedKey";
+  parameters: DataLakeGen2SharedKeyParam;
+}
+
+export interface ServicePrincipalCredential extends DataSourceCredentialCommon {
+  type: "ServicePrincipal";
+  parameters: ServicePrincipalParam;
+}
+
+export interface ServicePrincipalInKVCredential extends DataSourceCredentialCommon {
+  type: "ServicePrincipalInKV";
+  parameters: ServicePrincipalInKVParam;
+}
+
+export type DataSourceCredentialUnion =
+  | AzureSqlConnectionStringCredential
+  | DataLakeGen2SharedKeyCredential
+  | ServicePrincipalCredential
+  | ServicePrincipalInKVCredential;
+
+export type DataSourceCredentialPatch = Omit<DataSourceCredentialUnion, "id" | "parameters"> &
+  Partial<Pick<DataSourceCredentialUnion, "parameters">>;
+
+/**
+ * Contains response data for the listCredentials operation.
+ */
+export interface CredentialsPageResponse extends Array<DataSourceCredentialUnion> {
+  /**
+   * Continuation token to pass to `byPage()` to resume listing of more results if available.
+   */
+  continuationToken?: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
+}

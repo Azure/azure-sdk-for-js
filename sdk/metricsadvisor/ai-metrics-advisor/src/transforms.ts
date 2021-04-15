@@ -16,7 +16,8 @@ import {
   WebhookHookInfo,
   EmailHookInfo,
   NeedRollupEnum,
-  RollUpMethod as DataFeedDetailRollUpMethod
+  RollUpMethod as DataFeedDetailRollUpMethod,
+  DataSourceCredentialPatchUnion as ServiceDataSourceCredentialPatch
 } from "./generated/models";
 import {
   MetricFeedbackUnion,
@@ -49,7 +50,8 @@ import {
   MetricBoundaryCondition,
   HardThresholdConditionUnion,
   ChangeThresholdConditionUnion,
-  DataFeedGranularity
+  DataFeedGranularity,
+  DataSourceCredentialPatch
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -384,7 +386,10 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "AzureApplicationInsights",
-          dataSourceParameter: orig.dataSourceParameter
+          dataSourceParameter: {
+            ...orig.dataSourceParameter,
+            authenticationType: original.authenticationType as "Basic" | undefined
+          }
         }
       };
       return result1;
@@ -406,29 +411,75 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "AzureCosmosDB",
-          dataSourceParameter: orig3.dataSourceParameter
+          dataSourceParameter: {
+            ...orig3.dataSourceParameter,
+            authenticationType: original.authenticationType as "Basic" | undefined
+          }
         }
       };
       return result3;
     }
     case "AzureDataExplorer": {
       const orig4 = original as AzureDataExplorerDataFeedSource;
+      let auth: object = {};
+      if (
+        !original.authenticationType ||
+        original.authenticationType === "Basic" ||
+        original.authenticationType === "ManagedIdentity"
+      ) {
+        auth = { authenticationType: original.authenticationType };
+      } else if (
+        original.authenticationType === "ServicePrincipal" ||
+        original.authenticationType === "ServicePrincipalInKV"
+      ) {
+        auth = {
+          authenticationType: original.authenticationType,
+          credentialId: original.credentialId
+        };
+      } else {
+        throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
+      }
       const result4: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureDataExplorer",
-          dataSourceParameter: orig4.dataSourceParameter
+          dataSourceParameter: {
+            ...orig4.dataSourceParameter,
+            ...auth
+          }
         }
       };
       return result4;
     }
     case "AzureDataLakeStorageGen2": {
       const orig5 = original as AzureDataLakeStorageGen2DataFeedSource;
+      let auth: object = {};
+      if (
+        !original.authenticationType ||
+        original.authenticationType === "Basic" ||
+        original.authenticationType === "ManagedIdentity"
+      ) {
+        auth = { authenticationType: original.authenticationType };
+      } else if (
+        original.authenticationType === "ServicePrincipal" ||
+        original.authenticationType === "ServicePrincipalInKV" ||
+        original.authenticationType === "DataLakeGen2SharedKey"
+      ) {
+        auth = {
+          authenticationType: original.authenticationType,
+          credentialId: original.credentialId
+        };
+      } else {
+        throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
+      }
       const result5: DataFeed = {
         ...common,
         source: {
           dataSourceType: "AzureDataLakeStorageGen2",
-          dataSourceParameter: orig5.dataSourceParameter
+          dataSourceParameter: {
+            ...orig5.dataSourceParameter,
+            ...auth
+          }
         }
       };
       return result5;
@@ -439,7 +490,10 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "AzureTable",
-          dataSourceParameter: orig6.dataSourceParameter
+          dataSourceParameter: {
+            ...orig6.dataSourceParameter,
+            authenticationType: original.authenticationType as "Basic" | undefined
+          }
         }
       };
       return result6;
@@ -450,7 +504,10 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "HttpRequest",
-          dataSourceParameter: orig7.dataSourceParameter
+          dataSourceParameter: {
+            ...orig7.dataSourceParameter,
+            authenticationType: original.authenticationType as "Basic" | undefined
+          }
         }
       };
       return result7;
@@ -461,7 +518,10 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "InfluxDB",
-          dataSourceParameter: orig8.dataSourceParameter
+          dataSourceParameter: {
+            ...orig8.dataSourceParameter,
+            authenticationType: original.authenticationType as "Basic" | undefined
+          }
         }
       };
       return result8;
@@ -472,7 +532,10 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "MongoDB",
-          dataSourceParameter: orig9.dataSourceParameter
+          dataSourceParameter: {
+            ...orig9.dataSourceParameter,
+            authenticationType: original.authenticationType as "Basic" | undefined
+          }
         }
       };
       return result9;
@@ -483,7 +546,10 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "MySql",
-          dataSourceParameter: orig10.dataSourceParameter
+          dataSourceParameter: {
+            ...orig10.dataSourceParameter,
+            authenticationType: original.authenticationType as "Basic" | undefined
+          }
         }
       };
       return result10;
@@ -494,18 +560,40 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "PostgreSql",
-          dataSourceParameter: orig11.dataSourceParameter
+          dataSourceParameter: {
+            ...orig11.dataSourceParameter,
+            authenticationType: original.authenticationType as "Basic" | undefined
+          }
         }
       };
       return result11;
     }
     case "SqlServer": {
       const orig12 = original as SQLServerDataFeedSource;
+      let auth: object = {};
+      if (
+        !original.authenticationType ||
+        original.authenticationType === "Basic" ||
+        original.authenticationType === "ManagedIdentity"
+      ) {
+        auth = { authenticationType: original.authenticationType };
+      } else if (
+        original.authenticationType === "ServicePrincipal" ||
+        original.authenticationType === "ServicePrincipalInKV" ||
+        original.authenticationType === "AzureSQLConnectionString"
+      ) {
+        auth = {
+          authenticationType: original.authenticationType,
+          credentialId: original.credentialId
+        };
+      } else {
+        throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
+      }
       const result12: DataFeed = {
         ...common,
         source: {
           dataSourceType: "SqlServer",
-          dataSourceParameter: orig12.dataSourceParameter
+          dataSourceParameter: { ...orig12.dataSourceParameter, ...auth }
         }
       };
       return result12;
@@ -516,7 +604,10 @@ export function fromServiceDataFeedDetailUnion(original: ServiceDataFeedDetailUn
         ...common,
         source: {
           dataSourceType: "Elasticsearch",
-          dataSourceParameter: orig13.dataSourceParameter
+          dataSourceParameter: {
+            ...orig13.dataSourceParameter,
+            authenticationType: original.authenticationType as "Basic" | undefined
+          }
         }
       };
       return result13;
@@ -711,4 +802,10 @@ export function toServiceAlertConfigurationPatch(
     }),
     splitAlertByDimensions: from.splitAlertByDimensions
   };
+}
+
+export function toServiceCredentialPatch(
+  _from: DataSourceCredentialPatch
+): ServiceDataSourceCredentialPatch {
+  throw new Error("Not Yet Implemented");
 }
