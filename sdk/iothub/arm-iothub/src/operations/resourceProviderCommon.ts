@@ -31,23 +31,36 @@ export class ResourceProviderCommon {
    * @param [options] The optional parameters
    * @returns Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse>
    */
-  getSubscriptionQuota(options?: msRest.RequestOptionsBase): Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse>;
+  getSubscriptionQuota(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse>;
   /**
    * @param callback The callback
    */
-  getSubscriptionQuota(callback: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>): void;
+  getSubscriptionQuota(
+    callback: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>
+  ): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getSubscriptionQuota(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>): void;
-  getSubscriptionQuota(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>, callback?: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>): Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse> {
+  getSubscriptionQuota(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>
+  ): void;
+  getSubscriptionQuota(
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>,
+    callback?: msRest.ServiceCallback<Models.UserSubscriptionQuotaListResult>
+  ): Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       getSubscriptionQuotaOperationSpec,
-      callback) as Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse>;
+      callback
+    ) as Promise<Models.ResourceProviderCommonGetSubscriptionQuotaResponse>;
   }
 }
 
@@ -56,15 +69,9 @@ const serializer = new msRest.Serializer(Mappers);
 const getSubscriptionQuotaOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.Devices/usages",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.UserSubscriptionQuotaListResult
