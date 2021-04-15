@@ -7,7 +7,7 @@ import { nodeRequireRecordingIfExists } from "./utils/recordings";
 
 import { config as readEnvFile } from "dotenv";
 import fs from "fs-extra";
-import { Definition } from "nock";
+import { applyRequestBodyTransformations } from "./utils/requestBodyTransform";
 
 let nock: typeof import("nock");
 
@@ -53,7 +53,7 @@ export class NockRecorder extends BaseRecorder {
         "\n";
 
       // TODO: strongly-typing nock above
-      const fixtures: string[] | Definition[] = nock.recorder.play();
+      const fixtures = nock.recorder.play() as string[]; // We know it is an array of strings at this point
 
       // Create the directories recursively incase they don't exist
       try {
@@ -85,7 +85,13 @@ export class NockRecorder extends BaseRecorder {
       // Saving the recording to the file
       for (const fixture of fixtures) {
         // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
-        const updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
+        let updatedFixture = fixture;
+        updatedFixture = applyRequestBodyTransformations(
+          "node",
+          fixture,
+          this.environmentSetup.requestBodyTransformations || []
+        ) as string;
+        updatedFixture = updatedFixture.toString().replace(/\.query\(.*\)/, ".query(true)");
         file.write(this.filterSecrets(updatedFixture) + "\n");
       }
 

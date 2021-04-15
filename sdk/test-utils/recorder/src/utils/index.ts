@@ -48,6 +48,16 @@ export interface RecorderEnvironmentSetup {
   /**
    * Used in record and playback modes
    *
+   *  Array of callback functions provided to customize the request body
+   *  - Record mode: These callbacks will be applied on the request body before the recording is saved
+   *  - Playback mode: These callbacks will be applied on the request body of the new requests
+   */
+  requestBodyTransformations?: Array<
+    ((body: string) => string) | ((body: { [x: string]: unknown }) => { [x: string]: unknown })
+  >;
+  /**
+   * Used in record and playback modes
+   *
    *  Array of query parameters provided will be filtered from the requests
    *
    * @type {Array<string>}

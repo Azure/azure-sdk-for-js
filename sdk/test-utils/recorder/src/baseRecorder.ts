@@ -34,7 +34,8 @@ export abstract class BaseRecorder {
   public environmentSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {},
     customizationsOnRecordings: [],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
+    requestBodyTransformations: []
   };
   protected hash: string;
   private defaultCustomizationsOnRecordings = defaultCustomizationsOnRecordings;
