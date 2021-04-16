@@ -36,36 +36,33 @@ export = {
           "ExpressionStatement > ObjectExpression > Property[key.value='name']": (
             node: Property
           ): void => {
-            const nodeValue = node.value as Literal;
-            const name = nodeValue.value as string;
-            const subScope = getSubScope(name);
-
+            const { nodeValue, packageName, subScope } = getPackageMetadata(node);
             // Check for a valid scope
-            if (!/^@azure(-[a-z]+)?\//.test(name)) {
+            if (!/^@azure(-[a-z]+)?\//.test(packageName)) {
               context.report({
                 node: nodeValue,
                 message: "name is not set to @azure[-<subscope>]/<service>"
               });
               return;
             }
-            const packageBaseName = stripPath(name);
+            const packageBaseName = stripPath(packageName);
             const packageDirectory = stripPath(stripFileName(fileName));
 
-            if (!/^@azure(-[a-z]+)?\/([a-z]+-)*[a-z]+$/.test(name)) {
+            if (!/^@azure(-[a-z]+)?\/([a-z]+-)*[a-z]+$/.test(packageName)) {
               context.report({
                 node: nodeValue,
                 message: "service name is not in kebab-case (lowercase and separated by hyphens)"
               });
 
               // Give a good error report if the non-kebab-case name does match the directory and suggest renaming it as well
-              if (name === `@azure/${packageDirectory}`) {
+              if (packageName === `@azure/${packageDirectory}`) {
                 context.report({
                   node: nodeValue,
                   message:
                     "service name matches directory name, but the directory is not kebab case (lowercase and separated by hyphens)"
                 });
               }
-            } else if (!isValidFolder(name, packageDirectory)) {
+            } else if (!isValidFolder(packageName, packageDirectory, subScope)) {
               const subScopeSuffix = subScope ?? "";
               context.report({
                 node: nodeValue,
@@ -78,8 +75,7 @@ export = {
   }
 };
 
-function isValidFolder(packageName: string, folderName: string): boolean {
-  const subScope = getSubScope(packageName);
+function isValidFolder(packageName: string, folderName: string, subScope?: string): boolean {
   if (!subScope) {
     return RegExp(`^@azure(-[a-z]+)?\/${folderName}`).test(packageName);
   }
@@ -88,9 +84,17 @@ function isValidFolder(packageName: string, folderName: string): boolean {
   return RegExp(`^@azure(-[a-z]+)?\/${folderName}`).test(`${packageName}${subScope}`);
 }
 
-function getSubScope(packageName: string): string | undefined {
+function getPackageMetadata(
+  node: Property
+): { nodeValue: Literal; packageName: string; subScope: string | undefined } {
+  const nodeValue = node.value as Literal;
+  const packageName = nodeValue.value as string;
   // Check if there is a sub scope i.e @azure-rest
   const [_, subScope] = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
 
-  return subScope;
+  return {
+    nodeValue,
+    packageName,
+    subScope
+  };
 }
