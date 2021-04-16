@@ -38,18 +38,19 @@ export = {
           ): void => {
             const nodeValue = node.value as Literal;
             const name = nodeValue.value as string;
+            let packageDirectory = stripPath(stripFileName(fileName));
 
-            if (!name.startsWith("@azure/")) {
+            // Check for a valid scope
+            if (!/^@azure(-[a-z]+)?\//.test(name)) {
               context.report({
                 node: nodeValue,
-                message: "name is not set to @azure/<service>"
+                message: "name is not set to @azure[-<subscope>]/<service>"
               });
               return;
             }
+            let packageBaseName = stripPath(name);
 
-            const packageDirectory = stripPath(stripFileName(fileName));
-            const packageBaseName = stripPath(name);
-            if (!/^@azure\/([a-z]+-)*[a-z]+$/.test(name)) {
+            if (!/^@azure(-[a-z]+)?\/([a-z]+-)*[a-z]+$/.test(name)) {
               context.report({
                 node: nodeValue,
                 message: "service name is not in kebab-case (lowercase and separated by hyphens)"
@@ -63,7 +64,7 @@ export = {
                     "service name matches directory name, but the directory is not kebab case (lowercase and separated by hyphens)"
                 });
               }
-            } else if (name !== `@azure/${packageDirectory}`) {
+            } else if (!isValidFolder(name, packageDirectory)) {
               context.report({
                 node: nodeValue,
                 message: `service should be named '@azure/${packageDirectory}' or should be moved to a directory called '${packageBaseName}'`
@@ -74,3 +75,14 @@ export = {
       : {};
   }
 };
+
+function isValidFolder(packageName: string, folderName: string) {
+  // Check if there is a sub scope i.e @azure-rest
+  let matches = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
+  if (matches.length != 2) {
+    return RegExp(`^@azure(-[a-z]+)?\/${folderName}`).test(packageName);
+  }
+
+  const subScope = matches[1];
+  return RegExp(`^@azure(-[a-z]+)?\/${folderName}`).test(`${packageName}${subScope}`);
+}

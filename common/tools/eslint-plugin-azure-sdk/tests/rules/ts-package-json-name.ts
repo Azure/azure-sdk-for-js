@@ -259,6 +259,11 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json"
     },
     {
+      // subscope
+      code: '{"name": "@azure-rest/service-bus"}',
+      filename: "service-bus-rest/package.json"
+    },
+    {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
       filename: "service-bus/package.json"
@@ -295,7 +300,7 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "name is not set to @azure/<service>"
+          message: "name is not set to @azure[-<subscope>]/<service>"
         }
       ]
     },
@@ -335,7 +340,7 @@ ruleTester.run("ts-package-json-name", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "name is not set to @azure/<service>"
+          message: "name is not set to @azure[-<subscope>]/<service>"
         }
       ]
     },
