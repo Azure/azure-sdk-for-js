@@ -16,7 +16,7 @@ export {
   HubSendToUserOptions
 } from "./hubClient";
 export {
-  WebPubsubGroup,
+  WebPubSubGroup,
   GroupAddConnectionOptions,
   GroupAddUserOptions,
   GroupAdminClientOptions,

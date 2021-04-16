@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
 import { env, Recorder, record } from "@azure/test-utils-recorder";
-import { WebPubSubServiceClient, WebPubsubGroup } from "../src";
+import { WebPubSubServiceClient, WebPubSubGroup } from "../src";
 import * as assert from "assert";
 import environmentSetup from "./testEnv";
 import { RestError } from "@azure/core-http";
 
 describe("Group client working with a group", function() {
   let recorder: Recorder;
-  let client: WebPubsubGroup;
+  let client: WebPubSubGroup;
   this.timeout(30000);
 
   beforeEach(function() {

@@ -68,7 +68,7 @@ export interface GroupSendTextToAllOptions extends OperationOptions {
 /**
  * Client for connecting to a Web PubSub group.
  */
-export class WebPubsubGroup {
+export class WebPubSubGroup {
   private client!: GeneratedClient;
 
   /**
@@ -95,7 +95,7 @@ export class WebPubsubGroup {
    * @private
    * @internal
    */
-  constructor(groupName: string, hubName: string) {
+  constructor(hubName: string, groupName: string) {
     this.groupName = groupName;
     this.hubName = hubName;
   }

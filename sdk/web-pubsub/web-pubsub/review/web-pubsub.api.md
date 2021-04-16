@@ -90,9 +90,9 @@ export interface HubSendToUserOptions extends OperationOptions {
 }
 
 // @public
-export class WebPubsubGroup {
+export class WebPubSubGroup {
     // @internal
-    constructor(groupName: string, hubName: string);
+    constructor(hubName: string, groupName: string);
     addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<RestResponse>;
     addUser(username: string, options?: GroupAddUserOptions): Promise<RestResponse>;
     readonly apiVersion: string;
@@ -123,7 +123,7 @@ export class WebPubSubServiceClient {
     //
     // (undocumented)
     grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<RestResponse>;
-    group(groupName: string): WebPubsubGroup;
+    group(groupName: string): WebPubSubGroup;
     hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
     hasGroup(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
     hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;

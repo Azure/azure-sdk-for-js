@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-express",
-  "version": "1.0.0-preview.3",
+  "version": "1.0.0-preview.1",
   "description": "Azure Web PubSub CloudEvents handlers",
   "sdk-type": "client",
   "main": "dist/index.js",
