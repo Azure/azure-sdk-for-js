@@ -4,7 +4,6 @@
 import { OperationOptions } from "@azure/core-http";
 import { AssetConversion, RenderingSession } from "../generated/models/index";
 import { RemoteRendering } from "../generated/operations";
-import { WithResponse } from "../remoteRenderingClient";
 import { createSpan } from "../tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 
@@ -14,7 +13,7 @@ export async function getConversionInternal(
   conversionId: string,
   tracingSpanName: string,
   options?: OperationOptions
-): Promise<WithResponse<AssetConversion>> {
+): Promise<AssetConversion> {
   const { span, updatedOptions } = createSpan(tracingSpanName, {
     conversionId: conversionId,
     ...options
@@ -39,7 +38,7 @@ export async function getSessionInternal(
   sessionId: string,
   tracingSpanName: string,
   options?: OperationOptions
-): Promise<WithResponse<RenderingSession>> {
+): Promise<RenderingSession> {
   const { span, updatedOptions } = createSpan(tracingSpanName, {
     sessionId,
     ...options
@@ -64,14 +63,14 @@ export async function endSessionInternal(
   sessionId: string,
   tracingSpanName: string,
   options?: OperationOptions
-): Promise<WithResponse<{}>> {
+): Promise<void> {
   const { span, updatedOptions } = createSpan(tracingSpanName, {
     conversionId: sessionId,
     ...options
   });
 
   try {
-    return operations.stopSession(accountId, sessionId, updatedOptions);
+    operations.stopSession(accountId, sessionId, updatedOptions);
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,

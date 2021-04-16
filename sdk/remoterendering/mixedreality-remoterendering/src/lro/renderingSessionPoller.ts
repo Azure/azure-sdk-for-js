@@ -2,24 +2,23 @@
 // Licensed under the MIT license.
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { WithResponse } from "../remoteRenderingClient";
 import { RenderingSession, KnownRenderingSessionStatus } from "../generated/models/index";
 import { getSessionInternal, endSessionInternal } from "../internal/commonQueries";
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { RemoteRendering } from "../generated/operations";
 
 export interface RenderingSessionOperationState
-  extends PollOperationState<WithResponse<RenderingSession>> {
+  extends PollOperationState<RenderingSession> {
   /**
    * The latest response when querying the service. The session may or may not be ready.
    */
-  latestResponse: WithResponse<RenderingSession>;
+  latestResponse: RenderingSession;
 }
 
 export class RenderingSessionOperationStateImpl implements RenderingSessionOperationState {
-  latestResponse: WithResponse<RenderingSession>;
+  latestResponse: RenderingSession;
 
-  constructor(conversionState: WithResponse<RenderingSession>) {
+  constructor(conversionState: RenderingSession) {
     this.latestResponse = conversionState;
   }
 
@@ -43,7 +42,7 @@ export class RenderingSessionOperationStateImpl implements RenderingSessionOpera
     return undefined;
   }
 
-  get result(): WithResponse<RenderingSession> {
+  get result(): RenderingSession {
     return this.latestResponse;
   }
 }
@@ -108,7 +107,7 @@ class RenderingSessionOperation
 
 export class RenderingSessionPoller extends Poller<
   RenderingSessionOperationStateImpl,
-  WithResponse<RenderingSession>
+  RenderingSession
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -118,7 +117,7 @@ export class RenderingSessionPoller extends Poller<
   constructor(
     accountId: string,
     operations: RemoteRendering,
-    RenderingSession: WithResponse<RenderingSession>
+    RenderingSession: RenderingSession
   ) {
     super(
       new RenderingSessionOperation(

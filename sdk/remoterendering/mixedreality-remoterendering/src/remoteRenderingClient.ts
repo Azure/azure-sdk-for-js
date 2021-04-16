@@ -7,7 +7,6 @@ import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
   InternalPipelineOptions,
-  HttpResponse
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 
@@ -89,22 +88,12 @@ export {
 
 export type AssetConversionPollerLike = PollerLike<
   AssetConversionOperationState,
-  WithResponse<AssetConversion>
+  AssetConversion
 >;
 export type RenderingSessionPollerLike = PollerLike<
   RenderingSessionOperationState,
-  WithResponse<RenderingSession>
+  RenderingSession
 >;
-
-/**
- * Represents the returned response of the operation along with the raw response.
- */
-export type WithResponse<T extends object> = T & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: HttpResponse;
-};
 
 /**
  * The client class used to interact with the App Configuration service.
@@ -291,7 +280,7 @@ export class RemoteRenderingClient {
   public async getConversion(
     conversionId: string,
     options?: OperationOptions
-  ): Promise<WithResponse<AssetConversion>> {
+  ): Promise<AssetConversion> {
     return getConversionInternal(
       this.accountId,
       this.operations,
@@ -310,7 +299,7 @@ export class RemoteRenderingClient {
     conversionId: string,
     options?: OperationOptions
   ): Promise<AssetConversionPollerLike> {
-    let assetConversion: WithResponse<AssetConversion> = await getConversionInternal(
+    let assetConversion: AssetConversion = await getConversionInternal(
       this.accountId,
       this.operations,
       conversionId,
@@ -431,7 +420,7 @@ export class RemoteRenderingClient {
   public async getSession(
     sessionId: string,
     options?: OperationOptions
-  ): Promise<WithResponse<RenderingSession>> {
+  ): Promise<RenderingSession> {
     return getSessionInternal(
       this.accountId,
       this.operations,
@@ -450,7 +439,7 @@ export class RemoteRenderingClient {
     sessionId: string,
     options?: OperationOptions
   ): Promise<RenderingSessionPollerLike> {
-    let renderingSession: WithResponse<RenderingSession> = await getSessionInternal(
+    let renderingSession: RenderingSession = await getSessionInternal(
       this.accountId,
       this.operations,
       sessionId,
@@ -472,7 +461,7 @@ export class RemoteRenderingClient {
     sessionId: string,
     updateSessionSettings: UpdateSessionSettings,
     options?: OperationOptions
-  ): Promise<WithResponse<RenderingSession>> {
+  ): Promise<RenderingSession> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-UpdateSession", {
       conversionId: sessionId,
       ...options
@@ -506,7 +495,7 @@ export class RemoteRenderingClient {
   public async endSession(
     sessionId: string,
     options?: OperationOptions
-  ): Promise<WithResponse<{}>> {
+  ): Promise<void> {
     return endSessionInternal(
       this.accountId,
       this.operations,

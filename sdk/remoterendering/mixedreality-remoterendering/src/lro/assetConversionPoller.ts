@@ -2,24 +2,23 @@
 // Licensed under the MIT license.
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { WithResponse } from "../remoteRenderingClient";
 import { AssetConversion, KnownAssetConversionStatus } from "../generated/models/index";
 import { RemoteRendering } from "../generated/operations";
 import { getConversionInternal } from "../internal/commonQueries";
 import { delay, AbortSignalLike } from "@azure/core-http";
 
 export interface AssetConversionOperationState
-  extends PollOperationState<WithResponse<AssetConversion>> {
+  extends PollOperationState<AssetConversion> {
   /**
    * The latest response when querying the service. The conversion may or may not be completed.
    */
-  latestResponse: WithResponse<AssetConversion>;
+  latestResponse: AssetConversion;
 }
 
 export class AssetConversionOperationStateImpl implements AssetConversionOperationState {
-  latestResponse: WithResponse<AssetConversion>;
+  latestResponse: AssetConversion;
 
-  constructor(conversionState: WithResponse<AssetConversion>) {
+  constructor(conversionState: AssetConversion) {
     this.latestResponse = conversionState;
   }
 
@@ -46,7 +45,7 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
     return undefined;
   }
 
-  get result(): WithResponse<AssetConversion> {
+  get result(): AssetConversion {
     return this.latestResponse;
   }
 }
@@ -91,7 +90,7 @@ class AssetConversionOperation
 
 export class AssetConversionPoller extends Poller<
   AssetConversionOperationStateImpl,
-  WithResponse<AssetConversion>
+  AssetConversion
 > {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -101,7 +100,7 @@ export class AssetConversionPoller extends Poller<
   constructor(
     accountId: string,
     operations: RemoteRendering,
-    assetConversion: WithResponse<AssetConversion>
+    assetConversion: AssetConversion
   ) {
     super(
       new AssetConversionOperation(
