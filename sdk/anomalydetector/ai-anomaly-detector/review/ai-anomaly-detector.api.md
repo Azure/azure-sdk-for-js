@@ -11,12 +11,48 @@ import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type AlignMode = "Inner" | "Outer";
+
+// @public (undocumented)
+export interface AlignPolicy {
+    alignMode?: AlignMode;
+    fillNAMethod?: FillNAMethod;
+    paddingValue?: number;
+}
+
+// @public (undocumented)
+export interface AnomalyContributor {
+    contributionScore?: number;
+    variable?: string;
+}
+
+// @public
 export class AnomalyDetectorClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: AnomalyDetectorClientOptions);
+    deleteMultivariateModel(modelId: string, options?: DeleteMultivariateModelOptions): Promise<void>;
+    detectAnomaly(modelId: string, detectionRequest: DetectionRequest, options?: DetectAnomalyOptions): Promise<AnomalyDetectorClientDetectAnomalyResponse>;
     detectChangePoint(body: DetectChangePointRequest, options?: DetectChangePointOptions): Promise<AnomalyDetectorClientDetectChangePointResponse>;
     detectEntireSeries(body: DetectRequest, options?: DetectEntireSeriesOptions): Promise<AnomalyDetectorClientDetectEntireResponse>;
     detectLastPoint(body: DetectRequest, options?: DetectLastPointOptions): Promise<AnomalyDetectorClientDetectLastPointResponse>;
-    }
+    exportModel(modelId: string, options?: ExportModelOptions): Promise<AnomalyDetectorClientExportModelResponse>;
+    getDetectionResult(resultId: string, options?: GetDetectionResultOptions): Promise<AnomalyDetectorClientGetDetectionResultResponse>;
+    getMultivariateModel(modelId: string, options?: GetMultivariateModelOptions): Promise<AnomalyDetectorClientGetMultivariateModelResponse>;
+    listMultivariateModel(options?: ListMultivariateModelOptionalParams): Promise<AnomalyDetectorClientListMultivariateModelResponse>;
+    listMultivariateModelNext(nextLink: string, options?: ListMultivariateModelNextOptionalParams): Promise<AnomalyDetectorClientListMultivariateModelNextResponse>;
+    trainMultivariateModel(modelRequest: AnomalyDetectorClientModelInfo, options?: TrainMultivariateModelOptions): Promise<AnomalyDetectorClientTrainMultivariateModelResponse>;
+}
+
+// @public
+export interface AnomalyDetectorClientDetectAnomalyHeaders {
+    location?: string;
+}
+
+// @public
+export type AnomalyDetectorClientDetectAnomalyResponse = AnomalyDetectorClientDetectAnomalyHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: AnomalyDetectorClientDetectAnomalyHeaders;
+    };
+};
 
 // @public
 export type AnomalyDetectorClientDetectChangePointResponse = DetectChangePointResponse & {
@@ -42,9 +78,159 @@ export type AnomalyDetectorClientDetectLastPointResponse = DetectLastPointRespon
     };
 };
 
+// @public (undocumented)
+export interface AnomalyDetectorClientErrorResponse {
+    code: string;
+    message: string;
+}
+
+// @public
+export interface AnomalyDetectorClientExportModelHeaders {
+    contentType?: string;
+}
+
+// @public
+export type AnomalyDetectorClientExportModelResponse = AnomalyDetectorClientExportModelHeaders & {
+    blobBody?: Promise<Blob>;
+    readableStreamBody?: NodeJS.ReadableStream;
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: AnomalyDetectorClientExportModelHeaders;
+    };
+};
+
+// @public
+export type AnomalyDetectorClientGetDetectionResultResponse = DetectionResult & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: DetectionResult;
+    };
+};
+
+// @public
+export type AnomalyDetectorClientGetMultivariateModelResponse = AnomalyDetectorClientModel & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnomalyDetectorClientModel;
+    };
+};
+
+// @public
+export type AnomalyDetectorClientListMultivariateModelNextResponse = AnomalyDetectorClientModelList & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnomalyDetectorClientModelList;
+    };
+};
+
+// @public
+export type AnomalyDetectorClientListMultivariateModelResponse = AnomalyDetectorClientModelList & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: AnomalyDetectorClientModelList;
+    };
+};
+
+// @public
+export interface AnomalyDetectorClientModel {
+    createdTime: Date;
+    lastUpdatedTime: Date;
+    modelId: string;
+    modelInfo?: AnomalyDetectorClientModelInfo;
+}
+
+// @public
+export interface AnomalyDetectorClientModelInfo {
+    alignPolicy?: AlignPolicy;
+    readonly diagnosticsInfo?: DiagnosticsInfo;
+    displayName?: string;
+    endTime: Date;
+    readonly errors?: AnomalyDetectorClientErrorResponse[];
+    slidingWindow?: number;
+    source: string;
+    startTime: Date;
+    readonly status?: AnomalyDetectorClientModelStatus;
+}
+
+// @public
+export interface AnomalyDetectorClientModelList {
+    currentCount: number;
+    maxCount: number;
+    models: AnomalyDetectorClientModelSnapshot[];
+    nextLink?: string;
+}
+
+// @public (undocumented)
+export interface AnomalyDetectorClientModelSnapshot {
+    createdTime: Date;
+    // (undocumented)
+    displayName?: string;
+    lastUpdatedTime: Date;
+    modelId: string;
+    readonly status: AnomalyDetectorClientModelStatus;
+    variablesCount: number;
+}
+
+// @public (undocumented)
+export interface AnomalyDetectorClientModelState {
+    epochIds?: number[];
+    // (undocumented)
+    latenciesInSeconds?: number[];
+    // (undocumented)
+    trainLosses?: number[];
+    // (undocumented)
+    validationLosses?: number[];
+}
+
+// @public
+export type AnomalyDetectorClientModelStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
+
 // @public
 export interface AnomalyDetectorClientOptions extends PipelineOptions {
 }
+
+// @public
+export interface AnomalyDetectorClientTrainMultivariateModelHeaders {
+    location?: string;
+}
+
+// @public
+export type AnomalyDetectorClientTrainMultivariateModelResponse = AnomalyDetectorClientTrainMultivariateModelHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: AnomalyDetectorClientTrainMultivariateModelHeaders;
+    };
+};
+
+// @public (undocumented)
+export interface AnomalyDetectorClientVariableState {
+    effectiveCount?: number;
+    endTime?: Date;
+    errors?: AnomalyDetectorClientErrorResponse[];
+    filledNARatio?: number;
+    startTime?: Date;
+    variable?: string;
+}
+
+// @public (undocumented)
+export interface AnomalyState {
+    errors?: AnomalyDetectorClientErrorResponse[];
+    timestamp: Date;
+    // (undocumented)
+    value?: AnomalyValue;
+}
+
+// @public (undocumented)
+export interface AnomalyValue {
+    contributors?: AnomalyContributor[];
+    isAnomaly: boolean;
+    score?: number;
+    severity: number;
+}
+
+// @public (undocumented)
+export type DeleteMultivariateModelOptions = OperationOptions;
+
+// @public (undocumented)
+export type DetectAnomalyOptions = OperationOptions;
 
 // @public (undocumented)
 export type DetectChangePointOptions = OperationOptions;
@@ -61,9 +247,9 @@ export interface DetectChangePointRequest {
 
 // @public (undocumented)
 export interface DetectChangePointResponse {
-    confidenceScores: number[];
-    isChangePoint: boolean[];
-    period: number;
+    confidenceScores?: number[];
+    isChangePoint?: boolean[];
+    readonly period?: number;
 }
 
 // @public (undocumented)
@@ -79,6 +265,33 @@ export interface DetectEntireResponse {
 
 // @public (undocumented)
 export type DetectEntireSeriesOptions = OperationOptions;
+
+// @public
+export interface DetectionRequest {
+    endTime: Date;
+    source: string;
+    startTime: Date;
+}
+
+// @public
+export interface DetectionResult {
+    // (undocumented)
+    resultId: string;
+    results: AnomalyState[];
+    summary: DetectionResultSummary;
+}
+
+// @public (undocumented)
+export interface DetectionResultSummary {
+    errors?: AnomalyDetectorClientErrorResponse[];
+    setupInfo: DetectionRequest;
+    status: DetectionStatus;
+    // (undocumented)
+    variableStates?: AnomalyDetectorClientVariableState[];
+}
+
+// @public
+export type DetectionStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
 
 // @public (undocumented)
 export type DetectLastPointOptions = OperationOptions;
@@ -106,10 +319,44 @@ export interface DetectRequest {
 }
 
 // @public (undocumented)
+export interface DiagnosticsInfo {
+    // (undocumented)
+    modelState?: AnomalyDetectorClientModelState;
+    // (undocumented)
+    variableStates?: AnomalyDetectorClientVariableState[];
+}
+
+// @public (undocumented)
+export type ExportModelOptions = OperationOptions;
+
+// @public
+export type FillNAMethod = "Previous" | "Subsequent" | "Linear" | "Zero" | "Pad" | "NotFill";
+
+// @public (undocumented)
+export type GetDetectionResultOptions = OperationOptions;
+
+// @public (undocumented)
+export type GetMultivariateModelOptions = OperationOptions;
+
+// @public
+export interface ListMultivariateModelNextOptionalParams extends coreHttp.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public
+export interface ListMultivariateModelOptionalParams extends coreHttp.OperationOptions {
+    skip?: number;
+    top?: number;
+}
+
+// @public (undocumented)
 export enum TimeGranularity {
     daily = "daily",
     hourly = "hourly",
     monthly = "monthly",
+    none = "none",
+    perMicrosecond = "microsecond",
     perMinute = "minutely",
     perSecond = "secondly",
     weekly = "weekly",
@@ -118,9 +365,12 @@ export enum TimeGranularity {
 
 // @public (undocumented)
 export interface TimeSeriesPoint {
-    timestamp: Date;
+    timestamp?: Date;
     value: number;
 }
+
+// @public (undocumented)
+export type TrainMultivariateModelOptions = OperationOptions;
 
 
 // (No @packageDocumentation comment for this package)

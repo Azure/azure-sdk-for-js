@@ -16,7 +16,18 @@ import {
   GeneratedClientDetectEntireSeriesResponse,
   GeneratedClientDetectLastPointResponse,
   DetectChangePointRequest,
-  GeneratedClientDetectChangePointResponse
+  GeneratedClientDetectChangePointResponse,
+  ModelInfo,
+  GeneratedClientTrainMultivariateModelResponse,
+  GeneratedClientGetMultivariateModelResponse,
+  DetectionRequest,
+  GeneratedClientDetectAnomalyResponse,
+  GeneratedClientGetDetectionResultResponse,
+  GeneratedClientExportModelResponse,
+  GeneratedClientListMultivariateModelOptionalParams,
+  GeneratedClientListMultivariateModelResponse,
+  GeneratedClientListMultivariateModelNextOptionalParams,
+  GeneratedClientListMultivariateModelNextResponse
 } from "./models";
 
 export class GeneratedClient extends GeneratedClientContext {
@@ -31,7 +42,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
-   * This operation generates a model using an entire series, each point is detected with the same model.
+   * This operation generates a model with an entire series, each point is detected with the same model.
    * With this method, points before and after a certain point are used to determine whether it is an
    * anomaly. The entire detection can give user an overall status of the time series.
    * @param body Time series points and period if needed. Advanced model parameters can also be set in
@@ -90,6 +101,159 @@ export class GeneratedClient extends GeneratedClientContext {
       detectChangePointOperationSpec
     ) as Promise<GeneratedClientDetectChangePointResponse>;
   }
+
+  /**
+   * Create and train a multivariate anomaly detection model. The request must include a source parameter
+   * to indicate an externally accessible Azure storage Uri (preferably a Shared Access Signature Uri).
+   * All time-series used in generate the model must be zipped into one single file. Each time-series
+   * will be in a single CSV file in which the first column is timestamp and the second column is value.
+   * @param modelRequest Training request
+   * @param options The options parameters.
+   */
+  trainMultivariateModel(
+    modelRequest: ModelInfo,
+    options?: coreHttp.OperationOptions
+  ): Promise<GeneratedClientTrainMultivariateModelResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { modelRequest, options: operationOptions },
+      trainMultivariateModelOperationSpec
+    ) as Promise<GeneratedClientTrainMultivariateModelResponse>;
+  }
+
+  /**
+   * Get detailed information of multivariate model, including the training status and variables used in
+   * the model.
+   * @param modelId Model identifier.
+   * @param options The options parameters.
+   */
+  getMultivariateModel(
+    modelId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<GeneratedClientGetMultivariateModelResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { modelId, options: operationOptions },
+      getMultivariateModelOperationSpec
+    ) as Promise<GeneratedClientGetMultivariateModelResponse>;
+  }
+
+  /**
+   * Delete an existing multivariate model according to the modelId
+   * @param modelId Model identifier.
+   * @param options The options parameters.
+   */
+  deleteMultivariateModel(
+    modelId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { modelId, options: operationOptions },
+      deleteMultivariateModelOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
+  }
+
+  /**
+   * Submit detection multivariate anomaly task with the trained model of modelId, the input schema
+   * should be the same with the training request. Thus request will be complete asynchronously and will
+   * return a resultId for querying the detection result.The request should be a source link to indicate
+   * an externally accessible Azure storage Uri (preferably a Shared Access Signature Uri). All
+   * time-series used in generate the model must be zipped into one single file. Each time-series will be
+   * as follows: the first column is timestamp and the second column is value.
+   * @param modelId Model identifier.
+   * @param detectionRequest Detect anomaly request
+   * @param options The options parameters.
+   */
+  detectAnomaly(
+    modelId: string,
+    detectionRequest: DetectionRequest,
+    options?: coreHttp.OperationOptions
+  ): Promise<GeneratedClientDetectAnomalyResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { modelId, detectionRequest, options: operationOptions },
+      detectAnomalyOperationSpec
+    ) as Promise<GeneratedClientDetectAnomalyResponse>;
+  }
+
+  /**
+   * Get multivariate anomaly detection result based on resultId returned by the DetectAnomalyAsync api
+   * @param resultId Result identifier.
+   * @param options The options parameters.
+   */
+  getDetectionResult(
+    resultId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<GeneratedClientGetDetectionResultResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { resultId, options: operationOptions },
+      getDetectionResultOperationSpec
+    ) as Promise<GeneratedClientGetDetectionResultResponse>;
+  }
+
+  /**
+   * Export multivariate anomaly detection model based on modelId
+   * @param modelId Model identifier.
+   * @param options The options parameters.
+   */
+  exportModel(
+    modelId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<GeneratedClientExportModelResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { modelId, options: operationOptions },
+      exportModelOperationSpec
+    ) as Promise<GeneratedClientExportModelResponse>;
+  }
+
+  /**
+   * List models of a subscription
+   * @param options The options parameters.
+   */
+  listMultivariateModel(
+    options?: GeneratedClientListMultivariateModelOptionalParams
+  ): Promise<GeneratedClientListMultivariateModelResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { options: operationOptions },
+      listMultivariateModelOperationSpec
+    ) as Promise<GeneratedClientListMultivariateModelResponse>;
+  }
+
+  /**
+   * ListMultivariateModelNext
+   * @param nextLink The nextLink from the previous successful call to the ListMultivariateModel method.
+   * @param options The options parameters.
+   */
+  listMultivariateModelNext(
+    nextLink: string,
+    options?: GeneratedClientListMultivariateModelNextOptionalParams
+  ): Promise<GeneratedClientListMultivariateModelNextResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.sendOperationRequest(
+      { nextLink, options: operationOptions },
+      listMultivariateModelNextOperationSpec
+    ) as Promise<GeneratedClientListMultivariateModelNextResponse>;
+  }
 }
 // Operation Specifications
 
@@ -144,5 +308,131 @@ const detectChangePointOperationSpec: coreHttp.OperationSpec = {
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
+  serializer
+};
+const trainMultivariateModelOperationSpec: coreHttp.OperationSpec = {
+  path: "/multivariate/models",
+  httpMethod: "POST",
+  responses: {
+    201: {
+      headersMapper: Mappers.GeneratedClientTrainMultivariateModelHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.modelRequest,
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const getMultivariateModelOperationSpec: coreHttp.OperationSpec = {
+  path: "/multivariate/models/{modelId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Model
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const deleteMultivariateModelOperationSpec: coreHttp.OperationSpec = {
+  path: "/multivariate/models/{modelId}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const detectAnomalyOperationSpec: coreHttp.OperationSpec = {
+  path: "/multivariate/models/{modelId}/detect",
+  httpMethod: "POST",
+  responses: {
+    201: {
+      headersMapper: Mappers.GeneratedClientDetectAnomalyHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.detectionRequest,
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer
+};
+const getDetectionResultOperationSpec: coreHttp.OperationSpec = {
+  path: "/multivariate/results/{resultId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DetectionResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  urlParameters: [Parameters.endpoint, Parameters.resultId],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const exportModelOperationSpec: coreHttp.OperationSpec = {
+  path: "/multivariate/models/{modelId}/export",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Stream" },
+        serializedName: "parsedResponse"
+      },
+      headersMapper: Mappers.GeneratedClientExportModelHeaders
+    },
+    default: {}
+  },
+  urlParameters: [Parameters.endpoint, Parameters.modelId],
+  headerParameters: [Parameters.accept2],
+  serializer
+};
+const listMultivariateModelOperationSpec: coreHttp.OperationSpec = {
+  path: "/multivariate/models",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ModelList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.skip, Parameters.top],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept1],
+  serializer
+};
+const listMultivariateModelNextOperationSpec: coreHttp.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ModelList
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.skip, Parameters.top],
+  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  headerParameters: [Parameters.accept1],
   serializer
 };
