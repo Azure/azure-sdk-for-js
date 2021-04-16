@@ -2,15 +2,18 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to detect anomaly points on entire series.
+ * Demonstrates how to detect change points on entire series.
+ *
+ * @summary detects change points.
+ * @azsdk-weight 40
  */
 
 import {
   AnomalyDetectorClient,
-  DetectRequest,
-  DetectEntireResponse,
+  DetectChangePointRequest,
+  DetectChangePointResponse,
   TimeSeriesPoint,
-  TimeGranularity
+  KnownTimeGranularity
 } from "@azure/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -41,44 +44,30 @@ export async function main() {
   const client = new AnomalyDetectorClient(endpoint, new AzureKeyCredential(apiKey));
 
   // construct request
-  const request: DetectRequest = {
+  const request: DetectChangePointRequest = {
     series: read_series_from_file(timeSeriesDataPath),
-    granularity: TimeGranularity.daily
+    granularity: KnownTimeGranularity.daily
   };
 
-  // get entire detect result
-  const result: DetectEntireResponse = await client.detectEntireSeries(request);
+  // get change point detect results
+  const result: DetectChangePointResponse = await client.detectChangePoint(request);
 
   if (
-    result.isAnomaly.some(function(anomaly) {
-      return anomaly === true;
+    result.isChangePoint!.some(function(changePoint) {
+      return changePoint === true;
     })
   ) {
-    console.log("Anomalies were detected from the series at index:");
-    result.isAnomaly.forEach(function(anomaly, index) {
-      if (anomaly === true) {
-        console.log(index);
-      }
+    console.log("Change points were detected from the series at index:");
+    result.isChangePoint!.forEach(function(changePoint, index) {
+      if (changePoint === true) console.log(index);
     });
   } else {
-    console.log("There is no anomaly detected from the series.");
+    console.log("There is no change point detected from the series.");
   }
   // output:
-  // Anomalies were detected from the series at index:
-  // 3
-  // 18
-  // 21
-  // 22
-  // 23
-  // 24
-  // 25
-  // 28
-  // 29
-  // 30
-  // 31
-  // 32
-  // 35
-  // 44
+  // Change points were detected from the series at index:
+  // 20
+  // 27
 }
 
 main().catch((err) => {

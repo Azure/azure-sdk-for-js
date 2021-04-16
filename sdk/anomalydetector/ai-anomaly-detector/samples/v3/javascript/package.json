@@ -1,20 +1,20 @@
 {
   "name": "azure-ai-anomaly-detector-samples-js",
   "private": true,
-  "version": "0.1.0",
-  "description": "Azure ai-anomaly-detector client library samples for JavaScript",
+  "version": "1.0.0",
+  "description": "Azure Data Tables client library samples for JavaScript",
   "engine": {
-    "node": ">=8.0.0"
+    "node": ">=12.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/anomalydetector/ai-anomaly-detector/"
+    "directory": "sdk/anomalydetector/ai-anomaly-detector"
   },
   "keywords": [
-    "Azure",
-    "Node.js",
-    "JavaScript"
+    "azure",
+    "cloud",
+    "typescript"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -22,10 +22,10 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector",
-  "sideEffects": false,
   "dependencies": {
-    "@azure/ai-anomaly-detector": "latest",
-    "csv-parse": "^4.4.0",
-    "dotenv": "^8.2.0"
+    "@azure/ai-anomaly-detector": "next",
+    "dotenv": "latest",
+    "@azure/core-auth": "^1.3.0",
+    "csv-parse": "^4.4.0"
   }
 }

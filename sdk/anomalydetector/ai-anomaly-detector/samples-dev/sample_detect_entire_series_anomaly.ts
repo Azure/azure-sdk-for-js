@@ -2,15 +2,18 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to detect change points on entire series.
+ * Demonstrates how to detect anomaly points on entire series.
+ *
+ * @summary detects anomaly points on entire series.
+ * @azsdk-weight 40
  */
 
 import {
   AnomalyDetectorClient,
-  DetectChangePointRequest,
-  DetectChangePointResponse,
+  DetectRequest,
+  DetectEntireResponse,
   TimeSeriesPoint,
-  TimeGranularity
+  KnownTimeGranularity
 } from "@azure/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -41,30 +44,44 @@ export async function main() {
   const client = new AnomalyDetectorClient(endpoint, new AzureKeyCredential(apiKey));
 
   // construct request
-  const request: DetectChangePointRequest = {
+  const request: DetectRequest = {
     series: read_series_from_file(timeSeriesDataPath),
-    granularity: TimeGranularity.daily
+    granularity: KnownTimeGranularity.daily
   };
 
-  // get change point detect results
-  const result: DetectChangePointResponse = await client.detectChangePoint(request);
+  // get entire detect result
+  const result: DetectEntireResponse = await client.detectEntireSeries(request);
 
   if (
-    result.isChangePoint!.some(function(changePoint) {
-      return changePoint === true;
+    result.isAnomaly.some(function(anomaly) {
+      return anomaly === true;
     })
   ) {
-    console.log("Change points were detected from the series at index:");
-    result.isChangePoint!.forEach(function(changePoint, index) {
-      if (changePoint === true) console.log(index);
+    console.log("Anomalies were detected from the series at index:");
+    result.isAnomaly.forEach(function(anomaly, index) {
+      if (anomaly === true) {
+        console.log(index);
+      }
     });
   } else {
-    console.log("There is no change point detected from the series.");
+    console.log("There is no anomaly detected from the series.");
   }
   // output:
-  // Change points were detected from the series at index:
-  // 20
-  // 27
+  // Anomalies were detected from the series at index:
+  // 3
+  // 18
+  // 21
+  // 22
+  // 23
+  // 24
+  // 25
+  // 28
+  // 29
+  // 30
+  // 31
+  // 32
+  // 35
+  // 44
 }
 
 main().catch((err) => {

@@ -115,7 +115,15 @@
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {
-    "skipFolder": true
+    "productName": "Azure Anomaly Detector",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "azure-anomaly-detector"
+    ],
+    "requiredResources": {
+      "Azure Anomaly Detector instance": "https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/quickstarts/client-libraries?tabs=windows&pivots=programming-language-javascript"
+    }
   },
   "//metadata": {
     "constantPaths": [
