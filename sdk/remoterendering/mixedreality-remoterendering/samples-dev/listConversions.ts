@@ -9,7 +9,6 @@
 
 import {
   RemoteRenderingClient,
-  KnownAssetConversionStatus
 } from "@azure/mixedreality-remoterendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -35,11 +34,11 @@ export async function main() {
   console.log("== Starting listing conversions ==");
 
   for await (const conversion of client.listConversions()) {
-    if (conversion.status == KnownAssetConversionStatus.Succeeded) {
+    if (conversion.status === "Succeeded") {
       console.log(
         `Conversion ${conversion.conversionId} succeeded: Output written to ${conversion.output?.outputAssetUrl}`
       );
-    } else if (conversion.status == KnownAssetConversionStatus.Failed) {
+    } else if (conversion.status === "Failed") {
       console.log(
         `Conversion ${conversion.conversionId} failed: ${conversion.error?.code} ${conversion.error?.message}`
       );

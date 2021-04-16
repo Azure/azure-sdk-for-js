@@ -9,8 +9,6 @@
 
 import {
   RemoteRenderingClient,
-  KnownRenderingSessionStatus,
-  KnownRenderingServerSize
 } from "@azure/mixedreality-remoterendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -41,16 +39,16 @@ export async function main() {
   const sessionId: string = uuid();
   await client.beginSession(sessionId, {
     maxLeaseTimeInMinutes: 5,
-    size: KnownRenderingServerSize.Standard
+    size: "Standard"
   });
   await delay(10000);
 
   console.log("== Starting listing sessions ==");
 
   for await (const session of client.listSessions()) {
-    if (session.status == KnownRenderingSessionStatus.Starting) {
+    if (session.status === "Starting") {
       console.log(`Session ${session.sessionId} is starting`);
-    } else if (session.status == KnownRenderingSessionStatus.Ready) {
+    } else if (session.status === "Ready") {
       console.log(`Session ${session.sessionId} is ready`);
     }
   }

@@ -10,12 +10,10 @@
 import { v4 as uuid } from "uuid";
 
 import {
-  KnownRenderingServerSize,
   RemoteRenderingClient,
   RenderingSessionSettings,
   RenderingSessionPollerLike,
   RenderingSession,
-  KnownRenderingSessionStatus
 } from "@azure/mixedreality-remoterendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -38,30 +36,30 @@ export async function main() {
 
   const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
 
-  let sessionSettings: RenderingSessionSettings = {
+  const sessionSettings: RenderingSessionSettings = {
     maxLeaseTimeInMinutes: 4,
-    size: KnownRenderingServerSize.Standard
+    size: "Standard"
   };
 
   // A randomly generated GUID is a good choice for a conversionId.
-  let sessionId: string = uuid();
+  const sessionId = uuid();
 
   console.log("== Starting the session ==");
 
-  let sessionPoller: RenderingSessionPollerLike = await client.beginSession(
+  const sessionPoller: RenderingSessionPollerLike = await client.beginSession(
     sessionId,
     sessionSettings
   );
 
   console.log("== Polling ==");
 
-  let session: RenderingSession = await sessionPoller.pollUntilDone();
+  const session: RenderingSession = await sessionPoller.pollUntilDone();
 
   console.log("== Check results ==");
 
-  if (session.status == KnownRenderingSessionStatus.Ready) {
+  if (session.status == "Ready") {
     console.log("The rendering session is ready");
-  } else if (session.status == KnownRenderingSessionStatus.Error) {
+  } else if (session.status == "Error") {
     console.log("The rendering session encountered an error: " + session.error?.message);
   }
 

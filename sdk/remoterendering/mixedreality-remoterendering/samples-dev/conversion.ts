@@ -16,7 +16,6 @@ import {
   AssetConversionSettings,
   AssetConversionPollerLike,
   AssetConversion,
-  KnownAssetConversionStatus
 } from "@azure/mixedreality-remoterendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -44,41 +43,42 @@ export async function main() {
 
   const client = new RemoteRenderingClient(serviceEndpoint, accountId, accountDomain, accountKey);
 
-  let storageContainerUrl: string =
+  let storageContainerUrl =
     "https://" + storageAccountName + ".blob.core.windows.net/" + blobContainerName;
 
-  let inputSettings: AssetConversionInputSettings = {
+  const inputSettings: AssetConversionInputSettings = {
     storageContainerUrl,
     storageContainerReadListSas: sasToken,
     relativeInputAssetPath: "testBox.fbx",
     blobPrefix: "Input"
   };
-  let outputSettings: AssetConversionOutputSettings = {
+  const outputSettings: AssetConversionOutputSettings = {
     storageContainerUrl,
     storageContainerWriteSas: sasToken,
     blobPrefix: "Output"
   };
-  let conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+  const conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
 
   // A randomly generated GUID is a good choice for a conversionId.
-  let conversionId: string = uuid();
+  const conversionId = uuid();
 
   console.log("== Starting the conversion ==");
 
-  let conversionPoller: AssetConversionPollerLike = await client.beginConversion(
+  const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
     conversionId,
     conversionSettings
   );
 
   console.log("== Polling ==");
 
-  let conversion: AssetConversion = await conversionPoller.pollUntilDone();
+  const conversion: AssetConversion = await conversionPoller.pollUntilDone();
 
   console.log("== Check results ==");
 
-  if (conversion.status == KnownAssetConversionStatus.Succeeded) {
+  // Use a string for the enum.
+  if (conversion.status === "Succeeded") {
     console.log("Conversion succeeded: Output written to " + conversion.output?.outputAssetUrl);
-  } else if (conversion.status == KnownAssetConversionStatus.Failed) {
+  } else if (conversion.status === "Failed") {
     console.log("Conversion failed: " + conversion.error?.code + " " + conversion.error?.message);
   }
 }
