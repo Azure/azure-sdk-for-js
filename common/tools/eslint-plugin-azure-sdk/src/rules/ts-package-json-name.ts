@@ -38,7 +38,7 @@ export = {
           ): void => {
             const nodeValue = node.value as Literal;
             const name = nodeValue.value as string;
-            let packageDirectory = stripPath(stripFileName(fileName));
+            const packageDirectory = stripPath(stripFileName(fileName));
 
             // Check for a valid scope
             if (!/^@azure(-[a-z]+)?\//.test(name)) {
@@ -48,7 +48,7 @@ export = {
               });
               return;
             }
-            let packageBaseName = stripPath(name);
+            const packageBaseName = stripPath(name);
 
             if (!/^@azure(-[a-z]+)?\/([a-z]+-)*[a-z]+$/.test(name)) {
               context.report({
@@ -78,8 +78,9 @@ export = {
 
 function isValidFolder(packageName: string, folderName: string) {
   // Check if there is a sub scope i.e @azure-rest
-  let matches = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
-  if (matches.length != 2) {
+  const matches = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
+  // eslint-disable-next-line no-empty
+  if (matches.length !== 2) {
     return RegExp(`^@azure(-[a-z]+)?\/${folderName}`).test(packageName);
   }
 
