@@ -8,15 +8,15 @@
    "status": 200,
    "response": "{\"expectedValue\":809.5658016931228,\"isAnomaly\":false,\"isNegativeAnomaly\":false,\"isPositiveAnomaly\":false,\"lowerMargin\":40.47829008465612,\"period\":12,\"suggestedWindow\":49,\"upperMargin\":40.47829008465612}\n",
    "responseHeaders": {
-    "apim-request-id": "1cd97ca7-f432-476a-8e79-1fe579610076",
+    "apim-request-id": "ca2f67b6-8a1f-4707-934c-976695b2d636",
     "content-length": "203",
     "content-type": "application/json",
     "csp-billing-usage": "CognitiveServices.AnomalyDetector.DataPoints=1",
-    "date": "Fri, 16 Apr 2021 03:59:06 GMT",
+    "date": "Fri, 16 Apr 2021 04:00:24 GMT",
     "model-id": "10",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "29"
+    "x-envoy-upstream-service-time": "34"
    }
   }
  ],
