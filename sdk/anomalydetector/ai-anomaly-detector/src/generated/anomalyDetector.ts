@@ -9,42 +9,42 @@
 import * as coreHttp from "@azure/core-http";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { GeneratedClientContext } from "./generatedClientContext";
+import { AnomalyDetectorContext } from "./anomalyDetectorContext";
 import {
-  GeneratedClientOptionalParams,
+  AnomalyDetectorOptionalParams,
   ModelSnapshot,
-  GeneratedClientListMultivariateModelNextOptionalParams,
-  GeneratedClientListMultivariateModelOptionalParams,
+  AnomalyDetectorListMultivariateModelNextOptionalParams,
+  AnomalyDetectorListMultivariateModelOptionalParams,
   DetectRequest,
-  GeneratedClientDetectEntireSeriesResponse,
-  GeneratedClientDetectLastPointResponse,
+  AnomalyDetectorDetectEntireSeriesResponse,
+  AnomalyDetectorDetectLastPointResponse,
   DetectChangePointRequest,
-  GeneratedClientDetectChangePointResponse,
+  AnomalyDetectorDetectChangePointResponse,
   ModelInfo,
-  GeneratedClientTrainMultivariateModelResponse,
-  GeneratedClientGetMultivariateModelResponse,
+  AnomalyDetectorTrainMultivariateModelResponse,
+  AnomalyDetectorGetMultivariateModelResponse,
   DetectionRequest,
-  GeneratedClientDetectAnomalyResponse,
-  GeneratedClientGetDetectionResultResponse,
-  GeneratedClientExportModelResponse,
-  GeneratedClientListMultivariateModelResponse,
-  GeneratedClientListMultivariateModelNextResponse
+  AnomalyDetectorDetectAnomalyResponse,
+  AnomalyDetectorGetDetectionResultResponse,
+  AnomalyDetectorExportModelResponse,
+  AnomalyDetectorListMultivariateModelResponse,
+  AnomalyDetectorListMultivariateModelNextResponse
 } from "./models";
-import { SpanStatusCode } from "@azure/core-tracing";
 
 /// <reference lib="esnext.asynciterable" />
 /** @hidden */
-export class GeneratedClient extends GeneratedClientContext {
+export class AnomalyDetector extends AnomalyDetectorContext {
   /**
-   * Initializes a new instance of the GeneratedClient class.
+   * Initializes a new instance of the AnomalyDetector class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    *                 https://westus2.api.cognitive.microsoft.com).
    * @param options The parameter options
    */
-  constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
+  constructor(endpoint: string, options?: AnomalyDetectorOptionalParams) {
     super(endpoint, options);
   }
 
@@ -53,7 +53,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   public listMultivariateModel(
-    options?: GeneratedClientListMultivariateModelOptionalParams
+    options?: AnomalyDetectorListMultivariateModelOptionalParams
   ): PagedAsyncIterableIterator<ModelSnapshot> {
     const iter = this.listMultivariateModelPagingAll(options);
     return {
@@ -70,7 +70,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   private async *listMultivariateModelPagingPage(
-    options?: GeneratedClientListMultivariateModelOptionalParams
+    options?: AnomalyDetectorListMultivariateModelOptionalParams
   ): AsyncIterableIterator<ModelSnapshot[]> {
     let result = await this._listMultivariateModel(options);
     yield result.models || [];
@@ -83,7 +83,7 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   private async *listMultivariateModelPagingAll(
-    options?: GeneratedClientListMultivariateModelOptionalParams
+    options?: AnomalyDetectorListMultivariateModelOptionalParams
   ): AsyncIterableIterator<ModelSnapshot> {
     for await (const page of this.listMultivariateModelPagingPage(options)) {
       yield* page;
@@ -101,9 +101,9 @@ export class GeneratedClient extends GeneratedClientContext {
   async detectEntireSeries(
     body: DetectRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientDetectEntireSeriesResponse> {
+  ): Promise<AnomalyDetectorDetectEntireSeriesResponse> {
     const { span, updatedOptions } = createSpan(
-      "GeneratedClient-detectEntireSeries",
+      "AnomalyDetector-detectEntireSeries",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -115,7 +115,7 @@ export class GeneratedClient extends GeneratedClientContext {
         operationArguments,
         detectEntireSeriesOperationSpec
       );
-      return result as GeneratedClientDetectEntireSeriesResponse;
+      return result as AnomalyDetectorDetectEntireSeriesResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -138,8 +138,8 @@ export class GeneratedClient extends GeneratedClientContext {
   async detectLastPoint(
     body: DetectRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientDetectLastPointResponse> {
-    const { span, updatedOptions } = createSpan("GeneratedClient-detectLastPoint", options || {});
+  ): Promise<AnomalyDetectorDetectLastPointResponse> {
+    const { span, updatedOptions } = createSpan("AnomalyDetector-detectLastPoint", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
@@ -149,7 +149,7 @@ export class GeneratedClient extends GeneratedClientContext {
         operationArguments,
         detectLastPointOperationSpec
       );
-      return result as GeneratedClientDetectLastPointResponse;
+      return result as AnomalyDetectorDetectLastPointResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -170,8 +170,8 @@ export class GeneratedClient extends GeneratedClientContext {
   async detectChangePoint(
     body: DetectChangePointRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientDetectChangePointResponse> {
-    const { span, updatedOptions } = createSpan("GeneratedClient-detectChangePoint", options || {});
+  ): Promise<AnomalyDetectorDetectChangePointResponse> {
+    const { span, updatedOptions } = createSpan("AnomalyDetector-detectChangePoint", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       body,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
@@ -181,7 +181,7 @@ export class GeneratedClient extends GeneratedClientContext {
         operationArguments,
         detectChangePointOperationSpec
       );
-      return result as GeneratedClientDetectChangePointResponse;
+      return result as AnomalyDetectorDetectChangePointResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -204,9 +204,9 @@ export class GeneratedClient extends GeneratedClientContext {
   async trainMultivariateModel(
     modelRequest: ModelInfo,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientTrainMultivariateModelResponse> {
+  ): Promise<AnomalyDetectorTrainMultivariateModelResponse> {
     const { span, updatedOptions } = createSpan(
-      "GeneratedClient-trainMultivariateModel",
+      "AnomalyDetector-trainMultivariateModel",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -218,7 +218,7 @@ export class GeneratedClient extends GeneratedClientContext {
         operationArguments,
         trainMultivariateModelOperationSpec
       );
-      return result as GeneratedClientTrainMultivariateModelResponse;
+      return result as AnomalyDetectorTrainMultivariateModelResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -239,9 +239,9 @@ export class GeneratedClient extends GeneratedClientContext {
   async getMultivariateModel(
     modelId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientGetMultivariateModelResponse> {
+  ): Promise<AnomalyDetectorGetMultivariateModelResponse> {
     const { span, updatedOptions } = createSpan(
-      "GeneratedClient-getMultivariateModel",
+      "AnomalyDetector-getMultivariateModel",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -253,7 +253,7 @@ export class GeneratedClient extends GeneratedClientContext {
         operationArguments,
         getMultivariateModelOperationSpec
       );
-      return result as GeneratedClientGetMultivariateModelResponse;
+      return result as AnomalyDetectorGetMultivariateModelResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -275,7 +275,7 @@ export class GeneratedClient extends GeneratedClientContext {
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const { span, updatedOptions } = createSpan(
-      "GeneratedClient-deleteMultivariateModel",
+      "AnomalyDetector-deleteMultivariateModel",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -314,8 +314,8 @@ export class GeneratedClient extends GeneratedClientContext {
     modelId: string,
     detectionRequest: DetectionRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientDetectAnomalyResponse> {
-    const { span, updatedOptions } = createSpan("GeneratedClient-detectAnomaly", options || {});
+  ): Promise<AnomalyDetectorDetectAnomalyResponse> {
+    const { span, updatedOptions } = createSpan("AnomalyDetector-detectAnomaly", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       modelId,
       detectionRequest,
@@ -326,7 +326,7 @@ export class GeneratedClient extends GeneratedClientContext {
         operationArguments,
         detectAnomalyOperationSpec
       );
-      return result as GeneratedClientDetectAnomalyResponse;
+      return result as AnomalyDetectorDetectAnomalyResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -346,9 +346,9 @@ export class GeneratedClient extends GeneratedClientContext {
   async getDetectionResult(
     resultId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientGetDetectionResultResponse> {
+  ): Promise<AnomalyDetectorGetDetectionResultResponse> {
     const { span, updatedOptions } = createSpan(
-      "GeneratedClient-getDetectionResult",
+      "AnomalyDetector-getDetectionResult",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -360,7 +360,7 @@ export class GeneratedClient extends GeneratedClientContext {
         operationArguments,
         getDetectionResultOperationSpec
       );
-      return result as GeneratedClientGetDetectionResultResponse;
+      return result as AnomalyDetectorGetDetectionResultResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -380,15 +380,15 @@ export class GeneratedClient extends GeneratedClientContext {
   async exportModel(
     modelId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientExportModelResponse> {
-    const { span, updatedOptions } = createSpan("GeneratedClient-exportModel", options || {});
+  ): Promise<AnomalyDetectorExportModelResponse> {
+    const { span, updatedOptions } = createSpan("AnomalyDetector-exportModel", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       modelId,
       options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.sendOperationRequest(operationArguments, exportModelOperationSpec);
-      return result as GeneratedClientExportModelResponse;
+      return result as AnomalyDetectorExportModelResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -405,10 +405,10 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   private async _listMultivariateModel(
-    options?: GeneratedClientListMultivariateModelOptionalParams
-  ): Promise<GeneratedClientListMultivariateModelResponse> {
+    options?: AnomalyDetectorListMultivariateModelOptionalParams
+  ): Promise<AnomalyDetectorListMultivariateModelResponse> {
     const { span, updatedOptions } = createSpan(
-      "GeneratedClient-_listMultivariateModel",
+      "AnomalyDetector-_listMultivariateModel",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -419,7 +419,7 @@ export class GeneratedClient extends GeneratedClientContext {
         operationArguments,
         listMultivariateModelOperationSpec
       );
-      return result as GeneratedClientListMultivariateModelResponse;
+      return result as AnomalyDetectorListMultivariateModelResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -438,10 +438,10 @@ export class GeneratedClient extends GeneratedClientContext {
    */
   private async _listMultivariateModelNext(
     nextLink: string,
-    options?: GeneratedClientListMultivariateModelNextOptionalParams
-  ): Promise<GeneratedClientListMultivariateModelNextResponse> {
+    options?: AnomalyDetectorListMultivariateModelNextOptionalParams
+  ): Promise<AnomalyDetectorListMultivariateModelNextResponse> {
     const { span, updatedOptions } = createSpan(
-      "GeneratedClient-_listMultivariateModelNext",
+      "AnomalyDetector-_listMultivariateModelNext",
       options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
@@ -453,7 +453,7 @@ export class GeneratedClient extends GeneratedClientContext {
         operationArguments,
         listMultivariateModelNextOperationSpec
       );
-      return result as GeneratedClientListMultivariateModelNextResponse;
+      return result as AnomalyDetectorListMultivariateModelNextResponse;
     } catch (error) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -524,7 +524,7 @@ const trainMultivariateModelOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      headersMapper: Mappers.GeneratedClientTrainMultivariateModelHeaders
+      headersMapper: Mappers.AnomalyDetectorTrainMultivariateModelHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -569,7 +569,7 @@ const detectAnomalyOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      headersMapper: Mappers.GeneratedClientDetectAnomalyHeaders
+      headersMapper: Mappers.AnomalyDetectorDetectAnomalyHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -605,7 +605,7 @@ const exportModelOperationSpec: coreHttp.OperationSpec = {
         type: { name: "Stream" },
         serializedName: "parsedResponse"
       },
-      headersMapper: Mappers.GeneratedClientExportModelHeaders
+      headersMapper: Mappers.AnomalyDetectorExportModelHeaders
     },
     default: {}
   },

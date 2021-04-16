@@ -3,8 +3,8 @@
 
 export { AnomalyDetectorClient } from "./AnomalyDetectorClient";
 export {
-  GeneratedClient as AnomalyDetectorClientBase,
-  GeneratedClientContext as AnomalyDetectorClientContext,
-  GeneratedClientOptionalParams as AnomalyDetectorClientOptionalParams
+  AnomalyDetector,
+  AnomalyDetectorContext,
+  AnomalyDetectorOptionalParams
 } from "./generated";
 export * from "./models";

@@ -7,7 +7,7 @@
 ```yaml
 v3: true
 package-name: "@azure/ai-form-recognizer"
-title: GeneratedClient
+title: AnomalyDetector
 description: AnomalyDetector Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION

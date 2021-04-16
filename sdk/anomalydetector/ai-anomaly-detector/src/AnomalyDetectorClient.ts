@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GeneratedClient as AnomalyDetectorClientBase } from "./generated";
+import { AnomalyDetector } from "./generated";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   SDK_VERSION,
@@ -22,7 +22,7 @@ import { logger } from "./logger";
 /**
  * Client class for interacting with Azure Anomaly Detector service.
  */
-export class AnomalyDetectorClient extends AnomalyDetectorClientBase {
+export class AnomalyDetectorClient extends AnomalyDetector {
   /**
    * Creates an instance of AnomalyDetectorClient.
    *

@@ -272,20 +272,20 @@ export interface ModelSnapshot {
   variablesCount: number;
 }
 
-/** Defines headers for GeneratedClient_trainMultivariateModel operation. */
-export interface GeneratedClientTrainMultivariateModelHeaders {
+/** Defines headers for AnomalyDetector_trainMultivariateModel operation. */
+export interface AnomalyDetectorTrainMultivariateModelHeaders {
   /** Location and ID of the model being saved. */
   location?: string;
 }
 
-/** Defines headers for GeneratedClient_detectAnomaly operation. */
-export interface GeneratedClientDetectAnomalyHeaders {
+/** Defines headers for AnomalyDetector_detectAnomaly operation. */
+export interface AnomalyDetectorDetectAnomalyHeaders {
   /** Location and ID of the detection result being saved. */
   location?: string;
 }
 
-/** Defines headers for GeneratedClient_exportModel operation. */
-export interface GeneratedClientExportModelHeaders {
+/** Defines headers for AnomalyDetector_exportModel operation. */
+export interface AnomalyDetectorExportModelHeaders {
   /** application/zip */
   contentType?: string;
 }
@@ -346,7 +346,7 @@ export type ModelStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
 export type DetectionStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
 
 /** Contains response data for the detectEntireSeries operation. */
-export type GeneratedClientDetectEntireSeriesResponse = DetectEntireResponse & {
+export type AnomalyDetectorDetectEntireSeriesResponse = DetectEntireResponse & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -358,7 +358,7 @@ export type GeneratedClientDetectEntireSeriesResponse = DetectEntireResponse & {
 };
 
 /** Contains response data for the detectLastPoint operation. */
-export type GeneratedClientDetectLastPointResponse = DetectLastPointResponse & {
+export type AnomalyDetectorDetectLastPointResponse = DetectLastPointResponse & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -370,7 +370,7 @@ export type GeneratedClientDetectLastPointResponse = DetectLastPointResponse & {
 };
 
 /** Contains response data for the detectChangePoint operation. */
-export type GeneratedClientDetectChangePointResponse = DetectChangePointResponse & {
+export type AnomalyDetectorDetectChangePointResponse = DetectChangePointResponse & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -382,16 +382,16 @@ export type GeneratedClientDetectChangePointResponse = DetectChangePointResponse
 };
 
 /** Contains response data for the trainMultivariateModel operation. */
-export type GeneratedClientTrainMultivariateModelResponse = GeneratedClientTrainMultivariateModelHeaders & {
+export type AnomalyDetectorTrainMultivariateModelResponse = AnomalyDetectorTrainMultivariateModelHeaders & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientTrainMultivariateModelHeaders;
+    parsedHeaders: AnomalyDetectorTrainMultivariateModelHeaders;
   };
 };
 
 /** Contains response data for the getMultivariateModel operation. */
-export type GeneratedClientGetMultivariateModelResponse = Model & {
+export type AnomalyDetectorGetMultivariateModelResponse = Model & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -403,16 +403,16 @@ export type GeneratedClientGetMultivariateModelResponse = Model & {
 };
 
 /** Contains response data for the detectAnomaly operation. */
-export type GeneratedClientDetectAnomalyResponse = GeneratedClientDetectAnomalyHeaders & {
+export type AnomalyDetectorDetectAnomalyResponse = AnomalyDetectorDetectAnomalyHeaders & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientDetectAnomalyHeaders;
+    parsedHeaders: AnomalyDetectorDetectAnomalyHeaders;
   };
 };
 
 /** Contains response data for the getDetectionResult operation. */
-export type GeneratedClientGetDetectionResultResponse = DetectionResult & {
+export type AnomalyDetectorGetDetectionResultResponse = DetectionResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -424,7 +424,7 @@ export type GeneratedClientGetDetectionResultResponse = DetectionResult & {
 };
 
 /** Contains response data for the exportModel operation. */
-export type GeneratedClientExportModelResponse = GeneratedClientExportModelHeaders & {
+export type AnomalyDetectorExportModelResponse = AnomalyDetectorExportModelHeaders & {
   /**
    * BROWSER ONLY
    *
@@ -443,12 +443,12 @@ export type GeneratedClientExportModelResponse = GeneratedClientExportModelHeade
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientExportModelHeaders;
+    parsedHeaders: AnomalyDetectorExportModelHeaders;
   };
 };
 
 /** Optional parameters. */
-export interface GeneratedClientListMultivariateModelOptionalParams
+export interface AnomalyDetectorListMultivariateModelOptionalParams
   extends coreHttp.OperationOptions {
   /** $skip indicates how many models will be skipped. */
   skip?: number;
@@ -457,7 +457,7 @@ export interface GeneratedClientListMultivariateModelOptionalParams
 }
 
 /** Contains response data for the listMultivariateModel operation. */
-export type GeneratedClientListMultivariateModelResponse = ModelList & {
+export type AnomalyDetectorListMultivariateModelResponse = ModelList & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -469,7 +469,7 @@ export type GeneratedClientListMultivariateModelResponse = ModelList & {
 };
 
 /** Optional parameters. */
-export interface GeneratedClientListMultivariateModelNextOptionalParams
+export interface AnomalyDetectorListMultivariateModelNextOptionalParams
   extends coreHttp.OperationOptions {
   /** $skip indicates how many models will be skipped. */
   skip?: number;
@@ -478,7 +478,7 @@ export interface GeneratedClientListMultivariateModelNextOptionalParams
 }
 
 /** Contains response data for the listMultivariateModelNext operation. */
-export type GeneratedClientListMultivariateModelNextResponse = ModelList & {
+export type AnomalyDetectorListMultivariateModelNextResponse = ModelList & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -490,7 +490,7 @@ export type GeneratedClientListMultivariateModelNextResponse = ModelList & {
 };
 
 /** Optional parameters. */
-export interface GeneratedClientOptionalParams
+export interface AnomalyDetectorOptionalParams
   extends coreHttp.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;

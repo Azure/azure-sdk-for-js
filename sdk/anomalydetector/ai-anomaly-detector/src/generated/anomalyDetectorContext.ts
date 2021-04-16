@@ -7,22 +7,22 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { GeneratedClientOptionalParams } from "./models";
+import { AnomalyDetectorOptionalParams } from "./models";
 
 const packageName = "@azure/ai-form-recognizer";
 const packageVersion = "3.0.0-beta.3";
 
 /** @hidden */
-export class GeneratedClientContext extends coreHttp.ServiceClient {
+export class AnomalyDetectorContext extends coreHttp.ServiceClient {
   endpoint: string;
 
   /**
-   * Initializes a new instance of the GeneratedClientContext class.
+   * Initializes a new instance of the AnomalyDetectorContext class.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    *                 https://westus2.api.cognitive.microsoft.com).
    * @param options The parameter options
    */
-  constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
+  constructor(endpoint: string, options?: AnomalyDetectorOptionalParams) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -41,8 +41,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
 
     this.requestContentType = "application/json; charset=utf-8";
 
-    this.baseUri =
-      options.endpoint || "{Endpoint}/anomalydetector/v1.1-preview";
+    this.baseUri = options.endpoint || "{Endpoint}/anomalydetector/v1.1-preview";
 
     // Parameter assignments
     this.endpoint = endpoint;

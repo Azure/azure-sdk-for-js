@@ -998,10 +998,10 @@ export const ModelSnapshot: coreHttp.CompositeMapper = {
   }
 };
 
-export const GeneratedClientTrainMultivariateModelHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorTrainMultivariateModelHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientTrainMultivariateModelHeaders",
+    className: "AnomalyDetectorTrainMultivariateModelHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -1013,10 +1013,10 @@ export const GeneratedClientTrainMultivariateModelHeaders: coreHttp.CompositeMap
   }
 };
 
-export const GeneratedClientDetectAnomalyHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorDetectAnomalyHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientDetectAnomalyHeaders",
+    className: "AnomalyDetectorDetectAnomalyHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -1028,10 +1028,10 @@ export const GeneratedClientDetectAnomalyHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const GeneratedClientExportModelHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorExportModelHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GeneratedClientExportModelHeaders",
+    className: "AnomalyDetectorExportModelHeaders",
     modelProperties: {
       contentType: {
         serializedName: "content-type",
