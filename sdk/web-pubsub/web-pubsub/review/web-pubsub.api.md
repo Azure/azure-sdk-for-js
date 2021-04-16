@@ -73,10 +73,6 @@ export interface HubHasUserOptions extends OperationOptions {
 }
 
 // @public
-export interface HubIsServiceHealthyOptions extends OperationOptions {
-}
-
-// @public
 export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions {
 }
 
@@ -122,15 +118,24 @@ export class WebPubSubServiceClient {
     closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
     endpoint: string;
     getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
+    // Warning: (ae-forgotten-export) The symbol "Permission" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "HubGrantPermissionOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<RestResponse>;
     group(groupName: string): WebPubsubGroup;
     hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
     hasGroup(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
     hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
     removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
+    // Warning: (ae-forgotten-export) The symbol "HubRevokePermissionOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<RestResponse>;
     // Warning: (ae-forgotten-export) The symbol "HubSendTextToAllOptions" needs to be exported by the entry point index.d.ts
     sendToAll(message: string, options: HubSendTextToAllOptions): Promise<RestResponse>;
-    sendToAll(message: JSONTypes, options?: HubSendTextToAllOptions): Promise<RestResponse>;
+    sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<RestResponse>;
     sendToAll(message: HttpRequestBody, options?: HubSendToAllOptions): Promise<RestResponse>;
     // Warning: (ae-forgotten-export) The symbol "HubSendTextToConnectionOptions" needs to be exported by the entry point index.d.ts
     sendToConnection(connectionId: string, message: string, options: HubSendTextToConnectionOptions): Promise<RestResponse>;

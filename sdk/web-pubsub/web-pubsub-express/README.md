@@ -1,25 +1,20 @@
 # Azure Web PubSub CloudEvents handlers for Express
 
-[Azure Web PubSub](https://docs.microsoft.com/en-us/azure/azure-webpubsub/signalr-webpubsub/) is a service that simplifies the process of adding real-time web functionality to serverless applications.
+[Azure Web PubSub Service](https://aka.ms/awps/doc) is a service that enables you to build real-time messaging web applications using WebSockets and the publish-subscribe pattern. Any platform supporting WebSocket APIs can connect to the service easily, e.g. web pages, mobile applications, edge devices, etc. The service manages the WebSocket connections for you and allows up to 100K \*concurrent connections. It provides powerful APIs for you to manage these clients and deliver real-time messages..
 
-Azure Web PubSub is useful for serverless application scenarios, including:
+Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients, can use Azure Web PubSub service. Traditional real-time features that often require polling from server or submitting HTTP requests, can also use Azure Web PubSub service.
 
-- High frequency data updates: gaming, voting, polling, auction.
-- Dashboards and monitoring: company dashboard, financial market data, instant sales update, multi-player game leader board, and IoT monitoring.
-- Chat: live chat room, chat bot, on-line customer support, real-time shopping assistant, messenger, in-game chat, and so on.
-- Real-time location on map: logistic tracking, delivery status tracking, transportation status updates, GPS apps.
-- Real time targeted ads: personalized real time push ads and offers, interactive ads.
-- Collaborative apps: coauthoring, whiteboard apps and team meeting software.
-- Push notifications: social network, email, game, travel alert.
-- Real-time broadcasting: live audio/video broadcasting, live captioning, translating, events/news broadcasting.
-- IoT and connected devices: real-time IoT metrics, remote control, real-time status, and location tracking.
-- Automation: real-time trigger from upstream events.
+Use the express library to:
 
-Use the client library to:
+- Add Web PubSub CloudEvents middleware to handle incoming client events
+  - Handle abuse validation requests
+  - Handle client events requests
 
-- Broadcast messages to hubs and groups.
-- Send messages to particular users and connections.
-- Organize users and connections into groups.
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub-express) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/web-pubsub-express) |
+[API reference documentation](https://aka.ms/awps/sdk/js) |
+[Product documentation](https://aka.ms/awps/doc) |
+[Samples][samples_ref]
 
 ## Getting started
 
@@ -39,28 +34,24 @@ Use the client library to:
 npm install @azure/web-pubsub-express
 ```
 
-### 1. Create a WebPubSubServer
+### 2. Create a WebPubSubEventHandler
 
 ```js
 import express from "express";
 
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
-const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.com"], {
-  //path: "/customUrl", // optional
-  handleConnect: async (req, res) => {
-    // auth the connection and set the userId of the connection
-    res.success({
-      userId: "vic"
-    });
-  },
-  handleUserEvent: async (req, res) => {
-    res.success("Hey " + req.data, req.dataType);
-    console.log(`Received user request data: ${userRequest.payload.data}`);
-  },
-  onDisconnected: async (disconnectRequest) => {
-    console.log(disconnectRequest.context.userId + " disconnected");
+const handler = new WebPubSubEventHandler(
+  "chat",
+  ["https://<yourAllowedService>.webpubsub.azure.com"],
+  {
+    handleConnect: async (req, res) => {
+      // auth the connection and set the userId of the connection
+      res.success({
+        userId: "<userId>"
+      });
+    }
   }
-});
+);
 
 const app = express();
 
@@ -71,24 +62,48 @@ app.listen(3000, () =>
 );
 ```
 
+## Key concepts
+
+### Hub
+
+Hub is a logic set of connections. All connections to Web PubSub connect to a specific hub. Messages that are broadcast to the hub are dispatched to all connections to that hub. For example, hub can be used for different applications, different applications can share one Azure Web PubSub service by using different hub names.
+
+### Group
+
+Group allow broadcast messages to a subset of connections to the hub. You can add and remove users and connections as needed. A client can join multiple groups, and a group can contain multiple clients.
+
+### Group
+
+Group allow broadcast messages to a subset of connections to the hub. You can add and remove users and connections as needed. A client can join multiple groups, and a group can contain multiple clients.
+
+### User
+
+Connections to Web PubSub can belong to one user. A user might have multiple connections, for example when a single user is connected across multiple devices or multiple browser tabs.
+
+### Client Events
+
+Events are created during the lifecycle of a client connection. For example, a simple WebSocket client connection creates a `connect` event when it tries to connect to the service, a `connected` event when it successfully connected to the service, a `message` event when it sends messages to the service and a `disconnected` event when it disconnects from the service.
+
+### Event Handler
+
+Event handler contains the logic to handle the client events. Event handler needs to be registered and configured in the service through the portal or Azure CLI beforehand. The place to host the event handler logic is generally considered as the server-side.
+
+## Examples
+
 ## Troubleshooting
 
-### Enable logs
+### Dump request
 
-You can set the following environment variable to get the debug logs when using this library.
+Set `dumpRequest` to `true` to view the incoming requests.
 
-- Getting debug logs from the Web PubSub client library
+### Live Trace
 
-```bash
-export AZURE_LOG_LEVEL=verbose
-```
-
-For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
+Use **Live Trace** from the Web PubSub service portal to view the live traffic.
 
 ## Next steps
 
 Please take a look at the
-[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/signalr/signalr/samples)
+[samples][samples_ref]
 directory for detailed examples on how to use this library.
 
 ## Contributing
@@ -100,3 +115,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 [azure_sub]: https://azure.microsoft.com/free/
+[samples_ref]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub-express/samples

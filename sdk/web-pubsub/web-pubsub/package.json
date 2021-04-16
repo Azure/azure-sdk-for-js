@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub",
-  "version": "1.0.0-preview.1",
+  "version": "1.0.0-preview.3",
   "description": "Azure client library for Azure Web PubSub",
   "sdk-type": "client",
   "main": "dist/index.js",
