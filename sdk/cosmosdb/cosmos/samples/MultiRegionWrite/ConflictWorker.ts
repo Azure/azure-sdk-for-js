@@ -466,7 +466,11 @@ export class ConflictWorker {
     if (hasDeleteConflict) {
       do {
         try {
-          await container.item(items[0].id, undefined).read();
+          const response = await container.item(items[0].id, undefined).read();
+          if (response.statusCode === StatusCodes.NotFound) {
+            console.log(`Delete conflict won @ ${regionName}`);
+            return;
+          }
         } catch (err) {
           if (err.code === StatusCodes.NotFound) {
             console.log(`Delete conflict won @ ${regionName}`);
@@ -654,7 +658,11 @@ export class ConflictWorker {
     if (hasDeleteConflict) {
       do {
         try {
-          await container.item(items[0].id, undefined).read();
+          const response = await container.item(items[0].id, undefined).read();
+          if (response.statusCode === StatusCodes.NotFound) {
+            console.log(`Delete conflict won @ ${regionName}`);
+            return;
+          }
         } catch (err) {
           if (err.code === StatusCodes.NotFound) {
             console.log(`Delete conflict won @ ${regionName}`);
