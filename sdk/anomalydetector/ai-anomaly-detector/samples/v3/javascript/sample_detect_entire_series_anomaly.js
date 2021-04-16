@@ -3,10 +3,13 @@
 
 /**
  * Demonstrates how to detect anomaly points on entire series.
+ *
+ * @summary detects anomaly points on entire series.
  */
 
-const { AnomalyDetectorClient } = require("@azure/ai-anomaly-detector");
+const { AnomalyDetectorClient, KnownTimeGranularity } = require("@azure/ai-anomaly-detector");
 const { AzureKeyCredential } = require("@azure/core-auth");
+
 const fs = require("fs");
 const parse = require("csv-parse/lib/sync");
 
@@ -14,10 +17,10 @@ const parse = require("csv-parse/lib/sync");
 const dotenv = require("dotenv");
 dotenv.config();
 
-// You will need to set this environment variables in .env file or edit the following values
+// You will need to set this environment variables or edit the following values
 const apiKey = process.env["API_KEY"] || "";
 const endpoint = process.env["ENDPOINT"] || "";
-const timeSeriesDataPath = "../example-data/request-data.csv";
+const timeSeriesDataPath = "./example-data/request-data.csv";
 
 function read_series_from_file(path) {
   let result = Array();
@@ -36,7 +39,7 @@ async function main() {
   // construct request
   const request = {
     series: read_series_from_file(timeSeriesDataPath),
-    granularity: "daily"
+    granularity: KnownTimeGranularity.daily
   };
 
   // get entire detect result

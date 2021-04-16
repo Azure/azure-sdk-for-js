@@ -3,6 +3,9 @@
 
 /**
  * Demonstrates how to detect anomaly for the last point on the series.
+ *
+ * @summary detects anomaly for the last point on the series.
+ * @azsdk-weight 40
  */
 
 import {
@@ -10,7 +13,7 @@ import {
   DetectRequest,
   DetectLastPointResponse,
   TimeSeriesPoint,
-  TimeGranularity
+  KnownTimeGranularity
 } from "@azure/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -43,7 +46,7 @@ export async function main() {
   // construct request
   const request: DetectRequest = {
     series: read_series_from_file(timeSeriesDataPath),
-    granularity: TimeGranularity.daily
+    granularity: KnownTimeGranularity.daily
   };
 
   // get last detect result
