@@ -50,12 +50,12 @@ export async function main() {
   const result: DetectChangePointResponse = await client.detectChangePoint(request);
 
   if (
-    result.isChangePoint.some(function(changePoint) {
+    result.isChangePoint!.some(function(changePoint) {
       return changePoint === true;
     })
   ) {
     console.log("Change points were detected from the series at index:");
-    result.isChangePoint.forEach(function(changePoint, index) {
+    result.isChangePoint!.forEach(function(changePoint, index) {
       if (changePoint === true) console.log(index);
     });
   } else {
