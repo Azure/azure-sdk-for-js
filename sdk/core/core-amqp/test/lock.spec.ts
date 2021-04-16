@@ -7,7 +7,7 @@ import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../src";
 const should = chai.should();
 
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
+import { CancellableAsyncLock } from "../src/util/lock";
 import { settleAllTasks } from "./utils/utils";
 
 describe("CancellableAsyncLock", function() {
@@ -16,7 +16,7 @@ describe("CancellableAsyncLock", function() {
   describe(".acquire", function() {
     let lock: CancellableAsyncLock;
     beforeEach("create lock", () => {
-      lock = new CancellableAsyncLockImpl();
+      lock = new CancellableAsyncLock();
     });
 
     it("forwards values from task", async () => {
@@ -24,7 +24,12 @@ describe("CancellableAsyncLock", function() {
 
       const tasks: Promise<any>[] = [];
       for (const val of expectedValues) {
-        tasks.push(lock.acquire("lock", async () => val));
+        tasks.push(
+          lock.acquire("lock", async () => val, {
+            timeoutInMs: undefined,
+            abortSignal: undefined
+          })
+        );
       }
 
       const results = await Promise.all(tasks);
@@ -33,9 +38,13 @@ describe("CancellableAsyncLock", function() {
 
     it("forwards error from task", async () => {
       try {
-        await lock.acquire("lock", async () => {
-          throw new Error("I break things!");
-        });
+        await lock.acquire(
+          "lock",
+          async () => {
+            throw new Error("I break things!");
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        );
         throw new Error(TEST_FAILURE);
       } catch (err) {
         should.equal(err.message, "I break things!");
@@ -47,13 +56,17 @@ describe("CancellableAsyncLock", function() {
       const tasks: Promise<number>[] = [];
       for (let i = 0; i < taskCount; i++) {
         tasks.push(
-          lock.acquire("lock", async () => {
-            // Add a delay such that later tasks would resolve
-            // faster than early tasks if they all ran at the
-            // same time.
-            await delay(taskCount - i);
-            return i;
-          })
+          lock.acquire(
+            "lock",
+            async () => {
+              // Add a delay such that later tasks would resolve
+              // faster than early tasks if they all ran at the
+              // same time.
+              await delay(taskCount - i);
+              return i;
+            },
+            { timeoutInMs: undefined, abortSignal: undefined }
+          )
         );
       }
 
@@ -82,22 +95,38 @@ describe("CancellableAsyncLock", function() {
         the 1st task on key "2" to resolve.
       */
       const tasks = [
-        lock.acquire("1", async () => {
-          await delay(0);
-          return 0;
-        }),
-        lock.acquire("1", async () => {
-          await delay(0);
-          return 2;
-        }),
-        lock.acquire("2", async () => {
-          await delay(0);
-          return 1;
-        }),
-        lock.acquire("1", async () => {
-          await delay(0);
-          return 3;
-        })
+        lock.acquire(
+          "1",
+          async () => {
+            await delay(0);
+            return 0;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
+        lock.acquire(
+          "1",
+          async () => {
+            await delay(0);
+            return 2;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
+        lock.acquire(
+          "2",
+          async () => {
+            await delay(0);
+            return 1;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
+        lock.acquire(
+          "1",
+          async () => {
+            await delay(0);
+            return 3;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        )
       ];
 
       const results: number[] = [];
@@ -124,33 +153,45 @@ describe("CancellableAsyncLock", function() {
 
     it("supports timeouts", async () => {
       const tasks = [
-        lock.acquire("lock", async () => {
-          await delay(0);
-          return 0;
-        }),
-        lock.acquire("lock", async () => {
-          await delay(0);
-          return 1;
-        }),
+        lock.acquire(
+          "lock",
+          async () => {
+            await delay(0);
+            return 0;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
+        lock.acquire(
+          "lock",
+          async () => {
+            await delay(0);
+            return 1;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
         lock.acquire(
           "lock",
           async () => {
             await delay(0);
             return 2;
           },
-          { acquireTimeoutInMs: 0 }
+          { timeoutInMs: 0, abortSignal: undefined }
         ),
-        lock.acquire("lock", async () => {
-          await delay(0);
-          return 3;
-        }),
+        lock.acquire(
+          "lock",
+          async () => {
+            await delay(0);
+            return 3;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
         lock.acquire(
           "lock",
           async () => {
             await delay(0);
             return 4;
           },
-          { acquireTimeoutInMs: 0 }
+          { timeoutInMs: 0, abortSignal: undefined }
         )
       ];
 
@@ -174,33 +215,45 @@ describe("CancellableAsyncLock", function() {
       abortController.abort();
       const abortSignal = abortController.signal;
       const tasks = [
-        lock.acquire("lock", async () => {
-          await delay(0);
-          return 0;
-        }),
-        lock.acquire("lock", async () => {
-          await delay(0);
-          return 1;
-        }),
+        lock.acquire(
+          "lock",
+          async () => {
+            await delay(0);
+            return 0;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
+        lock.acquire(
+          "lock",
+          async () => {
+            await delay(0);
+            return 1;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
         lock.acquire(
           "lock",
           async () => {
             await delay(0);
             return 2;
           },
-          { abortSignal }
+          { abortSignal, timeoutInMs: undefined }
         ),
-        lock.acquire("lock", async () => {
-          await delay(0);
-          return 3;
-        }),
+        lock.acquire(
+          "lock",
+          async () => {
+            await delay(0);
+            return 3;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
         lock.acquire(
           "lock",
           async () => {
             await delay(0);
             return 4;
           },
-          { abortSignal }
+          { abortSignal, timeoutInMs: undefined }
         )
       ];
 
@@ -247,33 +300,45 @@ describe("CancellableAsyncLock", function() {
       setTimeout(() => abortController.abort(), 0);
       const abortSignal = abortController.signal;
       const tasks = [
-        lock.acquire("lock", async () => {
-          await delay(0);
-          return 0;
-        }),
-        lock.acquire("lock", async () => {
-          await delay(0);
-          return 1;
-        }),
+        lock.acquire(
+          "lock",
+          async () => {
+            await delay(0);
+            return 0;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
+        lock.acquire(
+          "lock",
+          async () => {
+            await delay(0);
+            return 1;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
         lock.acquire(
           "lock",
           async () => {
             await delay(0);
             return 2;
           },
-          { abortSignal }
+          { abortSignal, timeoutInMs: undefined }
         ),
-        lock.acquire("lock", async () => {
-          await delay(0);
-          return 3;
-        }),
+        lock.acquire(
+          "lock",
+          async () => {
+            await delay(0);
+            return 3;
+          },
+          { timeoutInMs: undefined, abortSignal: undefined }
+        ),
         lock.acquire(
           "lock",
           async () => {
             await delay(0);
             return 4;
           },
-          { abortSignal }
+          { abortSignal, timeoutInMs: undefined }
         )
       ];
 

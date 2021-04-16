@@ -15,23 +15,35 @@ export interface AcquireOptions {
    * This does not cancel running the task passed to `acquire()` if the lock has been acquired,
    * but will prevent it from running if cancelled before the task is invoked.
    */
-  abortSignal?: AbortSignalLike;
+  abortSignal: AbortSignalLike | undefined;
   /**
    * The allowed amount of time in milliseconds to acquire a lock.
    * If a lock isn't acquired within this time, the promise returned
    * by `acquire()` will be rejected with an Error.
    */
-  acquireTimeoutInMs?: number;
+  timeoutInMs: number | undefined;
 }
 
 /**
- * CancellableAsyncLock provides a mechanism for forcing tasks using the same
- * 'key' to be executed serially.
- *
- * Pending tasks can be manually cancelled via an abortSignal or automatically
- * cancelled by reach a provided timeout value.
+ * Describes the components related to a specific task.
+ * @internal
  */
-export interface CancellableAsyncLock {
+interface TaskDetails {
+  abortListener?: () => void;
+  abortSignal?: AbortSignalLike;
+  resolve: (value: unknown) => void;
+  reject: (reason: Error) => void;
+  task: (...args: any[]) => Promise<unknown>;
+  tid?: ReturnType<typeof setTimeout>;
+}
+
+/**
+ * This class is used to coordinate executing tasks that should not be run in parallel.
+ * @hidden
+ */
+export class CancellableAsyncLock {
+  private _keyMap = new Map<string, TaskDetails[]>();
+  private _executionRunningSet = new Set<string>();
   /**
    * Returns a promise that resolves to the value returned by the provided task function.
    * Only 1 task can be invoked at a time for a given `key` value.
@@ -51,36 +63,9 @@ export interface CancellableAsyncLock {
   acquire<T = void>(
     key: string,
     task: (...args: any[]) => Promise<T>,
-    options?: AcquireOptions
-  ): Promise<T>;
-}
-
-/**
- * Describes the components related to a specific task.
- * @internal
- */
-interface TaskDetails {
-  abortListener?: () => void;
-  abortSignal?: AbortSignalLike;
-  resolve: (value: unknown) => void;
-  reject: (reason: Error) => void;
-  task: (...args: any[]) => Promise<unknown>;
-  tid?: ReturnType<typeof setTimeout>;
-}
-
-/**
- * @internal
- */
-export class CancellableAsyncLockImpl implements CancellableAsyncLock {
-  private _keyMap = new Map<string, TaskDetails[]>();
-  private _executionRunningSet = new Set<string>();
-
-  acquire<T = void>(
-    key: string,
-    task: (...args: any[]) => Promise<T>,
-    options: AcquireOptions = {}
+    options: AcquireOptions
   ): Promise<T> {
-    const { abortSignal, acquireTimeoutInMs } = options;
+    const { abortSignal, timeoutInMs: acquireTimeoutInMs } = options;
     // Fast exit if the operation is already cancelled.
     if (abortSignal?.aborted) {
       return Promise.reject(new AbortError(StandardAbortMessage));

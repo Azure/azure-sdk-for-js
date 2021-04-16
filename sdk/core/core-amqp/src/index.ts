@@ -33,7 +33,6 @@ export {
 export {
   delay,
   parseConnectionString,
-  defaultCancellableLock,
   defaultLock,
   ParsedOutput,
   AsyncLock,

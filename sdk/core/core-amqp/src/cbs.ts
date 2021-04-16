@@ -92,7 +92,7 @@ export class CbsClient {
           () => {
             return this.connection.open({ abortSignal });
           },
-          { abortSignal: abortSignal }
+          { abortSignal: abortSignal, timeoutInMs: undefined }
         );
       }
 
