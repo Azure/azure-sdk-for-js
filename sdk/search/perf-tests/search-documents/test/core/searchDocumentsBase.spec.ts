@@ -1,7 +1,4 @@
-import {
-  PerfStressTest,
-  getEnvVar
-} from "@azure/test-utils-perfstress";
+import { PerfStressTest, getEnvVar } from "@azure/test-utils-perfstress";
 import {
   SearchClient,
   AzureKeyCredential,
@@ -16,8 +13,7 @@ export interface SearchDocumentsTestOptions {
   documentsCount: number;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export abstract class SearchDocumentsBase<TOptions = {}> extends PerfStressTest<TOptions> {
+export abstract class SearchDocumentsBase<TOptions = Record<string, unknown>> extends PerfStressTest<TOptions> {
   searchIndexClient: SearchIndexClient;
   searchClient: SearchClient<Hotel>;
   indexName: string;
@@ -251,9 +247,9 @@ export abstract class SearchDocumentsBase<TOptions = {}> extends PerfStressTest<
 
   public async populateIndex(documentsCount: number) {
     const hotels = generateHotels(documentsCount);
-    while(hotels.length > 0) {
+    while (hotels.length > 0) {
       const hotelsToUpload = hotels.splice(0, 100);
-      await this.searchClient.uploadDocuments(hotelsToUpload)
+      await this.searchClient.uploadDocuments(hotelsToUpload);
     }
   }
 }
