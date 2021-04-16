@@ -7,8 +7,7 @@ import { getSessionInternal, endSessionInternal } from "../internal/commonQuerie
 import { delay, AbortSignalLike } from "@azure/core-http";
 import { RemoteRendering } from "../generated/operations";
 
-export interface RenderingSessionOperationState
-  extends PollOperationState<RenderingSession> {
+export interface RenderingSessionOperationState extends PollOperationState<RenderingSession> {
   /**
    * The latest response when querying the service. The session may or may not be ready.
    */
@@ -114,11 +113,7 @@ export class RenderingSessionPoller extends Poller<
    */
   public intervalInMs: number = 10000;
 
-  constructor(
-    accountId: string,
-    operations: RemoteRendering,
-    RenderingSession: RenderingSession
-  ) {
+  constructor(accountId: string, operations: RemoteRendering, RenderingSession: RenderingSession) {
     super(
       new RenderingSessionOperation(
         accountId,

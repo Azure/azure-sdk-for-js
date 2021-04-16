@@ -6,7 +6,7 @@ import {
   OperationOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  InternalPipelineOptions,
+  InternalPipelineOptions
 } from "@azure/core-http";
 import { SpanStatusCode } from "@azure/core-tracing";
 
@@ -86,10 +86,7 @@ export {
   KnownRenderingServerSize
 };
 
-export type AssetConversionPollerLike = PollerLike<
-  AssetConversionOperationState,
-  AssetConversion
->;
+export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 export type RenderingSessionPollerLike = PollerLike<
   RenderingSessionOperationState,
   RenderingSession
@@ -492,10 +489,7 @@ export class RemoteRenderingClient {
    *                  underscores, and cannot contain more than 256 characters.
    * @param options The options parameters.
    */
-  public async endSession(
-    sessionId: string,
-    options?: OperationOptions
-  ): Promise<void> {
+  public async endSession(sessionId: string, options?: OperationOptions): Promise<void> {
     return endSessionInternal(
       this.accountId,
       this.operations,

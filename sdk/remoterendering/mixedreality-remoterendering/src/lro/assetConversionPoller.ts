@@ -7,8 +7,7 @@ import { RemoteRendering } from "../generated/operations";
 import { getConversionInternal } from "../internal/commonQueries";
 import { delay, AbortSignalLike } from "@azure/core-http";
 
-export interface AssetConversionOperationState
-  extends PollOperationState<AssetConversion> {
+export interface AssetConversionOperationState extends PollOperationState<AssetConversion> {
   /**
    * The latest response when querying the service. The conversion may or may not be completed.
    */
@@ -97,11 +96,7 @@ export class AssetConversionPoller extends Poller<
    */
   public intervalInMs: number = 10000;
 
-  constructor(
-    accountId: string,
-    operations: RemoteRendering,
-    assetConversion: AssetConversion
-  ) {
+  constructor(accountId: string, operations: RemoteRendering, assetConversion: AssetConversion) {
     super(
       new AssetConversionOperation(
         accountId,
