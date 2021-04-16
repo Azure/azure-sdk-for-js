@@ -12,3 +12,4 @@ export {
   RecorderEnvironmentSetup
 } from "./utils";
 export { jsonRecordingFilterFunction } from "./basekarma.conf";
+export { sanitizationPolicy } from "./utils/sanitizationPolicy";
