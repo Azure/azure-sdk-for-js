@@ -7,11 +7,17 @@
  */
 
 import * as coreHttp from "@azure/core-http";
+import "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { createSpan } from "./tracing";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
 import {
   GeneratedClientOptionalParams,
+  ModelSnapshot,
+  GeneratedClientListMultivariateModelNextOptionalParams,
+  GeneratedClientListMultivariateModelOptionalParams,
   DetectRequest,
   GeneratedClientDetectEntireSeriesResponse,
   GeneratedClientDetectLastPointResponse,
@@ -24,12 +30,13 @@ import {
   GeneratedClientDetectAnomalyResponse,
   GeneratedClientGetDetectionResultResponse,
   GeneratedClientExportModelResponse,
-  GeneratedClientListMultivariateModelOptionalParams,
   GeneratedClientListMultivariateModelResponse,
-  GeneratedClientListMultivariateModelNextOptionalParams,
   GeneratedClientListMultivariateModelNextResponse
 } from "./models";
+import { SpanStatusCode } from "@azure/core-tracing";
 
+/// <reference lib="esnext.asynciterable" />
+/** @hidden */
 export class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
@@ -42,6 +49,48 @@ export class GeneratedClient extends GeneratedClientContext {
   }
 
   /**
+   * List models of a subscription
+   * @param options The options parameters.
+   */
+  public listMultivariateModel(
+    options?: GeneratedClientListMultivariateModelOptionalParams
+  ): PagedAsyncIterableIterator<ModelSnapshot> {
+    const iter = this.listMultivariateModelPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: () => {
+        return this.listMultivariateModelPagingPage(options);
+      }
+    };
+  }
+
+  private async *listMultivariateModelPagingPage(
+    options?: GeneratedClientListMultivariateModelOptionalParams
+  ): AsyncIterableIterator<ModelSnapshot[]> {
+    let result = await this._listMultivariateModel(options);
+    yield result.models || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listMultivariateModelNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      yield result.models || [];
+    }
+  }
+
+  private async *listMultivariateModelPagingAll(
+    options?: GeneratedClientListMultivariateModelOptionalParams
+  ): AsyncIterableIterator<ModelSnapshot> {
+    for await (const page of this.listMultivariateModelPagingPage(options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * This operation generates a model with an entire series, each point is detected with the same model.
    * With this method, points before and after a certain point are used to determine whether it is an
    * anomaly. The entire detection can give user an overall status of the time series.
@@ -49,17 +98,33 @@ export class GeneratedClient extends GeneratedClientContext {
    *             the request.
    * @param options The options parameters.
    */
-  detectEntireSeries(
+  async detectEntireSeries(
     body: DetectRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientDetectEntireSeriesResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+    const { span, updatedOptions } = createSpan(
+      "GeneratedClient-detectEntireSeries",
       options || {}
     );
-    return this.sendOperationRequest(
-      { body, options: operationOptions },
-      detectEntireSeriesOperationSpec
-    ) as Promise<GeneratedClientDetectEntireSeriesResponse>;
+    const operationArguments: coreHttp.OperationArguments = {
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        detectEntireSeriesOperationSpec
+      );
+      return result as GeneratedClientDetectEntireSeriesResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -70,17 +135,30 @@ export class GeneratedClient extends GeneratedClientContext {
    *             the request.
    * @param options The options parameters.
    */
-  detectLastPoint(
+  async detectLastPoint(
     body: DetectRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientDetectLastPointResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.sendOperationRequest(
-      { body, options: operationOptions },
-      detectLastPointOperationSpec
-    ) as Promise<GeneratedClientDetectLastPointResponse>;
+    const { span, updatedOptions } = createSpan("GeneratedClient-detectLastPoint", options || {});
+    const operationArguments: coreHttp.OperationArguments = {
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        detectLastPointOperationSpec
+      );
+      return result as GeneratedClientDetectLastPointResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -89,17 +167,30 @@ export class GeneratedClient extends GeneratedClientContext {
    *             in the request if needed.
    * @param options The options parameters.
    */
-  detectChangePoint(
+  async detectChangePoint(
     body: DetectChangePointRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientDetectChangePointResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.sendOperationRequest(
-      { body, options: operationOptions },
-      detectChangePointOperationSpec
-    ) as Promise<GeneratedClientDetectChangePointResponse>;
+    const { span, updatedOptions } = createSpan("GeneratedClient-detectChangePoint", options || {});
+    const operationArguments: coreHttp.OperationArguments = {
+      body,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        detectChangePointOperationSpec
+      );
+      return result as GeneratedClientDetectChangePointResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -110,17 +201,33 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param modelRequest Training request
    * @param options The options parameters.
    */
-  trainMultivariateModel(
+  async trainMultivariateModel(
     modelRequest: ModelInfo,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientTrainMultivariateModelResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+    const { span, updatedOptions } = createSpan(
+      "GeneratedClient-trainMultivariateModel",
       options || {}
     );
-    return this.sendOperationRequest(
-      { modelRequest, options: operationOptions },
-      trainMultivariateModelOperationSpec
-    ) as Promise<GeneratedClientTrainMultivariateModelResponse>;
+    const operationArguments: coreHttp.OperationArguments = {
+      modelRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        trainMultivariateModelOperationSpec
+      );
+      return result as GeneratedClientTrainMultivariateModelResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -129,17 +236,33 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param modelId Model identifier.
    * @param options The options parameters.
    */
-  getMultivariateModel(
+  async getMultivariateModel(
     modelId: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientGetMultivariateModelResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+    const { span, updatedOptions } = createSpan(
+      "GeneratedClient-getMultivariateModel",
       options || {}
     );
-    return this.sendOperationRequest(
-      { modelId, options: operationOptions },
-      getMultivariateModelOperationSpec
-    ) as Promise<GeneratedClientGetMultivariateModelResponse>;
+    const operationArguments: coreHttp.OperationArguments = {
+      modelId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        getMultivariateModelOperationSpec
+      );
+      return result as GeneratedClientGetMultivariateModelResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -147,17 +270,33 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param modelId Model identifier.
    * @param options The options parameters.
    */
-  deleteMultivariateModel(
+  async deleteMultivariateModel(
     modelId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+    const { span, updatedOptions } = createSpan(
+      "GeneratedClient-deleteMultivariateModel",
       options || {}
     );
-    return this.sendOperationRequest(
-      { modelId, options: operationOptions },
-      deleteMultivariateModelOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+    const operationArguments: coreHttp.OperationArguments = {
+      modelId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        deleteMultivariateModelOperationSpec
+      );
+      return result as coreHttp.RestResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -171,18 +310,32 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param detectionRequest Detect anomaly request
    * @param options The options parameters.
    */
-  detectAnomaly(
+  async detectAnomaly(
     modelId: string,
     detectionRequest: DetectionRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientDetectAnomalyResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.sendOperationRequest(
-      { modelId, detectionRequest, options: operationOptions },
-      detectAnomalyOperationSpec
-    ) as Promise<GeneratedClientDetectAnomalyResponse>;
+    const { span, updatedOptions } = createSpan("GeneratedClient-detectAnomaly", options || {});
+    const operationArguments: coreHttp.OperationArguments = {
+      modelId,
+      detectionRequest,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        detectAnomalyOperationSpec
+      );
+      return result as GeneratedClientDetectAnomalyResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -190,17 +343,33 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param resultId Result identifier.
    * @param options The options parameters.
    */
-  getDetectionResult(
+  async getDetectionResult(
     resultId: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientGetDetectionResultResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+    const { span, updatedOptions } = createSpan(
+      "GeneratedClient-getDetectionResult",
       options || {}
     );
-    return this.sendOperationRequest(
-      { resultId, options: operationOptions },
-      getDetectionResultOperationSpec
-    ) as Promise<GeneratedClientGetDetectionResultResponse>;
+    const operationArguments: coreHttp.OperationArguments = {
+      resultId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        getDetectionResultOperationSpec
+      );
+      return result as GeneratedClientGetDetectionResultResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -208,33 +377,58 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param modelId Model identifier.
    * @param options The options parameters.
    */
-  exportModel(
+  async exportModel(
     modelId: string,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientExportModelResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
-    return this.sendOperationRequest(
-      { modelId, options: operationOptions },
-      exportModelOperationSpec
-    ) as Promise<GeneratedClientExportModelResponse>;
+    const { span, updatedOptions } = createSpan("GeneratedClient-exportModel", options || {});
+    const operationArguments: coreHttp.OperationArguments = {
+      modelId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(operationArguments, exportModelOperationSpec);
+      return result as GeneratedClientExportModelResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
    * List models of a subscription
    * @param options The options parameters.
    */
-  listMultivariateModel(
+  private async _listMultivariateModel(
     options?: GeneratedClientListMultivariateModelOptionalParams
   ): Promise<GeneratedClientListMultivariateModelResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+    const { span, updatedOptions } = createSpan(
+      "GeneratedClient-_listMultivariateModel",
       options || {}
     );
-    return this.sendOperationRequest(
-      { options: operationOptions },
-      listMultivariateModelOperationSpec
-    ) as Promise<GeneratedClientListMultivariateModelResponse>;
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        listMultivariateModelOperationSpec
+      );
+      return result as GeneratedClientListMultivariateModelResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -242,21 +436,36 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param nextLink The nextLink from the previous successful call to the ListMultivariateModel method.
    * @param options The options parameters.
    */
-  listMultivariateModelNext(
+  private async _listMultivariateModelNext(
     nextLink: string,
     options?: GeneratedClientListMultivariateModelNextOptionalParams
   ): Promise<GeneratedClientListMultivariateModelNextResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+    const { span, updatedOptions } = createSpan(
+      "GeneratedClient-_listMultivariateModelNext",
       options || {}
     );
-    return this.sendOperationRequest(
-      { nextLink, options: operationOptions },
-      listMultivariateModelNextOperationSpec
-    ) as Promise<GeneratedClientListMultivariateModelNextResponse>;
+    const operationArguments: coreHttp.OperationArguments = {
+      nextLink,
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
+    };
+    try {
+      const result = await this.sendOperationRequest(
+        operationArguments,
+        listMultivariateModelNextOperationSpec
+      );
+      return result as GeneratedClientListMultivariateModelNextResponse;
+    } catch (error) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: error.message
+      });
+      throw error;
+    } finally {
+      span.end();
+    }
   }
 }
 // Operation Specifications
-
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const detectEntireSeriesOperationSpec: coreHttp.OperationSpec = {
@@ -339,7 +548,7 @@ const getMultivariateModelOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const deleteMultivariateModelOperationSpec: coreHttp.OperationSpec = {
@@ -352,7 +561,7 @@ const deleteMultivariateModelOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const detectAnomalyOperationSpec: coreHttp.OperationSpec = {
@@ -384,7 +593,7 @@ const getDetectionResultOperationSpec: coreHttp.OperationSpec = {
     }
   },
   urlParameters: [Parameters.endpoint, Parameters.resultId],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const exportModelOperationSpec: coreHttp.OperationSpec = {
@@ -401,7 +610,7 @@ const exportModelOperationSpec: coreHttp.OperationSpec = {
     default: {}
   },
   urlParameters: [Parameters.endpoint, Parameters.modelId],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept1],
   serializer
 };
 const listMultivariateModelOperationSpec: coreHttp.OperationSpec = {
@@ -417,7 +626,7 @@ const listMultivariateModelOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.skip, Parameters.top],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listMultivariateModelNextOperationSpec: coreHttp.OperationSpec = {
@@ -433,6 +642,6 @@ const listMultivariateModelNextOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [Parameters.skip, Parameters.top],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept1],
+  headerParameters: [Parameters.accept],
   serializer
 };

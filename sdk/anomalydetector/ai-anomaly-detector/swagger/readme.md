@@ -13,11 +13,13 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/AnomalyDetector/preview/v1.0/AnomalyDetector.json
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/AnomalyDetector/readme.md
 add-credentials: false
-use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200817.1"
-package-version: "3.0.0-preview.1"
+package-version: "3.0.0-beta.3"
+tracing-info:
+  namespace: "Microsoft.CognitiveServices"
+  packagePrefix: "Azure.CognitiveServices.AnomalyDetector"
+hide-clients: true
 ```
 
 ```yaml

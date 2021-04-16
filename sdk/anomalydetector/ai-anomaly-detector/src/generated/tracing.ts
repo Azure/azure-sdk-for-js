@@ -6,7 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-/// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { GeneratedClient } from "./generatedClient";
-export { GeneratedClientContext } from "./generatedClientContext";
+import { createSpanFunction } from "@azure/core-tracing";
+
+export const createSpan = createSpanFunction({
+  namespace: "Microsoft.CognitiveServices",
+  packagePrefix: "Azure.CognitiveServices.AnomalyDetector"
+});

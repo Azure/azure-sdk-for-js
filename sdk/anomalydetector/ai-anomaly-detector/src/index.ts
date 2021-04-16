@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export { AnomalyDetectorClient } from "./AnomalyDetectorClient";
 export {
-  AnomalyDetectorClient,
-  DetectEntireSeriesOptions,
-  DetectLastPointOptions,
-  DetectChangePointOptions,
-  TrainMultivariateModelOptions,
-  GetMultivariateModelOptions,
-  DeleteMultivariateModelOptions,
-  DetectAnomalyOptions,
-  GetDetectionResultOptions,
-  ExportModelOptions
-} from "./AnomalyDetectorClient";
+  GeneratedClient as AnomalyDetectorClientBase,
+  GeneratedClientContext as AnomalyDetectorClientContext,
+  GeneratedClientOptionalParams as AnomalyDetectorClientOptionalParams
+} from "./generated";
 export * from "./models";
