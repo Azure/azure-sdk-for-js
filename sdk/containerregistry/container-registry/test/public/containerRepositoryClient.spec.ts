@@ -8,7 +8,6 @@ import { ContainerRegistryClient, ContainerRepositoryClient } from "../../src";
 import { delay, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { importImage } from "./importImages";
 import { createRegistryClient, createRepositoryClient, recorderEnvSetup } from "./utils";
 
 if (isNode) {
@@ -33,13 +32,6 @@ describe("ContainerRepositoryClient functional tests", function() {
 
     registryClient = createRegistryClient();
     repositoryClient = createRepositoryClient(repository);
-
-    // ensure we have repository in the registry with two tags
-    const iter = registryClient.listRepositories();
-    const next = await iter.next();
-    if (!next.value) {
-      await importImage(repository, ["test1", "test-delete"]);
-    }
   });
 
   // After each test, we need to stop the recording.
