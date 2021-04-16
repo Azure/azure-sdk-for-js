@@ -23,11 +23,7 @@ import {
   retry,
   AmqpAnnotatedMessage
 } from "@azure/core-amqp";
-import {
-  ServiceBusMessage,
-  getMessagePropertyTypeMismatchError,
-  toRheaMessage
-} from "../serviceBusMessage";
+import { ServiceBusMessage, toRheaMessage } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
@@ -363,19 +359,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const amqpMessage = toRheaMessage(data, defaultDataTransformer);
 
       // TODO: this body of logic is really similar to what's in sendMessages. Unify what we can.
-      let encodedMessage;
-      try {
-        encodedMessage = RheaMessageUtil.encode(amqpMessage);
-      } catch (error) {
-        if (error instanceof TypeError || error.name === "TypeError") {
-          // `RheaMessageUtil.encode` can fail if message properties are of invalid type
-          // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-          // Errors in such cases do not have user-friendly message or call stack
-          // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          throw getMessagePropertyTypeMismatchError(data) || error;
-        }
-        throw error;
-      }
+      let encodedMessage = RheaMessageUtil.encode(amqpMessage);
       logger.verbose("%s Sender '%s', trying to send message: %O", this.logPrefix, this.name, data);
       return await this._trySend(encodedMessage, false, options);
     } catch (err) {
@@ -418,14 +402,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       for (let i = 0; i < inputMessages.length; i++) {
         const amqpMessage = toRheaMessage(inputMessages[i], defaultDataTransformer);
         amqpMessages[i] = amqpMessage;
-        try {
-          encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
-        } catch (error) {
-          if (error instanceof TypeError || error.name === "TypeError") {
-            throw getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
-          }
-          throw error;
-        }
+        encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
       }
 
       // Convert every encoded message to amqp data section

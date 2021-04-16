@@ -14,9 +14,9 @@ export interface DetectRequest {
    */
   series: TimeSeriesPoint[];
   /**
-   * Can only be one of yearly, monthly, weekly, daily, hourly, minutely or secondly. Granularity is used for verify whether input series is valid.
+   * Optional argument, can be one of yearly, monthly, weekly, daily, hourly, minutely, secondly, microsecond or none. If granularity is not present, it will be none by default. If granularity is none, the timestamp property in time series point can be absent.
    */
-  granularity: TimeGranularity;
+  granularity?: TimeGranularity;
   /**
    * Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
    */
@@ -37,9 +37,9 @@ export interface DetectRequest {
 
 export interface TimeSeriesPoint {
   /**
-   * Timestamp of a data point (ISO8601 format).
+   * Optional argument, timestamp of a data point (ISO8601 format).
    */
-  timestamp: Date;
+  timestamp?: Date;
   /**
    * The measurement of that point, should be float.
    */
@@ -157,15 +157,314 @@ export interface DetectChangePointResponse {
   /**
    * Frequency extracted from the series, zero means no recurrent pattern has been found.
    */
-  period: number;
+  readonly period?: number;
   /**
    * isChangePoint contains change point properties for each input point. True means an anomaly either negative or positive has been detected. The index of the array is consistent with the input series.
    */
-  isChangePoint: boolean[];
+  isChangePoint?: boolean[];
   /**
    * the change point confidence of each point
    */
-  confidenceScores: number[];
+  confidenceScores?: number[];
+}
+
+/**
+ * Train result of a model including status, errors and diagnose info for model and variables.
+ */
+export interface ModelInfo {
+  /**
+   * An optional field, indicates how many history points will be used to determine the anomaly score of one subsequent point.
+   */
+  slidingWindow?: number;
+  /**
+   * An optional field, since those multivariate need to be aligned in the same timestamp before starting the detection.
+   */
+  alignPolicy?: AlignPolicy;
+  /**
+   * source file link of the input variables, each variable will be a csv with two columns, the first column will be timestamp, the second column will be value.Besides these variable csv files, an extra meta.json can be included in th zip file if you would like to rename a variable.Be default, the file name of the variable will be used as the variable name.
+   */
+  source: string;
+  /**
+   * require field, start time of data be used for generating multivariate anomaly detection model, should be data-time
+   */
+  startTime: Date;
+  /**
+   * require field, end time of data be used for generating multivariate anomaly detection model, should be data-time
+   */
+  endTime: Date;
+  /**
+   * optional field, name of the model
+   */
+  displayName?: string;
+  /**
+   * Model training status.
+   */
+  readonly status?: ModelStatus;
+  /**
+   * Error message when fails to create a model.
+   */
+  readonly errors?: ErrorResponse[];
+  /**
+   * Used for deep analysis model and variables
+   */
+  readonly diagnosticsInfo?: DiagnosticsInfo;
+}
+
+export interface AlignPolicy {
+  /**
+   * An optional field, indicates how we align different variables into the same time-range which is required by the model.{Inner, Outer}
+   */
+  alignMode?: AlignMode;
+  /**
+   * An optional field, indicates how missed values will be filled with. Can not be set to NotFill, when alignMode is Outer.{Previous, Subsequent, Linear, Zero, Fix, NotFill}
+   */
+  fillNAMethod?: FillNAMethod;
+  /**
+   * optional field, only be useful if FillNAMethod is set to Pad.
+   */
+  paddingValue?: number;
+}
+
+export interface ErrorResponse {
+  /**
+   * The error Code
+   */
+  code: string;
+  /**
+   * A message explaining the error reported by the service.
+   */
+  message: string;
+}
+
+export interface DiagnosticsInfo {
+  modelState?: ModelState;
+  variableStates?: VariableState[];
+}
+
+export interface ModelState {
+  /**
+   * Epoch id
+   */
+  epochIds?: number[];
+  trainLosses?: number[];
+  validationLosses?: number[];
+  latenciesInSeconds?: number[];
+}
+
+export interface VariableState {
+  /**
+   * Variable name.
+   */
+  variable?: string;
+  /**
+   * Merged NA ratio of a variable.
+   */
+  filledNARatio?: number;
+  /**
+   * Effective time-series points count.
+   */
+  effectiveCount?: number;
+  /**
+   * Start time of a variable
+   */
+  startTime?: Date;
+  /**
+   * End time of a variable
+   */
+  endTime?: Date;
+  /**
+   * Error message when parse variable
+   */
+  errors?: ErrorResponse[];
+}
+
+/**
+ * Response of get model.
+ */
+export interface Model {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Date and time (UTC) when the model was created.
+   */
+  createdTime: Date;
+  /**
+   * Date and time (UTC) when the model was last updated.
+   */
+  lastUpdatedTime: Date;
+  /**
+   * Training Status of the model.
+   */
+  modelInfo?: ModelInfo;
+}
+
+/**
+ * Request to submit a detection.
+ */
+export interface DetectionRequest {
+  /**
+   * source file link of the input variables, each variable will be a csv with two columns, the first column will be timestamp, the second column will be value.Besides these variable csv files, a extra meta.json can be included in th zip file if you would like to rename a variable.Be default, the file name of the variable will be used as the variable name. The variables used in detection should be consistent with variables in the model used for detection.
+   */
+  source: string;
+  /**
+   * A require field, start time of data be used for detection, should be date-time.
+   */
+  startTime: Date;
+  /**
+   * A require field, end time of data be used for detection, should be date-time.
+   */
+  endTime: Date;
+}
+
+/**
+ * Anomaly Response of one detection corresponds to a resultId.
+ */
+export interface DetectionResult {
+  resultId: string;
+  /**
+   * Multivariate anomaly detection status
+   */
+  summary: DetectionResultSummary;
+  /**
+   * anomaly status of each timestamp
+   */
+  results: AnomalyState[];
+}
+
+export interface DetectionResultSummary {
+  /**
+   * Multivariate anomaly detection status
+   */
+  status: DetectionStatus;
+  /**
+   * Error message when creating or training model fails.
+   */
+  errors?: ErrorResponse[];
+  variableStates?: VariableState[];
+  /**
+   * Request when creating the model.
+   */
+  setupInfo: DetectionRequest;
+}
+
+export interface AnomalyState {
+  /**
+   * timestamp
+   */
+  timestamp: Date;
+  value?: AnomalyValue;
+  /**
+   * Error message when inference this timestamp
+   */
+  errors?: ErrorResponse[];
+}
+
+export interface AnomalyValue {
+  /**
+   * If current timestamp is an anomaly, contributors will show potential root cause for thus anomaly. Contributors can help us understand why current timestamp has been detected as an anomaly.
+   */
+  contributors?: AnomalyContributor[];
+  /**
+   * To indicate whether current timestamp is anomaly or not
+   */
+  isAnomaly: boolean;
+  /**
+   * anomaly score of the current timestamp, the more significant an anomaly is, the higher the score will be
+   */
+  severity: number;
+  /**
+   * anomaly score of the current timestamp, the more significant an anomaly is, the higher the score will be, score measures global significance
+   */
+  score?: number;
+}
+
+export interface AnomalyContributor {
+  /**
+   * The higher the contribution score is, the more likely the variable to be the root cause of a anomaly.
+   */
+  contributionScore?: number;
+  /**
+   * Variable name of a contributor
+   */
+  variable?: string;
+}
+
+/**
+ * Response to the list models operation.
+ */
+export interface ModelList {
+  /**
+   * List of models
+   */
+  models: ModelSnapshot[];
+  /**
+   * Current count of trained multivariate models.
+   */
+  currentCount: number;
+  /**
+   * Max number of models that can be trained for this subscription.
+   */
+  maxCount: number;
+  /**
+   * next link to fetch more models
+   */
+  nextLink?: string;
+}
+
+export interface ModelSnapshot {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Date and time (UTC) when the model was created.
+   */
+  createdTime: Date;
+  /**
+   * Date and time (UTC) when the model was last updated.
+   */
+  lastUpdatedTime: Date;
+  /**
+   * Model training status.
+   */
+  readonly status: ModelStatus;
+  displayName?: string;
+  /**
+   * Count of variables
+   */
+  variablesCount: number;
+}
+
+/**
+ * Defines headers for GeneratedClient_trainMultivariateModel operation.
+ */
+export interface GeneratedClientTrainMultivariateModelHeaders {
+  /**
+   * Location and ID of the model being saved.
+   */
+  location?: string;
+}
+
+/**
+ * Defines headers for GeneratedClient_detectAnomaly operation.
+ */
+export interface GeneratedClientDetectAnomalyHeaders {
+  /**
+   * Location and ID of the detection result being saved.
+   */
+  location?: string;
+}
+
+/**
+ * Defines headers for GeneratedClient_exportModel operation.
+ */
+export interface GeneratedClientExportModelHeaders {
+  /**
+   * application/zip
+   */
+  contentType?: string;
 }
 
 /**
@@ -192,7 +491,31 @@ export type TimeGranularity =
   | "daily"
   | "hourly"
   | "minutely"
-  | "secondly";
+  | "secondly"
+  | "microsecond"
+  | "none";
+/**
+ * Defines values for AlignMode.
+ */
+export type AlignMode = "Inner" | "Outer";
+/**
+ * Defines values for FillNAMethod.
+ */
+export type FillNAMethod =
+  | "Previous"
+  | "Subsequent"
+  | "Linear"
+  | "Zero"
+  | "Pad"
+  | "NotFill";
+/**
+ * Defines values for ModelStatus.
+ */
+export type ModelStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
+/**
+ * Defines values for DetectionStatus.
+ */
+export type DetectionStatus = "CREATED" | "RUNNING" | "READY" | "FAILED";
 
 /**
  * Contains response data for the detectEntireSeries operation.
@@ -251,6 +574,176 @@ export type GeneratedClientDetectChangePointResponse = DetectChangePointResponse
      * The response body as parsed JSON or XML
      */
     parsedBody: DetectChangePointResponse;
+  };
+};
+
+/**
+ * Contains response data for the trainMultivariateModel operation.
+ */
+export type GeneratedClientTrainMultivariateModelResponse = GeneratedClientTrainMultivariateModelHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientTrainMultivariateModelHeaders;
+  };
+};
+
+/**
+ * Contains response data for the getMultivariateModel operation.
+ */
+export type GeneratedClientGetMultivariateModelResponse = Model & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Model;
+  };
+};
+
+/**
+ * Contains response data for the detectAnomaly operation.
+ */
+export type GeneratedClientDetectAnomalyResponse = GeneratedClientDetectAnomalyHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientDetectAnomalyHeaders;
+  };
+};
+
+/**
+ * Contains response data for the getDetectionResult operation.
+ */
+export type GeneratedClientGetDetectionResultResponse = DetectionResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DetectionResult;
+  };
+};
+
+/**
+ * Contains response data for the exportModel operation.
+ */
+export type GeneratedClientExportModelResponse = GeneratedClientExportModelHeaders & {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always `undefined` in node.js.
+   */
+  blobBody?: Promise<Blob>;
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always `undefined` in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: GeneratedClientExportModelHeaders;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientListMultivariateModelOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * $skip indicates how many models will be skipped.
+   */
+  skip?: number;
+  /**
+   * $top indicates how many models will be fetched.
+   */
+  top?: number;
+}
+
+/**
+ * Contains response data for the listMultivariateModel operation.
+ */
+export type GeneratedClientListMultivariateModelResponse = ModelList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModelList;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientListMultivariateModelNextOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * $skip indicates how many models will be skipped.
+   */
+  skip?: number;
+  /**
+   * $top indicates how many models will be fetched.
+   */
+  top?: number;
+}
+
+/**
+ * Contains response data for the listMultivariateModelNext operation.
+ */
+export type GeneratedClientListMultivariateModelNextResponse = ModelList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ModelList;
   };
 };
 

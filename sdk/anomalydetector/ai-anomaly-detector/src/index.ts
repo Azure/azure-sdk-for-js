@@ -5,6 +5,12 @@ export {
   AnomalyDetectorClient,
   DetectEntireSeriesOptions,
   DetectLastPointOptions,
-  DetectChangePointOptions
+  DetectChangePointOptions,
+  TrainMultivariateModelOptions,
+  GetMultivariateModelOptions,
+  DeleteMultivariateModelOptions,
+  DetectAnomalyOptions,
+  GetDetectionResultOptions,
+  ExportModelOptions
 } from "./AnomalyDetectorClient";
 export * from "./models";

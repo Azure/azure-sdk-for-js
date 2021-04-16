@@ -40,7 +40,8 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
 
     this.requestContentType = "application/json; charset=utf-8";
 
-    this.baseUri = options.endpoint || "{Endpoint}/anomalydetector/v1.0";
+    this.baseUri =
+      options.endpoint || "{Endpoint}/anomalydetector/v1.1-preview";
 
     // Parameter assignments
     this.endpoint = endpoint;
