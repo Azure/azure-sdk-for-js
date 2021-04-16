@@ -335,6 +335,17 @@ ruleTester.run("ts-package-json-name", rule, {
       ]
     },
     {
+      // not kebab-case
+      code: '{"name": "@azure-rest/service-bus"}',
+      filename: "not-service-bus/package.json",
+      errors: [
+        {
+          message:
+            "service should be named '@azure-rest/not-service-bus' or should be moved to a directory called 'service-bus-rest'"
+        }
+      ]
+    },
+    {
       // example file with name set to service-bus
       code: examplePackageBad,
       filename: "service-bus/package.json",

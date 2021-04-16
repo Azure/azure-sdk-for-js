@@ -38,6 +38,7 @@ export = {
           ): void => {
             const nodeValue = node.value as Literal;
             const name = nodeValue.value as string;
+            const subScope = getSubScope(name);
 
             // Check for a valid scope
             if (!/^@azure(-[a-z]+)?\//.test(name)) {
@@ -65,9 +66,10 @@ export = {
                 });
               }
             } else if (!isValidFolder(name, packageDirectory)) {
+              const subScopeSuffix = subScope ?? "";
               context.report({
                 node: nodeValue,
-                message: `service should be named '@azure/${packageDirectory}' or should be moved to a directory called '${packageBaseName}'`
+                message: `service should be named '@azure${subScopeSuffix}/${packageDirectory}' or should be moved to a directory called '${packageBaseName}${subScopeSuffix}'`
               });
             }
           }
@@ -76,14 +78,19 @@ export = {
   }
 };
 
-function isValidFolder(packageName: string, folderName: string) {
-  // Check if there is a sub scope i.e @azure-rest
-  const [_, subScope] = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
-  // eslint-disable-next-line no-empty
+function isValidFolder(packageName: string, folderName: string): boolean {
+  const subScope = getSubScope(packageName);
   if (!subScope) {
     return RegExp(`^@azure(-[a-z]+)?\/${folderName}`).test(packageName);
   }
 
   // If there is a subScope, allow the  folder name to have it appended at the end i.e folder-name-subscope
   return RegExp(`^@azure(-[a-z]+)?\/${folderName}`).test(`${packageName}${subScope}`);
+}
+
+function getSubScope(packageName: string): string | undefined {
+  // Check if there is a sub scope i.e @azure-rest
+  const [_, subScope] = packageName.match(/^@azure(-[a-z]+)?\//) ?? [];
+
+  return subScope;
 }
