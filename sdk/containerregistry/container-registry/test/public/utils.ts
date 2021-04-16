@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 import { ClientSecretCredential } from "@azure/identity";
-import { env, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { ContainerRegistryClient, ContainerRepositoryClient } from "../../src";
+import { GeneratedClient } from "../../src/generated";
+import { sanitizationPolicyV2 } from "./sanitizationPolicyV2";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -34,11 +36,11 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
   // replacements within recordings.
   customizationsOnRecordings: [
     (recording: string): string =>
-      recording.replace(/"refresh_token":"[^"]*"/g, `"refresh_token":"refresh_token"`),
-    (recording: string): string =>
-      recording.replace(/access_token=(.+?)(&|")/, `access_token=access_token$2`),
-    (recording: string): string =>
-      recording.replace(/refresh_token=(.+?)(&|")/, `refresh_token=refresh_token$2`)
+      recording
+        .replace(/"refresh_token":"[^"]*"/g, `"refresh_token":"refresh_token"`)
+        .replace(/access_token=(.+?)(&|")/, `access_token=access_token$2`)
+        .replace(/refresh_token=(.+?)(&|")/, `refresh_token=refresh_token$2`)
+        .replace(/scope=(.+?)(&|")/, `scope=https%3A%2F%2Fsanitized%2F$2`)
   ]
 };
 
@@ -58,7 +60,22 @@ export function createRegistryClient(): ContainerRegistryClient {
     env.AZURE_CLIENT_SECRET
   );
 
-  return new ContainerRegistryClient(endpoint, credential);
+  const client = new ContainerRegistryClient(endpoint, credential);
+  if (isPlaybackMode()) {
+    // inject sanitizationPolicy
+    const policy = sanitizationPolicyV2({
+      headerNames: [],
+      searchParamNames: [],
+      bodySanitizers: [
+        (body: string): string =>
+          body.replace(/scope=https(.+?)(&+|$)/, `scope=https%3A%2F%2Fsanitized%2F$2`)
+      ]
+    });
+    ((client as any).authClient as GeneratedClient).pipeline.addPolicy(policy, {
+      afterPhase: "Serialize"
+    });
+  }
+  return client;
 }
 
 export function createRepositoryClient(repository: string): ContainerRepositoryClient {
@@ -77,5 +94,20 @@ export function createRepositoryClient(repository: string): ContainerRepositoryC
     env.AZURE_CLIENT_SECRET
   );
 
-  return new ContainerRepositoryClient(endpoint, repository, credential);
+  const client = new ContainerRepositoryClient(endpoint, repository, credential);
+  if (isPlaybackMode()) {
+    // inject sanitizationPolicy
+    const policy = sanitizationPolicyV2({
+      headerNames: [],
+      searchParamNames: [],
+      bodySanitizers: [
+        (body: string): string =>
+          body.replace(/scope=https(.+?)(&+|$)/, `scope=https%3A%2F%2Fsanitized%2F$2`)
+      ]
+    });
+    ((client as any).authClient as GeneratedClient).pipeline.addPolicy(policy, {
+      afterPhase: "Serialize"
+    });
+  }
+  return client;
 }
