@@ -55,7 +55,9 @@ describe("IdentityClient", function() {
       "secret",
       mockHttp.tokenCredentialOptions
     );
+
     await assertRejects(credential.getToken("https://test/.default"), (error) => {
+      // Keep in ind that this credential has different implementations in Node an in browsers.
       if (isNode) {
         assert.equal(error.name, "CredentialUnavailableError");
       } else {
@@ -127,6 +129,7 @@ describe("IdentityClient", function() {
     );
 
     await assertRejects(credential.getToken("https://test/.default"), (error) => {
+      // Keep in ind that this credential has different implementations in Node an in browsers.
       if (isNode) {
         assert.equal(error.name, "CredentialUnavailableError");
       } else {
