@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { v4 as uuidv4 } from "uuid";
@@ -84,16 +83,16 @@ export const defaultLoggerCallback: (logger: CredentialLogger) => msalCommon.ILo
     return;
   }
   switch (level) {
-    case msalNode.LogLevel.Error:
+    case msalCommon.LogLevel.Error:
       logger.info(`MSAL Browser V2 error: ${message}`);
       return;
-    case msalNode.LogLevel.Info:
+    case msalCommon.LogLevel.Info:
       logger.info(`MSAL Browser V2 info message: ${message}`);
       return;
-    case msalNode.LogLevel.Verbose:
+    case msalCommon.LogLevel.Verbose:
       logger.info(`MSAL Browser V2 verbose message: ${message}`);
       return;
-    case msalNode.LogLevel.Warning:
+    case msalCommon.LogLevel.Warning:
       logger.info(`MSAL Browser V2 warning: ${message}`);
       return;
   }
