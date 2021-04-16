@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 import { ContainerRegistryClient, ContainerRepositoryClient } from "../../src";
-import { delay, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import { delay, record, Recorder } from "@azure/test-utils-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import { createRegistryClient, createRepositoryClient, recorderEnvSetup } from "./utils";
@@ -20,7 +20,7 @@ describe("ContainerRepositoryClient functional tests", function() {
   let registryClient: ContainerRegistryClient;
   let repositoryClient: ContainerRepositoryClient;
   let recorder: Recorder;
-  const repository = "library/hello-world";
+  const repositoryName = "library/hello-world";
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
@@ -31,7 +31,7 @@ describe("ContainerRepositoryClient functional tests", function() {
     recorder = record(this, recorderEnvSetup);
 
     registryClient = createRegistryClient();
-    repositoryClient = createRepositoryClient(repository);
+    repositoryClient = createRepositoryClient(repositoryName);
   });
 
   // After each test, we need to stop the recording.
@@ -39,15 +39,8 @@ describe("ContainerRepositoryClient functional tests", function() {
     await recorder.stop();
   });
 
-  after(async function() {
-    // clean up
-    if (!isPlaybackMode()) {
-      await registryClient.deleteRepository(repository);
-    }
-  });
-
   it("should list tags", async () => {
-    const client = registryClient.getRepositoryClient(repository);
+    const client = registryClient.getRepositoryClient(repositoryName);
     const iter = client.listTags();
     const first = await iter.next();
     assert.ok(first.value, "Expecting a valid tag");

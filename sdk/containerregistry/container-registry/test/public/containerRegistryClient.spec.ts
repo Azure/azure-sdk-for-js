@@ -20,6 +20,7 @@ describe("ContainerRegistryClient functional tests", function() {
   // beforeEach hook.
   let client: ContainerRegistryClient;
   let recorder: Recorder;
+  const repositoryName = "library/busybox";
 
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
@@ -47,11 +48,14 @@ describe("ContainerRegistryClient functional tests", function() {
   });
 
   it("deletes repository of given name", async () => {
-    const response = await client.deleteRepository("library/hello-world");
+    const response = await client.deleteRepository(repositoryName);
     assert.ok(response);
     await delay(5 * 1000);
     const iter = client.listRepositories();
-    const next = await iter.next();
-    assert.equal(next.value, undefined, "Unexpected value from list repository");
+    for await (const repository of iter) {
+      if (repository === repositoryName) {
+        assert.fail(`Unexpected: '${repositoryName}' repository should have been deleted`);
+      }
+    }
   });
 });
