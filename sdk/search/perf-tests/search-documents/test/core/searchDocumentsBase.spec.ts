@@ -16,6 +16,7 @@ export interface SearchDocumentsTestOptions {
   documentsCount: number;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export abstract class SearchDocumentsBase<TOptions = {}> extends PerfStressTest<TOptions> {
   searchIndexClient: SearchIndexClient;
   searchClient: SearchClient<Hotel>;
