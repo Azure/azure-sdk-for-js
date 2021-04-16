@@ -11,6 +11,10 @@ import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 
 const logger = credentialLogger("ClientSecretCredential");
 
+// This credential is exported on browser bundles for development purposes.
+// For this credential to work in browsers, browsers would need to have security features disabled.
+// Please do not disable your browser security features.
+
 /**
  * Enables authentication to Azure Active Directory using a client secret
  * that was generated for an App Registration.  More information on how
