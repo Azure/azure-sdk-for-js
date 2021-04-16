@@ -7,15 +7,20 @@ interface ParsedConnectionString {
 }
 
 export function parseConnectionString(conn: string): ParsedConnectionString {
-  const em = /Endpoint=(.*?)(;|$)/g.exec(conn);
-  if (!em) throw new TypeError("connection string missing endpoint");
-  const endpointPart = em[1];
-  const km = /AccessKey=(.*?)(;|$)/g.exec(conn);
-  if (!km) throw new Error("connection string missing access key");
-  const key = km[1];
+  let parsed: { [id: string]: string } = {};
+  conn.split(";").forEach((i) => {
+    const pair = i.split("=");
+    if (pair.length == 2) {
+      parsed[pair[0].toLowerCase()] = pair[1];
+    }
+  });
+
+  const endpointPart = parsed["endpoint"];
+  if (!endpointPart) throw new TypeError("connection string missing endpoint");
+  const key = parsed["accesskey"];
+  if (!key) throw new TypeError("connection string missing access key");
   const credential = new AzureKeyCredential(key);
-  const pm = /Port=(.*?)(;|$)/g.exec(conn);
-  const port = pm == null ? "" : pm[1];
+  const port = parsed["port"];
   const url = new URL(endpointPart);
   url.port = port;
   const endpoint = url.toString();
