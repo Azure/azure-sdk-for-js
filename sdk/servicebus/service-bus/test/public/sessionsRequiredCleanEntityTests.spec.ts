@@ -50,8 +50,11 @@ describe("sessions tests -  requires completely clean entity for each test", () 
     // }
   }
 
-  afterEach(() => serviceBusClient.test.afterEach());
-  after(() => serviceBusClient.test.after());
+  afterEach(async () => {
+    await serviceBusClient.test.afterEach();
+    // each test recreates the client on start so we need to clean the entire thing up after each test.
+    await serviceBusClient.test.after();
+  });
 
   // These tests really do need to run against both queues and subscriptions as they seem
   // to behave differently on occasion when it runs against subscriptions.
