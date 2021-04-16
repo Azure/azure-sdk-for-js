@@ -94,10 +94,8 @@ describe("DeviceCodeCredential", function() {
       error = e;
     }
 
-    assert.equal(error?.name, "AuthenticationRequiredError");
-    assert.ok(
-      error?.message.match("Caller has cancelled token endpoint polling during device code flow")
-    );
+    assert.equal(error?.name, "AbortError");
+    assert.ok(error?.message.match("The authentication has been aborted by the caller."));
   });
 
   it("allows setting disableAutomaticAuthentication", async function(this: Context) {
