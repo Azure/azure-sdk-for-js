@@ -8,6 +8,7 @@ import { delay } from "../src";
 const should = chai.should();
 
 import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
+import { settleAllTasks } from "./utils/utils";
 
 describe("CancellableAsyncLock", function() {
   const TEST_FAILURE = "Test failure";
@@ -99,11 +100,13 @@ describe("CancellableAsyncLock", function() {
         })
       ];
 
+      const results: number[] = [];
       const queue: Promise<number>[] = [];
       for (const task of tasks) {
         queue.push(task);
         task
-          .then(() => {
+          .then((value) => {
+            results.push(value);
             queue.splice(queue.indexOf(task), 1);
             return;
           })
@@ -112,11 +115,10 @@ describe("CancellableAsyncLock", function() {
           });
       }
 
-      const results = [];
       while (queue.length) {
-        const result = await Promise.race(queue);
-        results.push(result);
+        await Promise.race(queue);
       }
+
       results.should.deep.equal([0, 1, 2, 3], "Tasks completed out of order.");
     });
 
@@ -152,33 +154,10 @@ describe("CancellableAsyncLock", function() {
         )
       ];
 
-      const results: any[] = [];
-      for (const task of tasks) {
-        task
-          .then((value) => {
-            results.push(value);
-            tasks.splice(tasks.indexOf(task), 1);
-            return;
-          })
-          .catch((err) => {
-            results.push(err);
-            tasks.splice(tasks.indexOf(task), 1);
-          });
-      }
-
-      while (tasks.length) {
-        try {
-          await Promise.race(tasks);
-        } catch (err) {
-          /* no-op */
-        }
-      }
-
-      tasks.length.should.equal(0, "Queue of tasks not empty.");
+      const results = await settleAllTasks(tasks);
       results.length.should.equal(5, "Unexpected number of tasks completed.");
 
-      const expectedResults = [0, OperationTimeoutError, OperationTimeoutError, 1, 3];
-
+      const expectedResults = [0, 1, OperationTimeoutError, 3, OperationTimeoutError];
       for (let i = 0; i < results.length; i++) {
         const value = results[i];
         const expectedResult = expectedResults[i];
