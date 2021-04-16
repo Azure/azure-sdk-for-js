@@ -8,6 +8,7 @@ import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
 import { logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @hidden
@@ -113,7 +114,10 @@ export class LinkEntity {
    * @param setTokenRenewal - Set the token renewal timer. Default false.
    * @returns Promise<void>
    */
-  protected async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+  protected async _negotiateClaim({
+    abortSignal,
+    setTokenRenewal
+  }: { setTokenRenewal?: boolean; abortSignal?: AbortSignalLike } = {}): Promise<void> {
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
@@ -130,9 +134,10 @@ export class LinkEntity {
     await defaultCancellableLock.acquire(
       this._context.cbsSession.cbsLock,
       () => {
-        return this._context.cbsSession.init();
+        return this._context.cbsSession.init({ abortSignal });
       },
       {
+        abortSignal,
         acquireTimeoutInMs: getRetryAttemptTimeoutInMs(undefined)
       }
     );
@@ -172,9 +177,15 @@ export class LinkEntity {
     await defaultCancellableLock.acquire(
       this._context.negotiateClaimLock,
       () => {
-        return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
+        return this._context.cbsSession.negotiateClaim(
+          this.audience,
+          tokenObject.token,
+          tokenType,
+          { abortSignal }
+        );
       },
       {
+        abortSignal,
         acquireTimeoutInMs: getRetryAttemptTimeoutInMs(undefined)
       }
     );
@@ -206,7 +217,7 @@ export class LinkEntity {
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
-        await this._negotiateClaim(true);
+        await this._negotiateClaim({ setTokenRenewal: true });
       } catch (err) {
         logger.verbose(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",

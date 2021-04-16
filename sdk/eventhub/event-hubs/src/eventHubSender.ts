@@ -463,7 +463,7 @@ export class EventHubSender extends LinkEntity {
       return defaultCancellableLock.acquire(
         this.senderLock,
         () => {
-          return this._init(senderOptions);
+          return this._init({ ...senderOptions, abortSignal: options.abortSignal });
         },
         { abortSignal: options.abortSignal, acquireTimeoutInMs: timeoutInMs }
       );
@@ -496,14 +496,16 @@ export class EventHubSender extends LinkEntity {
    * Initializes the sender session on the connection.
    * @hidden
    */
-  private async _init(options: AwaitableSenderOptions): Promise<void> {
+  private async _init(
+    options: AwaitableSenderOptions & { abortSignal?: AbortSignalLike }
+  ): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
 
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
-        await this._negotiateClaim();
+        await this._negotiateClaim({ abortSignal: options.abortSignal });
 
         logger.verbose(
           "[%s] Trying to create sender '%s'...",

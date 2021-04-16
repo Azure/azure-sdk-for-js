@@ -452,7 +452,7 @@ export class EventHubReceiver extends LinkEntity {
 
         if (!this.isOpen()) {
           try {
-            await this.initialize();
+            await this.initialize({ abortSignal });
             if (abortSignal && abortSignal.aborted) {
               await this.abort();
             }
@@ -541,14 +541,14 @@ export class EventHubReceiver extends LinkEntity {
    * Creates a new AMQP receiver under a new AMQP session.
    * @hidden
    */
-  async initialize(): Promise<void> {
+  async initialize({ abortSignal }: { abortSignal?: AbortSignalLike }): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
 
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
-        await this._negotiateClaim();
+        await this._negotiateClaim({ abortSignal });
 
         const receiverOptions: CreateReceiverOptions = {
           onClose: (context: EventContext) => this._onAmqpClose(context),
@@ -568,7 +568,7 @@ export class EventHubReceiver extends LinkEntity {
           this.name,
           options
         );
-        this._receiver = await this._context.connection.createReceiver(options);
+        this._receiver = await this._context.connection.createReceiver({ ...options, abortSignal });
         this.isConnecting = false;
         logger.verbose(
           "[%s] Receiver '%s' created with receiver options: %O",
