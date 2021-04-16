@@ -116,7 +116,7 @@ describe("RemoteRendering functional tests", () => {
     await recorder.stop();
   });
 
-  it("simple conversion", async () => {
+  it("successful conversion", async () => {
     let storageContainerUrl: string =
       "https://" +
       getEnv("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
@@ -171,5 +171,32 @@ describe("RemoteRendering functional tests", () => {
       }
     }
     assert.isTrue(foundConversion);
+  });
+
+  it("failed conversion no access", async () => {
+    let storageContainerUrl =
+      "https://" +
+      getEnv("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
+      ".blob.core.windows.net/" +
+      getEnv("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
+
+    // Do not provide SAS tokens
+    let inputSettings: AssetConversionInputSettings = {
+      storageContainerUrl,
+      relativeInputAssetPath: "testBox.fbx",
+      blobPrefix: "Input"
+    };
+    let outputSettings: AssetConversionOutputSettings = {
+      storageContainerUrl,
+      blobPrefix: "Output"
+    };
+    let conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+
+    let conversionId = recorder.getUniqueName("conversionId");
+
+    assert.throws(
+      () => client.beginConversion(conversionId, conversionSettings),
+      ""
+    );
   });
 });
