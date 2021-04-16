@@ -13,7 +13,7 @@ import {
   RemoteRenderingClient,
   RenderingSessionSettings,
   RenderingSessionPollerLike,
-  RenderingSession,
+  RenderingSession
 } from "@azure/mixedreality-remoterendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 

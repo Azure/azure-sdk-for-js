@@ -15,7 +15,7 @@ import {
   AssetConversionOutputSettings,
   AssetConversionSettings,
   AssetConversionPollerLike,
-  AssetConversion,
+  AssetConversion
 } from "@azure/mixedreality-remoterendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 

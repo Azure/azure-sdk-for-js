@@ -7,9 +7,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  RemoteRenderingClient,
-} from "@azure/mixedreality-remoterendering";
+import { RemoteRenderingClient } from "@azure/mixedreality-remoterendering";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import { v4 as uuid } from "uuid";
