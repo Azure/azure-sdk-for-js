@@ -498,7 +498,6 @@ describe("ServiceBusMessage validations", function(): void {
 
       await sender.sendMessages(testInput.message).catch((err) => {
         actualErrorMsg = err.message;
-        console.log(`=====> Caught error = `, err);
       });
 
       should.equal(actualErrorMsg, testInput.expectedErrorMessage, "Error not thrown as expected");
