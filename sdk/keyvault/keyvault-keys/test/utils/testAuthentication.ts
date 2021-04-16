@@ -14,7 +14,7 @@ export async function authenticate(that: Context, version: string): Promise<any>
     replaceableVariables: {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
+      AZURE_TENANT_ID: "azuretenantid",
       KEYVAULT_NAME: "keyvault_name",
       KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
       AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/"
@@ -23,7 +23,13 @@ export async function authenticate(that: Context, version: string): Promise<any>
       (recording: any): any =>
         keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), "")
     ],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
+    requestBodyTransformations: {
+      stringTransforms: [
+        (body: string) =>
+          body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id")
+      ]
+    }
   };
   const recorder = record(that, recorderEnvSetup);
   const credential = new ClientSecretCredential(
