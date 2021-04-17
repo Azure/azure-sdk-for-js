@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1318',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,27 +24,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e675345e-5246-4787-96f3-bfffef711300',
+  '3f6440c3-579d-41ac-b501-7bab53261900',
   'x-ms-ests-server',
   '2.1.11654.13 - SCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AvdwcQNv_mNHroc2EXeF9nr__1r8AQAAAMA8DNgOAAAA; expires=Mon, 17-May-2021 02:19:44 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlLlW8l6GSxOvCTrFZhj29X__1r8AQAAAKlGDNgOAAAA; expires=Mon, 17-May-2021 03:02:02 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 17 Apr 2021 02:19:43 GMT',
-  'Content-Length',
-  '1318'
+  'Sat, 17 Apr 2021 03:02:02 GMT'
 ]);
 
-nock('https://endpoint/:443', {"encodedQueryParams":true})
+nock('https://endpoint', {"encodedQueryParams":true})
   .get('/datasources')
   .query(true)
   .reply(200, {"value":[{"properties":{"createdAt":"2021-04-01T19:18:25.6411232Z","lastModifiedAt":"2021-04-01T19:18:25.6411233Z","parentCollection":null},"kind":"Collection","id":"datasources/Collection-vaR","name":"Collection-vaR"},{"properties":{"endpoint":"https://joherediteststorage.blob.core.windows.net/","resourceGroup":"joheredi-test","subscriptionId":"faa080af-c1d8-40ad-9cce-e1a450ca5b57","location":"westus","resourceName":"joherediteststorage","createdAt":"2021-04-01T19:19:37.3396977Z","lastModifiedAt":"2021-04-01T19:19:37.3396984Z","parentCollection":{"type":"DataSourceReference","referenceName":"Collection-vaR"}},"kind":"AzureStorage","id":"datasources/AzureBlob-BzV","name":"AzureBlob-BzV"}],"count":2}, [
   'Date',
-  'Sat, 17 Apr 2021 02:19:44 GMT',
+  'Sat, 17 Apr 2021 03:02:02 GMT',
   'Content-Type',
   'application/json; charset=utf-8',
   'Server',
@@ -52,5 +52,5 @@ nock('https://endpoint/:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'x-ms-correlation-request-id',
-  '8d8f1913-185c-4ea9-8644-803a5f7c76e2'
+  '9e4bac9f-885b-43a0-9aeb-5fdd385646f9'
 ]);

@@ -13,7 +13,7 @@ import "./env";
 import { ClientOptions } from "@azure-rest/core-client";
 
 const replaceableVariables: { [k: string]: string } = {
-  ENDPOINT: "https://endpoint/",
+  ENDPOINT: "https://endpoint",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
@@ -37,7 +37,6 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createClient(options?: ClientOptions): PurviewScanningClient {
-  console.log(env.ENDPOINT);
   const credential = new ClientSecretCredential(
     env.AZURE_TENANT_ID,
     env.AZURE_CLIENT_ID,
