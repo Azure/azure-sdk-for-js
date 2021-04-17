@@ -15,6 +15,7 @@ import {
 matrix([[true, false]], async function(useAad) {
   describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function() {
     const purchasedPhoneNumber = isPlaybackMode() ? "+14155550100" : env.AZURE_PHONE_NUMBER;
+    const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
@@ -37,7 +38,6 @@ matrix([[true, false]], async function(useAad) {
     });
 
     it("can update a phone number's capabilities", async function() {
-      const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
       const updatePoller = await client.beginUpdatePhoneNumberCapabilities(
         purchasedPhoneNumber,
         update
@@ -47,5 +47,22 @@ matrix([[true, false]], async function(useAad) {
       assert.ok(updatePoller.getOperationState().isCompleted);
       assert.deepEqual(phoneNumber.capabilities, update);
     }).timeout(60000);
+
+    it("throws on invalid update request", async function() {
+      const fakeNumber = "+14155550100";
+      try {
+        const searchPoller = await client.beginUpdatePhoneNumberCapabilities(
+          fakeNumber,
+          update
+        );
+        await searchPoller.pollUntilDone();
+      } catch (error) {
+        // TODO: reimplement error code check when service is fixed
+        // assert.equal(error.statusCode, 401);
+        return;
+      }
+
+      assert.fail("beginSearchAvailablePhoneNumbers should have thrown an exception.");
+    });
   });
 });
