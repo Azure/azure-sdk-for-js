@@ -51,10 +51,7 @@ matrix([[true, false]], async function(useAad) {
     it("throws on invalid update request", async function() {
       const fakeNumber = "+14155550100";
       try {
-        const searchPoller = await client.beginUpdatePhoneNumberCapabilities(
-          fakeNumber,
-          update
-        );
+        const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
       } catch (error) {
         // TODO: reimplement error code check when service is fixed
