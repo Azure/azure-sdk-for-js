@@ -1,6 +1,6 @@
 {
   "name": "@azure/ai-anomaly-detector",
-  "version": "3.0.0-beta.3",
+  "version": "3.0.0-beta.4",
   "description": "An isomorphic client library for the Azure Anomaly Detector service.",
   "sdk-type": "client",
   "main": "dist/index.js",
