@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
-import { CommunicationIdentityClient } from "../src";
+import { CommunicationIdentityClient } from "../../src";
 import { createRecordedCommunicationIdentityClientWithToken } from "./utils/recordedClient";
 import { Context } from "mocha";
 

@@ -7,7 +7,7 @@ import {
 } from "@azure/communication-common";
 import { assert } from "chai";
 import { Recorder } from "@azure/test-utils-recorder";
-import { CommunicationIdentityClient } from "../src";
+import { CommunicationIdentityClient } from "../../src";
 import { createRecordedCommunicationIdentityClient } from "./utils/recordedClient";
 import { Context } from "mocha";
 
