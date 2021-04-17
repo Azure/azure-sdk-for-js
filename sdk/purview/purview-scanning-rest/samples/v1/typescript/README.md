@@ -69,7 +69,7 @@ npx cross-env ENDPOINT="<endpoint>" node dist/listDatasources.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [listdatasources]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/purview/purview-scanning-rest/samples/v1/typescript/src/listDatasources.ts
-[apiref]: https://docs.microsoft.com/en-us/azure/purview/tutorial-scan-data
+[apiref]: https://docs.microsoft.com/azure/purview/tutorial-scan-data
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/purview/purview-scanning-rest/README.md
