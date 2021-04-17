@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "PATCH",
+   "url": "https://endpoint/phoneNumbers/%2B14155550100/capabilities",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"calling\":\"none\",\"sms\":\"outbound\"}",
+   "status": 404,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "aa93e4cda15ff5d7baf3b00cb3f2218b"
+}
