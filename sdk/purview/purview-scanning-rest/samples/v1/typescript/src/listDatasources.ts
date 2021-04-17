@@ -13,7 +13,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const endpoint = process.env["SCANNING_ENDPOINT"] || "";
+const endpoint = process.env["ENDPOINT"] || "";
 
 async function main() {
   console.log("== List dataSources sample ==");

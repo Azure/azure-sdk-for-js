@@ -5,6 +5,7 @@ languages:
 products:
   - azure
 urlFragment: purview-scanning-javascript
+disableDocsMs: true
 ---
 
 # Azure Purview Scanning rest client library samples for JavaScript
@@ -48,7 +49,7 @@ node listDatasources.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SCANNING_ENDPOINT="<scanning endpoint>" node listDatasources.js
+npx cross-env ENDPOINT="<endpoint>" node listDatasources.js
 ```
 
 ## Next Steps
