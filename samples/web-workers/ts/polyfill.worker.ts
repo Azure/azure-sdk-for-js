@@ -1,6 +1,6 @@
 import { JSDOM } from "jsdom";
 
-let { window } = new JSDOM();
+const { window } = new JSDOM();
 
 if (!globalThis.document) {
   globalThis.document = window.document;

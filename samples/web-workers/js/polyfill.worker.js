@@ -1,6 +1,6 @@
 const { JSDOM } = require("jsdom");
 
-let { window } = new JSDOM();
+const { window } = new JSDOM();
 
 if (!globalThis.document) {
   globalThis.document = window.document;

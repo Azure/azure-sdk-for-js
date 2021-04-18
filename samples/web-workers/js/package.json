@@ -17,8 +17,9 @@
     "last 1 Chrome versions"
   ],
   "dependencies": {
-    "@azure/storage-blob": "^12.5.0",
     "@azure/core-http": "^1.2.4",
-    "jsdom": "^16.5.0"
+    "@azure/storage-blob": "^12.5.0",
+    "jsdom": "^16.5.0",
+    "prettier": "^1.19.1"
   }
 }
