@@ -2,7 +2,7 @@
 
 ## 4.2.0-beta.6 (Unreleased)
 
-- Removed the now obsolete `KeyOperationsOptions` and replaced it with `CryptographyOptions`
+- Removed the now obsolete `KeyOperationsOptions` and replaced it with `CryptographyOptions`.
   - Introduced in 4.2.0-beta.1 to support additional encryption parameters for AES encryption, we have since moved these parameters outside of the options bag so a separate `KeyOperationsOptions` is now redundant.
 
 ## 4.2.0-beta.5 (2021-04-06)
