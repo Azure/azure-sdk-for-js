@@ -157,7 +157,7 @@ packages:
       jssha: 3.2.0
       process: 0.11.10
       rhea: 1.0.24
-      rhea-promise: 1.2.0
+      rhea-promise: 1.2.1
       tslib: 2.2.0
       url: 0.11.0
       util: 0.12.3
@@ -494,7 +494,7 @@ packages:
       jssha: 3.2.0
       long: 4.0.0
       process: 0.11.10
-      rhea-promise: 1.2.0
+      rhea-promise: 1.2.1
       tslib: 2.2.0
     dev: false
     engines:
@@ -6245,14 +6245,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+6uilZXSJGyiqVeHQI3Krv6NTAd8cWRCY2uyCxmzR4/5IFtBqqFem1HV2OiwSj0Gu7OFChIJDfH2JyjN7J0vRA==
-  /rhea-promise/1.2.0:
+  /rhea-promise/1.2.1:
     dependencies:
       debug: 3.2.7
       rhea: 1.0.24
       tslib: 1.14.1
     dev: false
     resolution:
-      integrity: sha512-92Bi1bQ5RfbYZW3880F+RkUvu5RTYCtM2tvMaAAj1fyAqi9FTPifmg5gvn69CaOPV63Kn9MOvUyXXDAtiIWILw==
+      integrity: sha512-m0aa+/TM6Cl5qu+mHNPn7aadNf1525WxpKwQKINP/knvoi4otB74G16iPDoTDbnGcJo1lc0AQEbVku8Gdoqmuw==
   /rhea/1.0.24:
     dependencies:
       debug: 3.2.7
@@ -8446,7 +8446,7 @@ packages:
       process: 0.11.10
       puppeteer: 3.3.0
       rhea: 1.0.24
-      rhea-promise: 1.2.0
+      rhea-promise: 1.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -8463,7 +8463,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-sJYJQ0Y+WhmvT42SCKcWh9klwMSZcxUiIkZdsDqH4oYULnqCRkx643r36KDPPQHtXUTMCNYi6t9J+F1dqZIjkg==
+      integrity: sha512-CW9xpW4t7TdHmCyP+ZPd/mb0oUjG2dVh6C/RGhzPS8ImdZvcY13QO84eWugbS0PajYfHbIgxbMOiPUaxRTpxeQ==
       tarball: file:projects/core-amqp.tgz
     version: 0.0.0
   file:projects/core-asynciterator-polyfill.tgz:
@@ -9265,7 +9265,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea-promise: 1.2.0
+      rhea-promise: 1.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -9281,7 +9281,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-6umPhd37FwVbr5aPJFphiT8yNGBerqKy2SMM5dUZIQPYk1qpEDzg8vpx0jfoqZdvMHXJd6BjzNN3YZbV8Q+GWg==
+      integrity: sha512-8kvTC/cK5o9v8o0ZupbFtRjjOGERHFFr3srAOwWo+27nBCMo8F5hw9o9oHBMghESkh0uZFaiAzZG79/g7pFNxg==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -10395,7 +10395,7 @@ packages:
       process: 0.11.10
       promise: 8.1.0
       puppeteer: 3.3.0
-      rhea-promise: 1.2.0
+      rhea-promise: 1.2.1
       rimraf: 3.0.2
       rollup: 1.32.1
       rollup-plugin-shim: 1.0.0
@@ -10410,7 +10410,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-5sxo4QifhdJl5OzqCWEj7aM9ZTtoS5FOBG6GOLgzvZ9YBYKRZQu8klmx9pmT3bgjMJxF00/GaE0KhBOMC6sjFA==
+      integrity: sha512-wYyGEJH+Xk4XpboHfLFEgWMQdfUDhpdU3xcykhlEN4knMb9GIyaKbAttspaHPQ8+g4xB7Mjh5BneIhyZKkiFCA==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:
