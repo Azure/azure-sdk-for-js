@@ -6,47 +6,40 @@ import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
-import * as child_process from "child_process";
 
-function getSafeWorkingDir(): string {
-  if (process.platform === "win32") {
-    if (!process.env.SystemRoot) {
-      throw new Error("Azure CLI credential expects a 'SystemRoot' environment variable");
-    }
-    return process.env.SystemRoot;
-  } else {
-    return "/bin";
-  }
-}
-
-const logger = credentialLogger("AzureCliCredential");
+const logger = credentialLogger("AzurePowerShellCredential");
 
 /**
  * This credential will use the currently logged-in user login information
- * via the Azure CLI ('az') commandline tool.
+ * via the Azure Power Shell commandline tool.
  * To do so, it will read the user access token and expire time
- * with Azure CLI command "az account get-access-token".
+ * with Azure Power Shell command "Get-AzAccessToken -ResourceUrl {ResourceScope}.
  * To be able to use this credential, ensure that you have already logged
- * in via the 'az' tool using the command "az login" from the commandline.
+ * in via the 'az' tool using the command "Connect-AzAccount" from the commandline.
  */
-export class AzureCliCredential implements TokenCredential {
+export class AzurePowerShellCredential implements TokenCredential {
+
+  private useLegacyPowerShell: boolean;
+
+    /**
+   * Creates an instance of the ClientCertificateCredential with the details
+   * needed to authenticate against Azure Active Directory with a certificate.
+   *
+   * @param useLegacyPowerShell The flag indicating if legacy powershell should be used for authentication.
+   */
+  constructor(
+    useLegacyPowerShell: boolean
+  ) {
+    this.useLegacyPowerShell = useLegacyPowerShell;
+  }
   /**
-   * Gets the access token from Azure CLI
+   * Gets the access token from Azure Power Shell
    * @param resource The resource to use when getting the token
    */
-  protected async getAzureCliAccessToken(resource: string) {
+  protected async getAzurePowerShellAccessToken(resource: string) {
     return new Promise((resolve, reject) => {
-      try {
-        child_process.exec(
-          `az account get-access-token --output json --resource ${resource}`,
-          { cwd: getSafeWorkingDir() },
-          (error, stdout, stderr) => {
-            resolve({ stdout: stdout, stderr: stderr });
-          }
-        );
-      } catch (err) {
-        reject(err);
-      }
+
+      //Add calls to get token from Azure Power shell via node-powershell library.
     });
   }
 
@@ -79,17 +72,16 @@ export class AzureCliCredential implements TokenCredential {
 
       let responseData = "";
 
-      const { span } = createSpan("AzureCliCredential-getToken", options);
-      this.getAzureCliAccessToken(resource)
+      const { span } = createSpan("AzurePowerShellCredential-getToken", options);
+      this.getAzurePowerShellAccessToken(resource)
         .then((obj: any) => {
           if (obj.stderr) {
-            const isLoginError = obj.stderr.match("(.*)az login(.*)");
+            const isLoginError = obj.stderr.match("(.*)Run Connect-AzAccount to login(.*)");
             const isNotInstallError =
-              obj.stderr.match("az:(.*)not found") ||
-              obj.stderr.startsWith("'az' is not recognized");
+              obj.stderr.match("The specified module 'Az.Accounts' with version '2.2.0' was not loaded because no valid module file was found in any module directory")  
             if (isNotInstallError) {
               const error = new CredentialUnavailable(
-                "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+                "Az.Account module >= 2.2.0 is not installed."
               );
               logger.getToken.info(formatError(error));
               throw error;
@@ -105,11 +97,11 @@ export class AzureCliCredential implements TokenCredential {
             throw error;
           } else {
             responseData = obj.stdout;
-            const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
+            const response: { Token: string; ExpiresOn: string } = JSON.parse(responseData);
             logger.getToken.info(formatSuccess(scopes));
             const returnValue = {
-              token: response.accessToken,
-              expiresOnTimestamp: new Date(response.expiresOn).getTime()
+              token: response.Token,
+              expiresOnTimestamp: new Date(response.ExpiresOn).getTime()
             };
             resolve(returnValue);
             return returnValue;
