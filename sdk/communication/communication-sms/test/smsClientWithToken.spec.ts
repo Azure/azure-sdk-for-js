@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import { env, isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
-import { SmsSendRequest, SmsClient } from "../src/smsClient";
+import { SmsSendRequest } from "../src/smsClient";
 import { assert } from "chai";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import * as sinon from "sinon";
-import { parseConnectionString } from "@azure/communication-common";
-import { createCredential, recorderConfiguration } from "./utils/recordedClient";
+import { createCredential, createSmsClientWithToken, recorderConfiguration } from "./utils/recordedClient";
 import { Uuid } from "../src/utils/uuid";
 import { Context } from "mocha";
 
@@ -43,12 +42,10 @@ describe("SmsClientWithToken [Playback/Live]", async () => {
       this.skip();
     }
 
-    const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
-      .endpoint;
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const toNumber = env.AZURE_PHONE_NUMBER as string;
 
-    const smsClient = new SmsClient(endpoint, credential);
+    const smsClient = createSmsClientWithToken(credential);
 
     const sendRequest: SmsSendRequest = {
       from: fromNumber,
