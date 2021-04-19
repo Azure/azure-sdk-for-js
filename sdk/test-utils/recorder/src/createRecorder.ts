@@ -84,13 +84,15 @@ export class NockRecorder extends BaseRecorder {
 
       // Saving the recording to the file
       for (const fixture of fixtures) {
-        // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
         let updatedFixture = fixture;
+        // Applying any requestBody transformations that are provided
         updatedFixture = applyRequestBodyTransformations(
           "node",
           fixture,
           this.environmentSetup.requestBodyTransformations
-        ) as string;
+        );
+
+        // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
         updatedFixture = updatedFixture.toString().replace(/\.query\(.*\)/, ".query(true)");
         file.write(this.filterSecrets(updatedFixture) + "\n");
       }
