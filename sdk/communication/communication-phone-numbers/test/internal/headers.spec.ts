@@ -7,7 +7,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import sinon from "sinon";
-import { PhoneNumbersClient } from "../../src";
+import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "../utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
