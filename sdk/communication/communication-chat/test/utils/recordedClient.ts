@@ -66,14 +66,14 @@ export function createChatClient(userToken: string): ChatClient {
   });
 
   function createTestHttpClient(): HttpClient  {
-    let customHttpClient = new DefaultHttpClient();
+    const customHttpClient = new DefaultHttpClient();
 
-    var originalSendRequest = customHttpClient.sendRequest;
+    const originalSendRequest = customHttpClient.sendRequest;
     customHttpClient.sendRequest = async function(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
-      let requestResponse = await originalSendRequest.apply(this, [httpRequest]);
+      const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
   
       if (requestResponse.status < 200 || requestResponse.status > 299)
-        console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
+        {console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);}
 
       return requestResponse;
     };
