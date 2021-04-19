@@ -46,6 +46,6 @@ matrix([[true, false]], async function(useAad) {
       const phoneNumber = await updatePoller.pollUntilDone();
       assert.ok(updatePoller.getOperationState().isCompleted);
       assert.deepEqual(phoneNumber.capabilities, update);
-    }).timeout(30000);
+    }).timeout(60000);
   });
 });

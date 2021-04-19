@@ -33,6 +33,10 @@
       {
         "path": "src/constants.ts",
         "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
       }
     ]
   },
@@ -44,7 +48,7 @@
     "productSlugs": [
       "azure",
       "azure-cognitive-services",
-      "azure-document-translator"
+      "azure-translator"
     ],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"

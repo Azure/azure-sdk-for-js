@@ -40,7 +40,7 @@ matrix([[true, false]], async function(useAad) {
       const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
       assert.strictEqual(purchasedPhoneNumber, phoneNumber);
-    }).timeout(7000);
+    }).timeout(10000);
 
     it("errors if phone number not found", async function() {
       const fake = "+14155550100";

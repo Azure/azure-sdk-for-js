@@ -11,11 +11,13 @@
     "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
     "./dist-esm/src/credentials/managedIdentityCredential/index.js": "./dist-esm/src/credentials/managedIdentityCredential/index.browser.js",
     "./dist-esm/src/credentials/clientCertificateCredential.js": "./dist-esm/src/credentials/clientCertificateCredential.browser.js",
+    "./dist-esm/src/credentials/clientSecretCredential.js": "./dist-esm/src/credentials/clientSecretCredential.browser.js",
     "./dist-esm/src/credentials/deviceCodeCredential.js": "./dist-esm/src/credentials/deviceCodeCredential.browser.js",
     "./dist-esm/src/credentials/defaultAzureCredential.js": "./dist-esm/src/credentials/defaultAzureCredential.browser.js",
     "./dist-esm/src/credentials/authorizationCodeCredential.js": "./dist-esm/src/credentials/authorizationCodeCredential.browser.js",
     "./dist-esm/src/credentials/interactiveBrowserCredential.js": "./dist-esm/src/credentials/interactiveBrowserCredential.browser.js",
     "./dist-esm/src/credentials/visualStudioCodeCredential.js": "./dist-esm/src/credentials/visualStudioCodeCredential.browser.js",
+    "./dist-esm/src/credentials/usernamePasswordCredential.js": "./dist-esm/src/credentials/usernamePasswordCredential.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js"
   },
@@ -43,7 +45,7 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "echo skipped",
+    "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"test-dist/**/*.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"

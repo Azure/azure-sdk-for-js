@@ -141,7 +141,7 @@
 # Eng Sys
 ###########
 /eng/   @weshaggard @praveenkuttappan @mikeharder @mitchdenny @danieljurek
-/**/tests.yml   @danieljurek
+/**/tests.yml   @benbp
 /**/ci.yml      @mitchdenny
 
 ###########

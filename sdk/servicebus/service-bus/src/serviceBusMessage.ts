@@ -305,6 +305,13 @@ export function toRheaMessage(
       bodyType = msg._rawAmqpMessage.bodyType ?? "data";
     }
 
+    // TODO: it seems sensible that we'd also do this for AMQPAnnotated message.
+    const validationError = getMessagePropertyTypeMismatchError(msg);
+
+    if (validationError) {
+      throw validationError;
+    }
+
     amqpMsg = {
       body: encoder.encode(msg.body, bodyType),
       message_annotations: {}
