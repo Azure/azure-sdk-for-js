@@ -140,7 +140,10 @@ export class LinkEntity {
       await defaultCancellableLock.acquire(
         this._context.cbsSession.cbsLock,
         () => {
-          return this._context.cbsSession.init({ abortSignal });
+          return this._context.cbsSession.init({
+            abortSignal,
+            timeoutInMs: timeoutInMs - (Date.now() - startTime)
+          });
         },
         {
           abortSignal,
@@ -188,7 +191,7 @@ export class LinkEntity {
           this.audience,
           tokenObject.token,
           tokenType,
-          { abortSignal }
+          { abortSignal, timeoutInMs: timeoutInMs - (Date.now() - startTime) }
         );
       },
       {
