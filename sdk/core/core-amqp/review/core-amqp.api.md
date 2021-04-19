@@ -108,10 +108,12 @@ export class CbsClient {
     readonly endpoint: string;
     init(options?: {
         abortSignal?: AbortSignalLike;
+        timeoutInMs?: number;
     }): Promise<void>;
     isOpen(): boolean;
     negotiateClaim(audience: string, token: string, tokenType: TokenType, options?: {
         abortSignal?: AbortSignalLike;
+        timeoutInMs?: number;
     }): Promise<CbsResponse>;
     remove(): void;
     readonly replyTo: string;

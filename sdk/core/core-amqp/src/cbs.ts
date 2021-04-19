@@ -76,8 +76,8 @@ export class CbsClient {
    *    For example, `abortSignal` can be passed to allow cancelling an in-progress `init` invocation.
    * @returns Promise<void>.
    */
-  async init(options: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
-    const { abortSignal } = options;
+  async init(options: { abortSignal?: AbortSignalLike; timeoutInMs?: number } = {}): Promise<void> {
+    const { abortSignal, timeoutInMs } = options;
 
     try {
       if (abortSignal?.aborted) {
@@ -92,7 +92,7 @@ export class CbsClient {
           () => {
             return this.connection.open({ abortSignal });
           },
-          { abortSignal: abortSignal, timeoutInMs: undefined }
+          { abortSignal: abortSignal, timeoutInMs: timeoutInMs }
         );
       }
 
@@ -203,9 +203,9 @@ export class CbsClient {
     audience: string,
     token: string,
     tokenType: TokenType,
-    options: { abortSignal?: AbortSignalLike } = {}
+    options: { abortSignal?: AbortSignalLike; timeoutInMs?: number } = {}
   ): Promise<CbsResponse> {
-    const { abortSignal } = options;
+    const { abortSignal, timeoutInMs } = options;
     try {
       if (abortSignal?.aborted) {
         throw new AbortError(StandardAbortMessage);
@@ -228,6 +228,7 @@ export class CbsClient {
       };
       const responseMessage = await this._cbsSenderReceiverLink.sendRequest(request, {
         abortSignal,
+        timeoutInMs,
         requestName: "negotiateClaim"
       });
       logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
