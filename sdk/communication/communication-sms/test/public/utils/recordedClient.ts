@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseClientArguments, parseConnectionString } from "@azure/communication-common";
+import { parseConnectionString } from "@azure/communication-common";
 import { DefaultHttpClient, HttpClient, HttpOperationResponse, isNode, WebResourceLike } from "@azure/core-http";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { SmsClient } from "../../src";
+import { SmsClient } from "../../../src";
 
 export const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -50,9 +50,7 @@ export function createCredential(): TokenCredential | undefined {
 }
 
 export function createSmsClient(): SmsClient {
-  const { url } = parseClientArguments(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING);
-
-  return new SmsClient(url, {
+  return new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
     httpClient: createTestHttpClient()
   });
 }
