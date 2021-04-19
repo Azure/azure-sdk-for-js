@@ -27,6 +27,7 @@ import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { defaultDataTransformer } from "./dataTransformer";
+import { getRetryAttemptTimeoutInMs } from "./util/retries";
 
 /**
  * @hidden
@@ -452,13 +453,19 @@ export class EventHubReceiver extends LinkEntity {
 
         if (!this.isOpen()) {
           try {
-            await this.initialize({ abortSignal });
-            if (abortSignal && abortSignal.aborted) {
-              await this.abort();
-            }
+            await this.initialize({
+              abortSignal,
+              timeoutInMs: getRetryAttemptTimeoutInMs(this.options.retryOptions)
+            });
           } catch (err) {
             if (this._onError === onError) {
               onError(err);
+            }
+            if (err.name === "AbortError") {
+              this.clearHandlers();
+              await this.close().catch(() => {
+                /* no-op */
+              });
             }
             return;
           }
@@ -541,14 +548,20 @@ export class EventHubReceiver extends LinkEntity {
    * Creates a new AMQP receiver under a new AMQP session.
    * @hidden
    */
-  async initialize({ abortSignal }: { abortSignal?: AbortSignalLike }): Promise<void> {
+  async initialize({
+    abortSignal,
+    timeoutInMs
+  }: {
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number;
+  }): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
 
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
-        await this._negotiateClaim({ abortSignal });
+        await this._negotiateClaim({ setTokenRenewal: false, abortSignal, timeoutInMs });
 
         const receiverOptions: CreateReceiverOptions = {
           onClose: (context: EventContext) => this._onAmqpClose(context),

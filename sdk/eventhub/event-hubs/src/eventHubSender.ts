@@ -27,7 +27,6 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventHubProducerOptions } from "./models/private";
 import { SendOptions } from "./models/public";
-
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
@@ -459,13 +458,20 @@ export class EventHubSender extends LinkEntity {
     retryOptions.timeoutInMs = timeoutInMs;
     const senderOptions = this._createSenderOptions(timeoutInMs);
 
+    const startTime = Date.now();
     const createLinkPromise = async (): Promise<void> => {
       return defaultCancellableLock.acquire(
         this.senderLock,
         () => {
-          return this._init({ ...senderOptions, abortSignal: options.abortSignal });
+          const taskStartTime = Date.now();
+          const taskTimeoutInMs = timeoutInMs - (taskStartTime - startTime);
+          return this._init({
+            ...senderOptions,
+            abortSignal: options.abortSignal,
+            timeoutInMs: taskTimeoutInMs
+          });
         },
-        { abortSignal: options.abortSignal, acquireTimeoutInMs: timeoutInMs }
+        { abortSignal: options.abortSignal, timeoutInMs: timeoutInMs }
       );
     };
 
@@ -497,7 +503,10 @@ export class EventHubSender extends LinkEntity {
    * @hidden
    */
   private async _init(
-    options: AwaitableSenderOptions & { abortSignal?: AbortSignalLike }
+    options: AwaitableSenderOptions & {
+      abortSignal: AbortSignalLike | undefined;
+      timeoutInMs: number;
+    }
   ): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
@@ -505,7 +514,11 @@ export class EventHubSender extends LinkEntity {
 
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
-        await this._negotiateClaim({ abortSignal: options.abortSignal });
+        await this._negotiateClaim({
+          setTokenRenewal: false,
+          abortSignal: options.abortSignal,
+          timeoutInMs: options.timeoutInMs
+        });
 
         logger.verbose(
           "[%s] Trying to create sender '%s'...",

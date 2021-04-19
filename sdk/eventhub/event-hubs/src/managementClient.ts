@@ -306,12 +306,18 @@ export class ManagementClient extends LinkEntity {
     }
   }
 
-  private async _init({ abortSignal }: { abortSignal?: AbortSignalLike } = {}): Promise<void> {
+  private async _init({
+    abortSignal,
+    timeoutInMs
+  }: {
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number;
+  }): Promise<void> {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
-        await this._negotiateClaim({ abortSignal });
+        await this._negotiateClaim({ setTokenRenewal: false, abortSignal, timeoutInMs });
         const rxopt: ReceiverOptions = {
           source: { address: this.address },
           name: this.replyTo,
@@ -405,14 +411,16 @@ export class ManagementClient extends LinkEntity {
           );
 
           const initOperationStartTime = Date.now();
-
           try {
             await defaultCancellableLock.acquire(
               this.managementLock,
               () => {
-                return this._init({ abortSignal });
+                const acquireLockEndTime = Date.now();
+                const timeoutInMs =
+                  retryTimeoutInMs - (acquireLockEndTime - initOperationStartTime);
+                return this._init({ abortSignal, timeoutInMs });
               },
-              { abortSignal, acquireTimeoutInMs: retryTimeoutInMs }
+              { abortSignal, timeoutInMs: retryTimeoutInMs }
             );
           } catch (err) {
             const translatedError = translate(err);

@@ -111,13 +111,17 @@ export class LinkEntity {
   /**
    * Negotiates cbs claim for the LinkEntity.
    * @hidden
-   * @param setTokenRenewal - Set the token renewal timer. Default false.
    * @returns Promise<void>
    */
   protected async _negotiateClaim({
     abortSignal,
-    setTokenRenewal
-  }: { setTokenRenewal?: boolean; abortSignal?: AbortSignalLike } = {}): Promise<void> {
+    setTokenRenewal,
+    timeoutInMs
+  }: {
+    setTokenRenewal: boolean | undefined;
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number;
+  }): Promise<void> {
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
@@ -138,7 +142,7 @@ export class LinkEntity {
       },
       {
         abortSignal,
-        acquireTimeoutInMs: getRetryAttemptTimeoutInMs(undefined)
+        timeoutInMs
       }
     );
     let tokenObject: AccessToken;
@@ -186,7 +190,7 @@ export class LinkEntity {
       },
       {
         abortSignal,
-        acquireTimeoutInMs: getRetryAttemptTimeoutInMs(undefined)
+        timeoutInMs: getRetryAttemptTimeoutInMs(undefined)
       }
     );
     logger.verbose(
@@ -217,7 +221,11 @@ export class LinkEntity {
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
-        await this._negotiateClaim({ setTokenRenewal: true });
+        await this._negotiateClaim({
+          setTokenRenewal: true,
+          abortSignal: undefined,
+          timeoutInMs: getRetryAttemptTimeoutInMs(undefined)
+        });
       } catch (err) {
         logger.verbose(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
