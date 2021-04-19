@@ -1,3 +1,5 @@
+<!-- This page is linked to from https://aka.ms/azsdk/js/web-workers which must be updated when moving this content. -->
+
 # Using the Azure SDK for JS in Web Workers
 
 Using the Azure SDK in Node or a browser's main process is supported out of the box; however, when using the Azure SDK in other runtimes a polyfill may be necessary.
