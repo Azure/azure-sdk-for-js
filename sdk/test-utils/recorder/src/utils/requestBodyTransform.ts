@@ -125,7 +125,8 @@ export function applyRequestBodyTransformations(
     }
     return updatedFixture;
   } else {
-    // TODO: Browser side - not needed right now since identity is not being upgraded to msal
+    // TODO: Browser side - not needed right now since the browser tests are not using the new identity with msal
+    console.log("This feature is not yet supported in the browser");
   }
 
   return fixture;
