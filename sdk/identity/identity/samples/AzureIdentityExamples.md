@@ -43,12 +43,12 @@ Authenticating user accounts is the easiest way to get started with minimal set 
 
 An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. This access is restricted by the roles assigned to the service principal, giving you control over which resources can be accessed and at which level. For security reasons, it's always recommended to use service principals with automated tools rather than allowing them to log in with a user identity.
 
-To learn more, read [Application and service principal objects in Azure Active Directory](https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals#service-principal-object)
+To learn more, read [Application and service principal objects in Azure Active Directory](app-register-service-principal)
 
 Set up:
 
 - [Application registration](quickstart-register-app)
-- [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell](https://docs.microsoft.com/powershell/azure/create-azure-service-principal-azureps)
+- [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell](service_principal_azure_powershell)
 
 | Credential with example                                                                      | Usage                                                                                                                                                                                                                                                                                                                                            |
 | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
@@ -122,7 +122,14 @@ function withInteractiveBrowserCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ClientSecretCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/clientSecretCredential.ts) to create a Key Vault key client you can copy-paste.
 
-For more information about how to create a service principal and get these values please refer to [Creating a Service Principal with the Azure CLI][service_principal_azure_cli].
+An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. This access is restricted by the roles assigned to the service principal, giving you control over which resources can be accessed and at which level. For security reasons, it's always recommended to use service principals with automated tools rather than allowing them to log in with a user identity.
+
+To learn more, read [Application and service principal objects in Azure Active Directory](app-register-service-principal)
+
+Set up:
+
+- [Application registration](quickstart-register-app)
+- [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell](service_principal_azure_powershell)
 
 ```ts
 /**
@@ -142,7 +149,14 @@ function withClientSecretCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `EnvironmentCredential`. The `EnvironmentCredential` looks for well-known environment variable names to determine how it should authenticate. It effectively acts as a wrapper for the `ClientSecretCredential`, `ClientCertificateCredential` or `UsernamePasswordCredential` depending on which environment variables are present.
 
-For more information about how to create a service principal and get these values please refer to [Creating a Service Principal with the Azure CLI][service_principal_azure_cli].
+An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. This access is restricted by the roles assigned to the service principal, giving you control over which resources can be accessed and at which level. For security reasons, it's always recommended to use service principals with automated tools rather than allowing them to log in with a user identity.
+
+To learn more, read [Application and service principal objects in Azure Active Directory](app-register-service-principal)
+
+Set up:
+
+- [Application registration](quickstart-register-app)
+- [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell](service_principal_azure_powershell)
 
 ```ts
 /**
@@ -158,7 +172,14 @@ function withEnvironmentCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ClientCertificateCredential`.
 
-For more information about how to create a service principal and get these values please refer to [Creating a Service Principal with the Azure CLI][service_principal_azure_cli].
+An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. This access is restricted by the roles assigned to the service principal, giving you control over which resources can be accessed and at which level. For security reasons, it's always recommended to use service principals with automated tools rather than allowing them to log in with a user identity.
+
+To learn more, read [Application and service principal objects in Azure Active Directory](app-register-service-principal)
+
+Set up:
+
+- [Application registration](quickstart-register-app)
+- [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell](service_principal_azure_powershell)
 
 ```ts
 /**
@@ -202,6 +223,8 @@ function withDeviceCodeCredential() {
 ### Authenticating a user account with username and password
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `UsernamePasswordCredential`. The user must **not** have Multi-factor auth turned on.
+
+Apart from user name and password, this credential requires you to know the tenant Id and client Id. To get the client Id, first [register your application](quickstart-register-app)
 
 ```ts
 /**
@@ -401,3 +424,5 @@ function main() {
 [service_principal_azure_cli]: https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli
 [device_code_flow]: https://github.com/Azure/azure-sdk-for-java/wiki/Set-up-Your-Environment-for-Authentication#enable-applications-for-device-code-flow
 [quickstart-register-app]: https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
+[app-register-service-principal]: https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
+[service_principal_azure_powershell]: https://docs.microsoft.com/powershell/azure/create-azure-service-principal-azureps
