@@ -96,7 +96,7 @@ export class CbsClient {
         );
       }
 
-      if (!this._isCbsSenderReceiverLinkOpen()) {
+      if (!this.isOpen()) {
         const rxOpt: ReceiverOptions = {
           source: {
             address: this.endpoint
@@ -250,7 +250,7 @@ export class CbsClient {
    */
   async close(): Promise<void> {
     try {
-      if (this._isCbsSenderReceiverLinkOpen()) {
+      if (this.isOpen()) {
         const cbsLink = this._cbsSenderReceiverLink;
         this._cbsSenderReceiverLink = undefined;
         await cbsLink!.close();
@@ -288,8 +288,8 @@ export class CbsClient {
    * Indicates whether the cbs sender receiver link is open or closed.
    * @returns `true` open, `false` closed.
    */
-  private _isCbsSenderReceiverLinkOpen(): boolean {
-    return this._cbsSenderReceiverLink! && this._cbsSenderReceiverLink!.isOpen();
+  public isOpen(): boolean {
+    return Boolean(this._cbsSenderReceiverLink?.isOpen());
   }
 
   private _fromRheaMessageResponse(msg: RheaMessage): CbsResponse {

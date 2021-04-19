@@ -109,6 +109,7 @@ export class CbsClient {
     init(options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<void>;
+    isOpen(): boolean;
     negotiateClaim(audience: string, token: string, tokenType: TokenType, options?: {
         abortSignal?: AbortSignalLike;
     }): Promise<CbsResponse>;
