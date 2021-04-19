@@ -42,6 +42,21 @@ export function applyRequestBodyTransformations(
 
 /**
  * Transformations to be applied on the requestBody in record mode to be able to filter the requests in playback.
+ *
+ * Example:
+ *     Input:
+ *        nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+ *          .post('/azuretenantid/oauth2/v2.0/token', "client-request-id=11111111-1111-1111-1111-111111111111&client_secret=azure_client_secret")
+ *          .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+ *          ...
+ *        ]);
+ *     Output:
+ *        nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+ *          .filteringRequestBody((body) => body.replace(/client-request-id=[^&]<star>/g, "client-request-id=client-request-id"))
+ *          .post('/azuretenantid/oauth2/v2.0/token', "client-request-id=client-request-id&client_secret=azure_client_secret")
+ *          .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+ *          ...
+ *        ]);
  */
 export function applyRequestBodyTransformations(
   runtime: "node" | "browser",
@@ -61,6 +76,10 @@ export function applyRequestBodyTransformations(
     let updatedFixture = fixture;
 
     // TODO: PUT and PATCH may also have request bodies, currently focusing only on POST - can be extended as needed
+
+    // Matching the following at this point
+    //    .post('/azuretenantid/oauth2/v2.0/token', "client-request-id=11111111-1111-1111-1111-111111111111&client_secret=azure_client_secret")
+    //    .reply(200,....
     let matches = fixture.match(/\.post\((.*)\, (.*)\)\n\s*.reply\(/);
     if (
       matches?.[2] &&
@@ -73,13 +92,31 @@ export function applyRequestBodyTransformations(
         updatedBody = transformation(updatedBody);
       }
       // TODO: Handle JSON stringified bodies - not required as of now
+
+      // Updated fixture with the new request body
+      // Example:
+      //    .post('/azuretenantid/oauth2/v2.0/token', "client-request-id=client-request-id&client_secret=azure_client_secret")
+      //    .reply(200,....
       updatedFixture = fixture.replace(matches[2], updatedBody);
     }
 
+    if (updatedFixture === fixture) {
+      // No need to update the fixture with filtering method since the body didn't change
+      return fixture;
+    }
     // Modify the updated fixture with `.filteringRequestBody` method to be able to match the request in playback
     matches = updatedFixture.match(/\.post\((.*)\, (.*)\)\n\s*.reply\(/);
     if (matches?.[0] && requestBodyTransformations.stringTransforms) {
       for (const transformation of requestBodyTransformations.stringTransforms) {
+        // Add .filteringRequestBody method with the transformation in the recording
+        // Example: `.filteringRequestBody((body) => body.replace(/client-request-id=[^&]<star>/g, "client-request-id=client-request-id"))`
+        //
+        // Recording would look like the following
+        //  nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+        //   .filteringRequestBody((body) => body.replace(/client-request-id=[^&]<star>/g, "client-request-id=client-request-id"))
+        //   .post('/azuretenantid/oauth2/v2.0/token', "client-request-id=client-request-id&client_secret=azure_client_secret")
+        //   ...
+        //  ]);
         updatedFixture = updatedFixture.replace(
           matches[0],
           `.filteringRequestBody(${transformation.toString()})\n  ` + matches[0]
