@@ -7,7 +7,7 @@ import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../src";
 const should = chai.should();
 
-import { CancellableAsyncLock } from "../src/util/lock";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
 import { settleAllTasks } from "./utils/utils";
 
 describe("CancellableAsyncLock", function() {
@@ -16,7 +16,7 @@ describe("CancellableAsyncLock", function() {
   describe(".acquire", function() {
     let lock: CancellableAsyncLock;
     beforeEach("create lock", () => {
-      lock = new CancellableAsyncLock();
+      lock = new CancellableAsyncLockImpl();
     });
 
     it("forwards values from task", async () => {

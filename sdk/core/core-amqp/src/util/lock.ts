@@ -7,9 +7,9 @@ import { StandardAbortMessage } from "../errors";
 import { logger } from "../log";
 
 /**
- * Describes the options that can be provided while acquiring a lock.
+ * Describes the properties that must be provided while acquiring a lock.
  */
-export interface AcquireOptions {
+export interface AcquireLockProperties {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel lock acquisition.
    * This does not cancel running the task passed to `acquire()` if the lock has been acquired,
@@ -38,10 +38,41 @@ interface TaskDetails {
 }
 
 /**
- * This class is used to coordinate executing tasks that should not be run in parallel.
- * @hidden
+ * CancellableAsyncLock provides a mechanism for forcing tasks using the same
+ * 'key' to be executed serially.
+ *
+ * Pending tasks can be manually cancelled via an abortSignal or automatically
+ * cancelled by reach a provided timeout value.
  */
-export class CancellableAsyncLock {
+export interface CancellableAsyncLock {
+  /**
+   * Returns a promise that resolves to the value returned by the provided task function.
+   * Only 1 task can be invoked at a time for a given `key` value.
+   *
+   * An acquire call can be cancelled via an `abortSignal`.
+   * If cancelled, the promise will be rejected with an `AbortError`.
+   *
+   * `acquireTimeoutInMs` can also be provided to properties.
+   * If the timeout is reached before the provided `task` is invoked,
+   * then the promise will be rejected with an Error stating the task
+   * timed out waiting to acquire a lock.
+   *
+   * @param key - All `acquire` calls are grouped by the provided `key`.
+   * @param task - The function to invoke once the lock has been acquired.
+   * @param properties - Additional properties to control the behavior of `acquire`.
+   */
+  acquire<T = void>(
+    key: string,
+    task: (...args: any[]) => Promise<T>,
+    properties: AcquireLockProperties
+  ): Promise<T>;
+}
+
+/**
+ * This class is used to coordinate executing tasks that should not be run in parallel.
+ * @internal
+ */
+export class CancellableAsyncLockImpl {
   private _keyMap = new Map<string, TaskDetails[]>();
   private _executionRunningSet = new Set<string>();
   /**
@@ -51,21 +82,21 @@ export class CancellableAsyncLock {
    * An acquire call can be cancelled via an `abortSignal`.
    * If cancelled, the promise will be rejected with an `AbortError`.
    *
-   * `acquireTimeoutInMs` can also be provided to options.
+   * `acquireTimeoutInMs` can also be provided to properties.
    * If the timeout is reached before the provided `task` is invoked,
    * then the promise will be rejected with an Error stating the task
    * timed out waiting to acquire a lock.
    *
    * @param key - All `acquire` calls are grouped by the provided `key`.
    * @param task - The function to invoke once the lock has been acquired.
-   * @param options - Additional options to control the behavior of `acquire`.
+   * @param properties - Additional properties to control the behavior of `acquire`.
    */
   acquire<T = void>(
     key: string,
     task: (...args: any[]) => Promise<T>,
-    options: AcquireOptions
+    properties: AcquireLockProperties
   ): Promise<T> {
-    const { abortSignal, timeoutInMs: acquireTimeoutInMs } = options;
+    const { abortSignal, timeoutInMs: acquireTimeoutInMs } = properties;
     // Fast exit if the operation is already cancelled.
     if (abortSignal?.aborted) {
       return Promise.reject(new AbortError(StandardAbortMessage));

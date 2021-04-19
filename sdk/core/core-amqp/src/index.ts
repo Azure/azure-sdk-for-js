@@ -33,6 +33,7 @@ export {
 export {
   delay,
   parseConnectionString,
+  defaultCancellableLock,
   defaultLock,
   ParsedOutput,
   AsyncLock,
@@ -41,4 +42,4 @@ export {
 export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
 export { logger } from "./log";
 export * from "./internals";
-export { AcquireOptions, CancellableAsyncLock } from "./util/lock";
+export { AcquireLockProperties, CancellableAsyncLock } from "./util/lock";
