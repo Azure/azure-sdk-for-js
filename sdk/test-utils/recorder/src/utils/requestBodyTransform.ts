@@ -11,6 +11,10 @@ export type RequestBodyTransformsType = {
  */
 export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
   stringTransforms: [
+    // Identity v2 with the new msal, has unique request-ids in request body, to be able to
+    // match the ids in playback we apply this method on the request body
+    // 1. before saving the recording
+    // 2. add it as a filter on the new requests to be able to match the request bodies
     (body: string) =>
       body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id")
   ],
