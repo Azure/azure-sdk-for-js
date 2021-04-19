@@ -6,7 +6,7 @@ import { isNode } from "@azure/core-http";
 import { DefaultAzureCredential } from "@azure/identity";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { PhoneNumbersClient } from "../src";
+import { PhoneNumbersClient } from "../../src";
 
 describe("PhoneNumbersClient - constructor", function() {
   const endpoint = "https://contoso.spool.azure.local";
