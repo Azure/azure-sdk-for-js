@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /**
  * Azure Rest Core Client library for JavaScript
  * @packageDocumentation

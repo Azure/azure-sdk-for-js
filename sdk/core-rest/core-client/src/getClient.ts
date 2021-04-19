@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
@@ -19,6 +22,7 @@ export interface Client {
    * This method will be used to send request that would check the path to provide
    * strong types
    */
+  // eslint-disable-next-line @typescript-eslint/ban-types
   path: Function;
   /**
    * This method allows arbitrary paths and doesn't provide strong types
@@ -40,15 +44,15 @@ export interface Client {
 
 /**
  * Creates a client with a default pipeline
- * @param baseUrl Base endpoint for the client
- * @param options Client options
+ * @param baseUrl - Base endpoint for the client
+ * @param options - Client options
  */
 export function getClient(baseUrl: string, options?: PipelineOptions): Client;
 /**
  * Creates a client with a default pipeline
- * @param baseUrl Base endpoint for the client
- * @param credentials Credentials to authenticate the requests
- * @param options Client options
+ * @param baseUrl - Base endpoint for the client
+ * @param credentials - Credentials to authenticate the requests
+ * @param options - Client options
  */
 export function getClient(
   baseUrl: string,
@@ -57,18 +61,16 @@ export function getClient(
 ): Client;
 export function getClient(
   baseUrl: string,
-  credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | PipelineOptions,
-  options: ClientOptions = {}
+  credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
+  clientOptions: ClientOptions = {}
 ): Client {
   let credentials: TokenCredential | KeyCredential | undefined;
-  let clientOptions = options;
 
   if (credentialsOrPipelineOptions) {
     if (isCredential(credentialsOrPipelineOptions)) {
       credentials = credentialsOrPipelineOptions;
-      clientOptions = options;
     } else {
-      clientOptions = credentialsOrPipelineOptions || {};
+      clientOptions = credentialsOrPipelineOptions ?? {};
     }
   }
 
@@ -116,7 +118,7 @@ function buildSendRequest(
   pipeline: Pipeline,
   requestOptions: RequestParameters = {},
   args: string[] = []
-) {
+): Promise<HttpResponse> {
   // If the client has an api-version and the request doesn't specify one, inject the one in the client options
   if (!requestOptions.queryParameters?.["api-version"] && clientOptions.apiVersion) {
     if (!requestOptions.queryParameters) {

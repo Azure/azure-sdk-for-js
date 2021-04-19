@@ -34,7 +34,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 };
 
 export function createClient(options?: ClientOptions): DocumentTranslatorClient {
-  let credential = { key: env.DOCUMENT_TRANSLATOR_API_KEY };
+  const credential = { key: env.DOCUMENT_TRANSLATOR_API_KEY };
   return DocumentTranslator(env.ENDPOINT, credential, options);
 }
 
