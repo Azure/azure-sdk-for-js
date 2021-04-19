@@ -30,7 +30,8 @@ export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCr
 export {
   InteractiveBrowserCredentialOptions,
   InteractiveBrowserCredentialBrowserOptions,
-  BrowserLoginStyle
+  BrowserLoginStyle,
+  InteractiveBrowserAuthenticationFlow
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export { DeviceCodeCredential } from "./credentials/deviceCodeCredential";

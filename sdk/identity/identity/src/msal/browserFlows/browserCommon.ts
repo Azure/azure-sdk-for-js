@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as msal from "msal";
 import * as msalBrowser from "@azure/msal-browser";
 import { AccessToken } from "@azure/core-http";
 import { DefaultTenantId } from "../../constants";
@@ -67,9 +68,9 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected clientId: string;
   protected tenantId: string;
   protected account: AuthenticationRecord | undefined;
-  protected msalConfig: msalBrowser.Configuration;
+  protected msalConfig: msal.Configuration | msalBrowser.Configuration;
   protected disableAutomaticAuthentication?: boolean;
-  protected app?: msalBrowser.PublicClientApplication;
+  protected app?: msal.UserAgentApplication | msalBrowser.PublicClientApplication;
 
   constructor(options: MsalBrowserFlowOptions) {
     super(options);

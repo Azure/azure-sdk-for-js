@@ -186,6 +186,9 @@ export function getDefaultAzureCredential(): TokenCredential;
 export { GetTokenOptions }
 
 // @public
+export type InteractiveBrowserAuthenticationFlow = "implicit-grant" | "auth-code";
+
+// @public
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions | InteractiveBrowserCredentialBrowserOptions);
     authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
@@ -198,6 +201,7 @@ export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions 
     tenantId?: string;
     clientId: string;
     loginStyle?: BrowserLoginStyle;
+    flow?: InteractiveBrowserAuthenticationFlow;
 };
 
 // @public

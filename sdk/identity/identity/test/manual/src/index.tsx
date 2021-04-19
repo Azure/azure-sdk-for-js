@@ -6,7 +6,8 @@ import * as ReactDOM from "react-dom";
 
 import {
   InteractiveBrowserCredential,
-  BrowserLoginStyle
+  BrowserLoginStyle,
+  InteractiveBrowserAuthenticationFlow
 } from "@azure/identity";
 import { ServiceBusClient } from "@azure/service-bus";
 
@@ -15,6 +16,7 @@ interface ClientDetails {
   clientId: string;
   queueName: string;
   loginStyle: BrowserLoginStyle;
+  flow: InteractiveBrowserAuthenticationFlow;
   numberOfExecutions: number;
   cacheCredential: boolean;
   parallel: boolean;
@@ -76,13 +78,14 @@ function getCredential(
   }
   if (cachedCredential && clientDetails.loginStyle === lastLoginStyle) return cachedCredential;
 
-  const { tenantId, clientId, loginStyle } = clientDetails;
+  const { tenantId, clientId, loginStyle, flow } = clientDetails;
 
-  if (tenantId && clientId && loginStyle) {
+  if (tenantId && clientId && loginStyle && flow) {
     cachedCredential = new InteractiveBrowserCredential({
       tenantId,
       clientId,
-      loginStyle
+      loginStyle,
+      flow
     });
     lastLoginStyle = clientDetails.loginStyle;
     return cachedCredential;
@@ -100,7 +103,7 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
   ) =>
     handleDetailsChange({
       ...clientDetails,
-      [name]: changeValue ? changeValue(value) : value,
+      [name]: changeValue ? changeValue(value) : value
     });
 
   return (
@@ -159,6 +162,13 @@ function ClientDetailsEditor({ clientDetails, onSetClientDetails }: ClientDetail
           onChange={setDetail("loginStyle")}
         />
         <br />
+        <h4>Authentication flow</h4>
+        <Radio
+          values={["implicit-grant", "auth-code"]}
+          checkedValue={clientDetails.flow}
+          onChange={setDetail("flow")}
+        />
+        <br />
         <h4>Number of executions</h4>
         <Radio
           values={["1", "2", "3"]}
@@ -211,7 +221,7 @@ async function sendMessage(
   try {
     const sender = client.createSender(queueName);
     const cleanDetails = {
-      ...clientDetails,
+      ...clientDetails
     };
     delete cleanDetails.output;
     const body = [
@@ -219,7 +229,7 @@ async function sendMessage(
       `Sent at: ${new Date()}`,
       "Body:",
       JSON.stringify(cleanDetails),
-      "--- Message End ---",
+      "--- Message End ---"
     ].join("\n");
     console.log("Attempting to send a message...");
     await sender.sendMessages({ body });
@@ -324,11 +334,12 @@ function TestPage() {
       clientId: "",
       queueName: "queue-identity-test",
       loginStyle: "popup",
+      flow: "auth-code",
       numberOfExecutions: 1,
       cacheCredential: true,
       parallel: false,
       serviceBusEndpoint: "",
-      output: "",
+      output: ""
     }
   );
 
