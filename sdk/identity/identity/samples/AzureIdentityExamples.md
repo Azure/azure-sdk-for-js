@@ -3,6 +3,10 @@
 - [Introduction](#introduction)
 - [Authenticating client side browser applications](#authenticating-client-side-browser-applications)
 - [Authenticating server side applications](#authenticating-server-side-applications)
+  - [Authenticating User Accounts](#authenticating-user-accounts)
+  - [Authenticating User Accounts with developer tools](#authenticating-user-accounts-with-developer-tools)
+  - [Authenticating Service Principals](#authenticating-service-principals)
+  - [Authenticating Azure Hosted Applications](#authenticating-azure-hosted-applications)
 - [Chaining credentials](#chaining-credentials)
 - [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
 
@@ -20,7 +24,7 @@ You may also refer to [Authenticating a user account interactively in the browse
 
 For server side applications we provide options that vary from minimal configuration with sensible defaults using the `DefaultAzureCredential` to more specialized credentials that can support your specific scenario. Please feel free to navigate to the specific credentials below to explore what we offer:
 
-**Authenticating User Accounts**
+### Authenticating User Accounts
 
 Authenticating user accounts is the easiest way to get started with minimal set up. For production scenarios, we recommend authenticating using service principals or managed identity which are listed in the later sections.
 
@@ -31,7 +35,7 @@ Authenticating user accounts is the easiest way to get started with minimal set 
 | [AuthorizationCodeCredential](#authenticating-a-user-account-with-auth-code-flow)           | Authenticate a user with a previously obtained authorization.                                                           | Yes, please see the linked example.                              |
 | [UsernamePasswordCredential](#authenticating-a-user-account-with-username-and-password)     | Authenticates a user with a username and password.                                                                      | [Application Registration](quickstart-register-app) is required. |
 
-**Authenticating User Accounts with developer tools**
+### Authenticating User Accounts with developer tools
 
 | Credential with example                                                             | Usage                                                                                                                                                                                                                                                                                                                   | Setup                                                                                                                                                                     |
 | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -39,7 +43,7 @@ Authenticating user accounts is the easiest way to get started with minimal set 
 | [VisualStudioCodeCredential](authenticating-a-user-account-with-visual-studio-code) | Authenticate in a development environment with Visual Studio Code.                                                                                                                                                                                                                                                      | Install [VS Code](https://code.visualstudio.com/), [VS Code Azure extension](https://code.visualstudio.com/docs/azure/extensions) and login using the extension.          |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)               | Tries `AzureCliCredential`, `VisualStudioCodeCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
-**Authenticating Service Principals**
+### Authenticating Service Principals
 
 An Azure service principal is an identity created for use with applications, hosted services, and automated tools to access Azure resources. This access is restricted by the roles assigned to the service principal, giving you control over which resources can be accessed and at which level. For security reasons, it's always recommended to use service principals with automated tools rather than allowing them to log in with a user identity.
 
@@ -57,7 +61,7 @@ Set up:
 | [EnvironmentCredential](#authenticating-a-service-principal-with-environment-credentials)    | Authenticates a service principal or user via credential information specified in environment variables.                                                                                                                                                                                                                                         |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)                        | Tries `EnvironmentCredential`, `AzureCliCredential`, `VisualStudioCodeCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
-**Authenticating Azure Hosted Applications**
+### Authenticating Azure Hosted Applications
 
 If your application is hosted in Azure, you can make use of [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview) for hassle free authentication in your production environments.
 
@@ -66,7 +70,9 @@ If your application is hosted in Azure, you can make use of [Managed Identity](h
 | [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, app service, function app, cloud shell, or AKS environment on Azure, with system assigned, or user assigned managed identity enabled.                                                                                                                                                                                                      |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)       | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `VisualStudioCodeCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
-### Authenticating with `DefaultAzureCredential`
+### Examples
+
+#### Authenticating with `DefaultAzureCredential`
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DefaultAzureCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/defaultAzureCredential.ts) to create a Key Vault key client you can copy-paste. The `DefaultAzureCredential` makes for a terrific starting point as it provides sane defaults with minimal configuration and chains multiple credentials together. While you may outgrow it eventually, it is a sensible first choice for most scenarios where the application is intended to ultimately be run in the Azure Cloud.
 
@@ -101,7 +107,7 @@ function withDefaultAzureCredential() {
 }
 ```
 
-### Authenticating a user account interactively in the browser
+#### Authenticating a user account interactively in the browser
 
 For clients that have a default browser available and for client-side applications running in the browser, the `InteractiveBrowserCredential` provides the simplest user authentication experience. In the sample below an application authenticates a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `InteractiveBrowserCredential`.
 
@@ -118,7 +124,7 @@ function withInteractiveBrowserCredential() {
 }
 ```
 
-### Authenticating a service principal with a client secret
+#### Authenticating a service principal with a client secret
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ClientSecretCredential`. There's also [a runnable sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/typescript/src/clientSecretCredential.ts) to create a Key Vault key client you can copy-paste.
 
@@ -145,7 +151,7 @@ function withClientSecretCredential() {
 }
 ```
 
-### Authenticating a service principal with environment credentials
+#### Authenticating a service principal with environment credentials
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `EnvironmentCredential`. The `EnvironmentCredential` looks for well-known environment variable names to determine how it should authenticate. It effectively acts as a wrapper for the `ClientSecretCredential`, `ClientCertificateCredential` or `UsernamePasswordCredential` depending on which environment variables are present.
 
@@ -168,7 +174,7 @@ function withEnvironmentCredential() {
 }
 ```
 
-### Authenticating a service principal with a client certificate
+#### Authenticating a service principal with a client certificate
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ClientCertificateCredential`.
 
@@ -195,7 +201,7 @@ function withClientCertificateCredential() {
 }
 ```
 
-### Authenticating a user account with device code flow
+#### Authenticating a user account with device code flow
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `DeviceCodeCredential`.
 
@@ -220,7 +226,7 @@ function withDeviceCodeCredential() {
 }
 ```
 
-### Authenticating a user account with username and password
+#### Authenticating a user account with username and password
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `UsernamePasswordCredential`. The user must **not** have Multi-factor auth turned on.
 
@@ -241,7 +247,7 @@ function withClientCertificateCredential() {
 }
 ```
 
-### Authenticating a user account with auth code flow
+#### Authenticating a user account with auth code flow
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AuthorizationCodeCredential` on a web application. This can be useful when you want complete control over the authentication flow or when the `InteractiveBrowserCredential` does not fit your use-case.
 
@@ -269,7 +275,7 @@ function withAuthCodeCredential() {
 }
 ```
 
-### Authenticating a user account with Azure CLI
+#### Authenticating a user account with Azure CLI
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `AzureCliCredential` on a workstation with Azure CLI installed and signed in.
 
@@ -299,7 +305,7 @@ az account get-access-token
 
 to verify the account has been successfully configured.
 
-#### Use the Azure CLI Credential
+##### Use the Azure CLI Credential
 
 ```ts
 /**
@@ -314,7 +320,7 @@ function withAzureCliCredential() {
 }
 ```
 
-### Authenticating a user account with Visual Studio Code
+#### Authenticating a user account with Visual Studio Code
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `VisualStudioCodeCredential` on a workstation with Visual Studio Code installed, and the user has signed in with an Azure account.
 
@@ -330,7 +336,7 @@ function withVisualStudioCodeCredential() {
 }
 ```
 
-### Authenticating in Azure with managed identity
+#### Authenticating in Azure with managed identity
 
 This examples demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] client library using the `ManagedIdentityCredential` in a virtual machine, app service, function app, cloud shell, or AKS environment on Azure, with system assigned, or user assigned managed identity enabled.
 
