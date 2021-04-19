@@ -20,7 +20,7 @@ export const mockParticipant: RestModel.ChatParticipant = {
 
 export const mockSdkModelParticipant: ChatParticipant = {
   id: {
-    communicationUserId: mockParticipant.communicationIdentifier.communicationUser?.id!
+    communicationUserId: mockParticipant.communicationIdentifier.communicationUser?.id as string
   },
   displayName: mockParticipant.displayName,
   shareHistoryTime: mockParticipant.shareHistoryTime

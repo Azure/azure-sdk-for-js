@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { PerfStressOptionDictionary, getEnvVar } from "@azure/test-utils-perfstress";
 import { MetricsAdvisorTest } from "./metricsAdvisor.spec";
-interface MetricsAdvisorTestOptions {}
+type MetricsAdvisorTestOptions = Record<string, unknown>;
 
 export class IncidentsListTest extends MetricsAdvisorTest<MetricsAdvisorTestOptions> {
   alertId: string;
@@ -20,6 +20,7 @@ export class IncidentsListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
       id: this.alertId
     });
 
+    // eslint-disable-next-line no-empty
     for await (const _incident of listIterator) {
     }
   }

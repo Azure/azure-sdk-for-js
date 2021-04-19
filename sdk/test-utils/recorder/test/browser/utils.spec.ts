@@ -227,6 +227,39 @@ describe("Browser utils", () => {
             responseHeaders: {}
           }
         ]
+      },
+      {
+        name: `no impact on the recording with json content type but no json response`,
+        input: [
+          {
+            method: "GET",
+            url: "https://managed_hsm.azure.net/keys/cryptography-client-test1e909341f12eab0",
+            query: { "api-version": "7.2" },
+            requestBody: "",
+            status: 401,
+            response: "OK",
+            responseHeaders: {
+              "content-security-policy": "default-src 'self'",
+              "content-type": "application/json; charset=utf-8",
+              "strict-transport-security": "max-age=31536000; includeSubDomains"
+            }
+          }
+        ],
+        output: [
+          {
+            method: "GET",
+            url: "https://managed_hsm.azure.net/keys/cryptography-client-test1e909341f12eab0",
+            query: { "api-version": "7.2" },
+            requestBody: "",
+            status: 401,
+            response: "OK",
+            responseHeaders: {
+              "content-security-policy": "default-src 'self'",
+              "content-type": "application/json; charset=utf-8",
+              "strict-transport-security": "max-age=31536000; includeSubDomains"
+            }
+          }
+        ]
       }
     ].forEach((test) => {
       it(test.name, () => {

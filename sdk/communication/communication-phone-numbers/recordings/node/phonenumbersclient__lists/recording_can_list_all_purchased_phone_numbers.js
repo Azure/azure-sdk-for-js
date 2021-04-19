@@ -1,112 +1,27 @@
-let nock = require("nock");
+let nock = require('nock');
 
-module.exports.hash = "40b3d24eb6ac15f451c9a520dc9e8e56";
+module.exports.hash = "abe2e819f7fadb19bc1a53535c53a6a0";
 
-module.exports.testInfo = { uniqueName: {}, newDate: {} };
+module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock("https://endpoint", { encodedQueryParams: false })
-  .get("/phoneNumbers")
+nock('https://endpoint', {"encodedQueryParams":true})
+  .get('/phoneNumbers')
   .query(true)
-  .reply(
-    200,
-    {
-      phoneNumbers: [
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "inbound", sms: "inbound+outbound" },
-          assignmentType: "Application",
-          purchaseDate: "2021-02-09T23:03:57.6969271+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        },
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "none", sms: "inbound+outbound" },
-          assignmentType: "Application",
-          purchaseDate: "2021-02-10T17:51:13.4876763+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        },
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "none", sms: "inbound" },
-          assignmentType: "Application",
-          purchaseDate: "2021-02-10T17:52:41.818335+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        },
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "none", sms: "inbound+outbound" },
-          assignmentType: "Application",
-          purchaseDate: "2021-02-10T18:01:46.4199999+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        },
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "none", sms: "inbound+outbound" },
-          assignmentType: "Application",
-          purchaseDate: "2021-03-09T15:01:55.0949003+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        },
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "none", sms: "inbound+outbound" },
-          assignmentType: "Application",
-          purchaseDate: "2021-03-09T15:03:04.7513808+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        },
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "inbound", sms: "inbound+outbound" },
-          assignmentType: "Application",
-          purchaseDate: "2000-01-01T00:00:00+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        },
-        {
-          id: "14155550100",
-          phoneNumber: "+14155550100",
-          countryCode: "US",
-          phoneNumberType: "TollFree",
-          capabilities: { calling: "inbound+outbound", sms: "none" },
-          assignmentType: "Application",
-          purchaseDate: "2020-09-18T15:03:19.5370985+00:00",
-          cost: { amount: 2, currencyCode: "USD", billingFrequency: "Monthly" }
-        }
-      ]
-    },
-    [
-      "Transfer-Encoding",
-      "chunked",
-      "Content-Type",
-      "application/json; charset=utf-8",
-      "Request-Context",
-      "appId=",
-      "MS-CV",
-      "WOl556g5n0ifLBnJyXi7iQ.0",
-      "X-Processing-Time",
-      "3589ms",
-      "X-Azure-Ref",
-      "0I+5HYAAAAADYEyZb0C0mR7MIOdnQ7M8LWVZSMzBFREdFMDQxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-      "Date",
-      "Tue, 09 Mar 2021 21:52:39 GMT"
-    ]
-  );
+  .reply(200, {"phoneNumbers":[{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"geographic","capabilities":{"calling":"outbound","sms":"none"},"assignmentType":"application","purchaseDate":"2021-04-06T23:27:52.858607+00:00","cost":{"amount":1,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"geographic","capabilities":{"calling":"inbound","sms":"none"},"assignmentType":"application","purchaseDate":"2021-04-06T23:48:49.38583+00:00","cost":{"amount":1,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-02-10T17:51:13.4876763+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"inbound"},"assignmentType":"application","purchaseDate":"2021-02-10T17:52:41.818335+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-02-10T18:01:46.4199999+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-03-09T15:01:55.0949003+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-03-09T15:03:04.7513808+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"outbound"},"assignmentType":"application","purchaseDate":"2021-03-26T21:13:23.5677014+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"outbound"},"assignmentType":"application","purchaseDate":"2021-03-26T20:48:35.6663829+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound+outbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-03-26T22:41:03.6935096+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-03-29T20:13:20.1694649+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-03-30T23:10:20.4361699+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-04-06T17:35:42.8155189+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"outbound","sms":"outbound"},"assignmentType":"application","purchaseDate":"2021-04-06T23:15:56.8228107+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound"},"assignmentType":"application","purchaseDate":"2021-04-06T23:32:06.9113399+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-04-06T21:36:18.8554333+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-04-06T23:02:07.935429+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-04-06T23:14:21.7956616+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"none","sms":"outbound"},"assignmentType":"application","purchaseDate":"2021-04-06T23:19:11.9095127+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"outbound","sms":"inbound"},"assignmentType":"application","purchaseDate":"2021-04-06T23:40:02.0410712+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-04-07T16:37:03.918591+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-04-08T16:18:38.5365335+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-04-08T19:48:38.3328121+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2021-04-08T20:56:52.3906615+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}},{"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound","sms":"inbound+outbound"},"assignmentType":"application","purchaseDate":"2000-01-01T00:00:00+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"}}]}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Request-Context',
+  'appId=',
+  'MS-CV',
+  'r+6J+BKQwEmPEwtGKo+shA.0',
+  'api-supported-versions',
+  '2021-03-07',
+  'X-Processing-Time',
+  '13853ms',
+  'X-Azure-Ref',
+  '0KAZ2YAAAAADtfsOdk6rJQYrE8vpZGQMUWVZSMzBFREdFMDQxOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  'Date',
+  'Tue, 13 Apr 2021 20:59:33 GMT'
+]);

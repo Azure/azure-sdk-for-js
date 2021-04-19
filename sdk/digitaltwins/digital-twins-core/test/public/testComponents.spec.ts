@@ -71,7 +71,7 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   let client: DigitalTwinsClient;
   let recorder: Recorder;
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Mocha.Context) {
     const authentication = await authenticate(this);
     client = authentication.client;
     recorder = authentication.recorder;
@@ -84,11 +84,15 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   async function deleteModels(): Promise<void> {
     try {
       await client.deleteModel(MODEL_ID);
-    } catch (Exception) {}
+    } catch (Exception) {
+      console.error("deleteModel failed during test setup or cleanup");
+    }
 
     try {
       await client.deleteModel(COMPONENT_ID);
-    } catch (Exception) {}
+    } catch (Exception) {
+      console.error("deleteModel failed during test setup or cleanup");
+    }
   }
 
   async function createModel(): Promise<void> {
@@ -104,7 +108,9 @@ describe("DigitalTwins Components - read, update and delete operations", () => {
   async function deleteDigitalTwin(digitalTwinId: string): Promise<void> {
     try {
       await client.deleteDigitalTwin(digitalTwinId);
-    } catch (Exception) {}
+    } catch (Exception) {
+      console.error("deleteDigitalTwin failure during test setup or cleanup");
+    }
   }
 
   async function createDigitalTwin(digitalTwinId: string): Promise<void> {

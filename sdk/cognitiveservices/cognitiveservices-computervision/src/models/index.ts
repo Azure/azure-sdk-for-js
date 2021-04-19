@@ -383,6 +383,7 @@ export interface ImageAnalysis {
    */
   requestId?: string;
   metadata?: ImageMetadata;
+  modelVersion?: string;
 }
 
 /**
@@ -403,6 +404,7 @@ export interface ImageDescription {
    */
   requestId?: string;
   metadata?: ImageMetadata;
+  modelVersion?: string;
 }
 
 /**
@@ -419,6 +421,7 @@ export interface DetectResult {
    */
   requestId?: string;
   metadata?: ImageMetadata;
+  modelVersion?: string;
 }
 
 /**
@@ -459,6 +462,7 @@ export interface DomainModelResults {
    */
   requestId?: string;
   metadata?: ImageMetadata;
+  modelVersion?: string;
 }
 
 /**
@@ -546,6 +550,7 @@ export interface OcrResult {
    * An array of objects, where each object represents a region of recognized text.
    */
   regions?: OcrRegion[];
+  modelVersion?: string;
 }
 
 /**
@@ -561,6 +566,7 @@ export interface TagResult {
    */
   requestId?: string;
   metadata?: ImageMetadata;
+  modelVersion?: string;
 }
 
 /**
@@ -577,6 +583,7 @@ export interface AreaOfInterestResult {
    */
   requestId?: string;
   metadata?: ImageMetadata;
+  modelVersion?: string;
 }
 
 /**
@@ -592,49 +599,74 @@ export interface ImageUrl {
 /**
  * Details about the API request error.
  */
+export interface ComputerVisionInnerError {
+  /**
+   * The error code. Possible values include: 'InvalidImageFormat', 'UnsupportedMediaType',
+   * 'InvalidImageUrl', 'NotSupportedFeature', 'NotSupportedImage', 'Timeout',
+   * 'InternalServerError', 'InvalidImageSize', 'BadArgument', 'DetectFaceError',
+   * 'NotSupportedLanguage', 'InvalidThumbnailSize', 'InvalidDetails', 'InvalidModel',
+   * 'CancelledRequest', 'NotSupportedVisualFeature', 'FailedToProcess', 'Unspecified',
+   * 'StorageException'
+   */
+  code: ComputerVisionInnerErrorCodeValue;
+  /**
+   * Error message.
+   */
+  message: string;
+}
+
+/**
+ * The API request error.
+ */
 export interface ComputerVisionError {
   /**
-   * The error code.
+   * The error code. Possible values include: 'InvalidRequest', 'InvalidArgument',
+   * 'InternalServerError', 'ServiceUnavailable'
    */
-  code: any;
+  code: ComputerVisionErrorCodes;
   /**
    * A message explaining the error reported by the service.
    */
   message: string;
   /**
-   * A unique request identifier.
+   * Inner error contains more specific information.
    */
-  requestId?: string;
+  innererror?: ComputerVisionInnerError;
 }
 
 /**
- * Result of domain-specific classifications for the domain of landmarks.
+ * The API error response.
  */
-export interface LandmarkResults {
+export interface ComputerVisionErrorResponse {
   /**
-   * List of landmarks recognized in the image.
+   * Error contents.
    */
-  landmarks?: LandmarksModel[];
-  /**
-   * Id of the REST API request.
-   */
-  requestId?: string;
-  metadata?: ImageMetadata;
+  error: ComputerVisionError;
 }
 
 /**
- * Result of domain-specific classifications for the domain of celebrities.
+ * An object representing the style of the text line.
  */
-export interface CelebrityResults {
+export interface Style {
   /**
-   * List of celebrities recognized in the image.
+   * The text line style name, including handwriting and other. Possible values include: 'other',
+   * 'handwriting'
    */
-  celebrities?: CelebritiesModel[];
+  name: TextStyle;
   /**
-   * Id of the REST API request.
+   * The confidence of text line style.
    */
-  requestId?: string;
-  metadata?: ImageMetadata;
+  confidence: number;
+}
+
+/**
+ * An object representing the appearance of the text line.
+ */
+export interface Appearance {
+  /**
+   * An object representing the style of the text line.
+   */
+  style: Style;
 }
 
 /**
@@ -668,6 +700,10 @@ export interface Line {
    * Bounding box of a recognized line.
    */
   boundingBox: number[];
+  /**
+   * Appearance of the text line.
+   */
+  appearance?: Appearance;
   /**
    * The text content of the line.
    */
@@ -722,6 +758,10 @@ export interface AnalyzeResults {
    */
   version: string;
   /**
+   * Version of the OCR model used for text extraction.
+   */
+  modelVersion: string;
+  /**
    * Text extracted from the input.
    */
   readResults: ReadResult[];
@@ -748,6 +788,24 @@ export interface ReadOperationResult {
    * Analyze batch operation result.
    */
   analyzeResult?: AnalyzeResults;
+}
+
+/**
+ * Details about the API request error.
+ */
+export interface ComputerVisionOcrError {
+  /**
+   * The error code.
+   */
+  code: any;
+  /**
+   * A message explaining the error reported by the service.
+   */
+  message: string;
+  /**
+   * A unique request identifier.
+   */
+  requestId?: string;
 }
 
 /**
@@ -787,6 +845,11 @@ export interface ComputerVisionClientAnalyzeImageOptionalParams extends msRest.R
    * Turn off specified domain models when generating the description.
    */
   descriptionExclude?: DescriptionExclude[];
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -808,6 +871,22 @@ export interface ComputerVisionClientDescribeImageOptionalParams extends msRest.
    * Turn off specified domain models when generating the description.
    */
   descriptionExclude?: DescriptionExclude[];
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ComputerVisionClientDetectObjectsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -821,6 +900,11 @@ export interface ComputerVisionClientAnalyzeImageByDomainOptionalParams extends 
    * 'pt', 'zh'. Default value: 'en'.
    */
   language?: Language2;
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -834,6 +918,11 @@ export interface ComputerVisionClientRecognizePrintedTextOptionalParams extends 
    * 'sr-Cyrl', 'sr-Latn', 'sk'. Default value: 'unk'.
    */
   language?: OcrLanguages;
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -847,6 +936,11 @@ export interface ComputerVisionClientTagImageOptionalParams extends msRest.Reque
    * 'pt', 'zh'. Default value: 'en'.
    */
   language?: Language3;
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -857,6 +951,22 @@ export interface ComputerVisionClientGenerateThumbnailOptionalParams extends msR
    * Boolean flag for enabling smart cropping. Default value: false.
    */
   smartCropping?: boolean;
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ComputerVisionClientGetAreaOfInterestOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -864,14 +974,29 @@ export interface ComputerVisionClientGenerateThumbnailOptionalParams extends msR
  */
 export interface ComputerVisionClientReadOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch
-   * (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt), and Spanish ('es') are
-   * supported. Read supports auto language identification and multi-language documents, so only
-   * provide a language code if you would like to force the documented to be processed as that
-   * specific language. Possible values include: 'en', 'es', 'fr', 'de', 'it', 'nl', 'pt'. Default
-   * value: 'en'.
+   * The BCP-47 language code of the text in the document. Read supports auto language
+   * identification and multi-language documents, so only provide a language code if you would like
+   * to force the document to be processed in that specific language. See
+   * https://aka.ms/ocr-languages for list of supported languages. Possible values include: 'af',
+   * 'ast', 'bi', 'br', 'ca', 'ceb', 'ch', 'co', 'crh', 'cs', 'csb', 'da', 'de', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fil', 'fj', 'fr', 'fur', 'fy', 'ga', 'gd', 'gil', 'gl', 'gv', 'hni', 'hsb', 'ht',
+   * 'hu', 'ia', 'id', 'it', 'iu', 'ja', 'jv', 'kaa', 'kac', 'kea', 'kha', 'kl', 'ko', 'ku', 'kw',
+   * 'lb', 'ms', 'mww', 'nap', 'nl', 'no', 'oc', 'pl', 'pt', 'quc', 'rm', 'sco', 'sl', 'sq', 'sv',
+   * 'sw', 'tet', 'tr', 'tt', 'uz', 'vo', 'wae', 'yua', 'za', 'zh-Hans', 'zh-Hant', 'zu'
    */
   language?: OcrDetectionLanguage;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want
+   * to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a
+   * comma.
+   */
+  pages?: string[];
+  /**
+   * Optional parameter to specify the version of the OCR model used for text extraction. Accepted
+   * values are: "latest", "latest-preview", "2021-04-12". Defaults to "latest". Default value:
+   * 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -911,6 +1036,22 @@ export interface ComputerVisionClientAnalyzeImageInStreamOptionalParams extends 
    * Turn off specified domain models when generating the description.
    */
   descriptionExclude?: DescriptionExclude[];
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ComputerVisionClientGetAreaOfInterestInStreamOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -932,6 +1073,22 @@ export interface ComputerVisionClientDescribeImageInStreamOptionalParams extends
    * Turn off specified domain models when generating the description.
    */
   descriptionExclude?: DescriptionExclude[];
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ComputerVisionClientDetectObjectsInStreamOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -942,6 +1099,11 @@ export interface ComputerVisionClientGenerateThumbnailInStreamOptionalParams ext
    * Boolean flag for enabling smart cropping. Default value: false.
    */
   smartCropping?: boolean;
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -955,6 +1117,11 @@ export interface ComputerVisionClientAnalyzeImageByDomainInStreamOptionalParams 
    * 'pt', 'zh'. Default value: 'en'.
    */
   language?: Language6;
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -968,6 +1135,11 @@ export interface ComputerVisionClientRecognizePrintedTextInStreamOptionalParams 
    * 'sr-Cyrl', 'sr-Latn', 'sk'. Default value: 'unk'.
    */
   language?: OcrLanguages;
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -981,6 +1153,11 @@ export interface ComputerVisionClientTagImageInStreamOptionalParams extends msRe
    * 'pt', 'zh'. Default value: 'en'.
    */
   language?: Language7;
+  /**
+   * Optional parameter to specify the version of the AI model. Accepted values are: "latest",
+   * "2021-04-01". Defaults to "latest". Default value: 'latest'.
+   */
+  modelVersion?: string;
 }
 
 /**
@@ -988,14 +1165,23 @@ export interface ComputerVisionClientTagImageInStreamOptionalParams extends msRe
  */
 export interface ComputerVisionClientReadInStreamOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The BCP-47 language code of the text in the document. Currently, only English ('en'), Dutch
-   * (‘nl’), French (‘fr’), German (‘de’), Italian (‘it’), Portuguese (‘pt), and Spanish ('es') are
-   * supported. Read supports auto language identification and multi-language documents, so only
-   * provide a language code if you would like to force the documented to be processed as that
-   * specific language. Possible values include: 'en', 'es', 'fr', 'de', 'it', 'nl', 'pt'. Default
-   * value: 'en'.
+   * The BCP-47 language code of the text in the document. Read supports auto language
+   * identification and multi-language documents, so only provide a language code if you would like
+   * to force the document to be processed in that specific language. See
+   * https://aka.ms/ocr-languages for list of supported languages. Possible values include: 'af',
+   * 'ast', 'bi', 'br', 'ca', 'ceb', 'ch', 'co', 'crh', 'cs', 'csb', 'da', 'de', 'en', 'es', 'et',
+   * 'eu', 'fi', 'fil', 'fj', 'fr', 'fur', 'fy', 'ga', 'gd', 'gil', 'gl', 'gv', 'hni', 'hsb', 'ht',
+   * 'hu', 'ia', 'id', 'it', 'iu', 'ja', 'jv', 'kaa', 'kac', 'kea', 'kha', 'kl', 'ko', 'ku', 'kw',
+   * 'lb', 'ms', 'mww', 'nap', 'nl', 'no', 'oc', 'pl', 'pt', 'quc', 'rm', 'sco', 'sl', 'sq', 'sv',
+   * 'sw', 'tet', 'tr', 'tt', 'uz', 'vo', 'wae', 'yua', 'za', 'zh-Hans', 'zh-Hant', 'zu'
    */
   language?: OcrDetectionLanguage;
+  /**
+   * Custom page numbers for multi-page documents(PDF/TIFF), input the number of the pages you want
+   * to get OCR result. For a range of pages, use a hyphen. Separate each page or range with a
+   * comma.
+   */
+  pages?: string[];
 }
 
 /**
@@ -1027,6 +1213,27 @@ export interface ReadInStreamHeaders {
 export type Gender = 'Male' | 'Female';
 
 /**
+ * Defines values for ComputerVisionErrorCodes.
+ * Possible values include: 'InvalidRequest', 'InvalidArgument', 'InternalServerError',
+ * 'ServiceUnavailable'
+ * @readonly
+ * @enum {string}
+ */
+export type ComputerVisionErrorCodes = 'InvalidRequest' | 'InvalidArgument' | 'InternalServerError' | 'ServiceUnavailable';
+
+/**
+ * Defines values for ComputerVisionInnerErrorCodeValue.
+ * Possible values include: 'InvalidImageFormat', 'UnsupportedMediaType', 'InvalidImageUrl',
+ * 'NotSupportedFeature', 'NotSupportedImage', 'Timeout', 'InternalServerError',
+ * 'InvalidImageSize', 'BadArgument', 'DetectFaceError', 'NotSupportedLanguage',
+ * 'InvalidThumbnailSize', 'InvalidDetails', 'InvalidModel', 'CancelledRequest',
+ * 'NotSupportedVisualFeature', 'FailedToProcess', 'Unspecified', 'StorageException'
+ * @readonly
+ * @enum {string}
+ */
+export type ComputerVisionInnerErrorCodeValue = 'InvalidImageFormat' | 'UnsupportedMediaType' | 'InvalidImageUrl' | 'NotSupportedFeature' | 'NotSupportedImage' | 'Timeout' | 'InternalServerError' | 'InvalidImageSize' | 'BadArgument' | 'DetectFaceError' | 'NotSupportedLanguage' | 'InvalidThumbnailSize' | 'InvalidDetails' | 'InvalidModel' | 'CancelledRequest' | 'NotSupportedVisualFeature' | 'FailedToProcess' | 'Unspecified' | 'StorageException';
+
+/**
  * Defines values for OperationStatusCodes.
  * Possible values include: 'notStarted', 'running', 'failed', 'succeeded'
  * @readonly
@@ -1041,6 +1248,14 @@ export type OperationStatusCodes = 'notStarted' | 'running' | 'failed' | 'succee
  * @enum {string}
  */
 export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
+
+/**
+ * Defines values for TextStyle.
+ * Possible values include: 'other', 'handwriting'
+ * @readonly
+ * @enum {string}
+ */
+export type TextStyle = 'other' | 'handwriting';
 
 /**
  * Defines values for DescriptionExclude.
@@ -1071,11 +1286,16 @@ export type VisualFeatureTypes = 'ImageType' | 'Faces' | 'Adult' | 'Categories' 
 
 /**
  * Defines values for OcrDetectionLanguage.
- * Possible values include: 'en', 'es', 'fr', 'de', 'it', 'nl', 'pt'
+ * Possible values include: 'af', 'ast', 'bi', 'br', 'ca', 'ceb', 'ch', 'co', 'crh', 'cs', 'csb',
+ * 'da', 'de', 'en', 'es', 'et', 'eu', 'fi', 'fil', 'fj', 'fr', 'fur', 'fy', 'ga', 'gd', 'gil',
+ * 'gl', 'gv', 'hni', 'hsb', 'ht', 'hu', 'ia', 'id', 'it', 'iu', 'ja', 'jv', 'kaa', 'kac', 'kea',
+ * 'kha', 'kl', 'ko', 'ku', 'kw', 'lb', 'ms', 'mww', 'nap', 'nl', 'no', 'oc', 'pl', 'pt', 'quc',
+ * 'rm', 'sco', 'sl', 'sq', 'sv', 'sw', 'tet', 'tr', 'tt', 'uz', 'vo', 'wae', 'yua', 'za',
+ * 'zh-Hans', 'zh-Hant', 'zu'
  * @readonly
  * @enum {string}
  */
-export type OcrDetectionLanguage = 'en' | 'es' | 'fr' | 'de' | 'it' | 'nl' | 'pt';
+export type OcrDetectionLanguage = 'af' | 'ast' | 'bi' | 'br' | 'ca' | 'ceb' | 'ch' | 'co' | 'crh' | 'cs' | 'csb' | 'da' | 'de' | 'en' | 'es' | 'et' | 'eu' | 'fi' | 'fil' | 'fj' | 'fr' | 'fur' | 'fy' | 'ga' | 'gd' | 'gil' | 'gl' | 'gv' | 'hni' | 'hsb' | 'ht' | 'hu' | 'ia' | 'id' | 'it' | 'iu' | 'ja' | 'jv' | 'kaa' | 'kac' | 'kea' | 'kha' | 'kl' | 'ko' | 'ku' | 'kw' | 'lb' | 'ms' | 'mww' | 'nap' | 'nl' | 'no' | 'oc' | 'pl' | 'pt' | 'quc' | 'rm' | 'sco' | 'sl' | 'sq' | 'sv' | 'sw' | 'tet' | 'tr' | 'tt' | 'uz' | 'vo' | 'wae' | 'yua' | 'za' | 'zh-Hans' | 'zh-Hant' | 'zu';
 
 /**
  * Defines values for Details.
