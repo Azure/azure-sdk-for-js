@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 
 import {
-  TokenCredential,
-  OperationOptions,
-  bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  InternalPipelineOptions
-} from "@azure/core-http";
+  InternalPipelineOptions,
+  bearerTokenAuthenticationPolicy
+} from "@azure/core-rest-pipeline";
+import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 
-import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
+import { AccessToken, AzureKeyCredential, TokenCredential } from "@azure/core-auth";
 
 import { RemoteRenderingRestClient } from "./generated";
 import {
@@ -198,7 +197,7 @@ export class RemoteRenderingClient {
           logger: logger.info,
           // This array contains header names we want to log that are not already
           // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-          allowedHeaderNames: ["X-MRC-CV", "MS-CV"]
+          additionalAllowedHeaderNames: ["X-MRC-CV", "MS-CV"]
         }
       }
     };
@@ -221,8 +220,13 @@ export class RemoteRenderingClient {
       { customEndpointUrl: authenticationEndpoint }
     );
 
-    const authPolicy = bearerTokenAuthenticationPolicy(mrTokenCredential, `${endpoint}/.default`);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential: mrTokenCredential,
+      scopes: `${endpoint}/.default`
+    });
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions);
+    pipeline.addPolicy(authPolicy);
 
     const clientOptions: RemoteRenderingRestClientOptionalParams = {
       ...internalPipelineOptions,

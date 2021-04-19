@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const CreateConversionSettings: coreHttp.CompositeMapper = {
+export const CreateConversionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CreateConversionSettings",
@@ -24,7 +24,7 @@ export const CreateConversionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AssetConversionSettings: coreHttp.CompositeMapper = {
+export const AssetConversionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AssetConversionSettings",
@@ -47,7 +47,7 @@ export const AssetConversionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AssetConversionInputSettings: coreHttp.CompositeMapper = {
+export const AssetConversionInputSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AssetConversionInputSettings",
@@ -82,7 +82,7 @@ export const AssetConversionInputSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AssetConversionOutputSettings: coreHttp.CompositeMapper = {
+export const AssetConversionOutputSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AssetConversionOutputSettings",
@@ -116,7 +116,7 @@ export const AssetConversionOutputSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const AssetConversion: coreHttp.CompositeMapper = {
+export const AssetConversion: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AssetConversion",
@@ -167,7 +167,7 @@ export const AssetConversion: coreHttp.CompositeMapper = {
   }
 };
 
-export const AssetConversionOutput: coreHttp.CompositeMapper = {
+export const AssetConversionOutput: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AssetConversionOutput",
@@ -183,7 +183,7 @@ export const AssetConversionOutput: coreHttp.CompositeMapper = {
   }
 };
 
-export const RemoteRenderingServiceError: coreHttp.CompositeMapper = {
+export const RemoteRenderingServiceError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingServiceError",
@@ -233,7 +233,7 @@ export const RemoteRenderingServiceError: coreHttp.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: coreHttp.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ErrorResponse",
@@ -249,7 +249,7 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ConversionList: coreHttp.CompositeMapper = {
+export const ConversionList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ConversionList",
@@ -278,7 +278,7 @@ export const ConversionList: coreHttp.CompositeMapper = {
   }
 };
 
-export const RenderingSessionSettings: coreHttp.CompositeMapper = {
+export const RenderingSessionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RenderingSessionSettings",
@@ -301,7 +301,7 @@ export const RenderingSessionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const RenderingSession: coreHttp.CompositeMapper = {
+export const RenderingSession: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RenderingSession",
@@ -395,7 +395,7 @@ export const RenderingSession: coreHttp.CompositeMapper = {
   }
 };
 
-export const UpdateSessionSettings: coreHttp.CompositeMapper = {
+export const UpdateSessionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UpdateSessionSettings",
@@ -411,7 +411,7 @@ export const UpdateSessionSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const SessionsList: coreHttp.CompositeMapper = {
+export const SessionsList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SessionsList",
@@ -440,7 +440,7 @@ export const SessionsList: coreHttp.CompositeMapper = {
   }
 };
 
-export const RemoteRenderingCreateConversionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingCreateConversionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingCreateConversionHeaders",
@@ -455,7 +455,7 @@ export const RemoteRenderingCreateConversionHeaders: coreHttp.CompositeMapper = 
   }
 };
 
-export const RemoteRenderingCreateConversionExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingCreateConversionExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingCreateConversionExceptionHeaders",
@@ -470,7 +470,7 @@ export const RemoteRenderingCreateConversionExceptionHeaders: coreHttp.Composite
   }
 };
 
-export const RemoteRenderingGetConversionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingGetConversionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingGetConversionHeaders",
@@ -491,7 +491,7 @@ export const RemoteRenderingGetConversionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const RemoteRenderingGetConversionExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingGetConversionExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingGetConversionExceptionHeaders",
@@ -512,7 +512,7 @@ export const RemoteRenderingGetConversionExceptionHeaders: coreHttp.CompositeMap
   }
 };
 
-export const RemoteRenderingListConversionsHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingListConversionsHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingListConversionsHeaders",
@@ -527,7 +527,7 @@ export const RemoteRenderingListConversionsHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const RemoteRenderingListConversionsExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingListConversionsExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingListConversionsExceptionHeaders",
@@ -548,7 +548,7 @@ export const RemoteRenderingListConversionsExceptionHeaders: coreHttp.CompositeM
   }
 };
 
-export const RemoteRenderingCreateSessionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingCreateSessionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingCreateSessionHeaders",
@@ -563,7 +563,7 @@ export const RemoteRenderingCreateSessionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const RemoteRenderingCreateSessionExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingCreateSessionExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingCreateSessionExceptionHeaders",
@@ -578,7 +578,7 @@ export const RemoteRenderingCreateSessionExceptionHeaders: coreHttp.CompositeMap
   }
 };
 
-export const RemoteRenderingGetSessionExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingGetSessionExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingGetSessionExceptionHeaders",
@@ -599,7 +599,7 @@ export const RemoteRenderingGetSessionExceptionHeaders: coreHttp.CompositeMapper
   }
 };
 
-export const RemoteRenderingUpdateSessionExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingUpdateSessionExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingUpdateSessionExceptionHeaders",
@@ -620,7 +620,7 @@ export const RemoteRenderingUpdateSessionExceptionHeaders: coreHttp.CompositeMap
   }
 };
 
-export const RemoteRenderingStopSessionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingStopSessionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingStopSessionHeaders",
@@ -635,7 +635,7 @@ export const RemoteRenderingStopSessionHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const RemoteRenderingStopSessionExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingStopSessionExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingStopSessionExceptionHeaders",
@@ -656,7 +656,7 @@ export const RemoteRenderingStopSessionExceptionHeaders: coreHttp.CompositeMappe
   }
 };
 
-export const RemoteRenderingListSessionsExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingListSessionsExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingListSessionsExceptionHeaders",
@@ -677,7 +677,7 @@ export const RemoteRenderingListSessionsExceptionHeaders: coreHttp.CompositeMapp
   }
 };
 
-export const RemoteRenderingListConversionsNextHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingListConversionsNextHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingListConversionsNextHeaders",
@@ -692,7 +692,7 @@ export const RemoteRenderingListConversionsNextHeaders: coreHttp.CompositeMapper
   }
 };
 
-export const RemoteRenderingListConversionsNextExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingListConversionsNextExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingListConversionsNextExceptionHeaders",
@@ -713,7 +713,7 @@ export const RemoteRenderingListConversionsNextExceptionHeaders: coreHttp.Compos
   }
 };
 
-export const RemoteRenderingListSessionsNextExceptionHeaders: coreHttp.CompositeMapper = {
+export const RemoteRenderingListSessionsNextExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteRenderingListSessionsNextExceptionHeaders",

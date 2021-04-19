@@ -51,6 +51,7 @@ dependencies:
   '@rush-temp/keyvault-secrets': file:projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:projects/logger.tgz
   '@rush-temp/mixedreality-authentication': file:projects/mixedreality-authentication.tgz
+  '@rush-temp/mixedreality-remoterendering': file:projects/mixedreality-remoterendering.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:projects/monitor-query.tgz
@@ -11957,6 +11958,7 @@ specifiers:
   '@rush-temp/keyvault-secrets': file:./projects/keyvault-secrets.tgz
   '@rush-temp/logger': file:./projects/logger.tgz
   '@rush-temp/mixedreality-authentication': file:./projects/mixedreality-authentication.tgz
+  '@rush-temp/mixedreality-remoterendering': file:./projects/mixedreality-remoterendering.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:./projects/monitor-query.tgz

@@ -6,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import { RemoteRenderingRestClientOptionalParams } from "./models";
 
-const packageName = "@azure/mixedreality-remoterendering";
-const packageVersion = "1.0.0-beta.1";
-
 /** @hidden */
-export class RemoteRenderingRestClientContext extends coreHttp.ServiceClient {
+export class RemoteRenderingRestClientContext extends coreClient.ServiceClient {
   endpoint: string;
   apiVersion: string;
 
@@ -36,17 +33,17 @@ export class RemoteRenderingRestClientContext extends coreHttp.ServiceClient {
       options = {};
     }
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const defaults: RemoteRenderingRestClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    super(undefined, options);
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      baseUri: options.endpoint || "{endpoint}"
+    };
 
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{endpoint}";
-
+    super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 

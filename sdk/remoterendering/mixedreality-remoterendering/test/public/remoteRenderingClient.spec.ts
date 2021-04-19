@@ -14,8 +14,7 @@ import {
   AssetConversion,
   KnownAssetConversionStatus
 } from "../../src";
-import { AzureKeyCredential, TokenCredential, GetTokenOptions } from "@azure/core-auth";
-import { AccessToken } from "@azure/core-http";
+import { AccessToken, AzureKeyCredential, TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import { createClient, createRecorder, getEnv } from "../utils/recordedClient";
 
 // Load the .env file if it exists

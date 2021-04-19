@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
 /** Request to start a conversion */
 export interface CreateConversionSettings {
@@ -377,136 +377,41 @@ export type RenderingSessionStatus = string;
 
 /** Contains response data for the createConversion operation. */
 export type RemoteRenderingCreateConversionResponse = RemoteRenderingCreateConversionHeaders &
-  AssetConversion & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: AssetConversion;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: RemoteRenderingCreateConversionHeaders;
-    };
-  };
+  AssetConversion;
 
 /** Contains response data for the getConversion operation. */
 export type RemoteRenderingGetConversionResponse = RemoteRenderingGetConversionHeaders &
-  AssetConversion & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: AssetConversion;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: RemoteRenderingGetConversionHeaders;
-    };
-  };
+  AssetConversion;
 
 /** Contains response data for the listConversions operation. */
 export type RemoteRenderingListConversionsResponse = RemoteRenderingListConversionsHeaders &
-  ConversionList & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ConversionList;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: RemoteRenderingListConversionsHeaders;
-    };
-  };
+  ConversionList;
 
 /** Contains response data for the createSession operation. */
-export type RemoteRenderingCreateSessionResponse = RenderingSession & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RenderingSession;
-  };
-};
+export type RemoteRenderingCreateSessionResponse = RenderingSession;
 
 /** Contains response data for the getSession operation. */
-export type RemoteRenderingGetSessionResponse = RenderingSession & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RenderingSession;
-  };
-};
+export type RemoteRenderingGetSessionResponse = RenderingSession;
 
 /** Contains response data for the updateSession operation. */
-export type RemoteRenderingUpdateSessionResponse = RenderingSession & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RenderingSession;
-  };
-};
+export type RemoteRenderingUpdateSessionResponse = RenderingSession;
 
 /** Contains response data for the stopSession operation. */
-export type RemoteRenderingStopSessionResponse = RemoteRenderingStopSessionHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: RemoteRenderingStopSessionHeaders;
-  };
-};
+export type RemoteRenderingStopSessionResponse = RemoteRenderingStopSessionHeaders;
 
 /** Contains response data for the listSessions operation. */
-export type RemoteRenderingListSessionsResponse = SessionsList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SessionsList;
-  };
-};
+export type RemoteRenderingListSessionsResponse = SessionsList;
 
 /** Contains response data for the listConversionsNext operation. */
 export type RemoteRenderingListConversionsNextResponse = RemoteRenderingListConversionsNextHeaders &
-  ConversionList & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: ConversionList;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: RemoteRenderingListConversionsNextHeaders;
-    };
-  };
+  ConversionList;
 
 /** Contains response data for the listSessionsNext operation. */
-export type RemoteRenderingListSessionsNextResponse = SessionsList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SessionsList;
-  };
-};
+export type RemoteRenderingListSessionsNextResponse = SessionsList;
 
 /** Optional parameters. */
 export interface RemoteRenderingRestClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

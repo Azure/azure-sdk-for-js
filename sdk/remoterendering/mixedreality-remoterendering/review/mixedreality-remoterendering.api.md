@@ -6,13 +6,12 @@
 
 import { AccessToken } from '@azure/core-auth';
 import { AzureKeyCredential } from '@azure/core-auth';
-import { HttpResponse } from '@azure/core-http';
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AssetConversion {
@@ -33,9 +32,12 @@ export interface AssetConversionInputSettings {
 }
 
 // @public (undocumented)
-export interface AssetConversionOperationState extends PollOperationState<WithResponse<AssetConversion>> {
-    latestResponse: WithResponse<AssetConversion>;
+export interface AssetConversionOperationState extends PollOperationState<AssetConversion> {
+    latestResponse: AssetConversion;
 }
+
+// @public (undocumented)
+export type AssetConversionOptions = AssetConversionPollerOptions & OperationOptions;
 
 // @public
 export interface AssetConversionOutput {
@@ -51,7 +53,13 @@ export interface AssetConversionOutputSettings {
 }
 
 // @public (undocumented)
-export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, WithResponse<AssetConversion>>;
+export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
+
+// @public (undocumented)
+export interface AssetConversionPollerOptions {
+    // (undocumented)
+    intervalInMs?: number;
+}
 
 // @public
 export interface AssetConversionSettings {
@@ -91,16 +99,16 @@ export class RemoteRenderingClient {
     constructor(endpoint: string, accountId: string, accountDomain: string, credential: AzureKeyCredential, options?: RemoteRenderingClientOptions);
     constructor(endpoint: string, accountId: string, accountDomain: string, credential: TokenCredential, options?: RemoteRenderingClientOptions);
     constructor(endpoint: string, accountId: string, accountDomain: string, credential: AccessToken, options?: RemoteRenderingClientOptions);
-    beginConversion(conversionId: string, assetConversionSettings: AssetConversionSettings, options?: OperationOptions): Promise<AssetConversionPollerLike>;
-    beginSession(sessionId: string, renderingSessionSettings: RenderingSessionSettings, options?: OperationOptions): Promise<RenderingSessionPollerLike>;
-    endSession(sessionId: string, options?: OperationOptions): Promise<WithResponse<{}>>;
-    getConversion(conversionId: string, options?: OperationOptions): Promise<WithResponse<AssetConversion>>;
-    getConversionPoller(conversionId: string, options?: OperationOptions): Promise<AssetConversionPollerLike>;
-    getSession(sessionId: string, options?: OperationOptions): Promise<WithResponse<RenderingSession>>;
-    getSessionPoller(sessionId: string, options?: OperationOptions): Promise<AssetConversionPollerLike>;
+    beginConversion(conversionId: string, assetConversionSettings: AssetConversionSettings, options?: AssetConversionOptions): Promise<AssetConversionPollerLike>;
+    beginSession(sessionId: string, renderingSessionSettings: RenderingSessionSettings, options?: RenderingSessionOptions): Promise<RenderingSessionPollerLike>;
+    endSession(sessionId: string, options?: OperationOptions): Promise<void>;
+    getConversion(conversionId: string, options?: OperationOptions): Promise<AssetConversion>;
+    getConversionPoller(conversionId: string, options?: AssetConversionOptions): Promise<AssetConversionPollerLike>;
+    getSession(sessionId: string, options?: OperationOptions): Promise<RenderingSession>;
+    getSessionPoller(sessionId: string, options?: RenderingSessionOptions): Promise<RenderingSessionPollerLike>;
     listConversions(options?: OperationOptions): PagedAsyncIterableIterator<AssetConversion>;
     listSessions(options?: OperationOptions): PagedAsyncIterableIterator<RenderingSession>;
-    updateSession(sessionId: string, updateSessionSettings: UpdateSessionSettings, options?: OperationOptions): Promise<WithResponse<RenderingSession>>;
+    updateSession(sessionId: string, updateSessionSettings: UpdateSessionSettings, options?: OperationOptions): Promise<RenderingSession>;
 }
 
 // @public
@@ -137,24 +145,21 @@ export interface RenderingSession {
 }
 
 // @public (undocumented)
-export class RenderingSessionOperationState implements PollOperationState<WithResponse<RenderingSession>> {
-    constructor(client: RemoteRenderingClient, conversionState: WithResponse<RenderingSession>);
-    // (undocumented)
-    get error(): Error | undefined;
-    // (undocumented)
-    get isCancelled(): boolean;
-    // (undocumented)
-    get isCompleted(): boolean;
-    // (undocumented)
-    get isStarted(): boolean;
-    // (undocumented)
-    latestResponse: WithResponse<RenderingSession>;
-    // (undocumented)
-    get result(): WithResponse<RenderingSession>;
+export interface RenderingSessionOperationState extends PollOperationState<RenderingSession> {
+    latestResponse: RenderingSession;
 }
 
 // @public (undocumented)
-export type RenderingSessionPollerLike = PollerLike<RenderingSessionOperationState, WithResponse<RenderingSession>>;
+export type RenderingSessionOptions = RenderingSessionPollerOptions & OperationOptions;
+
+// @public (undocumented)
+export type RenderingSessionPollerLike = PollerLike<RenderingSessionOperationState, RenderingSession>;
+
+// @public (undocumented)
+export interface RenderingSessionPollerOptions {
+    // (undocumented)
+    intervalInMs?: number;
+}
 
 // @public
 export interface RenderingSessionSettings {
@@ -166,11 +171,6 @@ export interface RenderingSessionSettings {
 export interface UpdateSessionSettings {
     maxLeaseTimeInMinutes: number;
 }
-
-// @public
-export type WithResponse<T extends object> = T & {
-    _response: HttpResponse;
-};
 
 
 // (No @packageDocumentation comment for this package)

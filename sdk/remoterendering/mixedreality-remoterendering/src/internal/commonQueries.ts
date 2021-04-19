@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { AssetConversion, RenderingSession } from "../generated/models/index";
 import { RemoteRendering } from "../generated/operations";
 import { createSpan } from "../tracing";

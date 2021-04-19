@@ -6,10 +6,10 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RemoteRenderingRestClient } from "../remoteRenderingRestClient";
+import { RemoteRenderingRestClientContext } from "../remoteRenderingRestClientContext";
 import {
   CreateConversionSettings,
   RemoteRenderingCreateConversionResponse,
@@ -28,13 +28,13 @@ import {
 
 /** Class representing a RemoteRendering. */
 export class RemoteRendering {
-  private readonly client: RemoteRenderingRestClient;
+  private readonly client: RemoteRenderingRestClientContext;
 
   /**
    * Initialize a new instance of the class RemoteRendering class.
    * @param client Reference to the service client
    */
-  constructor(client: RemoteRenderingRestClient) {
+  constructor(client: RemoteRenderingRestClientContext) {
     this.client = client;
   }
 
@@ -51,18 +51,12 @@ export class RemoteRendering {
     accountId: string,
     conversionId: string,
     body: CreateConversionSettings,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingCreateConversionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      conversionId,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, conversionId, body, options },
       createConversionOperationSpec
-    ) as Promise<RemoteRenderingCreateConversionResponse>;
+    );
   }
 
   /**
@@ -76,17 +70,12 @@ export class RemoteRendering {
   getConversion(
     accountId: string,
     conversionId: string,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingGetConversionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      conversionId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, conversionId, options },
       getConversionOperationSpec
-    ) as Promise<RemoteRenderingGetConversionResponse>;
+    );
   }
 
   /**
@@ -96,16 +85,12 @@ export class RemoteRendering {
    */
   listConversions(
     accountId: string,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingListConversionsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, options },
       listConversionsOperationSpec
-    ) as Promise<RemoteRenderingListConversionsResponse>;
+    );
   }
 
   /**
@@ -121,18 +106,12 @@ export class RemoteRendering {
     accountId: string,
     sessionId: string,
     body: RenderingSessionSettings,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingCreateSessionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      sessionId,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, sessionId, body, options },
       createSessionOperationSpec
-    ) as Promise<RemoteRenderingCreateSessionResponse>;
+    );
   }
 
   /**
@@ -146,17 +125,12 @@ export class RemoteRendering {
   getSession(
     accountId: string,
     sessionId: string,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingGetSessionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      sessionId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, sessionId, options },
       getSessionOperationSpec
-    ) as Promise<RemoteRenderingGetSessionResponse>;
+    );
   }
 
   /**
@@ -172,18 +146,12 @@ export class RemoteRendering {
     accountId: string,
     sessionId: string,
     body: UpdateSessionSettings,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingUpdateSessionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      sessionId,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, sessionId, body, options },
       updateSessionOperationSpec
-    ) as Promise<RemoteRenderingUpdateSessionResponse>;
+    );
   }
 
   /**
@@ -197,17 +165,12 @@ export class RemoteRendering {
   stopSession(
     accountId: string,
     sessionId: string,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingStopSessionResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      sessionId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, sessionId, options },
       stopSessionOperationSpec
-    ) as Promise<RemoteRenderingStopSessionResponse>;
+    );
   }
 
   /**
@@ -217,16 +180,12 @@ export class RemoteRendering {
    */
   listSessions(
     accountId: string,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingListSessionsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, options },
       listSessionsOperationSpec
-    ) as Promise<RemoteRenderingListSessionsResponse>;
+    );
   }
 
   /**
@@ -238,17 +197,12 @@ export class RemoteRendering {
   listConversionsNext(
     accountId: string,
     nextLink: string,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingListConversionsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, nextLink, options },
       listConversionsNextOperationSpec
-    ) as Promise<RemoteRenderingListConversionsNextResponse>;
+    );
   }
 
   /**
@@ -260,23 +214,18 @@ export class RemoteRendering {
   listSessionsNext(
     accountId: string,
     nextLink: string,
-    options?: coreHttp.OperationOptions
+    options?: coreClient.OperationOptions
   ): Promise<RemoteRenderingListSessionsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
     return this.client.sendOperationRequest(
-      operationArguments,
+      { accountId, nextLink, options },
       listSessionsNextOperationSpec
-    ) as Promise<RemoteRenderingListSessionsNextResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const createConversionOperationSpec: coreHttp.OperationSpec = {
+const createConversionOperationSpec: coreClient.OperationSpec = {
   path: "/accounts/{account_id}/conversions/{conversion_id}",
   httpMethod: "PUT",
   responses: {
@@ -326,7 +275,7 @@ const createConversionOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getConversionOperationSpec: coreHttp.OperationSpec = {
+const getConversionOperationSpec: coreClient.OperationSpec = {
   path: "/accounts/{account_id}/conversions/{conversion_id}",
   httpMethod: "GET",
   responses: {
@@ -365,7 +314,7 @@ const getConversionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listConversionsOperationSpec: coreHttp.OperationSpec = {
+const listConversionsOperationSpec: coreClient.OperationSpec = {
   path: "/accounts/{account_id}/conversions",
   httpMethod: "GET",
   responses: {
@@ -396,7 +345,7 @@ const listConversionsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createSessionOperationSpec: coreHttp.OperationSpec = {
+const createSessionOperationSpec: coreClient.OperationSpec = {
   path: "/accounts/{account_id}/sessions/{session_id}",
   httpMethod: "PUT",
   responses: {
@@ -445,7 +394,7 @@ const createSessionOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const getSessionOperationSpec: coreHttp.OperationSpec = {
+const getSessionOperationSpec: coreClient.OperationSpec = {
   path: "/accounts/{account_id}/sessions/{session_id}",
   httpMethod: "GET",
   responses: {
@@ -483,7 +432,7 @@ const getSessionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const updateSessionOperationSpec: coreHttp.OperationSpec = {
+const updateSessionOperationSpec: coreClient.OperationSpec = {
   path: "/accounts/{account_id}/sessions/{session_id}",
   httpMethod: "PATCH",
   responses: {
@@ -528,7 +477,7 @@ const updateSessionOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const stopSessionOperationSpec: coreHttp.OperationSpec = {
+const stopSessionOperationSpec: coreClient.OperationSpec = {
   path: "/accounts/{account_id}/sessions/{session_id}/:stop",
   httpMethod: "POST",
   responses: {
@@ -566,7 +515,7 @@ const stopSessionOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listSessionsOperationSpec: coreHttp.OperationSpec = {
+const listSessionsOperationSpec: coreClient.OperationSpec = {
   path: "/accounts/{account_id}/sessions",
   httpMethod: "GET",
   responses: {
@@ -596,7 +545,7 @@ const listSessionsOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listConversionsNextOperationSpec: coreHttp.OperationSpec = {
+const listConversionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -631,7 +580,7 @@ const listConversionsNextOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const listSessionsNextOperationSpec: coreHttp.OperationSpec = {
+const listSessionsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
