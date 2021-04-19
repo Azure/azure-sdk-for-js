@@ -232,12 +232,12 @@ export interface TokenCredentialOptions extends PipelineOptions {
 // @public
 export class UsernamePasswordCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, username: string, password: string, options?: UsernamePasswordCredentialOptions);
-    authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
-export interface UsernamePasswordCredentialOptions extends InteractiveCredentialOptions {
+export interface UsernamePasswordCredentialOptions extends TokenCredentialOptions {
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public
