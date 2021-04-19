@@ -45,6 +45,7 @@ export interface AmqpAnnotatedMessage {
 // @public
 export const AmqpAnnotatedMessage: {
     fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
+    toRheaMessage(msg: AmqpAnnotatedMessage): Message;
 };
 
 // @public
@@ -511,6 +512,8 @@ export enum RetryOperationType {
     connection = "connection",
     // (undocumented)
     management = "management",
+    // (undocumented)
+    messageSettlement = "settlement",
     // (undocumented)
     receiveMessage = "receiveMessage",
     // (undocumented)

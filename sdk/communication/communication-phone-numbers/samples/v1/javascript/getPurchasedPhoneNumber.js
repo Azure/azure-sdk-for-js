@@ -16,14 +16,15 @@ async function main() {
 
   // You will need to set this environment variable or edit the following values
   const connectionString =
-    process.env.COMMUNICATION_CONNECTION_STRING ||
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
   // create new client
   const client = new PhoneNumbersClient(connectionString);
 
-  // You will need to set this environment variable or edit the following values
-  const phoneNumberToGet = process.env.PHONE_NUMBER_TO_GET || "<phone number to get>";
+  // You will need to set any of these environment variables or edit the following values
+  const phoneNumberToGet =
+    process.env.PHONE_NUMBER_TO_GET || process.env.AZURE_PHONE_NUMBER || "<phone number to get>";
 
   // get the phone number
   const phoneNumber = await client.getPurchasedPhoneNumber(phoneNumberToGet);

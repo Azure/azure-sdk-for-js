@@ -12,7 +12,7 @@ import {
   createPipelineFromOptions,
   isNode
 } from "@azure/core-http";
-import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
+import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";

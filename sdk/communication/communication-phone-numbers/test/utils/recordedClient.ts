@@ -46,19 +46,14 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecordedClient(
-  context: Context
-): RecordedClient<PhoneNumbersClient> & {
-  includePhoneNumberLiveTests: boolean;
-} {
+export function createRecordedClient(context: Context): RecordedClient<PhoneNumbersClient> {
   const recorder = record(context, environmentSetup);
 
   return {
     client: new PhoneNumbersClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
       httpClient: createTestHttpClient()
     }),
-    recorder,
-    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true"
+    recorder
   };
 }
 
@@ -73,11 +68,7 @@ export const canCreateRecordedClientWithToken = (): boolean => {
 
 export function createRecordedClientWithToken(
   context: Context
-):
-  | (RecordedClient<PhoneNumbersClient> & {
-      includePhoneNumberLiveTests: boolean;
-    })
-  | undefined {
+): RecordedClient<PhoneNumbersClient> | undefined {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
   const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
@@ -93,8 +84,7 @@ export function createRecordedClientWithToken(
       client: new PhoneNumbersClient(endpoint, credential, {
         httpClient: createTestHttpClient()
       }),
-      recorder,
-      includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true"
+      recorder
     };
   }
 
@@ -108,8 +98,7 @@ export function createRecordedClientWithToken(
     client: new PhoneNumbersClient(endpoint, credential, {
       httpClient: createTestHttpClient()
     }),
-    recorder,
-    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true"
+    recorder
   };
 }
 

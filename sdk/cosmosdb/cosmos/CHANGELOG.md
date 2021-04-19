@@ -1,5 +1,9 @@
 # Release History
 
+## 3.10.6 (2021-04-14)
+
+- BUGFIX: Adds partitionKey parameter to `container.conflicts.delete`
+
 ## 3.10.5 (2021-03-25)
 
 - BUGFIX: Pins node-abort-controller version as we depend on a type in v1.2.0.

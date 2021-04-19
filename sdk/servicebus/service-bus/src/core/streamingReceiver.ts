@@ -27,7 +27,7 @@ import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage } from "../receivers/shared";
+import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
 import { ReceiverHandlers } from "./shared";
 
 /**
@@ -273,7 +273,13 @@ export class StreamingReceiver extends MessageReceiver {
               this.name,
               error
             );
-            await abandonMessage(bMessage, this._context, entityPath);
+            await abandonMessage(
+              bMessage,
+              this._context,
+              entityPath,
+              undefined,
+              this._retryOptions
+            );
           } catch (abandonError) {
             const translatedError = translateServiceBusError(abandonError);
             logger.logError(
@@ -310,7 +316,7 @@ export class StreamingReceiver extends MessageReceiver {
             this.logPrefix,
             bMessage.messageId
           );
-          await completeMessage(bMessage, this._context, entityPath);
+          await completeMessage(bMessage, this._context, entityPath, this._retryOptions);
         } catch (completeError) {
           const translatedError = translateServiceBusError(completeError);
           logger.logError(

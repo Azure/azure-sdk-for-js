@@ -12,11 +12,11 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 async function main() {
-  console.log("\n== Get a Purchased Phone Numbers Sample ==\n");
+  console.log("\n== Get Purchased Phone Numbers Sample ==\n");
 
   // You will need to set this environment variable or edit the following values
   const connectionString =
-    process.env.COMMUNICATION_CONNECTION_STRING ||
+    process.env.COMMUNICATION_SAMPLES_CONNECTION_STRING ||
     "endpoint=https://resourceName.communication.azure.net/;accessKey=test-key";
 
   // create new client
@@ -29,6 +29,7 @@ async function main() {
     console.log(`Phone number type is ${phoneNumber.phoneNumberType}`);
   }
 }
+
 main().catch((error) => {
   console.log("The sample encountered an error:", error);
   process.exit(1);
