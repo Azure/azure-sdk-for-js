@@ -96,7 +96,7 @@ export class CancellableAsyncLockImpl {
     task: (...args: any[]) => Promise<T>,
     properties: AcquireLockProperties
   ): Promise<T> {
-    const { abortSignal, timeoutInMs: acquireTimeoutInMs } = properties;
+    const { abortSignal, timeoutInMs } = properties;
     // Fast exit if the operation is already cancelled.
     if (abortSignal?.aborted) {
       return Promise.reject(new AbortError(StandardAbortMessage));
@@ -116,13 +116,13 @@ export class CancellableAsyncLockImpl {
     };
 
     // Handle timeouts by removing the task from the queue when hit.
-    if (typeof acquireTimeoutInMs === "number") {
+    if (typeof timeoutInMs === "number") {
       const tid = setTimeout(() => {
         this._removeTaskDetails(key, taskDetails);
         rejecter(
           new OperationTimeoutError(`The task timed out waiting to acquire a lock for ${key}`)
         );
-      }, acquireTimeoutInMs);
+      }, timeoutInMs);
       taskDetails.tid = tid;
     }
 
