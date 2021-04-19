@@ -31,7 +31,7 @@ async function uploadToStorageBlob() {
 
   await blockBlobClient.upload(data, data.length);
 
-  postMessage("Successfully uploaded `sample.txt` to Azure Storage Blob!");
+  postMessage("Successfully uploaded 'sample.txt' to Azure Storage Blob!");
 }
 
 uploadToStorageBlob().catch((err) => console.error(err));
