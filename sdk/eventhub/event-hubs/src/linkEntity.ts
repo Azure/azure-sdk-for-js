@@ -136,16 +136,18 @@ export class LinkEntity {
       this.address
     );
     const startTime = Date.now();
-    await defaultCancellableLock.acquire(
-      this._context.cbsSession.cbsLock,
-      () => {
-        return this._context.cbsSession.init({ abortSignal });
-      },
-      {
-        abortSignal,
-        timeoutInMs
-      }
-    );
+    if (!this._context.cbsSession.isOpen()) {
+      await defaultCancellableLock.acquire(
+        this._context.cbsSession.cbsLock,
+        () => {
+          return this._context.cbsSession.init({ abortSignal });
+        },
+        {
+          abortSignal,
+          timeoutInMs
+        }
+      );
+    }
     let tokenObject: AccessToken;
     let tokenType: TokenType;
     if (isSasTokenProvider(this._context.tokenCredential)) {
