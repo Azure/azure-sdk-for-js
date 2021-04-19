@@ -1,9 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
+import { parseConnectionString } from "@azure/communication-common";
+import {
+  DefaultHttpClient,
+  HttpClient,
+  HttpOperationResponse,
+  isNode,
+  WebResourceLike
+} from "@azure/core-http";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import { SmsClient } from "../../../src";
 
 export const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -45,4 +53,37 @@ export function createCredential(): TokenCredential | undefined {
       return undefined;
     }
   }
+}
+
+export function createSmsClient(): SmsClient {
+  return new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
+    httpClient: createTestHttpClient()
+  });
+}
+
+export function createSmsClientWithToken(credential: TokenCredential): SmsClient {
+  const { endpoint } = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING);
+
+  return new SmsClient(endpoint, credential, {
+    httpClient: createTestHttpClient()
+  });
+}
+
+function createTestHttpClient(): HttpClient {
+  const customHttpClient = new DefaultHttpClient();
+
+  const originalSendRequest = customHttpClient.sendRequest;
+  customHttpClient.sendRequest = async function(
+    httpRequest: WebResourceLike
+  ): Promise<HttpOperationResponse> {
+    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
+
+    if (requestResponse.status < 200 || requestResponse.status > 299) {
+      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
+    }
+
+    return requestResponse;
+  };
+
+  return customHttpClient;
 }

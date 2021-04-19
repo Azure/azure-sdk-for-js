@@ -11,7 +11,14 @@ import {
   RecorderEnvironmentSetup,
   isPlaybackMode
 } from "@azure/test-utils-recorder";
-import { isNode, TokenCredential } from "@azure/core-http";
+import {
+  DefaultHttpClient,
+  HttpClient,
+  HttpOperationResponse,
+  isNode,
+  TokenCredential,
+  WebResourceLike
+} from "@azure/core-http";
 import { PhoneNumbersClient } from "../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -50,7 +57,9 @@ export function createRecordedClient(context: Context): RecordedClient<PhoneNumb
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new PhoneNumbersClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING),
+    client: new PhoneNumbersClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
+      httpClient: createTestHttpClient()
+    }),
     recorder
   };
 }
@@ -79,7 +88,9 @@ export function createRecordedClientWithToken(
     };
 
     return {
-      client: new PhoneNumbersClient(endpoint, credential),
+      client: new PhoneNumbersClient(endpoint, credential, {
+        httpClient: createTestHttpClient()
+      }),
       recorder
     };
   }
@@ -91,7 +102,9 @@ export function createRecordedClientWithToken(
   }
 
   return {
-    client: new PhoneNumbersClient(endpoint, credential),
+    client: new PhoneNumbersClient(endpoint, credential, {
+      httpClient: createTestHttpClient()
+    }),
     recorder
   };
 }
@@ -99,3 +112,22 @@ export function createRecordedClientWithToken(
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined
 };
+
+function createTestHttpClient(): HttpClient {
+  const customHttpClient = new DefaultHttpClient();
+
+  const originalSendRequest = customHttpClient.sendRequest;
+  customHttpClient.sendRequest = async function(
+    httpRequest: WebResourceLike
+  ): Promise<HttpOperationResponse> {
+    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
+
+    if (requestResponse.status < 200 || requestResponse.status > 299) {
+      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
+    }
+
+    return requestResponse;
+  };
+
+  return customHttpClient;
+}
