@@ -4,14 +4,14 @@
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { PhoneNumberCapabilitiesRequest } from "../src";
-import { PhoneNumbersClient } from "../src/phoneNumbersClient";
-import { matrix } from "./utils/matrix";
+import { PhoneNumbersClient, PhoneNumberCapabilitiesRequest } from "../../src";
+import {  } from "../../src/phoneNumbersClient";
+import { matrix } from "../utils/matrix";
 import {
   canCreateRecordedClientWithToken,
   createRecordedClient,
   createRecordedClientWithToken
-} from "./utils/recordedClient";
+} from "../utils/recordedClient";
 
 matrix([[true, false]], async function(useAad) {
   describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function() {
