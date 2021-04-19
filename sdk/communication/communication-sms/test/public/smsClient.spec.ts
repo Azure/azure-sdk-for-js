@@ -4,7 +4,12 @@
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import { createCredential, createSmsClient, createSmsClientWithToken, recorderConfiguration } from "./utils/recordedClient";
+import {
+  createCredential,
+  createSmsClient,
+  createSmsClientWithToken,
+  recorderConfiguration
+} from "./utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "./suites/smsClient.send";
 import { matrix } from "./utils/matrix";

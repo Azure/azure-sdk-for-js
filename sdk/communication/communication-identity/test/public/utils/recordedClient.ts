@@ -11,7 +11,14 @@ import {
   RecorderEnvironmentSetup,
   isPlaybackMode
 } from "@azure/test-utils-recorder";
-import { DefaultHttpClient, HttpClient, HttpOperationResponse, isNode, TokenCredential, WebResourceLike } from "@azure/core-http";
+import {
+  DefaultHttpClient,
+  HttpClient,
+  HttpOperationResponse,
+  isNode,
+  TokenCredential,
+  WebResourceLike
+} from "@azure/core-http";
 import { CommunicationIdentityClient } from "../../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
@@ -106,15 +113,18 @@ export function createRecordedCommunicationIdentityClientWithToken(
   };
 }
 
-function createTestHttpClient(): HttpClient  {
+function createTestHttpClient(): HttpClient {
   const customHttpClient = new DefaultHttpClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+  customHttpClient.sendRequest = async function(
+    httpRequest: WebResourceLike
+  ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
-    if (requestResponse.status < 200 || requestResponse.status > 299)
-      {console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);}
+    if (requestResponse.status < 200 || requestResponse.status > 299) {
+      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
+    }
 
     return requestResponse;
   };

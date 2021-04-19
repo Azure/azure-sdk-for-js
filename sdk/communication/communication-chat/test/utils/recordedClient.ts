@@ -5,7 +5,13 @@ import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { DefaultHttpClient, HttpClient, HttpOperationResponse, isNode, WebResourceLike } from "@azure/core-http";
+import {
+  DefaultHttpClient,
+  HttpClient,
+  HttpOperationResponse,
+  isNode,
+  WebResourceLike
+} from "@azure/core-http";
 import { ChatClient } from "../../src";
 import {
   CommunicationUserIdentifier,
@@ -65,15 +71,18 @@ export function createChatClient(userToken: string): ChatClient {
     httpClient: createTestHttpClient()
   });
 
-  function createTestHttpClient(): HttpClient  {
+  function createTestHttpClient(): HttpClient {
     const customHttpClient = new DefaultHttpClient();
 
     const originalSendRequest = customHttpClient.sendRequest;
-    customHttpClient.sendRequest = async function(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+    customHttpClient.sendRequest = async function(
+      httpRequest: WebResourceLike
+    ): Promise<HttpOperationResponse> {
       const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
-  
-      if (requestResponse.status < 200 || requestResponse.status > 299)
-        {console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);}
+
+      if (requestResponse.status < 200 || requestResponse.status > 299) {
+        console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
+      }
 
       return requestResponse;
     };

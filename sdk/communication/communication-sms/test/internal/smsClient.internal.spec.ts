@@ -13,7 +13,12 @@ import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
 import * as sinon from "sinon";
 import { Uuid } from "../../src/utils/uuid";
-import { createCredential, createSmsClient, createSmsClientWithToken, recorderConfiguration } from "../public/utils/recordedClient";
+import {
+  createCredential,
+  createSmsClient,
+  createSmsClientWithToken,
+  recorderConfiguration
+} from "../public/utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "../public/suites/smsClient.send";
 import { matrix } from "../public/utils/matrix";

@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { parseConnectionString } from "@azure/communication-common";
-import { DefaultHttpClient, HttpClient, HttpOperationResponse, isNode, WebResourceLike } from "@azure/core-http";
+import {
+  DefaultHttpClient,
+  HttpClient,
+  HttpOperationResponse,
+  isNode,
+  WebResourceLike
+} from "@azure/core-http";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { SmsClient } from "../../../src";
@@ -63,15 +69,18 @@ export function createSmsClientWithToken(credential: TokenCredential): SmsClient
   });
 }
 
-function createTestHttpClient(): HttpClient  {
+function createTestHttpClient(): HttpClient {
   const customHttpClient = new DefaultHttpClient();
 
   const originalSendRequest = customHttpClient.sendRequest;
-  customHttpClient.sendRequest = async function(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+  customHttpClient.sendRequest = async function(
+    httpRequest: WebResourceLike
+  ): Promise<HttpOperationResponse> {
     const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
-    if (requestResponse.status < 200 || requestResponse.status > 299)
-      {console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);}
+    if (requestResponse.status < 200 || requestResponse.status > 299) {
+      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
+    }
 
     return requestResponse;
   };
