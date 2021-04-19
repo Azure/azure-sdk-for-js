@@ -6,7 +6,10 @@ import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
 
 export { AuthenticationRecord } from "./msal/types";
 export { AuthenticationRequiredError } from "./msal/errors";
-export { serializeAuthenticationRecord, deserializeAuthenticationRecord } from "./msal/utils";
+export {
+  serializeAuthenticationRecord,
+  deserializeAuthenticationRecord
+} from "./msal/transformations";
 export { TokenCredentialOptions } from "./client/identityClient";
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 export { TokenCachePersistenceOptions } from "./tokenCache/persistencePlatforms";
