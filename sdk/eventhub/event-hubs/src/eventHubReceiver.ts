@@ -461,12 +461,6 @@ export class EventHubReceiver extends LinkEntity {
             if (this._onError === onError) {
               onError(err);
             }
-            if (err.name === "AbortError") {
-              this.clearHandlers();
-              await this.close().catch(() => {
-                /* no-op */
-              });
-            }
             return;
           }
         } else {
