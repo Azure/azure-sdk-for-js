@@ -9,7 +9,5 @@
 export {
   discriminators,
   CloudError,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  OperationResult
 } from "../models/mappers";
