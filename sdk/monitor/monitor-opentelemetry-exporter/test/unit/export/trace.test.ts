@@ -91,6 +91,18 @@ describe("#AzureMonitorBaseExporter", () => {
         assert.strictEqual(persistedEnvelopes?.length, 2);
       });
 
+      it("should not persist partial non retriable failed telemetry", async () => {
+        const exporter = new TestExporter();
+        const response = partialBreezeResponse([407, 501, 408]);
+        scope.reply(206, JSON.stringify(response));
+
+        const result = await exporter.exportEnvelopesPrivate([envelope, envelope, envelope]);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+
+        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+      });
+
       it("should not persist non-retriable failed telemetry", async () => {
         const exporter = new TestExporter();
         const response = failedBreezeResponse(1, 400);
