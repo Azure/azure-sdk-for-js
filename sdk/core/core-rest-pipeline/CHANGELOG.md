@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta1 (Unreleased)
+## 1.1.0-beta.1 (Unreleased)
 
 - Add a new `bearerTokenChallengeAuthenticationPolicy` that provides a skeleton of handling challenge-based authorization. There are two extensible points: `authorizeRequest` and `authroizeRequestOnChallenge` callbacks.
   - `authorizeRequest` allows customizing the policy to alter how it authorizes a request before sending it. By default when no callbacks are specified, this policy has the same behavior as `bearerTokenAuthenticationPolicy`. It will retrieve the token from the underlying token credential, and if it gets one, it will cache the token and set it to the outgoing request..
