@@ -34,14 +34,24 @@ export class Scripts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScriptsListByDatabaseResponse>
    */
-  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.ScriptsListByDatabaseResponse>;
+  listByDatabase(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScriptsListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ScriptListResult>): void;
+  listByDatabase(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    callback: msRest.ServiceCallback<Models.ScriptListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -49,8 +59,20 @@ export class Scripts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ScriptListResult>): void;
-  listByDatabase(resourceGroupName: string, clusterName: string, databaseName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptListResult>, callback?: msRest.ServiceCallback<Models.ScriptListResult>): Promise<Models.ScriptsListByDatabaseResponse> {
+  listByDatabase(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ScriptListResult>
+  ): void;
+  listByDatabase(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptListResult>,
+    callback?: msRest.ServiceCallback<Models.ScriptListResult>
+  ): Promise<Models.ScriptsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -59,7 +81,8 @@ export class Scripts {
         options
       },
       listByDatabaseOperationSpec,
-      callback) as Promise<Models.ScriptsListByDatabaseResponse>;
+      callback
+    ) as Promise<Models.ScriptsListByDatabaseResponse>;
   }
 
   /**
@@ -71,7 +94,13 @@ export class Scripts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScriptsGetResponse>
    */
-  get(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: msRest.RequestOptionsBase): Promise<Models.ScriptsGetResponse>;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScriptsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -79,7 +108,13 @@ export class Scripts {
    * @param scriptName The name of the Kusto database script.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, callback: msRest.ServiceCallback<Models.Script>): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    callback: msRest.ServiceCallback<Models.Script>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -88,8 +123,22 @@ export class Scripts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Script>): void;
-  get(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Script>, callback?: msRest.ServiceCallback<Models.Script>): Promise<Models.ScriptsGetResponse> {
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Script>
+  ): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Script>,
+    callback?: msRest.ServiceCallback<Models.Script>
+  ): Promise<Models.ScriptsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -99,7 +148,8 @@ export class Scripts {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ScriptsGetResponse>;
+      callback
+    ) as Promise<Models.ScriptsGetResponse>;
   }
 
   /**
@@ -112,9 +162,24 @@ export class Scripts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScriptsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Models.Script, options?: msRest.RequestOptionsBase): Promise<Models.ScriptsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,clusterName,databaseName,scriptName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ScriptsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    parameters: Models.Script,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScriptsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      scriptName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.ScriptsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -127,9 +192,22 @@ export class Scripts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScriptsUpdateResponse>
    */
-  update(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Models.Script, options?: msRest.RequestOptionsBase): Promise<Models.ScriptsUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,clusterName,databaseName,scriptName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ScriptsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    parameters: Models.Script,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScriptsUpdateResponse> {
+    return this.beginUpdate(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      scriptName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.ScriptsUpdateResponse>;
   }
 
   /**
@@ -141,9 +219,20 @@ export class Scripts {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterName,databaseName,scriptName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      clusterName,
+      databaseName,
+      scriptName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -155,7 +244,13 @@ export class Scripts {
    * @param [options] The optional parameters
    * @returns Promise<Models.ScriptsCheckNameAvailabilityResponse>
    */
-  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: Models.ScriptCheckNameRequest, options?: msRest.RequestOptionsBase): Promise<Models.ScriptsCheckNameAvailabilityResponse>;
+  checkNameAvailability(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: Models.ScriptCheckNameRequest,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ScriptsCheckNameAvailabilityResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -163,7 +258,13 @@ export class Scripts {
    * @param scriptName The name of the script.
    * @param callback The callback
    */
-  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: Models.ScriptCheckNameRequest, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
+  checkNameAvailability(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: Models.ScriptCheckNameRequest,
+    callback: msRest.ServiceCallback<Models.CheckNameResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -172,8 +273,22 @@ export class Scripts {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: Models.ScriptCheckNameRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameResult>): void;
-  checkNameAvailability(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: Models.ScriptCheckNameRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>, callback?: msRest.ServiceCallback<Models.CheckNameResult>): Promise<Models.ScriptsCheckNameAvailabilityResponse> {
+  checkNameAvailability(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: Models.ScriptCheckNameRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameResult>
+  ): void;
+  checkNameAvailability(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: Models.ScriptCheckNameRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameResult>
+  ): Promise<Models.ScriptsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -183,7 +298,8 @@ export class Scripts {
         options
       },
       checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.ScriptsCheckNameAvailabilityResponse>;
+      callback
+    ) as Promise<Models.ScriptsCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -196,7 +312,14 @@ export class Scripts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Models.Script, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    parameters: Models.Script,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -207,7 +330,8 @@ export class Scripts {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -220,7 +344,14 @@ export class Scripts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, parameters: Models.Script, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    parameters: Models.Script,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -231,7 +362,8 @@ export class Scripts {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -243,7 +375,13 @@ export class Scripts {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterName: string, databaseName: string, scriptName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -253,7 +391,8 @@ export class Scripts {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -261,19 +400,16 @@ export class Scripts {
 const serializer = new msRest.Serializer(Mappers);
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ScriptListResult
@@ -287,7 +423,8 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -295,12 +432,8 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.scriptName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Script
@@ -314,19 +447,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scriptsCheckNameAvailability",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scriptsCheckNameAvailability",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "scriptName",
     mapper: {
@@ -347,7 +477,8 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -355,12 +486,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.scriptName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -387,7 +514,8 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -395,12 +523,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.scriptName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -424,7 +548,8 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
@@ -432,12 +557,8 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName,
     Parameters.scriptName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

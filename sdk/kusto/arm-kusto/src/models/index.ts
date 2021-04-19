@@ -516,8 +516,7 @@ export interface ClusterUpdate extends Resource {
  * and a location
  * @summary Proxy Resource
  */
-export interface ProxyResource extends Resource {
-}
+export interface ProxyResource extends Resource {}
 
 /**
  * Class representing an attached database configuration.
@@ -908,7 +907,11 @@ export interface FollowerDatabaseDefinition {
 /**
  * Contains the possible cases for DataConnection.
  */
-export type DataConnectionUnion = DataConnection | EventHubDataConnection | IotHubDataConnection | EventGridDataConnection;
+export type DataConnectionUnion =
+  | DataConnection
+  | EventHubDataConnection
+  | IotHubDataConnection
+  | EventGridDataConnection;
 
 /**
  * Class representing an data connection.
@@ -1474,96 +1477,85 @@ export interface KustoManagementClientOptions extends AzureServiceClientOptions 
  * The list Kusto database principals operation response.
  * @extends Array<FollowerDatabaseDefinition>
  */
-export interface FollowerDatabaseListResult extends Array<FollowerDatabaseDefinition> {
-}
+export interface FollowerDatabaseListResult extends Array<FollowerDatabaseDefinition> {}
 
 /**
  * @interface
  * The list Kusto clusters operation response.
  * @extends Array<Cluster>
  */
-export interface ClusterListResult extends Array<Cluster> {
-}
+export interface ClusterListResult extends Array<Cluster> {}
 
 /**
  * @interface
  * The list of the EngagementFabric SKU descriptions
  * @extends Array<SkuDescription>
  */
-export interface SkuDescriptionList extends Array<SkuDescription> {
-}
+export interface SkuDescriptionList extends Array<SkuDescription> {}
 
 /**
  * @interface
  * List of available SKUs for a Kusto Cluster.
  * @extends Array<AzureResourceSku>
  */
-export interface ListResourceSkusResult extends Array<AzureResourceSku> {
-}
+export interface ListResourceSkusResult extends Array<AzureResourceSku> {}
 
 /**
  * @interface
  * The list of language extension objects.
  * @extends Array<LanguageExtension>
  */
-export interface LanguageExtensionsList extends Array<LanguageExtension> {
-}
+export interface LanguageExtensionsList extends Array<LanguageExtension> {}
 
 /**
  * @interface
  * The list Kusto cluster principal assignments operation response.
  * @extends Array<ClusterPrincipalAssignment>
  */
-export interface ClusterPrincipalAssignmentListResult extends Array<ClusterPrincipalAssignment> {
-}
+export interface ClusterPrincipalAssignmentListResult extends Array<ClusterPrincipalAssignment> {}
 
 /**
  * @interface
  * The list Kusto databases operation response.
  * @extends Array<DatabaseUnion>
  */
-export interface DatabaseListResult extends Array<DatabaseUnion> {
-}
+export interface DatabaseListResult extends Array<DatabaseUnion> {}
 
 /**
  * @interface
  * The list Kusto database principals operation response.
  * @extends Array<DatabasePrincipal>
  */
-export interface DatabasePrincipalListResult extends Array<DatabasePrincipal> {
-}
+export interface DatabasePrincipalListResult extends Array<DatabasePrincipal> {}
 
 /**
  * @interface
  * The list Kusto database principal assignments operation response.
  * @extends Array<DatabasePrincipalAssignment>
  */
-export interface DatabasePrincipalAssignmentListResult extends Array<DatabasePrincipalAssignment> {
-}
+export interface DatabasePrincipalAssignmentListResult extends Array<DatabasePrincipalAssignment> {}
 
 /**
  * @interface
  * The list Kusto database script operation response.
  * @extends Array<Script>
  */
-export interface ScriptListResult extends Array<Script> {
-}
+export interface ScriptListResult extends Array<Script> {}
 
 /**
  * @interface
  * The list attached database configurations operation response.
  * @extends Array<AttachedDatabaseConfiguration>
  */
-export interface AttachedDatabaseConfigurationListResult extends Array<AttachedDatabaseConfiguration> {
-}
+export interface AttachedDatabaseConfigurationListResult
+  extends Array<AttachedDatabaseConfiguration> {}
 
 /**
  * @interface
  * The list Kusto data connections operation response.
  * @extends Array<DataConnectionUnion>
  */
-export interface DataConnectionListResult extends Array<DataConnectionUnion> {
-}
+export interface DataConnectionListResult extends Array<DataConnectionUnion> {}
 
 /**
  * @interface
@@ -1583,7 +1575,16 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type State = 'Creating' | 'Unavailable' | 'Running' | 'Deleting' | 'Deleted' | 'Stopping' | 'Stopped' | 'Starting' | 'Updating';
+export type State =
+  | "Creating"
+  | "Unavailable"
+  | "Running"
+  | "Deleting"
+  | "Deleted"
+  | "Stopping"
+  | "Stopped"
+  | "Starting"
+  | "Updating";
 
 /**
  * Defines values for ProvisioningState.
@@ -1591,7 +1592,13 @@ export type State = 'Creating' | 'Unavailable' | 'Running' | 'Deleting' | 'Delet
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Running' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Moving';
+export type ProvisioningState =
+  | "Running"
+  | "Creating"
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Moving";
 
 /**
  * Defines values for LanguageExtensionName.
@@ -1599,7 +1606,7 @@ export type ProvisioningState = 'Running' | 'Creating' | 'Deleting' | 'Succeeded
  * @readonly
  * @enum {string}
  */
-export type LanguageExtensionName = 'PYTHON' | 'R';
+export type LanguageExtensionName = "PYTHON" | "R";
 
 /**
  * Defines values for EngineType.
@@ -1607,7 +1614,7 @@ export type LanguageExtensionName = 'PYTHON' | 'R';
  * @readonly
  * @enum {string}
  */
-export type EngineType = 'V2' | 'V3';
+export type EngineType = "V2" | "V3";
 
 /**
  * Defines values for AzureSkuName.
@@ -1621,7 +1628,32 @@ export type EngineType = 'V2' | 'V3';
  * @readonly
  * @enum {string}
  */
-export type AzureSkuName = 'Standard_DS13_v2+1TB_PS' | 'Standard_DS13_v2+2TB_PS' | 'Standard_DS14_v2+3TB_PS' | 'Standard_DS14_v2+4TB_PS' | 'Standard_D13_v2' | 'Standard_D14_v2' | 'Standard_L8s' | 'Standard_L16s' | 'Standard_L8s_v2' | 'Standard_L16s_v2' | 'Standard_D11_v2' | 'Standard_D12_v2' | 'Standard_L4s' | 'Dev(No SLA)_Standard_D11_v2' | 'Standard_E64i_v3' | 'Standard_E80ids_v4' | 'Standard_E2a_v4' | 'Standard_E4a_v4' | 'Standard_E8a_v4' | 'Standard_E16a_v4' | 'Standard_E8as_v4+1TB_PS' | 'Standard_E8as_v4+2TB_PS' | 'Standard_E16as_v4+3TB_PS' | 'Standard_E16as_v4+4TB_PS' | 'Dev(No SLA)_Standard_E2a_v4';
+export type AzureSkuName =
+  | "Standard_DS13_v2+1TB_PS"
+  | "Standard_DS13_v2+2TB_PS"
+  | "Standard_DS14_v2+3TB_PS"
+  | "Standard_DS14_v2+4TB_PS"
+  | "Standard_D13_v2"
+  | "Standard_D14_v2"
+  | "Standard_L8s"
+  | "Standard_L16s"
+  | "Standard_L8s_v2"
+  | "Standard_L16s_v2"
+  | "Standard_D11_v2"
+  | "Standard_D12_v2"
+  | "Standard_L4s"
+  | "Dev(No SLA)_Standard_D11_v2"
+  | "Standard_E64i_v3"
+  | "Standard_E80ids_v4"
+  | "Standard_E2a_v4"
+  | "Standard_E4a_v4"
+  | "Standard_E8a_v4"
+  | "Standard_E16a_v4"
+  | "Standard_E8as_v4+1TB_PS"
+  | "Standard_E8as_v4+2TB_PS"
+  | "Standard_E16as_v4+3TB_PS"
+  | "Standard_E16as_v4+4TB_PS"
+  | "Dev(No SLA)_Standard_E2a_v4";
 
 /**
  * Defines values for AzureSkuTier.
@@ -1629,7 +1661,7 @@ export type AzureSkuName = 'Standard_DS13_v2+1TB_PS' | 'Standard_DS13_v2+2TB_PS'
  * @readonly
  * @enum {string}
  */
-export type AzureSkuTier = 'Basic' | 'Standard';
+export type AzureSkuTier = "Basic" | "Standard";
 
 /**
  * Defines values for AzureScaleType.
@@ -1637,7 +1669,7 @@ export type AzureSkuTier = 'Basic' | 'Standard';
  * @readonly
  * @enum {string}
  */
-export type AzureScaleType = 'automatic' | 'manual' | 'none';
+export type AzureScaleType = "automatic" | "manual" | "none";
 
 /**
  * Defines values for DefaultPrincipalsModificationKind.
@@ -1645,7 +1677,7 @@ export type AzureScaleType = 'automatic' | 'manual' | 'none';
  * @readonly
  * @enum {string}
  */
-export type DefaultPrincipalsModificationKind = 'Union' | 'Replace' | 'None';
+export type DefaultPrincipalsModificationKind = "Union" | "Replace" | "None";
 
 /**
  * Defines values for PrincipalsModificationKind.
@@ -1653,7 +1685,7 @@ export type DefaultPrincipalsModificationKind = 'Union' | 'Replace' | 'None';
  * @readonly
  * @enum {string}
  */
-export type PrincipalsModificationKind = 'Union' | 'Replace' | 'None';
+export type PrincipalsModificationKind = "Union" | "Replace" | "None";
 
 /**
  * Defines values for EventHubDataFormat.
@@ -1662,7 +1694,23 @@ export type PrincipalsModificationKind = 'Union' | 'Replace' | 'None';
  * @readonly
  * @enum {string}
  */
-export type EventHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+export type EventHubDataFormat =
+  | "MULTIJSON"
+  | "JSON"
+  | "CSV"
+  | "TSV"
+  | "SCSV"
+  | "SOHSV"
+  | "PSV"
+  | "TXT"
+  | "RAW"
+  | "SINGLEJSON"
+  | "AVRO"
+  | "TSVE"
+  | "PARQUET"
+  | "ORC"
+  | "APACHEAVRO"
+  | "W3CLOGFILE";
 
 /**
  * Defines values for Compression.
@@ -1670,7 +1718,7 @@ export type EventHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' |
  * @readonly
  * @enum {string}
  */
-export type Compression = 'None' | 'GZip';
+export type Compression = "None" | "GZip";
 
 /**
  * Defines values for IotHubDataFormat.
@@ -1679,7 +1727,23 @@ export type Compression = 'None' | 'GZip';
  * @readonly
  * @enum {string}
  */
-export type IotHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+export type IotHubDataFormat =
+  | "MULTIJSON"
+  | "JSON"
+  | "CSV"
+  | "TSV"
+  | "SCSV"
+  | "SOHSV"
+  | "PSV"
+  | "TXT"
+  | "RAW"
+  | "SINGLEJSON"
+  | "AVRO"
+  | "TSVE"
+  | "PARQUET"
+  | "ORC"
+  | "APACHEAVRO"
+  | "W3CLOGFILE";
 
 /**
  * Defines values for EventGridDataFormat.
@@ -1688,7 +1752,23 @@ export type IotHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | '
  * @readonly
  * @enum {string}
  */
-export type EventGridDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+export type EventGridDataFormat =
+  | "MULTIJSON"
+  | "JSON"
+  | "CSV"
+  | "TSV"
+  | "SCSV"
+  | "SOHSV"
+  | "PSV"
+  | "TXT"
+  | "RAW"
+  | "SINGLEJSON"
+  | "AVRO"
+  | "TSVE"
+  | "PARQUET"
+  | "ORC"
+  | "APACHEAVRO"
+  | "W3CLOGFILE";
 
 /**
  * Defines values for BlobStorageEventType.
@@ -1696,7 +1776,9 @@ export type EventGridDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' 
  * @readonly
  * @enum {string}
  */
-export type BlobStorageEventType = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobRenamed';
+export type BlobStorageEventType =
+  | "Microsoft.Storage.BlobCreated"
+  | "Microsoft.Storage.BlobRenamed";
 
 /**
  * Defines values for IdentityType.
@@ -1705,7 +1787,11 @@ export type BlobStorageEventType = 'Microsoft.Storage.BlobCreated' | 'Microsoft.
  * @readonly
  * @enum {string}
  */
-export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
+export type IdentityType =
+  | "None"
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned";
 
 /**
  * Defines values for DatabasePrincipalRole.
@@ -1713,7 +1799,13 @@ export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemA
  * @readonly
  * @enum {string}
  */
-export type DatabasePrincipalRole = 'Admin' | 'Ingestor' | 'Monitor' | 'User' | 'UnrestrictedViewer' | 'Viewer';
+export type DatabasePrincipalRole =
+  | "Admin"
+  | "Ingestor"
+  | "Monitor"
+  | "User"
+  | "UnrestrictedViewer"
+  | "Viewer";
 
 /**
  * Defines values for DatabasePrincipalType.
@@ -1721,7 +1813,7 @@ export type DatabasePrincipalRole = 'Admin' | 'Ingestor' | 'Monitor' | 'User' | 
  * @readonly
  * @enum {string}
  */
-export type DatabasePrincipalType = 'App' | 'Group' | 'User';
+export type DatabasePrincipalType = "App" | "Group" | "User";
 
 /**
  * Defines values for PrincipalType.
@@ -1729,7 +1821,7 @@ export type DatabasePrincipalType = 'App' | 'Group' | 'User';
  * @readonly
  * @enum {string}
  */
-export type PrincipalType = 'App' | 'Group' | 'User';
+export type PrincipalType = "App" | "Group" | "User";
 
 /**
  * Defines values for ClusterPrincipalRole.
@@ -1737,7 +1829,7 @@ export type PrincipalType = 'App' | 'Group' | 'User';
  * @readonly
  * @enum {string}
  */
-export type ClusterPrincipalRole = 'AllDatabasesAdmin' | 'AllDatabasesViewer';
+export type ClusterPrincipalRole = "AllDatabasesAdmin" | "AllDatabasesViewer";
 
 /**
  * Defines values for CreatedByType.
@@ -1745,7 +1837,7 @@ export type ClusterPrincipalRole = 'AllDatabasesAdmin' | 'AllDatabasesViewer';
  * @readonly
  * @enum {string}
  */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+export type CreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
 
 /**
  * Defines values for Type.
@@ -1754,7 +1846,9 @@ export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
  * @readonly
  * @enum {string}
  */
-export type Type = 'Microsoft.Kusto/clusters/databases' | 'Microsoft.Kusto/clusters/attachedDatabaseConfigurations';
+export type Type =
+  | "Microsoft.Kusto/clusters/databases"
+  | "Microsoft.Kusto/clusters/attachedDatabaseConfigurations";
 
 /**
  * Defines values for Reason.
@@ -1762,7 +1856,7 @@ export type Type = 'Microsoft.Kusto/clusters/databases' | 'Microsoft.Kusto/clust
  * @readonly
  * @enum {string}
  */
-export type Reason = 'Invalid' | 'AlreadyExists';
+export type Reason = "Invalid" | "AlreadyExists";
 
 /**
  * Defines values for Status.
@@ -1770,7 +1864,7 @@ export type Reason = 'Invalid' | 'AlreadyExists';
  * @readonly
  * @enum {string}
  */
-export type Status = 'Succeeded' | 'Canceled' | 'Failed' | 'Running';
+export type Status = "Succeeded" | "Canceled" | "Failed" | "Running";
 
 /**
  * Contains response data for the get operation.
@@ -1780,16 +1874,16 @@ export type ClustersGetResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -1800,16 +1894,16 @@ export type ClustersCreateOrUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -1820,16 +1914,16 @@ export type ClustersUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -1840,16 +1934,16 @@ export type ClustersListFollowerDatabasesResponse = FollowerDatabaseListResult &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: FollowerDatabaseListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: FollowerDatabaseListResult;
+  };
 };
 
 /**
@@ -1860,16 +1954,16 @@ export type ClustersDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetworkResul
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnoseVirtualNetworkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnoseVirtualNetworkResult;
+  };
 };
 
 /**
@@ -1880,16 +1974,16 @@ export type ClustersListByResourceGroupResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -1900,16 +1994,16 @@ export type ClustersListResponse = ClusterListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterListResult;
+  };
 };
 
 /**
@@ -1920,16 +2014,16 @@ export type ClustersListSkusResponse = SkuDescriptionList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SkuDescriptionList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: SkuDescriptionList;
+  };
 };
 
 /**
@@ -1940,16 +2034,16 @@ export type ClustersCheckNameAvailabilityResponse = CheckNameResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameResult;
+  };
 };
 
 /**
@@ -1960,16 +2054,16 @@ export type ClustersListSkusByResourceResponse = ListResourceSkusResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListResourceSkusResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ListResourceSkusResult;
+  };
 };
 
 /**
@@ -1980,16 +2074,16 @@ export type ClustersListLanguageExtensionsResponse = LanguageExtensionsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LanguageExtensionsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LanguageExtensionsList;
+  };
 };
 
 /**
@@ -2000,16 +2094,16 @@ export type ClustersBeginCreateOrUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -2020,16 +2114,16 @@ export type ClustersBeginUpdateResponse = Cluster & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Cluster;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Cluster;
+  };
 };
 
 /**
@@ -2040,16 +2134,16 @@ export type ClustersBeginDiagnoseVirtualNetworkResponse = DiagnoseVirtualNetwork
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DiagnoseVirtualNetworkResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DiagnoseVirtualNetworkResult;
+  };
 };
 
 /**
@@ -2060,16 +2154,16 @@ export type ClusterPrincipalAssignmentsCheckNameAvailabilityResponse = CheckName
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameResult;
+  };
 };
 
 /**
@@ -2080,16 +2174,16 @@ export type ClusterPrincipalAssignmentsGetResponse = ClusterPrincipalAssignment 
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterPrincipalAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterPrincipalAssignment;
+  };
 };
 
 /**
@@ -2100,16 +2194,16 @@ export type ClusterPrincipalAssignmentsCreateOrUpdateResponse = ClusterPrincipal
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterPrincipalAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterPrincipalAssignment;
+  };
 };
 
 /**
@@ -2120,16 +2214,16 @@ export type ClusterPrincipalAssignmentsListResponse = ClusterPrincipalAssignment
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterPrincipalAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterPrincipalAssignmentListResult;
+  };
 };
 
 /**
@@ -2140,16 +2234,16 @@ export type ClusterPrincipalAssignmentsBeginCreateOrUpdateResponse = ClusterPrin
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ClusterPrincipalAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ClusterPrincipalAssignment;
+  };
 };
 
 /**
@@ -2160,16 +2254,16 @@ export type DatabasesCheckNameAvailabilityResponse = CheckNameResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameResult;
+  };
 };
 
 /**
@@ -2180,16 +2274,16 @@ export type DatabasesListByClusterResponse = DatabaseListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabaseListResult;
+  };
 };
 
 /**
@@ -2200,16 +2294,16 @@ export type DatabasesGetResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabaseUnion;
+  };
 };
 
 /**
@@ -2220,16 +2314,16 @@ export type DatabasesCreateOrUpdateResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabaseUnion;
+  };
 };
 
 /**
@@ -2240,16 +2334,16 @@ export type DatabasesUpdateResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabaseUnion;
+  };
 };
 
 /**
@@ -2260,16 +2354,16 @@ export type DatabasesListPrincipalsResponse = DatabasePrincipalListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabasePrincipalListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabasePrincipalListResult;
+  };
 };
 
 /**
@@ -2280,16 +2374,16 @@ export type DatabasesAddPrincipalsResponse = DatabasePrincipalListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabasePrincipalListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabasePrincipalListResult;
+  };
 };
 
 /**
@@ -2300,16 +2394,16 @@ export type DatabasesRemovePrincipalsResponse = DatabasePrincipalListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabasePrincipalListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabasePrincipalListResult;
+  };
 };
 
 /**
@@ -2320,16 +2414,16 @@ export type DatabasesBeginCreateOrUpdateResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabaseUnion;
+  };
 };
 
 /**
@@ -2340,16 +2434,16 @@ export type DatabasesBeginUpdateResponse = DatabaseUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabaseUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabaseUnion;
+  };
 };
 
 /**
@@ -2360,16 +2454,16 @@ export type DatabasePrincipalAssignmentsCheckNameAvailabilityResponse = CheckNam
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameResult;
+  };
 };
 
 /**
@@ -2380,16 +2474,16 @@ export type DatabasePrincipalAssignmentsGetResponse = DatabasePrincipalAssignmen
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabasePrincipalAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabasePrincipalAssignment;
+  };
 };
 
 /**
@@ -2400,16 +2494,16 @@ export type DatabasePrincipalAssignmentsCreateOrUpdateResponse = DatabasePrincip
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabasePrincipalAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabasePrincipalAssignment;
+  };
 };
 
 /**
@@ -2420,16 +2514,16 @@ export type DatabasePrincipalAssignmentsListResponse = DatabasePrincipalAssignme
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabasePrincipalAssignmentListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabasePrincipalAssignmentListResult;
+  };
 };
 
 /**
@@ -2440,16 +2534,16 @@ export type DatabasePrincipalAssignmentsBeginCreateOrUpdateResponse = DatabasePr
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DatabasePrincipalAssignment;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DatabasePrincipalAssignment;
+  };
 };
 
 /**
@@ -2460,16 +2554,16 @@ export type ScriptsListByDatabaseResponse = ScriptListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ScriptListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ScriptListResult;
+  };
 };
 
 /**
@@ -2480,16 +2574,16 @@ export type ScriptsGetResponse = Script & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Script;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Script;
+  };
 };
 
 /**
@@ -2500,16 +2594,16 @@ export type ScriptsCreateOrUpdateResponse = Script & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Script;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Script;
+  };
 };
 
 /**
@@ -2520,16 +2614,16 @@ export type ScriptsUpdateResponse = Script & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Script;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Script;
+  };
 };
 
 /**
@@ -2540,16 +2634,16 @@ export type ScriptsCheckNameAvailabilityResponse = CheckNameResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameResult;
+  };
 };
 
 /**
@@ -2560,16 +2654,16 @@ export type ScriptsBeginCreateOrUpdateResponse = Script & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Script;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Script;
+  };
 };
 
 /**
@@ -2580,16 +2674,16 @@ export type ScriptsBeginUpdateResponse = Script & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Script;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Script;
+  };
 };
 
 /**
@@ -2600,16 +2694,16 @@ export type AttachedDatabaseConfigurationsListByClusterResponse = AttachedDataba
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AttachedDatabaseConfigurationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AttachedDatabaseConfigurationListResult;
+  };
 };
 
 /**
@@ -2620,16 +2714,16 @@ export type AttachedDatabaseConfigurationsGetResponse = AttachedDatabaseConfigur
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AttachedDatabaseConfiguration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AttachedDatabaseConfiguration;
+  };
 };
 
 /**
@@ -2640,16 +2734,16 @@ export type AttachedDatabaseConfigurationsCreateOrUpdateResponse = AttachedDatab
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AttachedDatabaseConfiguration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AttachedDatabaseConfiguration;
+  };
 };
 
 /**
@@ -2660,16 +2754,16 @@ export type AttachedDatabaseConfigurationsBeginCreateOrUpdateResponse = Attached
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AttachedDatabaseConfiguration;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AttachedDatabaseConfiguration;
+  };
 };
 
 /**
@@ -2680,16 +2774,16 @@ export type DataConnectionsListByDatabaseResponse = DataConnectionListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataConnectionListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataConnectionListResult;
+  };
 };
 
 /**
@@ -2700,16 +2794,16 @@ export type DataConnectionsDataConnectionValidationMethodResponse = DataConnecti
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataConnectionValidationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataConnectionValidationListResult;
+  };
 };
 
 /**
@@ -2720,16 +2814,16 @@ export type DataConnectionsCheckNameAvailabilityResponse = CheckNameResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CheckNameResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CheckNameResult;
+  };
 };
 
 /**
@@ -2740,16 +2834,16 @@ export type DataConnectionsGetResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataConnectionUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataConnectionUnion;
+  };
 };
 
 /**
@@ -2760,16 +2854,16 @@ export type DataConnectionsCreateOrUpdateResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataConnectionUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataConnectionUnion;
+  };
 };
 
 /**
@@ -2780,16 +2874,16 @@ export type DataConnectionsUpdateResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataConnectionUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataConnectionUnion;
+  };
 };
 
 /**
@@ -2800,16 +2894,16 @@ export type DataConnectionsBeginDataConnectionValidationMethodResponse = DataCon
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataConnectionValidationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataConnectionValidationListResult;
+  };
 };
 
 /**
@@ -2820,16 +2914,16 @@ export type DataConnectionsBeginCreateOrUpdateResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataConnectionUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataConnectionUnion;
+  };
 };
 
 /**
@@ -2840,16 +2934,16 @@ export type DataConnectionsBeginUpdateResponse = DataConnectionUnion & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: DataConnectionUnion;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: DataConnectionUnion;
+  };
 };
 
 /**
@@ -2860,16 +2954,16 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2880,16 +2974,16 @@ export type OperationsListNextResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };
 
 /**
@@ -2900,14 +2994,14 @@ export type OperationsResultsGetResponse = OperationResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationResult;
+  };
 };

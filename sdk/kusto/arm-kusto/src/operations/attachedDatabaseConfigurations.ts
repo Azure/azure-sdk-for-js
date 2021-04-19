@@ -33,21 +33,41 @@ export class AttachedDatabaseConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AttachedDatabaseConfigurationsListByClusterResponse>
    */
-  listByCluster(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.AttachedDatabaseConfigurationsListByClusterResponse>;
+  listByCluster(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AttachedDatabaseConfigurationsListByClusterResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param callback The callback
    */
-  listByCluster(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.AttachedDatabaseConfigurationListResult>): void;
+  listByCluster(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.AttachedDatabaseConfigurationListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByCluster(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AttachedDatabaseConfigurationListResult>): void;
-  listByCluster(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AttachedDatabaseConfigurationListResult>, callback?: msRest.ServiceCallback<Models.AttachedDatabaseConfigurationListResult>): Promise<Models.AttachedDatabaseConfigurationsListByClusterResponse> {
+  listByCluster(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AttachedDatabaseConfigurationListResult>
+  ): void;
+  listByCluster(
+    resourceGroupName: string,
+    clusterName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AttachedDatabaseConfigurationListResult>,
+    callback?: msRest.ServiceCallback<Models.AttachedDatabaseConfigurationListResult>
+  ): Promise<Models.AttachedDatabaseConfigurationsListByClusterResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class AttachedDatabaseConfigurations {
         options
       },
       listByClusterOperationSpec,
-      callback) as Promise<Models.AttachedDatabaseConfigurationsListByClusterResponse>;
+      callback
+    ) as Promise<Models.AttachedDatabaseConfigurationsListByClusterResponse>;
   }
 
   /**
@@ -66,14 +87,24 @@ export class AttachedDatabaseConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AttachedDatabaseConfigurationsGetResponse>
    */
-  get(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<Models.AttachedDatabaseConfigurationsGetResponse>;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    attachedDatabaseConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AttachedDatabaseConfigurationsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param attachedDatabaseConfigurationName The name of the attached database configuration.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, callback: msRest.ServiceCallback<Models.AttachedDatabaseConfiguration>): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    attachedDatabaseConfigurationName: string,
+    callback: msRest.ServiceCallback<Models.AttachedDatabaseConfiguration>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -81,8 +112,22 @@ export class AttachedDatabaseConfigurations {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AttachedDatabaseConfiguration>): void;
-  get(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AttachedDatabaseConfiguration>, callback?: msRest.ServiceCallback<Models.AttachedDatabaseConfiguration>): Promise<Models.AttachedDatabaseConfigurationsGetResponse> {
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    attachedDatabaseConfigurationName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AttachedDatabaseConfiguration>
+  ): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    attachedDatabaseConfigurationName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.AttachedDatabaseConfiguration>,
+    callback?: msRest.ServiceCallback<Models.AttachedDatabaseConfiguration>
+  ): Promise<Models.AttachedDatabaseConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -91,7 +136,8 @@ export class AttachedDatabaseConfigurations {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AttachedDatabaseConfigurationsGetResponse>;
+      callback
+    ) as Promise<Models.AttachedDatabaseConfigurationsGetResponse>;
   }
 
   /**
@@ -103,9 +149,22 @@ export class AttachedDatabaseConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<Models.AttachedDatabaseConfigurationsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, parameters: Models.AttachedDatabaseConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.AttachedDatabaseConfigurationsCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(resourceGroupName,clusterName,attachedDatabaseConfigurationName,parameters,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AttachedDatabaseConfigurationsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    attachedDatabaseConfigurationName: string,
+    parameters: Models.AttachedDatabaseConfiguration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AttachedDatabaseConfigurationsCreateOrUpdateResponse> {
+    return this.beginCreateOrUpdate(
+      resourceGroupName,
+      clusterName,
+      attachedDatabaseConfigurationName,
+      parameters,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
+      Models.AttachedDatabaseConfigurationsCreateOrUpdateResponse
+    >;
   }
 
   /**
@@ -116,9 +175,18 @@ export class AttachedDatabaseConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterName,attachedDatabaseConfigurationName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    attachedDatabaseConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(
+      resourceGroupName,
+      clusterName,
+      attachedDatabaseConfigurationName,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -130,7 +198,13 @@ export class AttachedDatabaseConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateOrUpdate(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, parameters: Models.AttachedDatabaseConfiguration, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    attachedDatabaseConfigurationName: string,
+    parameters: Models.AttachedDatabaseConfiguration,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -140,7 +214,8 @@ export class AttachedDatabaseConfigurations {
         options
       },
       beginCreateOrUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -151,7 +226,12 @@ export class AttachedDatabaseConfigurations {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterName: string, attachedDatabaseConfigurationName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    attachedDatabaseConfigurationName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -160,7 +240,8 @@ export class AttachedDatabaseConfigurations {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -168,18 +249,11 @@ export class AttachedDatabaseConfigurations {
 const serializer = new msRest.Serializer(Mappers);
 const listByClusterOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations",
+  urlParameters: [Parameters.resourceGroupName, Parameters.clusterName, Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AttachedDatabaseConfigurationListResult
@@ -193,19 +267,16 @@ const listByClusterOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.attachedDatabaseConfigurationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AttachedDatabaseConfiguration
@@ -219,19 +290,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.attachedDatabaseConfigurationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -258,19 +326,16 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations/{attachedDatabaseConfigurationName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.attachedDatabaseConfigurationName,
     Parameters.subscriptionId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     202: {},

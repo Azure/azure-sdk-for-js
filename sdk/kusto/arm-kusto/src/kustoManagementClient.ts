@@ -13,7 +13,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { KustoManagementClientContext } from "./kustoManagementClientContext";
 
-
 class KustoManagementClient extends KustoManagementClientContext {
   // Operation groups
   clusters: operations.Clusters;
@@ -33,7 +32,11 @@ class KustoManagementClient extends KustoManagementClientContext {
    * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.KustoManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.KustoManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.clusters = new operations.Clusters(this);
     this.clusterPrincipalAssignments = new operations.ClusterPrincipalAssignments(this);

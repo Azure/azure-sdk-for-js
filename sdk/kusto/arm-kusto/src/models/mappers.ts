@@ -700,7 +700,7 @@ export const Cluster: msRest.CompositeMapper = {
       },
       engineType: {
         serializedName: "properties.engineType",
-        defaultValue: 'V3',
+        defaultValue: "V3",
         type: {
           name: "String"
         }
@@ -859,7 +859,7 @@ export const ClusterUpdate: msRest.CompositeMapper = {
       },
       engineType: {
         serializedName: "properties.engineType",
-        defaultValue: 'V3',
+        defaultValue: "V3",
         type: {
           name: "String"
         }
@@ -1542,7 +1542,7 @@ export const EventHubDataConnection: msRest.CompositeMapper = {
       },
       compression: {
         serializedName: "properties.compression",
-        defaultValue: 'None',
+        defaultValue: "None",
         type: {
           name: "String"
         }
@@ -1741,7 +1741,7 @@ export const ClusterCheckNameRequest: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Kusto/clusters',
+        defaultValue: "Microsoft.Kusto/clusters",
         type: {
           name: "String"
         }
@@ -1795,7 +1795,7 @@ export const ClusterPrincipalAssignmentCheckNameRequest: msRest.CompositeMapper 
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Kusto/clusters/principalAssignments',
+        defaultValue: "Microsoft.Kusto/clusters/principalAssignments",
         type: {
           name: "String"
         }
@@ -1821,7 +1821,7 @@ export const DataConnectionCheckNameRequest: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Kusto/clusters/databases/dataConnections',
+        defaultValue: "Microsoft.Kusto/clusters/databases/dataConnections",
         type: {
           name: "String"
         }
@@ -1847,7 +1847,7 @@ export const ScriptCheckNameRequest: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Kusto/clusters/databases/scripts',
+        defaultValue: "Microsoft.Kusto/clusters/databases/scripts",
         type: {
           name: "String"
         }
@@ -1873,7 +1873,7 @@ export const DatabasePrincipalAssignmentCheckNameRequest: msRest.CompositeMapper
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'Microsoft.Kusto/clusters/databases/principalAssignments',
+        defaultValue: "Microsoft.Kusto/clusters/databases/principalAssignments",
         type: {
           name: "String"
         }
@@ -2373,12 +2373,11 @@ export const OperationListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'Database' : Database,
-  'Database.ReadWrite' : ReadWriteDatabase,
-  'Database.ReadOnlyFollowing' : ReadOnlyFollowingDatabase,
-  'DataConnection' : DataConnection,
-  'DataConnection.EventHub' : EventHubDataConnection,
-  'DataConnection.IotHub' : IotHubDataConnection,
-  'DataConnection.EventGrid' : EventGridDataConnection
-
+  Database: Database,
+  "Database.ReadWrite": ReadWriteDatabase,
+  "Database.ReadOnlyFollowing": ReadOnlyFollowingDatabase,
+  DataConnection: DataConnection,
+  "DataConnection.EventHub": EventHubDataConnection,
+  "DataConnection.IotHub": IotHubDataConnection,
+  "DataConnection.EventGrid": EventGridDataConnection
 };
