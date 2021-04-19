@@ -67,9 +67,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       return success
         ? { code: ExportResultCode.SUCCESS }
         : {
-          code: ExportResultCode.FAILED,
-          error: new Error("Failed to persist envelope in disk.")
-        };
+            code: ExportResultCode.FAILED,
+            error: new Error("Failed to persist envelope in disk.")
+          };
     } catch (ex) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
@@ -96,7 +96,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           let filteredEnvelopes: Envelope[] = [];
-          breezeResponse.errors.forEach(error => {
+          breezeResponse.errors.forEach((error) => {
             if (error.statusCode && isRetriable(error.statusCode)) {
               filteredEnvelopes.push(envelopes[error.index]);
             }
@@ -109,7 +109,6 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           return {
             code: ExportResultCode.FAILED
           };
-
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
           return await this._persist(envelopes);

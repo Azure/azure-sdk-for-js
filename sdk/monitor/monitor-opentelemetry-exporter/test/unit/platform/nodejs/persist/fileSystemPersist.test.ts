@@ -142,7 +142,6 @@ describe("FileSystemPersist", () => {
   });
 
   describe("#fileCleanupTask()", () => {
-
     it("must clean old files from temp location", async () => {
       const sleep = promisify(setTimeout);
       const persister = new FileSystemPersist({ instrumentationKey });

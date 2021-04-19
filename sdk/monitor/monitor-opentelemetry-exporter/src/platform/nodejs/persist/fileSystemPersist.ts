@@ -47,7 +47,9 @@ export class FileSystemPersist implements PersistentStorage {
     );
     // Starts file cleanup task
     if (!this._fileCleanupTimer) {
-      this._fileCleanupTimer = setTimeout(() => { this._fileCleanupTask(); }, this.cleanupTimeOut);
+      this._fileCleanupTimer = setTimeout(() => {
+        this._fileCleanupTask();
+      }, this.cleanupTimeOut);
       this._fileCleanupTimer.unref();
     }
   }
@@ -152,8 +154,10 @@ export class FileSystemPersist implements PersistentStorage {
         } else {
           files.forEach(async (file) => {
             // Check expiration
-            let fileCreationDate: Date = new Date(parseInt(file.split(FileSystemPersist.FILENAME_SUFFIX)[0]));
-            let expired = new Date(+(new Date()) - this.fileRetemptionPeriod) > fileCreationDate;
+            let fileCreationDate: Date = new Date(
+              parseInt(file.split(FileSystemPersist.FILENAME_SUFFIX)[0])
+            );
+            let expired = new Date(+new Date() - this.fileRetemptionPeriod) > fileCreationDate;
             if (expired) {
               var filePath = path.join(this._tempDirectory, file);
               await unlinkAsync(filePath);
