@@ -70,23 +70,23 @@ export function createChatClient(userToken: string): ChatClient {
   return new ChatClient(url, new AzureCommunicationTokenCredential(userToken), {
     httpClient: createTestHttpClient()
   });
+}
 
-  function createTestHttpClient(): HttpClient {
-    const customHttpClient = new DefaultHttpClient();
+function createTestHttpClient(): HttpClient {
+  const customHttpClient = new DefaultHttpClient();
 
-    const originalSendRequest = customHttpClient.sendRequest;
-    customHttpClient.sendRequest = async function(
-      httpRequest: WebResourceLike
-    ): Promise<HttpOperationResponse> {
-      const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
+  const originalSendRequest = customHttpClient.sendRequest;
+  customHttpClient.sendRequest = async function(
+    httpRequest: WebResourceLike
+  ): Promise<HttpOperationResponse> {
+    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
 
-      if (requestResponse.status < 200 || requestResponse.status > 299) {
-        console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
-      }
+    if (requestResponse.status < 200 || requestResponse.status > 299) {
+      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
+    }
 
-      return requestResponse;
-    };
+    return requestResponse;
+  };
 
-    return customHttpClient;
-  }
+  return customHttpClient;
 }
