@@ -19,7 +19,7 @@ import {
   Enum7,
   JsonAtlasRelationship,
   Enum14,
-  JsonAtlasTypesDef
+  JsonAtlasTypesDef,
 } from "./models";
 
 export interface EntityRestCreateOrUpdateBodyParam {
@@ -44,8 +44,7 @@ export interface EntityRestGetByGuidsQueryParam {
   queryParameters: EntityRestGetByGuidsQueryParamProperties;
 }
 
-export type EntityRestGetByGuidsParameters = RequestParameters &
-  EntityRestGetByGuidsQueryParam;
+export type EntityRestGetByGuidsParameters = RequestParameters & EntityRestGetByGuidsQueryParam;
 
 export interface EntityRestCreateOrUpdateBulkBodyParam {
   body: JsonAtlasEntitiesWithExtInfo;
@@ -63,8 +62,7 @@ export interface EntityRestBulkDeleteQueryParam {
   queryParameters: EntityRestBulkDeleteQueryParamProperties;
 }
 
-export type EntityRestBulkDeleteParameters = RequestParameters &
-  EntityRestBulkDeleteQueryParam;
+export type EntityRestBulkDeleteParameters = RequestParameters & EntityRestBulkDeleteQueryParam;
 
 export interface EntityRestAddClassificationBodyParam {
   body: JsonClassificationAssociateRequest;
@@ -84,8 +82,7 @@ export interface EntityRestGetByIdQueryParam {
   queryParameters?: EntityRestGetByIdQueryParamProperties;
 }
 
-export type EntityRestGetByIdParameters = RequestParameters &
-  EntityRestGetByIdQueryParam;
+export type EntityRestGetByIdParameters = RequestParameters & EntityRestGetByIdQueryParam;
 
 export interface EntityRestPartialUpdateEntityAttrByGuidQueryParamProperties {
   /** The name of the attribute. */
@@ -543,8 +540,7 @@ export interface DiscoveryRestSuggestBodyParam {
   body: JsonSuggestRequest;
 }
 
-export type DiscoveryRestSuggestParameters = RequestParameters &
-  DiscoveryRestSuggestBodyParam;
+export type DiscoveryRestSuggestParameters = RequestParameters & DiscoveryRestSuggestBodyParam;
 
 export interface DiscoveryRestAutoCompleteBodyParam {
   body: JsonAutoCompleteRequest;
@@ -595,15 +591,13 @@ export interface RelationshipRestCreateBodyParam {
   body: JsonAtlasRelationship;
 }
 
-export type RelationshipRestCreateParameters = RequestParameters &
-  RelationshipRestCreateBodyParam;
+export type RelationshipRestCreateParameters = RequestParameters & RelationshipRestCreateBodyParam;
 
 export interface RelationshipRestUpdateBodyParam {
   body: JsonAtlasRelationship;
 }
 
-export type RelationshipRestUpdateParameters = RequestParameters &
-  RelationshipRestUpdateBodyParam;
+export type RelationshipRestUpdateParameters = RequestParameters & RelationshipRestUpdateBodyParam;
 
 export interface RelationshipRestGetById2QueryParamProperties {
   /** Limits whether includes extended information. */

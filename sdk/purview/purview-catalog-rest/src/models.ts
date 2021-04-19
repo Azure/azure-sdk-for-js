@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export type JsonAtlasEntityWithExtInfo = JsonAtlasEntityWithExtInfoBase &
-  JsonAtlasEntityExtInfo;
+export type JsonAtlasEntityWithExtInfo = JsonAtlasEntityWithExtInfoBase & JsonAtlasEntityExtInfo;
 
 export interface JsonAtlasEntityWithExtInfoBase {
   /** An instance of an entity - like hive_table, hive_database. */
@@ -46,8 +45,7 @@ export interface JsonAtlasEntityBase {
   contacts?: JsonAtlasEntityContactsDictionary;
 }
 
-export type JsonAtlasClassification = JsonAtlasClassificationBase &
-  JsonAtlasStruct;
+export type JsonAtlasClassification = JsonAtlasClassificationBase & JsonAtlasStruct;
 
 export interface JsonAtlasClassificationBase {
   /** The GUID of the entity. */
@@ -186,8 +184,7 @@ export interface JsonAtlasEntityHeaders {
   guidHeaderMap?: JsonAtlasEntityHeadersGuidHeaderMapDictionary;
 }
 
-export type JsonAtlasGlossary = JsonAtlasGlossaryBase &
-  JsonAtlasGlossaryBaseObject;
+export type JsonAtlasGlossary = JsonAtlasGlossaryBase & JsonAtlasGlossaryBaseObject;
 
 export interface JsonAtlasGlossaryBase {
   /** An array of categories. */
@@ -255,8 +252,7 @@ export interface JsonAtlasBaseModelObject {
   guid?: string;
 }
 
-export type JsonAtlasGlossaryCategory = JsonAtlasGlossaryCategoryBase &
-  JsonAtlasGlossaryBaseObject;
+export type JsonAtlasGlossaryCategory = JsonAtlasGlossaryCategoryBase & JsonAtlasGlossaryBaseObject;
 
 export interface JsonAtlasGlossaryCategoryBase {
   /** The glossary header with basic information. */
@@ -278,8 +274,7 @@ export interface JsonAtlasGlossaryHeader {
   relationGuid?: string;
 }
 
-export type JsonAtlasGlossaryTerm = JsonAtlasGlossaryTermBase &
-  JsonAtlasGlossaryBaseObject;
+export type JsonAtlasGlossaryTerm = JsonAtlasGlossaryTermBase & JsonAtlasGlossaryBaseObject;
 
 export interface JsonAtlasGlossaryTermBase {
   /** The abbreviation of the term. */
@@ -350,8 +345,7 @@ export interface JsonResourceLink {
   url?: string;
 }
 
-export type JsonAtlasRelatedObjectId = JsonAtlasRelatedObjectIdBase &
-  JsonAtlasObjectId;
+export type JsonAtlasRelatedObjectId = JsonAtlasRelatedObjectIdBase & JsonAtlasObjectId;
 
 export interface JsonAtlasRelatedObjectIdBase {
   /** The display text. */
@@ -390,8 +384,7 @@ export interface JsonAtlasTermCategorizationHeader {
   status?: JsonAtlasTermRelationshipStatus;
 }
 
-export type JsonAtlasGlossaryExtInfo = JsonAtlasGlossaryExtInfoBase &
-  JsonAtlasGlossary;
+export type JsonAtlasGlossaryExtInfo = JsonAtlasGlossaryExtInfoBase & JsonAtlasGlossary;
 
 export interface JsonAtlasGlossaryExtInfoBase {
   /** The glossary category information. */
@@ -719,8 +712,7 @@ export interface JsonAtlasRelationshipWithExtInfo {
   relationship?: JsonAtlasRelationship;
 }
 
-export type JsonAtlasClassificationDef = JsonAtlasClassificationDefBase &
-  JsonAtlasStructDef;
+export type JsonAtlasClassificationDef = JsonAtlasClassificationDefBase & JsonAtlasStructDef;
 
 export interface JsonAtlasClassificationDefBase {
   /**
@@ -922,8 +914,7 @@ export interface JsonAtlasEnumElementDef {
   value?: string;
 }
 
-export type JsonAtlasRelationshipDef = JsonAtlasRelationshipDefBase &
-  JsonAtlasStructDef;
+export type JsonAtlasRelationshipDef = JsonAtlasRelationshipDefBase & JsonAtlasStructDef;
 
 export interface JsonAtlasRelationshipDefBase {
   /**
@@ -986,9 +977,7 @@ export interface JsonAtlasRelationshipEndDef {
   type?: string;
 }
 
-export type JsonAtlasTypeDef = JsonAtlasTypeDefBase &
-  JsonAtlasBaseTypeDef &
-  JsonAtlasExtraTypeDef;
+export type JsonAtlasTypeDef = JsonAtlasTypeDefBase & JsonAtlasBaseTypeDef & JsonAtlasExtraTypeDef;
 
 export interface JsonAtlasTypeDefBase {}
 
@@ -1101,8 +1090,7 @@ export interface JsonTypeStatisticsExtraProperties {
   count?: number;
 }
 
-export type JsonAtlasUserSavedSearch = JsonAtlasUserSavedSearchBase &
-  JsonAtlasBaseModelObject;
+export type JsonAtlasUserSavedSearch = JsonAtlasUserSavedSearchBase & JsonAtlasBaseModelObject;
 
 export interface JsonAtlasUserSavedSearchBase {
   /** The name of the saved search. */
@@ -1357,11 +1345,7 @@ export type JsonAtlasTermRelationshipStatus =
   | "OTHER";
 export type JsonTermStatus = "Draft" | "Approved" | "Alert" | "Expired";
 export type JsonStatusAtlasRelationship = "ACTIVE" | "DELETED";
-export type JsonImportCSVOperationStatus =
-  | "INIT"
-  | "SUCCEED"
-  | "FAILED"
-  | "RUNNING";
+export type JsonImportCSVOperationStatus = "INIT" | "SUCCEED" | "FAILED" | "RUNNING";
 export type Enum7 = "BOTH" | "INPUT" | "OUTPUT";
 export type JsonLineageDirection = "INPUT" | "OUTPUT" | "BOTH";
 export type JsonPropagateTags = "NONE" | "ONE_TO_TWO" | "TWO_TO_ONE" | "BOTH";
@@ -1386,10 +1370,7 @@ export type JsonRoundingMode =
   | "HALF_DOWN"
   | "HALF_EVEN"
   | "UNNECESSARY";
-export type JsonRelationshipCategory =
-  | "ASSOCIATION"
-  | "AGGREGATION"
-  | "COMPOSITION";
+export type JsonRelationshipCategory = "ASSOCIATION" | "AGGREGATION" | "COMPOSITION";
 export type Enum14 =
   | "enum"
   | "entity"
@@ -1427,11 +1408,7 @@ export type JsonHookNotificationType =
   | "ENTITY_FULL_UPDATE_V2"
   | "ENTITY_DELETE_V2";
 export type XmlNs0SortType = "NONE" | "ASC" | "DESC";
-export type JsonEntityOperation =
-  | "CREATE"
-  | "UPDATE"
-  | "PARTIAL_UPDATE"
-  | "DELETE";
+export type JsonEntityOperation = "CREATE" | "UPDATE" | "PARTIAL_UPDATE" | "DELETE";
 export type JsonRelation =
   | "SEE_ALSO"
   | "SYNONYMS"
@@ -1446,49 +1423,25 @@ export type JsonRelation =
   | "CLASSIFIES"
   | "VALID_VALUES"
   | "VALID_VALUES_FOR";
-export type JsonAtlasClassificationSourceDetailsDictionary = Record<
-  string,
-  any
->;
+export type JsonAtlasClassificationSourceDetailsDictionary = Record<string, any>;
 export type JsonAtlasStructAttributesDictionary = Record<string, any>;
-export type JsonAtlasEntityRelationshipAttributesDictionary = Record<
-  string,
-  any
->;
+export type JsonAtlasEntityRelationshipAttributesDictionary = Record<string, any>;
 export type JsonAtlasEntitySourceDetailsDictionary = Record<string, any>;
-export type JsonAtlasEntityContactsDictionary = Record<
-  string,
-  JsonContactBasic[]
->;
-export type JsonAtlasEntityExtInfoReferredEntitiesDictionary = Record<
-  string,
-  JsonAtlasEntity
->;
-export type JsonEntityMutationResponseGuidAssignmentsDictionary = Record<
-  string,
-  string
->;
+export type JsonAtlasEntityContactsDictionary = Record<string, JsonContactBasic[]>;
+export type JsonAtlasEntityExtInfoReferredEntitiesDictionary = Record<string, JsonAtlasEntity>;
+export type JsonEntityMutationResponseGuidAssignmentsDictionary = Record<string, string>;
 export type JsonEntityMutationResponseMutatedEntitiesDictionary = Record<
   string,
   JsonAtlasEntityHeader[]
 >;
-export type JsonAtlasEntityHeadersGuidHeaderMapDictionary = Record<
-  string,
-  JsonAtlasEntityHeader
->;
+export type JsonAtlasEntityHeadersGuidHeaderMapDictionary = Record<string, JsonAtlasEntityHeader>;
 export type DictionaryOfStringDictionary = Record<string, string>;
 export type DictionaryOfpathsCic80AAtlasV2GlossaryCategoryCategoryguidRelatedGetResponses200ContentApplicationJsonSchemaAdditionalpropertiesDictionary = Record<
   string,
   JsonAtlasRelatedCategoryHeader[]
 >;
-export type JsonAtlasGlossaryTermContactsDictionary = Record<
-  string,
-  JsonContactBasic[]
->;
-export type JsonTermCustomAttributesExtraPropertiesDictionary = Record<
-  string,
-  any
->;
+export type JsonAtlasGlossaryTermContactsDictionary = Record<string, JsonContactBasic[]>;
+export type JsonTermCustomAttributesExtraPropertiesDictionary = Record<string, any>;
 export type JsonTermCustomAttributesDictionary = Record<
   string,
   JsonTermCustomAttributesExtraPropertiesDictionary
@@ -1502,14 +1455,8 @@ export type JsonAtlasGlossaryExtInfoCategoryInfoDictionary = Record<
   string,
   JsonAtlasGlossaryCategory
 >;
-export type JsonAtlasGlossaryExtInfoTermInfoDictionary = Record<
-  string,
-  JsonAtlasGlossaryTerm
->;
-export type JsonAtlasLineageInfoGuidEntityMapDictionary = Record<
-  string,
-  JsonAtlasEntityHeader
->;
+export type JsonAtlasGlossaryExtInfoTermInfoDictionary = Record<string, JsonAtlasGlossaryTerm>;
+export type JsonAtlasLineageInfoGuidEntityMapDictionary = Record<string, JsonAtlasEntityHeader>;
 export type JsonAtlasLineageInfoExtraPropertiesDictionary = Record<string, any>;
 export type JsonAtlasLineageInfoWidthCountsDictionary = Record<
   string,
@@ -1522,8 +1469,5 @@ export type JsonAtlasRelationshipWithExtInfoReferredEntitiesDictionary = Record<
 export type JsonAtlasConstraintDefParamsDictionary = Record<string, any>;
 export type JsonAtlasAttributeDefOptionsDictionary = Record<string, string>;
 export type JsonAtlasBaseTypeDefOptionsDictionary = Record<string, string>;
-export type JsonTypeStatisticsDictionary = Record<
-  string,
-  JsonTypeStatisticsExtraProperties
->;
+export type JsonTypeStatisticsDictionary = Record<string, JsonTypeStatisticsExtraProperties>;
 export type JsonSearchFilterParamsDictionary = Record<string, string[]>;

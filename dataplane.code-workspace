@@ -5,16 +5,12 @@
       "path": "sdk/core/abort-controller"
     },
     {
-      "name": "purview-scanning",
-      "path": "sdk/purview/purview-scanning-rest"
-    },
-    {
       "name": "purview-catalog",
       "path": "sdk/purview/purview-catalog-rest"
     },
     {
       "name": "anomaly-detector",
-      "path": "sdk/anomalydetector/ai-anomaly-detector-rest"
+      "path": "sdk/anomalydetector/ai-anomaly-detector"
     },
     {
       "name": "app-configuration",

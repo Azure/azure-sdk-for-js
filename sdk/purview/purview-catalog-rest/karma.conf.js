@@ -55,7 +55,13 @@ module.exports = function (config) {
       // "dist-test/index.js": ["coverage"]
     },
 
-    envPreprocessor: ["TEST_MODE", "ENDPOINT", "DOCUMENT_TRANSLATOR_API_KEY"],
+    envPreprocessor: [
+      "TEST_MODE",
+      "ENDPOINT",
+      "AZURE_CLIENT_SECRET",
+      "AZURE_CLIENT_ID",
+      "AZURE_TENANT_ID",
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'

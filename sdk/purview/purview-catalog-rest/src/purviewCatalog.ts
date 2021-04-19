@@ -87,7 +87,7 @@ import {
   TypesRestDeleteTypeDefsParameters,
   TypesRestGetTypeDefHeadersParameters,
   TypesRestGetTermTemplateDefByGuidParameters,
-  TypesRestGetTermTemplateDefByNameParameters
+  TypesRestGetTermTemplateDefByNameParameters,
 } from "./parameters";
 import {
   EntityRestCreateOrUpdate200Response,
@@ -175,7 +175,7 @@ import {
   TypesRestDeleteTypeDefs204Response,
   TypesRestGetTypeDefHeaders200Response,
   TypesRestGetTermTemplateDefByGuid200Response,
-  TypesRestGetTermTemplateDefByName200Response
+  TypesRestGetTermTemplateDefByName200Response,
 } from "./responses";
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -186,16 +186,12 @@ export interface EntityRestCreateOrUpdate {
    * Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
    * Map and array of collections are not well supported. E.g., array<array<int>>, array<map<string, int>>.
    */
-  post(
-    options: EntityRestCreateOrUpdateParameters
-  ): Promise<EntityRestCreateOrUpdate200Response>;
+  post(options: EntityRestCreateOrUpdateParameters): Promise<EntityRestCreateOrUpdate200Response>;
 }
 
 export interface EntityRestBulkDelete {
   /** List entities in bulk identified by its GUIDs. */
-  get(
-    options?: EntityRestGetByGuidsParameters
-  ): Promise<EntityRestGetByGuids200Response>;
+  get(options?: EntityRestGetByGuidsParameters): Promise<EntityRestGetByGuids200Response>;
   /**
    * Create or update entities in Atlas in bulk.
    * Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
@@ -205,9 +201,7 @@ export interface EntityRestBulkDelete {
     options: EntityRestCreateOrUpdateBulkParameters
   ): Promise<EntityRestCreateOrUpdateBulk200Response>;
   /** Delete a list of entities in bulk identified by their GUIDs or unique attributes. */
-  delete(
-    options?: EntityRestBulkDeleteParameters
-  ): Promise<EntityRestBulkDelete200Response>;
+  delete(options?: EntityRestBulkDeleteParameters): Promise<EntityRestBulkDelete200Response>;
 }
 
 export interface EntityRestAddClassification {
@@ -219,9 +213,7 @@ export interface EntityRestAddClassification {
 
 export interface EntityRestDeleteByGuid {
   /** Get complete definition of an entity given its GUID. */
-  get(
-    options?: EntityRestGetByIdParameters
-  ): Promise<EntityRestGetById200Response>;
+  get(options?: EntityRestGetByIdParameters): Promise<EntityRestGetById200Response>;
   /**
    * Update entity partially - create or update entity attribute identified by its GUID.
    * Supports only primitive attribute type and entity references.
@@ -232,9 +224,7 @@ export interface EntityRestDeleteByGuid {
     options: EntityRestPartialUpdateEntityAttrByGuidParameters
   ): Promise<EntityRestPartialUpdateEntityAttrByGuid200Response>;
   /** Delete an entity identified by its GUID. */
-  delete(
-    options?: EntityRestDeleteByGuidParameters
-  ): Promise<EntityRestDeleteByGuid200Response>;
+  delete(options?: EntityRestDeleteByGuidParameters): Promise<EntityRestDeleteByGuid200Response>;
 }
 
 export interface EntityRestDeleteClassification {
@@ -347,16 +337,12 @@ export interface EntityRestGetEntitiesByUniqueAttributes {
 
 export interface EntityRestGetHeaderById {
   /** Get entity header given its GUID. */
-  get(
-    options?: EntityRestGetHeaderByIdParameters
-  ): Promise<EntityRestGetHeaderById200Response>;
+  get(options?: EntityRestGetHeaderByIdParameters): Promise<EntityRestGetHeaderById200Response>;
 }
 
 export interface GlossaryRestCreateGlossary {
   /** Get all glossaries registered with Atlas. */
-  get(
-    options?: GlossaryRestGetGlossariesParameters
-  ): Promise<GlossaryRestGetGlossaries200Response>;
+  get(options?: GlossaryRestGetGlossariesParameters): Promise<GlossaryRestGetGlossaries200Response>;
   /** Create a glossary. */
   post(
     options: GlossaryRestCreateGlossaryParameters
@@ -477,9 +463,7 @@ export interface GlossaryRestGetRelatedTerms {
 
 export interface GlossaryRestDeleteGlossary {
   /** Get a specific Glossary by its GUID. */
-  get(
-    options?: GlossaryRestGetGlossaryParameters
-  ): Promise<GlossaryRestGetGlossary200Response>;
+  get(options?: GlossaryRestGetGlossaryParameters): Promise<GlossaryRestGetGlossary200Response>;
   /** Update the given glossary. */
   put(
     options: GlossaryRestUpdateGlossaryParameters
@@ -576,16 +560,12 @@ export interface DiscoveryRestSearchAdvanced {
 
 export interface DiscoveryRestSuggest {
   /** Get search suggestions by query criteria. */
-  post(
-    options: DiscoveryRestSuggestParameters
-  ): Promise<DiscoveryRestSuggest200Response>;
+  post(options: DiscoveryRestSuggestParameters): Promise<DiscoveryRestSuggest200Response>;
 }
 
 export interface DiscoveryRestAutoComplete {
   /** Get auto complete options. */
-  post(
-    options: DiscoveryRestAutoCompleteParameters
-  ): Promise<DiscoveryRestAutoComplete200Response>;
+  post(options: DiscoveryRestAutoCompleteParameters): Promise<DiscoveryRestAutoComplete200Response>;
 }
 
 export interface LineageRestGetLineageGraph {
@@ -604,20 +584,14 @@ export interface LineageRestNextLevelLineage {
 
 export interface RelationshipRestUpdate {
   /** Create a new relationship between entities. */
-  post(
-    options: RelationshipRestCreateParameters
-  ): Promise<RelationshipRestCreate200Response>;
+  post(options: RelationshipRestCreateParameters): Promise<RelationshipRestCreate200Response>;
   /** Update an existing relationship between entities. */
-  put(
-    options: RelationshipRestUpdateParameters
-  ): Promise<RelationshipRestUpdate200Response>;
+  put(options: RelationshipRestUpdateParameters): Promise<RelationshipRestUpdate200Response>;
 }
 
 export interface RelationshipRestDeleteById {
   /** Get relationship information between entities by its GUID. */
-  get(
-    options?: RelationshipRestGetById2Parameters
-  ): Promise<RelationshipRestGetById2200Response>;
+  get(options?: RelationshipRestGetById2Parameters): Promise<RelationshipRestGetById2200Response>;
   /** Delete a relationship between entities by its GUID. */
   delete(
     options?: RelationshipRestDeleteByIdParameters
@@ -654,16 +628,12 @@ export interface TypesRestGetEntityDefByName {
 
 export interface TypesRestGetEnumDefByGuid {
   /** Get the enum definition for the given GUID. */
-  get(
-    options?: TypesRestGetEnumDefByGuidParameters
-  ): Promise<TypesRestGetEnumDefByGuid200Response>;
+  get(options?: TypesRestGetEnumDefByGuidParameters): Promise<TypesRestGetEnumDefByGuid200Response>;
 }
 
 export interface TypesRestGetEnumDefByName {
   /** Get the enum definition by its name (unique). */
-  get(
-    options?: TypesRestGetEnumDefByNameParameters
-  ): Promise<TypesRestGetEnumDefByName200Response>;
+  get(options?: TypesRestGetEnumDefByNameParameters): Promise<TypesRestGetEnumDefByName200Response>;
 }
 
 export interface TypesRestGetRelationshipDefByGuid {
@@ -696,16 +666,12 @@ export interface TypesRestGetStructDefByName {
 
 export interface TypesRestGetTypeDefByGuid {
   /** Get the type definition for the given GUID. */
-  get(
-    options?: TypesRestGetTypeDefByGuidParameters
-  ): Promise<TypesRestGetTypeDefByGuid200Response>;
+  get(options?: TypesRestGetTypeDefByGuidParameters): Promise<TypesRestGetTypeDefByGuid200Response>;
 }
 
 export interface TypesRestDeleteTypeByName {
   /** Get the type definition by its name (unique). */
-  get(
-    options?: TypesRestGetTypeDefByNameParameters
-  ): Promise<TypesRestGetTypeDefByName200Response>;
+  get(options?: TypesRestGetTypeDefByNameParameters): Promise<TypesRestGetTypeDefByName200Response>;
   /** Delete API for type identified by its name. */
   delete(
     options?: TypesRestDeleteTypeByNameParameters
@@ -714,24 +680,18 @@ export interface TypesRestDeleteTypeByName {
 
 export interface TypesRestDeleteTypeDefs {
   /** Get all type definitions in Atlas in bulk. */
-  get(
-    options?: TypesRestGetAllTypeDefsParameters
-  ): Promise<TypesRestGetAllTypeDefs200Response>;
+  get(options?: TypesRestGetAllTypeDefsParameters): Promise<TypesRestGetAllTypeDefs200Response>;
   /**
    * Create all atlas type definitions in bulk, only new definitions will be created.
    * Any changes to the existing definitions will be discarded.
    */
-  post(
-    options: TypesRestCreateTypeDefsParameters
-  ): Promise<TypesRestCreateTypeDefs200Response>;
+  post(options: TypesRestCreateTypeDefsParameters): Promise<TypesRestCreateTypeDefs200Response>;
   /** Update all types in bulk, changes detected in the type definitions would be persisted. */
   put(
     options: TypesRestUpdateAtlasTypeDefsParameters
   ): Promise<TypesRestUpdateAtlasTypeDefs200Response>;
   /** Delete API for all types in bulk. */
-  delete(
-    options: TypesRestDeleteTypeDefsParameters
-  ): Promise<TypesRestDeleteTypeDefs204Response>;
+  delete(options: TypesRestDeleteTypeDefsParameters): Promise<TypesRestDeleteTypeDefs204Response>;
 }
 
 export interface TypesRestGetTypeDefHeaders {
@@ -792,19 +752,14 @@ export interface Routes {
     typeName: string
   ): EntityRestUpdateClassificationsByUniqueAttribute;
   /** Resource for '/atlas/v2/entity/bulk/setClassifications' has methods for the following verbs: post */
-  (
-    path: "/atlas/v2/entity/bulk/setClassifications"
-  ): EntityRestSetClassifications;
+  (path: "/atlas/v2/entity/bulk/setClassifications"): EntityRestSetClassifications;
   /** Resource for '/atlas/v2/entity/bulk/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get */
   (
     path: "/atlas/v2/entity/bulk/uniqueAttribute/type/{typeName}",
     typeName: string
   ): EntityRestGetEntitiesByUniqueAttributes;
   /** Resource for '/atlas/v2/entity/guid/\{guid\}/header' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/entity/guid/{guid}/header",
-    guid: string
-  ): EntityRestGetHeaderById;
+  (path: "/atlas/v2/entity/guid/{guid}/header", guid: string): EntityRestGetHeaderById;
   /** Resource for '/atlas/v2/glossary' has methods for the following verbs: get, post */
   (path: "/atlas/v2/glossary"): GlossaryRestCreateGlossary;
   /** Resource for '/atlas/v2/glossary/categories' has methods for the following verbs: post */
@@ -834,10 +789,7 @@ export interface Routes {
   /** Resource for '/atlas/v2/glossary/term' has methods for the following verbs: post */
   (path: "/atlas/v2/glossary/term"): GlossaryRestCreateGlossaryTerm;
   /** Resource for '/atlas/v2/glossary/term/\{termGuid\}' has methods for the following verbs: get, put, delete */
-  (
-    path: "/atlas/v2/glossary/term/{termGuid}",
-    termGuid: string
-  ): GlossaryRestDeleteGlossaryTerm;
+  (path: "/atlas/v2/glossary/term/{termGuid}", termGuid: string): GlossaryRestDeleteGlossaryTerm;
   /** Resource for '/atlas/v2/glossary/term/\{termGuid\}/partial' has methods for the following verbs: put */
   (
     path: "/atlas/v2/glossary/term/{termGuid}/partial",
@@ -856,10 +808,7 @@ export interface Routes {
     termGuid: string
   ): GlossaryRestGetRelatedTerms;
   /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}' has methods for the following verbs: get, put, delete */
-  (
-    path: "/atlas/v2/glossary/{glossaryGuid}",
-    glossaryGuid: string
-  ): GlossaryRestDeleteGlossary;
+  (path: "/atlas/v2/glossary/{glossaryGuid}", glossaryGuid: string): GlossaryRestDeleteGlossary;
   /** Resource for '/atlas/v2/glossary/\{glossaryGuid\}/categories' has methods for the following verbs: get */
   (
     path: "/atlas/v2/glossary/{glossaryGuid}/categories",
@@ -928,10 +877,7 @@ export interface Routes {
   /** Resource for '/atlas/v2/relationship' has methods for the following verbs: post, put */
   (path: "/atlas/v2/relationship"): RelationshipRestUpdate;
   /** Resource for '/atlas/v2/relationship/guid/\{guid\}' has methods for the following verbs: get, delete */
-  (
-    path: "/atlas/v2/relationship/guid/{guid}",
-    guid: string
-  ): RelationshipRestDeleteById;
+  (path: "/atlas/v2/relationship/guid/{guid}", guid: string): RelationshipRestDeleteById;
   /** Resource for '/atlas/v2/types/classificationdef/guid/\{guid\}' has methods for the following verbs: get */
   (
     path: "/atlas/v2/types/classificationdef/guid/{guid}",
@@ -943,25 +889,13 @@ export interface Routes {
     name: string
   ): TypesRestGetClassificationDefByName;
   /** Resource for '/atlas/v2/types/entitydef/guid/\{guid\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/entitydef/guid/{guid}",
-    guid: string
-  ): TypesRestGetEntityDefByGuid;
+  (path: "/atlas/v2/types/entitydef/guid/{guid}", guid: string): TypesRestGetEntityDefByGuid;
   /** Resource for '/atlas/v2/types/entitydef/name/\{name\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/entitydef/name/{name}",
-    name: string
-  ): TypesRestGetEntityDefByName;
+  (path: "/atlas/v2/types/entitydef/name/{name}", name: string): TypesRestGetEntityDefByName;
   /** Resource for '/atlas/v2/types/enumdef/guid/\{guid\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/enumdef/guid/{guid}",
-    guid: string
-  ): TypesRestGetEnumDefByGuid;
+  (path: "/atlas/v2/types/enumdef/guid/{guid}", guid: string): TypesRestGetEnumDefByGuid;
   /** Resource for '/atlas/v2/types/enumdef/name/\{name\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/enumdef/name/{name}",
-    name: string
-  ): TypesRestGetEnumDefByName;
+  (path: "/atlas/v2/types/enumdef/name/{name}", name: string): TypesRestGetEnumDefByName;
   /** Resource for '/atlas/v2/types/relationshipdef/guid/\{guid\}' has methods for the following verbs: get */
   (
     path: "/atlas/v2/types/relationshipdef/guid/{guid}",
@@ -973,39 +907,21 @@ export interface Routes {
     name: string
   ): TypesRestGetRelationshipDefByName;
   /** Resource for '/atlas/v2/types/structdef/guid/\{guid\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/structdef/guid/{guid}",
-    guid: string
-  ): TypesRestGetStructDefByGuid;
+  (path: "/atlas/v2/types/structdef/guid/{guid}", guid: string): TypesRestGetStructDefByGuid;
   /** Resource for '/atlas/v2/types/structdef/name/\{name\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/structdef/name/{name}",
-    name: string
-  ): TypesRestGetStructDefByName;
+  (path: "/atlas/v2/types/structdef/name/{name}", name: string): TypesRestGetStructDefByName;
   /** Resource for '/atlas/v2/types/typedef/guid/\{guid\}' has methods for the following verbs: get */
-  (
-    path: "/atlas/v2/types/typedef/guid/{guid}",
-    guid: string
-  ): TypesRestGetTypeDefByGuid;
+  (path: "/atlas/v2/types/typedef/guid/{guid}", guid: string): TypesRestGetTypeDefByGuid;
   /** Resource for '/atlas/v2/types/typedef/name/\{name\}' has methods for the following verbs: get, delete */
-  (
-    path: "/atlas/v2/types/typedef/name/{name}",
-    name: string
-  ): TypesRestDeleteTypeByName;
+  (path: "/atlas/v2/types/typedef/name/{name}", name: string): TypesRestDeleteTypeByName;
   /** Resource for '/atlas/v2/types/typedefs' has methods for the following verbs: get, post, put, delete */
   (path: "/atlas/v2/types/typedefs"): TypesRestDeleteTypeDefs;
   /** Resource for '/atlas/v2/types/typedefs/headers' has methods for the following verbs: get */
   (path: "/atlas/v2/types/typedefs/headers"): TypesRestGetTypeDefHeaders;
   /** Resource for '/types/termtemplatedef/guid/\{guid\}' has methods for the following verbs: get */
-  (
-    path: "/types/termtemplatedef/guid/{guid}",
-    guid: string
-  ): TypesRestGetTermTemplateDefByGuid;
+  (path: "/types/termtemplatedef/guid/{guid}", guid: string): TypesRestGetTermTemplateDefByGuid;
   /** Resource for '/types/termtemplatedef/name/\{name\}' has methods for the following verbs: get */
-  (
-    path: "/types/termtemplatedef/name/{name}",
-    name: string
-  ): TypesRestGetTermTemplateDefByName;
+  (path: "/types/termtemplatedef/name/{name}", name: string): TypesRestGetTermTemplateDefByName;
 }
 
 export type PurviewCatalogClient = Client & {
@@ -1013,11 +929,7 @@ export type PurviewCatalogClient = Client & {
 };
 
 export interface PurviewCatalogFactory {
-  (
-    Endpoint: string,
-    credentials: TokenCredential | KeyCredential,
-    options?: ClientOptions
-  ): void;
+  (Endpoint: string, credentials: TokenCredential | KeyCredential, options?: ClientOptions): void;
 }
 
 export default function PurviewCatalog(
@@ -1030,8 +942,8 @@ export default function PurviewCatalog(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://purview.azure.net/.default"]
-    }
+      scopes: ["https://purview.azure.net/.default"],
+    },
   };
 
   return getClient(baseUrl, credentials, options) as PurviewCatalogClient;

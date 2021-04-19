@@ -28,6 +28,9 @@
     "README.md",
     "LICENSE"
   ],
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "//metadata": {
     "constantPaths": [
       {
@@ -40,15 +43,10 @@
       }
     ]
   },
-  "engines": {
-    "node": ">=8.0.0"
-  },
   "//sampleConfiguration": {
-    "productName": "Azure Purview Catalog rest",
+    "productName": "Azure Purview Scanning rest",
     "productSlugs": [
-      "azure",
-      "azure-cognitive-services",
-      "azure-translator"
+      "azure"
     ],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
