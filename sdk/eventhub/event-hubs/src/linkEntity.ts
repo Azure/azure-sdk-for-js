@@ -135,6 +135,7 @@ export class LinkEntity {
       this.name,
       this.address
     );
+    const startTime = Date.now();
     await defaultCancellableLock.acquire(
       this._context.cbsSession.cbsLock,
       () => {
@@ -190,7 +191,7 @@ export class LinkEntity {
       },
       {
         abortSignal,
-        timeoutInMs: getRetryAttemptTimeoutInMs(undefined)
+        timeoutInMs: timeoutInMs - (Date.now() - startTime)
       }
     );
     logger.verbose(
