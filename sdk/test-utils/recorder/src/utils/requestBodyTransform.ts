@@ -13,7 +13,8 @@ export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
   stringTransforms: [
     (body: string) =>
       body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id")
-  ]
+  ],
+  jsonTransforms: []
 };
 
 /**

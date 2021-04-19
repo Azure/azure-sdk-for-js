@@ -9,6 +9,7 @@ import {
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath
 } from "./utils";
+import { defaultRequestBodyTransforms } from "./utils/requestBodyTransform";
 
 /**
  * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
@@ -35,7 +36,7 @@ export abstract class BaseRecorder {
     replaceableVariables: {},
     customizationsOnRecordings: [],
     queryParametersToSkip: [],
-    requestBodyTransformations: { stringTransforms: [], jsonTransforms: [] }
+    requestBodyTransformations: defaultRequestBodyTransforms
   };
   protected hash: string;
   private defaultCustomizationsOnRecordings = defaultCustomizationsOnRecordings;
