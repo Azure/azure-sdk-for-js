@@ -7,6 +7,16 @@ export type RequestBodyTransformsType = {
 };
 
 /**
+ * Provides the default customizations that need to be applied on the generated recordings
+ */
+export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
+  stringTransforms: [
+    (body: string) =>
+      body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id")
+  ]
+};
+
+/**
  * Transformations to be applied on the requestBody in record mode for "string" fixtures to be able to filter the requests in playback.
  */
 export function applyRequestBodyTransformations(

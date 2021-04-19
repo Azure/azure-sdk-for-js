@@ -17,14 +17,14 @@ export class NockRecorder extends BaseRecorder {
   }
 
   public record(recorderEnvironmentSetup: RecorderEnvironmentSetup): void {
-    this.environmentSetup = recorderEnvironmentSetup;
+    super.init(recorderEnvironmentSetup);
     nock.recorder.rec({
       dont_print: true
     });
   }
 
   public playback(recorderEnvironmentSetup: RecorderEnvironmentSetup, testFilePath: string): void {
-    this.environmentSetup = recorderEnvironmentSetup;
+    super.init(recorderEnvironmentSetup);
     /**
      * `@azure/test-utils-recorder` package is used for both the browser and node tests
      *

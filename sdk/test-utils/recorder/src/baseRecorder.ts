@@ -87,6 +87,37 @@ export abstract class BaseRecorder {
     );
   }
 
+  public init(environmentSetup: RecorderEnvironmentSetup) {
+    if (!this.environmentSetup.requestBodyTransformations) {
+      this.environmentSetup.requestBodyTransformations = {
+        stringTransforms: [],
+        jsonTransforms: []
+      };
+    }
+    this.environmentSetup = {
+      replaceableVariables: {
+        ...this.environmentSetup.replaceableVariables,
+        ...environmentSetup.replaceableVariables
+      },
+      customizationsOnRecordings: [
+        ...this.environmentSetup.customizationsOnRecordings,
+        ...environmentSetup.customizationsOnRecordings
+      ],
+      queryParametersToSkip: [
+        ...this.environmentSetup.queryParametersToSkip,
+        ...environmentSetup.queryParametersToSkip
+      ],
+      requestBodyTransformations: {
+        stringTransforms: this.environmentSetup.requestBodyTransformations.stringTransforms?.concat(
+          environmentSetup.requestBodyTransformations?.stringTransforms || []
+        ),
+        jsonTransforms: this.environmentSetup.requestBodyTransformations.jsonTransforms?.concat(
+          environmentSetup.requestBodyTransformations?.jsonTransforms || []
+        )
+      }
+    };
+  }
+
   public abstract record(environmentSetup: RecorderEnvironmentSetup): void;
   /**
    * Finds the recording for the corresponding test and replays the saved responses from the recording.
