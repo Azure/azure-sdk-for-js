@@ -118,7 +118,7 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface DecryptOptions extends KeyOperationsOptions {
+export interface DecryptOptions extends CryptographyOptions {
 }
 
 // @public
@@ -152,7 +152,7 @@ export type DeletionRecoveryLevel = string;
 export type EncryptionAlgorithm = string;
 
 // @public
-export interface EncryptOptions extends KeyOperationsOptions {
+export interface EncryptOptions extends CryptographyOptions {
 }
 
 // @public
@@ -240,10 +240,6 @@ export type KeyCurveName = string;
 
 // @public
 export type KeyOperation = string;
-
-// @public
-export interface KeyOperationsOptions extends CryptographyOptions {
-}
 
 // @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
@@ -431,7 +427,7 @@ export interface SignResult {
 }
 
 // @public
-export interface UnwrapKeyOptions extends KeyOperationsOptions {
+export interface UnwrapKeyOptions extends CryptographyOptions {
 }
 
 // @public
@@ -467,7 +463,7 @@ export interface VerifyResult {
 }
 
 // @public
-export interface WrapKeyOptions extends KeyOperationsOptions {
+export interface WrapKeyOptions extends CryptographyOptions {
 }
 
 // @public
