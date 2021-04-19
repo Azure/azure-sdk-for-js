@@ -2,11 +2,17 @@
 
 ## 2.0.0-beta.3 (Unreleased)
 
+### New features
+
 - Updated the `@azure/msal-node` dependency to version `^1.0.2`, which allows cancelling of an ongoing `getToken()` operation on `DeviceCodeCredential`.
 - Fixed issue with the logging of success messages on the `DefaultAzureCredential` and the `ChainedTokenCredential`. These messages will now mention the internal credential that succeeded.
 - The feature of persistence caching of credentials (introduced in 2.0.0-beta.1) is now supported on Node.js 15 as well.
 - `AuthenticationRequiredError` (introduced in 2.0.0-beta.1) now has the same impact on `ChainedTokenCredential` as the `CredentialUnavailableError` which is to allow the next credential in the chain to be tried.
 - `ManagedIdentityCredential` now retries with exponential back-off when a request for a token fails with a 404 status code on environments with available IMDS endpoints. 
+
+### Breaking changes from 2.0.0-beta.1
+
+- Removed `authenticationRecord`, `disableAutomaticAuthentication` and `authenticate()` from the credential `UsernamePasswordCredential`. While MSAL does support this, allowing `authenticationRecord` arguably could result in users authenticating through an account other than the one they're specifying with the username and the password.
 
 ## 2.0.0-beta.2 (2021-04-06)
 

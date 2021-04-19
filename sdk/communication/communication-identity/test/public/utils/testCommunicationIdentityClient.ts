@@ -6,9 +6,10 @@ import { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
   CommunicationAccessToken,
   CommunicationIdentityClient,
+  CommunicationIdentityClientOptions,
   CommunicationUserToken,
   TokenScope
-} from "../../src";
+} from "../../../src";
 import {
   getTokenHttpClient,
   createUserHttpClient,
@@ -24,38 +25,42 @@ export class TestCommunicationIdentityClient {
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
+    // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
       httpClient: getTokenHttpClient
-    });
-    return client.getToken(user, scopes, options);
+    } as CommunicationIdentityClientOptions);
+    return client.getToken(user, scopes, options as any);
   }
 
   public async revokeTokensTest(
     user: CommunicationUserIdentifier,
     options: OperationOptions = {}
   ): Promise<void> {
+    // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
       httpClient: revokeTokensHttpClient
-    });
-    return client.revokeTokens(user, options);
+    } as CommunicationIdentityClientOptions);
+    return client.revokeTokens(user, options as any);
   }
 
   public async createUserTest(
     options: OperationOptions = {}
   ): Promise<CommunicationUserIdentifier> {
+    // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
       httpClient: createUserHttpClient
-    });
-    return client.createUser(options);
+    } as CommunicationIdentityClientOptions);
+    return client.createUser(options as any);
   }
 
   public async createUserAndTokenTest(
     scopes: TokenScope[],
     options: OperationOptions = {}
   ): Promise<CommunicationUserToken> {
+    // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
       httpClient: createUserAndTokenHttpClient
-    });
-    return client.createUserAndToken(scopes, options);
+    } as CommunicationIdentityClientOptions);
+    return client.createUserAndToken(scopes, options as any);
   }
 }
