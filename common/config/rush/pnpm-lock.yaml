@@ -438,17 +438,17 @@ packages:
       node: '>=0.8.0'
     resolution:
       integrity: sha512-EihnqHh2EE6xcB0Dh2LF30jE1Ga9cgh9PyRkX4fj+KpvYfL4ae57hvQwJGkynUgpf3V1xQxU5yaJVXOElfXiGw==
-  /@azure/msal-common/4.1.1:
+  /@azure/msal-common/4.2.0:
     dependencies:
       debug: 4.3.1
     dev: false
     engines:
       node: '>=0.8.0'
     resolution:
-      integrity: sha512-CC/rlUl437mLEJVObKbiFSaG/JzSYWSo4lmePRXzZ7fQdLg91otWIGXlrIlrGuk5Htea6J6Wh43a5qXQuPv6GA==
+      integrity: sha512-dOImswKoo0E0t/j6ePcWYBZ2oPrt9I7LeuXfW9zxbPBRwfqpd0MBHjTXkCFZinn0xW8UbzCnWT7DxP/4UsOQLA==
   /@azure/msal-node/1.0.0-beta.6:
     dependencies:
-      '@azure/msal-common': 4.1.1
+      '@azure/msal-common': 4.2.0
       axios: 0.21.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -457,7 +457,7 @@ packages:
       integrity: sha512-ZQI11Uz1j0HJohb9JZLRD8z0moVcPks1AFW4Q/Gcl67+QvH4aKEJti7fjCcipEEZYb/qzLSO8U6IZgPYytsiJQ==
   /@azure/msal-node/1.0.0-beta.6_debug@4.3.1:
     dependencies:
-      '@azure/msal-common': 4.1.1
+      '@azure/msal-common': 4.2.0
       axios: 0.21.1_debug@4.3.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -466,9 +466,9 @@ packages:
       debug: '*'
     resolution:
       integrity: sha512-ZQI11Uz1j0HJohb9JZLRD8z0moVcPks1AFW4Q/Gcl67+QvH4aKEJti7fjCcipEEZYb/qzLSO8U6IZgPYytsiJQ==
-  /@azure/msal-node/1.0.1:
+  /@azure/msal-node/1.0.2:
     dependencies:
-      '@azure/msal-common': 4.1.1
+      '@azure/msal-common': 4.2.0
       axios: 0.21.1
       jsonwebtoken: 8.5.1
       uuid: 8.3.2
@@ -476,7 +476,7 @@ packages:
     engines:
       node: 10 || 12 || 14
     resolution:
-      integrity: sha512-6MEI4XItcvUE9Zns1W3aXt7Bzzhhitq56uhg36KzuaSWRxW+Zuu4wx4x5iJjv4WP8DLGeWpaWoRxN3UNXyQHfQ==
+      integrity: sha512-ZOHmoImpePXWTUS+78jzMgbhyTzeW0ydI3dJ9DupZZBxImV+Bqz5wfth0yKdNGV65rKWYuUIQtBVjnGwSqmpTQ==
   /@azure/service-bus/7.0.5:
     dependencies:
       '@azure/abort-controller': 1.0.4
@@ -7808,11 +7808,12 @@ packages:
     dev: false
     name: '@rush-temp/ai-anomaly-detector'
     resolution:
-      integrity: sha512-XXxiTKF9En0QbRE2AqVfCMzzUeLkmkh/iy/3AjF3q6Xw7FMBSe2cMdBmW6x0GfdiRFM3Adq+yI1rbba5xMyoQA==
+      integrity: sha512-BSoBzszi0XM9x7Dv2vIqf1SCCP0HIvWzcqJgk8bryS3stf5oCFIVzJ5qpzlb8MLXhg/OiLCA1dwhTUOD0pwM8A==
       tarball: file:projects/ai-anomaly-detector.tgz
     version: 0.0.0
   file:projects/ai-document-translator.tgz:
     dependencies:
+      '@azure/identity': 1.3.0
       '@microsoft/api-extractor': 7.13.2
       '@types/chai': 4.2.16
       '@types/mocha': 7.0.2
@@ -7848,7 +7849,7 @@ packages:
     dev: false
     name: '@rush-temp/ai-document-translator'
     resolution:
-      integrity: sha512-N6NditA1ysjzHQqcQQNyInb0nddtoPnjl35QJL/1DVeoAC8n5H1LgKGLWc39APweT1fn5+oO+1hjgK4vHd5uHA==
+      integrity: sha512-dKk6kAyDxOTFMIn74Biij9flT5ae7+6AWKzuI9N5yJNEPWzXGHUndSYjFSt7O5/UsLClgfelyiqY0dAKxOiDLw==
       tarball: file:projects/ai-document-translator.tgz
     version: 0.0.0
   file:projects/ai-form-recognizer.tgz:
@@ -9133,6 +9134,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.0
       chai: 4.3.4
       cross-env: 7.0.3
       dotenv: 8.2.0
@@ -9166,10 +9168,11 @@ packages:
       typedoc: 0.15.2
       typescript: 4.2.4
       util: 0.12.3
+      uuid: 8.3.2
     dev: false
     name: '@rush-temp/digital-twins-core'
     resolution:
-      integrity: sha512-Wu63iTz6pBAx7keiNWcXbSiMuW7jtjMpWJWKFRd30Ba+/dIGts8qcvIuDvAPSI8qum13jfYCRAXalJ4Qav4COQ==
+      integrity: sha512-HATRz9UgjGJhJhHWrb4PL9PRfnCe/kjkDIyJZUGuA2ZFn8HIkDlR8y53sXJU32OZKTlbvCPjkq+odAQUmH5m9A==
       tarball: file:projects/digital-twins-core.tgz
     version: 0.0.0
   file:projects/eslint-plugin-azure-sdk.tgz:
@@ -9278,7 +9281,7 @@ packages:
     dev: false
     name: '@rush-temp/event-hubs'
     resolution:
-      integrity: sha512-7zBeeVLbWQ2NJvjAUKcJVeapWWZF75LXJrlTWpMdaeaUMoW/9HE8e+xMU10EjxWQ9DIKzb1A0iULRnHeTnkqcg==
+      integrity: sha512-6umPhd37FwVbr5aPJFphiT8yNGBerqKy2SMM5dUZIQPYk1qpEDzg8vpx0jfoqZdvMHXJd6BjzNN3YZbV8Q+GWg==
       tarball: file:projects/event-hubs.tgz
     version: 0.0.0
   file:projects/event-processor-host.tgz:
@@ -9452,7 +9455,7 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.11
       '@azure/msal-browser': 2.9.0
       '@azure/msal-common': 4.0.3
-      '@azure/msal-node': 1.0.1
+      '@azure/msal-node': 1.0.2
       '@microsoft/api-extractor': 7.7.11
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
@@ -9505,7 +9508,7 @@ packages:
     optionalDependencies:
       keytar: 7.6.0
     resolution:
-      integrity: sha512-9JvF0bXJK2B65fc7m29bvXt3XtIjAXFykZlA5YhANPW5XvcOqaUUSjbWAdqaWVKIVKCtW2EfEW6o8HD2iaUMyA==
+      integrity: sha512-TGmDn9FURoFYW60Z94hZ8+QRix4SX+A0jZGBJUZ4Xvo9IutZ81CVMxctI+TL8SgyWLzLWHkSEjsbB36WcVQM9w==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:
@@ -10407,7 +10410,7 @@ packages:
     dev: false
     name: '@rush-temp/service-bus'
     resolution:
-      integrity: sha512-lNK+/lPHOLBirPG92F5mjBbSlnzUFtrZw8DNEwgXABBU4Zj8wDqPc1loky62zDB87iAcgLTj7Qmk/QIxmYouuw==
+      integrity: sha512-5sxo4QifhdJl5OzqCWEj7aM9ZTtoS5FOBG6GOLgzvZ9YBYKRZQu8klmx9pmT3bgjMJxF00/GaE0KhBOMC6sjFA==
       tarball: file:projects/service-bus.tgz
     version: 0.0.0
   file:projects/storage-blob-changefeed.tgz:

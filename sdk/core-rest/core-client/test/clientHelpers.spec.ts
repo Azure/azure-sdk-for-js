@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { createDefaultPipeline } from "../src/clientHelpers";
 import { assert } from "chai";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
