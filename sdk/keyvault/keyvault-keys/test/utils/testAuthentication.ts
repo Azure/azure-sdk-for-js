@@ -23,13 +23,7 @@ export async function authenticate(that: Context, version: string): Promise<any>
       (recording: any): any =>
         keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), "")
     ],
-    queryParametersToSkip: [],
-    requestBodyTransformations: {
-      stringTransforms: [
-        (body: string) =>
-          body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id")
-      ]
-    }
+    queryParametersToSkip: []
   };
   const recorder = record(that, recorderEnvSetup);
   const credential = new ClientSecretCredential(
