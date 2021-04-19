@@ -10,6 +10,7 @@ import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError } from "./errors";
 import { MsalFlowOptions } from "./flows";
+import { AbortError } from "@azure/abort-controller";
 
 /**
  * Latest AuthenticationRecord version
@@ -158,6 +159,8 @@ export class MsalBaseUtilities {
         case "endpoints_resolution_error":
           this.logger.info(formatError(scopes, error.message));
           return new CredentialUnavailableError(error.message);
+        case "device_code_polling_cancelled":
+          return new AbortError("The authentication has been aborted by the caller.");
         case "consent_required":
         case "interaction_required":
         case "login_required":
