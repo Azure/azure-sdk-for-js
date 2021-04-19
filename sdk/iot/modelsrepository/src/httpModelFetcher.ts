@@ -1,34 +1,33 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-"use strict";
-
-import * as coreHttp from "@azure/core-http";
-import { logger } from "./logger";
-import { RequestPrepareOptions } from "@azure/core-http";
-import { Fetcher } from "./fetcher";
+import {ServiceClient} from '@azure/core-client';
+import {PipelineResponse, RestError} from '@azure/core-rest-pipeline';
+import { logger } from './logger';
+import { Fetcher } from './fetcher';
 
 export class HttpFetcher extends Fetcher {
-  private _pipeline: coreHttp.ServiceClient;
+  private _client: ServiceClient;
   private _baseURL: string;
 
-  constructor(baseURL: string, pipeline: coreHttp.ServiceClient) {
+  constructor(baseURL: string, client: ServiceClient) {
     super();
-    this._pipeline = pipeline;
+    this._client = client;
     this._baseURL = baseURL;
   }
 
   async fetch(path: string) {
     logger.info(`Fetching ${path} from remote endpoint`);
     const myURL = this._baseURL + path;
-    const request: RequestPrepareOptions = {
+
+    const request: any = {
       url: myURL,
-      method: "GET"
+      method: 'GET'
     };
-    const res: coreHttp.HttpOperationResponse = await this._pipeline.sendRequest(request);
+    const res: PipelineResponse = await this._client.sendRequest(request);
 
     if (res.status >= 200 && res.status < 400) {
-      const dtdlAsString = res.bodyAsText || "";
+      const dtdlAsString = res.bodyAsText || '';
       const parsedDtdl = JSON.parse(dtdlAsString);
       return parsedDtdl;
       // if (Array.isArray(parsedDtdl)) {
@@ -39,13 +38,8 @@ export class HttpFetcher extends Fetcher {
       //   return result;
       // }
     } else {
-      throw new coreHttp.RestError(
-        "Error on HTTP Request in remote model fetcher",
-        "404",
-        404,
-        undefined,
-        res
-      );
+      throw new RestError(
+        'Error on HTTP Request in remote model fetcher');
     }
   }
 }
@@ -63,9 +57,9 @@ export class HttpFetcher extends Fetcher {
 //   } catch (error) {
 //     if (
 //       tryFromExpanded &&
-//       (error.code === "ENOENT" || !(error.statusCode >= 200 && error.statusCode < 400))
+//       (error.code === 'ENOENT' || !(error.statusCode >= 200 && error.statusCode < 400))
 //     ) {
-//       console.log("Fetching from expanded failed. Trying without.");
+//       console.log('Fetching from expanded failed. Trying without.');
 //       console.log(`Fetching: ${dtmi}`);
 //       fetchedModels = await fetcher(dtmi, endpoint, false);
 //     } else {
@@ -104,11 +98,11 @@ export class HttpFetcher extends Fetcher {
 //   const client = new coreHttp.ServiceClient();
 //   const req: coreHttp.RequestPrepareOptions = {
 //     url: dtmiConventions.dtmiToQualifiedPath(dtmi, endpoint, tryFromExpanded),
-//     method: "GET"
+//     method: 'GET'
 //   };
 //   const res: coreHttp.HttpOperationResponse = await client.sendRequest(req);
 //   if (res.status >= 200 && res.status < 400) {
-//     const dtdlAsString = res.bodyAsText || "";
+//     const dtdlAsString = res.bodyAsText || '';
 //     const parsedDtdl = JSON.parse(dtdlAsString);
 //     if (Array.isArray(parsedDtdl)) {
 //       const result = flattenDtdlResponse(parsedDtdl as DTDL[]);
@@ -119,8 +113,8 @@ export class HttpFetcher extends Fetcher {
 //     }
 //   } else {
 //     throw new coreHttp.RestError(
-//       "Error on HTTP Request in remote model fetcher",
-//       "404",
+//       'Error on HTTP Request in remote model fetcher',
+//       '404',
 //       404,
 //       undefined,
 //       res

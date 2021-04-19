@@ -1,16 +1,9 @@
 {
+  "extends": "../tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "moduleResolution": "node",
-
-    "allowSyntheticDefaultImports": true,
-
-    "strict": true,
-    "alwaysStrict": true,
-
-    "outDir": "dist",
-    "rootDir": "src"
+    "outDir": "typescript/dist"
   },
-  "include": ["src/**.ts"],
-  "exclude": ["node_modules"]
+  "include": ["typescript/src/**.ts"],
+  "exclude": ["typescript/*.json", "**/node_modules/", "../node_modules", "../typings"]
 }

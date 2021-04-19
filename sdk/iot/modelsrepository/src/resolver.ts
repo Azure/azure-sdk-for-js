@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import { dtmiToPath } from "./dtmiConventions";
-import { logger } from "./logger";
+import { convertDtmiToPath } from './dtmiConventions';
+import { logger } from './logger';
 
 export class FetcherError extends Error {
   cause: Error | undefined;
@@ -28,15 +28,12 @@ export class DtmiResolver {
     this._fetcher = fetcher;
   }
 
-  resolve(dtmis: string[], expandedModel?: boolean) {
+  resolve(dtmis: string[], expandedModel: boolean = false) {
     let modelMap: any = {};
 
     for (let dtmi of dtmis) {
       let dtdl: any[] | any;
-      let dtdlPath = dtmiToPath(dtmi);
-      if (expandedModel) {
-        dtdlPath = dtdlPath.replace(".json", ".expanded.json");
-      }
+      let dtdlPath = convertDtmiToPath(dtmi, expandedModel);
       logger.info(`Model ${dtmi} located in repository at ${dtdlPath}`);
 
       try {
@@ -51,13 +48,13 @@ export class DtmiResolver {
 
       if (expandedModel) {
         for (let model of dtdl) {
-          modelMap[model["@id"]] = model;
+          modelMap[model['@id']] = model;
         }
       } else {
         let model = dtdl;
-        if (model["@id"] != dtmi) {
+        if (model['@id'] != dtmi) {
           return Promise.reject(
-            new ResolverError(`DTMI mismatch - Request: ${dtmi}, Response ${model["@id"]}`)
+            new ResolverError(`DTMI mismatch - Request: ${dtmi}, Response ${model['@id']}`)
           );
         }
 

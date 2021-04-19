@@ -1,28 +1,24 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import * as constants from "./constants";
-import {
-  InternalPipelineOptions,
-  createPipelineFromOptions,
-  OperationOptions,
-  PipelineOptions,
-  ServiceClient
-} from "@azure/core-http";
-import { dependencyResolutionType } from "./dependencyResolutionType";
-import { logger } from "./logger";
-import { URL, fileURLToPath } from "url";
-import { DtmiResolver, ResolverError } from "./resolver";
-import { HttpFetcher } from "./httpModelFetcher";
-import { FilesystemFetcher } from "./filesystemModelFetcher";
-import { isLocalPath } from "./modelFetcherHelper";
-import * as path from "path";
-import { PseudoParser } from "./psuedoParser";
+import * as constants from './constants';
 
-export interface ModelsRepositoryClientOptions extends PipelineOptions, OperationOptions {
-  repositoryLocation: string | undefined;
-  dependencyResolution: dependencyResolutionType;
-  apiVersion: string | undefined;
+import {createClientPipeline, ClientPipelineOptions} from "@azure/core-client";
+import {dependencyResolutionType} from './dependencyResolutionType';
+import {logger} from './logger';
+import {URL} from 'url';
+import {DtmiResolver, ResolverError} from './resolver';
+import {HttpFetcher} from './httpModelFetcher';
+import {FilesystemFetcher} from './filesystemModelFetcher';
+import {isLocalPath} from './modelFetcherHelper';
+import * as path from 'path';
+import {PseudoParser} from './psuedoParser';
+import { MyServiceClient } from './serviceClient';
+
+export interface ModelsRepositoryClientOptions extends ClientPipelineOptions {
+  repositoryLocation?: string;
+  apiVersion?: string;
+  dependencyResolution?: dependencyResolutionType;
 }
 
 /**
@@ -30,11 +26,12 @@ export interface ModelsRepositoryClientOptions extends PipelineOptions, Operatio
  */
 export class ModelsRepositoryClient {
   private _repositoryLocation: string;
-  private _dependencyResolution: string;
+  private _dependencyResolution: dependencyResolutionType;
   private _apiVersion: string;
   private _fetcher: any;
   private _resolver: any;
   private _pseudoParser: any;
+  client: any;
 
   constructor(options?: ModelsRepositoryClientOptions) {
     this._repositoryLocation = options?.repositoryLocation || constants.DEFAULT_REPOSITORY_LOCATION;
@@ -53,9 +50,9 @@ export class ModelsRepositoryClient {
 
   private _checkDefaultDependencyResolution(customRepository: boolean) {
     if (customRepository) {
-      return "enabled";
+      return 'enabled';
     } else {
-      return "tryFromExpanded";
+      return 'tryFromExpanded';
     }
   }
 
@@ -63,7 +60,7 @@ export class ModelsRepositoryClient {
     return this._apiVersion;
   }
 
-  private _createPipeline(options: any) {
+  private _createClient(options: any) {
     const { ...pipelineOptions } = options;
 
     if (!pipelineOptions.userAgentOptions) {
@@ -75,7 +72,7 @@ export class ModelsRepositoryClient {
       pipelineOptions.userAgentOptions.userAgentPrefix = constants.DEFAULT_USER_AGENT;
     }
 
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalPipelineOptions: ClientPipelineOptions = {
       ...pipelineOptions,
       ...{
         loggingOptions: {
@@ -84,8 +81,9 @@ export class ModelsRepositoryClient {
       }
     };
 
-    const myServiceClientOptions = createPipelineFromOptions(internalPipelineOptions);
-    return new ServiceClient(undefined, myServiceClientOptions);
+    const pipeline = createClientPipeline(internalPipelineOptions);
+    const client = new MyServiceClient(this._repositoryLocation, { pipeline });
+    return client;
   }
 
   private _createFetcher(location: string, options: any) {
@@ -93,49 +91,49 @@ export class ModelsRepositoryClient {
     let locationURL;
     let fetcher;
     if (isLocalPath(location)) {
-      const localPath = path.normalize(location);
       // POSIX Filesystem Path or Windows Filesystem Path
       logger.info(`Repository location identified as filesystem path - using FilesystemFetcher`);
-      fetcher = new FilesystemFetcher(localPath);
+      fetcher = new FilesystemFetcher(path.normalize(location));
     } else {
       locationURL = new URL(location);
-      if (locationURL.protocol in ["http", "https"]) {
+      if (locationURL.protocol in ['http', 'https']) {
         logger.info(`Repository location identified as HTTP/HTTPS endpoint - using HttpFetcher`);
-        const pipeline = this._createPipeline(options);
-        fetcher = new HttpFetcher(location, pipeline);
-      } else if (locationURL.protocol === "file") {
+        const client = this._createClient(options);
+        fetcher = new HttpFetcher(location, client);
+      } else if (locationURL.protocol === 'file') {
         // filesystem URI
-        logger.info("Repository Location identified as filesystem URI - using FilesystemFetcher");
-        const localPath = fileURLToPath(location);
-        fetcher = new FilesystemFetcher(localPath);
-      } else if (locationURL.protocol === "" && location.startsWith("/")) {
-      } else if (locationURL.protocol === "" && location.search(/\.[a-zA-Z]{2,63}$/)) {
+        logger.info('Repository Location identified as filesystem URI - using FilesystemFetcher');
+        fetcher = new FilesystemFetcher(location);
+      } else if (locationURL.protocol === '' && location.startsWith('/')) {
+      } else if (locationURL.protocol === '' && location.search(/\.[a-zA-Z]{2,63}$/)) {
         // Web URL with protocol unspecified - default to HTTPS
         logger.info(
-          "Repository Location identified as remote endpoint without protocol specified - using HttpFetcher"
+          'Repository Location identified as remote endpoint without protocol specified - using HttpFetcher'
         );
-        const fLocation = "https://" + location;
-        const pipeline = this._createPipeline(options);
-        fetcher = new HttpFetcher(fLocation, pipeline);
+        const fLocation = 'https://' + location;
+        const client = this._createClient(options);
+        fetcher = new HttpFetcher(fLocation, client);
         // TODO: make the next line match a regex specified.
       } else {
         throw new EvalError(`Unable to identify location: ${location}`);
       }
     }
+
+    return fetcher;
   }
 
-  getModels(dtmi: string, options: any): Promise<{ [dtmi: string]: any }>;
-  getModels(dtmis: string[], options: any): Promise<{ [dtmi: string]: any }>;
-  getModels(dtmis: string | string[], options: any): Promise<{ [dtmi: string]: any }> {
+  getModels(dtmi: string, options?: getModelsOptions): Promise<{ [dtmi: string]: any }>;
+  getModels(dtmis: string[], options?: getModelsOptions): Promise<{ [dtmi: string]: any }>;
+  getModels(dtmis: string | string[], options?: getModelsOptions): Promise<{ [dtmi: string]: any }> {
     let modelMap;
     if (!Array.isArray(dtmis)) {
       dtmis = [dtmis];
     }
 
-    const dependencyResolution = options.dependencyResolution || this._dependencyResolution;
+    const dependencyResolution = options?.dependencyResolution || this._dependencyResolution;
 
     if (dependencyResolution === constants.DEPENDENCY_MODE_DISABLED) {
-      logger.info("Getting models w/ dependency resolution mode: disabled");
+      logger.info('Getting models w/ dependency resolution mode: disabled');
       logger.info(`Retreiving model(s): ${dtmis}...`);
       modelMap = this._resolver.resolve(dtmis);
     } else if (dependencyResolution === constants.DEPENDENCY_MODE_ENABLED) {
@@ -162,4 +160,9 @@ export class ModelsRepositoryClient {
 
     return modelMap;
   }
+}
+
+
+interface getModelsOptions {
+  dependencyResolution: dependencyResolutionType
 }

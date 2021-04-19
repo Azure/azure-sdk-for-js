@@ -119,6 +119,15 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-+j1embyH1jqf04AIfJPdLafd5SC1y6z1Jz4i+USR1XkTp6KM8P5u4/AjmWMVoEQdM/M29PJcRDZcCEWjK9S1bw==
+  /@azure/core-auth/1.3.0:
+    dependencies:
+      '@azure/abort-controller': 1.0.2
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-kSDSZBL6c0CYdhb+7KuutnKGf2geeT+bCJAgccB0DD7wmNJSsQPcF7TcuoZX83B7VK4tLz/u+8sOO/CnCsYp8A==
   /@azure/core-client/1.0.0-beta.1:
     dependencies:
       '@azure/abort-controller': 1.0.2
@@ -135,7 +144,7 @@ packages:
   /@azure/core-http/1.2.2:
     dependencies:
       '@azure/abort-controller': 1.0.2
-      '@azure/core-auth': 1.1.4
+      '@azure/core-auth': 1.3.0
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.1
       '@opentelemetry/api': 0.10.2
@@ -157,7 +166,7 @@ packages:
   /@azure/core-https/1.0.0-beta.1:
     dependencies:
       '@azure/abort-controller': 1.0.2
-      '@azure/core-auth': 1.1.4
+      '@azure/core-auth': 1.3.0
       '@azure/core-tracing': 1.0.0-preview.9
       '@azure/logger': 1.0.1
       '@opentelemetry/api': 0.10.2
@@ -189,6 +198,33 @@ packages:
       node: '>=8.0.0'
     resolution:
       integrity: sha512-his7Ah40ThEYORSpIAwuh6B8wkGwO/zG7gqVtmSE4WAJ46e36zUDXTKReUCLBDc6HmjjApQQxxcRFy5FruG79A==
+  /@azure/core-rest-pipeline/1.0.2:
+    dependencies:
+      '@azure/abort-controller': 1.0.2
+      '@azure/core-auth': 1.3.0
+      '@azure/core-tracing': 1.0.0-preview.10
+      '@azure/logger': 1.0.1
+      '@opentelemetry/api': 0.10.2
+      form-data: 3.0.0
+      http-proxy-agent: 4.0.1
+      https-proxy-agent: 5.0.0
+      tslib: 2.1.0
+      uuid: 8.3.2
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-3raRQBhdr7gjJlHPkYQGWIbhskthQAA+452oIG4wrdsrEPUQhmXrIhE6tGOTe9bWWJyFZgo6aszQg6l3ABphCQ==
+  /@azure/core-tracing/1.0.0-preview.10:
+    dependencies:
+      '@opencensus/web-types': 0.0.7
+      '@opentelemetry/api': 0.10.2
+      tslib: 2.1.0
+    dev: false
+    engines:
+      node: '>=8.0.0'
+    resolution:
+      integrity: sha512-iIwjtMwQnsxB7cYkugMx+s4W1nfy3+pT/ceo+uW1fv4YDgYe84nh+QP0fEC9IH/3UATLSWbIBemdMHzk2APUrw==
   /@azure/core-tracing/1.0.0-preview.9:
     dependencies:
       '@opencensus/web-types': 0.0.7
@@ -827,6 +863,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
+  /@tootallnate/once/1.1.2:
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
   /@types/argparse/1.0.33:
     dev: false
     resolution:
@@ -3715,6 +3757,16 @@ packages:
       node: '>= 4.5.0'
     resolution:
       integrity: sha512-qwHbBLV7WviBl0rQsOzH6o5lwyOIvwp/BdFnvVxXORldu5TmjFfjzBcWUWS5kWAZhmv+JtiDhSuQCp4sBfbIgg==
+  /http-proxy-agent/4.0.1:
+    dependencies:
+      '@tootallnate/once': 1.1.2
+      agent-base: 6.0.2
+      debug: 4.3.1
+    dev: false
+    engines:
+      node: '>= 6'
+    resolution:
+      integrity: sha512-k0zdNgqWTGA6aeIRVpvfVob4fL52dTfaehylg0Y4UvSySvOq/Y+BOyPrgpUrA7HylqvU8vIZGsRuXmspskV0Tg==
   /http-proxy/1.18.1:
     dependencies:
       eventemitter3: 4.0.7
@@ -9278,6 +9330,8 @@ packages:
     version: 0.0.0
   file:projects/iot-modelsrepository-client.tgz:
     dependencies:
+      '@azure/core-client': 1.0.0-beta.1
+      '@azure/core-rest-pipeline': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.9
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
@@ -9327,7 +9381,7 @@ packages:
     dev: false
     name: '@rush-temp/iot-modelsrepository-client'
     resolution:
-      integrity: sha512-DsB8EEFo7NXzIx9bIHea+DGKkG7SxhAcsMRdCxgi6OWHQucV9n3vGix2mDLcWqByIkvCBGg44nVXheAX/rWUbg==
+      integrity: sha512-96etcDKO1kZ2nOyI6vllxFET6KNL0bOjzurXuqPLiianpvTH/pZ/10WEt4hzWBKqOZGLbO5Bgn4KWRmgt8ejYA==
       tarball: file:projects/iot-modelsrepository-client.tgz
     version: 0.0.0
   file:projects/keyvault-admin.tgz:
