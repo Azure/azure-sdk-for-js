@@ -3533,9 +3533,8 @@ export class ShareFileClient extends StorageClient {
       const downloadFullFile = offset === 0 && !count;
       const res = await this.context.download({
         abortSignal: options.abortSignal,
-        requestOptions:
-        {
-          onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        requestOptions: {
+          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
         },
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
@@ -3980,8 +3979,7 @@ export class ShareFileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
-          requestOptions:
-          {
+          requestOptions: {
             onUploadProgress: options.onProgress
           },
           body: body,
