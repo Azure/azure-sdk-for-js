@@ -52,7 +52,6 @@ export class NockRecorder extends BaseRecorder {
         JSON.stringify(this.uniqueTestInfo) +
         "\n";
 
-      // TODO: strongly-typing nock above
       const fixtures = nock.recorder.play() as string[]; // We know it is an array of strings at this point
 
       // Create the directories recursively incase they don't exist

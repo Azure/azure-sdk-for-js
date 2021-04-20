@@ -89,12 +89,6 @@ export abstract class BaseRecorder {
   }
 
   public init(environmentSetup: RecorderEnvironmentSetup) {
-    if (!this.environmentSetup.requestBodyTransformations) {
-      this.environmentSetup.requestBodyTransformations = {
-        stringTransforms: [],
-        jsonTransforms: []
-      };
-    }
     this.environmentSetup = {
       replaceableVariables: {
         ...this.environmentSetup.replaceableVariables,
@@ -109,12 +103,14 @@ export abstract class BaseRecorder {
         ...environmentSetup.queryParametersToSkip
       ],
       requestBodyTransformations: {
-        stringTransforms: this.environmentSetup.requestBodyTransformations.stringTransforms?.concat(
-          environmentSetup.requestBodyTransformations?.stringTransforms || []
-        ),
-        jsonTransforms: this.environmentSetup.requestBodyTransformations.jsonTransforms?.concat(
-          environmentSetup.requestBodyTransformations?.jsonTransforms || []
-        )
+        stringTransforms:
+          this.environmentSetup.requestBodyTransformations?.stringTransforms?.concat(
+            environmentSetup.requestBodyTransformations?.stringTransforms ?? []
+          ) ?? [],
+        jsonTransforms:
+          this.environmentSetup.requestBodyTransformations?.jsonTransforms?.concat(
+            environmentSetup.requestBodyTransformations?.jsonTransforms ?? []
+          ) ?? []
       }
     };
   }

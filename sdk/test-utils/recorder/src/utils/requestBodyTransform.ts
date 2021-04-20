@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * Callbacks to be applied on the generated recordings
+ * - stringTransforms - callbacks to be applied on the string based request body
+ * - jsonTransforms - callbacks to be applied on the json based request body
+ */
 export type RequestBodyTransformsType = {
   stringTransforms?: Array<(body: string) => string>;
   jsonTransforms?: Array<(body: { [x: string]: unknown }) => { [x: string]: unknown }>;
 };
 
 /**
- * Provides the default customizations that need to be applied on the generated recordings
+ * Provides the default RequestBodyTransforms that need to be applied on the generated recordings
  */
 export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
   stringTransforms: [
