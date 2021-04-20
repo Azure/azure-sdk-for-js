@@ -20,9 +20,8 @@ az appconfig create --name <app-configuration-resource-name> --resource-group <r
 
 ## Running the sample
 
-1. Have `REACT_APP_APPCONFIG_CONNECTION_STRING` populated in the .env file.
-
-   **NOTE: We are using a connection string to keep this sample simple; however, this will embed the connection string into your published bundle which is not suitable for production as it would make the secrets public. For production client side applications, we recommend the [@azure/identity][identity] package which provides a set of credential implementations for both NodeJS and the browser.**
+1. Have the environment variables in sample.env populated in the .env file.
+   [We recommend the [@azure/identity][identity] package which provides a set of credential implementations for both NodeJS and the browser.]
 
 2. Create the following feature flags using the portal.
 
