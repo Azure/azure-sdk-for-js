@@ -251,7 +251,10 @@ export type DeleteIssuerOptions = coreHttp.OperationOptions;
 export type DeletionRecoveryLevel = string;
 
 // @public @deprecated
-export interface ErrorModel extends CertificateOperationError {
+export interface ErrorModel {
+    readonly code?: string;
+    readonly innerError?: ErrorModel;
+    readonly message?: string;
 }
 
 // @public
