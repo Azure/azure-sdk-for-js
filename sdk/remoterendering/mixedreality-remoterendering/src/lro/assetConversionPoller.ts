@@ -7,6 +7,10 @@ import { RemoteRendering } from "../generated/operations";
 import { getConversionInternal } from "../internal/commonQueries";
 import { delay, AbortSignalLike } from "@azure/core-http";
 
+export interface AssetConversionPollerOptions {
+  intervalInMs?: number;
+}
+
 export interface AssetConversionOperationState extends PollOperationState<AssetConversion> {
   /**
    * The latest response when querying the service. The conversion may or may not be completed.
@@ -94,9 +98,9 @@ export class AssetConversionPoller extends Poller<
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    */
-  public intervalInMs: number = 10000;
+  public intervalInMs: number;
 
-  constructor(accountId: string, operations: RemoteRendering, assetConversion: AssetConversion) {
+  constructor(accountId: string, operations: RemoteRendering, assetConversion: AssetConversion, options: AssetConversionPollerOptions) {
     super(
       new AssetConversionOperation(
         accountId,
@@ -104,6 +108,7 @@ export class AssetConversionPoller extends Poller<
         new AssetConversionOperationStateImpl(assetConversion)
       )
     );
+    this.intervalInMs = options.intervalInMs ? options.intervalInMs : 10000;
   }
 
   /**

@@ -39,10 +39,11 @@ import { PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { RemoteRendering } from "./generated/operations";
-import { AssetConversionPoller, AssetConversionOperationState } from "./lro/assetConversionPoller";
+import { AssetConversionPoller, AssetConversionOperationState, AssetConversionPollerOptions } from "./lro/assetConversionPoller";
 import {
   RenderingSessionPoller,
-  RenderingSessionOperationState
+  RenderingSessionOperationState,
+  RenderingSessionPollerOptions
 } from "./lro/renderingSessionPoller";
 
 import {
@@ -59,7 +60,9 @@ export {
   RenderingSessionSettings,
   RenderingSessionOperationState,
   UpdateSessionSettings,
-  RemoteRenderingClientOptions
+  RemoteRenderingClientOptions,
+  AssetConversionPollerOptions,
+  RenderingSessionPollerOptions
 };
 
 import {
@@ -87,6 +90,10 @@ export {
 };
 
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
+
+export type AssetConversionOptions = AssetConversionPollerOptions & OperationOptions;
+export type RenderingSessionOptions = RenderingSessionPollerOptions & OperationOptions; 
+
 export type RenderingSessionPollerLike = PollerLike<
   RenderingSessionOperationState,
   RenderingSession
@@ -234,7 +241,7 @@ export class RemoteRenderingClient {
   public async beginConversion(
     conversionId: string,
     assetConversionSettings: AssetConversionSettings,
-    options?: OperationOptions
+    options: AssetConversionOptions = {}
   ): Promise<AssetConversionPollerLike> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginConversion", {
       conversionId: conversionId,
@@ -249,7 +256,7 @@ export class RemoteRenderingClient {
         updatedOptions
       );
 
-      let poller = new AssetConversionPoller(this.accountId, this.operations, assetConversion);
+      let poller = new AssetConversionPoller(this.accountId, this.operations, assetConversion, options);
 
       // TODO Do I want this?
       await poller.poll();
@@ -294,7 +301,7 @@ export class RemoteRenderingClient {
    */
   public async getConversionPoller(
     conversionId: string,
-    options?: OperationOptions
+    options: AssetConversionOptions = {}
   ): Promise<AssetConversionPollerLike> {
     let assetConversion: AssetConversion = await getConversionInternal(
       this.accountId,
@@ -304,7 +311,7 @@ export class RemoteRenderingClient {
       options
     );
 
-    return new AssetConversionPoller(this.accountId, this.operations, assetConversion);
+    return new AssetConversionPoller(this.accountId, this.operations, assetConversion, options);
   }
 
   private async *getAllConversionsPagingPage(
@@ -375,7 +382,7 @@ export class RemoteRenderingClient {
   public async beginSession(
     sessionId: string,
     renderingSessionSettings: RenderingSessionSettings,
-    options?: OperationOptions
+    options: RenderingSessionOptions = {}
   ): Promise<RenderingSessionPollerLike> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginSession", {
       conversionId: sessionId,
@@ -390,7 +397,7 @@ export class RemoteRenderingClient {
         updatedOptions
       );
 
-      let poller = new RenderingSessionPoller(this.accountId, this.operations, renderingSession);
+      let poller = new RenderingSessionPoller(this.accountId, this.operations, renderingSession, options);
 
       // Do I want this?
       await poller.poll();
@@ -434,7 +441,7 @@ export class RemoteRenderingClient {
    */
   public async getSessionPoller(
     sessionId: string,
-    options?: OperationOptions
+    options: RenderingSessionOptions = {}
   ): Promise<RenderingSessionPollerLike> {
     let renderingSession: RenderingSession = await getSessionInternal(
       this.accountId,
@@ -443,7 +450,7 @@ export class RemoteRenderingClient {
       "RemoteRenderingClient-GetSessionPoller",
       options
     );
-    return new RenderingSessionPoller(this.accountId, this.operations, renderingSession);
+    return new RenderingSessionPoller(this.accountId, this.operations, renderingSession, options);
   }
 
   /**
