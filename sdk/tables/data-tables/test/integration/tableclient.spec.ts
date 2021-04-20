@@ -5,7 +5,11 @@ import { TableClient, TableEntity, Edm, odata } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
-import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
+import {
+  recordedEnvironmentSetup,
+  createTableClient,
+  createTableServiceClient
+} from "./utils/recordedClient";
 import { isNode } from "../testUtils";
 import { FullOperationResponse } from "@azure/core-client";
 
@@ -28,7 +32,7 @@ describe("TableClient", () => {
   before(async () => {
     if (!isPlaybackMode()) {
       client = createTableClient(tableName, authMode);
-      await client.create();
+      await client.createTable();
     }
   });
 
@@ -38,7 +42,7 @@ describe("TableClient", () => {
 
   after(async () => {
     if (!isPlaybackMode()) {
-      await client.delete();
+      await client.deleteTable();
     }
   });
 

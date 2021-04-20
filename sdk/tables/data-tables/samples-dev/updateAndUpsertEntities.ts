@@ -8,7 +8,6 @@
  */
 
 import { TableClient } from "@azure/data-tables";
-import { v4 } from "uuid";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -16,19 +15,18 @@ dotenv.config();
 
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
-const tableSufix = v4().replace(/-/g, "");
 
 async function updateAndUpsertEntities() {
   console.log("== Update and Upsert entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `updateAndUpsertEntitiesTable${tableSufix}`;
+  const tableName = `updateAndUpsertEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
 
   // Create the table
-  await client.create();
+  await client.createTableIfNotExists();
 
   const entity: Entity = {
     partitionKey: "Stationery",
@@ -60,7 +58,7 @@ async function updateAndUpsertEntities() {
   console.log(`Updated entity: ${JSON.stringify(updatedEntity)}`);
 
   // Delete the table for cleanup
-  await client.delete();
+  await client.deleteTableIfExists();
 }
 
 interface Entity {

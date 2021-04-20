@@ -7,14 +7,12 @@
  */
 
 const { odata, TableServiceClient } = require("@azure/data-tables");
-const { v4 } = require("uuid");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
 
 const accountConnectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-const tableSufix = v4().replace(/-/g, "");
 
 async function queryTables() {
   console.log("== Query tables Sample ==");
@@ -23,8 +21,8 @@ async function queryTables() {
   const serviceClient = TableServiceClient.fromConnectionString(accountConnectionString);
 
   // Create a new table
-  const tableName = `queryTables${tableSufix}`;
-  await serviceClient.createTable(tableName);
+  const tableName = `queryTables`;
+  await serviceClient.createTableIfNotExists(tableName);
 
   // list the tables with a filter query, queryOptions is optional.
   // odata is a helper function that takes care of encoding the query
@@ -39,7 +37,7 @@ async function queryTables() {
   }
 
   // Deletes the table
-  await serviceClient.deleteTable(tableName);
+  await serviceClient.deleteTableIfExists(tableName);
 }
 
 async function main() {

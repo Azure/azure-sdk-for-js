@@ -22,10 +22,6 @@ import {
   SetPropertiesResponse,
   DeleteTableOptions,
   DeleteTableResponse,
-  GetAccessPolicyOptions,
-  GetAccessPolicyResponse,
-  SetAccessPolicyResponse,
-  SetAccessPolicyOptions,
   TableResponseProperties
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
@@ -220,6 +216,29 @@ export class TableServiceClient {
   }
 
   /**
+   * Creates a new table it it doesn't exist under the account.
+   * @param tableName - The name of the table.
+   * @param options - The options parameters.
+   */
+  public async createTableIfNotExists(
+    tableName: string,
+    options: CreateTableOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan(
+      "TableServiceClient-createTableIfNotExists",
+      options
+    );
+    try {
+      await this.table.create(
+        { tableName },
+        { ...updatedOptions, responsePreference: "return-no-content" }
+      );
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Operation permanently deletes the specified table.
    * @param tableName - The name of the table.
    * @param options - The options parameters.
@@ -234,6 +253,23 @@ export class TableServiceClient {
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Operation permanently deletes the specified table, it if exists in the account.
+   * @param tableName - The name of the table.
+   * @param options - The options parameters.
+   */
+  public async deleteTableIfExists(
+    tableName: string,
+    options: DeleteTableOptions = {}
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan("TableServiceClient-deleteTableIfExists", options);
+    try {
+      await this.table.delete(tableName, { ...updatedOptions });
     } finally {
       span.end();
     }
@@ -315,48 +351,6 @@ export class TableServiceClient {
     );
 
     return Object.assign([...value], { nextTableName });
-  }
-
-  /**
-   * Retrieves details about any stored access policies specified on the table that may be used with
-   * Shared Access Signatures.
-   * @param tableName - The name of the table.
-   * @param options - The options parameters.
-   */
-  public getAccessPolicy(
-    tableName: string,
-    options: GetAccessPolicyOptions = {}
-  ): Promise<GetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-getAccessPolicy", options);
-    try {
-      return this.table.getAccessPolicy(tableName, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
-  }
-
-  /**
-   * Sets stored access policies for the table that may be used with Shared Access Signatures.
-   * @param tableName - The name of the table.
-   * @param acl - The Access Control List for the table.
-   * @param options - The options parameters.
-   */
-  public setAccessPolicy(
-    tableName: string,
-    options: SetAccessPolicyOptions = {}
-  ): Promise<SetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan("TableServiceClient-setAccessPolicy", options);
-    try {
-      return this.table.setAccessPolicy(tableName, updatedOptions);
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**

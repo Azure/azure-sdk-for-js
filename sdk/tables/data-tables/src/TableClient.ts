@@ -25,7 +25,11 @@ import {
   DeleteTableResponse,
   UpdateEntityResponse,
   UpsertEntityResponse,
-  DeleteTableEntityResponse
+  DeleteTableEntityResponse,
+  GetAccessPolicyOptions,
+  GetAccessPolicyResponse,
+  SetAccessPolicyOptions,
+  SetAccessPolicyResponse
 } from "./generatedModels";
 import {
   GeneratedClientOptionalParams,
@@ -82,7 +86,7 @@ export class TableClient {
    * const tableName = "<table name>";
    * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const client = new TableClient(
    *   `https://${account}.table.core.windows.net`,
    *   `${tableName}`
    *   sharedKeyCredential
@@ -111,7 +115,7 @@ export class TableClient {
    * const sasToken = "<SAS token>";
    * const tableName = "<table name>";
    *
-   * const tableServiceClient = new TableServiceClient(
+   * const client = new TableClient(
    *   `https://${account}.table.core.windows.net?${sasToken}`,
    *   `${tableName}`
    * );
@@ -185,8 +189,8 @@ export class TableClient {
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async delete(options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
-    const { span, updatedOptions } = createSpan("TableClient-delete", options);
+  public async deleteTable(options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
+    const { span, updatedOptions } = createSpan("TableClient-deleteTable", options);
     try {
       return await this.table.delete(this.tableName, updatedOptions);
     } catch (e) {
@@ -198,12 +202,28 @@ export class TableClient {
   }
 
   /**
-   *  Creates the current table it it doesn't exist
+   * Permanently deletes the current table if it doesn't exist.
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async create(options: CreateTableOptions = {}): Promise<CreateTableItemResponse> {
-    const { span, updatedOptions } = createSpan("TableClient-create", options);
+  public async deleteTableIfExists(options: DeleteTableOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("TableClient-deleteTableIfExists", options);
+    try {
+      await this.table.delete(this.tableName, updatedOptions);
+    } catch {
+      // Swallow error
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   *  Creates a table with the tableName passed to the client constructor
+   * @param options - The options parameters.
+   */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  public async createTable(options: CreateTableOptions = {}): Promise<CreateTableItemResponse> {
+    const { span, updatedOptions } = createSpan("TableClient-createTable", options);
     try {
       return await this.table.create({ tableName: this.tableName }, updatedOptions);
     } catch (e) {
@@ -215,12 +235,28 @@ export class TableClient {
   }
 
   /**
+   *  Creates a table if not exists. The tableName passed to the client constructor is used for the new table name
+   * @param options - The options parameters.
+   */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  public async createTableIfNotExists(options: CreateTableOptions = {}): Promise<void> {
+    const { span, updatedOptions } = createSpan("TableClient-createTableIfNotExists", options);
+    try {
+      await this.table.create({ tableName: this.tableName }, updatedOptions);
+    } catch {
+      // Swallow error
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Returns a single entity in the table.
    * @param partitionKey - The partition key of the entity.
    * @param rowKey - The row key of the entity.
    * @param options - The options parameters.
    */
-  public async getEntity<T extends object>(
+  public async getEntity<T extends object = Record<string, unknown>>(
     partitionKey: string,
     rowKey: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
@@ -259,7 +295,7 @@ export class TableClient {
    * @param tableName - The name of the table.
    * @param options - The options parameters.
    */
-  public listEntities<T extends object>(
+  public listEntities<T extends object = Record<string, unknown>>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListTableEntitiesOptions = {}
   ): PagedAsyncIterableIterator<TableEntityResult<T>, ListEntitiesResponse<TableEntityResult<T>>> {
@@ -503,6 +539,48 @@ export class TableClient {
         });
       }
       throw new Error(`Unexpected value for update mode: ${mode}`);
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Retrieves details about any stored access policies specified on the table that may be used with
+   * Shared Access Signatures.
+   * @param tableName - The name of the table.
+   * @param options - The options parameters.
+   */
+  public getAccessPolicy(
+    tableName: string,
+    options: GetAccessPolicyOptions = {}
+  ): Promise<GetAccessPolicyResponse> {
+    const { span, updatedOptions } = createSpan("TableClient-getAccessPolicy", options);
+    try {
+      return this.table.getAccessPolicy(tableName, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sets stored access policies for the table that may be used with Shared Access Signatures.
+   * @param tableName - The name of the table.
+   * @param acl - The Access Control List for the table.
+   * @param options - The options parameters.
+   */
+  public setAccessPolicy(
+    tableName: string,
+    options: SetAccessPolicyOptions = {}
+  ): Promise<SetAccessPolicyResponse> {
+    const { span, updatedOptions } = createSpan("TableClient-setAccessPolicy", options);
+    try {
+      return this.table.setAccessPolicy(tableName, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

@@ -80,10 +80,15 @@ export interface TableClientLike {
    */
   readonly tableName: string;
   /**
-   *  Creates the current table it it doesn't exist
+   *  Creates the current table.
    * @param options - The options parameters.
    */
-  create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+  createTable(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+  /**
+   *  Creates the current table if it doesn't exist
+   * @param options - The options parameters.
+   */
+  createTableIfNotExists(options?: CreateTableOptions): Promise<void>;
   /**
    * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
    * @param partitionKey - partitionKey to which the batch operations will be targetted to
@@ -102,7 +107,12 @@ export interface TableClientLike {
    * Permanently deletes the current table with all of its entities.
    * @param options - The options parameters.
    */
-  delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+  deleteTable(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+  /**
+   * Permanently deletes the current table if it exists in the account.
+   * @param options - The options parameters.
+   */
+  deleteTableIfExists(options?: DeleteTableOptions): Promise<void>;
   /**
    * Deletes the specified entity in the table.
    * @param partitionKey - The partition key of the entity.

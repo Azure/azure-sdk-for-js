@@ -8,7 +8,6 @@
  */
 
 import { TableClient, TablesSharedKeyCredential } from "@azure/data-tables";
-import { v4 } from "uuid";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -16,20 +15,19 @@ dotenv.config();
 const tablesUrl = process.env["TABLES_URL"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
-const tableSufix = v4().replace(/-/g, "");
 
 async function createAndDeleteEntities() {
   console.log("== Create and delete entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
-  const tableName = `createAndDeleteEntitiesTable${tableSufix}`;
+  const tableName = `createAndDeleteEntitiesTable`;
 
   // See authenticationMethods sample for other options of creating a new client
   const creds = new TablesSharedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
   // Create the table
-  await client.create();
+  await client.createTableIfNotExists();
 
   const entity: Entity = {
     partitionKey: "Stationery",
@@ -40,14 +38,14 @@ async function createAndDeleteEntities() {
   };
 
   // Create the new entity
-  await client.createEntity(entity);
+  await client.createEntity({ partitionKey: "p11", rowKey: "23" });
 
   // Delete the entity
   await client.deleteEntity(entity.partitionKey, entity.rowKey);
 
   // Delete the table for cleanup
   // Create the table
-  await client.delete();
+  await client.deleteTableIfExists();
 }
 
 interface Entity {

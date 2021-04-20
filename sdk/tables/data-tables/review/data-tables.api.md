@@ -265,14 +265,18 @@ export interface TableBatchResponse {
 export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
-    create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
     createBatch(partitionKey: string): TableBatch;
     createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
-    delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+    createTable(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+    createTableIfNotExists(options?: CreateTableOptions): Promise<void>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
+    deleteTable(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+    deleteTableIfExists(options?: DeleteTableOptions): Promise<void>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
-    getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
-    listEntities<T extends object>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, ListEntitiesResponse<TableEntityResult<T>>>;
+    getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
+    getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
+    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, ListEntitiesResponse<TableEntityResult<T>>>;
+    setAccessPolicy(tableName: string, options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
@@ -423,13 +427,13 @@ export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+    createTableIfNotExists(tableName: string, options?: CreateTableOptions): Promise<void>;
     deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+    deleteTableIfExists(tableName: string, options?: DeleteTableOptions): Promise<void>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
-    getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;
     listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse>;
-    setAccessPolicy(tableName: string, options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     }
 
