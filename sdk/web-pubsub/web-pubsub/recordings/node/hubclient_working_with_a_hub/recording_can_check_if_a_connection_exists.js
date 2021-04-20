@@ -9,7 +9,7 @@ nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
   .query(true)
   .reply(404, "", [
   'Date',
-  'Tue, 23 Mar 2021 01:43:46 GMT',
+  'Tue, 20 Apr 2021 23:02:54 GMT',
   'Connection',
   'keep-alive',
   'Strict-Transport-Security',

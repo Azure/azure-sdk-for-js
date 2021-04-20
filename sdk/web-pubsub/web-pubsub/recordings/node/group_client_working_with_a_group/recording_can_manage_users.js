@@ -5,11 +5,11 @@ module.exports.hash = "4e60ac6ee2ad28a116e3843b0788971c";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
-  .put('/api/hubs/group/users/brian/groups/simplechat')
+  .put('/api/hubs/simplechat/users/brian/groups/group')
   .query(true)
   .reply(200, "", [
   'Date',
-  'Tue, 23 Mar 2021 01:43:44 GMT',
+  'Tue, 20 Apr 2021 23:02:52 GMT',
   'Content-Length',
   '0',
   'Connection',
@@ -19,11 +19,11 @@ nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
-  .head('/api/hubs/group/users/brian/groups/simplechat')
+  .head('/api/hubs/simplechat/users/brian/groups/group')
   .query(true)
   .reply(200, "", [
   'Date',
-  'Tue, 23 Mar 2021 01:43:44 GMT',
+  'Tue, 20 Apr 2021 23:02:52 GMT',
   'Connection',
   'keep-alive',
   'Strict-Transport-Security',
@@ -31,11 +31,11 @@ nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
-  .head('/api/hubs/group/users/jeff/groups/simplechat')
+  .head('/api/hubs/simplechat/users/jeff/groups/group')
   .query(true)
   .reply(404, "", [
   'Date',
-  'Tue, 23 Mar 2021 01:43:45 GMT',
+  'Tue, 20 Apr 2021 23:02:53 GMT',
   'Connection',
   'keep-alive',
   'Strict-Transport-Security',
@@ -43,11 +43,11 @@ nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
-  .delete('/api/hubs/group/users/brian/groups/simplechat')
+  .delete('/api/hubs/simplechat/users/brian/groups/group')
   .query(true)
   .reply(200, "", [
   'Date',
-  'Tue, 23 Mar 2021 01:43:45 GMT',
+  'Tue, 20 Apr 2021 23:02:53 GMT',
   'Content-Length',
   '0',
   'Connection',
@@ -57,11 +57,11 @@ nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
 ]);
 
 nock('https://https%3A%2F%2Fendpoint:443', {"encodedQueryParams":true})
-  .head('/api/hubs/group/users/brian/groups/simplechat')
+  .head('/api/hubs/simplechat/users/brian/groups/group')
   .query(true)
   .reply(404, "", [
   'Date',
-  'Tue, 23 Mar 2021 01:43:45 GMT',
+  'Tue, 20 Apr 2021 23:02:53 GMT',
   'Connection',
   'keep-alive',
   'Strict-Transport-Security',

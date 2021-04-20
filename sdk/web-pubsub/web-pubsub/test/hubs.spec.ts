@@ -86,7 +86,7 @@ describe("HubClient", () => {
       assert.ok(!res);
     });
 
-    it.only("can grant permissions to connections", async () => {
+    it("can grant permissions to connections", async () => {
       let error;
       try {
         await client.grantPermission("xxx", "joinLeaveGroup", { targetName: "x" });
@@ -97,7 +97,7 @@ describe("HubClient", () => {
       assert.equal(error.statusCode, 404);
     });
 
-    it.only("can revoke permissions from connections", async () => {
+    it("can revoke permissions from connections", async () => {
       let error;
       try {
         await client.revokePermission("xxx", "joinLeaveGroup", { targetName: "x" });
