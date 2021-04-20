@@ -11,7 +11,7 @@ import {
 } from "@azure/core-http";
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
 import { env, isPlaybackMode, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { SmsClient } from "../../../src";
+import { SmsClient, SmsClientOptions } from "../../../src";
 
 export const recorderConfiguration: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -56,17 +56,19 @@ export function createCredential(): TokenCredential | undefined {
 }
 
 export function createSmsClient(): SmsClient {
+  // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
   return new SmsClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
     httpClient: createTestHttpClient()
-  });
+  } as SmsClientOptions);
 }
 
 export function createSmsClientWithToken(credential: TokenCredential): SmsClient {
   const { endpoint } = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING);
 
+  // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
   return new SmsClient(endpoint, credential, {
     httpClient: createTestHttpClient()
-  });
+  } as SmsClientOptions);
 }
 
 function createTestHttpClient(): HttpClient {
