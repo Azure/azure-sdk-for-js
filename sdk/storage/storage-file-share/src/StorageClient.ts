@@ -60,13 +60,10 @@ export abstract class StorageClient {
     this.accountName = getAccountNameFromUrl(url);
 
     this.pipeline = pipeline;
-    this.storageClientContext = new StorageClientContext(
-      this.url,
-      {
-        version: SERVICE_VERSION,
-        ...pipeline.toServiceClientOptions()
-      }
-    );
+    this.storageClientContext = new StorageClientContext(this.url, {
+      version: SERVICE_VERSION,
+      ...pipeline.toServiceClientOptions()
+    });
 
     // Remove the default content-type in generated code of StorageClientContext
     const storageClientContext = this.storageClientContext as any;

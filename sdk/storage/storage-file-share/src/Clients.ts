@@ -5139,13 +5139,10 @@ export class ShareLeaseClient {
    * @param leaseId - Initial proposed lease id.
    */
   constructor(client: ShareFileClient, leaseId?: string) {
-    const clientContext = new StorageClientContext(
-      client.url,
-      {
-        version: SERVICE_VERSION,
-        ...(client as any).pipeline.toServiceClientOptions()
-      }
-    );
+    const clientContext = new StorageClientContext(client.url, {
+      version: SERVICE_VERSION,
+      ...(client as any).pipeline.toServiceClientOptions()
+    });
 
     if (client instanceof ShareClient) {
       this.isShare = true;
