@@ -2,10 +2,17 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-04-20
+
+- Extended the `requestBodyTransformations` from [#14897](https://github.com/Azure/azure-sdk-for-js/pull/14897) to handle browser tests as well.
+  - Adds a default transformation to strip out the scope in the request body with the string "https://sanitized/"
+
 ## 2021-04-19
 
 - Helper method added for the transformations to be applied on the requestBody in record mode to be able to filter the requests in playback.
   Extends the `RecorderEnvironmentSetup` with `requestBodyTransformations` property which takes the transformation callbacks to be applied on the request body.
+  [#14897](https://github.com/Azure/azure-sdk-for-js/pull/14897)
+  - Adds a default transformation to strip out the client-request-id in the request body with the string "client-request-body"
 
 ## 2021-04-07
 
