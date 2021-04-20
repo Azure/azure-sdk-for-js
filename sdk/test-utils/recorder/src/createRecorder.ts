@@ -7,7 +7,7 @@ import { nodeRequireRecordingIfExists } from "./utils/recordings";
 
 import { config as readEnvFile } from "dotenv";
 import fs from "fs-extra";
-import { applyRequestBodyTransformations } from "./utils/requestBodyTransform";
+import { applyRequestBodyTransformationsOnFixture } from "./utils/requestBodyTransform";
 
 let nock: typeof import("nock");
 
@@ -85,7 +85,7 @@ export class NockRecorder extends BaseRecorder {
       for (const fixture of fixtures) {
         let updatedFixture = fixture;
         // Applying any requestBody transformations that are provided
-        updatedFixture = applyRequestBodyTransformations(
+        updatedFixture = applyRequestBodyTransformationsOnFixture(
           "node",
           fixture,
           this.environmentSetup.requestBodyTransformations
