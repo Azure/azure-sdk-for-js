@@ -2,6 +2,19 @@
  "recordings": [
   {
    "method": "POST",
+   "url": "https://endpoint/identities",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"createTokenWithScopes\":[\"chat\",\"voip\"]}",
+   "status": 201,
+   "response": "{\"identity\":{\"id\":\"sanitized\"},\"accessToken\":{\"token\":\"sanitized\",\"expiresOn\":\"2021-04-21T02:14:10.7770355+00:00\"}}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  },
+  {
+   "method": "POST",
    "url": "https://endpoint/identities/sanitized/:revokeAccessTokens",
    "query": {
     "api-version": "2021-03-07"
@@ -16,5 +29,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "7a586267954a7ccffe3a6ead82c6c357"
+ "hash": "8f226fe26b2d98dff1c91a7d5e2401f0"
 }

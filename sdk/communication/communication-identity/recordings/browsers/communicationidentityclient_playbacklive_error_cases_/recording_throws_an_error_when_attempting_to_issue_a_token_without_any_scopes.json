@@ -19,11 +19,11 @@
    "query": {
     "api-version": "2021-03-07"
    },
-   "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
-   "status": 200,
-   "response": "{\"token\":\"sanitized\",\"expiresOn\":\"2021-04-21T02:14:09.664853+00:00\"}",
+   "requestBody": "{\"scopes\":[]}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"ValidationError\",\"message\":\"Invalid scopes - Scopes field is required.\",\"target\":\"scopes\"}}",
    "responseHeaders": {
-    "content-type": "application/json; charset=utf-8"
+    "content-type": "application/json"
    }
   }
  ],
@@ -31,5 +31,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6496e58490aec33837461f24a7dee026"
+ "hash": "1568599d5c51069b59fd26ecd793b10f"
 }
