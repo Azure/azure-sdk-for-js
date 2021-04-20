@@ -126,7 +126,7 @@
     "typedoc": "0.15.2"
   },
   "//sampleConfiguration": {
-     "skip": [
+    "skip": [
       "alertingConfig.js",
       "dataFeed.js",
       "detectionConfig.js",
@@ -138,13 +138,13 @@
       "quickstart.js",
       "seriesData.js"
     ],
-     "productName": "Azure Metrics Advisor",
-      "productSlugs": [
+    "productName": "Azure Metrics Advisor",
+    "productSlugs": [
       "azure",
       "azure-cognitive-services",
       "azure-metrics-advisor"
     ],
-      "requiredResources": {
+    "requiredResources": {
       "Azure Cognitive Services account": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     },
     "skipFolder": false,
