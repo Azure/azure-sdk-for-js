@@ -5,7 +5,7 @@
  * Demonstrates resolving/obtaining a particular model definition from a remote model repository
  */
 
-import * as resolver from "@azure/iot-modelsrepository-resolver";
+import {ModelsRepositoryClient} from "../../../src";
 
 const repositoryEndpoint = "devicemodels.azure.com";
 const dtmi = process.argv[2] || "dtmi:azure:DeviceManagement:DeviceInformation;1";
@@ -13,7 +13,8 @@ const dtmi = process.argv[2] || "dtmi:azure:DeviceManagement:DeviceInformation;1
 console.log(repositoryEndpoint, dtmi);
 
 async function main() {
-  const result = await resolver.resolve(dtmi, repositoryEndpoint);
+  const client = new ModelsRepositoryClient({repositoryLocation: repositoryEndpoint});
+  const result = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpanded'});
   console.log(result);
 }
 

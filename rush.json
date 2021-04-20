@@ -650,7 +650,7 @@
     {
       "packageName": "@azure/iot-modelsrepository-client",
       "projectFolder": "sdk/iot/modelsrepository",
-      "versionPolicyName": "core"
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure-tests/perf-ai-form-recognizer",
