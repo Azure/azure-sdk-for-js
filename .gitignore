@@ -152,3 +152,6 @@ swagger/*.json
 
 #autorest artifacts
 code-model-*
+
+# vscode launch.json
+**/.vscode/launch.json
