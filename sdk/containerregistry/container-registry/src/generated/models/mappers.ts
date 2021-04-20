@@ -583,7 +583,7 @@ export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwForm
           name: "String"
         }
       },
-      aadAccesstoken: {
+      aadAccessToken: {
         serializedName: "access_token",
         required: true,
         type: {

@@ -5,20 +5,6 @@
 ## Configuration
 
 ```yaml
-v3: true
-package-name: "@azure/container-registry"
-title: GeneratedClient
-description: Container Registry Client
-generate-metadata: false
-license-header: MICROSOFT_MIT_NO_VERSION
-output-folder: ../
-source-code-folder-path: ./src/generated
-input-file: ./containerregistry.json
-add-credentials: false
-override-client-name: GeneratedClient
-disable-async-iterators: true
-hide-clients: true
-use-core-v2: true
-use-extension:
-  "@autorest/typescript": "C:/github/autorest.typescript"
+tag: package-2019-08
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b78c1bc520f38232cfeed4e4171b6e579b7b9b87/specification/containerregistry/data-plane/Azure.ContainerRegistry/readme.md
 ```

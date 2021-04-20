@@ -296,8 +296,8 @@ export const contentType3: OperationParameter = {
   }
 };
 
-export const aadAccesstoken: OperationParameter = {
-  parameterPath: ["options", "aadAccesstoken"],
+export const aadAccessToken: OperationParameter = {
+  parameterPath: ["options", "aadAccessToken"],
   mapper: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchemaMapper
 };
 
