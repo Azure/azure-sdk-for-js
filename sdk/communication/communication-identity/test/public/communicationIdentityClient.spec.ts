@@ -6,7 +6,7 @@ import {
   isCommunicationUserIdentifier
 } from "@azure/communication-common";
 import { assert } from "chai";
-import { Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, Recorder } from "@azure/test-utils-recorder";
 import { CommunicationIdentityClient } from "../../src";
 import {
   createRecordedCommunicationIdentityClient,
@@ -81,8 +81,9 @@ matrix([[true, false]], async function(useAad) {
 
     describe("Error Cases: ", async function() {
       const fakeUser: CommunicationUserIdentifier = {
-        communicationUserId:
-          "8:acs:00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000"
+        communicationUserId: isPlaybackMode()
+          ? "sanitized"
+          : "8:acs:00000000-0000-0000-0000-000000000000_00000000-0000-0000-0000-000000000000"
       };
 
       it("throws an error when attempting to issue a token without any scopes", async function() {
