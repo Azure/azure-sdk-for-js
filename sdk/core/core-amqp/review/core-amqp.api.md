@@ -23,6 +23,12 @@ import { Session } from 'rhea-promise';
 import { WebSocketImpl } from 'rhea-promise';
 
 // @public
+export interface AcquireLockProperties {
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number | undefined;
+}
+
+// @public
 export interface AmqpAnnotatedMessage {
     applicationProperties?: {
         [key: string]: any;
@@ -88,6 +94,11 @@ export const AmqpMessageProperties: {
 export { AsyncLock }
 
 // @public
+export interface CancellableAsyncLock {
+    acquire<T = void>(key: string, task: (...args: any[]) => Promise<T>, properties: AcquireLockProperties): Promise<T>;
+}
+
+// @public
 export class CbsClient {
     constructor(connection: Connection, connectionLock: string);
     readonly cbsLock: string;
@@ -97,9 +108,12 @@ export class CbsClient {
     readonly endpoint: string;
     init(options?: {
         abortSignal?: AbortSignalLike;
+        timeoutInMs?: number;
     }): Promise<void>;
+    isOpen(): boolean;
     negotiateClaim(audience: string, token: string, tokenType: TokenType, options?: {
         abortSignal?: AbortSignalLike;
+        timeoutInMs?: number;
     }): Promise<CbsResponse>;
     remove(): void;
     readonly replyTo: string;
@@ -350,6 +364,9 @@ export function createSasTokenProvider(data: {
 } | {
     sharedAccessSignature: string;
 } | NamedKeyCredential | SASCredential): SasTokenProvider;
+
+// @public
+export const defaultCancellableLock: CancellableAsyncLock;
 
 // @public
 export const defaultLock: AsyncLock;

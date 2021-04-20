@@ -38,11 +38,13 @@ describe("CbsClient", function() {
 
       // Make the existing `init` invocation wait until the abortSignal
       // is aborted before acquiring it's lock.
-      await defaultLock.acquire(lock, (done) => {
-        setTimeout(() => {
-          controller.abort();
-          done();
-        }, 0);
+      await defaultLock.acquire(lock, () => {
+        return new Promise<void>((resolve) => {
+          setTimeout(() => {
+            controller.abort();
+            resolve();
+          }, 0);
+        });
       });
 
       try {
