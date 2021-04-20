@@ -38,11 +38,11 @@ export function captureConsoleOutputToAppInsights() {
 
   debug.log = (...args: any[]) => {
     // for some reason the appinsights console.log hook doesn't seem to be firing for me (or at least
-    // it's inconsistent). For now I'll just add a hook in here and send the events myself.    
+    // it's inconsistent). For now I'll just add a hook in here and send the events myself.
     defaultClient.trackTrace({
       message: util.format(...args)
     });
-  }
+  };
 }
 
 export class SBStressTestsBase {
@@ -89,14 +89,13 @@ export class SBStressTestsBase {
       ];
     }
 
-    const snapshotIntervalMs = !this.snapshotOptions.snapshotIntervalInMs ? 5000 : this.snapshotOptions.snapshotIntervalInMs;
+    const snapshotIntervalMs = !this.snapshotOptions.snapshotIntervalInMs
+      ? 5000
+      : this.snapshotOptions.snapshotIntervalInMs;
 
     this.startedAt = new Date();
     this.messagesSent = [];
-    this.snapshotTimer = setInterval(
-      this.snapshot.bind(this),
-      snapshotIntervalMs
-    );
+    this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalMs);
   }
 
   /**
@@ -104,7 +103,9 @@ export class SBStressTestsBase {
    */
   public createServiceBusClient(): ServiceBusClient {
     if (!process.env.SERVICEBUS_CONNECTION_STRING) {
-      throw new Error("Failed to create a ServiceBusClient - no connection string defined in the environment");
+      throw new Error(
+        "Failed to create a ServiceBusClient - no connection string defined in the environment"
+      );
     }
 
     return new ServiceBusClient(process.env.SERVICEBUS_CONNECTION_STRING);
@@ -207,8 +208,8 @@ export class SBStressTestsBase {
 
   /**
    * Adds a received message to our list of messages, incrementing relevant counters.
-   * 
-   * @param messages 
+   *
+   * @param messages
    */
   public addReceivedMessage(messages: ServiceBusReceivedMessage[]) {
     this.trackMessageIds(messages, "received");
@@ -289,10 +290,14 @@ export class SBStressTestsBase {
 
   /**
    * Reports an error that occurs in processing.
-   * @param from 
-   * @param exception 
+   * @param from
+   * @param exception
    */
-  public trackError(from: "init" | "receive" | "complete" | "send" | "lockrenewal" | "sessionlockrenewal" | "close", exception: Error, extraProperties?: Record<string, string>) {
+  public trackError(
+    from: "init" | "receive" | "complete" | "send" | "lockrenewal" | "sessionlockrenewal" | "close",
+    exception: Error,
+    extraProperties?: Record<string, string>
+  ) {
     ++this._numErrors;
 
     defaultClient.trackException({
@@ -308,25 +313,28 @@ export class SBStressTestsBase {
     messages.forEach((msg) => {
       if (!msg.messageId) {
         console.error("No message ID for sent message");
-        throw new Error("No message ID for tracked message. Make sure you initialize .messageId before sending messages.");
+        throw new Error(
+          "No message ID for tracked message. Make sure you initialize .messageId before sending messages."
+        );
       }
-      
+
       if (path === "sent") {
         if (this.trackedMessageIds[msg.messageId as string]) {
           throw new Error(`${msg.messageId} has already been tracked as sent!`);
         }
 
-        const destination = this.trackedMessageIds[msg.messageId as string] = {
+        const destination = (this.trackedMessageIds[msg.messageId as string] = {
           sentCount: 0,
           receivedCount: 0,
-          settledCount: 0,
-        };
-        
+          settledCount: 0
+        });
+
         destination.sentCount = destination.sentCount + 1;
       } else if (path === "received") {
-
         if (!this.trackedMessageIds[msg.messageId as string]) {
-          throw new Error(`${msg.messageId} was not tracked as sent, can't increment receive count`);
+          throw new Error(
+            `${msg.messageId} was not tracked as sent, can't increment receive count`
+          );
         }
 
         this.trackedMessageIds[msg.messageId as string].receivedCount++;
@@ -524,9 +532,9 @@ export class SBStressTestsBase {
         properties: {
           from: "end"
         }
-      })
+      });
 
       defaultClient.flush();
     }
   }
-} 
+}

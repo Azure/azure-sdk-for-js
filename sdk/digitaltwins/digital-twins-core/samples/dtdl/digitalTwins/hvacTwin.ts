@@ -1,8 +1,0 @@
-﻿exports.hvacTwin = {
-  $metadata: {
-    $model: "dtmi:samples:HVAC;1"
-  },
-  Efficiency: 94,
-  TargetTemperature: 72,
-  TargetHumidity: 30
-};

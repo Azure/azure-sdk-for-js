@@ -53,6 +53,23 @@ export const endpoint: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const faceIdTimeToLive: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "faceIdTimeToLive"
+  ],
+  mapper: {
+    serializedName: "faceIdTimeToLive",
+    defaultValue: 86400,
+    constraints: {
+      InclusiveMaximum: 86400,
+      InclusiveMinimum: 60
+    },
+    type: {
+      name: "Number"
+    }
+  }
+};
 export const faceListId: msRest.OperationURLParameter = {
   parameterPath: "faceListId",
   mapper: {
@@ -178,7 +195,8 @@ export const returnFaceAttributes: msRest.OperationQueryParameter = {
             "accessories",
             "blur",
             "exposure",
-            "noise"
+            "noise",
+            "mask"
           ]
         }
       }

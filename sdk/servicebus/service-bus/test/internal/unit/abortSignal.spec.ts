@@ -19,7 +19,7 @@ import {
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId
 } from "./unittestUtils";
-import { StandardAbortMessage } from "../../../src/util/utils";
+import { StandardAbortMessage } from "@azure/core-amqp";
 import { isLinkLocked } from "../utils/misc";
 import { ServiceBusSessionReceiverImpl } from "../../../src/receivers/sessionReceiver";
 import { ServiceBusReceiverImpl } from "../../../src/receivers/receiver";
@@ -205,7 +205,9 @@ describe("AbortSignal", () => {
 
       const sender = new MessageSender(
         createConnectionContextForTests({
-          onCreateAwaitableSenderCalled: () => {}
+          onCreateAwaitableSenderCalled: () => {
+            /** Nothing to do here */
+          }
         }),
         "fakeEntityPath",
         {}
@@ -242,7 +244,9 @@ describe("AbortSignal", () => {
       );
       closeables.push(sender);
 
-      sender["_negotiateClaim"] = async () => {};
+      sender["_negotiateClaim"] = async () => {
+        /** Nothing to do here */
+      };
 
       try {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
@@ -316,7 +320,9 @@ describe("AbortSignal", () => {
       const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath", defaultOptions);
       closeables.push(messageReceiver);
 
-      messageReceiver["_negotiateClaim"] = async () => {};
+      messageReceiver["_negotiateClaim"] = async () => {
+        /** Nothing to do here */
+      };
 
       try {
         await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
@@ -339,7 +345,9 @@ describe("AbortSignal", () => {
     it("SessionReceiver.subscribe", async () => {
       const connectionContext = createConnectionContextForTestsWithSessionId();
 
-      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello");
+      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello", {
+        retryOptions: undefined
+      });
 
       const session = new ServiceBusSessionReceiverImpl(
         messageSession,
@@ -354,7 +362,9 @@ describe("AbortSignal", () => {
 
         session.subscribe(
           {
-            processMessage: async (_msg) => {},
+            processMessage: async (_msg) => {
+              /** Nothing to do here */
+            },
             processError: async (args) => {
               receivedErrors.push(args.error);
             }
@@ -386,7 +396,9 @@ describe("AbortSignal", () => {
         await new Promise<void>((resolve) => {
           receiver.subscribe(
             {
-              processMessage: async (_msg: any) => {},
+              processMessage: async (_msg: any) => {
+                /** Nothing to do here */
+              },
               processError: async (args: ProcessErrorArgs) => {
                 resolve();
                 receivedErrors.push(args.error);

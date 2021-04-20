@@ -4,10 +4,10 @@
 
 ```ts
 
+import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-https';
-import { PipelinePolicy } from '@azure/core-https';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
 
 // @public
 export interface AccessPolicy {
@@ -244,6 +244,7 @@ export interface TableBatch {
     partitionKey: string;
     submitBatch: () => Promise<TableBatchResponse>;
     updateEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions) => void;
+    upsertEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions) => void;
 }
 
 // @public
@@ -433,7 +434,7 @@ export class TableServiceClient {
     }
 
 // @public
-export type TableServiceClientOptions = PipelineOptions & {
+export type TableServiceClientOptions = CommonClientOptions & {
     endpoint?: string;
     version?: string;
 };

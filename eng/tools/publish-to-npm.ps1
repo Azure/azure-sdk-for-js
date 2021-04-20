@@ -7,14 +7,16 @@ param (
   $npmToken,
   $filterArg="",
   $basicDeployment=$false,
-  $devopsFeed=$false
+  $devopsFeed=$false,
+  $skipDiff=$false
 )
 
 function replaceText($oldText,$newText,$filePath){
-    $content = Get-Content -Path $filePath
+    $content = Get-Content -Path $filePath -Raw
     $newContent = $content -replace $oldText,$newText
-    if((-join $newContent) -ne (-join $content)){
-        Set-Content -Path $filePath -Value $newContent
+    if ($newContent -ne $content)
+    {
+        Set-Content -Path $filePath -Value $newContent -NoNewLine
         Write-Host "replaceText [$oldText] [$newText] [$filePath]"
     }
 }
@@ -42,7 +44,7 @@ function extractPackage($package) {
     $devVersion = $json.version
     popd
     $publish = $true
-    if ($tag -eq "dev")
+    if (($tag -eq "dev") -and (-not $skipDiff))
     {
         mkdir $lastDevDirTgz
         pushd $lastDevDirTgz

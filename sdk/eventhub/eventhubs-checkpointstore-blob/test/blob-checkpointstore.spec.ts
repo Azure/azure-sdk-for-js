@@ -16,9 +16,11 @@ import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/e
 import { Guid } from "guid-typescript";
 import { parseIntOrThrow } from "../src/blobCheckpointStore";
 import { fail } from "assert";
+import { AbortController } from "@azure/abort-controller";
 const env = getEnvVars();
 
 describe("Blob Checkpoint Store", function(): void {
+  const TEST_FAILURE = "Test failure";
   const service = {
     storageConnectionString: env[EnvVarKeys.STORAGE_CONNECTION_STRING]
   };
@@ -42,6 +44,56 @@ describe("Blob Checkpoint Store", function(): void {
     await containerClient.delete();
   });
 
+  describe("listOwnership", function() {
+    it("supports cancellation via abortSignal", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and abort it after blocking code is ran.
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), 0);
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.listOwnership(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup",
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+
+    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and immediately abort it.
+      const abortController = new AbortController();
+      abortController.abort();
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.listOwnership(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup",
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+  });
+
   it("listOwnership should return an empty array", async function(): Promise<void> {
     const checkpointStore = new BlobCheckpointStore(containerClient);
     const listOwnership = await checkpointStore.listOwnership(
@@ -50,6 +102,68 @@ describe("Blob Checkpoint Store", function(): void {
       "testConsumerGroup"
     );
     should.equal(listOwnership.length, 0);
+  });
+
+  describe("claimOwnership", function() {
+    it("supports cancellation via abortSignal", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and abort it after blocking code is ran.
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), 0);
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.claimOwnership(
+          [
+            {
+              partitionId: "0",
+              consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+              fullyQualifiedNamespace: "fqdn",
+              eventHubName: "ehname",
+              ownerId: "me"
+            }
+          ],
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+
+    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and immediately abort it.
+      const abortController = new AbortController();
+      abortController.abort();
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.claimOwnership(
+          [
+            {
+              partitionId: "0",
+              consumerGroup: EventHubConsumerClient.defaultConsumerGroupName,
+              fullyQualifiedNamespace: "fqdn",
+              eventHubName: "ehname",
+              ownerId: "me"
+            }
+          ],
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
   });
 
   // these errors happen when we have multiple consumers starting up
@@ -109,7 +223,7 @@ describe("Blob Checkpoint Store", function(): void {
       ]);
       fail("Should have thrown an error - this isn't a normal claim collision issue");
     } catch (err) {
-      (err instanceof RestError).should.be.ok;
+      should.equal(err instanceof RestError, true, "Error is unexpected type.");
       // 404 because the container is missing (since we deleted it up above)
       (err as RestError).statusCode!.should.equal(404);
     }
@@ -143,14 +257,30 @@ describe("Blob Checkpoint Store", function(): void {
       "testConsumerGroup"
     );
 
-    ownershipList.length.should.equal(1);
-    ownershipList[0].ownerId.should.equal("Id1");
-    ownershipList[0].partitionId.should.equal("0");
-    ownershipList[0].consumerGroup.should.equal("testConsumerGroup");
-    ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-    ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[0].etag!.should.not.undefined;
+    should.equal(ownershipList.length, 1, "Unexpected number of ownerships in list.");
+    should.equal(ownershipList[0].ownerId, "Id1", "The 1st ownership item has the wrong ownerId.");
+    should.equal(
+      ownershipList[0].consumerGroup,
+      "testConsumerGroup",
+      "The 1st ownership item has the wrong consumerGroup."
+    );
+    should.equal(
+      ownershipList[0].fullyQualifiedNamespace,
+      "testNamespace.servicebus.windows.net",
+      "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+    );
+    should.equal(
+      ownershipList[0].eventHubName,
+      "testEventHub",
+      "The 1st ownership item has the wrong eventHubName."
+    );
+    should.equal(
+      ownershipList[0].partitionId,
+      "0",
+      "The 1st ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[0].etag, "etag should exist.");
 
     debug(
       `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${ownershipList[0].etag}`
@@ -185,14 +315,31 @@ describe("Blob Checkpoint Store", function(): void {
       "testEventHub",
       "testConsumerGroup"
     );
-    ownershipList.length.should.equal(1);
-    ownershipList[0].ownerId.should.equal("Id1");
-    ownershipList[0].partitionId.should.equal("0");
-    ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-    ownershipList[0].consumerGroup.should.equal("testConsumerGroup");
-    ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[0].etag!.should.not.undefined;
+
+    should.equal(ownershipList.length, 1, "Unexpected number of ownerships in list.");
+    should.equal(ownershipList[0].ownerId, "Id1", "The 1st ownership item has the wrong ownerId.");
+    should.equal(
+      ownershipList[0].consumerGroup,
+      "testConsumerGroup",
+      "The 1st ownership item has the wrong consumerGroup."
+    );
+    should.equal(
+      ownershipList[0].fullyQualifiedNamespace,
+      "testNamespace.servicebus.windows.net",
+      "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+    );
+    should.equal(
+      ownershipList[0].eventHubName,
+      "testEventHub",
+      "The 1st ownership item has the wrong eventHubName."
+    );
+    should.equal(
+      ownershipList[0].partitionId,
+      "0",
+      "The 1st ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[0].etag, "etag should exist.");
     debug(
       `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${ownershipList[0].etag}`
     );
@@ -231,23 +378,98 @@ describe("Blob Checkpoint Store", function(): void {
       "testEventHub",
       "testConsumerGroup"
     );
-    ownershipList.length.should.equal(3);
 
-    ownershipList[0].partitionId.should.equal("0");
-    ownershipList[0].ownerId.should.equal("Id1");
-    ownershipList[0].consumerGroup.should.equal("testConsumerGroup");
-    ownershipList[0].fullyQualifiedNamespace.should.equal("testNamespace.servicebus.windows.net");
-    ownershipList[0].eventHubName.should.equal("testEventHub");
-    ownershipList[0].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[0].etag!.should.not.undefined;
+    should.equal(ownershipList.length, 3, "Unexpected number of ownerships in list.");
 
-    ownershipList[1].partitionId.should.equal("1");
-    ownershipList[1].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[1].etag!.should.not.undefined;
+    should.equal(ownershipList[0].ownerId, "Id1", "The 1st ownership item has the wrong ownerId.");
+    should.equal(
+      ownershipList[0].consumerGroup,
+      "testConsumerGroup",
+      "The 1st ownership item has the wrong consumerGroup."
+    );
+    should.equal(
+      ownershipList[0].fullyQualifiedNamespace,
+      "testNamespace.servicebus.windows.net",
+      "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+    );
+    should.equal(
+      ownershipList[0].eventHubName,
+      "testEventHub",
+      "The 1st ownership item has the wrong eventHubName."
+    );
+    should.equal(
+      ownershipList[0].partitionId,
+      "0",
+      "The 1st ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[0].etag, "etag should exist.");
 
-    ownershipList[2].partitionId.should.equal("2");
-    ownershipList[2].lastModifiedTimeInMs!.should.not.undefined;
-    ownershipList[2].etag!.should.not.undefined;
+    should.equal(
+      ownershipList[1].partitionId,
+      "1",
+      "The 2nd ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[1].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[1].etag, "etag should exist.");
+
+    should.equal(
+      ownershipList[2].partitionId,
+      "2",
+      "The 3rd ownership item has the wrong partitionId."
+    );
+    should.exist(ownershipList[2].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
+    should.exist(ownershipList[2].etag, "etag should exist.");
+  });
+
+  describe("listCheckpoints", function() {
+    it("supports cancellation via abortSignal", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and abort it after blocking code is ran.
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), 0);
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.listCheckpoints(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup",
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+
+    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and immediately abort it.
+      const abortController = new AbortController();
+      abortController.abort();
+      const signal = abortController.signal;
+
+      try {
+        await checkpointStore.listCheckpoints(
+          "testNamespace.servicebus.windows.net",
+          "testEventHub",
+          "testConsumerGroup",
+          {
+            abortSignal: signal
+          }
+        );
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
   });
 
   describe("updateCheckpoint()", () => {
@@ -383,6 +605,60 @@ describe("Blob Checkpoint Store", function(): void {
         throw new Error("Test failure");
       } catch (err) {
         err.message.should.not.equal("Test failure");
+      }
+    });
+
+    it("supports cancellation via abortSignal", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and abort it after blocking code is ran.
+      const abortController = new AbortController();
+      setTimeout(() => abortController.abort(), 0);
+      const signal = abortController.signal;
+
+      // Create the checkpoint to add.
+      const checkpoint: Checkpoint = {
+        consumerGroup: "testNamespace.servicebus.windows.net",
+        eventHubName: "testEventHub",
+        fullyQualifiedNamespace: "testConsumerGroup",
+        offset: 0,
+        partitionId: "0",
+        sequenceNumber: 1
+      };
+
+      try {
+        await checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal });
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
+      }
+    });
+
+    it("supports cancellation via abortSignal (pre-cancelled)", async function() {
+      const checkpointStore = new BlobCheckpointStore(containerClient);
+
+      // Create an abort controller and immediately abort it.
+      const abortController = new AbortController();
+      abortController.abort();
+      const signal = abortController.signal;
+
+      // Create the checkpoint to add.
+      const checkpoint: Checkpoint = {
+        consumerGroup: "testNamespace.servicebus.windows.net",
+        eventHubName: "testEventHub",
+        fullyQualifiedNamespace: "testConsumerGroup",
+        offset: 0,
+        partitionId: "0",
+        sequenceNumber: 1
+      };
+
+      try {
+        await checkpointStore.updateCheckpoint(checkpoint, { abortSignal: signal });
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        should.equal(err.name, "AbortError");
+        should.not.equal(err.message, TEST_FAILURE);
       }
     });
   });

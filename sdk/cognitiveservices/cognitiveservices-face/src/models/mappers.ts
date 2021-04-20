@@ -678,6 +678,36 @@ export const Noise: msRest.CompositeMapper = {
   }
 };
 
+export const Mask: msRest.CompositeMapper = {
+  serializedName: "Mask",
+  type: {
+    name: "Composite",
+    className: "Mask",
+    modelProperties: {
+      type: {
+        nullable: false,
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "noMask",
+            "faceMask",
+            "otherMaskOrOcclusion",
+            "uncertain"
+          ]
+        }
+      },
+      noseAndMouthCovered: {
+        nullable: false,
+        serializedName: "noseAndMouthCovered",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const FaceAttributes: msRest.CompositeMapper = {
   serializedName: "FaceAttributes",
   type: {
@@ -791,6 +821,13 @@ export const FaceAttributes: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Noise"
+        }
+      },
+      mask: {
+        serializedName: "mask",
+        type: {
+          name: "Composite",
+          className: "Mask"
         }
       }
     }

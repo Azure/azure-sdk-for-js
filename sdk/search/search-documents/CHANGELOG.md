@@ -1,8 +1,14 @@
 # Release History
 
+## 11.2.0-beta.1 (2021-04-06)
+
+- Added Support for new skills such as `CustomEntityLookupSkill`, `DocumentExtractionSkill`, etc. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+- Added Support for new datasource `adlsgen2`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+- Added Support for normalizers `LexicalNormalizer` & `CustomNormalizer`. Please refer [#14620](https://github.com/Azure/azure-sdk-for-js/pull/14620) for further details.
+
 ## 11.1.0 (2021-02-11)
 
-- The list the changes in 11.1.0 since 11.0.3 & 11.1.0-beta.2 are provided below:
+- The list of changes in 11.1.0 since 11.0.3 & 11.1.0-beta.2 are provided below:
 
 **Changes since 11.0.3**
 
@@ -10,12 +16,6 @@
 - The types `BlobIndexerDataToExtract`, `BlobIndexerImageAction`, `BlobIndexerParsingMode`, `BlobIndexerPDFTextRotationAlgorithm` have changed from union of string literals to string. This is to support the service definition for these types to be extensible enums. The documentation on methods that use these have been updated with known values that can be used for these types.
 
 **Changes since 11.1.0-beta.2**
-
-- The types `BlobIndexerDataToExtract`, `BlobIndexerImageAction`, `BlobIndexerParsingMode`, `BlobIndexerPDFTextRotationAlgorithm` have changed from union of string literals to string. This is to allow the service to support additional values after the release of this SDK. The documentation on methods that use these types have been updated with currently known values. Please refer [#12829](https://github.com/Azure/azure-sdk-for-js/pull/12829) for further details.
-- [Breaking] The `SearchIndexingBufferedSender` interface has been removed. Please refer [#13405](https://github.com/Azure/azure-sdk-for-js/pull/13405) for further details.
-- Modified logic to handle payload high in the `SearchIndexingBufferedSender`. Please refer [#13478](https://github.com/Azure/azure-sdk-for-js/pull/13478) for further details.
-
-## 11.1.0-beta.2 (2020-11-10)
 
 - [Breaking] Hidden the constructor of `SearchIndexingBufferedSender` and made it to an interface. Please refer [#11785](https://github.com/Azure/azure-sdk-for-js/pull/11785) for further details.
 - Added `encryptionKey` property to `SearchIndexerDataSource`, `SearchIndexer` and `SearchIndexerSkillSet` objects. Please refer [#12275](https://github.com/Azure/azure-sdk-for-js/pull/12275) for further details.

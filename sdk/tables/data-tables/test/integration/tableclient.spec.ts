@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableClient, TableEntity, Edm, odata } from "../../src";
+import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
@@ -18,8 +19,7 @@ describe("TableClient", () => {
   // which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
+  beforeEach(function(this: Context) {
     recorder = record(this, recordedEnvironmentSetup);
 
     client = createTableClient(tableName, authMode);
@@ -44,9 +44,8 @@ describe("TableClient", () => {
 
   describe("listEntities", () => {
     // Create required entities for testing list operations
-    before(async function() {
+    before(async function(this: Context) {
       if (!isPlaybackMode()) {
-        // eslint-disable-next-line no-invalid-this
         this.timeout(10000);
         await client.createEntity({
           partitionKey: listPartitionKey,

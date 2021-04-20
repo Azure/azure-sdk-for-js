@@ -37,6 +37,7 @@ export interface AmqpMessageHeader {
 /**
  * Describes the operations that can be performed on the message header.
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- renaming constant would be a breaking change.
 export const AmqpMessageHeader = {
   /**
    * Converts MessageHeader to RheaMessageHeader.

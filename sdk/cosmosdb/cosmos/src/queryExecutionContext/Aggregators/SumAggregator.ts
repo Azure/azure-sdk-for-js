@@ -7,11 +7,8 @@ export class SumAggregator implements Aggregator {
   public sum: number;
   /**
    * Add the provided item to aggregation result.
-   * @memberof SumAggregator
-   * @instance
-   * @param other
    */
-  public aggregate(other: number) {
+  public aggregate(other: number): void {
     if (other === undefined) {
       return;
     }
@@ -24,10 +21,8 @@ export class SumAggregator implements Aggregator {
 
   /**
    * Get the aggregation result.
-   * @memberof SumAggregator
-   * @instance
    */
-  public getResult() {
+  public getResult(): number {
     return this.sum;
   }
 }

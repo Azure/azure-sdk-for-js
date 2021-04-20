@@ -14,7 +14,7 @@ To run the live tests, you will also need to set the below environment variables
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.
 - `AZURE_TENANT_ID`: The Tenant ID of your organization in Azure Active Directory.
-- `KEYVAULT_NAME`: The name of the KeyVault to use.
+- `KEYVAULT_URI`: The URI of the KeyVault to use.
 
 The live tests in this project will create, modify and delete [secrets](https://docs.microsoft.com/azure/key-vault/secrets/about-secrets) inside of the provided Azure Key Vault.
 

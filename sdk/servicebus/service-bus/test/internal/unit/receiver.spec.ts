@@ -212,8 +212,12 @@ describe("Receiver unit tests", () => {
 
       const subscription = receiverImpl.subscribe(
         {
-          processError: async (_err) => {},
-          processMessage: async (_msg) => {}
+          processError: async (_err) => {
+            /** Nothing to do here */
+          },
+          processMessage: async (_msg) => {
+            /** Nothing to do here */
+          }
         },
         {
           abortSignal
@@ -222,8 +226,12 @@ describe("Receiver unit tests", () => {
 
       // subscription should just be auto-closed already
       const subscription2 = receiverImpl.subscribe({
-        processError: async (_err) => {},
-        processMessage: async (_msg) => {}
+        processError: async (_err) => {
+          /** Nothing to do here */
+        },
+        processMessage: async (_msg) => {
+          /** Nothing to do here */
+        }
       });
 
       await subscription.close(); // and closing it "out of order" shouldn't be an issue either.
@@ -244,7 +252,9 @@ describe("Receiver unit tests", () => {
           processError: async (err) => {
             reject(err);
           },
-          processMessage: async (_msg) => {}
+          processMessage: async (_msg) => {
+            /** Nothing to do here */
+          }
         } as InternalMessageHandlers);
       });
 
@@ -292,7 +302,10 @@ describe("Receiver unit tests", () => {
       const messageSession = await MessageSession.create(
         connectionContext,
         "entity path",
-        undefined
+        undefined,
+        {
+          retryOptions: undefined
+        }
       );
 
       const impl = new ServiceBusSessionReceiverImpl(
@@ -351,7 +364,9 @@ describe("Receiver unit tests", () => {
           initWasCalled = true;
           return;
         },
-        close: async () => {},
+        close: async () => {
+          /** Nothing to do here */
+        },
         name: "my pre-existing receiver"
       } as Pick<StreamingReceiver, "init" | "close" | "name">;
 
@@ -367,7 +382,9 @@ describe("Receiver unit tests", () => {
         lockRenewer: undefined,
         receiveMode: "peekLock",
         abortSignal: expectedAbortSignal,
-        onError: (_args) => {}
+        onError: (_args) => {
+          /** Nothing to do here */
+        }
       });
 
       assert.isTrue(initWasCalled, "initialize should be called on the original receiver");
@@ -386,7 +403,9 @@ describe("Receiver unit tests", () => {
       await impl["_createStreamingReceiver"]({
         lockRenewer: undefined,
         receiveMode: "peekLock",
-        onError: (_args) => {}
+        onError: (_args) => {
+          /** Nothing to do here */
+        }
       });
 
       assert.exists(impl["_streamingReceiver"], "new streaming receiver should be called");

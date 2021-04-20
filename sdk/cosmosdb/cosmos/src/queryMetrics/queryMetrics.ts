@@ -26,11 +26,9 @@ export class QueryMetrics {
 
   /**
    * Gets the IndexHitRatio
-   * @memberof QueryMetrics
-   * @instance
    * @hidden
    */
-  public get indexHitRatio() {
+  public get indexHitRatio(): number {
     return this.retrievedDocumentCount === 0
       ? 1
       : this.indexHitDocumentCount / this.retrievedDocumentCount;
@@ -39,7 +37,7 @@ export class QueryMetrics {
   /**
    * returns a new QueryMetrics instance that is the addition of this and the arguments.
    */
-  public add(queryMetricsArray: QueryMetrics[]) {
+  public add(queryMetricsArray: QueryMetrics[]): QueryMetrics {
     let retrievedDocumentCount = 0;
     let retrievedDocumentSize = 0;
     let outputDocumentCount = 0;
@@ -93,11 +91,9 @@ export class QueryMetrics {
 
   /**
    * Output the QueryMetrics as a delimited string.
-   * @memberof QueryMetrics
-   * @instance
    * @hidden
    */
-  public toDelimitedString() {
+  public toDelimitedString(): string {
     return (
       QueryMetricsConstants.RetrievedDocumentCount +
       "=" +
@@ -163,10 +159,8 @@ export class QueryMetrics {
 
   /**
    * Returns a new instance of the QueryMetrics class that is the aggregation of an array of query metrics.
-   * @memberof QueryMetrics
-   * @instance
    */
-  public static createFromArray(queryMetricsArray: QueryMetrics[]) {
+  public static createFromArray(queryMetricsArray: QueryMetrics[]): QueryMetrics {
     if (!queryMetricsArray) {
       throw new Error("queryMetricsArray is null or undefined item(s)");
     }
@@ -176,13 +170,11 @@ export class QueryMetrics {
 
   /**
    * Returns a new instance of the QueryMetrics class this is deserialized from a delimited string.
-   * @memberof QueryMetrics
-   * @instance
    */
   public static createFromDelimitedString(
     delimitedString: string,
     clientSideMetrics?: ClientSideMetrics
-  ) {
+  ): QueryMetrics {
     const metrics = parseDelimitedString(delimitedString);
 
     const indexHitRatio = metrics[QueryMetricsConstants.IndexHitRatio] || 0;

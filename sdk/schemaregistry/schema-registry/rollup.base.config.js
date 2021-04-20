@@ -8,6 +8,7 @@ import shim from "rollup-plugin-shim";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
+import { openTelemetryCommonJs } from "@azure/dev-tool/shared-config/rollup";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -94,7 +95,7 @@ export function browserConfig(test = false, production = false) {
       cjs({
         namedExports: {
           chai: ["assert", "expect", "use"],
-          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+          ...openTelemetryCommonJs()
         }
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })

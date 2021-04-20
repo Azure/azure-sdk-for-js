@@ -1,4 +1,4 @@
-# Azure Service Bus client library for Javascript
+# Azure Service Bus client library for JavaScript
 
 [Azure Service Bus](https://azure.microsoft.com/services/service-bus/) is a highly-reliable cloud messaging service from Microsoft.
 
@@ -19,7 +19,7 @@ Resources for `@azure/service-bus` version 7:
 **NOTE**: If you are using version 1.1.10 or lower and want to migrate to the latest version
 of this package please look at our [migration guide to move from Service Bus V1 to Service Bus V7][migrationguide]
 
-## Getting Started
+## Getting started
 
 ### Install the package
 
@@ -91,7 +91,7 @@ const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credentia
 
 More information about this constructor is available in the [API documentation][sbclient_tokencred_overload]
 
-### Key concepts
+## Key concepts
 
 Once you've initialized a `ServiceBusClient`, you can interact with these resources within a
 Service Bus Namespace:
@@ -110,7 +110,7 @@ To interact with these resources, one should be familiar with the following SDK 
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
-### Examples
+## Examples
 
 The following sections provide code snippets that cover some of the common tasks using Azure Service Bus
 
@@ -366,7 +366,7 @@ await serviceBusAdministrationClient.deleteQueue(queueName);
 
 The Service Bus library depends on the [rhea-promise](https://github.com/amqp/rhea-promise) library for managing connections, sending and receiving messages over the [AMQP](https://docs.oasis-open.org/amqp/core/v1.0/os/amqp-core-complete-v1.0-os.pdf) protocol.
 
-### Enable logs
+### Logging
 
 You can set the following environment variable to get the debug logs when using this library.
 
@@ -412,7 +412,7 @@ export DEBUG=azure:service-bus:error,azure:core-amqp:error,rhea-promise:error,rh
     node your-test-script.js &> out.log
   ```
 
-## Next Steps
+## Next steps
 
 Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
 directory for detailed examples on how to use this library to send and receive messages to/from

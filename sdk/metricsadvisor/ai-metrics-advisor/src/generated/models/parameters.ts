@@ -206,7 +206,22 @@ export const dataSourceType: OperationQueryParameter = {
   mapper: {
     serializedName: "dataSourceType",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "AzureApplicationInsights",
+        "AzureBlob",
+        "AzureCosmosDB",
+        "AzureDataExplorer",
+        "AzureDataLakeStorageGen2",
+        "AzureTable",
+        "Elasticsearch",
+        "HttpRequest",
+        "InfluxDB",
+        "MongoDB",
+        "MySql",
+        "PostgreSql",
+        "SqlServer"
+      ]
     }
   }
 };
@@ -216,7 +231,17 @@ export const granularityName: OperationQueryParameter = {
   mapper: {
     serializedName: "granularityName",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: [
+        "Yearly",
+        "Monthly",
+        "Weekly",
+        "Daily",
+        "Hourly",
+        "Minutely",
+        "Secondly",
+        "Custom"
+      ]
     }
   }
 };
@@ -226,7 +251,8 @@ export const status: OperationQueryParameter = {
   mapper: {
     serializedName: "status",
     type: {
-      name: "String"
+      name: "Enum",
+      allowedValues: ["Active", "Paused"]
     }
   }
 };

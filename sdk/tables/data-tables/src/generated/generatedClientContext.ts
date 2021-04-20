@@ -7,7 +7,6 @@
  */
 
 import { ServiceClient } from "@azure/core-client";
-import { stringifyXML, parseXML } from "@azure/core-xml";
 import { GeneratedClientOptionalParams } from "./models";
 
 export class GeneratedClientContext extends ServiceClient {
@@ -26,9 +25,7 @@ export class GeneratedClientContext extends ServiceClient {
 
     const defaults: GeneratedClientOptionalParams = {
       baseUri: "{url}",
-      requestContentType: "application/json; charset=utf-8",
-      stringifyXML,
-      parseXML
+      requestContentType: "application/json; charset=utf-8"
     };
 
     const optionsWithDefaults = {

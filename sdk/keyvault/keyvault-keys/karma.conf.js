@@ -50,6 +50,7 @@ module.exports = function(config) {
       "AZURE_TENANT_ID",
       "KEYVAULT_NAME",
       "KEYVAULT_URI",
+      "AZURE_MANAGEDHSM_URI",
       "TEST_MODE"
     ],
 

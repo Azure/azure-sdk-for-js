@@ -19,7 +19,7 @@ import {
   UpsertTableEntityOptions
 } from "../models";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
-import { Pipeline, PipelineRequest } from "@azure/core-https";
+import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
 import {
   DeleteTableOptions,
   DeleteTableResponse,

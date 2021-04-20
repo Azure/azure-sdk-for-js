@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/phoneNumbers/%2B14155550100",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "{\"error\":{\"code\":\"PhoneNumberNotFound\",\"message\":\"The specified phone number +14155550100 cannot be found.\",\"target\":\"phonenumber\"}}",
+   "responseHeaders": {
+    "content-type": "application/json"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "b2f9e435061a983cbe93b0b5d3cc32d1"
+}

@@ -20,6 +20,7 @@ import { TopicResourceSerializer } from "../../../src/serializers/topicResourceS
 import { SubscriptionResourceSerializer } from "../../../src/serializers/subscriptionResourceSerializer";
 import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer";
 import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils";
+import { TestConstants } from "../../public/testConstants";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -210,8 +211,8 @@ describe("ATOM Serializers", () => {
               accessRights: ["Manage", "Send", "Listen"]
             },
             keyName: "allClaims_v2",
-            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+            primaryKey: TestConstants.primaryKey,
+            secondaryKey: TestConstants.secondaryKey
           },
           {
             claimType: "SharedAccessKey",
@@ -219,8 +220,8 @@ describe("ATOM Serializers", () => {
               accessRights: ["Manage", "Send", "Listen"]
             },
             keyName: "allClaims_v3",
-            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+            primaryKey: TestConstants.primaryKey,
+            secondaryKey: TestConstants.secondaryKey
           }
         ],
         enablePartitioning: true
@@ -267,8 +268,8 @@ describe("ATOM Serializers", () => {
               accessRights: ["Manage", "Send", "Listen"]
             },
             keyName: "allClaims_v2",
-            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+            primaryKey: TestConstants.primaryKey,
+            secondaryKey: TestConstants.secondaryKey
           },
           {
             claimType: "SharedAccessKey",
@@ -276,8 +277,8 @@ describe("ATOM Serializers", () => {
               accessRights: ["Manage", "Send", "Listen"]
             },
             keyName: "allClaims_v3",
-            primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
-            secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
+            primaryKey: TestConstants.primaryKey,
+            secondaryKey: TestConstants.secondaryKey
           }
         ]
       };
@@ -393,7 +394,7 @@ describe("ATOM Serializers", () => {
   }
 
   class MockSerializer implements AtomXmlSerializer {
-    serialize(resource: any): object {
+    serialize(resource: any): Record<string, unknown> {
       const property1 = "LockDuration";
       const property2 = "MaxSizeInMegabytes";
 

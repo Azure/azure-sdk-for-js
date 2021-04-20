@@ -9,7 +9,6 @@ import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:receiver-spec");
 import {
   EventData,
-  MessagingError,
   ReceivedEventData,
   latestEventPosition,
   earliestEventPosition,
@@ -482,53 +481,6 @@ describe("EventHubConsumerClient", function(): void {
         );
       });
       await subscription!.close();
-    });
-  });
-
-  describe("Negative scenarios", function(): void {
-    it("should throw MessagingEntityNotFoundError for non existing consumer group", async function(): Promise<
-      void
-    > {
-      const badConsumerClient = new EventHubConsumerClient(
-        "boo",
-        service.connectionString,
-        service.path
-      );
-      let subscription: Subscription | undefined;
-      const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
-        subscription = badConsumerClient.subscribe({
-          processEvents: async () => {
-            /* no-op */
-          },
-          processError: async (err) => {
-            resolve(err);
-          }
-        });
-      });
-      await subscription!.close();
-      await badConsumerClient.close();
-
-      should.exist(caughtErr);
-      should.equal((caughtErr as MessagingError).code, "MessagingEntityNotFoundError");
-    });
-
-    it(`should throw an invalid EventHub address error for invalid partition`, async function(): Promise<
-      void
-    > {
-      let subscription: Subscription | undefined;
-      const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
-        subscription = consumerClient.subscribe("boo", {
-          processEvents: async () => {
-            /* no-op */
-          },
-          processError: async (err) => {
-            resolve(err);
-          }
-        });
-      });
-      await subscription!.close();
-      should.exist(caughtErr);
-      should.equal((caughtErr as MessagingError).code, "ArgumentOutOfRangeError");
     });
   });
 }).timeout(90000);

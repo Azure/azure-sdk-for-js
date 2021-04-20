@@ -1,18 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * Breeze errors.
+ * @internal
+ */
 export interface BreezeError {
   index: number;
   statusCode: number;
   message: string;
 }
 
+/**
+ * Breeze response definition.
+ * @internal
+ */
 export interface BreezeResponse {
   itemsReceived: number;
   itemsAccepted: number;
   errors: BreezeError[];
 }
 
+/**
+ * Breeze retriable status codes.
+ * @internal
+ */
 export function isRetriable(statusCode: number): boolean {
   return (
     statusCode === 206 || // Retriable
@@ -24,6 +36,10 @@ export function isRetriable(statusCode: number): boolean {
   );
 }
 
+/**
+ * Convert milliseconds to Breeze expected time.
+ * @internal
+ */
 export function msToTimeSpan(ms: number): string {
   let totalms = ms;
   if (Number.isNaN(totalms) || totalms < 0 || !Number.isFinite(ms)) {

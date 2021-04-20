@@ -11,19 +11,13 @@ import { Credential } from "./Credential";
  * {@link AnonymousCredentialPolicy} objects. AnonymousCredentialPolicy is used with
  * HTTP(S) requests that read public resources or for use with Shared Access
  * Signatures (SAS).
- *
- * @export
- * @class AnonymousCredential
- * @extends {Credential}
  */
 export class AnonymousCredential extends Credential {
   /**
    * Creates an {@link AnonymousCredentialPolicy} object.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @returns {AnonymousCredentialPolicy}
-   * @memberof AnonymousCredential
+   * @param nextPolicy -
+   * @param options -
    */
   public create(
     nextPolicy: RequestPolicy,

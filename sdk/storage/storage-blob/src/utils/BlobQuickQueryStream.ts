@@ -13,23 +13,16 @@ export interface BlobQuickQueryStreamOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof BlobQuickQueryStreamOptions
    */
   abortSignal?: AbortSignalLike;
 
   /**
    * Read progress event handler
-   *
-   * @memberof BlobQuickQueryStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
   /**
    * Callback to receive error events during the query operaiton.
-   *
-   * @memberof BlockBlobQueryOptions
    */
   onError?: (error: BlobQueryError) => void;
 }
@@ -38,9 +31,6 @@ export interface BlobQuickQueryStreamOptions {
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * A Node.js BlobQuickQueryStream will internally parse avro data stream for blob query.
- *
- * @class BlobQuickQueryStream
- * @extends {Readable}
  */
 export class BlobQuickQueryStream extends Readable {
   private source: NodeJS.ReadableStream;
@@ -53,9 +43,8 @@ export class BlobQuickQueryStream extends Readable {
   /**
    * Creates an instance of BlobQuickQueryStream.
    *
-   * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
-   * @param {BlobQuickQueryStreamOptions} [options={}]
-   * @memberof BlobQuickQueryStream
+   * @param source - The current ReadableStream returned from getter
+   * @param options -
    */
   public constructor(source: NodeJS.ReadableStream, options: BlobQuickQueryStreamOptions = {}) {
     super();

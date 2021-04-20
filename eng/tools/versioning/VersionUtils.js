@@ -42,6 +42,7 @@ function updateChangelog(
   releaseDate = null
 ) {
   const service = path.basename(path.dirname(targetPackagePath));
+  const changelogPath = path.join(targetPackagePath, "CHANGELOG.md");
   const updateChangelogPath = path.resolve(
     path.join(repoRoot, "eng/common/scripts/Update-ChangeLog.ps1")
   );
@@ -54,20 +55,29 @@ function updateChangelog(
     "--PackageName",
     packageName,
     "--Unreleased:$" + unreleased,
-    "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle
+    "--ReplaceLatestEntryTitle:$" + replaceLatestVersionTitle,
+    "--ChangelogPath:" + changelogPath
   ];
   if (releaseDate != null) {
-    args.push(releaseDate);
+    args.push("--ReleaseDate:" + releaseDate);
   }
+
   child = spawnSync("pwsh", args);
-  console.log("Powershell Data: " + child.stdout);
-  console.log("Powershell Errors: " + child.stderr);
+  const out = child.stdout.toString();
+  const err = child.stderr.toString();
+
+  if (out != "") {
+    console.log(out);
+  }
+
+  if (err != "") {
+    console.log(err);
+  }
 
   if (child.error) {
     console.error("Child process failed - ", child.error);
     return false;
   }
-  console.log("Powershell script finished with exit code - ", child.status);
   if (child.status === 0) {
     return true;
   }

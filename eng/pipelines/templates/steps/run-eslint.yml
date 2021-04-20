@@ -1,0 +1,12 @@
+parameters:
+  ServiceDirectory: ''
+
+steps:
+  - script: |
+      node common/scripts/install-run-rush.js install
+    displayName: "Install library dependencies"
+
+  - pwsh: |
+      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
+      node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
+    displayName: "Build ESLint Plugin and Lint Libraries"

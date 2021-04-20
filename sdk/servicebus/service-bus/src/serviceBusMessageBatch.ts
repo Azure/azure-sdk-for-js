@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ServiceBusMessage, toRheaMessage } from "./serviceBusMessage";
 import {
-  ServiceBusMessage,
-  toRheaMessage,
-  getMessagePropertyTypeMismatchError
-} from "./serviceBusMessage";
-import { throwIfNotValidServiceBusMessage, throwTypeErrorIfParameterMissing } from "./util/errors";
+  errorInvalidMessageTypeSingle,
+  throwIfNotValidServiceBusMessage,
+  throwTypeErrorIfParameterMissing
+} from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
@@ -14,13 +14,10 @@ import {
   message as RheaMessageUtil,
   Message as RheaMessage
 } from "rhea-promise";
-import { SpanContext } from "@opentelemetry/api";
-import {
-  instrumentServiceBusMessage,
-  TRACEPARENT_PROPERTY
-} from "./diagnostics/instrumentServiceBusMessage";
-import { createMessageSpan } from "./diagnostics/messageSpan";
+import { SpanContext } from "@azure/core-tracing";
+import { convertTryAddOptionsForCompatibility, instrumentMessage } from "./diagnostics/tracing";
 import { TryAddOptions } from "./modelsToBeSharedWithEventHubs";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { defaultDataTransformer } from "./dataTransformer";
 
 /**
@@ -61,7 +58,7 @@ export interface ServiceBusMessageBatch {
    * The maximum size of the batch, in bytes. The `tryAddMessage` function on the batch will return `false`
    * if the message being added causes the size of the batch to exceed this limit. Use the `createMessageBatch()` method on
    * the `Sender` to set the maxSizeInBytes.
-   * @readonly.
+   * @readonly
    */
   readonly maxSizeInBytes: number;
 
@@ -70,10 +67,13 @@ export interface ServiceBusMessageBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next event.
    *
-   * @param message - An individual service bus message.
+   * @param message - The message to add to the batch.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
+  tryAddMessage(
+    message: ServiceBusMessage | AmqpAnnotatedMessage,
+    options?: TryAddOptions
+  ): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -230,42 +230,29 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * **NOTE**: Always remember to check the return value of this method, before calling it again
    * for the next message.
    *
-   * @param message - An individual service bus message.
+   * @param originalMessage - An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAddMessage(message: ServiceBusMessage, options: TryAddOptions = {}): boolean {
-    throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
-    throwIfNotValidServiceBusMessage(
-      message,
-      "Provided value for 'message' must be of type ServiceBusMessage."
-    );
+  public tryAddMessage(
+    originalMessage: ServiceBusMessage | AmqpAnnotatedMessage,
+    options: TryAddOptions = {}
+  ): boolean {
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "message", originalMessage);
+    throwIfNotValidServiceBusMessage(originalMessage, errorInvalidMessageTypeSingle);
 
-    // check if the event has already been instrumented
-    const previouslyInstrumented = Boolean(
-      message.applicationProperties && message.applicationProperties[TRACEPARENT_PROPERTY]
+    options = convertTryAddOptionsForCompatibility(options);
+
+    const { message, spanContext } = instrumentMessage(
+      originalMessage,
+      options,
+      this._context.config.entityPath!,
+      this._context.config.host
     );
-    let spanContext: SpanContext | undefined;
-    if (!previouslyInstrumented) {
-      const messageSpan = createMessageSpan(options?.parentSpan, this._context.config);
-      message = instrumentServiceBusMessage(message, messageSpan);
-      spanContext = messageSpan.context();
-      messageSpan.end();
-    }
 
     // Convert ServiceBusMessage to AmqpMessage.
-    const amqpMessage = toRheaMessage(message);
-    amqpMessage.body = defaultDataTransformer.encode(message.body);
+    const amqpMessage = toRheaMessage(message, defaultDataTransformer);
 
-    let encodedMessage: Buffer;
-    try {
-      encodedMessage = RheaMessageUtil.encode(amqpMessage);
-    } catch (error) {
-      if (error instanceof TypeError || error.name === "TypeError") {
-        throw getMessagePropertyTypeMismatchError(message) || error;
-      }
-      throw error;
-    }
-
+    let encodedMessage = RheaMessageUtil.encode(amqpMessage);
     let currentSize = this._sizeInBytes;
 
     // The first time an event is added, we need to calculate

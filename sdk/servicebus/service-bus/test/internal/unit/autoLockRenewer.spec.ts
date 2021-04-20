@@ -51,7 +51,9 @@ describe("autoLockRenewer unit tests", () => {
     } as ManagementClient;
 
     renewLockSpy = sinon.spy(managementClient, "renewLock");
-    onErrorFake = sinon.fake(async (_err: Error | MessagingError) => {});
+    onErrorFake = sinon.fake(async (_err: Error | MessagingError) => {
+      /** Nothing to do here */
+    });
 
     autoLockRenewer = LockRenewer.create(
       {

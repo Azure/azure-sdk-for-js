@@ -16,7 +16,7 @@ export async function authenticate(that: Context): Promise<any> {
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
       KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://keyvault_name.vault.azure.net"
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/"
     },
     customizationsOnRecordings: [
       (recording: any): any =>

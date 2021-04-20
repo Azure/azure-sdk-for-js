@@ -46,7 +46,7 @@ describe("Trace Exporter Scenarios", () => {
           });
         })
         .catch((e) => {
-          throw e;
+          done(e);
         });
     });
   });

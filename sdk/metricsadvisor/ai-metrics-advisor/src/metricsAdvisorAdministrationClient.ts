@@ -18,7 +18,7 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
 import { createClientPipeline } from "./createClientPipeline";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   IngestionStatus,
@@ -135,15 +135,11 @@ export class MetricsAdvisorAdministrationClient {
   public readonly endpointUrl: string;
 
   /**
-   * @internal
-   * @hidden
    * A reference to service client options.
    */
   private readonly pipeline: ServiceClientOptions;
 
   /**
-   * @internal
-   * @hidden
    * A reference to the auto-generated MetricsAdvisor HTTP client.
    */
   private readonly client: GeneratedClient;
@@ -265,7 +261,7 @@ export class MetricsAdvisorAdministrationClient {
       return this.getDataFeed(feedId);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -296,7 +292,7 @@ export class MetricsAdvisorAdministrationClient {
       return { ...resultDataFeed, _response: result._response };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -387,10 +383,6 @@ export class MetricsAdvisorAdministrationClient {
     };
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listItemsOfDataFeeds(
     options: ListDataFeedsOptions
   ): AsyncIterableIterator<DataFeed> {
@@ -401,10 +393,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listSegmentsOfDataFeeds(
     options: ListDataFeedsOptions & { maxPageSize?: number },
     continuationToken?: string
@@ -509,7 +497,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.updateDataFeed(dataFeedId, patchBody, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -535,7 +523,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.deleteDataFeed(id, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -573,7 +561,7 @@ export class MetricsAdvisorAdministrationClient {
       return this.getDetectionConfig(configId);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -606,7 +594,7 @@ export class MetricsAdvisorAdministrationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -638,7 +626,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.updateAnomalyDetectionConfiguration(id, transformed, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -667,7 +655,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.deleteAnomalyDetectionConfiguration(id, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -704,7 +692,7 @@ export class MetricsAdvisorAdministrationClient {
       return this.getAlertConfig(configId);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -735,7 +723,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.updateAnomalyAlertingConfiguration(id, transformed, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -765,7 +753,7 @@ export class MetricsAdvisorAdministrationClient {
       return { ...fromServiceAlertConfiguration(result), _response: result._response };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -794,7 +782,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.deleteAnomalyAlertingConfiguration(id, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -802,11 +790,6 @@ export class MetricsAdvisorAdministrationClient {
       span.end();
     }
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listSegmentsOfAlertingConfigurations(
     detectionConfigId: string,
@@ -824,11 +807,6 @@ export class MetricsAdvisorAdministrationClient {
       value: segment._response
     });
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfAlertingConfigurations(
     detectionConfigId: string,
@@ -965,7 +943,7 @@ export class MetricsAdvisorAdministrationClient {
       return this.getHook(hookId);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -994,7 +972,7 @@ export class MetricsAdvisorAdministrationClient {
       return { ...resultHookResponse, _response: result._response };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1002,11 +980,6 @@ export class MetricsAdvisorAdministrationClient {
       span.end();
     }
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listSegmentOfHooks(
     continuationToken?: string,
@@ -1047,11 +1020,6 @@ export class MetricsAdvisorAdministrationClient {
       continuationToken = segmentResponse.nextLink;
     }
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfHooks(
     options: ListHooksOptions = {}
@@ -1157,7 +1125,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.updateHook(id, patch, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1182,7 +1150,7 @@ export class MetricsAdvisorAdministrationClient {
       return await this.client.deleteHook(id, requestOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1190,11 +1158,6 @@ export class MetricsAdvisorAdministrationClient {
       span.end();
     }
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listSegmentsOfDetectionConfigurations(
     metricId: string,
@@ -1209,11 +1172,6 @@ export class MetricsAdvisorAdministrationClient {
     });
     yield resultArray;
   }
-
-  /**
-   * @internal
-   * @hidden
-   */
 
   private async *listItemsOfDetectionConfigurations(
     detectionConfigId: string,
@@ -1340,7 +1298,7 @@ export class MetricsAdvisorAdministrationClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1349,10 +1307,6 @@ export class MetricsAdvisorAdministrationClient {
     }
   }
 
-  /**
-   * @internal
-   * @hidden
-   */
   private async *listSegmentOfIngestionStatus(
     dataFeedId: string,
     startTime: Date,
@@ -1431,8 +1385,6 @@ export class MetricsAdvisorAdministrationClient {
   }
 
   /**
-   * @internal
-   * @hidden
    */
   private async *listItemsOfIngestionStatus(
     dataFeedId: string,
@@ -1582,7 +1534,7 @@ export class MetricsAdvisorAdministrationClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

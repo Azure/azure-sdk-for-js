@@ -8,7 +8,8 @@ import {
   RetryConfig,
   RetryOperationType,
   retry,
-  Constants
+  Constants,
+  StandardAbortMessage
 } from "../src";
 import { Connection, EventContext, generate_uuid, Message as RheaMessage } from "rhea-promise";
 import { stub, fake, SinonSpy } from "sinon";
@@ -19,6 +20,7 @@ import {
   getCodeDescriptionAndError,
   onMessageReceived
 } from "../src/requestResponseLink";
+import { createConnectionStub } from "./utils/createConnectionStub";
 interface Window {}
 declare let self: Window & typeof globalThis;
 
@@ -42,6 +44,48 @@ const assertItemsLengthInResponsesMap = (
 };
 
 describe("RequestResponseLink", function() {
+  const TEST_FAILURE = "Test failure";
+
+  describe("#create", function() {
+    it("should create a RequestResponseLink", async function() {
+      const connectionStub = createConnectionStub();
+      const link = await RequestResponseLink.create(connectionStub, {}, {});
+      assert.isTrue(link instanceof RequestResponseLink);
+    });
+
+    it("honors already aborted abortSignal", async function() {
+      const connection = new Connection();
+
+      // Create an abort signal that will be aborted on a future tick of the event loop.
+      const controller = new AbortController();
+      const signal = controller.signal;
+      setTimeout(() => controller.abort(), 0);
+
+      try {
+        await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        assert.equal(err.name, "AbortError");
+      }
+    });
+
+    it("honors abortSignal", async function() {
+      const connection = new Connection();
+
+      // Create an abort signal that is already aborted.
+      const controller = new AbortController();
+      controller.abort();
+      const signal = controller.signal;
+
+      try {
+        await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
+        throw new Error(TEST_FAILURE);
+      } catch (err) {
+        assert.equal(err.name, "AbortError");
+      }
+    });
+  });
+
   it("should send a request and receive a response correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
@@ -405,16 +449,8 @@ describe("RequestResponseLink", function() {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      const expectedErrorRegex = new RegExp(
-        /The foo operation has been cancelled by the user.$/,
-        "gi"
-      );
       assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(
-        expectedErrorRegex.test(err.message),
-        true,
-        `Incorrect error received "${err.message}"`
-      );
+      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
@@ -477,16 +513,8 @@ describe("RequestResponseLink", function() {
       });
       throw new Error(`Test failure`);
     } catch (err) {
-      const expectedErrorRegex = new RegExp(
-        /The foo operation has been cancelled by the user.$/,
-        "gi"
-      );
       assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(
-        expectedErrorRegex.test(err.message),
-        true,
-        `Incorrect error received "${err.message}"`
-      );
+      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
     // Final state of the map
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
@@ -540,16 +568,8 @@ describe("RequestResponseLink", function() {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      const expectedErrorRegex = new RegExp(
-        /The foo operation has been cancelled by the user.$/,
-        "gi"
-      );
       assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(
-        expectedErrorRegex.test(err.message),
-        true,
-        `Incorrect error received "${err.message}"`
-      );
+      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "alwaysStrict": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "lib": ["ESNext.AsyncIterable"]
+  },
+  "include": ["src/**.ts"],
+  "exclude": ["node_modules"]
+}

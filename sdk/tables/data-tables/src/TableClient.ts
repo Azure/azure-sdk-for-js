@@ -27,7 +27,10 @@ import {
   UpsertEntityResponse,
   DeleteTableEntityResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
+import {
+  GeneratedClientOptionalParams,
+  QueryOptions as GeneratedQueryOptions
+} from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
   TablesSharedKeyCredential,
@@ -40,19 +43,14 @@ import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { Pipeline } from "@azure/core-https";
-import {
-  ClientPipelineOptions,
-  createClientPipeline,
-  FullOperationResponse
-} from "@azure/core-client";
+import { FullOperationResponse } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
 import { InternalBatchClientOptions } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
-import { parseXML } from "@azure/core-xml";
+import { parseXML, stringifyXML } from "@azure/core-xml";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -146,16 +144,18 @@ export class TableClient {
       clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
     }
 
-    let pipeline: Pipeline;
+    let internalPipelineOptions: GeneratedClientOptionalParams = {
+      ...clientOptions
+    };
 
     if (isInternalClientOptions(clientOptions)) {
-      // The client is meant to be an intercept client, so we need to create only the intercepting
+      // The client is meant to be an intercept client (for Batch operations), so we need to create only the intercepting
       // pipelines.
-      pipeline = clientOptions.innerBatchRequest.createPipeline();
+      internalPipelineOptions.pipeline = clientOptions.innerBatchRequest.createPipeline();
     } else {
-      // The client is meant to be a regular service client, so we need to create the regular set of pipelines
-      const internalPipelineOptions: ClientPipelineOptions = {
-        ...clientOptions,
+      // The client is a regular client (non-batch), pass the pipeline options to create a pipeline
+      internalPipelineOptions = {
+        ...internalPipelineOptions,
         ...{
           loggingOptions: {
             logger: logger.info,
@@ -163,20 +163,21 @@ export class TableClient {
           },
           deserializationOptions: {
             parseXML
+          },
+          serializationOptions: {
+            stringifyXML
           }
         }
       };
-      pipeline = createClientPipeline(internalPipelineOptions);
-
-      if (credential) {
-        pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
-      }
     }
 
     this.tableName = tableName;
     this.credential = credential;
-    const { table } = new GeneratedClient(url, { pipeline });
-    this.table = table;
+    const generatedClient = new GeneratedClient(url, internalPipelineOptions);
+    if (credential) {
+      generatedClient.pipeline.addPolicy(tablesSharedKeyCredentialPolicy(credential));
+    }
+    this.table = generatedClient.table;
   }
 
   /**
@@ -189,7 +190,7 @@ export class TableClient {
     try {
       return await this.table.delete(this.tableName, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -206,7 +207,7 @@ export class TableClient {
     try {
       return await this.table.create({ tableName: this.tableName }, updatedOptions);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -246,7 +247,7 @@ export class TableClient {
 
       return tableEntity;
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -273,7 +274,7 @@ export class TableClient {
         return this;
       },
       byPage: (settings) => {
-        const pageOptions = {
+        const pageOptions: InternalListTableEntitiesOptions = {
           ...options,
           queryOptions: { ...options.queryOptions, top: settings?.maxPageSize }
         };
@@ -323,7 +324,7 @@ export class TableClient {
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -375,7 +376,7 @@ export class TableClient {
         responsePreference: "return-no-content"
       });
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -410,7 +411,7 @@ export class TableClient {
         deleteOptions
       );
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -456,7 +457,7 @@ export class TableClient {
 
       throw new Error(`Unexpected value for update mode: ${mode}`);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -503,7 +504,7 @@ export class TableClient {
       }
       throw new Error(`Unexpected value for update mode: ${mode}`);
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();
@@ -571,10 +572,11 @@ export class TableClient {
   }
 }
 
+type InternalQueryOptions = TableEntityQueryOptions & { top?: number };
+interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
+  queryOptions?: InternalQueryOptions;
+}
+
 function isInternalClientOptions(options: any): options is InternalBatchClientOptions {
   return Boolean(options.innerBatchRequest);
 }
-
-type InternalListTableEntitiesOptions = ListTableEntitiesOptions & {
-  queryOptions?: TableEntityQueryOptions & { top?: number };
-};

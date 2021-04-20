@@ -98,7 +98,7 @@ export interface AnomalyAlertingConfiguration {
    *
    * should be specified when setting up multiple metric alerting configurations
    */
-  crossMetricsOperator?: AnomalyAlertingConfigurationCrossMetricsOperator;
+  crossMetricsOperator?: CrossMetricsOperator;
   /** hook unique ids */
   hookIds: string[];
   /** Anomaly alerting configurations */
@@ -184,7 +184,7 @@ export interface AnomalyAlertingConfigurationPatch {
   /** anomaly alerting configuration description */
   description?: string;
   /** cross metrics operator */
-  crossMetricsOperator?: AnomalyAlertingConfigurationPatchCrossMetricsOperator;
+  crossMetricsOperator?: CrossMetricsOperator;
   /** hook unique ids */
   hookIds?: string[];
   /** Anomaly alerting configurations */
@@ -278,7 +278,7 @@ export interface AnomalyProperty {
    * only return for alerting anomaly result
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly anomalyStatus?: AnomalyPropertyAnomalyStatus;
+  readonly anomalyStatus?: AnomalyStatus;
 }
 
 export interface IncidentResultList {
@@ -325,7 +325,7 @@ export interface IncidentProperty {
    * only return for alerting incident result
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly incidentStatus?: IncidentPropertyIncidentStatus;
+  readonly incidentStatus?: IncidentStatus;
 }
 
 export interface AnomalyDetectionConfiguration {
@@ -353,7 +353,7 @@ export interface WholeMetricConfiguration {
    *
    * should be specified when combining multiple detection conditions
    */
-  conditionOperator?: WholeMetricConfigurationConditionOperator;
+  conditionOperator?: ConditionOperator;
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -414,7 +414,7 @@ export interface DimensionGroupConfiguration {
    *
    * should be specified when combining multiple detection conditions
    */
-  conditionOperator?: DimensionGroupConfigurationConditionOperator;
+  conditionOperator?: ConditionOperator;
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -427,7 +427,7 @@ export interface SeriesConfiguration {
    *
    * should be specified when combining multiple detection conditions
    */
-  conditionOperator?: SeriesConfigurationConditionOperator;
+  conditionOperator?: ConditionOperator;
   smartDetectionCondition?: SmartDetectionCondition;
   hardThresholdCondition?: HardThresholdCondition;
   changeThresholdCondition?: ChangeThresholdCondition;
@@ -598,7 +598,7 @@ export interface DataFeedDetail {
   /** mark if the data feed need rollup */
   needRollup?: NeedRollupEnum;
   /** roll up method */
-  rollUpMethod?: DataFeedDetailRollUpMethod;
+  rollUpMethod?: RollUpMethod;
   /** roll up columns */
   rollUpColumns?: string[];
   /** the identification value for the row of calculated all-up value. */
@@ -627,7 +627,7 @@ export interface DataFeedDetail {
    * data feed status
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: DataFeedDetailStatus;
+  readonly status?: Status;
   /**
    * data feed created time
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -693,25 +693,25 @@ export interface DataFeedDetailPatch {
   /** stop retry data ingestion after the data slice first schedule time in seconds. */
   stopRetryAfterInSeconds?: number;
   /** mark if the data feed need rollup */
-  needRollup?: DataFeedDetailPatchNeedRollup;
+  needRollup?: NeedRollup;
   /** roll up method */
-  rollUpMethod?: DataFeedDetailPatchRollUpMethod;
+  rollUpMethod?: RollUpMethod;
   /** roll up columns */
   rollUpColumns?: string[];
   /** the identification value for the row of calculated all-up value. */
   allUpIdentification?: string;
   /** the type of fill missing point for anomaly detection */
-  fillMissingPointType?: DataFeedDetailPatchFillMissingPointType;
+  fillMissingPointType?: FillMissingPointType;
   /** the value of fill missing point for anomaly detection */
   fillMissingPointValue?: number;
   /** data feed access mode, default is Private */
-  viewMode?: DataFeedDetailPatchViewMode;
+  viewMode?: ViewMode;
   /** data feed administrator */
   admins?: string[];
   /** data feed viewer */
   viewers?: string[];
   /** data feed status */
-  status?: DataFeedDetailPatchStatus;
+  status?: Status;
   /** action link for alert */
   actionLinkTemplate?: string;
 }
@@ -1361,683 +1361,91 @@ export interface GeneratedClientCreateHookHeaders {
   location?: string;
 }
 
-/** Known values of {@link AnomalyAlertingConfigurationCrossMetricsOperator} that the service accepts. */
-export const enum KnownAnomalyAlertingConfigurationCrossMetricsOperator {
-  AND = "AND",
-  OR = "OR",
-  XOR = "XOR"
-}
-
-/**
- * Defines values for AnomalyAlertingConfigurationCrossMetricsOperator. \
- * {@link KnownAnomalyAlertingConfigurationCrossMetricsOperator} can be used interchangeably with AnomalyAlertingConfigurationCrossMetricsOperator,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AND** \
- * **OR** \
- * **XOR**
- */
-export type AnomalyAlertingConfigurationCrossMetricsOperator = string;
-
-/** Known values of {@link AnomalyScope} that the service accepts. */
-export const enum KnownAnomalyScope {
-  All = "All",
-  Dimension = "Dimension",
-  TopN = "TopN"
-}
-
-/**
- * Defines values for AnomalyScope. \
- * {@link KnownAnomalyScope} can be used interchangeably with AnomalyScope,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **All** \
- * **Dimension** \
- * **TopN**
- */
-export type AnomalyScope = string;
-
-/** Known values of {@link Severity} that the service accepts. */
-export const enum KnownSeverity {
-  Low = "Low",
-  Medium = "Medium",
-  High = "High"
-}
-
-/**
- * Defines values for Severity. \
- * {@link KnownSeverity} can be used interchangeably with Severity,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Low** \
- * **Medium** \
- * **High**
- */
-export type Severity = string;
-
-/** Known values of {@link SnoozeScope} that the service accepts. */
-export const enum KnownSnoozeScope {
-  Metric = "Metric",
-  Series = "Series"
-}
-
-/**
- * Defines values for SnoozeScope. \
- * {@link KnownSnoozeScope} can be used interchangeably with SnoozeScope,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Metric** \
- * **Series**
- */
-export type SnoozeScope = string;
-
-/** Known values of {@link Direction} that the service accepts. */
-export const enum KnownDirection {
-  Both = "Both",
-  Down = "Down",
-  Up = "Up"
-}
-
-/**
- * Defines values for Direction. \
- * {@link KnownDirection} can be used interchangeably with Direction,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Both** \
- * **Down** \
- * **Up**
- */
-export type Direction = string;
-
-/** Known values of {@link AnomalyAlertingConfigurationPatchCrossMetricsOperator} that the service accepts. */
-export const enum KnownAnomalyAlertingConfigurationPatchCrossMetricsOperator {
-  AND = "AND",
-  OR = "OR",
-  XOR = "XOR"
-}
-
-/**
- * Defines values for AnomalyAlertingConfigurationPatchCrossMetricsOperator. \
- * {@link KnownAnomalyAlertingConfigurationPatchCrossMetricsOperator} can be used interchangeably with AnomalyAlertingConfigurationPatchCrossMetricsOperator,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AND** \
- * **OR** \
- * **XOR**
- */
-export type AnomalyAlertingConfigurationPatchCrossMetricsOperator = string;
-
-/** Known values of {@link TimeMode} that the service accepts. */
-export const enum KnownTimeMode {
-  AnomalyTime = "AnomalyTime",
-  CreatedTime = "CreatedTime",
-  ModifiedTime = "ModifiedTime"
-}
-
-/**
- * Defines values for TimeMode. \
- * {@link KnownTimeMode} can be used interchangeably with TimeMode,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AnomalyTime** \
- * **CreatedTime** \
- * **ModifiedTime**
- */
-export type TimeMode = string;
-
-/** Known values of {@link AnomalyPropertyAnomalyStatus} that the service accepts. */
-export const enum KnownAnomalyPropertyAnomalyStatus {
-  Active = "Active",
-  Resolved = "Resolved"
-}
-
-/**
- * Defines values for AnomalyPropertyAnomalyStatus. \
- * {@link KnownAnomalyPropertyAnomalyStatus} can be used interchangeably with AnomalyPropertyAnomalyStatus,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Active** \
- * **Resolved**
- */
-export type AnomalyPropertyAnomalyStatus = string;
-
-/** Known values of {@link IncidentPropertyIncidentStatus} that the service accepts. */
-export const enum KnownIncidentPropertyIncidentStatus {
-  Active = "Active",
-  Resolved = "Resolved"
-}
-
-/**
- * Defines values for IncidentPropertyIncidentStatus. \
- * {@link KnownIncidentPropertyIncidentStatus} can be used interchangeably with IncidentPropertyIncidentStatus,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Active** \
- * **Resolved**
- */
-export type IncidentPropertyIncidentStatus = string;
-
-/** Known values of {@link WholeMetricConfigurationConditionOperator} that the service accepts. */
-export const enum KnownWholeMetricConfigurationConditionOperator {
-  AND = "AND",
-  OR = "OR"
-}
-
-/**
- * Defines values for WholeMetricConfigurationConditionOperator. \
- * {@link KnownWholeMetricConfigurationConditionOperator} can be used interchangeably with WholeMetricConfigurationConditionOperator,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AND** \
- * **OR**
- */
-export type WholeMetricConfigurationConditionOperator = string;
-
-/** Known values of {@link AnomalyDetectorDirection} that the service accepts. */
-export const enum KnownAnomalyDetectorDirection {
-  Both = "Both",
-  Down = "Down",
-  Up = "Up"
-}
-
-/**
- * Defines values for AnomalyDetectorDirection. \
- * {@link KnownAnomalyDetectorDirection} can be used interchangeably with AnomalyDetectorDirection,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Both** \
- * **Down** \
- * **Up**
- */
-export type AnomalyDetectorDirection = string;
-
-/** Known values of {@link DimensionGroupConfigurationConditionOperator} that the service accepts. */
-export const enum KnownDimensionGroupConfigurationConditionOperator {
-  AND = "AND",
-  OR = "OR"
-}
-
-/**
- * Defines values for DimensionGroupConfigurationConditionOperator. \
- * {@link KnownDimensionGroupConfigurationConditionOperator} can be used interchangeably with DimensionGroupConfigurationConditionOperator,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AND** \
- * **OR**
- */
-export type DimensionGroupConfigurationConditionOperator = string;
-
-/** Known values of {@link SeriesConfigurationConditionOperator} that the service accepts. */
-export const enum KnownSeriesConfigurationConditionOperator {
-  AND = "AND",
-  OR = "OR"
-}
-
-/**
- * Defines values for SeriesConfigurationConditionOperator. \
- * {@link KnownSeriesConfigurationConditionOperator} can be used interchangeably with SeriesConfigurationConditionOperator,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AND** \
- * **OR**
- */
-export type SeriesConfigurationConditionOperator = string;
-
-/** Known values of {@link DataSourceType} that the service accepts. */
-export const enum KnownDataSourceType {
-  AzureApplicationInsights = "AzureApplicationInsights",
-  AzureBlob = "AzureBlob",
-  AzureCosmosDB = "AzureCosmosDB",
-  AzureDataExplorer = "AzureDataExplorer",
-  AzureDataLakeStorageGen2 = "AzureDataLakeStorageGen2",
-  AzureTable = "AzureTable",
-  Elasticsearch = "Elasticsearch",
-  HttpRequest = "HttpRequest",
-  InfluxDB = "InfluxDB",
-  MongoDB = "MongoDB",
-  MySql = "MySql",
-  PostgreSql = "PostgreSql",
-  SqlServer = "SqlServer"
-}
-
-/**
- * Defines values for DataSourceType. \
- * {@link KnownDataSourceType} can be used interchangeably with DataSourceType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AzureApplicationInsights** \
- * **AzureBlob** \
- * **AzureCosmosDB** \
- * **AzureDataExplorer** \
- * **AzureDataLakeStorageGen2** \
- * **AzureTable** \
- * **Elasticsearch** \
- * **HttpRequest** \
- * **InfluxDB** \
- * **MongoDB** \
- * **MySql** \
- * **PostgreSql** \
- * **SqlServer**
- */
-export type DataSourceType = string;
-
-/** Known values of {@link Granularity} that the service accepts. */
-export const enum KnownGranularity {
-  Yearly = "Yearly",
-  Monthly = "Monthly",
-  Weekly = "Weekly",
-  Daily = "Daily",
-  Hourly = "Hourly",
-  Minutely = "Minutely",
-  Secondly = "Secondly",
-  Custom = "Custom"
-}
-
-/**
- * Defines values for Granularity. \
- * {@link KnownGranularity} can be used interchangeably with Granularity,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Yearly** \
- * **Monthly** \
- * **Weekly** \
- * **Daily** \
- * **Hourly** \
- * **Minutely** \
- * **Secondly** \
- * **Custom**
- */
-export type Granularity = string;
-
-/** Known values of {@link EntityStatus} that the service accepts. */
-export const enum KnownEntityStatus {
-  Active = "Active",
-  Paused = "Paused"
-}
-
-/**
- * Defines values for EntityStatus. \
- * {@link KnownEntityStatus} can be used interchangeably with EntityStatus,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Active** \
- * **Paused**
- */
-export type EntityStatus = string;
-
-/** Known values of {@link NeedRollupEnum} that the service accepts. */
-export const enum KnownNeedRollupEnum {
-  NoRollup = "NoRollup",
-  NeedRollup = "NeedRollup",
-  AlreadyRollup = "AlreadyRollup"
-}
-
-/**
- * Defines values for NeedRollupEnum. \
- * {@link KnownNeedRollupEnum} can be used interchangeably with NeedRollupEnum,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **NoRollup** \
- * **NeedRollup** \
- * **AlreadyRollup**
- */
-export type NeedRollupEnum = string;
-
-/** Known values of {@link DataFeedDetailRollUpMethod} that the service accepts. */
-export const enum KnownDataFeedDetailRollUpMethod {
-  None = "None",
-  Sum = "Sum",
-  Max = "Max",
-  Min = "Min",
-  Avg = "Avg",
-  Count = "Count"
-}
-
-/**
- * Defines values for DataFeedDetailRollUpMethod. \
- * {@link KnownDataFeedDetailRollUpMethod} can be used interchangeably with DataFeedDetailRollUpMethod,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **None** \
- * **Sum** \
- * **Max** \
- * **Min** \
- * **Avg** \
- * **Count**
- */
-export type DataFeedDetailRollUpMethod = string;
-
-/** Known values of {@link FillMissingPointType} that the service accepts. */
-export const enum KnownFillMissingPointType {
-  SmartFilling = "SmartFilling",
-  PreviousValue = "PreviousValue",
-  CustomValue = "CustomValue",
-  NoFilling = "NoFilling"
-}
-
-/**
- * Defines values for FillMissingPointType. \
- * {@link KnownFillMissingPointType} can be used interchangeably with FillMissingPointType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **SmartFilling** \
- * **PreviousValue** \
- * **CustomValue** \
- * **NoFilling**
- */
-export type FillMissingPointType = string;
-
-/** Known values of {@link ViewMode} that the service accepts. */
-export const enum KnownViewMode {
-  Private = "Private",
-  Public = "Public"
-}
-
-/**
- * Defines values for ViewMode. \
- * {@link KnownViewMode} can be used interchangeably with ViewMode,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Private** \
- * **Public**
- */
-export type ViewMode = string;
-
-/** Known values of {@link DataFeedDetailStatus} that the service accepts. */
-export const enum KnownDataFeedDetailStatus {
-  Active = "Active",
-  Paused = "Paused"
-}
-
-/**
- * Defines values for DataFeedDetailStatus. \
- * {@link KnownDataFeedDetailStatus} can be used interchangeably with DataFeedDetailStatus,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Active** \
- * **Paused**
- */
-export type DataFeedDetailStatus = string;
-
-/** Known values of {@link DataFeedDetailPatchDataSourceType} that the service accepts. */
-export const enum KnownDataFeedDetailPatchDataSourceType {
-  AzureApplicationInsights = "AzureApplicationInsights",
-  AzureBlob = "AzureBlob",
-  AzureCosmosDB = "AzureCosmosDB",
-  AzureDataExplorer = "AzureDataExplorer",
-  AzureDataLakeStorageGen2 = "AzureDataLakeStorageGen2",
-  AzureTable = "AzureTable",
-  Elasticsearch = "Elasticsearch",
-  HttpRequest = "HttpRequest",
-  InfluxDB = "InfluxDB",
-  MongoDB = "MongoDB",
-  MySql = "MySql",
-  PostgreSql = "PostgreSql",
-  SqlServer = "SqlServer"
-}
-
-/**
- * Defines values for DataFeedDetailPatchDataSourceType. \
- * {@link KnownDataFeedDetailPatchDataSourceType} can be used interchangeably with DataFeedDetailPatchDataSourceType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AzureApplicationInsights** \
- * **AzureBlob** \
- * **AzureCosmosDB** \
- * **AzureDataExplorer** \
- * **AzureDataLakeStorageGen2** \
- * **AzureTable** \
- * **Elasticsearch** \
- * **HttpRequest** \
- * **InfluxDB** \
- * **MongoDB** \
- * **MySql** \
- * **PostgreSql** \
- * **SqlServer**
- */
-export type DataFeedDetailPatchDataSourceType = string;
-
-/** Known values of {@link DataFeedDetailPatchNeedRollup} that the service accepts. */
-export const enum KnownDataFeedDetailPatchNeedRollup {
-  NoRollup = "NoRollup",
-  NeedRollup = "NeedRollup",
-  AlreadyRollup = "AlreadyRollup"
-}
-
-/**
- * Defines values for DataFeedDetailPatchNeedRollup. \
- * {@link KnownDataFeedDetailPatchNeedRollup} can be used interchangeably with DataFeedDetailPatchNeedRollup,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **NoRollup** \
- * **NeedRollup** \
- * **AlreadyRollup**
- */
-export type DataFeedDetailPatchNeedRollup = string;
-
-/** Known values of {@link DataFeedDetailPatchRollUpMethod} that the service accepts. */
-export const enum KnownDataFeedDetailPatchRollUpMethod {
-  None = "None",
-  Sum = "Sum",
-  Max = "Max",
-  Min = "Min",
-  Avg = "Avg",
-  Count = "Count"
-}
-
-/**
- * Defines values for DataFeedDetailPatchRollUpMethod. \
- * {@link KnownDataFeedDetailPatchRollUpMethod} can be used interchangeably with DataFeedDetailPatchRollUpMethod,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **None** \
- * **Sum** \
- * **Max** \
- * **Min** \
- * **Avg** \
- * **Count**
- */
-export type DataFeedDetailPatchRollUpMethod = string;
-
-/** Known values of {@link DataFeedDetailPatchFillMissingPointType} that the service accepts. */
-export const enum KnownDataFeedDetailPatchFillMissingPointType {
-  SmartFilling = "SmartFilling",
-  PreviousValue = "PreviousValue",
-  CustomValue = "CustomValue",
-  NoFilling = "NoFilling"
-}
-
-/**
- * Defines values for DataFeedDetailPatchFillMissingPointType. \
- * {@link KnownDataFeedDetailPatchFillMissingPointType} can be used interchangeably with DataFeedDetailPatchFillMissingPointType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **SmartFilling** \
- * **PreviousValue** \
- * **CustomValue** \
- * **NoFilling**
- */
-export type DataFeedDetailPatchFillMissingPointType = string;
-
-/** Known values of {@link DataFeedDetailPatchViewMode} that the service accepts. */
-export const enum KnownDataFeedDetailPatchViewMode {
-  Private = "Private",
-  Public = "Public"
-}
-
-/**
- * Defines values for DataFeedDetailPatchViewMode. \
- * {@link KnownDataFeedDetailPatchViewMode} can be used interchangeably with DataFeedDetailPatchViewMode,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Private** \
- * **Public**
- */
-export type DataFeedDetailPatchViewMode = string;
-
-/** Known values of {@link DataFeedDetailPatchStatus} that the service accepts. */
-export const enum KnownDataFeedDetailPatchStatus {
-  Active = "Active",
-  Paused = "Paused"
-}
-
-/**
- * Defines values for DataFeedDetailPatchStatus. \
- * {@link KnownDataFeedDetailPatchStatus} can be used interchangeably with DataFeedDetailPatchStatus,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Active** \
- * **Paused**
- */
-export type DataFeedDetailPatchStatus = string;
-
-/** Known values of {@link FeedbackType} that the service accepts. */
-export const enum KnownFeedbackType {
-  Anomaly = "Anomaly",
-  ChangePoint = "ChangePoint",
-  Period = "Period",
-  Comment = "Comment"
-}
-
-/**
- * Defines values for FeedbackType. \
- * {@link KnownFeedbackType} can be used interchangeably with FeedbackType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Anomaly** \
- * **ChangePoint** \
- * **Period** \
- * **Comment**
- */
-export type FeedbackType = string;
-
-/** Known values of {@link FeedbackQueryTimeMode} that the service accepts. */
-export const enum KnownFeedbackQueryTimeMode {
-  MetricTimestamp = "MetricTimestamp",
-  FeedbackCreatedTime = "FeedbackCreatedTime"
-}
-
-/**
- * Defines values for FeedbackQueryTimeMode. \
- * {@link KnownFeedbackQueryTimeMode} can be used interchangeably with FeedbackQueryTimeMode,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **MetricTimestamp** \
- * **FeedbackCreatedTime**
- */
-export type FeedbackQueryTimeMode = string;
-
-/** Known values of {@link HookType} that the service accepts. */
-export const enum KnownHookType {
-  Webhook = "Webhook",
-  Email = "Email"
-}
-
-/**
- * Defines values for HookType. \
- * {@link KnownHookType} can be used interchangeably with HookType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Webhook** \
- * **Email**
- */
-export type HookType = string;
-
-/** Known values of {@link HookInfoPatchHookType} that the service accepts. */
-export const enum KnownHookInfoPatchHookType {
-  Webhook = "Webhook",
-  Email = "Email"
-}
-
-/**
- * Defines values for HookInfoPatchHookType. \
- * {@link KnownHookInfoPatchHookType} can be used interchangeably with HookInfoPatchHookType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **Webhook** \
- * **Email**
- */
-export type HookInfoPatchHookType = string;
-
-/** Known values of {@link IngestionStatusType} that the service accepts. */
-export const enum KnownIngestionStatusType {
-  NotStarted = "NotStarted",
-  Scheduled = "Scheduled",
-  Running = "Running",
-  Succeeded = "Succeeded",
-  Failed = "Failed",
-  NoData = "NoData",
-  Error = "Error",
-  Paused = "Paused"
-}
-
-/**
- * Defines values for IngestionStatusType. \
- * {@link KnownIngestionStatusType} can be used interchangeably with IngestionStatusType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **NotStarted** \
- * **Scheduled** \
- * **Running** \
- * **Succeeded** \
- * **Failed** \
- * **NoData** \
- * **Error** \
- * **Paused**
- */
-export type IngestionStatusType = string;
-
-/** Known values of {@link AnomalyValue} that the service accepts. */
-export const enum KnownAnomalyValue {
-  AutoDetect = "AutoDetect",
-  Anomaly = "Anomaly",
-  NotAnomaly = "NotAnomaly"
-}
-
-/**
- * Defines values for AnomalyValue. \
- * {@link KnownAnomalyValue} can be used interchangeably with AnomalyValue,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AutoDetect** \
- * **Anomaly** \
- * **NotAnomaly**
- */
-export type AnomalyValue = string;
-
-/** Known values of {@link ChangePointValue} that the service accepts. */
-export const enum KnownChangePointValue {
-  AutoDetect = "AutoDetect",
-  ChangePoint = "ChangePoint",
-  NotChangePoint = "NotChangePoint"
-}
-
-/**
- * Defines values for ChangePointValue. \
- * {@link KnownChangePointValue} can be used interchangeably with ChangePointValue,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AutoDetect** \
- * **ChangePoint** \
- * **NotChangePoint**
- */
-export type ChangePointValue = string;
-
-/** Known values of {@link PeriodType} that the service accepts. */
-export const enum KnownPeriodType {
-  AutoDetect = "AutoDetect",
-  AssignValue = "AssignValue"
-}
-
-/**
- * Defines values for PeriodType. \
- * {@link KnownPeriodType} can be used interchangeably with PeriodType,
- *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **AutoDetect** \
- * **AssignValue**
- */
-export type PeriodType = string;
+/** Defines values for CrossMetricsOperator. */
+export type CrossMetricsOperator = "AND" | "OR" | "XOR";
+/** Defines values for AnomalyScope. */
+export type AnomalyScope = "All" | "Dimension" | "TopN";
+/** Defines values for Severity. */
+export type Severity = "Low" | "Medium" | "High";
+/** Defines values for SnoozeScope. */
+export type SnoozeScope = "Metric" | "Series";
+/** Defines values for Direction. */
+export type Direction = "Both" | "Down" | "Up";
+/** Defines values for TimeMode. */
+export type TimeMode = "AnomalyTime" | "CreatedTime" | "ModifiedTime";
+/** Defines values for AnomalyStatus. */
+export type AnomalyStatus = "Active" | "Resolved";
+/** Defines values for IncidentStatus. */
+export type IncidentStatus = "Active" | "Resolved";
+/** Defines values for ConditionOperator. */
+export type ConditionOperator = "AND" | "OR";
+/** Defines values for AnomalyDetectorDirection. */
+export type AnomalyDetectorDirection = "Both" | "Down" | "Up";
+/** Defines values for DataSourceType. */
+export type DataSourceType =
+  | "AzureApplicationInsights"
+  | "AzureBlob"
+  | "AzureCosmosDB"
+  | "AzureDataExplorer"
+  | "AzureDataLakeStorageGen2"
+  | "AzureTable"
+  | "Elasticsearch"
+  | "HttpRequest"
+  | "InfluxDB"
+  | "MongoDB"
+  | "MySql"
+  | "PostgreSql"
+  | "SqlServer";
+/** Defines values for Granularity. */
+export type Granularity =
+  | "Yearly"
+  | "Monthly"
+  | "Weekly"
+  | "Daily"
+  | "Hourly"
+  | "Minutely"
+  | "Secondly"
+  | "Custom";
+/** Defines values for EntityStatus. */
+export type EntityStatus = "Active" | "Paused";
+/** Defines values for NeedRollupEnum. */
+export type NeedRollupEnum = "NoRollup" | "NeedRollup" | "AlreadyRollup";
+/** Defines values for RollUpMethod. */
+export type RollUpMethod = "None" | "Sum" | "Max" | "Min" | "Avg" | "Count";
+/** Defines values for FillMissingPointType. */
+export type FillMissingPointType =
+  | "SmartFilling"
+  | "PreviousValue"
+  | "CustomValue"
+  | "NoFilling";
+/** Defines values for ViewMode. */
+export type ViewMode = "Private" | "Public";
+/** Defines values for Status. */
+export type Status = "Active" | "Paused";
+/** Defines values for NeedRollup. */
+export type NeedRollup = "NoRollup" | "NeedRollup" | "AlreadyRollup";
+/** Defines values for FeedbackType. */
+export type FeedbackType = "Anomaly" | "ChangePoint" | "Period" | "Comment";
+/** Defines values for FeedbackQueryTimeMode. */
+export type FeedbackQueryTimeMode = "MetricTimestamp" | "FeedbackCreatedTime";
+/** Defines values for HookType. */
+export type HookType = "Webhook" | "Email";
+/** Defines values for IngestionStatusType. */
+export type IngestionStatusType =
+  | "NotStarted"
+  | "Scheduled"
+  | "Running"
+  | "Succeeded"
+  | "Failed"
+  | "NoData"
+  | "Error"
+  | "Paused";
+/** Defines values for AnomalyValue. */
+export type AnomalyValue = "AutoDetect" | "Anomaly" | "NotAnomaly";
+/** Defines values for ChangePointValue. */
+export type ChangePointValue = "AutoDetect" | "ChangePoint" | "NotChangePoint";
+/** Defines values for PeriodType. */
+export type PeriodType = "AutoDetect" | "AssignValue";
 
 /** Contains response data for the getActiveSeriesCount operation. */
 export type GeneratedClientGetActiveSeriesCountResponse = UsageStats & {

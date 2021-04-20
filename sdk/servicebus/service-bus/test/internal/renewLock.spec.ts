@@ -81,7 +81,7 @@ describe("Message Lock Renewal", () => {
       await checkWithTimeout(
         async () => {
           [peekedMsg] = await receiver.peekMessages(1);
-          return peekedMsg != undefined;
+          return peekedMsg !== undefined;
         },
         100,
         5000

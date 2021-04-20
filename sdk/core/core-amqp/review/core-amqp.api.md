@@ -5,19 +5,28 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AccessToken } from '@azure/core-auth';
 import { AmqpError } from 'rhea-promise';
 import AsyncLock from 'async-lock';
 import { Connection } from 'rhea-promise';
 import { Message } from 'rhea-promise';
 import { MessageHeader } from 'rhea-promise';
 import { MessageProperties } from 'rhea-promise';
+import { NamedKeyCredential } from '@azure/core-auth';
 import { Receiver } from 'rhea-promise';
 import { ReceiverOptions } from 'rhea-promise';
 import { ReqResLink } from 'rhea-promise';
+import { SASCredential } from '@azure/core-auth';
 import { Sender } from 'rhea-promise';
 import { SenderOptions } from 'rhea-promise';
 import { Session } from 'rhea-promise';
 import { WebSocketImpl } from 'rhea-promise';
+
+// @public
+export interface AcquireLockProperties {
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number | undefined;
+}
 
 // @public
 export interface AmqpAnnotatedMessage {
@@ -25,6 +34,7 @@ export interface AmqpAnnotatedMessage {
         [key: string]: any;
     };
     body: any;
+    bodyType?: "data" | "sequence" | "value";
     deliveryAnnotations?: {
         [key: string]: any;
     };
@@ -41,6 +51,7 @@ export interface AmqpAnnotatedMessage {
 // @public
 export const AmqpAnnotatedMessage: {
     fromRheaMessage(msg: Message): AmqpAnnotatedMessage;
+    toRheaMessage(msg: AmqpAnnotatedMessage): Message;
 };
 
 // @public
@@ -83,6 +94,11 @@ export const AmqpMessageProperties: {
 export { AsyncLock }
 
 // @public
+export interface CancellableAsyncLock {
+    acquire<T = void>(key: string, task: (...args: any[]) => Promise<T>, properties: AcquireLockProperties): Promise<T>;
+}
+
+// @public
 export class CbsClient {
     constructor(connection: Connection, connectionLock: string);
     readonly cbsLock: string;
@@ -90,8 +106,15 @@ export class CbsClient {
     connection: Connection;
     readonly connectionLock: string;
     readonly endpoint: string;
-    init(): Promise<void>;
-    negotiateClaim(audience: string, token: string, tokenType: TokenType): Promise<CbsResponse>;
+    init(options?: {
+        abortSignal?: AbortSignalLike;
+        timeoutInMs?: number;
+    }): Promise<void>;
+    isOpen(): boolean;
+    negotiateClaim(audience: string, token: string, tokenType: TokenType, options?: {
+        abortSignal?: AbortSignalLike;
+        timeoutInMs?: number;
+    }): Promise<CbsResponse>;
     remove(): void;
     readonly replyTo: string;
 }
@@ -335,6 +358,17 @@ export interface CreateConnectionContextBaseParameters {
 }
 
 // @public
+export function createSasTokenProvider(data: {
+    sharedAccessKeyName: string;
+    sharedAccessKey: string;
+} | {
+    sharedAccessSignature: string;
+} | NamedKeyCredential | SASCredential): SasTokenProvider;
+
+// @public
+export const defaultCancellableLock: CancellableAsyncLock;
+
+// @public
 export const defaultLock: AsyncLock;
 
 // @public
@@ -393,7 +427,10 @@ export enum ErrorNameConditionMapper {
 export function isMessagingError(error: Error | MessagingError): error is MessagingError;
 
 // @public
-export function isSystemError(err: any): err is NetworkSystemError;
+export function isSasTokenProvider(thing: unknown): thing is SasTokenProvider;
+
+// @public
+export function isSystemError(err: unknown): err is NetworkSystemError;
 
 // @public
 export const logger: import("@azure/logger").AzureLogger;
@@ -446,7 +483,9 @@ export class RequestResponseLink implements ReqResLink {
     constructor(session: Session, sender: Sender, receiver: Receiver);
     close(): Promise<void>;
     get connection(): Connection;
-    static create(connection: Connection, senderOptions: SenderOptions, receiverOptions: ReceiverOptions): Promise<RequestResponseLink>;
+    static create(connection: Connection, senderOptions: SenderOptions, receiverOptions: ReceiverOptions, createOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<RequestResponseLink>;
     isOpen(): boolean;
     // (undocumented)
     receiver: Receiver;
@@ -491,6 +530,8 @@ export enum RetryOperationType {
     // (undocumented)
     management = "management",
     // (undocumented)
+    messageSettlement = "settlement",
+    // (undocumented)
     receiveMessage = "receiveMessage",
     // (undocumented)
     receiverLink = "receiverLink",
@@ -512,11 +553,20 @@ export interface RetryOptions {
 }
 
 // @public
+export interface SasTokenProvider {
+    getToken(audience: string): AccessToken;
+    isSasTokenProvider: true;
+}
+
+// @public
 export interface SendRequestOptions {
     abortSignal?: AbortSignalLike;
     requestName?: string;
     timeoutInMs?: number;
 }
+
+// @public
+export const StandardAbortMessage = "The operation was aborted.";
 
 // @public
 export enum SystemErrorConditionMapper {

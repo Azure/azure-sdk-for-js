@@ -148,6 +148,7 @@ sdk/cosmosdb/cosmos/lib
 *.test.js
 *.test.js.map
 *lintReport.html
+tsdoc-metadata.json
 
 # autorest generated files
 swagger/*.json

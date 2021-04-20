@@ -41,21 +41,25 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     resumeFrom?: string;
     contentType?: FormContentType;
     language?: string;
+    readingOrder?: ReadingOrder;
     pages?: string[];
 };
 
 // @public
 export interface BeginRecognizeCustomFormsOptions extends BeginRecognizeFormsOptions {
-    contentType?: Exclude<FormContentType, "image/bmp">;
 }
 
 // @public
-export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
-    updateIntervalInMs?: number;
-    onProgress?: (state: RecognizeFormsOperationState) => void;
-    resumeFrom?: string;
+export interface BeginRecognizeFormsOptions extends RecognizeFormsOptions {
     contentType?: FormContentType;
-};
+    onProgress?: (state: RecognizeFormsOperationState) => void;
+    pages?: string[];
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BeginRecognizeIdDocumentsOptions = BeginRecognizePrebuiltOptions;
 
 // @public
 export type BeginRecognizeInvoicesOptions = BeginRecognizePrebuiltOptions;
@@ -151,7 +155,28 @@ export interface FieldData {
 }
 
 // @public
+export interface FormArrayField extends FormFieldCommon {
+    value?: FormField[];
+    // (undocumented)
+    valueType: "array";
+}
+
+// @public
 export type FormContentType = "application/pdf" | "image/jpeg" | "image/png" | "image/tiff" | "image/bmp";
+
+// @public
+export interface FormCountryField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "country";
+}
+
+// @public
+export interface FormDateField extends FormFieldCommon {
+    value?: Date;
+    // (undocumented)
+    valueType: "date";
+}
 
 // @public
 export type FormElement = FormWord | FormLine | FormSelectionMark;
@@ -164,44 +189,34 @@ export interface FormElementCommon {
 }
 
 // @public
-export type FormField = {
+export type FormField = FormUnknownField | FormStringField | FormNumberField | FormDateField | FormTimeField | FormPhoneNumberField | FormIntegerField | FormSelectionMarkField | FormArrayField | FormObjectField | FormGenderField | FormCountryField;
+
+// @public
+export interface FormFieldCommon {
     confidence?: number;
     labelData?: FieldData;
     name?: string;
     valueData?: FieldData;
-} & ({
-    value?: string;
-    valueType?: "string";
-} | {
-    value?: number;
-    valueType?: "number";
-} | {
-    value?: Date;
-    valueType?: "date";
-} | {
-    value?: string;
-    valueType?: "time";
-} | {
-    value?: string;
-    valueType?: "phoneNumber";
-} | {
-    value?: number;
-    valueType?: "integer";
-} | {
-    value?: FormField[];
-    valueType?: "array";
-} | {
-    value?: Record<string, FormField>;
-    valueType?: "object";
-} | {
-    value?: SelectionMarkState;
-    valueType?: "selectionMark";
-});
+}
 
 // @public
 export interface FormFieldsReport {
     accuracy: number;
     fieldName: string;
+}
+
+// @public
+export interface FormGenderField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "gender";
+}
+
+// @public
+export interface FormIntegerField extends FormFieldCommon {
+    value?: number;
+    // (undocumented)
+    valueType: "integer";
 }
 
 // @public
@@ -219,6 +234,20 @@ export type FormModelResponse = CustomFormModel & {
         parsedBody: Model;
     };
 };
+
+// @public
+export interface FormNumberField extends FormFieldCommon {
+    value?: number;
+    // (undocumented)
+    valueType: "number";
+}
+
+// @public
+export interface FormObjectField extends FormFieldCommon {
+    value?: Record<string, FormField>;
+    // (undocumented)
+    valueType: "object";
+}
 
 // @public
 export interface FormPage {
@@ -243,6 +272,13 @@ export interface FormPageRange {
 }
 
 // @public
+export interface FormPhoneNumberField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "phoneNumber";
+}
+
+// @public
 export type FormPollerLike = PollerLike<RecognizeFormsOperationState, RecognizedFormArray>;
 
 // @public
@@ -254,6 +290,8 @@ export class FormRecognizerClient {
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
     beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeCustomFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeIdDocuments(idDocument: FormRecognizerRequestBody, options?: BeginRecognizeIdDocumentsOptions): Promise<FormPollerLike>;
+    beginRecognizeIdDocumentsFromUrl(idDocumentUrl: string, options?: BeginRecognizeIdDocumentsOptions): Promise<FormPollerLike>;
     beginRecognizeInvoices(invoice: FormRecognizerRequestBody, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
     beginRecognizeInvoicesFromUrl(invoiceUrl: string, options?: BeginRecognizeInvoicesOptions): Promise<FormPollerLike>;
     beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
@@ -286,6 +324,20 @@ export interface FormSelectionMark extends FormElementCommon {
 }
 
 // @public
+export interface FormSelectionMarkField extends FormFieldCommon {
+    value?: SelectionMarkState;
+    // (undocumented)
+    valueType: "selectionMark";
+}
+
+// @public
+export interface FormStringField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "string";
+}
+
+// @public
 export interface FormTable {
     boundingBox?: Point2D[];
     cells: FormTableCell[];
@@ -310,6 +362,13 @@ export interface FormTableCell {
 }
 
 // @public
+export interface FormTimeField extends FormFieldCommon {
+    value?: string;
+    // (undocumented)
+    valueType: "time";
+}
+
+// @public
 export class FormTrainingClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
     beginCopyModel(modelId: string, target: CopyAuthorization, options?: BeginCopyModelOptions): Promise<PollerLike<CopyModelOperationState, CustomFormModelInfo>>;
@@ -329,6 +388,13 @@ export interface FormTrainingPollOperationOptions<TState extends PollOperationSt
     onProgress?: (state: TState) => void;
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface FormUnknownField extends FormFieldCommon {
+    value?: unknown;
+    // (undocumented)
+    valueType?: undefined;
 }
 
 // @public
@@ -377,6 +443,16 @@ export interface KeyValuePairModel {
 export type KeyValueType = string;
 
 // @public
+export const enum KnownGender {
+    // (undocumented)
+    F = "F",
+    // (undocumented)
+    M = "M",
+    // (undocumented)
+    X = "X"
+}
+
+// @public
 export const enum KnownKeyValueType {
     // (undocumented)
     SelectionMark = "selectionMark",
@@ -387,21 +463,151 @@ export const enum KnownKeyValueType {
 // @public
 export const enum KnownLanguage {
     // (undocumented)
+    Af = "af",
+    // (undocumented)
+    Ast = "ast",
+    // (undocumented)
+    Bi = "bi",
+    // (undocumented)
+    Br = "br",
+    // (undocumented)
+    Ca = "ca",
+    // (undocumented)
+    Ceb = "ceb",
+    // (undocumented)
+    Ch = "ch",
+    // (undocumented)
+    Co = "co",
+    // (undocumented)
+    Crh = "crh",
+    // (undocumented)
+    Cs = "cs",
+    // (undocumented)
+    Csb = "csb",
+    // (undocumented)
+    Da = "da",
+    // (undocumented)
     De = "de",
     // (undocumented)
     En = "en",
     // (undocumented)
     Es = "es",
     // (undocumented)
+    Et = "et",
+    // (undocumented)
+    Eu = "eu",
+    // (undocumented)
+    Fi = "fi",
+    // (undocumented)
+    Fil = "fil",
+    // (undocumented)
+    Fj = "fj",
+    // (undocumented)
     Fr = "fr",
+    // (undocumented)
+    Fur = "fur",
+    // (undocumented)
+    Fy = "fy",
+    // (undocumented)
+    Ga = "ga",
+    // (undocumented)
+    Gd = "gd",
+    // (undocumented)
+    Gil = "gil",
+    // (undocumented)
+    Gl = "gl",
+    // (undocumented)
+    Gv = "gv",
+    // (undocumented)
+    Hni = "hni",
+    // (undocumented)
+    Hsb = "hsb",
+    // (undocumented)
+    Ht = "ht",
+    // (undocumented)
+    Hu = "hu",
+    // (undocumented)
+    Ia = "ia",
+    // (undocumented)
+    Id = "id",
     // (undocumented)
     It = "it",
     // (undocumented)
+    Iu = "iu",
+    // (undocumented)
+    Ja = "ja",
+    // (undocumented)
+    Jv = "jv",
+    // (undocumented)
+    Kaa = "kaa",
+    // (undocumented)
+    Kac = "kac",
+    // (undocumented)
+    Kea = "kea",
+    // (undocumented)
+    Kha = "kha",
+    // (undocumented)
+    Kl = "kl",
+    // (undocumented)
+    Ko = "ko",
+    // (undocumented)
+    Ku = "ku",
+    // (undocumented)
+    Kw = "kw",
+    // (undocumented)
+    Lb = "lb",
+    // (undocumented)
+    Ms = "ms",
+    // (undocumented)
+    Mww = "mww",
+    // (undocumented)
+    Nap = "nap",
+    // (undocumented)
     Nl = "nl",
+    // (undocumented)
+    No = "no",
+    // (undocumented)
+    Oc = "oc",
+    // (undocumented)
+    Pl = "pl",
     // (undocumented)
     Pt = "pt",
     // (undocumented)
-    ZhHans = "zh-Hans"
+    Quc = "quc",
+    // (undocumented)
+    Rm = "rm",
+    // (undocumented)
+    Sco = "sco",
+    // (undocumented)
+    Sl = "sl",
+    // (undocumented)
+    Sq = "sq",
+    // (undocumented)
+    Sv = "sv",
+    // (undocumented)
+    Sw = "sw",
+    // (undocumented)
+    Tet = "tet",
+    // (undocumented)
+    Tr = "tr",
+    // (undocumented)
+    Tt = "tt",
+    // (undocumented)
+    Uz = "uz",
+    // (undocumented)
+    Vo = "vo",
+    // (undocumented)
+    Wae = "wae",
+    // (undocumented)
+    Yua = "yua",
+    // (undocumented)
+    Za = "za",
+    // (undocumented)
+    ZhHans = "zh-Hans",
+    // (undocumented)
+    ZhHant = "zh-Hant",
+    // (undocumented)
+    Zu = "zu"
 }
 
 // @public
@@ -475,6 +681,9 @@ export interface Point2D {
 }
 
 // @public
+export type ReadingOrder = "basic" | "natural";
+
+// @public
 export type RecognizeContentOperationState = PollOperationState<FormPageArray> & {
     status: OperationStatus;
 };
@@ -505,9 +714,9 @@ export interface RecognizeFormsOperationState extends PollOperationState<Recogni
 }
 
 // @public
-export type RecognizeFormsOptions = FormRecognizerOperationOptions & {
+export interface RecognizeFormsOptions extends FormRecognizerOperationOptions {
     includeFieldElements?: boolean;
-};
+}
 
 export { RestResponse }
 

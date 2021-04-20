@@ -445,39 +445,6 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createDataSourceConnections(client: SearchIndexerClient): Promise<void> {
-  const testCaseNames: string[] = ["my-data-source-1", "my-data-source-2"];
-  const dataSourceConnectionNames: string[] = await client.listDataSourceConnectionsNames();
-  const unCommonElements: string[] = dataSourceConnectionNames.filter(
-    (element) => !testCaseNames.includes(element)
-  );
-  if (unCommonElements.length > 0) {
-    // There are datasource connections which are already existing in this subscription.
-    // We do not want to delete them by accident. So, we are returning without further
-    // action. The test cases will fail. Please do not use a subscription which already
-    // has datasource connections for testing.
-    assert.fail("Subscription has other datasource connections not related to this testing.");
-  }
-
-  for (const dataSourceConnectionName of dataSourceConnectionNames) {
-    await client.deleteDataSourceConnection(dataSourceConnectionName);
-  }
-
-  const connectionString: string =
-    "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData";
-  for (let i = 1; i <= 2; i++) {
-    await client.createDataSourceConnection({
-      name: `my-data-source-${i}`,
-      type: "cosmosdb",
-      container: {
-        name: "hotels"
-      },
-      connectionString: connectionString
-    });
-  }
-}
-
-// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function deleteDataSourceConnections(client: SearchIndexerClient): Promise<void> {
   for (let i = 1; i <= 2; i++) {
     await client.deleteDataSourceConnection(`my-data-source-${i}`);

@@ -22,9 +22,11 @@ import {
   UpdateChatMessageRequest,
   ChatThreadListChatParticipantsOptionalParams,
   ChatThreadListChatParticipantsResponse,
+  CommunicationIdentifierModel,
   AddChatParticipantsRequest,
   ChatThreadAddChatParticipantsResponse,
   UpdateChatThreadRequest,
+  ChatThreadGetChatThreadPropertiesResponse,
   ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsNextResponse,
   ChatThreadListChatMessagesNextOptionalParams,
@@ -39,7 +41,7 @@ export class ChatThread {
 
   /**
    * Initialize a new instance of the class ChatThread class.
-   * @param client - Reference to the service client
+   * @param client Reference to the service client
    */
   constructor(client: ChatApiClient) {
     this.client = client;
@@ -47,8 +49,8 @@ export class ChatThread {
 
   /**
    * Gets chat message read receipts for a thread.
-   * @param chatThreadId - Thread id to get the chat message read receipts for.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to get the chat message read receipts for.
+   * @param options The options parameters.
    */
   listChatReadReceipts(
     chatThreadId: string,
@@ -66,9 +68,9 @@ export class ChatThread {
 
   /**
    * Sends a read receipt event to a thread, on behalf of a user.
-   * @param chatThreadId - Thread id to send the read receipt event to.
-   * @param sendReadReceiptRequest - Read receipt details.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to send the read receipt event to.
+   * @param sendReadReceiptRequest Read receipt details.
+   * @param options The options parameters.
    */
   sendChatReadReceipt(
     chatThreadId: string,
@@ -88,9 +90,9 @@ export class ChatThread {
 
   /**
    * Sends a message to a thread.
-   * @param chatThreadId - The thread id to send the message to.
-   * @param sendChatMessageRequest - Details of the message to send.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id to send the message to.
+   * @param sendChatMessageRequest Details of the message to send.
+   * @param options The options parameters.
    */
   sendChatMessage(
     chatThreadId: string,
@@ -110,8 +112,8 @@ export class ChatThread {
 
   /**
    * Gets a list of messages from a thread.
-   * @param chatThreadId - The thread id of the message.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id of the message.
+   * @param options The options parameters.
    */
   listChatMessages(
     chatThreadId: string,
@@ -129,9 +131,9 @@ export class ChatThread {
 
   /**
    * Gets a message by id.
-   * @param chatThreadId - The thread id to which the message was sent.
-   * @param chatMessageId - The message id.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param chatMessageId The message id.
+   * @param options The options parameters.
    */
   getChatMessage(
     chatThreadId: string,
@@ -151,10 +153,10 @@ export class ChatThread {
 
   /**
    * Updates a message.
-   * @param chatThreadId - The thread id to which the message was sent.
-   * @param chatMessageId - The message id.
-   * @param updateChatMessageRequest - Details of the request to update the message.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param chatMessageId The message id.
+   * @param updateChatMessageRequest Details of the request to update the message.
+   * @param options The options parameters.
    */
   updateChatMessage(
     chatThreadId: string,
@@ -176,9 +178,9 @@ export class ChatThread {
 
   /**
    * Deletes a message.
-   * @param chatThreadId - The thread id to which the message was sent.
-   * @param chatMessageId - The message id.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param chatMessageId The message id.
+   * @param options The options parameters.
    */
   deleteChatMessage(
     chatThreadId: string,
@@ -198,8 +200,8 @@ export class ChatThread {
 
   /**
    * Posts a typing event to a thread, on behalf of a user.
-   * @param chatThreadId - Id of the thread.
-   * @param options - The options parameters.
+   * @param chatThreadId Id of the thread.
+   * @param options The options parameters.
    */
   sendTypingNotification(
     chatThreadId: string,
@@ -217,8 +219,8 @@ export class ChatThread {
 
   /**
    * Gets the participants of a thread.
-   * @param chatThreadId - Thread id to get participants for.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to get participants for.
+   * @param options The options parameters.
    */
   listChatParticipants(
     chatThreadId: string,
@@ -236,18 +238,18 @@ export class ChatThread {
 
   /**
    * Remove a participant from a thread.
-   * @param chatThreadId - Thread id to remove the participant from.
-   * @param chatParticipantId - Id of the thread participant to remove from the thread.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to remove the participant from.
+   * @param participantCommunicationIdentifier Id of the thread participant to remove from the thread.
+   * @param options The options parameters.
    */
   removeChatParticipant(
     chatThreadId: string,
-    chatParticipantId: string,
+    participantCommunicationIdentifier: CommunicationIdentifierModel,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       chatThreadId,
-      chatParticipantId,
+      participantCommunicationIdentifier,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -258,9 +260,9 @@ export class ChatThread {
 
   /**
    * Adds thread participants to a thread. If participants already exist, no change occurs.
-   * @param chatThreadId - Id of the thread to add participants to.
-   * @param addChatParticipantsRequest - Thread participants to be added to the thread.
-   * @param options - The options parameters.
+   * @param chatThreadId Id of the thread to add participants to.
+   * @param addChatParticipantsRequest Thread participants to be added to the thread.
+   * @param options The options parameters.
    */
   addChatParticipants(
     chatThreadId: string,
@@ -280,11 +282,11 @@ export class ChatThread {
 
   /**
    * Updates a thread's properties.
-   * @param chatThreadId - The id of the thread to update.
-   * @param updateChatThreadRequest - Request payload for updating a chat thread.
-   * @param options - The options parameters.
+   * @param chatThreadId The id of the thread to update.
+   * @param updateChatThreadRequest Request payload for updating a chat thread.
+   * @param options The options parameters.
    */
-  updateChatThread(
+  updateChatThreadProperties(
     chatThreadId: string,
     updateChatThreadRequest: UpdateChatThreadRequest,
     options?: coreHttp.OperationOptions
@@ -296,15 +298,34 @@ export class ChatThread {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      updateChatThreadOperationSpec
+      updateChatThreadPropertiesOperationSpec
     ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
+   * Gets a chat thread's properties.
+   * @param chatThreadId Id of the thread.
+   * @param options The options parameters.
+   */
+  getChatThreadProperties(
+    chatThreadId: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<ChatThreadGetChatThreadPropertiesResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      chatThreadId,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      getChatThreadPropertiesOperationSpec
+    ) as Promise<ChatThreadGetChatThreadPropertiesResponse>;
+  }
+
+  /**
    * ListChatReadReceiptsNext
-   * @param chatThreadId - Thread id to get the chat message read receipts for.
-   * @param nextLink - The nextLink from the previous successful call to the ListChatReadReceipts method.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to get the chat message read receipts for.
+   * @param nextLink The nextLink from the previous successful call to the ListChatReadReceipts method.
+   * @param options The options parameters.
    */
   listChatReadReceiptsNext(
     chatThreadId: string,
@@ -324,9 +345,9 @@ export class ChatThread {
 
   /**
    * ListChatMessagesNext
-   * @param chatThreadId - The thread id of the message.
-   * @param nextLink - The nextLink from the previous successful call to the ListChatMessages method.
-   * @param options - The options parameters.
+   * @param chatThreadId The thread id of the message.
+   * @param nextLink The nextLink from the previous successful call to the ListChatMessages method.
+   * @param options The options parameters.
    */
   listChatMessagesNext(
     chatThreadId: string,
@@ -346,9 +367,9 @@ export class ChatThread {
 
   /**
    * ListChatParticipantsNext
-   * @param chatThreadId - Thread id to get participants for.
-   * @param nextLink - The nextLink from the previous successful call to the ListChatParticipants method.
-   * @param options - The options parameters.
+   * @param chatThreadId Thread id to get participants for.
+   * @param nextLink The nextLink from the previous successful call to the ListChatParticipants method.
+   * @param options The options parameters.
    */
   listChatParticipantsNext(
     chatThreadId: string,
@@ -393,7 +414,11 @@ const listChatReadReceiptsOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [Parameters.maxPageSize, Parameters.skip, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.maxPageSize,
+    Parameters.skip,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.accept],
   serializer
@@ -482,7 +507,11 @@ const listChatMessagesOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
+  queryParameters: [
+    Parameters.maxPageSize,
+    Parameters.apiVersion,
+    Parameters.startTime
+  ],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.accept],
   serializer
@@ -512,7 +541,11 @@ const getChatMessageOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatMessageId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.chatThreadId,
+    Parameters.chatMessageId
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -540,7 +573,11 @@ const updateChatMessageOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.updateChatMessageRequest,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatMessageId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.chatThreadId,
+    Parameters.chatMessageId
+  ],
   headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
   serializer
@@ -568,7 +605,11 @@ const deleteChatMessageOperationSpec: coreHttp.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatMessageId],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.chatThreadId,
+    Parameters.chatMessageId
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -623,14 +664,18 @@ const listChatParticipantsOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [Parameters.maxPageSize, Parameters.skip, Parameters.apiVersion],
+  queryParameters: [
+    Parameters.maxPageSize,
+    Parameters.skip,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
   headerParameters: [Parameters.accept],
   serializer
 };
 const removeChatParticipantOperationSpec: coreHttp.OperationSpec = {
-  path: "/chat/threads/{chatThreadId}/participants/{chatParticipantId}",
-  httpMethod: "DELETE",
+  path: "/chat/threads/{chatThreadId}/participants/:remove",
+  httpMethod: "POST",
   responses: {
     204: {},
     401: {
@@ -650,9 +695,11 @@ const removeChatParticipantOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
+  requestBody: Parameters.participantCommunicationIdentifier,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.chatParticipantId],
-  headerParameters: [Parameters.accept],
+  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const addChatParticipantsOperationSpec: coreHttp.OperationSpec = {
@@ -686,7 +733,7 @@ const addChatParticipantsOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const updateChatThreadOperationSpec: coreHttp.OperationSpec = {
+const updateChatThreadPropertiesOperationSpec: coreHttp.OperationSpec = {
   path: "/chat/threads/{chatThreadId}",
   httpMethod: "PATCH",
   responses: {
@@ -715,6 +762,35 @@ const updateChatThreadOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
+const getChatThreadPropertiesOperationSpec: coreHttp.OperationSpec = {
+  path: "/chat/threads/{chatThreadId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ChatThreadProperties
+    },
+    401: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    403: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    429: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    },
+    503: {
+      bodyMapper: Mappers.CommunicationErrorResponse,
+      isError: true
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.chatThreadId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listChatReadReceiptsNextOperationSpec: coreHttp.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
@@ -739,8 +815,16 @@ const listChatReadReceiptsNextOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [Parameters.maxPageSize, Parameters.skip, Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.nextLink],
+  queryParameters: [
+    Parameters.maxPageSize,
+    Parameters.skip,
+    Parameters.apiVersion
+  ],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.chatThreadId,
+    Parameters.nextLink
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -768,8 +852,16 @@ const listChatMessagesNextOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [Parameters.maxPageSize, Parameters.apiVersion, Parameters.startTime],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.nextLink],
+  queryParameters: [
+    Parameters.maxPageSize,
+    Parameters.apiVersion,
+    Parameters.startTime
+  ],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.chatThreadId,
+    Parameters.nextLink
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -797,8 +889,16 @@ const listChatParticipantsNextOperationSpec: coreHttp.OperationSpec = {
       isError: true
     }
   },
-  queryParameters: [Parameters.maxPageSize, Parameters.skip, Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.chatThreadId, Parameters.nextLink],
+  queryParameters: [
+    Parameters.maxPageSize,
+    Parameters.skip,
+    Parameters.apiVersion
+  ],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.chatThreadId,
+    Parameters.nextLink
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };

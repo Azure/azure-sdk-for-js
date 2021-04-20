@@ -19,7 +19,8 @@ import {
   Constants,
   MessagingError,
   RequestResponseLink,
-  SendRequestOptions
+  SendRequestOptions,
+  RetryOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -27,7 +28,6 @@ import {
   ServiceBusReceivedMessage,
   ServiceBusMessage,
   ServiceBusMessageImpl,
-  getMessagePropertyTypeMismatchError,
   toRheaMessage,
   fromRheaMessage
 } from "../serviceBusMessage";
@@ -48,7 +48,8 @@ import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
-import { defaultDataTransformer } from "../dataTransformer";
+import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
+import { isDefined, isObjectWithProperties } from "../util/typeGuards";
 
 /**
  * @internal
@@ -167,6 +168,10 @@ export interface DispositionStatusOptions extends OperationOptionsBase {
    * This should only be provided if `session` is enabled for a Queue or Topic.
    */
   sessionId?: string;
+  /**
+   * Retry options.
+   */
+  retryOptions: RetryOptions | undefined;
 }
 
 /**
@@ -248,16 +253,17 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         abortSignal
       );
     } catch (err) {
-      err = translateServiceBusError(err);
+      const translatedError = translateServiceBusError(err);
       managementClientLogger.logError(
-        err,
+        translatedError,
         `${this.logPrefix} An error occurred while establishing the $management links`
       );
-      throw err;
+      throw translatedError;
     }
   }
 
   protected async createRheaLink(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: RequestResponseLinkOptions
   ): Promise<RequestResponseLink> {
     const rheaLink = await RequestResponseLink.create(
@@ -294,13 +300,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     internalLogger: ServiceBusLogger,
     sendRequestOptions: SendManagementRequestOptions = {}
   ): Promise<RheaMessage> {
-    if (request.message_id == undefined) {
+    if (request.message_id === undefined) {
       request.message_id = generate_uuid();
     }
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
-    const actionAfterTimeout = (reject: (reason?: any) => void) => {
+    const actionAfterTimeout = (reject: (reason?: any) => void): void => {
       const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
       const e: Error = {
         name: "OperationTimeoutError",
@@ -333,16 +339,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (!request.message_id) request.message_id = generate_uuid();
       return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err) {
-      err = translateServiceBusError(err);
+      const translatedError = translateServiceBusError(err);
       internalLogger.logError(
-        err,
-        "%s An error occurred during send on management request-response link with address " +
-          "'%s': %O",
+        translatedError,
+        "%s An error occurred during send on management request-response link with address '%s'",
         this.logPrefix,
-        this.address,
-        err
+        this.address
       );
-      throw err;
+      throw translatedError;
     }
   }
 
@@ -463,7 +467,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         Buffer.from(fromSequenceNumber.toBytesBE())
       );
       messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount!);
-      if (sessionId != undefined) {
+      if (isDefined(sessionId)) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
       const request: RheaMessage = {
@@ -492,6 +496,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
           const message = fromRheaMessage(decodedMessage as any);
+
           message.body = defaultDataTransformer.decode(message.body);
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
@@ -525,6 +530,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param options - Options that can be set while sending the request.
    * @returns New lock token expiry date and time in UTC format.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async renewLock(lockToken: string, options?: SendManagementRequestOptions): Promise<Date> {
     throwErrorIfConnectionClosed(this._context);
     if (!options) options = {};
@@ -591,10 +597,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const item = messages[i];
       if (!item.messageId) item.messageId = generate_uuid();
       item.scheduledEnqueueTimeUtc = scheduledEnqueueTimeUtc;
-      const amqpMessage = toRheaMessage(item);
-      amqpMessage.body = defaultDataTransformer.encode(amqpMessage.body);
 
       try {
+        const amqpMessage = toRheaMessage(item, defaultDataTransformer);
+
         const entry: any = {
           message: RheaMessageUtil.encode(amqpMessage),
           "message-id": item.messageId
@@ -614,16 +620,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
       } catch (err) {
-        let error: Error;
-        if (err instanceof TypeError || err.name === "TypeError") {
-          // `RheaMessageUtil.encode` can fail if message properties are of invalid type
-          // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-          // Errors in such cases do not have user-friendly message or call stack
-          // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          error = translateServiceBusError(getMessagePropertyTypeMismatchError(item) || err);
-        } else {
-          error = translateServiceBusError(err);
-        }
+        const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
           `${this.logPrefix} An error occurred while encoding the item at position ${i} in the messages array`
@@ -830,7 +827,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async updateDispositionStatus(
     lockToken: string,
     dispositionType: DispositionType,
-    options?: DispositionStatusOptions & SendManagementRequestOptions
+    // TODO: mgmt link retry<> will come in the next PR.
+    options?: Omit<DispositionStatusOptions, "retryOptions"> & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     if (!options) options = {};
@@ -945,7 +943,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async setSessionState(
     sessionId: string,
-    state: any,
+    state: unknown,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -1013,7 +1011,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       const result = await this._makeManagementRequest(request, receiverLogger, options);
       return result.body["session-state"]
-        ? defaultDataTransformer.decode(result.body["session-state"])
+        ? tryToJsonDecode(result.body["session-state"])
         : result.body["session-state"];
     } catch (err) {
       const error = translateServiceBusError(err);
@@ -1255,7 +1253,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     if (
       typeof filter !== "boolean" &&
       typeof filter !== "string" &&
-      !correlationProperties.some((validProperty) => filter.hasOwnProperty(validProperty))
+      !correlationProperties.some((validProperty) =>
+        isObjectWithProperties(filter, [validProperty])
+      )
     ) {
       throw new TypeError(
         `The parameter "filter" should be either a boolean, string or implement the CorrelationRuleFilter interface.`

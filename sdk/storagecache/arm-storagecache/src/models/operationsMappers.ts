@@ -7,7 +7,6 @@
  */
 
 export {
-  discriminators,
   ApiOperation,
   ApiOperationDisplay,
   ApiOperationListResult,

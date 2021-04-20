@@ -83,7 +83,7 @@ export class CertificateClient {
 
 // @public
 export interface CertificateClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1";
+    serviceVersion?: "7.0" | "7.1" | "7.2";
 }
 
 // @public
@@ -285,9 +285,12 @@ export type GetPlainCertificateOperationOptions = coreHttp.OperationOptions;
 export interface ImportCertificateOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     password?: string;
-    policy?: CertificatePolicy;
+    policy?: ImportCertificatePolicy;
     tags?: CertificateTags;
 }
+
+// @public
+export type ImportCertificatePolicy = CertificatePolicyProperties & Partial<PolicySubjectProperties>;
 
 // @public
 export interface IssuerAttributes {

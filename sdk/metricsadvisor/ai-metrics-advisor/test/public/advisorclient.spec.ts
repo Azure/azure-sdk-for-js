@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
+import { Context } from "mocha";
 
 import {
   MetricAnomalyFeedback,
@@ -20,8 +21,7 @@ matrix([[true, false]] as const, async (useAad) => {
       let client: MetricsAdvisorClient;
       let recorder: Recorder;
 
-      beforeEach(function() {
-        // eslint-disable-next-line no-invalid-this
+      beforeEach(function(this: Context) {
         ({ recorder, client } = createRecordedAdvisorClient(this, makeCredential(useAad)));
       });
 

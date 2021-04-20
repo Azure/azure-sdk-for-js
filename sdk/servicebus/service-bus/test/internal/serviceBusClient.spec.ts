@@ -588,7 +588,9 @@ describe("ServiceBusClient live tests", () => {
       let errorReceiveStream: string = "";
       try {
         receiver.subscribe({
-          async processMessage() {},
+          async processMessage() {
+            /** Nothing to do here */
+          },
           async processError(e) {
             console.log(e);
           }
@@ -837,7 +839,7 @@ describe("ServiceBusClient live tests", () => {
   });
 });
 
-function reduceRetries(receiver: ServiceBusReceiver) {
+function reduceRetries(receiver: ServiceBusReceiver): void {
   // for some tests the important thing is just to run a single retry cycle (and then report)
   // the error. This reduces everything so we run a short retry cycle.
   //

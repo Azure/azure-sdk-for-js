@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /*
 # Overview
 Measures the maximum throughput of `receiver.receive()` in package `@azure/event-hubs`.
@@ -48,18 +51,22 @@ async function main(): Promise<void> {
   await sendBatch(numberOfEvents, partitionIds, eventBodySize);
   const writeResultsPromise = WriteResults(numberOfEvents);
 
-  await RunTest(connectionString, eventHubName, maxBatchSize, numberOfEvents);
+  await RunTest(maxBatchSize, numberOfEvents);
   await writeResultsPromise;
 }
 
-async function sendBatch(numberOfEvents: number, partitionIds: string[], eventBodySize: number) {
+async function sendBatch(
+  numberOfEvents: number,
+  partitionIds: string[],
+  eventBodySize: number
+): Promise<void> {
   const _payload = Buffer.alloc(eventBodySize);
   const producer = new EventHubProducerClient(connectionString, eventHubName);
   const numberOfPartitions = partitionIds.length;
   const numberOfEventsPerPartition = Math.ceil(numberOfEvents / numberOfPartitions);
 
-  for (let partitionId of partitionIds) {
-    let batch = await producer.createBatch({ partitionId });
+  for (const partitionId of partitionIds) {
+    const batch = await producer.createBatch({ partitionId });
     let numberOfEventsSent = 0;
     // add events to our batch
     while (numberOfEventsSent <= numberOfEventsPerPartition) {
@@ -75,23 +82,16 @@ async function sendBatch(numberOfEvents: number, partitionIds: string[], eventBo
   await producer.close();
 }
 
-async function RunTest(
-  connectionString: string,
-  eventHubName: string,
-  maxBatchSize: number,
-  messages: number
-): Promise<void> {
+async function RunTest(maxBatchSize: number, messages: number): Promise<void> {
   const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
 
-  const processEvents = async (events: EventData[]) => {
+  const processEvents = async (events: EventData[]): Promise<void> => {
     _messages = _messages + events.length;
-    for (const _ of events) {
-    }
     if (_messages === messages) {
       await consumerClient.close();
     }
   };
-  const processError = async (err: Error, context: PartitionContext) => {
+  const processError = async (err: Error, context: PartitionContext): Promise<void> => {
     console.log(`Error on partition "${context.partitionId}": ${err}`);
   };
 

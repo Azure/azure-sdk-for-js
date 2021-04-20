@@ -16,6 +16,7 @@ import { sortResponseIdObjects } from "./util";
 
 /**
  * The result of a text analytics operation on a single input document.
+ * @internal
  */
 export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErrorResult;
 
@@ -28,7 +29,7 @@ export type TextAnalyticsResult = TextAnalyticsSuccessResult | TextAnalyticsErro
 export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 /**
- * Type describing an error from the Text Analytics service
+ * Type describing an error from the Text Analytics service.
  */
 export interface TextAnalyticsError {
   /**
@@ -91,6 +92,9 @@ export interface TextAnalyticsErrorResult {
   readonly error: TextAnalyticsError;
 }
 
+/**
+ * @internal
+ */
 export interface TextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
   extends Array<T1 | TextAnalyticsErrorResult> {
   /**
@@ -106,6 +110,9 @@ export interface TextAnalyticsResultArray<T1 extends TextAnalyticsSuccessResult>
   modelVersion: string;
 }
 
+/**
+ * @internal
+ */
 export interface TextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
   /**
    * Response by document
@@ -128,6 +135,7 @@ export interface TextAnalyticsResponse<T1 extends TextAnalyticsSuccessResult> {
 /**
  * Helper function for converting nested service error into
  * the unified TextAnalyticsError
+ * @internal
  */
 export function intoTextAnalyticsError(
   errorModel: GeneratedTextAnalyticsErrorModel | InnerError
@@ -145,6 +153,9 @@ export function intoTextAnalyticsError(
   };
 }
 
+/**
+ * @internal
+ */
 export function makeTextAnalyticsSuccessResult(
   id: string,
   warnings: TextAnalyticsWarning[],
@@ -157,6 +168,9 @@ export function makeTextAnalyticsSuccessResult(
   };
 }
 
+/**
+ * @internal
+ */
 export function makeTextAnalyticsErrorResult(
   id: string,
   error: GeneratedTextAnalyticsErrorModel
@@ -178,7 +192,12 @@ export function combineSuccessfulAndErroneousDocuments<TSuccess extends TextAnal
   input: TextDocumentInput[],
   response: TextAnalyticsResponse<TSuccess>
 ): (TSuccess | TextAnalyticsErrorResult)[] {
-  return processAndCombineSuccessfulAndErroneousDocuments(input, response, (x) => x);
+  return processAndCombineSuccessfulAndErroneousDocuments(
+    input,
+    response,
+    (x) => x,
+    makeTextAnalyticsErrorResult
+  );
 }
 
 /**
@@ -190,21 +209,23 @@ export function combineSuccessfulAndErroneousDocuments<TSuccess extends TextAnal
  * @param process - a function to convert the results from one type to another.
  */
 export function processAndCombineSuccessfulAndErroneousDocuments<
-  TSuccess extends TextAnalyticsSuccessResult,
-  T extends TextAnalyticsSuccessResult
+  TSuccessService extends TextAnalyticsSuccessResult,
+  TSuccessSDK extends TextAnalyticsSuccessResult,
+  TError extends TextAnalyticsErrorResult
 >(
   input: TextDocumentInput[],
-  response: TextAnalyticsResponse<TSuccess>,
-  process: (doc: TSuccess) => T
-): (T | TextAnalyticsErrorResult)[] {
-  const unsortedResult = response.documents
-    .map((document): T | TextAnalyticsErrorResult => process(document))
-    .concat(
-      response.errors.map((error) => {
-        return makeTextAnalyticsErrorResult(error.id, error.error);
-      })
-    );
-  return sortResponseIdObjects(input, unsortedResult);
+  response: TextAnalyticsResponse<TSuccessService>,
+  processSuccess: (successResult: TSuccessService) => TSuccessSDK,
+  processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError
+): (TSuccessSDK | TextAnalyticsErrorResult)[] {
+  const successResults: (TSuccessSDK | TextAnalyticsErrorResult)[] = response.documents.map(
+    processSuccess
+  );
+  const unsortedResults = successResults.concat(
+    response.errors.map((error) => processError(error.id, error.error))
+  );
+
+  return sortResponseIdObjects(input, unsortedResults);
 }
 
 /**
@@ -216,12 +237,21 @@ export function processAndCombineSuccessfulAndErroneousDocuments<
  * @param response - the response received from the service.
  */
 export function combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion<
-  TSuccess extends TextAnalyticsSuccessResult
+  TSuccessService extends TextAnalyticsSuccessResult,
+  TSuccessSDK extends TextAnalyticsSuccessResult,
+  TError extends TextAnalyticsErrorResult
 >(
   input: TextDocumentInput[],
-  response: TextAnalyticsResponse<TSuccess>
-): TextAnalyticsResultArray<TSuccess> {
-  const sorted = combineSuccessfulAndErroneousDocuments(input, response);
+  response: TextAnalyticsResponse<TSuccessService>,
+  processSuccess: (doc: TSuccessService) => TSuccessSDK,
+  processError: (id: string, error: GeneratedTextAnalyticsErrorModel) => TError
+): TextAnalyticsResultArray<TSuccessSDK> {
+  const sorted = processAndCombineSuccessfulAndErroneousDocuments(
+    input,
+    response,
+    processSuccess,
+    processError
+  );
   return Object.assign(sorted, {
     statistics: response.statistics,
     modelVersion: response.modelVersion

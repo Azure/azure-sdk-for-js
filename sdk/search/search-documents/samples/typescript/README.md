@@ -4,7 +4,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                | **Description**          |
 | ---------------------------- | ------------------------ |
-| [readonlyQuery.ts][readonly] | queries a public dataset |
 | **Data Source Connections**  |
 | [createDataSourceConnection.ts][createDataSourceConnection] | Creates a Datasource Connection |
 | [createOrUpdateDataSourceConnection.ts][createOrUpdateDataSourceConnection] | Updates a Datasource Connection |

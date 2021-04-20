@@ -482,7 +482,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   /**
    * KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and
    * Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS
-   * disk for data. Possible values include: 'OS'
+   * disk for data. Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
   /**
@@ -502,6 +502,11 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * Possible values include: 'Linux', 'Windows'. Default value: 'Linux'.
    */
   osType?: OSType;
+  /**
+   * OsSKU to be used to specify os sku. Choose from Ubuntu(default) and CBLMariner for Linux
+   * OSType. Not applicable to Windows OSType. Possible values include: 'Ubuntu', 'CBLMariner'
+   */
+  osSKU?: OSSKU;
   /**
    * Maximum number of nodes for auto-scaling
    */
@@ -555,6 +560,10 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   enableNodePublicIP?: boolean;
   /**
+   * Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+   */
+  nodePublicIPPrefixID?: string;
+  /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
    */
@@ -600,6 +609,16 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * Whether to enable EncryptionAtHost
    */
   enableEncryptionAtHost?: boolean;
+  /**
+   * Whether to use FIPS enabled OS
+   */
+  enableFIPS?: boolean;
+  /**
+   * GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
+   * Supported values are MIG1g, MIG2g, MIG3g, MIG4g and MIG7g. Possible values include: 'MIG1g',
+   * 'MIG2g', 'MIG3g', 'MIG4g', 'MIG7g'
+   */
+  gpuInstanceProfile?: GPUInstanceProfile;
 }
 
 /**
@@ -678,7 +697,7 @@ export interface AgentPool extends SubResource {
   /**
    * KubeletDiskType determines the placement of emptyDir volumes, container runtime data root, and
    * Kubelet ephemeral storage. Currently allows one value, OS, resulting in Kubelet using the OS
-   * disk for data. Possible values include: 'OS'
+   * disk for data. Possible values include: 'OS', 'Temporary'
    */
   kubeletDiskType?: KubeletDiskType;
   /**
@@ -698,6 +717,11 @@ export interface AgentPool extends SubResource {
    * Possible values include: 'Linux', 'Windows'. Default value: 'Linux'.
    */
   osType?: OSType;
+  /**
+   * OsSKU to be used to specify os sku. Choose from Ubuntu(default) and CBLMariner for Linux
+   * OSType. Not applicable to Windows OSType. Possible values include: 'Ubuntu', 'CBLMariner'
+   */
+  osSKU?: OSSKU;
   /**
    * Maximum number of nodes for auto-scaling
    */
@@ -751,6 +775,10 @@ export interface AgentPool extends SubResource {
    */
   enableNodePublicIP?: boolean;
   /**
+   * Public IP Prefix ID. VM nodes use IPs assigned from this Public IP Prefix.
+   */
+  nodePublicIPPrefixID?: string;
+  /**
    * ScaleSetPriority to be used to specify virtual machine scale set priority. Default to regular.
    * Possible values include: 'Spot', 'Regular'. Default value: 'Regular'.
    */
@@ -796,6 +824,16 @@ export interface AgentPool extends SubResource {
    * Whether to enable EncryptionAtHost
    */
   enableEncryptionAtHost?: boolean;
+  /**
+   * Whether to use FIPS enabled OS
+   */
+  enableFIPS?: boolean;
+  /**
+   * GPUInstanceProfile to be used to specify GPU MIG instance profile for supported GPU VM SKU.
+   * Supported values are MIG1g, MIG2g, MIG3g, MIG4g and MIG7g. Possible values include: 'MIG1g',
+   * 'MIG2g', 'MIG3g', 'MIG4g', 'MIG7g'
+   */
+  gpuInstanceProfile?: GPUInstanceProfile;
 }
 
 /**
@@ -825,6 +863,10 @@ export interface ManagedClusterWindowsProfile {
    * Benefits for Windows VMs. Possible values include: 'None', 'Windows_Server'
    */
   licenseType?: LicenseType;
+  /**
+   * Whether to enable CSI proxy.
+   */
+  enableCSIProxy?: boolean;
 }
 
 /**
@@ -1072,6 +1114,65 @@ export interface MaintenanceConfiguration extends SubResource {
 }
 
 /**
+ * run command request
+ */
+export interface RunCommandRequest {
+  /**
+   * command to run.
+   */
+  command: string;
+  /**
+   * base64 encoded zip file, contains files required by the command
+   */
+  context?: string;
+  /**
+   * AuthToken issued for AKS AAD Server App.
+   */
+  clusterToken?: string;
+}
+
+/**
+ * run command result.
+ */
+export interface RunCommandResult {
+  /**
+   * command id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * provisioning State
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * exit code of the command
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly exitCode?: number;
+  /**
+   * time when the command started.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startedAt?: Date;
+  /**
+   * time when the command finished.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly finishedAt?: Date;
+  /**
+   * command output.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly logs?: string;
+  /**
+   * explain why provisioningState is set to failed (if so).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly reason?: string;
+}
+
+/**
  * Profile for diagnostics on the container service VMs.
  */
 export interface ContainerServiceVMDiagnostics {
@@ -1162,6 +1263,10 @@ export interface ManagedClusterPodIdentity {
    */
   namespace: string;
   /**
+   * Binding selector to use for the AzureIdentityBinding resource.
+   */
+  bindingSelector?: string;
+  /**
    * Information of the user assigned identity.
    */
   identity: UserAssignedIdentity;
@@ -1203,6 +1308,10 @@ export interface ManagedClusterPodIdentityProfile {
    * Whether the pod identity addon is enabled.
    */
   enabled?: boolean;
+  /**
+   * Customer consent for enabling AAD pod identity addon in cluster using Kubenet network plugin.
+   */
+  allowNetworkPluginKubenet?: boolean;
   /**
    * User assigned pod identity settings.
    */
@@ -1253,7 +1362,8 @@ export interface ManagedClusterAADProfile {
  */
 export interface ManagedClusterAutoUpgradeProfile {
   /**
-   * upgrade channel for auto upgrade. Possible values include: 'rapid', 'stable', 'patch', 'none'
+   * upgrade channel for auto upgrade. Possible values include: 'rapid', 'stable', 'patch',
+   * 'node-image', 'none'
    */
   upgradeChannel?: UpgradeChannel;
 }
@@ -1306,6 +1416,59 @@ export interface ManagedClusterAPIServerAccessProfile {
  * An interface representing ManagedClusterPropertiesIdentityProfileValue.
  */
 export interface ManagedClusterPropertiesIdentityProfileValue extends UserAssignedIdentity {
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource {
+  /**
+   * The ID of the private link resource.
+   */
+  id?: string;
+  /**
+   * The name of the private link resource.
+   */
+  name?: string;
+  /**
+   * The resource type.
+   */
+  type?: string;
+  /**
+   * The group ID of the resource.
+   */
+  groupId?: string;
+  /**
+   * RequiredMembers of the resource
+   */
+  requiredMembers?: string[];
+  /**
+   * The private link service ID of the resource, this field is exposed only to NRP internally.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateLinkServiceID?: string;
+}
+
+/**
+ * Configurations for provisioning the cluster with HTTP proxy servers.
+ */
+export interface ManagedClusterHTTPProxyConfig {
+  /**
+   * HTTP proxy server endpoint to use.
+   */
+  httpProxy?: string;
+  /**
+   * HTTPS proxy server endpoint to use.
+   */
+  httpsProxy?: string;
+  /**
+   * Endpoints that should not go through proxy.
+   */
+  noProxy?: string[];
+  /**
+   * Alternative CA cert to use for connecting to proxy servers.
+   */
+  trustedCa?: string;
 }
 
 /**
@@ -1370,6 +1533,20 @@ export interface ManagedClusterSKU {
 }
 
 /**
+ * The complex type of the extended location.
+ */
+export interface ExtendedLocation {
+  /**
+   * The name of the extended location.
+   */
+  name?: string;
+  /**
+   * The type of the extended location. Possible values include: 'EdgeZone'
+   */
+  type?: ExtendedLocationTypes;
+}
+
+/**
  * Managed cluster.
  */
 export interface ManagedCluster extends Resource {
@@ -1397,6 +1574,10 @@ export interface ManagedCluster extends Resource {
    */
   dnsPrefix?: string;
   /**
+   * FQDN subdomain specified when creating private cluster with custom private dns zone.
+   */
+  fqdnSubdomain?: string;
+  /**
    * FQDN for the master pool.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1406,6 +1587,11 @@ export interface ManagedCluster extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly privateFQDN?: string;
+  /**
+   * FQDN for the master pool which used by proxy config.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly azurePortalFQDN?: string;
   /**
    * Properties of the agent pool.
    */
@@ -1473,6 +1659,19 @@ export interface ManagedCluster extends Resource {
    */
   identityProfile?: { [propertyName: string]: ManagedClusterPropertiesIdentityProfileValue };
   /**
+   * Private link resources associated with the cluster.
+   */
+  privateLinkResources?: PrivateLinkResource[];
+  /**
+   * If set to true, getting static credential will be disabled for this cluster. Expected to only
+   * be used for AAD clusters.
+   */
+  disableLocalAccounts?: boolean;
+  /**
+   * Configurations for provisioning the cluster with HTTP proxy servers.
+   */
+  httpProxyConfig?: ManagedClusterHTTPProxyConfig;
+  /**
    * The identity of the managed cluster, if configured.
    */
   identity?: ManagedClusterIdentity;
@@ -1480,6 +1679,10 @@ export interface ManagedCluster extends Resource {
    * The managed cluster SKU.
    */
   sku?: ManagedClusterSKU;
+  /**
+   * The extended location of the Virtual Machine.
+   */
+  extendedLocation?: ExtendedLocation;
 }
 
 /**
@@ -1752,37 +1955,6 @@ export interface PrivateEndpointConnectionListResult {
 }
 
 /**
- * A private link resource
- */
-export interface PrivateLinkResource {
-  /**
-   * The ID of the private link resource.
-   */
-  id?: string;
-  /**
-   * The name of the private link resource.
-   */
-  name?: string;
-  /**
-   * The resource type.
-   */
-  type?: string;
-  /**
-   * The group ID of the resource.
-   */
-  groupId?: string;
-  /**
-   * RequiredMembers of the resource
-   */
-  requiredMembers?: string[];
-  /**
-   * The private link service ID of the resource, this field is exposed only to NRP internally.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateLinkServiceID?: string;
-}
-
-/**
  * A list of private link resources
  */
 export interface PrivateLinkResourcesListResult {
@@ -1790,6 +1962,55 @@ export interface PrivateLinkResourcesListResult {
    * The collection value.
    */
   value?: PrivateLinkResource[];
+}
+
+/**
+ * OS option property.
+ */
+export interface OSOptionProperty {
+  /**
+   * OS type.
+   */
+  osType: string;
+  /**
+   * Whether FIPS image is enabled.
+   */
+  enableFipsImage: boolean;
+}
+
+/**
+ * The OS option profile.
+ */
+export interface OSOptionProfile {
+  /**
+   * Id of the OS option profile.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of the OS option profile.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Type of the OS option profile.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The list of OS option properties.
+   */
+  osOptionPropertyList: OSOptionProperty[];
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ManagedClustersGetOSOptionsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * resource type for which the OS options needs to be returned
+   */
+  resourceType?: string;
 }
 
 /**
@@ -1909,11 +2130,11 @@ export type OSDiskType = 'Managed' | 'Ephemeral';
 
 /**
  * Defines values for KubeletDiskType.
- * Possible values include: 'OS'
+ * Possible values include: 'OS', 'Temporary'
  * @readonly
  * @enum {string}
  */
-export type KubeletDiskType = 'OS';
+export type KubeletDiskType = 'OS' | 'Temporary';
 
 /**
  * Defines values for OSType.
@@ -1922,6 +2143,14 @@ export type KubeletDiskType = 'OS';
  * @enum {string}
  */
 export type OSType = 'Linux' | 'Windows';
+
+/**
+ * Defines values for OSSKU.
+ * Possible values include: 'Ubuntu', 'CBLMariner'
+ * @readonly
+ * @enum {string}
+ */
+export type OSSKU = 'Ubuntu' | 'CBLMariner';
 
 /**
  * Defines values for AgentPoolType.
@@ -1962,6 +2191,14 @@ export type ScaleSetPriority = 'Spot' | 'Regular';
  * @enum {string}
  */
 export type ScaleSetEvictionPolicy = 'Delete' | 'Deallocate';
+
+/**
+ * Defines values for GPUInstanceProfile.
+ * Possible values include: 'MIG1g', 'MIG2g', 'MIG3g', 'MIG4g', 'MIG7g'
+ * @readonly
+ * @enum {string}
+ */
+export type GPUInstanceProfile = 'MIG1g' | 'MIG2g' | 'MIG3g' | 'MIG4g' | 'MIG7g';
 
 /**
  * Defines values for LicenseType.
@@ -2038,11 +2275,11 @@ export type ManagedClusterPodIdentityProvisioningState = 'Assigned' | 'Updating'
 
 /**
  * Defines values for UpgradeChannel.
- * Possible values include: 'rapid', 'stable', 'patch', 'none'
+ * Possible values include: 'rapid', 'stable', 'patch', 'node-image', 'none'
  * @readonly
  * @enum {string}
  */
-export type UpgradeChannel = 'rapid' | 'stable' | 'patch' | 'none';
+export type UpgradeChannel = 'rapid' | 'stable' | 'patch' | 'node-image' | 'none';
 
 /**
  * Defines values for Expander.
@@ -2077,6 +2314,14 @@ export type ManagedClusterSKUName = 'Basic';
 export type ManagedClusterSKUTier = 'Paid' | 'Free';
 
 /**
+ * Defines values for ExtendedLocationTypes.
+ * Possible values include: 'EdgeZone'
+ * @readonly
+ * @enum {string}
+ */
+export type ExtendedLocationTypes = 'EdgeZone';
+
+/**
  * Defines values for PrivateEndpointConnectionProvisioningState.
  * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
  * @readonly
@@ -2109,6 +2354,26 @@ export type OperationsListResponse = OperationListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationListResult;
+    };
+};
+
+/**
+ * Contains response data for the getOSOptions operation.
+ */
+export type ManagedClustersGetOSOptionsResponse = OSOptionProfile & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OSOptionProfile;
     };
 };
 
@@ -2313,6 +2578,46 @@ export type ManagedClustersUpdateTagsResponse = ManagedCluster & {
 };
 
 /**
+ * Contains response data for the runCommand operation.
+ */
+export type ManagedClustersRunCommandResponse = RunCommandResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RunCommandResult;
+    };
+};
+
+/**
+ * Contains response data for the getCommandResult operation.
+ */
+export type ManagedClustersGetCommandResultResponse = RunCommandResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RunCommandResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ManagedClustersBeginCreateOrUpdateResponse = ManagedCluster & {
@@ -2349,6 +2654,26 @@ export type ManagedClustersBeginUpdateTagsResponse = ManagedCluster & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedCluster;
+    };
+};
+
+/**
+ * Contains response data for the beginRunCommand operation.
+ */
+export type ManagedClustersBeginRunCommandResponse = RunCommandResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RunCommandResult;
     };
 };
 

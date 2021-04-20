@@ -22,7 +22,7 @@ function getEnvVarValue(name: string): string | undefined {
     return process.env[name];
   } else {
     // @ts-ignore
-    return window.__env__[name];
+    return self.__env__[name];
   }
 }
 
@@ -34,7 +34,7 @@ let envVars: any;
  * or create and return one from configured values if not existing.
  */
 export function getEnvVars(): { [key in EnvVarNames]: string } {
-  if (envVars != undefined) {
+  if (envVars !== undefined) {
     return envVars;
   }
 

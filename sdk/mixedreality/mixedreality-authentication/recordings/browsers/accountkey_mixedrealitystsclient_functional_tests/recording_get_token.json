@@ -1,0 +1,28 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://sts.mixedreality.azure.com/Accounts/68321d5a-7978-4ceb-b880-0f49751daae9/token",
+   "query": {
+    "api-version": "2019-02-28-preview"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"AccessToken\":\"eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJlbWFpbCI6IkJvYkBjb250b3NvLmNvbSIsImdpdmVuX25hbWUiOiJCb2IiLCJpc3MiOiJodHRwOi8vRGVmYXVsdC5Jc3N1ZXIuY29tIiwiYXVkIjoiaHR0cDovL0RlZmF1bHQuQXVkaWVuY2UuY29tIiwiaWF0IjoiMTYwNzk3ODY4MyIsIm5iZiI6IjE2MDc5Nzg2ODMiLCJleHAiOiIxNjA3OTc4OTgzIn0.\"}",
+   "responseHeaders": {
+    "cache-control": "no-store,no-cache",
+    "content-length": "1264",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sun, 17 Jan 2021 00:03:15 GMT",
+    "ms-cv": "Gzywt3wodEesE6zO2dHGeA.0",
+    "pragma": "no-cache",
+    "x-content-type-options": "nosniff"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "0cb1a7a15d0db8cb22abc237040f2500"
+}

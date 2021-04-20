@@ -8,6 +8,8 @@ export const commandInfo = makeCommandInfo("samples", "manage samples in an SDK 
 export default subCommand(commandInfo, {
   dev: () => import("./dev"),
   prep: () => import("./prep"),
+  publish: () => import("./publish"),
   run: () => import("./run"),
-  "ts-to-js": () => import("./tsToJs")
+  "ts-to-js": () => import("./tsToJs"),
+  "check-node-versions": () => import("./checkNodeVersions")
 });

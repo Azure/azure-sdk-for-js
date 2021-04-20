@@ -36,6 +36,7 @@ const getTimeSinceEnqueued = (span: ReadableSpan) => {
  * Implementation of Mapping to Azure Monitor
  *
  * https://gist.github.com/lmolkova/e4215c0f44a49ef824983382762e6b92#mapping-to-azure-monitor-application-insights-telemetry
+ * @internal
  */
 export const parseEventHubSpan = (
   span: ReadableSpan,

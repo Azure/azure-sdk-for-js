@@ -14,13 +14,13 @@ import {
   SentenceSentiment as GeneratedSentenceSentiment,
   SentenceSentimentLabel,
   DocumentSentiment,
-  SentenceAspect,
-  AspectRelation,
-  SentenceOpinion,
-  TokenSentimentValue as SentenceAspectSentiment,
-  AspectConfidenceScoreLabel
+  SentenceTarget,
+  TargetRelation,
+  SentenceAssessment,
+  TokenSentimentValue as SentenceTargetSentiment,
+  TargetConfidenceScoreLabel
 } from "./generated/models";
-import { OpinionIndex, parseOpinionIndex } from "./util";
+import { AssessmentIndex, parseAssessmentIndex } from "./util";
 
 /**
  * The result of the analyze sentiment operation on a single document.
@@ -73,66 +73,65 @@ export interface SentenceSentiment {
   length: number;
   /**
    * The list of opinions mined from this sentence. For example in "The food is
-   * good, but the service is bad", we would mind these two opinions "food is
-   * good", "service is bad". Only returned if `show_opinion_mining` is set to
-   * True in the call to `analyze_sentiment`.
+   * good, but the service is bad", we would mine these two opinions "food is
+   * good", "service is bad". Only returned if `includeOpinionMining` is set to
+   * True in the call to `analyzeSentiment`.
    */
-  minedOpinions: MinedOpinion[];
+  opinions: Opinion[];
 }
 
 /**
- * AspectSentiment contains the related opinions, predicted sentiment,
- * confidence scores and other information about an aspect of a product.
- * An aspect of a product/service is a key component of that product/service.
- * For example in "The food at Hotel Foo is good", "food" is an aspect of
- * "Hotel Foo".
+ * TargetSentiment contains the predicted sentiment, confidence scores and other
+ * information about an target of a product. A target of a product/service is a
+ * key component of that product/service. For example in "The food at Hotel Foo
+ * is good", "food" is a target of "Hotel Foo".
  */
-export interface AspectSentiment {
+export interface TargetSentiment {
   /**
-   * The sentiment confidence score between 0 and 1 for the aspect for
+   * The sentiment confidence score between 0 and 1 for the target for
    * 'positive' and 'negative' labels.
    */
-  confidenceScores: AspectConfidenceScoreLabel;
+  confidenceScores: TargetConfidenceScoreLabel;
   /**
-   * The predicted Sentiment for the aspect. Possible values include 'positive',
+   * The predicted Sentiment for the Target. Possible values include 'positive',
    * 'mixed', and 'negative'.
    */
-  sentiment: SentenceAspectSentiment;
+  sentiment: SentenceTargetSentiment;
   /**
-   * The aspect text.
+   * The target text.
    */
   text: string;
   /**
-   * The aspect text offset from the start of the sentence.
+   * The Target text offset from the start of the sentence.
    */
   offset: number;
   /**
-   * The length of the aspect text.
+   * The length of the Target text.
    */
   length: number;
 }
 
 /**
- * OpinionSentiment contains the predicted sentiment, confidence scores and
- * other information about an opinion of an aspect. For example, in the sentence
- * "The food is good", the opinion of the aspect 'food' is 'good'.
+ * AssessmentSentiment contains the predicted sentiment, confidence scores and
+ * other information about an assessment of a target. For example, in the sentence
+ * "The food is good", the assessment of the target 'food' is 'good'.
  */
-export interface OpinionSentiment extends SentenceOpinion {}
+export interface AssessmentSentiment extends SentenceAssessment {}
 
 /**
  * A mined opinion object represents an opinion we've extracted from a sentence.
- * It consists of both an aspect that these opinions are about, and the actual
- * opinions themselves.
+ * It consists of both a target that these assessments are about, and the actual
+ * assessments themselves.
  */
-export interface MinedOpinion {
+export interface Opinion {
   /**
-   * The aspect of a product/service that this opinion is about.
+   * The target of a product/service that this assessment is about.
    */
-  aspect: AspectSentiment;
+  target: TargetSentiment;
   /**
-   * The actual opinions of the aspect.
+   * The actual assessments of the target.
    */
-  opinions: OpinionSentiment[];
+  assessments: AssessmentSentiment[];
 }
 
 /**
@@ -140,8 +139,12 @@ export interface MinedOpinion {
  */
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
+/**
+ * @param document - A document result coming from the service.
+ * @internal
+ */
 export function makeAnalyzeSentimentResult(
-  document: DocumentSentiment
+  result: DocumentSentiment
 ): AnalyzeSentimentSuccessResult {
   const {
     id,
@@ -150,15 +153,18 @@ export function makeAnalyzeSentimentResult(
     sentenceSentiments: sentences,
     warnings,
     statistics
-  } = document;
+  } = result;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentiment,
     confidenceScores,
-    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, document))
+    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, result))
   };
 }
 
+/**
+ * @internal
+ */
 export function makeAnalyzeSentimentErrorResult(
   id: string,
   error: TextAnalyticsError
@@ -173,10 +179,11 @@ export function makeAnalyzeSentimentErrorResult(
  * @param sentence - The sentence sentiment object to be converted.
  * @param response - The entire response returned by the service.
  * @returns The user-friendly sentence sentiment object.
+ * @internal
  */
 function convertGeneratedSentenceSentiment(
   sentence: GeneratedSentenceSentiment,
-  document: DocumentSentiment
+  result: DocumentSentiment
 ): SentenceSentiment {
   return {
     confidenceScores: sentence.confidenceScores,
@@ -184,19 +191,19 @@ function convertGeneratedSentenceSentiment(
     text: sentence.text,
     offset: sentence.offset,
     length: sentence.length,
-    minedOpinions: sentence.aspects
-      ? sentence.aspects.map(
-          (aspect: SentenceAspect): MinedOpinion => ({
-            aspect: {
-              confidenceScores: aspect.confidenceScores,
-              sentiment: aspect.sentiment,
-              text: aspect.text,
-              offset: aspect.offset,
-              length: aspect.length
+    opinions: sentence.targets
+      ? sentence.targets.map(
+          (target: SentenceTarget): Opinion => ({
+            target: {
+              confidenceScores: target.confidenceScores,
+              sentiment: target.sentiment,
+              text: target.text,
+              offset: target.offset,
+              length: target.length
             },
-            opinions: aspect.relations
-              .filter((relation) => relation.relationType === "opinion")
-              .map((relation) => convertAspectRelationToOpinionSentiment(relation, document))
+            assessments: target.relations
+              .filter((relation) => relation.relationType === "assessment")
+              .map((relation) => convertTargetRelationToAssessmentSentiment(relation, result))
           })
         )
       : []
@@ -204,25 +211,26 @@ function convertGeneratedSentenceSentiment(
 }
 
 /**
- * Converts an aspect relation object returned by the service to an opinion
+ * Converts a target relation object returned by the service to an assessment
  * sentiment object where JSON pointers in the former are realized in the
  * latter.
  *
- * @param aspectRelation - The aspect relation object to be converted.
+ * @param targetRelation - The target relation object to be converted.
  * @param response - The entire response returned by the service.
- * @returns The user-friendly opinion sentiment object.
+ * @returns The user-friendly assessment sentiment object.
+ * @internal
  */
-function convertAspectRelationToOpinionSentiment(
-  aspectRelation: AspectRelation,
-  document: DocumentSentiment
-): OpinionSentiment {
-  const opinionPtr = aspectRelation.ref;
-  const opinionIndex: OpinionIndex = parseOpinionIndex(opinionPtr);
-  const opinion: SentenceOpinion | undefined =
-    document.sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
-  if (opinion !== undefined) {
-    return opinion;
+function convertTargetRelationToAssessmentSentiment(
+  targetRelation: TargetRelation,
+  result: DocumentSentiment
+): AssessmentSentiment {
+  const assessmentPtr = targetRelation.ref;
+  const assessmentIndex: AssessmentIndex = parseAssessmentIndex(assessmentPtr);
+  const assessment: SentenceAssessment | undefined =
+    result.sentenceSentiments?.[assessmentIndex.sentence].assessments?.[assessmentIndex.assessment];
+  if (assessment !== undefined) {
+    return assessment;
   } else {
-    throw new Error(`Pointer "${opinionPtr}" is not a valid opinion pointer`);
+    throw new Error(`Pointer "${assessmentPtr}" is not a valid Assessment pointer`);
   }
 }

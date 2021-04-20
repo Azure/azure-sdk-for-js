@@ -810,7 +810,7 @@ describe("EventHubConsumerClient", () => {
       let subscription: Subscription | undefined;
       await new Promise<void>((resolve, reject) => {
         subscription = consumerClient.subscribe(
-          // @ts-expect-error
+          // @ts-expect-error number for partitionId should work even if type is string
           0,
           {
             processEvents: async () => {
@@ -1248,7 +1248,9 @@ describe("EventHubConsumerClient", () => {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = badConsumerClient.subscribe({
-          processEvents: async () => {},
+          processEvents: async () => {
+            /** Nothing to do here */
+          },
           processError: async (err) => {
             resolve(err);
           }
@@ -1267,7 +1269,9 @@ describe("EventHubConsumerClient", () => {
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
         subscription = consumerClient.subscribe("boo", {
-          processEvents: async () => {},
+          processEvents: async () => {
+            /** Nothing to do here */
+          },
           processError: async (err) => {
             resolve(err);
           }

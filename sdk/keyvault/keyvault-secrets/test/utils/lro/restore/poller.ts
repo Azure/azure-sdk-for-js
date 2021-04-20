@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
+import { delay, OperationOptions } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import {
   RestoreSecretBackupPollOperationState,
@@ -13,7 +13,7 @@ import { SecretProperties } from "../../../../src/secretsModels";
 export interface RestoreSecretBackupPollerOptions {
   client: TestSecretClientInterface;
   backup: Uint8Array;
-  requestOptions?: RequestOptionsBase;
+  operationOptions?: OperationOptions;
   intervalInMs?: number;
   resumeFrom?: string;
 }
@@ -31,7 +31,7 @@ export class RestoreSecretBackupPoller extends Poller<
   public intervalInMs: number;
 
   constructor(options: RestoreSecretBackupPollerOptions) {
-    const { client, backup, requestOptions, intervalInMs = 2000, resumeFrom } = options;
+    const { client, backup, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: RestoreSecretBackupPollOperationState | undefined;
 
@@ -42,7 +42,7 @@ export class RestoreSecretBackupPoller extends Poller<
     const operation = makeRestoreSecretBackupPollOperation({
       ...state,
       backup,
-      requestOptions,
+      operationOptions,
       client
     });
 

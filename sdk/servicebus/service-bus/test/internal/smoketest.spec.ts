@@ -1,12 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusReceivedMessage, ServiceBusReceiver, ServiceBusMessage, delay, ProcessErrorArgs, ServiceBusSender } from "../../src";
+import {
+  ServiceBusReceivedMessage,
+  ServiceBusReceiver,
+  ServiceBusMessage,
+  delay,
+  ProcessErrorArgs,
+  ServiceBusSender
+} from "../../src";
 import { TestClientType } from "../public/utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { getEntityNameFromConnectionString } from "../../src/constructorHelpers";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "../public/utils/testutils2";
+import {
+  ServiceBusClientForTests,
+  createServiceBusClientForTests
+} from "../public/utils/testutils2";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 

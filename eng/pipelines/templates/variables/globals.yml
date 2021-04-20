@@ -4,3 +4,4 @@ variables:
   OSVmImage: "ubuntu-18.04"
   skipComponentGovernanceDetection: true
   coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**') ]
+  ServiceVersion: ""

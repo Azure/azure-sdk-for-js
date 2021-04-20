@@ -53,7 +53,7 @@ import {
   QuerySpecification
 } from "./generated/models";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { logger } from "./logger";
 
 export const SDK_VERSION: string = "1.0.3";
@@ -72,7 +72,6 @@ const DEFAULT_DIGITALTWINS_SCOPE = "https://digitaltwins.azure.net/.default";
  */
 export class DigitalTwinsClient {
   /**
-   * @internal
    * A reference to the auto-generated AzureDigitalTwinsAPI
    */
   private readonly client: GeneratedClient;
@@ -146,7 +145,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -175,7 +174,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.add(digitalTwinId, payload, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -197,6 +196,7 @@ export class DigitalTwinsClient {
    */
   public updateDigitalTwin(
     digitalTwinId: string,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
     jsonPatch: any,
     options: DigitalTwinsUpdateOptionalParams = {}
   ): Promise<DigitalTwinsUpdateResponse> {
@@ -205,7 +205,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.update(digitalTwinId, jsonPatch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -231,7 +231,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -258,7 +258,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwins.getComponent(digitalTwinId, componentName, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -294,7 +294,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -325,7 +325,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -346,6 +346,7 @@ export class DigitalTwinsClient {
   public upsertRelationship(
     digitalTwinId: string,
     relationshipId: string,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
     relationship: any,
     options: DigitalTwinsAddRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
@@ -359,7 +360,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -393,7 +394,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -425,7 +426,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -435,7 +436,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link listRelationships}.
    *
    * @param digitalTwinId - The Id of the digital twin.
@@ -472,7 +472,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link listRelationships}.
    * @param options - Common options for the iterative endpoints.
    */
@@ -513,7 +512,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -523,7 +522,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link listIncomingRelationships}.
    *
    * @param digitalTwinId - The Id of the digital twin.
@@ -560,7 +558,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link listIncomingRelationships}.
    * @param digitalTwinId - The Id of the digital twin.
    * @param options - Common options for the iterative endpoints.
@@ -606,7 +603,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -626,6 +623,7 @@ export class DigitalTwinsClient {
    */
   public publishTelemetry(
     digitalTwinId: string,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
     payload: any,
     messageId: string,
     options: OperationOptions = {}
@@ -642,13 +640,13 @@ export class DigitalTwinsClient {
     try {
       return this.client.digitalTwins.sendTelemetry(
         digitalTwinId,
-        payload,
         messageId,
+        payload,
         updatedOptions
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -693,7 +691,7 @@ export class DigitalTwinsClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -725,7 +723,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwinModels.getById(modelId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -735,7 +733,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link list}.
    *
    * @param options - Common options for the iterative endpoints.
@@ -766,7 +763,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link list}.
    * @param options - Common options for the iterative endpoints.
    */
@@ -822,7 +818,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -852,7 +848,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwinModels.add(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -881,7 +877,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -903,7 +899,7 @@ export class DigitalTwinsClient {
       return this.client.digitalTwinModels.delete(modelId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -928,7 +924,7 @@ export class DigitalTwinsClient {
       return this.client.eventRoutes.getById(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -938,7 +934,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link list}.
    *
    * @param options - Common options for the iterative endpoints.
@@ -969,7 +964,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link list}.
    * @param options - Common options for the iterative endpoints.
    */
@@ -1020,7 +1014,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1058,7 +1052,7 @@ export class DigitalTwinsClient {
       return this.client.eventRoutes.add(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1083,7 +1077,7 @@ export class DigitalTwinsClient {
       return this.client.eventRoutes.delete(eventRouteId, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1093,7 +1087,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the pagination of {@link query}.
    *
    * @param query - The query string, in SQL-like syntax.
@@ -1128,7 +1121,6 @@ export class DigitalTwinsClient {
   }
 
   /**
-   * @internal
    * Deals with the iteration of all the available results of {@link query}.
    * @param query - The query string, in SQL-like syntax.
    * @param options - Common options for the iterative endpoints.
@@ -1184,7 +1176,7 @@ export class DigitalTwinsClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

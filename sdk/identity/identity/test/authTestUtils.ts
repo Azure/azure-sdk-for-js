@@ -14,7 +14,8 @@ import {
 import * as coreHttp from "@azure/core-http";
 
 export interface MockAuthResponse {
-  status: number;
+  status?: number;
+  error?: RestError;
   headers?: HttpHeaders;
   parsedBody?: any;
   bodyAsText?: string;
@@ -27,7 +28,7 @@ export interface MockAuthHttpClientOptions {
 
 export class MockAuthHttpClient implements HttpClient {
   private authResponses: MockAuthResponse[] = [];
-  private currentResponse: number = 0;
+  private currentResponseIndex: number = 0;
   private mockTimeout: boolean;
 
   public tokenCredentialOptions: ClientCertificateCredentialOptions;
@@ -76,13 +77,22 @@ export class MockAuthHttpClient implements HttpClient {
       throw new Error("The number of requests has exceeded the number of authResponses");
     }
 
+    const authResponse = this.authResponses[this.currentResponseIndex];
+
+    if (authResponse.error) {
+      this.currentResponseIndex++;
+      throw authResponse.error;
+    }
+
     const response = {
       request: httpRequest,
-      headers: this.authResponses[this.currentResponse].headers || new HttpHeaders(),
-      ...this.authResponses[this.currentResponse]
+      headers: authResponse.headers || new HttpHeaders(),
+      status: authResponse.status || 200,
+      parsedBody: authResponse.parsedBody,
+      bodyAsText: authResponse.bodyAsText
     };
 
-    this.currentResponse++;
+    this.currentResponseIndex++;
     return response;
   }
 }

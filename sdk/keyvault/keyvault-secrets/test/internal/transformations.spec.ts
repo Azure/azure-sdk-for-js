@@ -50,7 +50,8 @@ describe("Transformations", () => {
         managed: true,
         vaultUrl: "https://azure_keyvault.vault.azure.net",
         version: "1",
-        name: "abc123"
+        name: "abc123",
+        certificateKeyId: "test_kid"
       }
     };
 
@@ -71,5 +72,8 @@ describe("Transformations", () => {
     assert.equal(secret.properties.recoveryId, "recovery_id");
     assert.equal(secret.properties.deletedOn, date);
     assert.equal(secret.properties.scheduledPurgeDate, date);
+    assert.equal(secret.recoveryId, "recovery_id");
+    assert.equal(secret.deletedOn, date);
+    assert.equal(secret.scheduledPurgeDate, date);
   });
 });

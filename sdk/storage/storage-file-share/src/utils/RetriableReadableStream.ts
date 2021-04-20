@@ -11,17 +11,12 @@ export type ReadableStreamGetter = (offset: number) => Promise<NodeJS.ReadableSt
 export interface RetriableReadableStreamOptions {
   abortSignal?: AbortSignalLike;
   /**
-   * Max retry count (>=0), undefined or invalid value means no retry
-   *
-   * @type {number}
-   * @memberof RetriableReadableStreamOptions
+   * Max retry count (greater than or equal to 0), undefined or invalid value means no retry
    */
   maxRetryRequests?: number;
 
   /**
    * Read progress event handler
-   *
-   * @memberof RetriableReadableStreamOptions
    */
   onProgress?: (progress: TransferProgressEvent) => void;
 
@@ -33,9 +28,6 @@ export interface RetriableReadableStreamOptions {
    * RetriableReadableStream will try to emit an "end" event to existing internal
    * stream to force it end and start retry from the breaking point.
    * The value will then update to "undefined", once the injection works.
-   *
-   * @type {boolean}
-   * @memberof RetriableReadableStreamOptions
    */
   doInjectErrorOnce?: boolean;
 }
@@ -46,9 +38,6 @@ const ABORT_ERROR = new AbortError("The operation was aborted.");
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
  * A Node.js ReadableStream will internally retry when internal ReadableStream unexpected ends.
- *
- * @class RetriableReadableStream
- * @extends {Readable}
  */
 export class RetriableReadableStream extends Readable {
   private aborter: AbortSignalLike;
@@ -69,13 +58,12 @@ export class RetriableReadableStream extends Readable {
   /**
    * Creates an instance of RetriableReadableStream.
    *
-   * @param {NodeJS.ReadableStream} source The current ReadableStream returned from getter
-   * @param {ReadableStreamGetter} getter A method calling downloading request returning
+   * @param source - The current ReadableStream returned from getter
+   * @param getter - A method calling downloading request returning
    *                                      a new ReadableStream from specified offset
-   * @param {number} offset Offset position in original data source to read
-   * @param {number} count How much data in original data source to read
-   * @param {RetriableReadableStreamOptions} [options={}]
-   * @memberof RetriableReadableStream
+   * @param offset - Offset position in original data source to read
+   * @param count - How much data in original data source to read
+   * @param options -
    */
   public constructor(
     source: NodeJS.ReadableStream,

@@ -167,7 +167,7 @@ describe("Streaming Receiver Tests", () => {
         body: "can stop and start a subscription message 1"
       });
 
-      const { subscription, msg: receivedMsg } = await new Promise<{
+      const { subscription: subscription1, msg: receivedMsg } = await new Promise<{
         subscription: { close(): Promise<void> };
         msg: string;
       }>((resolve, reject) => {
@@ -182,7 +182,7 @@ describe("Streaming Receiver Tests", () => {
       });
 
       receivedMsg.should.equal("can stop and start a subscription message 1");
-      await subscription.close();
+      await subscription1.close();
 
       await sender2.sendMessages({
         body: "can stop and start a subscription message 2"
@@ -982,7 +982,7 @@ export function createOnDetachedProcessErrorFake(): sinon.SinonSpy & {
     assertErrors: () => void;
   };
 
-  const assertErrors = () => {
+  const assertErrors = (): void => {
     const errors: string[] = [];
 
     for (const callArgs of processErrorFake.args) {

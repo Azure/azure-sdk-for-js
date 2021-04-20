@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.1.1",
+  "version": "1.2.0-beta.1",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -45,13 +45,13 @@
     "build:test": "npm run build:test:node && npm run build:test:browser",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
-    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-browser test-dist test-browser types *.tgz *.log",
-    "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter ../../../common/tools/mocha-multi-reporter.js",
-    "execute:samples": "npm run build:samples && echo Skipped.",
+    "build:samples": "echo Obsolete.",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-* types *.tgz *.log",
+    "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 dist-test/index.js --reporter ../../../common/tools/mocha-multi-reporter.js",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o app-configuration-lintReport.html || exit 0",
     "prebuild": "npm run clean",
@@ -59,12 +59,12 @@
     "swagger": "autorest --typescript swagger/swagger.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test:browser && cross-env TEST_MODE=live karma start --single-run",
-    "integration-test:node": "npm run build:test:node && nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
+    "integration-test:node": "npm run build:test:node && nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-esm/test/*.spec.js\" \"dist-esm/test/**/*.spec.js\"",
     "test:browser": "npm run clean && npm run build:test:browser && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test:node && npm run unit-test:node",
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "",
-    "unit-test:node": "npm run build:test:node && mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace test-dist/index.node.js",
+    "unit-test:node": "npm run build:test:node && mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 180000 --full-trace \"dist-test/index.node.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
@@ -89,14 +89,14 @@
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.9",
-    "@opentelemetry/api": "^0.10.2",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0",
+    "@azure/keyvault-secrets": "^4.2.0-beta.4",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -114,7 +114,7 @@
     "dotenv": "^8.2.0",
     "eslint": "^7.15.0",
     "esm": "^3.2.18",
-    "karma": "^5.1.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -136,10 +136,20 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
-    "ts-node": "^8.3.0",
-    "typescript": "4.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "~4.2.0",
     "uglify-js": "^3.4.9",
     "cross-env": "^7.0.2",
     "typedoc": "0.15.2"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure App Configuration",
+    "productSlugs": [
+      "azure",
+      "azure-app-configuration"
+    ],
+    "requiredResources": {
+      "Azure App Configuration account": "https://docs.microsoft.com/azure/azure-app-configuration/quickstart-aspnet-core-app?tabs=core5x#create-an-app-configuration-store"
+    }
   }
 }

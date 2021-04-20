@@ -18,17 +18,13 @@ export type Injector = () => RestError | undefined;
 
 /**
  * InjectorPolicy will inject a customized error before next HTTP request.
- *
- * @class InjectorPolicy
- * @extends {BaseRequestPolicy}
  */
 export class InjectorPolicy extends BaseRequestPolicy {
   /**
    * Creates an instance of InjectorPolicy.
    *
-   * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
-   * @memberof InjectorPolicy
+   * @param nextPolicy -
+   * @param options -
    */
   public constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, injector: Injector) {
     super(nextPolicy, options);
@@ -38,9 +34,7 @@ export class InjectorPolicy extends BaseRequestPolicy {
   /**
    * Sends request.
    *
-   * @param {WebResource} request
-   * @returns {Promise<HttpOperationResponse>}
-   * @memberof InjectorPolicy
+   * @param request -
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     const error = this.injector();

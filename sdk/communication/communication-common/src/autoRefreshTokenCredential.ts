@@ -3,7 +3,7 @@
 
 import { AbortSignalLike, AccessToken } from "@azure/core-http";
 import { parseToken } from "./tokenParser";
-import { TokenCredential } from "./communicationTokenCredential";
+import { TokenCredential, CommunicationGetTokenOptions } from "./communicationTokenCredential";
 
 /**
  * Options for auto-refreshing a Communication Token credential.
@@ -53,12 +53,12 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     }
   }
 
-  public async getToken(abortSignal?: AbortSignalLike): Promise<AccessToken> {
+  public async getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
     if (!this.isCurrentTokenExpiringSoon) {
       return this.currentToken;
     }
 
-    const updatePromise = this.updateTokenAndReschedule(abortSignal);
+    const updatePromise = this.updateTokenAndReschedule(options?.abortSignal);
 
     if (!this.isCurrentTokenValid) {
       await updatePromise;

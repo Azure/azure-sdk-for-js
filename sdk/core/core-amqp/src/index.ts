@@ -27,11 +27,13 @@ export {
   retryableErrors,
   isSystemError,
   SystemErrorConditionMapper,
-  NetworkSystemError
+  NetworkSystemError,
+  StandardAbortMessage
 } from "./errors";
 export {
   delay,
   parseConnectionString,
+  defaultCancellableLock,
   defaultLock,
   ParsedOutput,
   AsyncLock,
@@ -39,3 +41,5 @@ export {
 } from "./util/utils";
 export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
 export { logger } from "./log";
+export * from "./internals";
+export { AcquireLockProperties, CancellableAsyncLock } from "./util/lock";

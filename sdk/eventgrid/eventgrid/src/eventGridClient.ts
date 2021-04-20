@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import { KeyCredential, SASCredential } from "@azure/core-auth";
-import { PipelineOptions } from "@azure/core-https";
-import { OperationOptions, createClientPipeline } from "@azure/core-client";
+import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
 import { SDK_VERSION } from "./constants";
@@ -19,13 +18,13 @@ import {
 } from "./generated/models";
 import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { v4 as uuidv4 } from "uuid";
 
 /**
  * Options for the Event Grid Client.
  */
-export type EventGridPublisherClientOptions = PipelineOptions;
+export type EventGridPublisherClientOptions = CommonClientOptions;
 
 /**
  * Options for the send events operation.
@@ -121,12 +120,10 @@ export class EventGridPublisherClient<T extends InputSchema> {
       pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
-    const pipeline = createClientPipeline(pipelineOptions);
+    this.client = new GeneratedClient(pipelineOptions);
     const authPolicy = eventGridCredentialPolicy(credential);
-    pipeline.addPolicy(authPolicy);
-    pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy());
-
-    this.client = new GeneratedClient({ pipeline });
+    this.client.pipeline.addPolicy(authPolicy);
+    this.client.pipeline.addPolicy(cloudEventDistributedTracingEnricherPolicy());
     this.apiVersion = this.client.apiVersion;
   }
 
@@ -169,7 +166,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
         }
       }
     } catch (e) {
-      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
       span.end();

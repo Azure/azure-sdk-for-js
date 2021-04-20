@@ -6,11 +6,13 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { MessagingError } from '@azure/core-amqp';
+import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
-import { Span } from '@opentelemetry/api';
-import { SpanContext } from '@opentelemetry/api';
+import { SASCredential } from '@azure/core-auth';
+import { Span } from '@azure/core-tracing';
+import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
@@ -27,10 +29,10 @@ export interface Checkpoint {
 
 // @public
 export interface CheckpointStore {
-    claimOwnership(partitionOwnership: PartitionOwnership[]): Promise<PartitionOwnership[]>;
-    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<Checkpoint[]>;
-    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string): Promise<PartitionOwnership[]>;
-    updateCheckpoint(checkpoint: Checkpoint): Promise<void>;
+    claimOwnership(partitionOwnership: PartitionOwnership[], options?: OperationOptions): Promise<PartitionOwnership[]>;
+    listCheckpoints(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<Checkpoint[]>;
+    listOwnership(fullyQualifiedNamespace: string, eventHubName: string, consumerGroup: string, options?: OperationOptions): Promise<PartitionOwnership[]>;
+    updateCheckpoint(checkpoint: Checkpoint, options?: OperationOptions): Promise<void>;
 }
 
 // @public
@@ -97,8 +99,8 @@ export class EventHubConsumerClient {
     constructor(consumerGroup: string, connectionString: string, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
     constructor(consumerGroup: string, connectionString: string, eventHubName: string, options?: EventHubConsumerClientOptions);
     constructor(consumerGroup: string, connectionString: string, eventHubName: string, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
-    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubConsumerClientOptions);
-    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
+    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, options?: EventHubConsumerClientOptions);
+    constructor(consumerGroup: string, fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, checkpointStore: CheckpointStore, options?: EventHubConsumerClientOptions);
     close(): Promise<void>;
     static defaultConsumerGroupName: string;
     get eventHubName(): string;
@@ -119,7 +121,7 @@ export interface EventHubConsumerClientOptions extends EventHubClientOptions {
 export class EventHubProducerClient {
     constructor(connectionString: string, options?: EventHubClientOptions);
     constructor(connectionString: string, eventHubName: string, options?: EventHubClientOptions);
-    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential, options?: EventHubClientOptions);
+    constructor(fullyQualifiedNamespace: string, eventHubName: string, credential: TokenCredential | NamedKeyCredential | SASCredential, options?: EventHubClientOptions);
     close(): Promise<void>;
     createBatch(options?: CreateBatchOptions): Promise<EventDataBatch>;
     get eventHubName(): string;
@@ -289,7 +291,9 @@ export { TokenCredential }
 
 // @public
 export interface TryAddOptions {
+    // @deprecated (undocumented)
     parentSpan?: Span | SpanContext;
+    tracingOptions?: OperationTracingOptions;
 }
 
 export { WebSocketImpl }

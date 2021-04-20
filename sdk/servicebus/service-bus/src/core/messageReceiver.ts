@@ -182,8 +182,6 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
-   *
-   * @returns {Promise<void>} Promise<void>.
    */
   protected async _init(options: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
     try {
@@ -193,15 +191,20 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       // Thus make sure that the receiver is present in the client cache.
       this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
-      err = translateServiceBusError(err);
-      logger.logError(err, "%s An error occured while creating the receiver", this.logPrefix);
+      const translatedError = translateServiceBusError(err);
+      logger.logError(
+        translatedError,
+        "%s An error occured while creating the receiver",
+        this.logPrefix
+      );
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((err as MessagingError).code === "OperationTimeoutError") {
-        err.message = "Failed to create a receiver within allocated time and retry attempts.";
+      if ((translatedError as MessagingError).code === "OperationTimeoutError") {
+        translatedError.message =
+          "Failed to create a receiver within allocated time and retry attempts.";
       }
 
-      throw err;
+      throw translatedError;
     }
   }
 
@@ -238,10 +241,9 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   async settleMessage(
     message: ServiceBusMessageImpl,
     operation: DispositionType,
-    options?: DispositionStatusOptions
+    options: DispositionStatusOptions
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (!options) options = {};
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
         return reject(new Error(`operation: '${operation}' is not a valid operation.`));
       }
@@ -265,7 +267,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
             "message may or may not be successful"
         };
         return reject(translateServiceBusError(e));
-      }, Constants.defaultOperationTimeoutInMs);
+      }, options.retryOptions?.timeoutInMs ?? Constants.defaultOperationTimeoutInMs);
       this._deliveryDispositionMap.set(delivery.id, {
         resolve: resolve,
         reject: reject,

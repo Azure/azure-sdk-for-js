@@ -9,7 +9,8 @@ import {
   RetryOperationType,
   RetryOptions,
   SendRequestOptions,
-  defaultLock,
+  defaultCancellableLock,
+  isSasTokenProvider,
   retry,
   translate
 } from "@azure/core-amqp";
@@ -27,13 +28,11 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { logErrorStackTrace, logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { OperationNames } from "./models/private";
-import { Span, SpanContext, SpanKind, CanonicalCode } from "@opentelemetry/api";
-import { getParentSpan, OperationOptions } from "./util/operationOptions";
-import { getTracer } from "@azure/core-tracing";
-import { SharedKeyCredential } from "../src/eventhubSharedKeyCredential";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { OperationOptions } from "./util/operationOptions";
+import { createEventHubSpan } from "./diagnostics/tracing";
 
 /**
  * Describes the runtime information of an Event Hub.
@@ -138,7 +137,7 @@ export class ManagementClient extends LinkEntity {
    * @internal
    */
   async getSecurityToken(): Promise<AccessToken | null> {
-    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+    if (isSasTokenProvider(this._context.tokenCredential)) {
       // the security_token has the $management address removed from the end of the audience
       // expected audience: sb://fully.qualified.namespace/event-hub-name/$management
       const audienceParts = this.audience.split("/");
@@ -162,10 +161,12 @@ export class ManagementClient extends LinkEntity {
     options: OperationOptions & { retryOptions?: RetryOptions } = {}
   ): Promise<EventHubProperties> {
     throwErrorIfConnectionClosed(this._context);
-    const clientSpan = this._createClientSpan(
+    const { span: clientSpan } = createEventHubSpan(
       "getEventHubProperties",
-      getParentSpan(options.tracingOptions)
+      options,
+      this._context.config
     );
+
     try {
       const securityToken = await this.getSecurityToken();
       const request: Message = {
@@ -191,11 +192,11 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
 
-      clientSpan.setStatus({ code: CanonicalCode.OK });
+      clientSpan.setStatus({ code: SpanStatusCode.OK });
       return runtimeInfo;
     } catch (error) {
       clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       logger.warning(
@@ -226,9 +227,10 @@ export class ManagementClient extends LinkEntity {
     );
     partitionId = String(partitionId);
 
-    const clientSpan = this._createClientSpan(
+    const { span: clientSpan } = createEventHubSpan(
       "getPartitionProperties",
-      getParentSpan(options.tracingOptions)
+      options,
+      this._context.config
     );
 
     try {
@@ -262,12 +264,12 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
 
-      clientSpan.setStatus({ code: CanonicalCode.OK });
+      clientSpan.setStatus({ code: SpanStatusCode.OK });
 
       return partitionInfo;
     } catch (error) {
       clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       logger.warning(
@@ -304,12 +306,18 @@ export class ManagementClient extends LinkEntity {
     }
   }
 
-  private async _init(): Promise<void> {
+  private async _init({
+    abortSignal,
+    timeoutInMs
+  }: {
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number;
+  }): Promise<void> {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
-        await this._negotiateClaim();
+        await this._negotiateClaim({ setTokenRenewal: false, abortSignal, timeoutInMs });
         const rxopt: ReceiverOptions = {
           source: { address: this.address },
           name: this.replyTo,
@@ -338,7 +346,8 @@ export class ManagementClient extends LinkEntity {
         this._mgmtReqResLink = await RequestResponseLink.create(
           this._context.connection,
           sropt,
-          rxopt
+          rxopt,
+          { abortSignal }
         );
         this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
@@ -389,110 +398,88 @@ export class ManagementClient extends LinkEntity {
     try {
       const abortSignal: AbortSignalLike | undefined = options && options.abortSignal;
 
-      const sendOperationPromise = (): Promise<Message> =>
-        new Promise<Message>(async (resolve, reject) => {
-          let count = 0;
+      const sendOperationPromise = async (): Promise<Message> => {
+        let count = 0;
 
-          const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
-          let timeTakenByInit = 0;
+        const retryTimeoutInMs = getRetryAttemptTimeoutInMs(options.retryOptions);
+        let timeTakenByInit = 0;
 
-          const rejectOnAbort = (): void => {
-            const requestName = options.requestName;
-            const desc: string =
-              `[${this._context.connectionId}] The request "${requestName}" ` +
-              `to has been cancelled by the user.`;
-            // Cancellation is user-intended behavior, so log to info instead of warning.
-            logger.info(desc);
-            const error = new AbortError(
-              `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
-            );
+        if (!this._isMgmtRequestResponseLinkOpen()) {
+          logger.verbose(
+            "[%s] Acquiring lock to get the management req res link.",
+            this._context.connectionId
+          );
 
-            reject(error);
-          };
-
-          if (abortSignal) {
-            if (abortSignal.aborted) {
-              return rejectOnAbort();
-            }
-          }
-
-          if (!this._isMgmtRequestResponseLinkOpen()) {
-            logger.verbose(
-              "[%s] Acquiring lock to get the management req res link.",
-              this._context.connectionId
-            );
-
-            const initOperationStartTime = Date.now();
-
-            const actionAfterTimeout = (): void => {
-              const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-              const e: Error = {
-                name: "OperationTimeoutError",
-                message: desc
-              };
-
-              return reject(translate(e));
-            };
-
-            const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-            try {
-              await defaultLock.acquire(this.managementLock, () => {
-                return this._init();
-              });
-            } catch (err) {
-              return reject(translate(err));
-            } finally {
-              clearTimeout(waitTimer);
-            }
-            timeTakenByInit = Date.now() - initOperationStartTime;
-          }
-
-          const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
-
-          const sendRequestOptions: SendRequestOptions = {
-            abortSignal: options.abortSignal,
-            requestName: options.requestName,
-            timeoutInMs: remainingOperationTimeoutInMs
-          };
-
-          count++;
-          if (count !== 1) {
-            // Generate a new message_id every time after the first attempt
-            request.message_id = generate_uuid();
-          } else if (!request.message_id) {
-            // Set the message_id in the first attempt only if it is not set
-            request.message_id = generate_uuid();
-          }
-
+          const initOperationStartTime = Date.now();
           try {
-            const result = await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
-            resolve(result);
+            await defaultCancellableLock.acquire(
+              this.managementLock,
+              () => {
+                const acquireLockEndTime = Date.now();
+                const timeoutInMs =
+                  retryTimeoutInMs - (acquireLockEndTime - initOperationStartTime);
+                return this._init({ abortSignal, timeoutInMs });
+              },
+              { abortSignal, timeoutInMs: retryTimeoutInMs }
+            );
           } catch (err) {
             const translatedError = translate(err);
             logger.warning(
-              "[%s] An error occurred during send on management request-response link with address '%s': %s",
+              "[%s] An error occurred while creating the management link %s: %s",
               this._context.connectionId,
-              this.address,
+              this.name,
               `${translatedError?.name}: ${translatedError?.message}`
             );
             logErrorStackTrace(translatedError);
-            reject(translatedError);
+            throw translatedError;
           }
-        });
+          timeTakenByInit = Date.now() - initOperationStartTime;
+        }
 
-      const config: RetryConfig<Message> = {
-        operation: sendOperationPromise,
-        connectionId: this._context.connectionId,
-        operationType: RetryOperationType.management,
-        abortSignal: abortSignal,
-        retryOptions: retryOptions
+        const remainingOperationTimeoutInMs = retryTimeoutInMs - timeTakenByInit;
+
+        const sendRequestOptions: SendRequestOptions = {
+          abortSignal: options.abortSignal,
+          requestName: options.requestName,
+          timeoutInMs: remainingOperationTimeoutInMs
+        };
+
+        count++;
+        if (count !== 1) {
+          // Generate a new message_id every time after the first attempt
+          request.message_id = generate_uuid();
+        } else if (!request.message_id) {
+          // Set the message_id in the first attempt only if it is not set
+          request.message_id = generate_uuid();
+        }
+
+        return this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
       };
+
+      const config: RetryConfig<Message> = Object.defineProperties(
+        {
+          operation: sendOperationPromise,
+          operationType: RetryOperationType.management,
+          abortSignal: abortSignal,
+          retryOptions: retryOptions
+        },
+        {
+          connectionId: {
+            enumerable: true,
+            get: () => {
+              return this._context.connectionId;
+            }
+          }
+        }
+      );
       return (await retry<Message>(config)).body;
     } catch (err) {
       const translatedError = translate(err);
       logger.warning(
-        `An error occurred while making the request to $management endpoint: ${translatedError?.name}: ${translatedError?.message}`
+        "[%s] An error occurred during send on management request-response link with address '%s': %s",
+        this._context.connectionId,
+        this.address,
+        `${translatedError?.name}: ${translatedError?.message}`
       );
       logErrorStackTrace(translatedError);
       throw translatedError;
@@ -501,23 +488,5 @@ export class ManagementClient extends LinkEntity {
 
   private _isMgmtRequestResponseLinkOpen(): boolean {
     return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
-  }
-
-  private _createClientSpan(
-    operationName: OperationNames,
-    parentSpan?: Span | SpanContext | null,
-    internal: boolean = false
-  ): Span {
-    const tracer = getTracer();
-    const span = tracer.startSpan(`Azure.EventHubs.${operationName}`, {
-      kind: internal ? SpanKind.INTERNAL : SpanKind.CLIENT,
-      parent: parentSpan
-    });
-
-    span.setAttribute("az.namespace", "Microsoft.EventHub");
-    span.setAttribute("message_bus.destination", this._context.config.entityPath);
-    span.setAttribute("peer.address", this._context.config.host);
-
-    return span;
   }
 }

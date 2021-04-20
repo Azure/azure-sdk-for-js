@@ -6,13 +6,12 @@ import {
   TableInsertEntityHeaders,
   TableCreateHeaders
 } from "./generated/models";
-import { PipelineOptions } from "@azure/core-https";
-import { OperationOptions } from "@azure/core-client";
+import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 /**
  * Client options used to configure Tables Api requests
  */
-export type TableServiceClientOptions = PipelineOptions & {
+export type TableServiceClientOptions = CommonClientOptions & {
   endpoint?: string;
   version?: string;
 };
@@ -355,6 +354,17 @@ export interface TableBatch {
     entity: TableEntity<T>,
     mode: UpdateMode,
     options?: UpdateTableEntityOptions
+  ) => void;
+  /**
+   * Adds an updateEntity operation to the batch
+   * @param entity - Entity to update
+   * @param mode - Update mode (Merge or Replace)
+   * @param options - Options for the update operation
+   */
+  upsertEntity: <T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpsertTableEntityOptions
   ) => void;
   /**
    * Submits the operations in the batch

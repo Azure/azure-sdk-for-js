@@ -33,7 +33,7 @@ import {
   deferMessage,
   getMessageIterator,
   wrapProcessErrorHandler
-} from "./shared";
+} from "./receiverCommon";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
@@ -42,6 +42,16 @@ import { LockRenewer } from "../core/autoLockRenewer";
 import { createProcessingSpan } from "../diagnostics/instrumentServiceBusMessage";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
+
+/**
+ * The default time to wait for messages _after_ the first message
+ * has been received.
+ *
+ * This timeout only applies to receiveMessages()
+ *
+ * @internal
+ */
+export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;
 
 /**
  * A receiver that does not handle sessions.
@@ -624,7 +634,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return completeMessage(msgImpl, this._context, this.entityPath);
+    return completeMessage(msgImpl, this._context, this.entityPath, this._retryOptions);
   }
 
   async abandonMessage(
@@ -634,7 +644,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return abandonMessage(
+      msgImpl,
+      this._context,
+      this.entityPath,
+      propertiesToModify,
+      this._retryOptions
+    );
   }
 
   async deferMessage(
@@ -644,7 +660,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return deferMessage(
+      msgImpl,
+      this._context,
+      this.entityPath,
+      propertiesToModify,
+      this._retryOptions
+    );
   }
 
   async deadLetterMessage(
@@ -654,7 +676,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, options, this._retryOptions);
   }
 
   async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {
@@ -745,13 +767,3 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return;
   }
 }
-
-/**
- * The default time to wait for messages _after_ the first message
- * has been received.
- *
- * This timeout only applies to receiveMessages()
- *
- * @internal
- */
-export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;

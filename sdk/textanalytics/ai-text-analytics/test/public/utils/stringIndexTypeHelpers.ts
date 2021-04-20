@@ -14,7 +14,6 @@ import { Entity, StringIndexType, TextAnalyticsClient } from "../../../src";
  * @param offset - the expected offset of the first entity in the input document
  * @param length - the expected length of the first entity in the input document
  * @internal
- * @hidden
  */
 export async function checkOffsetAndLength(
   client: TextAnalyticsClient,
@@ -43,7 +42,6 @@ export async function checkOffsetAndLength(
  * @param offset - the expected offset of the first entity in the input document
  * @param length - the expected length of the first entity in the input document
  * @internal
- * @hidden
  */
 export function checkEntityTextOffset(
   doc: string,

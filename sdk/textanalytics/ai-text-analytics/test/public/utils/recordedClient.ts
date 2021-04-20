@@ -14,7 +14,7 @@ import "./env";
 const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
-  AZURE_TENANT_ID: "azure_tenant_id",
+  AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   TEXT_ANALYTICS_API_KEY: "api_key",
   // Second API key
   TEXT_ANALYTICS_API_KEY_ALT: "api_key_alt",

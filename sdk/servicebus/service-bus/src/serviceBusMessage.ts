@@ -14,6 +14,7 @@ import {
 import { defaultDataTransformer } from "./dataTransformer";
 import { messageLogger as logger } from "./log";
 import { ReceiveMode } from "./models";
+import { isObjectWithProperties } from "./util/typeGuards";
 import { reorderLockToken } from "./util/utils";
 
 /**
@@ -123,12 +124,12 @@ export interface ServiceBusMessage {
    * The correlation identifier that allows an
    * application to specify a context for the message for the purposes of correlation, for example
    * reflecting the MessageId of a message that is being replied to.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
+   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   correlationId?: string | number | Buffer;
   /**
    * The partition key for sending a message to a partitioned entity.
-   * Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning partitioned entities},
+   * Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning | partitioned entities},
    * setting this value enables assigning related messages to the same internal partition,
    * so that submission sequence order is correctly recorded. The partition is chosen by a hash
    * function over this value and cannot be chosen directly.
@@ -143,7 +144,7 @@ export interface ServiceBusMessage {
    * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
    * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
    * together and in order as they are transferred.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via Transfers and Send Via}.
+   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via | Transfers and Send Via}.
    */
 
   // Will be required later for implementing Transactions
@@ -155,14 +156,14 @@ export interface ServiceBusMessage {
    * the session affiliation of the message. Messages with the same session identifier are subject
    * to summary locking and enable exact in-order processing and demultiplexing. For
    * session-unaware entities, this value is ignored.
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions Message Sessions}.
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions | Message Sessions}.
    */
   sessionId?: string;
   /**
    * The session identifier augmenting the `replyTo` address.
    * Maximum length is 128 characters. This value augments the ReplyTo information and specifies
    * which SessionId should be set for the reply when sent to the reply entity.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
+   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   replyToSessionId?: string;
   /**
@@ -172,7 +173,7 @@ export interface ServiceBusMessage {
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
    * `timeToLive` value cannot be longer than the entity's DefaultTimeToLive setting and it is
    * silently adjusted if it does. See
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-expiration Expiration}.
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-expiration | Expiration}.
    */
   timeToLive?: number;
   /**
@@ -184,7 +185,7 @@ export interface ServiceBusMessage {
   /**
    * The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
-   * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding auto-forward chaining}
+   * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding | auto-forward chaining}
    * scenarios to indicate the intended logical destination of the message.
    */
   to?: string;
@@ -193,7 +194,7 @@ export interface ServiceBusMessage {
    * application-defined value is a standard way to express a reply path to the receiver of the
    * message. When a sender expects a reply, it sets the value to the absolute or relative path of
    * the queue or topic it expects the reply to be sent to. See
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   replyTo?: string;
   /**
@@ -209,7 +210,7 @@ export interface ServiceBusMessage {
    * The application specific properties which can be
    * used for custom message metadata.
    */
-  applicationProperties?: { [key: string]: number | boolean | string | Date };
+  applicationProperties?: { [key: string]: number | boolean | string | Date | null };
 }
 
 /**
@@ -273,11 +274,64 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
  * @internal
  * Converts given ServiceBusMessage to RheaMessage
  */
-export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
-  const amqpMsg: RheaMessage = {
-    body: msg.body,
-    message_annotations: {}
-  };
+export function toRheaMessage(
+  msg: ServiceBusMessage | ServiceBusReceivedMessage | AmqpAnnotatedMessage,
+  encoder: Pick<typeof defaultDataTransformer, "encode">
+): RheaMessage {
+  let amqpMsg: RheaMessage;
+  if (isAmqpAnnotatedMessage(msg)) {
+    amqpMsg = {
+      ...AmqpAnnotatedMessage.toRheaMessage(msg),
+      body: encoder.encode(msg.body, msg.bodyType ?? "data")
+    };
+  } else {
+    let bodyType: "data" | "sequence" | "value" = "data";
+
+    if (isServiceBusReceivedMessage(msg)) {
+      /*
+       * TODO: this is a bit complicated.
+       *
+       * It seems reasonable to expect to be able to round-trip a message (ie,
+       * receive a message, and then send it again, possibly to another queue / topic).
+       * If the user does that we need to make sure to respect their original AMQP
+       * type so when the message is re - encoded we don't put 'body' into the wrong spot.
+       *
+       * The complication is that we need to decide if we're okay with respecting a field
+       * from the rawAmqpMessage, which up until now we've treated as just vestigial
+       * information on send. My hope is that the use case of "alter the sb message in some
+       * incompatible way with the underying _rawAmqpMessage.bodyType" is not common
+       * enough for us to try to do anything more than what I'm doing here.
+       */
+      bodyType = msg._rawAmqpMessage.bodyType ?? "data";
+    }
+
+    // TODO: it seems sensible that we'd also do this for AMQPAnnotated message.
+    const validationError = getMessagePropertyTypeMismatchError(msg);
+
+    if (validationError) {
+      throw validationError;
+    }
+
+    amqpMsg = {
+      body: encoder.encode(msg.body, bodyType),
+      message_annotations: {}
+    };
+
+    amqpMsg.ttl = msg.timeToLive;
+  }
+
+  if (amqpMsg.ttl != null && amqpMsg.ttl !== Constants.maxDurationValue) {
+    amqpMsg.creation_time = Date.now();
+    amqpMsg.absolute_expiry_time = Math.min(
+      Constants.maxAbsoluteExpiryTime,
+      amqpMsg.creation_time + amqpMsg.ttl
+    );
+  }
+
+  if (isAmqpAnnotatedMessage(msg)) {
+    return amqpMsg;
+  }
+
   if (msg.applicationProperties != null) {
     amqpMsg.application_properties = msg.applicationProperties;
   }
@@ -290,6 +344,7 @@ export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
         "Length of 'sessionId' property on the message cannot be greater than 128 characters."
       );
     }
+
     amqpMsg.group_id = msg.sessionId;
   }
   if (msg.replyTo != null) {
@@ -314,15 +369,6 @@ export function toRheaMessage(msg: ServiceBusMessage): RheaMessage {
   }
   if (msg.replyToSessionId != null) {
     amqpMsg.reply_to_group_id = msg.replyToSessionId;
-  }
-  if (msg.timeToLive != null && msg.timeToLive !== Constants.maxDurationValue) {
-    amqpMsg.ttl = msg.timeToLive;
-    amqpMsg.creation_time = Date.now();
-    if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
-      amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
-    } else {
-      amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
-    }
   }
   if (msg.partitionKey != null) {
     if (msg.partitionKey.length > Constants.maxPartitionKeyLength) {
@@ -368,7 +414,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
   /**
    * The lock token is a reference to the lock that is being held by the broker in
    * `peekLock` receive mode. Locks are used internally settle messages as explained in the
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement | product documentation in more detail}
    * - Not applicable when the message is received in `receiveAndDelete` receive mode.
    * mode.
    * @readonly
@@ -416,7 +462,7 @@ export interface ServiceBusReceivedMessage extends ServiceBusMessage {
    *
    * **Max safe integer** that Javascript currently supports is `2^53 - 1`. The sequence number
    * is an AMQP `Long` type which can be upto 64 bits long. To represent that we are using a
-   * library named {@link https://github.com/dcodeIO/long.js long.js}. We expect customers
+   * library named {@link https://github.com/dcodeIO/long.js | long.js}. We expect customers
    * to use the **`Long`** type exported by this library.
    * @readonly
    */
@@ -450,8 +496,11 @@ export function fromRheaMessage(
       body: undefined
     };
   }
+
+  const { body, bodyType } = defaultDataTransformer.decodeWithType(msg.body);
+
   const sbmsg: ServiceBusMessage = {
-    body: msg.body
+    body: body
   };
 
   if (msg.application_properties != null) {
@@ -500,7 +549,12 @@ export function fromRheaMessage(
     }
   }
 
-  const props: any = {};
+  type PartialWritable<T> = Partial<
+    {
+      -readonly [P in keyof T]: T[P];
+    }
+  >;
+  const props: PartialWritable<ServiceBusReceivedMessage> = {};
   if (msg.message_annotations != null) {
     if (msg.message_annotations[Constants.deadLetterSource] != null) {
       props.deadLetterSource = msg.message_annotations[Constants.deadLetterSource];
@@ -522,15 +576,18 @@ export function fromRheaMessage(
       props.lockedUntilUtc = new Date(msg.message_annotations[Constants.lockedUntil] as number);
     }
   }
-  if (msg.ttl != null && msg.ttl >= Constants.maxDurationValue - props.enqueuedTimeUtc.getTime()) {
-    props.expiresAtUtc = new Date(Constants.maxDurationValue);
-  } else {
-    props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
+  if (msg.ttl == null) msg.ttl = Constants.maxDurationValue;
+  if (props.enqueuedTimeUtc) {
+    props.expiresAtUtc = new Date(
+      Math.min(props.enqueuedTimeUtc.getTime() + msg.ttl, Constants.maxDurationValue)
+    );
   }
 
+  const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+  rawMessage.bodyType = bodyType;
+
   const rcvdsbmsg: ServiceBusReceivedMessage = {
-    _rawAmqpMessage: AmqpAnnotatedMessage.fromRheaMessage(msg),
-    _delivery: delivery,
+    _rawAmqpMessage: rawMessage,
     deliveryCount: msg.delivery_count,
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
@@ -546,8 +603,10 @@ export function fromRheaMessage(
         : undefined,
     ...sbmsg,
     ...props,
-    deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason,
-    deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription
+    deadLetterReason: sbmsg.applicationProperties?.DeadLetterReason as string | undefined,
+    deadLetterErrorDescription: sbmsg.applicationProperties?.DeadLetterErrorDescription as
+      | string
+      | undefined
   };
 
   logger.verbose("AmqpMessage to ServiceBusReceivedMessage: %O", rcvdsbmsg);
@@ -557,8 +616,28 @@ export function fromRheaMessage(
 /**
  * @internal
  */
-export function isServiceBusMessage(possible: any): possible is ServiceBusMessage {
-  return possible != null && typeof possible === "object" && "body" in possible;
+export function isServiceBusMessage(possible: unknown): possible is ServiceBusMessage {
+  return isObjectWithProperties(possible, ["body"]);
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isAmqpAnnotatedMessage(possible: unknown): possible is AmqpAnnotatedMessage {
+  return (
+    isObjectWithProperties(possible, ["body", "bodyType"]) &&
+    possible.constructor.name !== ServiceBusMessageImpl.name
+  );
+}
+
+/**
+ * @internal
+ */
+export function isServiceBusReceivedMessage(
+  possible: unknown
+): possible is ServiceBusReceivedMessage {
+  return isServiceBusMessage(possible) && "_rawAmqpMessage" in possible;
 }
 
 /**
@@ -580,7 +659,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * application-defined value that uniquely identifies the message and its payload. The identifier
    * is a free-form string and can reflect a GUID or an identifier derived from the application
    * context. If enabled, the
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/duplicate-detection duplicate detection}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/duplicate-detection | duplicate detection}
    * identifies and removes second and further submissions of messages with the same MessageId.
    */
   messageId?: string | number | Buffer;
@@ -594,12 +673,12 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * The correlation identifier that allows an
    * application to specify a context for the message for the purposes of correlation, for example
    * reflecting the MessageId of a message that is being replied to.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
+   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   correlationId?: string | number | Buffer;
   /**
    * The partition key for sending a message to a
-   * partitioned entity. Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning partitioned entities},
+   * partitioned entity. Maximum length is 128 characters. For {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-partitioning | partitioned entities},
    * setting this value enables assigning related messages to the same internal partition,
    * so that submission sequence order is correctly recorded. The partition is chosen by a hash
    * function over this value and cannot be chosen directly. For session-aware entities,
@@ -612,7 +691,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * transfer queue in the scope of a transaction, this value selects the transfer queue partition:
    * This is functionally equivalent to `partitionKey` property and ensures that messages are kept
    * together and in order as they are transferred.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via Transfers and Send Via}.
+   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-transactions#transfers-and-send-via | Transfers and Send Via}.
    */
   // Will be required later for implementing Transactions
   // viaPartitionKey?: string;
@@ -622,14 +701,14 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * the session affiliation of the message. Messages with the same session identifier are subject
    * to summary locking and enable exact in-order processing and demultiplexing. For
    * session-unaware entities, this value is ignored.
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions Message Sessions}.
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions | Message Sessions}.
    */
   sessionId?: string;
   /**
    * The session identifier augmenting the `replyTo` address.
    * Maximum length is 128 characters. This value augments the ReplyTo information and specifies
    * which SessionId should be set for the reply when sent to the reply entity.
-   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
+   * See {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   replyToSessionId?: string;
   /**
@@ -639,7 +718,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * the assumed value is the DefaultTimeToLive for the respective queue or topic. A message-level
    * `timeToLive` value cannot be longer than the entity's DefaultTimeToLive setting and it is
    * silently adjusted if it does. See
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-expiration Expiration}.
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-expiration | Expiration}.
    */
   timeToLive?: number;
   /**
@@ -651,7 +730,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   /**
    * The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
-   * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding auto-forward chaining}
+   * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding | auto-forward chaining}
    * scenarios to indicate the intended logical destination of the message.
    */
   to?: string;
@@ -660,7 +739,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
    * application-defined value is a standard way to express a reply path to the receiver of the
    * message. When a sender expects a reply, it sets the value to the absolute or relative path of
    * the queue or topic it expects the reply to be sent to. See
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation Message Routing and Correlation}.
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messages-payloads?#message-routing-and-correlation | Message Routing and Correlation}.
    */
   replyTo?: string;
   /**
@@ -675,7 +754,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
   /**
    * The lock token is a reference to the lock that is being held by the broker in
    * `peekLock` receive mode. Locks are used internally settle messages as explained in the
-   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement product documentation in more detail}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement | product documentation in more detail}
    * - Not applicable when the message is received in `receiveAndDelete` receive mode.
    * mode.
    * @readonly
@@ -765,11 +844,24 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessage {
     if (receiveMode === "receiveAndDelete") {
       this.lockToken = undefined;
     }
+
+    let actualBodyType:
+      | ReturnType<typeof defaultDataTransformer["decodeWithType"]>["bodyType"]
+      | undefined = undefined;
+
     if (msg.body) {
-      this.body = defaultDataTransformer.decode(msg.body);
+      try {
+        const result = defaultDataTransformer.decodeWithType(msg.body);
+
+        this.body = result.body;
+        actualBodyType = result.bodyType;
+      } catch (err) {
+        this.body = undefined;
+      }
     }
     // TODO: _rawAmqpMessage is already being populated in fromRheaMessage(), no need to do it twice
     this._rawAmqpMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
+    this._rawAmqpMessage.bodyType = actualBodyType;
     this.delivery = delivery;
   }
 

@@ -7,7 +7,6 @@ let encoder: TextEncoder | undefined;
 
 /**
  * Returns a cached TextEncoder.
- * @hidden
  * @internal
  */
 function getTextEncoder(): TextEncoder {
@@ -26,7 +25,6 @@ function getTextEncoder(): TextEncoder {
 /**
  * Converts a utf8 string into a byte array.
  * @param content - The utf8 string to convert.
- * @hidden
  * @internal
  */
 export function utf8ToBytes(content: string): Uint8Array {

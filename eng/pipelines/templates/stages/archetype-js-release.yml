@@ -32,15 +32,11 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
-                    - ${{if eq(parameters.TestPipeline, 'true')}}:
-                      - task: PowerShell@2
-                        displayName: Prep template pipeline for release
-                        condition: succeeded()
-                        inputs:
-                          pwsh: true
-                          workingDirectory: $(Build.SourcesDirectory)
-                          filePath: eng/scripts/SetTestPipelineVersion.ps1
-                          arguments: '-BuildID $(Build.BuildId)'
+                    - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+                      parameters:
+                        PackageName: "@azure/template"
+                        ServiceDirectory: "template"
+                        TestPipeline: ${{ parameters.TestPipeline }}
                     - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                       parameters:
                         PackageName: ${{artifact.name}}
@@ -62,7 +58,7 @@ stages:
                         ReleaseSha: $(Build.SourceVersion)
                         RepoId: Azure/azure-sdk-for-js
                         WorkingDirectory: $(System.DefaultWorkingDirectory)
-
+                    
           - ${{if ne(artifact.skipPublishPackage, 'true')}}:
             - deployment: PublishPackage
               displayName: "Publish to npmjs"
@@ -221,7 +217,7 @@ stages:
     - stage: SmokeTest_Release_Packages
       displayName: Smoke Test Release Packages
       jobs:
-        - template: /eng/pipelines/templates/jobs/smoke-tests.yml
+        - template: /eng/pipelines/templates/jobs/smoke.tests.yml
           parameters:
             Daily: false
             ServiceDirectory: ${{ parameters.ServiceDirectory }}
@@ -233,7 +229,7 @@ stages:
     - job: PublishPackages
       # Run Integration job only if SetDevVersion is set to true or ( SetDevVersion is empty and job is a scheduled CI run)
       # If SetDevVersion is set to false then we should skip integration job even for scheduled runs.
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['SetDevVersion'], ''), eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      condition: and(eq(variables['SetDevVersion'], 'true'), eq(variables['System.TeamProject'], 'internal'))
       displayName: Publish package to daily feed
       pool:
         name: azsdk-pool-mms-ubuntu-1804-general

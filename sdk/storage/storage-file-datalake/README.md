@@ -223,7 +223,7 @@ const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
 
 const connStr = "<connection string>";
 
-const DataLakeServiceClient = DataLakeServiceClient.fromConnectionString(connStr);
+const dataLakeServiceClient = DataLakeServiceClient.fromConnectionString(connStr);
 ```
 
 #### with `StorageSharedKeyCredential`

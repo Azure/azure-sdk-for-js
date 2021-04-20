@@ -51,7 +51,7 @@ describe("dead lettering", () => {
 
     const receivedMessages = await receiver.receiveMessages(1);
 
-    if (receivedMessages.length == 0) {
+    if (receivedMessages.length === 0) {
       throw new Error("No messages were received");
     }
 
@@ -198,7 +198,7 @@ describe("abandoning", () => {
 
     const receivedMessages = await receiver.receiveMessages(1);
 
-    if (receivedMessages.length == 0) {
+    if (receivedMessages.length === 0) {
       throw new Error("No messages were received");
     }
 
@@ -321,7 +321,7 @@ describe("deferring", () => {
 
     const receivedMessages = await receiver.receiveMessages(1);
 
-    if (receivedMessages.length == 0) {
+    if (receivedMessages.length === 0) {
       throw new Error("No messages were received");
     }
 

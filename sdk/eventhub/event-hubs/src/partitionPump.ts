@@ -9,12 +9,13 @@ import { PartitionProcessor } from "./partitionProcessor";
 import { EventHubReceiver } from "./eventHubReceiver";
 import { AbortController } from "@azure/abort-controller";
 import { MessagingError } from "@azure/core-amqp";
-import { OperationOptions, getParentSpan } from "./util/operationOptions";
-import { getTracer } from "@azure/core-tracing";
-import { CanonicalCode, Link, Span, SpanKind } from "@opentelemetry/api";
+import { OperationOptions } from "./util/operationOptions";
+import { SpanStatusCode, Link, Span, SpanKind } from "@azure/core-tracing";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData";
 import { ReceivedEventData } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
+import { createEventHubSpan } from "./diagnostics/tracing";
+import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
 
 /**
  * @internal
@@ -131,10 +132,7 @@ export class PartitionPump {
 
         const span = createProcessingSpan(
           receivedEvents,
-          {
-            eventHubName: this._context.config.entityPath,
-            host: this._context.config.host
-          },
+          this._context.config,
           this._processorOptions
         );
 
@@ -211,7 +209,7 @@ export class PartitionPump {
  */
 export function createProcessingSpan(
   receivedEvents: ReceivedEventData[],
-  eventHubProperties: { eventHubName: string; host: string },
+  eventHubProperties: Pick<EventHubConnectionConfig, "entityPath" | "host">,
   options?: OperationOptions
 ): Span {
   const links: Link[] = [];
@@ -231,16 +229,9 @@ export function createProcessingSpan(
     });
   }
 
-  const span = getTracer().startSpan("Azure.EventHubs.process", {
+  const { span } = createEventHubSpan("process", options, eventHubProperties, {
     kind: SpanKind.CONSUMER,
-    links,
-    parent: getParentSpan(options?.tracingOptions)
-  });
-
-  span.setAttributes({
-    "az.namespace": "Microsoft.EventHub",
-    "message_bus.destination": eventHubProperties.eventHubName,
-    "peer.address": eventHubProperties.host
+    links
   });
 
   return span;
@@ -252,10 +243,10 @@ export function createProcessingSpan(
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {
   try {
     await fn();
-    span.setStatus({ code: CanonicalCode.OK });
+    span.setStatus({ code: SpanStatusCode.OK });
   } catch (err) {
     span.setStatus({
-      code: CanonicalCode.UNKNOWN,
+      code: SpanStatusCode.ERROR,
       message: err.message
     });
     throw err;

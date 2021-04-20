@@ -69,6 +69,7 @@ export interface AmqpMessageProperties {
 /**
  * Describes the operations that can be performed on the amqp message properties.
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- renaming constant would be a breaking change.
 export const AmqpMessageProperties = {
   /**
    * Converts MessageProperties to RheaMessageProperties.

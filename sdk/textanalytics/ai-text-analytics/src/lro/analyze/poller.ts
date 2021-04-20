@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
 import { PagedAnalyzeBatchActionsResult } from "../../analyzeBatchActionsResult";
 import { JobManifestTasks as GeneratedActions } from "../../generated/models";
+import { delay } from "../../util";
 
 import { AnalysisPoller, AnalysisPollerOptions } from "../poller";
 import {
@@ -12,6 +12,9 @@ import {
   AnalyzeBatchActionsOperationState
 } from "./operation";
 
+/**
+ * @internal
+ */
 export interface AnalyzeBatchActionsPollerOptions extends AnalysisPollerOptions {
   actions: GeneratedActions;
   readonly displayName?: string;
@@ -19,7 +22,7 @@ export interface AnalyzeBatchActionsPollerOptions extends AnalysisPollerOptions 
 }
 
 /**
- * Result type of the Analyze Long-Running-Operation (LRO)
+ * Result type of the Begin Analyze Batch Actions Long-Running-Operation (LRO).
  */
 export type AnalyzeBatchActionsPollerLike = PollerLike<
   AnalyzeBatchActionsOperationState,
@@ -27,7 +30,8 @@ export type AnalyzeBatchActionsPollerLike = PollerLike<
 >;
 
 /**
- * Class that represents a poller that waits for the analyze results.
+ * Class that represents a poller that waits for the analyze batch actions results.
+ * @internal
  */
 export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
   AnalyzeBatchActionsOperationState,
@@ -58,9 +62,9 @@ export class BeginAnalyzeBatchActionsPoller extends AnalysisPoller<
       documents,
       actions,
       {
+        displayName,
         requestOptions,
         tracingOptions,
-        displayName,
         updateIntervalInMs,
         resumeFrom,
         includeStatistics,

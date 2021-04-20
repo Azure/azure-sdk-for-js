@@ -626,7 +626,7 @@ const listGremlinDatabasesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -652,7 +652,7 @@ const getGremlinDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -678,7 +678,7 @@ const getGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -704,7 +704,7 @@ const listGremlinGraphsOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -731,7 +731,7 @@ const getGremlinGraphOperationSpec: msRest.OperationSpec = {
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -758,7 +758,7 @@ const getGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -784,7 +784,7 @@ const beginCreateUpdateGremlinDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -818,7 +818,7 @@ const beginDeleteGremlinDatabaseOperationSpec: msRest.OperationSpec = {
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -843,7 +843,7 @@ const beginUpdateGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = 
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -877,7 +877,7 @@ const beginMigrateGremlinDatabaseToAutoscaleOperationSpec: msRest.OperationSpec 
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -904,7 +904,7 @@ const beginMigrateGremlinDatabaseToManualThroughputOperationSpec: msRest.Operati
     Parameters.databaseName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -932,7 +932,7 @@ const beginCreateUpdateGremlinGraphOperationSpec: msRest.OperationSpec = {
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -967,7 +967,7 @@ const beginDeleteGremlinGraphOperationSpec: msRest.OperationSpec = {
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -993,7 +993,7 @@ const beginUpdateGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1028,7 +1028,7 @@ const beginMigrateGremlinGraphToAutoscaleOperationSpec: msRest.OperationSpec = {
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1056,7 +1056,7 @@ const beginMigrateGremlinGraphToManualThroughputOperationSpec: msRest.OperationS
     Parameters.graphName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage

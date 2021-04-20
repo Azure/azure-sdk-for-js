@@ -1,0 +1,261 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/create",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/azure_tenant_id\", resource=\"https://managedhsm.azure.net\"",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-request-id": "15c17634-7314-11eb-89bd-0242ac120006",
+    "x-ms-server-latency": "0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 20 Feb 2021 00:39:26 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11496.7 - NCUS ProdSlices",
+    "x-ms-request-id": "048c32e5-2f7f-44ca-b0dd-c9d700af3900"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/create",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": "{\"kty\":\"AES\",\"key_size\":256,\"attributes\":{}}",
+   "status": 200,
+   "response": "{\"attributes\":{\"created\":1613781566,\"enabled\":true,\"exportable\":false,\"recoverableDays\":90,\"recoveryLevel\":\"Recoverable+Purgeable\",\"updated\":1613781566},\"key\":{\"key_ops\":[\"wrapKey\",\"unwrapKey\",\"decrypt\",\"encrypt\"],\"kid\":\"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220\",\"kty\":\"oct-HSM\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "360",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-keyvault-network-info": "addr=50.35.231.105",
+    "x-ms-keyvault-region": "westeurope",
+    "x-ms-request-id": "15f1f390-7314-11eb-89bd-0242ac120006",
+    "x-ms-server-latency": "163"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "OK",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "2",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/azure_tenant_id\", resource=\"https://managedhsm.azure.net\"",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-build-version": "1.0.20210204-1-c9f88df4-develop",
+    "x-ms-request-id": "1623bf92-7314-11eb-89bd-0242ac120006",
+    "x-ms-server-latency": "0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/azure_tenant_id/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fmanagedhsm.azure.net%2F.default",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Sat, 20 Feb 2021 00:39:26 GMT",
+    "expires": "-1",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.11513.13 - WUS2 ProdSlices",
+    "x-ms-request-id": "9db08715-d946-4df2-b2b7-130ac27c0900"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"attributes\":{\"created\":1613781566,\"enabled\":true,\"exportable\":false,\"recoverableDays\":90,\"recoveryLevel\":\"Recoverable+Purgeable\",\"updated\":1613781566},\"key\":{\"key_ops\":[\"wrapKey\",\"unwrapKey\",\"encrypt\",\"decrypt\"],\"kid\":\"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220\",\"kty\":\"oct-HSM\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "360",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-build-version": "1.0.20210204-1-c9f88df4-develop",
+    "x-ms-keyvault-network-info": "addr=50.35.231.105",
+    "x-ms-keyvault-region": "westeurope",
+    "x-ms-request-id": "1645b908-7314-11eb-89bd-0242ac120006",
+    "x-ms-server-latency": "113"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220/encrypt",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": "{\"alg\":\"A256GCM\",\"value\":\"ZW5jcnlwdHMgYW5kIGRlY3J5cHRzIHVzaW5nIEFFUy1HQ00\"}",
+   "status": 200,
+   "response": "{\"alg\":\"A256GCM\",\"iv\":\"1iin7lGfm3rPJ6qkAAAAAA\",\"kid\":\"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220\",\"tag\":\"AMDEeHbdAX8JqfrSGISGWw\",\"value\":\"tINXpDH2Z9yu_7AoOXr5TQBJsQYTAnlumGP5kX2mB2ciQFM\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "265",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-keyvault-network-info": "addr=50.35.231.105",
+    "x-ms-keyvault-region": "westeurope",
+    "x-ms-request-id": "1670d44e-7314-11eb-89bd-0242ac120006",
+    "x-ms-server-latency": "1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220/decrypt",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": "{\"alg\":\"A256GCM\",\"value\":\"tINXpDH2Z9yu_7AoOXr5TQBJsQYTAnlumGP5kX2mB2ciQFM\",\"iv\":\"1iin7lGfm3rPJ6qkAAAAAA\",\"tag\":\"AMDEeHbdAX8JqfrSGISGWw\"}",
+   "status": 200,
+   "response": "{\"alg\":\"A256GCM\",\"kid\":\"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220\",\"value\":\"ZW5jcnlwdHMgYW5kIGRlY3J5cHRzIHVzaW5nIEFFUy1HQ00\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "204",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-keyvault-network-info": "addr=50.35.231.105",
+    "x-ms-keyvault-region": "westeurope",
+    "x-ms-request-id": "16897e54-7314-11eb-89bd-0242ac120006",
+    "x-ms-server-latency": "0"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"attributes\":{\"created\":1613781566,\"enabled\":true,\"exportable\":false,\"recoverableDays\":90,\"recoveryLevel\":\"Recoverable+Purgeable\",\"updated\":1613781566},\"deletedDate\":1613781568,\"key\":{\"key_ops\":[\"unwrapKey\",\"wrapKey\",\"decrypt\",\"encrypt\"],\"kid\":\"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220\",\"kty\":\"oct-HSM\"},\"recoveryId\":\"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test\",\"scheduledPurgeDate\":1621557568}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "527",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-keyvault-network-info": "addr=50.35.231.105",
+    "x-ms-keyvault-region": "westeurope",
+    "x-ms-request-id": "16a32714-7314-11eb-89bd-0242ac120006",
+    "x-ms-server-latency": "79"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"attributes\":{\"created\":1613781566,\"enabled\":true,\"exportable\":false,\"recoverableDays\":90,\"recoveryLevel\":\"Recoverable+Purgeable\",\"updated\":1613781566},\"deletedDate\":1613781568,\"key\":{\"key_ops\":[\"encrypt\",\"decrypt\",\"unwrapKey\",\"wrapKey\"],\"kid\":\"https://azure_managedhsm.managedhsm.azure.net/keys/cryptography-client-test/ab0d0a6c32364aefac030acd268e8220\",\"kty\":\"oct-HSM\"},\"recoveryId\":\"https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test\",\"scheduledPurgeDate\":1621557568}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "527",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-build-version": "1.0.20210204-1-c9f88df4-develop",
+    "x-ms-keyvault-network-info": "addr=50.35.231.105",
+    "x-ms-keyvault-region": "westeurope",
+    "x-ms-request-id": "16c87726-7314-11eb-89bd-0242ac120006",
+    "x-ms-server-latency": "38"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/deletedkeys/cryptography-client-test",
+   "query": {
+    "api-version": "7.2"
+   },
+   "requestBody": null,
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-keyvault-network-info": "addr=50.35.231.105",
+    "x-ms-keyvault-region": "westeurope",
+    "x-ms-request-id": "16e7403e-7314-11eb-89bd-0242ac120006",
+    "x-ms-server-latency": "112"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "cd354e57cc232aa1217b1b2b448d3409"
+}

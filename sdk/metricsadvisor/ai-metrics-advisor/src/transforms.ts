@@ -16,7 +16,7 @@ import {
   WebhookHookInfo,
   EmailHookInfo,
   NeedRollupEnum,
-  DataFeedDetailRollUpMethod
+  RollUpMethod as DataFeedDetailRollUpMethod
 } from "./generated/models";
 import {
   MetricFeedbackUnion,

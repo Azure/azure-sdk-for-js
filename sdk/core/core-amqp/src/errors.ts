@@ -4,6 +4,13 @@
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
 import { isNode, isNumber, isString } from "../src/util/utils";
+import { isDefined, isObjectWithProperties } from "./util/typeGuards";
+
+/**
+ * The standard error message accompanying an AbortError.
+ * @hidden
+ */
+export const StandardAbortMessage = "The operation was aborted.";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -547,6 +554,10 @@ export const retryableErrors: string[] = [
   "ServiceUnavailableError",
   "OperationCancelledError",
 
+  // The service may throw UnauthorizedError if credentials have been rotated.
+  // Attempt to retry in case the user has also rotated their credentials.
+  "UnauthorizedError",
+
   // OperationTimeoutError occurs when the service fails to respond within a given timeframe.
   // Since reasons for such failures can be transient, this is treated as a retryable error.
   "OperationTimeoutError",
@@ -582,8 +593,8 @@ export enum SystemErrorConditionMapper {
  * Checks whether the provided error is a node.js SystemError.
  * @param err - An object that may contain error information.
  */
-export function isSystemError(err: any): err is NetworkSystemError {
-  if (!err) {
+export function isSystemError(err: unknown): err is NetworkSystemError {
+  if (!isObjectWithProperties(err, ["code", "syscall", "errno"])) {
     return false;
   }
 
@@ -607,12 +618,7 @@ export function isSystemError(err: any): err is NetworkSystemError {
  */
 function isBrowserWebsocketError(err: any): boolean {
   let result: boolean = false;
-  if (
-    !isNode &&
-    window &&
-    err.type === "error" &&
-    err.target instanceof (window as any).WebSocket
-  ) {
+  if (!isNode && self && err.type === "error" && err.target instanceof (self as any).WebSocket) {
     result = true;
   }
   return result;
@@ -640,6 +646,12 @@ const rheaPromiseErrors = [
  * @returns MessagingError object.
  */
 export function translate(err: AmqpError | Error): MessagingError | Error {
+  if (!isDefined(err)) {
+    return new Error(`Unknown error encountered.`);
+  } else if (typeof err !== "object") {
+    // The error is a scalar type, make it the message of an actual error.
+    return new Error(err);
+  }
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
   if (err instanceof TypeError || err instanceof RangeError) {

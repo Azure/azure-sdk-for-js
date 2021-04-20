@@ -19,7 +19,7 @@ import { TriggerResponse } from "./TriggerResponse";
 export class Triggers {
   /**
    * @hidden
-   * @param container The parent {@link Container}.
+   * @param container - The parent {@link Container}.
    */
   constructor(
     public readonly container: Container,
@@ -28,14 +28,12 @@ export class Triggers {
 
   /**
    * Query all Triggers.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
   /**
    * Query all Triggers.
-   * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
-   * @param options
+   * @param query - Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    */
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
   public query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T> {
@@ -56,7 +54,6 @@ export class Triggers {
 
   /**
    * Read all Triggers.
-   * @param options
    * @example Read all trigger to array.
    * ```typescript
    * const {body: triggerList} = await container.triggers.readAll().fetchAll();
@@ -72,8 +69,6 @@ export class Triggers {
    * on creates, updates and deletes.
    *
    * For additional details, refer to the server-side JavaScript API documentation.
-   * @param body
-   * @param options
    */
   public async create(body: TriggerDefinition, options?: RequestOptions): Promise<TriggerResponse> {
     if (body.body) {

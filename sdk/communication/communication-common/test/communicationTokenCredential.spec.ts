@@ -123,9 +123,9 @@ describe("CommunicationTokenCredential", () => {
     const tokenCredential = new AzureCommunicationTokenCredential({
       tokenRefresher
     });
-    const abortSignal = AbortSignal.none;
-    tokenCredential.getToken(abortSignal);
-    sinon.assert.calledOnceWithExactly(tokenRefresher, abortSignal);
+    const options = { abortSignal: AbortSignal.none };
+    tokenCredential.getToken(options);
+    sinon.assert.calledOnceWithExactly(tokenRefresher, options.abortSignal);
   });
 
   it("throws if disposed", async () => {

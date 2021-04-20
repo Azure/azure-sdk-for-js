@@ -7,7 +7,7 @@ import { ServiceBusSessionReceiverOptions } from "../../../src/models";
 import { entityPathMisMatchError } from "../../../src/util/errors";
 import {
   createConnectionContextForConnectionString,
-  createConnectionContextForTokenCredential
+  createConnectionContextForCredential
 } from "../../../src/constructorHelpers";
 import { TokenCredential } from "@azure/core-http";
 import { ConnectionContext } from "../../../src/connectionContext";
@@ -16,7 +16,7 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl
 } from "../../../src/receivers/sessionReceiver";
-import { AbortController } from "@azure/abort-controller";
+import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -331,17 +331,18 @@ describe("serviceBusClient unit tests", () => {
       const endpoint = "endpoint";
       it("Websocket endpoint and constructor options are populated in the config", () => {
         const options = { randomOption: 123 };
-        const connectionContext = createConnectionContextForTokenCredential(
-          pseudoTokenCred,
-          endpoint,
-          { webSocketOptions: { webSocketConstructorOptions: options } }
-        );
+        const connectionContext = createConnectionContextForCredential(pseudoTokenCred, endpoint, {
+          webSocketOptions: { webSocketConstructorOptions: options }
+        });
         validateWebsocketInfo(connectionContext, options);
       });
     });
   });
 });
-function createAbortSignal() {
+function createAbortSignal(): {
+  signal: AbortSignalLike;
+  abortedPropertyWasChecked: boolean;
+} {
   const abortSignal = new AbortController().signal;
   const result = {
     signal: abortSignal,

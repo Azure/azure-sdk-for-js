@@ -10,15 +10,18 @@ import { Delivery } from 'rhea-promise';
 import { HttpResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
+import { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
+import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
+import { SASCredential } from '@azure/core-auth';
 import { ServiceClient } from '@azure/core-http';
-import { Span } from '@opentelemetry/api';
-import { SpanContext } from '@opentelemetry/api';
+import { Span } from '@azure/core-tracing';
+import { SpanContext } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
@@ -139,7 +142,7 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {
 }
 
 // @public
-export function isServiceBusError(err: any): err is ServiceBusError;
+export function isServiceBusError(err: unknown): err is ServiceBusError;
 
 // @public
 export interface MessageHandlers {
@@ -236,7 +239,7 @@ export interface RuleProperties {
 // @public
 export class ServiceBusAdministrationClient extends ServiceClient {
     constructor(connectionString: string, options?: PipelineOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: PipelineOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential | NamedKeyCredential, options?: PipelineOptions);
     createQueue(queueName: string, options?: CreateQueueOptions): Promise<WithResponse<QueueProperties>>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<WithResponse<RuleProperties>>;
@@ -274,7 +277,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 // @public
 export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential | NamedKeyCredential | SASCredential, options?: ServiceBusClientOptions);
     acceptNextSession(queueName: string, options?: ServiceBusSessionReceiverOptions): Promise<ServiceBusSessionReceiver>;
     acceptNextSession(topicName: string, subscriptionName: string, options?: ServiceBusSessionReceiverOptions): Promise<ServiceBusSessionReceiver>;
     acceptSession(queueName: string, sessionId: string, options?: ServiceBusSessionReceiverOptions): Promise<ServiceBusSessionReceiver>;
@@ -372,7 +375,7 @@ export type ServiceBusErrorCode =
 // @public
 export interface ServiceBusMessage {
     applicationProperties?: {
-        [key: string]: number | boolean | string | Date;
+        [key: string]: number | boolean | string | Date | null;
     };
     body: any;
     contentType?: string;
@@ -397,7 +400,7 @@ export interface ServiceBusMessageBatch {
     // @internal
     readonly _messageSpanContexts: SpanContext[];
     readonly sizeInBytes: number;
-    tryAddMessage(message: ServiceBusMessage, options?: TryAddOptions): boolean;
+    tryAddMessage(message: ServiceBusMessage | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
 }
 
 // @public
@@ -456,7 +459,7 @@ export interface ServiceBusSender {
     entityPath: string;
     isClosed: boolean;
     scheduleMessages(messages: ServiceBusMessage | ServiceBusMessage[], scheduledEnqueueTimeUtc: Date, options?: OperationOptionsBase): Promise<Long[]>;
-    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
+    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], options?: OperationOptionsBase): Promise<void>;
 }
 
 // @public
@@ -567,7 +570,9 @@ export interface TopicRuntimeProperties {
 
 // @public
 export interface TryAddOptions {
+    // @deprecated (undocumented)
     parentSpan?: Span | SpanContext | null;
+    tracingOptions?: OperationTracingOptions;
 }
 
 export { WebSocketImpl }

@@ -47,7 +47,7 @@ describe("AvroReadableFromBlob", () => {
 
     for (let i = 0; i < size / len; i++) {
       const length = Math.min(len, blob.size - offset);
-      const readPromise = async () => {
+      const readPromise = async (): Promise<void> => {
         const localOffset = offset;
         const buf = await rfs.read(length);
         const expectedBuf = new Uint8Array(u8arr.buffer, localOffset, length);

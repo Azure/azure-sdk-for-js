@@ -4,7 +4,7 @@
    "method": "PUT",
    "url": "https://keyvault_name.vault.azure.net/secrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "",
    "status": 401,
@@ -13,18 +13,17 @@
     "cache-control": "no-cache",
     "content-length": "87",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:33 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:50 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "401",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
     "www-authenticate": "Bearer authorization=\"https://login.windows.net/azure_tenant_id\", resource=\"https://vault.azure.net\"",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "4c950614-d891-4e6c-87c0-01bad6408476",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "fd21ab2d-fff8-49a7-8680-84bfae2f4352",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -36,44 +35,43 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
+    "cache-control": "no-store, no-cache",
     "content-length": "1315",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:33 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:50 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10732.8 - EUS ProdSlices",
-    "x-ms-request-id": "a5bef447-c5fa-4c94-a513-c0a8c66d2001"
+    "x-ms-ests-server": "2.1.11496.6 - WUS2 ProdSlices",
+    "x-ms-request-id": "bad13ffe-295b-487b-93e2-fb6b512e3500"
    }
   },
   {
    "method": "PUT",
    "url": "https://keyvault_name.vault.azure.net/secrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": "{\"value\":\"value\",\"attributes\":{}}",
    "status": 200,
-   "response": "{\"value\":\"value\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/lroDeleteSecretName-canresumefromastoppedpoller-/0dd8aa2cec19491dac66098a51b8d40b\",\"attributes\":{\"enabled\":true,\"created\":1593089673,\"updated\":1593089673,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"value\":\"value\",\"id\":\"https://keyvault_name.vault.azure.net/secrets/lroDeleteSecretName-canresumefromastoppedpoller-/f3e654a866fd4e91a8d6b23b897742aa\",\"attributes\":{\"enabled\":true,\"created\":1613504870,\"updated\":1613504870,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "307",
+    "content-length": "306",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:33 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:50 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "1f1ff60e-7b0d-422c-8a36-38a0ff92be43",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "3908bd16-95aa-484d-87fc-58b455f23b36",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -81,26 +79,25 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/secrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-\",\"deletedDate\":1593089673,\"scheduledPurgeDate\":1600865673,\"id\":\"https://keyvault_name.vault.azure.net/secrets/lroDeleteSecretName-canresumefromastoppedpoller-/0dd8aa2cec19491dac66098a51b8d40b\",\"attributes\":{\"enabled\":true,\"created\":1593089673,\"updated\":1593089673,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-\",\"deletedDate\":1613504870,\"scheduledPurgeDate\":1614109670,\"id\":\"https://keyvault_name.vault.azure.net/secrets/lroDeleteSecretName-canresumefromastoppedpoller-/f3e654a866fd4e91a8d6b23b897742aa\",\"attributes\":{\"enabled\":true,\"created\":1613504870,\"updated\":1613504870,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "487",
+    "content-length": "476",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:33 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:50 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "8afbc3ca-6a07-4e1f-95b2-a439abf2bd1f",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "b52c727c-b6da-44c1-aeb4-2f3f2f6a76a9",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -108,26 +105,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "139",
+    "content-length": "138",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:33 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:50 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "2382b2e1-7442-42e2-afdc-827462a5a584",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "39a0293b-f82d-41ef-bef3-0c7149ffdda0",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -135,26 +131,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "139",
+    "content-length": "138",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:33 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:50 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "568160a7-fdc6-41e9-a6d1-cd7e40a8da64",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "679b1ba3-897c-40aa-bb27-8c8b2b8688eb",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -162,26 +157,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "139",
+    "content-length": "138",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:33 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:50 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "414b728d-8fc1-47d9-8f17-0336275c4204",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "4652b869-727b-42d6-a1ce-b89d8546e84f",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -189,26 +183,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "139",
+    "content-length": "138",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:33 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:50 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "515ae57a-4e67-463e-9cca-c991469d3385",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "dac414f0-35ff-454e-b721-8e55fb814b94",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -216,26 +209,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "139",
+    "content-length": "138",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:35 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:52 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "db6f5753-1d22-41a9-80c0-0ee71fe2d4ae",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "baa69fb5-cf2a-40bf-960a-b47b8e616064",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -243,26 +235,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "139",
+    "content-length": "138",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:37 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:54 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "c579529c-ba59-48f8-b889-fb0f49a680e6",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "f29d402e-2967-437d-b133-98fbc5aad261",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -270,26 +261,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "139",
+    "content-length": "138",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:40 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:56 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "2f93427b-ea03-4097-88b0-1d3682cde49e",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "00b759e8-db32-4ef3-82ef-f7b5f0c2cfaa",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -297,26 +287,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "139",
+    "content-length": "138",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:41 GMT",
+    "date": "Tue, 16 Feb 2021 19:47:58 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "404",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "becb220e-006d-4aa2-86e6-c6a2dd77fcfc",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "0bbf105a-d4f7-4405-9b19-735941c7b676",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -324,80 +313,25 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "139",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:43 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "dbd6ec62-8620-46ae-9156-8e47df04ae37",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.1"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\"error\":{\"code\":\"SecretNotFound\",\"message\":\"Deleted Secret not found: lroDeleteSecretName-canresumefromastoppedpoller-\"}}",
-   "responseHeaders": {
-    "cache-control": "no-cache",
-    "content-length": "139",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:45 GMT",
-    "expires": "-1",
-    "pragma": "no-cache",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
-    "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "4348f774-e6cf-4c0c-a97c-05b2f1697b3a",
-    "x-powered-by": "ASP.NET"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
-   "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-\",\"deletedDate\":1593089673,\"scheduledPurgeDate\":1600865673,\"id\":\"https://keyvault_name.vault.azure.net/secrets/lroDeleteSecretName-canresumefromastoppedpoller-/0dd8aa2cec19491dac66098a51b8d40b\",\"attributes\":{\"enabled\":true,\"created\":1593089673,\"updated\":1593089673,\"recoveryLevel\":\"Recoverable+Purgeable\",\"recoverableDays\":90}}",
+   "response": "{\"recoveryId\":\"https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-\",\"deletedDate\":1613504870,\"scheduledPurgeDate\":1614109670,\"id\":\"https://keyvault_name.vault.azure.net/secrets/lroDeleteSecretName-canresumefromastoppedpoller-/f3e654a866fd4e91a8d6b23b897742aa\",\"attributes\":{\"enabled\":true,\"created\":1613504870,\"updated\":1613504870,\"recoveryLevel\":\"CustomizedRecoverable+Purgeable\",\"recoverableDays\":7}}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "487",
+    "content-length": "476",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 25 Jun 2020 12:54:47 GMT",
+    "date": "Tue, 16 Feb 2021 19:48:01 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "200",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "585bc66c-49ef-4eae-ab98-6a8c6454ba01",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "75254ba9-5b01-4acf-89f6-2bf150838c0d",
     "x-powered-by": "ASP.NET"
    }
   },
@@ -405,24 +339,23 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/deletedsecrets/lroDeleteSecretName-canresumefromastoppedpoller-",
    "query": {
-    "api-version": "7.1"
+    "api-version": "7.2"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "date": "Thu, 25 Jun 2020 12:54:47 GMT",
+    "date": "Tue, 16 Feb 2021 19:48:01 GMT",
     "expires": "-1",
     "pragma": "no-cache",
     "status": "204",
     "strict-transport-security": "max-age=31536000;includeSubDomains",
-    "x-aspnet-version": "4.0.30319",
     "x-content-type-options": "nosniff",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;",
-    "x-ms-keyvault-region": "westus",
-    "x-ms-keyvault-service-version": "1.1.6.0",
-    "x-ms-request-id": "f5ef2d8a-8c30-4c80-aa86-86f34e83ba38",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-keyvault-service-version": "1.2.164.2",
+    "x-ms-request-id": "92d8154e-c5a1-4e4a-a441-81e29a7306bf",
     "x-powered-by": "ASP.NET"
    }
   }
@@ -431,5 +364,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "ebab5ad9369c2c31116863190d2d9102"
+ "hash": "16c630091420235919479a003096fcf9"
 }

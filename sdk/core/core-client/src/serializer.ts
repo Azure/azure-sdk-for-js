@@ -430,13 +430,13 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
       const objectType = typeof value;
       if (
         objectType !== "string" &&
-        objectType !== "function" &&
+        typeof value.pipe !== "function" &&
         !(value instanceof ArrayBuffer) &&
         !ArrayBuffer.isView(value) &&
         !(value?.constructor?.name === "Blob")
       ) {
         throw new Error(
-          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or a function returning NodeJS.ReadableStream.`
+          `${objectName} must be a string, Blob, ArrayBuffer, ArrayBufferView, or NodeJS.ReadableStream.`
         );
       }
     }

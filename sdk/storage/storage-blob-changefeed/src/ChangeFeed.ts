@@ -9,21 +9,15 @@ import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
 import { getSegmentsInYear, minDate, getHost } from "./utils/utils.common";
 import { AbortSignalLike } from "@azure/core-http";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Options to configure {@link ChangeFeed.getChange} operation.
- *
- * @export
- * @interface ChangeFeedGetChangeOptions
  */
 export interface ChangeFeedGetChangeOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof ChangeFeedGetChangeOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -31,10 +25,6 @@ export interface ChangeFeedGetChangeOptions extends CommonOptions {
 export class ChangeFeed {
   /**
    * BlobContainerClient for making List Blob requests and creating Segments.
-   *
-   * @private
-   * @type {ContainerClient}
-   * @memberof ChangeFeed
    */
   private readonly containerClient?: ContainerClient;
 
@@ -90,10 +80,7 @@ export class ChangeFeed {
   }
 
   private async advanceSegmentIfNecessary(options: ChangeFeedGetChangeOptions = {}): Promise<void> {
-    const { span, spanOptions } = createSpan(
-      "ChangeFeed-advanceSegmentIfNecessary",
-      options.tracingOptions
-    );
+    const { span, updatedOptions } = createSpan("ChangeFeed-advanceSegmentIfNecessary", options);
     try {
       if (!this.currentSegment) {
         throw new Error("Empty Change Feed shouldn't call this function.");
@@ -112,7 +99,7 @@ export class ChangeFeed {
           undefined,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: { ...options.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           }
         );
       }
@@ -126,7 +113,7 @@ export class ChangeFeed {
           this.end,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: { ...options.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           }
         );
 
@@ -137,7 +124,7 @@ export class ChangeFeed {
             undefined,
             {
               abortSignal: options.abortSignal,
-              tracingOptions: { ...options.tracingOptions, spanOptions }
+              tracingOptions: updatedOptions.tracingOptions
             }
           );
         } else {
@@ -146,7 +133,7 @@ export class ChangeFeed {
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -171,23 +158,23 @@ export class ChangeFeed {
   public async getChange(
     options: ChangeFeedGetChangeOptions = {}
   ): Promise<BlobChangeFeedEvent | undefined> {
-    const { span, spanOptions } = createSpan("ChangeFeed-getChange", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ChangeFeed-getChange", options);
     try {
       let event: BlobChangeFeedEvent | undefined = undefined;
       while (event === undefined && this.hasNext()) {
         event = await this.currentSegment!.getChange({
           abortSignal: options.abortSignal,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         });
         await this.advanceSegmentIfNecessary({
           abortSignal: options.abortSignal,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
+          tracingOptions: updatedOptions.tracingOptions
         });
       }
       return event;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

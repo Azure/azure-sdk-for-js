@@ -13,6 +13,42 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
+export interface AesCbcDecryptParameters {
+    algorithm: AesCbcEncryptionAlgorithm;
+    ciphertext: Uint8Array;
+    iv: Uint8Array;
+}
+
+// @public
+export type AesCbcEncryptionAlgorithm = "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+
+// @public
+export interface AesCbcEncryptParameters {
+    algorithm: AesCbcEncryptionAlgorithm;
+    iv?: Uint8Array;
+    plaintext: Uint8Array;
+}
+
+// @public
+export interface AesGcmDecryptParameters {
+    additionalAuthenticatedData?: Uint8Array;
+    algorithm: AesGcmEncryptionAlgorithm;
+    authenticationTag?: Uint8Array;
+    ciphertext: Uint8Array;
+    iv: Uint8Array;
+}
+
+// @public
+export type AesGcmEncryptionAlgorithm = "A128GCM" | "A192GCM" | "A256GCM";
+
+// @public
+export interface AesGcmEncryptParameters {
+    additionalAuthenticatedData?: Uint8Array;
+    algorithm: AesGcmEncryptionAlgorithm;
+    plaintext: Uint8Array;
+}
+
+// @public
 export interface BackupKeyOptions extends coreHttp.OperationOptions {
 }
 
@@ -26,12 +62,12 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {
 
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
-    curve?: KeyCurveName;
     hsm?: boolean;
 }
 
 // @public
 export interface CreateKeyOptions extends coreHttp.OperationOptions {
+    curve?: KeyCurveName;
     enabled?: boolean;
     readonly expiresOn?: Date;
     keyOps?: KeyOperation[];
@@ -57,7 +93,11 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 export class CryptographyClient {
     constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
     constructor(key: JsonWebKey);
+    decrypt(decryptParameters: DecryptParameters, options?: DecryptOptions): Promise<DecryptResult>;
+    // @deprecated
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
+    encrypt(encryptParameters: EncryptParameters, options?: EncryptOptions): Promise<EncryptResult>;
+    // @deprecated
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     get keyId(): string | undefined;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
@@ -78,8 +118,11 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface DecryptOptions extends KeyOperationsOptions {
+export interface DecryptOptions extends CryptographyOptions {
 }
+
+// @public
+export type DecryptParameters = RsaDecryptParameters | AesGcmDecryptParameters | AesCbcDecryptParameters;
 
 // @public
 export interface DecryptResult {
@@ -109,12 +152,18 @@ export type DeletionRecoveryLevel = string;
 export type EncryptionAlgorithm = string;
 
 // @public
-export interface EncryptOptions extends KeyOperationsOptions {
+export interface EncryptOptions extends CryptographyOptions {
 }
 
 // @public
+export type EncryptParameters = RsaEncryptParameters | AesGcmEncryptParameters | AesCbcEncryptParameters;
+
+// @public
 export interface EncryptResult {
+    additionalAuthenticatedData?: Uint8Array;
     algorithm: EncryptionAlgorithm;
+    authenticationTag?: Uint8Array;
+    iv?: Uint8Array;
     keyID?: string;
     result: Uint8Array;
 }
@@ -183,7 +232,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1";
+    serviceVersion?: string;
 }
 
 // @public
@@ -191,13 +240,6 @@ export type KeyCurveName = string;
 
 // @public
 export type KeyOperation = string;
-
-// @public
-export interface KeyOperationsOptions extends CryptographyOptions {
-    readonly additionalAuthenticatedData?: Uint8Array;
-    iv?: Uint8Array;
-    tag?: Uint8Array;
-}
 
 // @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
@@ -290,7 +332,6 @@ export const enum KnownKeyCurveNames {
 export const enum KnownKeyOperations {
     Decrypt = "decrypt",
     Encrypt = "encrypt",
-    Export = "export",
     Import = "import",
     Sign = "sign",
     UnwrapKey = "unwrapKey",
@@ -336,9 +377,6 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 }
 
 // @public
-export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
-
-// @public
 export const logger: import("@azure/logger").AzureLogger;
 
 export { PagedAsyncIterableIterator }
@@ -360,6 +398,21 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface RsaDecryptParameters {
+    algorithm: RsaEncryptionAlgorithm;
+    ciphertext: Uint8Array;
+}
+
+// @public
+export type RsaEncryptionAlgorithm = "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+
+// @public
+export interface RsaEncryptParameters {
+    algorithm: RsaEncryptionAlgorithm;
+    plaintext: Uint8Array;
+}
+
+// @public
 export type SignatureAlgorithm = string;
 
 // @public
@@ -374,7 +427,7 @@ export interface SignResult {
 }
 
 // @public
-export interface UnwrapKeyOptions extends KeyOperationsOptions {
+export interface UnwrapKeyOptions extends CryptographyOptions {
 }
 
 // @public
@@ -396,6 +449,10 @@ export interface UpdateKeyPropertiesOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface VerifyDataOptions extends CryptographyOptions {
+}
+
+// @public
 export interface VerifyOptions extends CryptographyOptions {
 }
 
@@ -406,7 +463,7 @@ export interface VerifyResult {
 }
 
 // @public
-export interface WrapKeyOptions extends KeyOperationsOptions {
+export interface WrapKeyOptions extends CryptographyOptions {
 }
 
 // @public

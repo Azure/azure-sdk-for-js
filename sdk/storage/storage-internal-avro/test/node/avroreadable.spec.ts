@@ -29,6 +29,7 @@ describe("AvroReadableFromStream", () => {
   });
 
   it("abort read should work", async () => {
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const delayedReadable = new Readable({ read() {} });
     const rfs = new AvroReadableFromStream(delayedReadable);
 

@@ -50,7 +50,7 @@ export class SendTest extends PerfStressTest<SendTestOptions> {
     this.eventBatch = new Array(this.parsedOptions.numberOfEvents.value!).fill(event);
   }
 
-  public async globalCleanup() {
+  public async globalCleanup(): Promise<void> {
     await this.producer.close();
   }
 

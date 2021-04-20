@@ -23,7 +23,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     return { result, headers };
   }
 
-  public hasMoreResults() {
+  public hasMoreResults(): boolean {
     return this.executionContext.hasMoreResults();
   }
 }

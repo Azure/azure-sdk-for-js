@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  OperationOptions,
-  operationOptionsToRequestOptionsBase,
-  RequestOptionsBase
-} from "@azure/core-http";
+import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientRestoreStatusResponse,
@@ -14,12 +10,12 @@ import {
   KeyVaultClientSelectiveKeyRestoreOperationResponse,
   RestoreOperation
 } from "../../generated/models";
-import { createSpan, setParentSpan } from "../../../../keyvault-common/src";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
 import { RestoreResult } from "../../backupClientModels";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
@@ -69,37 +65,25 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the selectiveRestore operation
    */
-  private async selectiveRestore(
+  private selectiveRestore(
     keyName: string,
     options: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
   ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.selectiveRestore", requestOptions);
-    try {
-      return await this.client.selectiveKeyRestoreOperation(
-        this.vaultUrl,
-        keyName,
-        setParentSpan(span, requestOptions)
-      );
-    } finally {
-      span.end();
-    }
+    return withTrace("selectiveRestore", options, (updatedOptions) =>
+      this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions)
+    );
   }
 
   /**
    * Tracing the restoreStatus operation.
    */
-  private async restoreStatus(
+  private restoreStatus(
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const span = createSpan("generatedClient.restoreStatus", requestOptions);
-    try {
-      return await this.client.restoreStatus(this.vaultUrl, jobId, options);
-    } finally {
-      span.end();
-    }
+    return withTrace("restoreStatus", options, (updatedOptions) =>
+      this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
+    );
   }
 
   /**
@@ -156,8 +140,8 @@ export class SelectiveRestorePollOperation extends KeyVaultAdminPollOperation<
     state.status = status;
     state.statusDetails = statusDetails;
 
-    if (error?.message) {
-      throw new Error(error?.message);
+    if (status?.toLowerCase() === "failed") {
+      throw new Error(error?.message || statusDetails);
     }
 
     state.isCompleted = !!endTime;

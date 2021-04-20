@@ -148,7 +148,7 @@ export interface KeyVaultRoleDefinition {
 export type KeyVaultRoleScope = "/" | "/keys" | string;
 
 // @public
-export const LATEST_API_VERSION = "7.2-preview";
+export const LATEST_API_VERSION = "7.2";
 
 // @public
 export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
@@ -186,7 +186,7 @@ export interface SelectiveRestoreOperationState extends KeyVaultAdminPollOperati
 }
 
 // @public
-export type SUPPORTED_API_VERSIONS = "7.2-preview";
+export type SUPPORTED_API_VERSIONS = "7.2";
 
 // @public
 export interface UpsertRoleDefinitionOptions extends coreHttp.OperationOptions {

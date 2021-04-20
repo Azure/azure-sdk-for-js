@@ -2,17 +2,21 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
+import { Context } from "mocha";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { createSandbox } from "sinon";
 
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
-  parseWWWAuthenticate
+  parseWWWAuthenticate,
+  challengeBasedAuthenticationPolicy
 } from "../../../keyvault-common/src";
 import { SecretClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { ClientSecretCredential } from "@azure/identity";
+import { WebResource } from "@azure/core-http";
 
 // Following the philosophy of not testing the insides if we can test the outsides...
 // I present you with this "Get Out of Jail Free" card (in reference to Monopoly).
@@ -26,7 +30,7 @@ describe("Challenge based authentication tests", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function () {
+  beforeEach(async function(this: Context) {
     const authentication = await authenticate(this);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
@@ -34,13 +38,13 @@ describe("Challenge based authentication tests", () => {
     recorder = authentication.recorder;
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
   // The tests follow
 
-  it("Authentication should work for parallel requests", async function () {
+  it("Authentication should work for parallel requests", async function(this: Context) {
     const secretName = testClient.formatName(
       `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
     );
@@ -73,7 +77,7 @@ describe("Challenge based authentication tests", () => {
     sandbox.restore();
   });
 
-  it("Once authenticated, new requests should not authenticate again", async function () {
+  it("Once authenticated, new requests should not authenticate again", async function(this: Context) {
     // Our goal is to intercept how our pipelines are storing the challenge.
     // The first network call should indeed set the challenge in memory.
     // Subsequent network calls should not set new challenges.
@@ -138,5 +142,35 @@ describe("Challenge based authentication tests", () => {
         c: "c"
       });
     });
+  });
+});
+
+describe("Local Challenge based authentication tests", () => {
+  it("should recover gracefully when a downstream policy fails", async () => {
+    // The simplest possible policy with a _nextPolicy that throws an error.
+    const credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!
+    );
+
+    const policy = challengeBasedAuthenticationPolicy(credential).create(
+      {
+        sendRequest: () => {
+          throw new Error("Boom");
+        }
+      },
+      { log: () => null, shouldLog: () => false }
+    );
+
+    const request = new WebResource("https://portal.azure.com", "GET", "request body");
+
+    try {
+      await policy.sendRequest(request);
+    } catch (err) {
+      // the next policy throws
+    }
+
+    assert.equal(request.body, "request body");
   });
 });

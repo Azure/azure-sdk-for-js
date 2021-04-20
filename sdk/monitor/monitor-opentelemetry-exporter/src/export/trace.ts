@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Logger } from "@opentelemetry/api";
-import { ConsoleLogger, LogLevel, ExportResult, ExportResultCode } from "@opentelemetry/core";
+import { diag } from "@opentelemetry/api";
+import { ExportResult, ExportResultCode } from "@opentelemetry/core";
 import { ReadableSpan, SpanExporter } from "@opentelemetry/tracing";
 import { RestError } from "@azure/core-http";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
@@ -18,27 +18,30 @@ import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope } from "../utils/spanUtils";
 
+/**
+ * Azure Monitor OpenTelemetry Trace Exporter.
+ */
 export class AzureMonitorTraceExporter implements SpanExporter {
   private readonly _persister: PersistentStorage;
-
-  private readonly _logger: Logger;
-
   private readonly _sender: Sender;
-
+  private _numConsecutiveRedirects: number;
   private _retryTimer: NodeJS.Timer | null;
-
   private readonly _options: AzureExporterInternalConfig;
 
-  constructor(options: Partial<AzureExporterConfig> = {}) {
+  /**
+   * Initializes a new instance of the AzureMonitorTraceExporter class.
+   * @param AzureExporterConfig - Exporter configuration.
+   */
+  constructor(options: AzureExporterConfig = {}) {
+    this._numConsecutiveRedirects = 0;
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
-    this._logger = new ConsoleLogger(LogLevel.ERROR);
     this._options = {
       ...DEFAULT_EXPORTER_CONFIG
     };
-    this._options.serviceApiVersion = options.serviceApiVersion ?? this._options.serviceApiVersion;
+    this._options.apiVersion = options.apiVersion ?? this._options.apiVersion;
 
     if (connectionString) {
-      const parsedConnectionString = ConnectionStringParser.parse(connectionString, this._logger);
+      const parsedConnectionString = ConnectionStringParser.parse(connectionString);
       this._options.instrumentationKey =
         parsedConnectionString.instrumentationkey ?? this._options.instrumentationKey;
       this._options.endpointUrl =
@@ -48,14 +51,14 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     if (!this._options.instrumentationKey) {
       const message =
         "No instrumentation key or connection string was provided to the Azure Monitor Exporter";
-      this._logger.error(message);
+      diag.error(message);
       throw new Error(message);
     }
 
     this._sender = new HttpSender(this._options);
     this._persister = new FileSystemPersist(this._options);
     this._retryTimer = null;
-    this._logger.debug("AzureMonitorTraceExporter was successfully setup");
+    diag.debug("AzureMonitorTraceExporter was successfully setup");
   }
 
   private async _persist(envelopes: unknown[]): Promise<ExportResult> {
@@ -73,7 +76,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
   }
 
   private async exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult> {
-    this._logger.info(`Exporting ${envelopes.length} envelope(s)`);
+    diag.info(`Exporting ${envelopes.length} envelope(s)`);
 
     try {
       const { result, statusCode } = await this._sender.send(envelopes);
@@ -90,7 +93,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
         if (result) {
-          this._logger.info(result);
+          diag.info(result);
           const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes = breezeResponse.errors.reduce(
             (acc, v) => [...acc, envelopes[v.index]],
@@ -108,36 +111,55 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           code: ExportResultCode.FAILED
         };
       }
-    } catch (senderErr) {
-      if (this._isNetworkError(senderErr)) {
-        this._logger.error(
+    } catch (error) {
+      const restError = error as RestError;
+      if (restError.statusCode && restError.statusCode === 308) {
+        // Permanent redirect
+        if (restError.response && restError.response.headers) {
+          let location = restError.response.headers.get("location");
+          this._handleRedirect(location);
+          return await this._persist(envelopes);
+        }
+      } else if (restError.statusCode && isRetriable(restError.statusCode)) {
+        return await this._persist(envelopes);
+      }
+      if (this._isNetworkError(restError)) {
+        diag.error(
           "Retrying due to transient client side error. Error message:",
-          senderErr.message
+          restError.message
         );
         return await this._persist(envelopes);
-      } else {
-        this._logger.error(
-          "Envelopes could not be exported and are not retriable. Error message:",
-          senderErr.message
-        );
-        return { code: ExportResultCode.FAILED, error: senderErr };
       }
+
+      diag.error(
+        "Envelopes could not be exported and are not retriable. Error message:",
+        restError.message
+      );
+      return { code: ExportResultCode.FAILED, error: restError };
     }
   }
 
+  /**
+   * Export OpenTelemetry spans.
+   * @param spans - Spans to export.
+   * @param resultCallback - Result callback.
+   */
   async export(
     spans: ReadableSpan[],
     resultCallback: (result: ExportResult) => void
   ): Promise<void> {
-    this._logger.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
+    diag.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
     const envelopes = spans.map((span) =>
-      readableSpanToEnvelope(span, this._options.instrumentationKey, this._logger)
+      readableSpanToEnvelope(span, this._options.instrumentationKey)
     );
     resultCallback(await this.exportEnvelopes(envelopes));
   }
 
+  /**
+   * Shutdown AzureMonitorTraceExporter.
+   */
   async shutdown(): Promise<void> {
-    this._logger.info("Azure Monitor Trace Exporter shutting down");
+    diag.info("Azure Monitor Trace Exporter shutting down");
     return this._sender.shutdown();
   }
 
@@ -148,16 +170,24 @@ export class AzureMonitorTraceExporter implements SpanExporter {
         await this._sender.send(envelopes);
       }
     } catch (err) {
-      this._logger.warn(`Failed to fetch persisted file`, err);
+      diag.warn(`Failed to fetch persisted file`, err);
     }
   }
 
-  private _isNetworkError(error: Error): boolean {
-    if (error instanceof RestError) {
-      if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
-        return true;
-      }
+  private _isNetworkError(error: RestError): boolean {
+    if (error && error.code && error.code === "REQUEST_SEND_ERROR") {
+      return true;
     }
     return false;
+  }
+
+  private _handleRedirect(location: string | undefined) {
+    if (location) {
+      this._numConsecutiveRedirects++;
+      // To prevent circular redirects
+      if (this._numConsecutiveRedirects < 10) {
+        this._sender.handlePermanentRedirect(location);
+      }
+    }
   }
 }

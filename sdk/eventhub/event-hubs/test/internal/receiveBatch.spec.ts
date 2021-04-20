@@ -16,7 +16,7 @@ import {
 import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { AbortController } from "@azure/abort-controller";
 import { EventHubReceiver } from "../../src/eventHubReceiver";
-import { translate } from "@azure/core-amqp";
+import { translate, StandardAbortMessage } from "@azure/core-amqp";
 const env = getEnvVars();
 
 describe("EventHubConsumerClient", function(): void {
@@ -79,7 +79,7 @@ describe("EventHubConsumerClient", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The receive operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
 
       await receiver.close();
@@ -113,7 +113,7 @@ describe("EventHubConsumerClient", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The receive operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
 
       await receiver.close();
@@ -148,7 +148,7 @@ describe("EventHubConsumerClient", function(): void {
         throw new Error(`Test failure`);
       } catch (err) {
         err.name.should.equal("AbortError");
-        err.message.should.equal("The receive operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
 
       await receiver.close();

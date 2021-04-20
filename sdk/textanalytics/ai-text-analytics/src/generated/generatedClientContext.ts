@@ -6,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { ServiceClient } from "@azure/core-client";
 import { GeneratedClientOptionalParams } from "./models";
 
-const packageName = "@azure/ai-text-analytics";
-const packageVersion = "5.1.0-beta.5";
-
-/** @hidden */
-export class GeneratedClientContext extends coreHttp.ServiceClient {
+/** @internal */
+export class GeneratedClientContext extends ServiceClient {
   endpoint: string;
 
   /**
@@ -23,26 +20,19 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
-    if (endpoint === undefined) {
-      throw new Error("'endpoint' cannot be null");
-    }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    // Initializing default values for options
-    if (!options) {
-      options = {};
-    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      baseUri:
+        options?.endpoint ||
+        (endpoint.slice(-1) === "/" ? endpoint : endpoint + "/") + "text/analytics/v3.1-preview.4"
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
-
-    super(undefined, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri =
-      options.endpoint || "{Endpoint}/text/analytics/v3.1-preview.3";
+    super(optionsWithDefaults);
 
     // Parameter assignments
     this.endpoint = endpoint;

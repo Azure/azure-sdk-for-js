@@ -38,11 +38,16 @@ export interface AmqpAnnotatedMessage {
    * The message body.
    */
   body: any;
+  /**
+   * The AMQP section where the data was decoded from.
+   */
+  bodyType?: "data" | "sequence" | "value";
 }
 
 /**
  * Describes the operations that can be performed on(or to get) the AmqpAnnotatedMessage.
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare -- renaming constant would be a breaking change.
 export const AmqpAnnotatedMessage = {
   /**
    * Takes RheaMessage(`Message` type from "rhea") and returns it in the AmqpAnnotatedMessage format.
@@ -57,5 +62,20 @@ export const AmqpAnnotatedMessage = {
       properties: AmqpMessageProperties.fromRheaMessageProperties(msg),
       body: msg.body
     };
+  },
+  /**
+   * Takes AmqpAnnotatedMessage and returns it in the RheaMessage(`Message` type from "rhea") format.
+   */
+  toRheaMessage(msg: AmqpAnnotatedMessage): RheaMessage {
+    const message = {
+      ...AmqpMessageProperties.toRheaMessageProperties(msg.properties || {}),
+      ...AmqpMessageHeader.toRheaMessageHeader(msg.header || {}),
+      body: msg.body,
+      message_annotations: msg.messageAnnotations,
+      delivery_annotations: msg.deliveryAnnotations,
+      application_properties: msg.applicationProperties,
+      footer: msg.footer
+    };
+    return message;
   }
 };

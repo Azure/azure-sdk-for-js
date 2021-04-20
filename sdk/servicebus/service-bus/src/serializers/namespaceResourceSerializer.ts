@@ -44,7 +44,7 @@ export interface NamespaceProperties {
  * Builds the namespace object from the raw json object gotten after deserializing the
  * response from the service
  */
-export function buildNamespace(rawNamespace: any): NamespaceProperties {
+export function buildNamespace(rawNamespace: Record<string, any>): NamespaceProperties {
   const messagingSku = <"Basic" | "Premium" | "Standard">(
     getString(rawNamespace["MessagingSKU"], "messagingSku")
   );

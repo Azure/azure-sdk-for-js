@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
+  TokenCredential,
+  isTokenCredential,
+  NamedKeyCredential,
+  isNamedKeyCredential
+} from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
@@ -70,13 +75,15 @@ import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper
 import * as Constants from "./util/constants";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { createSpan, getCanonicalCode } from "./util/tracing";
+import { createSpan } from "./diagnostics/tracing";
+import { isDefined } from "./util/typeGuards";
 import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
   isAbsoluteUrl,
   isJSONLikeObject
 } from "./util/utils";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Request options for list<entity-type>() operations
@@ -144,6 +151,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param connectionString - The connection string needed for the client to connect to Azure.
    * @param options - PipelineOptions
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(connectionString: string, options?: PipelineOptions);
   /**
    *
@@ -153,16 +161,21 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
    * If you're using your own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
    * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
+   * Use the `AzureNamedKeyCredential` from &commat;azure/core-auth if you want to pass in a `SharedAccessKeyName`
+   * and `SharedAccessKey` without using a connection string. These fields map to the `name` and `key` field respectively
+   * in `AzureNamedKeyCredential`.
    * @param options - PipelineOptions
    */
   constructor(
     fullyQualifiedNamespace: string,
-    credential: TokenCredential,
+    credential: TokenCredential | NamedKeyCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: PipelineOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    credentialOrOptions2?: TokenCredential | PipelineOptions,
+    credentialOrOptions2?: TokenCredential | NamedKeyCredential | PipelineOptions,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options3?: PipelineOptions
   ) {
     let options: PipelineOptions;
@@ -174,11 +187,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options = options3 || {};
       credentials = credentialOrOptions2;
       authPolicy = bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope);
+    } else if (isNamedKeyCredential(credentialOrOptions2)) {
+      fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
+      credentials = new SasServiceClientCredentials(credentialOrOptions2);
+      options = options3 || {};
+      authPolicy = signingPolicy(credentials);
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
       const connectionStringObj: any = parseConnectionString(connectionString);
-      if (connectionStringObj.Endpoint == undefined) {
+      if (connectionStringObj.Endpoint === undefined) {
         throw new Error("Missing Endpoint in connection string.");
       }
       try {
@@ -186,12 +204,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       } catch (error) {
         throw new Error("Endpoint in the connection string is not valid.");
       }
-      credentials = new SasServiceClientCredentials(
-        connectionStringObj.SharedAccessKeyName,
-        connectionStringObj.SharedAccessKey
-      );
+      credentials = new SasServiceClientCredentials({
+        key: connectionStringObj.SharedAccessKey,
+        name: connectionStringObj.SharedAccessKeyName
+      });
       authPolicy = signingPolicy(credentials);
     }
+
     const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
     const serviceClientOptions = createPipelineFromOptions(
       {
@@ -221,10 +240,11 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    *
    */
   async getNamespaceProperties(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<NamespaceProperties>> {
     logger.verbose(`Performing management operation - getNamespaceProperties()`);
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getNamespaceProperties",
       operationOptions
     );
@@ -232,13 +252,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         "$namespaceinfo",
         this.namespaceResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildNamespacePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -264,9 +284,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async createQueue(
     queueName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: CreateQueueOptions
   ): Promise<WithResponse<QueueProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-createQueue",
       options
     );
@@ -280,13 +301,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildQueueOptions(options || {}),
         this.queueResourceSerializer,
         false,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildQueueResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -311,9 +332,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getQueue(
     queueName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<QueueProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueue",
       operationOptions
     );
@@ -322,13 +344,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildQueueResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -352,9 +374,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getQueueRuntimeProperties(
     queueName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<QueueRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueueRuntimeProperties",
       operationOptions
     );
@@ -365,13 +388,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildQueueRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -396,7 +419,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getQueues(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueues",
       options
     );
@@ -404,14 +427,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - getQueues() with options: %j`, options);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
-        updatedOperationOptions,
+        updatedOptions,
         this.queueResourceSerializer
       );
 
       return this.buildListQueuesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -453,6 +476,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listQueues(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
     logger.verbose(`Performing management operation - listQueues() with options: %j`, options);
@@ -495,7 +519,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getQueuesRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getQueuesRuntimeProperties",
       options
     );
@@ -506,14 +530,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
-        updatedOperationOptions,
+        updatedOptions,
         this.queueResourceSerializer
       );
 
       return this.buildListQueuesRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -556,6 +580,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listQueuesRuntimeProperties(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
     logger.verbose(
@@ -608,9 +633,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async updateQueue(
     queue: WithResponse<QueueProperties>,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<QueueProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-updateQueue",
       operationOptions
     );
@@ -635,13 +661,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildQueueOptions(queue),
         this.queueResourceSerializer,
         true,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildQueueResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -665,9 +691,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async deleteQueue(
     queueName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteQueue",
       operationOptions
     );
@@ -676,13 +703,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         queueName,
         this.queueResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -695,17 +722,18 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * Checks whether a given queue exists or not.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-queueExists",
       operationOptions
     );
     try {
       logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
       try {
-        await this.getQueue(queueName, updatedOperationOptions);
+        await this.getQueue(queueName, updatedOptions);
       } catch (error) {
-        if (error.code == "MessageEntityNotFoundError") {
+        if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
@@ -713,7 +741,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -739,9 +767,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async createTopic(
     topicName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: CreateTopicOptions
   ): Promise<WithResponse<TopicProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-createTopic",
       options
     );
@@ -755,13 +784,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildTopicOptions(options || {}),
         this.topicResourceSerializer,
         false,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildTopicResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -786,9 +815,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getTopic(
     topicName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<TopicProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopic",
       operationOptions
     );
@@ -797,13 +827,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         topicName,
         this.topicResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildTopicResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -827,9 +857,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async getTopicRuntimeProperties(
     topicName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<TopicRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopicRuntimeProperties",
       operationOptions
     );
@@ -840,13 +871,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         topicName,
         this.topicResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildTopicRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -871,7 +902,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getTopics(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopics",
       options
     );
@@ -879,14 +910,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - getTopics() with options: %j`, options);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
-        updatedOperationOptions,
+        updatedOptions,
         this.topicResourceSerializer
       );
 
       return this.buildListTopicsResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -929,6 +960,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listTopics(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
     logger.verbose(`Performing management operation - listTopics() with options: %j`, options);
@@ -971,7 +1003,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private async getTopicsRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getTopicsRuntimeProperties",
       options
     );
@@ -982,14 +1014,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
-        updatedOperationOptions,
+        updatedOptions,
         this.topicResourceSerializer
       );
 
       return this.buildListTopicsRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1032,6 +1064,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listTopicsRuntimeProperties(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
     logger.verbose(
@@ -1087,9 +1120,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async updateTopic(
     topic: WithResponse<TopicProperties>,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<TopicProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-updateTopic",
       operationOptions
     );
@@ -1114,13 +1148,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildTopicOptions(topic),
         this.topicResourceSerializer,
         true,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildTopicResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1144,9 +1178,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async deleteTopic(
     topicName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteTopic",
       operationOptions
     );
@@ -1155,13 +1190,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         topicName,
         this.topicResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1174,17 +1209,18 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * Checks whether a given topic exists or not.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-topicExists",
       operationOptions
     );
     try {
       logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
       try {
-        await this.getTopic(topicName, updatedOperationOptions);
+        await this.getTopic(topicName, updatedOptions);
       } catch (error) {
-        if (error.code == "MessageEntityNotFoundError") {
+        if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
@@ -1192,7 +1228,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1219,9 +1255,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async createSubscription(
     topicName: string,
     subscriptionName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: CreateSubscriptionOptions
   ): Promise<WithResponse<SubscriptionProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-createSubscription",
       options
     );
@@ -1236,13 +1273,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildSubscriptionOptions(options || {}),
         this.subscriptionResourceSerializer,
         false,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildSubscriptionResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1268,9 +1305,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getSubscription(
     topicName: string,
     subscriptionName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<SubscriptionProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscription",
       operationOptions
     );
@@ -1282,13 +1320,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildSubscriptionResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1313,9 +1351,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getSubscriptionRuntimeProperties(
     topicName: string,
     subscriptionName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<SubscriptionRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscriptionRuntimeProperties",
       operationOptions
     );
@@ -1327,13 +1366,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildSubscriptionRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1359,7 +1398,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscriptions",
       options
     );
@@ -1370,14 +1409,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
-        updatedOperationOptions,
+        updatedOptions,
         this.subscriptionResourceSerializer
       );
 
       return this.buildListSubscriptionsResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1424,6 +1463,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   public listSubscriptions(
     topicName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
     logger.verbose(
@@ -1470,7 +1510,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionRuntimeProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getSubscriptionsRuntimeProperties",
       options
     );
@@ -1481,14 +1521,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
-        updatedOperationOptions,
+        updatedOptions,
         this.subscriptionResourceSerializer
       );
 
       return this.buildListSubscriptionsRuntimePropertiesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1538,6 +1578,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   public listSubscriptionsRuntimeProperties(
     topicName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
     SubscriptionRuntimeProperties,
@@ -1591,9 +1632,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async updateSubscription(
     subscription: WithResponse<SubscriptionProperties>,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<SubscriptionProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-updateSubscription",
       operationOptions
     );
@@ -1625,13 +1667,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         buildSubscriptionOptions(subscription),
         this.subscriptionResourceSerializer,
         true,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildSubscriptionResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1656,9 +1698,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async deleteSubscription(
     topicName: string,
     subscriptionName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteSubscription",
       operationOptions
     );
@@ -1670,13 +1713,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         fullPath,
         this.subscriptionResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1692,9 +1735,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async subscriptionExists(
     topicName: string,
     subscriptionName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<boolean> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-subscriptionExists",
       operationOptions
     );
@@ -1703,9 +1747,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
       );
       try {
-        await this.getSubscription(topicName, subscriptionName, updatedOperationOptions);
+        await this.getSubscription(topicName, subscriptionName, updatedOptions);
       } catch (error) {
-        if (error.code == "MessageEntityNotFoundError") {
+        if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
@@ -1713,7 +1757,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1742,6 +1786,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     ruleName: string,
     ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>>;
   /**
@@ -1766,6 +1811,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
     ruleAction: SqlRuleAction,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>>;
   async createRule(
@@ -1774,6 +1820,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     ruleName: string,
     ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
     ruleActionOrOperationOptions?: SqlRuleAction | OperationOptions,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>> {
     let ruleAction: SqlRuleAction | undefined = undefined;
@@ -1789,7 +1836,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         operOptions = { ...ruleActionOrOperationOptions, ...operationOptions };
       }
     }
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-createRule",
       operOptions
     );
@@ -1804,12 +1851,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         { name: ruleName, filter: ruleFilter, action: ruleAction },
         this.ruleResourceSerializer,
         false,
-        updatedOperationOptions
+        updatedOptions
       );
       return this.buildRuleResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1835,9 +1882,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getRule",
       operationOptions
     );
@@ -1847,13 +1895,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
         this.ruleResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildRuleResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1879,23 +1927,20 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<RuleProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusAdministrationClient-getRules",
-      options
-    );
+    const { span, updatedOptions } = createSpan("ServiceBusAdministrationClient-getRules", options);
     try {
       logger.verbose(`Performing management operation - getRules() with options: %j`, options);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
       const response: HttpOperationResponse = await this.listResources(
         fullPath,
-        updatedOperationOptions,
+        updatedOptions,
         this.ruleResourceSerializer
       );
 
       return this.buildListRulesResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1944,6 +1989,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listRules(
     topicName: string,
     subscriptionName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
     logger.verbose(`Performing management operation - listRules() with options: %j`, options);
@@ -1993,9 +2039,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     rule: WithResponse<RuleProperties>,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<RuleProperties>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-updateRule",
       operationOptions
     );
@@ -2021,13 +2068,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         rule,
         this.ruleResourceSerializer,
         true,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return this.buildRuleResponse(response);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2053,9 +2100,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<WithResponse<{}>> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteRule",
       operationOptions
     );
@@ -2065,13 +2113,13 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const response: HttpOperationResponse = await this.deleteResource(
         fullPath,
         this.ruleResourceSerializer,
-        updatedOperationOptions
+        updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2088,18 +2136,19 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     subscriptionName: string,
     ruleName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     operationOptions?: OperationOptions
   ): Promise<boolean> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-ruleExists",
       operationOptions
     );
     try {
       logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
       try {
-        await this.getRule(topicName, subscriptionName, ruleName, updatedOperationOptions);
+        await this.getRule(topicName, subscriptionName, ruleName, updatedOptions);
       } catch (error) {
-        if (error.code == "MessageEntityNotFoundError") {
+        if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
@@ -2107,7 +2156,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return true;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2130,7 +2179,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-putResource",
       operationOptions
     );
@@ -2173,10 +2222,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
       webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2193,22 +2242,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getResource",
       operationOptions
     );
     try {
       const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
 
-      const response = await executeAtomXmlOperation(
-        this,
-        webResource,
-        serializer,
-        updatedOperationOptions
-      );
+      const response = await executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
       if (
-        response.parsedBody == undefined ||
-        (Array.isArray(response.parsedBody) && response.parsedBody.length == 0)
+        !isDefined(response.parsedBody) ||
+        (Array.isArray(response.parsedBody) && response.parsedBody.length === 0)
       ) {
         const err = new RestError(
           `The messaging entity "${name}" being requested cannot be found.`,
@@ -2222,7 +2266,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2239,7 +2283,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     options: ListRequestOptions & OperationOptions = {},
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-listResources",
       options
     );
@@ -2256,10 +2300,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
 
       const webResource: WebResource = new WebResource(this.getUrl(name, queryParams), "GET");
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2276,17 +2320,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
-    const { span, updatedOperationOptions } = createSpan(
+    const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteResource",
       operationOptions
     );
     try {
       const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOperationOptions);
+      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: getCanonicalCode(e),
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

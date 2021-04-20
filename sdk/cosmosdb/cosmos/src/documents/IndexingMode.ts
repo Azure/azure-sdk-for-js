@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 /**
  * Specifies the supported indexing modes.
- * @property Consistent
- * @property Lazy
  */
 export enum IndexingMode {
   /**

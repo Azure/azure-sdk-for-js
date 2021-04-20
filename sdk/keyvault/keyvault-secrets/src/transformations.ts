@@ -38,7 +38,8 @@ export function getSecretFromSecretBundle(
 
       vaultUrl: parsedId.vaultUrl,
       version: parsedId.version,
-      name: parsedId.name
+      name: parsedId.name,
+      certificateKeyId: secretBundle.kid
     }
   };
 
@@ -46,6 +47,9 @@ export function getSecretFromSecretBundle(
     resultObject.properties.recoveryId = deletedSecretBundle.recoveryId;
     resultObject.properties.scheduledPurgeDate = deletedSecretBundle.scheduledPurgeDate;
     resultObject.properties.deletedOn = deletedSecretBundle.deletedDate;
+    resultObject.recoveryId = deletedSecretBundle.recoveryId;
+    resultObject.scheduledPurgeDate = deletedSecretBundle.scheduledPurgeDate;
+    resultObject.deletedOn = deletedSecretBundle.deletedDate;
   }
 
   if (attributes) {

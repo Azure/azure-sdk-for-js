@@ -7,22 +7,16 @@ import { Shard } from "./Shard";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from "./Chunk";
 import { AbortSignalLike } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure {@link ShardFactory.create} operation.
- *
- * @export
- * @interface CreateShardOptions
  */
 export interface CreateShardOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   *
-   * @type {AbortSignalLike}
-   * @memberof CreateShardOptions
    */
   abortSignal?: AbortSignalLike;
 }
@@ -40,7 +34,7 @@ export class ShardFactory {
     shardCursor?: ShardCursor,
     options: CreateShardOptions = {}
   ): Promise<Shard> {
-    const { span, spanOptions } = createSpan("ShardFactory-create", options.tracingOptions);
+    const { span, updatedOptions } = createSpan("ShardFactory-create", options);
     try {
       const chunks: string[] = [];
       const blockOffset: number = shardCursor?.BlockOffset || 0;
@@ -49,7 +43,7 @@ export class ShardFactory {
       for await (const blobItem of containerClient.listBlobsFlat({
         prefix: shardPath,
         abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
+        tracingOptions: updatedOptions.tracingOptions
       })) {
         chunks.push(blobItem.name);
       }
@@ -86,7 +80,7 @@ export class ShardFactory {
           eventIndex,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: { ...options.tracingOptions, spanOptions }
+            tracingOptions: updatedOptions.tracingOptions
           }
         );
       }
@@ -94,7 +88,7 @@ export class ShardFactory {
       return new Shard(containerClient, this.chunkFactory, chunks, currentChunk, shardPath);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

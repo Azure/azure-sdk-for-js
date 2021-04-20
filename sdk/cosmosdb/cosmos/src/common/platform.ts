@@ -6,7 +6,7 @@ import { Constants } from "./constants";
 /**
  * @hidden
  */
-export function getUserAgent(suffix?: string) {
+export function getUserAgent(suffix?: string): string {
   const ua = `${userAgent()} ${Constants.SDKName}/${Constants.SDKVersion}`;
   if (suffix) {
     return ua + " " + suffix;
