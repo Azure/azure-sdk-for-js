@@ -104,6 +104,7 @@ import {
   streamToBuffer
 } from "./utils/utils.node";
 import { StorageClientContext } from "./generated/src/storageClientContext";
+import { SERVICE_VERSION } from "./utils/constants";
 import { generateUuid } from "@azure/core-http";
 import { generateFileSASQueryParameters } from "./FileSASSignatureValues";
 import { ShareSASPermissions } from "./ShareSASPermissions";
@@ -5140,7 +5141,10 @@ export class ShareLeaseClient {
   constructor(client: ShareFileClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
       client.url,
-      (client as any).pipeline.toServiceClientOptions()
+      {
+        version: SERVICE_VERSION,
+        ...(client as any).pipeline.toServiceClientOptions()
+      }
     );
 
     if (client instanceof ShareClient) {
