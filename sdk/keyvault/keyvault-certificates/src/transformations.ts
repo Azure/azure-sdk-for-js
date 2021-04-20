@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CertificateOperationError } from ".";
 import {
   ArrayOneOrMore,
   CertificateContentType,
@@ -26,7 +27,8 @@ import {
   X509CertificateProperties,
   CertificateOperation as CoreCertificateOperation,
   Contacts as CoreContacts,
-  JsonWebKeyType as CertificateKeyType
+  JsonWebKeyType as CertificateKeyType,
+  ErrorModel
 } from "./generated/models";
 import { parseKeyVaultCertificateId } from "./identifier";
 
@@ -312,6 +314,18 @@ export function getCertificateOperationFromCoreOperation(
   vaultUrl: string,
   operation: CoreCertificateOperation
 ): CertificateOperation {
+  function coreErrorToCertificateError(
+    error?: ErrorModel | null
+  ): CertificateOperationError | undefined {
+    if (error) {
+      return {
+        code: error.code,
+        innerError: coreErrorToCertificateError(error.innerError),
+        message: error.message
+      };
+    }
+    return undefined;
+  }
   return {
     cancellationRequested: operation.cancellationRequested,
     name: certificateName,
@@ -323,7 +337,7 @@ export function getCertificateOperationFromCoreOperation(
       ? operation.issuerParameters.certificateType
       : undefined,
     csr: operation.csr,
-    error: operation.error,
+    error: coreErrorToCertificateError(operation.error),
     id: operation.id,
     requestId: operation.requestId,
     status: operation.status,
