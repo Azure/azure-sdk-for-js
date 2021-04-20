@@ -149,8 +149,8 @@ describe("FileSystemPersist", () => {
       const success1 = await persister.push(firstBatch);
       assert.strictEqual(success1, true);
       persister.fileRetemptionPeriod = 1;
-      // wait 1 ms
-      await sleep(1);
+      // wait 100 ms
+      await sleep(100);
       let cleanup = await persister["_fileCleanupTask"]();
       assert.strictEqual(cleanup, true);
       let fileValue = await persister.shift();
