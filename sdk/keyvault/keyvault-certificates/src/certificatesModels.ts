@@ -45,6 +45,13 @@ export interface CertificateOperationError {
 }
 
 /**
+ * The key vault server error model.
+ * @deprecated - Please use {@link CertificateOperationError} instead.
+ */
+// This was re-exported from generated code in 4.1; however, we should only be using `CertificateOperationError`.
+export interface ErrorModel extends CertificateOperationError {}
+
+/**
  * A certificate operation is returned in case of asynchronous requests.
  */
 export interface CertificateOperation {

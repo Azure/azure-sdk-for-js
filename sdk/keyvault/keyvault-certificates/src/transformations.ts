@@ -309,23 +309,24 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
   };
 }
 
+function getCertificateOperationErrorFromErrorModel(
+  error?: ErrorModel | null
+): CertificateOperationError | undefined {
+  if (error) {
+    return {
+      code: error.code,
+      innerError: getCertificateOperationErrorFromErrorModel(error.innerError),
+      message: error.message
+    };
+  }
+  return undefined;
+}
+
 export function getCertificateOperationFromCoreOperation(
   certificateName: string,
   vaultUrl: string,
   operation: CoreCertificateOperation
 ): CertificateOperation {
-  function coreErrorToCertificateError(
-    error?: ErrorModel | null
-  ): CertificateOperationError | undefined {
-    if (error) {
-      return {
-        code: error.code,
-        innerError: coreErrorToCertificateError(error.innerError),
-        message: error.message
-      };
-    }
-    return undefined;
-  }
   return {
     cancellationRequested: operation.cancellationRequested,
     name: certificateName,
@@ -337,7 +338,7 @@ export function getCertificateOperationFromCoreOperation(
       ? operation.issuerParameters.certificateType
       : undefined,
     csr: operation.csr,
-    error: coreErrorToCertificateError(operation.error),
+    error: getCertificateOperationErrorFromErrorModel(operation.error),
     id: operation.id,
     requestId: operation.requestId,
     status: operation.status,
