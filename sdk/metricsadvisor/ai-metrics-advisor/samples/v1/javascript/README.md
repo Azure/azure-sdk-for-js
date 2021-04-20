@@ -1,0 +1,82 @@
+---
+page_type: sample
+languages:
+  - javascript
+products:
+  - azure
+  - azure-cognitive-services
+  - azure-metrics-advisor
+urlFragment: ai-metrics-advisor-javascript
+---
+
+# Azure Metrics Advisor client library samples for JavaScript
+
+These sample programs show how to use the JavaScript client libraries for Azure Metrics Advisor in some common scenarios.
+
+| **File Name**                               | **Description**                                                                                                                                                                        |
+| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [alertingConfig.js][alertingconfig]         | This sample demonstrates Alerting Configuration CRUD operations.                                                                                                                       |
+| [dataFeed.js][datafeed]                     | This sample demonstrates data feed management operations.                                                                                                                              |
+| [detectionConfig.js][detectionconfig]       | This sample demonstrates Detection Configuration CRUD operations.                                                                                                                      |
+| [hooks.js][hooks]                           | This sample demonstrates Metrics Advisor Hooks CRUD operations.                                                                                                                        |
+| [incidentsAndAlerts.js][incidentsandalerts] | This sample demonstrates how to query incidents.                                                                                                                                       |
+| [ingestionStatus.js][ingestionstatus]       | This sample demonstrates operations related to ingestion status.                                                                                                                       |
+| [metricFeedback.js][metricfeedback]         | This sample demonstrates how to provide feedback for a metric.                                                                                                                         |
+| [metricQueries.js][metricqueries]           | This sample demonstrates querying methods related to metric.                                                                                                                           |
+| [quickstart.js][quickstart]                 | This sample demonstrates how to get started by creating a data feed, checking ingestion status, creating detection and alerting configurations, and querying for alerts and anomalies. |
+| [seriesData.js][seriesdata]                 | This sample demonstrates how to retrieve time series data.                                                                                                                             |
+
+## Prerequisites
+
+The sample programs are compatible with Node.js >=12.0.0.
+
+You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
+
+- [Azure Cognitive Services account][createinstance_azurecognitiveservicesaccount]
+
+Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
+
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
+
+## Setup
+
+To run the samples using the published version of the package:
+
+1. Install the dependencies using `npm`:
+
+```bash
+npm install
+```
+
+2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node alertingConfig.js
+```
+
+Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
+
+```bash
+npx cross-env METRICS_ADVISOR_ENDPOINT="<metrics advisor endpoint>" METRICS_ADVISOR_SUBSCRIPTION_KEY="<metrics advisor subscription key>" METRICS_ADVISOR_API_KEY="<metrics advisor api key>" METRICS_ADVISOR_DETECTION_CONFIG_ID="<metrics advisor detection config id>" METRICS_ADVISOR_HOOK_ID="<metrics advisor hook id>" node alertingConfig.js
+```
+
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
+[alertingconfig]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/alertingConfig.js
+[datafeed]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/dataFeed.js
+[detectionconfig]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/detectionConfig.js
+[hooks]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/hooks.js
+[incidentsandalerts]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/incidentsAndAlerts.js
+[ingestionstatus]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/ingestionStatus.js
+[metricfeedback]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/metricFeedback.js
+[metricqueries]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/metricQueries.js
+[quickstart]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/quickstart.js
+[seriesdata]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/metricsadvisor/ai-metrics-advisor/samples/v1/javascript/seriesData.js
+[apiref]: https://docs.microsoft.com/javascript/api/
+[freesub]: https://azure.microsoft.com/free/
+[createinstance_azurecognitiveservicesaccount]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/metricsadvisor/ai-metrics-advisor/README.md
