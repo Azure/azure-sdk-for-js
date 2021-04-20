@@ -3,9 +3,9 @@
 
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from "@azure/core-http";
-import * as RestModel from "../../src/generated/src/models";
-import { ChatClient, ChatParticipant, ChatThreadClient } from "../../src";
-import { CommunicationIdentifierModel } from "../../src/generated/src";
+import * as RestModel from "../../../src/generated/src/models";
+import { ChatClient, ChatParticipant, ChatThreadClient } from "../../../src";
+import { CommunicationIdentifierModel } from "../../../src/generated/src";
 import { baseUri, generateToken } from "./connectionUtils";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {

@@ -13,9 +13,9 @@ import {
   SendMessageOptions,
   UpdateMessageOptions,
   AddParticipantsRequest
-} from "../src";
-import * as RestModel from "../src/generated/src/models";
-import { apiVersion } from "../src/generated/src/models/parameters";
+} from "../../src";
+import * as RestModel from "../../src/generated/src/models";
+import { apiVersion } from "../../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "./utils/connectionUtils";
 import {
   generateHttpClient,
