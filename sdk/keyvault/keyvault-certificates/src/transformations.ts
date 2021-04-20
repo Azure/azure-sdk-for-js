@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CertificateOperationError } from ".";
 import {
   ArrayOneOrMore,
   CertificateContentType,
@@ -13,7 +12,8 @@ import {
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
   SubjectAlternativeNames,
-  CertificateContact
+  CertificateContact,
+  CertificateOperationError
 } from "./certificatesModels";
 import {
   CertificateAttributes,
