@@ -89,6 +89,7 @@ examples/bin
 TestResults/*
 .vscode/*
 **/.vscode/*
+./**/.vscode/*
 
 
 # Node #
