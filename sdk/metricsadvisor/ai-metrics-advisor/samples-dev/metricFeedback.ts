@@ -2,14 +2,22 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to provide feedback for a metric.
+ *  @summary This sample demonstrates how to provide feedback for a metric.
  */
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-const { MetricsAdvisorKeyCredential, MetricsAdvisorClient } = require("@azure/ai-metrics-advisor");
+import {
+  MetricsAdvisorKeyCredential,
+  MetricsAdvisorClient,
+  MetricAnomalyFeedback,
+  MetricChangePointFeedback,
+  MetricCommentFeedback,
+  MetricPeriodFeedback
+} from "@azure/ai-metrics-advisor";
 
-async function main() {
+export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -25,13 +33,13 @@ async function main() {
   await providePeriodFeedback(client, metricId);
   const commentFeedback = await provideCommentFeedback(client, metricId);
   await listFeedback(client, metricId);
-  await getFeedback(client, commentFeedback.id);
+  await getFeedback(client, commentFeedback.id!);
 }
 
-async function provideAnomalyFeedback(client, metricId) {
+async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Creating an anomaly feedback...");
-  const anomalyFeedback = {
-    metricId,
+  const anomalyFeedback: MetricAnomalyFeedback = {
+    metricId: metricId,
     feedbackType: "Anomaly",
     startTime: new Date("2020/08/05"),
     endTime: new Date("2020/08/07"),
@@ -41,10 +49,10 @@ async function provideAnomalyFeedback(client, metricId) {
   return await client.createFeedback(anomalyFeedback);
 }
 
-async function providePeriodFeedback(client, metricId) {
+async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Creating a period feedback...");
-  const periodFeedback = {
-    metricId,
+  const periodFeedback: MetricPeriodFeedback = {
+    metricId: metricId,
     feedbackType: "Period",
     periodType: "AutoDetect",
     periodValue: 4,
@@ -53,10 +61,10 @@ async function providePeriodFeedback(client, metricId) {
   return await client.createFeedback(periodFeedback);
 }
 
-async function provideChangePointFeedback(client, metricId) {
+async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Creating a change point feedback...");
-  const changePointFeedback = {
-    metricId,
+  const changePointFeedback: MetricChangePointFeedback = {
+    metricId: metricId,
     feedbackType: "ChangePoint",
     startTime: new Date("2020/08/05"),
     value: "ChangePoint",
@@ -65,10 +73,10 @@ async function provideChangePointFeedback(client, metricId) {
   return await client.createFeedback(changePointFeedback);
 }
 
-async function provideCommentFeedback(client, metricId) {
+async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Creating a comment feedback...");
-  const commendFeedback = {
-    metricId,
+  const commendFeedback: MetricCommentFeedback = {
+    metricId: metricId,
     feedbackType: "Comment",
     dimensionKey: { city: "Manila", category: "Handmade" },
     comment: "This is a comment"
@@ -76,13 +84,13 @@ async function provideCommentFeedback(client, metricId) {
   return await client.createFeedback(commendFeedback);
 }
 
-async function getFeedback(client, feedbackId) {
+async function getFeedback(client: MetricsAdvisorClient, feedbackId: string) {
   console.log(`Retrieving feedback with id '${feedbackId}'...`);
   const feedback = await client.getFeedback(feedbackId);
   console.log(feedback);
 }
 
-async function listFeedback(client, metricId, startTime, endTime) {
+async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
   console.log("Listing feedbacks...");
   console.log("  using for-await-of syntax");
   const listIterator = client.listFeedback(metricId, {

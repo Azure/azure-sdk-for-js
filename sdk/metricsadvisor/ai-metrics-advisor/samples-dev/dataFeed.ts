@@ -2,16 +2,20 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates data feed management operations.
+ * @summary This sample demonstrates data feed management operations.
  */
 // Load the .env file if it exists
-require("dotenv").config();
-const {
+import * as dotenv from "dotenv";
+dotenv.config();
+import {
   MetricsAdvisorKeyCredential,
-  MetricsAdvisorAdministrationClient
-} = require("@azure/ai-metrics-advisor");
+  MetricsAdvisorAdministrationClient,
+  GetDataFeedResponse,
+  DataFeedPatch,
+  DataFeedDescriptor
+} from "@azure/ai-metrics-advisor";
 
-async function main() {
+export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -27,7 +31,7 @@ async function main() {
   await deleteDataFeed(adminClient, created.id);
 }
 
-async function listDataFeeds(client) {
+async function listDataFeeds(client: MetricsAdvisorAdministrationClient) {
   console.log("Listing Datafeeds ...");
   console.log("  using while loop");
   const iter = client.listDataFeeds({
@@ -64,9 +68,11 @@ async function listDataFeeds(client) {
   }
 }
 
-async function createDataFeed(client) {
+async function createDataFeed(
+  client: MetricsAdvisorAdministrationClient
+): Promise<GetDataFeedResponse> {
   console.log("Creating Datafeed...");
-  const feed = {
+  const feed: DataFeedDescriptor = {
     name: "test-datafeed-" + new Date().getTime().toString(),
     source: {
       dataSourceType: "AzureBlob",
@@ -87,12 +93,12 @@ async function createDataFeed(client) {
       metrics: [
         {
           name: "Metric1",
-          displayName: "Metric1",
+          displayName: "Metric1 display",
           description: ""
         },
         {
           name: "Metric2",
-          displayName: "Metric2",
+          displayName: "Metric2 display",
           description: ""
         }
       ],
@@ -100,7 +106,7 @@ async function createDataFeed(client) {
         { name: "Dim1", displayName: "Dim1 display" },
         { name: "Dim2", displayName: "Dim2 display" }
       ],
-      timestampColumn: null
+      timestampColumn: undefined
     },
     ingestionSettings: {
       ingestionStartTime: new Date(Date.UTC(2020, 8, 21)),
@@ -112,7 +118,7 @@ async function createDataFeed(client) {
     rollupSettings: {
       rollupType: "AutoRollup",
       rollupMethod: "Sum",
-      rollupIdentificationValue: "__SUM__"
+      rollupIdentificationValue: "__CUSTOM_SUM__"
     },
     missingDataPointFillSettings: {
       fillType: "CustomValue",
@@ -120,13 +126,13 @@ async function createDataFeed(client) {
     },
     accessMode: "Private"
   };
-
   const result = await client.createDataFeed(feed);
+
   console.dir(result);
   return result;
 }
 
-async function getDataFeed(client, dataFeedId) {
+async function getDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
   console.log("Retrieving datafeed by id...");
   const result = await client.getDataFeed(dataFeedId);
   console.log("datafeed result is as follows - ");
@@ -135,8 +141,8 @@ async function getDataFeed(client, dataFeedId) {
   console.log(`  name: ${result.name}`);
 }
 
-async function updateDataFeed(client, dataFeedId) {
-  const patch = {
+async function updateDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
+  const patch: DataFeedPatch = {
     source: {
       dataSourceType: "AzureBlob"
     },
@@ -164,15 +170,14 @@ async function updateDataFeed(client, dataFeedId) {
   }
 }
 
-async function deleteDataFeed(client, dataFeedId) {
+async function deleteDataFeed(client: MetricsAdvisorAdministrationClient, dataFeedId: string) {
   console.log(`Deleting datafeed ${dataFeedId}...`);
   await client.deleteDataFeed(dataFeedId);
 }
 
 main()
-  .then(() => {
+  .then((_) => {
     console.log("Succeeded");
-    return;
   })
   .catch((err) => {
     console.log("Error occurred:");

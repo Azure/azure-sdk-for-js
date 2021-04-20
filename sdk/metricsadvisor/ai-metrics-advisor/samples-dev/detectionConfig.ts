@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates Detection Configuration CRUD operations.
+ * @summary This sample demonstrates Detection Configuration CRUD operations.
  */
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

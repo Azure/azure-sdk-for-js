@@ -2,17 +2,18 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates operations related to ingestion status.
+ * @summary This sample demonstrates operations related to ingestion status.
  */
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-const {
+import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient
-} = require("@azure/ai-metrics-advisor");
+} from "@azure/ai-metrics-advisor";
 
-async function main() {
+export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["METRICS_ADVISOR_ENDPOINT"] || "<service endpoint>";
   const subscriptionKey = process.env["METRICS_ADVISOR_SUBSCRIPTION_KEY"] || "<subscription key>";
@@ -23,7 +24,7 @@ async function main() {
   const adminClient = new MetricsAdvisorAdministrationClient(endpoint, credential);
 
   const startTime = new Date(Date.UTC(2020, 7, 22));
-  const endTime = new Date(Date.UTC(2020, 7, 26));
+  const endTime = new Date(Date.UTC(2020, 7, 24));
   await listIngestionStatus(adminClient, existingDataFeedId, startTime, endTime);
 
   await getIngestionProgress(adminClient, existingDataFeedId);
@@ -33,7 +34,12 @@ async function main() {
   await listIngestionStatus(adminClient, existingDataFeedId, startTime, endTime);
 }
 
-async function listIngestionStatus(adminClient, dataFeedId, startTime, endTime) {
+async function listIngestionStatus(
+  adminClient: MetricsAdvisorAdministrationClient,
+  dataFeedId: string,
+  startTime: Date,
+  endTime: Date
+) {
   console.log("Listing ingestion status...");
   // iterate through all ingestions using for-await-of
   const listIterator = adminClient.listDataFeedIngestionStatus(dataFeedId, startTime, endTime);
@@ -57,13 +63,21 @@ async function listIngestionStatus(adminClient, dataFeedId, startTime, endTime) 
   }
 }
 
-async function getIngestionProgress(adminClient, dataFeedId) {
+async function getIngestionProgress(
+  adminClient: MetricsAdvisorAdministrationClient,
+  dataFeedId: string
+) {
   console.log("Getting ingestion progress...");
   const result = await adminClient.getDataFeedIngestionProgress(dataFeedId);
   console.log(result);
 }
 
-async function refreshIngestion(adminClient, dataFeedId, startTime, endTime) {
+async function refreshIngestion(
+  adminClient: MetricsAdvisorAdministrationClient,
+  dataFeedId: string,
+  startTime: Date,
+  endTime: Date
+) {
   console.log("Resetting ingestion status...");
   await adminClient.refreshDataFeedIngestion(dataFeedId, startTime, endTime);
 }

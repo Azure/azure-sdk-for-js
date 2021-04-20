@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates querying methods related to metric.
+ *  @summary This sample demonstrates querying methods related to metric.
  */
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to retrieve time series data.
+ *  @summary This sample demonstrates how to retrieve time series data.
  */
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
