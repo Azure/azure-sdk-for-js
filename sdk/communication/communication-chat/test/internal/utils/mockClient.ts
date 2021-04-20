@@ -6,7 +6,7 @@ import { HttpClient, HttpHeaders, WebResourceLike, HttpOperationResponse } from 
 import * as RestModel from "../../../src/generated/src/models";
 import { ChatClient, ChatParticipant, ChatThreadClient } from "../../../src";
 import { CommunicationIdentifierModel } from "../../../src/generated/src";
-import { baseUri, generateToken } from "./connectionUtils";
+import { baseUri, generateToken } from "../../public/utils/connectionUtils";
 
 export const mockCommunicationIdentifier: CommunicationIdentifierModel = {
   communicationUser: { id: "id" }
