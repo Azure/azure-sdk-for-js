@@ -74,7 +74,7 @@ export default function Page(): JSX.Element {
   };
 
   useEffect(() => {
-    const endpoint = getEnvironmentVariable("REACT_APP_APP_CONFIG_ENDPOINT");
+    const endpoint = getEnvironmentVariable("REACT_APP_APPCONFIG_ENDPOINT");
     const clientId = getEnvironmentVariable("REACT_APP_AZURE_CLIENT_ID");
     const tenantId = getEnvironmentVariable("REACT_APP_AZURE_TENANT_ID");
     const credential = new InteractiveBrowserCredential({ clientId, tenantId });
