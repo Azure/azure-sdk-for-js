@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import { DTDL } from './DTDL';
-import { logger } from './logger';
-import { DtmiResolver } from './resolver';
+import { DTDL } from "./DTDL";
+import { logger } from "./logger";
+import { DtmiResolver } from "./resolver";
 
 export class PseudoParser {
   private _resolver;
@@ -16,7 +16,7 @@ export class PseudoParser {
     let expandedMap: any = {};
 
     models.forEach((model: DTDL) => {
-      expandedMap[model['@id']] = model;
+      expandedMap[model["@id"]] = model;
       this._expand(model, expandedMap);
     });
 
@@ -24,7 +24,7 @@ export class PseudoParser {
   }
 
   private _expand(model: DTDL, modelMap: any) {
-    logger.info(`Expanding model: ${model['@id']}`);
+    logger.info(`Expanding model: ${model["@id"]}`);
     let dependencies = this._getModelDependencies(model);
     let dependenciesToResolve = dependencies.filter((dependency: string) => {
       return !(dependency in modelMap);
@@ -46,11 +46,11 @@ export class PseudoParser {
       const contents = model.contents;
       contents.forEach((element) => {
         if (
-          element['@type'] &&
-          typeof element['@type'] === 'string' &&
-          element['@type'] === 'Component'
+          element["@type"] &&
+          typeof element["@type"] === "string" &&
+          element["@type"] === "Component"
         ) {
-          if (element.schema && typeof element.schema === 'string') {
+          if (element.schema && typeof element.schema === "string") {
             dependencies.push(element.schema);
           }
         }
@@ -58,13 +58,13 @@ export class PseudoParser {
     }
 
     if (model.extends !== undefined) {
-      if (typeof model.extends === 'string') {
+      if (typeof model.extends === "string") {
         dependencies.push(model.extends);
       } else if (Array.isArray(model.extends)) {
         model.extends.forEach((element) => {
-          if (typeof element === 'string') {
+          if (typeof element === "string") {
             dependencies.push(element);
-          } else if (typeof element === 'object') {
+          } else if (typeof element === "object") {
             dependencies.push(this._getModelDependencies(element));
           }
         });

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import { DTDL } from './DTDL';
-import fs from 'fs';
-import * as path from 'path';
-import { Fetcher } from './fetcher';
-import { logger } from './logger';
-import { FetcherError } from './resolver';
+import { DTDL } from "./DTDL";
+import fs from "fs";
+import * as path from "path";
+import { Fetcher } from "./fetcher";
+import { logger } from "./logger";
+import { FetcherError } from "./resolver";
 
 export class FilesystemFetcher extends Fetcher {
   private _baseFilePath: string;
@@ -22,11 +22,11 @@ export class FilesystemFetcher extends Fetcher {
 
     try {
       logger.info(`File open on ${absolutePath}`);
-      const dtdlFile = fs.readFileSync(absolutePath, 'utf8');
+      const dtdlFile = fs.readFileSync(absolutePath, "utf8");
       const parsedDtdl: DTDL | DTDL[] = JSON.parse(dtdlFile);
       return parsedDtdl;
     } catch (e) {
-      throw new FetcherError('Failed to fetch from Filesystem', e);
+      throw new FetcherError("Failed to fetch from Filesystem", e);
     }
   }
 }

@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import * as constants from './constants';
+import * as constants from "./constants";
 
-import {createClientPipeline, ClientPipelineOptions} from "@azure/core-client";
-import {dependencyResolutionType} from './dependencyResolutionType';
-import {logger} from './logger';
-import {URL} from 'url';
-import {DtmiResolver, ResolverError} from './resolver';
-import {HttpFetcher} from './httpModelFetcher';
-import {FilesystemFetcher} from './filesystemModelFetcher';
-import {isLocalPath} from './modelFetcherHelper';
-import * as path from 'path';
-import {PseudoParser} from './psuedoParser';
-import { MyServiceClient } from './serviceClient';
+import { createClientPipeline, ClientPipelineOptions } from "@azure/core-client";
+import { dependencyResolutionType } from "./dependencyResolutionType";
+import { logger } from "./logger";
+import { URL } from "url";
+import { DtmiResolver, ResolverError } from "./resolver";
+import { HttpFetcher } from "./httpModelFetcher";
+import { FilesystemFetcher } from "./filesystemModelFetcher";
+import { isLocalPath } from "./modelFetcherHelper";
+import * as path from "path";
+import { PseudoParser } from "./psuedoParser";
+import { MyServiceClient } from "./serviceClient";
 
 export interface ModelsRepositoryClientOptions extends ClientPipelineOptions {
   repositoryLocation?: string;
@@ -50,9 +50,9 @@ export class ModelsRepositoryClient {
 
   private _checkDefaultDependencyResolution(customRepository: boolean) {
     if (customRepository) {
-      return 'enabled';
+      return "enabled";
     } else {
-      return 'tryFromExpanded';
+      return "tryFromExpanded";
     }
   }
 
@@ -96,21 +96,21 @@ export class ModelsRepositoryClient {
       fetcher = new FilesystemFetcher(path.normalize(location));
     } else {
       locationURL = new URL(location);
-      if (locationURL.protocol in ['http', 'https']) {
+      if (locationURL.protocol in ["http", "https"]) {
         logger.info(`Repository location identified as HTTP/HTTPS endpoint - using HttpFetcher`);
         const client = this._createClient(options);
         fetcher = new HttpFetcher(location, client);
-      } else if (locationURL.protocol === 'file') {
+      } else if (locationURL.protocol === "file") {
         // filesystem URI
-        logger.info('Repository Location identified as filesystem URI - using FilesystemFetcher');
+        logger.info("Repository Location identified as filesystem URI - using FilesystemFetcher");
         fetcher = new FilesystemFetcher(location);
-      } else if (locationURL.protocol === '' && location.startsWith('/')) {
-      } else if (locationURL.protocol === '' && location.search(/\.[a-zA-Z]{2,63}$/)) {
+      } else if (locationURL.protocol === "" && location.startsWith("/")) {
+      } else if (locationURL.protocol === "" && location.search(/\.[a-zA-Z]{2,63}$/)) {
         // Web URL with protocol unspecified - default to HTTPS
         logger.info(
-          'Repository Location identified as remote endpoint without protocol specified - using HttpFetcher'
+          "Repository Location identified as remote endpoint without protocol specified - using HttpFetcher"
         );
-        const fLocation = 'https://' + location;
+        const fLocation = "https://" + location;
         const client = this._createClient(options);
         fetcher = new HttpFetcher(fLocation, client);
         // TODO: make the next line match a regex specified.
@@ -124,7 +124,10 @@ export class ModelsRepositoryClient {
 
   getModels(dtmi: string, options?: getModelsOptions): Promise<{ [dtmi: string]: any }>;
   getModels(dtmis: string[], options?: getModelsOptions): Promise<{ [dtmi: string]: any }>;
-  getModels(dtmis: string | string[], options?: getModelsOptions): Promise<{ [dtmi: string]: any }> {
+  getModels(
+    dtmis: string | string[],
+    options?: getModelsOptions
+  ): Promise<{ [dtmi: string]: any }> {
     let modelMap;
     if (!Array.isArray(dtmis)) {
       dtmis = [dtmis];
@@ -133,7 +136,7 @@ export class ModelsRepositoryClient {
     const dependencyResolution = options?.dependencyResolution || this._dependencyResolution;
 
     if (dependencyResolution === constants.DEPENDENCY_MODE_DISABLED) {
-      logger.info('Getting models w/ dependency resolution mode: disabled');
+      logger.info("Getting models w/ dependency resolution mode: disabled");
       logger.info(`Retreiving model(s): ${dtmis}...`);
       modelMap = this._resolver.resolve(dtmis);
     } else if (dependencyResolution === constants.DEPENDENCY_MODE_ENABLED) {
@@ -162,7 +165,6 @@ export class ModelsRepositoryClient {
   }
 }
 
-
 interface getModelsOptions {
-  dependencyResolution: dependencyResolutionType
+  dependencyResolution: dependencyResolutionType;
 }

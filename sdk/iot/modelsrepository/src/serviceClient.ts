@@ -20,7 +20,7 @@ export class MyServiceClient extends ServiceClient {
   constructor(url: string, options: MyServiceClientOptions = {}) {
     const defaults: MyServiceClientOptions = {
       baseUri: `${url}`,
-      requestContentType: 'application/json; charset=utf-8'
+      requestContentType: "application/json; charset=utf-8"
     };
 
     const optionsWithDefaults = {
@@ -33,5 +33,4 @@ export class MyServiceClient extends ServiceClient {
     this.url = url;
     this.version = options.version || "2019-02-02";
   }
-
 }

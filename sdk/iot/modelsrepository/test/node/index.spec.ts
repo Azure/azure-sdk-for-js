@@ -16,7 +16,7 @@ interface remoteResolutionScenario {
     dependencyResolution: dependencyResolutionType;
     repositoryLocation: string;
   };
-  getModelsOptions: any,
+  getModelsOptions: any;
   dtmis: {
     dtmi: string;
     expectedUri: string;
@@ -101,37 +101,40 @@ describe("resolver - node", function() {
   describe("remote URL resolution", function() {
     remoteResolutionScenarios.forEach((scenario: remoteResolutionScenario) => {
       it(scenario.name, function(done) {
-        let myStub = sinon.stub(coreClient, 'ServiceClient');
+        let myStub = sinon.stub(coreClient, "ServiceClient");
         for (let i = 0; i < scenario.dtmis.length; i++) {
           myStub.onCall(i).returns({
             sendRequest: function(req: any) {
-              assert.deepEqual(req.url, scenario.dtmis[i].expectedUri, "URL not formatted for request correctly.");
-              return Promise.resolve({ bodyAsText: JSON.stringify(scenario.dtmis[i].expectedOutputJson), status: 200 });
+              assert.deepEqual(
+                req.url,
+                scenario.dtmis[i].expectedUri,
+                "URL not formatted for request correctly."
+              );
+              return Promise.resolve({
+                bodyAsText: JSON.stringify(scenario.dtmis[i].expectedOutputJson),
+                status: 200
+              });
             }
           });
         }
 
         const myOptions: ModelsRepositoryClientOptions = scenario.clientOptions;
         const dtmiClient = new ModelsRepositoryClient(myOptions);
-        const listOfDtmis = scenario.dtmis.map(x => x.dtmi);
+        const listOfDtmis = scenario.dtmis.map((x) => x.dtmi);
         const result = dtmiClient.getModels(listOfDtmis, scenario.getModelsOptions);
-        const expectedOutput:any = {};
-        scenario.dtmis.forEach(element => {
-          expectedOutput[element.dtmi] = element.expectedOutputJson 
+        const expectedOutput: any = {};
+        scenario.dtmis.forEach((element) => {
+          expectedOutput[element.dtmi] = element.expectedOutputJson;
         });
         assert(result instanceof Promise, "resolve method did not return a promise");
         result
           .then((actualOutput: any) => {
-            expect(actualOutput).to.deep.equal(expectedOutput)
+            expect(actualOutput).to.deep.equal(expectedOutput);
             done();
           })
           .catch((err: any) => done(err));
-
-
       });
     });
-
-
 
     // describe("simple DTDL resolution", function() {
     //   it("should return a promise that resolves to a mapping from a DTMI to a JSON object", function(done) {

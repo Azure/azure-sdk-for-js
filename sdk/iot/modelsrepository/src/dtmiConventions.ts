@@ -10,8 +10,8 @@ export function isValidDtmi(dtmi: string) {
 }
 
 export function getModelUri(dtmi: string, repositoryUri: string, expanded: boolean = false) {
-  if (!repositoryUri.endsWith('/')) {
-    repositoryUri = repositoryUri.concat('/');
+  if (!repositoryUri.endsWith("/")) {
+    repositoryUri = repositoryUri.concat("/");
   }
   const modelUri = repositoryUri + convertDtmiToPath(dtmi, expanded);
   return modelUri;
@@ -23,11 +23,14 @@ export function convertDtmiToPath(dtmi: string, expanded: boolean) {
   // that happens in the dtmiToQualifiedPath function
 
   if (isValidDtmi(dtmi)) {
-    let thePath = `${dtmi.toLowerCase().replace(/:/gm, '/').replace(/;/gm, '-')}.json`;
+    let thePath = `${dtmi
+      .toLowerCase()
+      .replace(/:/gm, "/")
+      .replace(/;/gm, "-")}.json`;
     if (expanded) {
-      thePath = thePath.replace('.json', '.expanded.json');
+      thePath = thePath.replace(".json", ".expanded.json");
     }
   } else {
-    throw new Error('DTMI provided is invalid. Ensure it follows DTMI conventions.');
+    throw new Error("DTMI provided is invalid. Ensure it follows DTMI conventions.");
   }
 }

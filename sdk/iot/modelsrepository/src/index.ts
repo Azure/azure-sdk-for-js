@@ -2,4 +2,4 @@
 // Licensed under the MIT license.
 
 // exporting the resolver api
-export * from './client';
+export * from "./client";

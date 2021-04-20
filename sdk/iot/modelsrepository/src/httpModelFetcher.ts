@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft.
 // Licensed under the MIT license.
 
-import {ServiceClient} from '@azure/core-client';
-import {PipelineResponse, RestError} from '@azure/core-rest-pipeline';
-import { logger } from './logger';
-import { Fetcher } from './fetcher';
+import { ServiceClient } from "@azure/core-client";
+import { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
+import { logger } from "./logger";
+import { Fetcher } from "./fetcher";
 
 export class HttpFetcher extends Fetcher {
   private _client: ServiceClient;
@@ -22,12 +22,12 @@ export class HttpFetcher extends Fetcher {
 
     const request: any = {
       url: myURL,
-      method: 'GET'
+      method: "GET"
     };
     const res: PipelineResponse = await this._client.sendRequest(request);
 
     if (res.status >= 200 && res.status < 400) {
-      const dtdlAsString = res.bodyAsText || '';
+      const dtdlAsString = res.bodyAsText || "";
       const parsedDtdl = JSON.parse(dtdlAsString);
       return parsedDtdl;
       // if (Array.isArray(parsedDtdl)) {
@@ -38,8 +38,7 @@ export class HttpFetcher extends Fetcher {
       //   return result;
       // }
     } else {
-      throw new RestError(
-        'Error on HTTP Request in remote model fetcher');
+      throw new RestError("Error on HTTP Request in remote model fetcher");
     }
   }
 }
