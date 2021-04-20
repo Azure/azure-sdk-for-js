@@ -49,7 +49,7 @@ describe("[mocked] SmsClient", async () => {
     beforeEach(() => {
       sendRequestSpy = sinon.spy(mockHttpClient, "sendRequest");
       sinon.useFakeTimers();
-      // workaround: casting because min testing has issues when the httpClient in src has extra optional fields
+      // workaround: casting because min testing has issues with httpClient newer versions having extra optional fields
       smsClient = new SmsClient(connectionString, {
         httpClient: mockHttpClient
       } as SmsClientOptions);
