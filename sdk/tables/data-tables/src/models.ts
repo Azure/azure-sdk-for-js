@@ -356,6 +356,17 @@ export interface TableBatch {
     options?: UpdateTableEntityOptions
   ) => void;
   /**
+   * Adds an updateEntity operation to the batch
+   * @param entity - Entity to update
+   * @param mode - Update mode (Merge or Replace)
+   * @param options - Options for the update operation
+   */
+  upsertEntity: <T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpsertTableEntityOptions
+  ) => void;
+  /**
    * Submits the operations in the batch
    */
   submitBatch: () => Promise<TableBatchResponse>;

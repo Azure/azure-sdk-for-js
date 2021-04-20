@@ -66,7 +66,7 @@ export class Container {
 
   private $conflicts: Conflicts;
   /**
-   * Opertaions for reading and querying conflicts for the given container.
+   * Operations for reading and querying conflicts for the given container.
    *
    * For reading or deleting a specific conflict, use `.conflict(id)`.
    */
@@ -116,8 +116,8 @@ export class Container {
    * Use `.conflicts` for creating new conflicts, or querying/reading all conflicts.
    * @param id - The id of the {@link Conflict}.
    */
-  public conflict(id: string): Conflict {
-    return new Conflict(this, id, this.clientContext);
+  public conflict(id: string, partitionKey?: PartitionKey): Conflict {
+    return new Conflict(this, id, this.clientContext, partitionKey);
   }
 
   /** Read the container's definition */

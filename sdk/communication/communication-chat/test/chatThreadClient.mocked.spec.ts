@@ -93,7 +93,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const sendRequest: SendMessageRequest = {
-      content: mockMessage.content?.message!
+      content: mockMessage.content?.message as string
     };
 
     const sendOptions: SendMessageOptions = {
