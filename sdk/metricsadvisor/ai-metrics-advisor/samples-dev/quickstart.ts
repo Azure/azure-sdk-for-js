@@ -260,7 +260,7 @@ async function queryAlerts(
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page -- ");
-    console.table(result.value);
+    console.log(result.value);
     result = await iterator.next();
   }
 

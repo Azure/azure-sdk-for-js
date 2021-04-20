@@ -61,7 +61,7 @@ async function listAnomalyDimensionValues(client: MetricsAdvisorClient, detectio
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value);
+    console.log(result.value);
     result = await iterator.next();
   }
 }
@@ -99,7 +99,7 @@ async function listIncidentsForDetectionConfig(
 
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value, [
+    console.log(result.value, [
       "id",
       "severity",
       "status",
@@ -147,7 +147,7 @@ async function listAnomaliesForDetectionConfig(
 
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value, ["timestamp", "severity", "seriesKey"]);
+    console.log(result.value, ["timestamp", "severity", "seriesKey"]);
     result = await iterator.next();
   }
 }
@@ -192,7 +192,7 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value, ["id", "timestamp", "createdOn"]);
+    console.log(result.value, ["id", "timestamp", "createdOn"]);
     result = await iterator.next();
   }
 }
@@ -224,7 +224,7 @@ async function listIncidentsForAlert(
   let result = await iterator.next();
   while (!result.done) {
     console.log("  Page");
-    console.table(result.value, [
+    console.log(result.value, [
       "id",
       "severity",
       "status",
@@ -260,7 +260,7 @@ async function listAnomaliesForAlert(
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.table(result.value, ["timestamp", "seriesKey", "status"]);
+    console.log(result.value, ["timestamp", "seriesKey", "status"]);
     result = await iterator.next();
   }
 }
