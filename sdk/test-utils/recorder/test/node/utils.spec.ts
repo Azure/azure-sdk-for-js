@@ -13,7 +13,7 @@ import {
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
 import chai, { expect } from "chai";
 import {
-  applyRequestBodyTransformations,
+  applyRequestBodyTransformationsOnFixture,
   defaultRequestBodyTransforms
 } from "../../src/utils/requestBodyTransform";
 
@@ -796,12 +796,13 @@ describe("NodeJS utils", () => {
     ].forEach((test) => {
       it(test.name, () => {
         chai.assert.equal(
-          applyRequestBodyTransformations("node", test.input, defaultRequestBodyTransforms).replace(
-            /\s/g,
-            ""
-          ),
+          applyRequestBodyTransformationsOnFixture(
+            "node",
+            test.input,
+            defaultRequestBodyTransforms
+          ).replace(/\s/g, ""),
           test.output.replace(/\s/g, ""),
-          `Output from "applyRequestBodyTransformations" did not match the expected output`
+          `Output from "applyRequestBodyTransformationsOnFixture" did not match the expected output`
         );
       });
     });
