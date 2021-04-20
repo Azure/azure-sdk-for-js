@@ -88,7 +88,8 @@ examples/bin
 .vs
 TestResults/*
 .vscode/*
-./**/.vscode/*
+**/.vscode/*
+
 
 # Node #
 **/node_modules/
@@ -152,6 +153,3 @@ swagger/*.json
 
 #autorest artifacts
 code-model-*
-
-# vscode launch.json
-**/.vscode/launch.json
