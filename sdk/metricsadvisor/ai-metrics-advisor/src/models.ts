@@ -1862,7 +1862,7 @@ export type GetIngestionProgressResponse = {
   };
 };
 
-export interface DataSourceCredentialCommon {
+export interface DataSourceCredentialEntity {
   /**
    * Unique id of data source credential
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1874,39 +1874,42 @@ export interface DataSourceCredentialCommon {
   description?: string;
 }
 
-export interface AzureSqlConnectionStringCredential extends DataSourceCredentialCommon {
+export interface SqlConnectionStringCredentialEntity extends DataSourceCredentialEntity {
   type: "AzureSQLConnectionString";
   parameters: AzureSQLConnectionStringParam;
 }
 
-export interface DataLakeGen2SharedKeyCredential extends DataSourceCredentialCommon {
+export interface DataLakeGen2SharedKeyCredentialEntity extends DataSourceCredentialEntity {
   type: "DataLakeGen2SharedKey";
   parameters: DataLakeGen2SharedKeyParam;
 }
 
-export interface ServicePrincipalCredential extends DataSourceCredentialCommon {
+export interface ServicePrincipalCredentialEntity extends DataSourceCredentialEntity {
   type: "ServicePrincipal";
   parameters: ServicePrincipalParam;
 }
 
-export interface ServicePrincipalInKVCredential extends DataSourceCredentialCommon {
+export interface ServicePrincipalInKVCredentialEntity extends DataSourceCredentialEntity {
   type: "ServicePrincipalInKV";
   parameters: ServicePrincipalInKVParam;
 }
 
-export type DataSourceCredentialUnion =
-  | AzureSqlConnectionStringCredential
-  | DataLakeGen2SharedKeyCredential
-  | ServicePrincipalCredential
-  | ServicePrincipalInKVCredential;
+export type DataSourceCredentialEntityUnion =
+  | SqlConnectionStringCredentialEntity
+  | DataLakeGen2SharedKeyCredentialEntity
+  | ServicePrincipalCredentialEntity
+  | ServicePrincipalInKVCredentialEntity;
 
-export type DataSourceCredentialPatch = Omit<DataSourceCredentialUnion, "id" | "parameters"> &
-  Partial<Pick<DataSourceCredentialUnion, "parameters">>;
+export type DataSourceCredentialEntityPatch = Omit<
+  DataSourceCredentialEntityUnion,
+  "id" | "parameters"
+> &
+  Partial<Pick<DataSourceCredentialEntityUnion, "parameters">>;
 
 /**
  * Contains response data for the listCredentials operation.
  */
-export interface CredentialsPageResponse extends Array<DataSourceCredentialUnion> {
+export interface CredentialsPageResponse extends Array<DataSourceCredentialEntityUnion> {
   /**
    * Continuation token to pass to `byPage()` to resume listing of more results if available.
    */

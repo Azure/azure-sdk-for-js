@@ -45,8 +45,8 @@ import {
   DataFeedStatus,
   GetIngestionProgressResponse,
   AnomalyAlertConfiguration,
-  DataSourceCredentialUnion,
-  DataSourceCredentialPatch,
+  DataSourceCredentialEntityUnion,
+  DataSourceCredentialEntityPatch,
   CredentialsPageResponse
 } from "./models";
 import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
@@ -1561,9 +1561,9 @@ export class MetricsAdvisorAdministrationClient {
    */
 
   public async createDataSourceCredential(
-    _credential: DataSourceCredentialUnion,
+    _credential: DataSourceCredentialEntityUnion,
     options: OperationOptions = {}
-  ): Promise<DataSourceCredentialUnion> {
+  ): Promise<DataSourceCredentialEntityUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-createDataSourceCredential",
       options
@@ -1593,7 +1593,7 @@ export class MetricsAdvisorAdministrationClient {
   public async getDataSourceCredential(
     _id: string,
     options: OperationOptions = {}
-  ): Promise<DataSourceCredentialUnion> {
+  ): Promise<DataSourceCredentialEntityUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
       "MetricsAdvisorAdministrationClient-getDataSourceCredential",
       options
@@ -1624,7 +1624,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public listDataSourceCredentials(
     _options: ListDataSourceCredentialsOptions = {}
-  ): PagedAsyncIterableIterator<DataSourceCredentialUnion, CredentialsPageResponse> {
+  ): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse> {
     throw new Error("Not yet implemented");
   }
 
@@ -1636,7 +1636,7 @@ export class MetricsAdvisorAdministrationClient {
    */
   public async updateDataSourceCredential(
     id: string,
-    patch: DataSourceCredentialPatch,
+    patch: DataSourceCredentialEntityPatch,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions: finalOptions } = createSpan(

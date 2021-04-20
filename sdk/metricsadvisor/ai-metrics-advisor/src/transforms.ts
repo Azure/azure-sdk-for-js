@@ -51,7 +51,7 @@ import {
   HardThresholdConditionUnion,
   ChangeThresholdConditionUnion,
   DataFeedGranularity,
-  DataSourceCredentialPatch
+  DataSourceCredentialEntityPatch
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -805,7 +805,7 @@ export function toServiceAlertConfigurationPatch(
 }
 
 export function toServiceCredentialPatch(
-  _from: DataSourceCredentialPatch
+  _from: DataSourceCredentialEntityPatch
 ): ServiceDataSourceCredentialPatch {
   throw new Error("Not Yet Implemented");
 }
