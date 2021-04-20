@@ -39,7 +39,11 @@ import { PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { RemoteRendering } from "./generated/operations";
-import { AssetConversionPoller, AssetConversionOperationState, AssetConversionPollerOptions } from "./lro/assetConversionPoller";
+import {
+  AssetConversionPoller,
+  AssetConversionOperationState,
+  AssetConversionPollerOptions
+} from "./lro/assetConversionPoller";
 import {
   RenderingSessionPoller,
   RenderingSessionOperationState,
@@ -92,7 +96,7 @@ export {
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 
 export type AssetConversionOptions = AssetConversionPollerOptions & OperationOptions;
-export type RenderingSessionOptions = RenderingSessionPollerOptions & OperationOptions; 
+export type RenderingSessionOptions = RenderingSessionPollerOptions & OperationOptions;
 
 export type RenderingSessionPollerLike = PollerLike<
   RenderingSessionOperationState,
@@ -256,7 +260,12 @@ export class RemoteRenderingClient {
         updatedOptions
       );
 
-      let poller = new AssetConversionPoller(this.accountId, this.operations, assetConversion, options);
+      let poller = new AssetConversionPoller(
+        this.accountId,
+        this.operations,
+        assetConversion,
+        options
+      );
 
       // TODO Do I want this?
       await poller.poll();
@@ -397,7 +406,12 @@ export class RemoteRenderingClient {
         updatedOptions
       );
 
-      let poller = new RenderingSessionPoller(this.accountId, this.operations, renderingSession, options);
+      let poller = new RenderingSessionPoller(
+        this.accountId,
+        this.operations,
+        renderingSession,
+        options
+      );
 
       // Do I want this?
       await poller.poll();

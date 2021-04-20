@@ -100,7 +100,12 @@ export class AssetConversionPoller extends Poller<
    */
   public intervalInMs: number;
 
-  constructor(accountId: string, operations: RemoteRendering, assetConversion: AssetConversion, options: AssetConversionPollerOptions) {
+  constructor(
+    accountId: string,
+    operations: RemoteRendering,
+    assetConversion: AssetConversion,
+    options: AssetConversionPollerOptions
+  ) {
     super(
       new AssetConversionOperation(
         accountId,

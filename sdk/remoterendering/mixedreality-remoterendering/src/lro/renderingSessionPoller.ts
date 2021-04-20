@@ -117,7 +117,12 @@ export class RenderingSessionPoller extends Poller<
    */
   public intervalInMs: number = 10000;
 
-  constructor(accountId: string, operations: RemoteRendering, RenderingSession: RenderingSession, options: RenderingSessionPollerOptions) {
+  constructor(
+    accountId: string,
+    operations: RemoteRendering,
+    RenderingSession: RenderingSession,
+    options: RenderingSessionPollerOptions
+  ) {
     super(
       new RenderingSessionOperation(
         accountId,
