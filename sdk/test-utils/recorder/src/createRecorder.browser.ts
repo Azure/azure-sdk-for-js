@@ -13,7 +13,10 @@ import {
   isPlaybackMode
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
-import { applyRequestBodyTransformationsOnFixture } from "./utils/requestBodyTransform";
+import {
+  applyRequestBodyTransformations,
+  applyRequestBodyTransformationsOnFixture
+} from "./utils/requestBodyTransform";
 
 // To better understand how this class works, it's necessary to comprehend how HTTP async requests are made:
 // A new request object is created
@@ -93,7 +96,21 @@ export class NiseRecorder extends BaseRecorder {
     return (
       recording.method === request.method &&
       recording.url === request.url &&
-      recording.requestBody === request.requestBody
+      // For backward compatibility, calling `applyRequestBodyTransformations` on
+      // - the request-body in the recording
+      //   and
+      // - the request-body of the new request
+      //
+      // Once all the browser recordings are regenerated, L.H.S can be updated to `recording.requestBody`
+      // since the `applyRequestBodyTransformations` would have been applied before saving the recording
+      applyRequestBodyTransformations(
+        recording.requestBody,
+        this.environmentSetup.requestBodyTransformations
+      ) ===
+        applyRequestBodyTransformations(
+          request.requestBody,
+          this.environmentSetup.requestBodyTransformations
+        )
     );
   }
 
