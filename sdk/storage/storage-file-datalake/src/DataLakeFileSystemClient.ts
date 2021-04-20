@@ -8,7 +8,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { FileSystemOperations } from "./generated/src/operations";
+import { FileSystem } from "./generated/src/operations";
 import {
   AccessPolicy,
   FileSystemCreateOptions,
@@ -51,7 +51,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * fileSystemContext provided by protocol layer.
    */
-  private fileSystemContext: FileSystemOperations;
+  private fileSystemContext: FileSystem;
 
   /**
    * blobContainerClient provided by `@azure/storage-blob` package.
@@ -107,7 +107,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       super(url, pipeline);
     }
 
-    this.fileSystemContext = new FileSystemOperations(this.storageClientContext);
+    this.fileSystemContext = new FileSystem(this.storageClientContext);
     this.blobContainerClient = new ContainerClient(this.blobEndpointUrl, this.pipeline);
   }
 
