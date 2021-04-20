@@ -10,16 +10,16 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
-import * as Mappers from "../models/dataConnectionsMappers";
+import * as Mappers from "../models/scriptsMappers";
 import * as Parameters from "../models/parameters";
 import { KustoManagementClientContext } from "../kustoManagementClientContext";
 
-/** Class representing a DataConnections. */
-export class DataConnections {
+/** Class representing a Scripts. */
+export class Scripts {
   private readonly client: KustoManagementClientContext;
 
   /**
-   * Create a DataConnections.
+   * Create a Scripts.
    * @param {KustoManagementClientContext} client Reference to the service client.
    */
   constructor(client: KustoManagementClientContext) {
@@ -27,19 +27,19 @@ export class DataConnections {
   }
 
   /**
-   * Returns the list of data connections of the given Kusto database.
+   * Returns the list of database scripts for given database.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectionsListByDatabaseResponse>
+   * @returns Promise<Models.ScriptsListByDatabaseResponse>
    */
   listByDatabase(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
     options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsListByDatabaseResponse>;
+  ): Promise<Models.ScriptsListByDatabaseResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
@@ -50,7 +50,7 @@ export class DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    callback: msRest.ServiceCallback<Models.DataConnectionListResult>
+    callback: msRest.ServiceCallback<Models.ScriptListResult>
   ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
@@ -64,15 +64,15 @@ export class DataConnections {
     clusterName: string,
     databaseName: string,
     options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DataConnectionListResult>
+    callback: msRest.ServiceCallback<Models.ScriptListResult>
   ): void;
   listByDatabase(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionListResult>,
-    callback?: msRest.ServiceCallback<Models.DataConnectionListResult>
-  ): Promise<Models.DataConnectionsListByDatabaseResponse> {
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ScriptListResult>,
+    callback?: msRest.ServiceCallback<Models.ScriptListResult>
+  ): Promise<Models.ScriptsListByDatabaseResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -82,138 +82,44 @@ export class DataConnections {
       },
       listByDatabaseOperationSpec,
       callback
-    ) as Promise<Models.DataConnectionsListByDatabaseResponse>;
+    ) as Promise<Models.ScriptsListByDatabaseResponse>;
   }
 
   /**
-   * Checks that the data connection parameters are valid.
+   * Gets a Kusto cluster database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
+   * @param scriptName The name of the Kusto database script.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectionsDataConnectionValidationMethodResponse>
-   */
-  dataConnectionValidationMethod(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    parameters: Models.DataConnectionValidation,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsDataConnectionValidationMethodResponse> {
-    return this.beginDataConnectionValidationMethod(
-      resourceGroupName,
-      clusterName,
-      databaseName,
-      parameters,
-      options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.DataConnectionsDataConnectionValidationMethodResponse
-    >;
-  }
-
-  /**
-   * Checks that the data connection name is valid and is not already in use.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
-   * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectionsCheckNameAvailabilityResponse>
-   */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: Models.DataConnectionCheckNameRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsCheckNameAvailabilityResponse>;
-  /**
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
-   * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
-   * @param callback The callback
-   */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: Models.DataConnectionCheckNameRequest,
-    callback: msRest.ServiceCallback<Models.CheckNameResult>
-  ): void;
-  /**
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
-   * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: Models.DataConnectionCheckNameRequest,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.CheckNameResult>
-  ): void;
-  checkNameAvailability(
-    resourceGroupName: string,
-    clusterName: string,
-    databaseName: string,
-    dataConnectionName: Models.DataConnectionCheckNameRequest,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>,
-    callback?: msRest.ServiceCallback<Models.CheckNameResult>
-  ): Promise<Models.DataConnectionsCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        clusterName,
-        databaseName,
-        dataConnectionName,
-        options
-      },
-      checkNameAvailabilityOperationSpec,
-      callback
-    ) as Promise<Models.DataConnectionsCheckNameAvailabilityResponse>;
-  }
-
-  /**
-   * Returns a data connection.
-   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
-   * @param clusterName The name of the Kusto cluster.
-   * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectionsGetResponse>
+   * @returns Promise<Models.ScriptsGetResponse>
    */
   get(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
+    scriptName: string,
     options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsGetResponse>;
+  ): Promise<Models.ScriptsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
+   * @param scriptName The name of the Kusto database script.
    * @param callback The callback
    */
   get(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
-    callback: msRest.ServiceCallback<Models.DataConnectionUnion>
+    scriptName: string,
+    callback: msRest.ServiceCallback<Models.Script>
   ): void;
   /**
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
+   * @param scriptName The name of the Kusto database script.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -221,97 +127,95 @@ export class DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
+    scriptName: string,
     options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.DataConnectionUnion>
+    callback: msRest.ServiceCallback<Models.Script>
   ): void;
   get(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.DataConnectionUnion>,
-    callback?: msRest.ServiceCallback<Models.DataConnectionUnion>
-  ): Promise<Models.DataConnectionsGetResponse> {
+    scriptName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Script>,
+    callback?: msRest.ServiceCallback<Models.Script>
+  ): Promise<Models.ScriptsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         databaseName,
-        dataConnectionName,
+        scriptName,
         options
       },
       getOperationSpec,
       callback
-    ) as Promise<Models.DataConnectionsGetResponse>;
+    ) as Promise<Models.ScriptsGetResponse>;
   }
 
   /**
-   * Creates or updates a data connection.
+   * Creates a Kusto database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
-   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
+   * @param scriptName The name of the Kusto database script.
+   * @param parameters The Kusto Script parameters contains the KQL to run.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectionsCreateOrUpdateResponse>
+   * @returns Promise<Models.ScriptsCreateOrUpdateResponse>
    */
   createOrUpdate(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
-    parameters: Models.DataConnectionUnion,
+    scriptName: string,
+    parameters: Models.Script,
     options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsCreateOrUpdateResponse> {
+  ): Promise<Models.ScriptsCreateOrUpdateResponse> {
     return this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       databaseName,
-      dataConnectionName,
+      scriptName,
       parameters,
       options
     ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.DataConnectionsCreateOrUpdateResponse
+      Models.ScriptsCreateOrUpdateResponse
     >;
   }
 
   /**
-   * Updates a data connection.
+   * Updates a database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
-   * @param parameters The data connection parameters supplied to the Update operation.
+   * @param scriptName The name of the Kusto database script.
+   * @param parameters The Kusto Script parameters contains to the KQL to run.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DataConnectionsUpdateResponse>
+   * @returns Promise<Models.ScriptsUpdateResponse>
    */
   update(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
-    parameters: Models.DataConnectionUnion,
+    scriptName: string,
+    parameters: Models.Script,
     options?: msRest.RequestOptionsBase
-  ): Promise<Models.DataConnectionsUpdateResponse> {
+  ): Promise<Models.ScriptsUpdateResponse> {
     return this.beginUpdate(
       resourceGroupName,
       clusterName,
       databaseName,
-      dataConnectionName,
+      scriptName,
       parameters,
       options
-    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<
-      Models.DataConnectionsUpdateResponse
-    >;
+    ).then((lroPoller) => lroPoller.pollUntilFinished()) as Promise<Models.ScriptsUpdateResponse>;
   }
 
   /**
-   * Deletes the data connection with the given name.
+   * Deletes a Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
+   * @param scriptName The name of the Kusto database script.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -319,54 +223,92 @@ export class DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
+    scriptName: string,
     options?: msRest.RequestOptionsBase
   ): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(
       resourceGroupName,
       clusterName,
       databaseName,
-      dataConnectionName,
+      scriptName,
       options
     ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
-   * Checks that the data connection parameters are valid.
+   * Checks that the script name is valid and is not already in use.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
+   * @param scriptName The name of the script.
    * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
+   * @returns Promise<Models.ScriptsCheckNameAvailabilityResponse>
    */
-  beginDataConnectionValidationMethod(
+  checkNameAvailability(
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    parameters: Models.DataConnectionValidation,
+    scriptName: Models.ScriptCheckNameRequest,
     options?: msRest.RequestOptionsBase
-  ): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
+  ): Promise<Models.ScriptsCheckNameAvailabilityResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param databaseName The name of the database in the Kusto cluster.
+   * @param scriptName The name of the script.
+   * @param callback The callback
+   */
+  checkNameAvailability(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: Models.ScriptCheckNameRequest,
+    callback: msRest.ServiceCallback<Models.CheckNameResult>
+  ): void;
+  /**
+   * @param resourceGroupName The name of the resource group containing the Kusto cluster.
+   * @param clusterName The name of the Kusto cluster.
+   * @param databaseName The name of the database in the Kusto cluster.
+   * @param scriptName The name of the script.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkNameAvailability(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: Models.ScriptCheckNameRequest,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CheckNameResult>
+  ): void;
+  checkNameAvailability(
+    resourceGroupName: string,
+    clusterName: string,
+    databaseName: string,
+    scriptName: Models.ScriptCheckNameRequest,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameResult>,
+    callback?: msRest.ServiceCallback<Models.CheckNameResult>
+  ): Promise<Models.ScriptsCheckNameAvailabilityResponse> {
+    return this.client.sendOperationRequest(
       {
         resourceGroupName,
         clusterName,
         databaseName,
-        parameters,
+        scriptName,
         options
       },
-      beginDataConnectionValidationMethodOperationSpec,
-      options
-    );
+      checkNameAvailabilityOperationSpec,
+      callback
+    ) as Promise<Models.ScriptsCheckNameAvailabilityResponse>;
   }
 
   /**
-   * Creates or updates a data connection.
+   * Creates a Kusto database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
-   * @param parameters The data connection parameters supplied to the CreateOrUpdate operation.
+   * @param scriptName The name of the Kusto database script.
+   * @param parameters The Kusto Script parameters contains the KQL to run.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -374,8 +316,8 @@ export class DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
-    parameters: Models.DataConnectionUnion,
+    scriptName: string,
+    parameters: Models.Script,
     options?: msRest.RequestOptionsBase
   ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
@@ -383,7 +325,7 @@ export class DataConnections {
         resourceGroupName,
         clusterName,
         databaseName,
-        dataConnectionName,
+        scriptName,
         parameters,
         options
       },
@@ -393,12 +335,12 @@ export class DataConnections {
   }
 
   /**
-   * Updates a data connection.
+   * Updates a database script.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
-   * @param parameters The data connection parameters supplied to the Update operation.
+   * @param scriptName The name of the Kusto database script.
+   * @param parameters The Kusto Script parameters contains to the KQL to run.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -406,8 +348,8 @@ export class DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
-    parameters: Models.DataConnectionUnion,
+    scriptName: string,
+    parameters: Models.Script,
     options?: msRest.RequestOptionsBase
   ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
@@ -415,7 +357,7 @@ export class DataConnections {
         resourceGroupName,
         clusterName,
         databaseName,
-        dataConnectionName,
+        scriptName,
         parameters,
         options
       },
@@ -425,11 +367,11 @@ export class DataConnections {
   }
 
   /**
-   * Deletes the data connection with the given name.
+   * Deletes a Kusto principalAssignment.
    * @param resourceGroupName The name of the resource group containing the Kusto cluster.
    * @param clusterName The name of the Kusto cluster.
    * @param databaseName The name of the database in the Kusto cluster.
-   * @param dataConnectionName The name of the data connection.
+   * @param scriptName The name of the Kusto database script.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -437,7 +379,7 @@ export class DataConnections {
     resourceGroupName: string,
     clusterName: string,
     databaseName: string,
-    dataConnectionName: string,
+    scriptName: string,
     options?: msRest.RequestOptionsBase
   ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
@@ -445,7 +387,7 @@ export class DataConnections {
         resourceGroupName,
         clusterName,
         databaseName,
-        dataConnectionName,
+        scriptName,
         options
       },
       beginDeleteMethodOperationSpec,
@@ -459,18 +401,42 @@ const serializer = new msRest.Serializer(Mappers);
 const listByDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections",
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts",
   urlParameters: [
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
+    Parameters.databaseName
   ],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnectionListResult
+      bodyMapper: Mappers.ScriptListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.databaseName,
+    Parameters.scriptName
+  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
+  responses: {
+    200: {
+      bodyMapper: Mappers.Script
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -482,7 +448,7 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/checkNameAvailability",
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scriptsCheckNameAvailability",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.clusterName,
@@ -492,9 +458,9 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: "dataConnectionName",
+    parameterPath: "scriptName",
     mapper: {
-      ...Mappers.DataConnectionCheckNameRequest,
+      ...Mappers.ScriptCheckNameRequest,
       required: true
     }
   },
@@ -509,90 +475,35 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.databaseName,
-    Parameters.dataConnectionName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataConnection
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const beginDataConnectionValidationMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.clusterName,
-    Parameters.databaseName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [Parameters.apiVersion],
-  headerParameters: [Parameters.acceptLanguage],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.DataConnectionValidation,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.DataConnectionValidationListResult
-    },
-    202: {},
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   urlParameters: [
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
-    Parameters.dataConnectionName,
-    Parameters.subscriptionId
+    Parameters.scriptName
   ],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.DataConnection,
+      ...Mappers.Script,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.Script
     },
     201: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.Script
     },
     202: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.Script
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -604,32 +515,29 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   urlParameters: [
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
-    Parameters.dataConnectionName,
-    Parameters.subscriptionId
+    Parameters.scriptName
   ],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.DataConnection,
+      ...Mappers.Script,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.DataConnection
-    },
-    201: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.Script
     },
     202: {
-      bodyMapper: Mappers.DataConnection
+      bodyMapper: Mappers.Script
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -641,13 +549,13 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path:
-    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}",
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/scripts/{scriptName}",
   urlParameters: [
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.databaseName,
-    Parameters.dataConnectionName,
-    Parameters.subscriptionId
+    Parameters.scriptName
   ],
   queryParameters: [Parameters.apiVersion],
   headerParameters: [Parameters.acceptLanguage],
