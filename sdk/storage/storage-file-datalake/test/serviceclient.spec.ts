@@ -5,13 +5,18 @@ import { delay, isLiveMode, record, Recorder } from "@azure/test-utils-recorder"
 import * as assert from "assert";
 import * as dotenv from "dotenv";
 
-import { DataLakeServiceClient, ServiceListFileSystemsSegmentResponse } from "../src";
+import {
+  DataLakeServiceClient,
+  DataLakeServiceProperties,
+  ServiceListFileSystemsSegmentResponse
+} from "../src";
 import {
   getDataLakeServiceClient,
   getSASConnectionStringFromEnvironment,
   getTokenDataLakeServiceClient,
   recorderEnvSetup,
-  getGenericDataLakeServiceClient
+  getGenericDataLakeServiceClient,
+  isBrowser
 } from "./utils";
 
 dotenv.config();
@@ -25,6 +30,97 @@ describe("DataLakeServiceClient", () => {
 
   afterEach(async function() {
     await recorder.stop();
+  });
+
+  it("SetProperties", async () => {
+    const serviceClient = getDataLakeServiceClient();
+    const previousProperties = await serviceClient.getProperties();
+
+    let serviceProperties: DataLakeServiceProperties;
+
+    serviceProperties = {
+      analyticsLogging: {
+        deleteProperty: true,
+        read: true,
+        retentionPolicy: {
+          days: 5,
+          enabled: true
+        },
+        version: "1.0",
+        write: true
+      },
+      minuteMetrics: {
+        enabled: true,
+        includeAPIs: true,
+        retentionPolicy: {
+          days: 4,
+          enabled: true
+        },
+        version: "1.0"
+      },
+      hourMetrics: {
+        enabled: true,
+        includeAPIs: true,
+        retentionPolicy: {
+          days: 3,
+          enabled: true
+        },
+        version: "1.0"
+      },
+      deleteRetentionPolicy: {
+        days: 2,
+        enabled: true
+      }
+    };
+
+    if (!isBrowser()) {
+      serviceProperties.cors = [
+        {
+          allowedHeaders: "*",
+          allowedMethods: "GET",
+          allowedOrigins: "example.com",
+          exposedHeaders: "*",
+          maxAgeInSeconds: 8888
+        }
+      ];
+    }
+
+    await serviceClient.setProperties(serviceProperties);
+    await delay(5 * 1000);
+
+    let properties = await serviceClient.getProperties();
+    if (!isBrowser()) {
+      assert.deepStrictEqual(serviceProperties.cors, properties.cors);
+    }
+    assert.deepStrictEqual(serviceProperties.analyticsLogging, properties.analyticsLogging);
+    assert.deepStrictEqual(serviceProperties.hourMetrics, properties.hourMetrics);
+    assert.deepStrictEqual(serviceProperties.minuteMetrics, properties.minuteMetrics);
+    assert.deepStrictEqual(
+      serviceProperties.deleteRetentionPolicy?.days,
+      properties.deleteRetentionPolicy?.days
+    );
+    assert.deepStrictEqual(
+      serviceProperties.deleteRetentionPolicy?.enabled,
+      properties.deleteRetentionPolicy?.enabled
+    );
+
+    // Cleanup
+    await serviceClient.setProperties(previousProperties);
+    await delay(5 * 1000);
+
+    properties = await serviceClient.getProperties();
+    assert.deepStrictEqual(previousProperties.cors, properties.cors);
+    assert.deepStrictEqual(previousProperties.analyticsLogging, properties.analyticsLogging);
+    assert.deepStrictEqual(previousProperties.hourMetrics, properties.hourMetrics);
+    assert.deepStrictEqual(previousProperties.minuteMetrics, properties.minuteMetrics);
+    assert.deepStrictEqual(
+      previousProperties.deleteRetentionPolicy?.days,
+      properties.deleteRetentionPolicy?.days
+    );
+    assert.deepStrictEqual(
+      previousProperties.deleteRetentionPolicy?.enabled,
+      properties.deleteRetentionPolicy?.enabled
+    );
   });
 
   it("ListFileSystems with default parameters", async () => {

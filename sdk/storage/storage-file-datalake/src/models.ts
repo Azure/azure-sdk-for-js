@@ -12,6 +12,7 @@ import {
   ContainerRenameResponse,
   ContainerUndeleteResponse
 } from "@azure/storage-blob";
+import { DataLakePathClient } from "./clients";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
 /**
@@ -35,11 +36,14 @@ export type FileSystemRenameResponse = ContainerRenameResponse;
 export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
 
 import {
+  FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsHeaders,
+  ListBlobsHierarchySegmentResponse,
   PathCreateResponse,
   PathDeleteResponse,
   PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
-  PathList as PathListModel
+  PathList as PathListModel,
+  PathUndeleteHeaders
 } from "./generated/src/models";
 import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
 import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
@@ -58,18 +62,25 @@ export {
 } from "@azure/storage-blob";
 
 export {
+  BlobHierarchyListSegment,
+  BlobItemInternal,
+  BlobPrefix,
+  BlobPropertiesInternal,
   FileSystemListPathsHeaders,
-  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
+  FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsResponse as ListPathsSegmentResponse,
+  ListBlobsHierarchySegmentResponse,
   Path as PathModel,
   PathList as PathListModel,
   PathCreateHeaders,
   PathDeleteHeaders,
   PathDeleteResponse,
+  PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
   PathSetAccessControlHeaders,
   PathSetAccessControlResponse,
   PathSetAccessControlResponse as PathSetPermissionsResponse,
   PathResourceType as PathResourceTypeModel,
+  PathUndeleteHeaders,
   PathUpdateHeaders,
   PathAppendDataHeaders,
   PathFlushDataHeaders,
@@ -473,6 +484,54 @@ export type FileSystemListPathsResponse = PathList &
       parsedBody: PathListModel;
     };
   };
+
+export interface ListDeletedPathsOptions extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+  /** Filters results to filesystems within the specified prefix. */
+  prefix?: string;
+}
+
+export interface ListDeletedPathsSegmentOptions extends ListDeletedPathsOptions {
+  maxResults?: number;
+}
+
+export interface DeletedPath {
+  name?: string;
+  deletionId?: string;
+  deletedOn?: Date;
+  remainingRetentionDays?: number;
+}
+
+export interface DeletedPathList {
+  pathItems?: DeletedPath[];
+}
+
+export type FileSystemListDeletedPathsResponse = DeletedPathList &
+  FileSystemListBlobHierarchySegmentHeaders &
+  ListBlobsHierarchySegmentResponse & {
+    _response: HttpResponse & {
+      /** The response body as text (string format) */
+      bodyAsText: string;
+
+      /** The response body as parsed JSON or XML */
+      parsedBody: ListBlobsHierarchySegmentResponse;
+      /** The parsed HTTP response headers. */
+      parsedHeaders: FileSystemListBlobHierarchySegmentHeaders;
+    };
+
+    continuation?: string;
+  };
+
+export interface FileSystemUndeletePathOption extends CommonOptions {
+  abortSignal?: AbortSignalLike;
+}
+
+export type FileSystemUndeletePathResponse = PathUndeleteHeaders & {
+  _response: HttpResponse & {
+    parsedHeaders: PathUndeleteHeaders;
+  };
+  pathClient: DataLakePathClient;
+};
 
 /**
  * Option interface for Data Lake file system exists operations

@@ -10,9 +10,16 @@ import * as dotenv from "dotenv";
 import {
   DataLakeFileSystemClient,
   FileSystemListPathsResponse,
-  DataLakeServiceClient
+  DataLakeServiceClient,
+  FileSystemListDeletedPathsResponse,
+  DataLakeFileClient,
+  DataLakeDirectoryClient
 } from "../src";
-import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
+import {
+  getDataLakeServiceClient,
+  getGenericDataLakeServiceClient,
+  recorderEnvSetup
+} from "./utils";
 import { URLBuilder } from "@azure/core-http";
 
 dotenv.config();
@@ -432,5 +439,354 @@ describe("DataLakeFileSystemClient", () => {
     );
     const result = await newFileSystemClient.exists();
     assert.ok(result === false, "exists() should returns false on non-existing file system");
+  });
+});
+
+describe("DataLakeFileSystemClient with soft delete", () => {
+  let fileSystemClient: DataLakeFileSystemClient;
+
+  let recorder: Recorder;
+  let serviceClient: DataLakeServiceClient;
+
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+
+    try {
+      serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
+    } catch (err) {
+      this.skip();
+    }
+
+    fileSystemClient = serviceClient.getFileSystemClient(recorder.getUniqueName(`filesystem`));
+    await fileSystemClient.create();
+  });
+
+  afterEach(async function() {
+    if (fileSystemClient != undefined) {
+      await fileSystemClient.delete();
+    }
+    await recorder.stop();
+  });
+
+  it("listDeletedPaths with default parameters", async () => {
+    const fileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`file${i}`));
+      await fileClient.create();
+      fileClients.push(fileClient);
+    }
+
+    for (const file of fileClients) {
+      await file.delete();
+    }
+
+    const result = (
+      await fileSystemClient
+        .listDeletedPaths()
+        .byPage()
+        .next()
+    ).value as FileSystemListPathsResponse;
+
+    assert.deepStrictEqual(result.continuation, undefined);
+    assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
+    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name!));
+  });
+
+  it("listDeletedPaths with default parameters - null path shouldn't throw error", async () => {
+    const fileClients = [];
+    for (let i = 0; i < 3; i++) {
+      const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`file${i}`));
+
+      await fileClient.create();
+      fileClients.push(fileClient);
+    }
+
+    for (const file of fileClients) {
+      await file.delete();
+    }
+
+    const result = (
+      await fileSystemClient
+        .listDeletedPaths({ prefix: "" })
+        .byPage()
+        .next()
+    ).value;
+    assert.deepStrictEqual(result.continuation, undefined);
+    assert.deepStrictEqual(result.pathItems!.length, fileClients.length);
+    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name));
+  });
+
+  it("listDeletedPaths with all parameters configured", async () => {
+    const fileClients = [];
+    const prefix = "file";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 2; i++) {
+      const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
+
+      await fileClient.create({
+        metadata: metadata
+      });
+      fileClients.push(fileClient);
+    }
+
+    for (const file of fileClients) {
+      await file.delete();
+    }
+
+    const result = (
+      await fileSystemClient
+        .listDeletedPaths({
+          prefix: ""
+        })
+        .byPage({ maxPageSize: 1 })
+        .next()
+    ).value as FileSystemListDeletedPathsResponse;
+
+    assert.deepStrictEqual(result.pathItems!.length, 1);
+    assert.ok(fileClients[0].url.indexOf(result.pathItems![0].name!));
+
+    const result2 = (
+      await fileSystemClient
+        .listDeletedPaths({
+          prefix: ""
+        })
+        .byPage({ continuationToken: result.continuation, maxPageSize: 2 })
+        .next()
+    ).value;
+
+    assert.deepStrictEqual(result2.pathItems!.length, 1);
+    assert.ok(fileClients[0].url.indexOf(result2.pathItems![0].name));
+  });
+
+  it("Verify PagedAsyncIterableIterator for listDeletedPaths", async () => {
+    const fileClients = [];
+    const prefix = "file";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 4; i++) {
+      const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
+
+      await fileClient.create({
+        metadata
+      });
+      fileClients.push(fileClient);
+    }
+
+    for (const file of fileClients) {
+      await file.delete();
+    }
+
+    let i = 0;
+    for await (const file of fileSystemClient.listDeletedPaths({
+      prefix: ""
+    })) {
+      assert.ok(fileClients[i].url.indexOf(file.name!));
+      i++;
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listDeletedPaths", async () => {
+    const fileClients = [];
+    const prefix = "file";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 2; i++) {
+      const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
+
+      await fileClient.create({
+        metadata
+      });
+      fileClients.push(fileClient);
+    }
+
+    for (const file of fileClients) {
+      await file.delete();
+    }
+
+    const iterator = fileSystemClient.listDeletedPaths({
+      prefix: ""
+    });
+
+    let path = await iterator.next();
+    assert.ok(fileClients[0].url.indexOf(path.value.name!));
+
+    path = await iterator.next();
+    assert.ok(fileClients[1].url.indexOf(path.value.name!));
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage()) for listDeletedPaths", async () => {
+    const fileClients = [];
+    const prefix = "file";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 4; i++) {
+      const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
+
+      await fileClient.create({
+        metadata
+      });
+      fileClients.push(fileClient);
+    }
+
+    for (const file of fileClients) {
+      await file.delete();
+    }
+
+    let i = 0;
+    for await (const response of fileSystemClient
+      .listDeletedPaths({
+        prefix: ""
+      })
+      .byPage({ maxPageSize: 2 })) {
+      for (const file of response.pathItems || []) {
+        assert.ok(fileClients[i].url.indexOf(file.name!));
+        i++;
+      }
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listDeletedPaths", async () => {
+    const fileClients = [];
+    const prefix = "file";
+    const metadata = {
+      keya: "a",
+      keyb: "c"
+    };
+    for (let i = 0; i < 4; i++) {
+      const fileClient = fileSystemClient.getFileClient(recorder.getUniqueName(`${prefix}${i}`));
+
+      await fileClient.create({
+        metadata
+      });
+      fileClients.push(fileClient);
+    }
+
+    for (const file of fileClients) {
+      await file.delete();
+    }
+
+    let i = 0;
+    let iter = fileSystemClient
+      .listDeletedPaths({
+        prefix: ""
+      })
+      .byPage({ maxPageSize: 2 });
+    let response = (await iter.next()).value;
+    for (const file of response.pathItems) {
+      assert.ok(fileClients[i].url.indexOf(file.name));
+      i++;
+    }
+    // Gets next marker
+    const marker = response.continuationToken;
+    // Passing next marker as continuationToken
+    iter = fileSystemClient
+      .listDeletedPaths({
+        prefix: ""
+      })
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+    response = (await iter.next()).value;
+    // Gets 2 blobs
+    for (const file of response.pathItems) {
+      assert.ok(fileClients[i].url.indexOf(file.name));
+      i++;
+    }
+  });
+
+  it("Undelete file and directory", async () => {
+    const fileName = recorder.getUniqueName(`file`);
+    const fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create();
+    const fileDeleteResponse = await fileClient.delete();
+    assert.ok(fileDeleteResponse.deletionId);
+
+    const fileundeleteResponse = await fileSystemClient.undeletePath(
+      fileName,
+      fileDeleteResponse.deletionId ?? ""
+    );
+
+    assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+
+    assert.ok(await fileundeleteResponse.pathClient.exists());
+    await fileundeleteResponse.pathClient.delete();
+
+    const directoryName = recorder.getUniqueName(`directory`);
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.create();
+    const directoryDeleteResponse = await directoryClient.delete();
+    assert.ok(directoryDeleteResponse.deletionId);
+
+    const directoryUndeleteResponse = await fileSystemClient.undeletePath(
+      directoryName,
+      directoryDeleteResponse.deletionId ?? ""
+    );
+
+    assert.ok(directoryUndeleteResponse.pathClient instanceof DataLakeDirectoryClient);
+
+    assert.ok(await directoryUndeleteResponse.pathClient.exists());
+    await directoryUndeleteResponse.pathClient.delete();
+  });
+
+  it("Undelete file and directory with deleteIfExists", async () => {
+    const fileName = recorder.getUniqueName(`file`);
+    const fileClient = fileSystemClient.getFileClient(fileName);
+    await fileClient.create();
+    const fileDeleteResponse = await fileClient.deleteIfExists();
+    assert.ok(fileDeleteResponse.deletionId);
+
+    const fileundeleteResponse = await fileSystemClient.undeletePath(
+      fileName,
+      fileDeleteResponse.deletionId ?? ""
+    );
+
+    assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+
+    assert.ok(await fileundeleteResponse.pathClient.exists());
+
+    const directoryName = recorder.getUniqueName(`directory`);
+    const directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.create();
+    const directoryDeleteResponse = await directoryClient.deleteIfExists();
+    assert.ok(directoryDeleteResponse.deletionId);
+
+    const directoryUndeleteResponse = await fileSystemClient.undeletePath(
+      directoryName,
+      directoryDeleteResponse.deletionId ?? ""
+    );
+
+    assert.ok(directoryUndeleteResponse.pathClient instanceof DataLakeDirectoryClient);
+
+    assert.ok(await directoryUndeleteResponse.pathClient.exists());
+  });
+
+  it("Undelete file and directory special char", async () => {
+    const fileNames = [
+      "!'();[]@&%=+$,#äÄöÖüÜß;",
+      "%21%27%28%29%3B%5B%5D%40%26%25%3D%2B%24%2C%23äÄöÖüÜß%3B",
+      " a file or directory "
+    ];
+
+    for (const fileName of fileNames) {
+      const fileClient = fileSystemClient.getFileClient(fileName);
+      await fileClient.create();
+      const fileDeleteResponse = await fileClient.delete();
+      assert.ok(fileDeleteResponse.deletionId);
+
+      const fileundeleteResponse = await fileSystemClient.undeletePath(
+        fileName,
+        fileDeleteResponse.deletionId ?? ""
+      );
+
+      assert.ok(fileundeleteResponse.pathClient instanceof DataLakeFileClient);
+      assert.ok(await fileundeleteResponse.pathClient.exists());
+    }
   });
 });
