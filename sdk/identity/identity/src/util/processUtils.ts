@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import internalCommandExists from "command-exists";
+import * as childProcess from "child_process";
 
-/**
- * @internal
- */
 export const processUtils = {
   /**
-   * Mockable reference of commandExists
-   * @internal
+   * Promisifying childProcess.execFile
    */
-  async exists(cmd: string): Promise<string> {
-    return internalCommandExists(cmd);
+  execFile(file: string, params: string[]): Promise<string | Buffer> {
+    return new Promise((resolve, reject) => {
+      childProcess.execFile(file, params, (error, stdout, stderr) => {
+        if (error || stderr) {
+          reject(error || stderr);
+        } else {
+          resolve(stdout);
+        }
+      });
+    });
   }
 };

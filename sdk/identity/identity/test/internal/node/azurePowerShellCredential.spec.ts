@@ -5,13 +5,12 @@
 
 import assert from "assert";
 import Sinon from "sinon";
-import * as childProcess from "child_process";
-import { processUtils } from "../../../src/util/processUtils";
 import { AzurePowerShellCredential } from "../../../src";
 import {
   powerShellErrors,
   powerShellPublicErrorMessages
 } from "../../../src/credentials/azurePowerShellCredential";
+import { processUtils } from "../../../src/util/processUtils";
 
 describe("AzurePowerShellCredential", function() {
   const scope = "https://vault.azure.net/.default";
@@ -19,8 +18,9 @@ describe("AzurePowerShellCredential", function() {
   it("throws an expected error if the user hasn't logged in through PowerShell", async function() {
     const sandbox = Sinon.createSandbox();
 
-    const stub = sandbox.stub(childProcess, "execSync");
-    stub.throws(Buffer.from(`Get-AzAccessToken: ${powerShellErrors.login}`));
+    const stub = sandbox.stub(processUtils, "execFile");
+    stub.onCall(0).returns(Promise.resolve(Buffer.from(""))); // The first call checks that the command is available.
+    stub.onCall(1).throws(Buffer.from(`Get-AzAccessToken: ${powerShellErrors.login}`));
 
     const credential = new AzurePowerShellCredential();
 
@@ -41,8 +41,9 @@ describe("AzurePowerShellCredential", function() {
   it("throws an expected error if the user hasn't installed the Az.Account module", async function() {
     const sandbox = Sinon.createSandbox();
 
-    const stub = sandbox.stub(childProcess, "execSync");
-    stub.throws(Buffer.from(powerShellErrors.installed));
+    const stub = sandbox.stub(processUtils, "execFile");
+    stub.onCall(0).returns(Promise.resolve(Buffer.from(""))); // The first call checks that the command is available.
+    stub.onCall(1).throws(Buffer.from(powerShellErrors.installed));
 
     const credential = new AzurePowerShellCredential();
 
@@ -64,8 +65,8 @@ describe("AzurePowerShellCredential", function() {
     const sandbox = Sinon.createSandbox();
     const pwshCommand = "pwsh";
 
-    const stub = sandbox.stub(processUtils, "exists");
-    stub.throws();
+    const stub = sandbox.stub(processUtils, "execFile");
+    stub.onCall(0).throws();
 
     const credential = new AzurePowerShellCredential();
 
@@ -90,8 +91,8 @@ describe("AzurePowerShellCredential", function() {
     const sandbox = Sinon.createSandbox();
     const pwshCommand = "powershell";
 
-    const stub = sandbox.stub(processUtils, "exists");
-    stub.throws();
+    const stub = sandbox.stub(processUtils, "execFile");
+    stub.onCall(0).throws();
 
     const credential = new AzurePowerShellCredential({ useLegacyPowerShell: true });
 
@@ -112,6 +113,33 @@ describe("AzurePowerShellCredential", function() {
     sandbox.restore();
   });
 
+  it("throws an expected error if PowerShell returns something that isn't valid JSON", async function() {
+    const sandbox = Sinon.createSandbox();
+
+    const stub = sandbox.stub(processUtils, "execFile");
+    stub.onCall(0).returns(Promise.resolve(Buffer.from(""))); // The first call checks that the command is available.
+    stub.onCall(1).returns(Promise.resolve(Buffer.from("This one we ignore.")));
+    stub.onCall(2).returns(Promise.resolve(Buffer.from("Not valid JSON")));
+
+    const credential = new AzurePowerShellCredential();
+
+    let error: Error | null = null;
+    try {
+      await credential.getToken(scope);
+    } catch (e) {
+      error = e;
+    }
+
+    assert.ok(error);
+    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(
+      error?.message,
+      `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON`
+    );
+
+    sandbox.restore();
+  });
+
   it("authenticates", async function() {
     const sandbox = Sinon.createSandbox();
 
@@ -122,8 +150,10 @@ describe("AzurePowerShellCredential", function() {
       Type: "Bearer"
     };
 
-    const stub = sandbox.stub(childProcess, "execSync");
-    stub.returns(Buffer.from(JSON.stringify(tokenResponse)));
+    const stub = sandbox.stub(processUtils, "execFile");
+    stub.onCall(0).returns(Promise.resolve(Buffer.from(""))); // The first call checks that the command is available.
+    stub.onCall(1).returns(Promise.resolve(Buffer.from("This one we ignore.")));
+    stub.onCall(2).returns(Promise.resolve(Buffer.from(JSON.stringify(tokenResponse))));
 
     const credential = new AzurePowerShellCredential();
 
@@ -132,5 +162,15 @@ describe("AzurePowerShellCredential", function() {
     assert.equal(token?.expiresOnTimestamp!, new Date(tokenResponse.ExpiresOn).getTime());
 
     sandbox.restore();
+  });
+
+  /**
+   * I'm leaving this test only to make it easier to do manual tests.
+   */
+  it.skip("authenticates without mocks", async function() {
+    const credential = new AzurePowerShellCredential();
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp!);
   });
 });

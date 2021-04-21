@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as childProcess from "child_process";
-import { processUtils } from "../util/processUtils";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { CredentialUnavailableError } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
+import { processUtils } from "../util/processUtils";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -28,18 +27,20 @@ function formatCommand(commandName: string): string {
  * If anything fails, an error is thrown.
  * @internal
  */
-function runCommands(commands: string[]): string[] {
-  const result: string[] = [];
+async function runCommands(commands: string[][]): Promise<string[]> {
+  const results: string[] = [];
 
   try {
-    commands.forEach((cmd: string) => {
-      result.push(childProcess.execSync(cmd).toString("utf-8"));
-    });
+    for (const command of commands) {
+      const [file, ...parameters] = command;
+      const buffer = await processUtils.execFile(file, parameters);
+      results.push(buffer.toString("utf-8"));
+    }
   } catch (e) {
     throw new Error(e.toString("utf-8"));
   }
 
-  return result;
+  return results;
 }
 
 /**
@@ -86,7 +87,7 @@ export interface AzurePowerShellCredentialOptions {
  * - You have already logged in via the 'az' tool using the command "Connect-AzAccount" from the command line.
  */
 export class AzurePowerShellCredential implements TokenCredential {
-  private useLegacyPowerShell: boolean;
+  private readonly powerShellCommand: string;
 
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -95,37 +96,46 @@ export class AzurePowerShellCredential implements TokenCredential {
    * @param useLegacyPowerShell - The flag indicating if legacy powershell should be used for authentication.
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
-    this.useLegacyPowerShell = Boolean(options?.useLegacyPowerShell);
+    if (options?.useLegacyPowerShell) {
+      this.powerShellCommand = formatCommand("powershell");
+    } else {
+      this.powerShellCommand = formatCommand("pwsh");
+    }
   }
   /**
    * Gets the access token from Azure Power Shell
    * @param resource - The resource to use when getting the token
    */
-  protected async getAzurePowerShellAccessToken(
+  private async getAzurePowerShellAccessToken(
     resource: string
   ): Promise<{ Token: string; ExpiresOn: string }> {
-    let pwshCommand: string;
-
-    if (this.useLegacyPowerShell) {
-      pwshCommand = formatCommand("powershell");
-    } else {
-      pwshCommand = formatCommand("pwsh");
-    }
-
     try {
-      await processUtils.exists(pwshCommand);
+      await runCommands([[this.powerShellCommand, "-v"]]);
     } catch (e) {
       throw new Error(
-        `Unable to execute "${pwshCommand}". Ensure that it is installed in your system.`
+        `Unable to execute "${this.powerShellCommand}". Ensure that it is installed in your system.`
       );
     }
 
-    const output = runCommands([
-      `${pwshCommand} -Command Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru`,
-      `${pwshCommand} -Command 'Get-AzAccessToken -ResourceUrl "${resource}" | ConvertTo-Json'`
+    const results = await runCommands([
+      [
+        this.powerShellCommand,
+        "-Command",
+        "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru"
+      ],
+      [
+        this.powerShellCommand,
+        "-Command",
+        `Get-AzAccessToken -ResourceUrl "${resource}" | ConvertTo-Json`
+      ]
     ]);
 
-    return JSON.parse(output[1]);
+    const result = results[1];
+    try {
+      return JSON.parse(result);
+    } catch (e) {
+      throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
+    }
   }
 
   /**
