@@ -7,6 +7,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { CredentialUnavailableError } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
+import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 
 const logger = credentialLogger("AzurePowerShellCredential");
 
@@ -71,6 +72,9 @@ const isNotInstallError = (err: Error) => err.message.match(powerShellErrors.ins
  * Optional parameters for the {@link AzurePowerShellCredential} class.
  */
 export interface AzurePowerShellCredentialOptions {
+  /**
+   * If specified, this credential will use the legacy `powershell` command instead of the newest `pwsh`.
+   */
   useLegacyPowerShell?: boolean;
 }
 
@@ -142,23 +146,16 @@ export class AzurePowerShellCredential implements TokenCredential {
 
       logger.getToken.info(`Using the scope ${scope}`);
 
-      const resource = scope.replace(/\/.default$/, "");
-
-      // Check to make sure the scope we get back is a valid scope
-      if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        const error = new Error("Invalid scope was specified by the user or calling client");
-        logger.getToken.info(formatError(scope, error));
-        throw error;
-      }
+      ensureValidScope(scope, logger);
+      const resource = getScopeResource(scope);
 
       try {
         const response = await this.getAzurePowerShellAccessToken(resource);
         logger.getToken.info(formatSuccess(scopes));
-        const returnValue = {
+        return {
           token: response.Token,
           expiresOnTimestamp: new Date(response.ExpiresOn).getTime()
         };
-        return returnValue;
       } catch (err) {
         if (isNotInstallError(err)) {
           const error = new CredentialUnavailableError(powerShellPublicErrorMessages.installed);
