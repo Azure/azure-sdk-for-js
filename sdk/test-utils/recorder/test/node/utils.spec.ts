@@ -736,11 +736,8 @@ describe("NodeJS utils", () => {
         output: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .filteringRequestBody(function (body) {
-                            return body.replace(/client-request-id=[^&"]*/g, "client-request-id=client-request-id");
-                        })
-                  .filteringRequestBody(function (body) {
-                            return body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F");
-                        })
+                     return body.replace(/client-request-id=[^&"]*/g,"client-request-id=client-request-id").replace(/scope=https%3A%2F%2F[^&"]*/g,"scope=https%3A%2F%2Fsanitized%2F");
+                  })
                   .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
                   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
                   'Cache-Control',
@@ -765,11 +762,8 @@ describe("NodeJS utils", () => {
         output: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .filteringRequestBody(function (body) {
-                            return body.replace(/client-request-id=[^&"]*/g, "client-request-id=client-request-id");
-                        })
-                  .filteringRequestBody(function (body) {
-                            return body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F");
-                        })
+                     return body.replace(/client-request-id=[^&"]*/g,"client-request-id=client-request-id").replace(/scope=https%3A%2F%2F[^&"]*/g,"scope=https%3A%2F%2Fsanitized%2F");
+                  })
                   .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
                   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
                   'Cache-Control',
@@ -794,11 +788,8 @@ describe("NodeJS utils", () => {
         output: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .filteringRequestBody(function (body) {
-                            return body.replace(/client-request-id=[^&"]*/g, "client-request-id=client-request-id");
-                        })
-                  .filteringRequestBody(function (body) {
-                            return body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F");
-                        })
+                     return body.replace(/client-request-id=[^&"]*/g,"client-request-id=client-request-id").replace(/scope=https%3A%2F%2F[^&"]*/g,"scope=https%3A%2F%2Fsanitized%2F");
+                  })
                   .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
                   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
                   'Cache-Control',
