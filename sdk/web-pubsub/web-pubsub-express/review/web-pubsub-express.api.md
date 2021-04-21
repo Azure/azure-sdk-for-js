@@ -41,14 +41,13 @@ export interface ConnectRequest {
 
 // @public
 export interface ConnectResponse {
-    // (undocumented)
     groups?: string[];
     roles?: string[];
     subprotocol?: string;
     userId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ConnectResponseHandler {
     fail(code: 400 | 401 | 500, detail?: string): void;
     success(response?: ConnectResponse): void;
@@ -64,17 +63,17 @@ export interface DisconnectedRequest {
 export interface UserEventRequest {
     context: ConnectionContext;
     data: string | ArrayBuffer;
-    dataType: 'binary' | 'text' | 'json';
-}
-
-// @public (undocumented)
-export interface UserEventResponseHandler {
-    fail(code: 400 | 401 | 500, detail?: string): void;
-    success(data?: string | ArrayBuffer, dataType?: 'binary' | 'text' | 'json'): void;
+    dataType: "binary" | "text" | "json";
 }
 
 // @public
-export class WebPubSubCloudEventsHandler {
+export interface UserEventResponseHandler {
+    fail(code: 400 | 401 | 500, detail?: string): void;
+    success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void;
+}
+
+// @public
+export class WebPubSubEventHandler {
     constructor(hub: string, allowedEndpoints: string[], options?: WebPubSubEventHandlerOptions);
     getMiddleware(): express.Router;
     readonly path: string;
