@@ -10,7 +10,7 @@ const BrowserNotSupportedError = new Error(
 const logger = credentialLogger("AzurePowerShellCredential");
 
 /**
- * This credential will use the currently logged-in user login information via the Azure Power Shell command line tool.
+ * This credential will use the currently-logged-in user's login information via the Azure Power Shell command line tool.
  * This credential is not supported in browsers.
  */
 export class AzurePowerShellCredential implements TokenCredential {
