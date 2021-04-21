@@ -1,5 +1,5 @@
 import { ServiceBusClient } from "@azure/service-bus";
-import { ServiceBusStressTester } from "./stressTestsBase";
+import { ServiceBusStressTester } from "./serviceBusStressTester";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
 

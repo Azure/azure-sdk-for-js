@@ -1,5 +1,5 @@
 import { delay, ServiceBusClient } from "@azure/service-bus";
-import { ServiceBusStressTester } from "./stressTestsBase";
+import { ServiceBusStressTester } from "./serviceBusStressTester";
 import parsedArgs from "minimist";
 
 interface ScenarioRenewMessageLockOptions {
