@@ -4,22 +4,24 @@
    "method": "POST",
    "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 24 Feb 2021 02:17:33 GMT",
+    "date": "Wed, 21 Apr 2021 08:15:27 GMT",
     "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+chi\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11513.14 - SCUS ProdSlices",
-    "x-ms-request-id": "eda4a4bc-ef02-4040-842e-ed6b8d712300"
+    "x-ms-ests-server": "2.1.11654.16 - NCUS ProdSlices",
+    "x-ms-request-id": "d88240dd-8ef8-4f89-9d14-6a07a7423b00"
    }
   },
   {
@@ -30,14 +32,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"1\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"2\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"3\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2021-01-05\"}",
    "responseHeaders": {
-    "apim-request-id": "1bf93aeb-ce18-4a69-a9b9-e61c7ee50177",
+    "apim-request-id": "d9ef1608-195b-4bb2-9333-a89979da73db",
     "content-type": "application/json; charset=utf-8",
-    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Wed, 24 Feb 2021 02:17:35 GMT",
+    "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
+    "date": "Wed, 21 Apr 2021 08:15:30 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "19"
+    "x-envoy-upstream-service-time": "2527"
    }
   }
  ],
@@ -45,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "e1907886978335bbf597fe9bbb254d6e"
+ "hash": "4ec7d553e30c3fb01b69536e0536c46a"
 }
