@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { RenderingSession, KnownRenderingSessionStatus } from "../generated/models/index";
+import { KnownRenderingSessionStatus } from "../generated/models/index";
 import { getSessionInternal, endSessionInternal } from "../internal/commonQueries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { RemoteRendering } from "../generated/operations";
 import { delay } from "@azure/core-util";
+import { RenderingSession } from "../internal/renderingSession";
 
 export interface RenderingSessionPollerOptions {
   intervalInMs?: number;

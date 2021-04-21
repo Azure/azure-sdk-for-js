@@ -123,7 +123,7 @@ export interface RenderingSessionSettings {
 }
 
 /** The properties of a rendering session. */
-export interface RenderingSession {
+export interface SessionProperties {
   /** The ID of the session supplied when the session was created. */
   sessionId: string;
   /**
@@ -181,7 +181,7 @@ export interface UpdateSessionSettings {
 /** The result of a list sessions request. */
 export interface SessionsList {
   /** The list of rendering sessions. Does not include sessions in 'Stopped' state. */
-  sessions: RenderingSession[];
+  sessions: SessionProperties[];
   /**
    * If more rendering sessions are available this field will contain a URL where the next batch of sessions can be requested. This URL will need the same authentication as all calls to the Azure Remote Rendering API.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -388,13 +388,13 @@ export type RemoteRenderingListConversionsResponse = RemoteRenderingListConversi
   ConversionList;
 
 /** Contains response data for the createSession operation. */
-export type RemoteRenderingCreateSessionResponse = RenderingSession;
+export type RemoteRenderingCreateSessionResponse = SessionProperties;
 
 /** Contains response data for the getSession operation. */
-export type RemoteRenderingGetSessionResponse = RenderingSession;
+export type RemoteRenderingGetSessionResponse = SessionProperties;
 
 /** Contains response data for the updateSession operation. */
-export type RemoteRenderingUpdateSessionResponse = RenderingSession;
+export type RemoteRenderingUpdateSessionResponse = SessionProperties;
 
 /** Contains response data for the stopSession operation. */
 export type RemoteRenderingStopSessionResponse = RemoteRenderingStopSessionHeaders;

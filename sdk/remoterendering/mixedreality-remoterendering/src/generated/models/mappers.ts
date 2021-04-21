@@ -301,10 +301,10 @@ export const RenderingSessionSettings: coreClient.CompositeMapper = {
   }
 };
 
-export const RenderingSession: coreClient.CompositeMapper = {
+export const SessionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RenderingSession",
+    className: "SessionProperties",
     modelProperties: {
       sessionId: {
         serializedName: "id",
@@ -424,7 +424,7 @@ export const SessionsList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "RenderingSession"
+              className: "SessionProperties"
             }
           }
         }

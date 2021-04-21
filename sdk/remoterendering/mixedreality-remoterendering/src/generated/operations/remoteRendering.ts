@@ -350,10 +350,10 @@ const createSessionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RenderingSession
+      bodyMapper: Mappers.SessionProperties
     },
     201: {
-      bodyMapper: Mappers.RenderingSession,
+      bodyMapper: Mappers.SessionProperties,
       headersMapper: Mappers.RemoteRenderingCreateSessionHeaders
     },
     400: {
@@ -399,7 +399,7 @@ const getSessionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RenderingSession
+      bodyMapper: Mappers.SessionProperties
     },
     401: {
       headersMapper: Mappers.RemoteRenderingGetSessionExceptionHeaders,
@@ -437,7 +437,7 @@ const updateSessionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RenderingSession
+      bodyMapper: Mappers.SessionProperties
     },
     401: {
       headersMapper: Mappers.RemoteRenderingUpdateSessionExceptionHeaders,

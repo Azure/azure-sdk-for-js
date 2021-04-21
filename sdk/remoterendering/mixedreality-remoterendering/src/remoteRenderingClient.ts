@@ -12,7 +12,6 @@ import {
   AssetConversionSettings,
   RemoteRenderingRestClientOptionalParams,
   RemoteRenderingCreateConversionResponse,
-  RenderingSession,
   RenderingSessionSettings,
   RemoteRenderingCreateSessionResponse,
   UpdateSessionSettings
@@ -51,6 +50,7 @@ import {
 } from "./internal/commonQueries";
 
 import { AssetConversion, assetConversionFromConversion } from "./internal/assetConversion";
+import { RenderingSession, renderingSessionFromSessionProperties } from "./internal/renderingSession";
 
 export {
   AssetConversion,
@@ -395,7 +395,7 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let renderingSession: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
+      let sessionProperties: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
         this.accountId,
         sessionId,
         renderingSessionSettings,
@@ -405,7 +405,7 @@ export class RemoteRenderingClient {
       let poller = new RenderingSessionPoller(
         this.accountId,
         this.operations,
-        renderingSession,
+        renderingSessionFromSessionProperties(sessionProperties),
         options
       );
 
@@ -482,12 +482,13 @@ export class RemoteRenderingClient {
     });
 
     try {
-      return this.operations.updateSession(
+      let sessionProperties = await this.operations.updateSession(
         this.accountId,
         sessionId,
         updateSessionSettings,
         updatedOptions
       );
+      return renderingSessionFromSessionProperties(sessionProperties);
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -520,12 +521,14 @@ export class RemoteRenderingClient {
     options?: OperationOptions
   ): AsyncIterableIterator<RenderingSession[]> {
     let result = await this.operations.listSessions(this.accountId, options);
-    yield result.sessions;
+    let sessions = Array.from(result.sessions).map(renderingSessionFromSessionProperties);
+    yield sessions;
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this.operations.listSessionsNext(this.accountId, continuationToken, options);
       continuationToken = result.nextLink;
-      yield result.sessions;
+      sessions = Array.from(result.sessions).map(renderingSessionFromSessionProperties);
+      yield sessions;
     }
   }
 

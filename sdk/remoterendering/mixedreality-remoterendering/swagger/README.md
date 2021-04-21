@@ -131,14 +131,6 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions.session_properties
-    transform: >
-      $["x-ms-client-name"] = "RenderingSession";
-```
-
-```yaml
-directive:
-  - from: swagger-document
     where: $.definitions.session_properties.properties.id
     transform: >
       $["x-ms-client-name"] = "sessionId";
