@@ -53,7 +53,7 @@ class DefaultUserEventResponseHandler implements UserEventResponseHandler {
 }
 
 export class CloudEventsDispatcher {
-  private readonly _dumpRequest;
+  private readonly _dumpRequest: boolean;
   private readonly _allowedOrigins: string[];
   constructor(
     private hub: string,
