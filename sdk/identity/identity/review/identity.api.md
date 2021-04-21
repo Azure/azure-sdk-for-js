@@ -75,6 +75,16 @@ export class AzureCliCredential implements TokenCredential {
 }
 
 // @public
+export class AzurePowerShellCredential implements TokenCredential {
+    constructor(useLegacyPowerShell?: boolean);
+    protected getAzurePowerShellAccessToken(resource: string): Promise<{
+        Token: string;
+        ExpiresOn: string;
+    }>;
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    }
+
+// @public
 export type BrowserLoginStyle = "redirect" | "popup";
 
 // @public
