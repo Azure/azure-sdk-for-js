@@ -20,6 +20,9 @@ jobs:
       steps:
         - template: /eng/pipelines/templates/steps/use-node-version.yml
 
+        # As of npm v7, "npm install -g" no longer installs local dependencies as part of the global install.
+        # As a workaround, we run "npm install --prod" before "npm install -g".
+        # https://github.com/npm/cli/issues/2968
         - pwsh: npm install --prod; npm install -g
           workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
           displayName: Install dev-tool
@@ -119,6 +122,9 @@ jobs:
         parameters:
           NodeVersion: $(NodeTestVersion)
 
+        # As of npm v7, "npm install -g" no longer installs local dependencies as part of the global install.
+        # As a workaround, we run "npm install --prod" before "npm install -g".
+        # https://github.com/npm/cli/issues/2968
       - pwsh: npm install --prod; npm install -g
         workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
         displayName: Install dev-tool
