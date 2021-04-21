@@ -60,7 +60,7 @@ const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName
 
 ### Hub
 
-Hub is a logic set of connections. All connections to Web PubSub connect to a specific hub. Messages that are broadcast to the hub are dispatched to all connections to that hub. For example, hub can be used for different applications, different applications can share one Azure Web PubSub service by using different hub names.
+Hub is a logical set of connections. All connections to Web PubSub connect to a specific hub. Messages that are broadcast to the hub are dispatched to all connections to that hub. For example, hub can be used for different applications, different applications can share one Azure Web PubSub service by using different hub names.
 
 ### Group
 
