@@ -214,19 +214,19 @@ export class WebPubSubServiceClient {
     options?: HubAdminClientOptions
   );
   constructor(
-    epOrCs: string,
+    endpointOrConnectionString: string,
     credsOrHubName?: AzureKeyCredential | string,
     hubNameOrOpts?: string | HubAdminClientOptions,
     opts?: HubAdminClientOptions
   ) {
     // unpack constructor arguments
     if (typeof credsOrHubName === "object" && "key" in credsOrHubName) {
-      this.endpoint = epOrCs;
+      this.endpoint = endpointOrConnectionString;
       this.credential = credsOrHubName;
       this.hubName = hubNameOrOpts as string;
       this.clientOptions = opts;
     } else {
-      const parsedCs = parseConnectionString(epOrCs);
+      const parsedCs = parseConnectionString(endpointOrConnectionString);
       this.endpoint = parsedCs.endpoint;
       this.credential = parsedCs.credential;
       this.hubName = credsOrHubName as string;
