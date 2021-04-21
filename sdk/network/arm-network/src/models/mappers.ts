@@ -1370,6 +1370,13 @@ export const ServiceEndpointPolicy: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      kind: {
+        readOnly: true,
+        serializedName: "kind",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2040,12 +2047,14 @@ export const Subnet: msRest.CompositeMapper = {
       },
       privateEndpointNetworkPolicies: {
         serializedName: "properties.privateEndpointNetworkPolicies",
+        defaultValue: 'Enabled',
         type: {
           name: "String"
         }
       },
       privateLinkServiceNetworkPolicies: {
         serializedName: "properties.privateLinkServiceNetworkPolicies",
+        defaultValue: 'Enabled',
         type: {
           name: "String"
         }

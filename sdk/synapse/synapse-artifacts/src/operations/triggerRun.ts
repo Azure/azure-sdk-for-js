@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
+import { TriggerRun } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,7 +16,7 @@ import { ArtifactsClientContext } from "../artifactsClientContext";
 import { RunFilterParameters, TriggerRunQueryTriggerRunsByWorkspaceResponse } from "../models";
 
 /** Class representing a TriggerRun. */
-export class TriggerRun {
+export class TriggerRunImpl implements TriggerRun {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -37,11 +38,14 @@ export class TriggerRun {
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-rerunTriggerInstance", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-rerunTriggerInstance",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -51,7 +55,7 @@ export class TriggerRun {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -71,11 +75,14 @@ export class TriggerRun {
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-cancelTriggerInstance", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-cancelTriggerInstance",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -85,7 +92,7 @@ export class TriggerRun {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -105,11 +112,11 @@ export class TriggerRun {
   ): Promise<TriggerRunQueryTriggerRunsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-queryTriggerRunsByWorkspace",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       filterParameters,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -119,7 +126,7 @@ export class TriggerRun {
       return result as TriggerRunQueryTriggerRunsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

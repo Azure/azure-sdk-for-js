@@ -174,7 +174,7 @@ export class ClientSideMetrics {
 
 // @public
 export class Conflict {
-    constructor(container: Container, id: string, clientContext: ClientContext);
+    constructor(container: Container, id: string, clientContext: ClientContext, partitionKey?: PartitionKey);
     // (undocumented)
     readonly container: Container;
     delete(options?: RequestOptions): Promise<ConflictResponse>;
@@ -407,7 +407,7 @@ export const Constants: {
 // @public
 export class Container {
     constructor(database: Database, id: string, clientContext: ClientContext);
-    conflict(id: string): Conflict;
+    conflict(id: string, partitionKey?: PartitionKey): Conflict;
     get conflicts(): Conflicts;
     // (undocumented)
     readonly database: Database;

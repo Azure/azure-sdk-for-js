@@ -44,9 +44,9 @@ export class MsalDeviceCode extends MsalNode {
       const deviceResponse = await this.withCancellation(promise, options?.abortSignal, () => {
         requestOptions.cancel = true;
       });
-      return this.handleResult(scopes, deviceResponse || undefined);
+      return this.handleResult(scopes, this.clientId, deviceResponse || undefined);
     } catch (error) {
-      throw this.handleError(scopes, error);
+      throw this.handleError(scopes, error, options);
     }
   }
 }

@@ -83,7 +83,7 @@ export {
   logger
 };
 
-const withTrace = createTraceFunction("Azure.KeyVault.Certificates.SecretClient");
+const withTrace = createTraceFunction("Azure.KeyVault.Secrets.SecretClient");
 
 /**
  * The SecretClient provides methods to manage {@link KeyVaultSecret} in

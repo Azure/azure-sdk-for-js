@@ -48,6 +48,7 @@ export {
   Key,
   LibraryInfo,
   LibraryRequirements,
+  LibraryResource,
   LinkedIntegrationRuntime,
   LinkedIntegrationRuntimeKeyAuthorization,
   LinkedIntegrationRuntimeRbacAuthorization,

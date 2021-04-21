@@ -11,7 +11,14 @@ import {
   RecorderEnvironmentSetup,
   isPlaybackMode
 } from "@azure/test-utils-recorder";
-import { isNode, TokenCredential } from "@azure/core-http";
+import {
+  DefaultHttpClient,
+  HttpClient,
+  HttpOperationResponse,
+  isNode,
+  TokenCredential,
+  WebResourceLike
+} from "@azure/core-http";
 import { PhoneNumbersClient } from "../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -46,27 +53,29 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export function createRecordedClient(
-  context: Context
-): RecordedClient<PhoneNumbersClient> & {
-  includePhoneNumberLiveTests: boolean;
-} {
+export function createRecordedClient(context: Context): RecordedClient<PhoneNumbersClient> {
   const recorder = record(context, environmentSetup);
 
   return {
-    client: new PhoneNumbersClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING),
-    recorder,
-    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true"
+    client: new PhoneNumbersClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
+      httpClient: createTestHttpClient()
+    }),
+    recorder
   };
 }
 
+export const canCreateRecordedClientWithToken = (): boolean => {
+  try {
+    new DefaultAzureCredential();
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 export function createRecordedClientWithToken(
   context: Context
-):
-  | (RecordedClient<PhoneNumbersClient> & {
-      includePhoneNumberLiveTests: boolean;
-    })
-  | undefined {
+): RecordedClient<PhoneNumbersClient> | undefined {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
   const endpoint = parseConnectionString(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING)
@@ -79,9 +88,10 @@ export function createRecordedClientWithToken(
     };
 
     return {
-      client: new PhoneNumbersClient(endpoint, credential),
-      recorder,
-      includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true"
+      client: new PhoneNumbersClient(endpoint, credential, {
+        httpClient: createTestHttpClient()
+      }),
+      recorder
     };
   }
 
@@ -92,12 +102,32 @@ export function createRecordedClientWithToken(
   }
 
   return {
-    client: new PhoneNumbersClient(endpoint, credential),
-    recorder,
-    includePhoneNumberLiveTests: env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true"
+    client: new PhoneNumbersClient(endpoint, credential, {
+      httpClient: createTestHttpClient()
+    }),
+    recorder
   };
 }
 
 export const testPollerOptions = {
   pollInterval: isPlaybackMode() ? 0 : undefined
 };
+
+function createTestHttpClient(): HttpClient {
+  const customHttpClient = new DefaultHttpClient();
+
+  const originalSendRequest = customHttpClient.sendRequest;
+  customHttpClient.sendRequest = async function(
+    httpRequest: WebResourceLike
+  ): Promise<HttpOperationResponse> {
+    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
+
+    if (requestResponse.status < 200 || requestResponse.status > 299) {
+      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
+    }
+
+    return requestResponse;
+  };
+
+  return customHttpClient;
+}

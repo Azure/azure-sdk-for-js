@@ -5,7 +5,13 @@ import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-http";
+import {
+  DefaultHttpClient,
+  HttpClient,
+  HttpOperationResponse,
+  isNode,
+  WebResourceLike
+} from "@azure/core-http";
 import { ChatClient } from "../../src";
 import {
   CommunicationUserIdentifier,
@@ -32,7 +38,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,
   customizationsOnRecordings: [
     (recording: string): string => recording.replace(/"token"\s?:\s?"[^"]*"/g, `"token":"token"`),
-    (recording: string): string => recording.replace(/(https:\/\/)([^\/',]*)/, "$1endpoint"),
+    (recording: string): string => recording.replace(/(https:\/\/)([^/',]*)/, "$1endpoint"),
     (recording: string): string => recording.replace("endpoint:443", "endpoint")
   ],
   queryParametersToSkip: []
@@ -40,10 +46,10 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 
 export async function createTestUser(): Promise<CommunicationUserToken> {
   const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING);
-  return await identityClient.createUserAndToken(["chat"]);
+  return identityClient.createUserAndToken(["chat"]);
 }
 
-export async function deleteTestUser(testUser: CommunicationUserIdentifier) {
+export async function deleteTestUser(testUser: CommunicationUserIdentifier): Promise<void> {
   if (testUser) {
     const identityClient = new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING);
     await identityClient.deleteUser(testUser);
@@ -60,5 +66,27 @@ export function createChatClient(userToken: string): ChatClient {
     userToken = generateToken();
   }
   const { url } = parseClientArguments(env.COMMUNICATION_CONNECTION_STRING);
-  return new ChatClient(url, new AzureCommunicationTokenCredential(userToken));
+
+  return new ChatClient(url, new AzureCommunicationTokenCredential(userToken), {
+    httpClient: createTestHttpClient()
+  });
+}
+
+function createTestHttpClient(): HttpClient {
+  const customHttpClient = new DefaultHttpClient();
+
+  const originalSendRequest = customHttpClient.sendRequest;
+  customHttpClient.sendRequest = async function(
+    httpRequest: WebResourceLike
+  ): Promise<HttpOperationResponse> {
+    const requestResponse = await originalSendRequest.apply(this, [httpRequest]);
+
+    if (requestResponse.status < 200 || requestResponse.status > 299) {
+      console.log(`MS-CV header for failed request: ${requestResponse.headers.get("ms-cv")}`);
+    }
+
+    return requestResponse;
+  };
+
+  return customHttpClient;
 }

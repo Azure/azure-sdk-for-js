@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
@@ -47,7 +47,7 @@ export class SparkBatch {
       return result as SparkBatchGetSparkBatchJobsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -78,7 +78,7 @@ export class SparkBatch {
       return result as SparkBatchCreateSparkBatchJobResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -109,7 +109,7 @@ export class SparkBatch {
       return result as SparkBatchGetSparkBatchJobResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -140,7 +140,7 @@ export class SparkBatch {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

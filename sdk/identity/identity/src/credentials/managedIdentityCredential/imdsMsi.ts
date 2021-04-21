@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, RequestPrepareOptions, RestError } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import {
+  AccessToken,
+  delay,
+  GetTokenOptions,
+  RequestPrepareOptions,
+  RestError
+} from "@azure/core-http";
+import { SpanStatusCode } from "@azure/core-tracing";
+import { AuthenticationError } from "../../client/errors";
 import { IdentityClient } from "../../client/identityClient";
 import { credentialLogger } from "../../util/logging";
 import { createSpan } from "../../util/tracing";
@@ -47,6 +54,13 @@ function prepareRequestOptions(resource?: string, clientId?: string): RequestPre
   };
 }
 
+// 800ms -> 1600ms -> 3200ms
+export const imdsMsiRetryConfig = {
+  maxRetries: 3,
+  startDelayInMs: 800,
+  intervalIncrement: 2
+};
+
 export const imdsMsi: MSI = {
   async isAvailable(
     identityClient: IdentityClient,
@@ -69,6 +83,7 @@ export const imdsMsi: MSI = {
     }
 
     request.spanOptions = updatedOptions?.tracingOptions?.spanOptions;
+    request.tracingContext = updatedOptions?.tracingOptions?.tracingContext;
 
     try {
       // Create a request with a timeout since we expect that
@@ -91,7 +106,7 @@ export const imdsMsi: MSI = {
           // or the host was down, we'll assume the IMDS endpoint isn't available.
           logger.info(`IMDS endpoint unavailable`);
           span.setStatus({
-            code: CanonicalCode.UNAVAILABLE,
+            code: SpanStatusCode.ERROR,
             message: err.message
           });
 
@@ -110,7 +125,7 @@ export const imdsMsi: MSI = {
       // This error should bubble up to the user.
       logger.info(`Error when creating the WebResource for the IMDS endpoint: ${err.message}`);
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
       throw err;
@@ -128,11 +143,28 @@ export const imdsMsi: MSI = {
       `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
     );
 
-    return msiGenericGetToken(
-      identityClient,
-      prepareRequestOptions(resource, clientId),
-      expiresInParser,
-      getTokenOptions
+    let nextDelayInMs = imdsMsiRetryConfig.startDelayInMs;
+    for (let retries = 0; retries < imdsMsiRetryConfig.maxRetries; retries++) {
+      try {
+        return await msiGenericGetToken(
+          identityClient,
+          prepareRequestOptions(resource, clientId),
+          expiresInParser,
+          getTokenOptions
+        );
+      } catch (error) {
+        if (error.statusCode === 404) {
+          await delay(nextDelayInMs);
+          nextDelayInMs *= imdsMsiRetryConfig.intervalIncrement;
+          continue;
+        }
+        throw error;
+      }
+    }
+
+    throw new AuthenticationError(
+      404,
+      `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
     );
   }
 };

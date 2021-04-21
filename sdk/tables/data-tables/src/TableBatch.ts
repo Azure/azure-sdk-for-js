@@ -17,7 +17,8 @@ import {
   UpdateTableEntityOptions,
   TableBatch,
   TableBatchResponse,
-  TableBatchEntityResponse
+  TableBatchEntityResponse,
+  UpsertTableEntityOptions
 } from "./models";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
@@ -25,7 +26,7 @@ import { HeaderConstants } from "./utils/constants";
 import { batchHeaderFilterPolicy, batchRequestAssemblePolicy } from "./TableBatchPolicies";
 import { InnerBatchRequest, TableClientLike } from "./utils/internalModels";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { URL } from "./utils/url";
 import { TableServiceErrorOdataError } from "./generated";
 import { getBatchHeaders } from "./utils/batchHeaders";
@@ -132,6 +133,23 @@ export class TableBatchImpl implements TableBatch {
   }
 
   /**
+   * Adds an upsertEntity operation to the batch
+   * @param entity - The properties for the table entity.
+   * @param mode   - The different modes for updating the entity:
+   *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *               - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options - The options parameters.
+   */
+  public upsertEntity<T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpsertTableEntityOptions
+  ): void {
+    this.checkPartitionKey(entity.partitionKey);
+    this.pendingOperations.push(this.interceptClient.upsertEntity(entity, mode, options));
+  }
+
+  /**
    * Submits the operations in the batch
    */
   public async submitBatch(): Promise<any> {
@@ -159,7 +177,7 @@ export class TableBatchImpl implements TableBatch {
       return parseBatchResponse(rawBatchResponse);
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

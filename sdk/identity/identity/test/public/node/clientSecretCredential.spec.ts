@@ -55,14 +55,14 @@ describe("ClientSecretCredential", function() {
       error = e;
     }
     console.log(error);
-    assert.equal(error?.name, "CredentialUnavailable");
+    assert.equal(error?.name, "CredentialUnavailableError");
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });
 
   it(
     "supports tracing",
     testTracing({
-      test: async (spanOptions) => {
+      test: async (tracingOptions) => {
         const credential = new ClientSecretCredential(
           env.AZURE_TENANT_ID,
           env.AZURE_CLIENT_ID,
@@ -70,9 +70,7 @@ describe("ClientSecretCredential", function() {
         );
 
         await credential.getToken(scope, {
-          tracingOptions: {
-            spanOptions
-          }
+          tracingOptions
         });
       },
       children: [

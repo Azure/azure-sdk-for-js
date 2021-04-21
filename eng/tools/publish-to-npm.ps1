@@ -1,7 +1,7 @@
 param (
   $pathToArtifacts,
   $accessLevel,
-  $tag="",
+  $tag,
   $additionalTag="",
   $registry,
   $npmToken,
@@ -12,10 +12,11 @@ param (
 )
 
 function replaceText($oldText,$newText,$filePath){
-    $content = Get-Content -Path $filePath
+    $content = Get-Content -Path $filePath -Raw
     $newContent = $content -replace $oldText,$newText
-    if((-join $newContent) -ne (-join $content)){
-        Set-Content -Path $filePath -Value $newContent
+    if ($newContent -ne $content)
+    {
+        Set-Content -Path $filePath -Value $newContent -NoNewLine
         Write-Host "replaceText [$oldText] [$newText] [$filePath]"
     }
 }
@@ -124,17 +125,8 @@ try {
 
     foreach ($p in $packageList) {
         if($p.Publish) {
-            if ($tag)
-            {
-              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
-              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
-            }
-            else
-            {
-              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
-              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
-            }
-
+            Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
+            npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
             if ($LastExitCode -ne 0) {
                 Write-Host "npm publish failed with exit code $LastExitCode"
                 exit 1

@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreHttps from "@azure/core-rest-pipeline";
 
 /** Acr error response describing why the operation failed */
 export interface AcrErrors {
@@ -33,28 +34,28 @@ export interface Manifest {
 /** List of repositories */
 export interface Repositories {
   /** Repository names */
-  names?: string[];
+  repositories?: string[];
+  link?: string;
 }
 
 /** Repository attributes */
-export interface RepositoryAttributes {
-  /** Registry name */
-  registry?: string;
+export interface RepositoryProperties {
   /** Image name */
-  name?: string;
+  name: string;
   /** Image created time */
-  createdOn?: Date;
+  createdOn: Date;
   /** Image last update time */
-  lastUpdatedOn?: Date;
+  lastUpdatedOn: Date;
   /** Number of the manifests */
-  registryArtifactCount?: number;
+  registryArtifactCount: number;
   /** Number of the tags */
-  tagCount?: number;
-  /** Changeable attributes */
-  writeableProperties?: ChangeableAttributes;
+  tagCount: number;
+  /** Writeable properties of the resource */
+  writeableProperties: ContentProperties;
 }
 
-export interface ChangeableAttributes {
+/** Changeable attributes */
+export interface ContentProperties {
   /** Delete enabled */
   canDelete?: boolean;
   /** Write enabled */
@@ -66,7 +67,7 @@ export interface ChangeableAttributes {
 }
 
 /** Deleted repository */
-export interface DeletedRepository {
+export interface DeleteRepositoryResult {
   /** SHA of the deleted image */
   deletedRegistryArtifactDigests?: string[];
   /** Tag of the deleted image */
@@ -75,60 +76,56 @@ export interface DeletedRepository {
 
 /** List of tag details */
 export interface TagList {
-  /** Registry name */
-  registry?: string;
   /** Image name */
-  imageName?: string;
+  repository: string;
   /** List of tag attribute details */
-  tags?: TagAttributesBase[];
+  tagAttributeBases: TagAttributesBase[];
+  link?: string;
 }
 
 /** Tag attribute details */
 export interface TagAttributesBase {
   /** Tag name */
-  name?: string;
+  name: string;
   /** Tag digest */
-  digest?: string;
+  digest: string;
   /** Tag created time */
-  createdOn?: Date;
+  createdOn: Date;
   /** Tag last update time */
-  lastUpdatedOn?: Date;
-  /** Changeable attributes */
-  modifiableProperties?: ChangeableAttributes;
+  lastUpdatedOn: Date;
+  /** Writeable properties of the resource */
+  writeableProperties: ContentProperties;
 }
 
 /** Tag attributes */
-export interface TagAttributes {
-  /** Registry name */
-  registry?: string;
+export interface TagProperties {
   /** Image name */
-  repository?: string;
+  repository: string;
   /** Tag name */
-  name?: string;
+  name: string;
   /** Tag digest */
-  digest?: string;
+  digest: string;
   /** Tag created time */
-  createdOn?: Date;
+  createdOn: Date;
   /** Tag last update time */
-  lastUpdatedOn?: Date;
-  /** Changeable attributes */
-  modifiableProperties?: ChangeableAttributes;
+  lastUpdatedOn: Date;
+  /** Writeable properties of the resource */
+  writeableProperties: ContentProperties;
 }
 
 /** Manifest attributes */
 export interface AcrManifests {
-  /** Registry name */
-  registry?: string;
   /** Image name */
-  imageName?: string;
+  repository?: string;
   /** List of manifests */
-  manifestsAttributes?: ManifestAttributesBase[];
+  manifests?: ManifestAttributesBase[];
+  link?: string;
 }
 
 /** Manifest details */
 export interface ManifestAttributesBase {
   /** Manifest */
-  digest?: string;
+  digest: string;
   /** Image size */
   size?: number;
   /** Created time */
@@ -139,20 +136,26 @@ export interface ManifestAttributesBase {
   cpuArchitecture?: string;
   /** Operating system */
   operatingSystem?: string;
-  /** Media type */
-  manifestMediaType?: string;
-  /** Config blob media type */
-  configMediaType?: string;
+  /** List of manifest attributes details */
+  references?: ManifestAttributesManifestReferences[];
   /** List of tags */
   tags?: string[];
-  /** Changeable attributes */
-  manifestProperties?: ChangeableAttributes;
+  /** Writeable properties of the resource */
+  writeableProperties?: ContentProperties;
 }
 
 /** Manifest attributes details */
-export interface ManifestAttributes {
-  /** Registry name */
-  registry?: string;
+export interface ManifestAttributesManifestReferences {
+  /** Manifest digest */
+  digest: string;
+  /** CPU architecture */
+  cpuArchitecture: string;
+  /** Operating system */
+  operatingSystem: string;
+}
+
+/** Manifest attributes details */
+export interface RegistryArtifactProperties {
   /** Image name */
   repository?: string;
   /** Manifest */
@@ -167,30 +170,24 @@ export interface ManifestAttributes {
   cpuArchitecture?: string;
   /** Operating system */
   operatingSystem?: string;
-  /** Media type */
-  manifestMediaType?: string;
-  /** Config blob media type */
-  configMediaType?: string;
+  /** List of manifest attributes details */
+  references?: ManifestAttributesManifestReferences[];
   /** List of tags */
   tags?: string[];
-  /** Changeable attributes */
-  manifestProperties?: ChangeableAttributes;
+  /** Writeable properties of the resource */
+  writeableProperties?: ContentProperties;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
-  /** Can take a value of access_token_refresh_token, or access_token, or refresh_token */
-  grantType: PostContentSchemaGrantType;
+  /** Can take a value of access_token */
+  grantType: "access_token";
   /** Indicates the name of your Azure container registry. */
   service: string;
-  /** AAD tenant associated to the AAD credentials. */
-  tenant?: string;
-  /** AAD refresh token, mandatory when grant_type is access_token_refresh_token or refresh_token */
-  refreshToken?: string;
   /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
-  accessToken?: string;
+  aadAccesstoken: string;
 }
 
-export interface RefreshToken {
+export interface AcrRefreshToken {
   /** The refresh token to be used for generating access tokens */
   refreshToken?: string;
 }
@@ -203,10 +200,10 @@ export interface PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwForm
   /** Which is expected to be a valid scope, and can be specified more than once for multiple scope requests. You obtained this from the Www-Authenticate response header from the challenge. */
   scope: string;
   /** Must be a valid ACR refresh token */
-  refreshToken: string;
+  acrRefreshToken: string;
 }
 
-export interface AccessToken {
+export interface AcrAccessToken {
   /** The access token for performing authenticated requests */
   accessToken?: string;
 }
@@ -311,16 +308,6 @@ export interface Annotations {
 export interface TagAttributesTag {
   /** SignatureRecord value */
   signatureRecord?: string;
-}
-
-/** Manifest attributes details */
-export interface ManifestAttributesManifestReferences {
-  /** Manifest digest */
-  digest?: string;
-  /** CPU architecture */
-  architecture?: string;
-  /** Operating system */
-  os?: string;
 }
 
 /** List of manifest attributes */
@@ -458,6 +445,12 @@ export interface ContainerRegistryGetRepositoriesHeaders {
   link?: string;
 }
 
+/** Defines headers for ContainerRegistry_getRepositoriesNext operation. */
+export interface ContainerRegistryGetRepositoriesNextHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
 /** Defines headers for ContainerRegistryRepository_createManifest operation. */
 export interface ContainerRegistryRepositoryCreateManifestHeaders {
   /** Identifies the docker upload uuid for the current request. */
@@ -466,6 +459,30 @@ export interface ContainerRegistryRepositoryCreateManifestHeaders {
   location?: string;
   /** The length of the requested blob content. */
   contentLength?: number;
+}
+
+/** Defines headers for ContainerRegistryRepository_getTags operation. */
+export interface ContainerRegistryRepositoryGetTagsHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
+/** Defines headers for ContainerRegistryRepository_getManifests operation. */
+export interface ContainerRegistryRepositoryGetManifestsHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
+/** Defines headers for ContainerRegistryRepository_getTagsNext operation. */
+export interface ContainerRegistryRepositoryGetTagsNextHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
+/** Defines headers for ContainerRegistryRepository_getManifestsNext operation. */
+export interface ContainerRegistryRepositoryGetManifestsNextHeaders {
+  /** next paginated result */
+  link?: string;
 }
 
 /** Defines headers for ContainerRegistryBlob_getBlob operation. */
@@ -554,27 +571,45 @@ export interface ContainerRegistryBlobCheckChunkExistsHeaders {
   contentRange?: string;
 }
 
-/** Known values of {@link PostContentSchemaGrantType} that the service accepts. */
-export const enum KnownPostContentSchemaGrantType {
-  AccessTokenRefreshToken = "access_token_refresh_token",
-  AccessToken = "access_token",
-  RefreshToken = "refresh_token"
+/** Known values of {@link TagOrderBy} that the service accepts. */
+export const enum KnownTagOrderBy {
+  /** Order tags by LastUpdatedOn field, from most recently updated to least recently updated. */
+  LastUpdatedOnDescending = "timedesc",
+  /** Order tags by LastUpdatedOn field, from least recently updated to most recently updated. */
+  LastUpdatedOnAscending = "timeasc"
 }
 
 /**
- * Defines values for PostContentSchemaGrantType. \
- * {@link KnownPostContentSchemaGrantType} can be used interchangeably with PostContentSchemaGrantType,
+ * Defines values for TagOrderBy. \
+ * {@link KnownTagOrderBy} can be used interchangeably with TagOrderBy,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **access_token_refresh_token** \
- * **access_token** \
- * **refresh_token**
+ * **timedesc**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated. \
+ * **timeasc**: Order tags by LastUpdatedOn field, from least recently updated to most recently updated.
  */
-export type PostContentSchemaGrantType = string;
+export type TagOrderBy = string;
+
+/** Known values of {@link RegistryArtifactOrderBy} that the service accepts. */
+export const enum KnownRegistryArtifactOrderBy {
+  /** Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated. */
+  LastUpdatedOnDescending = "timedesc",
+  /** Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated. */
+  LastUpdatedOnAscending = "timeasc"
+}
+
+/**
+ * Defines values for RegistryArtifactOrderBy. \
+ * {@link KnownRegistryArtifactOrderBy} can be used interchangeably with RegistryArtifactOrderBy,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **timedesc**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated. \
+ * **timeasc**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
+ */
+export type RegistryArtifactOrderBy = string;
 
 /** Optional parameters. */
 export interface ContainerRegistryGetRepositoriesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
   /** query parameter for max number of items */
@@ -583,89 +618,56 @@ export interface ContainerRegistryGetRepositoriesOptionalParams
 
 /** Contains response data for the getRepositories operation. */
 export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepositoriesHeaders &
-  Repositories & {
-    /** The underlying HTTP response. */
-    _response: coreHttp.HttpResponse & {
-      /** The response body as text (string format) */
-      bodyAsText: string;
-
-      /** The response body as parsed JSON or XML */
-      parsedBody: Repositories;
-      /** The parsed HTTP response headers. */
-      parsedHeaders: ContainerRegistryGetRepositoriesHeaders;
-    };
-  };
-
-/** Contains response data for the getRepositoryAttributes operation. */
-export type ContainerRegistryGetRepositoryAttributesResponse = RepositoryAttributes & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RepositoryAttributes;
-  };
-};
+  Repositories;
 
 /** Contains response data for the deleteRepository operation. */
-export type ContainerRegistryDeleteRepositoryResponse = DeletedRepository & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DeletedRepository;
-  };
-};
+export type ContainerRegistryDeleteRepositoryResponse = DeleteRepositoryResult;
 
 /** Optional parameters. */
-export interface ContainerRegistryUpdateRepositoryAttributesOptionalParams
-  extends coreHttp.OperationOptions {
-  /** Repository attribute value */
-  value?: ChangeableAttributes;
+export interface ContainerRegistryGetRepositoriesNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
+  last?: string;
+  /** query parameter for max number of items */
+  n?: number;
 }
+
+/** Contains response data for the getRepositoriesNext operation. */
+export type ContainerRegistryGetRepositoriesNextResponse = ContainerRegistryGetRepositoriesNextHeaders &
+  Repositories;
 
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryGetManifestOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Accept header string delimited by comma. For example, application/vnd.docker.distribution.manifest.v2+json */
   accept?: string;
 }
 
 /** Contains response data for the getManifest operation. */
-export type ContainerRegistryRepositoryGetManifestResponse = Manifest & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Manifest;
-  };
-};
+export type ContainerRegistryRepositoryGetManifestResponse = Manifest;
 
 /** Contains response data for the createManifest operation. */
 export type ContainerRegistryRepositoryCreateManifestResponse = ContainerRegistryRepositoryCreateManifestHeaders & {
   /** The parsed response body. */
   body: any;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: any;
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryRepositoryCreateManifestHeaders;
-  };
 };
+
+/** Contains response data for the getProperties operation. */
+export type ContainerRegistryRepositoryGetPropertiesResponse = RepositoryProperties;
+
+/** Optional parameters. */
+export interface ContainerRegistryRepositorySetPropertiesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Repository attribute value */
+  value?: ContentProperties;
+}
+
+/** Contains response data for the setProperties operation. */
+export type ContainerRegistryRepositorySetPropertiesResponse = RepositoryProperties;
 
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryGetTagsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
   /** query parameter for max number of items */
@@ -677,39 +679,25 @@ export interface ContainerRegistryRepositoryGetTagsOptionalParams
 }
 
 /** Contains response data for the getTags operation. */
-export type ContainerRegistryRepositoryGetTagsResponse = TagList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type ContainerRegistryRepositoryGetTagsResponse = ContainerRegistryRepositoryGetTagsHeaders &
+  TagList;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: TagList;
-  };
-};
-
-/** Contains response data for the getTagAttributes operation. */
-export type ContainerRegistryRepositoryGetTagAttributesResponse = TagAttributes & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: TagAttributes;
-  };
-};
+/** Contains response data for the getTagProperties operation. */
+export type ContainerRegistryRepositoryGetTagPropertiesResponse = TagProperties;
 
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryUpdateTagAttributesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Repository attribute value */
-  value?: ChangeableAttributes;
+  value?: ContentProperties;
 }
+
+/** Contains response data for the updateTagAttributes operation. */
+export type ContainerRegistryRepositoryUpdateTagAttributesResponse = TagProperties;
 
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryGetManifestsOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
   /** query parameter for max number of items */
@@ -719,35 +707,53 @@ export interface ContainerRegistryRepositoryGetManifestsOptionalParams
 }
 
 /** Contains response data for the getManifests operation. */
-export type ContainerRegistryRepositoryGetManifestsResponse = AcrManifests & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
+export type ContainerRegistryRepositoryGetManifestsResponse = ContainerRegistryRepositoryGetManifestsHeaders &
+  AcrManifests;
 
-    /** The response body as parsed JSON or XML */
-    parsedBody: AcrManifests;
-  };
-};
-
-/** Contains response data for the getManifestAttributes operation. */
-export type ContainerRegistryRepositoryGetManifestAttributesResponse = ManifestAttributes & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ManifestAttributes;
-  };
-};
+/** Contains response data for the getRegistryArtifactProperties operation. */
+export type ContainerRegistryRepositoryGetRegistryArtifactPropertiesResponse = RegistryArtifactProperties;
 
 /** Optional parameters. */
 export interface ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams
-  extends coreHttp.OperationOptions {
+  extends coreClient.OperationOptions {
   /** Repository attribute value */
-  value?: ChangeableAttributes;
+  value?: ContentProperties;
 }
+
+/** Contains response data for the updateManifestAttributes operation. */
+export type ContainerRegistryRepositoryUpdateManifestAttributesResponse = RegistryArtifactProperties;
+
+/** Optional parameters. */
+export interface ContainerRegistryRepositoryGetTagsNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
+  last?: string;
+  /** query parameter for max number of items */
+  n?: number;
+  /** orderby query parameter */
+  orderby?: string;
+  /** filter by digest */
+  digest?: string;
+}
+
+/** Contains response data for the getTagsNext operation. */
+export type ContainerRegistryRepositoryGetTagsNextResponse = ContainerRegistryRepositoryGetTagsNextHeaders &
+  TagList;
+
+/** Optional parameters. */
+export interface ContainerRegistryRepositoryGetManifestsNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
+  last?: string;
+  /** query parameter for max number of items */
+  n?: number;
+  /** orderby query parameter */
+  orderby?: string;
+}
+
+/** Contains response data for the getManifestsNext operation. */
+export type ContainerRegistryRepositoryGetManifestsNextResponse = ContainerRegistryRepositoryGetManifestsNextHeaders &
+  AcrManifests;
 
 /** Contains response data for the getBlob operation. */
 export type ContainerRegistryBlobGetBlobResponse = ContainerRegistryBlobGetBlobHeaders & {
@@ -765,22 +771,10 @@ export type ContainerRegistryBlobGetBlobResponse = ContainerRegistryBlobGetBlobH
    * Always `undefined` in the browser.
    */
   readableStreamBody?: NodeJS.ReadableStream;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobGetBlobHeaders;
-  };
 };
 
 /** Contains response data for the checkBlobExists operation. */
-export type ContainerRegistryBlobCheckBlobExistsResponse = ContainerRegistryBlobCheckBlobExistsHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobCheckBlobExistsHeaders;
-  };
-};
+export type ContainerRegistryBlobCheckBlobExistsResponse = ContainerRegistryBlobCheckBlobExistsHeaders;
 
 /** Contains response data for the deleteBlob operation. */
 export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDeleteBlobHeaders & {
@@ -798,58 +792,29 @@ export type ContainerRegistryBlobDeleteBlobResponse = ContainerRegistryBlobDelet
    * Always `undefined` in the browser.
    */
   readableStreamBody?: NodeJS.ReadableStream;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobDeleteBlobHeaders;
-  };
 };
 
 /** Contains response data for the mountBlob operation. */
-export type ContainerRegistryBlobMountBlobResponse = ContainerRegistryBlobMountBlobHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobMountBlobHeaders;
-  };
-};
+export type ContainerRegistryBlobMountBlobResponse = ContainerRegistryBlobMountBlobHeaders;
 
 /** Contains response data for the getUploadStatus operation. */
-export type ContainerRegistryBlobGetUploadStatusResponse = ContainerRegistryBlobGetUploadStatusHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobGetUploadStatusHeaders;
-  };
-};
+export type ContainerRegistryBlobGetUploadStatusResponse = ContainerRegistryBlobGetUploadStatusHeaders;
 
 /** Contains response data for the uploadChunk operation. */
-export type ContainerRegistryBlobUploadChunkResponse = ContainerRegistryBlobUploadChunkHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobUploadChunkHeaders;
-  };
-};
+export type ContainerRegistryBlobUploadChunkResponse = ContainerRegistryBlobUploadChunkHeaders;
+
+/** Optional parameters. */
+export interface ContainerRegistryBlobCompleteUploadOptionalParams
+  extends coreClient.OperationOptions {
+  /** Optional raw data of blob */
+  value?: coreHttps.RequestBodyType;
+}
 
 /** Contains response data for the completeUpload operation. */
-export type ContainerRegistryBlobCompleteUploadResponse = ContainerRegistryBlobCompleteUploadHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobCompleteUploadHeaders;
-  };
-};
+export type ContainerRegistryBlobCompleteUploadResponse = ContainerRegistryBlobCompleteUploadHeaders;
 
 /** Contains response data for the startUpload operation. */
-export type ContainerRegistryBlobStartUploadResponse = ContainerRegistryBlobStartUploadHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobStartUploadHeaders;
-  };
-};
+export type ContainerRegistryBlobStartUploadResponse = ContainerRegistryBlobStartUploadHeaders;
 
 /** Contains response data for the getChunk operation. */
 export type ContainerRegistryBlobGetChunkResponse = ContainerRegistryBlobGetChunkHeaders & {
@@ -867,74 +832,32 @@ export type ContainerRegistryBlobGetChunkResponse = ContainerRegistryBlobGetChun
    * Always `undefined` in the browser.
    */
   readableStreamBody?: NodeJS.ReadableStream;
-
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobGetChunkHeaders;
-  };
 };
 
 /** Contains response data for the checkChunkExists operation. */
-export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlobCheckChunkExistsHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: ContainerRegistryBlobCheckChunkExistsHeaders;
-  };
-};
+export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlobCheckChunkExistsHeaders;
 
 /** Optional parameters. */
-export interface RefreshTokensGetFromExchangeOptionalParams
-  extends coreHttp.OperationOptions {
-  accessToken?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
+export interface AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams
+  extends coreClient.OperationOptions {
+  aadAccesstoken?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
 }
 
-/** Contains response data for the getFromExchange operation. */
-export type RefreshTokensGetFromExchangeResponse = RefreshToken & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RefreshToken;
-  };
-};
+/** Contains response data for the exchangeAadAccessTokenForAcrRefreshToken operation. */
+export type AuthenticationExchangeAadAccessTokenForAcrRefreshTokenResponse = AcrRefreshToken;
 
 /** Optional parameters. */
-export interface AccessTokensGetOptionalParams
-  extends coreHttp.OperationOptions {
-  refreshToken?: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
+export interface AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenOptionalParams
+  extends coreClient.OperationOptions {
+  acrRefreshToken?: PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
 }
 
-/** Contains response data for the get operation. */
-export type AccessTokensGetResponse = AccessToken & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AccessToken;
-  };
-};
-
-/** Contains response data for the getFromLogin operation. */
-export type AccessTokensGetFromLoginResponse = AccessToken & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AccessToken;
-  };
-};
+/** Contains response data for the exchangeAcrRefreshTokenForAcrAccessToken operation. */
+export type AuthenticationExchangeAcrRefreshTokenForAcrAccessTokenResponse = AcrAccessToken;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreClient.ServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

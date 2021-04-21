@@ -2,12 +2,15 @@
 // Licensed under the MIT license.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
+import { AggregateAuthenticationError, CredentialUnavailableError } from "../client/errors";
 import { createSpan } from "../util/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
-const logger = credentialLogger("ChainedTokenCredential");
+/**
+ * @internal
+ */
+export const logger = credentialLogger("ChainedTokenCredential");
 
 /**
  * Enables multiple `TokenCredential` implementations to be tried in order
@@ -53,6 +56,7 @@ export class ChainedTokenCredential implements TokenCredential {
    */
   async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
     let token = null;
+    let successfulCredentialName = "";
     const errors = [];
 
     const { span, updatedOptions } = createSpan("ChainedTokenCredential-getToken", options);
@@ -60,8 +64,12 @@ export class ChainedTokenCredential implements TokenCredential {
     for (let i = 0; i < this._sources.length && token === null; i++) {
       try {
         token = await this._sources[i].getToken(scopes, updatedOptions);
+        successfulCredentialName = this._sources[i].constructor.name;
       } catch (err) {
-        if (err.name === "CredentialUnavailable") {
+        if (
+          err.name === "CredentialUnavailableError" ||
+          err.name === "AuthenticationRequiredError"
+        ) {
           errors.push(err);
         } else {
           logger.getToken.info(formatError(scopes, err));
@@ -73,7 +81,7 @@ export class ChainedTokenCredential implements TokenCredential {
     if (!token && errors.length > 0) {
       const err = new AggregateAuthenticationError(errors);
       span.setStatus({
-        code: CanonicalCode.UNAUTHENTICATED,
+        code: SpanStatusCode.ERROR,
         message: err.message
       });
       logger.getToken.info(formatError(scopes, err));
@@ -82,10 +90,10 @@ export class ChainedTokenCredential implements TokenCredential {
 
     span.end();
 
-    logger.getToken.info(formatSuccess(scopes));
+    logger.getToken.info(`Result for ${successfulCredentialName}: ${formatSuccess(scopes)}`);
 
     if (token === null) {
-      throw new CredentialUnavailable("Failed to retrieve a valid token");
+      throw new CredentialUnavailableError("Failed to retrieve a valid token");
     }
     return token;
   }

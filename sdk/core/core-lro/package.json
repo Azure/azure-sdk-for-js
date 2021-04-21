@@ -2,7 +2,7 @@
   "name": "@azure/core-lro",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "LRO Polling strtegy for the Azure SDK in TypeScript",
   "tags": [
     "isomorphic",
@@ -66,7 +66,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
-    "build:samples": "tsc -p tsconfig.samples.json",
+    "build:samples": "echo Skipped.",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1 && npm run extract-api",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -74,7 +74,7 @@
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\" \"test/**/*.ts\" \"samples/**/*.ts\"",
-    "clean": "rimraf dist dist-esm dist-test types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
+    "clean": "rimraf dist dist-* types *.log browser statistics.html coverage src/**/*.js test/**/*.js",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\" \"test/**/*.ts\" \"samples/**/*.ts\"",
@@ -97,12 +97,13 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "events": "^3.0.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@opentelemetry/api": "^0.10.2",
+    "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-multi-entry": "^3.0.0",

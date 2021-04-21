@@ -7,7 +7,7 @@ import {
   isNode,
   getDefaultProxySettings
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import {
   QueueCreateResponse,
   QueueDeleteResponse,
@@ -337,7 +337,7 @@ export class QueueServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -529,7 +529,7 @@ export class QueueServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -559,7 +559,7 @@ export class QueueServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -588,7 +588,7 @@ export class QueueServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -614,7 +614,7 @@ export class QueueServiceClient extends StorageClient {
       return await this.getQueueClient(queueName).create(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -640,7 +640,7 @@ export class QueueServiceClient extends StorageClient {
       return await this.getQueueClient(queueName).delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

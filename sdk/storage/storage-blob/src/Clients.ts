@@ -13,7 +13,7 @@ import {
   URLBuilder
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
@@ -33,7 +33,6 @@ import {
   BlobDownloadResponseModel,
   BlobGetPropertiesResponseModel,
   BlobGetTagsHeaders,
-  BlobHTTPHeaders,
   BlobSetHTTPHeadersResponse,
   BlobSetMetadataResponse,
   BlobSetTagsResponse,
@@ -60,7 +59,8 @@ import {
   PageBlobUploadPagesResponse,
   RehydratePriority,
   SequenceNumberActionType,
-  BlockBlobPutBlobFromUrlResponse
+  BlockBlobPutBlobFromUrlResponse,
+  BlobHTTPHeaders
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -1073,7 +1073,9 @@ export class BlobClient extends StorageClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+        requestOptions: {
+          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+        },
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
@@ -1156,7 +1158,7 @@ export class BlobClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1188,13 +1190,13 @@ export class BlobClient extends StorageClient {
     } catch (e) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when checking blob existence"
         });
         return false;
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1241,7 +1243,7 @@ export class BlobClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1263,7 +1265,7 @@ export class BlobClient extends StorageClient {
     const { span, updatedOptions } = createSpan("BlobClient-delete", options);
     options.conditions = options.conditions || {};
     try {
-      return await this.blobContext.deleteMethod({
+      return await this.blobContext.delete({
         abortSignal: options.abortSignal,
         deleteSnapshots: options.deleteSnapshots,
         leaseAccessConditions: options.conditions,
@@ -1275,7 +1277,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1307,7 +1309,7 @@ export class BlobClient extends StorageClient {
     } catch (e) {
       if (e.details?.errorCode === "BlobNotFound") {
         span.setStatus({
-          code: CanonicalCode.NOT_FOUND,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when deleting a blob or snapshot only if it exists."
         });
         return {
@@ -1317,7 +1319,7 @@ export class BlobClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1343,7 +1345,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1372,20 +1374,20 @@ export class BlobClient extends StorageClient {
     options.conditions = options.conditions || {};
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blobContext.setHTTPHeaders({
+      return await this.blobContext.setHttpHeaders({
         abortSignal: options.abortSignal,
-        blobHTTPHeaders,
+        blobHttpHeaders: blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        cpkInfo: options.customerProvidedKey,
+        // cpkInfo: options.customerProvidedKey, // CPK is not included in Swagger, should change this back when this issue is fixed in Swagger.
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1427,7 +1429,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1460,7 +1462,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1494,7 +1496,7 @@ export class BlobClient extends StorageClient {
       return wrappedResponse;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1540,7 +1542,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1669,7 +1671,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1715,7 +1717,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1753,7 +1755,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1918,7 +1920,7 @@ export class BlobClient extends StorageClient {
       return buffer;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -1967,7 +1969,7 @@ export class BlobClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2074,7 +2076,7 @@ export class BlobClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2496,7 +2498,7 @@ export class AppendBlobClient extends BlobClient {
 
       return await this.appendBlobContext.create(0, {
         abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobHttpHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
         modifiedAccessConditions: {
@@ -2510,7 +2512,7 @@ export class AppendBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2544,7 +2546,7 @@ export class AppendBlobClient extends BlobClient {
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a blob only if it does not already exist."
         });
         return {
@@ -2555,7 +2557,7 @@ export class AppendBlobClient extends BlobClient {
       }
 
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2585,7 +2587,7 @@ export class AppendBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2628,7 +2630,7 @@ export class AppendBlobClient extends BlobClient {
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
 
-      return await this.appendBlobContext.appendBlock(body, contentLength, {
+      return await this.appendBlobContext.appendBlock(contentLength, body, {
         abortSignal: options.abortSignal,
         appendPositionAccessConditions: options.conditions,
         leaseAccessConditions: options.conditions,
@@ -2636,7 +2638,9 @@ export class AppendBlobClient extends BlobClient {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -2645,7 +2649,7 @@ export class AppendBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -2703,7 +2707,7 @@ export class AppendBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3454,6 +3458,7 @@ export class BlockBlobClient extends BlobClient {
       const response = await this._blobContext.query({
         abortSignal: options.abortSignal,
         queryRequest: {
+          queryType: "SQL",
           expression: query,
           inputSerialization: toQuerySerialization(options.inputTextConfiguration),
           outputSerialization: toQuerySerialization(options.outputTextConfiguration)
@@ -3472,7 +3477,7 @@ export class BlockBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3517,16 +3522,18 @@ export class BlockBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("BlockBlobClient-upload", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blockBlobContext.upload(body, contentLength, {
+      return await this.blockBlobContext.upload(contentLength, body, {
         abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobHttpHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
@@ -3535,7 +3542,7 @@ export class BlockBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3573,6 +3580,7 @@ export class BlockBlobClient extends BlobClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.blockBlobContext.putBlobFromUrl(0, sourceURL, {
         ...options,
+        blobHttpHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
@@ -3592,7 +3600,7 @@ export class BlockBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3624,7 +3632,9 @@ export class BlockBlobClient extends BlobClient {
       return await this.blockBlobContext.stageBlock(blockId, contentLength, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
@@ -3633,7 +3643,7 @@ export class BlockBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3685,7 +3695,7 @@ export class BlockBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3718,7 +3728,7 @@ export class BlockBlobClient extends BlobClient {
         { latest: blocks },
         {
           abortSignal: options.abortSignal,
-          blobHTTPHeaders: options.blobHTTPHeaders,
+          blobHttpHeaders: options.blobHTTPHeaders,
           leaseAccessConditions: options.conditions,
           metadata: options.metadata,
           modifiedAccessConditions: {
@@ -3734,7 +3744,7 @@ export class BlockBlobClient extends BlobClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3780,7 +3790,7 @@ export class BlockBlobClient extends BlobClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3834,7 +3844,7 @@ export class BlockBlobClient extends BlobClient {
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3872,7 +3882,7 @@ export class BlockBlobClient extends BlobClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -3990,7 +4000,7 @@ export class BlockBlobClient extends BlobClient {
       return this.commitBlockList(blockList, updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4039,7 +4049,7 @@ export class BlockBlobClient extends BlobClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4123,7 +4133,7 @@ export class BlockBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4616,7 +4626,7 @@ export class PageBlobClient extends BlobClient {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       return await this.pageBlobContext.create(0, size, {
         abortSignal: options.abortSignal,
-        blobHTTPHeaders: options.blobHTTPHeaders,
+        blobHttpHeaders: options.blobHTTPHeaders,
         blobSequenceNumber: options.blobSequenceNumber,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
@@ -4632,7 +4642,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4670,7 +4680,7 @@ export class PageBlobClient extends BlobClient {
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
-          code: CanonicalCode.ALREADY_EXISTS,
+          code: SpanStatusCode.ERROR,
           message: "Expected exception when creating a blob only if it does not already exist."
         });
         return {
@@ -4681,7 +4691,7 @@ export class PageBlobClient extends BlobClient {
       }
 
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4710,14 +4720,16 @@ export class PageBlobClient extends BlobClient {
     const { span, updatedOptions } = createSpan("PageBlobClient-uploadPages", options);
     try {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pageBlobContext.uploadPages(body, count, {
+      return await this.pageBlobContext.uploadPages(count, body, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
           ifTags: options.conditions?.tagConditions
         },
-        onUploadProgress: options.onProgress,
+        requestOptions: {
+          onUploadProgress: options.onProgress
+        },
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         transactionalContentMD5: options.transactionalContentMD5,
@@ -4728,7 +4740,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4788,7 +4800,7 @@ export class PageBlobClient extends BlobClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4829,7 +4841,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4869,7 +4881,7 @@ export class PageBlobClient extends BlobClient {
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4913,7 +4925,7 @@ export class PageBlobClient extends BlobClient {
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4960,7 +4972,7 @@ export class PageBlobClient extends BlobClient {
         .then(rangeResponseFromModel);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -4996,7 +5008,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5034,7 +5046,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -5072,7 +5084,7 @@ export class PageBlobClient extends BlobClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
+import { PipelineRun } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -21,7 +22,7 @@ import {
 } from "../models";
 
 /** Class representing a PipelineRun. */
-export class PipelineRun {
+export class PipelineRunImpl implements PipelineRun {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -43,11 +44,11 @@ export class PipelineRun {
   ): Promise<PipelineRunQueryPipelineRunsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-queryPipelineRunsByWorkspace",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       filterParameters,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -57,7 +58,7 @@ export class PipelineRun {
       return result as PipelineRunQueryPipelineRunsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -75,10 +76,10 @@ export class PipelineRun {
     runId: string,
     options?: coreHttp.OperationOptions
   ): Promise<PipelineRunGetPipelineRunResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-getPipelineRun", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getPipelineRun", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -88,7 +89,7 @@ export class PipelineRun {
       return result as PipelineRunGetPipelineRunResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -110,12 +111,12 @@ export class PipelineRun {
     filterParameters: RunFilterParameters,
     options?: coreHttp.OperationOptions
   ): Promise<PipelineRunQueryActivityRunsResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-queryActivityRuns", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-queryActivityRuns", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       pipelineName,
       runId,
       filterParameters,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -125,7 +126,7 @@ export class PipelineRun {
       return result as PipelineRunQueryActivityRunsResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -143,10 +144,10 @@ export class PipelineRun {
     runId: string,
     options?: PipelineRunCancelPipelineRunOptionalParams
   ): Promise<coreHttp.RestResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-cancelPipelineRun", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-cancelPipelineRun", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       runId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -156,7 +157,7 @@ export class PipelineRun {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

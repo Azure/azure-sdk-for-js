@@ -4,10 +4,9 @@
 import * as msalBrowser from "@azure/msal-browser";
 import { MsalBrowserFlowOptions, MsalBrowser } from "./browserCommon";
 import { AccessToken } from "@azure/core-http";
-import { defaultLoggerCallback } from "../utils";
+import { defaultLoggerCallback, msalToPublic, publicToMsal } from "../utils";
 import { AuthenticationRecord } from "../types";
-import { AuthenticationRequired } from "../errors";
-import { msalToPublic, publicToMsal } from "../transformations";
+import { AuthenticationRequiredError } from "../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 
 // We keep a copy of the redirect hash.
@@ -61,13 +60,13 @@ export class MSALAuthCode extends MsalBrowser {
       if (result && result.account) {
         this.logger.info(`MSAL Browser V2 authentication successful.`);
         this.app.setActiveAccount(result.account);
-        return msalToPublic(result.account);
+        return msalToPublic(this.clientId, result.account);
       }
 
       // If by this point we happen to have an active account, we should stop trying to parse this.
       const activeAccount = await this.app!.getActiveAccount();
       if (activeAccount) {
-        return msalToPublic(activeAccount);
+        return msalToPublic(this.clientId, activeAccount);
       }
 
       // If we don't have an active account, we try to activate it from all the already loaded accounts.
@@ -97,7 +96,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (accounts.length === 1) {
         const account = accounts[0];
         this.app.setActiveAccount(account);
-        return msalToPublic(account);
+        return msalToPublic(this.clientId, account);
       }
 
       this.logger.info(`No accounts were found through MSAL.`);
@@ -142,7 +141,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     if (!account) {
       return;
     }
-    return msalToPublic(account);
+    return msalToPublic(this.clientId, account);
   }
 
   /**
@@ -154,7 +153,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequired();
+      throw new AuthenticationRequiredError(scopes, options);
     }
 
     const parameters: msalBrowser.SilentRequest = {
@@ -168,9 +167,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     try {
       this.logger.info("Attempting to acquire token silently");
       const response = await this.app.acquireTokenSilent(parameters);
-      return this.handleResult(scopes, response);
+      return this.handleResult(scopes, this.clientId, response);
     } catch (err) {
-      throw this.handleError(scopes, err);
+      throw this.handleError(scopes, err, options);
     }
   }
 
@@ -183,7 +182,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequired();
+      throw new AuthenticationRequiredError(scopes, options);
     }
 
     const parameters: msalBrowser.RedirectRequest = {
@@ -201,7 +200,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         await this.app.acquireTokenRedirect(parameters);
         return { token: "", expiresOnTimestamp: 0 };
       case "popup":
-        return this.handleResult(scopes, await this.app.acquireTokenPopup(parameters));
+        return this.handleResult(
+          scopes,
+          this.clientId,
+          await this.app.acquireTokenPopup(parameters)
+        );
     }
   }
 }

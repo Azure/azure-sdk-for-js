@@ -4,33 +4,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken } from "@azure/core-auth";
-import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
+import { AccessToken, NamedKeyCredential } from "@azure/core-auth";
 import { HttpHeaders, ServiceClientCredentials, WebResource } from "@azure/core-http";
 import { generateKey } from "./crypto";
+import { createSasTokenProvider, SasTokenProvider } from "@azure/core-amqp";
 
 /**
  * @internal
  */
 export class SasServiceClientCredentials implements ServiceClientCredentials {
-  keyName: string;
-  keyValue: string;
-  private sharedKeyCredential: SharedKeyCredential;
+  /**
+   * The NamedKeyCredential containing the key name and secret key value.
+   */
+  private _credential: NamedKeyCredential;
+
+  /**
+   * A SasTokenProvider provides a method to retrieve an `AccessToken`.
+   */
+  private _tokenProvider: SasTokenProvider;
   /**
    * Creates a new sasServiceClientCredentials object.
    *
-   * @param sharedAccessKeyName - The SAS key name to use.
-   * @param sharedAccessKey - The SAS key value to use
+   * @param credential - The NamedKeyCredential containing the key name and secret key value.
    */
-  constructor(sharedAccessKeyName: string, sharedAccessKey: string) {
-    this.keyName = sharedAccessKeyName;
-    this.keyValue = sharedAccessKey;
-    this.sharedKeyCredential = new SharedKeyCredential(this.keyName, this.keyValue);
+  constructor(credential: NamedKeyCredential) {
+    this._credential = credential;
+    this._tokenProvider = createSasTokenProvider(credential);
   }
 
   private async _generateSignature(targetUri: string, expirationDate: number): Promise<string> {
     const stringToSign = `${targetUri}\n${expirationDate}`;
-    const result = await generateKey(this.keyValue, stringToSign);
+    const result = await generateKey(this._credential.key, stringToSign);
     return result;
   }
 
@@ -51,13 +55,13 @@ export class SasServiceClientCredentials implements ServiceClientCredentials {
     const signature = await this._generateSignature(targetUri, expirationDate);
     webResource.headers.set(
       "authorization",
-      `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this.keyName}&sr=${targetUri}`
+      `SharedAccessSignature sig=${signature}&se=${expirationDate}&skn=${this._credential.name}&sr=${targetUri}`
     );
     webResource.withCredentials = true;
     return webResource;
   }
 
   getToken(audience: string): AccessToken {
-    return this.sharedKeyCredential.getToken(audience);
+    return this._tokenProvider.getToken(audience);
   }
 }

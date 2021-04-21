@@ -9,7 +9,7 @@ import {
   RetryOperationType,
   RetryOptions,
   SendRequestOptions,
-  defaultLock,
+  defaultCancellableLock,
   isSasTokenProvider,
   retry,
   translate
@@ -30,10 +30,9 @@ import { logErrorStackTrace, logger } from "./log";
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { throwErrorIfConnectionClosed, throwTypeErrorIfParameterMissing } from "./util/error";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { OperationOptions } from "./util/operationOptions";
 import { createEventHubSpan } from "./diagnostics/tracing";
-import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
 
 /**
  * Describes the runtime information of an Event Hub.
@@ -193,11 +192,11 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The hub runtime info is: %O", this._context.connectionId, runtimeInfo);
 
-      clientSpan.setStatus({ code: CanonicalCode.OK });
+      clientSpan.setStatus({ code: SpanStatusCode.OK });
       return runtimeInfo;
     } catch (error) {
       clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       logger.warning(
@@ -265,12 +264,12 @@ export class ManagementClient extends LinkEntity {
       };
       logger.verbose("[%s] The partition info is: %O.", this._context.connectionId, partitionInfo);
 
-      clientSpan.setStatus({ code: CanonicalCode.OK });
+      clientSpan.setStatus({ code: SpanStatusCode.OK });
 
       return partitionInfo;
     } catch (error) {
       clientSpan.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       logger.warning(
@@ -307,12 +306,18 @@ export class ManagementClient extends LinkEntity {
     }
   }
 
-  private async _init(): Promise<void> {
+  private async _init({
+    abortSignal,
+    timeoutInMs
+  }: {
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number;
+  }): Promise<void> {
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
-        await this._negotiateClaim();
+        await this._negotiateClaim({ setTokenRenewal: false, abortSignal, timeoutInMs });
         const rxopt: ReceiverOptions = {
           source: { address: this.address },
           name: this.replyTo,
@@ -341,7 +346,8 @@ export class ManagementClient extends LinkEntity {
         this._mgmtReqResLink = await RequestResponseLink.create(
           this._context.connection,
           sropt,
-          rxopt
+          rxopt,
+          { abortSignal }
         );
         this._mgmtReqResLink.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
@@ -405,18 +411,17 @@ export class ManagementClient extends LinkEntity {
           );
 
           const initOperationStartTime = Date.now();
-
           try {
-            await waitForTimeoutOrAbortOrResolve({
-              actionFn: () => {
-                return defaultLock.acquire(this.managementLock, () => {
-                  return this._init();
-                });
+            await defaultCancellableLock.acquire(
+              this.managementLock,
+              () => {
+                const acquireLockEndTime = Date.now();
+                const timeoutInMs =
+                  retryTimeoutInMs - (acquireLockEndTime - initOperationStartTime);
+                return this._init({ abortSignal, timeoutInMs });
               },
-              abortSignal: options?.abortSignal,
-              timeoutMs: retryTimeoutInMs,
-              timeoutMessage: `The request with message_id "${request.message_id}" timed out. Please try again later.`
-            });
+              { abortSignal, timeoutInMs: retryTimeoutInMs }
+            );
           } catch (err) {
             const translatedError = translate(err);
             logger.warning(
@@ -451,13 +456,22 @@ export class ManagementClient extends LinkEntity {
         return this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
       };
 
-      const config: RetryConfig<Message> = {
-        operation: sendOperationPromise,
-        connectionId: this._context.connectionId,
-        operationType: RetryOperationType.management,
-        abortSignal: abortSignal,
-        retryOptions: retryOptions
-      };
+      const config: RetryConfig<Message> = Object.defineProperties(
+        {
+          operation: sendOperationPromise,
+          operationType: RetryOperationType.management,
+          abortSignal: abortSignal,
+          retryOptions: retryOptions
+        },
+        {
+          connectionId: {
+            enumerable: true,
+            get: () => {
+              return this._context.connectionId;
+            }
+          }
+        }
+      );
       return (await retry<Message>(config)).body;
     } catch (err) {
       const translatedError = translate(err);

@@ -34,7 +34,7 @@
     "build:types": "downlevel-dts typings/latest typings/3.1",
     "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm dist-test typings temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
+    "clean": "rimraf dist dist-* typings temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "rimraf samples/javascript/node_modules samples/typescript/node_modules samples/typescript/dist samples/typescript/package-lock.json samples/javascript/package-lock.json",
     "extract-api": "tsc -p . && api-extractor run --local",
     "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
@@ -108,9 +108,8 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.2.0",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.10",
+    "@azure/core-tracing": "1.0.0-preview.11",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

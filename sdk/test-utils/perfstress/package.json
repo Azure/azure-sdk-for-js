@@ -15,7 +15,7 @@
     "build": "tsc -p .",
     "build:test": "echo not needed",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "clean": "rimraf dist dist-* typings *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
@@ -65,7 +65,6 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.0.0",
-    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0",
     "node-fetch": "^2.6.0",
     "minimist": "~1.2.5",

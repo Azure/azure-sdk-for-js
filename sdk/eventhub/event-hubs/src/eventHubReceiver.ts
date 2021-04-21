@@ -27,6 +27,7 @@ import { LinkEntity } from "./linkEntity";
 import { EventPosition, getEventPositionFilter } from "./eventPosition";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { defaultDataTransformer } from "./dataTransformer";
+import { getRetryAttemptTimeoutInMs } from "./util/retries";
 
 /**
  * @hidden
@@ -452,10 +453,10 @@ export class EventHubReceiver extends LinkEntity {
 
         if (!this.isOpen()) {
           try {
-            await this.initialize();
-            if (abortSignal && abortSignal.aborted) {
-              await this.abort();
-            }
+            await this.initialize({
+              abortSignal,
+              timeoutInMs: getRetryAttemptTimeoutInMs(this.options.retryOptions)
+            });
           } catch (err) {
             if (this._onError === onError) {
               onError(err);
@@ -541,14 +542,20 @@ export class EventHubReceiver extends LinkEntity {
    * Creates a new AMQP receiver under a new AMQP session.
    * @hidden
    */
-  async initialize(): Promise<void> {
+  async initialize({
+    abortSignal,
+    timeoutInMs
+  }: {
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number;
+  }): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
 
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
-        await this._negotiateClaim();
+        await this._negotiateClaim({ setTokenRenewal: false, abortSignal, timeoutInMs });
 
         const receiverOptions: CreateReceiverOptions = {
           onClose: (context: EventContext) => this._onAmqpClose(context),
@@ -568,7 +575,7 @@ export class EventHubReceiver extends LinkEntity {
           this.name,
           options
         );
-        this._receiver = await this._context.connection.createReceiver(options);
+        this._receiver = await this._context.connection.createReceiver({ ...options, abortSignal });
         this.isConnecting = false;
         logger.verbose(
           "[%s] Receiver '%s' created with receiver options: %O",
@@ -794,14 +801,29 @@ export class EventHubReceiver extends LinkEntity {
     };
 
     const retryOptions = this.options.retryOptions || {};
-    const config: RetryConfig<ReceivedEventData[]> = {
-      connectionHost: this._context.config.host,
-      connectionId: this._context.connectionId,
-      operation: retrieveEvents,
-      operationType: RetryOperationType.receiveMessage,
-      abortSignal: abortSignal,
-      retryOptions: retryOptions
-    };
+
+    const config: RetryConfig<ReceivedEventData[]> = Object.defineProperties(
+      {
+        operation: retrieveEvents,
+        operationType: RetryOperationType.receiveMessage,
+        abortSignal: abortSignal,
+        retryOptions: retryOptions
+      },
+      {
+        connectionId: {
+          enumerable: true,
+          get: () => {
+            return this._context.connectionId;
+          }
+        },
+        connectionHost: {
+          enumerable: true,
+          get: () => {
+            return this._context.config.host;
+          }
+        }
+      }
+    );
     return retry<ReceivedEventData[]>(config);
   }
 }

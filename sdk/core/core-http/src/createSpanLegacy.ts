@@ -5,8 +5,7 @@
 // were a part of the GA'd library and can't be removed until the next major
 // release. They currently get called always, even if tracing is not enabled.
 
-import { createSpanFunction as coreTracingCreateSpanFunction } from "@azure/core-tracing";
-import { Span } from "@opentelemetry/api";
+import { createSpanFunction as coreTracingCreateSpanFunction, Span } from "@azure/core-tracing";
 import { OperationOptions } from "./operationOptions";
 
 /**

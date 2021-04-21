@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { NoOpSpan } from "./noOpSpan";
-import { Tracer, Span, SpanOptions } from "@opentelemetry/api";
+import { Span, SpanOptions, Tracer } from "../../interfaces";
 
 /**
  * A no-op implementation of Tracer that can be used when tracing

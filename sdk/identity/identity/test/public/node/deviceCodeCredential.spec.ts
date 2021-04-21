@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import assert from "assert";
-import { env, isLiveMode, delay } from "@azure/test-utils-recorder";
+import { env, isLiveMode, delay, isPlaybackMode } from "@azure/test-utils-recorder";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { DeviceCodeCredential, DeviceCodePromptCallback } from "../../../src";
 import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestUtils";
@@ -67,8 +67,13 @@ describe("DeviceCodeCredential", function() {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  // Setting the MSAL options to cancel doesn't seem to be cancelling MSAL. I'm waiting for them to mention how to do this.
-  it.skip("allows cancelling the authentication", async function() {
+  it("allows cancelling the authentication", async function(this: Context) {
+    if (isPlaybackMode()) {
+      // We're automatically replacing the DeviceCode polling interval on the recorder settings,
+      // which makes it so this test fails on playback.
+      this.skip();
+    }
+
     const credential = new DeviceCodeCredential({
       tenantId: env.AZURE_TENANT_ID,
       clientId: env.AZURE_CLIENT_ID
@@ -88,8 +93,9 @@ describe("DeviceCodeCredential", function() {
     } catch (e) {
       error = e;
     }
+
     assert.equal(error?.name, "AbortError");
-    assert.equal(error?.message, "Cancellation triggered by the AbortSignal");
+    assert.ok(error?.message.match("The authentication has been aborted by the caller."));
   });
 
   it("allows setting disableAutomaticAuthentication", async function(this: Context) {
@@ -122,16 +128,14 @@ describe("DeviceCodeCredential", function() {
       this.skip();
     }
     await testTracing({
-      test: async (spanOptions) => {
+      test: async (tracingOptions) => {
         const credential = new DeviceCodeCredential({
           tenantId: env.AZURE_TENANT_ID,
           clientId: env.AZURE_CLIENT_ID
         });
 
         await credential.getToken(scope, {
-          tracingOptions: {
-            spanOptions
-          }
+          tracingOptions
         });
       },
       children: [

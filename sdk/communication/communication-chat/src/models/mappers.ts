@@ -58,6 +58,22 @@ export const mapToAddChatParticipantsRequestRestModel = (
 
 /**
  * @internal
+ * Mapping chat participant REST model to chat participant SDK model
+ */
+export const mapToChatParticipantSdkModel = (
+  chatParticipant: RestModel.ChatParticipant
+): ChatParticipant => {
+  const { communicationIdentifier, ...rest } = chatParticipant;
+  return {
+    ...rest,
+    id: deserializeCommunicationIdentifier(
+      communicationIdentifier as SerializedCommunicationIdentifier
+    )
+  };
+};
+
+/**
+ * @internal
  */
 export const mapToChatContentSdkModel = (
   content: RestModel.ChatMessageContent
@@ -109,23 +125,7 @@ export const mapToChatMessageSdkModel = (chatMessage: RestModel.ChatMessage): Ch
 export const mapToChatMessagesSdkModelArray = (
   chatMessagesCollection: RestModel.ChatMessagesCollection
 ): ChatMessage[] => {
-  return chatMessagesCollection.value?.map((chatMessage) => mapToChatMessageSdkModel(chatMessage))!;
-};
-
-/**
- * @internal
- * Mapping chat participant REST model to chat participant SDK model
- */
-export const mapToChatParticipantSdkModel = (
-  chatParticipant: RestModel.ChatParticipant
-): ChatParticipant => {
-  const { communicationIdentifier, ...rest } = chatParticipant;
-  return {
-    ...rest,
-    id: deserializeCommunicationIdentifier(
-      communicationIdentifier as SerializedCommunicationIdentifier
-    )
-  };
+  return chatMessagesCollection.value?.map((chatMessage) => mapToChatMessageSdkModel(chatMessage));
 };
 
 /**

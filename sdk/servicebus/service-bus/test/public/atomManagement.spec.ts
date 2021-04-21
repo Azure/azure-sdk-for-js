@@ -17,8 +17,10 @@ import { ServiceBusAdministrationClient, WithResponse } from "../../src";
 import { EntityStatus, EntityAvailabilityStatus } from "../../src";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
-import { EntityNames } from "./utils/testUtils";
+import { EntityNames, TestClientType } from "./utils/testUtils";
 import { TestConstants } from "./testConstants";
+import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { createServiceBusClientForTests, ServiceBusClientForTests } from "./utils/testutils2";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -58,6 +60,83 @@ const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 type AccessRights = ("Manage" | "Send" | "Listen")[];
 const randomDate = new Date();
+
+/**
+ * These tests are just a sanity check that our updates are actually
+ * _doing_ something. We've run into some bugs where we've done things like
+ * enabled forwarding only to find that forwarding isn't happening even though
+ * we can _read_ the attributes back.
+ */
+describe("Atom management - forwarding", () => {
+  let serviceBusClient: ServiceBusClientForTests;
+
+  before(() => {
+    serviceBusClient = createServiceBusClientForTests();
+  });
+
+  after(() => serviceBusClient.test.after());
+
+  afterEach(async () => {
+    serviceBusClient.test.afterEach();
+  });
+
+  it("queue: forwarding", async () => {
+    const willForward = await serviceBusClient.test.createTestEntities(
+      TestClientType.PartitionedQueue
+    );
+    const willBeForwardedTo = await serviceBusClient.test.createTestEntities(
+      TestClientType.UnpartitionedQueue
+    );
+
+    // make it so all messages from `willForward` are forwarded to `willBeForwardedTo`
+    const queueProperties = await serviceBusAtomManagementClient.getQueue(willForward.queue!);
+    queueProperties.forwardTo = willBeForwardedTo.queue!;
+    await serviceBusAtomManagementClient.updateQueue(queueProperties);
+
+    const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(willBeForwardedTo);
+    const sender = await serviceBusClient.test.createSender(willForward);
+
+    await sender.sendMessages({
+      body: "forwarded message with queues!"
+    });
+
+    const messages = await receiver.receiveMessages(1);
+    assert.deepEqual(
+      [{ body: "forwarded message with queues!" }],
+      messages.map((m) => ({ body: m.body }))
+    );
+  });
+
+  it("subscription: forwarding", async () => {
+    const willForward = await serviceBusClient.test.createTestEntities(
+      TestClientType.PartitionedSubscription
+    );
+    const willBeForwardedTo = await serviceBusClient.test.createTestEntities(
+      TestClientType.UnpartitionedQueue
+    );
+
+    // make it so all messages from `willForward` are forwarded to `willBeForwardedTo`
+    const subscriptionProperties = await serviceBusAtomManagementClient.getSubscription(
+      willForward.topic!,
+      willForward.subscription!
+    );
+    subscriptionProperties.forwardTo = willBeForwardedTo.queue!;
+    await serviceBusAtomManagementClient.updateSubscription(subscriptionProperties);
+
+    const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(willBeForwardedTo);
+    const sender = await serviceBusClient.test.createSender(willForward);
+
+    await sender.sendMessages({
+      body: "forwarded message with subscriptions!"
+    });
+
+    const messages = await receiver.receiveMessages(1);
+    assert.deepEqual(
+      [{ body: "forwarded message with subscriptions!" }],
+      messages.map((m) => ({ body: m.body }))
+    );
+  });
+});
 
 describe("Atom management - Namespace", function(): void {
   it("Get namespace properties", async () => {
@@ -318,6 +397,26 @@ describe("Atom management - Authentication", function(): void {
       await serviceBusAdministrationClient.deleteQueue(managementQueue2);
     });
   }
+
+  it("AzureNamedKeyCredential from `@azure/core-auth`", async () => {
+    const connectionStringProperties = parseServiceBusConnectionString(
+      env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+    );
+    const host = connectionStringProperties.fullyQualifiedNamespace;
+    const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
+      host,
+      new AzureNamedKeyCredential(
+        connectionStringProperties.sharedAccessKeyName!,
+        connectionStringProperties.sharedAccessKey!
+      )
+    );
+
+    should.equal(
+      (await serviceBusAdministrationClient.getNamespaceProperties()).name,
+      (host.match("(.*).servicebus.windows.net") || [])[1],
+      "Unexpected namespace name in the getNamespaceProperties response"
+    );
+  });
 });
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(

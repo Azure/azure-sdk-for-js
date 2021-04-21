@@ -146,6 +146,18 @@ export const language1: msRest.OperationQueryParameter = {
     }
   }
 };
+export const language2: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "language"
+  ],
+  mapper: {
+    serializedName: "language",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const maxCandidates: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -169,6 +181,22 @@ export const model: msRest.OperationURLParameter = {
     }
   }
 };
+export const modelVersion: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "modelVersion"
+  ],
+  mapper: {
+    serializedName: "model-version",
+    defaultValue: 'latest',
+    constraints: {
+      Pattern: /^(latest|\d{4}-\d{2}-\d{2})(-preview)?$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const operationId: msRest.OperationURLParameter = {
   parameterPath: "operationId",
   mapper: {
@@ -178,6 +206,24 @@ export const operationId: msRest.OperationURLParameter = {
       name: "Uuid"
     }
   }
+};
+export const pages: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "pages"
+  ],
+  mapper: {
+    serializedName: "pages",
+    type: {
+      name: "Sequence",
+      element: {
+        type: {
+          name: "String"
+        }
+      }
+    }
+  },
+  collectionFormat: msRest.QueryCollectionFormat.Csv
 };
 export const smartCropping: msRest.OperationQueryParameter = {
   parameterPath: [

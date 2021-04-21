@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+/// <reference lib="esnext.asynciterable" />
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SqlScript } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -26,9 +28,8 @@ import {
   SqlScriptGetSqlScriptsByWorkspaceNextResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class representing a SqlScript. */
-export class SqlScript {
+export class SqlScriptImpl implements SqlScript {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -90,10 +91,10 @@ export class SqlScript {
   ): Promise<SqlScriptGetSqlScriptsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSqlScriptsByWorkspace",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -103,7 +104,7 @@ export class SqlScript {
       return result as SqlScriptGetSqlScriptsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -123,7 +124,10 @@ export class SqlScript {
     sqlScript: SqlScriptResource,
     options?: SqlScriptCreateOrUpdateSqlScriptOptionalParams
   ): Promise<LROPoller<SqlScriptCreateOrUpdateSqlScriptResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateSqlScript", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createOrUpdateSqlScript",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       sqlScript,
@@ -138,7 +142,7 @@ export class SqlScript {
         return result as SqlScriptCreateOrUpdateSqlScriptResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -168,10 +172,10 @@ export class SqlScript {
     sqlScriptName: string,
     options?: SqlScriptGetSqlScriptOptionalParams
   ): Promise<SqlScriptGetSqlScriptResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-getSqlScript", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getSqlScript", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -181,7 +185,7 @@ export class SqlScript {
       return result as SqlScriptGetSqlScriptResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -199,7 +203,7 @@ export class SqlScript {
     sqlScriptName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteSqlScript", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteSqlScript", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -213,7 +217,7 @@ export class SqlScript {
         return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -245,7 +249,7 @@ export class SqlScript {
     request: ArtifactRenameRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-renameSqlScript", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-renameSqlScript", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       sqlScriptName,
       request,
@@ -260,7 +264,7 @@ export class SqlScript {
         return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -293,11 +297,11 @@ export class SqlScript {
   ): Promise<SqlScriptGetSqlScriptsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSqlScriptsByWorkspaceNext",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -307,7 +311,7 @@ export class SqlScript {
       return result as SqlScriptGetSqlScriptsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

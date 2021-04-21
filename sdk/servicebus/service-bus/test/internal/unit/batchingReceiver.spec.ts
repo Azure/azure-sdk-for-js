@@ -703,7 +703,6 @@ describe("BatchingReceiver unit tests", () => {
         maxWaitTimeInMs: 5000
       })
       .then((messages) => {
-        console.log(`===> then running, messages: ${messages.map((m) => m.body).join(", ")}`);
         return [...messages];
       });
 
