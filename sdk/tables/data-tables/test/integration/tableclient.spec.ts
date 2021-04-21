@@ -5,11 +5,7 @@ import { TableClient, TableEntity, Edm, odata } from "../../src";
 import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
-import {
-  recordedEnvironmentSetup,
-  createTableClient,
-  createTableServiceClient
-} from "./utils/recordedClient";
+import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
 import { isNode } from "../testUtils";
 import { FullOperationResponse } from "@azure/core-client";
 

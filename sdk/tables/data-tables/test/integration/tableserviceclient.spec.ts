@@ -33,7 +33,7 @@ describe("TableServiceClient", () => {
       const result = client.listTables();
       let hasTable = false;
       for await (const table of result) {
-        if (table.tableName === tableName) {
+        if (table.name === tableName) {
           hasTable = true;
           break;
         }

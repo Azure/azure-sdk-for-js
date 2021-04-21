@@ -194,17 +194,17 @@ export class TableServiceClient {
 
   /**
    * Creates a new table under the given account.
-   * @param tableName - The name of the table.
+   * @param name - The name of the table.
    * @param options - The options parameters.
    */
   public createTable(
-    tableName: string,
+    name: string,
     options: CreateTableOptions = {}
   ): Promise<CreateTableItemResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
     try {
       return this.table.create(
-        { tableName },
+        { name },
         { ...updatedOptions, responsePreference: "return-content" }
       );
     } catch (e) {
@@ -217,11 +217,11 @@ export class TableServiceClient {
 
   /**
    * Creates a new table it it doesn't exist under the account.
-   * @param tableName - The name of the table.
+   * @param name - The name of the table.
    * @param options - The options parameters.
    */
   public async createTableIfNotExists(
-    tableName: string,
+    name: string,
     options: CreateTableOptions = {}
   ): Promise<void> {
     const { span, updatedOptions } = createSpan(
@@ -230,7 +230,7 @@ export class TableServiceClient {
     );
     try {
       await this.table.create(
-        { tableName },
+        { name },
         { ...updatedOptions, responsePreference: "return-no-content" }
       );
     } finally {
@@ -240,16 +240,13 @@ export class TableServiceClient {
 
   /**
    * Operation permanently deletes the specified table.
-   * @param tableName - The name of the table.
+   * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  public deleteTable(
-    tableName: string,
-    options: DeleteTableOptions = {}
-  ): Promise<DeleteTableResponse> {
+  public deleteTable(name: string, options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-deleteTable", options);
     try {
-      return this.table.delete(tableName, updatedOptions);
+      return this.table.delete(name, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -263,13 +260,10 @@ export class TableServiceClient {
    * @param tableName - The name of the table.
    * @param options - The options parameters.
    */
-  public async deleteTableIfExists(
-    tableName: string,
-    options: DeleteTableOptions = {}
-  ): Promise<void> {
+  public async deleteTableIfExists(name: string, options: DeleteTableOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableServiceClient-deleteTableIfExists", options);
     try {
-      await this.table.delete(tableName, { ...updatedOptions });
+      await this.table.delete(name, { ...updatedOptions });
     } finally {
       span.end();
     }

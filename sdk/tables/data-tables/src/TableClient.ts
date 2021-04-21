@@ -225,7 +225,7 @@ export class TableClient {
   public async createTable(options: CreateTableOptions = {}): Promise<CreateTableItemResponse> {
     const { span, updatedOptions } = createSpan("TableClient-createTable", options);
     try {
-      return await this.table.create({ tableName: this.tableName }, updatedOptions);
+      return await this.table.create({ name: this.tableName }, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -242,7 +242,7 @@ export class TableClient {
   public async createTableIfNotExists(options: CreateTableOptions = {}): Promise<void> {
     const { span, updatedOptions } = createSpan("TableClient-createTableIfNotExists", options);
     try {
-      await this.table.create({ tableName: this.tableName }, updatedOptions);
+      await this.table.create({ name: this.tableName }, updatedOptions);
     } catch {
       // Swallow error
     } finally {
@@ -292,7 +292,6 @@ export class TableClient {
 
   /**
    * Queries entities in a table.
-   * @param tableName - The name of the table.
    * @param options - The options parameters.
    */
   public listEntities<T extends object = Record<string, unknown>>(
@@ -502,7 +501,6 @@ export class TableClient {
 
   /**
    * Upsert an entity in the table.
-   * @param tableName - The name of the table.
    * @param entity - The properties for the table entity.
    * @param mode - The different modes for updating the entity:
    *               - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
@@ -550,16 +548,12 @@ export class TableClient {
   /**
    * Retrieves details about any stored access policies specified on the table that may be used with
    * Shared Access Signatures.
-   * @param tableName - The name of the table.
    * @param options - The options parameters.
    */
-  public getAccessPolicy(
-    tableName: string,
-    options: GetAccessPolicyOptions = {}
-  ): Promise<GetAccessPolicyResponse> {
+  public getAccessPolicy(options: GetAccessPolicyOptions = {}): Promise<GetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-getAccessPolicy", options);
     try {
-      return this.table.getAccessPolicy(tableName, updatedOptions);
+      return this.table.getAccessPolicy(this.tableName, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
@@ -570,17 +564,13 @@ export class TableClient {
 
   /**
    * Sets stored access policies for the table that may be used with Shared Access Signatures.
-   * @param tableName - The name of the table.
    * @param acl - The Access Control List for the table.
    * @param options - The options parameters.
    */
-  public setAccessPolicy(
-    tableName: string,
-    options: SetAccessPolicyOptions = {}
-  ): Promise<SetAccessPolicyResponse> {
+  public setAccessPolicy(options: SetAccessPolicyOptions = {}): Promise<SetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-setAccessPolicy", options);
     try {
-      return this.table.setAccessPolicy(tableName, updatedOptions);
+      return this.table.setAccessPolicy(this.tableName, updatedOptions);
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
