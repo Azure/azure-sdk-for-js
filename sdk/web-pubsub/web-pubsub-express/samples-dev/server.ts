@@ -8,7 +8,7 @@
 import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
 import express from "express";
 
-const handler = new WebPubSubEventHandler("chat", ["http://localhost:8080"], {
+const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.com"], {
   dumpRequest: false,
   async handleConnect(connectRequest) {
     console.log(JSON.stringify(connectRequest));
@@ -18,15 +18,7 @@ const handler = new WebPubSubEventHandler("chat", ["http://localhost:8080"], {
   },
   async handleUserEvent(req, res) {
     console.log(JSON.stringify(req));
-    /*
-    // TODO: Needs update
-    res.success({
-      payload: {
-        data: "Hey " + req.payload.data,
-        dataType: req.payload.dataType
-      }
-    });
-    */
+    res.success();
   }
 });
 

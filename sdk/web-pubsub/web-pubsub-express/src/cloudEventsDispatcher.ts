@@ -3,6 +3,7 @@
 
 import { CloudEvent, Message, HTTP } from "cloudevents";
 import { IncomingMessage, ServerResponse } from "http";
+import { Buf } from "nodegit";
 import { URL } from "url";
 import {
   ConnectRequest,
@@ -17,7 +18,7 @@ import {
 } from "./cloudEventsProtocols";
 
 class DefaultConnectResponseHandler implements ConnectResponseHandler {
-  constructor(private response: ServerResponse) {}
+  constructor(private response: ServerResponse) { }
   public success(response?: ConnectResponse): void {
     this.response.statusCode = 200;
     this.response.setHeader("Content-Type", "application/json; charset=utf-8");
@@ -30,7 +31,7 @@ class DefaultConnectResponseHandler implements ConnectResponseHandler {
 }
 
 class DefaultUserEventResponseHandler implements UserEventResponseHandler {
-  constructor(private response: ServerResponse) {}
+  constructor(private response: ServerResponse) { }
   public success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void {
     this.response.statusCode = 200;
     switch (dataType) {
@@ -81,7 +82,7 @@ export class CloudEventsDispatcher {
     response: ServerResponse
   ): Promise<boolean> {
     // check if it is a valid WebPubSub cloud events
-    var eventType = this.tryGetWebPubSubEvent(request);
+    const eventType = this.tryGetWebPubSubEvent(request);
     if (eventType === undefined) {
       return false;
     }
@@ -122,7 +123,7 @@ export class CloudEventsDispatcher {
         throw new Error(`Unknown EventType ${eventType}`);
     }
 
-    var eventRequest = await this.convertHttpToEvent(request);
+    const eventRequest = await this.convertHttpToEvent(request);
     const receivedEvent = HTTP.toEvent(eventRequest);
 
     if (this._dumpRequest) {
@@ -131,9 +132,9 @@ export class CloudEventsDispatcher {
 
     switch (eventType) {
       case EventType.Connect: {
-        var handler = new DefaultConnectResponseHandler(response);
+        const handler = new DefaultConnectResponseHandler(response);
 
-        var connectRequest = receivedEvent.data as ConnectRequest;
+        const connectRequest = receivedEvent.data as ConnectRequest;
         connectRequest.context = this.GetContext(receivedEvent, request.headers.host!);
         this.eventHandler.handleConnect!(connectRequest, handler);
         return true;
@@ -141,7 +142,7 @@ export class CloudEventsDispatcher {
       case EventType.Connected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        var connectedRequest = receivedEvent.data as ConnectedRequest;
+        const connectedRequest = receivedEvent.data as ConnectedRequest;
         connectedRequest.context = this.GetContext(receivedEvent, request.headers.host!);
         this.eventHandler.onConnected!(connectedRequest);
         return true;
@@ -149,15 +150,15 @@ export class CloudEventsDispatcher {
       case EventType.Disconnected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
-        var disconnectedRequest = receivedEvent.data as DisconnectedRequest;
+        const disconnectedRequest = receivedEvent.data as DisconnectedRequest;
         disconnectedRequest.context = this.GetContext(receivedEvent, request.headers.host!);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;
       }
       case EventType.UserEvent: {
-        var eventHandler = new DefaultUserEventResponseHandler(response);
-        var data: ArrayBuffer | string;
-        var dataType: "binary" | "text" | "json" = "binary";
+        const eventHandler = new DefaultUserEventResponseHandler(response);
+        let data: ArrayBuffer | string;
+        let dataType: "binary" | "text" | "json" = "binary";
 
         if (receivedEvent.data) {
           data = receivedEvent.data as string;
@@ -168,7 +169,7 @@ export class CloudEventsDispatcher {
           throw new Error("empty data payload");
         }
 
-        var userRequest: UserEventRequest = {
+        const userRequest: UserEventRequest = {
           context: this.GetContext(receivedEvent, request.headers.host!),
           data: data,
           dataType: dataType
@@ -188,7 +189,7 @@ export class CloudEventsDispatcher {
     const connected = "azure.webpubsub.sys.connected";
     const disconnectd = "azure.webpubsub.sys.disconnected";
     const userPrefix = "azure.webpubsub.user.";
-    var type = req.headers["ce-type"];
+    const type = req.headers["ce-type"];
     if (!type || typeof type !== "string" || !type.startsWith(prefix)) {
       return undefined;
     }
@@ -209,7 +210,7 @@ export class CloudEventsDispatcher {
   }
 
   private GetContext(ce: CloudEvent, host: string): ConnectionContext {
-    var context = {
+    const context = {
       signature: ce["signature"] as string,
       userId: ce["userid"] as string,
       hub: ce["hub"] as string,
@@ -248,16 +249,17 @@ export class CloudEventsDispatcher {
   }
 
   private readRequestBody(req: IncomingMessage): Promise<string> {
-    return new Promise(function(resolve, reject) {
-      var body = "";
-      req.on("data", function(chunk) {
-        body += chunk;
+    return new Promise(function (resolve, reject) {
+      const chunks: any = [];
+      req.on("data", function (chunk) {
+        chunks.push(chunk);
       });
-      req.on("end", function() {
-        resolve(body);
+      req.on("end", function () {
+        const buffer = Buffer.concat(chunks);
+        resolve(buffer.toString());
       });
       // reject on request error
-      req.on("error", function(err) {
+      req.on("error", function (err) {
         // This is not a "Second reject", just a different sort of failure
         reject(err);
       });

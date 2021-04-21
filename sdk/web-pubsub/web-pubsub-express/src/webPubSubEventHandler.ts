@@ -50,7 +50,7 @@ export class WebPubSubEventHandler {
     allowedEndpoints: string[],
     options?: WebPubSubEventHandlerOptions
   ) {
-    const path = options?.path ?? `/api/webpubsub/hubs/${hub}`;
+    const path = options?.path ?? `/api/webpubsub/hubs/${hub}/`;
     this.path = path.endsWith("/") ? path : path + "/";
     this._cloudEventsHandler = new CloudEventsDispatcher(this.hub, allowedEndpoints, options);
   }
