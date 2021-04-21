@@ -19,7 +19,7 @@ import {
   TokenCredential,
   WebResourceLike
 } from "@azure/core-http";
-import { CommunicationIdentityClient } from "../../../src";
+import { CommunicationIdentityClient, CommunicationIdentityClientOptions } from "../../../src";
 import { DefaultAzureCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 
@@ -70,10 +70,11 @@ export function createRecordedCommunicationIdentityClient(
 ): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
 
+  // casting is a workaround to enable min-max testing
   return {
     client: new CommunicationIdentityClient(env.COMMUNICATION_CONNECTION_STRING, {
       httpClient: createTestHttpClient()
-    }),
+    } as CommunicationIdentityClientOptions),
     recorder
   };
 }
@@ -91,10 +92,11 @@ export function createRecordedCommunicationIdentityClientWithToken(
       }
     };
 
+    // casting is a workaround to enable min-max testing
     return {
       client: new CommunicationIdentityClient(endpoint, credential, {
         httpClient: createTestHttpClient()
-      }),
+      } as CommunicationIdentityClientOptions),
       recorder
     };
   }
@@ -105,10 +107,11 @@ export function createRecordedCommunicationIdentityClientWithToken(
     return undefined;
   }
 
+  // casting is a workaround to enable min-max testing
   return {
     client: new CommunicationIdentityClient(endpoint, credential, {
       httpClient: createTestHttpClient()
-    }),
+    } as CommunicationIdentityClientOptions),
     recorder
   };
 }
