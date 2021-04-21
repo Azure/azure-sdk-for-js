@@ -33,7 +33,7 @@ async function queryTables() {
 
   // Iterate the results
   for await (const table of queryTableResults) {
-    console.log(table.tableName);
+    console.log(table.name);
   }
 
   // Deletes the table
