@@ -328,7 +328,7 @@ export class WebPubSubServiceClient {
 
     const contentType = getContentTypeForMessage(message, updatedOptions);
     try {
-      return this.client.webPubSub.sendToAll(
+      return await this.client.webPubSub.sendToAll(
         this.hubName,
         contentType as any,
         contentType === "application/json" ? JSON.stringify(message) : message,
@@ -346,7 +346,7 @@ export class WebPubSubServiceClient {
    * @param message The text message to send
    * @param options Additional options
    */
-  public sendToUser(
+  public async sendToUser(
     username: string,
     message: string,
     options: HubSendTextToUserOptions
@@ -359,7 +359,7 @@ export class WebPubSubServiceClient {
    * @param message The josn message to send
    * @param options Additional options
    */
-  public sendToUser(
+  public async sendToUser(
     username: string,
     message: JSONTypes,
     options: HubSendTextToUserOptions
@@ -372,12 +372,12 @@ export class WebPubSubServiceClient {
    * @param message The binary message to send
    * @param options Additional options
    */
-  public sendToUser(
+  public async sendToUser(
     username: string,
     message: HttpRequestBody,
     options?: HubSendToUserOptions | HubSendTextToUserOptions
   ): Promise<RestResponse>;
-  public sendToUser(
+  public async sendToUser(
     username: string,
     message: JSONTypes | HttpRequestBody,
     options: HubSendToUserOptions = {}
@@ -390,7 +390,7 @@ export class WebPubSubServiceClient {
     const contentType = getContentTypeForMessage(message, updatedOptions);
 
     try {
-      return this.client.webPubSub.sendToUser(
+      return await this.client.webPubSub.sendToUser(
         this.hubName,
         username,
         contentType as any,
@@ -409,7 +409,7 @@ export class WebPubSubServiceClient {
    * @param message The text message
    * @param options Additional options
    */
-  public sendToConnection(
+  public async sendToConnection(
     connectionId: string,
     message: string,
     options: HubSendTextToConnectionOptions
@@ -422,7 +422,7 @@ export class WebPubSubServiceClient {
    * @param message The JSON message
    * @param options Additional options
    */
-  public sendToConnection(
+  public async sendToConnection(
     connectionId: string,
     message: JSONTypes,
     options?: HubSendToConnectionOptions
@@ -435,12 +435,12 @@ export class WebPubSubServiceClient {
    * @param message The binary message
    * @param options Additional options
    */
-  public sendToConnection(
+  public async sendToConnection(
     connectionId: string,
     message: HttpRequestBody | JSONTypes,
     options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions
   ): Promise<RestResponse>;
-  public sendToConnection(
+  public async sendToConnection(
     connectionId: string,
     message: string | HttpRequestBody,
     options: HubSendToConnectionOptions = {}
@@ -452,7 +452,7 @@ export class WebPubSubServiceClient {
     const contentType = getContentTypeForMessage(message, updatedOptions);
 
     try {
-      return this.client.webPubSub.sendToConnection(
+      return await this.client.webPubSub.sendToConnection(
         this.hubName,
         connectionId,
         contentType as any,
@@ -511,7 +511,7 @@ export class WebPubSubServiceClient {
    * @param connectionId Connection id to close
    * @param options Additional options
    */
-  public closeConnection(
+  public async closeConnection(
     connectionId: string,
     options: CloseConnectionOptions = {}
   ): Promise<RestResponse> {
@@ -521,7 +521,7 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      return this.client.webPubSub.closeClientConnection(
+      return await this.client.webPubSub.closeClientConnection(
         this.hubName,
         connectionId,
         updatedOptions
@@ -536,7 +536,7 @@ export class WebPubSubServiceClient {
    * @param userId The user id to remove from all groups
    * @param options Additional options
    */
-  public removeUserFromAllGroups(
+  public async removeUserFromAllGroups(
     userId: string,
     options: CloseConnectionOptions = {}
   ): Promise<RestResponse> {
@@ -546,7 +546,7 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      return this.client.webPubSub.removeUserFromAllGroups(this.hubName, userId, updatedOptions);
+      return await this.client.webPubSub.removeUserFromAllGroups(this.hubName, userId, updatedOptions);
     } finally {
       span.end();
     }
@@ -624,7 +624,7 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      return this.client.webPubSub.grantPermission(
+      return await this.client.webPubSub.grantPermission(
         this.hubName,
         permission,
         connectionId,
@@ -646,7 +646,7 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      return this.client.webPubSub.revokePermission(
+      return await this.client.webPubSub.revokePermission(
         this.hubName,
         permission,
         connectionId,

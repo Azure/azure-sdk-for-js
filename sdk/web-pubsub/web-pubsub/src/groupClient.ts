@@ -170,7 +170,7 @@ export class WebPubSubGroup {
    * @param username The user name to add
    * @param options Additional options
    */
-  public addUser(username: string, options: GroupAddUserOptions = {}): Promise<RestResponse> {
+  public async addUser(username: string, options: GroupAddUserOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-addUser", options);
 
     try {
@@ -227,11 +227,11 @@ export class WebPubSubGroup {
    * @param username The user name to remove
    * @param options Additional options
    */
-  public removeUser(username: string, options: GroupRemoveUserOptions = {}): Promise<RestResponse> {
+  public async removeUser(username: string, options: GroupRemoveUserOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-removeUser", options);
 
     try {
-      return this.client.webPubSub.removeUserFromGroup(
+      return await this.client.webPubSub.removeUserFromGroup(
         this.hubName,
         this.groupName,
         username,
@@ -285,7 +285,7 @@ export class WebPubSubGroup {
     const contentType = getContentTypeForMessage(message, updatedOptions);
 
     try {
-      return this.client.webPubSub.sendToGroup(
+      return await this.client.webPubSub.sendToGroup(
         this.hubName,
         this.groupName,
         contentType as any,
