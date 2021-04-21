@@ -124,7 +124,7 @@ export function applyRequestBodyTransformationsOnFixture(
     }
     return updatedFixture;
   } else if (runtime === "browser" && typeof fixture !== "string") {
-    if (!fixture?.requestBody) {
+    if (fixture?.requestBody) {
       if (typeof fixture.requestBody === "string") {
         const updatedFixture = {
           ...fixture,
