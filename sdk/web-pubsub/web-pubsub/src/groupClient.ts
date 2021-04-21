@@ -110,7 +110,7 @@ export class WebPubSubGroup {
     options: GroupAddConnectionOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-group-addConnection",
+      "WebPubSubServiceClient-group-addConnection",
       options
     );
 
@@ -149,7 +149,7 @@ export class WebPubSubGroup {
     options: GroupRemoveConnectionOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-group-removeUser",
+      "WebPubSubServiceClient-group-removeUser",
       options
     );
 
@@ -174,7 +174,7 @@ export class WebPubSubGroup {
    * @param options Additional options
    */
   public addUser(username: string, options: GroupAddUserOptions = {}): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan("WebPubSubManagementClient-group-addUser", options);
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-addUser", options);
 
     try {
       return await this.client.webPubSub.addUserToGroup(
@@ -195,7 +195,7 @@ export class WebPubSubGroup {
    * @param options Additional options
    */
   public async hasUser(username: string, options: GroupHasUserOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("WebPubSubManagementClient-group-hasUser", options);
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-hasUser", options);
 
     try {
       const res = await this.client.webPubSub.userExistsInGroup(
@@ -232,7 +232,7 @@ export class WebPubSubGroup {
    */
   public removeUser(username: string, options: GroupRemoveUserOptions = {}): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-group-removeUser",
+      "WebPubSubServiceClient-group-removeUser",
       options
     );
 
@@ -284,7 +284,7 @@ export class WebPubSubGroup {
   ): Promise<RestResponse> {
     const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-group-sendToAll",
+      "WebPubSubServiceClient-group-sendToAll",
       normalizedOptions
     );
 
