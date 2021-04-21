@@ -177,7 +177,7 @@ export class WebPubSubGroup {
     const { span, updatedOptions } = createSpan("WebPubSubManagementClient-group-addUser", options);
 
     try {
-      return this.client.webPubSub.addUserToGroup(
+      return await this.client.webPubSub.addUserToGroup(
         this.hubName,
         this.groupName,
         username,
