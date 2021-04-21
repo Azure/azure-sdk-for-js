@@ -25,7 +25,7 @@ export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
       body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id"),
     // Sanitizes the scope values in the recordings - to reduce the noise from cred scan reports
     (body: string) =>
-      body.replace(/scope=https%3A%2F%2F(.+?)(&|")/g, "scope=https%3A%2F%2Fsanitized%2F$2")
+      body.replace(/scope=https%3A%2F%2F(.+?)(&+|$)/g, "scope=https%3A%2F%2Fsanitized%2F$2")
   ],
   jsonTransforms: []
 };
