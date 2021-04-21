@@ -12,7 +12,7 @@ import {
   isNode,
   WebResourceLike
 } from "@azure/core-http";
-import { ChatClient } from "../../src";
+import { ChatClient } from "../../../src";
 import {
   CommunicationUserIdentifier,
   AzureCommunicationTokenCredential,
