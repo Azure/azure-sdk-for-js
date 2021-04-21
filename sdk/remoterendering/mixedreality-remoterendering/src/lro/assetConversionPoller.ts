@@ -7,7 +7,7 @@ import { RemoteRendering } from "../generated/operations";
 import { getConversionInternal } from "../internal/commonQueries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
-import { AssetConversion } from "../internal/assetConversion"
+import { AssetConversion } from "../internal/assetConversion";
 
 export interface AssetConversionPollerOptions {
   intervalInMs?: number;

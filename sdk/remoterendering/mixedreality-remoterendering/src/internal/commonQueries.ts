@@ -6,7 +6,7 @@ import { RenderingSession } from "../generated/models/index";
 import { RemoteRendering } from "../generated/operations";
 import { createSpan } from "../tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
-import { AssetConversion, assetConversionFromConversion } from "./assetConversion"
+import { AssetConversion, assetConversionFromConversion } from "./assetConversion";
 
 export async function getConversionInternal(
   accountId: string,

@@ -33,4 +33,4 @@ export function assetConversionFromConversion(conversion: Conversion): AssetConv
     ...conversion,
     error: conversion.error ? conversion.error : undefined
   };
-};
+}

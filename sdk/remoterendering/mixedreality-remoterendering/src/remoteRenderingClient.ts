@@ -50,7 +50,7 @@ import {
   getSessionInternal
 } from "./internal/commonQueries";
 
-import { AssetConversion, assetConversionFromConversion } from "./internal/assetConversion"
+import { AssetConversion, assetConversionFromConversion } from "./internal/assetConversion";
 
 export {
   AssetConversion,
