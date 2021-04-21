@@ -20,7 +20,7 @@
       "env": {
         "TS_NODE_COMPILER_OPTIONS": "{\"module\": \"commonjs\" }",
         "NODE_PATH": "${workspaceFolder}/../../../common/temp/node_modules/.pnpm/node_modules"
-       },
+      },
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen",
       "protocol": "inspector"
