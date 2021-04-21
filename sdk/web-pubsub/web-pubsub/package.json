@@ -31,7 +31,6 @@
     "unit-test:browser": "echo \"Browser is not supported.\" && exit 0",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
-    
   },
   "files": [
     "dist/",

@@ -5,7 +5,6 @@
  * @summary Demonstrates adding and removing users from groups
  */
 
-
 import { WebPubSubServiceClient } from "@azure/web-pubsub";
 
 import * as dotenv from "dotenv";

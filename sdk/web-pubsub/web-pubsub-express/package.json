@@ -10,16 +10,14 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "echo \"Browser is not supported.\" && exit 0",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc -p .",
+    "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist temp types *.tgz *.log",
-    "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
-    "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/samples/typescript/src/",
-    "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
+    "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo \"Browser is not supported.\" && exit 0",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -120,5 +118,13 @@
     "typedoc": "0.15.2",
     "@types/jsonwebtoken": "~8.5.0",
     "@types/express": "^4.16.0"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Web PubSub CloudEvents Handlers for Express",
+    "productSlugs": [
+      "azure",
+      "azure-web-pubsub",
+      "express"
+    ]
   }
 }
