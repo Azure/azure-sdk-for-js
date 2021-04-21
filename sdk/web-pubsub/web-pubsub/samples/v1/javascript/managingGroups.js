@@ -1,10 +1,17 @@
-import { HubClient } from "../";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
-import * as dotenv from "dotenv";
+/**
+ * @summary Demonstrates adding and removing users from groups
+ */
+
+const { WebPubSubServiceClient } = require("@azure/web-pubsub");
+
+const dotenv = require("dotenv");
 dotenv.config();
 
-const chatHub = new HubClient(process.env.SIGNALR_CONNECTION_STRING!, "chat");
-const adminGroup = chatHub.getGroupClient("admin");
+const chatHub = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING, "chat");
+const adminGroup = chatHub.group("admin");
 
 async function main() {
   // adding and removing users

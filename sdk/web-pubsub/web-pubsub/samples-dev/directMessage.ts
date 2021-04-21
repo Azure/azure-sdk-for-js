@@ -1,9 +1,16 @@
-import { HubClient } from "../";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Demonstrates sending messages directly to a user or connection.
+ */
+
+import { WebPubSubServiceClient } from "@azure/web-pubsub";
 
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const chatHub = new HubClient(process.env.SIGNALR_CONNECTION_STRING!, "chat");
+const chatHub = new WebPubSubServiceClient(process.env.WPS_CONNECTION_STRING!, "chat");
 
 async function main() {
   // send a text message directly to a user
