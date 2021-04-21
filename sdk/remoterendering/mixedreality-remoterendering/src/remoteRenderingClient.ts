@@ -50,7 +50,10 @@ import {
 } from "./internal/commonQueries";
 
 import { AssetConversion, assetConversionFromConversion } from "./internal/assetConversion";
-import { RenderingSession, renderingSessionFromSessionProperties } from "./internal/renderingSession";
+import {
+  RenderingSession,
+  renderingSessionFromSessionProperties
+} from "./internal/renderingSession";
 
 export {
   AssetConversion,
