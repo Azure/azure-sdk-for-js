@@ -62,7 +62,6 @@ export interface BeginRecoverDeletedKeyOptions extends KeyPollerOptions {
 
 // @public
 export interface CreateEcKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
 }
 
 // @public
@@ -70,6 +69,7 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
     curve?: KeyCurveName;
     enabled?: boolean;
     readonly expiresOn?: Date;
+    hsm?: boolean;
     keyOps?: KeyOperation[];
     keySize?: number;
     notBefore?: Date;
@@ -80,12 +80,10 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface CreateOctKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
 }
 
 // @public
 export interface CreateRsaKeyOptions extends CreateKeyOptions {
-    hsm?: boolean;
     publicExponent?: number;
 }
 
