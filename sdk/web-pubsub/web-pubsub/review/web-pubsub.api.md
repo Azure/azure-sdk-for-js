@@ -135,14 +135,12 @@ export type JSONTypes = string | number | boolean | object;
 // @public (undocumented)
 export type Permission = "joinLeaveGroup" | "sendToGroup";
 
-// @public
-export class WebPubSubGroup {
-    // @internal
-    constructor(hubName: string, groupName: string);
+// @public (undocumented)
+export interface WebPubSubGroup {
     addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<RestResponse>;
     addUser(username: string, options?: GroupAddUserOptions): Promise<RestResponse>;
     readonly apiVersion: string;
-    endpoint: string;
+    readonly endpoint: string;
     readonly groupName: string;
     hasUser(username: string, options?: GroupHasUserOptions): Promise<boolean>;
     readonly hubName: string;
@@ -151,6 +149,8 @@ export class WebPubSubGroup {
     sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<RestResponse>;
     sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<RestResponse>;
     sendToAll(message: HttpRequestBody, options?: GroupSendToAllOptions): Promise<RestResponse>;
+    // (undocumented)
+    sendToAll(message: string | HttpRequestBody, options?: GroupSendToAllOptions | GroupSendTextToAllOptions): Promise<RestResponse>;
 }
 
 // @public

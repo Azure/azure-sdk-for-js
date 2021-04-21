@@ -10,8 +10,6 @@ import { RestError } from "@azure/core-http";
 describe("Group client working with a group", function() {
   let recorder: Recorder;
   let client: WebPubSubGroup;
-  this.timeout(30000);
-
   beforeEach(function() {
     recorder = record(this, environmentSetup);
     const hubClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");

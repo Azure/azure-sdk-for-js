@@ -11,7 +11,7 @@ import {
   PipelineOptions
 } from "@azure/core-http";
 import { AzureWebPubSubServiceRestAPI as GeneratedClient } from "./generated/azureWebPubSubServiceRestAPI";
-import { WebPubSubGroup } from "./groupClient";
+import { WebPubSubGroup, WebPubSubGroupImpl } from "./groupClient";
 import normalizeSendToAllOptions from "./normalizeOptions";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { webPubSubAzureKeyCredentialPolicyFactory } from "./webPubSubCredentialPolicy";
@@ -286,7 +286,7 @@ export class WebPubSubServiceClient {
    * @param groupName The name of the group to connect to.
    */
   public group(groupName: string): WebPubSubGroup {
-    const client = new WebPubSubGroup(this.hubName, groupName);
+    const client = new WebPubSubGroupImpl(this.hubName, groupName);
     client["client"] = this.client;
     return client;
   }
