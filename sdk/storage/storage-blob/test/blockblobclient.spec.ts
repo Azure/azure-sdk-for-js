@@ -28,12 +28,6 @@ describe("BlockBlobClient", () => {
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    const client = new BlockBlobClient("asdf", "container", "blob").downloadToBuffer(
-      undefined,
-      undefined,
-      { abortSignal }
-    );
-
     const blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
