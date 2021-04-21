@@ -227,7 +227,10 @@ export class WebPubSubGroup {
    * @param username The user name to remove
    * @param options Additional options
    */
-  public async removeUser(username: string, options: GroupRemoveUserOptions = {}): Promise<RestResponse> {
+  public async removeUser(
+    username: string,
+    options: GroupRemoveUserOptions = {}
+  ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-removeUser", options);
 
     try {

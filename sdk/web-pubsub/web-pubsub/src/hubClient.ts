@@ -260,11 +260,11 @@ export class WebPubSubServiceClient {
     const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
     const key = this.credential.key;
     const hub = this.hubName;
-    var clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
-    var clientUrl = `${clientEndpoint}client/hubs/${hub}`;
+    const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
+    const clientUrl = `${clientEndpoint}client/hubs/${hub}`;
     const audience = `${endpoint}client/hubs/${hub}`;
-    var payload = options?.claims ?? {};
-    var signOptions: jwt.SignOptions = {
+    const payload = options?.claims ?? {};
+    const signOptions: jwt.SignOptions = {
       audience: audience,
       expiresIn: "1h",
       algorithm: "HS256"
@@ -546,7 +546,11 @@ export class WebPubSubServiceClient {
     );
 
     try {
-      return await this.client.webPubSub.removeUserFromAllGroups(this.hubName, userId, updatedOptions);
+      return await this.client.webPubSub.removeUserFromAllGroups(
+        this.hubName,
+        userId,
+        updatedOptions
+      );
     } finally {
       span.end();
     }
