@@ -12,7 +12,8 @@ import {
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
   SubjectAlternativeNames,
-  CertificateContact
+  CertificateContact,
+  CertificateOperationError
 } from "./certificatesModels";
 import {
   CertificateAttributes,
@@ -26,7 +27,8 @@ import {
   X509CertificateProperties,
   CertificateOperation as CoreCertificateOperation,
   Contacts as CoreContacts,
-  JsonWebKeyType as CertificateKeyType
+  JsonWebKeyType as CertificateKeyType,
+  ErrorModel
 } from "./generated/models";
 import { parseKeyVaultCertificateId } from "./identifier";
 
@@ -307,6 +309,19 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
   };
 }
 
+function getCertificateOperationErrorFromErrorModel(
+  error?: ErrorModel | null
+): CertificateOperationError | undefined {
+  if (error) {
+    return {
+      code: error.code,
+      innerError: getCertificateOperationErrorFromErrorModel(error.innerError),
+      message: error.message
+    };
+  }
+  return undefined;
+}
+
 export function getCertificateOperationFromCoreOperation(
   certificateName: string,
   vaultUrl: string,
@@ -323,7 +338,7 @@ export function getCertificateOperationFromCoreOperation(
       ? operation.issuerParameters.certificateType
       : undefined,
     csr: operation.csr,
-    error: operation.error,
+    error: getCertificateOperationErrorFromErrorModel(operation.error),
     id: operation.id,
     requestId: operation.requestId,
     status: operation.status,
