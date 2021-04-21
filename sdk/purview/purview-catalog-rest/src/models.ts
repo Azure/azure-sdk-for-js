@@ -279,7 +279,6 @@ export type JsonAtlasGlossaryTerm = JsonAtlasGlossaryTermBase & JsonAtlasGlossar
 export interface JsonAtlasGlossaryTermBase {
   /** The abbreviation of the term. */
   abbreviation?: string;
-  /** */
   templateName?: any[];
   /** The glossary header with basic information. */
   anchor?: JsonAtlasGlossaryHeader;
@@ -352,7 +351,6 @@ export interface JsonAtlasRelatedObjectIdBase {
   displayText?: string;
   /** Status of the entity - can be active or deleted. Deleted entities are not removed from Atlas store. */
   entityStatus?: JsonStatus;
-  /** */
   relationshipType?: string;
   /** Captures details of struct contents. Not instantiated directly, used only via AtlasEntity, AtlasClassification. */
   relationshipAttributes?: JsonAtlasStruct;
@@ -402,9 +400,7 @@ export interface JsonImportCSVOperation {
   createTime?: string;
   /** The last updated time of the record. */
   lastUpdateTime?: string;
-  /** */
   properties?: JsonImportCSVOperationProperties;
-  /** */
   error?: JsonImportCSVOperationError;
 }
 
@@ -431,9 +427,7 @@ export interface JsonSearchRequest {
   limit?: number;
   /** The filter for the search. See examples for the usage of supported filters. */
   filter?: any;
-  /** */
   facets?: JsonSearchFacetItem[];
-  /** */
   taxonomySetting?: JsonSearchRequestTaxonomySetting;
 }
 
@@ -447,7 +441,6 @@ export interface JsonSearchFacetItem {
 }
 
 export interface JsonSearchRequestTaxonomySetting {
-  /** */
   assetTypes?: string[];
   /** The content of a search facet result item. */
   facet?: JsonSearchFacetItem;
@@ -458,24 +451,16 @@ export interface JsonSearchResult {
   searchCount?: number;
   /** A facet list that consists of index fields assetType ,classification, classificationCategory, contactId, fileExtension, label, and label. When the facet is specified in the request, the value of the facet is returned as an element of @search.facets. */
   searchFacets?: JsonSearchFacetResultValue;
-  /** */
   value?: JsonSearchResultValue[];
 }
 
 export interface JsonSearchFacetResultValue {
-  /** */
   assetType?: JsonSearchFacetItemValue[];
-  /** */
   classification?: JsonSearchFacetItemValue[];
-  /** */
   classificationCategory?: JsonSearchFacetItemValue[];
-  /** */
   contactId?: JsonSearchFacetItemValue[];
-  /** */
   fileExtension?: JsonSearchFacetItemValue[];
-  /** */
   label?: JsonSearchFacetItemValue[];
-  /** */
   term?: JsonSearchFacetItemValue[];
 }
 
@@ -518,15 +503,10 @@ export interface JsonSearchResultValue {
 }
 
 export interface JsonSearchHighlights {
-  /** */
   id?: string[];
-  /** */
   qualifiedName?: string[];
-  /** */
   name?: string[];
-  /** */
   description?: string[];
-  /** */
   entityType?: string[];
 }
 
@@ -558,7 +538,6 @@ export interface JsonSuggestRequest {
 }
 
 export interface JsonSuggestResult {
-  /** */
   value?: JsonSuggestResultValue[];
 }
 
@@ -601,7 +580,6 @@ export interface JsonAutoCompleteRequest {
 }
 
 export interface JsonAutocompleteResult {
-  /** */
   value?: JsonAutocompleteResultValue[];
 }
 
@@ -811,7 +789,6 @@ export interface JsonAtlasBaseTypeDef {
 export interface JsonDateFormat {
   /** An array of available locales. */
   availableLocales?: string[];
-  /** */
   calendar?: number;
   /** The date format. */
   dateInstance?: JsonDateFormat;
@@ -1257,7 +1234,6 @@ export interface JsonEntityDeleteRequestV2 {
   type?: JsonHookNotificationType;
   /** The user of the notification. Default to be "UNKNOWN". */
   user?: string;
-  /** */
   entities?: JsonAtlasObjectId[];
 }
 
@@ -1269,12 +1245,10 @@ export interface JsonRoleAssignmentEntry {
 }
 
 export interface JsonUpdateRoleAssignmentRequest {
-  /** */
   roleAssignmentList?: JsonRoleAssignmentEntry[];
 }
 
 export interface JsonListRoleAssignmentResponse {
-  /** */
   roleAssignmentList?: JsonRoleAssignmentEntry[];
 }
 
