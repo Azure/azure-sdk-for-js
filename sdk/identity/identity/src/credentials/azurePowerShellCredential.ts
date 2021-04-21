@@ -59,7 +59,7 @@ export const powerShellErrors = {
 export const powerShellPublicErrorMessages = {
   login:
     "Please run 'Connect-AzAccount' from powershell to authenticate before using this credential.",
-  installed: `Az.Account module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install - Module - Name Az - Scope CurrentUser - Repository PSGallery - Force".`
+  installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install - Module - Name Az - Scope CurrentUser - Repository PSGallery - Force".`
 };
 
 // PowerShell Azure User not logged in error check.
