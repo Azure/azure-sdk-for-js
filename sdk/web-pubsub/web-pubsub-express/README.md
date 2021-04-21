@@ -21,7 +21,7 @@ Use the express library to:
 ### Currently supported environments
 
 - [Node.js](https://nodejs.org/) version 8.x.x or higher
-- [Express](http://expressjs.com/) version 4.x.x or higher
+- [Express](https://expressjs.com/) version 4.x.x or higher
 
 ### Prerequisites
 
