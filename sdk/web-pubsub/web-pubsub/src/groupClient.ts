@@ -65,7 +65,6 @@ export interface GroupSendTextToAllOptions extends OperationOptions {
   contentType: "text/plain";
 }
 
-
 export interface WebPubSubGroup {
   /**
    * The name of this group
@@ -93,10 +92,7 @@ export interface WebPubSubGroup {
    * @param connectionId The connection id to add to this group
    * @param options Additional options
    */
-  addConnection(
-    connectionId: string,
-    options?: GroupAddConnectionOptions
-  ): Promise<RestResponse>;
+  addConnection(connectionId: string, options?: GroupAddConnectionOptions): Promise<RestResponse>;
 
   /**
    * Remove a specific connection from this group
@@ -131,10 +127,7 @@ export interface WebPubSubGroup {
    * @param username The user name to remove
    * @param options Additional options
    */
-  removeUser(
-    username: string,
-    options?: GroupRemoveUserOptions
-  ): Promise<RestResponse>;
+  removeUser(username: string, options?: GroupRemoveUserOptions): Promise<RestResponse>;
 
   /**
    * Send a text message to every connection in this group
@@ -142,36 +135,26 @@ export interface WebPubSubGroup {
    * @param message The message to send
    * @param options Additional options
    */
-  sendToAll(
-    message: string,
-    options: GroupSendTextToAllOptions
-  ): Promise<RestResponse>;
+  sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<RestResponse>;
   /**
    * Send a json message to every connection in this group
    *
    * @param message The message to send
    * @param options Additional options
    */
-  sendToAll(
-    message: JSONTypes,
-    options?: GroupSendToAllOptions
-  ): Promise<RestResponse>;
+  sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<RestResponse>;
   /**
    * Send a binary message to every connection in this group
    *
    * @param message The binary message to send
    * @param options Additional options
    */
-  sendToAll(
-    message: HttpRequestBody,
-    options?: GroupSendToAllOptions
-  ): Promise<RestResponse>;
+  sendToAll(message: HttpRequestBody, options?: GroupSendToAllOptions): Promise<RestResponse>;
   sendToAll(
     message: string | HttpRequestBody,
     options?: GroupSendToAllOptions | GroupSendTextToAllOptions
   ): Promise<RestResponse>;
 }
-
 
 export class WebPubSubGroupImpl implements WebPubSubGroup {
   private client!: GeneratedClient;

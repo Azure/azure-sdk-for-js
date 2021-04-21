@@ -9,13 +9,13 @@ interface ParsedConnectionString {
 export function parseConnectionString(conn: string): ParsedConnectionString {
   let parsed: { [id: string]: string } = {};
   conn.split(";").forEach((i) => {
-    const assignmentPos = i.indexOf('=');
+    const assignmentPos = i.indexOf("=");
     if (assignmentPos === -1) return;
     const key = i.substring(0, assignmentPos).toLowerCase();
     const value = i.substring(assignmentPos + 1);
     parsed[key] = value;
   });
-  
+
   const endpointPart = parsed["endpoint"];
   if (!endpointPart) throw new TypeError("connection string missing endpoint");
   const key = parsed["accesskey"];
