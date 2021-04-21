@@ -33,6 +33,17 @@ appInsights
 
 export const defaultClient = appInsights.defaultClient;
 
+export interface StressTestInitOptions {
+  /**
+   * Options used when creating the queue using the ServiceBusAdministrationClient.
+   */
+  createQueueOptions?: CreateQueueOptions;
+  /**
+   * Additional custom properties to add to the 'start' event reported to Monitor.
+   */
+  additionalEventProperties?: Record<string, string | number | boolean>;
+}
+
 export function captureConsoleOutputToAppInsights() {
   const debug = require("debug");
 
@@ -45,7 +56,7 @@ export function captureConsoleOutputToAppInsights() {
   };
 }
 
-export class SBStressTestsBase {
+export class ServiceBusStressTester {
   private messagesSent: ServiceBusMessage[] = [];
   private messagesReceived: ServiceBusMessage[] = [];
   private trackedMessageIds: TrackedMessageIdsInfo = {};
@@ -111,38 +122,30 @@ export class SBStressTestsBase {
     return new ServiceBusClient(process.env.SERVICEBUS_CONNECTION_STRING);
   }
 
-  public async init(
-    queueNamePrefix?: string,
-    options?: CreateQueueOptions,
-    testOptions?: Record<string, string | number | boolean>
-  ) {
-    try {
-      this.queueName =
-        (!queueNamePrefix ? `queue` : queueNamePrefix) + `-${Math.ceil(Math.random() * 100000)}`;
-      if (testOptions) console.log(testOptions);
+  private async _init(options?: StressTestInitOptions) {
+    console.log(`[BEGIN]: Initializing...`);
+    this.queueName = `queue` + `-${Math.ceil(Math.random() * 100000)}`;
 
-      defaultClient.commonProperties = {
-        // these will be reported with each event
-        testName: this.snapshotOptions.testName
-      };
+    defaultClient.commonProperties = {
+      // these will be reported with each event
+      testName: this.snapshotOptions.testName
+    };
 
-      defaultClient.trackEvent({
-        name: "start",
-        properties: {
-          ...testOptions,
-          ...options,
-          queueName: this.queueName
-        }
-      });
+    defaultClient.trackEvent({
+      name: "start",
+      properties: {
+        ...options?.additionalEventProperties,
+        ...options?.createQueueOptions,
+        queueName: this.queueName
+      }
+    });
 
-      await this.serviceBusAdministrationClient.createQueue(this.queueName, options);
-    } catch (err) {
-      this.trackError("init", err);
-      // TODO: we might want to consider just having a .run(() => { <your-code>}) style so we can avoid the
-      // possibility of _losing_ fatal telemetry because your app exited without flushing.
-      defaultClient.flush();
-      throw err;
-    }
+    await this.serviceBusAdministrationClient.createQueue(
+      this.queueName,
+      options?.createQueueOptions
+    );
+
+    console.log(`[END]: Initializing...`);
   }
 
   public async sendMessages(
@@ -158,6 +161,9 @@ export class SBStressTestsBase {
         for (let i = 0; i < numberOfMessages; i++) {
           messages.push(generateMessage(useSessions, numberOfSessions));
         }
+
+        this.trackSentMessages(messages);
+
         if (useScheduleApi) {
           const scheduleTime = new Date();
           scheduleTime.setMinutes(scheduleTime.getMinutes() + 1); // 1 minute from now
@@ -165,7 +171,6 @@ export class SBStressTestsBase {
         } else {
           await sender.sendMessages(messages);
         }
-        this.trackSentMessages(messages);
       } catch (error) {
         this.sendInfo.numberOfFailures++;
         this.trackError("send", error);
@@ -294,7 +299,15 @@ export class SBStressTestsBase {
    * @param exception
    */
   public trackError(
-    from: "init" | "receive" | "complete" | "send" | "lockrenewal" | "sessionlockrenewal" | "close",
+    from:
+      | "init"
+      | "test"
+      | "receive"
+      | "complete"
+      | "send"
+      | "lockrenewal"
+      | "sessionlockrenewal"
+      | "close",
     exception: Error,
     extraProperties?: Record<string, string>
   ) {
@@ -309,7 +322,7 @@ export class SBStressTestsBase {
     });
   }
 
-  trackMessageIds(messages: ServiceBusMessage[], path: "sent" | "received") {
+  private trackMessageIds(messages: ServiceBusMessage[], path: "sent" | "received") {
     messages.forEach((msg) => {
       if (!msg.messageId) {
         console.error("No message ID for sent message");
@@ -489,50 +502,99 @@ export class SBStressTestsBase {
 
     defaultClient.flush();
 
-    console.log(JSON.stringify(eventProperties, undefined, 2));
+    if (this.snapshotOptions.writeSnapshotInfoToConsole) {
+      console.log(JSON.stringify(eventProperties, undefined, 2));
+    }
   }
 
-  public async end() {
-    try {
-      await this.snapshot();
+  private async _endTest() {
+    console.log(`[BEGIN]: ending test...`);
 
-      if (this.snapshotOptions.snapshotFocus?.includes("receive-info")) {
-        const output = await saveDiscrepanciesFromTrackedMessages(this.trackedMessageIds);
+    await this.snapshot();
 
-        defaultClient.trackEvent({
-          name: "discrepencies",
-          properties: {
-            messages_sent_but_never_received: output.messages_sent_but_never_received.join(","),
-            messages_not_sent_but_received: output.messages_not_sent_but_received.join(","),
-            messages_sent_multiple_times: output.messages_sent_multiple_times.join(","),
-            messages_sent_once_but_received_multiple_times: output.messages_sent_once_but_received_multiple_times.join(
-              ","
-            ),
-            messages_sent_once_and_received_once: output.messages_sent_once_and_received_once.join(
-              ","
-            )
-          }
-        });
-      }
+    if (this.snapshotOptions.snapshotFocus?.includes("receive-info")) {
+      const output = await saveDiscrepanciesFromTrackedMessages(this.trackedMessageIds);
 
-      // TODO: Log tracked messages in JSON
-      // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
-      // TODO: Add an argument to "end()" to not delete the resource
-      clearInterval(this.snapshotTimer);
-      for (const id in this.messageLockRenewalInfo.lockRenewalTimers) {
-        clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[id]);
-      }
-      for (const id in this.sessionLockRenewalInfo.lockRenewalTimers) {
-        clearTimeout(this.sessionLockRenewalInfo.lockRenewalTimers[id]);
-      }
-      await this.serviceBusAdministrationClient.deleteQueue(this.queueName);
-    } catch (err) {
-      defaultClient.trackException({
-        exception: err,
+      defaultClient.trackEvent({
+        name: "discrepencies",
         properties: {
-          from: "end"
+          messages_sent_but_never_received: output.messages_sent_but_never_received.join(","),
+          messages_not_sent_but_received: output.messages_not_sent_but_received.join(","),
+          messages_sent_multiple_times: output.messages_sent_multiple_times.join(","),
+          messages_sent_once_but_received_multiple_times: output.messages_sent_once_but_received_multiple_times.join(
+            ","
+          ),
+          messages_sent_once_and_received_once: output.messages_sent_once_and_received_once.join(
+            ","
+          )
         }
       });
+    }
+
+    // TODO: Log tracked messages in JSON
+    // TODO: Have a copy of sentMessages and match them with receivedMessages, have the leftover 'message-id's in the logged file maybe
+    // TODO: Add an argument to "end()" to not delete the resource
+    clearInterval(this.snapshotTimer);
+    for (const id in this.messageLockRenewalInfo.lockRenewalTimers) {
+      clearTimeout(this.messageLockRenewalInfo.lockRenewalTimers[id]);
+    }
+    for (const id in this.sessionLockRenewalInfo.lockRenewalTimers) {
+      clearTimeout(this.sessionLockRenewalInfo.lockRenewalTimers[id]);
+    }
+    await this.serviceBusAdministrationClient.deleteQueue(this.queueName);
+
+    console.log(`[BEGIN]: ending test...`);
+  }
+
+  /**
+   * Initializes the stress test object, runs the `stressTest` function and then ends the stress test.
+   *
+   * @param stressTest The stress test itself. The test will be passed a ServiceBusClient and is not responsible for closing it.
+   * @param initOptions Options for initializing, including control of the created queue or additional customProperties for reporting.
+   */
+  public async runStressTest(
+    stressTest: (serviceBusClient: ServiceBusClient) => Promise<void>,
+    initOptions?: StressTestInitOptions
+  ): Promise<void> {
+    let serviceBusClient: ServiceBusClient | undefined;
+
+    try {
+      try {
+        // Define connection string and related Service Bus entity names here
+        const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+        serviceBusClient = new ServiceBusClient(connectionString);
+        await this._init(initOptions);
+      } catch (err) {
+        console.log(`ERROR: error thrown by init`, err);
+
+        this.trackError("init", err);
+        defaultClient.flush();
+        throw err;
+      }
+
+      try {
+        console.log(`[BEGIN]: stressTest function...`);
+        await stressTest(serviceBusClient);
+      } catch (err) {
+        console.log(`ERROR: error thrown by test`, err);
+
+        this.trackError("test", err);
+        defaultClient.flush();
+      }
+    } finally {
+      console.log(`[END]: stressTest function...`);
+      try {
+        await this._endTest();
+        await serviceBusClient?.close();
+      } catch (err) {
+        defaultClient.trackException({
+          exception: err,
+          properties: {
+            from: "end"
+          }
+        });
+        console.log(`FATAL ERROR: threw error trying to report final monitoring data.`, err);
+      }
 
       defaultClient.flush();
     }

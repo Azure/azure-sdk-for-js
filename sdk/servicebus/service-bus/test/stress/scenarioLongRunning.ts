@@ -1,19 +1,9 @@
-import { hostname } from "os";
-import {
-  captureConsoleOutputToAppInsights,
-  defaultClient,
-  SBStressTestsBase
-} from "./stressTestsBase";
+import { captureConsoleOutputToAppInsights, ServiceBusStressTester } from "./stressTestsBase";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusClient, ServiceBusSender } from "@azure/service-bus";
 import { v4 as uuidv4 } from "uuid";
 
 captureConsoleOutputToAppInsights();
-
-const stressTest = new SBStressTestsBase({
-  testName: "longRunning",
-  snapshotFocus: ["send-info", "receive-info"]
-});
 
 async function looper(fn: () => Promise<void>, delay: number, abortSignal: AbortSignalLike) {
   const timeout = () => new Promise((resolve) => setTimeout(() => resolve(true), delay));
@@ -24,6 +14,7 @@ async function looper(fn: () => Promise<void>, delay: number, abortSignal: Abort
 }
 
 async function sendMessagesForever(
+  stressTest: ServiceBusStressTester,
   clientForSender: ServiceBusClient,
   abortSignal: AbortSignalLike
 ) {
@@ -67,49 +58,43 @@ async function main() {
   const abortController = new AbortController();
   const abortSignal = abortController.signal;
 
-  await stressTest.init();
-
-  console.log(`Starting with hostname ${hostname}`);
-
-  defaultClient.trackEvent({
-    name: "ApplicationStart"
+  const stressTest = new ServiceBusStressTester({
+    testName: "longRunning",
+    snapshotFocus: ["send-info", "receive-info"]
   });
 
-  const clientForReceiver = stressTest.createServiceBusClient();
+  const operation = async () => {
+    const clientForReceiver = stressTest.createServiceBusClient();
 
-  const receiver = clientForReceiver.createReceiver(stressTest.queueName, {
-    receiveMode: "peekLock"
-  });
+    const receiver = clientForReceiver.createReceiver(stressTest.queueName, {
+      receiveMode: "peekLock"
+    });
 
-  console.log(`Subscribing...`);
+    console.log(`Receiving...`);
 
-  const subscription = receiver.subscribe(
-    {
-      processMessage: async (msg) => {
-        stressTest.addReceivedMessage([msg]);
-        await stressTest.completeMessage(receiver, msg);
+    receiver.subscribe(
+      {
+        processMessage: async (msg) => {
+          stressTest.addReceivedMessage([msg]);
+          await stressTest.completeMessage(receiver, msg);
+        },
+        processError: async (args) => {
+          console.log(`subscribe error:`, args);
+          stressTest.trackError("receive", args.error);
+        }
       },
-      processError: async (args) => {
-        console.log(`subscribe error:`, args);
-        stressTest.trackError("receive", args.error);
+      {
+        autoCompleteMessages: false,
+        maxConcurrentCalls: 10
       }
-    },
-    {
-      autoCompleteMessages: false,
-      maxConcurrentCalls: 10
-    }
-  );
+    );
 
-  const clientForSender = stressTest.createServiceBusClient();
+    const clientForSender = stressTest.createServiceBusClient();
 
-  await sendMessagesForever(clientForSender, abortSignal);
-  defaultClient.flush();
+    await sendMessagesForever(stressTest, clientForSender, abortSignal);
+  };
 
-  await subscription.close();
-  await clientForReceiver.close();
-  await clientForSender.close();
-
-  await stressTest.end();
+  return stressTest.runStressTest(operation);
 }
 
 main().catch((err) => {

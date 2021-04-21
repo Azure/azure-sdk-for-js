@@ -3,16 +3,9 @@ import {
   ServiceBusReceivedMessage,
   ServiceBusReceiver
 } from "@azure/service-bus";
-import { SBStressTestsBase } from "./stressTestsBase";
+import { ServiceBusStressTester } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-// Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
 interface ScenarioPeekMessagesOptions {
   testDurationInMs?: number;
@@ -53,53 +46,53 @@ export async function scenarioPeekMessages() {
 
   const startedAt = new Date();
 
-  const stressBase = new SBStressTestsBase({
+  const stressBase = new ServiceBusStressTester({
     testName: "peekMessages",
     snapshotFocus: ["send-info", "receive-info"]
   });
-  const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init(undefined, undefined, testOptions);
+  const operation = async (sbClient: ServiceBusClient) => {
+    const sender = sbClient.createSender(stressBase.queueName);
+    let receiver: ServiceBusReceiver;
 
-  const sender = sbClient.createSender(stressBase.queueName);
-  let receiver: ServiceBusReceiver;
+    receiver = sbClient.createReceiver(stressBase.queueName, {
+      receiveMode: "receiveAndDelete"
+    });
+    async function sendMessages() {
+      let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      while (
+        elapsedTime < testDurationForSendInMs &&
+        stressBase.numMessagesSent() < totalNumberOfMessagesToSend
+      ) {
+        await stressBase.sendMessages([sender], numberOfMessagesPerSend);
+        elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        await delay(delayBetweenSendsInMs);
+      }
+    }
 
-  receiver = sbClient.createReceiver(stressBase.queueName, {
-    receiveMode: "receiveAndDelete"
+    async function peekMessages() {
+      let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      let fromSequenceNumber = undefined;
+      while (elapsedTime < testDurationInMs) {
+        const peekedMessages: ServiceBusReceivedMessage[] = await stressBase.peekMessages(
+          receiver,
+          peekMaxMessageCount,
+          fromSequenceNumber
+        );
+        elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        const numberOfMessages = peekedMessages.length;
+        fromSequenceNumber =
+          numberOfMessages > 0 ? peekedMessages[numberOfMessages - 1].sequenceNumber : undefined;
+        await delay(delayBetweenPeeksInMs);
+      }
+    }
+
+    await Promise.all([sendMessages(), peekMessages()]);
+  };
+
+  return stressBase.runStressTest(operation, {
+    additionalEventProperties: testOptions
   });
-  async function sendMessages() {
-    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    while (
-      elapsedTime < testDurationForSendInMs &&
-      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
-    ) {
-      await stressBase.sendMessages([sender], numberOfMessagesPerSend);
-      elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      await delay(delayBetweenSendsInMs);
-    }
-  }
-
-  async function peekMessages() {
-    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    let fromSequenceNumber = undefined;
-    while (elapsedTime < testDurationInMs) {
-      const peekedMessages: ServiceBusReceivedMessage[] = await stressBase.peekMessages(
-        receiver,
-        peekMaxMessageCount,
-        fromSequenceNumber
-      );
-      elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      const numberOfMessages = peekedMessages.length;
-      fromSequenceNumber =
-        numberOfMessages > 0 ? peekedMessages[numberOfMessages - 1].sequenceNumber : undefined;
-      await delay(delayBetweenPeeksInMs);
-    }
-  }
-
-  await Promise.all([sendMessages(), peekMessages()]);
-  await sbClient.close();
-
-  await stressBase.end();
 }
 
 scenarioPeekMessages().catch((err) => {

@@ -1,11 +1,7 @@
 import { ServiceBusClient } from "@azure/service-bus";
-import { SBStressTestsBase } from "./stressTestsBase";
+import { ServiceBusStressTester } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
 
 interface ScenarioSimpleSendOptions {
   testDurationInMs?: number;
@@ -14,9 +10,6 @@ interface ScenarioSimpleSendOptions {
   totalNumberOfMessagesToSend?: number;
   useScheduleApi?: boolean;
 }
-
-// Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
 function sanitizeOptions(args: string[]): Required<ScenarioSimpleSendOptions> {
   const options = parsedArgs<ScenarioSimpleSendOptions>(args, {
@@ -42,25 +35,31 @@ async function main() {
     totalNumberOfMessagesToSend,
     useScheduleApi
   } = testOptions;
-  const stressBase = new SBStressTestsBase({ testName: "send", snapshotFocus: ["send-info"] });
-  const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init(undefined, undefined, testOptions);
-  const sender = sbClient.createSender(stressBase.queueName);
+  const stressTester = new ServiceBusStressTester({
+    testName: "send",
+    snapshotFocus: ["send-info"]
+  });
 
-  const startedAt = new Date();
-  let elapsedTime = 0;
-  while (
-    elapsedTime < testDurationInMs &&
-    stressBase.numMessagesSent() < totalNumberOfMessagesToSend
-  ) {
-    await stressBase.sendMessages([sender], numberOfMessagesPerSend, false, useScheduleApi);
-    elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    await delay(delayBetweenSendsInMs);
-  }
+  await stressTester.runStressTest(
+    async (sbClient: ServiceBusClient) => {
+      const sender = sbClient.createSender(stressTester.queueName);
 
-  await sbClient.close();
-  await stressBase.end();
+      const startedAt = new Date();
+      let elapsedTime = 0;
+      while (
+        elapsedTime < testDurationInMs &&
+        stressTester.numMessagesSent() < totalNumberOfMessagesToSend
+      ) {
+        await stressTester.sendMessages([sender], numberOfMessagesPerSend, false, useScheduleApi);
+        elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        await delay(delayBetweenSendsInMs);
+      }
+    },
+    {
+      additionalEventProperties: testOptions
+    }
+  );
 }
 
 main().catch((err) => {

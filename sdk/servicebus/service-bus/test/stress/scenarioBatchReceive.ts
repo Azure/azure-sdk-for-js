@@ -3,16 +3,10 @@ import {
   ServiceBusReceiver,
   ServiceBusReceiverOptions
 } from "@azure/service-bus";
-import { SBStressTestsBase } from "./stressTestsBase";
+import { ServiceBusStressTester } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-// Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 interface ScenarioReceiveBatchOptions {
   testDurationInMs?: number;
   receiveMode?: ServiceBusReceiverOptions["receiveMode"];
@@ -74,63 +68,64 @@ export async function scenarioReceiveBatch() {
 
   const startedAt = new Date();
 
-  const stressBase = new SBStressTestsBase({
+  const stressBase = new ServiceBusStressTester({
     testName: "batchAndReceive",
     snapshotFocus: ["send-info", "receive-info"]
   });
-  const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init(undefined, undefined, testOptions);
-  const sender = sbClient.createSender(stressBase.queueName);
-  let receiver: ServiceBusReceiver;
+  const operation = async (sbClient: ServiceBusClient) => {
+    const sender = sbClient.createSender(stressBase.queueName);
+    let receiver: ServiceBusReceiver;
 
-  if (receiveMode === "receiveAndDelete") {
-    receiver = sbClient.createReceiver(stressBase.queueName, {
-      receiveMode: "receiveAndDelete",
-      maxAutoLockRenewalDurationInMs
-    });
-  } else {
-    receiver = sbClient.createReceiver(stressBase.queueName, { maxAutoLockRenewalDurationInMs });
-  }
-
-  async function sendMessages() {
-    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    while (
-      elapsedTime < testDurationForSendInMs &&
-      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
-    ) {
-      await stressBase.sendMessages(
-        new Array(numberOfParallelSends).fill(sender),
-        numberOfMessagesPerSend
-      );
-      elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      await delay(delayBetweenSendsInMs);
+    if (receiveMode === "receiveAndDelete") {
+      receiver = sbClient.createReceiver(stressBase.queueName, {
+        receiveMode: "receiveAndDelete",
+        maxAutoLockRenewalDurationInMs
+      });
+    } else {
+      receiver = sbClient.createReceiver(stressBase.queueName, { maxAutoLockRenewalDurationInMs });
     }
-  }
 
-  async function receiveMessages() {
-    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    while (elapsedTime < testDurationInMs) {
-      await stressBase.receiveMessages(
-        receiver,
-        receiveBatchMaxMessageCount,
-        receiveBatchMaxWaitTimeInMs,
-        settleMessageOnReceive
-      );
-      elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      await delay(delayBetweenReceivesInMs);
+    async function sendMessages() {
+      let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      while (
+        elapsedTime < testDurationForSendInMs &&
+        stressBase.numMessagesSent() < totalNumberOfMessagesToSend
+      ) {
+        await stressBase.sendMessages(
+          new Array(numberOfParallelSends).fill(sender),
+          numberOfMessagesPerSend
+        );
+        elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        await delay(delayBetweenSendsInMs);
+      }
     }
-  }
 
-  if (sendAllMessagesBeforeReceiveStarts) {
-    await sendMessages();
-  }
-  await Promise.all(
-    (!sendAllMessagesBeforeReceiveStarts ? [sendMessages()] : []).concat(receiveMessages())
-  );
-  await sbClient.close();
+    async function receiveMessages() {
+      let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      while (elapsedTime < testDurationInMs) {
+        await stressBase.receiveMessages(
+          receiver,
+          receiveBatchMaxMessageCount,
+          receiveBatchMaxWaitTimeInMs,
+          settleMessageOnReceive
+        );
+        elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        await delay(delayBetweenReceivesInMs);
+      }
+    }
 
-  await stressBase.end();
+    if (sendAllMessagesBeforeReceiveStarts) {
+      await sendMessages();
+    }
+    await Promise.all(
+      (!sendAllMessagesBeforeReceiveStarts ? [sendMessages()] : []).concat(receiveMessages())
+    );
+  };
+
+  return stressBase.runStressTest(operation, {
+    additionalEventProperties: testOptions
+  });
 }
 
 scenarioReceiveBatch().catch((err) => {
