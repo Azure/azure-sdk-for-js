@@ -148,10 +148,7 @@ export class WebPubSubGroup {
     connectionId: string,
     options: GroupRemoveConnectionOptions = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "WebPubSubServiceClient-group-removeUser",
-      options
-    );
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-removeUser", options);
 
     try {
       const res = await this.client.webPubSub.removeConnectionFromGroup(
@@ -231,10 +228,7 @@ export class WebPubSubGroup {
    * @param options Additional options
    */
   public removeUser(username: string, options: GroupRemoveUserOptions = {}): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "WebPubSubServiceClient-group-removeUser",
-      options
-    );
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-removeUser", options);
 
     try {
       return this.client.webPubSub.removeUserFromGroup(
