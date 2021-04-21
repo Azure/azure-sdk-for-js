@@ -47,7 +47,7 @@ export interface AssetConversionOutputSettings {
 }
 
 /** The properties of the conversion. */
-export interface AssetConversion {
+export interface Conversion {
   /** The ID of the conversion supplied when the conversion was created. */
   conversionId: string;
   /** Conversion settings describe the origin of input files and destination of output files. */
@@ -106,7 +106,7 @@ export interface ErrorResponse {
 /** List of conversions. */
 export interface ConversionList {
   /** The list of conversions. */
-  conversions: AssetConversion[];
+  conversions: Conversion[];
   /**
    * If more conversions are available this field will contain a URL where the next batch of conversions can be requested. This URL will need the same authentication as all calls to the Azure Remote Rendering API.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -377,11 +377,11 @@ export type RenderingSessionStatus = string;
 
 /** Contains response data for the createConversion operation. */
 export type RemoteRenderingCreateConversionResponse = RemoteRenderingCreateConversionHeaders &
-  AssetConversion;
+  Conversion;
 
 /** Contains response data for the getConversion operation. */
 export type RemoteRenderingGetConversionResponse = RemoteRenderingGetConversionHeaders &
-  AssetConversion;
+  Conversion;
 
 /** Contains response data for the listConversions operation. */
 export type RemoteRenderingListConversionsResponse = RemoteRenderingListConversionsHeaders &

@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { AssetConversion, RenderingSession } from "../generated/models/index";
+import { RenderingSession } from "../generated/models/index";
 import { RemoteRendering } from "../generated/operations";
 import { createSpan } from "../tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { AssetConversion, assetConversionFromConversion } from "./assetConversion"
 
 export async function getConversionInternal(
   accountId: string,
@@ -20,7 +21,8 @@ export async function getConversionInternal(
   });
 
   try {
-    return await operations.getConversion(accountId, conversionId, updatedOptions);
+    let conversion = await operations.getConversion(accountId, conversionId, updatedOptions);
+    return assetConversionFromConversion(conversion);
   } catch (e) {
     span.setStatus({
       code: SpanStatusCode.ERROR,

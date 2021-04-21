@@ -116,10 +116,10 @@ export const AssetConversionOutputSettings: coreClient.CompositeMapper = {
   }
 };
 
-export const AssetConversion: coreClient.CompositeMapper = {
+export const Conversion: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AssetConversion",
+    className: "Conversion",
     modelProperties: {
       conversionId: {
         serializedName: "id",
@@ -262,7 +262,7 @@ export const ConversionList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AssetConversion"
+              className: "Conversion"
             }
           }
         }

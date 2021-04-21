@@ -230,11 +230,11 @@ const createConversionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AssetConversion,
+      bodyMapper: Mappers.Conversion,
       headersMapper: Mappers.RemoteRenderingCreateConversionHeaders
     },
     201: {
-      bodyMapper: Mappers.AssetConversion,
+      bodyMapper: Mappers.Conversion,
       headersMapper: Mappers.RemoteRenderingCreateConversionHeaders
     },
     400: {
@@ -280,7 +280,7 @@ const getConversionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AssetConversion,
+      bodyMapper: Mappers.Conversion,
       headersMapper: Mappers.RemoteRenderingGetConversionHeaders
     },
     401: {

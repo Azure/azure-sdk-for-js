@@ -10,7 +10,7 @@ import { RemoteRendering } from "./operations";
 import { RemoteRenderingRestClientContext } from "./remoteRenderingRestClientContext";
 import { RemoteRenderingRestClientOptionalParams } from "./models";
 
-/** @hidden */
+/** @internal */
 export class RemoteRenderingRestClient extends RemoteRenderingRestClientContext {
   /**
    * Initializes a new instance of the RemoteRenderingRestClient class.

@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import { PollOperationState, Poller, PollOperation } from "@azure/core-lro";
-import { AssetConversion, KnownAssetConversionStatus } from "../generated/models/index";
+import { KnownAssetConversionStatus } from "../generated/models/index";
 import { RemoteRendering } from "../generated/operations";
 import { getConversionInternal } from "../internal/commonQueries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
+import { AssetConversion } from "../internal/assetConversion"
 
 export interface AssetConversionPollerOptions {
   intervalInMs?: number;

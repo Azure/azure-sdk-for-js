@@ -9,7 +9,7 @@
 import * as coreClient from "@azure/core-client";
 import { RemoteRenderingRestClientOptionalParams } from "./models";
 
-/** @hidden */
+/** @internal */
 export class RemoteRenderingRestClientContext extends coreClient.ServiceClient {
   endpoint: string;
   apiVersion: string;

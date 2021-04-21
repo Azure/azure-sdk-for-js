@@ -26,14 +26,6 @@ use-extension:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions.conversion
-    transform: >
-      $["x-ms-client-name"] = "AssetConversion";
-```
-
-```yaml
-directive:
-  - from: swagger-document
     where: $.definitions.conversion.properties.id
     transform: >
       $["x-ms-client-name"] = "conversionId";

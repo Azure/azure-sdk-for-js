@@ -9,7 +9,6 @@ import { AccessToken, AzureKeyCredential, TokenCredential } from "@azure/core-au
 
 import { RemoteRenderingRestClient } from "./generated";
 import {
-  AssetConversion,
   AssetConversionSettings,
   RemoteRenderingRestClientOptionalParams,
   RemoteRenderingCreateConversionResponse,
@@ -51,9 +50,11 @@ import {
   getSessionInternal
 } from "./internal/commonQueries";
 
+import { AssetConversion, assetConversionFromConversion } from "./internal/assetConversion"
+
 export {
-  AssetConversionOperationState,
   AssetConversion,
+  AssetConversionOperationState,
   AssetConversionSettings,
   RenderingSession,
   RenderingSessionSettings,
@@ -246,7 +247,7 @@ export class RemoteRenderingClient {
     });
 
     try {
-      let assetConversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
+      let conversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
         this.accountId,
         conversionId,
         { settings: assetConversionSettings },
@@ -256,7 +257,7 @@ export class RemoteRenderingClient {
       let poller = new AssetConversionPoller(
         this.accountId,
         this.operations,
-        assetConversion,
+        assetConversionFromConversion(conversion),
         options
       );
 
@@ -320,7 +321,8 @@ export class RemoteRenderingClient {
     options?: OperationOptions
   ): AsyncIterableIterator<AssetConversion[]> {
     let result = await this.operations.listConversions(this.accountId, options);
-    yield result.conversions;
+    let assetConversionResult = Array.from(result.conversions).map(assetConversionFromConversion);
+    yield assetConversionResult;
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this.operations.listConversionsNext(
@@ -329,7 +331,8 @@ export class RemoteRenderingClient {
         options
       );
       continuationToken = result.nextLink;
-      yield result.conversions;
+      assetConversionResult = Array.from(result.conversions).map(assetConversionFromConversion);
+      yield assetConversionResult;
     }
   }
 
