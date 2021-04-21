@@ -286,9 +286,7 @@ export class WebPubSubServiceClient {
    * @param groupName The name of the group to connect to.
    */
   public group(groupName: string): WebPubSubGroup {
-    const client = new WebPubSubGroupImpl(this.hubName, groupName);
-    client["client"] = this.client;
-    return client;
+    return new WebPubSubGroupImpl(this.client, this.hubName, groupName);
   }
 
   /**

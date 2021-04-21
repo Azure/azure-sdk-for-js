@@ -183,7 +183,8 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
    * @private
    * @internal
    */
-  constructor(hubName: string, groupName: string) {
+  constructor(client: GeneratedClient, hubName: string, groupName: string) {
+    this.client = client;
     this.groupName = groupName;
     this.hubName = hubName;
   }
