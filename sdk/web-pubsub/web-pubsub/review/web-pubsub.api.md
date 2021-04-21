@@ -57,11 +57,28 @@ export interface GroupRemoveUserOptions extends OperationOptions {
 }
 
 // @public
+export interface GroupSendTextToAllOptions extends OperationOptions {
+    // (undocumented)
+    contentType: "text/plain";
+    excludedConnections?: string[];
+}
+
+// @public
+export interface GroupSendToAllOptions extends OperationOptions {
+    excludedConnections?: string[];
+}
+
+// @public
 export interface HasConnectionOptions extends OperationOptions {
 }
 
 // @public
 export interface HubAdminClientOptions extends PipelineOptions {
+}
+
+// @public (undocumented)
+export interface HubGrantPermissionOptions extends OperationOptions {
+    targetName?: string;
 }
 
 // @public
@@ -74,6 +91,29 @@ export interface HubHasUserOptions extends OperationOptions {
 
 // @public
 export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions {
+}
+
+// @public (undocumented)
+export interface HubRevokePermissionOptions extends OperationOptions {
+    targetName?: string;
+}
+
+// @public
+export interface HubSendTextToAllOptions extends HubSendToAllOptions {
+    // (undocumented)
+    contentType: "text/plain";
+}
+
+// @public
+export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptions {
+    // (undocumented)
+    contentType: "text/plain";
+}
+
+// @public
+export interface HubSendTextToUserOptions extends HubSendToUserOptions {
+    // (undocumented)
+    contentType: "text/plain";
 }
 
 // @public
@@ -90,6 +130,12 @@ export interface HubSendToUserOptions extends OperationOptions {
 }
 
 // @public
+export type JSONTypes = string | number | boolean | object;
+
+// @public (undocumented)
+export type Permission = "joinLeaveGroup" | "sendToGroup";
+
+// @public
 export class WebPubSubGroup {
     // @internal
     constructor(hubName: string, groupName: string);
@@ -102,10 +148,7 @@ export class WebPubSubGroup {
     readonly hubName: string;
     removeConnection(connectionId: string, options?: GroupRemoveConnectionOptions): Promise<RestResponse>;
     removeUser(username: string, options?: GroupRemoveUserOptions): Promise<RestResponse>;
-    // Warning: (ae-forgotten-export) The symbol "GroupSendTextToAllOptions" needs to be exported by the entry point index.d.ts
     sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<RestResponse>;
-    // Warning: (ae-forgotten-export) The symbol "JSONTypes" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "GroupSendToAllOptions" needs to be exported by the entry point index.d.ts
     sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<RestResponse>;
     sendToAll(message: HttpRequestBody, options?: GroupSendToAllOptions): Promise<RestResponse>;
 }
@@ -118,9 +161,6 @@ export class WebPubSubServiceClient {
     closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
     endpoint: string;
     getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
-    // Warning: (ae-forgotten-export) The symbol "Permission" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "HubGrantPermissionOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<RestResponse>;
     group(groupName: string): WebPubSubGroup;
@@ -129,19 +169,14 @@ export class WebPubSubServiceClient {
     hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
     removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
-    // Warning: (ae-forgotten-export) The symbol "HubRevokePermissionOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<RestResponse>;
-    // Warning: (ae-forgotten-export) The symbol "HubSendTextToAllOptions" needs to be exported by the entry point index.d.ts
     sendToAll(message: string, options: HubSendTextToAllOptions): Promise<RestResponse>;
     sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<RestResponse>;
     sendToAll(message: HttpRequestBody, options?: HubSendToAllOptions): Promise<RestResponse>;
-    // Warning: (ae-forgotten-export) The symbol "HubSendTextToConnectionOptions" needs to be exported by the entry point index.d.ts
     sendToConnection(connectionId: string, message: string, options: HubSendTextToConnectionOptions): Promise<RestResponse>;
     sendToConnection(connectionId: string, message: JSONTypes, options?: HubSendToConnectionOptions): Promise<RestResponse>;
     sendToConnection(connectionId: string, message: HttpRequestBody | JSONTypes, options?: HubSendToConnectionOptions | HubSendTextToConnectionOptions): Promise<RestResponse>;
-    // Warning: (ae-forgotten-export) The symbol "HubSendTextToUserOptions" needs to be exported by the entry point index.d.ts
     sendToUser(username: string, message: string, options: HubSendTextToUserOptions): Promise<RestResponse>;
     sendToUser(username: string, message: JSONTypes, options: HubSendTextToUserOptions): Promise<RestResponse>;
     sendToUser(username: string, message: HttpRequestBody, options?: HubSendToUserOptions | HubSendTextToUserOptions): Promise<RestResponse>;

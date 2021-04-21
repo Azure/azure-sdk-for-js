@@ -13,7 +13,14 @@ export {
   HubAdminClientOptions,
   HubRemoveUserFromAllGroupsOptions,
   HubSendToConnectionOptions,
-  HubSendToUserOptions
+  HubSendToUserOptions,
+  HubGrantPermissionOptions,
+  HubRevokePermissionOptions,
+  HubSendTextToAllOptions,
+  HubSendTextToConnectionOptions,
+  HubSendTextToUserOptions,
+  JSONTypes,
+  Permission
 } from "./hubClient";
 export {
   WebPubSubGroup,
@@ -22,5 +29,7 @@ export {
   GroupAdminClientOptions,
   GroupHasUserOptions,
   GroupRemoveConnectionOptions,
-  GroupRemoveUserOptions
+  GroupRemoveUserOptions,
+  GroupSendTextToAllOptions,
+  GroupSendToAllOptions
 } from "./groupClient";

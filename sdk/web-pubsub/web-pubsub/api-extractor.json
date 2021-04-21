@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/signalr.d.ts"
+    "publicTrimmedFilePath": "./types/web-pubsub.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {
