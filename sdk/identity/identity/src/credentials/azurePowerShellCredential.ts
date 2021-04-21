@@ -14,7 +14,7 @@ const logger = credentialLogger("AzurePowerShellCredential");
  * Formats a command based on the platform executing it.
  * @internal
  */
-function formatCommand(commandName: string): string {
+export function formatCommand(commandName: string): string {
   if (process.platform === "win32") {
     return `${commandName}.exe`;
   } else {

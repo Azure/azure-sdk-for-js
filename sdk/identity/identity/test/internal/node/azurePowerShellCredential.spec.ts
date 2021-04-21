@@ -7,6 +7,7 @@ import assert from "assert";
 import Sinon from "sinon";
 import { AzurePowerShellCredential } from "../../../src";
 import {
+  formatCommand,
   powerShellErrors,
   powerShellPublicErrorMessages
 } from "../../../src/credentials/azurePowerShellCredential";
@@ -63,7 +64,7 @@ describe("AzurePowerShellCredential", function() {
 
   it("throws an expected error if PowerShell isn't installed", async function() {
     const sandbox = Sinon.createSandbox();
-    const pwshCommand = "pwsh";
+    const pwshCommand = formatCommand("pwsh");
 
     const stub = sandbox.stub(processUtils, "execFile");
     stub.onCall(0).throws();
@@ -89,7 +90,7 @@ describe("AzurePowerShellCredential", function() {
 
   it("throws an expected error if PowerShell isn't installed (legacy mode)", async function() {
     const sandbox = Sinon.createSandbox();
-    const pwshCommand = "powershell";
+    const pwshCommand = formatCommand("powershell");
 
     const stub = sandbox.stub(processUtils, "execFile");
     stub.onCall(0).throws();
