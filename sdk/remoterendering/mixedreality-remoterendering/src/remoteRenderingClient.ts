@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy
-} from "@azure/core-rest-pipeline";
+import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 
@@ -220,18 +216,11 @@ export class RemoteRenderingClient {
       { customEndpointUrl: authenticationEndpoint }
     );
 
-    const authPolicy = bearerTokenAuthenticationPolicy({
-      credential: mrTokenCredential,
-      scopes: `${endpoint}/.default`
-    });
-
-    const pipeline = createPipelineFromOptions(internalPipelineOptions);
-    pipeline.addPolicy(authPolicy);
-
     const clientOptions: RemoteRenderingRestClientOptionalParams = {
       ...internalPipelineOptions,
-      ...pipeline,
-      endpoint: endpoint
+      endpoint: endpoint,
+      credential: mrTokenCredential,
+      credentialScopes: `${endpoint}/.default`
     };
 
     this.client = new RemoteRenderingRestClient(endpoint, clientOptions);

@@ -9,12 +9,12 @@
 
 import { RemoteRenderingClient } from "@azure/mixedreality-remoterendering";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { delay } from "@azure/core-util";
 
 import { v4 as uuid } from "uuid";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-// import { delay } from "@azure/core-http";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
@@ -39,7 +39,7 @@ export async function main() {
     maxLeaseTimeInMinutes: 5,
     size: "Standard"
   });
-  // await delay(10000);
+  await delay(10000);
 
   console.log("== Starting listing sessions ==");
 
