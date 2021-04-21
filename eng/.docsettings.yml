@@ -21,6 +21,7 @@ omitted_paths:
   - sdk/servicebus/service-bus/test/perf-js-libs/service-bus-*
   - sdk/servicebus/service-bus/test/perf/**
   - sdk/servicebus/service-bus/test/stress/*
+  - sdk/web-pubsub/web-pubsub-express/README.md
   - sdk/eventhub/event-hubs/test/perf/track-1/*
   - sdk/eventhub/event-hubs/test/perf/track-2/*
   - sdk/schemaregistry/README.md
@@ -38,7 +39,7 @@ omitted_paths:
 language: js
 root_check_enabled: True
 required_readme_sections:
-  - ^Azure (.+ client library for (JavaScript|AMQP operations|Express)|Smoke Test for JavaScript)
+  - ^Azure (.+ client library for (JavaScript|AMQP operations)|Smoke Test for JavaScript)
   - ^Getting started$
   - ^Key concepts$
   - ^Examples$
