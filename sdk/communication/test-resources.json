@@ -27,24 +27,24 @@
         "description": "The client OID to grant access to test resources."
       }
     },
-    "tenantId": {
-      "type": "String",
-      "metadata": {
-        "description": "The tenant id to which the application and resources belong."
-      }
-    },
-    "testApplicationId": {
-      "type": "String",
-      "metadata": {
-        "description": "The application client id used to run tests."
-      }
-    },
-    "testApplicationSecret": {
-      "type": "String",
-      "metadata": {
-        "description": "The application client secret used to run tests."
-      }
-    }
+            "tenantId": {
+            "type": "String",
+            "metadata": {
+                "description": "The tenant id to which the application and resources belong."
+            }
+        },
+        "testApplicationId": {
+            "type": "String",
+            "metadata": {
+                "description": "The application client id used to run tests."
+            }
+        },
+        "testApplicationSecret": {
+            "type": "String",
+            "metadata": {
+                "description": "The application client secret used to run tests."
+            }
+        }
   },
   "variables": {
     "uniqueSubDomainName": "[format('{0}-{1}', parameters('baseName'), parameters('endpointPrefix'))]",
@@ -72,18 +72,18 @@
     }
   ],
   "outputs": {
-    "AZURE_TENANT_ID": {
-      "type": "String",
-      "value": "[parameters('tenantId')]"
-    },
-    "AZURE_CLIENT_ID": {
-      "type": "String",
-      "value": "[parameters('testApplicationId')]"
-    },
-    "AZURE_CLIENT_SECRET": {
-      "type": "String",
-      "value": "[parameters('testApplicationSecret')]"
-    },
+            "AZURE_TENANT_ID": {
+            "type": "String",
+            "value": "[parameters('tenantId')]"
+        },
+        "AZURE_CLIENT_ID": {
+            "type": "String",
+            "value": "[parameters('testApplicationId')]"
+        },
+        "AZURE_CLIENT_SECRET": {
+            "type": "String",
+            "value": "[parameters('testApplicationSecret')]"
+        },
     "COMMUNICATION_ENDPOINT": {
       "type": "string",
       "value": "[concat('https://', parameters('baseName'), '-', parameters('endpointPrefix'), parameters('communicationServicesEndpointSuffix'))]"
