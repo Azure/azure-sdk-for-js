@@ -719,10 +719,10 @@ describe("NodeJS utils", () => {
     });
   });
 
-  describe("applyRequestBodyTransformations", () => {
+  describe("applyRequestBodyTransformations with default transforms", () => {
     [
       {
-        name: `applyRequestBodyTransformations with default transforms`,
+        name: `case 1`,
         input: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=11111111-1111-1111-1111-111111111111&client_secret=azure_client_secret")
@@ -736,7 +736,10 @@ describe("NodeJS utils", () => {
         output: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .filteringRequestBody(function (body) {
-                            return body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id");
+                            return body.replace(/client-request-id=[^&"]*/g, "client-request-id=client-request-id");
+                        })
+                  .filteringRequestBody(function (body) {
+                            return body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F");
                         })
                   .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
                   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
@@ -748,7 +751,65 @@ describe("NodeJS utils", () => {
                 `
       },
       {
-        name: `applyRequestBodyTransformations with default transforms - unchanged for no client-request-id`,
+        name: `case 2`,
+        input: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `,
+        output: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .filteringRequestBody(function (body) {
+                            return body.replace(/client-request-id=[^&"]*/g, "client-request-id=client-request-id");
+                        })
+                  .filteringRequestBody(function (body) {
+                            return body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F");
+                        })
+                  .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `
+      },
+      {
+        name: `case 3`,
+        input: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=11111111-1111-1111-1111-111111111111&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `,
+        output: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .filteringRequestBody(function (body) {
+                            return body.replace(/client-request-id=[^&"]*/g, "client-request-id=client-request-id");
+                        })
+                  .filteringRequestBody(function (body) {
+                            return body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F");
+                        })
+                  .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F")
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `
+      },
+      {
+        name: `unchanged for no client-request-id and no scope`,
         input: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client_secret=azure_client_secret")
@@ -771,7 +832,7 @@ describe("NodeJS utils", () => {
                 `
       },
       {
-        name: `applyRequestBodyTransformations with default transforms - unchanged for json request bodies`,
+        name: `unchanged for json request bodies`,
         input: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .post('/azuretenantid/oauth2/v2.0/token', {"key-1":"value"})
@@ -794,7 +855,7 @@ describe("NodeJS utils", () => {
                 `
       }
     ].forEach((test) => {
-      it(test.name, () => {
+      it.only(test.name, () => {
         chai.assert.equal(
           applyRequestBodyTransformationsOnFixture(
             "node",

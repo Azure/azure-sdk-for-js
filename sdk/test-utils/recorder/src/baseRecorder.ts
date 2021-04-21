@@ -32,7 +32,7 @@ export abstract class BaseRecorder {
   // Example - node/some_random_test_suite/recording_first_test.js
   protected readonly relativeTestRecordingFilePath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
-  public environmentSetup: RecorderEnvironmentSetup = {
+  public environmentSetup: Required<RecorderEnvironmentSetup> = {
     replaceableVariables: {},
     customizationsOnRecordings: [],
     queryParametersToSkip: [],

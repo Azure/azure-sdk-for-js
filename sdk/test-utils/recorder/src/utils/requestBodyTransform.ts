@@ -22,10 +22,10 @@ export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
     //    and
     // 2. as a filter on the new requests to be able to match the request bodies
     (body: string) =>
-      body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id"),
+      body.replace(/client-request-id=[^&"]*/g, "client-request-id=client-request-id"),
     // Sanitizes the scope values in the recordings - to reduce the noise from cred scan reports
     (body: string) =>
-      body.replace(/scope=https%3A%2F%2F(.+?)(&+|$)/g, "scope=https%3A%2F%2Fsanitized%2F$2")
+      body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F")
   ],
   jsonTransforms: []
 };
@@ -36,7 +36,7 @@ export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
 export function applyRequestBodyTransformationsOnFixture(
   runtime: "node" | "browser",
   fixture: string,
-  requestBodyTransformations?: RequestBodyTransformsType
+  requestBodyTransformations: RequestBodyTransformsType
 ): string;
 
 /**
@@ -45,7 +45,7 @@ export function applyRequestBodyTransformationsOnFixture(
 export function applyRequestBodyTransformationsOnFixture(
   runtime: "node" | "browser",
   fixture: { [x: string]: unknown },
-  requestBodyTransformations?: RequestBodyTransformsType
+  requestBodyTransformations: RequestBodyTransformsType
 ): { [x: string]: unknown };
 
 /**
@@ -69,7 +69,7 @@ export function applyRequestBodyTransformationsOnFixture(
 export function applyRequestBodyTransformationsOnFixture(
   runtime: "node" | "browser",
   fixture: string | { [x: string]: unknown },
-  requestBodyTransformations?: RequestBodyTransformsType
+  requestBodyTransformations: RequestBodyTransformsType
 ): string | { [x: string]: unknown } {
   if (!requestBodyTransformations) {
     return fixture;
@@ -89,14 +89,14 @@ export function applyRequestBodyTransformationsOnFixture(
       typeof matches[2] === "string" &&
       requestBodyTransformations.stringTransforms
     ) {
-      const updatedBody = applyRequestBodyTransformations(matches[2]); // Must be string - either normal or JSON-stringified
+      const updatedBody = applyRequestBodyTransformations(matches[2], requestBodyTransformations); // Must be string - either normal or JSON-stringified
       // TODO: Handle JSON stringified bodies - not required as of now
 
       // Updated fixture with the new request body
       // Example:
       //    .post('/azuretenantid/oauth2/v2.0/token', "client-request-id=client-request-id&client_secret=azure_client_secret")
       //    .reply(200,....
-      updatedFixture = fixture.replace(matches[2], updatedBody);
+      updatedFixture = updatedFixture.replace(matches[2], updatedBody);
     }
 
     if (updatedFixture === fixture) {
@@ -149,7 +149,7 @@ export function applyRequestBodyTransformationsOnFixture(
  */
 export function applyRequestBodyTransformations(
   body: string,
-  requestBodyTransformations?: RequestBodyTransformsType
+  requestBodyTransformations: RequestBodyTransformsType
 ): string;
 
 /**
@@ -157,7 +157,7 @@ export function applyRequestBodyTransformations(
  */
 export function applyRequestBodyTransformations(
   body: { [x: string]: unknown },
-  requestBodyTransformations?: RequestBodyTransformsType
+  requestBodyTransformations: RequestBodyTransformsType
 ): { [x: string]: unknown };
 
 /**
@@ -173,10 +173,10 @@ export function applyRequestBodyTransformations(
  */
 export function applyRequestBodyTransformations(
   body: string | { [x: string]: unknown },
-  requestBodyTransformations?: RequestBodyTransformsType
+  requestBodyTransformations: RequestBodyTransformsType
 ): string | { [x: string]: unknown } {
   if (typeof body === "string") {
-    if (!requestBodyTransformations?.stringTransforms) {
+    if (!requestBodyTransformations.stringTransforms) {
       return body;
     }
     let updatedBody = body;
