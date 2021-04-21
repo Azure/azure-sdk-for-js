@@ -21,6 +21,10 @@ type InternalRecorderEnvironmentSetup = RecorderEnvironmentSetup & {
    *  Array of callback functions provided to customize the request body
    *  - Record mode: These callbacks will be applied on the request body before the recording is saved
    *  - Playback mode: These callbacks will be applied on the request body of the new requests
+   *
+   * // Nock doesn't support multiple `.filteringRequestBody` patches in the recordings,
+   * // ..hence not exporting `requestBodyTransformations` to the users until we find an alternative
+   * // TODO: Best alternative would be to migrate to JSON recordings for node tests
    */
   requestBodyTransformations: Required<RequestBodyTransformsType>;
 };
