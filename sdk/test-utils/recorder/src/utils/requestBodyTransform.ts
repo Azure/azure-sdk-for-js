@@ -14,18 +14,18 @@ export type RequestBodyTransformsType = {
 /**
  * Provides the default RequestBodyTransforms that need to be applied on the generated recordings
  */
-export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
+export const defaultRequestBodyTransforms: Required<RequestBodyTransformsType> = {
   stringTransforms: [
-    // Identity v2 with the new msal, has unique request-ids in request body, to be able to
-    // match the ids in playback we apply the following method on the request body
-    // 1. before saving the recording
-    //    and
-    // 2. as a filter on the new requests to be able to match the request bodies
+    // 1. Identity v2 with the new msal, has unique request-ids in request body, to be able to
+    //    match the ids in playback we apply the following method on the request body
+    //    - before saving the recording
+    //      and
+    //    - as a filter on the new requests to be able to match the request bodies
+    // 2. Sanitizes the scope values in the recordings - to reduce the noise from cred scan reports
     (body: string) =>
-      body.replace(/client-request-id=[^&"]*/g, "client-request-id=client-request-id"),
-    // Sanitizes the scope values in the recordings - to reduce the noise from cred scan reports
-    (body: string) =>
-      body.replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F")
+      body
+        .replace(/client-request-id=[^&"]*/g, "client-request-id=client-request-id")
+        .replace(/scope=https%3A%2F%2F[^&"]*/g, "scope=https%3A%2F%2Fsanitized%2F")
   ],
   jsonTransforms: []
 };
@@ -36,7 +36,7 @@ export const defaultRequestBodyTransforms: RequestBodyTransformsType = {
 export function applyRequestBodyTransformationsOnFixture(
   runtime: "node" | "browser",
   fixture: string,
-  requestBodyTransformations: RequestBodyTransformsType
+  requestBodyTransformations: Required<RequestBodyTransformsType>
 ): string;
 
 /**
@@ -45,7 +45,7 @@ export function applyRequestBodyTransformationsOnFixture(
 export function applyRequestBodyTransformationsOnFixture(
   runtime: "node" | "browser",
   fixture: { [x: string]: unknown },
-  requestBodyTransformations: RequestBodyTransformsType
+  requestBodyTransformations: Required<RequestBodyTransformsType>
 ): { [x: string]: unknown };
 
 /**
@@ -69,7 +69,7 @@ export function applyRequestBodyTransformationsOnFixture(
 export function applyRequestBodyTransformationsOnFixture(
   runtime: "node" | "browser",
   fixture: string | { [x: string]: unknown },
-  requestBodyTransformations: RequestBodyTransformsType
+  requestBodyTransformations: Required<RequestBodyTransformsType>
 ): string | { [x: string]: unknown } {
   if (!requestBodyTransformations) {
     return fixture;

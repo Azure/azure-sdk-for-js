@@ -9,8 +9,21 @@ import {
   filterSecretsRecursivelyFromJSON,
   generateTestRecordingFilePath
 } from "./utils";
-import { defaultRequestBodyTransforms } from "./utils/requestBodyTransform";
+import {
+  defaultRequestBodyTransforms,
+  RequestBodyTransformsType
+} from "./utils/requestBodyTransform";
 
+type InternalRecorderEnvironmentSetup = RecorderEnvironmentSetup & {
+  /**
+   * Used in record and playback modes
+   *
+   *  Array of callback functions provided to customize the request body
+   *  - Record mode: These callbacks will be applied on the request body before the recording is saved
+   *  - Playback mode: These callbacks will be applied on the request body of the new requests
+   */
+  requestBodyTransformations: Required<RequestBodyTransformsType>;
+};
 /**
  * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
  *
@@ -32,7 +45,7 @@ export abstract class BaseRecorder {
   // Example - node/some_random_test_suite/recording_first_test.js
   protected readonly relativeTestRecordingFilePath: string;
   public uniqueTestInfo: TestInfo = { uniqueName: {}, newDate: {} };
-  public environmentSetup: Required<RecorderEnvironmentSetup> = {
+  public environmentSetup: InternalRecorderEnvironmentSetup = {
     replaceableVariables: {},
     customizationsOnRecordings: [],
     queryParametersToSkip: [],
@@ -103,14 +116,9 @@ export abstract class BaseRecorder {
         ...environmentSetup.queryParametersToSkip
       ],
       requestBodyTransformations: {
-        stringTransforms:
-          this.environmentSetup.requestBodyTransformations?.stringTransforms?.concat(
-            environmentSetup.requestBodyTransformations?.stringTransforms ?? []
-          ) ?? [],
-        jsonTransforms:
-          this.environmentSetup.requestBodyTransformations?.jsonTransforms?.concat(
-            environmentSetup.requestBodyTransformations?.jsonTransforms ?? []
-          ) ?? []
+        // TODO: Concat with the requestBodyTransformations once exposed
+        stringTransforms: this.environmentSetup.requestBodyTransformations?.stringTransforms,
+        jsonTransforms: this.environmentSetup.requestBodyTransformations?.jsonTransforms
       }
     };
   }
