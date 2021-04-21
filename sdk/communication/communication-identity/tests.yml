@@ -6,13 +6,13 @@ stages:
       PackageName: "@azure/communication-identity"
       ServiceDirectory: communication
       CloudConfig:
-      Public:
-        SubscriptionConfigurations:
-          - $(sub-config-azure-cloud-test-resources)
-          - $(sub-config-communication-services-cloud-test-resources-test)
-      Int:
-        SubscriptionConfiguration: $(sub-config-communication-int-test-resources)
-    Clouds: Public,Int
+        Public:
+          SubscriptionConfigurations:
+            - $(sub-config-azure-cloud-test-resources)
+            - $(sub-config-communication-services-cloud-test-resources-test)
+        Int:
+          SubscriptionConfiguration: $(sub-config-communication-int-test-resources)
+      Clouds: Public,Int
       MatrixFilters:
         - DependencyVersion=^$
 
