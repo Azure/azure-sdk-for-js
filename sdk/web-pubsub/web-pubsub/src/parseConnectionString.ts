@@ -25,8 +25,6 @@ export function parseConnectionString(conn: string): ParsedConnectionString {
   url.port = port;
   const endpoint = url.toString();
   url.port = "";
-  // todo: Support PORT with audience n stuff.
-  // this.audience = url.toString();
 
   return { credential, endpoint };
 }
