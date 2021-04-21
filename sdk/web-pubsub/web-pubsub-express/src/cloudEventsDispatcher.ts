@@ -3,7 +3,6 @@
 
 import { CloudEvent, Message, HTTP } from "cloudevents";
 import { IncomingMessage, ServerResponse } from "http";
-import { decode } from "typescript-base64-arraybuffer";
 import { URL } from "url";
 import {
   ConnectRequest,
@@ -164,7 +163,7 @@ export class CloudEventsDispatcher {
           data = receivedEvent.data as string;
           dataType = receivedEvent.datacontenttype === "application/json" ? "json" : "text";
         } else if (receivedEvent.data_base64) {
-          data = decode(receivedEvent.data_base64);
+          data = Buffer.from(receivedEvent.data_base64, "base64");
         } else {
           throw new Error("empty data payload");
         }

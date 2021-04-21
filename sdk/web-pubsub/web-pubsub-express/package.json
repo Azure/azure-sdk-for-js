@@ -1,6 +1,6 @@
 {
   "name": "@azure/web-pubsub-express",
-  "version": "1.0.0-preview.1",
+  "version": "1.0.0-beta.1",
   "description": "Azure Web PubSub CloudEvents handlers",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -65,9 +65,7 @@
     "tslib": "^2.0.0",
     "jsonwebtoken": "~8.5.1",
     "express": "^4.16.3",
-    "cloudevents": "^4.0.0",
-    "typescript-base64-arraybuffer": "^0.1.0",
-    "url": "^0.11.0"
+    "cloudevents": "^4.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
