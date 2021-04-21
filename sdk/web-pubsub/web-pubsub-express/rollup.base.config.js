@@ -16,8 +16,7 @@ export function nodeConfig(test = false) {
     "events",
     "url",
     "express",
-    "cloudevents",
-    "typescript-base64-arraybuffer"
+    "cloudevents"
   ];
   const baseConfig = {
     input: input,
