@@ -1,5 +1,9 @@
 # Release History
 
+## 3.11.0 (2021-04-21)
+
+- FEATURE: Internal client update. No user facing changes, but major version bump to be safe.
+
 ## 3.10.6 (2021-04-14)
 
 - BUGFIX: Adds partitionKey parameter to `container.conflicts.delete`
