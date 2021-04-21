@@ -17,7 +17,7 @@ steps:
 - pwsh: |
     Write-Host "Got Here 1"
     $setDailyDevBuild = "false"
-    if (('$(Build.Reason)' -in 'Schedule', 'IndividualCI') -and ('$(System.TeamProject)' -eq 'internal')) {
+    if (('$(Build.Reason)' -in 'PullRequest', 'IndividualCI') -and ('$(System.TeamProject)' -eq 'internal')) {
       Write-Host "Got Here 2"
       $setDailyDevBuild = "true"
     }
