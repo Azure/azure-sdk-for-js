@@ -2,41 +2,31 @@
 // Licensed under the MIT license.
 
 import {
-  AzureKeyVaultsHeadParameters,
   AzureKeyVaultsGetAzureKeyVaultParameters,
   AzureKeyVaultsCreateAzureKeyVaultParameters,
   AzureKeyVaultsDeleteAzureKeyVaultParameters,
   AzureKeyVaultsListByAccountParameters,
-  BloomFilterCookParameters,
-  ClassificationRulesHeadParameters,
   ClassificationRulesGetParameters,
   ClassificationRulesCreateOrUpdateParameters,
   ClassificationRulesDeleteParameters,
   ClassificationRulesListAllParameters,
   ClassificationRulesListVersionsByClassificationRuleNameParameters,
-  ClassificationRulesSetClassificationActionForVersionParameters,
+  ClassificationRulesTagClassificationVersionParameters,
   DataSourcesCreateOrUpdateParameters,
-  DataSourcesHeadParameters,
   DataSourcesGetParameters,
   DataSourcesDeleteParameters,
   DataSourcesListByAccountParameters,
   DataSourcesListChildrenByCollectionParameters,
   DataSourceListUnparentedDataSourcesByAccountParameters,
-  FiltersHeadParameters,
   FiltersGetParameters,
   FiltersCreateOrUpdateParameters,
-  FiltersDeleteParameters,
-  FiltersListByScanParameters,
-  ScansRunParameters,
-  ScansCancelParameters,
-  ScansListHistoryParameters,
-  ScansListHistoryPostParameters,
   ScansCreateOrUpdateParameters,
-  ScansHeadParameters,
   ScansGetParameters,
   ScansDeleteParameters,
   ScansListByDataSourceParameters,
-  ScanRulesetsHeadParameters,
+  ScansRunScanParameters,
+  ScansCancelScanParameters,
+  ScansListScanHistoryParameters,
   ScanRulesetsGetParameters,
   ScanRulesetsCreateOrUpdateParameters,
   ScanRulesetsDeleteParameters,
@@ -46,55 +36,40 @@ import {
   SystemScanRulesetsGetByVersionParameters,
   SystemScanRulesetsGetLatestParameters,
   SystemScanRulesetsListVersionsByDataSourceParameters,
-  SystemScanRulesetSettingsGetParameters,
-  SystemScanRulesetSettingsListAllParameters,
-  SystemScanRulesetSettingsCreateOrUpdateParameters,
-  TriggersHeadParameters,
   TriggersGetTriggerParameters,
   TriggersCreateTriggerParameters,
   TriggersDeleteTriggerParameters,
-  TriggersListByScanParameters,
 } from "./parameters";
 import {
-  AzureKeyVaultsHead200Response,
-  AzureKeyVaultsHeaddefaultResponse,
   AzureKeyVaultsGetAzureKeyVault200Response,
   AzureKeyVaultsGetAzureKeyVaultdefaultResponse,
   AzureKeyVaultsCreateAzureKeyVault200Response,
   AzureKeyVaultsCreateAzureKeyVaultdefaultResponse,
   AzureKeyVaultsDeleteAzureKeyVault200Response,
+  AzureKeyVaultsDeleteAzureKeyVault204Response,
   AzureKeyVaultsDeleteAzureKeyVaultdefaultResponse,
   AzureKeyVaultsListByAccount200Response,
   AzureKeyVaultsListByAccountdefaultResponse,
-  BloomFilterCook200Response,
-  BloomFilterCookdefaultResponse,
-  ClassificationRulesHead200Response,
-  ClassificationRulesHeaddefaultResponse,
   ClassificationRulesGet200Response,
   ClassificationRulesGetdefaultResponse,
   ClassificationRulesCreateOrUpdate200Response,
   ClassificationRulesCreateOrUpdate201Response,
   ClassificationRulesCreateOrUpdatedefaultResponse,
   ClassificationRulesDelete200Response,
-  ClassificationRulesDelete202Response,
   ClassificationRulesDelete204Response,
   ClassificationRulesDeletedefaultResponse,
   ClassificationRulesListAll200Response,
   ClassificationRulesListAlldefaultResponse,
   ClassificationRulesListVersionsByClassificationRuleName200Response,
   ClassificationRulesListVersionsByClassificationRuleNamedefaultResponse,
-  ClassificationRulesSetClassificationActionForVersion200Response,
-  ClassificationRulesSetClassificationActionForVersion202Response,
-  ClassificationRulesSetClassificationActionForVersiondefaultResponse,
+  ClassificationRulesTagClassificationVersion202Response,
+  ClassificationRulesTagClassificationVersiondefaultResponse,
   DataSourcesCreateOrUpdate200Response,
   DataSourcesCreateOrUpdate201Response,
   DataSourcesCreateOrUpdatedefaultResponse,
-  DataSourcesHead200Response,
-  DataSourcesHeaddefaultResponse,
   DataSourcesGet200Response,
   DataSourcesGetdefaultResponse,
   DataSourcesDelete200Response,
-  DataSourcesDelete202Response,
   DataSourcesDelete204Response,
   DataSourcesDeletedefaultResponse,
   DataSourcesListByAccount200Response,
@@ -103,50 +78,33 @@ import {
   DataSourcesListChildrenByCollectiondefaultResponse,
   DataSourceListUnparentedDataSourcesByAccount200Response,
   DataSourceListUnparentedDataSourcesByAccountdefaultResponse,
-  FiltersHead200Response,
-  FiltersHeaddefaultResponse,
   FiltersGet200Response,
   FiltersGetdefaultResponse,
   FiltersCreateOrUpdate200Response,
   FiltersCreateOrUpdate201Response,
   FiltersCreateOrUpdatedefaultResponse,
-  FiltersDelete200Response,
-  FiltersDelete202Response,
-  FiltersDelete204Response,
-  FiltersDeletedefaultResponse,
-  FiltersListByScan200Response,
-  FiltersListByScandefaultResponse,
-  ScansRun200Response,
-  ScansRun202Response,
-  ScansRundefaultResponse,
-  ScansCancel202Response,
-  ScansCanceldefaultResponse,
-  ScansListHistory200Response,
-  ScansListHistorydefaultResponse,
-  ScansListHistoryPost200Response,
-  ScansListHistoryPostdefaultResponse,
   ScansCreateOrUpdate200Response,
   ScansCreateOrUpdate201Response,
   ScansCreateOrUpdatedefaultResponse,
-  ScansHead200Response,
-  ScansHeaddefaultResponse,
   ScansGet200Response,
   ScansGetdefaultResponse,
   ScansDelete200Response,
-  ScansDelete202Response,
   ScansDelete204Response,
   ScansDeletedefaultResponse,
   ScansListByDataSource200Response,
   ScansListByDataSourcedefaultResponse,
-  ScanRulesetsHead200Response,
-  ScanRulesetsHeaddefaultResponse,
+  ScansRunScan202Response,
+  ScansRunScandefaultResponse,
+  ScansCancelScan202Response,
+  ScansCancelScandefaultResponse,
+  ScansListScanHistory200Response,
+  ScansListScanHistorydefaultResponse,
   ScanRulesetsGet200Response,
   ScanRulesetsGetdefaultResponse,
   ScanRulesetsCreateOrUpdate200Response,
   ScanRulesetsCreateOrUpdate201Response,
   ScanRulesetsCreateOrUpdatedefaultResponse,
   ScanRulesetsDelete200Response,
-  ScanRulesetsDelete202Response,
   ScanRulesetsDelete204Response,
   ScanRulesetsDeletedefaultResponse,
   ScanRulesetsListAll200Response,
@@ -161,35 +119,19 @@ import {
   SystemScanRulesetsGetLatestdefaultResponse,
   SystemScanRulesetsListVersionsByDataSource200Response,
   SystemScanRulesetsListVersionsByDataSourcedefaultResponse,
-  SystemScanRulesetSettingsGet200Response,
-  SystemScanRulesetSettingsGetdefaultResponse,
-  SystemScanRulesetSettingsListAll200Response,
-  SystemScanRulesetSettingsListAlldefaultResponse,
-  SystemScanRulesetSettingsCreateOrUpdate200Response,
-  SystemScanRulesetSettingsCreateOrUpdate201Response,
-  SystemScanRulesetSettingsCreateOrUpdatedefaultResponse,
-  TriggersHead200Response,
-  TriggersHeaddefaultResponse,
   TriggersGetTrigger200Response,
   TriggersGetTriggerdefaultResponse,
   TriggersCreateTrigger200Response,
   TriggersCreateTrigger201Response,
   TriggersCreateTriggerdefaultResponse,
   TriggersDeleteTrigger200Response,
-  TriggersDeleteTrigger202Response,
   TriggersDeleteTrigger204Response,
   TriggersDeleteTriggerdefaultResponse,
-  TriggersListByScan200Response,
-  TriggersListByScandefaultResponse,
 } from "./responses";
 import { getClient, ClientOptions, Client } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 
 export interface AzureKeyVaultsDeleteAzureKeyVault {
-  /** Check if azure key vault information exists */
-  head(
-    options?: AzureKeyVaultsHeadParameters
-  ): Promise<AzureKeyVaultsHead200Response | AzureKeyVaultsHeaddefaultResponse>;
   /** Gets azureKeyVault information */
   get(
     options?: AzureKeyVaultsGetAzureKeyVaultParameters
@@ -206,7 +148,9 @@ export interface AzureKeyVaultsDeleteAzureKeyVault {
   delete(
     options?: AzureKeyVaultsDeleteAzureKeyVaultParameters
   ): Promise<
-    AzureKeyVaultsDeleteAzureKeyVault200Response | AzureKeyVaultsDeleteAzureKeyVaultdefaultResponse
+    | AzureKeyVaultsDeleteAzureKeyVault200Response
+    | AzureKeyVaultsDeleteAzureKeyVault204Response
+    | AzureKeyVaultsDeleteAzureKeyVaultdefaultResponse
   >;
 }
 
@@ -217,18 +161,7 @@ export interface AzureKeyVaultsListByAccount {
   ): Promise<AzureKeyVaultsListByAccount200Response | AzureKeyVaultsListByAccountdefaultResponse>;
 }
 
-export interface BloomFilterCook {
-  /** Cook and return bloom filter */
-  put(
-    options: BloomFilterCookParameters
-  ): Promise<BloomFilterCook200Response | BloomFilterCookdefaultResponse>;
-}
-
 export interface ClassificationRulesDelete {
-  /** Check if a classification rule exists */
-  head(
-    options?: ClassificationRulesHeadParameters
-  ): Promise<ClassificationRulesHead200Response | ClassificationRulesHeaddefaultResponse>;
   /** Get a classification rule */
   get(
     options?: ClassificationRulesGetParameters
@@ -246,7 +179,6 @@ export interface ClassificationRulesDelete {
     options?: ClassificationRulesDeleteParameters
   ): Promise<
     | ClassificationRulesDelete200Response
-    | ClassificationRulesDelete202Response
     | ClassificationRulesDelete204Response
     | ClassificationRulesDeletedefaultResponse
   >;
@@ -269,14 +201,13 @@ export interface ClassificationRulesListVersionsByClassificationRuleName {
   >;
 }
 
-export interface ClassificationRulesSetClassificationActionForVersion {
+export interface ClassificationRulesTagClassificationVersion {
   /** Sets Classification Action on a specific classification rule version. */
   post(
-    options: ClassificationRulesSetClassificationActionForVersionParameters
+    options?: ClassificationRulesTagClassificationVersionParameters
   ): Promise<
-    | ClassificationRulesSetClassificationActionForVersion200Response
-    | ClassificationRulesSetClassificationActionForVersion202Response
-    | ClassificationRulesSetClassificationActionForVersiondefaultResponse
+    | ClassificationRulesTagClassificationVersion202Response
+    | ClassificationRulesTagClassificationVersiondefaultResponse
   >;
 }
 
@@ -289,10 +220,6 @@ export interface DataSourcesDelete {
     | DataSourcesCreateOrUpdate201Response
     | DataSourcesCreateOrUpdatedefaultResponse
   >;
-  /** Check if a data source exists */
-  head(
-    options?: DataSourcesHeadParameters
-  ): Promise<DataSourcesHead200Response | DataSourcesHeaddefaultResponse>;
   /** Get a data source */
   get(
     options?: DataSourcesGetParameters
@@ -301,10 +228,7 @@ export interface DataSourcesDelete {
   delete(
     options?: DataSourcesDeleteParameters
   ): Promise<
-    | DataSourcesDelete200Response
-    | DataSourcesDelete202Response
-    | DataSourcesDelete204Response
-    | DataSourcesDeletedefaultResponse
+    DataSourcesDelete200Response | DataSourcesDelete204Response | DataSourcesDeletedefaultResponse
   >;
 }
 
@@ -335,11 +259,7 @@ export interface DataSourceListUnparentedDataSourcesByAccount {
   >;
 }
 
-export interface FiltersDelete {
-  /** Check if a filter exists */
-  head(
-    options?: FiltersHeadParameters
-  ): Promise<FiltersHead200Response | FiltersHeaddefaultResponse>;
+export interface FiltersCreateOrUpdate {
   /** Get a filter */
   get(options?: FiltersGetParameters): Promise<FiltersGet200Response | FiltersGetdefaultResponse>;
   /** Creates or updates a filter */
@@ -350,47 +270,6 @@ export interface FiltersDelete {
     | FiltersCreateOrUpdate201Response
     | FiltersCreateOrUpdatedefaultResponse
   >;
-  /** Deletes a filter */
-  delete(
-    options?: FiltersDeleteParameters
-  ): Promise<
-    | FiltersDelete200Response
-    | FiltersDelete202Response
-    | FiltersDelete204Response
-    | FiltersDeletedefaultResponse
-  >;
-}
-
-export interface FiltersListByScan {
-  /** List filters in Scan */
-  get(
-    options?: FiltersListByScanParameters
-  ): Promise<FiltersListByScan200Response | FiltersListByScandefaultResponse>;
-}
-
-export interface ScansRun {
-  /** Runs the scan */
-  post(
-    options?: ScansRunParameters
-  ): Promise<ScansRun200Response | ScansRun202Response | ScansRundefaultResponse>;
-}
-
-export interface ScansCancel {
-  /** Cancels a scan */
-  post(
-    options: ScansCancelParameters
-  ): Promise<ScansCancel202Response | ScansCanceldefaultResponse>;
-}
-
-export interface ScansListHistoryPost {
-  /** Lists the scan history of a scan */
-  get(
-    options?: ScansListHistoryParameters
-  ): Promise<ScansListHistory200Response | ScansListHistorydefaultResponse>;
-  /** Lists the scan history of a scan */
-  post(
-    options?: ScansListHistoryPostParameters
-  ): Promise<ScansListHistoryPost200Response | ScansListHistoryPostdefaultResponse>;
 }
 
 export interface ScansDelete {
@@ -402,19 +281,12 @@ export interface ScansDelete {
     | ScansCreateOrUpdate201Response
     | ScansCreateOrUpdatedefaultResponse
   >;
-  /** Check if a scan exists */
-  head(options?: ScansHeadParameters): Promise<ScansHead200Response | ScansHeaddefaultResponse>;
   /** Gets a scan information */
   get(options?: ScansGetParameters): Promise<ScansGet200Response | ScansGetdefaultResponse>;
   /** Deletes the scan associated with the data source */
   delete(
     options?: ScansDeleteParameters
-  ): Promise<
-    | ScansDelete200Response
-    | ScansDelete202Response
-    | ScansDelete204Response
-    | ScansDeletedefaultResponse
-  >;
+  ): Promise<ScansDelete200Response | ScansDelete204Response | ScansDeletedefaultResponse>;
 }
 
 export interface ScansListByDataSource {
@@ -424,11 +296,28 @@ export interface ScansListByDataSource {
   ): Promise<ScansListByDataSource200Response | ScansListByDataSourcedefaultResponse>;
 }
 
+export interface ScansRunScan {
+  /** Runs the scan */
+  put(
+    options?: ScansRunScanParameters
+  ): Promise<ScansRunScan202Response | ScansRunScandefaultResponse>;
+}
+
+export interface ScansCancelScan {
+  /** Cancels a scan */
+  post(
+    options?: ScansCancelScanParameters
+  ): Promise<ScansCancelScan202Response | ScansCancelScandefaultResponse>;
+}
+
+export interface ScansListScanHistory {
+  /** Lists the scan history of a scan */
+  get(
+    options?: ScansListScanHistoryParameters
+  ): Promise<ScansListScanHistory200Response | ScansListScanHistorydefaultResponse>;
+}
+
 export interface ScanRulesetsDelete {
-  /** Check if a scan ruleset exists */
-  head(
-    options?: ScanRulesetsHeadParameters
-  ): Promise<ScanRulesetsHead200Response | ScanRulesetsHeaddefaultResponse>;
   /** Get a scan ruleset */
   get(
     options?: ScanRulesetsGetParameters
@@ -446,7 +335,6 @@ export interface ScanRulesetsDelete {
     options?: ScanRulesetsDeleteParameters
   ): Promise<
     | ScanRulesetsDelete200Response
-    | ScanRulesetsDelete202Response
     | ScanRulesetsDelete204Response
     | ScanRulesetsDeletedefaultResponse
   >;
@@ -499,35 +387,7 @@ export interface SystemScanRulesetsListVersionsByDataSource {
   >;
 }
 
-export interface SystemScanRulesetSettingsGet {
-  /** Get a system scan ruleset settings for a data source */
-  get(
-    options?: SystemScanRulesetSettingsGetParameters
-  ): Promise<SystemScanRulesetSettingsGet200Response | SystemScanRulesetSettingsGetdefaultResponse>;
-}
-
-export interface SystemScanRulesetSettingsCreateOrUpdate {
-  /** List system scan ruleset settings for an account */
-  get(
-    options?: SystemScanRulesetSettingsListAllParameters
-  ): Promise<
-    SystemScanRulesetSettingsListAll200Response | SystemScanRulesetSettingsListAlldefaultResponse
-  >;
-  /** Creates or Updates a system scan ruleset account settings */
-  put(
-    options?: SystemScanRulesetSettingsCreateOrUpdateParameters
-  ): Promise<
-    | SystemScanRulesetSettingsCreateOrUpdate200Response
-    | SystemScanRulesetSettingsCreateOrUpdate201Response
-    | SystemScanRulesetSettingsCreateOrUpdatedefaultResponse
-  >;
-}
-
 export interface TriggersDeleteTrigger {
-  /** Check if a trigger exists */
-  head(
-    options?: TriggersHeadParameters
-  ): Promise<TriggersHead200Response | TriggersHeaddefaultResponse>;
   /** Gets trigger information */
   get(
     options?: TriggersGetTriggerParameters
@@ -545,30 +405,20 @@ export interface TriggersDeleteTrigger {
     options?: TriggersDeleteTriggerParameters
   ): Promise<
     | TriggersDeleteTrigger200Response
-    | TriggersDeleteTrigger202Response
     | TriggersDeleteTrigger204Response
     | TriggersDeleteTriggerdefaultResponse
   >;
 }
 
-export interface TriggersListByScan {
-  /** List triggers in Scan */
-  get(
-    options?: TriggersListByScanParameters
-  ): Promise<TriggersListByScan200Response | TriggersListByScandefaultResponse>;
-}
-
 export interface Routes {
-  /** Resource for '/azureKeyVaults/\{azureKeyVaultName\}' has methods for the following verbs: head, get, put, delete */
+  /** Resource for '/azureKeyVaults/\{azureKeyVaultName\}' has methods for the following verbs: get, put, delete */
   (
     path: "/azureKeyVaults/{azureKeyVaultName}",
     azureKeyVaultName: string
   ): AzureKeyVaultsDeleteAzureKeyVault;
   /** Resource for '/azureKeyVaults' has methods for the following verbs: get */
   (path: "/azureKeyVaults"): AzureKeyVaultsListByAccount;
-  /** Resource for '/cookbloomfilter' has methods for the following verbs: put */
-  (path: "/cookbloomfilter"): BloomFilterCook;
-  /** Resource for '/classificationrules/\{classificationRuleName\}' has methods for the following verbs: head, get, put, delete */
+  /** Resource for '/classificationrules/\{classificationRuleName\}' has methods for the following verbs: get, put, delete */
   (
     path: "/classificationrules/{classificationRuleName}",
     classificationRuleName: string
@@ -580,13 +430,13 @@ export interface Routes {
     path: "/classificationrules/{classificationRuleName}/versions",
     classificationRuleName: string
   ): ClassificationRulesListVersionsByClassificationRuleName;
-  /** Resource for '/classificationrules/\{classificationRuleName\}/versions/\{classificationRuleVersion\}/setclassificationaction' has methods for the following verbs: post */
+  /** Resource for '/classificationrules/\{classificationRuleName\}/versions/\{classificationRuleVersion\}/:tag' has methods for the following verbs: post */
   (
-    path: "/classificationrules/{classificationRuleName}/versions/{classificationRuleVersion}/setclassificationaction",
+    path: "/classificationrules/{classificationRuleName}/versions/{classificationRuleVersion}/:tag",
     classificationRuleName: string,
     classificationRuleVersion: string
-  ): ClassificationRulesSetClassificationActionForVersion;
-  /** Resource for '/datasources/\{dataSourceName\}' has methods for the following verbs: put, head, get, delete */
+  ): ClassificationRulesTagClassificationVersion;
+  /** Resource for '/datasources/\{dataSourceName\}' has methods for the following verbs: put, get, delete */
   (path: "/datasources/{dataSourceName}", dataSourceName: string): DataSourcesDelete;
   /** Resource for '/datasources' has methods for the following verbs: get */
   (path: "/datasources"): DataSourcesListByAccount;
@@ -597,37 +447,13 @@ export interface Routes {
   ): DataSourcesListChildrenByCollection;
   /** Resource for '/listUnparentedDataSources' has methods for the following verbs: get */
   (path: "/listUnparentedDataSources"): DataSourceListUnparentedDataSourcesByAccount;
-  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/filters/custom' has methods for the following verbs: head, get, put, delete */
+  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/filters/custom' has methods for the following verbs: get, put */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/filters/custom",
     dataSourceName: string,
     scanName: string
-  ): FiltersDelete;
-  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/filters' has methods for the following verbs: get */
-  (
-    path: "/datasources/{dataSourceName}/scans/{scanName}/filters",
-    dataSourceName: string,
-    scanName: string
-  ): FiltersListByScan;
-  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/run' has methods for the following verbs: post */
-  (
-    path: "/datasources/{dataSourceName}/scans/{scanName}/run",
-    dataSourceName: string,
-    scanName: string
-  ): ScansRun;
-  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/cancel' has methods for the following verbs: post */
-  (
-    path: "/datasources/{dataSourceName}/scans/{scanName}/cancel",
-    dataSourceName: string,
-    scanName: string
-  ): ScansCancel;
-  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/listHistory' has methods for the following verbs: get, post */
-  (
-    path: "/datasources/{dataSourceName}/scans/{scanName}/listHistory",
-    dataSourceName: string,
-    scanName: string
-  ): ScansListHistoryPost;
-  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}' has methods for the following verbs: put, head, get, delete */
+  ): FiltersCreateOrUpdate;
+  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}' has methods for the following verbs: put, get, delete */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}",
     dataSourceName: string,
@@ -635,7 +461,27 @@ export interface Routes {
   ): ScansDelete;
   /** Resource for '/datasources/\{dataSourceName\}/scans' has methods for the following verbs: get */
   (path: "/datasources/{dataSourceName}/scans", dataSourceName: string): ScansListByDataSource;
-  /** Resource for '/scanrulesets/\{scanRulesetName\}' has methods for the following verbs: head, get, put, delete */
+  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/runs/\{runId\}' has methods for the following verbs: put */
+  (
+    path: "/datasources/{dataSourceName}/scans/{scanName}/runs/{runId}",
+    dataSourceName: string,
+    scanName: string,
+    runId: string
+  ): ScansRunScan;
+  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/runs/\{runId\}/:cancel' has methods for the following verbs: post */
+  (
+    path: "/datasources/{dataSourceName}/scans/{scanName}/runs/{runId}/:cancel",
+    dataSourceName: string,
+    scanName: string,
+    runId: string
+  ): ScansCancelScan;
+  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/runs' has methods for the following verbs: get */
+  (
+    path: "/datasources/{dataSourceName}/scans/{scanName}/runs",
+    dataSourceName: string,
+    scanName: string
+  ): ScansListScanHistory;
+  /** Resource for '/scanrulesets/\{scanRulesetName\}' has methods for the following verbs: get, put, delete */
   (path: "/scanrulesets/{scanRulesetName}", scanRulesetName: string): ScanRulesetsDelete;
   /** Resource for '/scanrulesets' has methods for the following verbs: get */
   (path: "/scanrulesets"): ScanRulesetsListAll;
@@ -652,26 +498,12 @@ export interface Routes {
   (path: "/systemScanRulesets/versions/latest"): SystemScanRulesetsGetLatest;
   /** Resource for '/systemScanRulesets/versions' has methods for the following verbs: get */
   (path: "/systemScanRulesets/versions"): SystemScanRulesetsListVersionsByDataSource;
-  /** Resource for '/systemScanRulesets/settings/datasources/\{dataSourceType\}' has methods for the following verbs: get */
+  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/triggers/default' has methods for the following verbs: get, put, delete */
   (
-    path: "/systemScanRulesets/settings/datasources/{dataSourceType}",
-    dataSourceType: string
-  ): SystemScanRulesetSettingsGet;
-  /** Resource for '/systemScanRulesets/settings' has methods for the following verbs: get, put */
-  (path: "/systemScanRulesets/settings"): SystemScanRulesetSettingsCreateOrUpdate;
-  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/triggers/\{triggerName\}' has methods for the following verbs: head, get, put, delete */
-  (
-    path: "/datasources/{dataSourceName}/scans/{scanName}/triggers/{triggerName}",
-    dataSourceName: string,
-    scanName: string,
-    triggerName: string
-  ): TriggersDeleteTrigger;
-  /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/triggers' has methods for the following verbs: get */
-  (
-    path: "/datasources/{dataSourceName}/scans/{scanName}/triggers",
+    path: "/datasources/{dataSourceName}/scans/{scanName}/triggers/default",
     dataSourceName: string,
     scanName: string
-  ): TriggersListByScan;
+  ): TriggersDeleteTrigger;
 }
 
 export type PurviewScanningClient = Client & {

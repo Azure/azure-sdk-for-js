@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  ErrorResponseModel,
   AzureKeyVault,
+  ErrorResponseModel,
   AzureKeyVaultList,
   ClassificationRule,
   ClassificationRuleList,
@@ -11,31 +11,16 @@ import {
   DataSource,
   DataSourceList,
   Filter,
-  FilterList,
-  ScanHistoryList,
   Scan,
   ScanList,
+  ScanHistoryList,
   ScanRuleset,
   ScanRulesetList,
   SystemScanRulesetList,
   SystemScanRuleset,
-  SystemScanRulesetSetting,
-  SystemScanRulesetSettingList,
   Trigger,
-  TriggerList,
 } from "./models";
 import { HttpResponse } from "@azure-rest/core-client";
-
-/** Check if azure key vault information exists */
-export interface AzureKeyVaultsHead200Response extends HttpResponse {
-  status: "200";
-}
-
-/** Check if azure key vault information exists */
-export interface AzureKeyVaultsHeaddefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
 
 /** Gets azureKeyVault information */
 export interface AzureKeyVaultsGetAzureKeyVault200Response extends HttpResponse {
@@ -64,6 +49,12 @@ export interface AzureKeyVaultsCreateAzureKeyVaultdefaultResponse extends HttpRe
 /** Deletes the azureKeyVault associated with the account */
 export interface AzureKeyVaultsDeleteAzureKeyVault200Response extends HttpResponse {
   status: "200";
+  body: AzureKeyVault;
+}
+
+/** Deletes the azureKeyVault associated with the account */
+export interface AzureKeyVaultsDeleteAzureKeyVault204Response extends HttpResponse {
+  status: "204";
 }
 
 /** Deletes the azureKeyVault associated with the account */
@@ -80,28 +71,6 @@ export interface AzureKeyVaultsListByAccount200Response extends HttpResponse {
 
 /** List azureKeyVaults in account */
 export interface AzureKeyVaultsListByAccountdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Cook and return bloom filter */
-export interface BloomFilterCook200Response extends HttpResponse {
-  status: "200";
-}
-
-/** Cook and return bloom filter */
-export interface BloomFilterCookdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Check if a classification rule exists */
-export interface ClassificationRulesHead200Response extends HttpResponse {
-  status: "200";
-}
-
-/** Check if a classification rule exists */
-export interface ClassificationRulesHeaddefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -139,11 +108,7 @@ export interface ClassificationRulesCreateOrUpdatedefaultResponse extends HttpRe
 /** Deletes a classification rule */
 export interface ClassificationRulesDelete200Response extends HttpResponse {
   status: "200";
-}
-
-/** Deletes a classification rule */
-export interface ClassificationRulesDelete202Response extends HttpResponse {
-  status: "202";
+  body: ClassificationRule;
 }
 
 /** Deletes a classification rule */
@@ -184,22 +149,13 @@ export interface ClassificationRulesListVersionsByClassificationRuleNamedefaultR
 }
 
 /** Sets Classification Action on a specific classification rule version. */
-export interface ClassificationRulesSetClassificationActionForVersion200Response
-  extends HttpResponse {
-  status: "200";
-  body: OperationResponse;
-}
-
-/** Sets Classification Action on a specific classification rule version. */
-export interface ClassificationRulesSetClassificationActionForVersion202Response
-  extends HttpResponse {
+export interface ClassificationRulesTagClassificationVersion202Response extends HttpResponse {
   status: "202";
   body: OperationResponse;
 }
 
 /** Sets Classification Action on a specific classification rule version. */
-export interface ClassificationRulesSetClassificationActionForVersiondefaultResponse
-  extends HttpResponse {
+export interface ClassificationRulesTagClassificationVersiondefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -222,17 +178,6 @@ export interface DataSourcesCreateOrUpdatedefaultResponse extends HttpResponse {
   body: ErrorResponseModel;
 }
 
-/** Check if a data source exists */
-export interface DataSourcesHead200Response extends HttpResponse {
-  status: "200";
-}
-
-/** Check if a data source exists */
-export interface DataSourcesHeaddefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
 /** Get a data source */
 export interface DataSourcesGet200Response extends HttpResponse {
   status: "200";
@@ -248,11 +193,7 @@ export interface DataSourcesGetdefaultResponse extends HttpResponse {
 /** Deletes a data source */
 export interface DataSourcesDelete200Response extends HttpResponse {
   status: "200";
-}
-
-/** Deletes a data source */
-export interface DataSourcesDelete202Response extends HttpResponse {
-  status: "202";
+  body: DataSource;
 }
 
 /** Deletes a data source */
@@ -302,17 +243,6 @@ export interface DataSourceListUnparentedDataSourcesByAccountdefaultResponse ext
   body: ErrorResponseModel;
 }
 
-/** Check if a filter exists */
-export interface FiltersHead200Response extends HttpResponse {
-  status: "200";
-}
-
-/** Check if a filter exists */
-export interface FiltersHeaddefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
 /** Get a filter */
 export interface FiltersGet200Response extends HttpResponse {
   status: "200";
@@ -343,93 +273,6 @@ export interface FiltersCreateOrUpdatedefaultResponse extends HttpResponse {
   body: ErrorResponseModel;
 }
 
-/** Deletes a filter */
-export interface FiltersDelete200Response extends HttpResponse {
-  status: "200";
-}
-
-/** Deletes a filter */
-export interface FiltersDelete202Response extends HttpResponse {
-  status: "202";
-}
-
-/** Deletes a filter */
-export interface FiltersDelete204Response extends HttpResponse {
-  status: "204";
-}
-
-/** Deletes a filter */
-export interface FiltersDeletedefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** List filters in Scan */
-export interface FiltersListByScan200Response extends HttpResponse {
-  status: "200";
-  body: FilterList;
-}
-
-/** List filters in Scan */
-export interface FiltersListByScandefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Runs the scan */
-export interface ScansRun200Response extends HttpResponse {
-  status: "200";
-  body: OperationResponse;
-}
-
-/** Runs the scan */
-export interface ScansRun202Response extends HttpResponse {
-  status: "202";
-  body: OperationResponse;
-}
-
-/** Runs the scan */
-export interface ScansRundefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Cancels a scan */
-export interface ScansCancel202Response extends HttpResponse {
-  status: "202";
-  body: OperationResponse;
-}
-
-/** Cancels a scan */
-export interface ScansCanceldefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Lists the scan history of a scan */
-export interface ScansListHistory200Response extends HttpResponse {
-  status: "200";
-  body: ScanHistoryList;
-}
-
-/** Lists the scan history of a scan */
-export interface ScansListHistorydefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Lists the scan history of a scan */
-export interface ScansListHistoryPost200Response extends HttpResponse {
-  status: "200";
-  body: ScanHistoryList;
-}
-
-/** Lists the scan history of a scan */
-export interface ScansListHistoryPostdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
 /** Creates an instance of a scan */
 export interface ScansCreateOrUpdate200Response extends HttpResponse {
   status: "200";
@@ -444,17 +287,6 @@ export interface ScansCreateOrUpdate201Response extends HttpResponse {
 
 /** Creates an instance of a scan */
 export interface ScansCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Check if a scan exists */
-export interface ScansHead200Response extends HttpResponse {
-  status: "200";
-}
-
-/** Check if a scan exists */
-export interface ScansHeaddefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -474,11 +306,7 @@ export interface ScansGetdefaultResponse extends HttpResponse {
 /** Deletes the scan associated with the data source */
 export interface ScansDelete200Response extends HttpResponse {
   status: "200";
-}
-
-/** Deletes the scan associated with the data source */
-export interface ScansDelete202Response extends HttpResponse {
-  status: "202";
+  body: Scan;
 }
 
 /** Deletes the scan associated with the data source */
@@ -504,13 +332,38 @@ export interface ScansListByDataSourcedefaultResponse extends HttpResponse {
   body: ErrorResponseModel;
 }
 
-/** Check if a scan ruleset exists */
-export interface ScanRulesetsHead200Response extends HttpResponse {
-  status: "200";
+/** Runs the scan */
+export interface ScansRunScan202Response extends HttpResponse {
+  status: "202";
+  body: OperationResponse;
 }
 
-/** Check if a scan ruleset exists */
-export interface ScanRulesetsHeaddefaultResponse extends HttpResponse {
+/** Runs the scan */
+export interface ScansRunScandefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseModel;
+}
+
+/** Cancels a scan */
+export interface ScansCancelScan202Response extends HttpResponse {
+  status: "202";
+  body: OperationResponse;
+}
+
+/** Cancels a scan */
+export interface ScansCancelScandefaultResponse extends HttpResponse {
+  status: "500";
+  body: ErrorResponseModel;
+}
+
+/** Lists the scan history of a scan */
+export interface ScansListScanHistory200Response extends HttpResponse {
+  status: "200";
+  body: ScanHistoryList;
+}
+
+/** Lists the scan history of a scan */
+export interface ScansListScanHistorydefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
@@ -548,11 +401,7 @@ export interface ScanRulesetsCreateOrUpdatedefaultResponse extends HttpResponse 
 /** Deletes a scan ruleset */
 export interface ScanRulesetsDelete200Response extends HttpResponse {
   status: "200";
-}
-
-/** Deletes a scan ruleset */
-export interface ScanRulesetsDelete202Response extends HttpResponse {
-  status: "202";
+  body: ScanRuleset;
 }
 
 /** Deletes a scan ruleset */
@@ -638,59 +487,6 @@ export interface SystemScanRulesetsListVersionsByDataSourcedefaultResponse exten
   body: ErrorResponseModel;
 }
 
-/** Get a system scan ruleset settings for a data source */
-export interface SystemScanRulesetSettingsGet200Response extends HttpResponse {
-  status: "200";
-  body: SystemScanRulesetSetting;
-}
-
-/** Get a system scan ruleset settings for a data source */
-export interface SystemScanRulesetSettingsGetdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** List system scan ruleset settings for an account */
-export interface SystemScanRulesetSettingsListAll200Response extends HttpResponse {
-  status: "200";
-  body: SystemScanRulesetSettingList;
-}
-
-/** List system scan ruleset settings for an account */
-export interface SystemScanRulesetSettingsListAlldefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Creates or Updates a system scan ruleset account settings */
-export interface SystemScanRulesetSettingsCreateOrUpdate200Response extends HttpResponse {
-  status: "200";
-  body: SystemScanRulesetSetting;
-}
-
-/** Creates or Updates a system scan ruleset account settings */
-export interface SystemScanRulesetSettingsCreateOrUpdate201Response extends HttpResponse {
-  status: "201";
-  body: SystemScanRulesetSetting;
-}
-
-/** Creates or Updates a system scan ruleset account settings */
-export interface SystemScanRulesetSettingsCreateOrUpdatedefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** Check if a trigger exists */
-export interface TriggersHead200Response extends HttpResponse {
-  status: "200";
-}
-
-/** Check if a trigger exists */
-export interface TriggersHeaddefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
 /** Gets trigger information */
 export interface TriggersGetTrigger200Response extends HttpResponse {
   status: "200";
@@ -724,11 +520,7 @@ export interface TriggersCreateTriggerdefaultResponse extends HttpResponse {
 /** Deletes the trigger associated with the scan */
 export interface TriggersDeleteTrigger200Response extends HttpResponse {
   status: "200";
-}
-
-/** Deletes the trigger associated with the scan */
-export interface TriggersDeleteTrigger202Response extends HttpResponse {
-  status: "202";
+  body: Trigger;
 }
 
 /** Deletes the trigger associated with the scan */
@@ -738,18 +530,6 @@ export interface TriggersDeleteTrigger204Response extends HttpResponse {
 
 /** Deletes the trigger associated with the scan */
 export interface TriggersDeleteTriggerdefaultResponse extends HttpResponse {
-  status: "500";
-  body: ErrorResponseModel;
-}
-
-/** List triggers in Scan */
-export interface TriggersListByScan200Response extends HttpResponse {
-  status: "200";
-  body: TriggerList;
-}
-
-/** List triggers in Scan */
-export interface TriggersListByScandefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseModel;
 }
