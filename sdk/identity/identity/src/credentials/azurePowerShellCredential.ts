@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as childProcess from "child_process";
+import { processUtils } from "../util/processUtils";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { CredentialUnavailableError } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
@@ -13,7 +14,7 @@ const logger = credentialLogger("AzurePowerShellCredential");
  * Formats a command based on the platform executing it.
  * @internal
  */
-function formatCommand(commandName: string) {
+function formatCommand(commandName: string): string {
   if (process.platform === "win32") {
     return `${commandName}.exe`;
   } else {
@@ -26,40 +27,59 @@ function formatCommand(commandName: string) {
  * If anything fails, an error is thrown.
  * @internal
  */
-function runCommands([firstCommand, ...commands]: string[]): string[] {
-  const output: string[] = [];
-  const error: string[] = [];
+function runCommands(commands: string[]): string[] {
+  const result: string[] = [];
 
-  // The first command can contain parameters.
-  const [firstCommandHead, ...firstCommandParams] = firstCommand.split(" ");
-  const child = childProcess.spawn(firstCommandHead, firstCommandParams);
-
-  child.stdout.on("data", function(data) {
-    output.push(data.toString());
-  });
-  child.stderr.on("data", function(data) {
-    error.push(data.toString());
-  });
-
-  commands.forEach(function(cmd) {
-    child.stdin.write(cmd + "\n");
-  });
-
-  // Throws the first error received
-  if (error.length) {
-    throw new Error(error[0]);
+  try {
+    commands.forEach((cmd: string) => {
+      result.push(childProcess.execSync(cmd).toString("utf-8"));
+    });
+  } catch (e) {
+    throw new Error(e.toString("utf-8"));
   }
 
-  return output;
+  return result;
 }
 
 /**
- * This credential will use the currently logged-in user login information
- * via the Azure Power Shell commandline tool.
- * To do so, it will read the user access token and expire time
- * with Azure Power Shell command `Get-AzAccessToken -ResourceUrl {ResourceScope}`.
- * To be able to use this credential, ensure that you have already logged
- * in via the 'az' tool using the command "Connect-AzAccount" from the commandline.
+ * Known PowerShell errors
+ * @internal
+ */
+export const powerShellErrors = {
+  login: "Run Connect-AzAccount to login",
+  installed:
+    "The specified module 'Az.Accounts' with version '2.2.0' was not loaded because no valid module file was found in any module directory"
+};
+
+/**
+ * Messages to use when throwing in this credential.
+ * @internal
+ */
+export const powerShellPublicErrorMessages = {
+  login:
+    "Please run 'Connect-AzAccount' from powershell to authenticate before using this credential.",
+  installed: `Az.Account module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install - Module - Name Az - Scope CurrentUser - Repository PSGallery - Force".`
+};
+
+// PowerShell Azure User not logged in error check.
+const isLoginError = (err: Error) => err.message.match(`(.*)${powerShellErrors.login}(.*)`);
+
+// Az Module not Installed in Azure PowerShell check.
+const isNotInstallError = (err: Error) => err.message.match(powerShellErrors.installed);
+
+/**
+ * Optional parameters for the {@link AzurePowerShellCredential} class.
+ */
+export interface AzurePowerShellCredentialOptions {
+  useLegacyPowerShell?: boolean;
+}
+
+/**
+ * This credential will use the currently logged-in user login information via the Azure Power Shell command line tool.
+ * To do so, it will read the user access token and expire time with Azure Power Shell command `Get-AzAccessToken -ResourceUrl {ResourceScope}`.
+ * To be able to use this credential, ensure that:
+ * - Install the Azure Az PowerShell module with: `Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force`.
+ * - You have already logged in via the 'az' tool using the command "Connect-AzAccount" from the command line.
  */
 export class AzurePowerShellCredential implements TokenCredential {
   private useLegacyPowerShell: boolean;
@@ -70,8 +90,8 @@ export class AzurePowerShellCredential implements TokenCredential {
    *
    * @param useLegacyPowerShell - The flag indicating if legacy powershell should be used for authentication.
    */
-  constructor(useLegacyPowerShell: boolean = false) {
-    this.useLegacyPowerShell = useLegacyPowerShell;
+  constructor(options?: AzurePowerShellCredentialOptions) {
+    this.useLegacyPowerShell = Boolean(options?.useLegacyPowerShell);
   }
   /**
    * Gets the access token from Azure Power Shell
@@ -80,18 +100,25 @@ export class AzurePowerShellCredential implements TokenCredential {
   protected async getAzurePowerShellAccessToken(
     resource: string
   ): Promise<{ Token: string; ExpiresOn: string }> {
-    let firstCommand: string;
+    let pwshCommand: string;
 
     if (this.useLegacyPowerShell) {
-      firstCommand = `${formatCommand("powershell")} -Command -`;
+      pwshCommand = formatCommand("powershell");
     } else {
-      firstCommand = `${formatCommand("pwsh")} -Command -`;
+      pwshCommand = formatCommand("pwsh");
+    }
+
+    try {
+      await processUtils.exists(pwshCommand);
+    } catch (e) {
+      throw new Error(
+        `Unable to execute "${pwshCommand}". Ensure that it is installed in your system.`
+      );
     }
 
     const output = runCommands([
-      firstCommand,
-      "Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru",
-      `Get-AzAccessToken -ResourceUrl "${resource}" | ConvertTo-Json"`
+      `${pwshCommand} -Command Import-Module Az.Accounts -MinimumVersion 2.2.0 -PassThru`,
+      `${pwshCommand} -Command 'Get-AzAccessToken -ResourceUrl "${resource}" | ConvertTo-Json'`
     ]);
 
     return JSON.parse(output[1]);
@@ -99,8 +126,8 @@ export class AzurePowerShellCredential implements TokenCredential {
 
   /**
    * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
+   * successful. If authentication cannot be performed at this time, this method may
+   * return null. If an error occurs during authentication, an {@link AuthenticationError}
    * containing failure details will be thrown.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -133,44 +160,18 @@ export class AzurePowerShellCredential implements TokenCredential {
         };
         return returnValue;
       } catch (err) {
-        console.log({ err });
-
-        // PowerShell Azure User not logged in error check.
-        const isLoginError = err.message.match("(.*)Run Connect-AzAccount to login(.*)");
-
-        // Az Module not Installed in Azure PowerShell check.
-        const isNotInstallError = err.message.match(
-          "The specified module 'Az.Accounts' with version '2.2.0' was not loaded because no valid module file was found in any module directory"
-        );
-        if (isNotInstallError) {
-          const error = new CredentialUnavailableError(
-            "Az.Account module >= 2.2.0 is not installed."
-          );
+        if (isNotInstallError(err)) {
+          const error = new CredentialUnavailableError(powerShellPublicErrorMessages.installed);
           logger.getToken.info(formatError(scope, error));
           throw error;
-
-          // Azure user not logged in check in Azure Power Shell.
-        } else if (isLoginError) {
-          const error = new CredentialUnavailableError(
-            "Please run 'az login' from a command prompt to authenticate before using this credential."
-          );
+        } else if (isLoginError(err)) {
+          const error = new CredentialUnavailableError(powerShellPublicErrorMessages.login);
           logger.getToken.info(formatError(scope, error));
           throw error;
         }
         const error = new CredentialUnavailableError(err);
         logger.getToken.info(formatError(scope, error));
         throw error;
-
-        // const code =
-        //   err.name === AuthenticationErrorName
-        //     ? CanonicalCode.UNAUTHENTICATED
-        //     : CanonicalCode.UNKNOWN;
-        // span.setStatus({
-        //   code,
-        //   message: err.message
-        // });
-        // logger.getToken.info(formatError(err));
-        // throw err;
       }
     });
   }

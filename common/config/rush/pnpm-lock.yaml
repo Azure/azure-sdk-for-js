@@ -1087,6 +1087,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-1zzPV9FDe1I/WHhRkf9SNgqtRJWZqrBWgu7JGveuHmmyR9CnAPCie2N/x+iHrgnpYBIcCJWHBoMRv2TRWktsvw==
+  /@types/command-exists/1.2.0:
+    dev: false
+    resolution:
+      integrity: sha512-ugsxEJfsCuqMLSuCD4PIJkp5Uk2z6TCMRCgYVuhRo5cYQY3+1xXTQkSlPtkpGHuvWMjS2KTeVQXxkXRACMbM6A==
   /@types/component-emitter/1.2.10:
     dev: false
     resolution:
@@ -2191,6 +2195,10 @@ packages:
       node: '>= 0.8'
     resolution:
       integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
+  /command-exists/1.2.9:
+    dev: false
+    resolution:
+      integrity: sha512-LTQ/SGc+s0Xc0Fu5WaKnR0YiygZkm9eKFvyS+fRsU7/ZWFF8ykFM6Pc9aCVf1+xasOOZpO3BAVgVrKvsqKHV7w==
   /commander/2.20.3:
     dev: false
     resolution:
@@ -8039,7 +8047,7 @@ packages:
     dev: false
     name: '@rush-temp/app-configuration'
     resolution:
-      integrity: sha512-iItMzob++ct7sGjHGLQKISCJK+oW9NwDIucpCrPpEMt2MH2TyBaSHv4DOuDa2Y/jBtO9W4Hj0Fbt/aKXewREYw==
+      integrity: sha512-FXmrcu+Xkooj8VYI9F8se9mhHqfxeUoeRvPLcLnvUTraALTk+6kBSNbdozdt1eW796GUMpJQkhmN9N/OrypDKQ==
       tarball: file:projects/app-configuration.tgz
     version: 0.0.0
   file:projects/attestation.tgz:
@@ -9462,6 +9470,7 @@ packages:
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       '@rollup/plugin-replace': 2.4.2_rollup@1.32.1
+      '@types/command-exists': 1.2.0
       '@types/jws': 3.2.3
       '@types/mocha': 7.0.2
       '@types/node': 8.10.66
@@ -9470,6 +9479,7 @@ packages:
       '@types/stoppable': 1.1.0
       '@types/uuid': 8.3.0
       assert: 1.5.0
+      command-exists: 1.2.9
       cross-env: 7.0.3
       dotenv: 8.2.0
       eslint: 7.23.0
@@ -9508,7 +9518,7 @@ packages:
     optionalDependencies:
       keytar: 7.6.0
     resolution:
-      integrity: sha512-TGmDn9FURoFYW60Z94hZ8+QRix4SX+A0jZGBJUZ4Xvo9IutZ81CVMxctI+TL8SgyWLzLWHkSEjsbB36WcVQM9w==
+      integrity: sha512-lee1Ia7qen6UhZ0KwrpbRtoO6LRZULX4XB0zEPziG1rIsCG7qewqzWKdM/jAg9plOV9ITnEETmHuqKsJUi++Qw==
       tarball: file:projects/identity.tgz
     version: 0.0.0
   file:projects/iot-device-update.tgz:

@@ -98,7 +98,9 @@
     "qs": "^6.7.0",
     "stoppable": "^1.1.0",
     "tslib": "^2.0.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.0",
+    "command-exists": "~1.2.9",
+    "@types/command-exists": "~1.2.0"
   },
   "optionalDependencies": {
     "keytar": "^7.6.0"
