@@ -722,7 +722,7 @@ describe("NodeJS utils", () => {
   describe("applyRequestBodyTransformations with default transforms", () => {
     [
       {
-        name: `case 1`,
+        name: `client-request-id is handled`,
         input: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=11111111-1111-1111-1111-111111111111&client_secret=azure_client_secret")
@@ -751,7 +751,7 @@ describe("NodeJS utils", () => {
                 `
       },
       {
-        name: `case 2`,
+        name: `scope is handled`,
         input: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
@@ -780,7 +780,7 @@ describe("NodeJS utils", () => {
                 `
       },
       {
-        name: `case 3`,
+        name: `client-request-id and scope are handled`,
         input: `
                 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
                   .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=11111111-1111-1111-1111-111111111111&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
@@ -855,7 +855,7 @@ describe("NodeJS utils", () => {
                 `
       }
     ].forEach((test) => {
-      it.only(test.name, () => {
+      it(test.name, () => {
         chai.assert.equal(
           applyRequestBodyTransformationsOnFixture(
             "node",
