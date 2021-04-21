@@ -48,7 +48,7 @@ export interface SendMessageOptions extends OperationOptions {
   /** The chat message type. */
   type?: ChatMessageType;
   /** Message properties */
-  properties?: { [propertyName: string]: any };
+  properties?: { [propertyName: string]: string };
 }
 
 /**

@@ -87,7 +87,7 @@ export interface ChatMessage {
     editedOn?: Date;
     id: string;
     properties?: {
-        [propertyName: string]: any;
+        [propertyName: string]: string;
     };
     sender?: CommunicationIdentifierKind;
     senderDisplayName?: string;
@@ -238,7 +238,7 @@ export interface RestListReadReceiptsOptions extends coreHttp.OperationOptions {
 export interface RestUpdateMessageOptions {
     content?: string;
     properties?: {
-        [propertyName: string]: any;
+        [propertyName: string]: string;
     };
 }
 
@@ -250,7 +250,7 @@ export interface SendChatMessageResult {
 // @public
 export interface SendMessageOptions extends OperationOptions {
     properties?: {
-        [propertyName: string]: any;
+        [propertyName: string]: string;
     };
     senderDisplayName?: string;
     type?: ChatMessageType;

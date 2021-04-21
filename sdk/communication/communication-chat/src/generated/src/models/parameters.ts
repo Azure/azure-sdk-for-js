@@ -183,7 +183,7 @@ export const createChatThreadRequest: OperationParameter = {
 export const repeatabilityRequestId: OperationParameter = {
   parameterPath: ["options", "repeatabilityRequestId"],
   mapper: {
-    serializedName: "repeatability-Request-Id",
+    serializedName: "repeatability-request-id",
     type: {
       name: "String"
     }

@@ -273,7 +273,7 @@ export const SendChatMessageRequest: coreHttp.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -401,7 +401,7 @@ export const ChatMessage: coreHttp.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: { type: { name: "String" } }
         }
       }
     }
@@ -491,7 +491,7 @@ export const UpdateChatMessageRequest: coreHttp.CompositeMapper = {
         serializedName: "properties",
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
+          value: { type: { name: "String" } }
         }
       }
     }
