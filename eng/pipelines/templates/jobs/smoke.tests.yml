@@ -107,10 +107,6 @@ jobs:
         value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.cn'; searchSku = 'basic' }"
 
     steps:
-      - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
-        parameters:
-          AgentImage: $(OSVmImage)
-
       - template: /eng/pipelines/templates/steps/common.yml
 
       - template: /eng/pipelines/templates/steps/use-node-version.yml

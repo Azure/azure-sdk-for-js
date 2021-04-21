@@ -2,6 +2,11 @@
 
 ## 1.0.0 (Unreleased)
 
+## 2021-04-19
+
+- Helper method added for the transformations to be applied on the requestBody in record mode to be able to filter the requests in playback.
+  Extends the `RecorderEnvironmentSetup` with `requestBodyTransformations` property which takes the transformation callbacks to be applied on the request body.
+
 ## 2021-04-07
 
 - Relaxing `maskAccessTokenInBrowserRecording` method to ignore the access_token replacement if the response is not JSON parsable.
