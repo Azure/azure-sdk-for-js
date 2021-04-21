@@ -1074,6 +1074,146 @@ export class WebApps {
   }
 
   /**
+   * Description for Gets the config reference app settings and status of an app
+   * @summary Gets the config reference app settings and status of an app
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesResponse>
+   */
+  getAppSettingsKeyVaultReferences(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param callback The callback
+   */
+  getAppSettingsKeyVaultReferences(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAppSettingsKeyVaultReferences(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  getAppSettingsKeyVaultReferences(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReferenceCollection>, callback?: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getAppSettingsKeyVaultReferencesOperationSpec,
+      callback) as Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference and status of an app
+   * @summary Gets the config reference and status of an app
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param appSettingKey App Setting key name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetAppSettingKeyVaultReferenceResponse>
+   */
+  getAppSettingKeyVaultReference(resourceGroupName: string, name: string, appSettingKey: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetAppSettingKeyVaultReferenceResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param appSettingKey App Setting key name.
+   * @param callback The callback
+   */
+  getAppSettingKeyVaultReference(resourceGroupName: string, name: string, appSettingKey: string, callback: msRest.ServiceCallback<Models.ApiKVReference>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param appSettingKey App Setting key name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAppSettingKeyVaultReference(resourceGroupName: string, name: string, appSettingKey: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReference>): void;
+  getAppSettingKeyVaultReference(resourceGroupName: string, name: string, appSettingKey: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReference>, callback?: msRest.ServiceCallback<Models.ApiKVReference>): Promise<Models.WebAppsGetAppSettingKeyVaultReferenceResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        appSettingKey,
+        options
+      },
+      getAppSettingKeyVaultReferenceOperationSpec,
+      callback) as Promise<Models.WebAppsGetAppSettingKeyVaultReferenceResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference app settings and status of an app
+   * @summary Gets the config reference app settings and status of an app
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesResponse>
+   */
+  getSiteConnectionStringKeyVaultReferences(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferences(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferences(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  getSiteConnectionStringKeyVaultReferences(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReferenceCollection>, callback?: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getSiteConnectionStringKeyVaultReferencesOperationSpec,
+      callback) as Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference and status of an app
+   * @summary Gets the config reference and status of an app
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionStringKey
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferenceResponse>
+   */
+  getSiteConnectionStringKeyVaultReference(resourceGroupName: string, name: string, connectionStringKey: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferenceResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionStringKey
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReference(resourceGroupName: string, name: string, connectionStringKey: string, callback: msRest.ServiceCallback<Models.ApiKVReference>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionStringKey
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReference(resourceGroupName: string, name: string, connectionStringKey: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReference>): void;
+  getSiteConnectionStringKeyVaultReference(resourceGroupName: string, name: string, connectionStringKey: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReference>, callback?: msRest.ServiceCallback<Models.ApiKVReference>): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferenceResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionStringKey,
+        options
+      },
+      getSiteConnectionStringKeyVaultReferenceOperationSpec,
+      callback) as Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferenceResponse>;
+  }
+
+  /**
    * Description for Replaces the connection strings of an app.
    * @summary Replaces the connection strings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -4137,49 +4277,6 @@ export class WebApps {
   }
 
   /**
-   * Description for Integrates this Web App with a Virtual Network. This requires that 1)
-   * "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet
-   * has already been delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>
-   */
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  createOrUpdateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        options
-      },
-      createOrUpdateSwiftVirtualNetworkConnectionOperationSpec,
-      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse>;
-  }
-
-  /**
    * Description for Deletes a Swift Virtual Network connection from an app (or deployment slot).
    * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -4213,54 +4310,11 @@ export class WebApps {
   }
 
   /**
-   * Description for Integrates this Web App with a Virtual Network. This requires that 1)
-   * "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet
-   * has already been delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>
-   */
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  updateSwiftVirtualNetworkConnection(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        options
-      },
-      updateSwiftVirtualNetworkConnectionOperationSpec,
-      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionResponse>;
-  }
-
-  /**
    * Description for Gets all network features used by the app (or deployment slot, if specified).
    * @summary Gets all network features used by the app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
-   * @param view The type of view. This can either be "summary" or "detailed".
+   * @param view The type of view. Only "summary" is supported at this time.
    * @param [options] The optional parameters
    * @returns Promise<Models.WebAppsListNetworkFeaturesResponse>
    */
@@ -4268,14 +4322,14 @@ export class WebApps {
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
-   * @param view The type of view. This can either be "summary" or "detailed".
+   * @param view The type of view. Only "summary" is supported at this time.
    * @param callback The callback
    */
   listNetworkFeatures(resourceGroupName: string, name: string, view: string, callback: msRest.ServiceCallback<Models.NetworkFeatures>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
-   * @param view The type of view. This can either be "summary" or "detailed".
+   * @param view The type of view. Only "summary" is supported at this time.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -4888,6 +4942,138 @@ export class WebApps {
       },
       putPrivateAccessVnetOperationSpec,
       callback) as Promise<Models.WebAppsPutPrivateAccessVnetResponse>;
+  }
+
+  /**
+   * Description for Gets the list of private endpoint connections associated with a site
+   * @summary Gets the list of private endpoint connections associated with a site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetPrivateEndpointConnectionListResponse>
+   */
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateEndpointConnectionListResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.WebAppsGetPrivateEndpointConnectionListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getPrivateEndpointConnectionListOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateEndpointConnectionListResponse>;
+  }
+
+  /**
+   * Description for Gets a private endpoint connection
+   * @summary Gets a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetPrivateEndpointConnectionResponse>
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateEndpointConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>, callback?: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): Promise<Models.WebAppsGetPrivateEndpointConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options
+      },
+      getPrivateEndpointConnectionOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Approves or rejects a private endpoint connection
+   * @summary Approves or rejects a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param privateEndpointWrapper
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionResponse>
+   */
+  approveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionResponse> {
+    return this.beginApproveOrRejectPrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,privateEndpointWrapper,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Deletes a private endpoint connection
+   * @summary Deletes a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsDeletePrivateEndpointConnectionResponse>
+   */
+  deletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsDeletePrivateEndpointConnectionResponse> {
+    return this.beginDeletePrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebAppsDeletePrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Gets the private link resources
+   * @summary Gets the private link resources
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetPrivateLinkResourcesResponse>
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateLinkResourcesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param callback The callback
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): Promise<Models.WebAppsGetPrivateLinkResourcesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getPrivateLinkResourcesOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateLinkResourcesResponse>;
   }
 
   /**
@@ -5585,21 +5771,6 @@ export class WebApps {
   }
 
   /**
-   * Description for Copies a deployment slot to another deployment slot of an app.
-   * @summary Copies a deployment slot to another deployment slot of an app.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param copySlotEntity JSON object that contains the target slot name and site config properties
-   * to override the source slot config. See example.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  copyProductionSlot(resourceGroupName: string, name: string, copySlotEntity: Models.CsmCopySlotEntity, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCopyProductionSlot(resourceGroupName,name,copySlotEntity,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
    * Description for Gets an app's deployment slots.
    * @summary Gets an app's deployment slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -6100,6 +6271,200 @@ export class WebApps {
   }
 
   /**
+   * Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given
+   * site.
+   * @summary Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetBasicPublishingCredentialsPoliciesSlotResponse>
+   */
+  getBasicPublishingCredentialsPoliciesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetBasicPublishingCredentialsPoliciesSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param callback The callback
+   */
+  getBasicPublishingCredentialsPoliciesSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getBasicPublishingCredentialsPoliciesSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesCollection>): void;
+  getBasicPublishingCredentialsPoliciesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesCollection>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesCollection>): Promise<Models.WebAppsGetBasicPublishingCredentialsPoliciesSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      getBasicPublishingCredentialsPoliciesSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetBasicPublishingCredentialsPoliciesSlotResponse>;
+  }
+
+  /**
+   * Description for Returns whether FTP is allowed on the site or not.
+   * @summary Returns whether FTP is allowed on the site or not.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetFtpAllowedSlotResponse>
+   */
+  getFtpAllowedSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetFtpAllowedSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param callback The callback
+   */
+  getFtpAllowedSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getFtpAllowedSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  getFtpAllowedSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): Promise<Models.WebAppsGetFtpAllowedSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      getFtpAllowedSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetFtpAllowedSlotResponse>;
+  }
+
+  /**
+   * Description for Updates whether FTP is allowed on the site or not.
+   * @summary Updates whether FTP is allowed on the site or not.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param slot
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsUpdateFtpAllowedSlotResponse>
+   */
+  updateFtpAllowedSlot(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateFtpAllowedSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param slot
+   * @param callback The callback
+   */
+  updateFtpAllowedSlot(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, slot: string, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param slot
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateFtpAllowedSlot(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  updateFtpAllowedSlot(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): Promise<Models.WebAppsUpdateFtpAllowedSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        csmPublishingAccessPoliciesEntity,
+        slot,
+        options
+      },
+      updateFtpAllowedSlotOperationSpec,
+      callback) as Promise<Models.WebAppsUpdateFtpAllowedSlotResponse>;
+  }
+
+  /**
+   * Description for Returns whether Scm basic auth is allowed on the site or not.
+   * @summary Returns whether Scm basic auth is allowed on the site or not.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetScmAllowedSlotResponse>
+   */
+  getScmAllowedSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetScmAllowedSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param callback The callback
+   */
+  getScmAllowedSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getScmAllowedSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  getScmAllowedSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): Promise<Models.WebAppsGetScmAllowedSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      getScmAllowedSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetScmAllowedSlotResponse>;
+  }
+
+  /**
+   * Description for Updates whether user publishing credentials are allowed on the site or not.
+   * @summary Updates whether user publishing credentials are allowed on the site or not.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param slot
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsUpdateScmAllowedSlotResponse>
+   */
+  updateScmAllowedSlot(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateScmAllowedSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param slot
+   * @param callback The callback
+   */
+  updateScmAllowedSlot(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, slot: string, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param csmPublishingAccessPoliciesEntity
+   * @param slot
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateScmAllowedSlot(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): void;
+  updateScmAllowedSlot(resourceGroupName: string, name: string, csmPublishingAccessPoliciesEntity: Models.CsmPublishingCredentialsPoliciesEntity, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>, callback?: msRest.ServiceCallback<Models.CsmPublishingCredentialsPoliciesEntity>): Promise<Models.WebAppsUpdateScmAllowedSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        csmPublishingAccessPoliciesEntity,
+        slot,
+        options
+      },
+      updateScmAllowedSlotOperationSpec,
+      callback) as Promise<Models.WebAppsUpdateScmAllowedSlotResponse>;
+  }
+
+  /**
    * Description for List the configurations of an app
    * @summary List the configurations of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -6592,6 +6957,162 @@ export class WebApps {
       },
       getBackupConfigurationSlotOperationSpec,
       callback) as Promise<Models.WebAppsGetBackupConfigurationSlotResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference app settings and status of an app
+   * @summary Gets the config reference app settings and status of an app
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesSlotResponse>
+   */
+  getAppSettingsKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param callback The callback
+   */
+  getAppSettingsKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAppSettingsKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  getAppSettingsKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReferenceCollection>, callback?: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      getAppSettingsKeyVaultReferencesSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesSlotResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference and status of an app
+   * @summary Gets the config reference and status of an app
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param appSettingKey App Setting key name.
+   * @param slot
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetAppSettingKeyVaultReferenceSlotResponse>
+   */
+  getAppSettingKeyVaultReferenceSlot(resourceGroupName: string, name: string, appSettingKey: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetAppSettingKeyVaultReferenceSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param appSettingKey App Setting key name.
+   * @param slot
+   * @param callback The callback
+   */
+  getAppSettingKeyVaultReferenceSlot(resourceGroupName: string, name: string, appSettingKey: string, slot: string, callback: msRest.ServiceCallback<Models.ApiKVReference>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param appSettingKey App Setting key name.
+   * @param slot
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAppSettingKeyVaultReferenceSlot(resourceGroupName: string, name: string, appSettingKey: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReference>): void;
+  getAppSettingKeyVaultReferenceSlot(resourceGroupName: string, name: string, appSettingKey: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReference>, callback?: msRest.ServiceCallback<Models.ApiKVReference>): Promise<Models.WebAppsGetAppSettingKeyVaultReferenceSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        appSettingKey,
+        slot,
+        options
+      },
+      getAppSettingKeyVaultReferenceSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetAppSettingKeyVaultReferenceSlotResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference app settings and status of an app
+   * @summary Gets the config reference app settings and status of an app
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse>
+   */
+  getSiteConnectionStringKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  getSiteConnectionStringKeyVaultReferencesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReferenceCollection>, callback?: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      getSiteConnectionStringKeyVaultReferencesSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference and status of an app
+   * @summary Gets the config reference and status of an app
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionStringKey
+   * @param slot
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse>
+   */
+  getSiteConnectionStringKeyVaultReferenceSlot(resourceGroupName: string, name: string, connectionStringKey: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionStringKey
+   * @param slot
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferenceSlot(resourceGroupName: string, name: string, connectionStringKey: string, slot: string, callback: msRest.ServiceCallback<Models.ApiKVReference>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param connectionStringKey
+   * @param slot
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferenceSlot(resourceGroupName: string, name: string, connectionStringKey: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReference>): void;
+  getSiteConnectionStringKeyVaultReferenceSlot(resourceGroupName: string, name: string, connectionStringKey: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReference>, callback?: msRest.ServiceCallback<Models.ApiKVReference>): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        connectionStringKey,
+        slot,
+        options
+      },
+      getSiteConnectionStringKeyVaultReferenceSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse>;
   }
 
   /**
@@ -10015,56 +10536,6 @@ export class WebApps {
   }
 
   /**
-   * Description for Integrates this Web App with a Virtual Network. This requires that 1)
-   * "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet
-   * has already been delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  createOrUpdateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        slot,
-        options
-      },
-      createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec,
-      callback) as Promise<Models.WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  }
-
-  /**
    * Description for Deletes a Swift Virtual Network connection from an app (or deployment slot).
    * @summary Deletes a Swift Virtual Network connection from an app (or deployment slot).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -10105,61 +10576,11 @@ export class WebApps {
   }
 
   /**
-   * Description for Integrates this Web App with a Virtual Network. This requires that 1)
-   * "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet
-   * has already been delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @summary Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported"
-   * is true when doing a GET against this resource, and 2) that the target Subnet has already been
-   * delegated, and is not
-   * in use by another App Service Plan other than the one this App is in.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>
-   */
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param connectionEnvelope Properties of the Virtual Network connection. See example.
-   * @param slot Name of the deployment slot. If a slot is not specified, the API will add or update
-   * connections for the production slot.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): void;
-  updateSwiftVirtualNetworkConnectionSlot(resourceGroupName: string, name: string, connectionEnvelope: Models.SwiftVirtualNetwork, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SwiftVirtualNetwork>, callback?: msRest.ServiceCallback<Models.SwiftVirtualNetwork>): Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        connectionEnvelope,
-        slot,
-        options
-      },
-      updateSwiftVirtualNetworkConnectionSlotOperationSpec,
-      callback) as Promise<Models.WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse>;
-  }
-
-  /**
    * Description for Gets all network features used by the app (or deployment slot, if specified).
    * @summary Gets all network features used by the app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
-   * @param view The type of view. This can either be "summary" or "detailed".
+   * @param view The type of view. Only "summary" is supported at this time.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get network
    * features for the production slot.
    * @param [options] The optional parameters
@@ -10169,7 +10590,7 @@ export class WebApps {
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
-   * @param view The type of view. This can either be "summary" or "detailed".
+   * @param view The type of view. Only "summary" is supported at this time.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get network
    * features for the production slot.
    * @param callback The callback
@@ -10178,7 +10599,7 @@ export class WebApps {
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
-   * @param view The type of view. This can either be "summary" or "detailed".
+   * @param view The type of view. Only "summary" is supported at this time.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get network
    * features for the production slot.
    * @param options The optional parameters
@@ -10892,40 +11313,81 @@ export class WebApps {
   }
 
   /**
+   * Description for Gets the list of private endpoint connections associated with a site
+   * @summary Gets the list of private endpoint connections associated with a site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param slot Name of the site deployment slot.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetPrivateEndpointConnectionListSlotResponse>
+   */
+  getPrivateEndpointConnectionListSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateEndpointConnectionListSlotResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param slot Name of the site deployment slot.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param slot Name of the site deployment slot.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionListSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.WebAppsGetPrivateEndpointConnectionListSlotResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        slot,
+        options
+      },
+      getPrivateEndpointConnectionListSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateEndpointConnectionListSlotResponse>;
+  }
+
+  /**
    * Description for Gets a private endpoint connection
    * @summary Gets a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
-   * @param privateEndpointConnectionName
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param slot Name of the site deployment slot.
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetPrivateEndpointConnectionResponse>
+   * @returns Promise<Models.WebAppsGetPrivateEndpointConnectionSlotResponse>
    */
-  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateEndpointConnectionResponse>;
+  getPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateEndpointConnectionSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
-   * @param privateEndpointConnectionName
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param slot Name of the site deployment slot.
    * @param callback The callback
    */
-  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
+  getPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
-   * @param privateEndpointConnectionName
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param slot Name of the site deployment slot.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): void;
-  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionResource>): Promise<Models.WebAppsGetPrivateEndpointConnectionResponse> {
+  getPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
+  getPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>, callback?: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): Promise<Models.WebAppsGetPrivateEndpointConnectionSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
         privateEndpointConnectionName,
+        slot,
         options
       },
-      getPrivateEndpointConnectionOperationSpec,
-      callback) as Promise<Models.WebAppsGetPrivateEndpointConnectionResponse>;
+      getPrivateEndpointConnectionSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateEndpointConnectionSlotResponse>;
   }
 
   /**
@@ -10935,12 +11397,13 @@ export class WebApps {
    * @param name Name of the site.
    * @param privateEndpointConnectionName
    * @param privateEndpointWrapper
+   * @param slot
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionResponse>
+   * @returns Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>
    */
-  approveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionResponse> {
-    return this.beginApproveOrRejectPrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,privateEndpointWrapper,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionResponse>;
+  approveOrRejectPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse> {
+    return this.beginApproveOrRejectPrivateEndpointConnectionSlot(resourceGroupName,name,privateEndpointConnectionName,privateEndpointWrapper,slot,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse>;
   }
 
   /**
@@ -10949,12 +11412,13 @@ export class WebApps {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
+   * @param slot
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsDeletePrivateEndpointConnectionResponse>
+   * @returns Promise<Models.WebAppsDeletePrivateEndpointConnectionSlotResponse>
    */
-  deletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsDeletePrivateEndpointConnectionResponse> {
-    return this.beginDeletePrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebAppsDeletePrivateEndpointConnectionResponse>;
+  deletePrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsDeletePrivateEndpointConnectionSlotResponse> {
+    return this.beginDeletePrivateEndpointConnectionSlot(resourceGroupName,name,privateEndpointConnectionName,slot,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.WebAppsDeletePrivateEndpointConnectionSlotResponse>;
   }
 
   /**
@@ -10962,32 +11426,36 @@ export class WebApps {
    * @summary Gets the private link resources
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
+   * @param slot
    * @param [options] The optional parameters
-   * @returns Promise<Models.WebAppsGetPrivateLinkResourcesResponse>
+   * @returns Promise<Models.WebAppsGetPrivateLinkResourcesSlotResponse>
    */
-  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateLinkResourcesResponse>;
+  getPrivateLinkResourcesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateLinkResourcesSlotResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
+   * @param slot
    * @param callback The callback
    */
-  getPrivateLinkResources(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  getPrivateLinkResourcesSlot(resourceGroupName: string, name: string, slot: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
+   * @param slot
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPrivateLinkResources(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
-  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): Promise<Models.WebAppsGetPrivateLinkResourcesResponse> {
+  getPrivateLinkResourcesSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  getPrivateLinkResourcesSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): Promise<Models.WebAppsGetPrivateLinkResourcesSlotResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
+        slot,
         options
       },
-      getPrivateLinkResourcesOperationSpec,
-      callback) as Promise<Models.WebAppsGetPrivateLinkResourcesResponse>;
+      getPrivateLinkResourcesSlotOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateLinkResourcesSlotResponse>;
   }
 
   /**
@@ -11810,23 +12278,6 @@ export class WebApps {
   }
 
   /**
-   * Description for Copies a deployment slot to another deployment slot of an app.
-   * @summary Copies a deployment slot to another deployment slot of an app.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param copySlotEntity JSON object that contains the target slot name and site config properties
-   * to override the source slot config. See example.
-   * @param slot Name of the source slot. If a slot is not specified, the production slot is used as
-   * the source slot.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  copySlotSlot(resourceGroupName: string, name: string, copySlotEntity: Models.CsmCopySlotEntity, slot: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginCopySlotSlot(resourceGroupName,name,copySlotEntity,slot,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
-  }
-
-  /**
    * Description for Get the difference in configuration settings between two web app slots.
    * @summary Get the difference in configuration settings between two web app slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -12026,7 +12477,7 @@ export class WebApps {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, options?: Models.WebAppsDeleteSourceControlSlotOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -12043,8 +12494,8 @@ export class WebApps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, options: Models.WebAppsDeleteSourceControlSlotOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  deleteSourceControlSlot(resourceGroupName: string, name: string, slot: string, options?: Models.WebAppsDeleteSourceControlSlotOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -13245,7 +13696,7 @@ export class WebApps {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteSourceControl(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteSourceControl(resourceGroupName: string, name: string, options?: Models.WebAppsDeleteSourceControlOptionalParams): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -13258,8 +13709,8 @@ export class WebApps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteSourceControl(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteSourceControl(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteSourceControl(resourceGroupName: string, name: string, options: Models.WebAppsDeleteSourceControlOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  deleteSourceControl(resourceGroupName: string, name: string, options?: Models.WebAppsDeleteSourceControlOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -14331,6 +14782,50 @@ export class WebApps {
   }
 
   /**
+   * Description for Approves or rejects a private endpoint connection
+   * @summary Approves or rejects a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param privateEndpointWrapper
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options
+      },
+      beginApproveOrRejectPrivateEndpointConnectionOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Deletes a private endpoint connection
+   * @summary Deletes a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param privateEndpointConnectionName
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options
+      },
+      beginDeletePrivateEndpointConnectionOperationSpec,
+      options);
+  }
+
+  /**
    * Description for Restores an app from a backup blob in Azure Storage.
    * @summary Restores an app from a backup blob in Azure Storage.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -14412,28 +14907,6 @@ export class WebApps {
         options
       },
       beginInstallSiteExtensionOperationSpec,
-      options);
-  }
-
-  /**
-   * Description for Copies a deployment slot to another deployment slot of an app.
-   * @summary Copies a deployment slot to another deployment slot of an app.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param copySlotEntity JSON object that contains the target slot name and site config properties
-   * to override the source slot config. See example.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginCopyProductionSlot(resourceGroupName: string, name: string, copySlotEntity: Models.CsmCopySlotEntity, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        name,
-        copySlotEntity,
-        options
-      },
-      beginCopyProductionSlotOperationSpec,
       options);
   }
 
@@ -14613,19 +15086,21 @@ export class WebApps {
    * @param name Name of the site.
    * @param privateEndpointConnectionName
    * @param privateEndpointWrapper
+   * @param slot
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginApproveOrRejectPrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, slot: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         name,
         privateEndpointConnectionName,
         privateEndpointWrapper,
+        slot,
         options
       },
-      beginApproveOrRejectPrivateEndpointConnectionOperationSpec,
+      beginApproveOrRejectPrivateEndpointConnectionSlotOperationSpec,
       options);
   }
 
@@ -14635,18 +15110,20 @@ export class WebApps {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
+   * @param slot
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeletePrivateEndpointConnectionSlot(resourceGroupName: string, name: string, privateEndpointConnectionName: string, slot: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
         name,
         privateEndpointConnectionName,
+        slot,
         options
       },
-      beginDeletePrivateEndpointConnectionOperationSpec,
+      beginDeletePrivateEndpointConnectionSlotOperationSpec,
       options);
   }
 
@@ -14742,31 +15219,6 @@ export class WebApps {
         options
       },
       beginInstallSiteExtensionSlotOperationSpec,
-      options);
-  }
-
-  /**
-   * Description for Copies a deployment slot to another deployment slot of an app.
-   * @summary Copies a deployment slot to another deployment slot of an app.
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the app.
-   * @param copySlotEntity JSON object that contains the target slot name and site config properties
-   * to override the source slot config. See example.
-   * @param slot Name of the source slot. If a slot is not specified, the production slot is used as
-   * the source slot.
-   * @param [options] The optional parameters
-   * @returns Promise<msRestAzure.LROPoller>
-   */
-  beginCopySlotSlot(resourceGroupName: string, name: string, copySlotEntity: Models.CsmCopySlotEntity, slot: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
-    return this.client.sendLRORequest(
-      {
-        resourceGroupName,
-        name,
-        copySlotEntity,
-        slot,
-        options
-      },
-      beginCopySlotSlotOperationSpec,
       options);
   }
 
@@ -15014,6 +15466,64 @@ export class WebApps {
       },
       listConfigurationsNextOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationsNextResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference app settings and status of an app
+   * @summary Gets the config reference app settings and status of an app
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesNextResponse>
+   */
+  getAppSettingsKeyVaultReferencesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getAppSettingsKeyVaultReferencesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAppSettingsKeyVaultReferencesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  getAppSettingsKeyVaultReferencesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReferenceCollection>, callback?: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getAppSettingsKeyVaultReferencesNextOperationSpec,
+      callback) as Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesNextResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference app settings and status of an app
+   * @summary Gets the config reference app settings and status of an app
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesNextResponse>
+   */
+  getSiteConnectionStringKeyVaultReferencesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferencesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferencesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  getSiteConnectionStringKeyVaultReferencesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReferenceCollection>, callback?: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getSiteConnectionStringKeyVaultReferencesNextOperationSpec,
+      callback) as Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesNextResponse>;
   }
 
   /**
@@ -15373,6 +15883,35 @@ export class WebApps {
   }
 
   /**
+   * Description for Gets the list of private endpoint connections associated with a site
+   * @summary Gets the list of private endpoint connections associated with a site
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetPrivateEndpointConnectionListNextResponse>
+   */
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateEndpointConnectionListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.WebAppsGetPrivateEndpointConnectionListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getPrivateEndpointConnectionListNextOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateEndpointConnectionListNextResponse>;
+  }
+
+  /**
    * Description for Get list of processes for a web site, or a deployment slot, or for a specific
    * scaled-out instance in a web site.
    * @summary Get list of processes for a web site, or a deployment slot, or for a specific
@@ -15608,6 +16147,64 @@ export class WebApps {
       },
       listConfigurationsSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListConfigurationsSlotNextResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference app settings and status of an app
+   * @summary Gets the config reference app settings and status of an app
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesSlotNextResponse>
+   */
+  getAppSettingsKeyVaultReferencesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesSlotNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getAppSettingsKeyVaultReferencesSlotNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAppSettingsKeyVaultReferencesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  getAppSettingsKeyVaultReferencesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReferenceCollection>, callback?: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesSlotNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getAppSettingsKeyVaultReferencesSlotNextOperationSpec,
+      callback) as Promise<Models.WebAppsGetAppSettingsKeyVaultReferencesSlotNextResponse>;
+  }
+
+  /**
+   * Description for Gets the config reference app settings and status of an app
+   * @summary Gets the config reference app settings and status of an app
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextResponse>
+   */
+  getSiteConnectionStringKeyVaultReferencesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferencesSlotNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSiteConnectionStringKeyVaultReferencesSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): void;
+  getSiteConnectionStringKeyVaultReferencesSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ApiKVReferenceCollection>, callback?: msRest.ServiceCallback<Models.ApiKVReferenceCollection>): Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getSiteConnectionStringKeyVaultReferencesSlotNextOperationSpec,
+      callback) as Promise<Models.WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextResponse>;
   }
 
   /**
@@ -15964,6 +16561,35 @@ export class WebApps {
       },
       listPerfMonCountersSlotNextOperationSpec,
       callback) as Promise<Models.WebAppsListPerfMonCountersSlotNextResponse>;
+  }
+
+  /**
+   * Description for Gets the list of private endpoint connections associated with a site
+   * @summary Gets the list of private endpoint connections associated with a site
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.WebAppsGetPrivateEndpointConnectionListSlotNextResponse>
+   */
+  getPrivateEndpointConnectionListSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.WebAppsGetPrivateEndpointConnectionListSlotNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListSlotNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListSlotNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionListSlotNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.WebAppsGetPrivateEndpointConnectionListSlotNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getPrivateEndpointConnectionListSlotNextOperationSpec,
+      callback) as Promise<Models.WebAppsGetPrivateEndpointConnectionListSlotNextResponse>;
   }
 
   /**
@@ -17323,6 +17949,108 @@ const getBackupConfigurationOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.BackupRequest
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAppSettingsKeyVaultReferencesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAppSettingKeyVaultReferenceOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings/{appSettingKey}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.appSettingKey,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReference
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getSiteConnectionStringKeyVaultReferencesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/connectionstrings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getSiteConnectionStringKeyVaultReferenceOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/connectionstrings/{connectionStringKey}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.connectionStringKey,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReference
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -19511,38 +20239,6 @@ const getSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
 const deleteSwiftVirtualNetworkOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
@@ -19560,38 +20256,6 @@ const deleteSwiftVirtualNetworkOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     404: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const updateSwiftVirtualNetworkConnectionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -20124,6 +20788,82 @@ const putPrivateAccessVnetOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PrivateAccess
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateEndpointConnectionListOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateLinkResources",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResourcesWrapper
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -20916,6 +21656,150 @@ const listBackupStatusSecretsSlotOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getBasicPublishingCredentialsPoliciesSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getFtpAllowedSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/ftp",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesEntity
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateFtpAllowedSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/ftp",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "csmPublishingAccessPoliciesEntity",
+    mapper: {
+      ...Mappers.CsmPublishingCredentialsPoliciesEntity,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesEntity
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getScmAllowedSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/scm",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesEntity
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateScmAllowedSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/scm",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "csmPublishingAccessPoliciesEntity",
+    mapper: {
+      ...Mappers.CsmPublishingCredentialsPoliciesEntity,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CsmPublishingCredentialsPoliciesEntity
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listConfigurationsSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config",
@@ -21253,6 +22137,112 @@ const getBackupConfigurationSlotOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.BackupRequest
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAppSettingsKeyVaultReferencesSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/appsettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAppSettingKeyVaultReferenceSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/appsettings/{appSettingKey}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.appSettingKey,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReference
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getSiteConnectionStringKeyVaultReferencesSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/connectionstrings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getSiteConnectionStringKeyVaultReferenceSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/configreferences/connectionstrings/{connectionStringKey}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.connectionStringKey,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReference
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -23461,39 +24451,6 @@ const getSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = 
   serializer
 };
 
-const createOrUpdateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
 const deleteSwiftVirtualNetworkSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
@@ -23512,39 +24469,6 @@ const deleteSwiftVirtualNetworkSlotOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {},
     404: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const updateSwiftVirtualNetworkConnectionSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "connectionEnvelope",
-    mapper: {
-      ...Mappers.SwiftVirtualNetwork,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SwiftVirtualNetwork
-    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -24102,13 +25026,13 @@ const putPrivateAccessVnetSlotOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+const getPrivateEndpointConnectionListSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.privateEndpointConnectionName,
+    Parameters.slot,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -24119,7 +25043,7 @@ const getPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionResource
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -24128,12 +25052,40 @@ const getPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
+const getPrivateEndpointConnectionSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateLinkResources",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.slot,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateLinkResourcesSlotOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateLinkResources",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -24761,6 +25713,7 @@ const deleteSourceControlSlotOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.additionalFlags,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -25559,6 +26512,7 @@ const deleteSourceControlOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.additionalFlags,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -26522,6 +27476,89 @@ const beginStartWebSiteNetworkTraceOperationOperationSpec: msRest.OperationSpec 
   serializer
 };
 
+const beginApproveOrRejectPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "privateEndpointWrapper",
+    mapper: {
+      ...Mappers.PrivateLinkConnectionApprovalRequestResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    202: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDeletePrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    202: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    204: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const beginRestoreFromBackupBlobOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/restoreFromBackupBlob",
@@ -26638,37 +27675,6 @@ const beginInstallSiteExtensionOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SiteExtensionInfo
     },
     429: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const beginCopyProductionSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slotcopy",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "copySlotEntity",
-    mapper: {
-      ...Mappers.CsmCopySlotEntity,
-      required: true
-    }
-  },
-  responses: {
-    200: {},
-    202: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -26928,13 +27934,14 @@ const beginStartWebSiteNetworkTraceOperationSlotOperationSpec: msRest.OperationS
   serializer
 };
 
-const beginApproveOrRejectPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+const beginApproveOrRejectPrivateEndpointConnectionSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.privateEndpointConnectionName,
+    Parameters.slot,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -26952,10 +27959,10 @@ const beginApproveOrRejectPrivateEndpointConnectionOperationSpec: msRest.Operati
   },
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionResource
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
     },
     202: {
-      bodyMapper: Mappers.PrivateEndpointConnectionResource
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -26964,13 +27971,14 @@ const beginApproveOrRejectPrivateEndpointConnectionOperationSpec: msRest.Operati
   serializer
 };
 
-const beginDeletePrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+const beginDeletePrivateEndpointConnectionSlotOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateEndpointConnections/{privateEndpointConnectionName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
     Parameters.privateEndpointConnectionName,
+    Parameters.slot,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -27131,38 +28139,6 @@ const beginInstallSiteExtensionSlotOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SiteExtensionInfo
     },
     429: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const beginCopySlotSlotOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/slotcopy",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.slot,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "copySlotEntity",
-    mapper: {
-      ...Mappers.CsmCopySlotEntity,
-      required: true
-    }
-  },
-  responses: {
-    200: {},
-    202: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -27514,6 +28490,54 @@ const listConfigurationsNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getAppSettingsKeyVaultReferencesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getSiteConnectionStringKeyVaultReferencesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listConfigurationSnapshotInfoNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -27807,6 +28831,30 @@ const listPerfMonCountersNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getPrivateEndpointConnectionListNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listProcessesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -27995,6 +29043,54 @@ const listConfigurationsSlotNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SiteConfigResourceCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAppSettingsKeyVaultReferencesSlotNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getSiteConnectionStringKeyVaultReferencesSlotNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ApiKVReferenceCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -28288,6 +29384,30 @@ const listPerfMonCountersSlotNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PerfMonCounterCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateEndpointConnectionListSlotNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

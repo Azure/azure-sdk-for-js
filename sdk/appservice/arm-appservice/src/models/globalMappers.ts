@@ -185,7 +185,6 @@ export {
   QueryUtterancesResults,
   RampUpRule,
   Recommendation,
-  RecommendationCollection,
   RecommendationRule,
   ReissueCertificateOrderRequest,
   RelayServiceConnectionEntity,

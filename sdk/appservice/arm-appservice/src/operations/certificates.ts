@@ -31,7 +31,7 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.CertificatesListResponse>;
+  list(options?: Models.CertificatesListOptionalParams): Promise<Models.CertificatesListResponse>;
   /**
    * @param callback The callback
    */
@@ -40,8 +40,8 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificatesListResponse> {
+  list(options: Models.CertificatesListOptionalParams, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
+  list(options?: Models.CertificatesListOptionalParams | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificatesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -226,7 +226,7 @@ export class Certificates {
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificatesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CertificatesListNextResponse>;
+  listNext(nextPageLink: string, options?: Models.CertificatesListNextOptionalParams): Promise<Models.CertificatesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -237,8 +237,8 @@ export class Certificates {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
-  listNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificatesListNextResponse> {
+  listNext(nextPageLink: string, options: Models.CertificatesListNextOptionalParams, callback: msRest.ServiceCallback<Models.CertificateCollection>): void;
+  listNext(nextPageLink: string, options?: Models.CertificatesListNextOptionalParams | msRest.ServiceCallback<Models.CertificateCollection>, callback?: msRest.ServiceCallback<Models.CertificateCollection>): Promise<Models.CertificatesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -287,6 +287,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.filter,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -448,6 +449,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
+    Parameters.filter,
     Parameters.apiVersion
   ],
   headerParameters: [

@@ -65,10 +65,6 @@ export interface Resource extends BaseResource {
    * Resource tags.
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * The system metadata relating to this resource.
-   */
-  systemData?: SystemData;
 }
 
 /**
@@ -146,6 +142,16 @@ export interface CertificateDetails {
 }
 
 /**
+ * An interface representing CertificateOrderContact.
+ */
+export interface CertificateOrderContact {
+  email?: string;
+  nameFirst?: string;
+  nameLast?: string;
+  phone?: string;
+}
+
+/**
  * SSL certificate purchase order.
  */
 export interface AppServiceCertificateOrder extends Resource {
@@ -163,7 +169,7 @@ export interface AppServiceCertificateOrder extends Resource {
    */
   readonly domainVerificationToken?: string;
   /**
-   * Duration in years (must be between 1 and 3). Default value: 1.
+   * Duration in years (must be 1). Default value: 1.
    */
   validityInYears?: number;
   /**
@@ -241,6 +247,11 @@ export interface AppServiceCertificateOrder extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextAutoRenewalTimeStamp?: Date;
+  /**
+   * Contact info
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly contact?: CertificateOrderContact;
 }
 
 /**
@@ -266,10 +277,6 @@ export interface ProxyOnlyResource extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
-  /**
-   * The system metadata relating to this resource.
-   */
-  systemData?: SystemData;
 }
 
 /**
@@ -290,7 +297,7 @@ export interface AppServiceCertificateOrderPatchResource extends ProxyOnlyResour
    */
   readonly domainVerificationToken?: string;
   /**
-   * Duration in years (must be between 1 and 3). Default value: 1.
+   * Duration in years (must be 1). Default value: 1.
    */
   validityInYears?: number;
   /**
@@ -368,6 +375,11 @@ export interface AppServiceCertificateOrderPatchResource extends ProxyOnlyResour
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextAutoRenewalTimeStamp?: Date;
+  /**
+   * Contact info
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly contact?: CertificateOrderContact;
 }
 
 /**
@@ -491,38 +503,6 @@ export interface SiteSealRequest {
    * Locale of site seal.
    */
   locale?: string;
-}
-
-/**
- * Metadata pertaining to creation and last modification of the resource.
- */
-export interface SystemData {
-  /**
-   * The identity that created the resource.
-   */
-  createdBy?: string;
-  /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  createdByType?: CreatedByType;
-  /**
-   * The timestamp of resource creation (UTC).
-   */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: CreatedByType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
 }
 
 /**
@@ -654,6 +634,53 @@ export interface Snapshot extends ProxyOnlyResource {
 }
 
 /**
+ * The state of a private link connection
+ */
+export interface PrivateLinkConnectionState {
+  /**
+   * Status of a private link connection
+   */
+  status?: string;
+  /**
+   * Description of a private link connection
+   */
+  description?: string;
+  /**
+   * ActionsRequired for a private link connection
+   */
+  actionsRequired?: string;
+}
+
+/**
+ * A wrapper for an ARM resource id
+ */
+export interface ArmIdWrapper {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+}
+
+/**
+ * Remote Private Endpoint Connection ARM resource.
+ */
+export interface RemotePrivateEndpointConnectionARMResource extends ProxyOnlyResource {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * PrivateEndpoint of a remote private endpoint connection
+   */
+  privateEndpoint?: ArmIdWrapper;
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+  /**
+   * Private IPAddresses mapped to the remote private endpoint
+   */
+  ipAddresses?: string[];
+}
+
+/**
  * Push settings for the App.
  */
 export interface PushSettings extends ProxyOnlyResource {
@@ -679,6 +706,13 @@ export interface PushSettings extends ProxyOnlyResource {
    * claims in the push registration endpoint.
    */
   dynamicTagsJson?: string;
+}
+
+/**
+ * Private Endpoint Connection Approval ARM resource.
+ */
+export interface PrivateLinkConnectionApprovalRequestResource extends ProxyOnlyResource {
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 
 /**
@@ -730,6 +764,259 @@ export interface HybridConnection extends ProxyOnlyResource {
    * The suffix for the service bus endpoint. By default this is .servicebus.windows.net
    */
   serviceBusSuffix?: string;
+}
+
+/**
+ * Sample utterance.
+ */
+export interface SampleUtterance {
+  /**
+   * Text attribute of sample utterance.
+   */
+  text?: string;
+  /**
+   * Links attribute of sample utterance.
+   */
+  links?: string[];
+  /**
+   * Question id of sample utterance (for stackoverflow questions titles).
+   */
+  qid?: string;
+}
+
+/**
+ * Result for utterances query.
+ */
+export interface QueryUtterancesResult {
+  /**
+   * A sample utterance.
+   */
+  sampleUtterance?: SampleUtterance;
+  /**
+   * Score of a sample utterance.
+   */
+  score?: number;
+}
+
+/**
+ * Suggested utterances where the detector can be applicable
+ */
+export interface QueryUtterancesResults {
+  /**
+   * Search Query.
+   */
+  query?: string;
+  /**
+   * Array of utterance results for search query.
+   */
+  results?: QueryUtterancesResult[];
+}
+
+/**
+ * An interface representing KeyValuePairStringObject.
+ */
+export interface KeyValuePairStringObject {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly key?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: any;
+}
+
+/**
+ * Additional configuration for a data providers
+ */
+export interface DataProviderMetadata {
+  providerName?: string;
+  /**
+   * Settings for the data provider
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly propertyBag?: KeyValuePairStringObject[];
+}
+
+/**
+ * Identify the status of the most severe insight generated by the detector.
+ */
+export interface Status {
+  /**
+   * Descriptive message.
+   */
+  message?: string;
+  /**
+   * Level of the most severe insight generated by the detector. Possible values include:
+   * 'Critical', 'Warning', 'Info', 'Success', 'None'
+   */
+  statusId?: InsightStatus;
+}
+
+/**
+ * Instructions for rendering the data
+ */
+export interface Rendering {
+  /**
+   * Rendering Type. Possible values include: 'NoGraph', 'Table', 'TimeSeries',
+   * 'TimeSeriesPerInstance', 'PieChart', 'DataSummary', 'Email', 'Insights', 'DynamicInsight',
+   * 'Markdown', 'Detector', 'DropDown', 'Card', 'Solution', 'Guage', 'Form', 'ChangeSets',
+   * 'ChangeAnalysisOnboarding', 'ChangesView', 'AppInsight', 'DependencyGraph', 'DownTime',
+   * 'SummaryCard', 'SearchComponent', 'AppInsightEnablement'
+   */
+  type?: RenderingType;
+  /**
+   * Title of data
+   */
+  title?: string;
+  /**
+   * Description of the data that will help it be interpreted
+   */
+  description?: string;
+}
+
+/**
+ * Column definition
+ */
+export interface DataTableResponseColumn {
+  /**
+   * Name of the column
+   */
+  columnName?: string;
+  /**
+   * Data type which looks like 'String' or 'Int32'.
+   */
+  dataType?: string;
+  /**
+   * Column Type
+   */
+  columnType?: string;
+}
+
+/**
+ * Data Table which defines columns and raw row values
+ */
+export interface DataTableResponseObject {
+  /**
+   * Name of the table
+   */
+  tableName?: string;
+  /**
+   * List of columns with data types
+   */
+  columns?: DataTableResponseColumn[];
+  /**
+   * Raw row values
+   */
+  rows?: string[][];
+}
+
+/**
+ * Set of data with rendering instructions
+ */
+export interface DiagnosticData {
+  /**
+   * Data in table form
+   */
+  table?: DataTableResponseObject;
+  /**
+   * Properties that describe how the table should be rendered
+   */
+  renderingProperties?: Rendering;
+}
+
+/**
+ * Defines a unique Support Topic
+ */
+export interface SupportTopic {
+  /**
+   * Support Topic Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Unique resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly pesId?: string;
+}
+
+/**
+ * Definition of Detector
+ */
+export interface DetectorInfo {
+  /**
+   * Id of detector
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Name of detector
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Short description of the detector and its purpose.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * Author of the detector.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly author?: string;
+  /**
+   * Problem category. This serves for organizing group for detectors.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly category?: string;
+  /**
+   * List of Support Topics for which this detector is enabled.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportTopicList?: SupportTopic[];
+  /**
+   * Analysis Types for which this detector should apply to.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly analysisType?: string[];
+  /**
+   * Whether this detector is an Analysis Detector or not. Possible values include: 'Detector',
+   * 'Analysis', 'CategoryOverview'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: DetectorType;
+  /**
+   * Defines score of a detector to power ML based matching.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly score?: number;
+}
+
+/**
+ * Class representing Response from Detector
+ */
+export interface DetectorResponse extends ProxyOnlyResource {
+  /**
+   * metadata for the detector
+   */
+  metadata?: DetectorInfo;
+  /**
+   * Data Set
+   */
+  dataset?: DiagnosticData[];
+  /**
+   * Indicates status of the most severe insight.
+   */
+  status?: Status;
+  /**
+   * Additional configuration for different data providers to be used by the UI
+   */
+  dataProvidersMetadata?: DataProviderMetadata[];
+  /**
+   * Suggested utterances where the detector can be applicable.
+   */
+  suggestedUtterances?: QueryUtterancesResults;
 }
 
 /**
@@ -1076,6 +1363,29 @@ export interface SlowRequestsBasedTrigger {
    */
   timeTaken?: string;
   /**
+   * Request Path.
+   */
+  path?: string;
+  /**
+   * Request Count.
+   */
+  count?: number;
+  /**
+   * Time interval.
+   */
+  timeInterval?: string;
+}
+
+/**
+ * Trigger based on range of status codes.
+ */
+export interface StatusCodesRangeBasedTrigger {
+  /**
+   * HTTP status code.
+   */
+  statusCodes?: string;
+  path?: string;
+  /**
    * Request Count.
    */
   count?: number;
@@ -1101,6 +1411,10 @@ export interface StatusCodesBasedTrigger {
    * Win32 error code.
    */
   win32Status?: number;
+  /**
+   * Request Path
+   */
+  path?: string;
   /**
    * Request Count.
    */
@@ -1142,9 +1456,17 @@ export interface AutoHealTriggers {
    */
   statusCodes?: StatusCodesBasedTrigger[];
   /**
+   * A rule based on status codes ranges.
+   */
+  statusCodesRange?: StatusCodesRangeBasedTrigger[];
+  /**
    * A rule based on request execution time.
    */
   slowRequests?: SlowRequestsBasedTrigger;
+  /**
+   * A rule based on multiple Slow Requests Rule with path
+   */
+  slowRequestsWithPath?: SlowRequestsBasedTrigger[];
 }
 
 /**
@@ -1336,6 +1658,38 @@ export interface ConnStringInfo {
 }
 
 /**
+ * Azure Files or Blob Storage access information value for dictionary storage.
+ */
+export interface AzureStorageInfoValue {
+  /**
+   * Type of storage. Possible values include: 'AzureFiles', 'AzureBlob'
+   */
+  type?: AzureStorageType;
+  /**
+   * Name of the storage account.
+   */
+  accountName?: string;
+  /**
+   * Name of the file share (container name, for Blob storage).
+   */
+  shareName?: string;
+  /**
+   * Access key for the storage account.
+   */
+  accessKey?: string;
+  /**
+   * Path to mount the storage within the site's runtime environment.
+   */
+  mountPath?: string;
+  /**
+   * State of the storage account. Possible values include: 'Ok', 'InvalidCredentials',
+   * 'InvalidShare', 'NotValidated'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly state?: AzureStorageState;
+}
+
+/**
  * Name value pair.
  */
 export interface NameValuePair {
@@ -1426,6 +1780,10 @@ export interface SiteConfig {
    */
   appSettings?: NameValuePair[];
   /**
+   * List of Azure Storage Accounts.
+   */
+  azureStorageAccounts?: { [propertyName: string]: AzureStorageInfoValue };
+  /**
    * Connection strings.
    */
   connectionStrings?: ConnStringInfo[];
@@ -1486,7 +1844,7 @@ export interface SiteConfig {
   virtualApplications?: VirtualApplication[];
   /**
    * Site load balancing. Possible values include: 'WeightedRoundRobin', 'LeastRequests',
-   * 'LeastResponseTime', 'WeightedTotalTraffic', 'RequestHash'
+   * 'LeastResponseTime', 'WeightedTotalTraffic', 'RequestHash', 'PerSiteRoundRobin'
    */
   loadBalancing?: SiteLoadBalancing;
   /**
@@ -1556,6 +1914,10 @@ export interface SiteConfig {
    */
   xManagedServiceIdentityId?: number;
   /**
+   * Identity to use for Key Vault Reference authentication.
+   */
+  keyVaultReferenceIdentity?: string;
+  /**
    * IP security restrictions for main.
    */
   ipSecurityRestrictions?: IpSecurityRestriction[];
@@ -1592,9 +1954,35 @@ export interface SiteConfig {
    */
   preWarmedInstanceCount?: number;
   /**
+   * Maximum number of workers that a site can scale out to.
+   * This setting only applies to the Consumption and Elastic Premium Plans
+   */
+  functionAppScaleLimit?: number;
+  /**
    * Health check path
    */
   healthCheckPath?: string;
+  /**
+   * Gets or sets a value indicating whether functions runtime scale monitoring is enabled. When
+   * enabled,
+   * the ScaleController will not monitor event sources directly, but will instead call to the
+   * runtime to get scale status.
+   */
+  functionsRuntimeScaleMonitoringEnabled?: boolean;
+  /**
+   * Sets the time zone a site uses for generating timestamps. Compatible with Linux and Windows
+   * App Service. Setting the WEBSITE_TIME_ZONE app setting takes precedence over this config. For
+   * Linux, expects tz database values https://www.iana.org/time-zones (for a quick reference see
+   * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For Windows, expects one of the
+   * time zones listed under HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time
+   * Zones
+   */
+  websiteTimeZone?: string;
+  /**
+   * Number of minimum instance count for a site
+   * This setting only applies to the Elastic Plans
+   */
+  minimumElasticInstanceCount?: number;
 }
 
 /**
@@ -1736,7 +2124,7 @@ export interface Site extends Resource {
    * - ClientCertEnabled: false means ClientCert is ignored.
    * - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
    * - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or
-   * accepted. Possible values include: 'Required', 'Optional'
+   * accepted. Possible values include: 'Required', 'Optional', 'OptionalInteractiveUser'
    */
   clientCertMode?: ClientCertMode;
   /**
@@ -1809,6 +2197,10 @@ export interface Site extends Resource {
    */
   readonly slotSwapStatus?: SlotSwapStatus;
   /**
+   * Identity to use for Key Vault Reference authentication.
+   */
+  keyVaultReferenceIdentity?: string;
+  /**
    * HttpsOnly: configures a web site to accept only https requests. Issues redirect for
    * http requests
    */
@@ -1823,6 +2215,10 @@ export interface Site extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly inProgressOperationId?: string;
+  /**
+   * Checks if Customer provided storage account is required
+   */
+  storageAccountRequired?: boolean;
   identity?: ManagedServiceIdentity;
 }
 
@@ -1856,6 +2252,10 @@ export interface SkuCapacity {
    * Maximum number of workers for this App Service plan SKU.
    */
   maximum?: number;
+  /**
+   * Maximum number of Elastic workers for this App Service plan SKU.
+   */
+  elasticMaximum?: number;
   /**
    * Default number of workers for this App Service plan SKU.
    */
@@ -1902,6 +2302,26 @@ export interface SkuDescription {
    * Capabilities of the SKU, e.g., is traffic manager enabled?
    */
   capabilities?: Capability[];
+}
+
+/**
+ * Specification for a Kubernetes Environment to use for this resource.
+ */
+export interface KubeEnvironmentProfile {
+  /**
+   * Resource ID of the Kubernetes Environment.
+   */
+  id?: string;
+  /**
+   * Name of the Kubernetes Environment.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type of the Kubernetes Environment.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
 }
 
 /**
@@ -1992,11 +2412,15 @@ export interface AppServicePlan extends Resource {
    */
   targetWorkerSizeId?: number;
   /**
-   * Provisioning state of the App Service Environment. Possible values include: 'Succeeded',
-   * 'Failed', 'Canceled', 'InProgress', 'Deleting'
+   * Provisioning state of the App Service Plan. Possible values include: 'Succeeded', 'Failed',
+   * 'Canceled', 'InProgress', 'Deleting'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Specification for the Kubernetes Environment to use for the App Service plan.
+   */
+  kubeEnvironmentProfile?: KubeEnvironmentProfile;
   sku?: SkuDescription;
 }
 
@@ -2650,7 +3074,7 @@ export interface Certificate extends Resource {
   /**
    * Certificate password.
    */
-  password: string;
+  password?: string;
   /**
    * Certificate thumbprint.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2702,6 +3126,10 @@ export interface Certificate extends Resource {
    * CNAME of the certificate to be issued via free certificate
    */
   canonicalName?: string;
+  /**
+   * Method of domain validation for free cert
+   */
+  domainValidationMethod?: string;
 }
 
 /**
@@ -2754,7 +3182,7 @@ export interface CertificatePatchResource extends ProxyOnlyResource {
   /**
    * Certificate password.
    */
-  password: string;
+  password?: string;
   /**
    * Certificate thumbprint.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2806,6 +3234,10 @@ export interface CertificatePatchResource extends ProxyOnlyResource {
    * CNAME of the certificate to be issued via free certificate
    */
   canonicalName?: string;
+  /**
+   * Method of domain validation for free cert
+   */
+  domainValidationMethod?: string;
 }
 
 /**
@@ -2815,7 +3247,7 @@ export interface VirtualNetworkProfile {
   /**
    * Resource id of the Virtual Network.
    */
-  id?: string;
+  id: string;
   /**
    * Name of the Virtual Network (read-only).
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -2833,147 +3265,9 @@ export interface VirtualNetworkProfile {
 }
 
 /**
- * Worker pool of an App Service Environment.
- */
-export interface WorkerPool {
-  /**
-   * Worker size ID for referencing this worker pool.
-   */
-  workerSizeId?: number;
-  /**
-   * Shared or dedicated app hosting. Possible values include: 'Shared', 'Dedicated', 'Dynamic'
-   */
-  computeMode?: ComputeModeOptions;
-  /**
-   * VM size of the worker pool instances.
-   */
-  workerSize?: string;
-  /**
-   * Number of instances in the worker pool.
-   */
-  workerCount?: number;
-  /**
-   * Names of all instances in the worker pool (read only).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly instanceNames?: string[];
-}
-
-/**
- * Virtual IP mapping.
- */
-export interface VirtualIPMapping {
-  /**
-   * Virtual IP address.
-   */
-  virtualIP?: string;
-  /**
-   * Internal HTTP port.
-   */
-  internalHttpPort?: number;
-  /**
-   * Internal HTTPS port.
-   */
-  internalHttpsPort?: number;
-  /**
-   * Is virtual IP mapping in use.
-   */
-  inUse?: boolean;
-  /**
-   * name of the service that virtual IP is assigned to
-   */
-  serviceName?: string;
-}
-
-/**
- * Stamp capacity information.
- */
-export interface StampCapacity {
-  /**
-   * Name of the stamp.
-   */
-  name?: string;
-  /**
-   * Available capacity (# of machines, bytes of storage etc...).
-   */
-  availableCapacity?: number;
-  /**
-   * Total capacity (# of machines, bytes of storage etc...).
-   */
-  totalCapacity?: number;
-  /**
-   * Name of the unit.
-   */
-  unit?: string;
-  /**
-   * Shared/dedicated workers. Possible values include: 'Shared', 'Dedicated', 'Dynamic'
-   */
-  computeMode?: ComputeModeOptions;
-  /**
-   * Size of the machines. Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3',
-   * 'NestedSmall', 'Default'
-   */
-  workerSize?: WorkerSizeOptions;
-  /**
-   * Size ID of machines:
-   * 0 - Small
-   * 1 - Medium
-   * 2 - Large
-   */
-  workerSizeId?: number;
-  /**
-   * If <code>true</code>, it includes basic apps.
-   * Basic apps are not used for capacity allocation.
-   */
-  excludeFromCapacityAllocation?: boolean;
-  /**
-   * <code>true</code> if capacity is applicable for all apps; otherwise, <code>false</code>.
-   */
-  isApplicableForAllComputeModes?: boolean;
-  /**
-   * Shared or Dedicated.
-   */
-  siteMode?: string;
-  /**
-   * Is this a linux stamp capacity
-   */
-  isLinux?: boolean;
-}
-
-/**
- * Network access control entry.
- */
-export interface NetworkAccessControlEntry {
-  /**
-   * Action object. Possible values include: 'Permit', 'Deny'
-   */
-  action?: AccessControlEntryAction;
-  /**
-   * Description of network access control entry.
-   */
-  description?: string;
-  /**
-   * Order of precedence.
-   */
-  order?: number;
-  /**
-   * Remote subnet.
-   */
-  remoteSubnet?: string;
-}
-
-/**
  * Description of an App Service Environment.
  */
 export interface AppServiceEnvironment {
-  /**
-   * Name of the App Service Environment.
-   */
-  name: string;
-  /**
-   * Location of the App Service Environment, e.g. "West US".
-   */
-  location: string;
   /**
    * Provisioning state of the App Service Environment. Possible values include: 'Succeeded',
    * 'Failed', 'Canceled', 'InProgress', 'Deleting'
@@ -2987,24 +3281,12 @@ export interface AppServiceEnvironment {
    */
   readonly status?: HostingEnvironmentStatus;
   /**
-   * Name of the Virtual Network for the App Service Environment.
-   */
-  vnetName?: string;
-  /**
-   * Resource group of the Virtual Network.
-   */
-  vnetResourceGroupName?: string;
-  /**
-   * Subnet of the Virtual Network.
-   */
-  vnetSubnetName?: string;
-  /**
    * Description of the Virtual Network.
    */
   virtualNetwork: VirtualNetworkProfile;
   /**
    * Specifies which endpoints to serve internally in the Virtual Network for the App Service
-   * Environment. Possible values include: 'None', 'Web', 'Publishing', 'Web,Publishing'
+   * Environment. Possible values include: 'None', 'Web', 'Publishing', 'Web, Publishing'
    */
   internalLoadBalancingMode?: LoadBalancingMode;
   /**
@@ -3013,120 +3295,33 @@ export interface AppServiceEnvironment {
   multiSize?: string;
   /**
    * Number of front-end instances.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  multiRoleCount?: number;
-  /**
-   * Description of worker pools with worker size IDs, VM sizes, and number of workers in each
-   * pool.
-   */
-  workerPools: WorkerPool[];
+  readonly multiRoleCount?: number;
   /**
    * Number of IP SSL addresses reserved for the App Service Environment.
    */
   ipsslAddressCount?: number;
   /**
-   * Edition of the metadata database for the App Service Environment, e.g. "Standard".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseEdition?: string;
-  /**
-   * Service objective of the metadata database for the App Service Environment, e.g. "S0".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseServiceObjective?: string;
-  /**
-   * Number of upgrade domains of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly upgradeDomains?: number;
-  /**
-   * Subscription of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subscriptionId?: string;
-  /**
    * DNS suffix of the App Service Environment.
    */
   dnsSuffix?: string;
-  /**
-   * Last deployment action on the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastAction?: string;
-  /**
-   * Result of the last deployment action on the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastActionResult?: string;
-  /**
-   * List of comma separated strings describing which VM sizes are allowed for front-ends.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly allowedMultiSizes?: string;
-  /**
-   * List of comma separated strings describing which VM sizes are allowed for workers.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly allowedWorkerSizes?: string;
   /**
    * Maximum number of VMs in the App Service Environment.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly maximumNumberOfMachines?: number;
   /**
-   * Description of IP SSL mapping for the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly vipMappings?: VirtualIPMapping[];
-  /**
-   * Current total, used, and available worker capacities.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly environmentCapacities?: StampCapacity[];
-  /**
-   * Access control list for controlling traffic to the App Service Environment.
-   */
-  networkAccessControlList?: NetworkAccessControlEntry[];
-  /**
-   * True/false indicating whether the App Service Environment is healthy.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly environmentIsHealthy?: boolean;
-  /**
-   * Detailed message about with results of the last check of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly environmentStatus?: string;
-  /**
-   * Resource group of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceGroup?: string;
-  /**
    * Scale factor for front-ends.
    */
   frontEndScaleFactor?: number;
   /**
-   * Default Scale Factor for FrontEnds.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly defaultFrontEndScaleFactor?: number;
-  /**
-   * API Management Account associated with the App Service Environment.
-   */
-  apiManagementAccountId?: string;
-  /**
    * <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>.
    * The environment can be suspended, e.g. when the management endpoint is no longer available
    * (most likely because NSG blocked the incoming traffic).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  suspended?: boolean;
-  /**
-   * True/false indicating whether the App Service Environment is suspended. The environment can be
-   * suspended e.g. when the management endpoint is no longer available
-   * (most likely because NSG blocked the incoming traffic).
-   */
-  dynamicCacheEnabled?: boolean;
+  readonly suspended?: boolean;
   /**
    * Custom settings for changing the behavior of the App Service Environment.
    */
@@ -3137,16 +3332,14 @@ export interface AppServiceEnvironment {
   userWhitelistedIpRanges?: string[];
   /**
    * Flag that displays whether an ASE has linux workers or not
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  hasLinuxWorkers?: boolean;
+  readonly hasLinuxWorkers?: boolean;
   /**
-   * Key Vault ID for ILB App Service Environment default SSL certificate
+   * Dedicated Host Count
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  sslCertKeyVaultId?: string;
-  /**
-   * Key Vault Secret Name for ILB App Service Environment default SSL certificate
-   */
-  sslCertKeyVaultSecretName?: string;
+  readonly dedicatedHostCount?: number;
 }
 
 /**
@@ -3256,6 +3449,50 @@ export interface Operation {
    * Applicable only for stamp operation ids.
    */
   geoMasterOperationId?: string;
+}
+
+/**
+ * Properties of a private link resource
+ */
+export interface PrivateLinkResourceProperties {
+  /**
+   * GroupId of a private link resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly groupId?: string;
+  /**
+   * RequiredMembers of a private link resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * RequiredZoneNames of a private link resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly requiredZoneNames?: string[];
+}
+
+/**
+ * A private link resource
+ */
+export interface PrivateLinkResource {
+  id: string;
+  /**
+   * Name of a private link resource
+   */
+  name: string;
+  type: string;
+  /**
+   * Properties of a private link resource
+   */
+  properties: PrivateLinkResourceProperties;
+}
+
+/**
+ * Wrapper for a collection of private link resources
+ */
+export interface PrivateLinkResourcesWrapper {
+  value: PrivateLinkResource[];
 }
 
 /**
@@ -3507,115 +3744,6 @@ export interface AnalysisDefinition extends ProxyOnlyResource {
 }
 
 /**
- * Column definition
- */
-export interface DataTableResponseColumn {
-  /**
-   * Name of the column
-   */
-  columnName?: string;
-  /**
-   * Data type which looks like 'String' or 'Int32'.
-   */
-  dataType?: string;
-  /**
-   * Column Type
-   */
-  columnType?: string;
-}
-
-/**
- * Data Table which defines columns and raw row values
- */
-export interface DataTableResponseObject {
-  /**
-   * Name of the table
-   */
-  tableName?: string;
-  /**
-   * List of columns with data types
-   */
-  columns?: DataTableResponseColumn[];
-  /**
-   * Raw row values
-   */
-  rows?: string[][];
-}
-
-/**
- * Definition of Detector
- */
-export interface DetectorInfo {
-  /**
-   * Short description of the detector and its purpose
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly description?: string;
-  /**
-   * Support Category
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly category?: string;
-  /**
-   * Support Sub Category
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subCategory?: string;
-  /**
-   * Support Topic Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly supportTopicId?: string;
-}
-
-/**
- * Instructions for rendering the data
- */
-export interface Rendering {
-  /**
-   * Rendering Type. Possible values include: 'NoGraph', 'Table', 'TimeSeries',
-   * 'TimeSeriesPerInstance'
-   */
-  type?: RenderingType;
-  /**
-   * Title of data
-   */
-  title?: string;
-  /**
-   * Description of the data that will help it be interpreted
-   */
-  description?: string;
-}
-
-/**
- * Set of data with rendering instructions
- */
-export interface DiagnosticData {
-  /**
-   * Data in table form
-   */
-  table?: DataTableResponseObject;
-  /**
-   * Properties that describe how the table should be rendered
-   */
-  renderingProperties?: Rendering;
-}
-
-/**
- * Class representing Response from Detector
- */
-export interface DetectorResponse extends ProxyOnlyResource {
-  /**
-   * metadata for the detector
-   */
-  metadata?: DetectorInfo;
-  /**
-   * Data Set
-   */
-  dataset?: DiagnosticData[];
-}
-
-/**
  * Class representing a diagnostic analysis done on an application
  */
 export interface DiagnosticAnalysis extends ProxyOnlyResource {
@@ -3691,6 +3819,24 @@ export interface DiagnosticDetectorResponse extends ProxyOnlyResource {
 }
 
 /**
+ * App Insights Web App stack settings.
+ */
+export interface AppInsightsWebAppStackSettings {
+  /**
+   * <code>true</code> if remote Application Insights is supported for the stack; otherwise,
+   * <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isSupported?: boolean;
+  /**
+   * <code>true</code> if Application Insights is disabled by default for the stack; otherwise,
+   * <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDefaultOff?: boolean;
+}
+
+/**
  * Application stack minor version.
  */
 export interface StackMinorVersion {
@@ -3737,6 +3883,21 @@ export interface StackMajorVersion {
    */
   applicationInsights?: boolean;
   /**
+   * <appSettings>
+   * <appSetting name="FUNCTIONS_WORKER_RUNTIME" value="dotnet" />
+   * </appSettings>
+   * Example: All the function apps need AppSetting: "FUNCTIONS_WORKER_RUNTIME" to be set stack
+   * name
+   */
+  appSettingsDictionary?: { [propertyName: string]: any };
+  /**
+   * <siteConfigProperties>
+   * <siteConfigProperty name="Use32BitWorkerProcess" value="false" />
+   * </siteConfigProperties>
+   * Example: All Linux Function Apps, need Use32BitWorkerProcess to be set to 0
+   */
+  siteConfigPropertiesDictionary?: { [propertyName: string]: any };
+  /**
    * <code>true</code> if this stack is in Preview, otherwise <code>false</code>.
    */
   isPreview?: boolean;
@@ -3775,6 +3936,10 @@ export interface ApplicationStack {
    * List of frameworks associated with application stack.
    */
   frameworks?: ApplicationStack[];
+  /**
+   * <code>true</code> if this is the stack is deprecated; otherwise, <code>false</code>.
+   */
+  isDeprecated?: ApplicationStack[];
 }
 
 /**
@@ -3801,6 +3966,467 @@ export interface ApplicationStackResource extends ProxyOnlyResource {
    * List of frameworks associated with application stack.
    */
   frameworks?: ApplicationStack[];
+  /**
+   * <code>true</code> if this is the stack is deprecated; otherwise, <code>false</code>.
+   */
+  isDeprecated?: ApplicationStack[];
+}
+
+/**
+ * GitHub Actions Web App stack settings.
+ */
+export interface GitHubActionWebAppStackSettings {
+  /**
+   * <code>true</code> if GitHub Actions is supported for the stack; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isSupported?: boolean;
+  /**
+   * The minor version that is supported for GitHub Actions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedVersion?: string;
+}
+
+/**
+ * Site config properties dictionary.
+ */
+export interface SiteConfigPropertiesDictionary {
+  /**
+   * <code>true</code> if use32BitWorkerProcess should be set to true for the stack; otherwise,
+   * <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly use32BitWorkerProcess?: boolean;
+  /**
+   * LinuxFxVersion configuration setting.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly linuxFxVersion?: string;
+  /**
+   * JavaVersion configuration setting.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly javaVersion?: string;
+  /**
+   * PowerShellVersion configuration setting.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly powerShellVersion?: string;
+}
+
+/**
+ * Function App runtime settings.
+ */
+export interface FunctionAppRuntimeSettings {
+  /**
+   * Function App stack minor version (runtime only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runtimeVersion?: string;
+  /**
+   * <code>true</code> if remote debugging is supported for the stack; otherwise,
+   * <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remoteDebuggingSupported?: boolean;
+  /**
+   * Application Insights settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly appInsightsSettings?: AppInsightsWebAppStackSettings;
+  /**
+   * GitHub Actions settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly gitHubActionSettings?: GitHubActionWebAppStackSettings;
+  /**
+   * Application settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly appSettingsDictionary?: { [propertyName: string]: string };
+  /**
+   * Configuration settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly siteConfigPropertiesDictionary?: SiteConfigPropertiesDictionary;
+  /**
+   * List of supported Functions extension versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly supportedFunctionsExtensionVersions?: string[];
+  /**
+   * <code>true</code> if the stack is in preview; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isPreview?: boolean;
+  /**
+   * <code>true</code> if the stack is deprecated; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDeprecated?: boolean;
+  /**
+   * <code>true</code> if the stack should be hidden; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isHidden?: boolean;
+  /**
+   * End-of-life date for the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endOfLifeDate?: Date;
+  /**
+   * <code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAutoUpdate?: boolean;
+  /**
+   * <code>true</code> if the minor version is early-access; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isEarlyAccess?: boolean;
+  /**
+   * <code>true</code> if the minor version the default; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDefault?: boolean;
+}
+
+/**
+ * Function App stack runtimes.
+ */
+export interface FunctionAppRuntimes {
+  /**
+   * Linux-specific settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly linuxRuntimeSettings?: FunctionAppRuntimeSettings;
+  /**
+   * Windows-specific settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly windowsRuntimeSettings?: FunctionAppRuntimeSettings;
+}
+
+/**
+ * Function App stack minor version.
+ */
+export interface FunctionAppMinorVersion {
+  /**
+   * Function App stack (display only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayText?: string;
+  /**
+   * Function App stack name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+  /**
+   * Settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly stackSettings?: FunctionAppRuntimes;
+}
+
+/**
+ * Function App stack major version.
+ */
+export interface FunctionAppMajorVersion {
+  /**
+   * Function App stack major version (display only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayText?: string;
+  /**
+   * Function App stack major version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+  /**
+   * Minor versions associated with the major version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minorVersions?: FunctionAppMinorVersion[];
+}
+
+/**
+ * Function App Stack.
+ */
+export interface FunctionAppStack extends ProxyOnlyResource {
+  /**
+   * Function App stack location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * Function App stack (display only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayText?: string;
+  /**
+   * Function App stack name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+  /**
+   * List of major versions available.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly majorVersions?: FunctionAppMajorVersion[];
+  /**
+   * Function App stack preferred OS. Possible values include: 'Windows', 'Linux'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly preferredOs?: StackPreferredOs;
+}
+
+/**
+ * Linux Java Container settings.
+ */
+export interface LinuxJavaContainerSettings {
+  /**
+   * Java 11 version (runtime only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly java11Runtime?: string;
+  /**
+   * Java 8 version (runtime only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly java8Runtime?: string;
+  /**
+   * <code>true</code> if the stack is in preview; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isPreview?: boolean;
+  /**
+   * <code>true</code> if the stack is deprecated; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDeprecated?: boolean;
+  /**
+   * <code>true</code> if the stack should be hidden; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isHidden?: boolean;
+  /**
+   * End-of-life date for the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endOfLifeDate?: Date;
+  /**
+   * <code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAutoUpdate?: boolean;
+  /**
+   * <code>true</code> if the minor version is early-access; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isEarlyAccess?: boolean;
+}
+
+/**
+ * Web App runtime settings.
+ */
+export interface WebAppRuntimeSettings {
+  /**
+   * Web App stack minor version (runtime only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly runtimeVersion?: string;
+  /**
+   * <code>true</code> if remote debugging is supported for the stack; otherwise,
+   * <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remoteDebuggingSupported?: boolean;
+  /**
+   * Application Insights settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly appInsightsSettings?: AppInsightsWebAppStackSettings;
+  /**
+   * GitHub Actions settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly gitHubActionSettings?: GitHubActionWebAppStackSettings;
+  /**
+   * <code>true</code> if the stack is in preview; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isPreview?: boolean;
+  /**
+   * <code>true</code> if the stack is deprecated; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDeprecated?: boolean;
+  /**
+   * <code>true</code> if the stack should be hidden; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isHidden?: boolean;
+  /**
+   * End-of-life date for the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endOfLifeDate?: Date;
+  /**
+   * <code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAutoUpdate?: boolean;
+  /**
+   * <code>true</code> if the minor version is early-access; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isEarlyAccess?: boolean;
+}
+
+/**
+ * Windows Java Container settings.
+ */
+export interface WindowsJavaContainerSettings {
+  /**
+   * Java container (runtime only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly javaContainer?: string;
+  /**
+   * Java container version (runtime only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly javaContainerVersion?: string;
+  /**
+   * <code>true</code> if the stack is in preview; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isPreview?: boolean;
+  /**
+   * <code>true</code> if the stack is deprecated; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDeprecated?: boolean;
+  /**
+   * <code>true</code> if the stack should be hidden; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isHidden?: boolean;
+  /**
+   * End-of-life date for the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endOfLifeDate?: Date;
+  /**
+   * <code>true</code> if the stack version is auto-updated; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isAutoUpdate?: boolean;
+  /**
+   * <code>true</code> if the minor version is early-access; otherwise, <code>false</code>.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isEarlyAccess?: boolean;
+}
+
+/**
+ * Web App stack runtimes.
+ */
+export interface WebAppRuntimes {
+  /**
+   * Linux-specific settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly linuxRuntimeSettings?: WebAppRuntimeSettings;
+  /**
+   * Windows-specific settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly windowsRuntimeSettings?: WebAppRuntimeSettings;
+  /**
+   * Linux-specific settings associated with the Java container minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly linuxContainerSettings?: LinuxJavaContainerSettings;
+  /**
+   * Windows-specific settings associated with the Java container minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly windowsContainerSettings?: WindowsJavaContainerSettings;
+}
+
+/**
+ * Web App stack minor version.
+ */
+export interface WebAppMinorVersion {
+  /**
+   * Web App stack minor version (display only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayText?: string;
+  /**
+   * Web App stack major version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+  /**
+   * Settings associated with the minor version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly stackSettings?: WebAppRuntimes;
+}
+
+/**
+ * Web App stack major version.
+ */
+export interface WebAppMajorVersion {
+  /**
+   * Web App stack major version (display only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayText?: string;
+  /**
+   * Web App stack major version name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+  /**
+   * Minor versions associated with the major version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly minorVersions?: WebAppMinorVersion[];
+}
+
+/**
+ * Web App stack.
+ */
+export interface WebAppStack extends ProxyOnlyResource {
+  /**
+   * Web App stack location.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * Web App stack (display only).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly displayText?: string;
+  /**
+   * Web App stack name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: string;
+  /**
+   * List of major versions available.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly majorVersions?: WebAppMajorVersion[];
+  /**
+   * Web App stack preferred OS. Possible values include: 'Windows', 'Linux'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly preferredOs?: StackPreferredOs;
 }
 
 /**
@@ -4039,6 +4665,10 @@ export interface BillingMeter extends ProxyOnlyResource {
    * App Service OS type meter used for
    */
   osType?: string;
+  /**
+   * Meter Multiplier
+   */
+  multiplier?: number;
 }
 
 /**
@@ -4274,7 +4904,8 @@ export interface ValidateRequest {
    */
   name: string;
   /**
-   * Resource type used for verification. Possible values include: 'ServerFarm', 'Site'
+   * Resource type used for verification. Possible values include: 'ServerFarm', 'Site',
+   * 'Microsoft.Web/hostingEnvironments'
    */
   type: ValidateResourceTypes;
   /**
@@ -4333,6 +4964,10 @@ export interface ValidateRequest {
    * Platform (windows or linux)
    */
   containerImagePlatform?: string;
+  /**
+   * App Service Environment Properties
+   */
+  appServiceEnvironment?: AppServiceEnvironment;
 }
 
 /**
@@ -4379,6 +5014,10 @@ export interface VnetParameters extends ProxyOnlyResource {
    * The subnet name to be validated
    */
   vnetSubnetName?: string;
+  /**
+   * The ARM Resource ID of the subnet to validate
+   */
+  subnetResourceId?: string;
 }
 
 /**
@@ -4400,6 +5039,10 @@ export interface VnetValidationTestFailure extends ProxyOnlyResource {
  */
 export interface VnetValidationFailureDetails extends ProxyOnlyResource {
   /**
+   * Text describing the validation outcome.
+   */
+  message?: string;
+  /**
    * A flag describing whether or not validation failed.
    */
   failed?: boolean;
@@ -4407,6 +5050,10 @@ export interface VnetValidationFailureDetails extends ProxyOnlyResource {
    * A list of tests that failed in the validation.
    */
   failedTests?: VnetValidationTestFailure[];
+  /**
+   * A list of warnings generated during validation.
+   */
+  warnings?: VnetValidationTestFailure[];
 }
 
 /**
@@ -4417,11 +5064,58 @@ export interface AllowedAudiencesValidation extends ProxyOnlyResource {
 }
 
 /**
+ * Description of site key vault references.
+ */
+export interface ApiKVReference extends ProxyOnlyResource {
+  reference?: string;
+  /**
+   * Possible values include: 'Initialized', 'Resolved', 'InvalidSyntax', 'MSINotEnabled',
+   * 'VaultNotFound', 'SecretNotFound', 'SecretVersionNotFound', 'AccessToKeyVaultDenied',
+   * 'OtherReasons', 'FetchTimedOut', 'UnauthorizedClient'
+   */
+  status?: ResolveStatus;
+  vaultName?: string;
+  secretName?: string;
+  secretVersion?: string;
+  identityType?: ManagedServiceIdentity;
+  details?: string;
+  /**
+   * Possible values include: 'KeyVault'
+   */
+  source?: ConfigReferenceSource;
+  activeVersion?: string;
+}
+
+/**
  * An interface representing AppRegistration.
  */
 export interface AppRegistration extends ProxyOnlyResource {
   appId?: string;
   appSecretSettingName?: string;
+}
+
+/**
+ * An interface representing AppleRegistration.
+ */
+export interface AppleRegistration extends ProxyOnlyResource {
+  clientId?: string;
+  clientSecretSettingName?: string;
+}
+
+/**
+ * An interface representing LoginScopes.
+ */
+export interface LoginScopes extends ProxyOnlyResource {
+  scopes?: string[];
+}
+
+/**
+ * An interface representing Apple.
+ */
+export interface Apple extends ProxyOnlyResource {
+  enabled?: boolean;
+  registration?: AppleRegistration;
+  login?: LoginScopes;
 }
 
 /**
@@ -4542,16 +5236,6 @@ export interface AzureActiveDirectory extends ProxyOnlyResource {
 }
 
 /**
- * A wrapper for an ARM resource id
- */
-export interface ArmIdWrapper {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-}
-
-/**
  * Http logs to azure blob storage configuration.
  */
 export interface AzureBlobStorageHttpLogsConfig {
@@ -4573,35 +5257,18 @@ export interface AzureBlobStorageHttpLogsConfig {
 }
 
 /**
- * Azure Files or Blob Storage access information value for dictionary storage.
+ * An interface representing AzureStaticWebAppsRegistration.
  */
-export interface AzureStorageInfoValue {
-  /**
-   * Type of storage. Possible values include: 'AzureFiles', 'AzureBlob'
-   */
-  type?: AzureStorageType;
-  /**
-   * Name of the storage account.
-   */
-  accountName?: string;
-  /**
-   * Name of the file share (container name, for Blob storage).
-   */
-  shareName?: string;
-  /**
-   * Access key for the storage account.
-   */
-  accessKey?: string;
-  /**
-   * Path to mount the storage within the site's runtime environment.
-   */
-  mountPath?: string;
-  /**
-   * State of the storage account. Possible values include: 'Ok', 'InvalidCredentials',
-   * 'InvalidShare'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: AzureStorageState;
+export interface AzureStaticWebAppsRegistration extends ProxyOnlyResource {
+  clientId?: string;
+}
+
+/**
+ * An interface representing AzureStaticWebApps.
+ */
+export interface AzureStaticWebApps extends ProxyOnlyResource {
+  enabled?: boolean;
+  registration?: AzureStaticWebAppsRegistration;
 }
 
 /**
@@ -4942,23 +5609,6 @@ export interface CookieExpiration extends ProxyOnlyResource {
 }
 
 /**
- * Copy deployment slot parameters.
- */
-export interface CsmCopySlotEntity {
-  /**
-   * Destination deployment slot during copy operation.
-   */
-  targetSlot: string;
-  /**
-   * The site object which will be merged with the source slot site
-   * to produce new destination slot site object.
-   * <code>null</code> to just copy source slot content. Otherwise a <code>Site</code>
-   * object with properties to override source slot site.
-   */
-  siteConfig: SiteConfig;
-}
-
-/**
  * Publishing Credentials Policies parameters.
  */
 export interface CsmPublishingCredentialsPoliciesEntity extends ProxyOnlyResource {
@@ -5196,13 +5846,6 @@ export interface EnabledConfig {
 }
 
 /**
- * An interface representing LoginScopes.
- */
-export interface LoginScopes extends ProxyOnlyResource {
-  scopes?: string[];
-}
-
-/**
  * An interface representing Facebook.
  */
 export interface Facebook extends ProxyOnlyResource {
@@ -5336,6 +5979,65 @@ export interface GitHub extends ProxyOnlyResource {
 }
 
 /**
+ * The GitHub action code configuration.
+ */
+export interface GitHubActionCodeConfiguration {
+  /**
+   * Runtime stack is used to determine the workflow file content for code base apps.
+   */
+  runtimeStack?: string;
+  /**
+   * Runtime version is used to determine what build version to set in the workflow file.
+   */
+  runtimeVersion?: string;
+}
+
+/**
+ * The GitHub action container configuration.
+ */
+export interface GitHubActionContainerConfiguration {
+  /**
+   * The server URL for the container registry where the build will be hosted.
+   */
+  serverUrl?: string;
+  /**
+   * The image name for the build.
+   */
+  imageName?: string;
+  /**
+   * The username used to upload the image to the container registry.
+   */
+  username?: string;
+  /**
+   * The password used to upload the image to the container registry.
+   */
+  password?: string;
+}
+
+/**
+ * The GitHub action configuration.
+ */
+export interface GitHubActionConfiguration {
+  /**
+   * GitHub Action code configuration.
+   */
+  codeConfiguration?: GitHubActionCodeConfiguration;
+  /**
+   * GitHub Action container configuration.
+   */
+  containerConfiguration?: GitHubActionContainerConfiguration;
+  /**
+   * This will help determine the workflow configuration to select.
+   */
+  isLinux?: boolean;
+  /**
+   * Workflow option to determine whether the workflow file should be generated and written to the
+   * repository.
+   */
+  generateWorkflowFile?: boolean;
+}
+
+/**
  * An interface representing GlobalValidation.
  */
 export interface GlobalValidation extends ProxyOnlyResource {
@@ -5450,6 +6152,16 @@ export interface HttpSettings extends ProxyOnlyResource {
 }
 
 /**
+ * An interface representing LegacyMicrosoftAccount.
+ */
+export interface LegacyMicrosoftAccount extends ProxyOnlyResource {
+  enabled?: boolean;
+  registration?: ClientRegistration;
+  login?: LoginScopes;
+  validation?: AllowedAudiencesValidation;
+}
+
+/**
  * An interface representing TwitterRegistration.
  */
 export interface TwitterRegistration extends ProxyOnlyResource {
@@ -5473,7 +6185,10 @@ export interface IdentityProviders extends ProxyOnlyResource {
   facebook?: Facebook;
   gitHub?: GitHub;
   google?: Google;
+  legacyMicrosoftAccount?: LegacyMicrosoftAccount;
   twitter?: Twitter;
+  apple?: Apple;
+  azureStaticWebApps?: AzureStaticWebApps;
   customOpenIdConnectProviders?: { [propertyName: string]: CustomOpenIdConnectProvider };
 }
 
@@ -5891,90 +6606,6 @@ export interface PrivateAccess extends ProxyOnlyResource {
 }
 
 /**
- * The state of a private link connection
- */
-export interface PrivateLinkConnectionState {
-  /**
-   * Status of a private link connection
-   */
-  status?: string;
-  /**
-   * Description of a private link connection
-   */
-  description?: string;
-  /**
-   * ActionsRequired for a private link connection
-   */
-  actionsRequired?: string;
-}
-
-/**
- * Private Endpoint Connection ARM resource.
- */
-export interface PrivateEndpointConnectionResource extends ProxyOnlyResource {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: string;
-  /**
-   * PrivateEndpoint of a remote private endpoint connection
-   */
-  privateEndpoint?: ArmIdWrapper;
-  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
-}
-
-/**
- * Private Endpoint Connection Approval ARM resource.
- */
-export interface PrivateLinkConnectionApprovalRequestResource extends ProxyOnlyResource {
-  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
-}
-
-/**
- * Properties of a private link resource
- */
-export interface PrivateLinkResourceProperties {
-  /**
-   * GroupId of a private link resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly groupId?: string;
-  /**
-   * RequiredMembers of a private link resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requiredMembers?: string[];
-  /**
-   * RequiredZoneNames of a private link resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requiredZoneNames?: string[];
-}
-
-/**
- * A private link resource
- */
-export interface PrivateLinkResource {
-  id: string;
-  /**
-   * Name of a private link resource
-   */
-  name: string;
-  type: string;
-  /**
-   * Properties of a private link resource
-   */
-  properties: PrivateLinkResourceProperties;
-}
-
-/**
- * Wrapper for a collection of private link resources
- */
-export interface PrivateLinkResourcesWrapper {
-  value: PrivateLinkResource[];
-}
-
-/**
  * Process Thread Information.
  */
 export interface ProcessThreadInfo extends ProxyOnlyResource {
@@ -6324,6 +6955,12 @@ export interface SiteAuthSettings extends ProxyOnlyResource {
    */
   runtimeVersion?: string;
   /**
+   * The ConfigVersion of the Authentication / Authorization feature in use for the current app.
+   * The setting in this value can control the behavior of the control plane for Authentication /
+   * Authorization.
+   */
+  configVersion?: string;
+  /**
    * The action to take when an unauthenticated client attempts to access the app. Possible values
    * include: 'RedirectToLoginPage', 'AllowAnonymous'
    */
@@ -6656,6 +7293,10 @@ export interface SiteConfigResource extends ProxyOnlyResource {
    */
   appSettings?: NameValuePair[];
   /**
+   * List of Azure Storage Accounts.
+   */
+  azureStorageAccounts?: { [propertyName: string]: AzureStorageInfoValue };
+  /**
    * Connection strings.
    */
   connectionStrings?: ConnStringInfo[];
@@ -6716,7 +7357,7 @@ export interface SiteConfigResource extends ProxyOnlyResource {
   virtualApplications?: VirtualApplication[];
   /**
    * Site load balancing. Possible values include: 'WeightedRoundRobin', 'LeastRequests',
-   * 'LeastResponseTime', 'WeightedTotalTraffic', 'RequestHash'
+   * 'LeastResponseTime', 'WeightedTotalTraffic', 'RequestHash', 'PerSiteRoundRobin'
    */
   loadBalancing?: SiteLoadBalancing;
   /**
@@ -6786,6 +7427,10 @@ export interface SiteConfigResource extends ProxyOnlyResource {
    */
   xManagedServiceIdentityId?: number;
   /**
+   * Identity to use for Key Vault Reference authentication.
+   */
+  keyVaultReferenceIdentity?: string;
+  /**
    * IP security restrictions for main.
    */
   ipSecurityRestrictions?: IpSecurityRestriction[];
@@ -6822,9 +7467,35 @@ export interface SiteConfigResource extends ProxyOnlyResource {
    */
   preWarmedInstanceCount?: number;
   /**
+   * Maximum number of workers that a site can scale out to.
+   * This setting only applies to the Consumption and Elastic Premium Plans
+   */
+  functionAppScaleLimit?: number;
+  /**
    * Health check path
    */
   healthCheckPath?: string;
+  /**
+   * Gets or sets a value indicating whether functions runtime scale monitoring is enabled. When
+   * enabled,
+   * the ScaleController will not monitor event sources directly, but will instead call to the
+   * runtime to get scale status.
+   */
+  functionsRuntimeScaleMonitoringEnabled?: boolean;
+  /**
+   * Sets the time zone a site uses for generating timestamps. Compatible with Linux and Windows
+   * App Service. Setting the WEBSITE_TIME_ZONE app setting takes precedence over this config. For
+   * Linux, expects tz database values https://www.iana.org/time-zones (for a quick reference see
+   * https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For Windows, expects one of the
+   * time zones listed under HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time
+   * Zones
+   */
+  websiteTimeZone?: string;
+  /**
+   * Number of minimum instance count for a site
+   * This setting only applies to the Elastic Plans
+   */
+  minimumElasticInstanceCount?: number;
 }
 
 /**
@@ -7056,7 +7727,7 @@ export interface SitePatchResource extends ProxyOnlyResource {
    * - ClientCertEnabled: false means ClientCert is ignored.
    * - ClientCertEnabled: true and ClientCertMode: Required means ClientCert is required.
    * - ClientCertEnabled: true and ClientCertMode: Optional means ClientCert is optional or
-   * accepted. Possible values include: 'Required', 'Optional'
+   * accepted. Possible values include: 'Required', 'Optional', 'OptionalInteractiveUser'
    */
   clientCertMode?: ClientCertMode;
   /**
@@ -7129,6 +7800,10 @@ export interface SitePatchResource extends ProxyOnlyResource {
    */
   readonly slotSwapStatus?: SlotSwapStatus;
   /**
+   * Identity to use for Key Vault Reference authentication.
+   */
+  keyVaultReferenceIdentity?: string;
+  /**
    * HttpsOnly: configures a web site to accept only https requests. Issues redirect for
    * http requests
    */
@@ -7143,6 +7818,10 @@ export interface SitePatchResource extends ProxyOnlyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly inProgressOperationId?: string;
+  /**
+   * Checks if Customer provided storage account is required
+   */
+  storageAccountRequired?: boolean;
   identity?: ManagedServiceIdentity;
 }
 
@@ -7197,6 +7876,10 @@ export interface SiteSourceControl extends ProxyOnlyResource {
    * <code>true</code> for a Mercurial repository; <code>false</code> for a Git repository.
    */
   isMercurial?: boolean;
+  /**
+   * If GitHub Action is selected, than the associated configuration.
+   */
+  gitHubActionConfiguration?: GitHubActionConfiguration;
 }
 
 /**
@@ -7529,6 +8212,110 @@ export interface WebJob extends ProxyOnlyResource {
 }
 
 /**
+ * The plan object in Azure Resource Manager, represents a marketplace plan.
+ */
+export interface ArmPlan {
+  /**
+   * The name.
+   */
+  name?: string;
+  /**
+   * The publisher.
+   */
+  publisher?: string;
+  /**
+   * The product.
+   */
+  product?: string;
+  /**
+   * The promotion code.
+   */
+  promotionCode?: string;
+  /**
+   * Version of product.
+   */
+  version?: string;
+}
+
+/**
+ * A remote private endpoint connection
+ */
+export interface RemotePrivateEndpointConnection extends ProxyOnlyResource {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: string;
+  /**
+   * PrivateEndpoint of a remote private endpoint connection
+   */
+  privateEndpoint?: ArmIdWrapper;
+  privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+  /**
+   * Private IPAddresses mapped to the remote private endpoint
+   */
+  ipAddresses?: string[];
+}
+
+/**
+ * Message envelope that contains the common Azure resource manager properties and the resource
+ * provider specific content.
+ */
+export interface ResponseMessageEnvelopeRemotePrivateEndpointConnection {
+  /**
+   * Resource Id. Typically ID is populated only for responses to GET requests. Caller is
+   * responsible for passing in this
+   * value for GET requests only.
+   * For example:
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupId}/providers/Microsoft.Web/sites/{sitename}
+   */
+  id?: string;
+  /**
+   * Name of resource.
+   */
+  name?: string;
+  /**
+   * Type of resource e.g "Microsoft.Web/sites".
+   */
+  type?: string;
+  /**
+   * Geographical region resource belongs to e.g. SouthCentralUS, SouthEastAsia.
+   */
+  location?: string;
+  /**
+   * Tags associated with resource.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Azure resource manager plan.
+   */
+  plan?: ArmPlan;
+  /**
+   * Resource specific properties.
+   */
+  properties?: RemotePrivateEndpointConnection;
+  /**
+   * SKU description of the resource.
+   */
+  sku?: SkuDescription;
+  /**
+   * Azure-AsyncOperation Status info.
+   */
+  status?: string;
+  /**
+   * Azure-AsyncOperation Error info.
+   */
+  error?: ErrorEntity;
+  /**
+   * MSI resource
+   */
+  identity?: ManagedServiceIdentity;
+  /**
+   * Logical Availability Zones the service is hosted in
+   */
+  zones?: string[];
+}
+
+/**
  * Build properties for the static site.
  */
 export interface StaticSiteBuildProperties {
@@ -7541,9 +8328,76 @@ export interface StaticSiteBuildProperties {
    */
   apiLocation?: string;
   /**
-   * The path of the app artifacts after building.
+   * Deprecated: The path of the app artifacts after building (deprecated in favor of
+   * OutputLocation)
    */
   appArtifactLocation?: string;
+  /**
+   * The output path of the app after building.
+   */
+  outputLocation?: string;
+  /**
+   * A custom command to run during deployment of the static content application.
+   */
+  appBuildCommand?: string;
+  /**
+   * A custom command to run during deployment of the Azure Functions API application.
+   */
+  apiBuildCommand?: string;
+  /**
+   * Skip Github Action workflow generation.
+   */
+  skipGithubActionWorkflowGeneration?: boolean;
+  /**
+   * Github Action secret name override.
+   */
+  githubActionSecretNameOverride?: string;
+}
+
+/**
+ * Template Options for the static site.
+ */
+export interface StaticSiteTemplateOptions {
+  /**
+   * URL of the template repository. The newly generated repository will be based on this one.
+   */
+  templateRepositoryUrl?: string;
+  /**
+   * Owner of the newly generated repository.
+   */
+  owner?: string;
+  /**
+   * Name of the newly generated repository.
+   */
+  repositoryName?: string;
+  /**
+   * Description of the newly generated repository.
+   */
+  description?: string;
+  /**
+   * Whether or not the newly generated repository is a private repository. Defaults to false (i.e.
+   * public).
+   */
+  isPrivate?: boolean;
+}
+
+/**
+ * A static site user provided function.
+ */
+export interface StaticSiteUserProvidedFunctionApp extends ProxyOnlyResource {
+  /**
+   * The resource id of the function app registered with the static site
+   */
+  functionAppResourceId?: string;
+  /**
+   * The region of the function app registered with the static site
+   */
+  functionAppRegion?: string;
+  /**
+   * The date and time on which the function app was registered with the static site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdOn?: Date;
 }
 
 /**
@@ -7564,6 +8418,11 @@ export interface StaticSiteARMResource extends Resource {
    */
   branch?: string;
   /**
+   * The provider that submitted the last deployment to the primary environment of the static site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provider?: string;
+  /**
    * The custom domains associated with this static site.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -7577,7 +8436,42 @@ export interface StaticSiteARMResource extends Resource {
    * Build properties to configure on the repository.
    */
   buildProperties?: StaticSiteBuildProperties;
+  /**
+   * Template options for generating a new repository.
+   */
+  templateProperties?: StaticSiteTemplateOptions;
+  /**
+   * Private endpoint connections
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: ResponseMessageEnvelopeRemotePrivateEndpointConnection[];
+  /**
+   * The content distribution endpoint for the static site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly contentDistributionEndpoint?: string;
+  /**
+   * Identity to use for Key Vault Reference authentication.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keyVaultReferenceIdentity?: string;
+  /**
+   * User provided function apps registered with the static site
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+  /**
+   * State indicating whether staging environments are allowed or not allowed for a static web app.
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  stagingEnvironmentPolicy?: StagingEnvironmentPolicy;
+  /**
+   * <code>false</code> if config file is locked for this static web app; otherwise,
+   * <code>true</code>.
+   */
+  allowConfigFileUpdates?: boolean;
   sku?: SkuDescription;
+  identity?: ManagedServiceIdentity;
 }
 
 /**
@@ -7620,6 +8514,11 @@ export interface StaticSiteBuildARMResource extends ProxyOnlyResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: BuildStatus;
+  /**
+   * User provided function apps registered with the static site build
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
 }
 
 /**
@@ -7636,6 +8535,31 @@ export interface StaticSiteCustomDomainOverviewARMResource extends ProxyOnlyReso
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly createdOn?: Date;
+  /**
+   * The status of the custom domain. Possible values include: 'RetrievingValidationToken',
+   * 'Validating', 'Adding', 'Ready', 'Failed', 'Deleting'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: CustomDomainStatus;
+  /**
+   * The TXT record validation token
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly validationToken?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
+}
+
+/**
+ * Static Site Custom Domain Request Properties ARM resource.
+ */
+export interface StaticSiteCustomDomainRequestPropertiesARMResource extends ProxyOnlyResource {
+  /**
+   * Validation method for adding a custom domain. Default value: 'cname-delegation'.
+   */
+  validationMethod?: string;
 }
 
 /**
@@ -7672,6 +8596,11 @@ export interface StaticSitePatchResource extends ProxyOnlyResource {
    */
   branch?: string;
   /**
+   * The provider that submitted the last deployment to the primary environment of the static site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provider?: string;
+  /**
    * The custom domains associated with this static site.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -7685,6 +8614,40 @@ export interface StaticSitePatchResource extends ProxyOnlyResource {
    * Build properties to configure on the repository.
    */
   buildProperties?: StaticSiteBuildProperties;
+  /**
+   * Template options for generating a new repository.
+   */
+  templateProperties?: StaticSiteTemplateOptions;
+  /**
+   * Private endpoint connections
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateEndpointConnections?: ResponseMessageEnvelopeRemotePrivateEndpointConnection[];
+  /**
+   * The content distribution endpoint for the static site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly contentDistributionEndpoint?: string;
+  /**
+   * Identity to use for Key Vault Reference authentication.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keyVaultReferenceIdentity?: string;
+  /**
+   * User provided function apps registered with the static site
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly userProvidedFunctionApps?: StaticSiteUserProvidedFunctionApp[];
+  /**
+   * State indicating whether staging environments are allowed or not allowed for a static web app.
+   * Possible values include: 'Enabled', 'Disabled'
+   */
+  stagingEnvironmentPolicy?: StagingEnvironmentPolicy;
+  /**
+   * <code>false</code> if config file is locked for this static web app; otherwise,
+   * <code>true</code>.
+   */
+  allowConfigFileUpdates?: boolean;
 }
 
 /**
@@ -7769,6 +8732,51 @@ export interface StaticSiteUserInvitationResponseResource extends ProxyOnlyResou
 }
 
 /**
+ * Static Site User Provided Function App ARM resource.
+ */
+export interface StaticSiteUserProvidedFunctionAppARMResource extends ProxyOnlyResource {
+  /**
+   * The resource id of the function app registered with the static site
+   */
+  functionAppResourceId?: string;
+  /**
+   * The region of the function app registered with the static site
+   */
+  functionAppRegion?: string;
+  /**
+   * The date and time on which the function app was registered with the static site.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly createdOn?: Date;
+}
+
+/**
+ * Static site zip deployment ARM resource.
+ */
+export interface StaticSiteZipDeploymentARMResource extends ProxyOnlyResource {
+  /**
+   * URL for the zipped app content
+   */
+  appZipUrl?: string;
+  /**
+   * URL for the zipped api content
+   */
+  apiZipUrl?: string;
+  /**
+   * A title to label the deployment
+   */
+  deploymentTitle?: string;
+  /**
+   * The provider submitting this deployment
+   */
+  provider?: string;
+  /**
+   * The language of the api content, if it exists
+   */
+  functionLanguage?: string;
+}
+
+/**
  * Preview for the Static Site Workflow to be generated
  */
 export interface StaticSitesWorkflowPreview extends ProxyOnlyResource {
@@ -7803,6 +8811,42 @@ export interface StaticSitesWorkflowPreviewRequest extends ProxyOnlyResource {
 }
 
 /**
+ * String list resource.
+ */
+export interface StringList extends ProxyOnlyResource {
+  /**
+   * List of string resources.
+   */
+  properties?: string[];
+}
+
+/**
+ * Virtual IP mapping.
+ */
+export interface VirtualIPMapping {
+  /**
+   * Virtual IP address.
+   */
+  virtualIP?: string;
+  /**
+   * Internal HTTP port.
+   */
+  internalHttpPort?: number;
+  /**
+   * Internal HTTPS port.
+   */
+  internalHttpsPort?: number;
+  /**
+   * Is virtual IP mapping in use.
+   */
+  inUse?: boolean;
+  /**
+   * name of the service that virtual IP is assigned to
+   */
+  serviceName?: string;
+}
+
+/**
  * Describes main public IP address and any extra virtual IPs.
  */
 export interface AddressResponse extends ProxyOnlyResource {
@@ -7830,14 +8874,6 @@ export interface AddressResponse extends ProxyOnlyResource {
  */
 export interface AppServiceEnvironmentResource extends Resource {
   /**
-   * Name of the App Service Environment.
-   */
-  appServiceEnvironmentResourceName: string;
-  /**
-   * Location of the App Service Environment, e.g. "West US".
-   */
-  appServiceEnvironmentResourceLocation: string;
-  /**
    * Provisioning state of the App Service Environment. Possible values include: 'Succeeded',
    * 'Failed', 'Canceled', 'InProgress', 'Deleting'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -7850,24 +8886,12 @@ export interface AppServiceEnvironmentResource extends Resource {
    */
   readonly status?: HostingEnvironmentStatus;
   /**
-   * Name of the Virtual Network for the App Service Environment.
-   */
-  vnetName?: string;
-  /**
-   * Resource group of the Virtual Network.
-   */
-  vnetResourceGroupName?: string;
-  /**
-   * Subnet of the Virtual Network.
-   */
-  vnetSubnetName?: string;
-  /**
    * Description of the Virtual Network.
    */
   virtualNetwork: VirtualNetworkProfile;
   /**
    * Specifies which endpoints to serve internally in the Virtual Network for the App Service
-   * Environment. Possible values include: 'None', 'Web', 'Publishing', 'Web,Publishing'
+   * Environment. Possible values include: 'None', 'Web', 'Publishing', 'Web, Publishing'
    */
   internalLoadBalancingMode?: LoadBalancingMode;
   /**
@@ -7876,120 +8900,33 @@ export interface AppServiceEnvironmentResource extends Resource {
   multiSize?: string;
   /**
    * Number of front-end instances.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  multiRoleCount?: number;
-  /**
-   * Description of worker pools with worker size IDs, VM sizes, and number of workers in each
-   * pool.
-   */
-  workerPools: WorkerPool[];
+  readonly multiRoleCount?: number;
   /**
    * Number of IP SSL addresses reserved for the App Service Environment.
    */
   ipsslAddressCount?: number;
   /**
-   * Edition of the metadata database for the App Service Environment, e.g. "Standard".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseEdition?: string;
-  /**
-   * Service objective of the metadata database for the App Service Environment, e.g. "S0".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseServiceObjective?: string;
-  /**
-   * Number of upgrade domains of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly upgradeDomains?: number;
-  /**
-   * Subscription of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subscriptionId?: string;
-  /**
    * DNS suffix of the App Service Environment.
    */
   dnsSuffix?: string;
-  /**
-   * Last deployment action on the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastAction?: string;
-  /**
-   * Result of the last deployment action on the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastActionResult?: string;
-  /**
-   * List of comma separated strings describing which VM sizes are allowed for front-ends.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly allowedMultiSizes?: string;
-  /**
-   * List of comma separated strings describing which VM sizes are allowed for workers.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly allowedWorkerSizes?: string;
   /**
    * Maximum number of VMs in the App Service Environment.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly maximumNumberOfMachines?: number;
   /**
-   * Description of IP SSL mapping for the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly vipMappings?: VirtualIPMapping[];
-  /**
-   * Current total, used, and available worker capacities.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly environmentCapacities?: StampCapacity[];
-  /**
-   * Access control list for controlling traffic to the App Service Environment.
-   */
-  networkAccessControlList?: NetworkAccessControlEntry[];
-  /**
-   * True/false indicating whether the App Service Environment is healthy.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly environmentIsHealthy?: boolean;
-  /**
-   * Detailed message about with results of the last check of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly environmentStatus?: string;
-  /**
-   * Resource group of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceGroup?: string;
-  /**
    * Scale factor for front-ends.
    */
   frontEndScaleFactor?: number;
   /**
-   * Default Scale Factor for FrontEnds.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly defaultFrontEndScaleFactor?: number;
-  /**
-   * API Management Account associated with the App Service Environment.
-   */
-  apiManagementAccountId?: string;
-  /**
    * <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>.
    * The environment can be suspended, e.g. when the management endpoint is no longer available
    * (most likely because NSG blocked the incoming traffic).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  suspended?: boolean;
-  /**
-   * True/false indicating whether the App Service Environment is suspended. The environment can be
-   * suspended e.g. when the management endpoint is no longer available
-   * (most likely because NSG blocked the incoming traffic).
-   */
-  dynamicCacheEnabled?: boolean;
+  readonly suspended?: boolean;
   /**
    * Custom settings for changing the behavior of the App Service Environment.
    */
@@ -8000,16 +8937,14 @@ export interface AppServiceEnvironmentResource extends Resource {
   userWhitelistedIpRanges?: string[];
   /**
    * Flag that displays whether an ASE has linux workers or not
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  hasLinuxWorkers?: boolean;
+  readonly hasLinuxWorkers?: boolean;
   /**
-   * Key Vault ID for ILB App Service Environment default SSL certificate
+   * Dedicated Host Count
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  sslCertKeyVaultId?: string;
-  /**
-   * Key Vault Secret Name for ILB App Service Environment default SSL certificate
-   */
-  sslCertKeyVaultSecretName?: string;
+  readonly dedicatedHostCount?: number;
 }
 
 /**
@@ -8017,14 +8952,6 @@ export interface AppServiceEnvironmentResource extends Resource {
  */
 export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
   /**
-   * Name of the App Service Environment.
-   */
-  appServiceEnvironmentPatchResourceName: string;
-  /**
-   * Location of the App Service Environment, e.g. "West US".
-   */
-  location: string;
-  /**
    * Provisioning state of the App Service Environment. Possible values include: 'Succeeded',
    * 'Failed', 'Canceled', 'InProgress', 'Deleting'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -8037,24 +8964,12 @@ export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
    */
   readonly status?: HostingEnvironmentStatus;
   /**
-   * Name of the Virtual Network for the App Service Environment.
-   */
-  vnetName?: string;
-  /**
-   * Resource group of the Virtual Network.
-   */
-  vnetResourceGroupName?: string;
-  /**
-   * Subnet of the Virtual Network.
-   */
-  vnetSubnetName?: string;
-  /**
    * Description of the Virtual Network.
    */
   virtualNetwork: VirtualNetworkProfile;
   /**
    * Specifies which endpoints to serve internally in the Virtual Network for the App Service
-   * Environment. Possible values include: 'None', 'Web', 'Publishing', 'Web,Publishing'
+   * Environment. Possible values include: 'None', 'Web', 'Publishing', 'Web, Publishing'
    */
   internalLoadBalancingMode?: LoadBalancingMode;
   /**
@@ -8063,120 +8978,33 @@ export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
   multiSize?: string;
   /**
    * Number of front-end instances.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  multiRoleCount?: number;
-  /**
-   * Description of worker pools with worker size IDs, VM sizes, and number of workers in each
-   * pool.
-   */
-  workerPools: WorkerPool[];
+  readonly multiRoleCount?: number;
   /**
    * Number of IP SSL addresses reserved for the App Service Environment.
    */
   ipsslAddressCount?: number;
   /**
-   * Edition of the metadata database for the App Service Environment, e.g. "Standard".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseEdition?: string;
-  /**
-   * Service objective of the metadata database for the App Service Environment, e.g. "S0".
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly databaseServiceObjective?: string;
-  /**
-   * Number of upgrade domains of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly upgradeDomains?: number;
-  /**
-   * Subscription of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly subscriptionId?: string;
-  /**
    * DNS suffix of the App Service Environment.
    */
   dnsSuffix?: string;
-  /**
-   * Last deployment action on the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastAction?: string;
-  /**
-   * Result of the last deployment action on the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastActionResult?: string;
-  /**
-   * List of comma separated strings describing which VM sizes are allowed for front-ends.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly allowedMultiSizes?: string;
-  /**
-   * List of comma separated strings describing which VM sizes are allowed for workers.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly allowedWorkerSizes?: string;
   /**
    * Maximum number of VMs in the App Service Environment.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly maximumNumberOfMachines?: number;
   /**
-   * Description of IP SSL mapping for the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly vipMappings?: VirtualIPMapping[];
-  /**
-   * Current total, used, and available worker capacities.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly environmentCapacities?: StampCapacity[];
-  /**
-   * Access control list for controlling traffic to the App Service Environment.
-   */
-  networkAccessControlList?: NetworkAccessControlEntry[];
-  /**
-   * True/false indicating whether the App Service Environment is healthy.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly environmentIsHealthy?: boolean;
-  /**
-   * Detailed message about with results of the last check of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly environmentStatus?: string;
-  /**
-   * Resource group of the App Service Environment.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceGroup?: string;
-  /**
    * Scale factor for front-ends.
    */
   frontEndScaleFactor?: number;
   /**
-   * Default Scale Factor for FrontEnds.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly defaultFrontEndScaleFactor?: number;
-  /**
-   * API Management Account associated with the App Service Environment.
-   */
-  apiManagementAccountId?: string;
-  /**
    * <code>true</code> if the App Service Environment is suspended; otherwise, <code>false</code>.
    * The environment can be suspended, e.g. when the management endpoint is no longer available
    * (most likely because NSG blocked the incoming traffic).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  suspended?: boolean;
-  /**
-   * True/false indicating whether the App Service Environment is suspended. The environment can be
-   * suspended e.g. when the management endpoint is no longer available
-   * (most likely because NSG blocked the incoming traffic).
-   */
-  dynamicCacheEnabled?: boolean;
+  readonly suspended?: boolean;
   /**
    * Custom settings for changing the behavior of the App Service Environment.
    */
@@ -8187,16 +9015,32 @@ export interface AppServiceEnvironmentPatchResource extends ProxyOnlyResource {
   userWhitelistedIpRanges?: string[];
   /**
    * Flag that displays whether an ASE has linux workers or not
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  hasLinuxWorkers?: boolean;
+  readonly hasLinuxWorkers?: boolean;
   /**
-   * Key Vault ID for ILB App Service Environment default SSL certificate
+   * Dedicated Host Count
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  sslCertKeyVaultId?: string;
+  readonly dedicatedHostCount?: number;
+}
+
+/**
+ * Full view of networking configuration for an ASE.
+ */
+export interface AseV3NetworkingConfiguration extends ProxyOnlyResource {
   /**
-   * Key Vault Secret Name for ILB App Service Environment default SSL certificate
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  sslCertKeyVaultSecretName?: string;
+  readonly windowsOutboundIpAddresses?: string[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly linuxOutboundIpAddresses?: string[];
+  /**
+   * Property to enable and disable new private endpoint connection creation on ASE
+   */
+  allowNewPrivateEndpointConnections?: boolean;
 }
 
 /**
@@ -8352,6 +9196,61 @@ export interface SkuInfo {
 }
 
 /**
+ * Stamp capacity information.
+ */
+export interface StampCapacity {
+  /**
+   * Name of the stamp.
+   */
+  name?: string;
+  /**
+   * Available capacity (# of machines, bytes of storage etc...).
+   */
+  availableCapacity?: number;
+  /**
+   * Total capacity (# of machines, bytes of storage etc...).
+   */
+  totalCapacity?: number;
+  /**
+   * Name of the unit.
+   */
+  unit?: string;
+  /**
+   * Shared/dedicated workers. Possible values include: 'Shared', 'Dedicated', 'Dynamic'
+   */
+  computeMode?: ComputeModeOptions;
+  /**
+   * Size of the machines. Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3',
+   * 'SmallV3', 'MediumV3', 'LargeV3', 'NestedSmall', 'NestedSmallLinux', 'Default'
+   */
+  workerSize?: WorkerSizeOptions;
+  /**
+   * Size ID of machines:
+   * 0 - Small
+   * 1 - Medium
+   * 2 - Large
+   */
+  workerSizeId?: number;
+  /**
+   * If <code>true</code>, it includes basic apps.
+   * Basic apps are not used for capacity allocation.
+   */
+  excludeFromCapacityAllocation?: boolean;
+  /**
+   * <code>true</code> if capacity is applicable for all apps; otherwise, <code>false</code>.
+   */
+  isApplicableForAllComputeModes?: boolean;
+  /**
+   * Shared or Dedicated.
+   */
+  siteMode?: string;
+  /**
+   * Is this a linux stamp capacity
+   */
+  isLinux?: boolean;
+}
+
+/**
  * Usage of the quota resource.
  */
 export interface Usage extends ProxyOnlyResource {
@@ -8490,9 +9389,8 @@ export interface AppServicePlanPatchResource extends ProxyOnlyResource {
    */
   readonly resourceGroup?: string;
   /**
-   * This needs to set to <code>true</code> when creating a Linux App Service Plan, along with
-   * <code>kind</code> set to <code>Linux</code>. It should be <code>false</code> otherwise.
-   * Default value: false.
+   * If Linux app service plan <code>true</code>, <code>false</code> otherwise. Default value:
+   * false.
    */
   reserved?: boolean;
   /**
@@ -8514,11 +9412,15 @@ export interface AppServicePlanPatchResource extends ProxyOnlyResource {
    */
   targetWorkerSizeId?: number;
   /**
-   * Provisioning state of the App Service Environment. Possible values include: 'Succeeded',
-   * 'Failed', 'Canceled', 'InProgress', 'Deleting'
+   * Provisioning state of the App Service Plan. Possible values include: 'Succeeded', 'Failed',
+   * 'Canceled', 'InProgress', 'Deleting'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
+  /**
+   * Specification for the Kubernetes Environment to use for the App Service plan.
+   */
+  kubeEnvironmentProfile?: KubeEnvironmentProfile;
 }
 
 /**
@@ -8580,6 +9482,24 @@ export interface AppServiceCertificateOrdersResendRequestEmailsOptionalParams ex
 /**
  * Optional Parameters.
  */
+export interface CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The start time for detector response.
+   */
+  startTime?: Date;
+  /**
+   * The end time for the detector response.
+   */
+  endTime?: Date;
+  /**
+   * The time grain for the detector response.
+   */
+  timeGrain?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface DomainsCheckAvailabilityOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Name of the object.
@@ -8596,6 +9516,28 @@ export interface DomainsDeleteMethodOptionalParams extends msRest.RequestOptions
    * which deletes the domain after 24 hours.
    */
   forceHardDeleteDomain?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CertificatesListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Return only information specified in the filter (using OData syntax). For example:
+   * $filter=KeyVaultId eq 'KeyVaultId'
+   */
+  filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface CertificatesListNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Return only information specified in the filter (using OData syntax). For example:
+   * $filter=KeyVaultId eq 'KeyVaultId'
+   */
+  filter?: string;
 }
 
 /**
@@ -8729,7 +9671,7 @@ export interface DiagnosticsExecuteSiteDetectorSlotOptionalParams extends msRest
  */
 export interface ProviderGetAvailableStacksOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+   * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions', 'All'
    */
   osTypeSelected?: OsTypeSelected;
 }
@@ -8737,9 +9679,49 @@ export interface ProviderGetAvailableStacksOptionalParams extends msRest.Request
 /**
  * Optional Parameters.
  */
+export interface ProviderGetFunctionAppStacksOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Stack OS Type. Possible values include: 'Windows', 'Linux', 'All'
+   */
+  stackOsType?: StackOsType;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProviderGetFunctionAppStacksForLocationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Stack OS Type. Possible values include: 'Windows', 'Linux', 'All'
+   */
+  stackOsType?: StackOsType1;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProviderGetWebAppStacksForLocationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Stack OS Type. Possible values include: 'Windows', 'Linux', 'All'
+   */
+  stackOsType?: StackOsType2;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProviderGetWebAppStacksOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Stack OS Type. Possible values include: 'Windows', 'Linux', 'All'
+   */
+  stackOsType?: StackOsType3;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ProviderGetAvailableStacksOnPremOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+   * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions', 'All'
    */
   osTypeSelected?: OsTypeSelected1;
 }
@@ -8749,7 +9731,7 @@ export interface ProviderGetAvailableStacksOnPremOptionalParams extends msRest.R
  */
 export interface ProviderGetAvailableStacksNextOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+   * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions', 'All'
    */
   osTypeSelected?: OsTypeSelected;
 }
@@ -8757,9 +9739,49 @@ export interface ProviderGetAvailableStacksNextOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
+export interface ProviderGetFunctionAppStacksNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Stack OS Type. Possible values include: 'Windows', 'Linux', 'All'
+   */
+  stackOsType?: StackOsType;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProviderGetFunctionAppStacksForLocationNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Stack OS Type. Possible values include: 'Windows', 'Linux', 'All'
+   */
+  stackOsType?: StackOsType1;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProviderGetWebAppStacksForLocationNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Stack OS Type. Possible values include: 'Windows', 'Linux', 'All'
+   */
+  stackOsType?: StackOsType2;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ProviderGetWebAppStacksNextOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Stack OS Type. Possible values include: 'Windows', 'Linux', 'All'
+   */
+  stackOsType?: StackOsType3;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface ProviderGetAvailableStacksOnPremNextOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+   * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions', 'All'
    */
   osTypeSelected?: OsTypeSelected1;
 }
@@ -8990,7 +10012,8 @@ export interface WebSiteManagementClientCheckNameAvailabilityOptionalParams exte
 export interface WebSiteManagementClientListGeoRegionsOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic',
-   * 'Standard', 'Premium', 'Dynamic', 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
+   * 'Standard', 'Premium', 'Dynamic', 'Isolated', 'IsolatedV2', 'PremiumV2', 'PremiumV3',
+   * 'PremiumContainer', 'ElasticPremium', 'ElasticIsolated'
    */
   sku?: SkuName;
   /**
@@ -9038,7 +10061,8 @@ export interface WebSiteManagementClientListBillingMetersNextOptionalParams exte
 export interface WebSiteManagementClientListGeoRegionsNextOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic',
-   * 'Standard', 'Premium', 'Dynamic', 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
+   * 'Standard', 'Premium', 'Dynamic', 'Isolated', 'IsolatedV2', 'PremiumV2', 'PremiumV3',
+   * 'PremiumContainer', 'ElasticPremium', 'ElasticIsolated'
    */
   sku?: SkuName;
   /**
@@ -9165,8 +10189,8 @@ export interface WebAppsDeleteSlotOptionalParams extends msRest.RequestOptionsBa
    */
   deleteMetrics?: boolean;
   /**
-   * Specify true if the App Service plan will be empty after app deletion and you want to delete
-   * the empty App Service plan. By default, the empty App Service plan is not deleted.
+   * Specify false if you want to keep empty App Service plan. By default, empty App Service plan
+   * is deleted.
    */
   deleteEmptyServerFarm?: boolean;
 }
@@ -9248,6 +10272,13 @@ export interface WebAppsRestartSlotOptionalParams extends msRest.RequestOptionsB
 /**
  * Optional Parameters.
  */
+export interface WebAppsDeleteSourceControlSlotOptionalParams extends msRest.RequestOptionsBase {
+  additionalFlags?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface WebAppsStartNetworkTraceSlotOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The duration to keep capturing in seconds.
@@ -9274,6 +10305,13 @@ export interface WebAppsListUsagesSlotOptionalParams extends msRest.RequestOptio
    * duration'[Hour|Minute|Day]'.
    */
   filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface WebAppsDeleteSourceControlOptionalParams extends msRest.RequestOptionsBase {
+  additionalFlags?: string;
 }
 
 /**
@@ -9438,6 +10476,54 @@ export interface WebAppsListUsagesNextOptionalParams extends msRest.RequestOptio
    * duration'[Hour|Minute|Day]'.
    */
   filter?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specify <code>true</code> to force the update of the auth configuration on the function app
+   * even if an AzureStaticWebApps provider is already configured on the function app. The default
+   * is <code>false</code>.
+   */
+  isForced?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specify <code>true</code> to force the update of the auth configuration on the function app
+   * even if an AzureStaticWebApps provider is already configured on the function app. The default
+   * is <code>false</code>.
+   */
+  isForced?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specify <code>true</code> to force the update of the auth configuration on the function app
+   * even if an AzureStaticWebApps provider is already configured on the function app. The default
+   * is <code>false</code>.
+   */
+  isForced?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Specify <code>true</code> to force the update of the auth configuration on the function app
+   * even if an AzureStaticWebApps provider is already configured on the function app. The default
+   * is <code>false</code>.
+   */
+  isForced?: boolean;
 }
 
 /**
@@ -9641,6 +10727,19 @@ export interface AppServiceCertificateCollection extends Array<AppServiceCertifi
 
 /**
  * @interface
+ * Collection of detector responses
+ * @extends Array<DetectorResponse>
+ */
+export interface DetectorResponseCollection extends Array<DetectorResponse> {
+  /**
+   * Link to next page of resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
  * Collection of Azure resource manager operation metadata.
  * @extends Array<CsmOperationDescription>
  */
@@ -9745,19 +10844,6 @@ export interface DeletedWebAppCollection extends Array<DeletedSite> {
 
 /**
  * @interface
- * Collection of detector responses
- * @extends Array<DetectorResponse>
- */
-export interface DetectorResponseCollection extends Array<DetectorResponse> {
-  /**
-   * Link to next page of resources.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
  * Collection of Diagnostic Categories
  * @extends Array<DiagnosticCategory>
  */
@@ -9801,6 +10887,32 @@ export interface DiagnosticDetectorCollection extends Array<DetectorDefinition> 
  * @extends Array<ApplicationStackResource>
  */
 export interface ApplicationStackCollection extends Array<ApplicationStackResource> {
+  /**
+   * Link to next page of resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Collection of Function app Stacks
+ * @extends Array<FunctionAppStack>
+ */
+export interface FunctionAppStackCollection extends Array<FunctionAppStack> {
+  /**
+   * Link to next page of resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Collection of Web app Stacks
+ * @extends Array<WebAppStack>
+ */
+export interface WebAppStackCollection extends Array<WebAppStack> {
   /**
    * Link to next page of resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -9918,6 +11030,19 @@ export interface BackupItemCollection extends Array<BackupItem> {
  * @extends Array<SiteConfigResource>
  */
 export interface SiteConfigResourceCollection extends Array<SiteConfigResource> {
+  /**
+   * Link to next page of resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the ApiKVReferenceCollection.
+ * @extends Array<ApiKVReference>
+ */
+export interface ApiKVReferenceCollection extends Array<ApiKVReference> {
   /**
    * Link to next page of resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -10048,6 +11173,19 @@ export interface ProcessThreadInfoCollection extends Array<ProcessThreadInfo> {
  * @extends Array<PerfMonResponse>
  */
 export interface PerfMonCounterCollection extends Array<PerfMonResponse> {
+  /**
+   * Link to next page of resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the PrivateEndpointConnectionCollection.
+ * @extends Array<RemotePrivateEndpointConnectionARMResource>
+ */
+export interface PrivateEndpointConnectionCollection extends Array<RemotePrivateEndpointConnectionARMResource> {
   /**
    * Link to next page of resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -10204,6 +11342,19 @@ export interface StaticSiteBuildCollection extends Array<StaticSiteBuildARMResou
  * @extends Array<StaticSiteFunctionOverviewARMResource>
  */
 export interface StaticSiteFunctionOverviewCollection extends Array<StaticSiteFunctionOverviewARMResource> {
+  /**
+   * Link to next page of resources.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * Collection of static site user provided function apps.
+ * @extends Array<StaticSiteUserProvidedFunctionAppARMResource>
+ */
+export interface StaticSiteUserProvidedFunctionAppsCollection extends Array<StaticSiteUserProvidedFunctionAppARMResource> {
   /**
    * Link to next page of resources.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -10428,20 +11579,40 @@ export type CertificateOrderStatus = 'Pendingissuance' | 'Issued' | 'Revoked' | 
 export type CertificateOrderActionType = 'CertificateIssued' | 'CertificateOrderCanceled' | 'CertificateOrderCreated' | 'CertificateRevoked' | 'DomainValidationComplete' | 'FraudDetected' | 'OrgNameChange' | 'OrgValidationComplete' | 'SanDrop' | 'FraudCleared' | 'CertificateExpired' | 'CertificateExpirationWarning' | 'FraudDocumentationRequired' | 'Unknown';
 
 /**
- * Defines values for CreatedByType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type CreatedByType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
-
-/**
  * Defines values for RouteType.
  * Possible values include: 'DEFAULT', 'INHERITED', 'STATIC'
  * @readonly
  * @enum {string}
  */
 export type RouteType = 'DEFAULT' | 'INHERITED' | 'STATIC';
+
+/**
+ * Defines values for InsightStatus.
+ * Possible values include: 'Critical', 'Warning', 'Info', 'Success', 'None'
+ * @readonly
+ * @enum {string}
+ */
+export type InsightStatus = 'Critical' | 'Warning' | 'Info' | 'Success' | 'None';
+
+/**
+ * Defines values for RenderingType.
+ * Possible values include: 'NoGraph', 'Table', 'TimeSeries', 'TimeSeriesPerInstance', 'PieChart',
+ * 'DataSummary', 'Email', 'Insights', 'DynamicInsight', 'Markdown', 'Detector', 'DropDown',
+ * 'Card', 'Solution', 'Guage', 'Form', 'ChangeSets', 'ChangeAnalysisOnboarding', 'ChangesView',
+ * 'AppInsight', 'DependencyGraph', 'DownTime', 'SummaryCard', 'SearchComponent',
+ * 'AppInsightEnablement'
+ * @readonly
+ * @enum {string}
+ */
+export type RenderingType = 'NoGraph' | 'Table' | 'TimeSeries' | 'TimeSeriesPerInstance' | 'PieChart' | 'DataSummary' | 'Email' | 'Insights' | 'DynamicInsight' | 'Markdown' | 'Detector' | 'DropDown' | 'Card' | 'Solution' | 'Guage' | 'Form' | 'ChangeSets' | 'ChangeAnalysisOnboarding' | 'ChangesView' | 'AppInsight' | 'DependencyGraph' | 'DownTime' | 'SummaryCard' | 'SearchComponent' | 'AppInsightEnablement';
+
+/**
+ * Defines values for DetectorType.
+ * Possible values include: 'Detector', 'Analysis', 'CategoryOverview'
+ * @readonly
+ * @enum {string}
+ */
+export type DetectorType = 'Detector' | 'Analysis' | 'CategoryOverview';
 
 /**
  * Defines values for ManagedServiceIdentityType.
@@ -10478,6 +11649,22 @@ export type AutoHealActionType = 'Recycle' | 'LogEvent' | 'CustomAction';
 export type ConnectionStringType = 'MySql' | 'SQLServer' | 'SQLAzure' | 'Custom' | 'NotificationHub' | 'ServiceBus' | 'EventHub' | 'ApiHub' | 'DocDb' | 'RedisCache' | 'PostgreSQL';
 
 /**
+ * Defines values for AzureStorageType.
+ * Possible values include: 'AzureFiles', 'AzureBlob'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureStorageType = 'AzureFiles' | 'AzureBlob';
+
+/**
+ * Defines values for AzureStorageState.
+ * Possible values include: 'Ok', 'InvalidCredentials', 'InvalidShare', 'NotValidated'
+ * @readonly
+ * @enum {string}
+ */
+export type AzureStorageState = 'Ok' | 'InvalidCredentials' | 'InvalidShare' | 'NotValidated';
+
+/**
  * Defines values for ScmType.
  * Possible values include: 'None', 'Dropbox', 'Tfs', 'LocalGit', 'GitHub', 'CodePlexGit',
  * 'CodePlexHg', 'BitbucketGit', 'BitbucketHg', 'ExternalGit', 'ExternalHg', 'OneDrive', 'VSO',
@@ -10498,11 +11685,11 @@ export type ManagedPipelineMode = 'Integrated' | 'Classic';
 /**
  * Defines values for SiteLoadBalancing.
  * Possible values include: 'WeightedRoundRobin', 'LeastRequests', 'LeastResponseTime',
- * 'WeightedTotalTraffic', 'RequestHash'
+ * 'WeightedTotalTraffic', 'RequestHash', 'PerSiteRoundRobin'
  * @readonly
  * @enum {string}
  */
-export type SiteLoadBalancing = 'WeightedRoundRobin' | 'LeastRequests' | 'LeastResponseTime' | 'WeightedTotalTraffic' | 'RequestHash';
+export type SiteLoadBalancing = 'WeightedRoundRobin' | 'LeastRequests' | 'LeastResponseTime' | 'WeightedTotalTraffic' | 'RequestHash' | 'PerSiteRoundRobin';
 
 /**
  * Defines values for SupportedTlsVersions.
@@ -10554,11 +11741,11 @@ export type SiteAvailabilityState = 'Normal' | 'Limited' | 'DisasterRecoveryMode
 
 /**
  * Defines values for ClientCertMode.
- * Possible values include: 'Required', 'Optional'
+ * Possible values include: 'Required', 'Optional', 'OptionalInteractiveUser'
  * @readonly
  * @enum {string}
  */
-export type ClientCertMode = 'Required' | 'Optional';
+export type ClientCertMode = 'Required' | 'Optional' | 'OptionalInteractiveUser';
 
 /**
  * Defines values for RedundancyMode.
@@ -10636,35 +11823,11 @@ export type HostingEnvironmentStatus = 'Preparing' | 'Ready' | 'Scaling' | 'Dele
 
 /**
  * Defines values for LoadBalancingMode.
- * Possible values include: 'None', 'Web', 'Publishing', 'Web,Publishing'
+ * Possible values include: 'None', 'Web', 'Publishing', 'Web, Publishing'
  * @readonly
  * @enum {string}
  */
-export type LoadBalancingMode = 'None' | 'Web' | 'Publishing' | 'Web,Publishing';
-
-/**
- * Defines values for ComputeModeOptions.
- * Possible values include: 'Shared', 'Dedicated', 'Dynamic'
- * @readonly
- * @enum {string}
- */
-export type ComputeModeOptions = 'Shared' | 'Dedicated' | 'Dynamic';
-
-/**
- * Defines values for WorkerSizeOptions.
- * Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'NestedSmall', 'Default'
- * @readonly
- * @enum {string}
- */
-export type WorkerSizeOptions = 'Small' | 'Medium' | 'Large' | 'D1' | 'D2' | 'D3' | 'NestedSmall' | 'Default';
-
-/**
- * Defines values for AccessControlEntryAction.
- * Possible values include: 'Permit', 'Deny'
- * @readonly
- * @enum {string}
- */
-export type AccessControlEntryAction = 'Permit' | 'Deny';
+export type LoadBalancingMode = 'None' | 'Web' | 'Publishing' | 'Web, Publishing';
 
 /**
  * Defines values for OperationStatus.
@@ -10692,12 +11855,12 @@ export type IssueType = 'ServiceIncident' | 'AppDeployment' | 'AppCrash' | 'Runt
 export type SolutionType = 'QuickSolution' | 'DeepInvestigation' | 'BestPractices';
 
 /**
- * Defines values for RenderingType.
- * Possible values include: 'NoGraph', 'Table', 'TimeSeries', 'TimeSeriesPerInstance'
+ * Defines values for StackPreferredOs.
+ * Possible values include: 'Windows', 'Linux'
  * @readonly
  * @enum {string}
  */
-export type RenderingType = 'NoGraph' | 'Table' | 'TimeSeries' | 'TimeSeriesPerInstance';
+export type StackPreferredOs = 'Windows' | 'Linux';
 
 /**
  * Defines values for ResourceScopeType.
@@ -10751,11 +11914,29 @@ export type CheckNameResourceTypes = 'Site' | 'Slot' | 'HostingEnvironment' | 'P
 
 /**
  * Defines values for ValidateResourceTypes.
- * Possible values include: 'ServerFarm', 'Site'
+ * Possible values include: 'ServerFarm', 'Site', 'Microsoft.Web/hostingEnvironments'
  * @readonly
  * @enum {string}
  */
-export type ValidateResourceTypes = 'ServerFarm' | 'Site';
+export type ValidateResourceTypes = 'ServerFarm' | 'Site' | 'Microsoft.Web/hostingEnvironments';
+
+/**
+ * Defines values for ResolveStatus.
+ * Possible values include: 'Initialized', 'Resolved', 'InvalidSyntax', 'MSINotEnabled',
+ * 'VaultNotFound', 'SecretNotFound', 'SecretVersionNotFound', 'AccessToKeyVaultDenied',
+ * 'OtherReasons', 'FetchTimedOut', 'UnauthorizedClient'
+ * @readonly
+ * @enum {string}
+ */
+export type ResolveStatus = 'Initialized' | 'Resolved' | 'InvalidSyntax' | 'MSINotEnabled' | 'VaultNotFound' | 'SecretNotFound' | 'SecretVersionNotFound' | 'AccessToKeyVaultDenied' | 'OtherReasons' | 'FetchTimedOut' | 'UnauthorizedClient';
+
+/**
+ * Defines values for ConfigReferenceSource.
+ * Possible values include: 'KeyVault'
+ * @readonly
+ * @enum {string}
+ */
+export type ConfigReferenceSource = 'KeyVault';
 
 /**
  * Defines values for LogLevel.
@@ -10764,22 +11945,6 @@ export type ValidateResourceTypes = 'ServerFarm' | 'Site';
  * @enum {string}
  */
 export type LogLevel = 'Off' | 'Verbose' | 'Information' | 'Warning' | 'Error';
-
-/**
- * Defines values for AzureStorageType.
- * Possible values include: 'AzureFiles', 'AzureBlob'
- * @readonly
- * @enum {string}
- */
-export type AzureStorageType = 'AzureFiles' | 'AzureBlob';
-
-/**
- * Defines values for AzureStorageState.
- * Possible values include: 'Ok', 'InvalidCredentials', 'InvalidShare'
- * @readonly
- * @enum {string}
- */
-export type AzureStorageState = 'Ok' | 'InvalidCredentials' | 'InvalidShare';
 
 /**
  * Defines values for BackupItemStatus.
@@ -10960,6 +12125,14 @@ export type TriggeredWebJobStatus = 'Success' | 'Failed' | 'Error';
 export type SiteRuntimeState = 'READY' | 'STOPPED' | 'UNKNOWN';
 
 /**
+ * Defines values for StagingEnvironmentPolicy.
+ * Possible values include: 'Enabled', 'Disabled'
+ * @readonly
+ * @enum {string}
+ */
+export type StagingEnvironmentPolicy = 'Enabled' | 'Disabled';
+
+/**
  * Defines values for BuildStatus.
  * Possible values include: 'WaitingForDeployment', 'Uploading', 'Deploying', 'Ready', 'Failed',
  * 'Deleting', 'Detached'
@@ -10967,6 +12140,15 @@ export type SiteRuntimeState = 'READY' | 'STOPPED' | 'UNKNOWN';
  * @enum {string}
  */
 export type BuildStatus = 'WaitingForDeployment' | 'Uploading' | 'Deploying' | 'Ready' | 'Failed' | 'Deleting' | 'Detached';
+
+/**
+ * Defines values for CustomDomainStatus.
+ * Possible values include: 'RetrievingValidationToken', 'Validating', 'Adding', 'Ready', 'Failed',
+ * 'Deleting'
+ * @readonly
+ * @enum {string}
+ */
+export type CustomDomainStatus = 'RetrievingValidationToken' | 'Validating' | 'Adding' | 'Ready' | 'Failed' | 'Deleting';
 
 /**
  * Defines values for TriggerTypes.
@@ -10977,29 +12159,79 @@ export type BuildStatus = 'WaitingForDeployment' | 'Uploading' | 'Deploying' | '
 export type TriggerTypes = 'HttpTrigger' | 'Unknown';
 
 /**
- * Defines values for SkuName.
- * Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic',
- * 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
+ * Defines values for ComputeModeOptions.
+ * Possible values include: 'Shared', 'Dedicated', 'Dynamic'
  * @readonly
  * @enum {string}
  */
-export type SkuName = 'Free' | 'Shared' | 'Basic' | 'Standard' | 'Premium' | 'Dynamic' | 'Isolated' | 'PremiumV2' | 'ElasticPremium' | 'ElasticIsolated';
+export type ComputeModeOptions = 'Shared' | 'Dedicated' | 'Dynamic';
+
+/**
+ * Defines values for WorkerSizeOptions.
+ * Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'SmallV3', 'MediumV3',
+ * 'LargeV3', 'NestedSmall', 'NestedSmallLinux', 'Default'
+ * @readonly
+ * @enum {string}
+ */
+export type WorkerSizeOptions = 'Small' | 'Medium' | 'Large' | 'D1' | 'D2' | 'D3' | 'SmallV3' | 'MediumV3' | 'LargeV3' | 'NestedSmall' | 'NestedSmallLinux' | 'Default';
+
+/**
+ * Defines values for SkuName.
+ * Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic',
+ * 'Isolated', 'IsolatedV2', 'PremiumV2', 'PremiumV3', 'PremiumContainer', 'ElasticPremium',
+ * 'ElasticIsolated'
+ * @readonly
+ * @enum {string}
+ */
+export type SkuName = 'Free' | 'Shared' | 'Basic' | 'Standard' | 'Premium' | 'Dynamic' | 'Isolated' | 'IsolatedV2' | 'PremiumV2' | 'PremiumV3' | 'PremiumContainer' | 'ElasticPremium' | 'ElasticIsolated';
 
 /**
  * Defines values for OsTypeSelected.
- * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+ * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions', 'All'
  * @readonly
  * @enum {string}
  */
-export type OsTypeSelected = 'Windows' | 'Linux' | 'WindowsFunctions' | 'LinuxFunctions';
+export type OsTypeSelected = 'Windows' | 'Linux' | 'WindowsFunctions' | 'LinuxFunctions' | 'All';
+
+/**
+ * Defines values for StackOsType.
+ * Possible values include: 'Windows', 'Linux', 'All'
+ * @readonly
+ * @enum {string}
+ */
+export type StackOsType = 'Windows' | 'Linux' | 'All';
+
+/**
+ * Defines values for StackOsType1.
+ * Possible values include: 'Windows', 'Linux', 'All'
+ * @readonly
+ * @enum {string}
+ */
+export type StackOsType1 = 'Windows' | 'Linux' | 'All';
+
+/**
+ * Defines values for StackOsType2.
+ * Possible values include: 'Windows', 'Linux', 'All'
+ * @readonly
+ * @enum {string}
+ */
+export type StackOsType2 = 'Windows' | 'Linux' | 'All';
+
+/**
+ * Defines values for StackOsType3.
+ * Possible values include: 'Windows', 'Linux', 'All'
+ * @readonly
+ * @enum {string}
+ */
+export type StackOsType3 = 'Windows' | 'Linux' | 'All';
 
 /**
  * Defines values for OsTypeSelected1.
- * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+ * Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions', 'All'
  * @readonly
  * @enum {string}
  */
-export type OsTypeSelected1 = 'Windows' | 'Linux' | 'WindowsFunctions' | 'LinuxFunctions';
+export type OsTypeSelected1 = 'Windows' | 'Linux' | 'WindowsFunctions' | 'LinuxFunctions' | 'All';
 
 /**
  * Contains response data for the list operation.
@@ -11338,6 +12570,66 @@ export type AppServiceCertificateOrdersListCertificatesNextResponse = AppService
        * The response body as parsed JSON or XML
        */
       parsedBody: AppServiceCertificateCollection;
+    };
+};
+
+/**
+ * Contains response data for the listAppServiceCertificateOrderDetectorResponse operation.
+ */
+export type CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseResponse = DetectorResponseCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DetectorResponseCollection;
+    };
+};
+
+/**
+ * Contains response data for the getAppServiceCertificateOrderDetectorResponse operation.
+ */
+export type CertificateOrdersDiagnosticsGetAppServiceCertificateOrderDetectorResponseResponse = DetectorResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DetectorResponse;
+    };
+};
+
+/**
+ * Contains response data for the listAppServiceCertificateOrderDetectorResponseNext operation.
+ */
+export type CertificateOrdersDiagnosticsListAppServiceCertificateOrderDetectorResponseNextResponse = DetectorResponseCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DetectorResponseCollection;
     };
 };
 
@@ -12722,6 +14014,46 @@ export type DiagnosticsListSiteDetectorsSlotNextResponse = DiagnosticDetectorCol
 };
 
 /**
+ * Contains response data for the getDeletedWebApp operation.
+ */
+export type GlobalGetDeletedWebAppResponse = DeletedSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DeletedSite;
+    };
+};
+
+/**
+ * Contains response data for the getDeletedWebAppSnapshots operation.
+ */
+export type GlobalGetDeletedWebAppSnapshotsResponse = Array<Snapshot> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Snapshot[];
+    };
+};
+
+/**
  * Contains response data for the getAvailableStacks operation.
  */
 export type ProviderGetAvailableStacksResponse = ApplicationStackCollection & {
@@ -12742,6 +14074,66 @@ export type ProviderGetAvailableStacksResponse = ApplicationStackCollection & {
 };
 
 /**
+ * Contains response data for the getFunctionAppStacks operation.
+ */
+export type ProviderGetFunctionAppStacksResponse = FunctionAppStackCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FunctionAppStackCollection;
+    };
+};
+
+/**
+ * Contains response data for the getFunctionAppStacksForLocation operation.
+ */
+export type ProviderGetFunctionAppStacksForLocationResponse = FunctionAppStackCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FunctionAppStackCollection;
+    };
+};
+
+/**
+ * Contains response data for the getWebAppStacksForLocation operation.
+ */
+export type ProviderGetWebAppStacksForLocationResponse = WebAppStackCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WebAppStackCollection;
+    };
+};
+
+/**
  * Contains response data for the listOperations operation.
  */
 export type ProviderListOperationsResponse = CsmOperationCollection & {
@@ -12758,6 +14150,26 @@ export type ProviderListOperationsResponse = CsmOperationCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: CsmOperationCollection;
+    };
+};
+
+/**
+ * Contains response data for the getWebAppStacks operation.
+ */
+export type ProviderGetWebAppStacksResponse = WebAppStackCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WebAppStackCollection;
     };
 };
 
@@ -12802,6 +14214,66 @@ export type ProviderGetAvailableStacksNextResponse = ApplicationStackCollection 
 };
 
 /**
+ * Contains response data for the getFunctionAppStacksNext operation.
+ */
+export type ProviderGetFunctionAppStacksNextResponse = FunctionAppStackCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FunctionAppStackCollection;
+    };
+};
+
+/**
+ * Contains response data for the getFunctionAppStacksForLocationNext operation.
+ */
+export type ProviderGetFunctionAppStacksForLocationNextResponse = FunctionAppStackCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: FunctionAppStackCollection;
+    };
+};
+
+/**
+ * Contains response data for the getWebAppStacksForLocationNext operation.
+ */
+export type ProviderGetWebAppStacksForLocationNextResponse = WebAppStackCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WebAppStackCollection;
+    };
+};
+
+/**
  * Contains response data for the listOperationsNext operation.
  */
 export type ProviderListOperationsNextResponse = CsmOperationCollection & {
@@ -12818,6 +14290,26 @@ export type ProviderListOperationsNextResponse = CsmOperationCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: CsmOperationCollection;
+    };
+};
+
+/**
+ * Contains response data for the getWebAppStacksNext operation.
+ */
+export type ProviderGetWebAppStacksNextResponse = WebAppStackCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WebAppStackCollection;
     };
 };
 
@@ -13998,6 +15490,86 @@ export type WebAppsGetBackupConfigurationResponse = BackupRequest & {
        * The response body as parsed JSON or XML
        */
       parsedBody: BackupRequest;
+    };
+};
+
+/**
+ * Contains response data for the getAppSettingsKeyVaultReferences operation.
+ */
+export type WebAppsGetAppSettingsKeyVaultReferencesResponse = ApiKVReferenceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReferenceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getAppSettingKeyVaultReference operation.
+ */
+export type WebAppsGetAppSettingKeyVaultReferenceResponse = ApiKVReference & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReference;
+    };
+};
+
+/**
+ * Contains response data for the getSiteConnectionStringKeyVaultReferences operation.
+ */
+export type WebAppsGetSiteConnectionStringKeyVaultReferencesResponse = ApiKVReferenceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReferenceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getSiteConnectionStringKeyVaultReference operation.
+ */
+export type WebAppsGetSiteConnectionStringKeyVaultReferenceResponse = ApiKVReference & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReference;
     };
 };
 
@@ -15425,46 +16997,6 @@ export type WebAppsGetSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwor
 };
 
 /**
- * Contains response data for the createOrUpdateSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the updateSwiftVirtualNetworkConnection operation.
- */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
  * Contains response data for the listNetworkFeatures operation.
  */
 export type WebAppsListNetworkFeaturesResponse = NetworkFeatures & {
@@ -15766,6 +17298,111 @@ export type WebAppsPutPrivateAccessVnetResponse = PrivateAccess & {
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateAccess;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateEndpointConnectionList operation.
+ */
+export type WebAppsGetPrivateEndpointConnectionListResponse = PrivateEndpointConnectionCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionCollection;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateEndpointConnection operation.
+ */
+export type WebAppsGetPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the approveOrRejectPrivateEndpointConnection operation.
+ */
+export type WebAppsApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the deletePrivateEndpointConnection operation.
+ */
+export type WebAppsDeletePrivateEndpointConnectionResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateLinkResources operation.
+ */
+export type WebAppsGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesWrapper;
     };
 };
 
@@ -16222,6 +17859,106 @@ export type WebAppsListBackupStatusSecretsSlotResponse = BackupItem & {
 };
 
 /**
+ * Contains response data for the getBasicPublishingCredentialsPoliciesSlot operation.
+ */
+export type WebAppsGetBasicPublishingCredentialsPoliciesSlotResponse = CsmPublishingCredentialsPoliciesCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesCollection;
+    };
+};
+
+/**
+ * Contains response data for the getFtpAllowedSlot operation.
+ */
+export type WebAppsGetFtpAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesEntity;
+    };
+};
+
+/**
+ * Contains response data for the updateFtpAllowedSlot operation.
+ */
+export type WebAppsUpdateFtpAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesEntity;
+    };
+};
+
+/**
+ * Contains response data for the getScmAllowedSlot operation.
+ */
+export type WebAppsGetScmAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesEntity;
+    };
+};
+
+/**
+ * Contains response data for the updateScmAllowedSlot operation.
+ */
+export type WebAppsUpdateScmAllowedSlotResponse = CsmPublishingCredentialsPoliciesEntity & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CsmPublishingCredentialsPoliciesEntity;
+    };
+};
+
+/**
  * Contains response data for the listConfigurationsSlot operation.
  */
 export type WebAppsListConfigurationsSlotResponse = SiteConfigResourceCollection & {
@@ -16438,6 +18175,86 @@ export type WebAppsGetBackupConfigurationSlotResponse = BackupRequest & {
        * The response body as parsed JSON or XML
        */
       parsedBody: BackupRequest;
+    };
+};
+
+/**
+ * Contains response data for the getAppSettingsKeyVaultReferencesSlot operation.
+ */
+export type WebAppsGetAppSettingsKeyVaultReferencesSlotResponse = ApiKVReferenceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReferenceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getAppSettingKeyVaultReferenceSlot operation.
+ */
+export type WebAppsGetAppSettingKeyVaultReferenceSlotResponse = ApiKVReference & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReference;
+    };
+};
+
+/**
+ * Contains response data for the getSiteConnectionStringKeyVaultReferencesSlot operation.
+ */
+export type WebAppsGetSiteConnectionStringKeyVaultReferencesSlotResponse = ApiKVReferenceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReferenceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getSiteConnectionStringKeyVaultReferenceSlot operation.
+ */
+export type WebAppsGetSiteConnectionStringKeyVaultReferenceSlotResponse = ApiKVReference & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReference;
     };
 };
 
@@ -17785,46 +19602,6 @@ export type WebAppsGetSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNe
 };
 
 /**
- * Contains response data for the createOrUpdateSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsCreateOrUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
- * Contains response data for the updateSwiftVirtualNetworkConnectionSlot operation.
- */
-export type WebAppsUpdateSwiftVirtualNetworkConnectionSlotResponse = SwiftVirtualNetwork & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SwiftVirtualNetwork;
-    };
-};
-
-/**
  * Contains response data for the listNetworkFeaturesSlot operation.
  */
 export type WebAppsListNetworkFeaturesSlotResponse = NetworkFeatures & {
@@ -18130,9 +19907,9 @@ export type WebAppsPutPrivateAccessVnetSlotResponse = PrivateAccess & {
 };
 
 /**
- * Contains response data for the getPrivateEndpointConnection operation.
+ * Contains response data for the getPrivateEndpointConnectionListSlot operation.
  */
-export type WebAppsGetPrivateEndpointConnectionResponse = PrivateEndpointConnectionResource & {
+export type WebAppsGetPrivateEndpointConnectionListSlotResponse = PrivateEndpointConnectionCollection & {
   /**
    * The underlying HTTP response.
    */
@@ -18145,14 +19922,14 @@ export type WebAppsGetPrivateEndpointConnectionResponse = PrivateEndpointConnect
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PrivateEndpointConnectionResource;
+      parsedBody: PrivateEndpointConnectionCollection;
     };
 };
 
 /**
- * Contains response data for the approveOrRejectPrivateEndpointConnection operation.
+ * Contains response data for the getPrivateEndpointConnectionSlot operation.
  */
-export type WebAppsApproveOrRejectPrivateEndpointConnectionResponse = PrivateEndpointConnectionResource & {
+export type WebAppsGetPrivateEndpointConnectionSlotResponse = RemotePrivateEndpointConnectionARMResource & {
   /**
    * The underlying HTTP response.
    */
@@ -18165,14 +19942,34 @@ export type WebAppsApproveOrRejectPrivateEndpointConnectionResponse = PrivateEnd
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PrivateEndpointConnectionResource;
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
     };
 };
 
 /**
- * Contains response data for the deletePrivateEndpointConnection operation.
+ * Contains response data for the approveOrRejectPrivateEndpointConnectionSlot operation.
  */
-export type WebAppsDeletePrivateEndpointConnectionResponse = {
+export type WebAppsApproveOrRejectPrivateEndpointConnectionSlotResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the deletePrivateEndpointConnectionSlot operation.
+ */
+export type WebAppsDeletePrivateEndpointConnectionSlotResponse = {
   /**
    * The parsed response body.
    */
@@ -18195,9 +19992,9 @@ export type WebAppsDeletePrivateEndpointConnectionResponse = {
 };
 
 /**
- * Contains response data for the getPrivateLinkResources operation.
+ * Contains response data for the getPrivateLinkResourcesSlot operation.
  */
-export type WebAppsGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper & {
+export type WebAppsGetPrivateLinkResourcesSlotResponse = PrivateLinkResourcesWrapper & {
   /**
    * The underlying HTTP response.
    */
@@ -19487,6 +21284,51 @@ export type WebAppsBeginStartWebSiteNetworkTraceOperationResponse = Array<Networ
 };
 
 /**
+ * Contains response data for the beginApproveOrRejectPrivateEndpointConnection operation.
+ */
+export type WebAppsBeginApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the beginDeletePrivateEndpointConnection operation.
+ */
+export type WebAppsBeginDeletePrivateEndpointConnectionResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
  * Contains response data for the beginInstallSiteExtension operation.
  */
 export type WebAppsBeginInstallSiteExtensionResponse = SiteExtensionInfo & {
@@ -19627,9 +21469,9 @@ export type WebAppsBeginStartWebSiteNetworkTraceOperationSlotResponse = Array<Ne
 };
 
 /**
- * Contains response data for the beginApproveOrRejectPrivateEndpointConnection operation.
+ * Contains response data for the beginApproveOrRejectPrivateEndpointConnectionSlot operation.
  */
-export type WebAppsBeginApproveOrRejectPrivateEndpointConnectionResponse = PrivateEndpointConnectionResource & {
+export type WebAppsBeginApproveOrRejectPrivateEndpointConnectionSlotResponse = RemotePrivateEndpointConnectionARMResource & {
   /**
    * The underlying HTTP response.
    */
@@ -19642,14 +21484,14 @@ export type WebAppsBeginApproveOrRejectPrivateEndpointConnectionResponse = Priva
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: PrivateEndpointConnectionResource;
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
     };
 };
 
 /**
- * Contains response data for the beginDeletePrivateEndpointConnection operation.
+ * Contains response data for the beginDeletePrivateEndpointConnectionSlot operation.
  */
-export type WebAppsBeginDeletePrivateEndpointConnectionResponse = {
+export type WebAppsBeginDeletePrivateEndpointConnectionSlotResponse = {
   /**
    * The parsed response body.
    */
@@ -19848,6 +21690,46 @@ export type WebAppsListConfigurationsNextResponse = SiteConfigResourceCollection
        * The response body as parsed JSON or XML
        */
       parsedBody: SiteConfigResourceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getAppSettingsKeyVaultReferencesNext operation.
+ */
+export type WebAppsGetAppSettingsKeyVaultReferencesNextResponse = ApiKVReferenceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReferenceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getSiteConnectionStringKeyVaultReferencesNext operation.
+ */
+export type WebAppsGetSiteConnectionStringKeyVaultReferencesNextResponse = ApiKVReferenceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReferenceCollection;
     };
 };
 
@@ -20092,6 +21974,26 @@ export type WebAppsListPerfMonCountersNextResponse = PerfMonCounterCollection & 
 };
 
 /**
+ * Contains response data for the getPrivateEndpointConnectionListNext operation.
+ */
+export type WebAppsGetPrivateEndpointConnectionListNextResponse = PrivateEndpointConnectionCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionCollection;
+    };
+};
+
+/**
  * Contains response data for the listProcessesNext operation.
  */
 export type WebAppsListProcessesNextResponse = ProcessInfoCollection & {
@@ -20248,6 +22150,46 @@ export type WebAppsListConfigurationsSlotNextResponse = SiteConfigResourceCollec
        * The response body as parsed JSON or XML
        */
       parsedBody: SiteConfigResourceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getAppSettingsKeyVaultReferencesSlotNext operation.
+ */
+export type WebAppsGetAppSettingsKeyVaultReferencesSlotNextResponse = ApiKVReferenceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReferenceCollection;
+    };
+};
+
+/**
+ * Contains response data for the getSiteConnectionStringKeyVaultReferencesSlotNext operation.
+ */
+export type WebAppsGetSiteConnectionStringKeyVaultReferencesSlotNextResponse = ApiKVReferenceCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ApiKVReferenceCollection;
     };
 };
 
@@ -20488,6 +22430,26 @@ export type WebAppsListPerfMonCountersSlotNextResponse = PerfMonCounterCollectio
        * The response body as parsed JSON or XML
        */
       parsedBody: PerfMonCounterCollection;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateEndpointConnectionListSlotNext operation.
+ */
+export type WebAppsGetPrivateEndpointConnectionListSlotNextResponse = PrivateEndpointConnectionCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionCollection;
     };
 };
 
@@ -21072,6 +23034,26 @@ export type StaticSitesGetStaticSiteBuildResponse = StaticSiteBuildARMResource &
 };
 
 /**
+ * Contains response data for the createOrUpdateStaticSiteBuildAppSettings operation.
+ */
+export type StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse = StringDictionary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StringDictionary;
+    };
+};
+
+/**
  * Contains response data for the createOrUpdateStaticSiteBuildFunctionAppSettings operation.
  */
 export type StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse = StringDictionary & {
@@ -21112,9 +23094,109 @@ export type StaticSitesListStaticSiteBuildFunctionsResponse = StaticSiteFunction
 };
 
 /**
+ * Contains response data for the listStaticSiteBuildAppSettings operation.
+ */
+export type StaticSitesListStaticSiteBuildAppSettingsResponse = StringDictionary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StringDictionary;
+    };
+};
+
+/**
  * Contains response data for the listStaticSiteBuildFunctionAppSettings operation.
  */
 export type StaticSitesListStaticSiteBuildFunctionAppSettingsResponse = StringDictionary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StringDictionary;
+    };
+};
+
+/**
+ * Contains response data for the getUserProvidedFunctionAppsForStaticSiteBuild operation.
+ */
+export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse = StaticSiteUserProvidedFunctionAppsCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppsCollection;
+    };
+};
+
+/**
+ * Contains response data for the getUserProvidedFunctionAppForStaticSiteBuild operation.
+ */
+export type StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse = StaticSiteUserProvidedFunctionAppARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppARMResource;
+    };
+};
+
+/**
+ * Contains response data for the registerUserProvidedFunctionAppWithStaticSiteBuild operation.
+ */
+export type StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse = StaticSiteUserProvidedFunctionAppARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppARMResource;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdateStaticSiteAppSettings operation.
+ */
+export type StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse = StringDictionary & {
   /**
    * The underlying HTTP response.
    */
@@ -21192,6 +23274,26 @@ export type StaticSitesListStaticSiteCustomDomainsResponse = StaticSiteCustomDom
 };
 
 /**
+ * Contains response data for the getStaticSiteCustomDomain operation.
+ */
+export type StaticSitesGetStaticSiteCustomDomainResponse = StaticSiteCustomDomainOverviewARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteCustomDomainOverviewARMResource;
+    };
+};
+
+/**
  * Contains response data for the createOrUpdateStaticSiteCustomDomain operation.
  */
 export type StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse = StaticSiteCustomDomainOverviewARMResource & {
@@ -21232,6 +23334,46 @@ export type StaticSitesListStaticSiteFunctionsResponse = StaticSiteFunctionOverv
 };
 
 /**
+ * Contains response data for the listStaticSiteAppSettings operation.
+ */
+export type StaticSitesListStaticSiteAppSettingsResponse = StringDictionary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StringDictionary;
+    };
+};
+
+/**
+ * Contains response data for the listStaticSiteConfiguredRoles operation.
+ */
+export type StaticSitesListStaticSiteConfiguredRolesResponse = StringList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StringList;
+    };
+};
+
+/**
  * Contains response data for the listStaticSiteFunctionAppSettings operation.
  */
 export type StaticSitesListStaticSiteFunctionAppSettingsResponse = StringDictionary & {
@@ -21268,6 +23410,297 @@ export type StaticSitesListStaticSiteSecretsResponse = StringDictionary & {
        * The response body as parsed JSON or XML
        */
       parsedBody: StringDictionary;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateEndpointConnectionList operation.
+ */
+export type StaticSitesGetPrivateEndpointConnectionListResponse = PrivateEndpointConnectionCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionCollection;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateEndpointConnection operation.
+ */
+export type StaticSitesGetPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the approveOrRejectPrivateEndpointConnection operation.
+ */
+export type StaticSitesApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the deletePrivateEndpointConnection operation.
+ */
+export type StaticSitesDeletePrivateEndpointConnectionResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateLinkResources operation.
+ */
+export type StaticSitesGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesWrapper;
+    };
+};
+
+/**
+ * Contains response data for the getUserProvidedFunctionAppsForStaticSite operation.
+ */
+export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse = StaticSiteUserProvidedFunctionAppsCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppsCollection;
+    };
+};
+
+/**
+ * Contains response data for the getUserProvidedFunctionAppForStaticSite operation.
+ */
+export type StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse = StaticSiteUserProvidedFunctionAppARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppARMResource;
+    };
+};
+
+/**
+ * Contains response data for the registerUserProvidedFunctionAppWithStaticSite operation.
+ */
+export type StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse = StaticSiteUserProvidedFunctionAppARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppARMResource;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdateStaticSite operation.
+ */
+export type StaticSitesBeginCreateOrUpdateStaticSiteResponse = StaticSiteARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteARMResource;
+    };
+};
+
+/**
+ * Contains response data for the beginRegisterUserProvidedFunctionAppWithStaticSiteBuild
+ * operation.
+ */
+export type StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse = StaticSiteUserProvidedFunctionAppARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppARMResource;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdateStaticSiteCustomDomain operation.
+ */
+export type StaticSitesBeginCreateOrUpdateStaticSiteCustomDomainResponse = StaticSiteCustomDomainOverviewARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteCustomDomainOverviewARMResource;
+    };
+};
+
+/**
+ * Contains response data for the beginApproveOrRejectPrivateEndpointConnection operation.
+ */
+export type StaticSitesBeginApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the beginDeletePrivateEndpointConnection operation.
+ */
+export type StaticSitesBeginDeletePrivateEndpointConnectionResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the beginRegisterUserProvidedFunctionAppWithStaticSite operation.
+ */
+export type StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteResponse = StaticSiteUserProvidedFunctionAppARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppARMResource;
     };
 };
 
@@ -21372,6 +23805,26 @@ export type StaticSitesListStaticSiteBuildFunctionsNextResponse = StaticSiteFunc
 };
 
 /**
+ * Contains response data for the getUserProvidedFunctionAppsForStaticSiteBuildNext operation.
+ */
+export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse = StaticSiteUserProvidedFunctionAppsCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppsCollection;
+    };
+};
+
+/**
  * Contains response data for the listStaticSiteCustomDomainsNext operation.
  */
 export type StaticSitesListStaticSiteCustomDomainsNextResponse = StaticSiteCustomDomainOverviewCollection & {
@@ -21408,6 +23861,46 @@ export type StaticSitesListStaticSiteFunctionsNextResponse = StaticSiteFunctionO
        * The response body as parsed JSON or XML
        */
       parsedBody: StaticSiteFunctionOverviewCollection;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateEndpointConnectionListNext operation.
+ */
+export type StaticSitesGetPrivateEndpointConnectionListNextResponse = PrivateEndpointConnectionCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionCollection;
+    };
+};
+
+/**
+ * Contains response data for the getUserProvidedFunctionAppsForStaticSiteNext operation.
+ */
+export type StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse = StaticSiteUserProvidedFunctionAppsCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: StaticSiteUserProvidedFunctionAppsCollection;
     };
 };
 
@@ -21568,6 +24061,46 @@ export type AppServiceEnvironmentsChangeVnetResponse = WebAppCollection & {
        * The response body as parsed JSON or XML
        */
       parsedBody: WebAppCollection;
+    };
+};
+
+/**
+ * Contains response data for the getAseV3NetworkingConfiguration operation.
+ */
+export type AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse = AseV3NetworkingConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AseV3NetworkingConfiguration;
+    };
+};
+
+/**
+ * Contains response data for the updateAseNetworkingConfiguration operation.
+ */
+export type AppServiceEnvironmentsUpdateAseNetworkingConfigurationResponse = AseV3NetworkingConfiguration & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AseV3NetworkingConfiguration;
     };
 };
 
@@ -21828,6 +24361,111 @@ export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsRespons
        * The response body as parsed JSON or XML
        */
       parsedBody: OutboundEnvironmentEndpointCollection;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateEndpointConnectionList operation.
+ */
+export type AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse = PrivateEndpointConnectionCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionCollection;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateEndpointConnection operation.
+ */
+export type AppServiceEnvironmentsGetPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the approveOrRejectPrivateEndpointConnection operation.
+ */
+export type AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the deletePrivateEndpointConnection operation.
+ */
+export type AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateLinkResources operation.
+ */
+export type AppServiceEnvironmentsGetPrivateLinkResourcesResponse = PrivateLinkResourcesWrapper & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesWrapper;
     };
 };
 
@@ -22152,6 +24790,51 @@ export type AppServiceEnvironmentsBeginCreateOrUpdateMultiRolePoolResponse = Wor
 };
 
 /**
+ * Contains response data for the beginApproveOrRejectPrivateEndpointConnection operation.
+ */
+export type AppServiceEnvironmentsBeginApproveOrRejectPrivateEndpointConnectionResponse = RemotePrivateEndpointConnectionARMResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: RemotePrivateEndpointConnectionARMResource;
+    };
+};
+
+/**
+ * Contains response data for the beginDeletePrivateEndpointConnection operation.
+ */
+export type AppServiceEnvironmentsBeginDeletePrivateEndpointConnectionResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: any;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: any;
+    };
+};
+
+/**
  * Contains response data for the beginResume operation.
  */
 export type AppServiceEnvironmentsBeginResumeResponse = WebAppCollection & {
@@ -22428,6 +25111,26 @@ export type AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextRes
        * The response body as parsed JSON or XML
        */
       parsedBody: OutboundEnvironmentEndpointCollection;
+    };
+};
+
+/**
+ * Contains response data for the getPrivateEndpointConnectionListNext operation.
+ */
+export type AppServiceEnvironmentsGetPrivateEndpointConnectionListNextResponse = PrivateEndpointConnectionCollection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionCollection;
     };
 };
 

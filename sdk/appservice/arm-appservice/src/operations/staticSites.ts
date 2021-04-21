@@ -8,6 +8,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "../models";
 import * as Mappers from "../models/staticSitesMappers";
 import * as Parameters from "../models/parameters";
@@ -159,32 +160,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse>
    */
-  createOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSiteARMResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site to create or update.
-   * @param staticSiteEnvelope A JSON representation of the staticsite properties. See example.
-   * @param callback The callback
-   */
-  createOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSiteARMResource, callback: msRest.ServiceCallback<Models.StaticSiteARMResource>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site to create or update.
-   * @param staticSiteEnvelope A JSON representation of the staticsite properties. See example.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSiteARMResource, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteARMResource>): void;
-  createOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSiteARMResource, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteARMResource>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        staticSiteEnvelope,
-        options
-      },
-      createOrUpdateStaticSiteOperationSpec,
-      callback) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse>;
+  createOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSiteARMResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse> {
+    return this.beginCreateOrUpdateStaticSite(resourceGroupName,name,staticSiteEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteResponse>;
   }
 
   /**
@@ -195,29 +173,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site to delete.
-   * @param callback The callback
-   */
-  deleteStaticSite(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site to delete.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteStaticSite(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      deleteStaticSiteOperationSpec,
-      callback);
+  deleteStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteStaticSite(resourceGroupName,name,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -423,32 +381,32 @@ export class StaticSites {
    * @summary Gets the details of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesGetStaticSiteBuildResponse>
    */
-  getStaticSiteBuild(resourceGroupName: string, name: string, prId: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSiteBuildResponse>;
+  getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSiteBuildResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param callback The callback
    */
-  getStaticSiteBuild(resourceGroupName: string, name: string, prId: string, callback: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>): void;
+  getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStaticSiteBuild(resourceGroupName: string, name: string, prId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>): void;
-  getStaticSiteBuild(resourceGroupName: string, name: string, prId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteBuildARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>): Promise<Models.StaticSitesGetStaticSiteBuildResponse> {
+  getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>): void;
+  getStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteBuildARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteBuildARMResource>): Promise<Models.StaticSitesGetStaticSiteBuildResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        prId,
+        environmentName,
         options
       },
       getStaticSiteBuildOperationSpec,
@@ -460,36 +418,54 @@ export class StaticSites {
    * @summary Deletes a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteStaticSiteBuild(resourceGroupName: string, name: string, prId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteStaticSiteBuild(resourceGroupName,name,environmentName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Description for Creates or updates the app settings of a static site build.
+   * @summary Creates or updates the app settings of a static site build.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param appSettings The dictionary containing the static site app settings to update.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>
+   */
+  createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
+   * @param appSettings The dictionary containing the static site app settings to update.
    * @param callback The callback
    */
-  deleteStaticSiteBuild(resourceGroupName: string, name: string, prId: string, callback: msRest.ServiceCallback<void>): void;
+  createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
+   * @param appSettings The dictionary containing the static site app settings to update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteStaticSiteBuild(resourceGroupName: string, name: string, prId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteStaticSiteBuild(resourceGroupName: string, name: string, prId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  createOrUpdateStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        prId,
+        environmentName,
+        appSettings,
         options
       },
-      deleteStaticSiteBuildOperationSpec,
-      callback);
+      createOrUpdateStaticSiteBuildAppSettingsOperationSpec,
+      callback) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildAppSettingsResponse>;
   }
 
   /**
@@ -497,35 +473,35 @@ export class StaticSites {
    * @summary Creates or updates the function app settings of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
-   * @param appSettings
+   * @param environmentName The stage site identifier.
+   * @param appSettings The dictionary containing the static site function app settings to update.
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>
    */
-  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, prId: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>;
+  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
-   * @param appSettings
+   * @param environmentName The stage site identifier.
+   * @param appSettings The dictionary containing the static site function app settings to update.
    * @param callback The callback
    */
-  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, prId: string, appSettings: Models.StringDictionary, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
-   * @param appSettings
+   * @param environmentName The stage site identifier.
+   * @param appSettings The dictionary containing the static site function app settings to update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, prId: string, appSettings: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, prId: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse> {
+  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  createOrUpdateStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteBuildFunctionAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        prId,
+        environmentName,
         appSettings,
         options
       },
@@ -538,32 +514,32 @@ export class StaticSites {
    * @summary Gets the functions of a particular static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse>
    */
-  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, prId: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse>;
+  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param callback The callback
    */
-  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, prId: string, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
+  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, prId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
-  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, prId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse> {
+  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): void;
+  listStaticSiteBuildFunctions(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteFunctionOverviewCollection>): Promise<Models.StaticSitesListStaticSiteBuildFunctionsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        prId,
+        environmentName,
         options
       },
       listStaticSiteBuildFunctionsOperationSpec,
@@ -571,36 +547,73 @@ export class StaticSites {
   }
 
   /**
-   * Description for Gets the application settings of a static site.
-   * @summary Gets the application settings of a static site.
+   * Description for Gets the application settings of a static site build.
+   * @summary Gets the application settings of a static site build.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param [options] The optional parameters
-   * @returns Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>
+   * @returns Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse>
    */
-  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, prId: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>;
+  listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param callback The callback
    */
-  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, prId: string, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param prId The stage site identifier.
+   * @param environmentName The stage site identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, prId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
-  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, prId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse> {
+  listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  listStaticSiteBuildAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         name,
-        prId,
+        environmentName,
+        options
+      },
+      listStaticSiteBuildAppSettingsOperationSpec,
+      callback) as Promise<Models.StaticSitesListStaticSiteBuildAppSettingsResponse>;
+  }
+
+  /**
+   * Description for Gets the application settings of a static site build.
+   * @summary Gets the application settings of a static site build.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>
+   */
+  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param callback The callback
+   */
+  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  listStaticSiteBuildFunctionAppSettings(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesListStaticSiteBuildFunctionAppSettingsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
         options
       },
       listStaticSiteBuildFunctionAppSettingsOperationSpec,
@@ -608,11 +621,202 @@ export class StaticSites {
   }
 
   /**
+   * Description for Gets the details of the user provided function apps registered with a static
+   * site build
+   * @summary Gets the details of the user provided function apps registered with a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse>
+   */
+  getUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  getUserProvidedFunctionAppsForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        options
+      },
+      getUserProvidedFunctionAppsForStaticSiteBuildOperationSpec,
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildResponse>;
+  }
+
+  /**
+   * Description for Gets the details of the user provided function app registered with a static site
+   * build
+   * @summary Gets the details of the user provided function app registered with a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param functionAppName Name of the function app registered with the static site build.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>
+   */
+  getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param functionAppName Name of the function app registered with the static site build.
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param functionAppName Name of the function app registered with the static site build.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): void;
+  getUserProvidedFunctionAppForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        functionAppName,
+        options
+      },
+      getUserProvidedFunctionAppForStaticSiteBuildOperationSpec,
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteBuildResponse>;
+  }
+
+  /**
+   * Description for Register a user provided function app with a static site build
+   * @summary Register a user provided function app with a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param functionAppName Name of the function app to register with the static site build.
+   * @param staticSiteUserProvidedFunctionEnvelope A JSON representation of the user provided
+   * function app properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>
+   */
+  registerUserProvidedFunctionAppWithStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource, options?: Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams): Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse> {
+    return this.beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(resourceGroupName,name,environmentName,functionAppName,staticSiteUserProvidedFunctionEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteBuildResponse>;
+  }
+
+  /**
+   * Description for Detach the user provided function app from the static site build
+   * @summary Detach the user provided function app from the static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param functionAppName Name of the function app registered with the static site build.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param functionAppName Name of the function app registered with the static site build.
+   * @param callback The callback
+   */
+  detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param functionAppName Name of the function app registered with the static site build.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  detachUserProvidedFunctionAppFromStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        functionAppName,
+        options
+      },
+      detachUserProvidedFunctionAppFromStaticSiteBuildOperationSpec,
+      callback);
+  }
+
+  /**
+   * Description for Deploys zipped content to a specific environment of a static site.
+   * @summary Deploys zipped content to a specific environment of a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName Name of the environment.
+   * @param staticSiteZipDeploymentEnvelope A JSON representation of the StaticSiteZipDeployment
+   * properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  createZipDeploymentForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginCreateZipDeploymentForStaticSiteBuild(resourceGroupName,name,environmentName,staticSiteZipDeploymentEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Description for Creates or updates the app settings of a static site.
+   * @summary Creates or updates the app settings of a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param appSettings The dictionary containing the static site app settings to update.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>
+   */
+  createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param appSettings The dictionary containing the static site app settings to update.
+   * @param callback The callback
+   */
+  createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param appSettings The dictionary containing the static site app settings to update.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  createOrUpdateStaticSiteAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        appSettings,
+        options
+      },
+      createOrUpdateStaticSiteAppSettingsOperationSpec,
+      callback) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteAppSettingsResponse>;
+  }
+
+  /**
    * Description for Creates or updates the function app settings of a static site.
    * @summary Creates or updates the function app settings of a static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param appSettings
+   * @param appSettings The dictionary containing the static site function app settings to update.
    * @param [options] The optional parameters
    * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteFunctionAppSettingsResponse>
    */
@@ -620,14 +824,14 @@ export class StaticSites {
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param appSettings
+   * @param appSettings The dictionary containing the static site function app settings to update.
    * @param callback The callback
    */
   createOrUpdateStaticSiteFunctionAppSettings(resourceGroupName: string, name: string, appSettings: Models.StringDictionary, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
-   * @param appSettings
+   * @param appSettings The dictionary containing the static site function app settings to update.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -715,32 +919,31 @@ export class StaticSites {
   }
 
   /**
-   * Description for Creates a new static site custom domain in an existing resource group and static
-   * site.
-   * @summary Creates a new static site custom domain in an existing resource group and static site.
+   * Description for Gets an existing custom domain for a particular static site.
+   * @summary Gets an existing custom domain for a particular static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site.
-   * @param domainName The custom domain to create.
+   * @param name Name of the static site resource to search in.
+   * @param domainName The custom domain name.
    * @param [options] The optional parameters
-   * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>
+   * @returns Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse>
    */
-  createOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>;
+  getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse>;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site.
-   * @param domainName The custom domain to create.
+   * @param name Name of the static site resource to search in.
+   * @param domainName The custom domain name.
    * @param callback The callback
    */
-  createOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>): void;
+  getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>): void;
   /**
    * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site.
-   * @param domainName The custom domain to create.
+   * @param name Name of the static site resource to search in.
+   * @param domainName The custom domain name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>): void;
-  createOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>): Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse> {
+  getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>): void;
+  getStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteCustomDomainOverviewARMResource>): Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -748,8 +951,25 @@ export class StaticSites {
         domainName,
         options
       },
-      createOrUpdateStaticSiteCustomDomainOperationSpec,
-      callback) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>;
+      getStaticSiteCustomDomainOperationSpec,
+      callback) as Promise<Models.StaticSitesGetStaticSiteCustomDomainResponse>;
+  }
+
+  /**
+   * Description for Creates a new static site custom domain in an existing resource group and static
+   * site.
+   * @summary Creates a new static site custom domain in an existing resource group and static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param domainName The custom domain to create.
+   * @param staticSiteCustomDomainRequestPropertiesEnvelope A JSON representation of the static site
+   * custom domain request properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>
+   */
+  createOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse> {
+    return this.beginCreateOrUpdateStaticSiteCustomDomain(resourceGroupName,name,domainName,staticSiteCustomDomainRequestPropertiesEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesCreateOrUpdateStaticSiteCustomDomainResponse>;
   }
 
   /**
@@ -761,32 +981,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site.
-   * @param domainName The custom domain to delete.
-   * @param callback The callback
-   */
-  deleteStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site.
-   * @param domainName The custom domain to delete.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        domainName,
-        options
-      },
-      deleteStaticSiteCustomDomainOperationSpec,
-      callback);
+  deleteStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteStaticSiteCustomDomain(resourceGroupName,name,domainName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -795,35 +992,14 @@ export class StaticSites {
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the static site.
    * @param domainName The custom domain to validate.
+   * @param staticSiteCustomDomainRequestPropertiesEnvelope A JSON representation of the static site
+   * custom domain request properties. See example.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  validateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site.
-   * @param domainName The custom domain to validate.
-   * @param callback The callback
-   */
-  validateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site.
-   * @param domainName The custom domain to validate.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  validateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  validateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        domainName,
-        options
-      },
-      validateCustomDomainCanBeAddedToStaticSiteOperationSpec,
-      callback);
+  validateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginValidateCustomDomainCanBeAddedToStaticSite(resourceGroupName,name,domainName,staticSiteCustomDomainRequestPropertiesEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -834,29 +1010,9 @@ export class StaticSites {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  detachStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site to detach.
-   * @param callback The callback
-   */
-  detachStaticSite(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the resource group to which the resource belongs.
-   * @param name Name of the static site to detach.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  detachStaticSite(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  detachStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        name,
-        options
-      },
-      detachStaticSiteOperationSpec,
-      callback);
+  detachStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDetachStaticSite(resourceGroupName,name,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -890,6 +1046,72 @@ export class StaticSites {
       },
       listStaticSiteFunctionsOperationSpec,
       callback) as Promise<Models.StaticSitesListStaticSiteFunctionsResponse>;
+  }
+
+  /**
+   * Description for Gets the application settings of a static site.
+   * @summary Gets the application settings of a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesListStaticSiteAppSettingsResponse>
+   */
+  listStaticSiteAppSettings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteAppSettingsResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param callback The callback
+   */
+  listStaticSiteAppSettings(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listStaticSiteAppSettings(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringDictionary>): void;
+  listStaticSiteAppSettings(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringDictionary>, callback?: msRest.ServiceCallback<Models.StringDictionary>): Promise<Models.StaticSitesListStaticSiteAppSettingsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      listStaticSiteAppSettingsOperationSpec,
+      callback) as Promise<Models.StaticSitesListStaticSiteAppSettingsResponse>;
+  }
+
+  /**
+   * Description for Lists the roles configured for the static site.
+   * @summary Lists the roles configured for the static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse>
+   */
+  listStaticSiteConfiguredRoles(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param callback The callback
+   */
+  listStaticSiteConfiguredRoles(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StringList>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listStaticSiteConfiguredRoles(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StringList>): void;
+  listStaticSiteConfiguredRoles(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StringList>, callback?: msRest.ServiceCallback<Models.StringList>): Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      listStaticSiteConfiguredRolesOperationSpec,
+      callback) as Promise<Models.StaticSitesListStaticSiteConfiguredRolesResponse>;
   }
 
   /**
@@ -959,6 +1181,138 @@ export class StaticSites {
   }
 
   /**
+   * Description for Gets the list of private endpoint connections associated with a static site
+   * @summary Gets the list of private endpoint connections associated with a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse>
+   */
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getPrivateEndpointConnectionListOperationSpec,
+      callback) as Promise<Models.StaticSitesGetPrivateEndpointConnectionListResponse>;
+  }
+
+  /**
+   * Description for Gets a private endpoint connection
+   * @summary Gets a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse>
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>, callback?: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options
+      },
+      getPrivateEndpointConnectionOperationSpec,
+      callback) as Promise<Models.StaticSitesGetPrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Approves or rejects a private endpoint connection
+   * @summary Approves or rejects a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param privateEndpointWrapper Request body.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>
+   */
+  approveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesApproveOrRejectPrivateEndpointConnectionResponse> {
+    return this.beginApproveOrRejectPrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,privateEndpointWrapper,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesApproveOrRejectPrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Deletes a private endpoint connection
+   * @summary Deletes a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesDeletePrivateEndpointConnectionResponse>
+   */
+  deletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesDeletePrivateEndpointConnectionResponse> {
+    return this.beginDeletePrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesDeletePrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Gets the private link resources
+   * @summary Gets the private link resources
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetPrivateLinkResourcesResponse>
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetPrivateLinkResourcesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param callback The callback
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): Promise<Models.StaticSitesGetPrivateLinkResourcesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getPrivateLinkResourcesOperationSpec,
+      callback) as Promise<Models.StaticSitesGetPrivateLinkResourcesResponse>;
+  }
+
+  /**
    * Description for Resets the api key for an existing static site.
    * @summary Resets the api key for an existing static site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -993,6 +1347,437 @@ export class StaticSites {
       },
       resetStaticSiteApiKeyOperationSpec,
       callback);
+  }
+
+  /**
+   * Description for Gets the details of the user provided function apps registered with a static
+   * site
+   * @summary Gets the details of the user provided function apps registered with a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse>
+   */
+  getUserProvidedFunctionAppsForStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppsForStaticSite(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppsForStaticSite(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  getUserProvidedFunctionAppsForStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getUserProvidedFunctionAppsForStaticSiteOperationSpec,
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteResponse>;
+  }
+
+  /**
+   * Description for Gets the details of the user provided function app registered with a static site
+   * @summary Gets the details of the user provided function app registered with a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param functionAppName Name of the function app registered with the static site.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>
+   */
+  getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param functionAppName Name of the function app registered with the static site.
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param functionAppName Name of the function app registered with the static site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): void;
+  getUserProvidedFunctionAppForStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppARMResource>): Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        functionAppName,
+        options
+      },
+      getUserProvidedFunctionAppForStaticSiteOperationSpec,
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppForStaticSiteResponse>;
+  }
+
+  /**
+   * Description for Register a user provided function app with a static site
+   * @summary Register a user provided function app with a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param functionAppName Name of the function app to register with the static site.
+   * @param staticSiteUserProvidedFunctionEnvelope A JSON representation of the user provided
+   * function app properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>
+   */
+  registerUserProvidedFunctionAppWithStaticSite(resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource, options?: Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams): Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse> {
+    return this.beginRegisterUserProvidedFunctionAppWithStaticSite(resourceGroupName,name,functionAppName,staticSiteUserProvidedFunctionEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.StaticSitesRegisterUserProvidedFunctionAppWithStaticSiteResponse>;
+  }
+
+  /**
+   * Description for Detach the user provided function app from the static site
+   * @summary Detach the user provided function app from the static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param functionAppName Name of the function app registered with the static site.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param functionAppName Name of the function app registered with the static site.
+   * @param callback The callback
+   */
+  detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param functionAppName Name of the function app registered with the static site.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  detachUserProvidedFunctionAppFromStaticSite(resourceGroupName: string, name: string, functionAppName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        functionAppName,
+        options
+      },
+      detachUserProvidedFunctionAppFromStaticSiteOperationSpec,
+      callback);
+  }
+
+  /**
+   * Description for Deploys zipped content to a static site.
+   * @summary Deploys zipped content to a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param staticSiteZipDeploymentEnvelope A JSON representation of the StaticSiteZipDeployment
+   * properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  createZipDeploymentForStaticSite(resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginCreateZipDeploymentForStaticSite(resourceGroupName,name,staticSiteZipDeploymentEnvelope,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Description for Creates a new static site in an existing resource group, or updates an existing
+   * static site.
+   * @summary Creates a new static site in an existing resource group, or updates an existing static
+   * site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to create or update.
+   * @param staticSiteEnvelope A JSON representation of the staticsite properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdateStaticSite(resourceGroupName: string, name: string, staticSiteEnvelope: Models.StaticSiteARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        staticSiteEnvelope,
+        options
+      },
+      beginCreateOrUpdateStaticSiteOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Deletes a static site.
+   * @summary Deletes a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      beginDeleteStaticSiteOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Deletes a static site build.
+   * @summary Deletes a static site build.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        options
+      },
+      beginDeleteStaticSiteBuildOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Register a user provided function app with a static site build
+   * @summary Register a user provided function app with a static site build
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName The stage site identifier.
+   * @param functionAppName Name of the function app to register with the static site build.
+   * @param staticSiteUserProvidedFunctionEnvelope A JSON representation of the user provided
+   * function app properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRegisterUserProvidedFunctionAppWithStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource, options?: Models.StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteBuildOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        functionAppName,
+        staticSiteUserProvidedFunctionEnvelope,
+        options
+      },
+      beginRegisterUserProvidedFunctionAppWithStaticSiteBuildOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Deploys zipped content to a specific environment of a static site.
+   * @summary Deploys zipped content to a specific environment of a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param environmentName Name of the environment.
+   * @param staticSiteZipDeploymentEnvelope A JSON representation of the StaticSiteZipDeployment
+   * properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateZipDeploymentForStaticSiteBuild(resourceGroupName: string, name: string, environmentName: string, staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        environmentName,
+        staticSiteZipDeploymentEnvelope,
+        options
+      },
+      beginCreateZipDeploymentForStaticSiteBuildOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Creates a new static site custom domain in an existing resource group and static
+   * site.
+   * @summary Creates a new static site custom domain in an existing resource group and static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param domainName The custom domain to create.
+   * @param staticSiteCustomDomainRequestPropertiesEnvelope A JSON representation of the static site
+   * custom domain request properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateOrUpdateStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        domainName,
+        staticSiteCustomDomainRequestPropertiesEnvelope,
+        options
+      },
+      beginCreateOrUpdateStaticSiteCustomDomainOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Deletes a custom domain.
+   * @summary Deletes a custom domain.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param domainName The custom domain to delete.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteStaticSiteCustomDomain(resourceGroupName: string, name: string, domainName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        domainName,
+        options
+      },
+      beginDeleteStaticSiteCustomDomainOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Validates a particular custom domain can be added to a static site.
+   * @summary Validates a particular custom domain can be added to a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param domainName The custom domain to validate.
+   * @param staticSiteCustomDomainRequestPropertiesEnvelope A JSON representation of the static site
+   * custom domain request properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginValidateCustomDomainCanBeAddedToStaticSite(resourceGroupName: string, name: string, domainName: string, staticSiteCustomDomainRequestPropertiesEnvelope: Models.StaticSiteCustomDomainRequestPropertiesARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        domainName,
+        staticSiteCustomDomainRequestPropertiesEnvelope,
+        options
+      },
+      beginValidateCustomDomainCanBeAddedToStaticSiteOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Detaches a static site.
+   * @summary Detaches a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site to detach.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDetachStaticSite(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      beginDetachStaticSiteOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Approves or rejects a private endpoint connection
+   * @summary Approves or rejects a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param privateEndpointWrapper Request body.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options
+      },
+      beginApproveOrRejectPrivateEndpointConnectionOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Deletes a private endpoint connection
+   * @summary Deletes a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options
+      },
+      beginDeletePrivateEndpointConnectionOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Register a user provided function app with a static site
+   * @summary Register a user provided function app with a static site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param functionAppName Name of the function app to register with the static site.
+   * @param staticSiteUserProvidedFunctionEnvelope A JSON representation of the user provided
+   * function app properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRegisterUserProvidedFunctionAppWithStaticSite(resourceGroupName: string, name: string, functionAppName: string, staticSiteUserProvidedFunctionEnvelope: Models.StaticSiteUserProvidedFunctionAppARMResource, options?: Models.StaticSitesBeginRegisterUserProvidedFunctionAppWithStaticSiteOptionalParams): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        functionAppName,
+        staticSiteUserProvidedFunctionEnvelope,
+        options
+      },
+      beginRegisterUserProvidedFunctionAppWithStaticSiteOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Deploys zipped content to a static site.
+   * @summary Deploys zipped content to a static site.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the static site.
+   * @param staticSiteZipDeploymentEnvelope A JSON representation of the StaticSiteZipDeployment
+   * properties. See example.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateZipDeploymentForStaticSite(resourceGroupName: string, name: string, staticSiteZipDeploymentEnvelope: Models.StaticSiteZipDeploymentARMResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        staticSiteZipDeploymentEnvelope,
+        options
+      },
+      beginCreateZipDeploymentForStaticSiteOperationSpec,
+      options);
   }
 
   /**
@@ -1141,6 +1926,36 @@ export class StaticSites {
   }
 
   /**
+   * Description for Gets the details of the user provided function apps registered with a static
+   * site build
+   * @summary Gets the details of the user provided function apps registered with a static site build
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse>
+   */
+  getUserProvidedFunctionAppsForStaticSiteBuildNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppsForStaticSiteBuildNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppsForStaticSiteBuildNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  getUserProvidedFunctionAppsForStaticSiteBuildNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getUserProvidedFunctionAppsForStaticSiteBuildNextOperationSpec,
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteBuildNextResponse>;
+  }
+
+  /**
    * Description for Gets all static site custom domains for a particular static site.
    * @summary Gets all static site custom domains for a particular static site.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -1196,6 +2011,65 @@ export class StaticSites {
       },
       listStaticSiteFunctionsNextOperationSpec,
       callback) as Promise<Models.StaticSitesListStaticSiteFunctionsNextResponse>;
+  }
+
+  /**
+   * Description for Gets the list of private endpoint connections associated with a static site
+   * @summary Gets the list of private endpoint connections associated with a static site
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse>
+   */
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getPrivateEndpointConnectionListNextOperationSpec,
+      callback) as Promise<Models.StaticSitesGetPrivateEndpointConnectionListNextResponse>;
+  }
+
+  /**
+   * Description for Gets the details of the user provided function apps registered with a static
+   * site
+   * @summary Gets the details of the user provided function apps registered with a static site
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse>
+   */
+  getUserProvidedFunctionAppsForStaticSiteNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppsForStaticSiteNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getUserProvidedFunctionAppsForStaticSiteNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): void;
+  getUserProvidedFunctionAppsForStaticSiteNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>, callback?: msRest.ServiceCallback<Models.StaticSiteUserProvidedFunctionAppsCollection>): Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getUserProvidedFunctionAppsForStaticSiteNextOperationSpec,
+      callback) as Promise<Models.StaticSitesGetUserProvidedFunctionAppsForStaticSiteNextResponse>;
   }
 }
 
@@ -1297,65 +2171,6 @@ const getStaticSiteOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.StaticSiteARMResource
     },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateStaticSiteOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "staticSiteEnvelope",
-    mapper: {
-      ...Mappers.StaticSiteARMResource,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.StaticSiteARMResource
-    },
-    202: {
-      bodyMapper: Mappers.StaticSiteARMResource
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteStaticSiteOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    202: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -1510,11 +2325,11 @@ const getStaticSiteBuildsOperationSpec: msRest.OperationSpec = {
 
 const getStaticSiteBuildOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{prId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.prId,
+    Parameters.environmentName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -1534,38 +2349,13 @@ const getStaticSiteBuildOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteStaticSiteBuildOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{prId}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.prId,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    202: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
+const createOrUpdateStaticSiteBuildAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{prId}/config/functionappsettings",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/appsettings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.prId,
+    Parameters.environmentName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -1585,7 +2375,37 @@ const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.Oper
     200: {
       bodyMapper: Mappers.StringDictionary
     },
-    202: {
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/config/functionappsettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "appSettings",
+    mapper: {
+      ...Mappers.StringDictionary,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.StringDictionary
     },
     default: {
@@ -1597,11 +2417,11 @@ const createOrUpdateStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.Oper
 
 const listStaticSiteBuildFunctionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{prId}/functions",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/functions",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.prId,
+    Parameters.environmentName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -1621,13 +2441,13 @@ const listStaticSiteBuildFunctionsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
+const listStaticSiteBuildAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{prId}/listFunctionAppSettings",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listAppSettings",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.name,
-    Parameters.prId,
+    Parameters.environmentName,
     Parameters.subscriptionId
   ],
   queryParameters: [
@@ -1640,7 +2460,141 @@ const listStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.OperationSpec 
     200: {
       bodyMapper: Mappers.StringDictionary
     },
-    202: {
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const listStaticSiteBuildFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/listFunctionAppSettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StringDictionary
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getUserProvidedFunctionAppsForStaticSiteBuildOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getUserProvidedFunctionAppForStaticSiteBuildOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName,
+    Parameters.functionAppName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const detachUserProvidedFunctionAppFromStaticSiteBuildOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName,
+    Parameters.functionAppName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateStaticSiteAppSettingsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/appsettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "appSettings",
+    mapper: {
+      ...Mappers.StringDictionary,
+      required: true
+    }
+  },
+  responses: {
+    200: {
       bodyMapper: Mappers.StringDictionary
     },
     default: {
@@ -1673,9 +2627,6 @@ const createOrUpdateStaticSiteFunctionAppSettingsOperationSpec: msRest.Operation
   },
   responses: {
     200: {
-      bodyMapper: Mappers.StringDictionary
-    },
-    202: {
       bodyMapper: Mappers.StringDictionary
     },
     default: {
@@ -1742,8 +2693,8 @@ const listStaticSiteCustomDomainsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const createOrUpdateStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
+const getStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
   urlParameters: [
     Parameters.resourceGroupName,
@@ -1761,83 +2712,6 @@ const createOrUpdateStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = 
     200: {
       bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource
     },
-    202: {
-      bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource
-    },
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.domainName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    202: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const validateCustomDomainCanBeAddedToStaticSiteOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}/validate",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.domainName0,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    202: {},
-    default: {
-      bodyMapper: Mappers.DefaultErrorResponse
-    }
-  },
-  serializer
-};
-
-const detachStaticSiteOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    202: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -1870,6 +2744,56 @@ const listStaticSiteFunctionsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listStaticSiteAppSettingsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listAppSettings",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StringDictionary
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const listStaticSiteConfiguredRolesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listConfiguredRoles",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StringList
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listStaticSiteFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listFunctionAppSettings",
@@ -1886,9 +2810,6 @@ const listStaticSiteFunctionAppSettingsOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.StringDictionary
-    },
-    202: {
       bodyMapper: Mappers.StringDictionary
     },
     default: {
@@ -1923,6 +2844,82 @@ const listStaticSiteSecretsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getPrivateEndpointConnectionListOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateLinkResources",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResourcesWrapper
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const resetStaticSiteApiKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/resetapikey",
@@ -1946,6 +2943,505 @@ const resetStaticSiteApiKeyOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getUserProvidedFunctionAppsForStaticSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getUserProvidedFunctionAppForStaticSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.functionAppName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const detachUserProvidedFunctionAppFromStaticSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.functionAppName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateStaticSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "staticSiteEnvelope",
+    mapper: {
+      ...Mappers.StaticSiteARMResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteARMResource
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDeleteStaticSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDeleteStaticSiteBuildOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginRegisterUserProvidedFunctionAppWithStaticSiteBuildOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/userProvidedFunctionApps/{functionAppName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName,
+    Parameters.functionAppName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.isForced,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "staticSiteUserProvidedFunctionEnvelope",
+    mapper: {
+      ...Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginCreateZipDeploymentForStaticSiteBuildOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/zipdeploy",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "staticSiteZipDeploymentEnvelope",
+    mapper: {
+      ...Mappers.StaticSiteZipDeploymentARMResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginCreateOrUpdateStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.domainName0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "staticSiteCustomDomainRequestPropertiesEnvelope",
+    mapper: {
+      ...Mappers.StaticSiteCustomDomainRequestPropertiesARMResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteCustomDomainOverviewARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDeleteStaticSiteCustomDomainOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.domainName0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginValidateCustomDomainCanBeAddedToStaticSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}/validate",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.domainName0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "staticSiteCustomDomainRequestPropertiesEnvelope",
+    mapper: {
+      ...Mappers.StaticSiteCustomDomainRequestPropertiesARMResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDetachStaticSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/detach",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginApproveOrRejectPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "privateEndpointWrapper",
+    mapper: {
+      ...Mappers.PrivateLinkConnectionApprovalRequestResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    202: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDeletePrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    202: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    204: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginRegisterUserProvidedFunctionAppWithStaticSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/userProvidedFunctionApps/{functionAppName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.functionAppName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.isForced,
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "staticSiteUserProvidedFunctionEnvelope",
+    mapper: {
+      ...Mappers.StaticSiteUserProvidedFunctionAppARMResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource
+    },
+    202: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginCreateZipDeploymentForStaticSiteOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/zipdeploy",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "staticSiteZipDeploymentEnvelope",
+    mapper: {
+      ...Mappers.StaticSiteZipDeploymentARMResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
@@ -2073,6 +3569,30 @@ const listStaticSiteBuildFunctionsNextOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getUserProvidedFunctionAppsForStaticSiteBuildNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listStaticSiteCustomDomainsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
@@ -2113,6 +3633,54 @@ const listStaticSiteFunctionsNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.StaticSiteFunctionOverviewCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateEndpointConnectionListNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getUserProvidedFunctionAppsForStaticSiteNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.StaticSiteUserProvidedFunctionAppsCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

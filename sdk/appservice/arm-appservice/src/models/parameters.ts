@@ -19,6 +19,18 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
+export const additionalFlags: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "additionalFlags"
+  ],
+  mapper: {
+    serializedName: "additionalFlags",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const analysisName: msRest.OperationURLParameter = {
   parameterPath: "analysisName",
   mapper: {
@@ -34,6 +46,16 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const appSettingKey: msRest.OperationURLParameter = {
+  parameterPath: "appSettingKey",
+  mapper: {
+    required: true,
+    serializedName: "appSettingKey",
     type: {
       name: "String"
     }
@@ -86,6 +108,16 @@ export const certificateOrderName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "certificateOrderName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const connectionStringKey: msRest.OperationURLParameter = {
+  parameterPath: "connectionStringKey",
+  mapper: {
+    required: true,
+    serializedName: "connectionStringKey",
     type: {
       name: "String"
     }
@@ -305,6 +337,16 @@ export const forceHardDeleteDomain: msRest.OperationQueryParameter = {
     }
   }
 };
+export const functionAppName: msRest.OperationURLParameter = {
+  parameterPath: "functionAppName",
+  mapper: {
+    required: true,
+    serializedName: "functionAppName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const functionName: msRest.OperationURLParameter = {
   parameterPath: "functionName",
   mapper: {
@@ -396,6 +438,18 @@ export const instanceId: msRest.OperationURLParameter = {
     serializedName: "instanceId",
     type: {
       name: "String"
+    }
+  }
+};
+export const isForced: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "isForced"
+  ],
+  mapper: {
+    serializedName: "isForced",
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -535,16 +589,6 @@ export const premierAddOnName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "premierAddOnName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const prId: msRest.OperationURLParameter = {
-  parameterPath: "prId",
-  mapper: {
-    required: true,
-    serializedName: "prId",
     type: {
       name: "String"
     }
@@ -732,6 +776,18 @@ export const sourceControlType: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "sourceControlType",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const stackOsType: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "stackOsType"
+  ],
+  mapper: {
+    serializedName: "stackOsType",
     type: {
       name: "String"
     }

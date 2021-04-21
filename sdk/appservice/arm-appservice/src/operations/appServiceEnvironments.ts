@@ -258,6 +258,76 @@ export class AppServiceEnvironments {
   }
 
   /**
+   * Description for Get networking configuration of an App Service Environment
+   * @summary Get networking configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse>
+   */
+  getAseV3NetworkingConfiguration(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param callback The callback
+   */
+  getAseV3NetworkingConfiguration(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.AseV3NetworkingConfiguration>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAseV3NetworkingConfiguration(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AseV3NetworkingConfiguration>): void;
+  getAseV3NetworkingConfiguration(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AseV3NetworkingConfiguration>, callback?: msRest.ServiceCallback<Models.AseV3NetworkingConfiguration>): Promise<Models.AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getAseV3NetworkingConfigurationOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse>;
+  }
+
+  /**
+   * Description for Update networking configuration of an App Service Environment
+   * @summary Update networking configuration of an App Service Environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param aseNetworkingConfiguration
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsUpdateAseNetworkingConfigurationResponse>
+   */
+  updateAseNetworkingConfiguration(resourceGroupName: string, name: string, aseNetworkingConfiguration: Models.AseV3NetworkingConfiguration, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsUpdateAseNetworkingConfigurationResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param aseNetworkingConfiguration
+   * @param callback The callback
+   */
+  updateAseNetworkingConfiguration(resourceGroupName: string, name: string, aseNetworkingConfiguration: Models.AseV3NetworkingConfiguration, callback: msRest.ServiceCallback<Models.AseV3NetworkingConfiguration>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param aseNetworkingConfiguration
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateAseNetworkingConfiguration(resourceGroupName: string, name: string, aseNetworkingConfiguration: Models.AseV3NetworkingConfiguration, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AseV3NetworkingConfiguration>): void;
+  updateAseNetworkingConfiguration(resourceGroupName: string, name: string, aseNetworkingConfiguration: Models.AseV3NetworkingConfiguration, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AseV3NetworkingConfiguration>, callback?: msRest.ServiceCallback<Models.AseV3NetworkingConfiguration>): Promise<Models.AppServiceEnvironmentsUpdateAseNetworkingConfigurationResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        aseNetworkingConfiguration,
+        options
+      },
+      updateAseNetworkingConfigurationOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsUpdateAseNetworkingConfigurationResponse>;
+  }
+
+  /**
    * Description for Get diagnostic information for an App Service Environment.
    * @summary Get diagnostic information for an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -682,6 +752,138 @@ export class AppServiceEnvironments {
       },
       getOutboundNetworkDependenciesEndpointsOperationSpec,
       callback) as Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsResponse>;
+  }
+
+  /**
+   * Description for Gets the list of private endpoints associated with a hosting environment
+   * @summary Gets the list of private endpoints associated with a hosting environment
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse>
+   */
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionList(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getPrivateEndpointConnectionListOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionListResponse>;
+  }
+
+  /**
+   * Description for Gets a private endpoint connection
+   * @summary Gets a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionResponse>
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param privateEndpointConnectionName Name of the private endpoint connection.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): void;
+  getPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>, callback?: msRest.ServiceCallback<Models.RemotePrivateEndpointConnectionARMResource>): Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options
+      },
+      getPrivateEndpointConnectionOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Approves or rejects a private endpoint connection
+   * @summary Approves or rejects a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param privateEndpointConnectionName
+   * @param privateEndpointWrapper
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>
+   */
+  approveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse> {
+    return this.beginApproveOrRejectPrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,privateEndpointWrapper,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Deletes a private endpoint connection
+   * @summary Deletes a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param privateEndpointConnectionName
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>
+   */
+  deletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse> {
+    return this.beginDeletePrivateEndpointConnection(resourceGroupName,name,privateEndpointConnectionName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>;
+  }
+
+  /**
+   * Description for Gets the private link resources
+   * @summary Gets the private link resources
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsGetPrivateLinkResourcesResponse>
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetPrivateLinkResourcesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param callback The callback
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  /**
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateLinkResources(resourceGroupName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): void;
+  getPrivateLinkResources(resourceGroupName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourcesWrapper>): Promise<Models.AppServiceEnvironmentsGetPrivateLinkResourcesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        name,
+        options
+      },
+      getPrivateLinkResourcesOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetPrivateLinkResourcesResponse>;
   }
 
   /**
@@ -1205,6 +1407,50 @@ export class AppServiceEnvironments {
   }
 
   /**
+   * Description for Approves or rejects a private endpoint connection
+   * @summary Approves or rejects a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param privateEndpointConnectionName
+   * @param privateEndpointWrapper
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginApproveOrRejectPrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, privateEndpointWrapper: Models.PrivateLinkConnectionApprovalRequestResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        privateEndpointWrapper,
+        options
+      },
+      beginApproveOrRejectPrivateEndpointConnectionOperationSpec,
+      options);
+  }
+
+  /**
+   * Description for Deletes a private endpoint connection
+   * @summary Deletes a private endpoint connection
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the App Service Environment.
+   * @param privateEndpointConnectionName
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeletePrivateEndpointConnection(resourceGroupName: string, name: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        name,
+        privateEndpointConnectionName,
+        options
+      },
+      beginDeletePrivateEndpointConnectionOperationSpec,
+      options);
+  }
+
+  /**
    * Description for Resume an App Service Environment.
    * @summary Resume an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
@@ -1572,6 +1818,35 @@ export class AppServiceEnvironments {
       },
       getOutboundNetworkDependenciesEndpointsNextOperationSpec,
       callback) as Promise<Models.AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsNextResponse>;
+  }
+
+  /**
+   * Description for Gets the list of private endpoints associated with a hosting environment
+   * @summary Gets the list of private endpoints associated with a hosting environment
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionListNextResponse>
+   */
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionListNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): void;
+  getPrivateEndpointConnectionListNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionCollection>): Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionListNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      getPrivateEndpointConnectionListNextOperationSpec,
+      callback) as Promise<Models.AppServiceEnvironmentsGetPrivateEndpointConnectionListNextResponse>;
   }
 
   /**
@@ -2047,6 +2322,63 @@ const getVipInfoOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getAseV3NetworkingConfigurationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/networking",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AseV3NetworkingConfiguration
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const updateAseNetworkingConfigurationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/networking",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "aseNetworkingConfiguration",
+    mapper: {
+      ...Mappers.AseV3NetworkingConfiguration,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.AseV3NetworkingConfiguration
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const listDiagnosticsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/diagnostics",
@@ -2373,6 +2705,82 @@ const getOutboundNetworkDependenciesEndpointsOperationSpec: msRest.OperationSpec
   responses: {
     200: {
       bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateEndpointConnectionListOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateEndpointConnections",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateLinkResourcesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateLinkResources",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResourcesWrapper
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
@@ -2806,6 +3214,89 @@ const beginCreateOrUpdateMultiRolePoolOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginApproveOrRejectPrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "privateEndpointWrapper",
+    mapper: {
+      ...Mappers.PrivateLinkConnectionApprovalRequestResource,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    202: {
+      bodyMapper: Mappers.RemotePrivateEndpointConnectionARMResource
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDeletePrivateEndpointConnectionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateEndpointConnections/{privateEndpointConnectionName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.privateEndpointConnectionName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    202: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    204: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
 const beginResumeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/resume",
@@ -3130,6 +3621,30 @@ const getOutboundNetworkDependenciesEndpointsNextOperationSpec: msRest.Operation
   responses: {
     200: {
       bodyMapper: Mappers.OutboundEnvironmentEndpointCollection
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  serializer
+};
+
+const getPrivateEndpointConnectionListNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionCollection
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

@@ -18,6 +18,7 @@ import { WebSiteManagementClientContext } from "./webSiteManagementClientContext
 class WebSiteManagementClient extends WebSiteManagementClientContext {
   // Operation groups
   appServiceCertificateOrders: operations.AppServiceCertificateOrders;
+  certificateOrdersDiagnostics: operations.CertificateOrdersDiagnostics;
   certificateRegistrationProvider: operations.CertificateRegistrationProvider;
   domains: operations.Domains;
   topLevelDomains: operations.TopLevelDomains;
@@ -25,6 +26,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   certificates: operations.Certificates;
   deletedWebApps: operations.DeletedWebApps;
   diagnostics: operations.Diagnostics;
+  global: operations.Global;
   provider: operations.Provider;
   recommendations: operations.Recommendations;
   webApps: operations.WebApps;
@@ -43,6 +45,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.WebSiteManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.appServiceCertificateOrders = new operations.AppServiceCertificateOrders(this);
+    this.certificateOrdersDiagnostics = new operations.CertificateOrdersDiagnostics(this);
     this.certificateRegistrationProvider = new operations.CertificateRegistrationProvider(this);
     this.domains = new operations.Domains(this);
     this.topLevelDomains = new operations.TopLevelDomains(this);
@@ -50,6 +53,7 @@ class WebSiteManagementClient extends WebSiteManagementClientContext {
     this.certificates = new operations.Certificates(this);
     this.deletedWebApps = new operations.DeletedWebApps(this);
     this.diagnostics = new operations.Diagnostics(this);
+    this.global = new operations.Global(this);
     this.provider = new operations.Provider(this);
     this.recommendations = new operations.Recommendations(this);
     this.webApps = new operations.WebApps(this);
