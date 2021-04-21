@@ -49,7 +49,7 @@ export interface ChatMessage {
   /** The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   editedOn?: Date;
   /** Properties */
-  properties?: { [propertyName: string]: any };
+  properties?: { [propertyName: string]: string };
 }
 
 /** Content of a chat message. */

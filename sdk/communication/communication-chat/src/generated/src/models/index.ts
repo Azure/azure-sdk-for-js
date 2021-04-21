@@ -107,7 +107,7 @@ export interface SendChatMessageRequest {
   /** The chat message type. */
   type?: ChatMessageType;
   /** Message properties */
-  properties?: { [propertyName: string]: any };
+  properties?: { [propertyName: string]: string };
 }
 
 /** Result of the send message operation. */
@@ -150,7 +150,7 @@ export interface ChatMessage {
   /** The last timestamp (if applicable) when the message was edited. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
   editedOn?: Date;
   /** Properties */
-  properties?: { [propertyName: string]: any };
+  properties?: { [propertyName: string]: string };
 }
 
 /** Content of a chat message. */
@@ -180,7 +180,7 @@ export interface UpdateChatMessageRequest {
   /** Chat message content. */
   content?: string;
   /** Message properties */
-  properties?: { [propertyName: string]: any };
+  properties?: { [propertyName: string]: string };
 }
 
 /** Collection of participants belong to a particular thread. */
