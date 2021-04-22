@@ -58,7 +58,7 @@ An Azure service principal is an identity created for use with applications, hos
 
 To learn more, read [Application and service principal objects in Azure Active Directory][app-register-service-principal]
 
-Set up:
+**Setup**:
 
 - [Application registration][quickstart-register-app]
 - [Create a Service Principal with the Azure CLI][service_principal_azure_cli] or [Create an Azure service principal with Azure PowerShell][service_principal_azure_powershell]
