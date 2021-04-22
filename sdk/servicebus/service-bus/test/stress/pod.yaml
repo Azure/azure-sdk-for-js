@@ -2,14 +2,9 @@ kind: Pod
 apiVersion: v1
 metadata:
   name: "%K8S_POD_NAME%"
-  namespace: richard
+  namespace: "%KUBERNETES_NAMESPACE%"
 spec:
   restartPolicy: Never
-  volumes:
-    - name: default-token-whrcg
-      secret:
-        secretName: default-token-whrcg
-        defaultMode: 420
   containers:
     - name: sb-stressperf
       image: '%DOCKER_IMAGE_NAME%'
@@ -32,8 +27,4 @@ spec:
       #   requests:
       #     cpu: 1
       #     memory: 500Mi
-      volumeMounts:
-        - name: default-token-whrcg
-          readOnly: true
-          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
       imagePullPolicy: Always

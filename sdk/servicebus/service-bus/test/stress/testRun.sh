@@ -57,6 +57,7 @@ createKubernetesPod() {
         DOCKER_IMAGE_NAME
         K8S_SECRET_NAME
         K8S_POD_NAME
+        KUBERNETES_NAMESPACE
         SCENARIO_JS_BASE_NAME
     "
 
