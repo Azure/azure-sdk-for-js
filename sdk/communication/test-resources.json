@@ -86,7 +86,7 @@
     },
     "COMMUNICATION_ENDPOINT": {
       "type": "string",
-        "value": "[concat('https://', parameters('baseName'), '-', parameters('endpointPrefix'), parameters('communicationServicesEndpointSuffix'))]"
+      "value": "[concat('https://', parameters('baseName'), '-', parameters('endpointPrefix'), parameters('communicationServicesEndpointSuffix'))]"
     },
     "COMMUNICATION_CONNECTION_STRING": {
       "type": "string",
