@@ -88,17 +88,6 @@ export default function Page(): JSX.Element {
         <a className="navbar-brand" href="#">
           App Config
         </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNavDropdown"
-          aria-controls="navbarNavDropdown"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item active">
@@ -111,30 +100,16 @@ export default function Page(): JSX.Element {
                 className={(feature1.enabled ? "" : "cursor-disabled").concat(" nav-link")}
                 href="#"
               >
-                Beta Feature (Feature 1)
+                Beta Feature (Feature 1 - Enabled flag)
               </a>
             </li>
-            <li className="nav-item dropdown">
+            <li className="nav-item">
               <a
-                className="nav-link dropdown-toggle"
+                className={(feature2.enabled ? "" : "cursor-disabled").concat(" nav-link")}
                 href="#"
-                id="navbarDropdownMenuLink"
-                data-toggle="dropdown"
-                aria-expanded="false"
               >
-                Dropdown link
+                Beta Feature (Feature 2 - Time Window)
               </a>
-              <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a className="dropdown-item" href="#">
-                  Action
-                </a>
-                <a
-                  className={(feature2.enabled ? "" : "cursor-disabled").concat(" dropdown-item")}
-                  href="#"
-                >
-                  Another action (Feature 2 - Time Window)
-                </a>
-              </div>
             </li>
           </ul>
         </div>
