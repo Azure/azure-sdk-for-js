@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TableResponseProperties,
-  TableInsertEntityHeaders,
-  TableCreateHeaders
-} from "./generated/models";
+import { TableInsertEntityHeaders, TableCreateHeaders, SignedIdentifier } from "./generated/models";
 import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 /**
@@ -29,11 +25,19 @@ export type CreateTableEntityResponse = TableInsertEntityHeaders;
 /**
  * Contains response data for the listTable operation.
  */
-export type ListTableItemsResponse = Array<TableResponseProperties> & {
+export type ListTableItemsResponse = Array<TableItem> & {
   /**
    * This header contains the continuation token value.
    */
   nextTableName?: string;
+};
+
+/**
+ * SetAccessPolicy optional parameters
+ */
+export type SetAccessPolicyOptions = OperationOptions & {
+  /** The acls for the table. */
+  tableAcl?: SignedIdentifier[];
 };
 
 /**
@@ -64,6 +68,12 @@ export type DeleteTableEntityOptions = OperationOptions & {
    */
   etag?: string;
 };
+
+/** The properties for the table item. */
+export interface TableItem {
+  /** The name of the table. */
+  name?: string;
+}
 
 /**
  * OData Query options to limit the set of tables returned.
@@ -170,18 +180,6 @@ export type GetTableEntityOptions = OperationOptions & {
  * Update entity optional parameters.
  */
 export type UpdateTableEntityOptions = OperationOptions & {
-  /**
-   * Query options group
-   */
-  queryOptions?: TableQueryOptions;
-  /**
-   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled.
-   */
-  requestId?: string;
-  /**
-   * The timeout parameter is expressed in seconds.
-   */
-  timeout?: number;
   /**
    * Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
    */
@@ -335,6 +333,12 @@ export interface TableBatchResponse {
    * Gets a specific response given a row key
    */
   getResponseForEntity: (rowKey: string) => TableBatchEntityResponse | undefined;
+}
+
+/** The properties for the table query response. */
+export interface TableQueryResponse {
+  /** List of tables. */
+  value?: TableItem[];
 }
 
 /**

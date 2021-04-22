@@ -16,7 +16,8 @@ import {
   CreateTableItemResponse,
   TableServiceClientOptions as TableClientOptions,
   TableBatch,
-  TableEntityResult
+  TableEntityResult,
+  SetAccessPolicyOptions
 } from "./models";
 import {
   DeleteTableResponse,
@@ -24,7 +25,6 @@ import {
   UpsertEntityResponse,
   DeleteTableEntityResponse,
   GetAccessPolicyResponse,
-  SetAccessPolicyOptions,
   SetAccessPolicyResponse
 } from "./generatedModels";
 import {
@@ -300,7 +300,7 @@ export class TableClient {
   public listEntities<T extends object = Record<string, unknown>>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListTableEntitiesOptions = {}
-  ): PagedAsyncIterableIterator<TableEntityResult<T>, ListEntitiesResponse<TableEntityResult<T>>> {
+  ): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]> {
     const tableName = this.tableName;
     const iter = this.listEntitiesAll<T>(tableName, options);
 
@@ -358,6 +358,7 @@ export class TableClient {
           nextRowKey: result.nextRowKey
         };
         result = await this._listEntities(tableName, optionsWithContinuation);
+
         yield result;
       }
     } catch (e) {

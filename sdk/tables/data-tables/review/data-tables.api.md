@@ -61,28 +61,10 @@ export interface GeoReplication {
 export type GeoReplicationStatusType = string;
 
 // @public
-export interface GetAccessPolicyOptions extends OperationOptions {
-    requestId?: string;
-    timeout?: number;
-}
-
-// @public
 export type GetAccessPolicyResponse = TableGetAccessPolicyHeaders & SignedIdentifier[];
 
 // @public
-export interface GetPropertiesOptions extends OperationOptions {
-    requestId?: string;
-    timeout?: number;
-}
-
-// @public
 export type GetPropertiesResponse = ServiceGetPropertiesHeaders & ServiceProperties;
-
-// @public
-export interface GetStatisticsOptions extends OperationOptions {
-    requestId?: string;
-    timeout?: number;
-}
 
 // @public
 export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceStats;
@@ -90,8 +72,6 @@ export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceSt
 // @public
 export type GetTableEntityOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
-    requestId?: string;
-    timeout?: number;
 };
 
 // @public
@@ -130,7 +110,7 @@ export type ListTableItemsOptions = OperationOptions & {
 };
 
 // @public
-export type ListTableItemsResponse = Array<TableResponseProperties> & {
+export type ListTableItemsResponse = Array<TableItem> & {
     nextTableName?: string;
 };
 
@@ -191,11 +171,9 @@ export interface ServiceSetPropertiesHeaders {
 }
 
 // @public
-export interface SetAccessPolicyOptions extends OperationOptions {
-    requestId?: string;
+export type SetAccessPolicyOptions = OperationOptions & {
     tableAcl?: SignedIdentifier[];
-    timeout?: number;
-}
+};
 
 // @public
 export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders;
@@ -252,9 +230,9 @@ export class TableClient {
     deleteTable(options?: OperationOptions): Promise<DeleteTableResponse>;
     deleteTableIfExists(options?: OperationOptions): Promise<DeleteTableResponse | undefined>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
-    getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
+    getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
-    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, ListEntitiesResponse<TableEntityResult<T>>>;
+    listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
     setAccessPolicy(options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
@@ -334,6 +312,11 @@ export interface TableInsertEntityHeaders {
 }
 
 // @public
+export interface TableItem {
+    name?: string;
+}
+
+// @public
 export interface TableMergeEntityHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -384,22 +367,15 @@ export interface TableQueryOptions {
 
 // @public
 export interface TableQueryResponse {
-    odataMetadata?: string;
-    value?: TableResponseProperties[];
+    value?: TableItem[];
 }
 
+// Warning: (ae-forgotten-export) The symbol "TableResponseProperties" needs to be exported by the entry point index.d.ts
+//
 // @public
 export type TableResponse = TableResponseProperties & {
     odataMetadata?: string;
 };
-
-// @public
-export interface TableResponseProperties {
-    name?: string;
-    odataEditLink?: string;
-    odataId?: string;
-    odataType?: string;
-}
 
 // @public
 export class TableServiceClient {
@@ -410,9 +386,9 @@ export class TableServiceClient {
     deleteTable(name: string, options?: OperationOptions): Promise<DeleteTableResponse>;
     deleteTableIfExists(name: string, options?: OperationOptions): Promise<DeleteTableResponse | undefined>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
-    getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
-    getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;
-    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse>;
+    getProperties(options?: OperationOptions): Promise<GetPropertiesResponse>;
+    getStatistics(options?: OperationOptions): Promise<GetStatisticsResponse>;
+    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, ListTableItemsResponse>;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     }
 
@@ -468,9 +444,6 @@ export type UpdateMode = "Merge" | "Replace";
 
 // @public
 export type UpdateTableEntityOptions = OperationOptions & {
-    queryOptions?: TableQueryOptions;
-    requestId?: string;
-    timeout?: number;
     etag?: string;
 };
 

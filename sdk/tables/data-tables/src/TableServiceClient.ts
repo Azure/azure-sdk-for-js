@@ -9,7 +9,8 @@ import {
   ListTableItemsResponse,
   CreateTableItemResponse,
   TableServiceClientOptions,
-  TableQueryOptions
+  TableQueryOptions,
+  TableItem
 } from "./models";
 import {
   GetStatisticsResponse,
@@ -17,8 +18,7 @@ import {
   SetPropertiesOptions,
   ServiceProperties,
   SetPropertiesResponse,
-  DeleteTableResponse,
-  TableResponseProperties
+  DeleteTableResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
@@ -281,7 +281,7 @@ export class TableServiceClient {
   public listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListTableItemsOptions
-  ): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse> {
+  ): PagedAsyncIterableIterator<TableItem, ListTableItemsResponse> {
     const iter = this.listTablesAll(options);
 
     return {
@@ -301,9 +301,7 @@ export class TableServiceClient {
     };
   }
 
-  private async *listTablesAll(
-    options?: ListTableItemsOptions
-  ): AsyncIterableIterator<TableResponseProperties> {
+  private async *listTablesAll(options?: ListTableItemsOptions): AsyncIterableIterator<TableItem> {
     const firstPage = await this._listTables(options);
     const { nextTableName } = firstPage;
     yield* firstPage;
