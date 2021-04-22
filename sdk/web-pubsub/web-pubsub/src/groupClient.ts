@@ -150,10 +150,6 @@ export interface WebPubSubGroup {
    * @param options Additional options
    */
   sendToAll(message: HttpRequestBody, options?: GroupSendToAllOptions): Promise<RestResponse>;
-  sendToAll(
-    message: string | HttpRequestBody,
-    options?: GroupSendToAllOptions | GroupSendTextToAllOptions
-  ): Promise<RestResponse>;
 }
 
 export class WebPubSubGroupImpl implements WebPubSubGroup {
@@ -364,6 +360,7 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     message: HttpRequestBody,
     options?: GroupSendToAllOptions
   ): Promise<RestResponse>;
+
   public async sendToAll(
     message: string | HttpRequestBody,
     options: GroupSendToAllOptions | GroupSendTextToAllOptions = {}

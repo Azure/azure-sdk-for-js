@@ -64,11 +64,11 @@ export interface ConnectRequest {
   /**
    * The claims that the client WebSocket connection has when it connects.
    */
-  claims?: { [key: string]: string[] };
+  claims?: Record<string, string[]>;
   /**
    * The queries that the client WebSocket connection has when it connects.
    */
-  queries?: { [key: string]: string[] };
+  queries?: Record<string, string[]>;
   /**
    * The subprotocols that the client WebSocket connection uses to do handshake.
    */

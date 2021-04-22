@@ -615,6 +615,13 @@ export class WebPubSubServiceClient {
     }
   }
 
+  /**
+   * Grant permissions to a connection
+   *
+   * @param connectionId The connection id to grant permissions to
+   * @param Permission The permission to grant
+   * @param options Additional options
+   */
   public async grantPermission(
     connectionId: string,
     permission: Permission,
@@ -637,6 +644,13 @@ export class WebPubSubServiceClient {
     }
   }
 
+  /**
+   * Revoke permissions from a connection
+   *
+   * @param connectionId The connection id to revoke permissions from
+   * @param Permission The permission to revoke
+   * @param options Additional options
+   */
   public async revokePermission(
     connectionId: string,
     permission: Permission,

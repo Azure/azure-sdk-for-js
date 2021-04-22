@@ -29,7 +29,7 @@ function buildRequest(
 }
 
 function mockBody(req: IncomingMessage, body: string): void {
-  req.emit("data", Buffer.from(body, "utf8"));
+  req.emit("data", Buffer.from(body, "utf-8"));
   req.emit("end");
 }
 
