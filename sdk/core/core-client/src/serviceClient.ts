@@ -163,7 +163,7 @@ export class ServiceClient {
           operationInfo.shouldDeserialize = requestOptions.shouldDeserialize;
         }
 
-        if (this._allowInsecureConnection || requestOptions.allowInsecureConnection) {
+        if (requestOptions.allowInsecureConnection) {
           request.allowInsecureConnection = true;
         }
       }
@@ -175,6 +175,10 @@ export class ServiceClient {
       if (options.tracingOptions) {
         request.tracingOptions = options.tracingOptions;
       }
+    }
+
+    if (this._allowInsecureConnection) {
+      request.allowInsecureConnection = true;
     }
 
     if (request.streamResponseStatusCodes === undefined) {
