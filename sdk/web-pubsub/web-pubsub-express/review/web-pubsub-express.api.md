@@ -28,14 +28,10 @@ export interface ConnectionContext {
 
 // @public
 export interface ConnectRequest {
-    claims?: {
-        [key: string]: string[];
-    };
+    claims?: Record<string, string[]>;
     clientCertificates?: Certificate[];
     context: ConnectionContext;
-    queries?: {
-        [key: string]: string[];
-    };
+    queries?: Record<string, string[]>;
     subprotocols?: string[];
 }
 

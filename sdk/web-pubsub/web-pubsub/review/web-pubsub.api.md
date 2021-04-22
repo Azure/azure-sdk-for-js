@@ -149,8 +149,6 @@ export interface WebPubSubGroup {
     sendToAll(message: string, options: GroupSendTextToAllOptions): Promise<RestResponse>;
     sendToAll(message: JSONTypes, options?: GroupSendToAllOptions): Promise<RestResponse>;
     sendToAll(message: HttpRequestBody, options?: GroupSendToAllOptions): Promise<RestResponse>;
-    // (undocumented)
-    sendToAll(message: string | HttpRequestBody, options?: GroupSendToAllOptions | GroupSendTextToAllOptions): Promise<RestResponse>;
 }
 
 // @public
@@ -161,7 +159,6 @@ export class WebPubSubServiceClient {
     closeConnection(connectionId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
     endpoint: string;
     getAuthenticationToken(options?: GetAuthenticationTokenOptions): Promise<GetAuthenticationTokenResponse>;
-    // (undocumented)
     grantPermission(connectionId: string, permission: Permission, options?: HubGrantPermissionOptions): Promise<RestResponse>;
     group(groupName: string): WebPubSubGroup;
     hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
@@ -169,7 +166,6 @@ export class WebPubSubServiceClient {
     hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
     removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<RestResponse>;
-    // (undocumented)
     revokePermission(connectionId: string, permission: Permission, options?: HubRevokePermissionOptions): Promise<RestResponse>;
     sendToAll(message: string, options: HubSendTextToAllOptions): Promise<RestResponse>;
     sendToAll(message: JSONTypes, options?: HubSendToAllOptions): Promise<RestResponse>;
