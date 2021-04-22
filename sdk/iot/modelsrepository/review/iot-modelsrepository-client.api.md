@@ -7,37 +7,31 @@
 import { InternalClientPipelineOptions } from '@azure/core-client';
 
 // @public
+export type dependencyResolutionType = "disabled" | "enabled" | "tryFromExpanded" | undefined;
+
+// @public
+export interface GetModelsOptions {
+    dependencyResolution: dependencyResolutionType;
+}
+
+// @public
 export class ModelsRepositoryClient {
     constructor(options?: ModelsRepositoryClientOptions);
-    // (undocumented)
     get apiVersion(): string;
-    // (undocumented)
-    client: any;
-    // Warning: (ae-forgotten-export) The symbol "getModelsOptions" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    getModels(dtmi: string, options?: getModelsOptions): Promise<{
+    getModels(dtmis: string, options?: GetModelsOptions): Promise<{
         [dtmi: string]: any;
     }>;
-    // (undocumented)
-    getModels(dtmis: string[], options?: getModelsOptions): Promise<{
+    getModels(dtmis: string[], options?: GetModelsOptions): Promise<{
         [dtmi: string]: any;
     }>;
     }
 
-// @public (undocumented)
+// @public
 export interface ModelsRepositoryClientOptions extends InternalClientPipelineOptions {
-    // (undocumented)
     apiVersion?: string;
-    // Warning: (ae-forgotten-export) The symbol "dependencyResolutionType" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
     dependencyResolution?: dependencyResolutionType;
-    // (undocumented)
     repositoryLocation?: string;
 }
 
-
-// (No @packageDocumentation comment for this package)
 
 ```

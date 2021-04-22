@@ -3,78 +3,26 @@
 
 import * as constants from "./constants";
 
+import { 
+  GetModelsOptions, 
+  IoTModelsRepositoryServiceClient, 
+  ModelsRepositoryClientOptions,
+  dependencyResolutionType,
+  isLocalPath,
+  HttpFetcher,
+  FilesystemFetcher,
+  PseudoParser,
+  DtmiResolver,
+  ResolverError,
+  logger
+} from "./internal";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
-import { dependencyResolutionType } from "./dependencyResolutionType";
-import { logger } from "./logger";
 import { URL } from "url";
-import { DtmiResolver, ResolverError } from "./resolver";
-import { HttpFetcher } from "./httpModelFetcher";
-import { FilesystemFetcher } from "./filesystemModelFetcher";
-import { isLocalPath } from "./modelFetcherHelper";
 import * as path from "path";
-import { PseudoParser } from "./psuedoParser";
-import { MyServiceClient } from "./serviceClient";
+
 
 /**
- * This is the ModelsRepositoryClient Library for Javascript.
- * 
- * @remarks
- * This ModelsRepositoryClient is built around getting DTDL Models from a user-specified
- * location. The two main variables are the repositoryLocation, which is a path or URI to either a remote
- * or local repository where the models are located, and the dtmis, which can be one or more dtmis that 
- * will be mapped to specific models contained in the repository location that the user wishes to get.
- * 
- * @example
- * Inline code:
- * ```typescript
- * import lib
- * import {ModelsRepositoryClient} from "../../../src";
- *
- * const repositoryEndpoint = "devicemodels.azure.com";
- * const dtmi = process.argv[2] || "dtmi:azure:DeviceManagement:DeviceInformation;1";
- * 
- * console.log(repositoryEndpoint, dtmi);
- * 
- * async function main() {
- *   const client = new ModelsRepositoryClient({repositoryLocation: repositoryEndpoint});
- *   const result = await client.getModels(dtmi, {dependencyResolution: 'tryFromExpanded'});
- *   console.log(result);
- * }
- * 
- * main().catch((err) => {
- *   console.error("The sample encountered an error:", err);
- * });
- *
- * ```
- * 
- * @packageDocumentation
- */
-
-import * as resolver from "@azure/iot-modelsrepository-resolver";
-
-const repositoryEndpoint = "devicemodels.azure.com";
-const dtmi = process.argv[2] || "dtmi:azure:DeviceManagement:DeviceInformation;1";
-
-console.log(repositoryEndpoint, dtmi);
-
-async function main() {
-  const result = await resolver.resolve(dtmi, repositoryEndpoint);
-  console.log(result);
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-
-
-export interface ModelsRepositoryClientOptions extends InternalClientPipelineOptions {
-  repositoryLocation?: string;
-  apiVersion?: string;
-  dependencyResolution?: dependencyResolutionType;
-}
-
-/**
- * Client providing APIs for Models Repository Operations
+ * Initializes a new instance of the IoT Models Repository Client.
  */
 export class ModelsRepositoryClient {
   private _repositoryLocation: string;
@@ -83,8 +31,11 @@ export class ModelsRepositoryClient {
   private _fetcher: any;
   private _resolver: any;
   private _pseudoParser: any;
-  client: any;
 
+  /**
+   * The ModelsRepositoryClient constructor
+   * @param options - The models repository client options that govern the behavior of the client.
+   */
   constructor(options?: ModelsRepositoryClientOptions) {
     this._repositoryLocation = options?.repositoryLocation || constants.DEFAULT_REPOSITORY_LOCATION;
     logger.info(`Client configured for repository location ${this._repositoryLocation}`);
@@ -100,7 +51,12 @@ export class ModelsRepositoryClient {
     this._apiVersion = options?.apiVersion || constants.DEFAULT_API_VERSION;
   }
 
-  private _checkDefaultDependencyResolution(customRepository: boolean) {
+
+  /**
+   * improves the readability of the constructor.
+   * based on a boolean returns the proper dependency resolution setting string.
+   */
+  private _checkDefaultDependencyResolution(customRepository: boolean): dependencyResolutionType {
     if (customRepository) {
       return "enabled";
     } else {
@@ -108,10 +64,20 @@ export class ModelsRepositoryClient {
     }
   }
 
+  /**
+   * Though currently not relevant, can specify API Version for communicating with 
+   * the service.
+   */
   get apiVersion() {
     return this._apiVersion;
   }
 
+  /**
+   * Because of the local / remote optionality of this client, the service client 
+   * must be dynamically generated based on the repository location. If the provided
+   * repository location is a remote location, then this private method will be used
+   * to create the IoT Models Repository Service Client.
+   */
   private _createClient(options: any) {
     const { ...pipelineOptions } = options;
 
@@ -134,12 +100,17 @@ export class ModelsRepositoryClient {
     };
 
     const pipeline = createClientPipeline(internalPipelineOptions);
-    const client = new MyServiceClient(this._repositoryLocation, { pipeline });
+    const client = new IoTModelsRepositoryServiceClient(this._repositoryLocation, { pipeline });
     return client;
   }
 
+  /**
+   * The fetcher is an abstraction necessary since this client can communicate with remote or local
+   * Model Repositories based on the provided location. It will analyze the provided location based
+   * on that create either an HTTP Fetcher, which uses the IoT Models Repository Service Client,
+   * or a Filesystem Fetcher.
+   */
   private _createFetcher(location: string, options: any) {
-    // Return a Fetcher based upon the type of location
     let locationURL;
     let fetcher;
     if (isLocalPath(location)) {
@@ -165,7 +136,6 @@ export class ModelsRepositoryClient {
         const fLocation = "https://" + location;
         const client = this._createClient(options);
         fetcher = new HttpFetcher(fLocation, client);
-        // TODO: make the next line match a regex specified.
       } else {
         throw new EvalError(`Unable to identify location: ${location}`);
       }
@@ -174,11 +144,23 @@ export class ModelsRepositoryClient {
     return fetcher;
   }
 
-  getModels(dtmi: string, options?: getModelsOptions): Promise<{ [dtmi: string]: any }>;
-  getModels(dtmis: string[], options?: getModelsOptions): Promise<{ [dtmi: string]: any }>;
+  /**
+   * Retrieve one or more models based upon on or more provided dtmis.
+   * @param {string} dtmis - one dtmi represented as a string
+   * @param {GetModelsOptions} options - options to govern behavior of model getter.
+   * @returns {Promise<{ [dtmi: string]: any}>} 
+   */
+  getModels(dtmis: string, options?: GetModelsOptions): Promise<{ [dtmi: string]: any }>;
+    /**
+   * Retrieve one or more models based upon on or more provided dtmis.
+   * @param {string[]} dtmis - dtmi strings in an array.
+   * @param {GetModelsOptions} options - options to govern behavior of model getter.
+   * @returns {Promise<{ [dtmi: string]: any}>} 
+   */
+  getModels(dtmis: string[], options?: GetModelsOptions): Promise<{ [dtmi: string]: any }>;
   getModels(
     dtmis: string | string[],
-    options?: getModelsOptions
+    options?: GetModelsOptions
   ): Promise<{ [dtmi: string]: any }> {
     let modelMap;
     if (!Array.isArray(dtmis)) {
@@ -215,8 +197,4 @@ export class ModelsRepositoryClient {
 
     return modelMap;
   }
-}
-
-interface getModelsOptions {
-  dependencyResolution: dependencyResolutionType;
 }

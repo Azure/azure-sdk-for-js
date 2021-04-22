@@ -3,12 +3,12 @@
 
 import { ServiceClientOptions, ServiceClient } from "@azure/core-client";
 
-interface MyServiceClientOptions extends ServiceClientOptions {
+interface IoTModelsRepositoryServiceClientOptions extends ServiceClientOptions {
   version?: string;
   endpoint?: string;
 }
 
-export class MyServiceClient extends ServiceClient {
+export class IoTModelsRepositoryServiceClient extends ServiceClient {
   url: string;
   version: string;
 
@@ -17,8 +17,8 @@ export class MyServiceClient extends ServiceClient {
    * @param url The URL of the service account or table that is the target of the desired operation.
    * @param options The parameter options
    */
-  constructor(url: string, options: MyServiceClientOptions = {}) {
-    const defaults: MyServiceClientOptions = {
+  constructor(url: string, options: IoTModelsRepositoryServiceClientOptions = {}) {
+    const defaults: IoTModelsRepositoryServiceClientOptions = {
       baseUri: `${url}`,
       requestContentType: "application/json; charset=utf-8"
     };
