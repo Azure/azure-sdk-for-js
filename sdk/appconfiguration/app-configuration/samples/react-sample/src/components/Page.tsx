@@ -195,6 +195,6 @@ export default function Page(): JSX.Element {
           Link to App Config Samples
         </a>
       </div>
-    </React.Fragment>
+    </>
   );
 }
