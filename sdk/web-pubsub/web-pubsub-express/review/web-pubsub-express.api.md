@@ -60,11 +60,15 @@ export interface DisconnectedRequest {
 }
 
 // @public
-export interface UserEventRequest {
+export type UserEventRequest = {
     context: ConnectionContext;
-    data: string | ArrayBuffer;
-    dataType: "binary" | "text" | "json";
-}
+    data: string;
+    dataType: "text" | "json";
+} | {
+    context: ConnectionContext;
+    data: ArrayBuffer;
+    dataType: "binary";
+};
 
 // @public
 export interface UserEventResponseHandler {

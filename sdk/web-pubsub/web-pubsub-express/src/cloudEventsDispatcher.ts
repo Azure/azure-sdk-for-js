@@ -160,21 +160,24 @@ export class CloudEventsDispatcher {
       }
       case EventType.UserEvent: {
         const eventHandler = new DefaultUserEventResponseHandler(response);
-        let data: ArrayBuffer | string;
-        const dataType = this.getDataType(receivedEvent.datacontenttype);
-        if (receivedEvent.data !== undefined) {
-          data = receivedEvent.data as string;
-        } else if (receivedEvent.data_base64 !== undefined) {
-          data = Buffer.from(receivedEvent.data_base64, "base64");
+        let userRequest: UserEventRequest;
+        if (receivedEvent.data_base64 !== undefined) {
+          userRequest = {
+            context: this.GetContext(receivedEvent, request.headers.host!),
+            data: Buffer.from(receivedEvent.data_base64, "base64"),
+            dataType: "binary"
+          }
+        }
+        else if (receivedEvent.data !== undefined) {
+          userRequest = {
+            context: this.GetContext(receivedEvent, request.headers.host!),
+            data: receivedEvent.data as string,
+            dataType: receivedEvent.datacontenttype?.startsWith("application/json;") ? "json" : "text"
+          }
         } else {
           throw new Error("Unexpected data.");
         }
 
-        const userRequest: UserEventRequest = {
-          context: this.GetContext(receivedEvent, request.headers.host!),
-          data: data,
-          dataType: dataType
-        };
         this.eventHandler.handleUserEvent!(userRequest, eventHandler);
         return true;
       }
@@ -182,16 +185,6 @@ export class CloudEventsDispatcher {
         console.warn(`Unknown EventType ${eventType}`);
         return false;
     }
-  }
-
-  private getDataType(contentType: string | undefined): "binary" | "text" | "json" {
-    if (contentType?.startsWith("application/json;")) {
-      return "json";
-    }
-    if (contentType?.startsWith("text/plain;")) {
-      return "text";
-    }
-    return "binary";
   }
 
   private tryGetWebPubSubEvent(req: IncomingMessage): EventType | undefined {

@@ -102,7 +102,7 @@ export interface ConnectedRequest {
 /**
  * Request for the user event.
  */
-export interface UserEventRequest {
+export type UserEventRequest = {
   /**
    * The context of current CloudEvents request.
    */
@@ -111,11 +111,26 @@ export interface UserEventRequest {
   /**
    * The content data.
    */
-  data: string | ArrayBuffer;
+  data: string;
   /**
    * The type of the data.
    */
-  dataType: "binary" | "text" | "json";
+  dataType: "text" | "json";
+} | {
+
+  /**
+   * The context of current CloudEvents request.
+   */
+  context: ConnectionContext;
+
+  /**
+   * The content data.
+   */
+  data: ArrayBuffer;
+  /**
+   * The type of the data.
+   */
+  dataType: "binary";
 }
 
 /**
