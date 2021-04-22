@@ -43,6 +43,9 @@
     "README.md",
     "LICENSE"
   ],
+  "browser": {
+    "./dist-esm/src/signaling/signalingClient.js": "./dist-esm/src/signaling/signalingClient.browser.js"
+  },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",

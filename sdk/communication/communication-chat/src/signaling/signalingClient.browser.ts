@@ -9,11 +9,5 @@ export const getSignalingClient = (
   credential: CommunicationTokenCredential,
   logger: AzureLogger
 ): SignalingClient | undefined => {
-  if (typeof navigator != 'undefined' && navigator.product == 'ReactNative') {
-    // In React Native
-    return new CommunicationSignalingClient(credential, logger);
-  }
-
-  // In node js
-  return undefined;
+  return new CommunicationSignalingClient(credential, logger);
 };
