@@ -51,6 +51,12 @@ jobs:
       condition: and(succeeded(), eq(dependencies.smoke_test_eligibility.outputs['check_smoke_tests.RunSmokeTests'], true))
     strategy:
       matrix:
+        Linux Node8 (AzureCloud):
+          Pool: Azure Pipelines
+          OSVmImage: "macOS-10.14"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "8.x"
         Mac Node10 (AzureCloud):
           Pool: Azure Pipelines
           OSVmImage: "macOS-10.14"
@@ -118,10 +124,6 @@ jobs:
     steps:
       - template: /eng/pipelines/templates/steps/common.yml
 
-      - template: /eng/pipelines/templates/steps/use-node-version.yml
-        parameters:
-          NodeVersion: $(NodeTestVersion)
-
         # As of npm v7, "npm install -g" no longer installs local dependencies as part of the global install.
         # As a workaround, we run "npm install --prod" before "npm install -g".
         # https://github.com/npm/cli/issues/2968
@@ -171,6 +173,10 @@ jobs:
         workingDirectory: $(Build.SourcesDirectory)/common/smoke-test
         displayName: Print run manifest
 
+      - template: /eng/pipelines/templates/steps/use-node-version.yml
+        parameters:
+          NodeVersion: $(NodeTestVersion)
+
       - task: Npm@1
         inputs:
           command: install
@@ -185,8 +191,14 @@ jobs:
         displayName: List packages installed from the feed
 
       - script: npm run smoke-test -- --devops-logging
+        condition: and(succeeded(), ne(variables.NodeTestVersion, '8.x'))
         workingDirectory: common/smoke-test/
         displayName: Run smoke tests
+
+      - script: npm run smoke-test-node8 -- --devops-logging
+        condition: and(succeeded(), eq(variables.NodeTestVersion, '8.x'))
+        workingDirectory: common/smoke-test/
+        displayName: Run smoke tests (Node 8)
 
       - template: /eng/common/TestResources/remove-test-resources.yml
         parameters:
