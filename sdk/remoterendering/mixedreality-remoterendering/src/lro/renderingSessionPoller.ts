@@ -40,8 +40,8 @@ export class RenderingSessionOperationStateImpl implements RenderingSessionOpera
   }
 
   get error(): Error | undefined {
-    if (this.latestResponse.error != null) {
-      //TODO Add details.
+    if (this.latestResponse.status === "Error") {
+      //TODO Add details?
       return new Error(this.latestResponse.error.message);
     }
     return undefined;

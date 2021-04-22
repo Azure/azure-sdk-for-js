@@ -52,6 +52,14 @@ import {
 import { AssetConversion, assetConversionFromConversion } from "./internal/assetConversion";
 import {
   RenderingSession,
+  RenderingSessionBase,
+  RenderingSessionProperties,
+  PartialRenderingSessionProperties,
+  ReadyRenderingSession,
+  ErrorRenderingSession,
+  StartingRenderingSession,
+  ExpiredRenderingSession,
+  StoppedRenderingSession,
   renderingSessionFromSessionProperties
 } from "./internal/renderingSession";
 
@@ -62,6 +70,14 @@ export {
   RenderingSession,
   RenderingSessionSettings,
   RenderingSessionOperationState,
+  RenderingSessionBase,
+  RenderingSessionProperties,
+  PartialRenderingSessionProperties,
+  ReadyRenderingSession,
+  ErrorRenderingSession,
+  StartingRenderingSession,
+  ExpiredRenderingSession,
+  StoppedRenderingSession,
   UpdateSessionSettings,
   RemoteRenderingClientOptions,
   AssetConversionPollerOptions,

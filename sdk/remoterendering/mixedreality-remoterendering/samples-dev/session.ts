@@ -60,7 +60,7 @@ export async function main() {
   if (session.status == "Ready") {
     console.log("The rendering session is ready");
   } else if (session.status == "Error") {
-    console.log("The rendering session encountered an error: " + session.error?.message);
+    console.log("The rendering session encountered an error: " + session.error.message);
   }
 
   client.endSession(sessionId);
