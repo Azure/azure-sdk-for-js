@@ -1,13 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SignalingClient } from "@azure/communication-signaling";
+import { CommunicationSignalingClient, SignalingClient } from "@azure/communication-signaling";
 import { CommunicationTokenCredential } from "@azure/communication-common";
 import { AzureLogger } from "@azure/logger";
 
 export const getSignalingClient = (
-  _credential: CommunicationTokenCredential,
-  _logger: AzureLogger
+  credential: CommunicationTokenCredential,
+  logger: AzureLogger
 ): SignalingClient | undefined => {
+  if (typeof document != 'undefined'
+  || (typeof navigator != 'undefined' && navigator.product == 'ReactNative')) {
+    // In browser or React Native
+    return new CommunicationSignalingClient(credential, logger);
+  }
+
+  // In node js
   return undefined;
 };
