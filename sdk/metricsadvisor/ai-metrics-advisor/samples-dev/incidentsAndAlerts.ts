@@ -3,7 +3,9 @@
 
 /**
  * @summary This sample demonstrates how to query incidents and alerts.
+ * @azsdk-weight 70
  */
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -99,15 +101,15 @@ async function listIncidentsForDetectionConfig(
 
   while (!result.done) {
     console.log("    -- Page --");
-    console.log(result.value, [
-      "id",
-      "severity",
-      "status",
-      "rootDimensionKey",
-      "startTime",
-      "lastOccurredTime",
-      "detectionConfigurationId"
-    ]);
+    for (const item of result.value) {
+      console.log(`    id: ${item.id}`);
+      console.log(`    severity: ${item.severity}`);
+      console.log(`    status: ${item.status}`);
+      console.log(`      root dimension key: ${item.rootDimensionKey}`);
+      console.log(`      startTime: ${item.startTime}`);
+      console.log(`      last occurred: ${item.lastOccurredTime}`);
+      console.log(`      detection config id: ${item.detectionConfigurationId}`);
+    }
     result = await iterator.next();
   }
 }
@@ -148,6 +150,15 @@ async function listAnomaliesForDetectionConfig(
   while (!result.done) {
     console.log("    -- Page --");
     console.log(result.value, ["timestamp", "severity", "seriesKey"]);
+    for (const item of result.value) {
+      console.log(`      metric id: ${item.metricId}`);
+      console.log(`      detection config id: ${item.detectionConfigurationId}`);
+      console.log(`      created on: ${item.createdOn}`);
+      console.log(`      modified on: ${item.modifiedOn}`);
+      console.log(`      severity: ${item.severity}`);
+      console.log(`      status: ${item.status}`);
+      console.log(`      series key: ${item.seriesKey}`);
+    }
     result = await iterator.next();
   }
 }
@@ -192,7 +203,11 @@ async function listAlerts(client: MetricsAdvisorClient, alertConfigId: string) {
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.log(result.value, ["id", "timestamp", "createdOn"]);
+    for (const item of result.value) {
+      console.log(`      id: ${item.id}`);
+      console.log(`      timestamp: ${item.timestamp}`);
+      console.log(`      created on: ${item.createdOn}`);
+    }
     result = await iterator.next();
   }
 }
@@ -224,15 +239,15 @@ async function listIncidentsForAlert(
   let result = await iterator.next();
   while (!result.done) {
     console.log("  Page");
-    console.log(result.value, [
-      "id",
-      "severity",
-      "status",
-      "rootDimensionKey",
-      "startTime",
-      "lastOccurredTime",
-      "detectionConfigurationId"
-    ]);
+    for (const item of result.value) {
+      console.log(`      id: ${item.id}`);
+      console.log(`      severity: ${item.severity}`);
+      console.log(`      status: ${item.status}`);
+      console.log(`      root dimension key: ${item.rootDimensionKey}`);
+      console.log(`      startTime: ${item.startTime}`);
+      console.log(`      last occurred: ${item.lastOccurredTime}`);
+      console.log(`      detection config id: ${item.detectionConfigurationId}`);
+    }
     result = await iterator.next();
   }
 }
@@ -260,7 +275,11 @@ async function listAnomaliesForAlert(
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.log(result.value, ["timestamp", "seriesKey", "status"]);
+    for (const item of result.value) {
+      console.log(`      timestamp: ${item.timestamp}`);
+      console.log(`      dimension: ${item.seriesKey}`);
+      console.log(`      status: ${item.status}`);
+    }
     result = await iterator.next();
   }
 }

@@ -4,9 +4,11 @@
 /**
  * @summary This sample demonstrates data feed management operations.
  */
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
+
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,

@@ -4,10 +4,11 @@
 /**
  * @summary This sample demonstrates Metrics Advisor Hooks CRUD operations.
  */
-// Load the .env file if it exists
 
+// Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();
+
 const {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient

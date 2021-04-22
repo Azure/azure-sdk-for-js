@@ -3,7 +3,9 @@
 
 /**
  * @summary This sample demonstrates operations related to ingestion status.
+ * @azsdk-weight 70
  */
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();

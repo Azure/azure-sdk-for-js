@@ -4,6 +4,7 @@
 /**
  *  @summary This sample demonstrates how to provide feedback for a metric.
  */
+
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();

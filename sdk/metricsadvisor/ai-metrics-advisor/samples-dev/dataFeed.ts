@@ -3,10 +3,13 @@
 
 /**
  * @summary This sample demonstrates data feed management operations.
+ * @azsdk-weight 80
  */
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
+
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,

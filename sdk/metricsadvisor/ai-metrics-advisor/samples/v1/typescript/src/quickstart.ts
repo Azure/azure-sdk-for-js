@@ -5,9 +5,11 @@
  *  @summary This sample demonstrates how to get started by creating a data feed, checking ingestion status,
  * creating detection and alerting configurations, and querying for alerts and anomalies.
  */
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
+
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,

@@ -3,7 +3,9 @@
 
 /**
  *  @summary This sample demonstrates how to retrieve time series data.
+ *  @azsdk-weight 50
  */
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();

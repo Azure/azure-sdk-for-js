@@ -3,7 +3,9 @@
 
 /**
  * @summary This sample demonstrates Alerting Configuration CRUD operations.
+ * @azsdk-weight 50
  */
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();

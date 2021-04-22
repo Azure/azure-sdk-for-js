@@ -4,6 +4,7 @@
 /**
  *  @summary This sample demonstrates querying methods related to metric.
  */
+
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();

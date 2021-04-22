@@ -4,10 +4,11 @@
 /**
  * @summary This sample demonstrates Metrics Advisor Hooks CRUD operations.
  */
-// Load the .env file if it exists
 
+// Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
+
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,

@@ -4,6 +4,7 @@
 /**
  *  @summary This sample demonstrates how to retrieve time series data.
  */
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();

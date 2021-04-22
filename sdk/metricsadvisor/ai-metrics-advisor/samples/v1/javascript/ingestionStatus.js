@@ -4,6 +4,7 @@
 /**
  * @summary This sample demonstrates operations related to ingestion status.
  */
+
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();

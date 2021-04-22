@@ -4,6 +4,7 @@
 /**
  * @summary This sample demonstrates Alerting Configuration CRUD operations.
  */
+
 // Load the .env file if it exists
 const dotenv = require("dotenv");
 dotenv.config();

@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * @summary This sample demonstrates how to query incidents.
+ * @summary This sample demonstrates how to query incidents and alerts.
  */
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
