@@ -3,7 +3,6 @@
 
 import { CloudEvent, Message, HTTP } from "cloudevents";
 import { IncomingMessage, ServerResponse } from "http";
-import { Buf } from "nodegit";
 import { URL } from "url";
 import {
   ConnectRequest,
@@ -53,6 +52,9 @@ class DefaultUserEventResponseHandler implements UserEventResponseHandler {
   }
 }
 
+/**
+ * @internal
+ */
 export class CloudEventsDispatcher {
   private readonly _dumpRequest: boolean;
   private readonly _allowedOrigins: string[];
