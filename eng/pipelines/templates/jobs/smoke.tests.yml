@@ -191,8 +191,14 @@ jobs:
         displayName: List packages installed from the feed
 
       - script: npm run smoke-test -- --devops-logging
+        condition: and(succeeded(), ne(variables.NodeTestVersion, '8.x'))
         workingDirectory: common/smoke-test/
         displayName: Run smoke tests
+
+      - script: npm run smoke-test-node8 -- --devops-logging
+        condition: and(succeeded(), eq(variables.NodeTestVersion, '8.x'))
+        workingDirectory: common/smoke-test/
+        displayName: Run smoke tests (Node 8)
 
       - template: /eng/common/TestResources/remove-test-resources.yml
         parameters:
