@@ -543,7 +543,7 @@ export class ServiceBusStressTester {
     }
     await this.serviceBusAdministrationClient.deleteQueue(this.queueName);
 
-    console.log(`[BEGIN]: ending test...`);
+    console.log(`[END]: ending test...`);
   }
 
   /**
