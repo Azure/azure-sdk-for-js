@@ -166,7 +166,7 @@ export type AzureDataExplorerDataFeedSource = {
 // @public
 export type AzureDataLakeStorageGen2DataFeedSource = {
     dataSourceType: "AzureDataLakeStorageGen2";
-    dataSourceParameter: AzureDataLakeStorageGen2Parameter & ({
+    dataSourceParameter: Omit<AzureDataLakeStorageGen2Parameter, "accountKey"> & ({
         authenticationType?: "Basic";
         accountKey: string;
     } | {
@@ -550,7 +550,8 @@ export type GetIngestionProgressResponse = {
 };
 
 // @public
-export type GetMetricEnrichedSeriesDataOptions = OperationOptions;
+export interface GetMetricEnrichedSeriesDataOptions extends OperationOptions {
+}
 
 // @public
 export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnrichedSeriesData> {
@@ -561,7 +562,8 @@ export interface GetMetricEnrichedSeriesDataResponse extends Array<MetricEnriche
 }
 
 // @public
-export type GetMetricSeriesDataOptions = OperationOptions;
+export interface GetMetricSeriesDataOptions extends OperationOptions {
+}
 
 // @public
 export interface GetMetricSeriesDataResponse extends Array<MetricSeriesData> {
@@ -667,36 +669,48 @@ export interface IngestionStatusPageResponse extends Array<IngestionStatus> {
 export type IngestionStatusType = "NotStarted" | "Scheduled" | "Running" | "Succeeded" | "Failed" | "NoData" | "Error" | "Paused";
 
 // @public
-export type ListAlertsOptions = {
+export interface ListAlertsOptions extends OperationOptions {
+    // (undocumented)
     skip?: number;
-} & OperationOptions;
+}
 
 // @public
-export type ListAnomaliesForAlertConfigurationOptions = {
+export interface ListAnomaliesForAlertConfigurationOptions extends OperationOptions {
+    // (undocumented)
     skip?: number;
-} & OperationOptions;
+}
 
 // @public
-export type ListAnomaliesForDetectionConfigurationOptions = {
-    skip?: number;
+export interface ListAnomaliesForDetectionConfigurationOptions extends OperationOptions {
+    // (undocumented)
     dimensionFilter?: DimensionKey[];
+    // (undocumented)
     severityFilter?: SeverityFilterCondition;
-} & OperationOptions;
+    // (undocumented)
+    skip?: number;
+}
 
 // @public
-export type ListAnomalyDimensionValuesOptions = {
-    skip?: number;
+export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
+    // (undocumented)
     dimensionFilter?: DimensionKey;
-} & OperationOptions;
+    // (undocumented)
+    skip?: number;
+}
 
 // @public
-export type ListDataFeedIngestionStatusOptions = {
-    skip?: number;
-} & OperationOptions;
+export interface ListCredentialEntitiesOptions extends OperationOptions {
+}
 
 // @public
-export type ListDataFeedsOptions = {
+export interface ListDataFeedIngestionStatusOptions extends OperationOptions {
+    // (undocumented)
     skip?: number;
+}
+
+// @public
+export interface ListDataFeedsOptions extends OperationOptions {
+    // (undocumented)
     filter?: {
         dataFeedName?: string;
         dataSourceType?: DataSourceType;
@@ -704,14 +718,12 @@ export type ListDataFeedsOptions = {
         status?: DataFeedStatus;
         creator?: string;
     };
-} & OperationOptions;
-
-// @public
-export type ListDataSourceCredentialsOptions = {} & OperationOptions;
-
-// @public
-export type ListFeedbackOptions = {
+    // (undocumented)
     skip?: number;
+}
+
+// @public
+export interface ListFeedbackOptions extends OperationOptions {
     filter?: {
         dimensionFilter?: DimensionKey;
         feedbackType?: FeedbackType;
@@ -719,40 +731,48 @@ export type ListFeedbackOptions = {
         endTime?: Date | string;
         timeMode?: FeedbackQueryTimeMode;
     };
-} & OperationOptions;
+    // (undocumented)
+    skip?: number;
+}
 
 // @public
-export type ListHooksOptions = {
-    skip?: number;
+export interface ListHooksOptions extends OperationOptions {
     hookName?: string;
-} & OperationOptions;
-
-// @public
-export type ListIncidentsForAlertOptions = {
+    // (undocumented)
     skip?: number;
-} & OperationOptions;
+}
 
 // @public
-export type ListIncidentsForDetectionConfigurationOptions = {
+export interface ListIncidentsForAlertOptions extends OperationOptions {
+    // (undocumented)
+    skip?: number;
+}
+
+// @public
+export interface ListIncidentsForDetectionConfigurationOptions extends OperationOptions {
+    // (undocumented)
     dimensionFilter?: DimensionKey[];
-} & OperationOptions;
+}
 
 // @public
-export type ListMetricDimensionValuesOptions = {
-    skip?: number;
+export interface ListMetricDimensionValuesOptions extends OperationOptions {
     dimensionValueFilter?: string;
-} & OperationOptions;
+    // (undocumented)
+    skip?: number;
+}
 
 // @public
-export type ListMetricEnrichmentStatusOptions = {
+export interface ListMetricEnrichmentStatusOptions extends OperationOptions {
+    // (undocumented)
     skip?: number;
-} & OperationOptions;
+}
 
 // @public
-export type ListMetricSeriesDefinitionsOptions = {
-    skip?: number;
+export interface ListMetricSeriesDefinitionsOptions extends OperationOptions {
     dimensionFilter?: Record<string, string[]>;
-} & OperationOptions;
+    // (undocumented)
+    skip?: number;
+}
 
 // @public (undocumented)
 export interface MetricAlertConditions {
@@ -886,32 +906,32 @@ export type MetricPeriodFeedback = {
 export class MetricsAdvisorAdministrationClient {
     constructor(endpointUrl: string, credential: TokenCredential | MetricsAdvisorKeyCredential, options?: MetricsAdvisorAdministrationClientOptions);
     createAlertConfig(config: Omit<AnomalyAlertConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    createCredentialEntity(_credential: DataSourceCredentialEntityUnion, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
     createDataFeed(feed: DataFeedDescriptor, operationOptions?: OperationOptions): Promise<GetDataFeedResponse>;
-    createDataSourceCredential(_credential: DataSourceCredentialEntityUnion, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
     createDetectionConfig(config: Omit<AnomalyDetectionConfiguration, "id">, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     createHook(hookInfo: EmailNotificationHook | WebNotificationHook, options?: OperationOptions): Promise<GetHookResponse>;
     deleteAlertConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteCredentialEntity(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDataFeed(id: string, options?: OperationOptions): Promise<RestResponse>;
-    deleteDataSourceCredential(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteDetectionConfig(id: string, options?: OperationOptions): Promise<RestResponse>;
     deleteHook(id: string, options?: OperationOptions): Promise<RestResponse>;
     readonly endpointUrl: string;
     getAlertConfig(id: string, options?: OperationOptions): Promise<GetAnomalyAlertConfigurationResponse>;
+    getCredentialEntity(_id: string, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
     getDataFeed(id: string, options?: OperationOptions): Promise<GetDataFeedResponse>;
     getDataFeedIngestionProgress(dataFeedId: string, options?: {}): Promise<GetIngestionProgressResponse>;
-    getDataSourceCredential(_id: string, options?: OperationOptions): Promise<DataSourceCredentialEntityUnion>;
     getDetectionConfig(id: string, options?: OperationOptions): Promise<GetAnomalyDetectionConfigurationResponse>;
     getHook(id: string, options?: OperationOptions): Promise<GetHookResponse>;
     listAlertConfigs(detectionConfigId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyAlertConfiguration, AlertConfigurationsPageResponse, undefined>;
+    listCredentialEntities(_options?: ListCredentialEntitiesOptions): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse>;
     listDataFeedIngestionStatus(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: ListDataFeedIngestionStatusOptions): PagedAsyncIterableIterator<IngestionStatus, IngestionStatusPageResponse>;
     listDataFeeds(options?: ListDataFeedsOptions): PagedAsyncIterableIterator<DataFeed, DataFeedsPageResponse>;
-    listDataSourceCredentials(_options?: ListDataSourceCredentialsOptions): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse>;
     listDetectionConfigs(metricId: string, options?: OperationOptions): PagedAsyncIterableIterator<AnomalyDetectionConfiguration, DetectionConfigurationsPageResponse, undefined>;
     listHooks(options?: ListHooksOptions): PagedAsyncIterableIterator<NotificationHookUnion, HooksPageResponse>;
     refreshDataFeedIngestion(dataFeedId: string, startTime: Date | string, endTime: Date | string, options?: OperationOptions): Promise<RestResponse>;
     updateAlertConfig(id: string, patch: Partial<Omit<AnomalyAlertConfiguration, "id">>, options?: OperationOptions): Promise<RestResponse>;
+    updateCredentialEntity(id: string, patch: DataSourceCredentialEntityPatch, options?: OperationOptions): Promise<RestResponse>;
     updateDataFeed(dataFeedId: string, patch: DataFeedPatch, options?: OperationOptions): Promise<RestResponse>;
-    updateDataSourceCredential(id: string, patch: DataSourceCredentialEntityPatch, options?: OperationOptions): Promise<RestResponse>;
     updateDetectionConfig(id: string, patch: Partial<Omit<AnomalyDetectionConfiguration, "id" | "metricId">>, options?: OperationOptions): Promise<RestResponse>;
     updateHook(id: string, patch: EmailNotificationHookPatch | WebNotificationHookPatch, options?: OperationOptions): Promise<RestResponse>;
 }

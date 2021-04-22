@@ -72,30 +72,30 @@ export interface MetricsAdvisorAdministrationClientOptions extends PipelineOptio
 /**
  * Options for listing data feed ingestion status
  */
-export type ListDataFeedIngestionStatusOptions = {
+export interface ListDataFeedIngestionStatusOptions extends OperationOptions {
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Options for listing hooks
  */
-export type ListHooksOptions = {
+export interface ListHooksOptions extends OperationOptions {
   skip?: number;
   /**
    * filter hook by its name
    */
   hookName?: string;
-} & OperationOptions;
+}
 
 /**
  * Options for listing data source credentials
  */
-export type ListDataSourceCredentialsOptions = {} & OperationOptions;
+export interface ListCredentialEntitiesOptions extends OperationOptions {}
 
 /**
  * Options for listing data feeds
  */
-export type ListDataFeedsOptions = {
+export interface ListDataFeedsOptions extends OperationOptions {
   skip?: number;
   filter?: {
     /**
@@ -119,7 +119,7 @@ export type ListDataFeedsOptions = {
      */
     creator?: string;
   };
-} & OperationOptions;
+}
 
 /**
  * describes the input to Create Data Feed operation
@@ -1560,12 +1560,12 @@ export class MetricsAdvisorAdministrationClient {
    * @param options -
    */
 
-  public async createDataSourceCredential(
+  public async createCredentialEntity(
     _credential: DataSourceCredentialEntityUnion,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-createDataSourceCredential",
+      "MetricsAdvisorAdministrationClient-createCredentialEntity",
       options
     );
     try {
@@ -1590,12 +1590,12 @@ export class MetricsAdvisorAdministrationClient {
    * @param options -
    */
 
-  public async getDataSourceCredential(
+  public async getCredentialEntity(
     _id: string,
     options: OperationOptions = {}
   ): Promise<DataSourceCredentialEntityUnion> {
     const { span, updatedOptions: finalOptions } = createSpan(
-      "MetricsAdvisorAdministrationClient-getDataSourceCredential",
+      "MetricsAdvisorAdministrationClient-getCredentialEntity",
       options
     );
     try {
@@ -1622,8 +1622,8 @@ export class MetricsAdvisorAdministrationClient {
    * Example using `for await` syntax:
    * TODO: (jeremymeng) add examples
    */
-  public listDataSourceCredentials(
-    _options: ListDataSourceCredentialsOptions = {}
+  public listCredentialEntities(
+    _options: ListCredentialEntitiesOptions = {}
   ): PagedAsyncIterableIterator<DataSourceCredentialEntityUnion, CredentialsPageResponse> {
     throw new Error("Not yet implemented");
   }
@@ -1634,7 +1634,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param patch -
    * @param options -
    */
-  public async updateDataSourceCredential(
+  public async updateCredentialEntity(
     id: string,
     patch: DataSourceCredentialEntityPatch,
     options: OperationOptions = {}
@@ -1666,7 +1666,7 @@ export class MetricsAdvisorAdministrationClient {
    * @param id - id of the hook to delete
    * @param options - The options parameter
    */
-  public async deleteDataSourceCredential(
+  public async deleteCredentialEntity(
     id: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {

@@ -51,56 +51,56 @@ export interface MetricsAdvisorClientOptions extends PipelineOptions {}
  * Options for listing incidents for detection configurations
  */
 
-export type ListIncidentsForDetectionConfigurationOptions = {
+export interface ListIncidentsForDetectionConfigurationOptions extends OperationOptions {
   dimensionFilter?: DimensionKey[]; // lifted
-} & OperationOptions;
+}
 
 /**
  * Options for retreiving metric enriched series data
  */
 
-export type GetMetricEnrichedSeriesDataOptions = OperationOptions;
+export interface GetMetricEnrichedSeriesDataOptions extends OperationOptions {}
 
 /**
  * Options for listing anomalies for detection configurations
  */
 
-export type ListAnomaliesForDetectionConfigurationOptions = {
+export interface ListAnomaliesForDetectionConfigurationOptions extends OperationOptions {
   skip?: number;
   dimensionFilter?: DimensionKey[];
   severityFilter?: SeverityFilterCondition;
-} & OperationOptions;
+}
 
 /**
  * Options for listing anomalies for alert configurations
  */
 
-export type ListAnomaliesForAlertConfigurationOptions = {
+export interface ListAnomaliesForAlertConfigurationOptions extends OperationOptions {
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Options for listing incidents for an alert
  */
 
-export type ListIncidentsForAlertOptions = {
+export interface ListIncidentsForAlertOptions extends OperationOptions {
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Options for listing dimension values for detection configurations
  */
 
-export type ListAnomalyDimensionValuesOptions = {
+export interface ListAnomalyDimensionValuesOptions extends OperationOptions {
   skip?: number;
   dimensionFilter?: DimensionKey;
-} & OperationOptions;
+}
 
 /**
  * Options for listing feedbacks
  */
 
-export type ListFeedbackOptions = {
+export interface ListFeedbackOptions extends OperationOptions {
   skip?: number;
   /**
    * filter when listing feedbacks
@@ -124,53 +124,53 @@ export type ListFeedbackOptions = {
      */
     timeMode?: FeedbackQueryTimeMode;
   };
-} & OperationOptions;
+}
 
 /**
  * Options for listing series definitions of a metric
  */
 
-export type ListMetricSeriesDefinitionsOptions = {
+export interface ListMetricSeriesDefinitionsOptions extends OperationOptions {
   skip?: number;
   /**
    * filter specific dimension name and values
    */
   dimensionFilter?: Record<string, string[]>;
-} & OperationOptions;
+}
 
 /**
  * Options for retreiving metric series data
  */
 
-export type GetMetricSeriesDataOptions = OperationOptions;
+export interface GetMetricSeriesDataOptions extends OperationOptions {}
 
 /**
  * Options for listing alerts
  */
 
-export type ListAlertsOptions = {
+export interface ListAlertsOptions extends OperationOptions {
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Options for listing dimension values of a metric
  */
 
-export type ListMetricDimensionValuesOptions = {
+export interface ListMetricDimensionValuesOptions extends OperationOptions {
   skip?: number;
   /**
    * dimension value to be filtered
    */
   dimensionValueFilter?: string;
-} & OperationOptions;
+}
 
 /**
  * Options for listing metric enrichment status
  */
 
-export type ListMetricEnrichmentStatusOptions = {
+export interface ListMetricEnrichmentStatusOptions extends OperationOptions {
   skip?: number;
-} & OperationOptions;
+}
 
 /**
  * Client class for interacting with Azure Metrics Advisor Service to query alerts/incidents/anomalies, diagnose incidents, provide metric feedback

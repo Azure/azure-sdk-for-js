@@ -367,7 +367,7 @@ export type AzureDataExplorerDataFeedSource = {
  */
 export type AzureDataLakeStorageGen2DataFeedSource = {
   dataSourceType: "AzureDataLakeStorageGen2";
-  dataSourceParameter: AzureDataLakeStorageGen2Parameter &
+  dataSourceParameter: Omit<AzureDataLakeStorageGen2Parameter, "accountKey"> &
     (
       | {
           authenticationType?: "Basic";
