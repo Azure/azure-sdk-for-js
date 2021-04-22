@@ -6,7 +6,6 @@ import {
   ListTableEntitiesOptions,
   GetTableEntityResponse,
   ListEntitiesResponse,
-  CreateTableEntityOptions,
   UpdateTableEntityOptions,
   UpsertTableEntityOptions,
   DeleteTableEntityOptions,
@@ -14,19 +13,16 @@ import {
   UpdateMode,
   CreateTableEntityResponse,
   TableEntityQueryOptions,
-  CreateTableOptions,
   CreateTableItemResponse,
   TableServiceClientOptions as TableClientOptions,
   TableBatch,
   TableEntityResult
 } from "./models";
 import {
-  DeleteTableOptions,
   DeleteTableResponse,
   UpdateEntityResponse,
   UpsertEntityResponse,
   DeleteTableEntityResponse,
-  GetAccessPolicyOptions,
   GetAccessPolicyResponse,
   SetAccessPolicyOptions,
   SetAccessPolicyResponse
@@ -47,7 +43,7 @@ import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { FullOperationResponse } from "@azure/core-client";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -189,7 +185,7 @@ export class TableClient {
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async deleteTable(options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
+  public async deleteTable(options: OperationOptions = {}): Promise<DeleteTableResponse> {
     const { span, updatedOptions } = createSpan("TableClient-deleteTable", options);
     try {
       return await this.table.delete(this.tableName, updatedOptions);
@@ -206,12 +202,16 @@ export class TableClient {
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async deleteTableIfExists(options: DeleteTableOptions = {}): Promise<void> {
+  public async deleteTableIfExists(
+    options: OperationOptions = {}
+  ): Promise<DeleteTableResponse | undefined> {
     const { span, updatedOptions } = createSpan("TableClient-deleteTableIfExists", options);
     try {
-      await this.table.delete(this.tableName, updatedOptions);
+      const result = await this.table.delete(this.tableName, updatedOptions);
+      return result;
     } catch {
       // Swallow error
+      return;
     } finally {
       span.end();
     }
@@ -222,7 +222,7 @@ export class TableClient {
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async createTable(options: CreateTableOptions = {}): Promise<CreateTableItemResponse> {
+  public async createTable(options: OperationOptions = {}): Promise<CreateTableItemResponse> {
     const { span, updatedOptions } = createSpan("TableClient-createTable", options);
     try {
       return await this.table.create({ name: this.tableName }, updatedOptions);
@@ -239,12 +239,15 @@ export class TableClient {
    * @param options - The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  public async createTableIfNotExists(options: CreateTableOptions = {}): Promise<void> {
+  public async createTableIfNotExists(
+    options: OperationOptions = {}
+  ): Promise<CreateTableItemResponse | undefined> {
     const { span, updatedOptions } = createSpan("TableClient-createTableIfNotExists", options);
     try {
-      await this.table.create({ name: this.tableName }, updatedOptions);
+      const response = await this.table.create({ name: this.tableName }, updatedOptions);
+      return response;
     } catch {
-      // Swallow error
+      return;
     } finally {
       span.end();
     }
@@ -398,15 +401,14 @@ export class TableClient {
   public async createEntity<T extends object>(
     entity: TableEntity<T>,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: CreateTableEntityOptions = {}
+    options: OperationOptions = {}
   ): Promise<CreateTableEntityResponse> {
     const { span, updatedOptions } = createSpan("TableClient-createEntity", options);
 
     try {
-      const { queryOptions, ...createTableEntity } = updatedOptions || {};
+      const { ...createTableEntity } = updatedOptions || {};
       return await this.table.insertEntity(this.tableName, {
         ...createTableEntity,
-        queryOptions: this.convertQueryOptions(queryOptions || {}),
         tableEntityProperties: serialize(entity),
         responsePreference: "return-no-content"
       });
@@ -433,10 +435,9 @@ export class TableClient {
     const { span, updatedOptions } = createSpan("TableClient-deleteEntity", options);
 
     try {
-      const { etag = "*", queryOptions, ...rest } = updatedOptions || {};
+      const { etag = "*", ...rest } = updatedOptions || {};
       const deleteOptions: TableDeleteEntityOptionalParams = {
-        ...rest,
-        queryOptions: this.convertQueryOptions(queryOptions || {})
+        ...rest
       };
       return await this.table.deleteEntity(
         this.tableName,
@@ -550,7 +551,7 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options - The options parameters.
    */
-  public getAccessPolicy(options: GetAccessPolicyOptions = {}): Promise<GetAccessPolicyResponse> {
+  public getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-getAccessPolicy", options);
     try {
       return this.table.getAccessPolicy(this.tableName, updatedOptions);

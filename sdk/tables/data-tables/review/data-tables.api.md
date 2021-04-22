@@ -26,39 +26,18 @@ export interface CorsRule {
 }
 
 // @public
-export type CreateTableEntityOptions = OperationOptions & {
-    queryOptions?: TableEntityQueryOptions;
-    requestId?: string;
-    timeout?: number;
-};
-
-// @public
 export type CreateTableEntityResponse = TableInsertEntityHeaders;
 
 // @public
 export type CreateTableItemResponse = TableCreateHeaders;
 
 // @public
-export type CreateTableOptions = OperationOptions & {
-    queryOptions?: TableQueryOptions;
-    requestId?: string;
-};
-
-// @public
 export type DeleteTableEntityOptions = OperationOptions & {
-    queryOptions?: TableEntityQueryOptions;
-    requestId?: string;
-    timeout?: number;
     etag?: string;
 };
 
 // @public
 export type DeleteTableEntityResponse = TableDeleteEntityHeaders;
-
-// @public
-export interface DeleteTableOptions extends OperationOptions {
-    requestId?: string;
-}
 
 // @public
 export type DeleteTableResponse = TableDeleteHeaders;
@@ -266,12 +245,12 @@ export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createBatch(partitionKey: string): TableBatch;
-    createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
-    createTable(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
-    createTableIfNotExists(options?: CreateTableOptions): Promise<void>;
+    createEntity<T extends object>(entity: TableEntity<T>, options?: OperationOptions): Promise<CreateTableEntityResponse>;
+    createTable(options?: OperationOptions): Promise<CreateTableItemResponse>;
+    createTableIfNotExists(options?: OperationOptions): Promise<CreateTableItemResponse | undefined>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
-    deleteTable(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
-    deleteTableIfExists(options?: DeleteTableOptions): Promise<void>;
+    deleteTable(options?: OperationOptions): Promise<DeleteTableResponse>;
+    deleteTableIfExists(options?: OperationOptions): Promise<DeleteTableResponse | undefined>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
@@ -426,10 +405,10 @@ export interface TableResponseProperties {
 export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
-    createTable(name: string, options?: CreateTableOptions): Promise<CreateTableItemResponse>;
-    createTableIfNotExists(name: string, options?: CreateTableOptions): Promise<void>;
-    deleteTable(name: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
-    deleteTableIfExists(name: string, options?: DeleteTableOptions): Promise<void>;
+    createTable(name: string, options?: OperationOptions): Promise<CreateTableItemResponse>;
+    createTableIfNotExists(name: string, options?: OperationOptions): Promise<CreateTableItemResponse | undefined>;
+    deleteTable(name: string, options?: OperationOptions): Promise<DeleteTableResponse>;
+    deleteTableIfExists(name: string, options?: OperationOptions): Promise<DeleteTableResponse | undefined>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;

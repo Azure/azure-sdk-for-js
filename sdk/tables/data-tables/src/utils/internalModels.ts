@@ -3,11 +3,9 @@
 
 import {
   TableServiceClientOptions,
-  CreateTableOptions,
   CreateTableItemResponse,
   TableBatch,
   TableEntity,
-  CreateTableEntityOptions,
   CreateTableEntityResponse,
   DeleteTableEntityOptions,
   GetTableEntityOptions,
@@ -21,13 +19,13 @@ import {
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
 import {
-  DeleteTableOptions,
   DeleteTableResponse,
   DeleteTableEntityResponse,
   UpdateEntityResponse,
   UpsertEntityResponse
 } from "..";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { OperationOptions } from "@azure/core-client";
 
 export interface ConnectionString {
   kind: "AccountConnString" | "SASConnString";
@@ -83,12 +81,12 @@ export interface TableClientLike {
    *  Creates the current table.
    * @param options - The options parameters.
    */
-  createTable(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+  createTable(options?: OperationOptions): Promise<CreateTableItemResponse>;
   /**
    *  Creates the current table if it doesn't exist
    * @param options - The options parameters.
    */
-  createTableIfNotExists(options?: CreateTableOptions): Promise<void>;
+  createTableIfNotExists(options?: OperationOptions): Promise<CreateTableItemResponse | undefined>;
   /**
    * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
    * @param partitionKey - partitionKey to which the batch operations will be targetted to
@@ -101,18 +99,18 @@ export interface TableClientLike {
    */
   createEntity<T extends object>(
     entity: TableEntity<T>,
-    options?: CreateTableEntityOptions
+    options?: OperationOptions
   ): Promise<CreateTableEntityResponse>;
   /**
    * Permanently deletes the current table with all of its entities.
    * @param options - The options parameters.
    */
-  deleteTable(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+  deleteTable(options?: OperationOptions): Promise<DeleteTableResponse>;
   /**
    * Permanently deletes the current table if it exists in the account.
    * @param options - The options parameters.
    */
-  deleteTableIfExists(options?: DeleteTableOptions): Promise<void>;
+  deleteTableIfExists(options?: OperationOptions): Promise<DeleteTableResponse | undefined>;
   /**
    * Deletes the specified entity in the table.
    * @param partitionKey - The partition key of the entity.

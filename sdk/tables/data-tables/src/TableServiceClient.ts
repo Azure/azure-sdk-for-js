@@ -6,21 +6,17 @@ import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
 import {
   ListTableItemsOptions,
-  CreateTableOptions,
   ListTableItemsResponse,
   CreateTableItemResponse,
   TableServiceClientOptions,
   TableQueryOptions
 } from "./models";
 import {
-  GetStatisticsOptions,
   GetStatisticsResponse,
-  GetPropertiesOptions,
   GetPropertiesResponse,
   SetPropertiesOptions,
   ServiceProperties,
   SetPropertiesResponse,
-  DeleteTableOptions,
   DeleteTableResponse,
   TableResponseProperties
 } from "./generatedModels";
@@ -30,7 +26,7 @@ import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
-import { InternalClientPipelineOptions } from "@azure/core-client";
+import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
@@ -142,7 +138,7 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options - The options parameters.
    */
-  public getStatistics(options: GetStatisticsOptions = {}): Promise<GetStatisticsResponse> {
+  public getStatistics(options: OperationOptions = {}): Promise<GetStatisticsResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
     try {
       return this.service.getStatistics(updatedOptions);
@@ -159,7 +155,7 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options - The options parameters.
    */
-  public getProperties(options: GetPropertiesOptions = {}): Promise<GetPropertiesResponse> {
+  public getProperties(options: OperationOptions = {}): Promise<GetPropertiesResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-getProperties", options);
     try {
       return this.service.getProperties(updatedOptions);
@@ -199,7 +195,7 @@ export class TableServiceClient {
    */
   public createTable(
     name: string,
-    options: CreateTableOptions = {}
+    options: OperationOptions = {}
   ): Promise<CreateTableItemResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
     try {
@@ -222,17 +218,20 @@ export class TableServiceClient {
    */
   public async createTableIfNotExists(
     name: string,
-    options: CreateTableOptions = {}
-  ): Promise<void> {
+    options: OperationOptions = {}
+  ): Promise<CreateTableItemResponse | undefined> {
     const { span, updatedOptions } = createSpan(
       "TableServiceClient-createTableIfNotExists",
       options
     );
     try {
-      await this.table.create(
+      const result = await this.table.create(
         { name },
         { ...updatedOptions, responsePreference: "return-no-content" }
       );
+      return result;
+    } catch {
+      return;
     } finally {
       span.end();
     }
@@ -243,7 +242,7 @@ export class TableServiceClient {
    * @param name - The name of the table.
    * @param options - The options parameters.
    */
-  public deleteTable(name: string, options: DeleteTableOptions = {}): Promise<DeleteTableResponse> {
+  public deleteTable(name: string, options: OperationOptions = {}): Promise<DeleteTableResponse> {
     const { span, updatedOptions } = createSpan("TableServiceClient-deleteTable", options);
     try {
       return this.table.delete(name, updatedOptions);
@@ -260,10 +259,16 @@ export class TableServiceClient {
    * @param tableName - The name of the table.
    * @param options - The options parameters.
    */
-  public async deleteTableIfExists(name: string, options: DeleteTableOptions = {}): Promise<void> {
+  public async deleteTableIfExists(
+    name: string,
+    options: OperationOptions = {}
+  ): Promise<DeleteTableResponse | undefined> {
     const { span, updatedOptions } = createSpan("TableServiceClient-deleteTableIfExists", options);
     try {
-      await this.table.delete(name, { ...updatedOptions });
+      const result = await this.table.delete(name, { ...updatedOptions });
+      return result;
+    } catch {
+      return;
     } finally {
       span.end();
     }
