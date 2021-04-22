@@ -20,7 +20,7 @@ export function parseConnectionString(conn: string): ParsedConnectionString {
   let endpointPart = parsed["endpoint"];
   if (!endpointPart) throw new TypeError("connection string missing endpoint");
   if (!endpointPart.startsWith("http")) {
-    endpointPart = `https://${endpointPart}`
+    endpointPart = `https://${endpointPart}`;
   }
   const key = parsed["accesskey"];
   if (!key) throw new TypeError("connection string missing access key");

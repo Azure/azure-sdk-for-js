@@ -6,9 +6,9 @@ import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
 import * as assert from "assert";
 import environmentSetup from "./testEnv";
 
-describe("HubClient", function () {
+describe("HubClient", function() {
   let recorder: Recorder;
-  beforeEach(function () {
+  beforeEach(function() {
     recorder = record(this, environmentSetup);
   });
 
@@ -23,7 +23,6 @@ describe("HubClient", function () {
     beforeEach(function() {
       cred = new AzureKeyCredential(env.WPS_API_KEY);
     });
-  
 
     it("takes a connection string, hub name, and options", () => {
       assert.doesNotThrow(() => {
