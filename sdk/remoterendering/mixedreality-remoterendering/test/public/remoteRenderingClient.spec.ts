@@ -14,7 +14,12 @@ import {
   AssetConversion,
   KnownAssetConversionStatus
 } from "../../src";
-import { AccessToken, AzureKeyCredential, TokenCredential, GetTokenOptions } from "@azure/core-auth";
+import {
+  AccessToken,
+  AzureKeyCredential,
+  TokenCredential,
+  GetTokenOptions
+} from "@azure/core-auth";
 import { createClient, createRecorder, getEnv } from "../utils/recordedClient";
 
 // Load the .env file if it exists
@@ -193,9 +198,6 @@ describe("RemoteRendering functional tests", () => {
 
     let conversionId = recorder.getUniqueName("conversionId");
 
-    assert.throws(
-      () => client.beginConversion(conversionId, conversionSettings),
-      ""
-    );
+    assert.throws(() => client.beginConversion(conversionId, conversionSettings), "");
   });
 });

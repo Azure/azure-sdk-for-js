@@ -125,15 +125,15 @@ export {
 
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 
-export type AssetConversionOptions = AssetConversionPollerOptions &
-  OperationOptions & {
-    /** Conversion input settings describe the origin of conversion input. */
-    inputSettings: AssetConversionInputSettings;
-    /** Conversion output settings describe the destination of conversion output. */
-    outputSettings: AssetConversionOutputSettings;
-  };
+export type BeginConversionOptions = AssetConversionSettings & AssetConversionPollerOptions & OperationOptions;
 
-export type RenderingSessionOptions = RenderingSessionPollerOptions & OperationOptions;
+export type GetConversionPollerOptions = AssetConversionPollerOptions & OperationOptions;
+
+export type BeginSessionOptions = RenderingSessionSettings & RenderingSessionPollerOptions & OperationOptions;
+
+export type GetSessionPollerOptions = RenderingSessionPollerOptions & OperationOptions;
+
+export type UpdateSessionOptions = UpdateSessionSettings & OperationOptions;
 
 export type RenderingSessionPollerLike = PollerLike<
   RenderingSessionOperationState,
@@ -279,8 +279,7 @@ export class RemoteRenderingClient {
    */
   public async beginConversion(
     conversionId: string,
-    assetConversionSettings: AssetConversionSettings,
-    options: AssetConversionOptions = {}
+    options: BeginConversionOptions,
   ): Promise<AssetConversionPollerLike> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginConversion", {
       conversionId: conversionId,
@@ -291,7 +290,7 @@ export class RemoteRenderingClient {
       let conversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
         this.accountId,
         conversionId,
-        { settings: assetConversionSettings },
+        { settings: options },
         updatedOptions
       );
 
@@ -345,7 +344,7 @@ export class RemoteRenderingClient {
    */
   public async getConversionPoller(
     conversionId: string,
-    options: AssetConversionOptions = {}
+    options: GetConversionPollerOptions = {}
   ): Promise<AssetConversionPollerLike> {
     let assetConversion: AssetConversion = await getConversionInternal(
       this.accountId,
@@ -427,8 +426,7 @@ export class RemoteRenderingClient {
    */
   public async beginSession(
     sessionId: string,
-    renderingSessionSettings: RenderingSessionSettings,
-    options: RenderingSessionOptions = {}
+    options: BeginSessionOptions
   ): Promise<RenderingSessionPollerLike> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginSession", {
       conversionId: sessionId,
@@ -439,7 +437,7 @@ export class RemoteRenderingClient {
       let sessionProperties: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
         this.accountId,
         sessionId,
-        renderingSessionSettings,
+        options,
         updatedOptions
       );
 
@@ -492,7 +490,7 @@ export class RemoteRenderingClient {
    */
   public async getSessionPoller(
     sessionId: string,
-    options: RenderingSessionOptions = {}
+    options: GetSessionPollerOptions = {}
   ): Promise<RenderingSessionPollerLike> {
     let renderingSession: RenderingSession = await getSessionInternal(
       this.accountId,
@@ -514,8 +512,7 @@ export class RemoteRenderingClient {
    */
   public async updateSession(
     sessionId: string,
-    updateSessionSettings: UpdateSessionSettings,
-    options?: OperationOptions
+    options: UpdateSessionOptions
   ): Promise<RenderingSession> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-UpdateSession", {
       conversionId: sessionId,
@@ -526,7 +523,7 @@ export class RemoteRenderingClient {
       let sessionProperties = await this.operations.updateSession(
         this.accountId,
         sessionId,
-        updateSessionSettings,
+        options,
         updatedOptions
       );
       return renderingSessionFromSessionProperties(sessionProperties);
