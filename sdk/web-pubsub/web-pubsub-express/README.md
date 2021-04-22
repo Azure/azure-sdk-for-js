@@ -115,4 +115,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
 [azure_sub]: https://azure.microsoft.com/free/
-[samples_ref]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub-express/samples
+[samples_ref]: https://github.com/Azure/azure-webpubsub/tree/main/samples
