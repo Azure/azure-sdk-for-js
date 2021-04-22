@@ -32,7 +32,7 @@ echo "  Using your default context and namespace set in kubectl"
 createKubernetesSecret() {
     echo "Creating Kubernetes secret"
     SECRET_YAML=$(envsubst < secrets.yaml)
-    echo $SECRET_YAML | kubectl replace --force -f -
+    echo "$SECRET_YAML" | kubectl replace --force -f -
 }
 
 createKubernetesPod() {
