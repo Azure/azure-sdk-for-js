@@ -24,11 +24,11 @@ You may also refer to [Authenticating a user account interactively in the browse
 
 For server side applications we provide options that vary from minimal configuration with sensible defaults using the `DefaultAzureCredential` to more specialized credentials that can support your specific scenario.
 
-- To get started, you can always rely on interactive authentication of your user account.
+- To get started, you can always rely on interactive authentication of your user account which requires minimum setup.
 - As you develop your application, you may want to first sign in using the developer tools like Azure CLI or Visual Studio Code to avoid signing in interactively every time you run your application.
 - As you deploy your application to Azure App Service or run it in a virtual machine, you may want to make use of [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
 
-You can chain multiple credentials together so that they are tried sequentially until one of them succeeds.
+You can [chain multiple credentials](#chaining-credentials) together so that they are tried sequentially until one of them succeeds.
 This is useful to make use of different authentication mechanisms based on your environment without changing your application code.
 
 One such chained credential that we provide out of the box is `DefaultAzureCredential`.
