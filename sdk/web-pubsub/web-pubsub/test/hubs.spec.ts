@@ -6,9 +6,24 @@ import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
 import * as assert from "assert";
 import environmentSetup from "./testEnv";
 
-describe("HubClient", () => {
+describe("HubClient", function () {
+  let recorder: Recorder;
+  beforeEach(function () {
+    recorder = record(this, environmentSetup);
+  });
+
+  afterEach(function() {
+    if (recorder) {
+      recorder.stop();
+    }
+  });
+
   describe("Constructing a HubClient", () => {
-    const cred = new AzureKeyCredential(env.WPS_API_KEY);
+    let cred: AzureKeyCredential;
+    beforeEach(function() {
+      cred = new AzureKeyCredential(env.WPS_API_KEY);
+    });
+  
 
     it("takes a connection string, hub name, and options", () => {
       assert.doesNotThrow(() => {
@@ -28,12 +43,9 @@ describe("HubClient", () => {
   });
 
   describe("Working with a hub", function() {
-    let recorder: Recorder;
-    let client: WebPubSubServiceClient;
     this.timeout(30000);
-
+    let client: WebPubSubServiceClient;
     beforeEach(function() {
-      recorder = record(this, environmentSetup);
       client = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
     });
 
@@ -106,12 +118,6 @@ describe("HubClient", () => {
       }
       // grantPermission validates connection ids, so we expect an error here.
       assert.equal(error.statusCode, 404);
-    });
-
-    afterEach(async function() {
-      if (recorder) {
-        recorder.stop();
-      }
     });
   });
 });

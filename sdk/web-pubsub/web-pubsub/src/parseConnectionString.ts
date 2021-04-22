@@ -8,6 +8,7 @@ interface ParsedConnectionString {
 
 export function parseConnectionString(conn: string): ParsedConnectionString {
   let parsed: { [id: string]: string } = {};
+
   conn.split(";").forEach((i) => {
     const assignmentPos = i.indexOf("=");
     if (assignmentPos === -1) return;
@@ -16,8 +17,11 @@ export function parseConnectionString(conn: string): ParsedConnectionString {
     parsed[key] = value;
   });
 
-  const endpointPart = parsed["endpoint"];
+  let endpointPart = parsed["endpoint"];
   if (!endpointPart) throw new TypeError("connection string missing endpoint");
+  if (!endpointPart.startsWith("http")) {
+    endpointPart = `https://${endpointPart}`
+  }
   const key = parsed["accesskey"];
   if (!key) throw new TypeError("connection string missing access key");
   const credential = new AzureKeyCredential(key);

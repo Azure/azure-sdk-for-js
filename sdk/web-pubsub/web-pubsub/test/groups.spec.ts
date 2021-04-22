@@ -8,6 +8,7 @@ import environmentSetup from "./testEnv";
 import { RestError } from "@azure/core-http";
 
 describe("Group client working with a group", function() {
+  this.timeout(30000);
   let recorder: Recorder;
   let client: WebPubSubGroup;
   beforeEach(function() {
