@@ -17,7 +17,6 @@ export {
   TableSetAccessPolicyResponse as SetAccessPolicyResponse,
   TableInsertEntityHeaders,
   TableCreateHeaders,
-  TableResponse,
   TableDeleteEntityHeaders,
   TableDeleteHeaders,
   TableGetAccessPolicyHeaders,

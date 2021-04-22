@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableInsertEntityHeaders, TableCreateHeaders, SignedIdentifier } from "./generated/models";
+import { TableInsertEntityHeaders, TableCreateHeaders } from "./generated/models";
 import { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
 /**
@@ -30,14 +30,6 @@ export type ListTableItemsResponse = Array<TableItem> & {
    * This header contains the continuation token value.
    */
   nextTableName?: string;
-};
-
-/**
- * SetAccessPolicy optional parameters
- */
-export type SetAccessPolicyOptions = OperationOptions & {
-  /** The acls for the table. */
-  tableAcl?: SignedIdentifier[];
 };
 
 /**
@@ -108,10 +100,6 @@ export type ListTableItemsOptions = OperationOptions & {
    */
   queryOptions?: TableQueryOptions;
   /**
-   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled.
-   */
-  requestId?: string;
-  /**
    * A table query continuation token from a previous call.
    */
   nextTableName?: string;
@@ -149,14 +137,6 @@ export type ListTableEntitiesOptions = OperationOptions & {
    */
   queryOptions?: TableEntityQueryOptions;
   /**
-   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled.
-   */
-  requestId?: string;
-  /**
-   * The timeout parameter is expressed in seconds.
-   */
-  timeout?: number;
-  /**
    * An entity query continuation token from a previous call.
    */
   nextPartitionKey?: string;
@@ -182,28 +162,6 @@ export type GetTableEntityOptions = OperationOptions & {
 export type UpdateTableEntityOptions = OperationOptions & {
   /**
    * Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
-   */
-  etag?: string;
-};
-
-/**
- * Merge entity optional parameters.
- */
-export type UpsertTableEntityOptions = OperationOptions & {
-  /**
-   * Parameter group
-   */
-  queryOptions?: TableEntityQueryOptions;
-  /**
-   * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled.
-   */
-  requestId?: string;
-  /**
-   * The timeout parameter is expressed in seconds.
-   */
-  timeout?: number;
-  /**
-   * Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a merge will be performed if an existing entity is found.
    */
   etag?: string;
 };
@@ -309,7 +267,7 @@ export interface TableBatch {
   upsertEntity: <T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: UpsertTableEntityOptions
+    options?: OperationOptions
   ) => void;
   /**
    * Submits the operations in the batch

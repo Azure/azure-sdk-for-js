@@ -96,8 +96,6 @@ export type ListEntitiesResponse<T extends object> = Array<TableEntityResult<T>>
 // @public
 export type ListTableEntitiesOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
-    requestId?: string;
-    timeout?: number;
     nextPartitionKey?: string;
     nextRowKey?: string;
 };
@@ -105,7 +103,6 @@ export type ListTableEntitiesOptions = OperationOptions & {
 // @public
 export type ListTableItemsOptions = OperationOptions & {
     queryOptions?: TableQueryOptions;
-    requestId?: string;
     nextTableName?: string;
 };
 
@@ -171,11 +168,6 @@ export interface ServiceSetPropertiesHeaders {
 }
 
 // @public
-export type SetAccessPolicyOptions = OperationOptions & {
-    tableAcl?: SignedIdentifier[];
-};
-
-// @public
 export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders;
 
 // @public
@@ -201,7 +193,7 @@ export interface TableBatch {
     partitionKey: string;
     submitBatch: () => Promise<TableBatchResponse>;
     updateEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions) => void;
-    upsertEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions) => void;
+    upsertEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: OperationOptions) => void;
 }
 
 // @public
@@ -233,10 +225,10 @@ export class TableClient {
     getAccessPolicy(options?: OperationOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object = Record<string, unknown>>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<TableEntityResult<T>>>;
     listEntities<T extends object = Record<string, unknown>>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<TableEntityResult<T>, TableEntityResult<T>[]>;
-    setAccessPolicy(options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
+    setAccessPolicy(tableAcl: SignedIdentifier[], options?: OperationOptions): Promise<SetAccessPolicyResponse>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
-    upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
+    upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: OperationOptions): Promise<UpsertEntityResponse>;
     }
 
 // @public
@@ -370,13 +362,6 @@ export interface TableQueryResponse {
     value?: TableItem[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "TableResponseProperties" needs to be exported by the entry point index.d.ts
-//
-// @public
-export type TableResponse = TableResponseProperties & {
-    odataMetadata?: string;
-};
-
 // @public
 export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
@@ -449,14 +434,6 @@ export type UpdateTableEntityOptions = OperationOptions & {
 
 // @public
 export type UpsertEntityResponse = TableMergeEntityHeaders;
-
-// @public
-export type UpsertTableEntityOptions = OperationOptions & {
-    queryOptions?: TableEntityQueryOptions;
-    requestId?: string;
-    timeout?: number;
-    etag?: string;
-};
 
 
 // (No @packageDocumentation comment for this package)

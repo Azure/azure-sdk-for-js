@@ -7,7 +7,6 @@ import {
   GetTableEntityResponse,
   ListEntitiesResponse,
   UpdateTableEntityOptions,
-  UpsertTableEntityOptions,
   DeleteTableEntityOptions,
   GetTableEntityOptions,
   UpdateMode,
@@ -16,8 +15,7 @@ import {
   CreateTableItemResponse,
   TableServiceClientOptions as TableClientOptions,
   TableBatch,
-  TableEntityResult,
-  SetAccessPolicyOptions
+  TableEntityResult
 } from "./models";
 import {
   DeleteTableResponse,
@@ -29,7 +27,8 @@ import {
 } from "./generatedModels";
 import {
   GeneratedClientOptionalParams,
-  QueryOptions as GeneratedQueryOptions
+  QueryOptions as GeneratedQueryOptions,
+  SignedIdentifier
 } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import {
@@ -513,7 +512,7 @@ export class TableClient {
     entity: TableEntity<T>,
     mode: UpdateMode,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: UpsertTableEntityOptions = {}
+    options: OperationOptions = {}
   ): Promise<UpsertEntityResponse> {
     const { span, updatedOptions } = createSpan(`TableClient-upsertEntity-${mode}`, options);
 
@@ -522,20 +521,17 @@ export class TableClient {
         throw new Error("partitionKey and rowKey must be defined");
       }
 
-      const { queryOptions, ...upsertOptions } = updatedOptions || {};
       if (mode === "Merge") {
         return await this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
-          queryOptions: this.convertQueryOptions(queryOptions || {}),
-          ...upsertOptions
+          ...updatedOptions
         });
       }
 
       if (mode === "Replace") {
         return await this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
-          queryOptions: this.convertQueryOptions(queryOptions || {}),
-          ...upsertOptions
+          ...updatedOptions
         });
       }
       throw new Error(`Unexpected value for update mode: ${mode}`);
@@ -566,13 +562,16 @@ export class TableClient {
 
   /**
    * Sets stored access policies for the table that may be used with Shared Access Signatures.
-   * @param acl - The Access Control List for the table.
+   * @param tableAcl - The Access Control List for the table.
    * @param options - The options parameters.
    */
-  public setAccessPolicy(options: SetAccessPolicyOptions = {}): Promise<SetAccessPolicyResponse> {
+  public setAccessPolicy(
+    tableAcl: SignedIdentifier[],
+    options: OperationOptions = {}
+  ): Promise<SetAccessPolicyResponse> {
     const { span, updatedOptions } = createSpan("TableClient-setAccessPolicy", options);
     try {
-      return this.table.setAccessPolicy(this.tableName, updatedOptions);
+      return this.table.setAccessPolicy(this.tableName, { ...updatedOptions, tableAcl });
     } catch (e) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;

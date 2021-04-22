@@ -13,8 +13,7 @@ import {
   ListTableEntitiesOptions,
   ListEntitiesResponse,
   UpdateMode,
-  UpdateTableEntityOptions,
-  UpsertTableEntityOptions
+  UpdateTableEntityOptions
 } from "../models";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
@@ -166,6 +165,6 @@ export interface TableClientLike {
   upsertEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: UpsertTableEntityOptions
+    options?: OperationOptions
   ): Promise<UpsertEntityResponse>;
 }
