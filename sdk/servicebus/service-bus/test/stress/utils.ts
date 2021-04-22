@@ -32,7 +32,7 @@ export interface SnapshotOptions {
   /**
    * Snapshot information is automatically sent to Azure Monitor.
    * This allows you also print the same information to the console.
-   * 
+   *
    * Disabled by default.
    */
   writeSnapshotInfoToConsole?: boolean;
