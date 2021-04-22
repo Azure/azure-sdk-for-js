@@ -77,6 +77,7 @@ export class WebPubSubEventHandler {
             }
           } catch (err) {
             next(err);
+            return;
           }
         }
       }
