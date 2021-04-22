@@ -17,19 +17,19 @@ export interface AssetConversionBase {
   settings: AssetConversionSettings;
   /** The time when the conversion was created. Date and time in ISO 8601 format. */
   createdOn: Date;
-};
+}
 
 /** The conversion was created but hasn't started. */
 export interface NonStartedAssetConversion extends AssetConversionBase {
   /** The conversion was created but hasn't started. */
   status: "NotStarted";
-};
+}
 
 /** The conversion is running. */
 export interface RunningAssetConversion extends AssetConversionBase {
   /** The conversion is running. */
   status: "Running";
-};
+}
 
 /** The conversion has succeeded. */
 export interface SucceededAssetConversion extends AssetConversionBase {
@@ -39,7 +39,7 @@ export interface SucceededAssetConversion extends AssetConversionBase {
    * Information about the output of a successful conversion.
    */
   readonly output: AssetConversionOutput;
-};
+}
 
 /** The conversion has failed. Check the 'error' field for more details. */
 export interface FailedAssetConversion extends AssetConversionBase {
@@ -47,15 +47,20 @@ export interface FailedAssetConversion extends AssetConversionBase {
   status: "Failed";
   /** The error object containing details about the conversion failure. */
   error: RemoteRenderingServiceError;
-};
+}
 
 /** The conversion was cancelled. */
 export interface CancelledAssetConversion extends AssetConversionBase {
   /** The conversion was cancelled. This is a terminal state. */
   status: "Cancelled";
-};
+}
 
-export type AssetConversion = NonStartedAssetConversion | RunningAssetConversion | SucceededAssetConversion | FailedAssetConversion | CancelledAssetConversion;
+export type AssetConversion =
+  | NonStartedAssetConversion
+  | RunningAssetConversion
+  | SucceededAssetConversion
+  | FailedAssetConversion
+  | CancelledAssetConversion;
 
 export function assetConversionFromConversion(conversion: Conversion): AssetConversion {
   let baseProperties: AssetConversionBase = {
@@ -63,8 +68,7 @@ export function assetConversionFromConversion(conversion: Conversion): AssetConv
     settings: conversion.settings,
     createdOn: conversion.createdOn
   };
-  switch (conversion.status)
-  {
+  switch (conversion.status) {
     case KnownAssetConversionStatus.NotStarted:
       return {
         status: "NotStarted",

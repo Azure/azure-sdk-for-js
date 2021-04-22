@@ -49,15 +49,15 @@ import {
   getSessionInternal
 } from "./internal/commonQueries";
 
-import { 
-  AssetConversion, 
+import {
+  AssetConversion,
   AssetConversionBase,
   NonStartedAssetConversion,
   RunningAssetConversion,
   SucceededAssetConversion,
   FailedAssetConversion,
   CancelledAssetConversion,
-  assetConversionFromConversion 
+  assetConversionFromConversion
 } from "./internal/assetConversion";
 import {
   RenderingSession,
@@ -125,12 +125,13 @@ export {
 
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 
-export type AssetConversionOptions = AssetConversionPollerOptions & OperationOptions & {
-  /** Conversion input settings describe the origin of conversion input. */
-  inputSettings: AssetConversionInputSettings;
-  /** Conversion output settings describe the destination of conversion output. */
-  outputSettings: AssetConversionOutputSettings;
-};
+export type AssetConversionOptions = AssetConversionPollerOptions &
+  OperationOptions & {
+    /** Conversion input settings describe the origin of conversion input. */
+    inputSettings: AssetConversionInputSettings;
+    /** Conversion output settings describe the destination of conversion output. */
+    outputSettings: AssetConversionOutputSettings;
+  };
 
 export type RenderingSessionOptions = RenderingSessionPollerOptions & OperationOptions;
 
