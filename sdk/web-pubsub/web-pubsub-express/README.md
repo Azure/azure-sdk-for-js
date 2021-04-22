@@ -44,7 +44,7 @@ const handler = new WebPubSubEventHandler(
   "chat",
   ["https://<yourAllowedService>.webpubsub.azure.com"],
   {
-    handleConnect: async (req, res) => {
+    handleConnect: (req, res) => {
       // auth the connection and set the userId of the connection
       res.success({
         userId: "<userId>"

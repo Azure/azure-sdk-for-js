@@ -26,14 +26,14 @@ export class WebPubSubEventHandler {
    * import { WebPubSubEventHandler } from "@azure/web-pubsub-express";
    * const endpoint = "https://xxxx.webpubsubdev.azure.com"
    * const handler = new WebPubSubEventHandler('chat', [ endpoint ] {
-   *   handleConnect: async (req, res) => {
+   *   handleConnect: (req, res) => {
    *     console.log(JSON.stringify(req));
    *     return {};
    *   },
-   *   onConnected: async req => {
+   *   onConnected: req => {
    *     console.log(JSON.stringify(req));
    *   },
-   *   handleUserEvent: async (req, res) => {
+   *   handleUserEvent: (req, res) => {
    *     console.log(JSON.stringify(req));
    *     res.success("Hey " + req.data, req.dataType);
    *    };

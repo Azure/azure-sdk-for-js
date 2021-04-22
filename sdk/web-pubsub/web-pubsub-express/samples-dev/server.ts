@@ -10,13 +10,13 @@ import express from "express";
 
 const handler = new WebPubSubEventHandler("chat", ["https://xxx.webpubsub.azure.com"], {
   dumpRequest: false,
-  async handleConnect(connectRequest) {
+  handleConnect(connectRequest) {
     console.log(JSON.stringify(connectRequest));
   },
-  async onConnected(connectedRequest) {
+  onConnected(connectedRequest) {
     console.log(JSON.stringify(connectedRequest));
   },
-  async handleUserEvent(req, res) {
+  handleUserEvent(req, res) {
     console.log(JSON.stringify(req));
     res.success();
   }

@@ -187,7 +187,7 @@ export interface WebPubSubEventHandlerOptions {
   handleConnect?: (
     connectRequest: ConnectRequest,
     connectResponse: ConnectResponseHandler
-  ) => Promise<void>;
+  ) => void;
 
   /**
    * Handle user events, the service waits for the response to proceed.
@@ -195,16 +195,16 @@ export interface WebPubSubEventHandlerOptions {
   handleUserEvent?: (
     userEventRequest: UserEventRequest,
     userEventResponse: UserEventResponseHandler
-  ) => Promise<void>;
+  ) => void;
 
   /**
    * Event trigger for "connected" unblocking event. This is an unblocking event and the service does not wait for the response.
    */
-  onConnected?: (connectedRequest: ConnectedRequest) => Promise<void>;
+  onConnected?: (connectedRequest: ConnectedRequest) => void;
 
   /**
    *
    * Event triggers for "disconnected" unblocking event. This is an unblocking event and the service does not wait for the response.
    */
-  onDisconnected?: (disconnectedRequest: DisconnectedRequest) => Promise<void>;
+  onDisconnected?: (disconnectedRequest: DisconnectedRequest) => void;
 }

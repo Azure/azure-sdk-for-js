@@ -82,10 +82,10 @@ export class WebPubSubEventHandler {
 // @public
 export interface WebPubSubEventHandlerOptions {
     dumpRequest?: boolean;
-    handleConnect?: (connectRequest: ConnectRequest, connectResponse: ConnectResponseHandler) => Promise<void>;
-    handleUserEvent?: (userEventRequest: UserEventRequest, userEventResponse: UserEventResponseHandler) => Promise<void>;
-    onConnected?: (connectedRequest: ConnectedRequest) => Promise<void>;
-    onDisconnected?: (disconnectedRequest: DisconnectedRequest) => Promise<void>;
+    handleConnect?: (connectRequest: ConnectRequest, connectResponse: ConnectResponseHandler) => void;
+    handleUserEvent?: (userEventRequest: UserEventRequest, userEventResponse: UserEventResponseHandler) => void;
+    onConnected?: (connectedRequest: ConnectedRequest) => void;
+    onDisconnected?: (disconnectedRequest: DisconnectedRequest) => void;
     path?: string;
 }
 
