@@ -122,7 +122,8 @@ export class CloudEventsDispatcher {
         }
         break;
       default:
-        throw new Error(`Unknown EventType ${eventType}`);
+        console.warn(`Unknown EventType ${eventType}`);
+        return false;
     }
 
     const eventRequest = await this.convertHttpToEvent(request);
@@ -160,15 +161,13 @@ export class CloudEventsDispatcher {
       case EventType.UserEvent: {
         const eventHandler = new DefaultUserEventResponseHandler(response);
         let data: ArrayBuffer | string;
-        let dataType: "binary" | "text" | "json" = "binary";
-
-        if (receivedEvent.data) {
+        const dataType = this.getDataType(receivedEvent.datacontenttype);
+        if (receivedEvent.data !== undefined) {
           data = receivedEvent.data as string;
-          dataType = receivedEvent.datacontenttype === "application/json" ? "json" : "text";
-        } else if (receivedEvent.data_base64) {
+        } else if (receivedEvent.data_base64 !== undefined) {
           data = Buffer.from(receivedEvent.data_base64, "base64");
         } else {
-          throw new Error("empty data payload");
+          throw new Error("Unexpected data.");
         }
 
         const userRequest: UserEventRequest = {
@@ -180,8 +179,19 @@ export class CloudEventsDispatcher {
         return true;
       }
       default:
-        throw new Error(`Unknown EventType ${eventType}`);
+        console.warn(`Unknown EventType ${eventType}`);
+        return false;
     }
+  }
+
+  private getDataType(contentType: string | undefined): "binary" | "text" | "json" {
+    if (contentType?.startsWith("application/json;")) {
+      return "json";
+    }
+    if (contentType?.startsWith("text/plain;")) {
+      return "text";
+    }
+    return "binary";
   }
 
   private tryGetWebPubSubEvent(req: IncomingMessage): EventType | undefined {
@@ -201,7 +211,6 @@ export class CloudEventsDispatcher {
     switch (type) {
       case connect:
         return EventType.Connect;
-
       case connected:
         return EventType.Connected;
       case disconnectd:

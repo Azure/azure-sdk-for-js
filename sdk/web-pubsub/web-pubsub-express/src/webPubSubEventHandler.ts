@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import express from "express";
+import express from "express-serve-static-core";
 
 import { CloudEventsDispatcher } from "./cloudEventsDispatcher";
 import { WebPubSubEventHandlerOptions } from "./cloudEventsProtocols";
@@ -50,30 +50,38 @@ export class WebPubSubEventHandler {
     allowedEndpoints: string[],
     options?: WebPubSubEventHandlerOptions
   ) {
-    const path = options?.path ?? `/api/webpubsub/hubs/${hub}/`;
+    const path = (options?.path ?? `/api/webpubsub/hubs/${hub}/`).toLowerCase();
     this.path = path.endsWith("/") ? path : path + "/";
     this._cloudEventsHandler = new CloudEventsDispatcher(this.hub, allowedEndpoints, options);
   }
 
   /**
-   * Get the middleware to be used in express
+   * Get the middleware to process the CloudEvents requests
    */
-  public getMiddleware(): express.Router {
-    const router = express.Router();
-    router.options(this.path, (req, res, next) => {
-      if (!this._cloudEventsHandler.processValidateRequest(req, res)) {
-        next();
-      }
-    });
-    router.post(this.path, async (req, res, next) => {
-      try {
-        if (!(await this._cloudEventsHandler.processRequest(req, res))) {
-          next();
+  public getMiddleware(): express.RequestHandler {
+    return async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
+      // Request originalUrl can contain query while baseUrl + path not
+      let requestUrl = (req.baseUrl + req.path).toLowerCase();
+
+      // normalize the Url
+      requestUrl = requestUrl.endsWith("/") ? requestUrl : requestUrl + "/";
+      if (requestUrl === this.path) {
+        if (req.method === "OPTIONS") {
+          if (this._cloudEventsHandler.processValidateRequest(req, res)) {
+            return;
+          }
+        } else if (req.method === "POST") {
+          try {
+            if (await this._cloudEventsHandler.processRequest(req, res)) {
+              return;
+            }
+          } catch (err) {
+            next(err);
+          }
         }
-      } catch (err) {
-        next(err);
       }
-    });
-    return router;
+
+      next();
+    }
   }
 }

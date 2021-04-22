@@ -4,7 +4,7 @@
 
 ```ts
 
-import express from 'express';
+import express from 'express-serve-static-core';
 
 // @public
 export interface Certificate {
@@ -75,7 +75,7 @@ export interface UserEventResponseHandler {
 // @public
 export class WebPubSubEventHandler {
     constructor(hub: string, allowedEndpoints: string[], options?: WebPubSubEventHandlerOptions);
-    getMiddleware(): express.Router;
+    getMiddleware(): express.RequestHandler;
     readonly path: string;
 }
 
