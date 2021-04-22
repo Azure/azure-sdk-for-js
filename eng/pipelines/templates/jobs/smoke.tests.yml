@@ -57,30 +57,30 @@ jobs:
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "8.x"
-        # Mac Node10 (AzureCloud):
-        #   Pool: Azure Pipelines
-        #   OSVmImage: "macOS-10.14"
-        #   SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-        #   ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-        #   NodeTestVersion: "10.x"
-        # Windows Node12 (AzureCloud):
-        #   Pool: Azure Pipelines
-        #   OSVmImage: "windows-2019"
-        #   SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-        #   ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-        #   NodeTestVersion: "12.x"
+        Mac Node10 (AzureCloud):
+          Pool: Azure Pipelines
+          OSVmImage: "macOS-10.14"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "10.x"
+        Windows Node12 (AzureCloud):
+          Pool: Azure Pipelines
+          OSVmImage: "windows-2019"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "12.x"
         Linux Node14 (AzureCloud):
           Pool: Azure Pipelines
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
           NodeTestVersion: "14.x"
-        # Linux Node16 (AzureCloud):
-        #   Pool: Azure Pipelines
-        #   OSVmImage: "ubuntu-18.04"
-        #   SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
-        #   ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
-        #   NodeTestVersion: "16.x"
+        Linux Node16 (AzureCloud):
+          Pool: Azure Pipelines
+          OSVmImage: "ubuntu-18.04"
+          SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
+          ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          NodeTestVersion: "16.x"
 #        Linux Node10 (AzureUSGovernment):
 #          Pool: Azure Pipelines
 #          OSVmImage: "ubuntu-18.04"
