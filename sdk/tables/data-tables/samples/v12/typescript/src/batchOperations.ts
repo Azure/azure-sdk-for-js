@@ -66,8 +66,11 @@ async function batchOperations() {
   // Create the new batch. All the operations within a batch must target the same partition key
   const batch = client.createBatch(partitionKey);
 
-  // Add a createEntities operation to the batch
-  batch.createEntities(entities);
+  // Add each entity operation to the batch
+  for (const entity of entities) {
+    batch.createEntity(entity);
+  }
+
 
   // Submit the batch
   const response = await batch.submitBatch();
