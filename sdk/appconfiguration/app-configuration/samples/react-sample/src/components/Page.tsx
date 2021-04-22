@@ -83,7 +83,7 @@ export default function Page(): JSX.Element {
   }, []);
 
   return (
-    <React.Fragment>
+    <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
           App Config
