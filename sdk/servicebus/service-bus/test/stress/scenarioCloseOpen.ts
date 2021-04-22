@@ -58,11 +58,6 @@ export async function scenarioClose() {
       await stressBase.callClose(sender, "sender");
       await stressBase.callClose(receiver, "receiver");
 
-      // if (shouldCreateNewClientEachTime) {
-      //   await stressBase.callClose(sbClient, "client");
-      //   sbClient = new ServiceBusClient(connectionString);
-      // }
-
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
     }
   };
