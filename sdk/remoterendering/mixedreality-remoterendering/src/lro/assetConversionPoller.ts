@@ -44,7 +44,7 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
   }
 
   get error(): Error | undefined {
-    if (this.latestResponse.error != null) {
+    if (this.latestResponse.status === "Failed") {
       return new Error(this.latestResponse.error.message);
     }
     return undefined;

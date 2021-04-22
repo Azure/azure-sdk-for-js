@@ -13,14 +13,14 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public (undocumented)
+export type AssetConversion = NonStartedAssetConversion | RunningAssetConversion | SucceededAssetConversion | FailedAssetConversion | CancelledAssetConversion;
+
 // @public
-export interface AssetConversion {
+export interface AssetConversionBase {
     conversionId: string;
     createdOn: Date;
-    error: RemoteRenderingServiceError | null;
-    readonly output?: AssetConversionOutput;
     settings: AssetConversionSettings;
-    status: AssetConversionStatus;
 }
 
 // @public
@@ -71,6 +71,32 @@ export interface AssetConversionSettings {
 export type AssetConversionStatus = string;
 
 // @public
+export interface CancelledAssetConversion extends AssetConversionBase {
+    status: "Cancelled";
+}
+
+// @public
+export interface ErrorRenderingSession extends RenderingSessionBase {
+    readonly error: RemoteRenderingServiceError;
+    // (undocumented)
+    partialProperties: PartialRenderingSessionProperties;
+    status: "Error";
+}
+
+// @public
+export interface ExpiredRenderingSession extends RenderingSessionBase {
+    // (undocumented)
+    properties: RenderingSessionProperties;
+    status: "Expired";
+}
+
+// @public
+export interface FailedAssetConversion extends AssetConversionBase {
+    error: RemoteRenderingServiceError;
+    status: "Failed";
+}
+
+// @public
 export const enum KnownAssetConversionStatus {
     Cancelled = "Cancelled",
     Failed = "Failed",
@@ -92,6 +118,23 @@ export const enum KnownRenderingSessionStatus {
     Ready = "Ready",
     Starting = "Starting",
     Stopped = "Stopped"
+}
+
+// @public
+export interface NonStartedAssetConversion extends AssetConversionBase {
+    status: "NotStarted";
+}
+
+// @public
+export type PartialRenderingSessionProperties = {
+    [P in keyof RenderingSessionProperties]+?: RenderingSessionProperties[P];
+};
+
+// @public
+export interface ReadyRenderingSession extends RenderingSessionBase {
+    // (undocumented)
+    properties: RenderingSessionProperties;
+    status: "Ready";
 }
 
 // @public
@@ -129,19 +172,13 @@ export interface RemoteRenderingServiceError {
 export type RenderingServerSize = string;
 
 // @public
-export interface RenderingSession {
-    readonly arrInspectorPort?: number;
-    readonly createdOn?: Date;
-    readonly elapsedTimeInMinutes?: number;
-    readonly error?: RemoteRenderingServiceError | null;
-    readonly handshakePort?: number;
-    readonly host?: string;
-    readonly maxLeaseTimeInMinutes?: number;
+export type RenderingSession = StartingRenderingSession | ReadyRenderingSession | ErrorRenderingSession | ExpiredRenderingSession | StoppedRenderingSession;
+
+// @public
+export interface RenderingSessionBase {
+    maxLeaseTimeInMinutes: number;
     sessionId: string;
     size: RenderingServerSize;
-    // Warning: (ae-forgotten-export) The symbol "RenderingSessionStatus" needs to be exported by the entry point index.d.ts
-    status: RenderingSessionStatus;
-    readonly teraflops?: number;
 }
 
 // @public (undocumented)
@@ -162,9 +199,44 @@ export interface RenderingSessionPollerOptions {
 }
 
 // @public
+export interface RenderingSessionProperties {
+    readonly arrInspectorPort: number;
+    readonly createdOn: Date;
+    readonly elapsedTimeInMinutes: number;
+    readonly handshakePort: number;
+    readonly host: string;
+    readonly teraflops: number;
+}
+
+// @public
 export interface RenderingSessionSettings {
     maxLeaseTimeInMinutes: number;
     size: RenderingServerSize;
+}
+
+// @public
+export interface RunningAssetConversion extends AssetConversionBase {
+    status: "Running";
+}
+
+// @public
+export interface StartingRenderingSession extends RenderingSessionBase {
+    // (undocumented)
+    partialProperties: PartialRenderingSessionProperties;
+    status: "Starting";
+}
+
+// @public
+export interface StoppedRenderingSession extends RenderingSessionBase {
+    // (undocumented)
+    partialProperties: PartialRenderingSessionProperties;
+    status: "Stopped";
+}
+
+// @public
+export interface SucceededAssetConversion extends AssetConversionBase {
+    readonly output: AssetConversionOutput;
+    status: "Succeeded";
 }
 
 // @public

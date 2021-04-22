@@ -154,14 +154,14 @@ describe("RemoteRendering functional tests", () => {
 
     let conversion: AssetConversion = await client.getConversion(conversionId);
     assert.equal(conversion.conversionId, conversionId);
-    assert.notEqual(conversion.status, KnownAssetConversionStatus.Failed);
+    assert.notEqual(conversion.status, "Failed");
 
     let conversion2: AssetConversion = await conversionPoller.pollUntilDone();
     assert.equal(conversion2.conversionId, conversionId);
-    assert.equal(conversion2.status, KnownAssetConversionStatus.Succeeded);
-    assert.isDefined(conversion2.output);
-    assert.isDefined(conversion2.output?.outputAssetUrl);
-    assert.isTrue(conversion2.output?.outputAssetUrl?.endsWith("Output/testBox.arrAsset"));
+    assert.equal(conversion2.status, "Succeeded");
+    if (conversion2.status === "Succeeded") {
+      assert.isTrue(conversion2.output.outputAssetUrl?.endsWith("Output/testBox.arrAsset"));
+    }
 
     let foundConversion: boolean = false;
     for await (const c of client.listConversions()) {
