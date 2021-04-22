@@ -20,8 +20,8 @@ describe("AzurePowerShellCredential", function() {
     const sandbox = Sinon.createSandbox();
 
     const stub = sandbox.stub(processUtils, "execFile");
-    stub.onCall(0).returns(Promise.resolve(Buffer.from(""))); // The first call checks that the command is available.
-    stub.onCall(1).throws(Buffer.from(`Get-AzAccessToken: ${powerShellErrors.login}`));
+    stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
+    stub.onCall(1).throws(new Error(`Get-AzAccessToken: ${powerShellErrors.login}`));
 
     const credential = new AzurePowerShellCredential();
 
@@ -43,8 +43,8 @@ describe("AzurePowerShellCredential", function() {
     const sandbox = Sinon.createSandbox();
 
     const stub = sandbox.stub(processUtils, "execFile");
-    stub.onCall(0).returns(Promise.resolve(Buffer.from(""))); // The first call checks that the command is available.
-    stub.onCall(1).throws(Buffer.from(powerShellErrors.installed));
+    stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
+    stub.onCall(1).throws(new Error(powerShellErrors.installed));
 
     const credential = new AzurePowerShellCredential();
 
@@ -67,7 +67,7 @@ describe("AzurePowerShellCredential", function() {
     const pwshCommand = formatCommand("pwsh");
 
     const stub = sandbox.stub(processUtils, "execFile");
-    stub.onCall(0).throws();
+    stub.onCall(0).throws(new Error());
 
     const credential = new AzurePowerShellCredential();
 
@@ -93,7 +93,7 @@ describe("AzurePowerShellCredential", function() {
     const pwshCommand = formatCommand("powershell");
 
     const stub = sandbox.stub(processUtils, "execFile");
-    stub.onCall(0).throws();
+    stub.onCall(0).throws(new Error());
 
     const credential = new AzurePowerShellCredential({ useLegacyPowerShell: true });
 
@@ -118,9 +118,9 @@ describe("AzurePowerShellCredential", function() {
     const sandbox = Sinon.createSandbox();
 
     const stub = sandbox.stub(processUtils, "execFile");
-    stub.onCall(0).returns(Promise.resolve(Buffer.from(""))); // The first call checks that the command is available.
-    stub.onCall(1).returns(Promise.resolve(Buffer.from("This one we ignore.")));
-    stub.onCall(2).returns(Promise.resolve(Buffer.from("Not valid JSON")));
+    stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
+    stub.onCall(1).returns(Promise.resolve("This one we ignore."));
+    stub.onCall(2).returns(Promise.resolve("Not valid JSON"));
 
     const credential = new AzurePowerShellCredential();
 
@@ -152,9 +152,9 @@ describe("AzurePowerShellCredential", function() {
     };
 
     const stub = sandbox.stub(processUtils, "execFile");
-    stub.onCall(0).returns(Promise.resolve(Buffer.from(""))); // The first call checks that the command is available.
-    stub.onCall(1).returns(Promise.resolve(Buffer.from("This one we ignore.")));
-    stub.onCall(2).returns(Promise.resolve(Buffer.from(JSON.stringify(tokenResponse))));
+    stub.onCall(0).returns(Promise.resolve("")); // The first call checks that the command is available.
+    stub.onCall(1).returns(Promise.resolve("This one we ignore."));
+    stub.onCall(2).returns(Promise.resolve(JSON.stringify(tokenResponse)));
 
     const credential = new AzurePowerShellCredential();
 

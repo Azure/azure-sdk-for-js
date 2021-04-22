@@ -30,14 +30,10 @@ export function formatCommand(commandName: string): string {
 async function runCommands(commands: string[][]): Promise<string[]> {
   const results: string[] = [];
 
-  try {
-    for (const command of commands) {
-      const [file, ...parameters] = command;
-      const buffer = await processUtils.execFile(file, parameters);
-      results.push(buffer.toString("utf-8"));
-    }
-  } catch (e) {
-    throw new Error(e.toString("utf-8"));
+  for (const command of commands) {
+    const [file, ...parameters] = command;
+    const result = (await processUtils.execFile(file, parameters, { encoding: "utf8" })) as string;
+    results.push(result);
   }
 
   return results;
@@ -60,7 +56,7 @@ export const powerShellErrors = {
 export const powerShellPublicErrorMessages = {
   login:
     "Please run 'Connect-AzAccount' from powershell to authenticate before using this credential.",
-  installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install - Module - Name Az - Scope CurrentUser - Repository PSGallery - Force".`
+  installed: `The 'Az.Account' module >= 2.2.0 is not installed. Install the Azure Az PowerShell module with: "Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force".`
 };
 
 // PowerShell Azure User not logged in error check.
@@ -93,7 +89,7 @@ export class AzurePowerShellCredential implements TokenCredential {
    * Creates an instance of the ClientCertificateCredential with the details
    * needed to authenticate against Azure Active Directory with a certificate.
    *
-   * @param useLegacyPowerShell - The flag indicating if legacy powershell should be used for authentication.
+   * @param AzurePowerShellCredentialOptions - Optional parameters. For now accepts a `useLegacyPowerShell` property to indicate if legacy powershell should be used for authentication.
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
     if (options?.useLegacyPowerShell) {
@@ -110,7 +106,7 @@ export class AzurePowerShellCredential implements TokenCredential {
     resource: string
   ): Promise<{ Token: string; ExpiresOn: string }> {
     try {
-      await runCommands([[this.powerShellCommand, "-v"]]);
+      await runCommands([[this.powerShellCommand, "/?"]]);
     } catch (e) {
       throw new Error(
         `Unable to execute "${this.powerShellCommand}". Ensure that it is installed in your system.`
