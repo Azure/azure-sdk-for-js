@@ -102,36 +102,37 @@ export interface ConnectedRequest {
 /**
  * Request for the user event.
  */
-export type UserEventRequest = {
-  /**
-   * The context of current CloudEvents request.
-   */
-  context: ConnectionContext;
+export type UserEventRequest =
+  | {
+      /**
+       * The context of current CloudEvents request.
+       */
+      context: ConnectionContext;
 
-  /**
-   * The content data.
-   */
-  data: string;
-  /**
-   * The type of the data.
-   */
-  dataType: "text" | "json";
-} | {
+      /**
+       * The content data.
+       */
+      data: string;
+      /**
+       * The type of the data.
+       */
+      dataType: "text" | "json";
+    }
+  | {
+      /**
+       * The context of current CloudEvents request.
+       */
+      context: ConnectionContext;
 
-  /**
-   * The context of current CloudEvents request.
-   */
-  context: ConnectionContext;
-
-  /**
-   * The content data.
-   */
-  data: ArrayBuffer;
-  /**
-   * The type of the data.
-   */
-  dataType: "binary";
-}
+      /**
+       * The content data.
+       */
+      data: ArrayBuffer;
+      /**
+       * The type of the data.
+       */
+      dataType: "binary";
+    };
 
 /**
  * Request for the disconnected event.
@@ -199,10 +200,7 @@ export interface WebPubSubEventHandlerOptions {
   /**
    * Handle 'connect' event, the service waits for the response to proceed.
    */
-  handleConnect?: (
-    connectRequest: ConnectRequest,
-    connectResponse: ConnectResponseHandler
-  ) => void;
+  handleConnect?: (connectRequest: ConnectRequest, connectResponse: ConnectResponseHandler) => void;
 
   /**
    * Handle user events, the service waits for the response to proceed.

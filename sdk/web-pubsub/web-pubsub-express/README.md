@@ -37,7 +37,7 @@ npm install @azure/web-pubsub-express
 ### 2. Create a WebPubSubEventHandler
 
 ```js
-const express = require('express');
+const express = require("express");
 
 const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
 const handler = new WebPubSubEventHandler(
