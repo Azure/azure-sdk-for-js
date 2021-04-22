@@ -88,27 +88,13 @@ export const enum KnownGeoReplicationStatusType {
 }
 
 // @public
-export type ListEntitiesResponse<T extends object> = Array<TableEntityResult<T>> & {
-    nextPartitionKey?: string;
-    nextRowKey?: string;
-};
-
-// @public
 export type ListTableEntitiesOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
-    nextPartitionKey?: string;
-    nextRowKey?: string;
 };
 
 // @public
 export type ListTableItemsOptions = OperationOptions & {
     queryOptions?: TableQueryOptions;
-    nextTableName?: string;
-};
-
-// @public
-export type ListTableItemsResponse = Array<TableItem> & {
-    nextTableName?: string;
 };
 
 // @public
@@ -269,14 +255,6 @@ export interface TableEntityQueryOptions {
 }
 
 // @public
-export interface TableEntityQueryResponse {
-    odataMetadata?: string;
-    value?: {
-        [propertyName: string]: any;
-    }[];
-}
-
-// @public
 export type TableEntityResult<T> = T & {
     etag: string;
     partitionKey?: string;
@@ -318,41 +296,6 @@ export interface TableMergeEntityHeaders {
 }
 
 // @public
-export interface TableQueryEntitiesHeaders {
-    clientRequestId?: string;
-    date?: Date;
-    requestId?: string;
-    version?: string;
-    xMsContinuationNextPartitionKey?: string;
-    xMsContinuationNextRowKey?: string;
-}
-
-// @public
-export interface TableQueryEntitiesWithPartitionAndRowKeyHeaders {
-    clientRequestId?: string;
-    date?: Date;
-    etag?: string;
-    requestId?: string;
-    version?: string;
-    xMsContinuationNextPartitionKey?: string;
-    xMsContinuationNextRowKey?: string;
-}
-
-// @public
-export type TableQueryEntitiesWithPartitionAndRowKeyResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders & {
-    [propertyName: string]: any;
-};
-
-// @public
-export interface TableQueryHeaders {
-    clientRequestId?: string;
-    date?: Date;
-    requestId?: string;
-    version?: string;
-    xMsContinuationNextTableName?: string;
-}
-
-// @public
 export interface TableQueryOptions {
     filter?: string;
 }
@@ -373,7 +316,7 @@ export class TableServiceClient {
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getProperties(options?: OperationOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: OperationOptions): Promise<GetStatisticsResponse>;
-    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, ListTableItemsResponse>;
+    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableItem, TableItem[]>;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     }
 

@@ -5,7 +5,6 @@ import {
   TableEntity,
   ListTableEntitiesOptions,
   GetTableEntityResponse,
-  ListEntitiesResponse,
   UpdateTableEntityOptions,
   DeleteTableEntityOptions,
   GetTableEntityOptions,
@@ -47,7 +46,7 @@ import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { TableBatchImpl, createInnerBatchRequest } from "./TableBatch";
-import { InternalBatchClientOptions } from "./utils/internalModels";
+import { InternalBatchClientOptions, ListEntitiesResponse } from "./utils/internalModels";
 import { Uuid } from "./utils/uuid";
 import { parseXML, stringifyXML } from "@azure/core-xml";
 
@@ -322,13 +321,13 @@ export class TableClient {
 
   private async *listEntitiesAll<T extends object>(
     tableName: string,
-    options?: ListTableEntitiesOptions
+    options?: InternalListTableEntitiesOptions
   ): AsyncIterableIterator<TableEntityResult<T>> {
     const firstPage = await this._listEntities<T>(tableName, options);
     const { nextPartitionKey, nextRowKey } = firstPage;
     yield* firstPage;
     if (nextRowKey && nextPartitionKey) {
-      const optionsWithContinuation: ListTableEntitiesOptions = {
+      const optionsWithContinuation: InternalListTableEntitiesOptions = {
         ...options,
         nextPartitionKey,
         nextRowKey
@@ -351,7 +350,7 @@ export class TableClient {
       yield result;
 
       while (result.nextPartitionKey && result.nextRowKey) {
-        const optionsWithContinuation: ListTableEntitiesOptions = {
+        const optionsWithContinuation: InternalListTableEntitiesOptions = {
           ...updatedOptions,
           nextPartitionKey: result.nextPartitionKey,
           nextRowKey: result.nextRowKey
@@ -373,7 +372,7 @@ export class TableClient {
 
   private async _listEntities<T extends object>(
     tableName: string,
-    options?: ListTableEntitiesOptions
+    options?: InternalListTableEntitiesOptions
   ): Promise<ListEntitiesResponse<TableEntityResult<T>>> {
     const queryOptions = this.convertQueryOptions(options?.queryOptions || {});
     const {
@@ -644,6 +643,14 @@ export class TableClient {
 type InternalQueryOptions = TableEntityQueryOptions & { top?: number };
 interface InternalListTableEntitiesOptions extends ListTableEntitiesOptions {
   queryOptions?: InternalQueryOptions;
+  /**
+   * An entity query continuation token from a previous call.
+   */
+  nextPartitionKey?: string;
+  /**
+   * An entity query continuation token from a previous call.
+   */
+  nextRowKey?: string;
 }
 
 function isInternalClientOptions(options: any): options is InternalBatchClientOptions {

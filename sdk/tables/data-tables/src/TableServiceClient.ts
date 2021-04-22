@@ -6,7 +6,6 @@ import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
 import {
   ListTableItemsOptions,
-  ListTableItemsResponse,
   CreateTableItemResponse,
   TableServiceClientOptions,
   TableQueryOptions,
@@ -31,6 +30,7 @@ import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 import { tablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 import { parseXML, stringifyXML } from "@azure/core-xml";
+import { ListTableItemsResponse } from "./utils/internalModels";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -281,7 +281,7 @@ export class TableServiceClient {
   public listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListTableItemsOptions
-  ): PagedAsyncIterableIterator<TableItem, ListTableItemsResponse> {
+  ): PagedAsyncIterableIterator<TableItem, TableItem[]> {
     const iter = this.listTablesAll(options);
 
     return {
@@ -301,12 +301,14 @@ export class TableServiceClient {
     };
   }
 
-  private async *listTablesAll(options?: ListTableItemsOptions): AsyncIterableIterator<TableItem> {
+  private async *listTablesAll(
+    options?: InternalListTablesOptions
+  ): AsyncIterableIterator<TableItem> {
     const firstPage = await this._listTables(options);
     const { nextTableName } = firstPage;
     yield* firstPage;
     if (nextTableName) {
-      const optionsWithContinuation: ListTableItemsOptions = {
+      const optionsWithContinuation: InternalListTablesOptions = {
         ...options,
         nextTableName
       };
@@ -318,7 +320,7 @@ export class TableServiceClient {
 
   private async *listTablesPage(
     options: InternalListTablesOptions = {}
-  ): AsyncIterableIterator<ListTableItemsResponse> {
+  ): AsyncIterableIterator<TableItem[]> {
     const { span, updatedOptions } = createSpan("TableServiceClient-listTablesPage", options);
 
     try {
@@ -327,7 +329,7 @@ export class TableServiceClient {
       yield result;
 
       while (result.nextTableName) {
-        const optionsWithContinuation: ListTableItemsOptions = {
+        const optionsWithContinuation: InternalListTablesOptions = {
           ...updatedOptions,
           nextTableName: result.nextTableName
         };
@@ -383,4 +385,8 @@ export class TableServiceClient {
 
 type InternalListTablesOptions = ListTableItemsOptions & {
   queryOptions?: TableQueryOptions & { top?: number };
+  /**
+   * A table query continuation token from a previous call.
+   */
+  nextTableName?: string;
 };

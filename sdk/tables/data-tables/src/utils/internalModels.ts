@@ -11,9 +11,10 @@ import {
   GetTableEntityOptions,
   GetTableEntityResponse,
   ListTableEntitiesOptions,
-  ListEntitiesResponse,
   UpdateMode,
-  UpdateTableEntityOptions
+  UpdateTableEntityOptions,
+  TableEntityResult,
+  TableItem
 } from "../models";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 import { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
@@ -33,6 +34,30 @@ export interface ConnectionString {
   accountKey?: any;
   accountSas?: string;
 }
+
+/**
+ * Contains response data for the listTable operation.
+ */
+export type ListTableItemsResponse = Array<TableItem> & {
+  /**
+   * This header contains the continuation token value.
+   */
+  nextTableName?: string;
+};
+
+/**
+ * Contains response data for the getEntity operation.
+ */
+export type ListEntitiesResponse<T extends object> = Array<TableEntityResult<T>> & {
+  /**
+   * Contains the continuation token value for partition key.
+   */
+  nextPartitionKey?: string;
+  /**
+   * Contains the continuation token value for row key.
+   */
+  nextRowKey?: string;
+};
 
 export interface ClientParamsFromConnectionString {
   url: string;

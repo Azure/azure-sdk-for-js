@@ -23,30 +23,6 @@ export type CreateTableItemResponse = TableCreateHeaders;
 export type CreateTableEntityResponse = TableInsertEntityHeaders;
 
 /**
- * Contains response data for the listTable operation.
- */
-export type ListTableItemsResponse = Array<TableItem> & {
-  /**
-   * This header contains the continuation token value.
-   */
-  nextTableName?: string;
-};
-
-/**
- * Contains response data for the getEntity operation.
- */
-export type ListEntitiesResponse<T extends object> = Array<TableEntityResult<T>> & {
-  /**
-   * Contains the continuation token value for partition key.
-   */
-  nextPartitionKey?: string;
-  /**
-   * Contains the continuation token value for row key.
-   */
-  nextRowKey?: string;
-};
-
-/**
  * Contains response data for the listEntities operation.
  */
 export type GetTableEntityResponse<T extends object> = TableEntityResult<T>;
@@ -99,10 +75,6 @@ export type ListTableItemsOptions = OperationOptions & {
    * Query options group
    */
   queryOptions?: TableQueryOptions;
-  /**
-   * A table query continuation token from a previous call.
-   */
-  nextTableName?: string;
 };
 
 /**
@@ -136,14 +108,6 @@ export type ListTableEntitiesOptions = OperationOptions & {
    * Query options group
    */
   queryOptions?: TableEntityQueryOptions;
-  /**
-   * An entity query continuation token from a previous call.
-   */
-  nextPartitionKey?: string;
-  /**
-   * An entity query continuation token from a previous call.
-   */
-  nextRowKey?: string;
 };
 
 /**
