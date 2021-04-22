@@ -125,11 +125,15 @@ export {
 
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 
-export type BeginConversionOptions = AssetConversionSettings & AssetConversionPollerOptions & OperationOptions;
+export type BeginConversionOptions = AssetConversionSettings &
+  AssetConversionPollerOptions &
+  OperationOptions;
 
 export type GetConversionPollerOptions = AssetConversionPollerOptions & OperationOptions;
 
-export type BeginSessionOptions = RenderingSessionSettings & RenderingSessionPollerOptions & OperationOptions;
+export type BeginSessionOptions = RenderingSessionSettings &
+  RenderingSessionPollerOptions &
+  OperationOptions;
 
 export type GetSessionPollerOptions = RenderingSessionPollerOptions & OperationOptions;
 
@@ -279,7 +283,7 @@ export class RemoteRenderingClient {
    */
   public async beginConversion(
     conversionId: string,
-    options: BeginConversionOptions,
+    options: BeginConversionOptions
   ): Promise<AssetConversionPollerLike> {
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginConversion", {
       conversionId: conversionId,
