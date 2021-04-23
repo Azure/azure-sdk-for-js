@@ -5,6 +5,7 @@
  * @summary This sample demonstrates how to query incidents and alerts.
  * @azsdk-weight 70
  */
+ 
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
