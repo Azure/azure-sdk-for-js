@@ -708,6 +708,16 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/web-pubsub",
+      "projectFolder": "sdk/web-pubsub/web-pubsub",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/web-pubsub-express",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-express",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-tests/perf-search-documents",
       "projectFolder": "sdk/search/perf-tests/search-documents",
       "versionPolicyName": "test"
