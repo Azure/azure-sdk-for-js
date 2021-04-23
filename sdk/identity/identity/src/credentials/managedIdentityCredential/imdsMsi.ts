@@ -104,7 +104,7 @@ export const imdsMsi: MSI = {
         ) {
           // If the request failed, or NodeJS was unable to establish a connection,
           // or the host was down, we'll assume the IMDS endpoint isn't available.
-          logger.info(`The Azure IMDS endpoint unavailable`);
+          logger.info(`The Azure IMDS endpoint is unavailable`);
           span.setStatus({
             code: SpanStatusCode.ERROR,
             message: err.message
