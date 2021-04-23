@@ -59,7 +59,11 @@ export class WebPubSubEventHandler {
    * Get the middleware to process the CloudEvents requests
    */
   public getMiddleware(): express.RequestHandler {
-    return async (req: express.Request, res: express.Response, next: express.NextFunction): Promise<void> => {
+    return async (
+      req: express.Request,
+      res: express.Response,
+      next: express.NextFunction
+    ): Promise<void> => {
       // Request originalUrl can contain query while baseUrl + path not
       let requestUrl = (req.baseUrl + req.path).toLowerCase();
 
@@ -83,6 +87,6 @@ export class WebPubSubEventHandler {
       }
 
       next();
-    }
+    };
   }
 }
