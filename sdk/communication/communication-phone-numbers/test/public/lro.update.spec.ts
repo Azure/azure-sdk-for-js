@@ -43,7 +43,7 @@ matrix([[true, false]], async function(useAad) {
         update
       );
 
-      // TODO: this validation is flakey because multiple tests attempt to update the same number 
+      // TODO: this validation is flakey because multiple tests attempt to update the same number
       // re-enable when we make each lang run it's own number
       // const phoneNumber = await updatePoller.pollUntilDone();
       await updatePoller.pollUntilDone();
