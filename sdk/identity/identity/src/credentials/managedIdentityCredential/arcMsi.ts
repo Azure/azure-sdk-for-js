@@ -70,7 +70,11 @@ async function filePathRequest(
 
 export const arcMsi: MSI = {
   async isAvailable(): Promise<boolean> {
-    return Boolean(process.env.IMDS_ENDPOINT && process.env.IDENTITY_ENDPOINT);
+    const result = Boolean(process.env.IMDS_ENDPOINT && process.env.IDENTITY_ENDPOINT);
+    if (!result) {
+      logger.info("The Azure Arc MSI is unavailable.");
+    }
+    return result;
   },
   async getToken(
     identityClient: IdentityClient,
