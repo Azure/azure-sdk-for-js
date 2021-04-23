@@ -44,7 +44,6 @@ export interface Context {
 // @public
 export interface GetTokenOptions {
     abortSignal?: AbortSignalLike;
-    claims?: string;
     requestOptions?: {
         timeout?: number;
     };
