@@ -3,10 +3,10 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { ChatClient, CreateChatThreadRequest } from "../src";
-import * as RestModel from "../src/generated/src/models";
-import { apiVersion } from "../src/generated/src/models/parameters";
-import { baseUri, generateToken } from "./utils/connectionUtils";
+import { ChatClient, CreateChatThreadRequest } from "../../src";
+import * as RestModel from "../../src/generated/src/models";
+import { apiVersion } from "../../src/generated/src/models/parameters";
+import { baseUri, generateToken } from "../public/utils/connectionUtils";
 import {
   AzureCommunicationTokenCredential,
   CommunicationUserIdentifier

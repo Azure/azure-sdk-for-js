@@ -261,6 +261,8 @@ export interface DeletedKeyListResult {
 
 /** Properties of the key pair backing a certificate. */
 export interface KeyProperties {
+  /** Not supported in this version. Indicates if the private key can be exported. */
+  exportable?: boolean;
   /** The type of key pair to be used for the certificate. */
   keyType?: JsonWebKeyType;
   /** The key size in bits. For example: 2048, 3072, or 4096 for RSA. */
@@ -317,20 +319,20 @@ export type DeletedKeyItem = KeyItem & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion72Preview} that the service accepts. */
-export const enum KnownApiVersion72Preview {
-  /** Api Version '7.2-preview' */
-  Seven2Preview = "7.2-preview"
+/** Known values of {@link ApiVersion72} that the service accepts. */
+export const enum KnownApiVersion72 {
+  /** Api Version '7.2' */
+  Seven2 = "7.2"
 }
 
 /**
- * Defines values for ApiVersion72Preview. \
- * {@link KnownApiVersion72Preview} can be used interchangeably with ApiVersion72Preview,
+ * Defines values for ApiVersion72. \
+ * {@link KnownApiVersion72} can be used interchangeably with ApiVersion72,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **7.2-preview**: Api Version '7.2-preview'
+ * **7.2**: Api Version '7.2'
  */
-export type ApiVersion72Preview = string;
+export type ApiVersion72 = string;
 
 /** Known values of {@link JsonWebKeyType} that the service accepts. */
 export const enum KnownJsonWebKeyType {
