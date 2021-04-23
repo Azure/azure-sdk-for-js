@@ -19,7 +19,7 @@ import {
   TokenCredential,
   WebResourceLike
 } from "@azure/core-http";
-import { PhoneNumbersClient } from "../../src";
+import { PhoneNumbersClient, PhoneNumbersClientOptions } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -56,10 +56,11 @@ export const environmentSetup: RecorderEnvironmentSetup = {
 export function createRecordedClient(context: Context): RecordedClient<PhoneNumbersClient> {
   const recorder = record(context, environmentSetup);
 
+  // casting is a workaround to enable min-max testing
   return {
     client: new PhoneNumbersClient(env.AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING, {
       httpClient: createTestHttpClient()
-    }),
+    } as PhoneNumbersClientOptions),
     recorder
   };
 }
@@ -87,10 +88,11 @@ export function createRecordedClientWithToken(
       }
     };
 
+    // casting is a workaround to enable min-max testing
     return {
       client: new PhoneNumbersClient(endpoint, credential, {
         httpClient: createTestHttpClient()
-      }),
+      } as PhoneNumbersClientOptions),
       recorder
     };
   }
@@ -101,10 +103,11 @@ export function createRecordedClientWithToken(
     return undefined;
   }
 
+  // casting is a workaround to enable min-max testing
   return {
     client: new PhoneNumbersClient(endpoint, credential, {
       httpClient: createTestHttpClient()
-    }),
+    } as PhoneNumbersClientOptions),
     recorder
   };
 }
