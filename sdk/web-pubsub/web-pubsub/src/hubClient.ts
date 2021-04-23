@@ -56,32 +56,32 @@ export type JSONTypes = string | number | boolean | object;
 /**
  * Options for constructing a HubAdmin client.
  */
-export interface HubAdminClientOptions extends PipelineOptions { }
+export interface HubAdminClientOptions extends PipelineOptions {}
 
 /**
  * Options for checking if a connection exists.
  */
-export interface HasConnectionOptions extends OperationOptions { }
+export interface HasConnectionOptions extends OperationOptions {}
 
 /**
  * Options for checking if a group exists.
  */
-export interface HubHasGroupOptions extends OperationOptions { }
+export interface HubHasGroupOptions extends OperationOptions {}
 
 /**
  * Options for checking if a user exists.
  */
-export interface HubHasUserOptions extends OperationOptions { }
+export interface HubHasUserOptions extends OperationOptions {}
 
 /**
  * Options for removing a user from all groups.
  */
-export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions { }
+export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions {}
 
 /**
  * Options for sending a message to a specific connection.
  */
-export interface HubSendToConnectionOptions extends OperationOptions { }
+export interface HubSendToConnectionOptions extends OperationOptions {}
 
 /**
  * Options for sending a text message to a connection.
@@ -93,7 +93,7 @@ export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptio
 /**
  * Options for sending a message to a user.
  */
-export interface HubSendToUserOptions extends OperationOptions { }
+export interface HubSendToUserOptions extends OperationOptions {}
 
 /**
  * Options for sending a text message to a user.

@@ -122,9 +122,7 @@
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub CloudEvents Handlers for Express",
     "productSlugs": [
-      "azure",
-      "azure-web-pubsub",
-      "express"
+      "azure"
     ]
   }
 }

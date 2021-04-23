@@ -144,14 +144,15 @@ export class CloudEventsDispatcher {
             context: this.GetContext(receivedEvent, origin),
             data: Buffer.from(receivedEvent.data_base64, "base64"),
             dataType: "binary"
-          }
-        }
-        else if (receivedEvent.data !== undefined) {
+          };
+        } else if (receivedEvent.data !== undefined) {
           userRequest = {
             context: this.GetContext(receivedEvent, origin),
             data: receivedEvent.data as string,
-            dataType: receivedEvent.datacontenttype?.startsWith("application/json;") ? "json" : "text"
-          }
+            dataType: receivedEvent.datacontenttype?.startsWith("application/json;")
+              ? "json"
+              : "text"
+          };
         } else {
           throw new Error("Unexpected data.");
         }
@@ -264,17 +265,17 @@ export class CloudEventsDispatcher {
   }
 
   private readRequestBody(req: IncomingMessage): Promise<string> {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       const chunks: any = [];
-      req.on("data", function (chunk) {
+      req.on("data", function(chunk) {
         chunks.push(chunk);
       });
-      req.on("end", function () {
+      req.on("end", function() {
         const buffer = Buffer.concat(chunks);
         resolve(buffer.toString());
       });
       // reject on request error
-      req.on("error", function (err) {
+      req.on("error", function(err) {
         // This is not a "Second reject", just a different sort of failure
         reject(err);
       });

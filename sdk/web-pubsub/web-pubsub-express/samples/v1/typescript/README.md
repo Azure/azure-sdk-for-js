@@ -4,18 +4,16 @@ languages:
   - typescript
 products:
   - azure
-urlFragment: web-pubsub-typescript
+urlFragment: web-pubsub-express-typescript
 ---
 
-# Azure Web PubSub client library samples for TypeScript
+# Azure Web PubSub CloudEvents Handlers for Express client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Web PubSub in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure Web PubSub CloudEvents Handlers for Express in some common scenarios.
 
-| **File Name**                       | **Description**                                                 |
-| ----------------------------------- | --------------------------------------------------------------- |
-| [broadcasting.ts][broadcasting]     | Demonstrates broadcasting messages to a hub and a group         |
-| [directMessage.ts][directmessage]   | Demonstrates sending messages directly to a user or connection. |
-| [managingGroups.ts][managinggroups] | Demonstrates adding and removing users from groups              |
+| **File Name**       | **Description**                                           |
+| ------------------- | --------------------------------------------------------- |
+| [server.ts][server] | Demonstrates handling Web PubSub CloudEvents with Express |
 
 ## Prerequisites
 
@@ -54,18 +52,16 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/broadcasting.ts
+node dist/server.ts
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node dist/broadcasting.js
+npx cross-env  node dist/server.js
 ```
 
-[broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/broadcasting.ts
-[directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/directMessage.ts
-[managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/typescript/src/managingGroups.ts
+[server]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub-express/samples/v1/typescript/src/server.ts
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub-express/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

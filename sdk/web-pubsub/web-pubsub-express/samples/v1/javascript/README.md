@@ -4,18 +4,16 @@ languages:
   - javascript
 products:
   - azure
-urlFragment: web-pubsub-javascript
+urlFragment: web-pubsub-express-javascript
 ---
 
-# Azure Web PubSub client library samples for JavaScript
+# Azure Web PubSub CloudEvents Handlers for Express client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Web PubSub in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Web PubSub CloudEvents Handlers for Express in some common scenarios.
 
-| **File Name**                       | **Description**                                                 |
-| ----------------------------------- | --------------------------------------------------------------- |
-| [broadcasting.js][broadcasting]     | Demonstrates broadcasting messages to a hub and a group         |
-| [directMessage.js][directmessage]   | Demonstrates sending messages directly to a user or connection. |
-| [managingGroups.js][managinggroups] | Demonstrates adding and removing users from groups              |
+| **File Name**       | **Description**                                           |
+| ------------------- | --------------------------------------------------------- |
+| [server.js][server] | Demonstrates handling Web PubSub CloudEvents with Express |
 
 ## Prerequisites
 
@@ -42,17 +40,15 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node broadcasting.js
+node server.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node broadcasting.js
+npx cross-env  node server.js
 ```
 
-[broadcasting]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/broadcasting.js
-[directmessage]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/directMessage.js
-[managinggroups]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub/samples/v1/javascript/managingGroups.js
+[server]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/web-pubsub/web-pubsub-express/samples/v1/javascript/server.js
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/web-pubsub/web-pubsub-express/README.md
