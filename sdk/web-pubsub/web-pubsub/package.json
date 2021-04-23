@@ -119,8 +119,7 @@
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub",
     "productSlugs": [
-      "azure",
-      "azure-web-pubsub"
+      "azure"
     ]
   }
 }
