@@ -54,12 +54,11 @@ matrix([[true, false]], async function(useAad) {
         const searchPoller = await client.beginUpdatePhoneNumberCapabilities(fakeNumber, update);
         await searchPoller.pollUntilDone();
       } catch (error) {
-        // TODO: reimplement error code check when service is fixed
-        // assert.equal(error.statusCode, 401);
+        assert.equal(error.statusCode, 404);
         return;
       }
 
-      assert.fail("beginSearchAvailablePhoneNumbers should have thrown an exception.");
+      assert.fail("beginUpdatePhoneNumberCapabilities should have thrown an exception.");
     });
   });
 });
