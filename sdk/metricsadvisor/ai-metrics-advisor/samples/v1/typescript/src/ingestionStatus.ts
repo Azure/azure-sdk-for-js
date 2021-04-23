@@ -55,11 +55,20 @@ async function listIngestionStatus(
 
   if (!result.done) {
     console.log("  -- Page --");
-    console.log(result.value, ["timestamp", "status", "message"]);
+    for (const item of result.value) {
+      console.log(`      timestamp: ${item.timestamp}`);
+      console.log(`      status: ${item.status}`);
+      console.log(`      status: ${item.message}`);
+    }
+
     const nextPage = await iterator.next();
     if (!nextPage.done) {
       console.log("  -- Page --");
-      console.log(result.value, ["timestamp", "status", "message"]);
+      for (const item of result.value) {
+        console.log(`      timestamp: ${item.timestamp}`);
+        console.log(`      status: ${item.status}`);
+        console.log(`      status: ${item.message}`);
+      }
     }
   }
 }

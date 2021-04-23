@@ -235,7 +235,11 @@ async function queryAlerts(client, alertConfigId, startTime, endTime) {
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page -- ");
-    console.log(result.value);
+    for (const item of result.value) {
+      console.log(`      id: ${item.id}`);
+      console.log(`      timestamp: ${item.timestamp}`);
+      console.log(`      created on: ${item.createdOn}`);
+    }
     result = await iterator.next();
   }
 

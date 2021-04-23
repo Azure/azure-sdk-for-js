@@ -132,11 +132,11 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
 
   if (!result.done) {
     console.log("first page");
-    console.log(result.value);
+    console.dir(result.value);
     const nextPage = await iterator.next();
     if (!nextPage.done) {
       console.log("second page");
-      console.log(nextPage.value);
+      console.dir(nextPage.value);
     }
   }
 }
