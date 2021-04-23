@@ -14,6 +14,8 @@ import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersist
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
 
+const ASSET_PATH = "assets";
+
 describe("ClientCertificateCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
@@ -35,7 +37,7 @@ describe("ClientCertificateCredential (internal)", function() {
     await cleanup();
   });
 
-  const certificatePath = path.resolve(__dirname, "../test/assets/cert.pem");
+  const certificatePath = path.join(ASSET_PATH, "cert.pem");
   const scope = "https://vault.azure.net/.default";
 
   it("throws when given a file that doesn't contain a PEM-formatted certificate", () => {
