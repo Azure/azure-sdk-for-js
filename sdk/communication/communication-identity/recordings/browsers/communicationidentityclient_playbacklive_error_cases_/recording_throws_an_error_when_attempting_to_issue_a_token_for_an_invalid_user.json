@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/identities/sanitized/:issueAccessToken",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"IdentityNotOwned\",\"message\":\"Provided identity doesn't belong to the resource.\"}}",
+   "responseHeaders": {
+    "content-type": "application/json"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "756b6c948d920d30605cf9068651bb3d"
+}

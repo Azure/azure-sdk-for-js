@@ -1,21 +1,21 @@
 let nock = require('nock');
 
-module.exports.hash = "604c6e9a30f6e5a0b6a80b9b8b4c12b9";
+module.exports.hash = "cc808ac54c410a90220ef23709dee61a";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/identities')
+  .delete('/identities/sanitized')
   .query(true)
-  .reply(201, {"identity":{"id":"sanitized"}}, [
+  .reply(401, {"error":{"code":"IdentityNotOwned","message":"Provided identity doesn't belong to the resource."}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
-  'application/json; charset=utf-8',
+  'application/json',
   'Request-Context',
   'appId=',
   'MS-CV',
-  'UJqnOGQ3OUiI2bGPJYOetA.0',
+  '+QdlYb8eIkSB0Zh2H54rOw.0',
   'Strict-Transport-Security',
   'max-age=2592000',
   'x-ms-client-request-id',
@@ -25,7 +25,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'X-Processing-Time',
   '11ms',
   'X-Azure-Ref',
-  '06Dh+YAAAAADpxzQcpNLeR7IDoMgYDaluWVZSMzBFREdFMDMxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
+  '07Dh+YAAAAACG28pzOsbqTZzKZgOOTVe/WVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 20 Apr 2021 02:14:00 GMT'
+  'Tue, 20 Apr 2021 02:14:04 GMT'
 ]);
