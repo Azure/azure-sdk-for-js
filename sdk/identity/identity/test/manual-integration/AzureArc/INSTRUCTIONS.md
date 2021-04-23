@@ -2,8 +2,7 @@
 
 ## Prerequisites
 
-- A non-Azure Windows or Linux VM.
-  - Must have NodeJS, NPM, and git installed.
+- A non-Azure Windows or Linux virtual machine with NodeJS, NPM, and git installed.
 - Administrator privileges on the VM.
 - An Azure Key Vault.
 
@@ -26,7 +25,7 @@ sudo setfacl -m "g:himds:r-x" /var/opt/azcmagent/tokens/
 sudo setfacl -m "g::r-x" /var/opt/azcmagent/tokens/
 ```
 
-7. Arc setup should now be complete. Restart your VM to finalize your environment setup.
+7. The Azure Arc setup should now be complete. Restart your VM to finalize your environment setup.
 8. After restarting, check your environment by searching for environment variables named `IDENTITY_ENDPOINT` and
    `IMDS_ENDPOINT`. If they are not present, or don't resemble `http://localhost:40342/metadata/identity/oauth2/token` and
    `http://localhost:40342` respectively, you may need to wait a short while or try restarting the VM again.
