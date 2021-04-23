@@ -56,32 +56,32 @@ export type JSONTypes = string | number | boolean | object;
 /**
  * Options for constructing a HubAdmin client.
  */
-export interface HubAdminClientOptions extends PipelineOptions {}
+export interface HubAdminClientOptions extends PipelineOptions { }
 
 /**
  * Options for checking if a connection exists.
  */
-export interface HasConnectionOptions extends OperationOptions {}
+export interface HasConnectionOptions extends OperationOptions { }
 
 /**
  * Options for checking if a group exists.
  */
-export interface HubHasGroupOptions extends OperationOptions {}
+export interface HubHasGroupOptions extends OperationOptions { }
 
 /**
  * Options for checking if a user exists.
  */
-export interface HubHasUserOptions extends OperationOptions {}
+export interface HubHasUserOptions extends OperationOptions { }
 
 /**
  * Options for removing a user from all groups.
  */
-export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions {}
+export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions { }
 
 /**
  * Options for sending a message to a specific connection.
  */
-export interface HubSendToConnectionOptions extends OperationOptions {}
+export interface HubSendToConnectionOptions extends OperationOptions { }
 
 /**
  * Options for sending a text message to a connection.
@@ -93,7 +93,7 @@ export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptio
 /**
  * Options for sending a message to a user.
  */
-export interface HubSendToUserOptions extends OperationOptions {}
+export interface HubSendToUserOptions extends OperationOptions { }
 
 /**
  * Options for sending a text message to a user.
@@ -138,21 +138,39 @@ export interface GetAuthenticationTokenResponse {
 
 export type Permission = "joinLeaveGroup" | "sendToGroup";
 
+/**
+ * Options for grant permissions to a connection
+ */
 export interface HubGrantPermissionOptions extends OperationOptions {
   /**
-   * If not set, grant the permission to all the targets. If set, grant the permission to
-   * the specific target. The meaning of the target depends on the specific permission.
+   * The meaning of the target depends on the specific permission.
+   * For joinLeaveGroup and sendToGroup, targetName is a required parameter standing for the group name.
    */
   targetName?: string;
 }
 
+/**
+ * Options for revoke permissions from a connection
+ */
 export interface HubRevokePermissionOptions extends OperationOptions {
   /**
-   * If not set, revoke the permission from all the targets. If set, revoke the permission
-   * from the specific target. The meaning of the target depends on the specific permission.
+   * The meaning of the target depends on the specific permission.
+   * For joinLeaveGroup and sendToGroup, targetName is a required parameter standing for the group name.
    */
   targetName?: string;
 }
+
+/**
+ * Options for check if a connection has the specified permission
+ */
+export interface HubHasPermissionOptions extends OperationOptions {
+  /**
+   * The meaning of the target depends on the specific permission.
+   * For joinLeaveGroup and sendToGroup, targetName is a required parameter standing for the group name.
+   */
+  targetName?: string;
+}
+
 /**
  * Client for connecting to a Web PubSub hub
  */
@@ -660,6 +678,35 @@ export class WebPubSubServiceClient {
 
     try {
       return await this.client.webPubSub.revokePermission(
+        this.hubName,
+        permission,
+        connectionId,
+        updatedOptions
+      );
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Check if the connection has the specified permission
+   *
+   * @param connectionId The connection id to check permission
+   * @param Permission The permission to check
+   * @param options Additional options
+   */
+  public async hasPermission(
+    connectionId: string,
+    permission: Permission,
+    options: HubHasPermissionOptions = {}
+  ) {
+    const { span, updatedOptions } = createSpan(
+      "WebPubSubServiceClient-hub-hasPermission",
+      options
+    );
+
+    try {
+      return await this.client.webPubSub.checkPermission(
         this.hubName,
         permission,
         connectionId,

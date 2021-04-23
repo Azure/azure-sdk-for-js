@@ -76,13 +76,18 @@ export interface HasConnectionOptions extends OperationOptions {
 export interface HubAdminClientOptions extends PipelineOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface HubGrantPermissionOptions extends OperationOptions {
     targetName?: string;
 }
 
 // @public
 export interface HubHasGroupOptions extends OperationOptions {
+}
+
+// @public
+export interface HubHasPermissionOptions extends OperationOptions {
+    targetName?: string;
 }
 
 // @public
@@ -93,7 +98,7 @@ export interface HubHasUserOptions extends OperationOptions {
 export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface HubRevokePermissionOptions extends OperationOptions {
     targetName?: string;
 }
@@ -163,6 +168,7 @@ export class WebPubSubServiceClient {
     group(groupName: string): WebPubSubGroup;
     hasConnection(connectionId: string, options?: HasConnectionOptions): Promise<boolean>;
     hasGroup(groupName: string, options?: HubHasGroupOptions): Promise<boolean>;
+    hasPermission(connectionId: string, permission: Permission, options?: HubHasPermissionOptions): Promise<RestResponse>;
     hasUser(username: string, options?: HubHasUserOptions): Promise<boolean>;
     readonly hubName: string;
     removeUserFromAllGroups(userId: string, options?: CloseConnectionOptions): Promise<RestResponse>;

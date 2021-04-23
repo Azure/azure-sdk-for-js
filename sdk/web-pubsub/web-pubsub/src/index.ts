@@ -16,6 +16,7 @@ export {
   HubSendToUserOptions,
   HubGrantPermissionOptions,
   HubRevokePermissionOptions,
+  HubHasPermissionOptions,
   HubSendTextToAllOptions,
   HubSendTextToConnectionOptions,
   HubSendTextToUserOptions,
