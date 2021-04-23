@@ -109,7 +109,10 @@ class MockRefreshAzureCredential implements TokenCredential {
     this.getTokenResponses = getTokenResponses;
   }
 
-  public getToken(scope: string | string[], options: GetTokenOptions): Promise<AccessToken | null> {
+  public getToken(
+    scope: string | string[],
+    options: GetTokenOptions & { claims?: string }
+  ): Promise<AccessToken | null> {
     this.authCount++;
     this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
     return Promise.resolve(this.getTokenResponses.shift()!);
