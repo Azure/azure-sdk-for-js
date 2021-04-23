@@ -1,6 +1,6 @@
-# Azure Web PubSub Service client library for JavaScript
+# Azure Web PubSub service client library for JavaScript
 
-[Azure Web PubSub Service](https://aka.ms/awps/doc) is a service that enables you to build real-time messaging web applications using WebSockets and the publish-subscribe pattern. Any platform supporting WebSocket APIs can connect to the service easily, e.g. web pages, mobile applications, edge devices, etc. The service manages the WebSocket connections for you and allows up to 100K \*concurrent connections. It provides powerful APIs for you to manage these clients and deliver real-time messages.
+[Azure Web PubSub](https://aka.ms/awps/doc) is a service that enables you to build real-time messaging web applications using WebSockets and the publish-subscribe pattern. Any platform supporting WebSocket APIs can connect to the service easily, e.g. web pages, mobile applications, edge devices, etc. The service manages the WebSocket connections for you and allows up to 100 concurrent connections. It provides powerful APIs for you to manage these clients and deliver real-time messages.
 
 Any scenario that requires real-time publish-subscribe messaging between server and clients or among clients, can use Azure Web PubSub service. Traditional real-time features that often require polling from server or submitting HTTP requests, can also use Azure Web PubSub service.
 
@@ -17,7 +17,7 @@ We list some examples that are good to use Azure Web PubSub service:
 - **IoT and connected devices:** real-time IoT metrics, remote control, real-time status, and location tracking.
 - **Automation:** real-time trigger from upstream events.
 
-Use the client library to:
+Use the library to:
 
 - Send messages to hubs and groups.
 - Send messages to particular users and connections.
@@ -48,7 +48,7 @@ Use the client library to:
 npm install @azure/web-pubsub
 ```
 
-### 2. Create a WebPubSubServiceClient
+### 2. Create and authenticate a WebPubSubServiceClient
 
 ```js
 const { WebPubSubServiceClient } = require("@azure/web-pubsub");
@@ -56,7 +56,20 @@ const { WebPubSubServiceClient } = require("@azure/web-pubsub");
 const serviceClient = new WebPubSubServiceClient("<ConnectionString>", "<hubName>");
 ```
 
+You can also authenticate the `WebPubSubServiceClient` using an endpoint and an `AzureKeyCredential`:
+
+```js
+const { WebPubSubServiceClient, AzureKeyCredential } = require("@azure/web-pubsub");
+
+const key = new AzureKeyCredential("<Key>");
+const serviceClient = new WebPubSubServiceClient("<Endpoint>", key, "<hubName>");
+```
+
 ## Key concepts
+
+### Connection
+
+Connections, represented by a connection id, represent an individual websocket connection to the Web PubSub service. Connection id is always unique.
 
 ### Hub
 
@@ -69,10 +82,6 @@ Group allow broadcast messages to a subset of connections to the hub. You can ad
 ### User
 
 Connections to Web PubSub can belong to one user. A user might have multiple connections, for example when a single user is connected across multiple devices or multiple browser tabs.
-
-### Connection
-
-Connections, represented by a connection id, represent an individual websocket connection to the Web PubSub service. Connection id is always unique.
 
 ### Message
 
