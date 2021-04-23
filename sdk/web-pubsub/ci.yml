@@ -28,5 +28,5 @@ extends:
   parameters:
     ServiceDirectory: web-pubsub
     Artifacts:
-      - name: web-pubsub
+      - name: azure-web-pubsub
         safeName: webpubsub
