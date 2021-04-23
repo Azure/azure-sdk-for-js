@@ -176,6 +176,6 @@ export function flattenResponse(
     shouldWrapBody:
       expectedBodyTypeName !== "Composite" &&
       expectedBodyTypeName !== "Dictionary" &&
-      isPrimitiveBody(fullResponse.parsedBody)
+      (Boolean(bodyMapper) || isPrimitiveBody(fullResponse.parsedBody))
   });
 }

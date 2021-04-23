@@ -3,6 +3,7 @@
 ## 1.1.1 (Unreleased)
 
 - Expose `allowInsecureConnection` in `ServiceClientOptions` and `OperationRequestOptions` to allow operation requests to HTTP endpoints
+- Add back a missed condition when refactoring in #14387
 
 ## 1.1.0 (2021-03-30)
 
