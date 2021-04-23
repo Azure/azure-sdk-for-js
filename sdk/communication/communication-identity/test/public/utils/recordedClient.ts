@@ -85,7 +85,7 @@ export function createRecordedCommunicationIdentityClientWithToken(
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
   const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
-  if (isPlaybackMode()) {
+  if (isPlaybackMode() && isNode) {
     credential = {
       getToken: async (_scopes) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };

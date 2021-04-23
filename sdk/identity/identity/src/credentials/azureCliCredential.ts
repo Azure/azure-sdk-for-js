@@ -7,6 +7,7 @@ import { CredentialUnavailableError } from "../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import * as child_process from "child_process";
+import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
 
 function getSafeWorkingDir(): string {
   if (process.platform === "win32") {
@@ -71,14 +72,8 @@ export class AzureCliCredential implements TokenCredential {
       const scope = typeof scopes === "string" ? scopes : scopes[0];
       logger.getToken.info(`Using the scope ${scope}`);
 
-      const resource = scope.replace(/\/.default$/, "");
-
-      // Check to make sure the scope we get back is a valid scope
-      if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        const error = new Error("Invalid scope was specified by the user or calling client");
-        logger.getToken.info(formatError(scopes, error));
-        throw error;
-      }
+      ensureValidScope(scope, logger);
+      const resource = getScopeResource(scope);
 
       let responseData = "";
 

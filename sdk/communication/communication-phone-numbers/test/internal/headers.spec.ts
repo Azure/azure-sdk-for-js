@@ -8,10 +8,10 @@ import { isPlaybackMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import sinon from "sinon";
 import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
-import { getPhoneNumberHttpClient } from "../utils/mockHttpClients";
+import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
 import { Context } from "mocha";
-import { canCreateRecordedClientWithToken } from "../utils/recordedClient";
+import { canCreateRecordedClientWithToken } from "../public/utils/recordedClient";
 
 describe("PhoneNumbersClient - headers", function() {
   const endpoint = "https://contoso.spool.azure.local";
