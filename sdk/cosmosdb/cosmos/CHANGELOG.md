@@ -517,6 +517,22 @@ Not always the most visible changes, but they help our team ship better code, fa
 - Modified items.query to allow for cross partition query
 - Misc fixes/doc updates
 
+## 2.0.0-3 (2018-08-02)
+
+- New object model
+- Updated documentation and samples
+- Improved types
+- Added `createdIfNotExists` for database and container
+- Added prettier
+- Added public CI (Travis and VSTS)
+
+## 2.0.0-0 (2018-08-01)
+
+- Added Promise support
+- Added token handler option for auth
+- typings now emitted from source (moved source to TypeScript)
+- Added CosmosClient (DocumentClient now considered deprecated)
+
 ## 1.14.4 (2018-05-03)
 
 - npm documentation fixed.
@@ -765,19 +781,3 @@ Any request to Cosmos DB using a retired SDK will be rejected by the service.
 | [1.0.2](#1.0.2)          | May 23, 2015       | August 30, 2020 |
 | [1.0.1](#1.0.1)          | May 15, 2015       | August 30, 2020 |
 | [1.0.0](#1.0.0)          | April 08, 2015     | August 30, 2020 |
-## 2.0.0-0 (2018-08-01)
-
-- Added Promise support
-- Added token handler option for auth
-- typings now emitted from source (moved source to TypeScript)
-- Added CosmosClient (DocumentClient now considered deprecated)
-
-## 2.0.0-3 (2018-08-02)
-
-- New object model
-- Updated documentation and samples
-- Improved types
-- Added `createdIfNotExists` for database and container
-- Added prettier
-- Added public CI (Travis and VSTS)
-
