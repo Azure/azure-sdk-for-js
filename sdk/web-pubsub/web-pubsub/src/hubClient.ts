@@ -320,7 +320,7 @@ export class WebPubSubServiceClient {
   ): Promise<RestResponse> {
     const normalizedOptions = normalizeSendToAllOptions(options);
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-hub-sendToAll",
+      "WebPubSubServiceClient-hub-sendToAll",
       normalizedOptions
     );
 
@@ -380,10 +380,7 @@ export class WebPubSubServiceClient {
     message: JSONTypes | HttpRequestBody,
     options: HubSendToUserOptions = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-hub-sendToUser",
-      options
-    );
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-sendToUser", options);
 
     const contentType = getContentTypeForMessage(message, updatedOptions);
 
@@ -444,7 +441,7 @@ export class WebPubSubServiceClient {
     options: HubSendToConnectionOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-hub-sendToConnection",
+      "WebPubSubServiceClient-hub-sendToConnection",
       options
     );
     const contentType = getContentTypeForMessage(message, updatedOptions);
@@ -473,7 +470,7 @@ export class WebPubSubServiceClient {
     options: HasConnectionOptions = {}
   ): Promise<boolean> {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-hub-hasConnection",
+      "WebPubSubServiceClient-hub-hasConnection",
       options
     );
 
@@ -514,7 +511,7 @@ export class WebPubSubServiceClient {
     options: CloseConnectionOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-hub-removeConnection",
+      "WebPubSubServiceClient-hub-removeConnection",
       options
     );
 
@@ -539,7 +536,7 @@ export class WebPubSubServiceClient {
     options: CloseConnectionOptions = {}
   ): Promise<RestResponse> {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-hub-removeUserFromAllGroups",
+      "WebPubSubServiceClient-hub-removeUserFromAllGroups",
       options
     );
 
@@ -561,7 +558,7 @@ export class WebPubSubServiceClient {
    * @param options Additional options
    */
   public async hasGroup(groupName: string, options: HubHasGroupOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("WebPubSubManagementClient-hub-hasGroup", options);
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasGroup", options);
 
     try {
       const res = await this.client.webPubSub.groupExists(this.hubName, groupName, updatedOptions);
@@ -591,7 +588,7 @@ export class WebPubSubServiceClient {
    * @param options Additional options
    */
   public async hasUser(username: string, options: HubHasUserOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("WebPubSubManagementClient-hub-hasUser", options);
+    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-hub-hasUser", options);
 
     try {
       const res = await this.client.webPubSub.userExists(this.hubName, username, updatedOptions);
@@ -628,7 +625,7 @@ export class WebPubSubServiceClient {
     options: HubGrantPermissionOptions = {}
   ) {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-hub-grantPermission",
+      "WebPubSubServiceClient-hub-grantPermission",
       options
     );
 
@@ -657,7 +654,7 @@ export class WebPubSubServiceClient {
     options: HubRevokePermissionOptions = {}
   ) {
     const { span, updatedOptions } = createSpan(
-      "WebPubSubManagementClient-hub-revokePermission",
+      "WebPubSubServiceClient-hub-revokePermission",
       options
     );
 

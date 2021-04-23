@@ -233,7 +233,10 @@ export class WebPubSubGroupImpl implements WebPubSubGroup {
     connectionId: string,
     options: GroupRemoveConnectionOptions = {}
   ): Promise<RestResponse> {
-    const { span, updatedOptions } = createSpan("WebPubSubServiceClient-group-removeUser", options);
+    const { span, updatedOptions } = createSpan(
+      "WebPubSubServiceClient-group-removeConnection",
+      options
+    );
 
     try {
       const res = await this.client.webPubSub.removeConnectionFromGroup(
