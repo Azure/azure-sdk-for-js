@@ -11,46 +11,8 @@ import {
   DisconnectedRequest,
   ConnectedRequest,
   ConnectionContext,
-  ConnectResponseHandler,
-  UserEventResponseHandler,
   WebPubSubEventHandlerOptions
 } from "./cloudEventsProtocols";
-
-class DefaultConnectResponseHandler implements ConnectResponseHandler {
-  constructor(private response: ServerResponse) { }
-  public success(response?: ConnectResponse): void {
-    this.response.statusCode = 200;
-    this.response.setHeader("Content-Type", "application/json; charset=utf-8");
-    this.response.end(JSON.stringify(response));
-  }
-  public fail(code: 400 | 401 | 500, detail?: string): void {
-    this.response.statusCode = code;
-    this.response.end(detail ?? "");
-  }
-}
-
-class DefaultUserEventResponseHandler implements UserEventResponseHandler {
-  constructor(private response: ServerResponse) { }
-  public success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void {
-    this.response.statusCode = 200;
-    switch (dataType) {
-      case "json":
-        this.response.setHeader("Content-Type", "application/json; charset=utf-8");
-        break;
-      case "text":
-        this.response.setHeader("Content-Type", "text/plain; charset=utf-8");
-        break;
-      default:
-        this.response.setHeader("Content-Type", "application/octet-stream");
-        break;
-    }
-    this.response.end(data ?? "");
-  }
-  public fail(code: 400 | 401 | 500, detail?: string): void {
-    this.response.statusCode = code;
-    this.response.end(detail ?? "");
-  }
-}
 
 /**
  * @internal
@@ -84,6 +46,11 @@ export class CloudEventsDispatcher {
     response: ServerResponse
   ): Promise<boolean> {
     // check if it is a valid WebPubSub cloud events
+    const origin = this.getSingleHeader(request, "webhook-request-origin");
+    if (origin === undefined) {
+      return false;
+    }
+
     const eventType = this.tryGetWebPubSubEvent(request);
     if (eventType === undefined) {
       return false;
@@ -135,18 +102,30 @@ export class CloudEventsDispatcher {
 
     switch (eventType) {
       case EventType.Connect: {
-        const handler = new DefaultConnectResponseHandler(response);
-
         const connectRequest = receivedEvent.data as ConnectRequest;
-        connectRequest.context = this.GetContext(receivedEvent, request.headers.host!);
-        this.eventHandler.handleConnect!(connectRequest, handler);
+        connectRequest.context = this.GetContext(receivedEvent, origin);
+        this.eventHandler.handleConnect!(connectRequest, {
+          success(res?: ConnectResponse): void {
+            response.statusCode = 200;
+            if (res === undefined) {
+              response.end();
+            } else {
+              response.setHeader("Content-Type", "application/json; charset=utf-8");
+              response.end(JSON.stringify(res));
+            }
+          },
+          fail(code: 400 | 401 | 500, detail?: string): void {
+            response.statusCode = code;
+            response.end(detail ?? "");
+          }
+        });
         return true;
       }
       case EventType.Connected: {
         // for unblocking events, we responds to the service as early as possible
         response.end();
         const connectedRequest = receivedEvent.data as ConnectedRequest;
-        connectedRequest.context = this.GetContext(receivedEvent, request.headers.host!);
+        connectedRequest.context = this.GetContext(receivedEvent, origin);
         this.eventHandler.onConnected!(connectedRequest);
         return true;
       }
@@ -154,23 +133,22 @@ export class CloudEventsDispatcher {
         // for unblocking events, we responds to the service as early as possible
         response.end();
         const disconnectedRequest = receivedEvent.data as DisconnectedRequest;
-        disconnectedRequest.context = this.GetContext(receivedEvent, request.headers.host!);
+        disconnectedRequest.context = this.GetContext(receivedEvent, origin);
         this.eventHandler.onDisconnected!(disconnectedRequest);
         return true;
       }
       case EventType.UserEvent: {
-        const eventHandler = new DefaultUserEventResponseHandler(response);
         let userRequest: UserEventRequest;
         if (receivedEvent.data_base64 !== undefined) {
           userRequest = {
-            context: this.GetContext(receivedEvent, request.headers.host!),
+            context: this.GetContext(receivedEvent, origin),
             data: Buffer.from(receivedEvent.data_base64, "base64"),
             dataType: "binary"
           }
         }
         else if (receivedEvent.data !== undefined) {
           userRequest = {
-            context: this.GetContext(receivedEvent, request.headers.host!),
+            context: this.GetContext(receivedEvent, origin),
             data: receivedEvent.data as string,
             dataType: receivedEvent.datacontenttype?.startsWith("application/json;") ? "json" : "text"
           }
@@ -178,7 +156,27 @@ export class CloudEventsDispatcher {
           throw new Error("Unexpected data.");
         }
 
-        this.eventHandler.handleUserEvent!(userRequest, eventHandler);
+        this.eventHandler.handleUserEvent!(userRequest, {
+          success(data?: string | ArrayBuffer, dataType?: "binary" | "text" | "json"): void {
+            response.statusCode = 200;
+            switch (dataType) {
+              case "json":
+                response.setHeader("Content-Type", "application/json; charset=utf-8");
+                break;
+              case "text":
+                response.setHeader("Content-Type", "text/plain; charset=utf-8");
+                break;
+              default:
+                response.setHeader("Content-Type", "application/octet-stream");
+                break;
+            }
+            response.end(data ?? "");
+          },
+          fail(code: 400 | 401 | 500, detail?: string): void {
+            response.statusCode = code;
+            response.end(detail ?? "");
+          }
+        });
         return true;
       }
       default:
@@ -194,8 +192,8 @@ export class CloudEventsDispatcher {
     const connected = "azure.webpubsub.sys.connected";
     const disconnectd = "azure.webpubsub.sys.disconnected";
     const userPrefix = "azure.webpubsub.user.";
-    const type = req.headers["ce-type"];
-    if (!type || typeof type !== "string" || !type.startsWith(prefix)) {
+    const type = this.getSingleHeader(req, "ce-type");
+    if (!type?.startsWith(prefix)) {
       return undefined;
     }
     if (type.startsWith(userPrefix)) {
@@ -213,14 +211,27 @@ export class CloudEventsDispatcher {
     }
   }
 
-  private GetContext(ce: CloudEvent, host: string): ConnectionContext {
+  private getSingleHeader(req: IncomingMessage, key: string): string | undefined {
+    const value = req.headers[key];
+    if (value === undefined) {
+      return undefined;
+    }
+
+    if (typeof value === "string") {
+      return value;
+    }
+
+    return value[0];
+  }
+
+  private GetContext(ce: CloudEvent, origin: string): ConnectionContext {
     const context = {
       signature: ce["signature"] as string,
       userId: ce["userid"] as string,
       hub: ce["hub"] as string,
       connectionId: ce["connectionid"] as string,
       eventName: ce["eventname"] as string,
-      host: host
+      origin: origin
     };
 
     // TODO: validation

@@ -13,7 +13,7 @@ function buildRequest(
   connectionId: string,
   userId?: string
 ): void {
-  req.headers["host"] = "xxx.webpubsub.azure.com";
+  req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
   req.headers["Content-Type"] = "application/json; charset=utf-8";
   req.headers["ce-specversion"] = "1.0";
   req.headers["ce-type"] = "azure.webpubsub.sys.connect";
@@ -33,16 +33,16 @@ function mockBody(req: IncomingMessage, body: string): void {
   req.emit("end");
 }
 
-describe("Can handle connect event", function() {
+describe("Can handle connect event", function () {
   let req: IncomingMessage;
   let res: ServerResponse;
 
-  beforeEach(function() {
+  beforeEach(function () {
     req = new IncomingMessage(new Socket());
     res = new ServerResponse(req);
   });
 
-  it("Should not handle the request if request is not cloud events", async function() {
+  it("Should not handle the request if request is not cloud events", async function () {
     const endSpy = sinon.spy(res.end);
 
     const dispatcher = new CloudEventsDispatcher("hub1", ["*"]);
@@ -51,7 +51,7 @@ describe("Can handle connect event", function() {
     assert.isTrue(endSpy.notCalled);
   });
 
-  it("Should not handle the request if hub does not match", async function() {
+  it("Should not handle the request if hub does not match", async function () {
     const endSpy = sinon.spy(res.end);
     buildRequest(req, "hub", "conn1");
 
@@ -61,7 +61,7 @@ describe("Can handle connect event", function() {
     assert.isTrue(endSpy.notCalled);
   });
 
-  it("Should response with 401 when option is not specified", async function() {
+  it("Should response with 401 when option is not specified", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -72,7 +72,7 @@ describe("Can handle connect event", function() {
     assert.equal(401, res.statusCode, "should be 401");
   });
 
-  it("Should response with 401 when handler is not specified", async function() {
+  it("Should response with 401 when handler is not specified", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -83,7 +83,7 @@ describe("Can handle connect event", function() {
     assert.equal(401, res.statusCode, "should be 401");
   });
 
-  it("Should response with error when  handler returns error", async function() {
+  it("Should response with error when handler returns error", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -100,7 +100,7 @@ describe("Can handle connect event", function() {
     assert.equal(400, res.statusCode, "should be error");
   });
 
-  it("Should response with success when  handler returns success", async function() {
+  it("Should response with success when handler returns success", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 
@@ -117,7 +117,7 @@ describe("Can handle connect event", function() {
     assert.equal(200, res.statusCode, "should be success");
   });
 
-  it("Should response with success when  handler returns success value", async function() {
+  it("Should response with success when  handler returns success value", async function () {
     const endSpy = sinon.spy(res, "end");
     buildRequest(req, "hub", "conn1");
 

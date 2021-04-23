@@ -40,9 +40,9 @@ export interface ConnectionContext {
    */
   eventName: string;
   /**
-   * The host name this CloudEvents request comes from.
+   * The origin this CloudEvents request comes from.
    */
-  host: string;
+  origin: string;
   /**
    * The user id of the connection.
    */
@@ -104,35 +104,35 @@ export interface ConnectedRequest {
  */
 export type UserEventRequest =
   | {
-      /**
-       * The context of current CloudEvents request.
-       */
-      context: ConnectionContext;
+    /**
+     * The context of current CloudEvents request.
+     */
+    context: ConnectionContext;
 
-      /**
-       * The content data.
-       */
-      data: string;
-      /**
-       * The type of the data.
-       */
-      dataType: "text" | "json";
-    }
+    /**
+     * The content data.
+     */
+    data: string;
+    /**
+     * The type of the data.
+     */
+    dataType: "text" | "json";
+  }
   | {
-      /**
-       * The context of current CloudEvents request.
-       */
-      context: ConnectionContext;
+    /**
+     * The context of current CloudEvents request.
+     */
+    context: ConnectionContext;
 
-      /**
-       * The content data.
-       */
-      data: ArrayBuffer;
-      /**
-       * The type of the data.
-       */
-      dataType: "binary";
-    };
+    /**
+     * The content data.
+     */
+    data: ArrayBuffer;
+    /**
+     * The type of the data.
+     */
+    dataType: "binary";
+  };
 
 /**
  * Request for the disconnected event.

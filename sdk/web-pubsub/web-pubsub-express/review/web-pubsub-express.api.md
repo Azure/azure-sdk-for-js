@@ -20,8 +20,8 @@ export interface ConnectedRequest {
 export interface ConnectionContext {
     connectionId: string;
     eventName: string;
-    host: string;
     hub: string;
+    origin: string;
     subprotocol?: string;
     userId?: string;
 }
