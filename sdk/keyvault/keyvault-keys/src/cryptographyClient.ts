@@ -194,7 +194,7 @@ export class CryptographyClient {
   ): Promise<EncryptResult> {
     const [parameters, options] = this.disambiguateEncryptArguments(args);
 
-    return withTrace(`CryptographyClient.encrypt`, options, async (updatedOptions) => {
+    return withTrace("encrypt", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Encrypt);
       this.initializeIV(parameters);
       const provider = await this.getProvider("encrypt", parameters.algorithm);
@@ -298,7 +298,7 @@ export class CryptographyClient {
   ): Promise<DecryptResult> {
     const [parameters, options] = this.disambiguateDecryptArguments(args);
 
-    return withTrace(`CryptographyClient.decrypt`, options, async (updatedOptions) => {
+    return withTrace("decrypt", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Decrypt);
       const provider = await this.getProvider("decrypt", parameters.algorithm);
       try {
@@ -351,7 +351,7 @@ export class CryptographyClient {
     key: Uint8Array,
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
-    return withTrace(`CryptographyClient.wrapKey`, options, async (updatedOptions) => {
+    return withTrace("wrapKey", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.WrapKey);
       const provider = await this.getProvider("wrapKey", algorithm);
       try {
@@ -382,7 +382,7 @@ export class CryptographyClient {
     encryptedKey: Uint8Array,
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
-    return withTrace(`CryptographyClient.unwrapKey`, options, async (updatedOptions) => {
+    return withTrace("unwrapKey", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.UnwrapKey);
       const provider = await this.getProvider("unwrapKey", algorithm);
       try {
@@ -413,7 +413,7 @@ export class CryptographyClient {
     digest: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    return withTrace(`CryptographyClient.sign`, options, async (updatedOptions) => {
+    return withTrace("sign", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
       const provider = await this.getProvider("sign", algorithm);
       try {
@@ -446,7 +446,7 @@ export class CryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    return withTrace(`CryptographyClient.verify`, options, async (updatedOptions) => {
+    return withTrace("verify", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verify", algorithm);
       try {
@@ -477,7 +477,7 @@ export class CryptographyClient {
     data: Uint8Array,
     options: SignOptions = {}
   ): Promise<SignResult> {
-    return withTrace(`CryptographyClient.signData`, options, async (updatedOptions) => {
+    return withTrace("signData", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
       const provider = await this.getProvider("signData", algorithm);
       try {
@@ -510,7 +510,7 @@ export class CryptographyClient {
     signature: Uint8Array,
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
-    return withTrace(`CryptographyClient.verifyData`, options, async (updatedOptions) => {
+    return withTrace("verifyData", options, async (updatedOptions) => {
       this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
       const provider = await this.getProvider("verifyData", algorithm);
       try {

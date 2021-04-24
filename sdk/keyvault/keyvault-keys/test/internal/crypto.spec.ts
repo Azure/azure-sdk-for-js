@@ -3,7 +3,7 @@
 
 import { isNode, TokenCredential, OperationOptions } from "@azure/core-http";
 import { Context } from "mocha";
-import chai, { assert } from "chai";
+import chai, { assert, expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import sinon from "sinon";
@@ -13,6 +13,9 @@ import { JsonWebKey } from "../../src";
 import { stringToUint8Array } from "../utils/crypto";
 import { CryptographyProvider } from "../../src/cryptography/models";
 import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
+import { OperationTracingOptions } from "@azure/core-tracing";
+import supportsTracing from "../utils/traceMatcher";
+chai.use(supportsTracing);
 
 describe("internal crypto tests", () => {
   const tokenCredential: TokenCredential = {
@@ -406,6 +409,34 @@ describe("internal crypto tests", () => {
           );
         });
       });
+    });
+  });
+
+  describe.only("cryptography client tracing", function() {
+    const cryptoClient = new CryptographyClient({ kty: "RSA" });
+    cryptoClient["providers"] = [
+      sinon.createStubInstance(RsaCryptographyProvider, {
+        isSupported: true,
+        encrypt: Promise.resolve({ algorithm: "rsa", result: stringToUint8Array("foo") })
+      })
+    ];
+
+    it("supports tracing correctly", async function() {
+      await assert.supportsTracing(
+        cryptoClient,
+        async (client: CryptographyClient, tracingOptions: OperationTracingOptions) => {
+          await client.encrypt(
+            { algorithm: "RSA-OAEP", plaintext: stringToUint8Array("foo") },
+            { tracingOptions }
+          );
+        },
+        [
+          {
+            children: [],
+            name: "Azure.KeyVault.Keys.CryptographyClient.encrypt"
+          }
+        ]
+      );
     });
   });
 });
