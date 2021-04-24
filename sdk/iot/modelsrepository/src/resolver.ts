@@ -28,7 +28,7 @@ export class DtmiResolver {
     this._fetcher = fetcher;
   }
 
-  resolve(dtmis: string[], expandedModel: boolean = false) {
+  async resolve(dtmis: string[], expandedModel: boolean = false) {
     let modelMap: any = {};
 
     for (let dtmi of dtmis) {
@@ -37,12 +37,12 @@ export class DtmiResolver {
       logger.info(`Model ${dtmi} located in repository at ${dtdlPath}`);
 
       try {
-        dtdl = this._fetcher.fetch(dtdlPath);
+        dtdl = await this._fetcher.fetch(dtdlPath);
       } catch (e) {
         if (e instanceof FetcherError) {
-          return Promise.reject(new ResolverError(`Failed to resolve dtmi: ${dtmi}`, e));
+          throw new ResolverError(`Failed to resolve dtmi: ${dtmi}`, e);
         } else {
-          return Promise.reject(e);
+          throw e;
         }
       }
 

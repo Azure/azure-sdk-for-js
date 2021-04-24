@@ -5,7 +5,11 @@
  * Demonstrates resolving/obtaining a particular model definition from a remote model repository
  */
 
-const DtmiResolver = require("../../dist-esm/src/client");
+const lib = require("../../dist/index.js");
+
+const logger = require('@azure/logger');
+logger.setLogLevel('info');
+
 
 // You can change the endpoint and dtmi you'd like to access
 const repositoryLocation = "https://devicemodels.azure.com/";
@@ -15,8 +19,8 @@ console.log(repositoryLocation, dtmi);
 
 async function main() {
   // This is where you can change the options for how you want to resolve the dependencies.
-  const client = new DtmiResolver(repositoryLocation);
-  const result = await client.getmodels(dtmi);
+  const client = new lib.ModelsRepositoryClient(repositoryLocation);
+  const result = client.getModels(dtmi);
   console.log(result);
   Object.keys(result).forEach((fetchedDtmi) => {
     console.log(`DTMI is: ${fetchedDtmi}`);

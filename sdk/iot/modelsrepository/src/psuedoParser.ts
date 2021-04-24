@@ -6,24 +6,23 @@ import { logger } from "./logger";
 import { DtmiResolver } from "./resolver";
 
 export class PseudoParser {
-  private _resolver;
+  private _resolver: DtmiResolver;
 
   constructor(resolver: DtmiResolver) {
     this._resolver = resolver;
   }
 
-  expand(models: DTDL[]) {
+  async expand(models: DTDL[]) {
     let expandedMap: any = {};
-
-    models.forEach((model: DTDL) => {
+    for (let i=0; i<models.length; i++) {
+      const model: DTDL = models[i];
       expandedMap[model["@id"]] = model;
-      this._expand(model, expandedMap);
-    });
-
+      await this._expand(model, expandedMap);
+    }
     return expandedMap;
   }
 
-  private _expand(model: DTDL, modelMap: any) {
+  private async _expand(model: DTDL, modelMap: any) {
     logger.info(`Expanding model: ${model["@id"]}`);
     let dependencies = this._getModelDependencies(model);
     let dependenciesToResolve = dependencies.filter((dependency: string) => {
@@ -31,10 +30,10 @@ export class PseudoParser {
     });
     if (dependenciesToResolve.length !== 0) {
       logger.info(`Outstanding dependencies found: ${dependenciesToResolve}`);
-      let resolvedDependenciesMap = this._resolver.resolve(dependenciesToResolve);
+      let resolvedDependenciesMap = await this._resolver.resolve(dependenciesToResolve);
       modelMap = { ...modelMap, ...resolvedDependenciesMap };
       for (let dependencyModel of resolvedDependenciesMap.values()) {
-        this._expand(dependencyModel, modelMap);
+        await this._expand(dependencyModel, modelMap);
       }
     }
   }

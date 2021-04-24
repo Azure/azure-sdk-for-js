@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
-import { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
+import { createPipelineRequest, PipelineRequest, PipelineResponse, RestError } from "@azure/core-rest-pipeline";
 import { logger } from "./logger";
 import { Fetcher } from "./fetcher";
 
@@ -18,12 +18,11 @@ export class HttpFetcher extends Fetcher {
 
   async fetch(path: string) {
     logger.info(`Fetching ${path} from remote endpoint`);
-    const myURL = this._baseURL + path;
-
-    const request: any = {
+    const myURL = this._baseURL + '/' + path;
+    const request: PipelineRequest = createPipelineRequest({
       url: myURL,
       method: "GET"
-    };
+    });
     const res: PipelineResponse = await this._client.sendRequest(request);
 
     if (res.status >= 200 && res.status < 400) {
