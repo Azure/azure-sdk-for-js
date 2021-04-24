@@ -7,10 +7,17 @@
     "api-version": "2021-03-07"
    },
    "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
-   "status": 404,
+   "status": 401,
    "response": "",
    "responseHeaders": {
-    "content-length": "0"
+    "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+    "content-length": "0",
+    "date": "Sat, 24 Apr 2021 01:52:53 GMT",
+    "ms-cv": "y+3Yvbaic0C7ZqJfdqp0YA.0",
+    "request-context": "appId=",
+    "status": "401",
+    "x-azure-ref": "09XmDYAAAAAB16lq36mMsSorud4RPhNHKWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-processing-time": "332ms"
    }
   }
  ],
