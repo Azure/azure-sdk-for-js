@@ -10,7 +10,6 @@ trigger:
   paths:
     include:
       - sdk/web-pubsub/
-      - sdk/web-pubsub-express/
 
 pr:
   branches:
