@@ -20,7 +20,7 @@ import {
   WebResourceLike
 } from "@azure/core-http";
 import { CommunicationIdentityClient, CommunicationIdentityClientOptions } from "../../../src";
-import { DefaultAzureCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 
 if (isNode) {
@@ -81,11 +81,11 @@ export function createRecordedCommunicationIdentityClient(
 
 export function createRecordedCommunicationIdentityClientWithToken(
   context: Context
-): RecordedClient<CommunicationIdentityClient> | undefined {
+): RecordedClient<CommunicationIdentityClient> {
   const recorder = record(context, environmentSetup);
   let credential: TokenCredential;
   const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING).endpoint;
-  if (isPlaybackMode() && isNode) {
+  if (isPlaybackMode()) {
     credential = {
       getToken: async (_scopes) => {
         return { token: "testToken", expiresOnTimestamp: 11111 };
@@ -104,7 +104,11 @@ export function createRecordedCommunicationIdentityClientWithToken(
   try {
     credential = new DefaultAzureCredential();
   } catch {
-    return undefined;
+    credential = new ClientSecretCredential(
+      env.AZURE_TENANT_ID,
+      env.AZURE_CLIENT_ID,
+      env.AZURE_CLIENT_SECRET
+    );
   }
 
   // casting is a workaround to enable min-max testing
