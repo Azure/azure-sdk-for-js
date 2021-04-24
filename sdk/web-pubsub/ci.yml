@@ -10,6 +10,7 @@ trigger:
   paths:
     include:
       - sdk/web-pubsub/
+      - sdk/web-pubsub-express/
 
 pr:
   branches:
@@ -30,3 +31,5 @@ extends:
     Artifacts:
       - name: azure-web-pubsub
         safeName: webpubsub
+      - name: azure-web-pubsub-express
+        safeName: webpubsubexpress

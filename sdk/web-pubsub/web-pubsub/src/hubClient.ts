@@ -194,13 +194,13 @@ export class WebPubSubServiceClient {
   public endpoint!: string;
 
   /**
-   * Creates an instance of a HubClient for sending messages and managing groups, connections, and users.
+   * Creates an instance of a WebPubSubServiceClient for sending messages and managing groups, connections, and users.
    *
    * Example usage:
    * ```ts
-   * import { HubClient } from "@azure/web-pubsub-management";
+   * import { WebPubSubServiceClient } from "@azure/web-pubsub-management";
    * const connectionString = process.env['WEB_PUBSUB_CONNECTION_STRING'];
-   * const client = new HubClient(connectionString, 'chat');
+   * const client = new WebPubSubServiceClient(connectionString, 'chat');
    * ```
    *
    * @param connectionString The connection string
@@ -210,14 +210,14 @@ export class WebPubSubServiceClient {
   constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
 
   /**
-   * Creates an instance of a HubClient for sending messages and managing groups, connections, and users.
+   * Creates an instance of a WebPubSubServiceClient for sending messages and managing groups, connections, and users.
    *
    * Example usage:
    * ```ts
-   * import { HubClient, AzureKeyCredential } from "@azure/web-pubsub-management";
+   * import { WebPubSubServiceClient, AzureKeyCredential } from "@azure/web-pubsub-management";
    * const cred = new AzureKeyCredential("<your web pubsub api key>");
    * const endpoint = "https://xxxx.webpubsubdev.azure.com"
-   * const client = new HubClient(endpoint, cred, 'chat');
+   * const client = new WebPubSubServiceClient(endpoint, cred, 'chat');
    * ```
    *
    * @param endpoint The endpoint to connect to
