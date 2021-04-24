@@ -198,7 +198,7 @@ export class WebPubSubServiceClient {
    *
    * Example usage:
    * ```ts
-   * import { WebPubSubServiceClient } from "@azure/web-pubsub-management";
+   * import { WebPubSubServiceClient } from "@azure/web-pubsub";
    * const connectionString = process.env['WEB_PUBSUB_CONNECTION_STRING'];
    * const client = new WebPubSubServiceClient(connectionString, 'chat');
    * ```
