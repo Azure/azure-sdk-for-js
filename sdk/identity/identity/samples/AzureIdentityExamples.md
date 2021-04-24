@@ -9,6 +9,17 @@
   - [Authenticating Azure Hosted Applications](#authenticating-azure-hosted-applications)
 - [Chaining credentials](#chaining-credentials)
 - [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
+- [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
+- [Advanced Examples](#advanced-examples)
+  - [Custom Credentials](#custom-credentials)
+    - [Authenticating with a pre-fetched access token](authenticating-with-a-pre-fetched-access-token).
+    - [Authenticating with MSAL directly](authenticating-with-msal-directly).
+    - [Authenticating with the Confidential Client](authenticating-with-the-confidential-client).
+  - [Authenticating with the On Behalf Flow](authenticating-with-the-on-behalf-flow).
+  - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
+  - [Rolling Certificates](#rolling-certificates)
+
+### On Behalf Flow
 
 ## Introduction
 
@@ -430,6 +441,110 @@ function main() {
   const client = new SecretClient("<KEYVAULT_URL_IN_AZURE_STACK>", credential);
 }
 ```
+
+## Advanced Examples
+
+With all the information given so far, we can explore some advanced usages of the `@azure/identity` credentials.
+
+### Custom Credentials
+
+The `@azure/identity` library covers a broad range of Azure Active Directory authentication scenarios. However, it's possible the credential implementations provided might not meet the specific needs your application, or an application might want to avoid taking a dependency on the `@azure/identity` library.
+
+In this section we'll examine some example cases in which it might make sense to write a credential on your own.
+
+#### Authenticating with a pre-fetched access token
+
+The `@azure/identity` library does not contain a `TokenCredential` implementation which can be constructed directly with an `AccessToken`. This is intentionally omitted as a main line scenario as access tokens expire frequently and have constrained usage. However, there are some scenarios where authenticating a service client with a pre-fetched token is necessary.
+
+In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an `AccessToken`, and simply returns that from its implementation of `getToken()`.
+
+```ts
+class StaticTokenCredential implements TokenCredential {
+  constructor(private accessToken: AccessToken) {
+  }
+  async getToken(): Promise<AccessToken> {
+    return this.accessToken;
+  }
+}
+```
+
+Once the application has defined this credential type instances of it can be used to authenticate Azure SDK clients. The following example shows an how an application already using some other mechanism for acquiring tokens (in this case the hypothetical method `getTokenForScope()`) could use the `StaticTokenCredential` to authenticate a `BlobClient`.
+
+```C# Snippet:StaticTokenCredentialUsage
+const token = getTokenForScope("https://storage.azure.com/.default");
+
+const credential = new StaticTokenCredential(token);
+
+const client = new BlobClient("https://aka.ms/bloburl", credential);
+```
+
+It should be noted when using this custom credential type, it is the responsibility of the caller to ensure that the token is valid, and contains the correct claims needed to authenticate calls from the particular service client. For instance in the above case the token must have the scope "https://storage.azure.com/.default" to authorize calls to Azure Blob Storage.
+
+#### Authenticating with MSAL Directly
+
+Some applications already use the MSAL library's `ConfidentialClientApplication` or `PublicClientApplication` to authenticate portions of their application. In these cases the application might want to use the same to authenticate Azure SDK clients so to take advantage of token caching the client application is doing and prevent unnecessary authentication calls or user prompting.
+
+#### Authenticating with the Confidential Client
+
+In this example the `ConfidentialClientApplicationCredential` is constructed with an instance of `ConfidentialClientApplication` it then implements `getToken()` using the `acquireTokenByClientCredential()` method to acquire a token.
+
+```ts
+class ConfidentialClientCredential implements TokenCredential {
+  constructor (private confidentialApp: msalNode.ConfidentialClientApplication) {
+  }
+  async getToken(scopes: string | string[]): Promise<AccessToken> {
+    return this.confidentialApp.acquireTokenByClientCredential({ scopes: Array.isArray(scopes) ? scopes : [scopes] });
+  }
+}
+```
+
+The users could then use the `ConfidentialClientApplicationCredential` to authenticate a `BlobClient` with an MSAL `ConfidentialClientApplication`:
+
+```ts
+const confidentialClient = new msalNode.ConfidentialClientApplication({
+  // MSAL Configuration
+});
+
+const client = new SecretClient("https://myvault.vault.azure.net/", new ConfidentialClientCredential(confidentialClient));
+```
+
+### Authenticating with the On Behalf Of Flow
+
+Currently the `@azure/identity` library doesn't provide a credential type for clients which need to authenticate via the On Behalf Of flow. While future support for this is planned, users requiring this immediately will have to implement their own `TokenCredential` class.
+
+In this example the `OnBehalfOfCredential` accepts a client Id, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token which can be used to authenticate client requests.
+
+```ts
+class OnBehalfOfCredential implements TokenCredential {
+  private confidentialApp: msalNode.ConfidentialClientApplication;
+
+  constructor (private clientId: string, private clientSecret: string, private userAccessToken: string) {
+    this.confidentialApp = new msalNode.ConfidentialClientApplication({
+      auth: {
+        clientId,
+        clientSecret
+      }
+    });
+  }
+  async getToken(scopes: string | string[]): Promise<AccessToken> {
+    return this.confidentialApp.acquireTokenOnBehalfOf({
+      scopes: Array.isArray(scopes) ? scopes : [scopes],
+      oboAssertion: this.userAccessToken
+    });
+  }
+}
+```
+
+The following example shows an how the `OnBehalfOfCredential` could be used to authenticate a `SecretClient`.
+
+```ts
+const oboCredential = new OnBehalfOfCredential(clientId, clientSecret, userAccessToken);
+
+const client = new SecretClient("https://myvault.vault.azure.net/", oboCredential);
+```
+### Authenticating with Key Vault Certificates
+
+### Rolling Certificates
 
 <!-- LINKS -->
 
