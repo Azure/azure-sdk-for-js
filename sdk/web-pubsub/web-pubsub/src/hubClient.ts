@@ -214,7 +214,7 @@ export class WebPubSubServiceClient {
    *
    * Example usage:
    * ```ts
-   * import { WebPubSubServiceClient, AzureKeyCredential } from "@azure/web-pubsub-management";
+   * import { WebPubSubServiceClient, AzureKeyCredential } from "@azure/web-pubsub";
    * const cred = new AzureKeyCredential("<your web pubsub api key>");
    * const endpoint = "https://xxxx.webpubsubdev.azure.com"
    * const client = new WebPubSubServiceClient(endpoint, cred, 'chat');
