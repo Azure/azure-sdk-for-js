@@ -101,10 +101,9 @@ export function createRecordedCommunicationIdentityClientWithToken(
     };
   }
 
-  if(isNode) {
+  if (isNode) {
     credential = new DefaultAzureCredential();
-  }
-  else {
+  } else {
     credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
