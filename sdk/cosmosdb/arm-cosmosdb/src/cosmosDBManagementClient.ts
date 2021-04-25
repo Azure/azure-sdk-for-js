@@ -14,7 +14,6 @@ import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { CosmosDBManagementClientContext } from "./cosmosDBManagementClientContext";
 
-
 class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   // Operation groups
   databaseAccounts: operations.DatabaseAccounts;
@@ -55,7 +54,11 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.CosmosDBManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.CosmosDBManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.databaseAccounts = new operations.DatabaseAccounts(this);
     this.operations = new operations.Operations(this);
@@ -104,14 +107,21 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  locationList(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationListResult>): void;
-  locationList(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationListResult>, callback?: msRest.ServiceCallback<Models.LocationListResult>): Promise<Models.LocationListResponse> {
+  locationList(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LocationListResult>
+  ): void;
+  locationList(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationListResult>,
+    callback?: msRest.ServiceCallback<Models.LocationListResult>
+  ): Promise<Models.LocationListResponse> {
     return this.sendOperationRequest(
       {
         options
       },
       locationListOperationSpec,
-      callback) as Promise<Models.LocationListResponse>;
+      callback
+    ) as Promise<Models.LocationListResponse>;
   }
 
   /**
@@ -120,7 +130,10 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.LocationGetResponse>
    */
-  locationGet(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationGetResponse>;
+  locationGet(
+    location: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.LocationGetResponse>;
   /**
    * @param location Cosmos DB region, with spaces between words and each word capitalized.
    * @param callback The callback
@@ -131,15 +144,24 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  locationGet(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationGetResult>): void;
-  locationGet(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationGetResult>, callback?: msRest.ServiceCallback<Models.LocationGetResult>): Promise<Models.LocationGetResponse> {
+  locationGet(
+    location: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.LocationGetResult>
+  ): void;
+  locationGet(
+    location: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationGetResult>,
+    callback?: msRest.ServiceCallback<Models.LocationGetResult>
+  ): Promise<Models.LocationGetResponse> {
     return this.sendOperationRequest(
       {
         location,
         options
       },
       locationGetOperationSpec,
-      callback) as Promise<Models.LocationGetResponse>;
+      callback
+    ) as Promise<Models.LocationGetResponse>;
   }
 }
 
@@ -148,15 +170,9 @@ const serializer = new msRest.Serializer(Mappers);
 const locationListOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LocationListResult
@@ -171,16 +187,9 @@ const locationListOperationSpec: msRest.OperationSpec = {
 const locationGetOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId, Parameters.location],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.LocationGetResult

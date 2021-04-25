@@ -31,7 +31,9 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraClustersListBySubscriptionResponse>
    */
-  listBySubscription(options?: msRest.RequestOptionsBase): Promise<Models.CassandraClustersListBySubscriptionResponse>;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraClustersListBySubscriptionResponse>;
   /**
    * @param callback The callback
    */
@@ -40,14 +42,21 @@ export class CassandraClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListClusters>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListClusters>, callback?: msRest.ServiceCallback<Models.ListClusters>): Promise<Models.CassandraClustersListBySubscriptionResponse> {
+  listBySubscription(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListClusters>
+  ): void;
+  listBySubscription(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListClusters>,
+    callback?: msRest.ServiceCallback<Models.ListClusters>
+  ): Promise<Models.CassandraClustersListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listBySubscriptionOperationSpec,
-      callback) as Promise<Models.CassandraClustersListBySubscriptionResponse>;
+      callback
+    ) as Promise<Models.CassandraClustersListBySubscriptionResponse>;
   }
 
   /**
@@ -56,26 +65,41 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraClustersListByResourceGroupResponse>
    */
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraClustersListByResourceGroupResponse>;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraClustersListByResourceGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ListClusters>): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    callback: msRest.ServiceCallback<Models.ListClusters>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListClusters>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListClusters>, callback?: msRest.ServiceCallback<Models.ListClusters>): Promise<Models.CassandraClustersListByResourceGroupResponse> {
+  listByResourceGroup(
+    resourceGroupName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListClusters>
+  ): void;
+  listByResourceGroup(
+    resourceGroupName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListClusters>,
+    callback?: msRest.ServiceCallback<Models.ListClusters>
+  ): Promise<Models.CassandraClustersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         options
       },
       listByResourceGroupOperationSpec,
-      callback) as Promise<Models.CassandraClustersListByResourceGroupResponse>;
+      callback
+    ) as Promise<Models.CassandraClustersListByResourceGroupResponse>;
   }
 
   /**
@@ -85,21 +109,39 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraClustersGetResponse>
    */
-  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraClustersGetResponse>;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraClustersGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName Managed Cassandra cluster name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.ClusterResource>): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.ClusterResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName Managed Cassandra cluster name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ClusterResource>): void;
-  get(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterResource>, callback?: msRest.ServiceCallback<Models.ClusterResource>): Promise<Models.CassandraClustersGetResponse> {
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ClusterResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ClusterResource>,
+    callback?: msRest.ServiceCallback<Models.ClusterResource>
+  ): Promise<Models.CassandraClustersGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -107,7 +149,8 @@ export class CassandraClusters {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CassandraClustersGetResponse>;
+      callback
+    ) as Promise<Models.CassandraClustersGetResponse>;
   }
 
   /**
@@ -117,9 +160,14 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginDeleteMethod(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  deleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName, clusterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    );
   }
 
   /**
@@ -131,9 +179,15 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraClustersCreateUpdateResponse>
    */
-  createUpdate(resourceGroupName: string, clusterName: string, body: Models.ClusterResource, options?: msRest.RequestOptionsBase): Promise<Models.CassandraClustersCreateUpdateResponse> {
-    return this.beginCreateUpdate(resourceGroupName,clusterName,body,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraClustersCreateUpdateResponse>;
+  createUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    body: Models.ClusterResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraClustersCreateUpdateResponse> {
+    return this.beginCreateUpdate(resourceGroupName, clusterName, body, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.CassandraClustersCreateUpdateResponse>;
   }
 
   /**
@@ -144,9 +198,15 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraClustersUpdateResponse>
    */
-  update(resourceGroupName: string, clusterName: string, body: Models.ClusterResource, options?: msRest.RequestOptionsBase): Promise<Models.CassandraClustersUpdateResponse> {
-    return this.beginUpdate(resourceGroupName,clusterName,body,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraClustersUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    clusterName: string,
+    body: Models.ClusterResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraClustersUpdateResponse> {
+    return this.beginUpdate(resourceGroupName, clusterName, body, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.CassandraClustersUpdateResponse>;
   }
 
   /**
@@ -157,9 +217,18 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  requestRepair(resourceGroupName: string, clusterName: string, body: Models.RepairPostBody, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
-    return this.beginRequestRepair(resourceGroupName,clusterName,body,options)
-      .then(lroPoller => lroPoller.pollUntilFinished());
+  requestRepair(
+    resourceGroupName: string,
+    clusterName: string,
+    body: Models.RepairPostBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse> {
+    return this.beginRequestRepair(
+      resourceGroupName,
+      clusterName,
+      body,
+      options
+    ).then((lroPoller) => lroPoller.pollUntilFinished());
   }
 
   /**
@@ -169,9 +238,14 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraClustersFetchNodeStatusResponse>
    */
-  fetchNodeStatus(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraClustersFetchNodeStatusResponse> {
-    return this.beginFetchNodeStatus(resourceGroupName,clusterName,options)
-      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.CassandraClustersFetchNodeStatusResponse>;
+  fetchNodeStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraClustersFetchNodeStatusResponse> {
+    return this.beginFetchNodeStatus(resourceGroupName, clusterName, options).then((lroPoller) =>
+      lroPoller.pollUntilFinished()
+    ) as Promise<Models.CassandraClustersFetchNodeStatusResponse>;
   }
 
   /**
@@ -181,21 +255,39 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraClustersListBackupsMethodResponse>
    */
-  listBackupsMethod(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraClustersListBackupsMethodResponse>;
+  listBackupsMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraClustersListBackupsMethodResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName Managed Cassandra cluster name.
    * @param callback The callback
    */
-  listBackupsMethod(resourceGroupName: string, clusterName: string, callback: msRest.ServiceCallback<Models.ListBackups>): void;
+  listBackupsMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    callback: msRest.ServiceCallback<Models.ListBackups>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName Managed Cassandra cluster name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBackupsMethod(resourceGroupName: string, clusterName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListBackups>): void;
-  listBackupsMethod(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListBackups>, callback?: msRest.ServiceCallback<Models.ListBackups>): Promise<Models.CassandraClustersListBackupsMethodResponse> {
+  listBackupsMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListBackups>
+  ): void;
+  listBackupsMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListBackups>,
+    callback?: msRest.ServiceCallback<Models.ListBackups>
+  ): Promise<Models.CassandraClustersListBackupsMethodResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -203,7 +295,8 @@ export class CassandraClusters {
         options
       },
       listBackupsMethodOperationSpec,
-      callback) as Promise<Models.CassandraClustersListBackupsMethodResponse>;
+      callback
+    ) as Promise<Models.CassandraClustersListBackupsMethodResponse>;
   }
 
   /**
@@ -214,14 +307,24 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraClustersGetBackupResponse>
    */
-  getBackup(resourceGroupName: string, clusterName: string, backupId: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraClustersGetBackupResponse>;
+  getBackup(
+    resourceGroupName: string,
+    clusterName: string,
+    backupId: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CassandraClustersGetBackupResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName Managed Cassandra cluster name.
    * @param backupId Id of a restorable backup of a Cassandra cluster.
    * @param callback The callback
    */
-  getBackup(resourceGroupName: string, clusterName: string, backupId: string, callback: msRest.ServiceCallback<Models.BackupResource>): void;
+  getBackup(
+    resourceGroupName: string,
+    clusterName: string,
+    backupId: string,
+    callback: msRest.ServiceCallback<Models.BackupResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName Managed Cassandra cluster name.
@@ -229,8 +332,20 @@ export class CassandraClusters {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getBackup(resourceGroupName: string, clusterName: string, backupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.BackupResource>): void;
-  getBackup(resourceGroupName: string, clusterName: string, backupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResource>, callback?: msRest.ServiceCallback<Models.BackupResource>): Promise<Models.CassandraClustersGetBackupResponse> {
+  getBackup(
+    resourceGroupName: string,
+    clusterName: string,
+    backupId: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.BackupResource>
+  ): void;
+  getBackup(
+    resourceGroupName: string,
+    clusterName: string,
+    backupId: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.BackupResource>,
+    callback?: msRest.ServiceCallback<Models.BackupResource>
+  ): Promise<Models.CassandraClustersGetBackupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -239,7 +354,8 @@ export class CassandraClusters {
         options
       },
       getBackupOperationSpec,
-      callback) as Promise<Models.CassandraClustersGetBackupResponse>;
+      callback
+    ) as Promise<Models.CassandraClustersGetBackupResponse>;
   }
 
   /**
@@ -249,7 +365,11 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -257,7 +377,8 @@ export class CassandraClusters {
         options
       },
       beginDeleteMethodOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -269,7 +390,12 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginCreateUpdate(resourceGroupName: string, clusterName: string, body: Models.ClusterResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginCreateUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    body: Models.ClusterResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -278,7 +404,8 @@ export class CassandraClusters {
         options
       },
       beginCreateUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -289,7 +416,12 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, clusterName: string, body: Models.ClusterResource, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(
+    resourceGroupName: string,
+    clusterName: string,
+    body: Models.ClusterResource,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -298,7 +430,8 @@ export class CassandraClusters {
         options
       },
       beginUpdateOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -309,7 +442,12 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginRequestRepair(resourceGroupName: string, clusterName: string, body: Models.RepairPostBody, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginRequestRepair(
+    resourceGroupName: string,
+    clusterName: string,
+    body: Models.RepairPostBody,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -318,7 +456,8 @@ export class CassandraClusters {
         options
       },
       beginRequestRepairOperationSpec,
-      options);
+      options
+    );
   }
 
   /**
@@ -328,7 +467,11 @@ export class CassandraClusters {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginFetchNodeStatus(resourceGroupName: string, clusterName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginFetchNodeStatus(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -336,7 +479,8 @@ export class CassandraClusters {
         options
       },
       beginFetchNodeStatusOperationSpec,
-      options);
+      options
+    );
   }
 }
 
@@ -345,15 +489,9 @@ const serializer = new msRest.Serializer(Mappers);
 const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/cassandraClusters",
-  urlParameters: [
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.subscriptionId],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListClusters
@@ -367,17 +505,11 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListClusters
@@ -391,18 +523,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterResource
@@ -416,18 +541,11 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listBackupsMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/backups",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/backups",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListBackups
@@ -441,19 +559,16 @@ const listBackupsMethodOperationSpec: msRest.OperationSpec = {
 
 const getBackupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/backups/{backupId}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/backups/{backupId}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
     Parameters.backupId
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.BackupResource
@@ -467,18 +582,11 @@ const getBackupOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     202: {},
     204: {},
@@ -491,18 +599,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginCreateUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -526,18 +627,11 @@ const beginCreateUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -561,18 +655,11 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginRequestRepairOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/repair",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/repair",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -591,18 +678,11 @@ const beginRequestRepairOperationSpec: msRest.OperationSpec = {
 
 const beginFetchNodeStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/fetchNodeStatus",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/fetchNodeStatus",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.clusterName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ClusterNodeStatus
