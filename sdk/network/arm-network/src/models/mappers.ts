@@ -419,7 +419,7 @@ export const ExtendedLocation: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "type",
-        defaultValue: 'EdgeZone',
+        defaultValue: "EdgeZone",
         type: {
           name: "String"
         }
@@ -2047,14 +2047,14 @@ export const Subnet: msRest.CompositeMapper = {
       },
       privateEndpointNetworkPolicies: {
         serializedName: "properties.privateEndpointNetworkPolicies",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
       },
       privateLinkServiceNetworkPolicies: {
         serializedName: "properties.privateLinkServiceNetworkPolicies",
-        defaultValue: 'Enabled',
+        defaultValue: "Enabled",
         type: {
           name: "String"
         }
@@ -4869,12 +4869,7 @@ export const ManagedServiceIdentity: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "SystemAssigned",
-            "UserAssigned",
-            "SystemAssigned, UserAssigned",
-            "None"
-          ]
+          allowedValues: ["SystemAssigned", "UserAssigned", "SystemAssigned, UserAssigned", "None"]
         }
       },
       userAssignedIdentities: {
@@ -12284,7 +12279,7 @@ export const PacketCaptureFilter: msRest.CompositeMapper = {
     modelProperties: {
       protocol: {
         serializedName: "protocol",
-        defaultValue: 'Any',
+        defaultValue: "Any",
         type: {
           name: "String"
         }
@@ -15923,7 +15918,7 @@ export const RouteFilterRule: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "properties.routeFilterRuleType",
-        defaultValue: 'Community',
+        defaultValue: "Community",
         type: {
           name: "String"
         }
@@ -15988,7 +15983,7 @@ export const PatchRouteFilterRule: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "properties.routeFilterRuleType",
-        defaultValue: 'Community',
+        defaultValue: "Community",
         type: {
           name: "String"
         }
@@ -16485,7 +16480,7 @@ export const Usage: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "unit",
-        defaultValue: 'Count',
+        defaultValue: "Count",
         type: {
           name: "String"
         }
@@ -24862,12 +24857,11 @@ export const WebApplicationFirewallPolicyListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'FirewallPolicyRuleCollection' : FirewallPolicyRuleCollection,
-  'FirewallPolicyRule' : FirewallPolicyRule,
-  'FirewallPolicyRuleCollection.FirewallPolicyNatRuleCollection' : FirewallPolicyNatRuleCollection,
-  'FirewallPolicyRuleCollection.FirewallPolicyFilterRuleCollection' : FirewallPolicyFilterRuleCollection,
-  'FirewallPolicyRule.ApplicationRule' : ApplicationRule,
-  'FirewallPolicyRule.NatRule' : NatRule,
-  'FirewallPolicyRule.NetworkRule' : NetworkRule
-
+  FirewallPolicyRuleCollection: FirewallPolicyRuleCollection,
+  FirewallPolicyRule: FirewallPolicyRule,
+  "FirewallPolicyRuleCollection.FirewallPolicyNatRuleCollection": FirewallPolicyNatRuleCollection,
+  "FirewallPolicyRuleCollection.FirewallPolicyFilterRuleCollection": FirewallPolicyFilterRuleCollection,
+  "FirewallPolicyRule.ApplicationRule": ApplicationRule,
+  "FirewallPolicyRule.NatRule": NatRule,
+  "FirewallPolicyRule.NetworkRule": NetworkRule
 };
