@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import chai, { assert } from "chai";
-import supportsTracing from "../utils/testTracing";
+import supportsTracing from "../../../keyvault-common/test/utils/traceMatcher";
 chai.use(supportsTracing);
 import { Context } from "mocha";
 import { createHash } from "crypto";
@@ -15,6 +15,7 @@ import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { getServiceVersion } from "../utils/utils.common";
+import { isNode } from "@azure/core-http";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;
@@ -27,17 +28,21 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
 
+  if (!isNode) {
+    // Local cryptography is only supported in NodeJS
+    return;
+  }
+
   beforeEach(async function(this: Context) {
     const authentication = await authenticate(this, getServiceVersion());
     client = authentication.client;
     recorder = authentication.recorder;
-    recorder.skip("browser", "Local cryptography is only supported in NodeJS");
     testClient = authentication.testClient;
     credential = authentication.credential;
     keySuffix = authentication.keySuffix;
     keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     keyVaultKey = await client.createKey(keyName, "RSA");
-    cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+    cryptoClient = new CryptographyClient(keyVaultKey, credential);
   });
 
   afterEach(async function(this: Context) {
@@ -283,18 +288,12 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
   it("supports tracing", async function() {
     await assert.supportsTracing(
-      async (tracingOptions) => {
-        await cryptoClient.encrypt(
-          { algorithm: "RSA-OAEP", plaintext: stringToUint8Array("foo") },
-          { tracingOptions }
-        );
-      },
-      [
-        {
-          children: [],
-          name: "Azure.KeyVault.Keys.CryptographyClient.encrypt"
-        }
-      ]
+      (tracingOptions) =>
+        cryptoClient.encrypt("RSA1_5", stringToUint8Array("data"), { tracingOptions }),
+      ["Azure.KeyVault.Keys.CryptographyClient.encrypt"],
+      {
+        prefix: "Azure.KeyVault"
+      }
     );
   });
 });

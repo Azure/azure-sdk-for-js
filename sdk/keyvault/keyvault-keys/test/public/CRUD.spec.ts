@@ -370,4 +370,17 @@ describe("Keys client - create, read, update and delete operations", () => {
     await poller.pollUntilDone();
     await client.purgeDeletedKey(keyName);
   });
+
+  it("supports tracing", async function(this: Context) {
+    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+    await assert.supportsTracing(
+      async (tracingOptions) => {
+        await client.createKey(keyName, "RSA", { tracingOptions });
+      },
+      ["Azure.KeyVault.Keys.KeyClient.createKey"],
+      {
+        prefix: "Azure.KeyVault"
+      }
+    );
+  });
 });
