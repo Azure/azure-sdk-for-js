@@ -32,8 +32,7 @@ export interface DateTimeInterval {
 /**
  * Specifies the date and time interval for a changes request.
  */
-export interface ResourceChangesRequestParametersInterval extends DateTimeInterval {
-}
+export interface ResourceChangesRequestParametersInterval extends DateTimeInterval {}
 
 /**
  * The parameters for a specific changes request.
@@ -98,14 +97,12 @@ export interface ResourceSnapshotData {
 /**
  * The snapshot before the change.
  */
-export interface ResourceChangeDataBeforeSnapshot extends ResourceSnapshotData {
-}
+export interface ResourceChangeDataBeforeSnapshot extends ResourceSnapshotData {}
 
 /**
  * The snapshot after the change.
  */
-export interface ResourceChangeDataAfterSnapshot extends ResourceSnapshotData {
-}
+export interface ResourceChangeDataAfterSnapshot extends ResourceSnapshotData {}
 
 /**
  * The resource property change
@@ -543,8 +540,7 @@ export interface ResourceGraphClientOptions extends AzureServiceClientOptions {
  * URL link to get the next set of results.
  * @extends Array<Operation>
  */
-export interface OperationListResult extends Array<Operation> {
-}
+export interface OperationListResult extends Array<Operation> {}
 
 /**
  * Defines values for ChangeType.
@@ -552,7 +548,7 @@ export interface OperationListResult extends Array<Operation> {
  * @readonly
  * @enum {string}
  */
-export type ChangeType = 'Create' | 'Update' | 'Delete';
+export type ChangeType = "Create" | "Update" | "Delete";
 
 /**
  * Defines values for ChangeCategory.
@@ -560,7 +556,7 @@ export type ChangeType = 'Create' | 'Update' | 'Delete';
  * @readonly
  * @enum {string}
  */
-export type ChangeCategory = 'User' | 'System';
+export type ChangeCategory = "User" | "System";
 
 /**
  * Defines values for PropertyChangeType.
@@ -568,7 +564,7 @@ export type ChangeCategory = 'User' | 'System';
  * @readonly
  * @enum {string}
  */
-export type PropertyChangeType = 'Insert' | 'Update' | 'Remove';
+export type PropertyChangeType = "Insert" | "Update" | "Remove";
 
 /**
  * Defines values for ResultFormat.
@@ -576,7 +572,7 @@ export type PropertyChangeType = 'Insert' | 'Update' | 'Remove';
  * @readonly
  * @enum {string}
  */
-export type ResultFormat = 'table' | 'objectArray';
+export type ResultFormat = "table" | "objectArray";
 
 /**
  * Defines values for FacetSortOrder.
@@ -584,7 +580,7 @@ export type ResultFormat = 'table' | 'objectArray';
  * @readonly
  * @enum {string}
  */
-export type FacetSortOrder = 'asc' | 'desc';
+export type FacetSortOrder = "asc" | "desc";
 
 /**
  * Defines values for ResultTruncated.
@@ -592,7 +588,7 @@ export type FacetSortOrder = 'asc' | 'desc';
  * @readonly
  * @enum {string}
  */
-export type ResultTruncated = 'true' | 'false';
+export type ResultTruncated = "true" | "false";
 
 /**
  * Defines values for ColumnDataType.
@@ -600,7 +596,7 @@ export type ResultTruncated = 'true' | 'false';
  * @readonly
  * @enum {string}
  */
-export type ColumnDataType = 'string' | 'integer' | 'number' | 'boolean' | 'object';
+export type ColumnDataType = "string" | "integer" | "number" | "boolean" | "object";
 
 /**
  * Defines values for ResultFormat1.
@@ -608,7 +604,7 @@ export type ColumnDataType = 'string' | 'integer' | 'number' | 'boolean' | 'obje
  * @readonly
  * @enum {string}
  */
-export type ResultFormat1 = 'table' | 'objectArray';
+export type ResultFormat1 = "table" | "objectArray";
 
 /**
  * Contains response data for the resourceChanges operation.
@@ -618,16 +614,16 @@ export type ResourceChangesResponse = ResourceChangeList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceChangeList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceChangeList;
+  };
 };
 
 /**
@@ -638,16 +634,16 @@ export type ResourceChangeDetailsResponse = Array<ResourceChangeData> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceChangeData[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ResourceChangeData[];
+  };
 };
 
 /**
@@ -658,16 +654,16 @@ export type ResourcesResponse = QueryResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QueryResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QueryResponse;
+  };
 };
 
 /**
@@ -683,16 +679,16 @@ export type ResourcesHistoryResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -703,14 +699,14 @@ export type OperationsListResponse = OperationListResult & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationListResult;
+  };
 };

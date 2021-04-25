@@ -197,10 +197,7 @@ export const ResourcePropertyChange: msRest.CompositeMapper = {
         serializedName: "changeCategory",
         type: {
           name: "Enum",
-          allowedValues: [
-            "User",
-            "System"
-          ]
+          allowedValues: ["User", "System"]
         }
       },
       propertyChangeType: {
@@ -208,11 +205,7 @@ export const ResourcePropertyChange: msRest.CompositeMapper = {
         serializedName: "propertyChangeType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Insert",
-            "Update",
-            "Remove"
-          ]
+          allowedValues: ["Insert", "Update", "Remove"]
         }
       }
     }
@@ -258,11 +251,7 @@ export const ResourceChangeData: msRest.CompositeMapper = {
         serializedName: "changeType",
         type: {
           name: "Enum",
-          allowedValues: [
-            "Create",
-            "Update",
-            "Delete"
-          ]
+          allowedValues: ["Create", "Update", "Delete"]
         }
       },
       propertyChanges: {
@@ -464,13 +453,10 @@ export const QueryRequestOptions: msRest.CompositeMapper = {
       },
       resultFormat: {
         serializedName: "resultFormat",
-        defaultValue: 'objectArray',
+        defaultValue: "objectArray",
         type: {
           name: "Enum",
-          allowedValues: [
-            "table",
-            "objectArray"
-          ]
+          allowedValues: ["table", "objectArray"]
         }
       },
       allowPartialScopes: {
@@ -498,13 +484,10 @@ export const FacetRequestOptions: msRest.CompositeMapper = {
       },
       sortOrder: {
         serializedName: "sortOrder",
-        defaultValue: 'desc',
+        defaultValue: "desc",
         type: {
           name: "Enum",
-          allowedValues: [
-            "asc",
-            "desc"
-          ]
+          allowedValues: ["asc", "desc"]
         }
       },
       filter: {
@@ -663,10 +646,7 @@ export const QueryResponse: msRest.CompositeMapper = {
         serializedName: "resultTruncated",
         type: {
           name: "Enum",
-          allowedValues: [
-            "true",
-            "false"
-          ]
+          allowedValues: ["true", "false"]
         }
       },
       skipToken: {
@@ -716,13 +696,7 @@ export const Column: msRest.CompositeMapper = {
         serializedName: "type",
         type: {
           name: "Enum",
-          allowedValues: [
-            "string",
-            "integer",
-            "number",
-            "boolean",
-            "object"
-          ]
+          allowedValues: ["string", "integer", "number", "boolean", "object"]
         }
       }
     }
@@ -1001,8 +975,7 @@ export const OperationListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'Facet' : Facet,
-  'Facet.FacetResult' : FacetResult,
-  'Facet.FacetError' : FacetError
-
+  Facet: Facet,
+  "Facet.FacetResult": FacetResult,
+  "Facet.FacetError": FacetError
 };
