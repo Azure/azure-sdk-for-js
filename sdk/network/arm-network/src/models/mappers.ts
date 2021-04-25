@@ -17626,6 +17626,13 @@ export const VirtualNetworkGateway: msRest.CompositeMapper = {
     className: "VirtualNetworkGateway",
     modelProperties: {
       ...Resource.type.modelProperties,
+      extendedLocation: {
+        serializedName: "extendedLocation",
+        type: {
+          name: "Composite",
+          className: "ExtendedLocation"
+        }
+      },
       ipConfigurations: {
         serializedName: "properties.ipConfigurations",
         type: {
@@ -17740,13 +17747,6 @@ export const VirtualNetworkGateway: msRest.CompositeMapper = {
         serializedName: "properties.vNetExtendedLocationResourceId",
         type: {
           name: "String"
-        }
-      },
-      virtualNetworkExtendedLocation: {
-        serializedName: "properties.virtualNetworkExtendedLocation",
-        type: {
-          name: "Composite",
-          className: "ExtendedLocation"
         }
       },
       etag: {

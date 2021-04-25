@@ -10321,6 +10321,10 @@ export interface GatewayRoute {
  */
 export interface VirtualNetworkGateway extends Resource {
   /**
+   * The extended location of type local virtual network gateway.
+   */
+  extendedLocation?: ExtendedLocation;
+  /**
    * IP configurations for virtual network gateway.
    */
   ipConfigurations?: VirtualNetworkGatewayIPConfiguration[];
@@ -10395,14 +10399,10 @@ export interface VirtualNetworkGateway extends Resource {
    */
   readonly inboundDnsForwardingEndpoint?: string;
   /**
-   * MAS FIJI customer vnet resource id. VirtualNetworkGateway of type local gateway is associated
-   * with the customer vnet.
+   * Customer vnet resource id. VirtualNetworkGateway of type local gateway is associated with the
+   * customer vnet.
    */
   vNetExtendedLocationResourceId?: string;
-  /**
-   * The extended location of type local virtual network gateway.
-   */
-  virtualNetworkExtendedLocation?: ExtendedLocation;
   /**
    * A unique read-only string that changes whenever the resource is updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
