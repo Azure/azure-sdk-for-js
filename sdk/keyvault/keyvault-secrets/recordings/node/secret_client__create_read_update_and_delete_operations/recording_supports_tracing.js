@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "a9a829ced36190d70895357987b03330";
+module.exports.hash = "0aca30bdec2d4d7e32734675d0a70bac";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,13 +23,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-client-request-id',
-  'd906e6d0-594f-4469-858b-198108a6682c',
+  '52a6a04d-8b1d-441f-9cde-9bfa707af692',
   'x-ms-request-id',
-  'c453874e-0387-482d-8e01-dedad7567954',
+  'e6aece7a-fa0c-4c00-a108-c09f39ec5d4f',
   'x-ms-keyvault-service-version',
-  '1.2.205.0',
+  '1.2.236.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=96.57.209.90;act_addr_fam=InterNetwork;',
   'X-Powered-By',
   'ASP.NET',
   'Strict-Transport-Security',
@@ -37,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 25 Mar 2021 00:39:23 GMT'
+  'Sun, 25 Apr 2021 19:42:32 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -47,8 +47,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1315',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -60,23 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '68097e99-0453-43e9-9906-40f037e65c00',
+  'b0768dce-b9de-458e-a834-164f92526e00',
   'x-ms-ests-server',
-  '2.1.11562.10 - NCUS ProdSlices',
+  '2.1.11654.16 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=Av6aLbLi6wBCtXTT-SDVT36XyNCaAQAAALzS7dcOAAAA; expires=Sat, 24-Apr-2021 00:39:24 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AkTJAcj2BxxOr3ZmAvJTygWS9HQSAQAAACi9F9gOAAAA; expires=Tue, 25-May-2021 19:42:33 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 25 Mar 2021 00:39:24 GMT'
+  'Sun, 25 Apr 2021 19:42:32 GMT',
+  'Content-Length',
+  '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .put('/secrets/CRUDSecretName-supportstracing-', {"value":"SECRET_VALUE","attributes":{}})
+  .put('/secrets/CRUDSecretName-supportstracing-', {"value":"value","attributes":{}})
   .query(true)
-  .reply(200, {"value":"SECRET_VALUE","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-supportstracing-/24061de5d7f74a9f96b0f99e7b76d71a","attributes":{"enabled":true,"created":1616632764,"updated":1616632764,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
+  .reply(200, {"value":"value","id":"https://keyvault_name.vault.azure.net/secrets/CRUDSecretName-supportstracing-/d2c3b76c8b7a408d9994f73f2dc2b0bd","attributes":{"enabled":true,"created":1619379753,"updated":1619379753,"recoveryLevel":"CustomizedRecoverable+Purgeable","recoverableDays":7}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -88,13 +88,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'x-ms-keyvault-region',
   'westus2',
   'x-ms-client-request-id',
-  'd906e6d0-594f-4469-858b-198108a6682c',
+  '52a6a04d-8b1d-441f-9cde-9bfa707af692',
   'x-ms-request-id',
-  'adc097e9-d46f-433f-b49e-ef22664fb91a',
+  '51e32657-3e5c-455a-80ca-7e926e536f1f',
   'x-ms-keyvault-service-version',
-  '1.2.205.0',
+  '1.2.236.0',
   'x-ms-keyvault-network-info',
-  'conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=96.57.209.90;act_addr_fam=InterNetwork;',
   'X-Powered-By',
   'ASP.NET',
   'Strict-Transport-Security',
@@ -102,7 +102,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Thu, 25 Mar 2021 00:39:24 GMT',
+  'Sun, 25 Apr 2021 19:42:32 GMT',
   'Content-Length',
-  '296'
+  '289'
 ]);

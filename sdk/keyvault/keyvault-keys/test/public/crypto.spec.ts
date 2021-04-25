@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import chai, { assert } from "chai";
-import supportsTracing from "../../../keyvault-common/test/utils/traceMatcher";
+import supportsTracing from "../../../keyvault-common/test/utils/supportsTracing";
 chai.use(supportsTracing);
 import { Context } from "mocha";
 import { createHash } from "crypto";

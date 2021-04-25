@@ -374,9 +374,7 @@ describe("Keys client - create, read, update and delete operations", () => {
   it("supports tracing", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await assert.supportsTracing(
-      async (tracingOptions) => {
-        await client.createKey(keyName, "RSA", { tracingOptions });
-      },
+      (tracingOptions) => client.createKey(keyName, "RSA", { tracingOptions }),
       ["Azure.KeyVault.Keys.KeyClient.createKey"],
       {
         prefix: "Azure.KeyVault"

@@ -54,6 +54,7 @@ export default function(chai: Chai.ChaiStatic) {
         (span) => span.name.startsWith(options.prefix!) || span.name === "root"
       );
     }
+    console.log("rootSpans", rootSpans);
     assert.equal(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(
       rootSpan,
@@ -65,7 +66,8 @@ export default function(chai: Chai.ChaiStatic) {
     // Testing the entire tree structure can be tricky as other packages might create their own spans.
     const spanGraph = tracer.getSpanGraph(rootSpan.context().traceId);
     const directChildren = spanGraph.roots[0].children.map((child) => child.name);
-    assert.sameMembers(directChildren, children);
+    // LROs might poll N times, so we'll make a unique array and compare that.
+    assert.sameMembers(Array.from(new Set(directChildren)), children);
 
     // Ensure all spans are properly closed
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
@@ -76,6 +78,7 @@ export default function(chai: Chai.ChaiStatic) {
   });
 }
 
+// TODO: figure out the declaration here
 declare global {
   export namespace Chai {
     interface Assert {

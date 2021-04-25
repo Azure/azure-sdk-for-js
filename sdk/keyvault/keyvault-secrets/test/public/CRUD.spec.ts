@@ -2,7 +2,9 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { assert } from "chai";
+import chai, { assert } from "chai";
+import supportsTracing from "../../../keyvault-common/test/utils/supportsTracing";
+chai.use(supportsTracing);
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 
@@ -388,5 +390,16 @@ describe("Secret client - create, read, update and delete operations", () => {
     }
     assert.equal(error.code, "SecretNotFound");
     assert.equal(error.statusCode, 404);
+  });
+
+  it.only("supports tracing", async function(this: Context) {
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    await assert.supportsTracing(
+      (tracingOptions) => client.setSecret(secretName, "value", { tracingOptions }),
+      ["Azure.KeyVault.Secrets.SecretClient.setSecret"],
+      { prefix: "Azure.KeyVault" }
+    );
   });
 });

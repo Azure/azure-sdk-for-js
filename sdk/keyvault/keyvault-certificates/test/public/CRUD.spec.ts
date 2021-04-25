@@ -5,7 +5,9 @@ import os from "os";
 import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
-import { assert } from "chai";
+import chai, { assert } from "chai";
+import supportsTracing from "../../../keyvault-common/test/utils/supportsTracing";
+chai.use(supportsTracing);
 
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
@@ -661,5 +663,32 @@ describe("Certificates client - create, read, update and delete", () => {
       error = e;
     }
     assert.equal(error.code, "ContactsNotFound");
+  });
+
+  it("supports tracing", async function(this: Context) {
+    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
+    await assert.supportsTracing(
+      async (tracingOptions) => {
+        const poller = await client.beginCreateCertificate(
+          certificateName,
+          basicCertificatePolicy,
+          {
+            ...testPollerProperties,
+            tracingOptions
+          }
+        );
+        await poller.pollUntilDone();
+        await client.getCertificate(certificateName, { tracingOptions });
+      },
+      [
+        "Azure.KeyVault.Certificates.CreateCertificatePoller.createCertificate",
+        "Azure.KeyVault.Certificates.CreateCertificatePoller.getPlainCertificateOperation",
+        "Azure.KeyVault.Certificates.CreateCertificatePoller.getCertificate",
+        "Azure.KeyVault.Certificates.CertificateClient.getCertificate"
+      ],
+      {
+        prefix: "Azure.KeyVault"
+      }
+    );
   });
 });
