@@ -1,6 +1,6 @@
-## Azure MapsManagementClient SDK for JavaScript
+## Azure AzureMapsManagementClient SDK for JavaScript
 
-This package contains an isomorphic SDK for MapsManagementClient.
+This package contains an isomorphic SDK for AzureMapsManagementClient.
 
 ### Currently supported environments
 
@@ -9,31 +9,31 @@ This package contains an isomorphic SDK for MapsManagementClient.
 
 ### How to Install
 
-```
+```bash
 npm install @azure/arm-maps
 ```
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get accounts as an example written in TypeScript.
+#### nodejs - client creation and get accounts as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
-```
-npm install @azure/ms-rest-nodeauth
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
+```bash
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
-```ts
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { MapsManagementClient, MapsManagementModels, MapsManagementMappers } from "@azure/arm-maps";
+While the below sample uses the interactive login, other authentication options can be found in the [README.md file of @azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package
+```typescript
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { AzureMapsManagementClient } = require("@azure/arm-maps");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new MapsManagementClient(creds, subscriptionId);
+  const client = new AzureMapsManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
   const accountName = "testaccountName";
   client.accounts.get(resourceGroupName, accountName).then((result) => {
@@ -49,7 +49,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 
 ##### Install @azure/ms-rest-browserauth
 
-```
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -78,7 +78,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmMaps.MapsManagementClient(res.creds, subscriptionId);
+        const client = new Azure.ArmMaps.AzureMapsManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
         const accountName = "testaccountName";
         client.accounts.get(resourceGroupName, accountName).then((result) => {
@@ -99,5 +99,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmaps%2Farm-maps%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/maps/arm-maps/README.png)
