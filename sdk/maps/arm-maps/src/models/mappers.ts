@@ -175,7 +175,7 @@ export const MapsAccount: msRest.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
-        defaultValue: 'Gen1',
+        defaultValue: "Gen1",
         type: {
           name: "String"
         }
@@ -218,7 +218,7 @@ export const MapsAccountUpdateParameters: msRest.CompositeMapper = {
       },
       kind: {
         serializedName: "kind",
-        defaultValue: 'Gen1',
+        defaultValue: "Gen1",
         type: {
           name: "String"
         }

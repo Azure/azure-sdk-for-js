@@ -32,21 +32,39 @@ export class Creators {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreatorsListByAccountResponse>
    */
-  listByAccount(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.CreatorsListByAccountResponse>;
+  listByAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CreatorsListByAccountResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param callback The callback
    */
-  listByAccount(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.CreatorList>): void;
+  listByAccount(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.CreatorList>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAccount(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CreatorList>): void;
-  listByAccount(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CreatorList>, callback?: msRest.ServiceCallback<Models.CreatorList>): Promise<Models.CreatorsListByAccountResponse> {
+  listByAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CreatorList>
+  ): void;
+  listByAccount(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CreatorList>,
+    callback?: msRest.ServiceCallback<Models.CreatorList>
+  ): Promise<Models.CreatorsListByAccountResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -54,7 +72,8 @@ export class Creators {
         options
       },
       listByAccountOperationSpec,
-      callback) as Promise<Models.CreatorsListByAccountResponse>;
+      callback
+    ) as Promise<Models.CreatorsListByAccountResponse>;
   }
 
   /**
@@ -68,7 +87,13 @@ export class Creators {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreatorsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, creatorName: string, creatorResource: Models.Creator, options?: msRest.RequestOptionsBase): Promise<Models.CreatorsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    creatorResource: Models.Creator,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CreatorsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -76,7 +101,13 @@ export class Creators {
    * @param creatorResource The new or updated parameters for the Creator resource.
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, creatorName: string, creatorResource: Models.Creator, callback: msRest.ServiceCallback<Models.Creator>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    creatorResource: Models.Creator,
+    callback: msRest.ServiceCallback<Models.Creator>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -85,8 +116,22 @@ export class Creators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, creatorName: string, creatorResource: Models.Creator, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Creator>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, creatorName: string, creatorResource: Models.Creator, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Creator>, callback?: msRest.ServiceCallback<Models.Creator>): Promise<Models.CreatorsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    creatorResource: Models.Creator,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Creator>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    creatorResource: Models.Creator,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Creator>,
+    callback?: msRest.ServiceCallback<Models.Creator>
+  ): Promise<Models.CreatorsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -96,7 +141,8 @@ export class Creators {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.CreatorsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.CreatorsCreateOrUpdateResponse>;
   }
 
   /**
@@ -109,7 +155,13 @@ export class Creators {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreatorsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, creatorName: string, creatorUpdateParameters: Models.CreatorUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.CreatorsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    creatorUpdateParameters: Models.CreatorUpdateParameters,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CreatorsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -117,7 +169,13 @@ export class Creators {
    * @param creatorUpdateParameters The update parameters for Maps Creator.
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, creatorName: string, creatorUpdateParameters: Models.CreatorUpdateParameters, callback: msRest.ServiceCallback<Models.Creator>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    creatorUpdateParameters: Models.CreatorUpdateParameters,
+    callback: msRest.ServiceCallback<Models.Creator>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -126,8 +184,22 @@ export class Creators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, creatorName: string, creatorUpdateParameters: Models.CreatorUpdateParameters, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Creator>): void;
-  update(resourceGroupName: string, accountName: string, creatorName: string, creatorUpdateParameters: Models.CreatorUpdateParameters, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Creator>, callback?: msRest.ServiceCallback<Models.Creator>): Promise<Models.CreatorsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    creatorUpdateParameters: Models.CreatorUpdateParameters,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Creator>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    creatorUpdateParameters: Models.CreatorUpdateParameters,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Creator>,
+    callback?: msRest.ServiceCallback<Models.Creator>
+  ): Promise<Models.CreatorsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -137,7 +209,8 @@ export class Creators {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.CreatorsUpdateResponse>;
+      callback
+    ) as Promise<Models.CreatorsUpdateResponse>;
   }
 
   /**
@@ -148,14 +221,24 @@ export class Creators {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, creatorName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param creatorName The name of the Maps Creator instance.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, creatorName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -163,8 +246,20 @@ export class Creators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, creatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, creatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -173,7 +268,8 @@ export class Creators {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -184,14 +280,24 @@ export class Creators {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreatorsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, creatorName: string, options?: msRest.RequestOptionsBase): Promise<Models.CreatorsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CreatorsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
    * @param creatorName The name of the Maps Creator instance.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, creatorName: string, callback: msRest.ServiceCallback<Models.Creator>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    callback: msRest.ServiceCallback<Models.Creator>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the Maps Account.
@@ -199,8 +305,20 @@ export class Creators {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, creatorName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Creator>): void;
-  get(resourceGroupName: string, accountName: string, creatorName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Creator>, callback?: msRest.ServiceCallback<Models.Creator>): Promise<Models.CreatorsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Creator>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    creatorName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Creator>,
+    callback?: msRest.ServiceCallback<Models.Creator>
+  ): Promise<Models.CreatorsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -209,7 +327,8 @@ export class Creators {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.CreatorsGetResponse>;
+      callback
+    ) as Promise<Models.CreatorsGetResponse>;
   }
 
   /**
@@ -218,26 +337,41 @@ export class Creators {
    * @param [options] The optional parameters
    * @returns Promise<Models.CreatorsListByAccountNextResponse>
    */
-  listByAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.CreatorsListByAccountNextResponse>;
+  listByAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.CreatorsListByAccountNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByAccountNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.CreatorList>): void;
+  listByAccountNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.CreatorList>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByAccountNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CreatorList>): void;
-  listByAccountNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CreatorList>, callback?: msRest.ServiceCallback<Models.CreatorList>): Promise<Models.CreatorsListByAccountNextResponse> {
+  listByAccountNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.CreatorList>
+  ): void;
+  listByAccountNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CreatorList>,
+    callback?: msRest.ServiceCallback<Models.CreatorList>
+  ): Promise<Models.CreatorsListByAccountNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listByAccountNextOperationSpec,
-      callback) as Promise<Models.CreatorsListByAccountNextResponse>;
+      callback
+    ) as Promise<Models.CreatorsListByAccountNextResponse>;
   }
 }
 
@@ -245,18 +379,11 @@ export class Creators {
 const serializer = new msRest.Serializer(Mappers);
 const listByAccountOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CreatorList
@@ -270,19 +397,16 @@ const listByAccountOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.creatorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "creatorResource",
     mapper: {
@@ -306,19 +430,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.creatorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "creatorUpdateParameters",
     mapper: {
@@ -339,19 +460,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.creatorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -364,19 +482,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/creators/{creatorName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.creatorName
   ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Creator
@@ -392,15 +507,9 @@ const listByAccountNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.CreatorList

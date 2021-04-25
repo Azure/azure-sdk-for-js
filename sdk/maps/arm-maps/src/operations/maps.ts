@@ -39,14 +39,21 @@ export class Maps {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperations(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsOperations>): void;
-  listOperations(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsOperations>, callback?: msRest.ServiceCallback<Models.MapsOperations>): Promise<Models.MapsListOperationsResponse> {
+  listOperations(
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MapsOperations>
+  ): void;
+  listOperations(
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsOperations>,
+    callback?: msRest.ServiceCallback<Models.MapsOperations>
+  ): Promise<Models.MapsListOperationsResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationsOperationSpec,
-      callback) as Promise<Models.MapsListOperationsResponse>;
+      callback
+    ) as Promise<Models.MapsListOperationsResponse>;
   }
 
   /**
@@ -55,26 +62,41 @@ export class Maps {
    * @param [options] The optional parameters
    * @returns Promise<Models.MapsListOperationsNextResponse>
    */
-  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.MapsListOperationsNextResponse>;
+  listOperationsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.MapsListOperationsNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listOperationsNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.MapsOperations>): void;
+  listOperationsNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.MapsOperations>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listOperationsNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MapsOperations>): void;
-  listOperationsNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsOperations>, callback?: msRest.ServiceCallback<Models.MapsOperations>): Promise<Models.MapsListOperationsNextResponse> {
+  listOperationsNext(
+    nextPageLink: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.MapsOperations>
+  ): void;
+  listOperationsNext(
+    nextPageLink: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MapsOperations>,
+    callback?: msRest.ServiceCallback<Models.MapsOperations>
+  ): Promise<Models.MapsListOperationsNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listOperationsNextOperationSpec,
-      callback) as Promise<Models.MapsListOperationsNextResponse>;
+      callback
+    ) as Promise<Models.MapsListOperationsNextResponse>;
   }
 }
 
@@ -83,12 +105,8 @@ const serializer = new msRest.Serializer(Mappers);
 const listOperationsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Maps/operations",
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MapsOperations
@@ -104,15 +122,9 @@ const listOperationsNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.MapsOperations

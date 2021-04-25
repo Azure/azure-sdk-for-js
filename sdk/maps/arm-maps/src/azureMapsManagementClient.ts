@@ -13,7 +13,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { AzureMapsManagementClientContext } from "./azureMapsManagementClientContext";
 
-
 class AzureMapsManagementClient extends AzureMapsManagementClientContext {
   // Operation groups
   accounts: operations.Accounts;
@@ -26,7 +25,11 @@ class AzureMapsManagementClient extends AzureMapsManagementClientContext {
    * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.AzureMapsManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.AzureMapsManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.accounts = new operations.Accounts(this);
     this.maps = new operations.Maps(this);
