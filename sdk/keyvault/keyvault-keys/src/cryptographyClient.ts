@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
+import { OperationOptions, TokenCredential } from "@azure/core-http";
 import {
   JsonWebKey,
   KeyVaultKey,
@@ -193,11 +193,10 @@ export class CryptographyClient {
       | [EncryptionAlgorithm, Uint8Array, EncryptOptions?]
   ): Promise<EncryptResult> {
     const [parameters, options] = this.disambiguateEncryptArguments(args);
-
     return withTrace("encrypt", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Encrypt);
+      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Encrypt);
       this.initializeIV(parameters);
-      const provider = await this.getProvider("encrypt", parameters.algorithm);
+      const provider = await this.getProvider("encrypt", parameters.algorithm, updatedOptions);
       try {
         return provider.encrypt(parameters, updatedOptions);
       } catch (error) {
@@ -299,8 +298,8 @@ export class CryptographyClient {
     const [parameters, options] = this.disambiguateDecryptArguments(args);
 
     return withTrace("decrypt", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Decrypt);
-      const provider = await this.getProvider("decrypt", parameters.algorithm);
+      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Decrypt);
+      const provider = await this.getProvider("decrypt", parameters.algorithm, updatedOptions);
       try {
         return provider.decrypt(parameters, updatedOptions);
       } catch (error) {
@@ -352,8 +351,8 @@ export class CryptographyClient {
     options: WrapKeyOptions = {}
   ): Promise<WrapResult> {
     return withTrace("wrapKey", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(), KnownKeyOperations.WrapKey);
-      const provider = await this.getProvider("wrapKey", algorithm);
+      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.WrapKey);
+      const provider = await this.getProvider("wrapKey", algorithm, updatedOptions);
       try {
         return provider.wrapKey(algorithm, key, updatedOptions);
       } catch (err) {
@@ -383,8 +382,8 @@ export class CryptographyClient {
     options: UnwrapKeyOptions = {}
   ): Promise<UnwrapResult> {
     return withTrace("unwrapKey", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(), KnownKeyOperations.UnwrapKey);
-      const provider = await this.getProvider("unwrapKey", algorithm);
+      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.UnwrapKey);
+      const provider = await this.getProvider("unwrapKey", algorithm, updatedOptions);
       try {
         return provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
       } catch (err) {
@@ -414,8 +413,8 @@ export class CryptographyClient {
     options: SignOptions = {}
   ): Promise<SignResult> {
     return withTrace("sign", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
-      const provider = await this.getProvider("sign", algorithm);
+      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Sign);
+      const provider = await this.getProvider("sign", algorithm, updatedOptions);
       try {
         return provider.sign(algorithm, digest, updatedOptions);
       } catch (err) {
@@ -447,8 +446,8 @@ export class CryptographyClient {
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
     return withTrace("verify", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
-      const provider = await this.getProvider("verify", algorithm);
+      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Verify);
+      const provider = await this.getProvider("verify", algorithm, updatedOptions);
       try {
         return provider.verify(algorithm, digest, signature, updatedOptions);
       } catch (err) {
@@ -478,8 +477,8 @@ export class CryptographyClient {
     options: SignOptions = {}
   ): Promise<SignResult> {
     return withTrace("signData", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Sign);
-      const provider = await this.getProvider("signData", algorithm);
+      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Sign);
+      const provider = await this.getProvider("signData", algorithm, updatedOptions);
       try {
         return provider.signData(algorithm, data, updatedOptions);
       } catch (err) {
@@ -511,8 +510,8 @@ export class CryptographyClient {
     options: VerifyOptions = {}
   ): Promise<VerifyResult> {
     return withTrace("verifyData", options, async (updatedOptions) => {
-      this.ensureValid(await this.fetchKey(), KnownKeyOperations.Verify);
-      const provider = await this.getProvider("verifyData", algorithm);
+      this.ensureValid(await this.fetchKey(updatedOptions), KnownKeyOperations.Verify);
+      const provider = await this.getProvider("verifyData", algorithm, updatedOptions);
       try {
         return provider.verifyData(algorithm, data, signature, updatedOptions);
       } catch (err) {
@@ -534,8 +533,8 @@ export class CryptographyClient {
    * let result = await client.getKeyMaterial();
    * ```
    */
-  private async getKeyMaterial(): Promise<JsonWebKey> {
-    const key = await this.fetchKey();
+  private async getKeyMaterial(options: GetKeyOptions): Promise<JsonWebKey> {
+    const key = await this.fetchKey(options);
 
     switch (key.kind) {
       case "JsonWebKey":
@@ -552,7 +551,7 @@ export class CryptographyClient {
    * If needed, fetches the key from KeyVault and exchanges the ID for the actual key.
    * @param options - The additional options.
    */
-  private async fetchKey(options: GetKeyOptions = {}): Promise<CryptographyClientKey> {
+  private async fetchKey<T extends OperationOptions>(options: T): Promise<CryptographyClientKey> {
     if (this.key.kind === "identifier") {
       // Exchange the identifier with the actual key when needed
       const key = await this.remoteProvider!.getKey(options);
@@ -569,12 +568,13 @@ export class CryptographyClient {
    * @param operation - The {@link KeyOperation}.
    * @param algorithm - The algorithm to use.
    */
-  private async getProvider(
+  private async getProvider<T extends OperationOptions>(
     operation: CryptographyProviderOperation,
-    algorithm: string
+    algorithm: string,
+    options: T
   ): Promise<CryptographyProvider> {
     if (!this.providers) {
-      const keyMaterial = await this.getKeyMaterial();
+      const keyMaterial = await this.getKeyMaterial(options);
       // Add local crypto providers as needed
       this.providers = [
         new RsaCryptographyProvider(keyMaterial),

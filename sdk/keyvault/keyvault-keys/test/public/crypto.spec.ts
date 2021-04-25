@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import chai, { assert } from "chai";
+import supportsTracing from "../utils/testTracing";
+chai.use(supportsTracing);
 import { Context } from "mocha";
 import { createHash } from "crypto";
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
 import { ClientSecretCredential } from "@azure/identity";
-import { isNode } from "@azure/core-http";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
@@ -26,15 +27,11 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
 
-  if (!isNode) {
-    // Local cryptography is only supported in NodeJS
-    return;
-  }
-
   beforeEach(async function(this: Context) {
     const authentication = await authenticate(this, getServiceVersion());
     client = authentication.client;
     recorder = authentication.recorder;
+    recorder.skip("browser", "Local cryptography is only supported in NodeJS");
     testClient = authentication.testClient;
     credential = authentication.credential;
     keySuffix = authentication.keySuffix;
@@ -282,5 +279,22 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     const verifyResult = await hsmCryptoClient.verify("RS384", digest, signature.result);
     assert.ok(verifyResult);
     await testClient.flushKey(hsmKeyName);
+  });
+
+  it("supports tracing", async function() {
+    await assert.supportsTracing(
+      async (tracingOptions) => {
+        await cryptoClient.encrypt(
+          { algorithm: "RSA-OAEP", plaintext: stringToUint8Array("foo") },
+          { tracingOptions }
+        );
+      },
+      [
+        {
+          children: [],
+          name: "Azure.KeyVault.Keys.CryptographyClient.encrypt"
+        }
+      ]
+    );
   });
 });

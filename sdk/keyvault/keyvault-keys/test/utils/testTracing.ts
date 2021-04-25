@@ -39,9 +39,8 @@ import { assert } from "chai";
  * @param _util
  */
 export default function(chai: Chai.ChaiStatic, _util: Chai.ChaiUtils) {
-  chai.assert.supportsTracing = async function<T>(
-    subject: T,
-    callback: (subject: T, tracingOptions: OperationTracingOptions) => any,
+  chai.assert.supportsTracing = async function(
+    callback: (tracingOptions: OperationTracingOptions) => any,
     children: SpanGraphNode[]
   ) {
     const tracer = new TestTracer();
@@ -49,11 +48,14 @@ export default function(chai: Chai.ChaiStatic, _util: Chai.ChaiUtils) {
     const rootSpan = tracer.startSpan("root");
     const tracingContext = setSpan(otContext.active(), rootSpan);
 
-    await callback(subject, { tracingContext });
-
-    rootSpan.end();
+    try {
+      await callback({ tracingContext });
+    } finally {
+      rootSpan.end();
+    }
 
     const rootSpans = tracer.getRootSpans();
+    console.log(rootSpans);
     assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
     const expectedGraph: SpanGraph = {
@@ -66,29 +68,25 @@ export default function(chai: Chai.ChaiStatic, _util: Chai.ChaiUtils) {
     };
 
     assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+    console.log("tracer.getActiveSpans()", tracer.getActiveSpans());
     assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
   };
-  chai.Assertion.addMethod("supportsTracing", async function(
-    this: Chai.AssertionStatic,
-    callback: <T>(subject: T, tracingOptions: OperationTracingOptions) => any,
-    children: SpanGraphNode[]
-  ) {
-    return chai.assert.supportsTracing(this._obj, callback, children);
+  chai.Assertion.addMethod("supportsTracing", async function(callback, children) {
+    return chai.assert.supportsTracing(callback, children);
   });
 }
 
 declare global {
   export namespace Chai {
     interface Assert {
-      supportsTracing<T>(
-        subject: T,
-        callback: (subject: T, tracingOptions: OperationTracingOptions) => any,
+      supportsTracing(
+        callback: (tracingOptions: OperationTracingOptions) => any,
         children: any
       ): PromiseLike<void>;
     }
     interface Assertion {
-      supportsTracing<T>(
-        callback: (subject: T, tracingOptions: OperationTracingOptions) => any,
+      supportsTracing(
+        callback: (tracingOptions: OperationTracingOptions) => any,
         children: any
       ): PromiseLike<void>;
     }
