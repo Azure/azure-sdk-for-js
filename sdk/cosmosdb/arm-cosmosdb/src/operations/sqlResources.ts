@@ -737,6 +737,213 @@ export class SqlResources {
   }
 
   /**
+   * Retrieves continuous backup information for a container resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param location The name of the continuous backup restore location.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesRetrieveContinuousBackupInformationResponse>
+   */
+  retrieveContinuousBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, location: Models.ContinuousBackupRestoreLocation, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesRetrieveContinuousBackupInformationResponse> {
+    return this.beginRetrieveContinuousBackupInformation(resourceGroupName,accountName,databaseName,containerName,location,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesRetrieveContinuousBackupInformationResponse>;
+  }
+
+  /**
+   * Retrieves the properties of an existing Azure Cosmos DB SQL Role Definition with the given Id.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>
+   */
+  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>;
+  /**
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param callback The callback
+   */
+  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>): void;
+  /**
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>): void;
+  getSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>, callback?: msRest.ServiceCallback<Models.SqlRoleDefinitionGetResults>): Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse> {
+    return this.client.sendOperationRequest(
+      {
+        roleDefinitionId,
+        resourceGroupName,
+        accountName,
+        options
+      },
+      getSqlRoleDefinitionOperationSpec,
+      callback) as Promise<Models.SqlResourcesGetSqlRoleDefinitionResponse>;
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB SQL Role Definition.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param createUpdateSqlRoleDefinitionParameters The properties required to create or update a
+   * Role Definition.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse>
+   */
+  createUpdateSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleDefinitionParameters: Models.SqlRoleDefinitionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse> {
+    return this.beginCreateUpdateSqlRoleDefinition(roleDefinitionId,resourceGroupName,accountName,createUpdateSqlRoleDefinitionParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlRoleDefinitionResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB SQL Role Definition.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlRoleDefinition(roleDefinitionId,resourceGroupName,accountName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB SQL Role Definitions.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>
+   */
+  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param callback The callback
+   */
+  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>): void;
+  listSqlRoleDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>, callback?: msRest.ServiceCallback<Models.SqlRoleDefinitionListResult>): Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listSqlRoleDefinitionsOperationSpec,
+      callback) as Promise<Models.SqlResourcesListSqlRoleDefinitionsResponse>;
+  }
+
+  /**
+   * Retrieves the properties of an existing Azure Cosmos DB SQL Role Assignment with the given Id.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>
+   */
+  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>;
+  /**
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param callback The callback
+   */
+  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>): void;
+  /**
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>): void;
+  getSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>, callback?: msRest.ServiceCallback<Models.SqlRoleAssignmentGetResults>): Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse> {
+    return this.client.sendOperationRequest(
+      {
+        roleAssignmentId,
+        resourceGroupName,
+        accountName,
+        options
+      },
+      getSqlRoleAssignmentOperationSpec,
+      callback) as Promise<Models.SqlResourcesGetSqlRoleAssignmentResponse>;
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB SQL Role Assignment.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param createUpdateSqlRoleAssignmentParameters The properties required to create or update a
+   * Role Assignment.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse>
+   */
+  createUpdateSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleAssignmentParameters: Models.SqlRoleAssignmentCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse> {
+    return this.beginCreateUpdateSqlRoleAssignment(roleAssignmentId,resourceGroupName,accountName,createUpdateSqlRoleAssignmentParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.SqlResourcesCreateUpdateSqlRoleAssignmentResponse>;
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB SQL Role Assignment.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteSqlRoleAssignment(roleAssignmentId,resourceGroupName,accountName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>
+   */
+  listSqlRoleAssignments(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param callback The callback
+   */
+  listSqlRoleAssignments(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listSqlRoleAssignments(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>): void;
+  listSqlRoleAssignments(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>, callback?: msRest.ServiceCallback<Models.SqlRoleAssignmentListResult>): Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listSqlRoleAssignmentsOperationSpec,
+      callback) as Promise<Models.SqlResourcesListSqlRoleAssignmentsResponse>;
+  }
+
+  /**
    * Create or update an Azure Cosmos DB SQL database
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
@@ -1108,6 +1315,116 @@ export class SqlResources {
       beginDeleteSqlTriggerOperationSpec,
       options);
   }
+
+  /**
+   * Retrieves continuous backup information for a container resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param containerName Cosmos DB container name.
+   * @param location The name of the continuous backup restore location.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginRetrieveContinuousBackupInformation(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, location: Models.ContinuousBackupRestoreLocation, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        databaseName,
+        containerName,
+        location,
+        options
+      },
+      beginRetrieveContinuousBackupInformationOperationSpec,
+      options);
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB SQL Role Definition.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param createUpdateSqlRoleDefinitionParameters The properties required to create or update a
+   * Role Definition.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleDefinitionParameters: Models.SqlRoleDefinitionCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        roleDefinitionId,
+        resourceGroupName,
+        accountName,
+        createUpdateSqlRoleDefinitionParameters,
+        options
+      },
+      beginCreateUpdateSqlRoleDefinitionOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB SQL Role Definition.
+   * @param roleDefinitionId The GUID for the Role Definition.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteSqlRoleDefinition(roleDefinitionId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        roleDefinitionId,
+        resourceGroupName,
+        accountName,
+        options
+      },
+      beginDeleteSqlRoleDefinitionOperationSpec,
+      options);
+  }
+
+  /**
+   * Creates or updates an Azure Cosmos DB SQL Role Assignment.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param createUpdateSqlRoleAssignmentParameters The properties required to create or update a
+   * Role Assignment.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreateUpdateSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, createUpdateSqlRoleAssignmentParameters: Models.SqlRoleAssignmentCreateUpdateParameters, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        roleAssignmentId,
+        resourceGroupName,
+        accountName,
+        createUpdateSqlRoleAssignmentParameters,
+        options
+      },
+      beginCreateUpdateSqlRoleAssignmentOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing Azure Cosmos DB SQL Role Assignment.
+   * @param roleAssignmentId The GUID for the Role Assignment.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteSqlRoleAssignment(roleAssignmentId: string, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        roleAssignmentId,
+        resourceGroupName,
+        accountName,
+        options
+      },
+      beginDeleteSqlRoleAssignmentOperationSpec,
+      options);
+  }
 }
 
 // Operation Specifications
@@ -1290,7 +1607,7 @@ const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SqlStoredProcedureListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1434,6 +1751,108 @@ const getSqlTriggerOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
+  urlParameters: [
+    Parameters.roleDefinitionId,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlRoleDefinitionGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listSqlRoleDefinitionsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlRoleDefinitionListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const getSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
+  urlParameters: [
+    Parameters.roleAssignmentId,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlRoleAssignmentGetResults
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listSqlRoleAssignmentsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlRoleAssignmentListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
@@ -1548,7 +1967,7 @@ const beginMigrateSqlDatabaseToAutoscaleOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1575,7 +1994,7 @@ const beginMigrateSqlDatabaseToManualThroughputOperationSpec: msRest.OperationSp
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1699,7 +2118,7 @@ const beginMigrateSqlContainerToAutoscaleOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1727,7 +2146,7 @@ const beginMigrateSqlContainerToManualThroughputOperationSpec: msRest.OperationS
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1913,6 +2332,161 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginRetrieveContinuousBackupInformationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/retrieveContinuousBackupInformation",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.databaseName,
+    Parameters.containerName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "location",
+    mapper: {
+      ...Mappers.ContinuousBackupRestoreLocation,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.BackupInformation
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
+  urlParameters: [
+    Parameters.roleDefinitionId,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateSqlRoleDefinitionParameters",
+    mapper: {
+      ...Mappers.SqlRoleDefinitionCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlRoleDefinitionGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteSqlRoleDefinitionOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleDefinitions/{roleDefinitionId}",
+  urlParameters: [
+    Parameters.roleDefinitionId,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginCreateUpdateSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
+  urlParameters: [
+    Parameters.roleAssignmentId,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "createUpdateSqlRoleAssignmentParameters",
+    mapper: {
+      ...Mappers.SqlRoleAssignmentCreateUpdateParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlRoleAssignmentGetResults
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginDeleteSqlRoleAssignmentOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlRoleAssignments/{roleAssignmentId}",
+  urlParameters: [
+    Parameters.roleAssignmentId,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
     202: {},
     204: {},
     default: {

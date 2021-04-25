@@ -888,7 +888,7 @@ const beginMigrateCassandraKeyspaceToAutoscaleOperationSpec: msRest.OperationSpe
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -915,7 +915,7 @@ const beginMigrateCassandraKeyspaceToManualThroughputOperationSpec: msRest.Opera
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1039,7 +1039,7 @@ const beginMigrateCassandraTableToAutoscaleOperationSpec: msRest.OperationSpec =
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1067,7 +1067,7 @@ const beginMigrateCassandraTableToManualThroughputOperationSpec: msRest.Operatio
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

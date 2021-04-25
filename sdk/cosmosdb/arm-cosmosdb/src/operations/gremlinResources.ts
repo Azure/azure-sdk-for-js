@@ -888,7 +888,7 @@ const beginMigrateGremlinDatabaseToAutoscaleOperationSpec: msRest.OperationSpec 
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -915,7 +915,7 @@ const beginMigrateGremlinDatabaseToManualThroughputOperationSpec: msRest.Operati
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1039,7 +1039,7 @@ const beginMigrateGremlinGraphToAutoscaleOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -1067,7 +1067,7 @@ const beginMigrateGremlinGraphToManualThroughputOperationSpec: msRest.OperationS
     },
     202: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseUpdatedFormat
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

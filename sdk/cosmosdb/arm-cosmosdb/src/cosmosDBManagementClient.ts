@@ -10,6 +10,7 @@
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters";
 import * as operations from "./operations";
 import { CosmosDBManagementClientContext } from "./cosmosDBManagementClientContext";
 
@@ -34,9 +35,19 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
   tableResources: operations.TableResources;
   cassandraResources: operations.CassandraResources;
   gremlinResources: operations.GremlinResources;
+  restorableDatabaseAccounts: operations.RestorableDatabaseAccounts;
   notebookWorkspaces: operations.NotebookWorkspaces;
+  restorableSqlDatabases: operations.RestorableSqlDatabases;
+  restorableSqlContainers: operations.RestorableSqlContainers;
+  restorableSqlResources: operations.RestorableSqlResources;
+  restorableMongodbDatabases: operations.RestorableMongodbDatabases;
+  restorableMongodbCollections: operations.RestorableMongodbCollections;
+  restorableMongodbResources: operations.RestorableMongodbResources;
+  cassandraClusters: operations.CassandraClusters;
+  cassandraDataCenters: operations.CassandraDataCenters;
   privateLinkResources: operations.PrivateLinkResources;
   privateEndpointConnections: operations.PrivateEndpointConnections;
+  service: operations.Service;
 
   /**
    * Initializes a new instance of the CosmosDBManagementClient class.
@@ -64,13 +75,122 @@ class CosmosDBManagementClient extends CosmosDBManagementClientContext {
     this.tableResources = new operations.TableResources(this);
     this.cassandraResources = new operations.CassandraResources(this);
     this.gremlinResources = new operations.GremlinResources(this);
+    this.restorableDatabaseAccounts = new operations.RestorableDatabaseAccounts(this);
     this.notebookWorkspaces = new operations.NotebookWorkspaces(this);
+    this.restorableSqlDatabases = new operations.RestorableSqlDatabases(this);
+    this.restorableSqlContainers = new operations.RestorableSqlContainers(this);
+    this.restorableSqlResources = new operations.RestorableSqlResources(this);
+    this.restorableMongodbDatabases = new operations.RestorableMongodbDatabases(this);
+    this.restorableMongodbCollections = new operations.RestorableMongodbCollections(this);
+    this.restorableMongodbResources = new operations.RestorableMongodbResources(this);
+    this.cassandraClusters = new operations.CassandraClusters(this);
+    this.cassandraDataCenters = new operations.CassandraDataCenters(this);
     this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.service = new operations.Service(this);
+  }
+
+  /**
+   * List Cosmos DB locations and their properties
+   * @param [options] The optional parameters
+   * @returns Promise<Models.LocationListResponse>
+   */
+  locationList(options?: msRest.RequestOptionsBase): Promise<Models.LocationListResponse>;
+  /**
+   * @param callback The callback
+   */
+  locationList(callback: msRest.ServiceCallback<Models.LocationListResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  locationList(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationListResult>): void;
+  locationList(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationListResult>, callback?: msRest.ServiceCallback<Models.LocationListResult>): Promise<Models.LocationListResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      locationListOperationSpec,
+      callback) as Promise<Models.LocationListResponse>;
+  }
+
+  /**
+   * Get the properties of an existing Cosmos DB location
+   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.LocationGetResponse>
+   */
+  locationGet(location: string, options?: msRest.RequestOptionsBase): Promise<Models.LocationGetResponse>;
+  /**
+   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param callback The callback
+   */
+  locationGet(location: string, callback: msRest.ServiceCallback<Models.LocationGetResult>): void;
+  /**
+   * @param location Cosmos DB region, with spaces between words and each word capitalized.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  locationGet(location: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LocationGetResult>): void;
+  locationGet(location: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LocationGetResult>, callback?: msRest.ServiceCallback<Models.LocationGetResult>): Promise<Models.LocationGetResponse> {
+    return this.sendOperationRequest(
+      {
+        location,
+        options
+      },
+      locationGetOperationSpec,
+      callback) as Promise<Models.LocationGetResponse>;
   }
 }
 
 // Operation Specifications
+const serializer = new msRest.Serializer(Mappers);
+const locationListOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.LocationListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const locationGetOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.LocationGetResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
 
 export {
   CosmosDBManagementClient,
