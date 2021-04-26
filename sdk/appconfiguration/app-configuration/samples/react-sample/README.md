@@ -80,6 +80,14 @@ We recommend the [@azure/identity][identity] package which provides a set of cre
    npm start
    ```
 
+## Caution (Important!)
+
+> > This sample retrieves feature flags from a client-side application however scalability can become a problem.
+>
+> > Azure App Configuration has a request quota detailed [here](https://azure.microsoft.com/en-us/pricing/details/app-configuration/). Once the quota is exhausted, HTTP status code 429 will be returned for all requests until the end of the hour.
+>
+> > For production environments and for users with heavy loads(keeping Azure costs in mind), the recommendation is to use App Configuration on the server-side and let the server cache and pass feature-flags to the clients.
+
 ## Next Steps
 
 Take a look at our [Samples][samples] for more information about the APIs that are available.
