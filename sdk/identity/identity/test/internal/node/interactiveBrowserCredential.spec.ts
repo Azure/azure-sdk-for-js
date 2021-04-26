@@ -10,7 +10,14 @@ import { env } from "@azure/test-utils-recorder";
 import { InteractiveBrowserCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalOpenBrowser";
-import { isNode8 } from "../../../src/tokenCache/requireMsalNodeExtensions";
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      URL: typeof import("url").URL;
+    }
+  }
+}
 
 describe("InteractiveBrowserCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
@@ -29,8 +36,8 @@ describe("InteractiveBrowserCredential (internal)", function() {
 
   it("Throws an expected error if no browser is available", async function(this: Context) {
     // On Node 8, URL is not defined. We use URL on the msalOpenBrowser.ts file.
-    if (isNode8) {
-      this.skip();
+    if (process.version.startsWith("v8.")) {
+      global.URL = require("url").URL;
     }
 
     // The SinonStub type does not include this second parameter to throws().
