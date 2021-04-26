@@ -1,3 +1,4 @@
+import { ClientSecretCredentialPersistenceTest } from "./ClientSecretCredential/persistence.spec";
 import { PerfStressProgram, selectPerfStressTest } from "@azure/test-utils-perfstress";
 import * as dotenv from "dotenv";
 dotenv.config();
