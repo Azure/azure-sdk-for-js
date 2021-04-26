@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai, { assert } from "chai";
-import supportsTracing from "../../../keyvault-common/test/utils/supportsTracing";
-chai.use(supportsTracing);
+import { assert } from "chai";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
 import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
@@ -287,13 +286,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   });
 
   it("supports tracing", async function() {
-    await assert.supportsTracing(
+    await supportsTracing(
       (tracingOptions) =>
         cryptoClient.encrypt("RSA1_5", stringToUint8Array("data"), { tracingOptions }),
-      ["Azure.KeyVault.Keys.CryptographyClient.encrypt"],
-      {
-        prefix: "Azure.KeyVault"
-      }
+      ["Azure.KeyVault.Keys.CryptographyClient.encrypt"]
     );
   });
 });

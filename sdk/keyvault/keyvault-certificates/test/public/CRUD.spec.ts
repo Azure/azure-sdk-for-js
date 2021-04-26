@@ -5,9 +5,8 @@ import os from "os";
 import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
-import chai, { assert } from "chai";
-import supportsTracing from "../../../keyvault-common/test/utils/supportsTracing";
-chai.use(supportsTracing);
+import { assert } from "chai";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
@@ -667,7 +666,7 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("supports tracing", async function(this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await assert.supportsTracing(
+    await supportsTracing(
       async (tracingOptions) => {
         const poller = await client.beginCreateCertificate(
           certificateName,
@@ -685,10 +684,7 @@ describe("Certificates client - create, read, update and delete", () => {
         "Azure.KeyVault.Certificates.CreateCertificatePoller.getPlainCertificateOperation",
         "Azure.KeyVault.Certificates.CreateCertificatePoller.getCertificate",
         "Azure.KeyVault.Certificates.CertificateClient.getCertificate"
-      ],
-      {
-        prefix: "Azure.KeyVault"
-      }
+      ]
     );
   });
 });

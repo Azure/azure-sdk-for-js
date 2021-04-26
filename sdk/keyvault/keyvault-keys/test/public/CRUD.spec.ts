@@ -17,6 +17,7 @@ import { assertThrowsAbortError, getServiceVersion } from "../utils/utils.common
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
@@ -373,12 +374,9 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   it("supports tracing", async function(this: Context) {
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await assert.supportsTracing(
+    await supportsTracing(
       (tracingOptions) => client.createKey(keyName, "RSA", { tracingOptions }),
-      ["Azure.KeyVault.Keys.KeyClient.createKey"],
-      {
-        prefix: "Azure.KeyVault"
-      }
+      ["Azure.KeyVault.Keys.KeyClient.createKey"]
     );
   });
 });
