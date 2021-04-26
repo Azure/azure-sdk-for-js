@@ -194,7 +194,7 @@ export class EventHubSender extends LinkEntity {
    * @returns boolean
    */
   isOpen(): boolean {
-    const result: boolean = this._sender! && this._sender!.isOpen();
+    const result = Boolean(this._sender && this._sender.isOpen());
     logger.verbose(
       "[%s] Sender '%s' with address '%s' is open? -> %s",
       this._context.connectionId,
@@ -217,9 +217,10 @@ export class EventHubSender extends LinkEntity {
       abortSignal?: AbortSignalLike;
     } = {}
   ): Promise<number> {
-    await this._createLinkIfNotOpen(options);
+    const sender = await this._getLink(options);
+    this._sender = sender;
 
-    return this._sender!.maxMessageSize;
+    return sender.maxMessageSize;
   }
 
   /**
@@ -342,7 +343,8 @@ export class EventHubSender extends LinkEntity {
 
     const sendEventPromise = async (): Promise<void> => {
       const initStartTime = Date.now();
-      const sender = await this._createLinkIfNotOpen(options);
+      const sender = await this._getLink(options);
+      this._sender = sender;
       const timeTakenByInit = Date.now() - initStartTime;
       logger.verbose(
         "[%s] Sender '%s', credit: %d available: %d",
@@ -443,7 +445,7 @@ export class EventHubSender extends LinkEntity {
     }
   }
 
-  private async _createLinkIfNotOpen(
+  private async _getLink(
     options: {
       retryOptions?: RetryOptions;
       abortSignal?: AbortSignalLike;
@@ -526,9 +528,7 @@ export class EventHubSender extends LinkEntity {
           this.name
         );
 
-        const sender = (this._sender = await this._context.connection.createAwaitableSender(
-          options
-        ));
+        const sender = await this._context.connection.createAwaitableSender(options);
         this.isConnecting = false;
         logger.verbose(
           "[%s] Sender '%s' created with sender options: %O",
@@ -536,7 +536,7 @@ export class EventHubSender extends LinkEntity {
           this.name,
           options
         );
-        this._sender.setMaxListeners(1000);
+        sender.setMaxListeners(1000);
 
         // It is possible for someone to close the sender and then start it again.
         // Thus make sure that the sender is present in the client cache.

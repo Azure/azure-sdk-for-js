@@ -37,8 +37,8 @@ describe("disconnected", function() {
       const context = createConnectionContext(service.connectionString, service.path);
       const sender = EventHubSender.create(context);
 
-      // Create the sender link so we can check when 'send' is about to be called on it.
-      await sender["_createLinkIfNotOpen"]();
+      // Create the sender link via getMaxMessageSize() so we can check when 'send' is about to be called on it.
+      await sender.getMaxMessageSize();
       should.equal(sender.isOpen(), true, "Expected sender to be open.");
 
       // Here we stub out the 'send' call on the AwaitableSender.
