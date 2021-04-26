@@ -26,7 +26,7 @@ export interface SupportsTracingOptions {
  * import supportsTracing from "../utils/traceMatcher";
  * chai.use(supportsTracing)
  *
- * await assert.supportsTracing((tracingOptions) => subject.someMethod(params, { tracingOptions }));
+ * await assert.supportsTracing((tracingOptions) => subject.someMethod(params, { tracingOptions }), ["name.of.child.span"]);
  * ```
  * @param chai - The Chai static context
  */
@@ -54,7 +54,6 @@ export default function(chai: Chai.ChaiStatic) {
         (span) => span.name.startsWith(options.prefix!) || span.name === "root"
       );
     }
-    console.log("rootSpans", rootSpans);
     assert.equal(rootSpans.length, 1, "Should only have one root span.");
     assert.strictEqual(
       rootSpan,
@@ -83,14 +82,14 @@ declare global {
   export namespace Chai {
     interface Assert {
       supportsTracing(
-        callback: (tracingOptions: OperationTracingOptions) => any,
+        callback: (tracingOptions: OperationTracingOptions) => Promise<unknown>,
         children: string[],
         options?: SupportsTracingOptions
       ): PromiseLike<void>;
     }
     interface Assertion {
       supportsTracing(
-        callback: (tracingOptions: OperationTracingOptions) => any,
+        callback: (tracingOptions: OperationTracingOptions) => Promise<unknown>,
         children: string[],
         options?: SupportsTracingOptions
       ): PromiseLike<void>;
