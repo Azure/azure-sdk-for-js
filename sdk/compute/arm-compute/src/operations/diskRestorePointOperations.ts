@@ -170,7 +170,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.diskRestorePointName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -196,7 +196,7 @@ const listByRestorePointOperationSpec: msRest.OperationSpec = {
     Parameters.vmRestorePointName
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -220,7 +220,7 @@ const listByRestorePointNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion2
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -83,9 +83,9 @@ export interface SecretProperties {
    * this field specifies the corresponding key backing the KV certificate.
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
-   * @deprecated Please use {@link SecretProperties.certificateKeyId} instead. This field will always be undefined.
+   * @deprecated Please use {@link SecretProperties.certificateKeyId} instead. `keyId` will always be undefined.
    */
-  readonly keyId?: unknown;
+  readonly keyId?: never;
 
   /**
    * If this is a secret backing a KV certificate, then
@@ -146,6 +146,7 @@ export interface DeletedSecret {
     /**
      * The url of the recovery object, used to
      * identify and recover the deleted secret.
+     * @deprecated Please use {@link DeletedSecret.recoveryId}.
      */
     recoveryId?: string;
     /**
@@ -153,12 +154,14 @@ export interface DeletedSecret {
      * to be purged, in UTC
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
+     * @deprecated Please use {@link DeletedSecret.scheduledPurgeDate}.
      */
     scheduledPurgeDate?: Date;
     /**
      * The time when the secret was deleted, in UTC
      * **NOTE: This property will not be serialized. It can only be populated by
      * the server.**
+     * @deprecated Please use {@link DeletedSecret.deletedOn}.
      */
     deletedOn?: Date;
   };
@@ -170,6 +173,24 @@ export interface DeletedSecret {
    * The name of the secret.
    */
   name: string;
+  /**
+   * The url of the recovery object, used to
+   * identify and recover the deleted secret.
+   */
+  recoveryId?: string;
+  /**
+   * The time when the secret is scheduled
+   * to be purged, in UTC
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  scheduledPurgeDate?: Date;
+  /**
+   * The time when the secret was deleted, in UTC
+   * **NOTE: This property will not be serialized. It can only be populated by
+   * the server.**
+   */
+  deletedOn?: Date;
 }
 
 /**

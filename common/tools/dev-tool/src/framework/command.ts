@@ -104,9 +104,13 @@ export function subCommand<Info extends CommandInfo<CommandOptions>>(
       const status = await commandModule.default(...commandArgs);
 
       if (!status) {
-        log.error("Errors occurred. See the output above.");
+        log.error(`Errors occurred in "${commandName}". See the output above.`);
+        process.exit(1);
       }
-      return status;
+
+      // We used to bubble up status here, but now we exit if it's false
+      // to reduce the noise in the command output.
+      return true;
     } else {
       log.error("No such sub-command:", commandName);
       await printCommandUsage(info, commands, console.error);

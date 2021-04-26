@@ -49,6 +49,10 @@ export interface ServiceClientOptions extends CommonClientOptions {
    * A customized pipeline to use, otherwise a default one will be created.
    */
   pipeline?: Pipeline;
+  /**
+   * Set to true if the request is sent over HTTP instead of HTTPS
+   */
+  allowInsecureConnection?: boolean;
 }
 
 /**
@@ -68,6 +72,11 @@ export class ServiceClient {
   private readonly _requestContentType?: string;
 
   /**
+   * Set to true if the request is sent over HTTP instead of HTTPS
+   */
+  private readonly _allowInsecureConnection?: boolean;
+
+  /**
    * The HTTP client that will be used to send requests.
    */
   private readonly _httpClient: HttpClient;
@@ -85,6 +94,7 @@ export class ServiceClient {
   constructor(options: ServiceClientOptions = {}) {
     this._requestContentType = options.requestContentType;
     this._baseUri = options.baseUri;
+    this._allowInsecureConnection = options.allowInsecureConnection;
     this._httpClient = options.httpClient || getCachedDefaultHttpClient();
 
     this.pipeline = options.pipeline || createDefaultPipeline(options);
@@ -137,12 +147,6 @@ export class ServiceClient {
       const requestOptions = options.requestOptions;
 
       if (requestOptions) {
-        if (requestOptions.customHeaders) {
-          for (const customHeaderName of Object.keys(requestOptions.customHeaders)) {
-            request.headers.set(customHeaderName, requestOptions.customHeaders[customHeaderName]);
-          }
-        }
-
         if (requestOptions.timeout) {
           request.timeout = requestOptions.timeout;
         }
@@ -158,6 +162,10 @@ export class ServiceClient {
         if (requestOptions.shouldDeserialize !== undefined) {
           operationInfo.shouldDeserialize = requestOptions.shouldDeserialize;
         }
+
+        if (requestOptions.allowInsecureConnection) {
+          request.allowInsecureConnection = true;
+        }
       }
 
       if (options.abortSignal) {
@@ -167,6 +175,10 @@ export class ServiceClient {
       if (options.tracingOptions) {
         request.tracingOptions = options.tracingOptions;
       }
+    }
+
+    if (this._allowInsecureConnection) {
+      request.allowInsecureConnection = true;
     }
 
     if (request.streamResponseStatusCodes === undefined) {

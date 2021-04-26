@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+/// <reference lib="esnext.asynciterable" />
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SparkJobDefinition } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -28,9 +30,8 @@ import {
   SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class representing a SparkJobDefinition. */
-export class SparkJobDefinition {
+export class SparkJobDefinitionImpl implements SparkJobDefinition {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -92,10 +93,10 @@ export class SparkJobDefinition {
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSparkJobDefinitionsByWorkspace",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -105,7 +106,7 @@ export class SparkJobDefinition {
       return result as SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -127,7 +128,7 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createOrUpdateSparkJobDefinition",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
@@ -143,7 +144,7 @@ export class SparkJobDefinition {
         return result as SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -173,10 +174,13 @@ export class SparkJobDefinition {
     sparkJobDefinitionName: string,
     options?: SparkJobDefinitionGetSparkJobDefinitionOptionalParams
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-getSparkJobDefinition", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-getSparkJobDefinition",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -186,7 +190,7 @@ export class SparkJobDefinition {
       return result as SparkJobDefinitionGetSparkJobDefinitionResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -206,7 +210,7 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteSparkJobDefinition",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
@@ -221,7 +225,7 @@ export class SparkJobDefinition {
         return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -253,7 +257,7 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<SparkJobDefinitionExecuteSparkJobDefinitionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-executeSparkJobDefinition",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
@@ -268,7 +272,7 @@ export class SparkJobDefinition {
         return result as SparkJobDefinitionExecuteSparkJobDefinitionResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -303,7 +307,7 @@ export class SparkJobDefinition {
   ): Promise<LROPoller<coreHttp.RestResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-renameSparkJobDefinition",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionName,
@@ -319,7 +323,7 @@ export class SparkJobDefinition {
         return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -349,7 +353,10 @@ export class SparkJobDefinition {
     sparkJobDefinitionAzureResource: SparkJobDefinitionResource,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<SparkJobDefinitionDebugSparkJobDefinitionResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-debugSparkJobDefinition", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-debugSparkJobDefinition",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       sparkJobDefinitionAzureResource,
       options: this.getOperationOptions(updatedOptions, "location")
@@ -363,7 +370,7 @@ export class SparkJobDefinition {
         return result as SparkJobDefinitionDebugSparkJobDefinitionResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -397,11 +404,11 @@ export class SparkJobDefinition {
   ): Promise<SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getSparkJobDefinitionsByWorkspaceNext",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -411,7 +418,7 @@ export class SparkJobDefinition {
       return result as SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

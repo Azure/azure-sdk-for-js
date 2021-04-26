@@ -14,17 +14,18 @@ import {
 import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
 import { delay } from "@azure/core-http";
 import { Recorder } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(async function() {
+  afterEach(async function(this: Context) {
     await recorder.stop();
   });
 

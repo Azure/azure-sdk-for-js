@@ -29,6 +29,13 @@ export interface SnapshotOptions {
     | "close-info"
   )[];
   snapshotIntervalInMs?: number;
+  /**
+   * Snapshot information is automatically sent to Azure Monitor.
+   * This allows you also print the same information to the console.
+   *
+   * Disabled by default.
+   */
+  writeSnapshotInfoToConsole?: boolean;
 }
 
 export interface TrackedMessageIdsInfo {
@@ -42,7 +49,7 @@ export interface TrackedMessageIdsInfo {
 export function initializeOperationInfo(): OperationInfo {
   return {
     numberOfSuccesses: 0,
-    numberOfFailures: 0,
+    numberOfFailures: 0
   };
 }
 
@@ -66,7 +73,7 @@ export async function saveDiscrepanciesFromTrackedMessages(
     messages_not_sent_but_received: [] as string[],
     messages_sent_multiple_times: [] as string[],
     messages_sent_once_but_received_multiple_times: [] as string[],
-    messages_sent_once_and_received_once: [] as string[],
+    messages_sent_once_and_received_once: [] as string[]
   };
 
   for (const id in trackedMessageIds) {

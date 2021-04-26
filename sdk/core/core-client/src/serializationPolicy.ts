@@ -62,7 +62,10 @@ export function serializationPolicy(options: SerializationPolicyOptions = {}): P
   };
 }
 
-function serializeHeaders(
+/**
+ * @internal
+ */
+export function serializeHeaders(
   request: OperationRequest,
   operationArguments: OperationArguments,
   operationSpec: OperationSpec
@@ -89,6 +92,12 @@ function serializeHeaders(
           );
         }
       }
+    }
+  }
+  const customHeaders = operationArguments.options?.requestOptions?.customHeaders;
+  if (customHeaders) {
+    for (const customHeaderName of Object.keys(customHeaders)) {
+      request.headers.set(customHeaderName, customHeaders[customHeaderName]);
     }
   }
 }

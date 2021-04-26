@@ -1,7 +1,8 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0 (2021-03-29)
 
+- Stable release of `@azure/communication-sms`.
 
 ## 1.0.0-beta.4 (2020-03-09)
 
@@ -30,5 +31,5 @@ Updated `@azure/communication-sms` version.
 
 The first preview of the Azure Communication Sms Client has the following features:
 
-- send a SMS message from an acquired phone number.
+- send an SMS message from an acquired phone number.
 - optionally enable delivery reports.

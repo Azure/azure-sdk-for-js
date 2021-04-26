@@ -7,12 +7,11 @@ import {
   ChatListChatThreadsOptionalParams as RestListChatThreadsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
-  ChatCreateChatThreadOptionalParams as RestCreateChatThreadOptions,
   ChatMessageType
 } from "../generated/src/models";
+import { ChatParticipant } from "./models";
 
 export {
-  RestCreateChatThreadOptions,
   RestUpdateMessageOptions,
   RestListMessagesOptions,
   RestListChatThreadsOptions,
@@ -63,12 +62,17 @@ export type ListMessagesOptions = RestListMessagesOptions;
 /**
  * Options to create a chat thread.
  */
-export type CreateChatThreadOptions = RestCreateChatThreadOptions;
+export interface CreateChatThreadOptions extends OperationOptions {
+  /** Participants to be added to the chat thread. */
+  participants?: ChatParticipant[];
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Idempotency-Token and get back an appropriate response without the server executing the request multiple times. The value of the Idempotency-Token is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
+  idempotencyToken?: string;
+}
 
 /**
  * Options to get a chat thread.
  */
-export type GetChatThreadOptions = OperationOptions;
+export type GetPropertiesOptions = OperationOptions;
 
 /**
  * Options to delete a chat thread.

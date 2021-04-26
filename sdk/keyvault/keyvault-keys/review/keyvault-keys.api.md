@@ -14,31 +14,37 @@ import { TokenCredential } from '@azure/core-http';
 
 // @public
 export interface AesCbcDecryptParameters {
-    algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+    algorithm: AesCbcEncryptionAlgorithm;
     ciphertext: Uint8Array;
     iv: Uint8Array;
 }
 
 // @public
+export type AesCbcEncryptionAlgorithm = "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
+
+// @public
 export interface AesCbcEncryptParameters {
-    algorithm: "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
-    iv: Uint8Array;
+    algorithm: AesCbcEncryptionAlgorithm;
+    iv?: Uint8Array;
     plaintext: Uint8Array;
 }
 
 // @public
 export interface AesGcmDecryptParameters {
     additionalAuthenticatedData?: Uint8Array;
-    algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+    algorithm: AesGcmEncryptionAlgorithm;
     authenticationTag?: Uint8Array;
     ciphertext: Uint8Array;
     iv: Uint8Array;
 }
 
 // @public
+export type AesGcmEncryptionAlgorithm = "A128GCM" | "A192GCM" | "A256GCM";
+
+// @public
 export interface AesGcmEncryptParameters {
     additionalAuthenticatedData?: Uint8Array;
-    algorithm: "A128GCM" | "A192GCM" | "A256GCM";
+    algorithm: AesGcmEncryptionAlgorithm;
     plaintext: Uint8Array;
 }
 
@@ -112,7 +118,7 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface DecryptOptions extends KeyOperationsOptions {
+export interface DecryptOptions extends CryptographyOptions {
 }
 
 // @public
@@ -146,7 +152,7 @@ export type DeletionRecoveryLevel = string;
 export type EncryptionAlgorithm = string;
 
 // @public
-export interface EncryptOptions extends KeyOperationsOptions {
+export interface EncryptOptions extends CryptographyOptions {
 }
 
 // @public
@@ -226,7 +232,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1" | "7.2";
+    serviceVersion?: string;
 }
 
 // @public
@@ -234,10 +240,6 @@ export type KeyCurveName = string;
 
 // @public
 export type KeyOperation = string;
-
-// @public
-export interface KeyOperationsOptions extends CryptographyOptions {
-}
 
 // @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
@@ -375,9 +377,6 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 }
 
 // @public
-export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
-
-// @public
 export const logger: import("@azure/logger").AzureLogger;
 
 export { PagedAsyncIterableIterator }
@@ -400,13 +399,16 @@ export interface RestoreKeyBackupOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface RsaDecryptParameters {
-    algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+    algorithm: RsaEncryptionAlgorithm;
     ciphertext: Uint8Array;
 }
 
 // @public
+export type RsaEncryptionAlgorithm = "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+
+// @public
 export interface RsaEncryptParameters {
-    algorithm: "RSA1_5" | "RSA-OAEP" | "RSA-OAEP-256";
+    algorithm: RsaEncryptionAlgorithm;
     plaintext: Uint8Array;
 }
 
@@ -425,7 +427,7 @@ export interface SignResult {
 }
 
 // @public
-export interface UnwrapKeyOptions extends KeyOperationsOptions {
+export interface UnwrapKeyOptions extends CryptographyOptions {
 }
 
 // @public
@@ -461,7 +463,7 @@ export interface VerifyResult {
 }
 
 // @public
-export interface WrapKeyOptions extends KeyOperationsOptions {
+export interface WrapKeyOptions extends CryptographyOptions {
 }
 
 // @public

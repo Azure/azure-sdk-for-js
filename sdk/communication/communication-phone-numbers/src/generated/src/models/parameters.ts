@@ -128,6 +128,28 @@ export const operationId: OperationURLParameter = {
   }
 };
 
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const calling: OperationParameter = {
+  parameterPath: ["options", "calling"],
+  mapper: PhoneNumberCapabilitiesRequestMapper
+};
+
+export const sms: OperationParameter = {
+  parameterPath: ["options", "sms"],
+  mapper: PhoneNumberCapabilitiesRequestMapper
+};
+
 export const phoneNumber: OperationURLParameter = {
   parameterPath: "phoneNumber",
   mapper: {
@@ -158,28 +180,6 @@ export const top: OperationQueryParameter = {
       name: "Number"
     }
   }
-};
-
-export const contentType1: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/merge-patch+json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const calling: OperationParameter = {
-  parameterPath: ["options", "calling"],
-  mapper: PhoneNumberCapabilitiesRequestMapper
-};
-
-export const sms: OperationParameter = {
-  parameterPath: ["options", "sms"],
-  mapper: PhoneNumberCapabilitiesRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {

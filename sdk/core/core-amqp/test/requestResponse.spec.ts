@@ -8,7 +8,8 @@ import {
   RetryConfig,
   RetryOperationType,
   retry,
-  Constants
+  Constants,
+  StandardAbortMessage
 } from "../src";
 import { Connection, EventContext, generate_uuid, Message as RheaMessage } from "rhea-promise";
 import { stub, fake, SinonSpy } from "sinon";
@@ -448,16 +449,8 @@ describe("RequestResponseLink", function() {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      const expectedErrorRegex = new RegExp(
-        /The foo operation has been cancelled by the user.$/,
-        "gi"
-      );
       assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(
-        expectedErrorRegex.test(err.message),
-        true,
-        `Incorrect error received "${err.message}"`
-      );
+      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
@@ -520,16 +513,8 @@ describe("RequestResponseLink", function() {
       });
       throw new Error(`Test failure`);
     } catch (err) {
-      const expectedErrorRegex = new RegExp(
-        /The foo operation has been cancelled by the user.$/,
-        "gi"
-      );
       assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(
-        expectedErrorRegex.test(err.message),
-        true,
-        `Incorrect error received "${err.message}"`
-      );
+      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
     // Final state of the map
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
@@ -583,16 +568,8 @@ describe("RequestResponseLink", function() {
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
     } catch (err) {
-      const expectedErrorRegex = new RegExp(
-        /The foo operation has been cancelled by the user.$/,
-        "gi"
-      );
       assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
-      assert.equal(
-        expectedErrorRegex.test(err.message),
-        true,
-        `Incorrect error received "${err.message}"`
-      );
+      assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });

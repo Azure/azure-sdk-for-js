@@ -167,4 +167,31 @@ describe("XhrHttpClient", function() {
     assert.strictEqual(response.blobBody, undefined);
     assert.equal(response.bodyAsText, "body");
   });
+
+  it("should throw when accessing HTTP and allowInsecureConnection is false", async function() {
+    const client = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      url: "http://example.com"
+    });
+    const promise = client.sendRequest(request);
+    try {
+      await promise;
+      assert.fail("Expected await to throw");
+    } catch (e) {
+      assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
+    }
+  });
+
+  it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function() {
+    const client = createDefaultHttpClient();
+    const request = createPipelineRequest({
+      allowInsecureConnection: true,
+      url: "http://example.com"
+    });
+    const promise = client.sendRequest(request);
+    assert.equal(requests.length, 1);
+    requests[0].respond(200, {}, "");
+    const response = await promise;
+    assert.strictEqual(response.status, 200);
+  });
 });

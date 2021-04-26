@@ -28,6 +28,13 @@ class XhrHttpClient implements HttpClient {
    * @param request - The request to be made.
    */
   public async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
+    const url = new URL(request.url);
+    const isInsecure = url.protocol !== "https:";
+
+    if (isInsecure && !request.allowInsecureConnection) {
+      throw new Error(`Cannot connect to ${request.url} while allowInsecureConnection is false.`);
+    }
+
     const xhr = new XMLHttpRequest();
 
     if (request.proxySettings) {

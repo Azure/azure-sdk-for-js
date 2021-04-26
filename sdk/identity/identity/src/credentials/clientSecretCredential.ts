@@ -1,30 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import qs from "qs";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
-import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
-import { CanonicalCode } from "@opentelemetry/api";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
+import { credentialLogger } from "../util/logging";
+import { trace } from "../util/tracing";
+import { MsalFlow } from "../msal/flows";
+import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 
 const logger = credentialLogger("ClientSecretCredential");
 
 /**
  * Enables authentication to Azure Active Directory using a client secret
- * that was generated for an App Registration.  More information on how
+ * that was generated for an App Registration. More information on how
  * to configure a client secret can be found here:
  *
  * https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
  *
  */
 export class ClientSecretCredential implements TokenCredential {
-  private identityClient: IdentityClient;
-  private tenantId: string;
-  private clientId: string;
-  private clientSecret: string;
+  private msalFlow: MsalFlow;
 
   /**
    * Creates an instance of the ClientSecretCredential with the details
@@ -40,12 +35,16 @@ export class ClientSecretCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     clientSecret: string,
-    options?: TokenCredentialOptions
+    options: ClientSecretCredentialOptions = {}
   ) {
-    this.identityClient = new IdentityClient(options);
-    this.tenantId = tenantId;
-    this.clientId = clientId;
-    this.clientSecret = clientSecret;
+    this.msalFlow = new MsalClientSecret({
+      ...options,
+      logger,
+      clientId,
+      tenantId,
+      clientSecret,
+      tokenCredentialOptions: options
+    });
   }
 
   /**
@@ -58,49 +57,10 @@ export class ClientSecretCredential implements TokenCredential {
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  public async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const { span, updatedOptions } = createSpan("ClientSecretCredential-getToken", options);
-    try {
-      const urlSuffix = getIdentityTokenEndpointSuffix(this.tenantId);
-      const webResource = this.identityClient.createWebResource({
-        url: `${this.identityClient.authorityHost}/${this.tenantId}/${urlSuffix}`,
-        method: "POST",
-        disableJsonStringifyOnBody: true,
-        deserializationMapper: undefined,
-        body: qs.stringify({
-          response_type: "token",
-          grant_type: "client_credentials",
-          client_id: this.clientId,
-          client_secret: this.clientSecret,
-          scope: typeof scopes === "string" ? scopes : scopes.join(" ")
-        }),
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        abortSignal: options && options.abortSignal,
-        spanOptions: updatedOptions?.tracingOptions?.spanOptions
-      });
-
-      const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
-      logger.getToken.info(formatSuccess(scopes));
-      return (tokenResponse && tokenResponse.accessToken) || null;
-    } catch (err) {
-      const code =
-        err.name === AuthenticationErrorName
-          ? CanonicalCode.UNAUTHENTICATED
-          : CanonicalCode.UNKNOWN;
-      span.setStatus({
-        code,
-        message: err.message
-      });
-      logger.getToken.info(formatError(scopes, err));
-      throw err;
-    } finally {
-      span.end();
-    }
+  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
+    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+      return this.msalFlow.getToken(arrayScopes, newOptions);
+    });
   }
 }

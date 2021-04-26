@@ -22,7 +22,7 @@ import { AvroReaderFactory } from "./AvroReaderFactory";
 import { Segment } from "./Segment";
 import { BlobChangeFeedListChangesOptions } from "./models/models";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
 
 interface MetaSegments {
@@ -159,7 +159,7 @@ export class ChangeFeedFactory {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

@@ -32,15 +32,12 @@ stages:
                 deploy:
                   steps:
                     - checkout: self
-                    - ${{if eq(parameters.TestPipeline, 'true')}}:
-                      - task: PowerShell@2
-                        displayName: Prep template pipeline for release
-                        condition: succeeded()
-                        inputs:
-                          pwsh: true
-                          workingDirectory: $(Build.SourcesDirectory)
-                          filePath: eng/scripts/SetTestPipelineVersion.ps1
-                          arguments: '-BuildID $(Build.BuildId)'
+                    - template: /eng/common/pipelines/templates/steps/retain-run.yml
+                    - template: /eng/common/pipelines/templates/steps/set-test-pipeline-version.yml
+                      parameters:
+                        PackageName: "@azure/template"
+                        ServiceDirectory: "template"
+                        TestPipeline: ${{ parameters.TestPipeline }}
                     - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
                       parameters:
                         PackageName: ${{artifact.name}}
@@ -62,7 +59,7 @@ stages:
                         ReleaseSha: $(Build.SourceVersion)
                         RepoId: Azure/azure-sdk-for-js
                         WorkingDirectory: $(System.DefaultWorkingDirectory)
-
+                    
           - ${{if ne(artifact.skipPublishPackage, 'true')}}:
             - deployment: PublishPackage
               displayName: "Publish to npmjs"
@@ -221,7 +218,7 @@ stages:
     - stage: SmokeTest_Release_Packages
       displayName: Smoke Test Release Packages
       jobs:
-        - template: /eng/pipelines/templates/jobs/smoke-tests.yml
+        - template: /eng/pipelines/templates/jobs/smoke.tests.yml
           parameters:
             Daily: false
             ServiceDirectory: ${{ parameters.ServiceDirectory }}

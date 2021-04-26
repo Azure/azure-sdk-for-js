@@ -1,0 +1,31 @@
+{
+ "recordings": [
+  {
+   "method": "DELETE",
+   "url": "https://endpoint/identities/sanitized",
+   "query": {
+    "api-version": "2021-03-07"
+   },
+   "requestBody": null,
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"IdentityNotOwned\",\"message\":\"Provided identity doesn't belong to the resource.\"}}",
+   "responseHeaders": {
+    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07",
+    "content-type": "application/json",
+    "date": "Sat, 24 Apr 2021 01:34:28 GMT",
+    "ms-cv": "8g4w3sGIHE2BLJfT4Rk3EQ.0",
+    "request-context": "appId=",
+    "status": "401",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0pHWDYAAAAAA7FYSTuFStRaJTEcFYFAnXWVZSMzBFREdFMDMyMQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "x-ms-client-request-id": "sanitized",
+    "x-processing-time": "13ms"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "ed72e5bf86d4aa2d2a265f33f1e6bc2a"
+}

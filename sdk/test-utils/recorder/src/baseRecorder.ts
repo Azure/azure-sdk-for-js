@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
+import { defaultCustomizationsOnRecordings } from "./defaultCustomizations";
 import {
-  isBrowser,
   TestInfo,
   RecorderEnvironmentSetup,
   filterSecretsFromStrings,
   filterSecretsRecursivelyFromJSON,
-  generateTestRecordingFilePath,
-  decodeHexEncodingIfExistsInNockFixture,
-  handleSingleQuotesInUrlPath
+  generateTestRecordingFilePath
 } from "./utils";
+import { defaultRequestBodyTransforms } from "./utils/requestBodyTransform";
 
 /**
  * Loads the environment variables in both node and browser modes corresponding to the key-value pairs provided.
@@ -36,19 +35,11 @@ export abstract class BaseRecorder {
   public environmentSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {},
     customizationsOnRecordings: [],
-    queryParametersToSkip: []
+    queryParametersToSkip: [],
+    requestBodyTransformations: defaultRequestBodyTransforms
   };
   protected hash: string;
-  private defaultCustomizationsOnRecordings = !isBrowser()
-    ? [
-        // Decodes "hex" strings in the response from the recorded fixture if any exists.
-        decodeHexEncodingIfExistsInNockFixture,
-        // Nock bug: Single quotes in the path of the url are not handled by nock.
-        // (Link to the bug 🐛: https://github.com/nock/nock/issues/2136)
-        // The following is the workaround we use in the recorder until nock fixes it.
-        handleSingleQuotesInUrlPath
-      ]
-    : [];
+  private defaultCustomizationsOnRecordings = defaultCustomizationsOnRecordings;
 
   constructor(
     platform: "node" | "browsers",
@@ -74,16 +65,54 @@ export abstract class BaseRecorder {
    * @memberof BaseRecorder
    */
   protected filterSecrets(content: any): any {
+    let updatedContent = content;
+    if (typeof content !== "string") {
+      // For the recording as a whole...
+      // Methods such as maskAccessTokenInBrowserRecording may have effects here
+      for (const customization of this.defaultCustomizationsOnRecordings) {
+        updatedContent = customization(updatedContent);
+      }
+    }
+
     const recordingFilterMethod =
-      typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
+      typeof updatedContent === "string"
+        ? filterSecretsFromStrings
+        : filterSecretsRecursivelyFromJSON;
 
     return recordingFilterMethod(
-      content,
+      updatedContent,
       this.environmentSetup.replaceableVariables,
       this.defaultCustomizationsOnRecordings.concat(
         this.environmentSetup.customizationsOnRecordings
       )
     );
+  }
+
+  public init(environmentSetup: RecorderEnvironmentSetup) {
+    this.environmentSetup = {
+      replaceableVariables: {
+        ...this.environmentSetup.replaceableVariables,
+        ...environmentSetup.replaceableVariables
+      },
+      customizationsOnRecordings: [
+        ...this.environmentSetup.customizationsOnRecordings,
+        ...environmentSetup.customizationsOnRecordings
+      ],
+      queryParametersToSkip: [
+        ...this.environmentSetup.queryParametersToSkip,
+        ...environmentSetup.queryParametersToSkip
+      ],
+      requestBodyTransformations: {
+        stringTransforms:
+          this.environmentSetup.requestBodyTransformations?.stringTransforms?.concat(
+            environmentSetup.requestBodyTransformations?.stringTransforms ?? []
+          ) ?? [],
+        jsonTransforms:
+          this.environmentSetup.requestBodyTransformations?.jsonTransforms?.concat(
+            environmentSetup.requestBodyTransformations?.jsonTransforms ?? []
+          ) ?? []
+      }
+    };
   }
 
   public abstract record(environmentSetup: RecorderEnvironmentSetup): void;

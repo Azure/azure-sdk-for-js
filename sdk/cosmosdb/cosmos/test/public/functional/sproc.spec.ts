@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Context } from "mocha";
+import { Suite } from "mocha";
 import { Constants } from "../../../src";
 import { Container, StoredProcedureDefinition } from "../../../src/";
 import {
@@ -13,14 +15,14 @@ import {
 // Used for sproc
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   beforeEach(async function() {
     await removeAllDatabases();
   });
   describe("Validate sproc CRUD", function() {
     let container: Container;
-    beforeEach(async function() {
+    beforeEach(async function(this: Context) {
       container = await getTestContainer(this.test.fullTitle());
     });
 
@@ -92,7 +94,7 @@ describe("NodeJS CRUD Tests", function() {
 
   describe("Validate stored procedure functionality", function() {
     let container: Container;
-    beforeEach(async function() {
+    beforeEach(async function(this: Context) {
       container = await getTestContainer(this.test.fullTitle());
     });
 

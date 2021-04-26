@@ -109,6 +109,7 @@ export function credentialLoggerInstance(
  * It has all the properties of a CredentialLoggerInstance, plus other logger instances, one per method.
  */
 export interface CredentialLogger extends CredentialLoggerInstance {
+  parent: AzureLogger;
   getToken: CredentialLoggerInstance;
 }
 
@@ -126,6 +127,7 @@ export function credentialLogger(title: string, log: AzureLogger = logger): Cred
   const credLogger = credentialLoggerInstance(title, undefined, log);
   return {
     ...credLogger,
+    parent: log,
     getToken: credentialLoggerInstance("=> getToken()", credLogger, log)
   };
 }

@@ -1,7 +1,19 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.1.1 (Unreleased)
 
+- Expose `allowInsecureConnection` in `ServiceClientOptions` and `OperationRequestOptions` to allow operation requests to HTTP endpoints
+
+## 1.1.0 (2021-03-30)
+
+### Breaking Changes
+
+- If the response body is empty and the mapper for it says it is nullable, then a null is returned.
+- Updated @azure/core-tracing to version `1.0.0-preview.11`. See [@azure/core-tracing CHANGELOG](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-tracing/CHANGELOG.md) for details about breaking changes with tracing.
+
+## 1.0.0 (2021-03-15)
+
+GA release of this package.
 
 ## 1.0.0-beta.2 (2021-03-10)
 

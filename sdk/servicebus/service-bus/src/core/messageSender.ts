@@ -20,13 +20,10 @@ import {
   RetryOperationType,
   RetryOptions,
   delay,
-  retry
+  retry,
+  AmqpAnnotatedMessage
 } from "@azure/core-amqp";
-import {
-  ServiceBusMessage,
-  getMessagePropertyTypeMismatchError,
-  toRheaMessage
-} from "../serviceBusMessage";
+import { ServiceBusMessage, toRheaMessage } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
@@ -36,8 +33,8 @@ import { CreateMessageBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { translateServiceBusError } from "../serviceBusError";
-import { defaultDataTransformer } from "../dataTransformer";
 import { isDefined } from "../util/typeGuards";
+import { defaultDataTransformer } from "../dataTransformer";
 
 /**
  * @internal
@@ -353,26 +350,16 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    *
    * @param data - Message to send. Will be sent as UTF8-encoded JSON string.
    */
-  async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
+  async send(
+    data: ServiceBusMessage | AmqpAnnotatedMessage,
+    options?: OperationOptionsBase
+  ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      const amqpMessage = toRheaMessage(data);
-      amqpMessage.body = defaultDataTransformer.encode(data.body);
+      const amqpMessage = toRheaMessage(data, defaultDataTransformer);
 
       // TODO: this body of logic is really similar to what's in sendMessages. Unify what we can.
-      let encodedMessage;
-      try {
-        encodedMessage = RheaMessageUtil.encode(amqpMessage);
-      } catch (error) {
-        if (error instanceof TypeError || error.name === "TypeError") {
-          // `RheaMessageUtil.encode` can fail if message properties are of invalid type
-          // rhea throws errors with name `TypeError` but not an instance of `TypeError`, so catch them too
-          // Errors in such cases do not have user-friendly message or call stack
-          // So use `getMessagePropertyTypeMismatchError` to get a better error message
-          throw getMessagePropertyTypeMismatchError(data) || error;
-        }
-        throw error;
-      }
+      let encodedMessage = RheaMessageUtil.encode(amqpMessage);
       logger.verbose("%s Sender '%s', trying to send message: %O", this.logPrefix, this.name, data);
       return await this._trySend(encodedMessage, false, options);
     } catch (err) {
@@ -395,7 +382,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * Batch message.
    */
   async sendMessages(
-    inputMessages: ServiceBusMessage[],
+    inputMessages: ServiceBusMessage[] | AmqpAnnotatedMessage[],
     options?: OperationOptionsBase
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -413,17 +400,9 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const encodedMessages = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < inputMessages.length; i++) {
-        const amqpMessage = toRheaMessage(inputMessages[i]);
-        amqpMessage.body = defaultDataTransformer.encode(inputMessages[i].body);
+        const amqpMessage = toRheaMessage(inputMessages[i], defaultDataTransformer);
         amqpMessages[i] = amqpMessage;
-        try {
-          encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
-        } catch (error) {
-          if (error instanceof TypeError || error.name === "TypeError") {
-            throw getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
-          }
-          throw error;
-        }
+        encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
       }
 
       // Convert every encoded message to amqp data section

@@ -5,9 +5,14 @@ import { OperationOptions } from "@azure/core-http";
 import { PhoneNumberSearchRequest } from "./generated/src/models/";
 
 /**
- * Represents a void result.
+ * The result of the phone numbers purchase operation.
  */
-export type VoidResult = {};
+export interface PurchasePhoneNumbersResult {}
+
+/**
+ * The result of the phone number release operation.
+ */
+export interface ReleasePhoneNumberResult {}
 
 /**
  * Additional options for the get phone number request.
@@ -17,19 +22,7 @@ export type GetPurchasedPhoneNumberOptions = OperationOptions;
 /**
  * Additional options that can be passed to the list phone numbers request.
  */
-export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {
-  /**
-   * An optional parameter for how many entries to skip, for pagination purposes.
-   * The default value is 0.
-   */
-  skip?: number;
-
-  /**
-   * An optional parameter for how many entries to return, for pagination purposes.
-   * The default value is 100.
-   */
-  top?: number;
-}
+export interface ListPurchasedPhoneNumbersOptions extends OperationOptions {}
 
 /**
  * Represents a phone number search request to find phone numbers.
@@ -43,7 +36,7 @@ export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchReq
 }
 
 export {
-  AcquiredPhoneNumber,
+  PurchasedPhoneNumber,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumberCapabilitiesRequest,

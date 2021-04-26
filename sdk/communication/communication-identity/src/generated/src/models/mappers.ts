@@ -139,7 +139,7 @@ export const CommunicationError: coreHttp.CompositeMapper = {
         }
       },
       innerError: {
-        serializedName: "innerError",
+        serializedName: "innererror",
         type: {
           name: "Composite",
           className: "CommunicationError"

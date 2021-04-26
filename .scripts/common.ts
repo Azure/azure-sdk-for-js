@@ -112,14 +112,31 @@ function isPackageFolderPath(folderPath: string, packagesToIgnore: string[]): bo
   return result;
 }
 
+function shouldProcessFolderPath(folderPath: string, folderNamesToIgnore: string[]): boolean {
+  if (!contains(folderNamesToIgnore, getName(folderPath))) {
+    // If current path is not in folder to ignore list then process it.
+    return true;
+  }
+
+  // if current folder name is in folder to ignore list then make sure this path is package root path
+  // eventgrid service name and dataplane package name are same and it is added in ignore list
+  // So this causes an issue to skip processing eventgrid service folder itself
+  const packageJsonFilePath: string = joinPath(folderPath, "package.json");
+  if (!fileExistsSync(packageJsonFilePath)) {
+    return true;
+  }
+
+  // Skip current path since it is package root path and also added in ignore folder list
+  return false;
+}
+
 export const packagesToIgnore: string[] = generateDataplaneList().packageList;
 export var folderNamesToIgnore: string[] = generateDataplaneList().folderList;
 folderNamesToIgnore.push("node_modules");
-
 export function getPackageFolderPaths(packagesFolderPath: string): string[] | undefined {
   return getChildFolderPaths(packagesFolderPath, {
     recursive: true,
     condition: (folderPath: string) => isPackageFolderPath(folderPath, packagesToIgnore),
-    folderCondition: (folderPath: string) => !contains(folderNamesToIgnore, getName(folderPath))
+    folderCondition: (folderPath: string) => shouldProcessFolderPath(folderPath, folderNamesToIgnore)
   });
 }

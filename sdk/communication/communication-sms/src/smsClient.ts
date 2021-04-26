@@ -15,7 +15,7 @@ import {
   OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { SmsApiClient } from "./generated/src/smsApiClient";
 import { SDK_VERSION } from "./constants";
 import { createSpan } from "./tracing";
@@ -159,7 +159,7 @@ export class SmsClient {
   }
 
   /**
-   * Sends a SMS from a phone number that is acquired by the authenticated account, to another phone number.
+   * Sends an SMS from a phone number that is acquired by the authenticated account, to another phone number.
    *
    * @param sendRequest - Provides the sender's and recipient's phone numbers, and the contents of the message
    * @param options - Additional request options
@@ -179,7 +179,7 @@ export class SmsClient {
       return response.value;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

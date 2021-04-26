@@ -1,14 +1,7 @@
 import { ServiceBusClient, ServiceBusSessionReceiver } from "@azure/service-bus";
-import { SBStressTestsBase } from "./stressTestsBase";
+import { ServiceBusStressTester } from "./serviceBusStressTester";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-// Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
 interface ScenarioRenewSessionLockOptions {
   testDurationInMs?: number;
@@ -72,67 +65,69 @@ export async function scenarioRenewSessionLock() {
 
   const startedAt = new Date();
 
-  const stressBase = new SBStressTestsBase({
+  const stressBase = new ServiceBusStressTester({
     testName: "renewSessionLock",
     snapshotFocus: ["send-info", "receive-info", "session-lock-renewal-info"]
   });
 
-  const sbClient = new ServiceBusClient(connectionString);
+  const operation = async (sbClient: ServiceBusClient) => {
+    const sender = sbClient.createSender(stressBase.queueName);
 
-  await stressBase.init(undefined, { requiresSession: useSessions }, testOptions);
-  const sender = sbClient.createSender(stressBase.queueName);
-  async function sendMessages() {
-    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    while (
-      elapsedTime < testDurationForSendInMs &&
-      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
-    ) {
-      await stressBase.sendMessages(
-        [sender],
-        numberOfMessagesPerSend,
-        useSessions,
-        useScheduleApi,
-        numberOfSessions
-      );
-      elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      await delay(delayBetweenSendsInMs);
-    }
-  }
-
-  let receivers: ServiceBusSessionReceiver[] = [];
-  async function receiveMessages() {
-    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    while (elapsedTime < testDurationInMs) {
-      let receiver;
-      try {
-        receiver = await sbClient.acceptNextSession(stressBase.queueName, {
-          receiveMode,
-          maxAutoLockRenewalDurationInMs: !autoLockRenewal ? 0 : testDurationInMs - elapsedTime
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      if (receiver) {
-        await stressBase.receiveMessages(
-          receiver,
-          receiveBatchMaxMessageCount,
-          receiveBatchMaxWaitTimeInMs,
-          settleMessageOnReceive
+    async function sendMessages() {
+      let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      while (
+        elapsedTime < testDurationForSendInMs &&
+        stressBase.numMessagesSent() < totalNumberOfMessagesToSend
+      ) {
+        await stressBase.sendMessages(
+          [sender],
+          numberOfMessagesPerSend,
+          useSessions,
+          useScheduleApi,
+          numberOfSessions
         );
-        receivers.push(receiver);
-        if (!autoLockRenewal) {
-          stressBase.renewSessionLockUntil(receiver, testDurationInMs - elapsedTime);
-        }
+        elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        await delay(delayBetweenSendsInMs);
       }
-      elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      await delay(delayBetweenReceivesInMs);
     }
-  }
 
-  await Promise.all([sendMessages(), receiveMessages()]);
-  await sbClient.close();
+    let receivers: ServiceBusSessionReceiver[] = [];
+    async function receiveMessages() {
+      let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      while (elapsedTime < testDurationInMs) {
+        let receiver;
+        try {
+          receiver = await sbClient.acceptNextSession(stressBase.queueName, {
+            receiveMode,
+            maxAutoLockRenewalDurationInMs: !autoLockRenewal ? 0 : testDurationInMs - elapsedTime
+          });
+        } catch (error) {
+          console.log(error);
+        }
+        if (receiver) {
+          await stressBase.receiveMessages(
+            receiver,
+            receiveBatchMaxMessageCount,
+            receiveBatchMaxWaitTimeInMs,
+            settleMessageOnReceive
+          );
+          receivers.push(receiver);
+          if (!autoLockRenewal) {
+            stressBase.renewSessionLockUntil(receiver, testDurationInMs - elapsedTime);
+          }
+        }
+        elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        await delay(delayBetweenReceivesInMs);
+      }
+    }
 
-  await stressBase.end();
+    await Promise.all([sendMessages(), receiveMessages()]);
+  };
+
+  return stressBase.runStressTest(operation, {
+    createQueueOptions: { requiresSession: useSessions },
+    additionalEventProperties: testOptions
+  });
 }
 
 scenarioRenewSessionLock().catch((err) => {

@@ -1,7 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest, ProxySettings } from "../interfaces";
+import * as http from "http";
+import * as https from "https";
+import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
+import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
+import {
+  PipelineResponse,
+  PipelineRequest,
+  SendRequest,
+  ProxySettings,
+  HttpHeaders
+} from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { URL } from "../util/url";
 
@@ -17,6 +27,9 @@ export const proxyPolicyName = "proxyPolicy";
 
 export const noProxyList: string[] = loadNoProxy();
 const byPassedList: Map<string, boolean> = new Map();
+
+let httpsProxyAgent: https.Agent | undefined;
+let httpProxyAgent: http.Agent | undefined;
 
 function getEnvironmentValue(name: string): string | undefined {
   if (process.env[name]) {
@@ -107,6 +120,54 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
   };
 }
 
+function getProxyAgentOptions(
+  proxySettings: ProxySettings,
+  requestHeaders: HttpHeaders
+): HttpProxyAgentOptions {
+  let parsedProxyUrl: URL;
+  try {
+    parsedProxyUrl = new URL(proxySettings.host);
+  } catch (_error) {
+    throw new Error(
+      `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`
+    );
+  }
+
+  const proxyAgentOptions: HttpsProxyAgentOptions = {
+    hostname: parsedProxyUrl.hostname,
+    port: proxySettings.port,
+    protocol: parsedProxyUrl.protocol,
+    headers: requestHeaders.toJSON()
+  };
+  if (proxySettings.username && proxySettings.password) {
+    proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
+  }
+  return proxyAgentOptions;
+}
+
+function setProxyAgentOnRequest(request: PipelineRequest): void {
+  const url = new URL(request.url);
+
+  const isInsecure = url.protocol !== "https:";
+
+  const proxySettings = request.proxySettings;
+  if (proxySettings) {
+    if (isInsecure) {
+      if (!httpProxyAgent) {
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request.headers);
+        httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
+      }
+      request.agent = httpProxyAgent;
+    } else {
+      if (!httpsProxyAgent) {
+        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request.headers);
+        httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
+      }
+      request.agent = httpsProxyAgent;
+    }
+  }
+}
+
 /**
  * A policy that allows one to apply proxy settings to all requests.
  * If not passed static settings, they will be retrieved from the HTTPS_PROXY
@@ -119,6 +180,10 @@ export function proxyPolicy(proxySettings = getDefaultProxySettings()): Pipeline
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.proxySettings && !isBypassed(request.url)) {
         request.proxySettings = proxySettings;
+      }
+
+      if (request.proxySettings) {
+        setProxyAgentOnRequest(request);
       }
       return next(request);
     }

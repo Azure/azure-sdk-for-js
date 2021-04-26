@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import * as util from "util";
 import { Container, ContainerDefinition } from "../../../src";
 import { DataType, IndexKind } from "../../../src";
@@ -26,7 +27,7 @@ function compare(key: string) {
   };
 }
 
-describe("Cross Partition", function() {
+describe("Cross Partition", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || "30000");
 
   describe("Validate Query", function() {

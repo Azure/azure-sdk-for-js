@@ -1,0 +1,74 @@
+parameters:
+  - name: Artifacts
+    type: object
+    default: []
+  - name: TestPipeline
+    type: boolean
+    default: false
+  - name: ServiceDirectory
+    type: string
+    default: not-specified
+  - name: RunUnitTests
+    type: boolean
+    default: true
+  - name: MatrixConfigs
+    type: object
+  - name: MatrixFilters
+    type: object
+    default: []
+  - name: MatrixReplace
+    type: object
+    default: []
+
+jobs:
+  - job: "Build"
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      name: azsdk-pool-mms-ubuntu-1804-general
+      vmImage: MMSUbuntu18.04
+
+    steps:
+      - script: |
+          echo "##vso[build.addbuildtag]Scheduled"
+        displayName: "Tag scheduled builds"
+        condition: and(always(),and(eq(variables['Build.SourceBranchName'],'master'),eq(variables['Build.Reason'],'Schedule')))
+
+      - template: ../steps/common.yml
+
+      - template: ../steps/build.yml
+        parameters:
+          Artifacts: ${{ parameters.Artifacts }}
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          TestPipeline: ${{ parameters.TestPipeline }}
+
+  - job: "Analyze"
+    variables:
+      - template: ../variables/globals.yml
+
+    pool:
+      name: azsdk-pool-mms-ubuntu-1804-general
+      vmImage: MMSUbuntu18.04
+
+    steps:
+      - template: ../steps/common.yml
+
+      - template: ../steps/analyze.yml
+        parameters:
+          Artifacts: ${{ parameters.Artifacts }}
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          TestPipeline: ${{ parameters.TestPipeline }}
+
+  - ${{ if ne(parameters.RunUnitTests, false) }}:
+    - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
+      parameters:
+        JobTemplatePath: /eng/pipelines/templates/jobs/ci.tests.yml
+        MatrixConfigs: ${{ parameters.MatrixConfigs }}
+        MatrixFilters: ${{ parameters.MatrixFilters }}
+        MatrixReplace: ${{ parameters.MatrixReplace }}
+        CloudConfig:
+          Cloud: Public
+        AdditionalParameters:
+          ServiceDirectory: ${{ parameters.ServiceDirectory }}
+          Artifacts: ${{ parameters.Artifacts }}

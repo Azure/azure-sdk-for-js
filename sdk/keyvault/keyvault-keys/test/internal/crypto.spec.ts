@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode, TokenCredential } from "@azure/core-http";
+import { isNode, TokenCredential, OperationOptions } from "@azure/core-http";
+import { Context } from "mocha";
 import chai, { assert } from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import sinon from "sinon";
-import { CryptographyClient, KeyVaultKey } from "../../src";
+import { CryptographyClient, DecryptParameters, EncryptParameters, KeyVaultKey } from "../../src";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { JsonWebKey } from "../../src";
 import { stringToUint8Array } from "../utils/crypto";
@@ -126,7 +127,7 @@ describe("internal crypto tests", () => {
       decryptStub = sinon
         .stub(cryptoProvider, "decrypt")
         .returns(Promise.resolve({ algorithm: "", result: stringToUint8Array("") }));
-      sinon.stub(cryptoProvider, "supportsOperation").returns(true);
+      sinon.stub(cryptoProvider, "isSupported").returns(true);
       client["providers"] = [cryptoProvider];
     });
 
@@ -135,18 +136,21 @@ describe("internal crypto tests", () => {
     });
 
     describe("Encrypt parameter mapping", async function() {
-      it("maps parameters correctly when using the previous API", async function() {
+      it("maps parameters correctly when using the previous API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
         await client.encrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
         sinon.assert.calledWith(
           encryptStub,
           { algorithm: "RSA1_5", plaintext: text },
-          { requestOptions: { timeout: 5 }, tracingOptions: { spanOptions: {} } }
+          operationOptionsSinonMatcher({
+            requestOptions: { timeout: 5 },
+            tracingOptions: { spanOptions: {} }
+          })
         );
       });
 
-      it("maps parameters correctly when using the current API", async function() {
+      it("maps parameters correctly when using the current API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.encrypt(
@@ -157,24 +161,30 @@ describe("internal crypto tests", () => {
         sinon.assert.calledWith(
           encryptStub,
           { algorithm: "RSA1_5", plaintext: text },
-          { requestOptions: { timeout: 5 }, tracingOptions: { spanOptions: {} } }
+          operationOptionsSinonMatcher({
+            requestOptions: { timeout: 5 },
+            tracingOptions: { spanOptions: {} }
+          })
         );
       });
     });
 
     describe("Decrypt parameter mapping", async function() {
-      it("maps parameters correctly when using the previous API", async function() {
+      it("maps parameters correctly when using the previous API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
         await client.decrypt("RSA1_5", text, { requestOptions: { timeout: 5 } });
 
         sinon.assert.calledWith(
           decryptStub,
           { algorithm: "RSA1_5", ciphertext: text },
-          { requestOptions: { timeout: 5 }, tracingOptions: { spanOptions: {} } }
+          operationOptionsSinonMatcher({
+            requestOptions: { timeout: 5 },
+            tracingOptions: { spanOptions: {} }
+          })
         );
       });
 
-      it("maps parameters correctly when using the current API", async function() {
+      it("maps parameters correctly when using the current API", async function(this: Context) {
         const text = stringToUint8Array(this.test!.title!);
 
         await client.decrypt(
@@ -185,14 +195,17 @@ describe("internal crypto tests", () => {
         sinon.assert.calledWith(
           decryptStub,
           { algorithm: "RSA1_5", ciphertext: text },
-          { requestOptions: { timeout: 5 }, tracingOptions: { spanOptions: {} } }
+          operationOptionsSinonMatcher({
+            requestOptions: { timeout: 5 },
+            tracingOptions: { spanOptions: {} }
+          })
         );
       });
     });
   });
 
   describe("RSA local cryptography tests", function() {
-    it("throws a validation error when the key is invalid", function() {
+    it("throws a validation error when the key is invalid", function(this: Context) {
       if (!isNode) {
         // Local cryptography is not supported in the browser
         this.skip();
@@ -204,7 +217,7 @@ describe("internal crypto tests", () => {
       );
     });
 
-    it("uses the browser replacement when running in the browser", function() {
+    it("uses the browser replacement when running in the browser", function(this: Context) {
       if (isNode) {
         this.skip();
       }
@@ -215,4 +228,206 @@ describe("internal crypto tests", () => {
       );
     });
   });
+
+  describe("cryptography client error handling", function() {
+    let cryptoClient: CryptographyClient;
+    let localProvider: RsaCryptographyProvider;
+
+    beforeEach(() => {
+      localProvider = new RsaCryptographyProvider({});
+      sinon.stub(localProvider, "isSupported").returns(true);
+      for (const operation of [
+        "encrypt",
+        "decrypt",
+        "sign",
+        "wrapKey",
+        "unwrapKey",
+        "signData",
+        "verify",
+        "verifyData"
+      ]) {
+        sinon
+          .stub(localProvider, operation as keyof RsaCryptographyProvider)
+          .throwsException("Error");
+      }
+    });
+
+    afterEach(function() {
+      sinon.reset();
+    });
+
+    describe("hybrid mode", function() {
+      let remoteProvider: RemoteCryptographyProvider;
+
+      beforeEach(() => {
+        const key: KeyVaultKey = {
+          name: "key",
+          id: "https://my_keyvault.vault.azure.net/keys/id/version",
+          properties: {
+            name: "key",
+            vaultUrl: "http://my_keyvault.vault.azure.net",
+            id: "https://my_keyvault.vault.azure.net/keys/id/version"
+          },
+          key: {
+            kid: "https://my_keyvault.vault.azure.net/keys/id/version"
+          }
+        };
+
+        remoteProvider = new RemoteCryptographyProvider(key, tokenCredential);
+        cryptoClient = new CryptographyClient(key, tokenCredential);
+
+        // Setup the crypto client with our stubs
+        cryptoClient["providers"] = [localProvider, remoteProvider];
+        cryptoClient["remoteProvider"] = remoteProvider;
+      });
+
+      describe("when a local provider errors", function() {
+        it("remotes the encrypt operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "encrypt");
+
+          const parameters: EncryptParameters = {
+            algorithm: "RSA-OAEP",
+            plaintext: stringToUint8Array("text")
+          };
+
+          await cryptoClient.encrypt(parameters);
+          assert.isTrue(remoteStub.calledOnceWith(parameters));
+        });
+
+        it("remotes the decrypt operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "decrypt");
+
+          const parameters: DecryptParameters = {
+            algorithm: "RSA-OAEP",
+            ciphertext: stringToUint8Array("text")
+          };
+          await cryptoClient.decrypt(parameters);
+          assert.isTrue(remoteStub.calledOnceWith(parameters));
+        });
+
+        it("remotes the wrapKey operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "wrapKey");
+
+          const keyToWrap = stringToUint8Array("myKey");
+          await cryptoClient.wrapKey("RSA-OAEP", keyToWrap);
+          assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", keyToWrap));
+        });
+
+        it("remotes the unwrapKey operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "unwrapKey");
+
+          const wrappedKey = stringToUint8Array("myKey");
+          await cryptoClient.unwrapKey("RSA-OAEP", wrappedKey);
+          assert.isTrue(remoteStub.calledOnceWith("RSA-OAEP", wrappedKey));
+        });
+
+        it("remotes the sign operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "sign");
+
+          const data = stringToUint8Array("myKey");
+          await cryptoClient.sign("PS256", data);
+          assert.isTrue(remoteStub.calledOnceWith("PS256", data));
+        });
+
+        it("remotes the signData operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "signData");
+
+          const data = stringToUint8Array("myKey");
+          await cryptoClient.signData("PS256", data);
+          assert.isTrue(remoteStub.calledOnceWith("PS256", data));
+        });
+
+        it("remotes the verify operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "verify");
+
+          const data = stringToUint8Array("myKey");
+          const sig = stringToUint8Array("sig");
+          await cryptoClient.verify("PS256", data, sig);
+          assert.isTrue(remoteStub.calledOnceWith("PS256", data, sig));
+        });
+
+        it("remotes the verifyData operation", async function() {
+          const remoteStub = sinon.stub(remoteProvider, "verifyData");
+
+          const data = stringToUint8Array("myKey");
+          const sig = stringToUint8Array("sig");
+          await cryptoClient.verifyData("PS256", data, sig);
+          assert.isTrue(remoteStub.calledOnceWith("PS256", data, sig));
+        });
+      });
+    });
+
+    describe("local only mode", function() {
+      beforeEach(() => {
+        const jwk: JsonWebKey = {};
+        localProvider = new RsaCryptographyProvider(jwk);
+        sinon.stub(localProvider, "isSupported").returns(true);
+
+        cryptoClient = new CryptographyClient(jwk);
+
+        // Setup the crypto client with our stubs
+        cryptoClient["providers"] = [localProvider];
+      });
+
+      describe("when a local provider errors", function() {
+        it("throws the original encrypt exception", async function() {
+          await assert.isRejected(
+            cryptoClient.encrypt({ algorithm: "RSA-OAEP", plaintext: stringToUint8Array("text") })
+          );
+        });
+
+        it("throws the original decrypt exception", async function() {
+          await assert.isRejected(
+            cryptoClient.decrypt({ algorithm: "RSA-OAEP", ciphertext: stringToUint8Array("text") })
+          );
+        });
+
+        it("throws the original wrapKey exception", async function() {
+          await assert.isRejected(cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array("myKey")));
+        });
+
+        it("throws the original unwrapKey exception", async function() {
+          await assert.isRejected(cryptoClient.unwrapKey("RSA-OAEP", stringToUint8Array("myKey")));
+        });
+        it("throws the original sign exception", async function() {
+          await assert.isRejected(cryptoClient.sign("PS256", stringToUint8Array("data")));
+        });
+        it("throws the original signData exception", async function() {
+          await assert.isRejected(cryptoClient.signData("PS256", stringToUint8Array("data")));
+        });
+        it("throws the original verify exception", async function() {
+          await assert.isRejected(
+            cryptoClient.verify("PS256", stringToUint8Array("data"), stringToUint8Array("sig"))
+          );
+        });
+        it("throws the original verifyData exception", async function() {
+          await assert.isRejected(
+            cryptoClient.verifyData("PS256", stringToUint8Array("data"), stringToUint8Array("sig"))
+          );
+        });
+      });
+    });
+  });
 });
+
+/**
+ * The tests in this suite check that the created options match what createSpan() would create
+ * when properly parenting and propagating options.
+ *
+ * This is slightly trickier with later versions of OpenTelemetry where the created `context`
+ * instances are not guaranteed to be comparable even if they are logically the same. So this
+ * matcher does the comparisons needed and still maintain sinon.calledWith() compatibility.
+ */
+function operationOptionsSinonMatcher<T extends OperationOptions>(
+  expectedPropagatedOptions: T
+): ReturnType<typeof sinon.match> {
+  return sinon.match((actualOptions: T) => {
+    // check that an actual context was set up (ie, we must have
+    // called `createSpan` to get these new options.)
+    assert.ok(actualOptions.tracingOptions?.tracingContext);
+    delete actualOptions.tracingOptions?.tracingContext;
+
+    assert.deepEqual(expectedPropagatedOptions, actualOptions);
+    return true;
+  });
+}

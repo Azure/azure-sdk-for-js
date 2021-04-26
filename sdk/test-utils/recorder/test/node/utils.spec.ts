@@ -1,15 +1,21 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
   generateTestRecordingFilePath,
   isBrowser,
   testHasChanged,
   isContentTypeInNockFixture,
   decodeHexEncodingIfExistsInNockFixture,
-  handleSingleQuotesInUrlPath
+  handleSingleQuotesInUrlPath,
+  maskAccessTokenInNockFixture
 } from "../../src/utils";
-
 import { nodeRequireRecordingIfExists, findRecordingsFolderPath } from "../../src/utils/recordings";
-
 import chai, { expect } from "chai";
+import {
+  applyRequestBodyTransformations,
+  defaultRequestBodyTransforms
+} from "../../src/utils/requestBodyTransform";
 
 describe("NodeJS utils", () => {
   describe("nodeRequireRecordingIfExists", () => {
@@ -396,6 +402,157 @@ describe("NodeJS utils", () => {
     });
   });
 
+  describe("Mask access tokens in nock fixtures", () => {
+    [
+      {
+        name: `mask "access_token"s in json response`,
+        input: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
+          .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"e6z-9_g"}, [
+          'Cache-Control',
+          'no-store, no-cache',
+          'Pragma',
+          'no-cache',
+          'Content-Length',
+          '1318',
+          'Content-Type',
+          'application/json; charset=utf-8',
+          'Expires',
+          '-1',
+          'Strict-Transport-Security',
+          'max-age=31536000; includeSubDomains',
+          'X-Content-Type-Options'
+        ]);`,
+        output: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
+          .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+          'Cache-Control',
+          'no-store, no-cache',
+          'Pragma',
+          'no-cache',
+          'Content-Length',
+          '1318',
+          'Content-Type',
+          'application/json; charset=utf-8',
+          'Expires',
+          '-1',
+          'Strict-Transport-Security',
+          'max-age=31536000; includeSubDomains',
+          'X-Content-Type-Options'
+        ]);`
+      },
+      {
+        name: `do nothing for json response without access_token`,
+        input: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
+          .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_string":"e6z-9_g"}, [
+          'Cache-Control',
+          'no-store, no-cache',
+          'Pragma',
+          'no-cache',
+          'Content-Length',
+          '1318',
+          'Content-Type',
+          'application/json; charset=utf-8',
+          'Expires',
+          '-1',
+          'Strict-Transport-Security',
+          'max-age=31536000; includeSubDomains',
+          'X-Content-Type-Options'
+        ]);`,
+        output: `nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+          .post('/aaaaa/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=aaaaa&client_secret=aaaaa&scope=https%3A%2F%2Fstorage.azure.com%2F.default")
+          .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_string":"e6z-9_g"}, [
+          'Cache-Control',
+          'no-store, no-cache',
+          'Pragma',
+          'no-cache',
+          'Content-Length',
+          '1318',
+          'Content-Type',
+          'application/json; charset=utf-8',
+          'Expires',
+          '-1',
+          'Strict-Transport-Security',
+          'max-age=31536000; includeSubDomains',
+          'X-Content-Type-Options'
+        ]);`
+      },
+      {
+        name: `do nothing for non JSON response`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+          .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+          .query(true)
+          .reply(200, "4f626a0131c2", [
+          'Transfer-Encoding',
+          'chunked',
+          'Content-Type',
+          'text/plain',
+          'Last-Modified',
+          'Thu, 20 Aug 2020 09:22:11 GMT',
+        ]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+          .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+          .query(true)
+          .reply(200, "4f626a0131c2", [
+          'Transfer-Encoding',
+          'chunked',
+          'Content-Type',
+          'text/plain',
+          'Last-Modified',
+          'Thu, 20 Aug 2020 09:22:11 GMT',
+        ]);`
+      },
+      {
+        name: "do nothing for XML response",
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+          .post('/', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><KeyInfo><Start>2019-12-03T06:12:38Z</Start><Expiry>2019-12-04T05:12:38Z</Expiry></KeyInfo>")
+          .query(true)
+          .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><UserDelegationKey><SignedOid>324ed67c-1c74-4563-816e-c4be5f675ef1</SignedOid><SignedTid>72f988bf-86f1-41af-91ab-2d7cd011db47</SignedTid><SignedStart>2019-12-03T06:12:38Z</SignedStart><SignedExpiry>2019-12-04T05:12:38Z</SignedExpiry><SignedService>b</SignedService><SignedVersion>2019-02-02</SignedVersion><Value>8MsGAT04kfgnEnSiawpJDNcTyJ/HcSmKC8O01InfMj4=</Value></UserDelegationKey>", [ 'Transfer-Encoding',
+          'chunked',
+          'Content-Type',
+          'application/xml',
+          'Server',
+          'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
+          'x-ms-request-id',
+          '30efa223-901e-000a-7397-a95c17000000',
+          'x-ms-client-request-id',
+          '63b64c0c-b0fe-498d-b530-0ceede8e8888',
+          'x-ms-version',
+          '2019-02-02',
+          'Date',
+          'Tue, 03 Dec 2019 05:06:39 GMT' ]);
+        `,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+          .post('/', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><KeyInfo><Start>2019-12-03T06:12:38Z</Start><Expiry>2019-12-04T05:12:38Z</Expiry></KeyInfo>")
+          .query(true)
+          .reply(200, "﻿<?xml version=\"1.0\" encoding=\"utf-8\"?><UserDelegationKey><SignedOid>324ed67c-1c74-4563-816e-c4be5f675ef1</SignedOid><SignedTid>72f988bf-86f1-41af-91ab-2d7cd011db47</SignedTid><SignedStart>2019-12-03T06:12:38Z</SignedStart><SignedExpiry>2019-12-04T05:12:38Z</SignedExpiry><SignedService>b</SignedService><SignedVersion>2019-02-02</SignedVersion><Value>8MsGAT04kfgnEnSiawpJDNcTyJ/HcSmKC8O01InfMj4=</Value></UserDelegationKey>", [ 'Transfer-Encoding',
+          'chunked',
+          'Content-Type',
+          'application/xml',
+          'Server',
+          'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
+          'x-ms-request-id',
+          '30efa223-901e-000a-7397-a95c17000000',
+          'x-ms-client-request-id',
+          '63b64c0c-b0fe-498d-b530-0ceede8e8888',
+          'x-ms-version',
+          '2019-02-02',
+          'Date',
+          'Tue, 03 Dec 2019 05:06:39 GMT' ]);
+        `
+      }
+    ].forEach((test) => {
+      it(test.name, () => {
+        chai.assert.equal(
+          maskAccessTokenInNockFixture(test.input),
+          test.output,
+          `Unexpected result - access_token is not masked`
+        );
+      });
+    });
+  });
+
   describe("handleSingleQuotesInUrlPath", () => {
     [
       // {
@@ -557,6 +714,94 @@ describe("NodeJS utils", () => {
           handleSingleQuotesInUrlPath(test.input),
           test.output,
           `Output from "handleSingleQuotesInUrlPath" did not match the expected output`
+        );
+      });
+    });
+  });
+
+  describe("applyRequestBodyTransformations", () => {
+    [
+      {
+        name: `applyRequestBodyTransformations with default transforms`,
+        input: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=11111111-1111-1111-1111-111111111111&client_secret=azure_client_secret")
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `,
+        output: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .filteringRequestBody(function (body) {
+                            return body.replace(/client-request-id=[^&]*/g, "client-request-id=client-request-id");
+                        })
+                  .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client-request-id=client-request-id&client_secret=azure_client_secret")
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `
+      },
+      {
+        name: `applyRequestBodyTransformations with default transforms - unchanged for no client-request-id`,
+        input: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client_secret=azure_client_secret")
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `,
+        output: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .post('/azuretenantid/oauth2/v2.0/token', "grant_type=client_credentials&client_secret=azure_client_secret")
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `
+      },
+      {
+        name: `applyRequestBodyTransformations with default transforms - unchanged for json request bodies`,
+        input: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .post('/azuretenantid/oauth2/v2.0/token', {"key-1":"value"})
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `,
+        output: `
+                nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
+                  .post('/azuretenantid/oauth2/v2.0/token', {"key-1":"value"})
+                  .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
+                  'Cache-Control',
+                  'no-store, no-cache'
+                  'Content-Length',
+                  '1325'
+                ]);
+                `
+      }
+    ].forEach((test) => {
+      it(test.name, () => {
+        chai.assert.equal(
+          applyRequestBodyTransformations("node", test.input, defaultRequestBodyTransforms).replace(
+            /\s/g,
+            ""
+          ),
+          test.output.replace(/\s/g, ""),
+          `Output from "applyRequestBodyTransformations" did not match the expected output`
         );
       });
     });

@@ -45,6 +45,10 @@ parameters:
       Canary:
         SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
         Location: 'centraluseuap'
+        MatrixFilters:
+          - OSVmImage=.*Ubuntu.*
+          - NodeTestVersion=10.x
+          - DependencyVersion=^$
       UsGov:
         SubscriptionConfiguration: $(sub-config-gov-test-resources)
       China:
@@ -62,6 +66,9 @@ parameters:
   - name: MatrixFilters
     type: object
     default: []
+  - name: MatrixReplace
+    type: object
+    default: []
 
 stages:
 - ${{ each cloud in parameters.CloudConfig }}:
@@ -75,7 +82,7 @@ stages:
         jobs:
         - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
           parameters:
-            JobTemplatePath: /eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+            JobTemplatePath: /eng/pipelines/templates/jobs/live.tests.yml
             AdditionalParameters:
               PackageName: ${{ parameters.PackageName }}
               ServiceDirectory: ${{ parameters.ServiceDirectory }}
@@ -97,7 +104,12 @@ stages:
               - ${{ each cloudFilter in cloud.value.MatrixFilters }}:
                 - ${{ cloudFilter }}
               - ${{ parameters.MatrixFilters }}
+            MatrixReplace:
+              - ${{ each cloudReplace in cloud.value.MatrixReplace }}:
+                - ${{ cloudReplace }}
+              - ${{ parameters.MatrixReplace }}
             CloudConfig:
               SubscriptionConfiguration: ${{ cloud.value.SubscriptionConfiguration }}
+              SubscriptionConfigurations: ${{ cloud.value.SubscriptionConfigurations }}
               Location: ${{ coalesce(parameters.Location, cloud.value.Location) }}
               Cloud: ${{ cloud.key }}

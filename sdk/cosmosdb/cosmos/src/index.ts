@@ -7,6 +7,7 @@ export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {
   Operation,
   OperationResponse,
+  BulkOptions,
   CreateOperation,
   UpsertOperation,
   ReplaceOperation,

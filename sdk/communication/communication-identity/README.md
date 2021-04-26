@@ -55,6 +55,7 @@ const client = new CommunicationIdentityClient(connectionString);
 ### Using a `TokenCredential`
 
 ```typescript
+import { DefaultAzureCredential } from "@azure/identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
 const credential = new DefaultAzureCredential();

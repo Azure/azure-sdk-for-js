@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { extractConnectionStringParts } from "../../src/utils/connectionString";
+import { Context } from "mocha";
 import { base64Encode, base64Decode } from "../../src/utils/bufferSerializer";
 import { isNode } from "../testUtils";
 import { assert } from "chai";
@@ -10,10 +11,9 @@ import { ConnectionString } from "../../src/utils/internalModels";
 describe("Utility Helpers", () => {
   describe("extractConnectionStringParts", () => {
     describe("Account Connection String", () => {
-      beforeEach(function() {
+      beforeEach(function(this: Context) {
         if (!isNode) {
           // Account connection string is not supported for Browsers
-          // eslint-disable-next-line no-invalid-this
           this.skip();
         }
       });

@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export {
+  Agent,
   HttpClient,
   PipelineRequest,
   PipelineResponse,

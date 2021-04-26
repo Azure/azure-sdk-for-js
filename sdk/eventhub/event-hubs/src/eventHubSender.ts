@@ -18,7 +18,7 @@ import {
   RetryConfig,
   RetryOperationType,
   RetryOptions,
-  defaultLock,
+  defaultCancellableLock,
   retry,
   translate
 } from "@azure/core-amqp";
@@ -27,12 +27,11 @@ import { ConnectionContext } from "./connectionContext";
 import { LinkEntity } from "./linkEntity";
 import { EventHubProducerOptions } from "./models/private";
 import { SendOptions } from "./models/public";
-
 import { getRetryAttemptTimeoutInMs } from "./util/retries";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { EventDataBatch, isEventDataBatch } from "./eventDataBatch";
 import { defaultDataTransformer } from "./dataTransformer";
-import { waitForTimeoutOrAbortOrResolve } from "./util/timeoutAbortSignalUtils";
+
 /**
  * Describes the EventHubSender that will send event data to EventHub.
  * @internal
@@ -459,20 +458,21 @@ export class EventHubSender extends LinkEntity {
     retryOptions.timeoutInMs = timeoutInMs;
     const senderOptions = this._createSenderOptions(timeoutInMs);
 
+    const startTime = Date.now();
     const createLinkPromise = async (): Promise<void> => {
-      return waitForTimeoutOrAbortOrResolve({
-        actionFn: () => {
-          return defaultLock.acquire(this.senderLock, () => {
-            return this._init(senderOptions);
+      return defaultCancellableLock.acquire(
+        this.senderLock,
+        () => {
+          const taskStartTime = Date.now();
+          const taskTimeoutInMs = timeoutInMs - (taskStartTime - startTime);
+          return this._init({
+            ...senderOptions,
+            abortSignal: options.abortSignal,
+            timeoutInMs: taskTimeoutInMs
           });
         },
-        abortSignal: options?.abortSignal,
-        timeoutMs: timeoutInMs,
-        timeoutMessage:
-          `[${this._context.connectionId}] Sender "${this.name}" ` +
-          `with address "${this.address}", cannot be created right now, due ` +
-          `to operation timeout.`
-      });
+        { abortSignal: options.abortSignal, timeoutInMs: timeoutInMs }
+      );
     };
 
     const config: RetryConfig<void> = {
@@ -502,14 +502,23 @@ export class EventHubSender extends LinkEntity {
    * Initializes the sender session on the connection.
    * @hidden
    */
-  private async _init(options: AwaitableSenderOptions): Promise<void> {
+  private async _init(
+    options: AwaitableSenderOptions & {
+      abortSignal: AbortSignalLike | undefined;
+      timeoutInMs: number;
+    }
+  ): Promise<void> {
     try {
       if (!this.isOpen() && !this.isConnecting) {
         this.isConnecting = true;
 
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
-        await this._negotiateClaim();
+        await this._negotiateClaim({
+          setTokenRenewal: false,
+          abortSignal: options.abortSignal,
+          timeoutInMs: options.timeoutInMs
+        });
 
         logger.verbose(
           "[%s] Trying to create sender '%s'...",

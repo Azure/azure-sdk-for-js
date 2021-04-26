@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -52,7 +52,7 @@ export const blobInventoryPolicyName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "blobInventoryPolicyName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -64,7 +64,7 @@ export const blobServicesName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "BlobServicesName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -113,79 +113,41 @@ export const encryptionScopeName: msRest.OperationURLParameter = {
   }
 };
 export const expand0: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
       name: "Enum",
-      allowedValues: [
-        "geoReplicationStats",
-        "blobRestoreStatus"
-      ]
+      allowedValues: ["geoReplicationStats", "blobRestoreStatus"]
     }
   }
 };
 export const expand1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
       name: "Enum",
-      allowedValues: [
-        "kerb"
-      ]
+      allowedValues: ["kerb"]
     }
   }
 };
 export const expand2: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
-      name: "Enum",
-      allowedValues: [
-        "deleted",
-        "snapshots"
-      ]
+      name: "String"
     }
   }
 };
 export const expand3: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
+  parameterPath: ["options", "expand"],
   mapper: {
     serializedName: "$expand",
     type: {
       name: "Enum",
-      allowedValues: [
-        "snapshots"
-      ]
-    }
-  }
-};
-export const expand4: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
-  mapper: {
-    serializedName: "$expand",
-    type: {
-      name: "Enum",
-      allowedValues: [
-        "stats"
-      ]
+      allowedValues: ["stats"]
     }
   }
 };
@@ -195,17 +157,14 @@ export const fileServicesName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "FileServicesName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -214,10 +173,7 @@ export const filter: msRest.OperationQueryParameter = {
   }
 };
 export const ifMatch0: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "ifMatch"
-  ],
+  parameterPath: ["options", "ifMatch"],
   mapper: {
     serializedName: "If-Match",
     type: {
@@ -241,17 +197,14 @@ export const immutabilityPolicyName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "immutabilityPolicyName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
   }
 };
 export const include: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "include"
-  ],
+  parameterPath: ["options", "include"],
   mapper: {
     serializedName: "$include",
     type: {
@@ -275,17 +228,14 @@ export const managementPolicyName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "managementPolicyName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
   }
 };
 export const maxpagesize: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "maxpagesize"
-  ],
+  parameterPath: ["options", "maxpagesize"],
   mapper: {
     serializedName: "$maxpagesize",
     type: {
@@ -348,7 +298,7 @@ export const queueServiceName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "queueServiceName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
@@ -417,17 +367,14 @@ export const tableServiceName: msRest.OperationURLParameter = {
     required: true,
     isConstant: true,
     serializedName: "tableServiceName",
-    defaultValue: 'default',
+    defaultValue: "default",
     type: {
       name: "String"
     }
   }
 };
 export const xMsSnapshot: msRest.OperationParameter = {
-  parameterPath: [
-    "options",
-    "xMsSnapshot"
-  ],
+  parameterPath: ["options", "xMsSnapshot"],
   mapper: {
     serializedName: "x-ms-snapshot",
     type: {

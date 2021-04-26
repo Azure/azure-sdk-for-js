@@ -15,14 +15,14 @@
     "build": "tsc -p .",
     "build:test": "echo not needed",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
+    "clean": "rimraf dist dist-* typings *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "node dist-esm/test/index.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json src test --ext .ts -f html -o perfstress-lintReport.html || exit 0",
+    "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts -f html -o perfstress-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "perf-test:node": "npm run build && node dist-esm/test/index.spec.js",
@@ -65,7 +65,6 @@
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.0.0",
-    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0",
     "node-fetch": "^2.6.0",
     "minimist": "~1.2.5",
@@ -82,6 +81,6 @@
     "karma-env-preprocessor": "^0.1.1",
     "prettier": "^1.16.4",
     "rimraf": "^3.0.0",
-    "typescript": "4.1.2"
+    "typescript": "~4.2.0"
   }
 }

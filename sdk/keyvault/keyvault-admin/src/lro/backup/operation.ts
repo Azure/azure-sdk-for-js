@@ -10,12 +10,12 @@ import {
   KeyVaultClientFullBackupResponse,
   KeyVaultClientFullBackupStatusResponse
 } from "../../generated/models";
-import { createSpan } from "../../tracing";
 import { BackupResult, BeginBackupOptions } from "../../backupClientModels";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
@@ -55,30 +55,24 @@ export class BackupPollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the fullBackup operation
    */
-  private async fullBackup(
+  private fullBackup(
     options: KeyVaultClientFullBackupOptionalParams
   ): Promise<KeyVaultClientFullBackupResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.fullBackup", options);
-    try {
-      return await this.client.fullBackup(this.vaultUrl, updatedOptions);
-    } finally {
-      span.end();
-    }
+    return withTrace("fullBackup", options, (updatedOptions) =>
+      this.client.fullBackup(this.vaultUrl, updatedOptions)
+    );
   }
 
   /**
    * Tracing the fullBackupStatus operation
    */
-  private async fullBackupStatus(
+  private fullBackupStatus(
     jobId: string,
     options: BeginBackupOptions
   ): Promise<KeyVaultClientFullBackupStatusResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.fullBackupStatus", options);
-    try {
-      return await this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions);
-    } finally {
-      span.end();
-    }
+    return withTrace("fullBackupStatus", options, (updatedOptions) =>
+      this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
+    );
   }
 
   /**

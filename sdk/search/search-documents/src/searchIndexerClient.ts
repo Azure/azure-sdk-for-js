@@ -8,7 +8,7 @@ import {
   operationOptionsToRequestOptionsBase,
   PipelineOptions
 } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
 import { SearchIndexerStatus } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
@@ -44,7 +44,12 @@ import { odataMetadataPolicy } from "./odataMetadataPolicy";
 /**
  * Client options used to configure Cognitive Search API requests.
  */
-export type SearchIndexerClientOptions = PipelineOptions;
+export interface SearchIndexerClientOptions extends PipelineOptions {
+  /**
+   * The API version to use when communicating with the service.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Class to perform operations to manage
@@ -55,7 +60,7 @@ export class SearchIndexerClient {
   /**
    * The API version to use when communicating with the service.
    */
-  public readonly apiVersion: string = "2020-06-30";
+  public readonly apiVersion: string = "2020-06-30-Preview";
 
   /**
    * The endpoint of the search service
@@ -128,7 +133,16 @@ export class SearchIndexerClient {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("minimal"));
     }
 
-    this.client = new GeneratedClient(this.endpoint, this.apiVersion, pipeline);
+    let apiVersion = this.apiVersion;
+
+    if (options.apiVersion) {
+      if (!["2020-06-30-Preview", "2020-06-30"].includes(options.apiVersion)) {
+        throw new Error(`Invalid Api Version: ${options.apiVersion}`);
+      }
+      apiVersion = options.apiVersion;
+    }
+
+    this.client = new GeneratedClient(this.endpoint, apiVersion, pipeline);
   }
 
   /**
@@ -144,7 +158,7 @@ export class SearchIndexerClient {
       return result.indexers.map(utils.generatedSearchIndexerToPublicSearchIndexer);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -167,7 +181,7 @@ export class SearchIndexerClient {
       return result.indexers.map((idx) => idx.name);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -194,7 +208,7 @@ export class SearchIndexerClient {
       return result.dataSources.map(utils.generatedDataSourceToPublicDataSource);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -222,7 +236,7 @@ export class SearchIndexerClient {
       return result.dataSources.map((ds) => ds.name);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -246,7 +260,7 @@ export class SearchIndexerClient {
       return result.skillsets.map(utils.generatedSkillsetToPublicSkillset);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -269,7 +283,7 @@ export class SearchIndexerClient {
       return result.skillsets.map((sks) => sks.name);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -296,7 +310,7 @@ export class SearchIndexerClient {
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -326,7 +340,7 @@ export class SearchIndexerClient {
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -353,7 +367,7 @@ export class SearchIndexerClient {
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -380,7 +394,7 @@ export class SearchIndexerClient {
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -410,7 +424,7 @@ export class SearchIndexerClient {
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -437,7 +451,7 @@ export class SearchIndexerClient {
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -473,7 +487,7 @@ export class SearchIndexerClient {
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -509,7 +523,7 @@ export class SearchIndexerClient {
       return utils.generatedDataSourceToPublicDataSource(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -546,7 +560,7 @@ export class SearchIndexerClient {
       return utils.generatedSkillsetToPublicSkillset(result);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -580,7 +594,7 @@ export class SearchIndexerClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -618,7 +632,7 @@ export class SearchIndexerClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -652,7 +666,7 @@ export class SearchIndexerClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -679,7 +693,7 @@ export class SearchIndexerClient {
       return result;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -702,7 +716,7 @@ export class SearchIndexerClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -725,7 +739,7 @@ export class SearchIndexerClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

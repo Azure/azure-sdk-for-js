@@ -42,6 +42,17 @@ function updateREADME(mainModule, relativePath, namespace) {
       "README file"
     );
 
+    const operation = getMatch(
+      content.match(/client\.(.+?)\(.*\).*$/ms),
+      "operation",
+      "README file"
+    );
+
+    const operationHeader = operation
+      .split(".")
+      .reverse()
+      .join(" ");
+
     return `## Azure ${clientName} SDK for JavaScript
 
 This package contains an isomorphic SDK (runs both in node.js and in browsers) for ${clientName}.
@@ -51,27 +62,38 @@ This package contains an isomorphic SDK (runs both in node.js and in browsers) f
 - Node.js version 8.x.x or higher
 - Browser JavaScript
 
+### Prerequisites
+
+You must have an [Azure subscription](https://azure.microsoft.com/free/).
+
 ### How to install
 
 To use this SDK in your project, you will need to install two packages.
 - \`${pkgName}\` that contains the client.
-- \`@azure/identity\` that contains different credentials for you to authenticate the client using Azure Active Directory.
+- \`@azure/identity\` that provides different mechanisms for the client to authenticate your requests using Azure Active Directory.
 
-Install both packages using the below commands.
+Install both packages using the below command:
 \`\`\`bash
-npm install ${pkgName}
-npm install @azure/identity
+npm install --save ${pkgName} @azure/identity
 \`\`\`
-Please note that while the credentials from the older [\`@azure/ms-rest-nodeauth\`](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) and [\`@azure/ms-rest-browserauth\`](https://www.npmjs.com/package/@azure/ms-rest-browserauth) packages are still supported, these packages are in maintenance mode receiving critical bug fixes, but no new features.
-We strongly encourage you to use the credentials from \`@azure/identity\` where the latest versions of Azure Active Directory and MSAL APIs are used and more authentication options are provided.
+
+> **Note**: You may have used either \`@azure/ms-rest-nodeauth\` or \`@azure/ms-rest-browserauth\` in the past. These packages are in maintenance mode receiving critical bug fixes, but no new features.
+We strongly encourage you to upgrade to \`@azure/identity\` which uses the latest versions of Azure Active Directory and MSAL APIs and provides more authentication options.
 
 ### How to use
 
-There are multiple credentials available in the \`@azure/identity\` package to suit your different authentication needs.
-Read about them in detail in [readme for @azure/identity package](https://www.npmjs.com/package/@azure/identity).
-To get started you can use the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md#defaultazurecredential) which tries different credentials internally until one of them succeeds.
-Most of the credentials would require you to [create an Azure App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/app-objects-and-service-principals#application-registration) first.
-#### nodejs - Authentication, client creation, and get apps as an example written in JavaScript.
+- If you are writing a client side browser application, 
+  - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
+  - Note down the client Id from the previous step and use it in the browser sample below.
+- If you are writing a server side application, 
+    - [Select a credential from \`@azure/identity\` based on the authentication method of your choice](https://aka.ms/azsdk/js/identity/examples)
+    - Complete the set up steps required by the credential if any.
+    - Use the credential you picked in the place of \`DefaultAzureCredential\` in the Node.js sample below.
+- Pass the credential and the Azure subscription id to instantiate the client. 
+- Once the client is created, explore the operations on it either in your favorite editor or in our [API reference documentation](https://docs.microsoft.com/javascript/api) to get started.
+
+
+#### nodejs - Authentication, client creation, and ${operationHeader} as an example written in JavaScript.
 
 ##### Sample code
 
@@ -80,13 +102,13 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { ${clientName} } = require("${pkgName}");
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-// Create credentials using the \`@azure/identity\` package.
+// Use \`DefaultAzureCredential\` or any other credential of your choice based on https://aka.ms/azsdk/js/identity/examples
 // Please note that you can also use credentials from the \`@azure/ms-rest-nodeauth\` package instead.
 const creds = new DefaultAzureCredential();
 const client = new ${clientName}(creds, subscriptionId);
 const resourceGroupName = "testresourceGroupName";
 const resourceName = "testresourceName";
-client.apps.get(resourceGroupName, resourceName).then((result) => {
+client.${operation}(resourceGroupName, resourceName).then((result) => {
   console.log("The result is:");
   console.log(result);
 }).catch((err) => {
@@ -95,10 +117,11 @@ client.apps.get(resourceGroupName, resourceName).then((result) => {
 });
 \`\`\`
 
-#### browser - Authentication, client creation, and get apps as an example written in JavaScript.
+#### browser - Authentication, client creation, and ${operationHeader} as an example written in JavaScript.
 
 In browser applications, we recommend using the \`InteractiveBrowserCredential\` that interactively authenticates using the default system browser.
-It is necessary to [create an Azure App Registration](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the portal for your web application first.
+  - See [Single-page application: App registration guide](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) to configure your app registration for the browser.
+  - Note down the client Id from the previous step and use it in the browser sample below.
 
 ##### Sample code
 
@@ -124,7 +147,7 @@ It is necessary to [create an Azure App Registration](https://docs.microsoft.com
       const client = new ${namespace}.${clientName}(creds, subscriptionId);
       const resourceGroupName = "testresourceGroupName";
       const resourceName = "testresourceName";
-      client.apps.get(resourceGroupName, resourceName).then((result) => {
+      client.${operation}(resourceGroupName, resourceName).then((result) => {
         console.log("The result is:");
         console.log(result);
       }).catch((err) => {
@@ -165,24 +188,25 @@ function updatePackageJson(newPackageVersion) {
   };
 }
 
-function getClientFilePath(path) {
+function getSourceFiles(path) {
+  let clientFile = undefined;
+  let contextFile = undefined;
   const files = fs.readdirSync(p.join(path, "src"));
   for (const file of files) {
-    if (file.match(/.+?Client.ts/)) {
-      return p.join("src", file);
+    const match = file.match(/(.+?)Context.ts/);
+    if (match !== undefined && match !== null) {
+      contextFile = p.join(p.join(path, "src"), file);
+      clientFile = p.join(p.join(path, "src"), `${match[1]}.ts`);
+      break;
     }
   }
-  throw new Error(`Could not find the src/*Client.ts file`);
-}
-
-function getClientContextFilePath(path) {
-  const files = fs.readdirSync(p.join(path, "src"));
-  for (const file of files) {
-    if (file.match(/.+?ClientContext.ts/)) {
-      return p.join("src", file);
-    }
-  }
-  throw new Error(`Could not find the src/*ClientContext.ts file`);
+  if (clientFile === undefined || !fs.existsSync(clientFile))
+    throw new Error(`Could not find the src/*.ts file`);
+  if (contextFile === undefined) throw new Error(`Could not find the src/*Context.ts file`);
+  return {
+    clientFile: clientFile,
+    contextFile: contextFile
+  };
 }
 
 function updateClient(content) {
@@ -253,10 +277,11 @@ function main(args) {
     .slice(-3)
     .join("/");
   const namespace = getNamespace(p.join(path, "rollup.config.js"));
+  const { contextFile, clientFile } = getSourceFiles(path);
   rewriteFile(p.join(path, "README.md"), updateREADME(mainModule, relativePkgPath, namespace));
   rewriteFile(packageJsonPath, updatePackageJson(newPackageVersion));
-  rewriteFile(p.join(path, getClientFilePath(path)), updateClient);
-  rewriteFile(p.join(path, getClientContextFilePath(path)), updateClientContext(newPackageVersion));
+  rewriteFile(clientFile, updateClient);
+  rewriteFile(contextFile, updateClientContext(newPackageVersion));
 }
 
 main(process.argv);

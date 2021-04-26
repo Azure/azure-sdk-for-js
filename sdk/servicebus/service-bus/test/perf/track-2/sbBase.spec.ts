@@ -9,16 +9,14 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 const connectionString = getEnvVar("SERVICEBUS_CONNECTION_STRING");
-const sbClient = new ServiceBusClient(connectionString);
 
 export abstract class ServiceBusTest<TOptions> extends PerfStressTest<TOptions> {
-  sbClient: ServiceBusClient;
+  static sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
   static sbAdminClient = new ServiceBusAdministrationClient(connectionString);
   static queueName = `newqueue-${Math.ceil(Math.random() * 1000)}`;
 
   constructor() {
     super();
-    this.sbClient = sbClient;
   }
 
   public async globalSetup(): Promise<void> {
@@ -26,7 +24,7 @@ export abstract class ServiceBusTest<TOptions> extends PerfStressTest<TOptions> 
   }
 
   public async globalCleanup(): Promise<void> {
+    await ServiceBusTest.sbClient.close();
     await ServiceBusTest.sbAdminClient.deleteQueue(ServiceBusTest.queueName);
-    await this.sbClient.close();
   }
 }

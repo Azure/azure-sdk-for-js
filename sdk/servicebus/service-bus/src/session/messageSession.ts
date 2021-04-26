@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants, ErrorNameConditionMapper, MessagingError } from "@azure/core-amqp";
+import {
+  Constants,
+  ErrorNameConditionMapper,
+  MessagingError,
+  RetryOptions,
+  StandardAbortMessage
+} from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
@@ -17,11 +23,7 @@ import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceive
 import { receiverLogger as logger } from "../log";
 import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import {
-  calculateRenewAfterDuration,
-  convertTicksToDate,
-  StandardAbortMessage
-} from "../util/utils";
+import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
 import {
   onMessageSettled,
@@ -39,7 +41,7 @@ import {
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage } from "../receivers/shared";
+import { abandonMessage, completeMessage } from "../receivers/receiverCommon";
 import { isDefined } from "../util/typeGuards";
 
 /**
@@ -64,6 +66,7 @@ export type MessageSessionOptions = Pick<
   "maxAutoLockRenewalDurationInMs" | "abortSignal"
 > & {
   receiveMode?: ReceiveMode;
+  retryOptions: RetryOptions | undefined;
 };
 
 /**
@@ -349,6 +352,8 @@ export class MessageSession extends LinkEntity<Receiver> {
     return rcvrOptions;
   }
 
+  private _retryOptions: RetryOptions | undefined;
+
   /**
    * Constructs a MessageSession instance which lets you receive messages as batches
    * or via callbacks using subscribe.
@@ -361,7 +366,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     connectionContext: ConnectionContext,
     entityPath: string,
     private _providedSessionId: string | undefined,
-    options?: MessageSessionOptions
+    options: MessageSessionOptions
   ) {
     super(entityPath, entityPath, connectionContext, "session", logger, {
       address: entityPath,
@@ -371,7 +376,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       receiver: this.link,
       logPrefix: this.logPrefix
     }));
-    if (!options) options = {};
+    this._retryOptions = options.retryOptions;
     this.autoComplete = false;
     if (isDefined(this._providedSessionId)) this.sessionId = this._providedSessionId;
     this.receiveMode = options.receiveMode || "peekLock";
@@ -539,7 +544,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Closes the underlying AMQP receiver link.
    */
-  async close(): Promise<void> {
+  async close(error?: Error | AmqpError): Promise<void> {
     try {
       this._isReceivingMessagesForSubscriber = false;
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
@@ -551,7 +556,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       await super.close();
 
-      await this._batchingReceiverLite.terminate();
+      this._batchingReceiverLite.terminate(error);
     } catch (err) {
       logger.logError(
         err,
@@ -667,7 +672,13 @@ export class MessageSession extends LinkEntity<Receiver> {
                 this.logPrefix,
                 bMessage.messageId
               );
-              await abandonMessage(bMessage, this._context, this.entityPath);
+              await abandonMessage(
+                bMessage,
+                this._context,
+                this.entityPath,
+                undefined,
+                this._retryOptions
+              );
             } catch (abandonError) {
               const translatedError = translateServiceBusError(abandonError);
               logger.logError(
@@ -704,7 +715,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               this.logPrefix,
               bMessage.messageId
             );
-            await completeMessage(bMessage, this._context, this.entityPath);
+            await completeMessage(bMessage, this._context, this.entityPath, this._retryOptions);
           } catch (completeError) {
             const translatedError = translateServiceBusError(completeError);
             logger.logError(
@@ -779,6 +790,36 @@ export class MessageSession extends LinkEntity<Receiver> {
   }
 
   /**
+   * To be called when connection is disconnected to gracefully close ongoing receive request.
+   * @param connectionError - The connection error if any.
+   */
+  async onDetached(connectionError: AmqpError | Error): Promise<void> {
+    logger.error(
+      translateServiceBusError(connectionError),
+      `${this.logPrefix} onDetached: closing link (session receiver will not reconnect)`
+    );
+    try {
+      // Notifying so that the streaming receiver knows about the error
+      this._notifyError({
+        entityPath: this.entityPath,
+        fullyQualifiedNamespace: this._context.config.host,
+        error: translateServiceBusError(connectionError),
+        errorSource: "receive"
+      });
+    } catch (error) {
+      logger.error(
+        translateServiceBusError(error),
+        `${
+          this.logPrefix
+        } onDetached: unexpected error seen when tried calling "_notifyError" with ${translateServiceBusError(
+          connectionError
+        )}`
+      );
+    }
+    await this.close(connectionError);
+  }
+
+  /**
    * Settles the message with the specified disposition.
    * @param message - The ServiceBus Message that needs to be settled.
    * @param operation - The disposition type.
@@ -787,10 +828,9 @@ export class MessageSession extends LinkEntity<Receiver> {
   async settleMessage(
     message: ServiceBusMessageImpl,
     operation: DispositionType,
-    options?: DispositionStatusOptions
+    options: DispositionStatusOptions
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (!options) options = {};
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
         return reject(new Error(`operation: '${operation}' is not a valid operation.`));
       }
@@ -855,7 +895,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     context: ConnectionContext,
     entityPath: string,
     sessionId: string | undefined,
-    options?: MessageSessionOptions
+    options: MessageSessionOptions
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context);
     const messageSession = new MessageSession(context, entityPath, sessionId, options);

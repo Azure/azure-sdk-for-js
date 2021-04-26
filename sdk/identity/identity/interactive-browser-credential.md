@@ -1,14 +1,6 @@
 # Interactive Browser Credential
 
-The `InteractiveBrowserCredential` uses [Authorization Code Flow][AuthCodeFlow], which uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) both on the browser and on NodeJS. Under the hood it uses [@azure/msal-node](https://www.npmjs.com/package/@azure/msal-node) for NodeJS. For the browser it uses [MSAL v2.x](https://github.com/AzureAD/microsoft-authentication-library-for-js) by default (which also uses Authorization Code Flow), while it also allows switching back to the older [Implicit Grant Flow][ImplicitGrantFlow] by passing the `flow` property with the value `implicit-grant` through to the constructor of the `InteractiveBrowserCredential`, as follows:
-
-```ts
-const credential = new InteractiveBrowserCredential({
-  // Authorization Code Flow is recommended and used by default.
-  // But you can switch batch to the Implicit Grant Flow if you need to:
-  flow: "implicit-grant",
-});
-```
+The `InteractiveBrowserCredential` uses [Authorization Code Flow][AuthCodeFlow], which uses [Proof Key for Code Exchange (PKCE)](https://tools.ietf.org/html/rfc7636) both on the browser and on NodeJS. Under the hood it uses [@azure/msal-node](https://www.npmjs.com/package/@azure/msal-node) for Node.js and [@azure/msal-browser](https://www.npmjs.com/package/@azure/msal-browser) in browsers.
 
 Follow the instructions for [creating your single-page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow) to correctly mark your redirect URI as enabled for CORS.
 
@@ -40,7 +32,7 @@ const credential = new InteractiveBrowserCredential({
 });
 ```
 
-Azure Active Directory enterprise applications configured with redirect URIs for `Web` environments are no longer supported by the Authorization Code Flow. You can either configure your AAD application to use Single Page Application redirect URis (type `spa`), or switch to the `implicit-grant` flow.
+Azure Active Directory enterprise applications configured with redirect URIs for `Web` environments are no longer supported by the Authorization Code Flow. You will have to configure your AAD application to use Single Page Application redirect URis (type `spa`).
 
 ## CORS error
 
@@ -54,7 +46,6 @@ Then you need to visit your app registration and update the redirect URI you're 
 
 ## Sample code
 
-You can see a sample project that uses `InteractiveBrowserCredential` with both [Authorization Code Flow][AuthCodeFlow] and [Implicit Grant Flow][ImplicitGrantFlow] here: [link to the sample project](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/test/manual).
+You can see a sample project that uses `InteractiveBrowserCredential` here: [link to the sample project](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/test/manual).
 
 [AuthCodeFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow
-[ImplicitGrantFlow]: https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-implicit-grant-flow

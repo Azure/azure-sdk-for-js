@@ -22,16 +22,12 @@ async function main() {
   const blobStorageUri = process.env["BLOB_STORAGE_URI"];
   const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"];
   const backupPoller = await client.beginBackup(blobStorageUri, sasToken);
-  const backupURI = await backupPoller.pollUntilDone();
+  const backupResult = await backupPoller.pollUntilDone();
 
-  // The folder name should be at the end of the blobStorageUri, as in: https://<blob-storage-endpoint>/<folder-name>
-  const folderName = "backup";
+  // The folder name should be at the end of the backupFolderUri, as in: https://<blob-storage-endpoint>/<folder-name>
+  const folderName = backupResult.backupFolderUri.split("/").pop();
 
-  const restorePoller = await client.beginRestore(
-    blobStorageUri,
-    sasToken,
-    folderName
-  );
+  const restorePoller = await client.beginRestore(blobStorageUri, sasToken, folderName);
   await restorePoller.pollUntilDone();
 }
 

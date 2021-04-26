@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+/// <reference lib="esnext.asynciterable" />
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { DataFlowDebugSession } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -28,9 +30,8 @@ import {
   DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class representing a DataFlowDebugSession. */
-export class DataFlowDebugSession {
+export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -94,7 +95,7 @@ export class DataFlowDebugSession {
   ): Promise<LROPoller<DataFlowDebugSessionCreateDataFlowDebugSessionResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-createDataFlowDebugSession",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       request,
@@ -109,7 +110,7 @@ export class DataFlowDebugSession {
         return result as DataFlowDebugSessionCreateDataFlowDebugSessionResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -139,10 +140,10 @@ export class DataFlowDebugSession {
   ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspace",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -152,7 +153,7 @@ export class DataFlowDebugSession {
       return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -170,10 +171,10 @@ export class DataFlowDebugSession {
     request: DataFlowDebugPackage,
     options?: coreHttp.OperationOptions
   ): Promise<DataFlowDebugSessionAddDataFlowResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-addDataFlow", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-addDataFlow", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -183,7 +184,7 @@ export class DataFlowDebugSession {
       return result as DataFlowDebugSessionAddDataFlowResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -203,11 +204,11 @@ export class DataFlowDebugSession {
   ): Promise<coreHttp.RestResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-deleteDataFlowDebugSession",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       request,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -217,7 +218,7 @@ export class DataFlowDebugSession {
       return result as coreHttp.RestResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -235,7 +236,7 @@ export class DataFlowDebugSession {
     request: DataFlowDebugCommandRequest,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<DataFlowDebugSessionExecuteCommandResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-executeCommand", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-executeCommand", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       request,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -249,7 +250,7 @@ export class DataFlowDebugSession {
         return result as DataFlowDebugSessionExecuteCommandResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -282,11 +283,11 @@ export class DataFlowDebugSession {
   ): Promise<DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_queryDataFlowDebugSessionsByWorkspaceNext",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -296,7 +297,7 @@ export class DataFlowDebugSession {
       return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

@@ -1,4 +1,4 @@
-# Azure Event Hubs client library for Javascript
+# Azure Event Hubs client library for JavaScript
 
 Azure Event Hubs is a highly scalable publish-subscribe service that can ingest millions of events per second and stream them to multiple consumers. This lets you process and analyze the massive amounts of data produced by your connected devices and applications. If you would like to know more about Azure Event Hubs, you may wish to review: [What is Event Hubs](https://docs.microsoft.com/azure/event-hubs/event-hubs-about)?
 
@@ -19,7 +19,7 @@ Samples for v2 and documentation are still available here:
 [Package for v2.1.0 (npm)](https://www.npmjs.com/package/@azure/event-hubs/v/2.1.0) |
 [Samples for v2.1.0](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/event-hubs_2.1.0/sdk/eventhub/event-hubs/samples)
 
-## Getting Started
+## Getting started
 
 ### Install the package
 
@@ -263,10 +263,10 @@ async function main() {
 
   const subscription = client.subscribe(
     {
-      processEvents: async(events, context) => {
+      processEvents: async (events, context) => {
         // event processing code goes here
       },
-      processError: async(err, context) => {
+      processError: async (err, context) => {
         // error reporting/handling code here
       }
     },
@@ -394,10 +394,10 @@ async function main() {
   const subscription = client.subscribe(
     partitionIds[0],
     {
-      processEvents: async(events, context) => {
+      processEvents: async (events, context) => {
         // event processing code goes here
       },
-      processError: async(err, context) => {
+      processError: async (err, context) => {
         // error reporting/handling code here
       }
     },
@@ -492,7 +492,7 @@ export DEBUG=azure*,rhea*,-rhea:raw,-rhea:message
 export DEBUG=azure:*:(error|warning),rhea-promise:error,rhea:events,rhea:frames,rhea:io,rhea:flow
 ```
 
-## Next Steps
+## Next steps
 
 ### More sample code
 

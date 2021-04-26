@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableClient, odata } from "../../src";
+import { Context } from "mocha";
 import { assert } from "chai";
 import { record, Recorder, isPlaybackMode, isLiveMode } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
@@ -26,9 +27,8 @@ describe("batch operations", () => {
   // which wouldn't match the recorded one. Fallingback to SAS for recorded tests.
   const authMode = !isNode || !isLiveMode() ? "SASConnectionString" : "AccountConnectionString";
 
-  beforeEach(async function() {
+  beforeEach(async function(this: Context) {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    // eslint-disable-next-line no-invalid-this
     recorder = record(this, recordedEnvironmentSetup);
     client = createTableClient(tableName, authMode);
 
@@ -90,6 +90,39 @@ describe("batch operations", () => {
     for await (const entity of updatedEntities) {
       assert.equal(entity.name, "updated");
     }
+  });
+
+  it("should send a set of upsert batch operations", async () => {
+    const batch = client.createBatch(partitionKey);
+
+    // Upsert should update
+    testEntities.forEach((entity) =>
+      batch.upsertEntity({ ...entity, name: "upserted" }, "Replace")
+    );
+
+    // Upsert should create
+    batch.upsertEntity({ partitionKey, rowKey: "4", name: "upserted" }, "Replace");
+
+    const batchResult = await batch.submitBatch();
+    const updatedEntities = client.listEntities<{ name: string }>({
+      queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+    });
+
+    assert.equal(batchResult.status, 202);
+    assert.lengthOf(batchResult.subResponses, 4);
+    batchResult.subResponses.forEach((subResponse) => {
+      assert.equal(subResponse?.status, 204);
+    });
+
+    let inserted;
+    for await (const entity of updatedEntities) {
+      if (entity.rowKey === "4") {
+        inserted = entity;
+      }
+      assert.equal(entity.name, "upserted");
+    }
+
+    assert.equal(inserted?.rowKey, "4");
   });
 
   it("should send a set of delete batch operations", async () => {

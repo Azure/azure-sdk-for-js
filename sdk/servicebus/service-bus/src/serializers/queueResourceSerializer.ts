@@ -31,6 +31,13 @@ import {
  */
 export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptions {
   return {
+    // NOTE: this ordering is extremely important. As an example, misordering of the ForwardTo property
+    // resulted in a customer bug where the Forwarding attributes appeared to be set but the portal was
+    // not picking up on it.
+    //
+    // The authority on this ordering is here:
+    // https://github.com/Azure/azure-sdk-for-net/blob/8af2dfc32c96ef3e340f9d20013bf588d97ea756/sdk/servicebus/Azure.Messaging.ServiceBus/src/Administration/QueuePropertiesExtensions.cs#L20
+
     LockDuration: queue.lockDuration,
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(queue.requiresDuplicateDetection),
@@ -42,11 +49,11 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     EnableBatchedOperations: getStringOrUndefined(queue.enableBatchedOperations),
     AuthorizationRules: getRawAuthorizationRules(queue.authorizationRules),
     Status: getStringOrUndefined(queue.status),
+    ForwardTo: getStringOrUndefined(queue.forwardTo),
+    UserMetadata: getStringOrUndefined(queue.userMetadata),
     AutoDeleteOnIdle: getStringOrUndefined(queue.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
-    ForwardTo: getStringOrUndefined(queue.forwardTo),
-    UserMetadata: getStringOrUndefined(queue.userMetadata),
     EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
     EnableExpress: getStringOrUndefined(queue.enableExpress)
   };

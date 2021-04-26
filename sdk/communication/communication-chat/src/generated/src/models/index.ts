@@ -66,11 +66,11 @@ export interface MicrosoftTeamsUserIdentifierModel {
 /** The Communication Services error. */
 export interface CommunicationErrorResponse {
   /** The Communication Services error. */
-  error: CommunicationError;
+  error: ChatError;
 }
 
 /** The Communication Services error. */
-export interface CommunicationError {
+export interface ChatError {
   /** The error code. */
   code: string;
   /** The error message. */
@@ -84,12 +84,12 @@ export interface CommunicationError {
    * Further details about specific errors that led to this error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: CommunicationError[];
+  readonly details?: ChatError[];
   /**
    * The inner error if any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: CommunicationError;
+  readonly innerError?: ChatError;
 }
 
 /** Request payload for sending a read receipt. */
@@ -196,14 +196,11 @@ export interface AddChatParticipantsRequest {
 
 /** Result of the add chat participants operation. */
 export interface AddChatParticipantsResult {
-  /** Errors encountered during the addition of the chat participant to the chat thread. */
-  errors?: AddChatParticipantsErrors;
-}
-
-/** Errors encountered during the addition of the chat participant to the chat thread. */
-export interface AddChatParticipantsErrors {
-  /** The participants that failed to be added to the chat thread. */
-  invalidParticipants: CommunicationError[];
+  /**
+   * The participants that failed to be added to the chat thread.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invalidParticipants?: ChatError[];
 }
 
 /** Request payload for creating a chat thread. */
@@ -211,19 +208,22 @@ export interface CreateChatThreadRequest {
   /** The chat thread topic. */
   topic: string;
   /** Participants to be added to the chat thread. */
-  participants: ChatParticipant[];
+  participants?: ChatParticipant[];
 }
 
 /** Result of the create chat thread operation. */
 export interface CreateChatThreadResult {
   /** Chat thread. */
-  chatThread?: ChatThread;
-  /** Errors encountered during the creation of the chat thread. */
-  errors?: CreateChatThreadErrors;
+  chatThread?: ChatThreadProperties;
+  /**
+   * The participants that failed to be added to the chat thread.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invalidParticipants?: ChatError[];
 }
 
 /** Chat thread. */
-export interface ChatThread {
+export interface ChatThreadProperties {
   /** Chat thread id. */
   id: string;
   /** Chat thread topic. */
@@ -236,19 +236,10 @@ export interface ChatThread {
   deletedOn?: Date;
 }
 
-/** Errors encountered during the creation of the chat thread. */
-export interface CreateChatThreadErrors {
-  /**
-   * The participants that failed to be added to the chat thread.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invalidParticipants?: CommunicationError[];
-}
-
 /** Collection of chat threads. */
-export interface ChatThreadsInfoCollection {
+export interface ChatThreadsItemCollection {
   /** Collection of chat threads. */
-  value: ChatThreadInfo[];
+  value: ChatThreadItem[];
   /**
    * If there are more chat threads that can be retrieved, the next link will be populated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -257,7 +248,7 @@ export interface ChatThreadsInfoCollection {
 }
 
 /** Summary information of a chat thread. */
-export interface ChatThreadInfo {
+export interface ChatThreadItem {
   /** Chat thread id. */
   id: string;
   /** Chat thread topic. */
@@ -318,7 +309,8 @@ export const enum KnownChatMessageType {
 export type ChatMessageType = string;
 
 /** Optional parameters. */
-export interface ChatThreadListChatReadReceiptsOptionalParams extends coreHttp.OperationOptions {
+export interface ChatThreadListChatReadReceiptsOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of chat message read receipts to be returned per page. */
   maxPageSize?: number;
   /** Skips chat message read receipts up to a specified position in response. */
@@ -350,7 +342,8 @@ export type ChatThreadSendChatMessageResponse = SendChatMessageResult & {
 };
 
 /** Optional parameters. */
-export interface ChatThreadListChatMessagesOptionalParams extends coreHttp.OperationOptions {
+export interface ChatThreadListChatMessagesOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of messages to be returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
@@ -382,7 +375,8 @@ export type ChatThreadGetChatMessageResponse = ChatMessage & {
 };
 
 /** Optional parameters. */
-export interface ChatThreadListChatParticipantsOptionalParams extends coreHttp.OperationOptions {
+export interface ChatThreadListChatParticipantsOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of participants to be returned per page. */
   maxPageSize?: number;
   /** Skips participants up to a specified position in response. */
@@ -413,6 +407,18 @@ export type ChatThreadAddChatParticipantsResponse = AddChatParticipantsResult & 
   };
 };
 
+/** Contains response data for the getChatThreadProperties operation. */
+export type ChatThreadGetChatThreadPropertiesResponse = ChatThreadProperties & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: ChatThreadProperties;
+  };
+};
+
 /** Optional parameters. */
 export interface ChatThreadListChatReadReceiptsNextOptionalParams
   extends coreHttp.OperationOptions {
@@ -435,7 +441,8 @@ export type ChatThreadListChatReadReceiptsNextResponse = ChatMessageReadReceipts
 };
 
 /** Optional parameters. */
-export interface ChatThreadListChatMessagesNextOptionalParams extends coreHttp.OperationOptions {
+export interface ChatThreadListChatMessagesNextOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of messages to be returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get messages up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
@@ -476,7 +483,8 @@ export type ChatThreadListChatParticipantsNextResponse = ChatParticipantsCollect
 };
 
 /** Optional parameters. */
-export interface ChatCreateChatThreadOptionalParams extends coreHttp.OperationOptions {
+export interface ChatCreateChatThreadOptionalParams
+  extends coreHttp.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs. */
   repeatabilityRequestId?: string;
 }
@@ -494,7 +502,8 @@ export type ChatCreateChatThreadResponse = CreateChatThreadResult & {
 };
 
 /** Optional parameters. */
-export interface ChatListChatThreadsOptionalParams extends coreHttp.OperationOptions {
+export interface ChatListChatThreadsOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of chat threads returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
@@ -502,31 +511,20 @@ export interface ChatListChatThreadsOptionalParams extends coreHttp.OperationOpt
 }
 
 /** Contains response data for the listChatThreads operation. */
-export type ChatListChatThreadsResponse = ChatThreadsInfoCollection & {
+export type ChatListChatThreadsResponse = ChatThreadsItemCollection & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: ChatThreadsInfoCollection;
-  };
-};
-
-/** Contains response data for the getChatThread operation. */
-export type ChatGetChatThreadResponse = ChatThread & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: ChatThread;
+    parsedBody: ChatThreadsItemCollection;
   };
 };
 
 /** Optional parameters. */
-export interface ChatListChatThreadsNextOptionalParams extends coreHttp.OperationOptions {
+export interface ChatListChatThreadsNextOptionalParams
+  extends coreHttp.OperationOptions {
   /** The maximum number of chat threads returned per page. */
   maxPageSize?: number;
   /** The earliest point in time to get chat threads up to. The timestamp should be in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`. */
@@ -534,19 +532,20 @@ export interface ChatListChatThreadsNextOptionalParams extends coreHttp.Operatio
 }
 
 /** Contains response data for the listChatThreadsNext operation. */
-export type ChatListChatThreadsNextResponse = ChatThreadsInfoCollection & {
+export type ChatListChatThreadsNextResponse = ChatThreadsItemCollection & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
     bodyAsText: string;
 
     /** The response body as parsed JSON or XML */
-    parsedBody: ChatThreadsInfoCollection;
+    parsedBody: ChatThreadsItemCollection;
   };
 };
 
 /** Optional parameters. */
-export interface ChatApiClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface ChatApiClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /** Api Version */
   apiVersion?: string;
   /** Overrides client endpoint. */

@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
+import { WorkspaceGitRepoManagement } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -19,7 +20,7 @@ import {
 } from "../models";
 
 /** Class representing a WorkspaceGitRepoManagement. */
-export class WorkspaceGitRepoManagement {
+export class WorkspaceGitRepoManagementImpl implements WorkspaceGitRepoManagement {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -39,10 +40,13 @@ export class WorkspaceGitRepoManagement {
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
     options?: WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams
   ): Promise<WorkspaceGitRepoManagementGetGitHubAccessTokenResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-getGitHubAccessToken", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-getGitHubAccessToken",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       gitHubAccessTokenRequest,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -52,7 +56,7 @@ export class WorkspaceGitRepoManagement {
       return result as WorkspaceGitRepoManagementGetGitHubAccessTokenResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

@@ -40,3 +40,8 @@ export * from "./galleryImages";
 export * from "./galleryImageVersions";
 export * from "./galleryApplications";
 export * from "./galleryApplicationVersions";
+export * from "./cloudServiceRoleInstances";
+export * from "./cloudServiceRoles";
+export * from "./cloudServices";
+export * from "./cloudServicesUpdateDomain";
+export * from "./cloudServiceOperatingSystems";

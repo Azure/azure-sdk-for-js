@@ -5,6 +5,8 @@ import AsyncLock from "async-lock";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "./typeGuards";
+import { StandardAbortMessage } from "../errors";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
 
 export { AsyncLock };
 /**
@@ -128,6 +130,11 @@ export function getNewAsyncLock(options?: AsyncLockOptions): AsyncLock {
 export const defaultLock: AsyncLock = new AsyncLock({ maxPending: 10000 });
 
 /**
+ * The cancellable async lock instance.
+ */
+export const defaultCancellableLock: CancellableAsyncLock = new CancellableAsyncLockImpl();
+
+/**
  * @internal
  *
  * Describes a Timeout class that can wait for the specified amount of time and then resolve/reject
@@ -198,9 +205,7 @@ export function delay<T>(
     let onAborted: (() => void) | undefined = undefined;
 
     const rejectOnAbort = (): void => {
-      return reject(
-        new AbortError(abortErrorMsg ? abortErrorMsg : `The delay was cancelled by the user.`)
-      );
+      return reject(new AbortError(abortErrorMsg ? abortErrorMsg : StandardAbortMessage));
     };
 
     const removeListeners = (): void => {

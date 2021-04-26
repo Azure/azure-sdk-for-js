@@ -13,10 +13,35 @@ export { TestSpan } from "./tracers/test/testSpan";
 export { createSpanFunction, CreateSpanFunctionArgs } from "./createSpan";
 
 // Shared interfaces
-export { SpanContext, SpanOptions, TraceFlags, Link, LinkContext } from "./interfaces";
-
-// OT interfaces
-export { SpanContext as OTSpanContext, SpanOptions as OTSpanOptions } from "@opentelemetry/api";
+export {
+  context,
+  Context,
+  ContextAPI,
+  Exception,
+  ExceptionWithCode,
+  ExceptionWithMessage,
+  ExceptionWithName,
+  getSpan,
+  getSpanContext,
+  HrTime,
+  Link,
+  LinkContext,
+  OperationTracingOptions,
+  setSpan,
+  setSpanContext,
+  Span,
+  SpanAttributes,
+  SpanAttributeValue,
+  SpanContext,
+  SpanKind,
+  SpanOptions,
+  SpanStatus,
+  SpanStatusCode,
+  TimeInput,
+  TraceFlags,
+  Tracer,
+  TraceState
+} from "./interfaces";
 
 // Utilities
 export {
@@ -26,5 +51,3 @@ export {
 
 // OpenCensus Interfaces
 export { Tracer as OpenCensusTracer, Span as OpenCensusSpan } from "@opencensus/web-types";
-
-export { OperationTracingOptions } from "./interfaces";

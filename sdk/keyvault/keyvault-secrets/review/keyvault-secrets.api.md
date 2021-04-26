@@ -26,12 +26,15 @@ export interface BeginRecoverDeletedSecretOptions extends SecretPollerOptions {
 
 // @public
 export interface DeletedSecret {
+    deletedOn?: Date;
     name: string;
     properties: SecretProperties & {
         recoveryId?: string;
         scheduledPurgeDate?: Date;
         deletedOn?: Date;
     };
+    recoveryId?: string;
+    scheduledPurgeDate?: Date;
     value?: string;
 }
 
@@ -144,7 +147,7 @@ export interface SecretProperties {
     readonly expiresOn?: Date;
     id?: string;
     // @deprecated
-    readonly keyId?: unknown;
+    readonly keyId?: never;
     readonly managed?: boolean;
     name: string;
     readonly notBefore?: Date;

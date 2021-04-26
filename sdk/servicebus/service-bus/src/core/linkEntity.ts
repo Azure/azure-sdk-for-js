@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Constants, TokenType, defaultLock, RequestResponseLink } from "@azure/core-amqp";
+import {
+  Constants,
+  TokenType,
+  defaultLock,
+  RequestResponseLink,
+  StandardAbortMessage,
+  isSasTokenProvider
+} from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -12,10 +19,9 @@ import {
   ReceiverOptions,
   SenderOptions
 } from "rhea-promise";
-import { getUniqueName, StandardAbortMessage } from "../util/utils";
+import { getUniqueName } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusLogger } from "../log";
-import { SharedKeyCredential } from "../servicebusSharedKeyCredential";
 import { ServiceBusError } from "../serviceBusError";
 
 /**
@@ -48,10 +54,14 @@ export interface RequestResponseLinkOptions {
 /**
  * @internal
  */
-export type ReceiverType =
+export type NonSessionReceiverType =
   | "batching" // batching receiver
-  | "streaming" // streaming receiver;
-  | "session"; // message session
+  | "streaming"; // streaming receiver
+
+/**
+ * @internal
+ */
+export type ReceiverType = NonSessionReceiverType | "session"; // message session
 
 /**
  * @internal
@@ -390,16 +400,12 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     });
     let tokenObject: AccessToken;
     let tokenType: TokenType;
-    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+    if (isSasTokenProvider(this._context.tokenCredential)) {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
 
-      // expiresOnTimestamp can be 0 if the token is not meant to be renewed
-      // (ie, SharedAccessSignatureCredential)
-      if (tokenObject.expiresOnTimestamp > 0) {
-        // renew sas token in every 45 minutes
-        this._tokenTimeout = (3600 - 900) * 1000;
-      }
+      // renew sas token in every 45 minutes
+      this._tokenTimeout = (3600 - 900) * 1000;
     } else {
       const aadToken = await this._context.tokenCredential.getToken(Constants.aadServiceBusScope);
       if (!aadToken) {

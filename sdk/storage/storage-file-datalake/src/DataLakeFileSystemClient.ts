@@ -3,12 +3,12 @@
 import { TokenCredential } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
-import { FileSystemOperations } from "./generated/src/operations";
+import { FileSystem } from "./generated/src/operations";
 import {
   AccessPolicy,
   FileSystemCreateOptions,
@@ -51,7 +51,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   /**
    * fileSystemContext provided by protocol layer.
    */
-  private fileSystemContext: FileSystemOperations;
+  private fileSystemContext: FileSystem;
 
   /**
    * blobContainerClient provided by `@azure/storage-blob` package.
@@ -107,7 +107,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       super(url, pipeline);
     }
 
-    this.fileSystemContext = new FileSystemOperations(this.storageClientContext);
+    this.fileSystemContext = new FileSystem(this.storageClientContext);
     this.blobContainerClient = new ContainerClient(this.blobEndpointUrl, this.pipeline);
   }
 
@@ -171,7 +171,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -203,7 +203,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -227,7 +227,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       return await this.blobContainerClient.exists(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -252,7 +252,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -276,7 +276,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       return await this.blobContainerClient.deleteIfExists(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -320,7 +320,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -353,7 +353,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -398,7 +398,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -441,7 +441,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       );
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -592,7 +592,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       return response;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

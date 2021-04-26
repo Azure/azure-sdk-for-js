@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
+import { Workspace } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,7 +16,7 @@ import { ArtifactsClientContext } from "../artifactsClientContext";
 import { WorkspaceGetResponse } from "../models";
 
 /** Class representing a Workspace. */
-export class Workspace {
+export class WorkspaceImpl implements Workspace {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -31,16 +32,16 @@ export class Workspace {
    * @param options The options parameters.
    */
   async get(options?: coreHttp.OperationOptions): Promise<WorkspaceGetResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options || {});
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as WorkspaceGetResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

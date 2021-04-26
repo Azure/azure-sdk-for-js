@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Context } from "mocha";
 import {
   SendRequest,
   PipelineRequest,
@@ -25,10 +26,9 @@ describe("TablesSharedKeyCredential", () => {
     Date.prototype.toUTCString = originalToUTCString;
   });
 
-  it("It should sign", async function() {
+  it("It should sign", async function(this: Context) {
     if (!isNode) {
       // TablesSharedKeyCredential auth is not supported in Browser
-      // eslint-disable-next-line no-invalid-this
       this.skip();
     }
     const url =

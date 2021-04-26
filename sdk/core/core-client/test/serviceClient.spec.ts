@@ -31,6 +31,7 @@ import {
 import { deserializationPolicy } from "../src/deserializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
 import { getCachedDefaultHttpClient } from "../src/httpClientCache";
+import { assertServiceClientResponse } from "./utils/serviceClient";
 
 describe("ServiceClient", function() {
   describe("Auth scopes", () => {
@@ -380,6 +381,198 @@ describe("ServiceClient", function() {
 
     assert.strictEqual(rawResponse?.status, 200);
     assert.deepStrictEqual(res.slice(), [1, 2, 3]);
+  });
+
+  it("should deserialize array response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Sequence,
+              element: {
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize array response as empty array if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Sequence,
+              element: {
+                type: {
+                  name: "Number"
+                }
+              }
+            }
+          }
+        }
+      },
+      []
+    );
+  });
+
+  it("should deserialize dictionary response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Dictionary,
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize dictionary response as empty if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Dictionary,
+              value: {
+                type: {
+                  name: "String"
+                }
+              }
+            }
+          }
+        }
+      },
+      {}
+    );
+  });
+
+  it("should deserialize object response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Composite,
+              modelProperties: {
+                message: {
+                  type: {
+                    name: "String"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      null
+    );
+  });
+
+  it("should deserialize object response as empty if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Composite,
+              modelProperties: {
+                message: {
+                  type: {
+                    name: "String"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      {}
+    );
+  });
+
+  it("should deserialize primitive response as null if it is empty and nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      {
+        body: null
+      }
+    );
+  });
+
+  it("should deserialize primitive response as undefined if it is empty and not nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: false,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      {
+        body: undefined
+      }
+    );
+  });
+
+  it("should deserialize a head request with no body even if the mapper says the body is nullable", async function() {
+    await assertServiceClientResponse(
+      {
+        requestMethod: "HEAD",
+        responseBodyAsText: "",
+        responseMapper: {
+          bodyMapper: {
+            nullable: true,
+            type: {
+              name: MapperTypeNames.Boolean
+            }
+          }
+        }
+      },
+      undefined
+    );
   });
 
   describe("getOperationArgumentValueFromParameter()", () => {
@@ -904,6 +1097,73 @@ describe("ServiceClient", function() {
   it("should re-use the common instance of DefaultHttpClient", function() {
     const client = new ServiceClient();
     assert.strictEqual((client as any)._httpClient, getCachedDefaultHttpClient());
+  });
+
+  it("should not allow insecure connection by default", async function() {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          assert.isFalse(req.allowInsecureConnection);
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        }
+      }
+    });
+    await client.sendOperationRequest({}, operationSpec);
+  });
+
+  it("should allow insecure connection if configured via client options", async function() {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      allowInsecureConnection: true,
+      httpClient: {
+        sendRequest: (req) => {
+          assert.isTrue(req.allowInsecureConnection);
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        }
+      }
+    });
+    await client.sendOperationRequest({}, operationSpec);
+  });
+
+  it("should allow insecure connection if configured via request options", async function() {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          assert.isTrue(req.allowInsecureConnection);
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        }
+      }
+    });
+    await client.sendOperationRequest(
+      { options: { requestOptions: { allowInsecureConnection: true } } },
+      operationSpec
+    );
   });
 });
 

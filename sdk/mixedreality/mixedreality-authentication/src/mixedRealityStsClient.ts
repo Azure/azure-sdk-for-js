@@ -15,7 +15,7 @@ import {
 import { logger } from "./logger";
 import { MixedRealityStsClientOptions, GetTokenOptions } from "./models/options";
 import { createSpan } from "./tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
 import { constructAuthenticationEndpointFromDomain } from "./util/authenticationEndpoint";
 import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
@@ -163,7 +163,7 @@ export class MixedRealityStsClient {
       // There are different standard codes available for different errors:
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
 

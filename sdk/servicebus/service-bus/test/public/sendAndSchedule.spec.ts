@@ -20,6 +20,7 @@ import {
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../../src";
 import { AbortController } from "@azure/abort-controller";
+import { StandardAbortMessage } from "@azure/core-amqp";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -370,7 +371,7 @@ describe("Sender Tests", () => {
         });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal("The scheduleMessages operation has been cancelled by the user.");
+        err.message.should.equal(StandardAbortMessage);
       }
     }
   );
@@ -385,9 +386,7 @@ describe("Sender Tests", () => {
         await sender.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal(
-          "The cancelScheduledMessages operation has been cancelled by the user."
-        );
+        err.message.should.equal(StandardAbortMessage);
       }
     }
   );
@@ -489,12 +488,18 @@ describe("ServiceBusMessage validations", function(): void {
     }
   ];
 
-  testInputs.forEach(function(testInput: any): void {
-    it("SendMessages() throws if " + testInput.title, async function(): Promise<void> {
+  testInputs.forEach(function(testInput: {
+    message: ServiceBusMessage;
+    expectedErrorMessage: string;
+    title?: string;
+  }): void {
+    it("SendMessages() throws if (" + testInput.title + ")", async function(): Promise<void> {
       let actualErrorMsg = "";
+
       await sender.sendMessages(testInput.message).catch((err) => {
         actualErrorMsg = err.message;
       });
+
       should.equal(actualErrorMsg, testInput.expectedErrorMessage, "Error not thrown as expected");
     });
 

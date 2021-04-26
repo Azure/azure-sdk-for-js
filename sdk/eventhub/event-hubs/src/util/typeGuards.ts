@@ -1,6 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+  isNamedKeyCredential,
+  isSASCredential,
+  isTokenCredential,
+  NamedKeyCredential,
+  SASCredential,
+  TokenCredential
+} from "@azure/core-auth";
+
 /**
  * Helper TypeGuard that checks if something is defined or not.
  * @param thing - Anything
@@ -43,9 +52,16 @@ export function objectHasProperty<Thing extends unknown, PropertyName extends st
   thing: Thing,
   property: PropertyName
 ): thing is Thing & Record<PropertyName, unknown> {
-  if (!(property in thing)) {
-    return false;
-  }
+  return typeof thing === "object" && property in (thing as Record<string, unknown>);
+}
 
-  return true;
+/**
+ * Typeguard that checks if the input is a credential type the clients accept.
+ * @param thing - Any object.
+ * @internal
+ */
+export function isCredential(
+  thing: unknown
+): thing is TokenCredential | NamedKeyCredential | SASCredential {
+  return isTokenCredential(thing) || isNamedKeyCredential(thing) || isSASCredential(thing);
 }

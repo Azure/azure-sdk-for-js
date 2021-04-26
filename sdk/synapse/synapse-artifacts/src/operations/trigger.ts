@@ -6,10 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+/// <reference lib="esnext.asynciterable" />
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { Trigger } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -28,9 +30,8 @@ import {
   TriggerGetTriggersByWorkspaceNextResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Class representing a Trigger. */
-export class Trigger {
+export class TriggerImpl implements Trigger {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -90,9 +91,12 @@ export class Trigger {
   private async _getTriggersByWorkspace(
     options?: coreHttp.OperationOptions
   ): Promise<TriggerGetTriggersByWorkspaceResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-_getTriggersByWorkspace", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-_getTriggersByWorkspace",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -102,7 +106,7 @@ export class Trigger {
       return result as TriggerGetTriggersByWorkspaceResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -122,7 +126,10 @@ export class Trigger {
     trigger: TriggerResource,
     options?: TriggerCreateOrUpdateTriggerOptionalParams
   ): Promise<LROPoller<TriggerCreateOrUpdateTriggerResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-createOrUpdateTrigger", options);
+    const { span, updatedOptions } = createSpan(
+      "ArtifactsClient-createOrUpdateTrigger",
+      options || {}
+    );
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       trigger,
@@ -137,7 +144,7 @@ export class Trigger {
         return result as TriggerCreateOrUpdateTriggerResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -167,10 +174,10 @@ export class Trigger {
     triggerName: string,
     options?: TriggerGetTriggerOptionalParams
   ): Promise<TriggerGetTriggerResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-getTrigger", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-getTrigger", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -180,7 +187,7 @@ export class Trigger {
       return result as TriggerGetTriggerResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -198,7 +205,7 @@ export class Trigger {
     triggerName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteTrigger", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-deleteTrigger", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -212,7 +219,7 @@ export class Trigger {
         return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -244,7 +251,7 @@ export class Trigger {
   ): Promise<LROPoller<TriggerSubscribeTriggerToEventsResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-subscribeTriggerToEvents",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
@@ -259,7 +266,7 @@ export class Trigger {
         return result as TriggerSubscribeTriggerToEventsResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -291,11 +298,11 @@ export class Trigger {
   ): Promise<TriggerGetEventSubscriptionStatusResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-getEventSubscriptionStatus",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -305,7 +312,7 @@ export class Trigger {
       return result as TriggerGetEventSubscriptionStatusResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -325,7 +332,7 @@ export class Trigger {
   ): Promise<LROPoller<TriggerUnsubscribeTriggerFromEventsResponse>> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-unsubscribeTriggerFromEvents",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
@@ -340,7 +347,7 @@ export class Trigger {
         return result as TriggerUnsubscribeTriggerFromEventsResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -370,7 +377,7 @@ export class Trigger {
     triggerName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-startTrigger", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-startTrigger", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -384,7 +391,7 @@ export class Trigger {
         return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -414,7 +421,7 @@ export class Trigger {
     triggerName: string,
     options?: coreHttp.OperationOptions
   ): Promise<LROPoller<coreHttp.RestResponse>> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-stopTrigger", options);
+    const { span, updatedOptions } = createSpan("ArtifactsClient-stopTrigger", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       triggerName,
       options: this.getOperationOptions(updatedOptions, "undefined")
@@ -428,7 +435,7 @@ export class Trigger {
         return result as coreHttp.RestResponse;
       } catch (error) {
         span.setStatus({
-          code: CanonicalCode.UNKNOWN,
+          code: SpanStatusCode.ERROR,
           message: error.message
         });
         throw error;
@@ -460,11 +467,11 @@ export class Trigger {
   ): Promise<TriggerGetTriggersByWorkspaceNextResponse> {
     const { span, updatedOptions } = createSpan(
       "ArtifactsClient-_getTriggersByWorkspaceNext",
-      options
+      options || {}
     );
     const operationArguments: coreHttp.OperationArguments = {
       nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(
@@ -474,7 +481,7 @@ export class Trigger {
       return result as TriggerGetTriggersByWorkspaceNextResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

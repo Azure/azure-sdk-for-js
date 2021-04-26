@@ -10,6 +10,7 @@ import {
 } from "./utils/testHelpers";
 import * as assert from "assert";
 import { Recorder } from "@azure/test-utils-recorder";
+import { Context } from "mocha";
 
 // There's been discussion on other teams about what errors are thrown when. This
 // is the file where I've documented the throws/notThrows cases to make coordination
@@ -20,7 +21,7 @@ describe("Various error cases", () => {
   let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";
 
-  beforeEach(function() {
+  beforeEach(function(this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
@@ -42,7 +43,7 @@ describe("Various error cases", () => {
       nonExistentKey = "non-existent key " + addedSetting.key;
     });
 
-    afterEach(async function() {
+    afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending()) {
         await deleteKeyCompletely([addedSetting.key], client);
       }
@@ -103,7 +104,7 @@ describe("Various error cases", () => {
       nonExistentKey = "bogus key " + addedSetting.key;
     });
 
-    afterEach(async function() {
+    afterEach(async function(this: Context) {
       if (!this.currentTest?.isPending()) {
         await deleteKeyCompletely([addedSetting.key], client);
       }

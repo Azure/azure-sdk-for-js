@@ -52,7 +52,10 @@ export class CommunicationIdentity {
    * @param id Identifier of the identity to be deleted.
    * @param options The options parameters.
    */
-  delete(id: string, options?: coreHttp.OperationOptions): Promise<coreHttp.RestResponse> {
+  delete(
+    id: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<coreHttp.RestResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );

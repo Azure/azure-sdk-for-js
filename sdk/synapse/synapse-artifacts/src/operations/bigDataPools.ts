@@ -6,8 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "../tracing";
+import { BigDataPools } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,7 +16,7 @@ import { ArtifactsClientContext } from "../artifactsClientContext";
 import { BigDataPoolsListResponse, BigDataPoolsGetResponse } from "../models";
 
 /** Class representing a BigDataPools. */
-export class BigDataPools {
+export class BigDataPoolsImpl implements BigDataPools {
   private readonly client: ArtifactsClientContext;
 
   /**
@@ -31,17 +32,16 @@ export class BigDataPools {
    * @param options The options parameters.
    */
   async list(options?: coreHttp.OperationOptions): Promise<BigDataPoolsListResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options);
-
+    const { span, updatedOptions } = createSpan("ArtifactsClient-list", options || {});
     const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, listOperationSpec);
       return result as BigDataPoolsListResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;
@@ -59,18 +59,17 @@ export class BigDataPools {
     bigDataPoolName: string,
     options?: coreHttp.OperationOptions
   ): Promise<BigDataPoolsGetResponse> {
-    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options);
-
+    const { span, updatedOptions } = createSpan("ArtifactsClient-get", options || {});
     const operationArguments: coreHttp.OperationArguments = {
       bigDataPoolName,
-      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions)
+      options: coreHttp.operationOptionsToRequestOptionsBase(updatedOptions || {})
     };
     try {
       const result = await this.client.sendOperationRequest(operationArguments, getOperationSpec);
       return result as BigDataPoolsGetResponse;
     } catch (error) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: error.message
       });
       throw error;

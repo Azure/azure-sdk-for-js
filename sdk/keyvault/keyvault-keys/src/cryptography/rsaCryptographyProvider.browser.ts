@@ -22,16 +22,9 @@ export class RsaCryptographyProvider implements CryptographyProvider {
   }
 
   /**
-   * Browser RSA Provider does not support any algorithms.
+   * Browser RSA Provider does not support any algorithms or operations.
    */
-  supportsAlgorithm(): boolean {
-    return false;
-  }
-
-  /**
-   * Browser RSA Provider does not support any operations.
-   */
-  supportsOperation(): boolean {
+  isSupported(): boolean {
     return false;
   }
 

@@ -8,10 +8,7 @@ import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
 
-// Adding this to the source would change the public API.
-type ApiVersions = "7.0" | "7.1" | "7.2";
-
-export async function authenticate(that: Context, version?: string): Promise<any> {
+export async function authenticate(that: Context, version: string): Promise<any> {
   const keySuffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
@@ -19,12 +16,10 @@ export async function authenticate(that: Context, version?: string): Promise<any
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "azure_tenant_id",
       KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://keyvault_name.vault.azure.net",
-      AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net"
+      KEYVAULT_URI: "https://keyvault_name.vault.azure.net/",
+      AZURE_MANAGEDHSM_URI: "https://azure_managedhsm.managedhsm.azure.net/"
     },
     customizationsOnRecordings: [
-      (recording: any): any =>
-        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>
         keySuffix === "" ? recording : recording.replace(new RegExp(keySuffix, "g"), "")
     ],
@@ -43,7 +38,7 @@ export async function authenticate(that: Context, version?: string): Promise<any
   }
 
   const client = new KeyClient(keyVaultUrl, credential, {
-    serviceVersion: version as ApiVersions
+    serviceVersion: version
   });
   const testClient = new TestClient(client);
 

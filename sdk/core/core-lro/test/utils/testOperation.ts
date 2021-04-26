@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
 
 import { HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";

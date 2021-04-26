@@ -1,12 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import chai from "chai";
+import chai, { assert } from "chai";
 import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ServiceBusReceivedMessage, delay, ProcessErrorArgs, isServiceBusError } from "../../src";
+import {
+  ServiceBusReceivedMessage,
+  delay,
+  ProcessErrorArgs,
+  isServiceBusError,
+  ServiceBusError
+} from "../../src";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { ServiceBusSender } from "../../src";
@@ -19,6 +25,8 @@ import {
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
 import { AbortController } from "@azure/abort-controller";
+import sinon from "sinon";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
 
 let unexpectedError: Error | undefined;
 
@@ -320,7 +328,7 @@ describe("session tests", () => {
  * https://github.com/Azure/azure-sdk-for-js/pull/8447#issuecomment-618510245
  * If support for this is added in the future, we can stop skipping this test.
  */
-describe.skip("SessionReceiver - disconnects", function(): void {
+describe.skip("SessionReceiver - disconnects - (if recovery is supported in future)", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
   async function beforeEachTest(testClientType: TestClientType): Promise<EntityName> {
     serviceBusClient = createServiceBusClientForTests();
@@ -409,5 +417,88 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     settledMessageCount.should.equal(2, "Unexpected number of settled messages.");
     receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
     refreshConnectionCalled.should.be.greaterThan(0, "refreshConnection was not called.");
+  });
+});
+
+describe("SessionReceiver - disconnects", function(): void {
+  let serviceBusClient: ServiceBusClientForTests;
+  async function beforeEachTest(testClientType: TestClientType): Promise<EntityName> {
+    serviceBusClient = createServiceBusClientForTests();
+    return serviceBusClient.test.createTestEntities(testClientType);
+  }
+
+  after(() => {
+    return serviceBusClient.test.after();
+  });
+
+  it("calls processError and closes the link", async function(): Promise<void> {
+    const testMessage = TestMessage.getSessionSample();
+    // Create the sender and receiver.
+    const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
+    const receiver = await serviceBusClient.acceptSession(
+      entityName.queue!,
+      testMessage.sessionId,
+      {
+        maxAutoLockRenewalDurationInMs: 10000 // Lower this value so that test can complete in time.
+      }
+    );
+
+    let receiverSecondMessageResolver: Function;
+    let errorIsThrownResolver: Function;
+    const errorIsThrown = new Promise<ProcessErrorArgs>((resolve) => {
+      errorIsThrownResolver = resolve;
+    });
+    const receiverSecondMessage = new Promise((resolve) => {
+      receiverSecondMessageResolver = resolve;
+    });
+
+    const sender = serviceBusClient.createSender(entityName.queue!);
+    should.equal(receiver.isClosed, false, "Receiver should not have been closed");
+    const isCloseCalledSpy = sinon.spy(
+      (receiver as ServiceBusSessionReceiverImpl)["_messageSession"],
+      "close"
+    );
+
+    // Send a message so we can be sure when the receiver is open and active.
+    await sender.sendMessages(testMessage);
+    receiver.subscribe(
+      {
+        async processMessage(_message: ServiceBusReceivedMessage) {
+          // Simulate a disconnect being called with a non-retryable error.
+          (receiver as any)["_context"].connection["_connection"].idle();
+        },
+        async processError(err) {
+          errorIsThrownResolver(err);
+        }
+      },
+      { autoCompleteMessages: false }
+    );
+
+    const err = await errorIsThrown;
+
+    should.equal(
+      (err.error as ServiceBusError).code,
+      "SessionLockLost",
+      "error code is not SessionLockLost"
+    );
+    assert.isTrue(isCloseCalledSpy.called, "Close should have been called on the message session");
+
+    // send a second message to trigger the message handler again.
+    await sender.sendMessages(TestMessage.getSessionSample());
+    const receiver2 = await serviceBusClient.acceptSession(
+      entityName.queue!,
+      testMessage.sessionId,
+      {
+        maxAutoLockRenewalDurationInMs: 10000 // Lower this value so that test can complete in time.
+      }
+    );
+    receiver2.subscribe({
+      async processMessage(_message: ServiceBusReceivedMessage) {
+        receiverSecondMessageResolver();
+      },
+      async processError(_err) {}
+    });
+    await receiverSecondMessage;
+    await receiver2.close();
   });
 });

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { Agent } from "http";
 import { CosmosClient } from "../../../src";
 import { endpoint, masterKey } from "../common/_testConfig";
@@ -13,7 +14,7 @@ import {
 import AbortController from "node-abort-controller";
 import { UsernamePasswordCredential } from "@azure/identity";
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   describe("Validate client request timeout", function() {

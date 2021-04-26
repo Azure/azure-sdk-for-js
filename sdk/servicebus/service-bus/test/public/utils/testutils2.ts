@@ -173,13 +173,24 @@ export function getRandomTestClientTypeWithNoSessions(): TestClientType {
  * Returns a TestClientType for either a Queue or a Subscription with
  * sessions enabled
  */
-export function getRandomTestClientTypeWithSessions(): TestClientType {
-  const withSessionTestClientTypes = [
-    TestClientType.PartitionedQueueWithSessions,
-    TestClientType.PartitionedSubscriptionWithSessions,
-    TestClientType.UnpartitionedQueueWithSessions,
-    TestClientType.UnpartitionedSubscriptionWithSessions
-  ];
+export function getRandomTestClientTypeWithSessions(
+  type: "all" | "subscription" | "queue" = "all"
+): TestClientType {
+  const withSessionTestClientTypes = [];
+
+  if (type === "all" || type === "queue") {
+    withSessionTestClientTypes.push(
+      TestClientType.PartitionedQueueWithSessions,
+      TestClientType.UnpartitionedQueueWithSessions
+    );
+  }
+
+  if (type === "all" || type === "subscription") {
+    withSessionTestClientTypes.push(
+      TestClientType.PartitionedSubscriptionWithSessions,
+      TestClientType.UnpartitionedSubscriptionWithSessions
+    );
+  }
 
   const index = Math.floor(Math.random() * withSessionTestClientTypes.length);
   return withSessionTestClientTypes[index];
@@ -203,6 +214,11 @@ export class ServiceBusTestHelpers {
     return v;
   }
 
+  /**
+   * Closes any receivers/senders created from the ServiceBusTestHelpers instance.
+   *
+   * NOTE: This does not close the ServiceBusClient itself.
+   */
   async afterEach(): Promise<void> {
     const closePromises = this._closeables.map((c) => c.close());
     this._closeables.length = 0;
@@ -278,6 +294,9 @@ export class ServiceBusTestHelpers {
     await verifyMessageCount(0, entityNames);
   }
 
+  /**
+   * Closes the ServiceBusClient.
+   */
   async after(): Promise<void> {
     // TODO: purge any of the dynamically created entities created in `createTestEntities`
     await this._serviceBusClient.close();
@@ -289,6 +308,12 @@ export class ServiceBusTestHelpers {
     );
   }
 
+  /**
+   * Creates the queue/topic/subscription specified by `testClientType`.
+   *
+   * NOTE: The entity creation is skipped if we have already created that particular
+   * entity from _this_ instance of the ServiceBusTestHelpers.
+   */
   async createTestEntities(
     testClientType: TestClientType
   ): Promise<ReturnType<typeof getEntityNames>> {

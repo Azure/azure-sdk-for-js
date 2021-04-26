@@ -29,7 +29,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     throw BrowserNotSupportedError;
   }
 
-  public getToken(): Promise<AccessToken | null> {
+  public getToken(): Promise<AccessToken> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

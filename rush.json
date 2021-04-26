@@ -15,7 +15,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.36.1",
+  "rushVersion": "5.40.7",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -333,6 +333,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-document-translator",
+      "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-anomaly-detector",
       "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
       "versionPolicyName": "client"
@@ -368,11 +373,6 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/communication-administration",
-      "projectFolder": "sdk/communication/communication-administration",
-      "versionPolicyName": "client"
-    },
-    {
       "packageName": "@azure/communication-chat",
       "projectFolder": "sdk/communication/communication-chat",
       "versionPolicyName": "client"
@@ -405,6 +405,11 @@
     {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure-rest/core-client",
+      "projectFolder": "sdk/core-rest/core-client",
       "versionPolicyName": "core"
     },
     {
@@ -500,11 +505,6 @@
     {
       "packageName": "@azure/mock-hub",
       "projectFolder": "sdk/eventhub/mock-hub",
-      "versionPolicyName": "utility"
-    },
-    {
-      "packageName": "testhub",
-      "projectFolder": "sdk/eventhub/testhub",
       "versionPolicyName": "utility"
     },
     {
@@ -648,6 +648,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-tests/perf-ai-form-recognizer",
+      "projectFolder": "sdk/formrecognizer/perf-tests/ai-form-recognizer",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure-tests/perf-eventgrid",
       "projectFolder": "sdk/eventgrid/perf-tests/eventgrid",
       "versionPolicyName": "test"
@@ -673,6 +678,26 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure-tests/perf-keyvault-keys",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-keys",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-keyvault-certificates",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-certificates",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-keyvault-secrets",
+      "projectFolder": "sdk/keyvault/perf-tests/keyvault-secrets",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-identity",
+      "projectFolder": "sdk/identity/perf-tests/identity",
+      "versionPolicyName": "test"
+    },
+    {
       "packageName": "@azure/mixedreality-authentication",
       "projectFolder": "sdk/mixedreality/mixedreality-authentication",
       "versionPolicyName": "client"
@@ -681,6 +706,26 @@
       "packageName": "@azure/iot-device-update",
       "projectFolder": "sdk/deviceupdate/iot-device-update",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/web-pubsub",
+      "projectFolder": "sdk/web-pubsub/web-pubsub",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/web-pubsub-express",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-express",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-tests/perf-search-documents",
+      "projectFolder": "sdk/search/perf-tests/search-documents",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-ai-metrics-advisor",
+      "projectFolder": "sdk/metricsadvisor/perf-tests/ai-metrics-advisor",
+      "versionPolicyName": "test"
     }
   ]
 }

@@ -42,7 +42,7 @@ describe("DataTransformer", function() {
   const transformer = defaultDataTransformer;
 
   it("should correctly encode/decode a string message body", function(done) {
-    const encoded: any = transformer.encode(stringBody);
+    const encoded: any = transformer.encode(stringBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
@@ -51,7 +51,7 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode a number message body", function(done) {
-    const encoded: any = transformer.encode(numberBody);
+    const encoded: any = transformer.encode(numberBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
@@ -60,7 +60,7 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode a boolean message body", function(done) {
-    const encoded: any = transformer.encode(booleanBody);
+    const encoded: any = transformer.encode(booleanBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
@@ -69,7 +69,7 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode a null message body", function(done) {
-    const encoded: any = transformer.encode(nullBody);
+    const encoded: any = transformer.encode(nullBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
@@ -78,7 +78,7 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode an undefined message body", function(done) {
-    const encoded: any = transformer.encode(undefinedBody);
+    const encoded: any = transformer.encode(undefinedBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
@@ -87,7 +87,7 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode an empty string message body", function(done) {
-    const encoded: any = transformer.encode(emptyStringBody);
+    const encoded: any = transformer.encode(emptyStringBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
@@ -96,7 +96,7 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode an array message body", function(done) {
-    const encoded: any = transformer.encode(arrayBody);
+    const encoded: any = transformer.encode(arrayBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
@@ -105,7 +105,7 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode an object message body", function(done) {
-    const encoded: any = transformer.encode(objectBody);
+    const encoded: any = transformer.encode(objectBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
@@ -114,7 +114,7 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode a buffer message body", function(done) {
-    const encoded: any = transformer.encode(bufferBody);
+    const encoded: any = transformer.encode(bufferBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);
@@ -123,7 +123,7 @@ describe("DataTransformer", function() {
   });
 
   it("should correctly encode/decode a hex buffer message body", function(done) {
-    const encoded: any = transformer.encode(hexBufferBody);
+    const encoded: any = transformer.encode(hexBufferBody, "data");
     encoded.typecode.should.equal(117);
     isBuffer(encoded.content).should.equal(true);
     const decoded: any = transformer.decode(encoded);

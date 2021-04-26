@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
+import { Suite } from "mocha";
 import { TriggerOperation, TriggerType } from "../../../src";
 import { TriggerDefinition, Container } from "../../../src";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
@@ -10,7 +11,7 @@ const notFoundErrorCode = 404;
 // Mock for trigger function bodies
 declare let getContext: any;
 
-describe("NodeJS CRUD Tests", function() {
+describe("NodeJS CRUD Tests", function(this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   let container: Container;
 

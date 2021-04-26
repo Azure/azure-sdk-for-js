@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const AcrErrors: coreHttp.CompositeMapper = {
+export const AcrErrors: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcrErrors",
@@ -29,7 +29,7 @@ export const AcrErrors: coreHttp.CompositeMapper = {
   }
 };
 
-export const AcrErrorInfo: coreHttp.CompositeMapper = {
+export const AcrErrorInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AcrErrorInfo",
@@ -56,65 +56,381 @@ export const AcrErrorInfo: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestListAttributes: coreHttp.CompositeMapper = {
+export const Manifest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ManifestListAttributes",
+    className: "Manifest",
     modelProperties: {
-      mediaType: {
-        serializedName: "mediaType",
+      schemaVersion: {
+        serializedName: "schemaVersion",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const Repositories: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Repositories",
+    modelProperties: {
+      repositories: {
+        serializedName: "repositories",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RepositoryProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RepositoryProperties",
+    modelProperties: {
+      name: {
+        serializedName: "imageName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "createdTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedOn: {
+        serializedName: "lastUpdateTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      registryArtifactCount: {
+        serializedName: "manifestCount",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      tagCount: {
+        serializedName: "tagCount",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      writeableProperties: {
+        serializedName: "changeableAttributes",
+        type: {
+          name: "Composite",
+          className: "ContentProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ContentProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContentProperties",
+    modelProperties: {
+      canDelete: {
+        serializedName: "deleteEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canWrite: {
+        serializedName: "writeEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canList: {
+        serializedName: "listEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      canRead: {
+        serializedName: "readEnabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const DeleteRepositoryResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeleteRepositoryResult",
+    modelProperties: {
+      deletedRegistryArtifactDigests: {
+        serializedName: "manifestsDeleted",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      deletedTags: {
+        serializedName: "tagsDeleted",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TagList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagList",
+    modelProperties: {
+      repository: {
+        serializedName: "imageName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      tagAttributeBases: {
+        serializedName: "tags",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TagAttributesBase"
+            }
+          }
+        }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TagAttributesBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagAttributesBase",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      digest: {
+        serializedName: "digest",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "createdTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedOn: {
+        serializedName: "lastUpdateTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      writeableProperties: {
+        serializedName: "changeableAttributes",
+        type: {
+          name: "Composite",
+          className: "ContentProperties"
+        }
+      }
+    }
+  }
+};
+
+export const TagProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TagProperties",
+    modelProperties: {
+      repository: {
+        serializedName: "imageName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "tag.name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      digest: {
+        serializedName: "tag.digest",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdOn: {
+        serializedName: "tag.createdTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedOn: {
+        serializedName: "tag.lastUpdateTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      writeableProperties: {
+        serializedName: "tag.changeableAttributes",
+        type: {
+          name: "Composite",
+          className: "ContentProperties"
+        }
+      }
+    }
+  }
+};
+
+export const AcrManifests: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcrManifests",
+    modelProperties: {
+      repository: {
+        serializedName: "imageName",
+        type: {
+          name: "String"
+        }
+      },
+      manifests: {
+        serializedName: "manifests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManifestAttributesBase"
+            }
+          }
+        }
+      },
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManifestAttributesBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManifestAttributesBase",
+    modelProperties: {
+      digest: {
+        serializedName: "digest",
+        required: true,
         type: {
           name: "String"
         }
       },
       size: {
-        serializedName: "size",
+        serializedName: "imageSize",
         type: {
           name: "Number"
         }
       },
-      digest: {
-        serializedName: "digest",
+      createdOn: {
+        serializedName: "createdTime",
         type: {
-          name: "String"
+          name: "DateTime"
         }
       },
-      platform: {
-        serializedName: "platform",
+      lastUpdatedOn: {
+        serializedName: "lastUpdateTime",
         type: {
-          name: "Composite",
-          className: "Platform"
+          name: "DateTime"
         }
-      }
-    }
-  }
-};
-
-export const Platform: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Platform",
-    modelProperties: {
-      architecture: {
+      },
+      cpuArchitecture: {
         serializedName: "architecture",
         type: {
           name: "String"
         }
       },
-      os: {
+      operatingSystem: {
         serializedName: "os",
         type: {
           name: "String"
         }
       },
-      osVersion: {
-        serializedName: "os\\.version",
+      references: {
+        serializedName: "references",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManifestAttributesManifestReferences"
+            }
+          }
         }
       },
-      osFeatures: {
-        serializedName: "os\\.features",
+      tags: {
+        serializedName: "tags",
         type: {
           name: "Sequence",
           element: {
@@ -124,14 +440,242 @@ export const Platform: coreHttp.CompositeMapper = {
           }
         }
       },
-      variant: {
-        serializedName: "variant",
+      writeableProperties: {
+        serializedName: "changeableAttributes",
+        type: {
+          name: "Composite",
+          className: "ContentProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ManifestAttributesManifestReferences: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManifestAttributesManifestReferences",
+    modelProperties: {
+      digest: {
+        serializedName: "digest",
+        required: true,
         type: {
           name: "String"
         }
       },
-      features: {
-        serializedName: "features",
+      cpuArchitecture: {
+        serializedName: "architecture",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operatingSystem: {
+        serializedName: "os",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RegistryArtifactProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RegistryArtifactProperties",
+    modelProperties: {
+      repository: {
+        serializedName: "imageName",
+        type: {
+          name: "String"
+        }
+      },
+      digest: {
+        serializedName: "manifest.digest",
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "manifest.imageSize",
+        type: {
+          name: "Number"
+        }
+      },
+      createdOn: {
+        serializedName: "manifest.createdTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedOn: {
+        serializedName: "manifest.lastUpdateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      cpuArchitecture: {
+        serializedName: "manifest.architecture",
+        type: {
+          name: "String"
+        }
+      },
+      operatingSystem: {
+        serializedName: "manifest.os",
+        type: {
+          name: "String"
+        }
+      },
+      references: {
+        serializedName: "manifest.references",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManifestAttributesManifestReferences"
+            }
+          }
+        }
+      },
+      tags: {
+        serializedName: "manifest.tags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      writeableProperties: {
+        serializedName: "manifest.changeableAttributes",
+        type: {
+          name: "Composite",
+          className: "ContentProperties"
+        }
+      }
+    }
+  }
+};
+
+export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
+    modelProperties: {
+      grantType: {
+        defaultValue: "access_token",
+        isConstant: true,
+        serializedName: "grant_type",
+        type: {
+          name: "String"
+        }
+      },
+      service: {
+        serializedName: "service",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      aadAccesstoken: {
+        serializedName: "access_token",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcrRefreshToken: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcrRefreshToken",
+    modelProperties: {
+      refreshToken: {
+        serializedName: "refresh_token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
+    modelProperties: {
+      grantType: {
+        defaultValue: "refresh_token",
+        isConstant: true,
+        serializedName: "grant_type",
+        type: {
+          name: "String"
+        }
+      },
+      service: {
+        serializedName: "service",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      scope: {
+        serializedName: "scope",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      acrRefreshToken: {
+        serializedName: "refresh_token",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AcrAccessToken: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AcrAccessToken",
+    modelProperties: {
+      accessToken: {
+        serializedName: "access_token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RepositoryTags: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RepositoryTags",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
         type: {
           name: "Sequence",
           element: {
@@ -145,7 +689,126 @@ export const Platform: coreHttp.CompositeMapper = {
   }
 };
 
-export const Descriptor: coreHttp.CompositeMapper = {
+export const ImageSignature: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageSignature",
+    modelProperties: {
+      header: {
+        serializedName: "header",
+        type: {
+          name: "Composite",
+          className: "Jwk"
+        }
+      },
+      signature: {
+        serializedName: "signature",
+        type: {
+          name: "String"
+        }
+      },
+      protected: {
+        serializedName: "protected",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Jwk: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Jwk",
+    modelProperties: {
+      jwk: {
+        serializedName: "jwk",
+        type: {
+          name: "Composite",
+          className: "JWKHeader"
+        }
+      },
+      alg: {
+        serializedName: "alg",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const JWKHeader: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "JWKHeader",
+    modelProperties: {
+      crv: {
+        serializedName: "crv",
+        type: {
+          name: "String"
+        }
+      },
+      kid: {
+        serializedName: "kid",
+        type: {
+          name: "String"
+        }
+      },
+      kty: {
+        serializedName: "kty",
+        type: {
+          name: "String"
+        }
+      },
+      x: {
+        serializedName: "x",
+        type: {
+          name: "String"
+        }
+      },
+      y: {
+        serializedName: "y",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const History: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "History",
+    modelProperties: {
+      v1Compatibility: {
+        serializedName: "v1Compatibility",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FsLayer: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FsLayer",
+    modelProperties: {
+      blobSum: {
+        serializedName: "blobSum",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const Descriptor: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Descriptor",
@@ -190,7 +853,7 @@ export const Descriptor: coreHttp.CompositeMapper = {
   }
 };
 
-export const Annotations: coreHttp.CompositeMapper = {
+export const Annotations: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Annotations",
@@ -272,657 +935,7 @@ export const Annotations: coreHttp.CompositeMapper = {
   }
 };
 
-export const FsLayer: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FsLayer",
-    modelProperties: {
-      blobSum: {
-        serializedName: "blobSum",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const History: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "History",
-    modelProperties: {
-      v1Compatibility: {
-        serializedName: "v1Compatibility",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ImageSignature: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ImageSignature",
-    modelProperties: {
-      header: {
-        serializedName: "header",
-        type: {
-          name: "Composite",
-          className: "Jwk"
-        }
-      },
-      signature: {
-        serializedName: "signature",
-        type: {
-          name: "String"
-        }
-      },
-      protected: {
-        serializedName: "protected",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Jwk: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Jwk",
-    modelProperties: {
-      jwk: {
-        serializedName: "jwk",
-        type: {
-          name: "Composite",
-          className: "JWKHeader"
-        }
-      },
-      alg: {
-        serializedName: "alg",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const JWKHeader: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "JWKHeader",
-    modelProperties: {
-      crv: {
-        serializedName: "crv",
-        type: {
-          name: "String"
-        }
-      },
-      kid: {
-        serializedName: "kid",
-        type: {
-          name: "String"
-        }
-      },
-      kty: {
-        serializedName: "kty",
-        type: {
-          name: "String"
-        }
-      },
-      x: {
-        serializedName: "x",
-        type: {
-          name: "String"
-        }
-      },
-      y: {
-        serializedName: "y",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Manifest: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Manifest",
-    modelProperties: {
-      schemaVersion: {
-        serializedName: "schemaVersion",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const Repositories: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Repositories",
-    modelProperties: {
-      names: {
-        serializedName: "repositories",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const RepositoryAttributes: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RepositoryAttributes",
-    modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
-      imageName: {
-        serializedName: "imageName",
-        type: {
-          name: "String"
-        }
-      },
-      createdTime: {
-        serializedName: "createdTime",
-        type: {
-          name: "String"
-        }
-      },
-      lastUpdateTime: {
-        serializedName: "lastUpdateTime",
-        type: {
-          name: "String"
-        }
-      },
-      manifestCount: {
-        serializedName: "manifestCount",
-        type: {
-          name: "Number"
-        }
-      },
-      tagCount: {
-        serializedName: "tagCount",
-        type: {
-          name: "Number"
-        }
-      },
-      changeableAttributes: {
-        serializedName: "changeableAttributes",
-        type: {
-          name: "Composite",
-          className: "ChangeableAttributes"
-        }
-      }
-    }
-  }
-};
-
-export const ChangeableAttributes: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ChangeableAttributes",
-    modelProperties: {
-      deleteEnabled: {
-        serializedName: "deleteEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      writeEnabled: {
-        serializedName: "writeEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      listEnabled: {
-        serializedName: "listEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      readEnabled: {
-        serializedName: "readEnabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const DeletedRepository: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DeletedRepository",
-    modelProperties: {
-      manifestsDeleted: {
-        serializedName: "manifestsDeleted",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      tagsDeleted: {
-        serializedName: "tagsDeleted",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const TagList: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TagList",
-    modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
-      imageName: {
-        serializedName: "imageName",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TagAttributesBase"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const TagAttributesBase: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TagAttributesBase",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      digest: {
-        serializedName: "digest",
-        type: {
-          name: "String"
-        }
-      },
-      createdTime: {
-        serializedName: "createdTime",
-        type: {
-          name: "String"
-        }
-      },
-      lastUpdateTime: {
-        serializedName: "lastUpdateTime",
-        type: {
-          name: "String"
-        }
-      },
-      signed: {
-        serializedName: "signed",
-        type: {
-          name: "Boolean"
-        }
-      },
-      changeableAttributes: {
-        serializedName: "changeableAttributes",
-        type: {
-          name: "Composite",
-          className: "ChangeableAttributes"
-        }
-      }
-    }
-  }
-};
-
-export const TagAttributes: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TagAttributes",
-    modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
-      imageName: {
-        serializedName: "imageName",
-        type: {
-          name: "String"
-        }
-      },
-      attributes: {
-        serializedName: "tag",
-        type: {
-          name: "Composite",
-          className: "TagAttributesBase"
-        }
-      }
-    }
-  }
-};
-
-export const AcrManifests: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AcrManifests",
-    modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
-      imageName: {
-        serializedName: "imageName",
-        type: {
-          name: "String"
-        }
-      },
-      manifestsAttributes: {
-        serializedName: "manifests",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ManifestAttributesBase"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ManifestAttributesBase: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManifestAttributesBase",
-    modelProperties: {
-      digest: {
-        serializedName: "digest",
-        type: {
-          name: "String"
-        }
-      },
-      imageSize: {
-        serializedName: "imageSize",
-        type: {
-          name: "Number"
-        }
-      },
-      createdTime: {
-        serializedName: "createdTime",
-        type: {
-          name: "String"
-        }
-      },
-      lastUpdateTime: {
-        serializedName: "lastUpdateTime",
-        type: {
-          name: "String"
-        }
-      },
-      architecture: {
-        serializedName: "architecture",
-        type: {
-          name: "String"
-        }
-      },
-      os: {
-        serializedName: "os",
-        type: {
-          name: "String"
-        }
-      },
-      mediaType: {
-        serializedName: "mediaType",
-        type: {
-          name: "String"
-        }
-      },
-      configMediaType: {
-        serializedName: "configMediaType",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      changeableAttributes: {
-        serializedName: "changeableAttributes",
-        type: {
-          name: "Composite",
-          className: "ChangeableAttributes"
-        }
-      }
-    }
-  }
-};
-
-export const ManifestAttributes: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManifestAttributes",
-    modelProperties: {
-      registry: {
-        serializedName: "registry",
-        type: {
-          name: "String"
-        }
-      },
-      imageName: {
-        serializedName: "imageName",
-        type: {
-          name: "String"
-        }
-      },
-      attributes: {
-        serializedName: "manifest",
-        type: {
-          name: "Composite",
-          className: "ManifestAttributesBase"
-        }
-      }
-    }
-  }
-};
-
-export const Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
-    modelProperties: {
-      grantType: {
-        serializedName: "grant_type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      service: {
-        serializedName: "service",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      tenant: {
-        serializedName: "tenant",
-        type: {
-          name: "String"
-        }
-      },
-      refreshToken: {
-        serializedName: "refresh_token",
-        type: {
-          name: "String"
-        }
-      },
-      accessToken: {
-        serializedName: "access_token",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RefreshToken: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RefreshToken",
-    modelProperties: {
-      refreshToken: {
-        serializedName: "refresh_token",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className:
-      "PathsV3R3RxOauth2TokenPostRequestbodyContentApplicationXWwwFormUrlencodedSchema",
-    modelProperties: {
-      grantType: {
-        defaultValue: "refresh_token",
-        isConstant: true,
-        serializedName: "grant_type",
-        type: {
-          name: "String"
-        }
-      },
-      service: {
-        serializedName: "service",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      scope: {
-        serializedName: "scope",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      refreshToken: {
-        serializedName: "refresh_token",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AccessToken: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AccessToken",
-    modelProperties: {
-      accessToken: {
-        serializedName: "access_token",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RepositoryTags: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RepositoryTags",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const TagAttributesTag: coreHttp.CompositeMapper = {
+export const TagAttributesTag: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TagAttributesTag",
@@ -937,34 +950,7 @@ export const TagAttributesTag: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestAttributesManifestReferences: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManifestAttributesManifestReferences",
-    modelProperties: {
-      digest: {
-        serializedName: "digest",
-        type: {
-          name: "String"
-        }
-      },
-      architecture: {
-        serializedName: "architecture",
-        type: {
-          name: "String"
-        }
-      },
-      os: {
-        serializedName: "os",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManifestAttributesManifest: coreHttp.CompositeMapper = {
+export const ManifestAttributesManifest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManifestAttributesManifest",
@@ -991,7 +977,7 @@ export const ManifestAttributesManifest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestChangeableAttributes: coreHttp.CompositeMapper = {
+export const ManifestChangeableAttributes: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManifestChangeableAttributes",
@@ -1036,7 +1022,96 @@ export const ManifestChangeableAttributes: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestWrapper: coreHttp.CompositeMapper = {
+export const ManifestListAttributes: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManifestListAttributes",
+    modelProperties: {
+      mediaType: {
+        serializedName: "mediaType",
+        type: {
+          name: "String"
+        }
+      },
+      size: {
+        serializedName: "size",
+        type: {
+          name: "Number"
+        }
+      },
+      digest: {
+        serializedName: "digest",
+        type: {
+          name: "String"
+        }
+      },
+      platform: {
+        serializedName: "platform",
+        type: {
+          name: "Composite",
+          className: "Platform"
+        }
+      }
+    }
+  }
+};
+
+export const Platform: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Platform",
+    modelProperties: {
+      architecture: {
+        serializedName: "architecture",
+        type: {
+          name: "String"
+        }
+      },
+      os: {
+        serializedName: "os",
+        type: {
+          name: "String"
+        }
+      },
+      osVersion: {
+        serializedName: "os\\.version",
+        type: {
+          name: "String"
+        }
+      },
+      osFeatures: {
+        serializedName: "os\\.features",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      variant: {
+        serializedName: "variant",
+        type: {
+          name: "String"
+        }
+      },
+      features: {
+        serializedName: "features",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManifestWrapper: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ManifestWrapper",
@@ -1144,7 +1219,7 @@ export const ManifestWrapper: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestList: coreHttp.CompositeMapper = {
+export const ManifestList: coreClient.CompositeMapper = {
   serializedName: "application/vnd.docker.distribution.manifest.list.v2+json",
   type: {
     name: "Composite",
@@ -1173,7 +1248,7 @@ export const ManifestList: coreHttp.CompositeMapper = {
   }
 };
 
-export const V2Manifest: coreHttp.CompositeMapper = {
+export const V2Manifest: coreClient.CompositeMapper = {
   serializedName: "application/vnd.docker.distribution.manifest.v2+json",
   type: {
     name: "Composite",
@@ -1209,7 +1284,7 @@ export const V2Manifest: coreHttp.CompositeMapper = {
   }
 };
 
-export const OCIManifest: coreHttp.CompositeMapper = {
+export const OCIManifest: coreClient.CompositeMapper = {
   serializedName: "application/vnd.oci.image.manifest.v1+json",
   type: {
     name: "Composite",
@@ -1246,7 +1321,7 @@ export const OCIManifest: coreHttp.CompositeMapper = {
   }
 };
 
-export const OCIIndex: coreHttp.CompositeMapper = {
+export const OCIIndex: coreClient.CompositeMapper = {
   serializedName: "application/vnd.oci.image.index.v1+json",
   type: {
     name: "Composite",
@@ -1276,7 +1351,7 @@ export const OCIIndex: coreHttp.CompositeMapper = {
   }
 };
 
-export const V1Manifest: coreHttp.CompositeMapper = {
+export const V1Manifest: coreClient.CompositeMapper = {
   serializedName: "application/vnd.oci.image.manifest.v1+json",
   type: {
     name: "Composite",
@@ -1341,268 +1416,343 @@ export const V1Manifest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ManifestsCreateHeaders: coreHttp.CompositeMapper = {
+export const ContainerRegistryGetRepositoriesHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ManifestsCreateHeaders",
-    modelProperties: {
-      dockerContentDigest: {
-        serializedName: "docker-content-digest",
-        type: {
-          name: "String"
-        }
-      },
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      contentLength: {
-        serializedName: "content-length",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const BlobGetHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobGetHeaders",
-    modelProperties: {
-      contentLength: {
-        serializedName: "content-length",
-        type: {
-          name: "Number"
-        }
-      },
-      dockerContentDigest: {
-        serializedName: "docker-content-digest",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BlobCheckHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobCheckHeaders",
-    modelProperties: {
-      contentLength: {
-        serializedName: "content-length",
-        type: {
-          name: "Number"
-        }
-      },
-      dockerContentDigest: {
-        serializedName: "docker-content-digest",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BlobDeleteHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobDeleteHeaders",
-    modelProperties: {
-      dockerContentDigest: {
-        serializedName: "docker-content-digest",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BlobMountHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobMountHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      dockerUploadUuid: {
-        serializedName: "docker-upload-uuid",
-        type: {
-          name: "String"
-        }
-      },
-      dockerContentDigest: {
-        serializedName: "docker-content-digest",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BlobGetStatusHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobGetStatusHeaders",
-    modelProperties: {
-      range: {
-        serializedName: "range",
-        type: {
-          name: "String"
-        }
-      },
-      dockerUploadUuid: {
-        serializedName: "docker-upload-uuid",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BlobUploadHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobUploadHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      range: {
-        serializedName: "range",
-        type: {
-          name: "String"
-        }
-      },
-      dockerUploadUuid: {
-        serializedName: "docker-upload-uuid",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BlobEndUploadHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobEndUploadHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      range: {
-        serializedName: "range",
-        type: {
-          name: "String"
-        }
-      },
-      dockerContentDigest: {
-        serializedName: "docker-content-digest",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BlobStartUploadHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobStartUploadHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      range: {
-        serializedName: "range",
-        type: {
-          name: "String"
-        }
-      },
-      dockerUploadUuid: {
-        serializedName: "docker-upload-uuid",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BlobGetChunkHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobGetChunkHeaders",
-    modelProperties: {
-      contentLength: {
-        serializedName: "content-length",
-        type: {
-          name: "Number"
-        }
-      },
-      contentRange: {
-        serializedName: "content-range",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BlobCheckChunkHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "BlobCheckChunkHeaders",
-    modelProperties: {
-      contentLength: {
-        serializedName: "content-length",
-        type: {
-          name: "Number"
-        }
-      },
-      contentRange: {
-        serializedName: "content-range",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const RepositoryGetListHeaders: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RepositoryGetListHeaders",
+    className: "ContainerRegistryGetRepositoriesHeaders",
     modelProperties: {
       link: {
         serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryGetRepositoriesNextHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryGetRepositoriesNextHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryCreateManifestHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryCreateManifestHeaders",
+    modelProperties: {
+      dockerContentDigest: {
+        serializedName: "docker-content-digest",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      contentLength: {
+        serializedName: "content-length",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetTagsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetTagsHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetManifestsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetManifestsHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetTagsNextHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetTagsNextHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryRepositoryGetManifestsNextHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryRepositoryGetManifestsNextHeaders",
+    modelProperties: {
+      link: {
+        serializedName: "link",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobGetBlobHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobGetBlobHeaders",
+    modelProperties: {
+      contentLength: {
+        serializedName: "content-length",
+        type: {
+          name: "Number"
+        }
+      },
+      dockerContentDigest: {
+        serializedName: "docker-content-digest",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobCheckBlobExistsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobCheckBlobExistsHeaders",
+    modelProperties: {
+      contentLength: {
+        serializedName: "content-length",
+        type: {
+          name: "Number"
+        }
+      },
+      dockerContentDigest: {
+        serializedName: "docker-content-digest",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobDeleteBlobHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobDeleteBlobHeaders",
+    modelProperties: {
+      dockerContentDigest: {
+        serializedName: "docker-content-digest",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobMountBlobHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobMountBlobHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      dockerUploadUuid: {
+        serializedName: "docker-upload-uuid",
+        type: {
+          name: "String"
+        }
+      },
+      dockerContentDigest: {
+        serializedName: "docker-content-digest",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobGetUploadStatusHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobGetUploadStatusHeaders",
+    modelProperties: {
+      range: {
+        serializedName: "range",
+        type: {
+          name: "String"
+        }
+      },
+      dockerUploadUuid: {
+        serializedName: "docker-upload-uuid",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobUploadChunkHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobUploadChunkHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      range: {
+        serializedName: "range",
+        type: {
+          name: "String"
+        }
+      },
+      dockerUploadUuid: {
+        serializedName: "docker-upload-uuid",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobCompleteUploadHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobCompleteUploadHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      range: {
+        serializedName: "range",
+        type: {
+          name: "String"
+        }
+      },
+      dockerContentDigest: {
+        serializedName: "docker-content-digest",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobStartUploadHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobStartUploadHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      range: {
+        serializedName: "range",
+        type: {
+          name: "String"
+        }
+      },
+      dockerUploadUuid: {
+        serializedName: "docker-upload-uuid",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobGetChunkHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobGetChunkHeaders",
+    modelProperties: {
+      contentLength: {
+        serializedName: "content-length",
+        type: {
+          name: "Number"
+        }
+      },
+      contentRange: {
+        serializedName: "content-range",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContainerRegistryBlobCheckChunkExistsHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ContainerRegistryBlobCheckChunkExistsHeaders",
+    modelProperties: {
+      contentLength: {
+        serializedName: "content-length",
+        type: {
+          name: "Number"
+        }
+      },
+      contentRange: {
+        serializedName: "content-range",
         type: {
           name: "String"
         }

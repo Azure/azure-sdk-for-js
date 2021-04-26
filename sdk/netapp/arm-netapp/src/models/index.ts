@@ -274,6 +274,11 @@ export interface ActiveDirectory {
    * Specifies whether or not the LDAP traffic needs to be secured via TLS.
    */
   ldapOverTLS?: boolean;
+  /**
+   * If enabled, NFS client local users can also (in addition to LDAP users) access the NFS
+   * volumes.
+   */
+  allowLocalNfsUsersWithLdap?: boolean;
 }
 
 /**
@@ -281,10 +286,9 @@ export interface ActiveDirectory {
  */
 export interface AccountEncryption {
   /**
-   * Encryption Key Source. Possible values are: 'Microsoft.NetApp'. Possible values include:
-   * 'Microsoft.NetApp'
+   * Encryption Key Source. Possible values are: 'Microsoft.NetApp'.
    */
-  keySource?: KeySource;
+  keySource?: string;
 }
 
 /**
@@ -823,6 +827,30 @@ export interface Volume extends BaseResource {
    * Encryption Key Source. Possible values are: 'Microsoft.NetApp'
    */
   encryptionKeySource?: string;
+  /**
+   * Specifies whether LDAP is enabled or not for a given NFS volume. Default value: false.
+   */
+  ldapEnabled?: boolean;
+}
+
+/**
+ * An interface representing ResourceIdentity.
+ */
+export interface ResourceIdentity {
+  /**
+   * Object id of the identity resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id of the resource
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
+  /**
+   * Type of Identity. Supported values are: 'None', 'SystemAssigned'
+   */
+  type?: string;
 }
 
 /**
@@ -1134,11 +1162,6 @@ export interface SnapshotPolicy extends BaseResource {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * Snapshot policy name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name1?: string;
-  /**
    * hourlySchedule. Schedule for hourly snapshots
    */
   hourlySchedule?: HourlySchedule;
@@ -1193,11 +1216,6 @@ export interface SnapshotPolicyDetails {
    */
   tags?: { [propertyName: string]: string };
   /**
-   * Snapshot policy name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name1?: string;
-  /**
    * hourlySchedule. Schedule for hourly snapshots
    */
   hourlySchedule?: HourlySchedule;
@@ -1251,11 +1269,6 @@ export interface SnapshotPolicyPatch {
    * Resource tags
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * Snapshot policy name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name1?: string;
   /**
    * hourlySchedule. Schedule for hourly snapshots
    */
@@ -1391,6 +1404,11 @@ export interface Backup extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly failureReason?: string;
+  /**
+   * Volume name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly volumeName?: string;
 }
 
 /**
@@ -1435,6 +1453,11 @@ export interface BackupPatch extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly failureReason?: string;
+  /**
+   * Volume name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly volumeName?: string;
 }
 
 /**
@@ -1686,6 +1709,37 @@ export interface Vault extends BaseResource {
 }
 
 /**
+ * Backup status
+ */
+export interface BackupStatus {
+  /**
+   * Backup health status
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly healthy?: boolean;
+  /**
+   * Status of the backup mirror relationship. Possible values include: 'Idle', 'Transferring'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly relationshipStatus?: RelationshipStatus;
+  /**
+   * The status of the backup. Possible values include: 'Uninitialized', 'Mirrored', 'Broken'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly mirrorState?: MirrorState;
+  /**
+   * Reason for the unhealthy backup relationship
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly unhealthyReason?: string;
+  /**
+   * Displays error message if the backup is in an error state
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly errorMessage?: string;
+}
+
+/**
  * Optional Parameters.
  */
 export interface VolumesRevertOptionalParams extends msRest.RequestOptionsBase {
@@ -1924,14 +1978,6 @@ export type CheckQuotaNameResourceTypes = 'Microsoft.NetApp/netAppAccounts' | 'M
  * @enum {string}
  */
 export type ActiveDirectoryStatus = 'Created' | 'InUse' | 'Deleted' | 'Error' | 'Updating';
-
-/**
- * Defines values for KeySource.
- * Possible values include: 'Microsoft.NetApp'
- * @readonly
- * @enum {string}
- */
-export type KeySource = 'Microsoft.NetApp';
 
 /**
  * Defines values for CreatedByType.
@@ -2754,6 +2800,26 @@ export type SnapshotPoliciesBeginUpdateResponse = SnapshotPolicy & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SnapshotPolicy;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type VolumeBackupStatusGetResponse = BackupStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: BackupStatus;
     };
 };
 

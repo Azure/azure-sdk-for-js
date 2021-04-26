@@ -25,7 +25,7 @@ export async function main(): Promise<void> {
 
   const globalScope = "/";
 
-  const roleDefintionName = uuidv4();
+  const roleDefinitionName = uuidv4();
   const permissions: KeyVaultPermission[] = [
     {
       dataActions: [
@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
   ];
   let roleDefinition = await client.upsertRoleDefinition(
     globalScope,
-    roleDefintionName,
+    roleDefinitionName,
     permissions,
     "Allow backup actions"
   );

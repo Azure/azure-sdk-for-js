@@ -7,7 +7,7 @@ import { Shard } from "./Shard";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from "./Chunk";
 import { AbortSignalLike } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./utils/tracing";
 
 /**
@@ -88,7 +88,7 @@ export class ShardFactory {
       return new Shard(containerClient, this.chunkFactory, chunks, currentChunk, shardPath);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

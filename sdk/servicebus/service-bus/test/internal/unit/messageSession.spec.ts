@@ -60,7 +60,8 @@ describe("Message session unit tests", () => {
             "dummyEntityPath",
             undefined,
             {
-              receiveMode: lockMode
+              receiveMode: lockMode,
+              retryOptions: undefined
             }
           );
 
@@ -89,7 +90,8 @@ describe("Message session unit tests", () => {
             "dummyEntityPath",
             undefined,
             {
-              receiveMode: lockMode
+              receiveMode: lockMode,
+              retryOptions: undefined
             }
           );
 
@@ -118,7 +120,8 @@ describe("Message session unit tests", () => {
               "dummyEntityPath",
               undefined,
               {
-                receiveMode: lockMode
+                receiveMode: lockMode,
+                retryOptions: undefined
               }
             );
 
@@ -163,7 +166,8 @@ describe("Message session unit tests", () => {
             "dummyEntityPath",
             undefined,
             {
-              receiveMode: lockMode
+              receiveMode: lockMode,
+              retryOptions: undefined
             }
           );
 
@@ -214,7 +218,8 @@ describe("Message session unit tests", () => {
               "dummyEntityPath",
               undefined,
               {
-                receiveMode: lockMode
+                receiveMode: lockMode,
+                retryOptions: undefined
               }
             );
 
@@ -360,7 +365,8 @@ describe("Message session unit tests", () => {
         "entity path",
         "session id",
         {
-          receiveMode: "receiveAndDelete"
+          receiveMode: "receiveAndDelete",
+          retryOptions: undefined
         }
       );
 

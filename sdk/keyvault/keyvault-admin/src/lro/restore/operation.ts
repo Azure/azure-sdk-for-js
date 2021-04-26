@@ -9,13 +9,13 @@ import {
   KeyVaultClientRestoreStatusResponse,
   RestoreOperation
 } from "../../generated/models";
-import { createSpan } from "../../tracing";
 import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState
 } from "../keyVaultAdminPoller";
 import { RestoreResult } from "../../backupClientModels";
+import { withTrace } from "./poller";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
@@ -62,15 +62,12 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
   /**
    * Tracing the fullRestore operation
    */
-  private async fullRestore(
+  private fullRestore(
     options: KeyVaultClientFullRestoreOperationOptionalParams
   ): Promise<KeyVaultClientFullRestoreOperationResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.fullRestore", options);
-    try {
-      return await this.client.fullRestoreOperation(this.vaultUrl, updatedOptions);
-    } finally {
-      span.end();
-    }
+    return withTrace("fullRestore", options, (updatedOptions) =>
+      this.client.fullRestoreOperation(this.vaultUrl, updatedOptions)
+    );
   }
 
   /**
@@ -80,12 +77,9 @@ export class RestorePollOperation extends KeyVaultAdminPollOperation<
     jobId: string,
     options: OperationOptions
   ): Promise<KeyVaultClientRestoreStatusResponse> {
-    const { span, updatedOptions } = createSpan("generatedClient.restoreStatus", options);
-    try {
-      return await this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions);
-    } finally {
-      span.end();
-    }
+    return withTrace("restoreStatus", options, (updatedOptions) =>
+      this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
+    );
   }
 
   /**

@@ -19,7 +19,7 @@ import * as Mappers from "./models/mappers";
 import { SearchServiceClientContext } from "./searchServiceClientContext";
 import {
   SearchServiceClientOptionalParams,
-  ApiVersion20200630,
+  ApiVersion20200630Preview,
   SearchServiceClientGetServiceStatisticsOptionalParams,
   SearchServiceClientGetServiceStatisticsResponse
 } from "./models";
@@ -34,7 +34,7 @@ export class SearchServiceClient extends SearchServiceClientContext {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20200630,
+    apiVersion: ApiVersion20200630Preview,
     options?: SearchServiceClientOptionalParams
   ) {
     super(endpoint, apiVersion, options);

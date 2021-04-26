@@ -33,6 +33,10 @@
       "path": "sdk/communication/communication-sms"
     },
     {
+      "name": "container-registry",
+      "path": "sdk/containerregistry/container-registry"
+    },
+    {
       "name": "core-amqp",
       "path": "sdk/core/core-amqp"
     },
@@ -47,6 +51,14 @@
     {
       "name": "core-client",
       "path": "sdk/core/core-client"
+    },
+    {
+      "name": "rest-core-client",
+      "path": "sdk/core-rest/core-client"
+    },
+    {
+      "name": "ai-document-translator",
+      "path": "sdk/documenttranslator/ai-document-translator-rest"
     },
     {
       "name": "core-crypto",
@@ -103,10 +115,6 @@
     {
       "name": "form-recognizer",
       "path": "sdk/formrecognizer/ai-form-recognizer"
-    },
-    {
-      "name": "testhub",
-      "path": "sdk/eventhub/testhub"
     },
     {
       "name": "identity",
@@ -265,6 +273,7 @@
       "**/*.map": true,
       "**/dist-*/*": true,
       "**/test-dist/*": true,
+      "**/dist-test/*": true,
       "**/node_modules": true,
       "**/bower_components": true,
       "**/*.code-search": true,

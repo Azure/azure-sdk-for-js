@@ -8,6 +8,25 @@
 
 import * as coreHttp from "@azure/core-http";
 import {
+  LinkedServiceImpl,
+  DatasetImpl,
+  PipelineImpl,
+  PipelineRunImpl,
+  TriggerImpl,
+  TriggerRunImpl,
+  DataFlowImpl,
+  DataFlowDebugSessionImpl,
+  SqlScriptImpl,
+  SparkJobDefinitionImpl,
+  NotebookImpl,
+  WorkspaceImpl,
+  SqlPoolsImpl,
+  BigDataPoolsImpl,
+  IntegrationRuntimesImpl,
+  LibraryImpl,
+  WorkspaceGitRepoManagementImpl
+} from "./operations";
+import {
   LinkedService,
   Dataset,
   Pipeline,
@@ -25,7 +44,7 @@ import {
   IntegrationRuntimes,
   Library,
   WorkspaceGitRepoManagement
-} from "./operations";
+} from "./operationsInterfaces";
 import { ArtifactsClientContext } from "./artifactsClientContext";
 import { ArtifactsClientOptionalParams } from "./models";
 
@@ -43,23 +62,23 @@ export class ArtifactsClient extends ArtifactsClientContext {
     options?: ArtifactsClientOptionalParams
   ) {
     super(credentials, endpoint, options);
-    this.linkedService = new LinkedService(this);
-    this.dataset = new Dataset(this);
-    this.pipeline = new Pipeline(this);
-    this.pipelineRun = new PipelineRun(this);
-    this.trigger = new Trigger(this);
-    this.triggerRun = new TriggerRun(this);
-    this.dataFlow = new DataFlow(this);
-    this.dataFlowDebugSession = new DataFlowDebugSession(this);
-    this.sqlScript = new SqlScript(this);
-    this.sparkJobDefinition = new SparkJobDefinition(this);
-    this.notebook = new Notebook(this);
-    this.workspace = new Workspace(this);
-    this.sqlPools = new SqlPools(this);
-    this.bigDataPools = new BigDataPools(this);
-    this.integrationRuntimes = new IntegrationRuntimes(this);
-    this.library = new Library(this);
-    this.workspaceGitRepoManagement = new WorkspaceGitRepoManagement(this);
+    this.linkedService = new LinkedServiceImpl(this);
+    this.dataset = new DatasetImpl(this);
+    this.pipeline = new PipelineImpl(this);
+    this.pipelineRun = new PipelineRunImpl(this);
+    this.trigger = new TriggerImpl(this);
+    this.triggerRun = new TriggerRunImpl(this);
+    this.dataFlow = new DataFlowImpl(this);
+    this.dataFlowDebugSession = new DataFlowDebugSessionImpl(this);
+    this.sqlScript = new SqlScriptImpl(this);
+    this.sparkJobDefinition = new SparkJobDefinitionImpl(this);
+    this.notebook = new NotebookImpl(this);
+    this.workspace = new WorkspaceImpl(this);
+    this.sqlPools = new SqlPoolsImpl(this);
+    this.bigDataPools = new BigDataPoolsImpl(this);
+    this.integrationRuntimes = new IntegrationRuntimesImpl(this);
+    this.library = new LibraryImpl(this);
+    this.workspaceGitRepoManagement = new WorkspaceGitRepoManagementImpl(this);
   }
 
   linkedService: LinkedService;

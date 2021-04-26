@@ -25,7 +25,7 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode, HttpResponse } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
 import { ShareProtocols, toShareProtocols } from "./models";
 import { AccountSASPermissions } from "./AccountSASPermissions";
@@ -345,7 +345,7 @@ export class ShareServiceClient extends StorageClient {
       };
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -371,7 +371,7 @@ export class ShareServiceClient extends StorageClient {
       return await shareClient.delete(updatedOptions);
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -399,7 +399,7 @@ export class ShareServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -429,7 +429,7 @@ export class ShareServiceClient extends StorageClient {
       });
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -651,7 +651,7 @@ export class ShareServiceClient extends StorageClient {
       return res;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -681,13 +681,13 @@ export class ShareServiceClient extends StorageClient {
       await new ShareClientInternal(shareClient.url, this.pipeline).restore({
         deletedShareName: deletedShareName,
         deletedShareVersion: deletedShareVersion,
-        aborterSignal: options.abortSignal,
+        abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions)
       });
       return shareClient;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;

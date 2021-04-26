@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { SendMessageRequest } from "../generated/src/models";
 import { SmsSendOptions, SmsSendRequest } from "../smsClient";
 import { Uuid } from "./uuid";
@@ -7,7 +10,7 @@ export function generateSendMessageRequest(
   smsRequest: SmsSendRequest,
   options: SmsSendOptions = {}
 ): SendMessageRequest {
-  let _smsSendOptions: InternalOptions = {
+  const _smsSendOptions: InternalOptions = {
     enableDeliveryReport: options.enableDeliveryReport ?? false
   };
   if (options.tag) {

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-http";
 import {
   DeleteCertificateOptions,
   DeletedCertificate,
@@ -14,11 +14,7 @@ import {
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";
-import {
-  KeyVaultClientDeleteCertificateResponse,
-  KeyVaultClientGetDeletedCertificateResponse
-} from "../../generated/models";
-import { createSpan } from "../../tracing";
+import { withTrace } from "./poller";
 
 /**
  * The public representation of the DeleteCertificatePoller operation state.
@@ -42,7 +38,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     public state: DeleteCertificatePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: RequestOptionsBase = {}
+    private operationOptions: OperationOptions = {}
   ) {
     super(state, { cancelMessage: "Canceling the deletion of a certificate is not supported." });
   }
@@ -51,24 +47,18 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
    * The DELETE operation applies to any certificate stored in Azure Key Vault. DELETE cannot be applied
    * to an individual version of a certificate. This operation requires the certificates/delete permission.
    */
-  private async deleteCertificate(
+  private deleteCertificate(
     certificateName: string,
     options: DeleteCertificateOptions = {}
   ): Promise<DeletedCertificate> {
-    const { span, updatedOptions } = createSpan("generatedClient.deleteCertificate", options);
-
-    let response: KeyVaultClientDeleteCertificateResponse;
-    try {
-      response = await this.client.deleteCertificate(
+    return withTrace("deleteCertificate", options, async (updatedOptions) => {
+      const response = await this.client.deleteCertificate(
         this.vaultUrl,
         certificateName,
         updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getDeletedCertificateFromDeletedCertificateBundle(response);
+      return getDeletedCertificateFromDeletedCertificateBundle(response);
+    });
   }
 
   /**
@@ -79,20 +69,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     certificateName: string,
     options: GetDeletedCertificateOptions = {}
   ): Promise<DeletedCertificate> {
-    const { span, updatedOptions } = createSpan("generatedClient.getDeletedCertificate", options);
-
-    let result: KeyVaultClientGetDeletedCertificateResponse;
-    try {
-      result = await this.client.getDeletedCertificate(
+    return withTrace("getDeletedCertificate", options, async (updatedOptions) => {
+      const result = await this.client.getDeletedCertificate(
         this.vaultUrl,
         certificateName,
         updatedOptions
       );
-    } finally {
-      span.end();
-    }
-
-    return getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
+      return getDeletedCertificateFromDeletedCertificateBundle(result._response.parsedBody);
+    });
   }
 
   /**
@@ -109,11 +93,14 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
     const { certificateName } = state;
 
     if (options.abortSignal) {
-      this.requestOptions.abortSignal = options.abortSignal;
+      this.operationOptions.abortSignal = options.abortSignal;
     }
 
     if (!state.isStarted) {
-      const deletedCertificate = await this.deleteCertificate(certificateName, this.requestOptions);
+      const deletedCertificate = await this.deleteCertificate(
+        certificateName,
+        this.operationOptions
+      );
       state.isStarted = true;
       state.result = deletedCertificate;
       if (!deletedCertificate.recoveryId) {
@@ -123,7 +110,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
 
     if (!state.isCompleted) {
       try {
-        state.result = await this.getDeletedCertificate(certificateName, this.requestOptions);
+        state.result = await this.getDeletedCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
       } catch (error) {
         if (error.statusCode === 403) {

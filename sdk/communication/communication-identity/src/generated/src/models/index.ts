@@ -84,9 +84,9 @@ export interface CommunicationError {
    */
   readonly details?: CommunicationError[];
   /**
-   * The Communication Services error.
+   * The inner error if any.
    */
-  innerError?: CommunicationError;
+  readonly innerError?: CommunicationError;
 }
 
 export interface CommunicationIdentityAccessTokenRequest {
@@ -104,7 +104,8 @@ export type CommunicationIdentityTokenScope = "chat" | "voip";
 /**
  * Optional parameters.
  */
-export interface CommunicationIdentityCreateOptionalParams extends coreHttp.OperationOptions {
+export interface CommunicationIdentityCreateOptionalParams
+  extends coreHttp.OperationOptions {
   body?: CommunicationIdentityCreateRequest;
 }
 
@@ -151,7 +152,8 @@ export type CommunicationIdentityIssueAccessTokenResponse = CommunicationIdentit
 /**
  * Optional parameters.
  */
-export interface IdentityRestClientOptionalParams extends coreHttp.ServiceClientOptions {
+export interface IdentityRestClientOptionalParams
+  extends coreHttp.ServiceClientOptions {
   /**
    * Api Version
    */

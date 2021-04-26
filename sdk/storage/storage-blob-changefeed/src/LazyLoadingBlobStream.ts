@@ -5,7 +5,7 @@ import { Readable, ReadableOptions } from "stream";
 import { BlobClient, CommonOptions } from "@azure/storage-blob";
 import { AbortSignalLike } from "@azure/core-http";
 import { createSpan } from "./utils/tracing";
-import { CanonicalCode } from "@opentelemetry/api";
+import { SpanStatusCode } from "@azure/core-tracing";
 
 /**
  * Options to configure the LazyLoadingBlobStream.
@@ -96,7 +96,7 @@ export class LazyLoadingBlobStream extends Readable {
       this.offset += this.lastDownloadBytes;
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       throw e;
@@ -144,7 +144,7 @@ export class LazyLoadingBlobStream extends Readable {
       }
     } catch (e) {
       span.setStatus({
-        code: CanonicalCode.UNKNOWN,
+        code: SpanStatusCode.ERROR,
         message: e.message
       });
       this.emit("error", e);
