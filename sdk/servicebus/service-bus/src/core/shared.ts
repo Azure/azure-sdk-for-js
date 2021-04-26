@@ -192,6 +192,7 @@ export class StreamingReceiverCreditManager {
       while (receiver?.isOpen() && numberOfEmptyIncomingSlots(receiver) <= 1) {
         // TODO: check for canReceiveMessages too to exit from the loop
         await delay(1000); // TODO: Not have hard-coded 1000ms as delay - move it to constants maybe
+                // TODO: Add jitter
       }
       // TODO: Instead of adding one credit, make it maxConcurrentCalls
       // Example:
