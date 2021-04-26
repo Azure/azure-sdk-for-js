@@ -98,26 +98,6 @@ describe("Certificates client - create, read, update and delete", () => {
     });
   });
 
-  it("supports tracing", async function(this: Context) {
-    const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    const tracer = new TestTracer();
-    setTracer(tracer);
-    const poller = await client.beginCreateCertificate(
-      certificateName,
-      basicCertificatePolicy,
-      testPollerProperties
-    );
-    await poller.pollUntilDone();
-
-    const span = tracer
-      .getKnownSpans()
-      .find((s) => s.name.includes("CreateCertificatePoller.getCertificate"));
-
-    assert.exists(span);
-    assert.isTrue(span!.endCalled);
-    await testClient.flushCertificate(certificateName);
-  });
-
   it("cannot create a certificate with an empty name", async function() {
     const certificateName = "";
     let error;
