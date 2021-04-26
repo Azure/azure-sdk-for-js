@@ -40,5 +40,5 @@ export async function supportsTracing(
   assert.sameMembers(Array.from(new Set(directChildren)), children);
 
   // Ensure all spans are properly closed
-  assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+  assert.equal(tracer.getActiveSpans().length, 0, "All spans should have had end called");
 }
