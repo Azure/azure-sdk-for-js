@@ -89,7 +89,7 @@ class AssetConversionOperation
   }
 
   toString(): string {
-    throw new Error("Not yet implemented.");
+    return this.state.latestResponse.conversionId;
   }
 }
 

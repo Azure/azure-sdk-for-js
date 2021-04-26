@@ -125,11 +125,11 @@ export {
 
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 
-export type BeginConversionOptions = AssetConversionSettings &
+export type BeginConversionOptions = 
   AssetConversionPollerOptions &
   OperationOptions;
 
-export type GetConversionPollerOptions = AssetConversionPollerOptions & OperationOptions;
+export type ResumeBeginConversionOptions = BeginConversionOptions & { resumeFrom: string }
 
 export type BeginSessionOptions = RenderingSessionSettings &
   RenderingSessionPollerOptions &
@@ -281,10 +281,45 @@ export class RemoteRenderingClient {
    * @param assetConversionSettings Settings configuring the asset conversion.
    * @param options The options parameters.
    */
-  public async beginConversion(
+   public async beginConversion(
     conversionId: string,
-    options: BeginConversionOptions
+    assetConversionSettings: AssetConversionSettings,
+    options?: BeginConversionOptions
+  ): Promise<AssetConversionPollerLike>;
+  
+  /**
+   * Obtains a poller corresponding to a conversion that was already started.
+   * @param options The options parameters, carrying a resumeFrom value.
+   */
+   public async beginConversion(
+     options: ResumeBeginConversionOptions
+  ): Promise<AssetConversionPollerLike>;
+
+  public async beginConversion(
+    conversionIdOrResumeOptions: string | ResumeBeginConversionOptions,
+    assetConversionSettings?: AssetConversionSettings,
+    options?: BeginConversionOptions
   ): Promise<AssetConversionPollerLike> {
+    let conversionId: string;
+    let settings: AssetConversionSettings;
+    let operationOptions: BeginConversionOptions;
+    if (typeof conversionIdOrResumeOptions === "string") {
+      conversionId = conversionIdOrResumeOptions;
+      settings = assetConversionSettings!;
+      operationOptions = options ?? {};
+    }
+    else {
+      let assetConversion: AssetConversion = await getConversionInternal(
+        this.accountId,
+        this.operations,
+        conversionIdOrResumeOptions.resumeFrom,
+        "RemoteRenderingClient-GetConversionPoller",
+        options
+      );
+  
+      return new AssetConversionPoller(this.accountId, this.operations, assetConversion, conversionIdOrResumeOptions);
+    }
+
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginConversion", {
       conversionId: conversionId,
       ...options
@@ -294,7 +329,7 @@ export class RemoteRenderingClient {
       let conversion: RemoteRenderingCreateConversionResponse = await this.operations.createConversion(
         this.accountId,
         conversionId,
-        { settings: options },
+        { settings: settings },
         updatedOptions
       );
 
@@ -302,7 +337,7 @@ export class RemoteRenderingClient {
         this.accountId,
         this.operations,
         assetConversionFromConversion(conversion),
-        options
+        operationOptions
       );
 
       // TODO Do I want this?
@@ -339,26 +374,6 @@ export class RemoteRenderingClient {
       "RemoteRenderingClient-GetConversion",
       options
     );
-  }
-
-  /**
-   * Returns a poller for a pre-existing conversion by conversionId
-   * @param conversionId The ID of a previously created conversion.
-   * @param options The options parameters.
-   */
-  public async getConversionPoller(
-    conversionId: string,
-    options: GetConversionPollerOptions = {}
-  ): Promise<AssetConversionPollerLike> {
-    let assetConversion: AssetConversion = await getConversionInternal(
-      this.accountId,
-      this.operations,
-      conversionId,
-      "RemoteRenderingClient-GetConversionPoller",
-      options
-    );
-
-    return new AssetConversionPoller(this.accountId, this.operations, assetConversion, options);
   }
 
   private async *getAllConversionsPagingPage(
