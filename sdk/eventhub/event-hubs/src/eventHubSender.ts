@@ -20,8 +20,7 @@ import {
   RetryOptions,
   defaultCancellableLock,
   retry,
-  translate,
-  MessagingError
+  translate
 } from "@azure/core-amqp";
 import { EventData, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
@@ -511,9 +510,7 @@ export class EventHubSender extends LinkEntity {
     }
   ): Promise<AwaitableSender> {
     try {
-      if (!this.isOpen() && !this.isConnecting) {
-        this.isConnecting = true;
-
+      if (!this.isOpen() || !this._sender) {
         // Wait for the connectionContext to be ready to open the link.
         await this._context.readyToOpenLink();
         await this._negotiateClaim({
@@ -529,7 +526,6 @@ export class EventHubSender extends LinkEntity {
         );
 
         const sender = await this._context.connection.createAwaitableSender(options);
-        this.isConnecting = false;
         logger.verbose(
           "[%s] Sender '%s' created with sender options: %O",
           this._context.connectionId,
@@ -543,22 +539,17 @@ export class EventHubSender extends LinkEntity {
         if (!this._context.senders[this.name]) this._context.senders[this.name] = this;
         this._ensureTokenRenewal();
         return sender;
-      } else if (this._sender) {
+      } else {
         logger.verbose(
-          "[%s] The sender '%s' with address '%s' is open -> %s and is connecting " +
-            "-> %s. Hence not reconnecting.",
+          "[%s] The sender '%s' with address '%s' is open -> %s. Hence not reconnecting.",
           this._context.connectionId,
           this.name,
           this.address,
-          this.isOpen(),
-          this.isConnecting
+          this.isOpen()
         );
         return this._sender;
-      } else {
-        throw new MessagingError("The sender link could not be opened.");
       }
     } catch (err) {
-      this.isConnecting = false;
       const translatedError = translate(err);
       logger.warning(
         "[%s] An error occurred while creating the sender %s: %s",
