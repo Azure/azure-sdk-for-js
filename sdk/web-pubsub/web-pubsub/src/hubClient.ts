@@ -111,9 +111,20 @@ export interface GetAuthenticationTokenOptions {
    */
   userId?: string;
   /**
-   * The custom claims for the client, e.g. role
+   * The roles the client have.
+   * Roles give the client initial permissions to leave, join, or publish to groups when using PubSub subprotocol
+   * * `webpubsub.joinLeaveGroup`: the client can join or leave any group
+   * * `webpubsub.sendToGroup`: the client can send messages to any group
+   * * `webpubsub.joinLeaveGroup.<group>`: the client can join or leave group `<group>`
+   * * `webpubsub.sendToGroup.<group>`: the client can send messages to group `<group>`
+   *
+   * {@link https://azure.github.io/azure-webpubsub/references/pubsub-websocket-subprotocol#permissions}
    */
-  claims?: { [key: string]: string[] };
+  roles?: string[];
+  /**
+   * The time-to-live minutes for the access token. If not set, the default value is 60 minutes.
+   */
+  ttl?: number;
 }
 
 /**
@@ -281,10 +292,10 @@ export class WebPubSubServiceClient {
     const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
     const clientUrl = `${clientEndpoint}client/hubs/${hub}`;
     const audience = `${endpoint}client/hubs/${hub}`;
-    const payload = options?.claims ?? {};
+    const payload = { role: options?.roles };
     const signOptions: jwt.SignOptions = {
       audience: audience,
-      expiresIn: "1h",
+      expiresIn: options?.ttl === undefined ? "1h" : `${options.ttl}m`,
       algorithm: "HS256"
     };
     if (options?.userId) {
