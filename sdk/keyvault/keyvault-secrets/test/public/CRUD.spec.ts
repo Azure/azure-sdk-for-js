@@ -3,6 +3,7 @@
 
 import { Context } from "mocha";
 import { assert } from "chai";
+import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { env, Recorder } from "@azure/test-utils-recorder";
 import { AbortController } from "@azure/abort-controller";
 
@@ -11,7 +12,6 @@ import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
-import { setTracer, TestTracer } from "@azure/core-tracing";
 
 describe("Secret client - create, read, update and delete operations", () => {
   const secretValue = "SECRET_VALUE";
@@ -43,19 +43,6 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(result.name, secretName, "Unexpected secret name in result from setSecret().");
     assert.equal(result.value, secretValue, "Unexpected secret value in result from setSecret().");
     await testClient.flushSecret(secretName);
-  });
-
-  it("supports tracing", async function(this: Context) {
-    const tracer = new TestTracer();
-    setTracer(tracer);
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
-    );
-    await client.setSecret(secretName, secretValue);
-
-    const span = tracer.getKnownSpans().find((s) => s.name.includes("SecretClient.setSecret"));
-    assert.exists(span);
-    assert.isTrue(span!.endCalled);
   });
 
   // If this test is not skipped in the browser's playback, no other test will be played back.
@@ -388,5 +375,15 @@ describe("Secret client - create, read, update and delete operations", () => {
     }
     assert.equal(error.code, "SecretNotFound");
     assert.equal(error.statusCode, 404);
+  });
+
+  it("supports tracing", async function(this: Context) {
+    const secretName = testClient.formatName(
+      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`
+    );
+    await supportsTracing(
+      (tracingOptions) => client.setSecret(secretName, "value", { tracingOptions }),
+      ["Azure.KeyVault.Secrets.SecretClient.setSecret"]
+    );
   });
 });

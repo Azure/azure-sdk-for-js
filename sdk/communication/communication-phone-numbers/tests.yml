@@ -6,7 +6,6 @@ stages:
       PackageName: "@azure/communication-phone-numbers"
       ServiceDirectory: communication
       EnvVars:
-        AZURE_SUBSCRIPTION_ID: $(acs-subscription-id)
         AZURE_COMMUNICATION_LIVETEST_CONNECTION_STRING: $(communication-livetest-connection-string)
         AZURE_PHONE_NUMBER: $(communication-livetest-phone-number)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

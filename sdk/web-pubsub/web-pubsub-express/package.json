@@ -30,7 +30,8 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo \"Browser is not supported.\" && exit 0",
     "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "docs": "typedoc --excludePrivate --excludeNotExported --excludeExternals --stripInternal --mode file --out ./dist/docs ./src"
   },
   "files": [
     "dist/",
@@ -122,9 +123,7 @@
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub CloudEvents Handlers for Express",
     "productSlugs": [
-      "azure",
-      "azure-web-pubsub",
-      "express"
+      "azure"
     ]
   }
 }

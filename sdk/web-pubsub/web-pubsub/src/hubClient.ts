@@ -56,32 +56,32 @@ export type JSONTypes = string | number | boolean | object;
 /**
  * Options for constructing a HubAdmin client.
  */
-export interface HubAdminClientOptions extends PipelineOptions { }
+export interface HubAdminClientOptions extends PipelineOptions {}
 
 /**
  * Options for checking if a connection exists.
  */
-export interface HasConnectionOptions extends OperationOptions { }
+export interface HasConnectionOptions extends OperationOptions {}
 
 /**
  * Options for checking if a group exists.
  */
-export interface HubHasGroupOptions extends OperationOptions { }
+export interface HubHasGroupOptions extends OperationOptions {}
 
 /**
  * Options for checking if a user exists.
  */
-export interface HubHasUserOptions extends OperationOptions { }
+export interface HubHasUserOptions extends OperationOptions {}
 
 /**
  * Options for removing a user from all groups.
  */
-export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions { }
+export interface HubRemoveUserFromAllGroupsOptions extends CloseConnectionOptions {}
 
 /**
  * Options for sending a message to a specific connection.
  */
-export interface HubSendToConnectionOptions extends OperationOptions { }
+export interface HubSendToConnectionOptions extends OperationOptions {}
 
 /**
  * Options for sending a text message to a connection.
@@ -93,7 +93,7 @@ export interface HubSendTextToConnectionOptions extends HubSendToConnectionOptio
 /**
  * Options for sending a message to a user.
  */
-export interface HubSendToUserOptions extends OperationOptions { }
+export interface HubSendToUserOptions extends OperationOptions {}
 
 /**
  * Options for sending a text message to a user.
@@ -111,9 +111,20 @@ export interface GetAuthenticationTokenOptions {
    */
   userId?: string;
   /**
-   * The custom claims for the client, e.g. role
+   * The roles the client have.
+   * Roles give the client initial permissions to leave, join, or publish to groups when using PubSub subprotocol
+   * * `webpubsub.joinLeaveGroup`: the client can join or leave any group
+   * * `webpubsub.sendToGroup`: the client can send messages to any group
+   * * `webpubsub.joinLeaveGroup.<group>`: the client can join or leave group `<group>`
+   * * `webpubsub.sendToGroup.<group>`: the client can send messages to group `<group>`
+   *
+   * {@link https://azure.github.io/azure-webpubsub/references/pubsub-websocket-subprotocol#permissions}
    */
-  claims?: { [key: string]: string[] };
+  roles?: string[];
+  /**
+   * The time-to-live minutes for the access token. If not set, the default value is 60 minutes.
+   */
+  ttl?: number;
 }
 
 /**
@@ -194,13 +205,13 @@ export class WebPubSubServiceClient {
   public endpoint!: string;
 
   /**
-   * Creates an instance of a HubClient for sending messages and managing groups, connections, and users.
+   * Creates an instance of a WebPubSubServiceClient for sending messages and managing groups, connections, and users.
    *
    * Example usage:
    * ```ts
-   * import { HubClient } from "@azure/web-pubsub-management";
+   * import { WebPubSubServiceClient } from "@azure/web-pubsub";
    * const connectionString = process.env['WEB_PUBSUB_CONNECTION_STRING'];
-   * const client = new HubClient(connectionString, 'chat');
+   * const client = new WebPubSubServiceClient(connectionString, 'chat');
    * ```
    *
    * @param connectionString The connection string
@@ -210,14 +221,14 @@ export class WebPubSubServiceClient {
   constructor(connectionString: string, hubName: string, options?: HubAdminClientOptions);
 
   /**
-   * Creates an instance of a HubClient for sending messages and managing groups, connections, and users.
+   * Creates an instance of a WebPubSubServiceClient for sending messages and managing groups, connections, and users.
    *
    * Example usage:
    * ```ts
-   * import { HubClient, AzureKeyCredential } from "@azure/web-pubsub-management";
+   * import { WebPubSubServiceClient, AzureKeyCredential } from "@azure/web-pubsub";
    * const cred = new AzureKeyCredential("<your web pubsub api key>");
    * const endpoint = "https://xxxx.webpubsubdev.azure.com"
-   * const client = new HubClient(endpoint, cred, 'chat');
+   * const client = new WebPubSubServiceClient(endpoint, cred, 'chat');
    * ```
    *
    * @param endpoint The endpoint to connect to
@@ -281,10 +292,10 @@ export class WebPubSubServiceClient {
     const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
     const clientUrl = `${clientEndpoint}client/hubs/${hub}`;
     const audience = `${endpoint}client/hubs/${hub}`;
-    const payload = options?.claims ?? {};
+    const payload = { role: options?.roles };
     const signOptions: jwt.SignOptions = {
       audience: audience,
-      expiresIn: "1h",
+      expiresIn: options?.ttl === undefined ? "1h" : `${options.ttl}m`,
       algorithm: "HS256"
     };
     if (options?.userId) {

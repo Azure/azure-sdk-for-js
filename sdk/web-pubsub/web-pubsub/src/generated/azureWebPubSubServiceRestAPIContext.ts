@@ -4,6 +4,9 @@ import { AzureWebPubSubServiceRestAPIOptionalParams } from "./models";
 const packageName = "WebPubSub";
 const packageVersion = "1.0.0";
 
+/**
+ * @hidden
+ */
 export class AzureWebPubSubServiceRestAPIContext extends coreHttp.ServiceClient {
   $host: string;
   apiVersion?: string;
