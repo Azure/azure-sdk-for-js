@@ -89,7 +89,7 @@ async function authorizeRequestOnChallenge(
     {
       ...options,
       claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
-    }
+    } as GetTokenOptions
   );
 
   if (!accessToken) {
