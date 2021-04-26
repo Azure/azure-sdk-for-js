@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary Demonstrates using a key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
+ */
 import { createHash } from "crypto";
 
 import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// purgeAllKeys.js
-// helps remove any existing keys from the KeyVault.
-
+/**
+ * @summary Demonstrates purging all deleted keys from an Azure Key Vault.
+ */
 const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -16,35 +17,23 @@ async function main() {
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
+
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new KeyClient(url, credential);
 
-  let listPropertiesOfKeys = client.listPropertiesOfKeys();
-  while (true) {
-    let { done, value } = await listPropertiesOfKeys.next();
-    if (done) {
-      break;
-    }
-
+  for await (const properties of client.listPropertiesOfKeys()) {
     try {
-      const poller = await client.beginDeleteKey(value.name);
+      const poller = await client.beginDeleteKey(properties.name);
       await poller.pollUntilDone();
-    } catch(e) {
+    } catch (e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
-}
-
-  let listDeletedKeys = client.listDeletedKeys();
-  while (true) {
-    let { done, value } = await listDeletedKeys.next();
-    if (done) {
-      break;
-    }
-
+  }
+  for await (const deletedKey of client.listDeletedKeys()) {
     try {
       // This will take a while.
-      await client.purgeDeletedKey(value.name);
-    } catch(e) {
+      await client.purgeDeletedKey(deletedKey.name);
+    } catch (e) {
       // We don't care about the error because this script is intended to just clean up the KeyVault.
     }
   }

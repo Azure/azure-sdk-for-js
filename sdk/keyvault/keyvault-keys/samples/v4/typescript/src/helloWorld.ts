@@ -1,18 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const { KeyClient } = require("@azure/keyvault-keys");
-const { DefaultAzureCredential } = require("@azure/identity");
+/**
+ * @summary Demonstrates creating, reading, listing, and deleting keys.
+ */
+import { KeyClient } from "@azure/keyvault-keys";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
+
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const client = new KeyClient(url, credential);
 
@@ -36,19 +41,13 @@ async function main() {
   console.log("key: ", key);
 
   // Or list the keys we have
-  let listPropertiesOfKeys = client.listPropertiesOfKeys();
-  while (true) {
-    let { done, value } = await listPropertiesOfKeys.next();
-    if (done) {
-      break;
-    }
-
-    const key = await client.getKey(value.name);
+  for await (const keyProperties of client.listPropertiesOfKeys()) {
+    const key = await client.getKey(keyProperties.name);
     console.log("key: ", key);
   }
 
   // Update the key
-  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version, {
+  const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
     enabled: false
   });
   console.log("updated key: ", updatedKey);

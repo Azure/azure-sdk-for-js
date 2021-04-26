@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary Demonstrates creating, reading, listing, and deleting keys.
+ */
 import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -45,7 +48,7 @@ export async function main(): Promise<void> {
 
   // Update the key
   const updatedKey = await client.updateKeyProperties(keyName, result.properties.version!, {
-    enabled: false,
+    enabled: false
   });
   console.log("updated key: ", updatedKey);
 

@@ -1,20 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const crypto = require("crypto");
+/**
+ * @summary Demonstrates using a key to sign/verify, encrypt/decrypt, and wrap/unwrap data.
+ */
+import { createHash } from "crypto";
 
-const { KeyClient, CryptographyClient } = require("@azure/keyvault-keys");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { KeyClient, CryptographyClient } from "@azure/keyvault-keys";
+import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
+
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   // Connection to Azure Key Vault
@@ -24,16 +29,16 @@ async function main() {
   const keyName = `key${uniqueString}`;
 
   // Connection to Azure Key Vault Cryptography functionality
-  let myWorkKey = await client.createKey(keyName, "RSA");
+  const myWorkKey = await client.createKey(keyName, "RSA");
 
   const cryptoClient = new CryptographyClient(
-    myWorkKey, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
+    myWorkKey.id!, // You can use either the key or the key Id i.e. its url to create a CryptographyClient.
     credential
   );
 
   // Sign and Verify
   const signatureValue = "MySignature";
-  let hash = crypto.createHash("sha256");
+  let hash = createHash("sha256");
 
   hash.update(signatureValue);
   let digest = hash.digest();
