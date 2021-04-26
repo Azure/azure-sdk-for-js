@@ -224,7 +224,7 @@ describe("[Mocked] ChatThreadClient", async () => {
       `${baseUri}/chat/threads/${threadId}/messages/${mockMessage.id}?api-version=${API_VERSION}`
     );
     assert.equal(request.method, "PATCH");
-    assert.deepEqual(JSON.parse(request.body), { 
+    assert.deepEqual(JSON.parse(request.body), {
       content: mockMessage.content?.message,
       properties: mockMessage.properties
     });
