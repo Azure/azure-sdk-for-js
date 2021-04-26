@@ -144,7 +144,7 @@ export class StreamingReceiverCreditManager {
     const emptySlots = numberOfEmptyIncomingSlots(this._getCurrentReceiver().receiver);
     this.receiverHelper.addCredit(
       this.receiveMode === "peekLock"
-        ? Math.min(maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1)
+        ? Math.min(maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1) // TODO: Move the -1 to numberOfEmptyIncomingSlots
         : maxConcurrentCalls
     );
     // TODO: Add log message

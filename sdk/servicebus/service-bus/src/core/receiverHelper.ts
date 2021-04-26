@@ -10,7 +10,7 @@ import { receiverLogger as logger } from "../log";
  *
  * @internal
  */
-export class ReceiverHelper {
+export class ReceiverHelper { // TODO: It is only ever used for streaming receivers (sessions and non-sessions) - so rename it to StramingReceiverHelper
   private _isSuspended: boolean = false;
 
   constructor(
