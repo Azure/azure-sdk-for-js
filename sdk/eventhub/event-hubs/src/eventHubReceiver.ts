@@ -586,7 +586,7 @@ export class EventHubReceiver extends LinkEntity {
         // store the underlying link in a cache
         this._context.receivers[this.name] = this;
 
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       } else {
         logger.verbose(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +

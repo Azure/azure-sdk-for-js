@@ -2,6 +2,7 @@
 
 ## 5.5.1 (Unreleased)
 
+- Fixes issue [#15002](https://github.com/Azure/azure-sdk-for-js/issues/15002) where in rare cases an unexpected `TypeError` could be thrown from `EventHubProducerClient.sendBatch` when the connection was disconnected while sending events was in progress.
 
 ## 5.5.0 (2021-04-06)
 
