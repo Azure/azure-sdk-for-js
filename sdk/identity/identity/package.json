@@ -96,9 +96,6 @@
     "tslib": "^2.0.0",
     "uuid": "^8.3.0"
   },
-  "optionalDependencies": {
-    "keytar": "^7.6.0"
-  },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
