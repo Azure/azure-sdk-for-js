@@ -48,13 +48,18 @@ export interface SendMessageOptions extends OperationOptions {
   /** The chat message type. */
   type?: ChatMessageType;
   /** Message properties */
-  properties?: { [propertyName: string]: string };
+  properties?: Record<string, string>;
 }
 
 /**
  * Options to update a chat message.
  */
-export interface UpdateMessageOptions extends RestUpdateMessageOptions, OperationOptions {}
+export interface UpdateMessageOptions extends OperationOptions {
+  /** Chat message content. */
+  content?: string;
+  /** Message properties */
+  properties?: Record<string, string>;
+}
 
 /**
  * Options to list chat messages.
