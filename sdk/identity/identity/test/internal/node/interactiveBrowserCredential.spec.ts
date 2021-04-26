@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable @azure/azure-sdk/ts-no-namespaces */
 
 import Sinon from "sinon";
 import assert from "assert";
@@ -10,6 +11,8 @@ import { env } from "@azure/test-utils-recorder";
 import { InteractiveBrowserCredential } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalOpenBrowser";
+
+import { URL } from "url";
 
 declare global {
   namespace NodeJS {
@@ -37,7 +40,7 @@ describe("InteractiveBrowserCredential (internal)", function() {
   it("Throws an expected error if no browser is available", async function(this: Context) {
     // On Node 8, URL is not defined. We use URL on the msalOpenBrowser.ts file.
     if (process.version.startsWith("v8.")) {
-      global.URL = require("url").URL;
+      global.URL = URL;
     }
 
     // The SinonStub type does not include this second parameter to throws().
