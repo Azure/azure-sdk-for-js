@@ -85,14 +85,14 @@ declare global {
         callback: (tracingOptions: OperationTracingOptions) => Promise<unknown>,
         children: string[],
         options?: SupportsTracingOptions
-      ): PromiseLike<void>;
+      ): Promise<void>;
     }
     interface Assertion {
       supportsTracing(
         callback: (tracingOptions: OperationTracingOptions) => Promise<unknown>,
         children: string[],
         options?: SupportsTracingOptions
-      ): PromiseLike<void>;
+      ): Promise<void>;
     }
   }
 }
