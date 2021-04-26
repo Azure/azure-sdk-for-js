@@ -106,7 +106,7 @@ class RenderingSessionOperation
    * Useful when wanting to create a poller that monitors an existing operation.
    */
   toString(): string {
-    throw new Error("Not yet implemented.");
+    return this.state.latestResponse.sessionId;
   }
 }
 

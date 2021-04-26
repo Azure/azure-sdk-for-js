@@ -125,15 +125,14 @@ export {
 
 export type AssetConversionPollerLike = PollerLike<AssetConversionOperationState, AssetConversion>;
 
-export type BeginConversionOptions = 
-  AssetConversionPollerOptions &
+export type BeginConversionOptions = AssetConversionPollerOptions & OperationOptions;
+
+export type ResumeBeginConversionOptions = BeginConversionOptions & { resumeFrom: string };
+
+export type BeginSessionOptions = RenderingSessionPollerOptions &
   OperationOptions;
 
-export type ResumeBeginConversionOptions = BeginConversionOptions & { resumeFrom: string }
-
-export type BeginSessionOptions = RenderingSessionSettings &
-  RenderingSessionPollerOptions &
-  OperationOptions;
+export type ResumeBeginSessionOptions = BeginSessionOptions & { resumeFrom: string };
 
 export type GetSessionPollerOptions = RenderingSessionPollerOptions & OperationOptions;
 
@@ -281,18 +280,18 @@ export class RemoteRenderingClient {
    * @param assetConversionSettings Settings configuring the asset conversion.
    * @param options The options parameters.
    */
-   public async beginConversion(
+  public async beginConversion(
     conversionId: string,
     assetConversionSettings: AssetConversionSettings,
     options?: BeginConversionOptions
   ): Promise<AssetConversionPollerLike>;
-  
+
   /**
    * Obtains a poller corresponding to a conversion that was already started.
    * @param options The options parameters, carrying a resumeFrom value.
    */
-   public async beginConversion(
-     options: ResumeBeginConversionOptions
+  public async beginConversion(
+    options: ResumeBeginConversionOptions
   ): Promise<AssetConversionPollerLike>;
 
   public async beginConversion(
@@ -307,8 +306,7 @@ export class RemoteRenderingClient {
       conversionId = conversionIdOrResumeOptions;
       settings = assetConversionSettings!;
       operationOptions = options ?? {};
-    }
-    else {
+    } else {
       let assetConversion: AssetConversion = await getConversionInternal(
         this.accountId,
         this.operations,
@@ -316,8 +314,13 @@ export class RemoteRenderingClient {
         "RemoteRenderingClient-GetConversionPoller",
         options
       );
-  
-      return new AssetConversionPoller(this.accountId, this.operations, assetConversion, conversionIdOrResumeOptions);
+
+      return new AssetConversionPoller(
+        this.accountId,
+        this.operations,
+        assetConversion,
+        conversionIdOrResumeOptions
+      );
     }
 
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginConversion", {
@@ -443,20 +446,56 @@ export class RemoteRenderingClient {
    * @param renderingSessionSettings Settings of the session to be created.
    * @param options The options parameters.
    */
-  public async beginSession(
+   public async beginSession(
     sessionId: string,
-    options: BeginSessionOptions
+    settings: RenderingSessionSettings,
+    options?: BeginSessionOptions
+  ): Promise<RenderingSessionPollerLike>;
+
+  /**
+   * Obtains a poller for a pre-existing session
+   * @param sessionId An ID uniquely identifying the rendering session for the given account. The ID is
+   *                  case sensitive, can contain any combination of alphanumeric characters including hyphens and
+   *                  underscores, and cannot contain more than 256 characters.
+   * @param options The options parameters, carrying a resumeFrom value.
+   */
+   public async beginSession(
+    options: ResumeBeginSessionOptions
+  ): Promise<RenderingSessionPollerLike>;
+
+  public async beginSession(
+    sessionIdOrResumeOptions: string | ResumeBeginSessionOptions,
+    renderingSessionSettings?: RenderingSessionSettings,
+    options?: BeginSessionOptions
   ): Promise<RenderingSessionPollerLike> {
+    let sessionId: string;
+    let settings: RenderingSessionSettings;
+    let operationOptions: BeginSessionOptions;
+    if (typeof sessionIdOrResumeOptions === "string") {
+      sessionId = sessionIdOrResumeOptions;
+      settings = renderingSessionSettings!;
+      operationOptions = options ?? {};
+    } else {
+      let renderingSession: RenderingSession = await getSessionInternal(
+        this.accountId,
+        this.operations,
+        sessionIdOrResumeOptions.resumeFrom,
+        "RemoteRenderingClient-GetSessionPoller",
+        sessionIdOrResumeOptions
+      );
+      return new RenderingSessionPoller(this.accountId, this.operations, renderingSession, sessionIdOrResumeOptions);
+    }
+
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginSession", {
       conversionId: sessionId,
-      ...options
+      ...operationOptions
     });
 
     try {
       let sessionProperties: RemoteRenderingCreateSessionResponse = await this.operations.createSession(
         this.accountId,
         sessionId,
-        options,
+        settings,
         updatedOptions
       );
 
@@ -464,7 +503,7 @@ export class RemoteRenderingClient {
         this.accountId,
         this.operations,
         renderingSessionFromSessionProperties(sessionProperties),
-        options
+        operationOptions
       );
 
       // Do I want this?
@@ -500,25 +539,6 @@ export class RemoteRenderingClient {
       "RemoteRenderingClient-GetSession",
       options
     );
-  }
-
-  /**
-   * Returns a poller for a pre-existing session by sessionId.
-   * @param sessionId The ID of a previously created session.
-   * @param options The options parameters.
-   */
-  public async getSessionPoller(
-    sessionId: string,
-    options: GetSessionPollerOptions = {}
-  ): Promise<RenderingSessionPollerLike> {
-    let renderingSession: RenderingSession = await getSessionInternal(
-      this.accountId,
-      this.operations,
-      sessionId,
-      "RemoteRenderingClient-GetSessionPoller",
-      options
-    );
-    return new RenderingSessionPoller(this.accountId, this.operations, renderingSession, options);
   }
 
   /**
