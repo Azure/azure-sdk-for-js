@@ -27,10 +27,6 @@ matrix([[true, false]], async function(useAad) {
     };
 
     before(function(this: Context) {
-      // SKIPPING BECAUSE TOLL-FREE ACQUISITION IS DISABLED
-      // STOP SKIPPING WHEN SERVICE ENABLES ACQUISITION
-      this.skip();
-
       if (useAad && !canCreateRecordedClientWithToken()) {
         this.skip();
       }
