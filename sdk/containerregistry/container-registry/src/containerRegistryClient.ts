@@ -20,6 +20,7 @@ import { extractNextLink } from "./utils";
 import { bearerTokenChallengeAuthenticationPolicy } from "./bearerTokenChallengeAuthenticationPolicy";
 import { ChallengeHandler } from "./containerRegistryChallengeHandler";
 import { ContainerRepositoryClient, DeleteRepositoryOptions } from "./containerRepositoryClient";
+import { ContainerRegistryRefreshTokenCredential } from "./containerRegistryTokenCredential";
 
 /**
  * Options for the `listRepositories` method of `ContainerRegistryClient`.
@@ -92,7 +93,9 @@ export class ContainerRegistryClient {
       bearerTokenChallengeAuthenticationPolicy({
         credential,
         scopes: `https://management.core.windows.net/.default`,
-        challengeCallbacks: new ChallengeHandler(this.authClient)
+        challengeCallbacks: new ChallengeHandler(
+          new ContainerRegistryRefreshTokenCredential(credential, this.authClient)
+        )
       })
     );
   }

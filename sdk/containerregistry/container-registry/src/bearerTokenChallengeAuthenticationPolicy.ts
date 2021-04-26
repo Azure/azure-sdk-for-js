@@ -25,15 +25,6 @@ export interface ChallengeCallbackOptions {
    */
   scopes: string | string[];
   /**
-   * Additional claims to be included in the token.
-   * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
-   */
-  claims?: string;
-  /**
-   * Copy of the last token used, if any.
-   */
-  previousToken?: AccessToken;
-  /**
    * Function that retrieves either a cached token or a new token.
    */
   getToken: (scopes: string | string[], options: GetTokenOptions) => Promise<AccessToken | null>;
@@ -95,10 +86,9 @@ export interface BearerTokenAuthenticationPolicyOptions {
 export async function retrieveToken(
   options: ChallengeCallbackOptions
 ): Promise<AccessToken | undefined> {
-  const { scopes, claims, getToken, request } = options;
+  const { scopes, getToken, request } = options;
 
   const getTokenOptions: GetTokenOptions & { claims?: string } = {
-    claims,
     abortSignal: request.abortSignal,
     tracingOptions: request.tracingOptions
   };
@@ -129,12 +119,11 @@ export async function defaultAuthenticateRequestOnChallenge(
   if (!challenge) {
     return false;
   }
-  const { scope, claims } = parseWWWAuthenticate(challenge);
+  const { scope } = parseWWWAuthenticate(challenge);
 
   const accessToken = await retrieveToken({
     ...options,
-    scopes: scope || scopes,
-    claims
+    scopes: scope || scopes
   });
 
   if (!accessToken) {
@@ -204,7 +193,6 @@ export function bearerTokenChallengeAuthenticationPolicy(
         await callbacks.authenticateRequest({
           scopes,
           request,
-          previousToken: cycler.cachedToken,
           getToken: cycler.getToken,
           setAuthorizationHeader
         });
@@ -225,7 +213,6 @@ export function bearerTokenChallengeAuthenticationPolicy(
         const shouldSendRequest = await callbacks.authenticateRequestOnChallenge(challenge, {
           scopes,
           request,
-          previousToken: cycler.cachedToken,
           getToken: cycler.getToken,
           setAuthorizationHeader
         });

@@ -3,7 +3,7 @@
 
 import { loginWithServicePrincipalSecretWithAuthResponse } from "@azure/ms-rest-nodeauth";
 import { ContainerRegistryManagementClient } from "@azure/arm-containerregistry";
-import { env } from "@azure/test-utils-recorder";
+import { env, isPlaybackMode } from "@azure/test-utils-recorder";
 
 export async function importImage(name: string, targetTags?: string[]): Promise<void> {
   const authResponse = await loginWithServicePrincipalSecretWithAuthResponse(
@@ -16,6 +16,9 @@ export async function importImage(name: string, targetTags?: string[]): Promise<
     authResponse.credentials,
     env.SUBSCRIPTION_ID || ""
   );
+  if (isPlaybackMode()) {
+    client.longRunningOperationRetryTimeout = 1;
+  }
   await client.registries.importImage(env.RESOURCE_GROUP || "", env.REGISTRY || "", {
     source: {
       sourceImage: name,

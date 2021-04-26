@@ -1,17 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSerializer, OperationOptions, OperationSpec } from "@azure/core-client";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { GetTokenOptions } from "@azure/core-auth";
 import {
   ChallengeCallbackOptions,
   ChallengeCallbacks,
   parseWWWAuthenticate
 } from "./bearerTokenChallengeAuthenticationPolicy";
-import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
-import * as Mappers from "./generated/models/mappers";
-import * as Parameters from "./generated/models/parameters";
+import {
+  ContainerRegistryGetTokenOptions,
+  ContainerRegistryRefreshTokenCredential
+} from "./containerRegistryTokenCredential";
+import { AccessTokenRefresher, createTokenCycler } from "./tokenCycler";
+
+const fiveMinutesInMs = 5 * 60 * 1000;
 
 /**
  * Handles challenge based authentication for Container Registry Service.
@@ -32,10 +34,19 @@ import * as Parameters from "./generated/models/parameters";
  *```
  */
 export class ChallengeHandler implements ChallengeCallbacks {
+  private readonly cycler: AccessTokenRefresher<ContainerRegistryGetTokenOptions>;
   constructor(
-    private authClient: GeneratedClient,
+    private credential: ContainerRegistryRefreshTokenCredential,
     private options: GetTokenOptions & { claims?: string } = {}
-  ) {}
+  ) {
+    this.cycler = createTokenCycler(credential, {
+      refreshWindowInMs: fiveMinutesInMs
+    });
+  }
+
+  authenticateRequest(_options: ChallengeCallbackOptions): Promise<void> {
+    return Promise.resolve();
+  }
 
   /**
    * Updates  the authentication context based on the challenge.
@@ -58,21 +69,12 @@ export class ChallengeHandler implements ChallengeCallbacks {
     }
 
     // Step 3: Exchange AAD Access Token for ACR Refresh Token
-    const acrRefreshToken = await ExchangeAadAccessTokenForAcrRefreshTokenAsync(
-      this.authClient,
-      GetAuthorizationToken(options.request),
-      service,
-      this.options
-    );
-
-    if (!acrRefreshToken) {
-      throw new Error("Failed to retrieve 'service' from challenge");
-    }
+    // ACR refresh token is cached.
+    const acrRefreshToken = await this.cycler.getToken(scope, { ...options, service });
 
     // Step 4: Send in acrRefreshToken and get back acrAccessToken
-    const acrAccessToken = await ExchangeAcrRefreshTokenForAcrAccessTokenAsync(
-      this.authClient,
-      acrRefreshToken,
+    const acrAccessToken = await this.credential.tokenService.ExchangeAcrRefreshTokenForAcrAccessTokenAsync(
+      acrRefreshToken.token,
       service,
       scope,
       this.options
@@ -83,137 +85,4 @@ export class ChallengeHandler implements ChallengeCallbacks {
 
     return true;
   }
-}
-
-const customExchangeAadTokenForAcrRefreshTokenOperationSpec: OperationSpec = {
-  path: "/oauth2/exchange",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AcrRefreshToken
-    },
-    default: {
-      bodyMapper: Mappers.AcrErrors
-    }
-  },
-  // formDataParameters: [Parameters.aadAccesstoken],
-  requestBody: {
-    parameterPath: ["options", "payload"],
-    mapper: {
-      type: {
-        name: "Stream"
-      }
-    }
-  },
-  urlParameters: [Parameters.url],
-  headerParameters: [Parameters.contentType3, Parameters.accept4],
-  serializer: createSerializer(Mappers, /* isXml */ false)
-};
-
-interface CustomAuthOptions extends OperationOptions {
-  payload: string;
-}
-
-const customExchangeAcrRefreshTokenForAcrAccessTokenOperationSpec: OperationSpec = {
-  path: "/oauth2/token",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.AcrAccessToken
-    },
-    default: {
-      bodyMapper: Mappers.AcrErrors
-    }
-  },
-  // formDataParameters: [Parameters.acrRefreshToken],
-  requestBody: {
-    parameterPath: ["options", "payload"],
-    mapper: {
-      type: {
-        name: "Stream"
-      }
-    }
-  },
-  urlParameters: [Parameters.url],
-  headerParameters: [Parameters.contentType3, Parameters.accept4],
-  serializer: createSerializer(Mappers, /* isXml */ false)
-};
-
-async function ExchangeAadAccessTokenForAcrRefreshTokenAsync(
-  authClient: GeneratedClient,
-  aadAccessToken: string,
-  service: string,
-  options: GetTokenOptions & { claims?: string }
-): Promise<string> {
-  // const acrRefreshToken = await this.authClient.authentication.exchangeAadTokenForAcrRefreshToken(
-  //   {
-  //     aadAccesstoken: {
-  //       grantType: "access_token",
-  //       service,
-  //       aadAccesstoken: aadAccessToken,
-  //     }
-  //   }
-  // );
-
-  // TODO: (jeremymeng) revert custom sendOperationRequest call after FormData is working in core
-  const payload = `grant_type=access_token&service=${encodeURIComponent(
-    service
-  )}&access_token=${encodeURIComponent(aadAccessToken)}`;
-  const customOptions: CustomAuthOptions = {
-    payload
-  };
-  const acrRefreshToken = await authClient.sendOperationRequest<AcrRefreshToken>(
-    { options: { ...options, ...customOptions } },
-    customExchangeAadTokenForAcrRefreshTokenOperationSpec
-  );
-
-  if (!acrRefreshToken.refreshToken) {
-    throw new Error("Failed to exchange AAD access token for an ACR refresh token.");
-  }
-  return acrRefreshToken.refreshToken;
-}
-
-async function ExchangeAcrRefreshTokenForAcrAccessTokenAsync(
-  authClient: GeneratedClient,
-  acrRefreshToken: string,
-  service: string,
-  scope: string,
-  options: GetTokenOptions & { claims?: string }
-): Promise<string> {
-  // const acrAccessToken = await this.authClient.authentication.exchangeAcrRefreshTokenForAcrAccessToken(
-  //   {
-  //     acrRefreshToken: {
-  //       grantType: "refresh_token",
-  //       acrRefreshToken,
-  //       service,
-  //       scope
-  //     }
-  //   }
-  // );
-
-  // TODO: (jeremymeng) revert custom sendOperationRequest call after FormData is working in core
-  const payload = `grant_type=refresh_token&service=${encodeURIComponent(
-    service
-  )}&refresh_token=${encodeURIComponent(acrRefreshToken)}&scope=${encodeURIComponent(scope)}`;
-  const customOptions: CustomAuthOptions = {
-    payload
-  };
-  const acrAccessToken = await authClient.sendOperationRequest<AcrAccessToken>(
-    { options: { ...options, ...customOptions } },
-    customExchangeAcrRefreshTokenForAcrAccessTokenOperationSpec
-  );
-
-  if (!acrAccessToken.accessToken) {
-    throw new Error("Failed to exchange ACR refresh token for an ACR access token");
-  }
-  return acrAccessToken.accessToken;
-}
-
-function GetAuthorizationToken(request: PipelineRequest): string {
-  const value = request.headers.get("Authorization");
-  if (!value) {
-    throw new Error("Failed to retrieve Authentication header from request.");
-  }
-
-  return value.substr("Bearer ".length);
 }
