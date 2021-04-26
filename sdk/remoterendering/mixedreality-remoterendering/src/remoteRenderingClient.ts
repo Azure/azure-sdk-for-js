@@ -129,8 +129,7 @@ export type BeginConversionOptions = AssetConversionPollerOptions & OperationOpt
 
 export type ResumeBeginConversionOptions = BeginConversionOptions & { resumeFrom: string };
 
-export type BeginSessionOptions = RenderingSessionPollerOptions &
-  OperationOptions;
+export type BeginSessionOptions = RenderingSessionPollerOptions & OperationOptions;
 
 export type ResumeBeginSessionOptions = BeginSessionOptions & { resumeFrom: string };
 
@@ -446,7 +445,7 @@ export class RemoteRenderingClient {
    * @param renderingSessionSettings Settings of the session to be created.
    * @param options The options parameters.
    */
-   public async beginSession(
+  public async beginSession(
     sessionId: string,
     settings: RenderingSessionSettings,
     options?: BeginSessionOptions
@@ -459,7 +458,7 @@ export class RemoteRenderingClient {
    *                  underscores, and cannot contain more than 256 characters.
    * @param options The options parameters, carrying a resumeFrom value.
    */
-   public async beginSession(
+  public async beginSession(
     options: ResumeBeginSessionOptions
   ): Promise<RenderingSessionPollerLike>;
 
@@ -483,7 +482,12 @@ export class RemoteRenderingClient {
         "RemoteRenderingClient-GetSessionPoller",
         sessionIdOrResumeOptions
       );
-      return new RenderingSessionPoller(this.accountId, this.operations, renderingSession, sessionIdOrResumeOptions);
+      return new RenderingSessionPoller(
+        this.accountId,
+        this.operations,
+        renderingSession,
+        sessionIdOrResumeOptions
+      );
     }
 
     const { span, updatedOptions } = createSpan("RemoteRenderingClient-BeginSession", {
