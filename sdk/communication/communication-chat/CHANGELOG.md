@@ -1,5 +1,10 @@
 # Release History
 
+## 1.0.2 (Unreleased)
+
+### Added
+- Added support to add `properties` for `message`
+
 ## 1.0.0 (2021-03-29)
 
 ### Breaking Changes
