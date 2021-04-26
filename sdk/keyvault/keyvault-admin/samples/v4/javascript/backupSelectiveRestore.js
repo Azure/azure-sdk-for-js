@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary Demonstrates the use of a BackupClient to backup and restore a specific key in Azure Key Vault using Azure Storage Blob.
+ */
 const { KeyVaultBackupClient } = require("@azure/keyvault-admin");
 const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -17,7 +21,10 @@ async function main() {
   // - BLOB_STORAGE_SAS_TOKEN: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated
   // - CLIENT_OBJECT_ID: Object ID of the application, tenant or principal to whom the role will be assigned to
   const credential = new DefaultAzureCredential();
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+  const url = process.env["AZURE_MANAGEDHSM_URI"];
+  if (!url) {
+    throw new Error("Missing environment variable AZURE_MANAGEDHSM_URI.");
+  }
   const client = new KeyVaultBackupClient(url, credential);
 
   const keyClient = new KeyClient(url, credential);
@@ -25,7 +32,13 @@ async function main() {
   const key = await keyClient.createRsaKey(keyName);
 
   const blobStorageUri = process.env["BLOB_STORAGE_URI"];
+  if (!blobStorageUri) {
+    throw new Error("Missing environment variable BLOB_STORAGE_URI.");
+  }
   const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"];
+  if (!sasToken) {
+    throw new Error("Missing environment variable BLOB_STORAGE_SAS_TOKEN.");
+  }
   const backupPoller = await client.beginBackup(blobStorageUri, sasToken);
   const backupResult = await backupPoller.pollUntilDone();
 

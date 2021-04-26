@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * @summary Demonstrates the use of a BackupClient to backup and restore an Azure Key Vault using Azure Storage Blob.
+ */
 import { KeyVaultBackupClient } from "@azure/keyvault-admin";
-import { KeyClient } from "@azure/keyvault-keys";
 import { DefaultAzureCredential } from "@azure/identity";
 
 // Load the .env file if it exists
@@ -18,33 +20,28 @@ export async function main(): Promise<void> {
   // - BLOB_STORAGE_SAS_TOKEN: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated
   // - CLIENT_OBJECT_ID: Object ID of the application, tenant or principal to whom the role will be assigned to
   const credential = new DefaultAzureCredential();
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+  const url = process.env["KEYVAULT_URI"];
+  if (!url) {
+    throw new Error("Missing environment variable KEYVAULT_URI.");
+  }
   const client = new KeyVaultBackupClient(url, credential);
 
-  const keyClient = new KeyClient(url, credential);
-  const keyName = "key-name";
-  const key = await keyClient.createRsaKey(keyName);
-
   const blobStorageUri = process.env["BLOB_STORAGE_URI"];
+  if (!blobStorageUri) {
+    throw new Error("Missing environment variable BLOB_STORAGE_URI.");
+  }
   const sasToken = process.env["BLOB_STORAGE_SAS_TOKEN"];
-  const backupPoller = await client.beginBackup(blobStorageUri, sasToken);
+  if (!sasToken) {
+    throw new Error("Missing environment variable BLOB_STORAGE_SAS_TOKEN.");
+  }
+  const backupPoller = await client.beginBackup(blobStorageUri!, sasToken);
   const backupResult = await backupPoller.pollUntilDone();
 
   // The folder name should be at the end of the backupFolderUri, as in: https://<blob-storage-endpoint>/<folder-name>
-  const folderName = backupResult.backupFolderUri.split("/").pop();
+  const folderName = backupResult.backupFolderUri!.split("/").pop();
 
-  const selectiveRestorePoller = await client.beginSelectiveRestore(
-    blobStorageUri,
-    sasToken,
-    folderName,
-    key.name
-  );
-  await selectiveRestorePoller.pollUntilDone();
-
-  // Deleting and purging the key, just in case we want to create the same key again.
-  const deleteKeyPoller = await keyClient.beginDeleteKey(keyName);
-  await deleteKeyPoller.pollUntilDone();
-  await keyClient.purgeDeletedKey(keyName);
+  const restorePoller = await client.beginRestore(blobStorageUri, sasToken, folderName!);
+  await restorePoller.pollUntilDone();
 }
 
 main().catch((err) => {

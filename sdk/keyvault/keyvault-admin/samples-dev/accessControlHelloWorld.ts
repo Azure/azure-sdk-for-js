@@ -1,24 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
-const { DefaultAzureCredential } = require("@azure/identity");
-const uuid = require("uuid");
-const uuidv4 = uuid.v4;
+/**
+ * @summary Demonstrates the use of an AccessControlClient to list, create, and assign roles to users.
+ */
+import { KeyVaultAccessControlClient, KeyVaultPermission } from "@azure/keyvault-admin";
+import { DefaultAzureCredential } from "@azure/identity";
+import * as uuid from "uuid";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
-async function main() {
+export async function main(): Promise<void> {
   // DefaultAzureCredential expects the following three environment variables:
   // - AZURE_TENANT_ID: The tenant ID in Azure Active Directory
   // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
-  // - BLOB_STORAGE_URI: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated
-  // - BLOB_STORAGE_SAS_TOKEN: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated
-  // - CLIENT_OBJECT_ID: Object ID of the application, tenant or principal to whom the role will be assigned to
   const credential = new DefaultAzureCredential();
-  const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
+  const url = process.env["AZURE_MANAGEDHSM_URI"];
+  if (!url) {
+    throw new Error("Missing environment variable AZURE_MANAGEDHSM_URI.");
+  }
   const client = new KeyVaultAccessControlClient(url, credential);
 
   for await (const roleAssignment of client.listRoleAssignments("/")) {
@@ -27,8 +30,8 @@ async function main() {
 
   const globalScope = "/";
 
-  const roleDefinitionName = uuidv4();
-  const permissions = [
+  const roleDefinitionName = uuid.v4();
+  const permissions: KeyVaultPermission[] = [
     {
       dataActions: [
         "Microsoft.KeyVault/managedHsm/backup/start/action",
@@ -46,12 +49,16 @@ async function main() {
 
   // This sample uses a custom role but you may assign one of the many built-in roles.
   // Please refer to https://docs.microsoft.com/azure/key-vault/managed-hsm/built-in-roles for more information.
-  const roleAssignmentName = uuidv4();
+  const roleAssignmentName = uuid.v4();
+  const clientObjectId = process.env["CLIENT_OBJECT_ID"];
+  if (!clientObjectId) {
+    throw new Error("Missing environment variable CLIENT_OBJECT_ID.");
+  }
   let assignment = await client.createRoleAssignment(
     globalScope,
     roleAssignmentName,
     roleDefinition.id,
-    process.env["CLIENT_OBJECT_ID"]
+    clientObjectId
   );
   console.log(assignment);
 
@@ -60,6 +67,9 @@ async function main() {
 
   assignment = await client.deleteRoleAssignment(globalScope, roleAssignmentName);
   console.log(assignment);
+
+  roleDefinition = await client.deleteRoleDefinition(globalScope, roleDefinition.name);
+  console.log(roleDefinition);
 }
 
 main().catch((err) => {
