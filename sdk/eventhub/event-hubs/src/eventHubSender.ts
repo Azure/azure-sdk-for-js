@@ -217,7 +217,6 @@ export class EventHubSender extends LinkEntity {
     } = {}
   ): Promise<number> {
     const sender = await this._getLink(options);
-    this._sender = sender;
 
     return sender.maxMessageSize;
   }
@@ -343,7 +342,6 @@ export class EventHubSender extends LinkEntity {
     const sendEventPromise = async (): Promise<void> => {
       const initStartTime = Date.now();
       const sender = await this._getLink(options);
-      this._sender = sender;
       const timeTakenByInit = Date.now() - initStartTime;
       logger.verbose(
         "[%s] Sender '%s', credit: %d available: %d",
@@ -526,6 +524,7 @@ export class EventHubSender extends LinkEntity {
         );
 
         const sender = await this._context.connection.createAwaitableSender(options);
+        this._sender = sender;
         logger.verbose(
           "[%s] Sender '%s' created with sender options: %O",
           this._context.connectionId,
