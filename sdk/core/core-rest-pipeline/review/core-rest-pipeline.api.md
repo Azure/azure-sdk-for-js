@@ -5,7 +5,9 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { AccessToken } from '@azure/core-auth';
 import { Debugger } from '@azure/logger';
+import { GetTokenOptions } from '@azure/core-auth';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -27,6 +29,21 @@ export interface Agent {
 }
 
 // @public
+export interface AuthorizeRequestOnChallengeOptions {
+    getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    request: PipelineRequest;
+    response: PipelineResponse;
+    scopes: string[];
+}
+
+// @public
+export interface AuthorizeRequestOptions {
+    getAccessToken: (scopes: string[], options: GetTokenOptions) => Promise<AccessToken | null>;
+    request: PipelineRequest;
+    scopes: string[];
+}
+
+// @public
 export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
 
 // @public
@@ -36,6 +53,25 @@ export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPol
 export interface BearerTokenAuthenticationPolicyOptions {
     credential: TokenCredential;
     scopes: string | string[];
+}
+
+// @public
+export function bearerTokenChallengeAuthenticationPolicy(options: BearerTokenChallengeAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export const bearerTokenChallengeAuthenticationPolicyName = "bearerTokenChallengeAuthenticationPolicy";
+
+// @public
+export interface BearerTokenChallengeAuthenticationPolicyOptions {
+    challengeCallbacks?: ChallengeCallbacks;
+    credential: TokenCredential;
+    scopes: string[];
+}
+
+// @public
+export interface ChallengeCallbacks {
+    authorizeRequest?(options: AuthorizeRequestOptions): Promise<void>;
+    authorizeRequestOnChallenge?(options: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 }
 
 // @public
