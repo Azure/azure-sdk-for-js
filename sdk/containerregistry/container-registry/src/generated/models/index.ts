@@ -40,18 +40,36 @@ export interface Repositories {
 
 /** Repository attributes */
 export interface RepositoryProperties {
-  /** Image name */
-  name: string;
-  /** Image created time */
-  createdOn: Date;
-  /** Image last update time */
-  lastUpdatedOn: Date;
-  /** Number of the manifests */
-  registryArtifactCount: number;
-  /** Number of the tags */
-  tagCount: number;
-  /** Writeable properties of the resource */
-  writeableProperties: ContentProperties;
+  /**
+   * Image name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name: string;
+  /**
+   * Image created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn: Date;
+  /**
+   * Image last update time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedOn: Date;
+  /**
+   * Number of the manifests
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly manifestCount: number;
+  /**
+   * Number of the tags
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tagCount: number;
+  /**
+   * Writeable properties of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly writeableProperties: ContentProperties;
 }
 
 /** Changeable attributes */
@@ -68,10 +86,16 @@ export interface ContentProperties {
 
 /** Deleted repository */
 export interface DeleteRepositoryResult {
-  /** SHA of the deleted image */
-  deletedRegistryArtifactDigests?: string[];
-  /** Tag of the deleted image */
-  deletedTags?: string[];
+  /**
+   * SHA of the deleted image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletedManifests?: string[];
+  /**
+   * Tag of the deleted image
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deletedTags?: string[];
 }
 
 /** List of tag details */
@@ -85,32 +109,65 @@ export interface TagList {
 
 /** Tag attribute details */
 export interface TagAttributesBase {
-  /** Tag name */
-  name: string;
-  /** Tag digest */
-  digest: string;
-  /** Tag created time */
-  createdOn: Date;
-  /** Tag last update time */
-  lastUpdatedOn: Date;
-  /** Writeable properties of the resource */
-  writeableProperties: ContentProperties;
+  /**
+   * Tag name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name: string;
+  /**
+   * Tag digest
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly digest: string;
+  /**
+   * Tag created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn: Date;
+  /**
+   * Tag last update time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedOn: Date;
+  /**
+   * Writeable properties of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly writeableProperties: ContentProperties;
 }
 
 /** Tag attributes */
-export interface TagProperties {
-  /** Image name */
-  repository: string;
-  /** Tag name */
-  name: string;
-  /** Tag digest */
-  digest: string;
-  /** Tag created time */
-  createdOn: Date;
-  /** Tag last update time */
-  lastUpdatedOn: Date;
-  /** Writeable properties of the resource */
-  writeableProperties: ContentProperties;
+export interface ArtifactTagProperties {
+  /**
+   * Image name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly repository: string;
+  /**
+   * Tag name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name: string;
+  /**
+   * Tag digest
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly digest: string;
+  /**
+   * Tag created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn: Date;
+  /**
+   * Tag last update time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedOn: Date;
+  /**
+   * Writeable properties of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly writeableProperties: ContentProperties;
 }
 
 /** Manifest attributes */
@@ -124,24 +181,51 @@ export interface AcrManifests {
 
 /** Manifest details */
 export interface ManifestAttributesBase {
-  /** Manifest */
-  digest: string;
-  /** Image size */
-  size?: number;
-  /** Created time */
-  createdOn?: Date;
-  /** Last update time */
-  lastUpdatedOn?: Date;
-  /** CPU architecture */
-  cpuArchitecture?: string;
-  /** Operating system */
-  operatingSystem?: string;
-  /** List of manifest attributes details */
-  references?: ManifestAttributesManifestReferences[];
-  /** List of tags */
-  tags?: string[];
-  /** Writeable properties of the resource */
-  writeableProperties?: ContentProperties;
+  /**
+   * Manifest
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly digest: string;
+  /**
+   * Image size
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: number;
+  /**
+   * Created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * Last update time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedOn?: Date;
+  /**
+   * CPU architecture
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly architecture?: ArtifactArchitecture | null;
+  /**
+   * Operating system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operatingSystem?: ArtifactOperatingSystem | null;
+  /**
+   * List of manifest attributes details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly references?: ManifestAttributesManifestReferences[];
+  /**
+   * List of tags
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tags?: string[];
+  /**
+   * Writeable properties of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly writeableProperties?: ContentProperties;
 }
 
 /** Manifest attributes details */
@@ -155,27 +239,57 @@ export interface ManifestAttributesManifestReferences {
 }
 
 /** Manifest attributes details */
-export interface RegistryArtifactProperties {
-  /** Image name */
-  repository?: string;
-  /** Manifest */
-  digest?: string;
-  /** Image size */
-  size?: number;
-  /** Created time */
-  createdOn?: Date;
-  /** Last update time */
-  lastUpdatedOn?: Date;
-  /** CPU architecture */
-  cpuArchitecture?: string;
-  /** Operating system */
-  operatingSystem?: string;
-  /** List of manifest attributes details */
-  references?: ManifestAttributesManifestReferences[];
-  /** List of tags */
-  tags?: string[];
-  /** Writeable properties of the resource */
-  writeableProperties?: ContentProperties;
+export interface ArtifactManifestProperties {
+  /**
+   * Repository name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly repositoryName?: string;
+  /**
+   * Manifest
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly digest?: string;
+  /**
+   * Image size
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly size?: number;
+  /**
+   * Created time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * Last update time
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedOn?: Date;
+  /**
+   * CPU architecture
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly architecture?: ArtifactArchitecture | null;
+  /**
+   * Operating system
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operatingSystem?: ArtifactOperatingSystem | null;
+  /**
+   * List of manifest attributes details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly references?: ManifestAttributesManifestReferences[];
+  /**
+   * List of tags
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tags?: string[];
+  /**
+   * Writeable properties of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly writeableProperties?: ContentProperties;
 }
 
 export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema {
@@ -184,7 +298,7 @@ export interface Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWww
   /** Indicates the name of your Azure container registry. */
   service: string;
   /** AAD access token, mandatory when grant_type is access_token_refresh_token or access_token. */
-  aadAccesstoken: string;
+  aadAccessToken: string;
 }
 
 export interface AcrRefreshToken {
@@ -439,8 +553,30 @@ export type V1Manifest = Manifest & {
   signatures?: ImageSignature[];
 };
 
+/** Defines headers for ContainerRegistry_createManifest operation. */
+export interface ContainerRegistryCreateManifestHeaders {
+  /** Identifies the docker upload uuid for the current request. */
+  dockerContentDigest?: string;
+  /** The canonical location url of the uploaded manifest. */
+  location?: string;
+  /** The length of the requested blob content. */
+  contentLength?: number;
+}
+
 /** Defines headers for ContainerRegistry_getRepositories operation. */
 export interface ContainerRegistryGetRepositoriesHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
+/** Defines headers for ContainerRegistry_getTags operation. */
+export interface ContainerRegistryGetTagsHeaders {
+  /** next paginated result */
+  link?: string;
+}
+
+/** Defines headers for ContainerRegistry_getManifests operation. */
+export interface ContainerRegistryGetManifestsHeaders {
   /** next paginated result */
   link?: string;
 }
@@ -451,36 +587,14 @@ export interface ContainerRegistryGetRepositoriesNextHeaders {
   link?: string;
 }
 
-/** Defines headers for ContainerRegistryRepository_createManifest operation. */
-export interface ContainerRegistryRepositoryCreateManifestHeaders {
-  /** Identifies the docker upload uuid for the current request. */
-  dockerContentDigest?: string;
-  /** The canonical location url of the uploaded manifest. */
-  location?: string;
-  /** The length of the requested blob content. */
-  contentLength?: number;
-}
-
-/** Defines headers for ContainerRegistryRepository_getTags operation. */
-export interface ContainerRegistryRepositoryGetTagsHeaders {
+/** Defines headers for ContainerRegistry_getTagsNext operation. */
+export interface ContainerRegistryGetTagsNextHeaders {
   /** next paginated result */
   link?: string;
 }
 
-/** Defines headers for ContainerRegistryRepository_getManifests operation. */
-export interface ContainerRegistryRepositoryGetManifestsHeaders {
-  /** next paginated result */
-  link?: string;
-}
-
-/** Defines headers for ContainerRegistryRepository_getTagsNext operation. */
-export interface ContainerRegistryRepositoryGetTagsNextHeaders {
-  /** next paginated result */
-  link?: string;
-}
-
-/** Defines headers for ContainerRegistryRepository_getManifestsNext operation. */
-export interface ContainerRegistryRepositoryGetManifestsNextHeaders {
+/** Defines headers for ContainerRegistry_getManifestsNext operation. */
+export interface ContainerRegistryGetManifestsNextHeaders {
   /** next paginated result */
   link?: string;
 }
@@ -571,41 +685,103 @@ export interface ContainerRegistryBlobCheckChunkExistsHeaders {
   contentRange?: string;
 }
 
-/** Known values of {@link TagOrderBy} that the service accepts. */
-export const enum KnownTagOrderBy {
-  /** Order tags by LastUpdatedOn field, from most recently updated to least recently updated. */
-  LastUpdatedOnDescending = "timedesc",
-  /** Order tags by LastUpdatedOn field, from least recently updated to most recently updated. */
-  LastUpdatedOnAscending = "timeasc"
+/** Known values of {@link ArtifactArchitecture} that the service accepts. */
+export const enum KnownArtifactArchitecture {
+  I386 = "386",
+  Amd64 = "amd64",
+  Arm = "arm",
+  Arm64 = "arm64",
+  Mips = "mips",
+  MipsLe = "mipsle",
+  Mips64 = "mips64",
+  Mips64Le = "mips64le",
+  Ppc64 = "ppc64",
+  Ppc64Le = "ppc64le",
+  RiscV64 = "riscv64",
+  S390X = "s390x",
+  Wasm = "wasm"
 }
 
 /**
- * Defines values for TagOrderBy. \
- * {@link KnownTagOrderBy} can be used interchangeably with TagOrderBy,
+ * Defines values for ArtifactArchitecture. \
+ * {@link KnownArtifactArchitecture} can be used interchangeably with ArtifactArchitecture,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **timedesc**: Order tags by LastUpdatedOn field, from most recently updated to least recently updated. \
- * **timeasc**: Order tags by LastUpdatedOn field, from least recently updated to most recently updated.
+ * **386** \
+ * **amd64** \
+ * **arm** \
+ * **arm64** \
+ * **mips** \
+ * **mipsle** \
+ * **mips64** \
+ * **mips64le** \
+ * **ppc64** \
+ * **ppc64le** \
+ * **riscv64** \
+ * **s390x** \
+ * **wasm**
  */
-export type TagOrderBy = string;
+export type ArtifactArchitecture = string;
 
-/** Known values of {@link RegistryArtifactOrderBy} that the service accepts. */
-export const enum KnownRegistryArtifactOrderBy {
-  /** Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated. */
-  LastUpdatedOnDescending = "timedesc",
-  /** Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated. */
-  LastUpdatedOnAscending = "timeasc"
+/** Known values of {@link ArtifactOperatingSystem} that the service accepts. */
+export const enum KnownArtifactOperatingSystem {
+  Aix = "aix",
+  Android = "android",
+  Darwin = "darwin",
+  Dragonfly = "dragonfly",
+  FreeBsd = "freebsd",
+  Illumos = "illumos",
+  IOs = "ios",
+  Js = "js",
+  Linux = "linux",
+  NetBsd = "netbsd",
+  OpenBsd = "openbsd",
+  Plan9 = "plan9",
+  Solaris = "solaris",
+  Windows = "windows"
 }
 
 /**
- * Defines values for RegistryArtifactOrderBy. \
- * {@link KnownRegistryArtifactOrderBy} can be used interchangeably with RegistryArtifactOrderBy,
+ * Defines values for ArtifactOperatingSystem. \
+ * {@link KnownArtifactOperatingSystem} can be used interchangeably with ArtifactOperatingSystem,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
- * **timedesc**: Order registry artifacts by LastUpdatedOn field, from most recently updated to least recently updated. \
- * **timeasc**: Order  registry artifacts by LastUpdatedOn field, from least recently updated to most recently updated.
+ * **aix** \
+ * **android** \
+ * **darwin** \
+ * **dragonfly** \
+ * **freebsd** \
+ * **illumos** \
+ * **ios** \
+ * **js** \
+ * **linux** \
+ * **netbsd** \
+ * **openbsd** \
+ * **plan9** \
+ * **solaris** \
+ * **windows**
  */
-export type RegistryArtifactOrderBy = string;
+export type ArtifactOperatingSystem = string;
+/** Defines values for TagOrderBy. */
+export type TagOrderBy = "none" | "timedesc" | "timeasc";
+/** Defines values for ManifestOrderBy. */
+export type ManifestOrderBy = "none" | "timedesc" | "timeasc";
+
+/** Optional parameters. */
+export interface ContainerRegistryGetManifestOptionalParams
+  extends coreClient.OperationOptions {
+  /** Accept header string delimited by comma. For example, application/vnd.docker.distribution.manifest.v2+json */
+  accept?: string;
+}
+
+/** Contains response data for the getManifest operation. */
+export type ContainerRegistryGetManifestResponse = Manifest;
+
+/** Contains response data for the createManifest operation. */
+export type ContainerRegistryCreateManifestResponse = ContainerRegistryCreateManifestHeaders & {
+  /** The parsed response body. */
+  body: any;
+};
 
 /** Optional parameters. */
 export interface ContainerRegistryGetRepositoriesOptionalParams
@@ -620,8 +796,79 @@ export interface ContainerRegistryGetRepositoriesOptionalParams
 export type ContainerRegistryGetRepositoriesResponse = ContainerRegistryGetRepositoriesHeaders &
   Repositories;
 
+/** Contains response data for the getProperties operation. */
+export type ContainerRegistryGetPropertiesResponse = RepositoryProperties;
+
 /** Contains response data for the deleteRepository operation. */
 export type ContainerRegistryDeleteRepositoryResponse = DeleteRepositoryResult;
+
+/** Optional parameters. */
+export interface ContainerRegistrySetPropertiesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Repository attribute value */
+  value?: ContentProperties;
+}
+
+/** Contains response data for the setProperties operation. */
+export type ContainerRegistrySetPropertiesResponse = RepositoryProperties;
+
+/** Optional parameters. */
+export interface ContainerRegistryGetTagsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
+  last?: string;
+  /** query parameter for max number of items */
+  n?: number;
+  /** orderby query parameter */
+  orderby?: string;
+  /** filter by digest */
+  digest?: string;
+}
+
+/** Contains response data for the getTags operation. */
+export type ContainerRegistryGetTagsResponse = ContainerRegistryGetTagsHeaders &
+  TagList;
+
+/** Contains response data for the getTagProperties operation. */
+export type ContainerRegistryGetTagPropertiesResponse = ArtifactTagProperties;
+
+/** Optional parameters. */
+export interface ContainerRegistryUpdateTagAttributesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Repository attribute value */
+  value?: ContentProperties;
+}
+
+/** Contains response data for the updateTagAttributes operation. */
+export type ContainerRegistryUpdateTagAttributesResponse = ArtifactTagProperties;
+
+/** Optional parameters. */
+export interface ContainerRegistryGetManifestsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
+  last?: string;
+  /** query parameter for max number of items */
+  n?: number;
+  /** orderby query parameter */
+  orderby?: string;
+}
+
+/** Contains response data for the getManifests operation. */
+export type ContainerRegistryGetManifestsResponse = ContainerRegistryGetManifestsHeaders &
+  AcrManifests;
+
+/** Contains response data for the getManifestProperties operation. */
+export type ContainerRegistryGetManifestPropertiesResponse = ArtifactManifestProperties;
+
+/** Optional parameters. */
+export interface ContainerRegistryUpdateManifestPropertiesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Repository attribute value */
+  value?: ContentProperties;
+}
+
+/** Contains response data for the updateManifestProperties operation. */
+export type ContainerRegistryUpdateManifestPropertiesResponse = ArtifactManifestProperties;
 
 /** Optional parameters. */
 export interface ContainerRegistryGetRepositoriesNextOptionalParams
@@ -637,94 +884,7 @@ export type ContainerRegistryGetRepositoriesNextResponse = ContainerRegistryGetR
   Repositories;
 
 /** Optional parameters. */
-export interface ContainerRegistryRepositoryGetManifestOptionalParams
-  extends coreClient.OperationOptions {
-  /** Accept header string delimited by comma. For example, application/vnd.docker.distribution.manifest.v2+json */
-  accept?: string;
-}
-
-/** Contains response data for the getManifest operation. */
-export type ContainerRegistryRepositoryGetManifestResponse = Manifest;
-
-/** Contains response data for the createManifest operation. */
-export type ContainerRegistryRepositoryCreateManifestResponse = ContainerRegistryRepositoryCreateManifestHeaders & {
-  /** The parsed response body. */
-  body: any;
-};
-
-/** Contains response data for the getProperties operation. */
-export type ContainerRegistryRepositoryGetPropertiesResponse = RepositoryProperties;
-
-/** Optional parameters. */
-export interface ContainerRegistryRepositorySetPropertiesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Repository attribute value */
-  value?: ContentProperties;
-}
-
-/** Contains response data for the setProperties operation. */
-export type ContainerRegistryRepositorySetPropertiesResponse = RepositoryProperties;
-
-/** Optional parameters. */
-export interface ContainerRegistryRepositoryGetTagsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
-  last?: string;
-  /** query parameter for max number of items */
-  n?: number;
-  /** orderby query parameter */
-  orderby?: string;
-  /** filter by digest */
-  digest?: string;
-}
-
-/** Contains response data for the getTags operation. */
-export type ContainerRegistryRepositoryGetTagsResponse = ContainerRegistryRepositoryGetTagsHeaders &
-  TagList;
-
-/** Contains response data for the getTagProperties operation. */
-export type ContainerRegistryRepositoryGetTagPropertiesResponse = TagProperties;
-
-/** Optional parameters. */
-export interface ContainerRegistryRepositoryUpdateTagAttributesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Repository attribute value */
-  value?: ContentProperties;
-}
-
-/** Contains response data for the updateTagAttributes operation. */
-export type ContainerRegistryRepositoryUpdateTagAttributesResponse = TagProperties;
-
-/** Optional parameters. */
-export interface ContainerRegistryRepositoryGetManifestsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
-  last?: string;
-  /** query parameter for max number of items */
-  n?: number;
-  /** orderby query parameter */
-  orderby?: string;
-}
-
-/** Contains response data for the getManifests operation. */
-export type ContainerRegistryRepositoryGetManifestsResponse = ContainerRegistryRepositoryGetManifestsHeaders &
-  AcrManifests;
-
-/** Contains response data for the getRegistryArtifactProperties operation. */
-export type ContainerRegistryRepositoryGetRegistryArtifactPropertiesResponse = RegistryArtifactProperties;
-
-/** Optional parameters. */
-export interface ContainerRegistryRepositoryUpdateManifestAttributesOptionalParams
-  extends coreClient.OperationOptions {
-  /** Repository attribute value */
-  value?: ContentProperties;
-}
-
-/** Contains response data for the updateManifestAttributes operation. */
-export type ContainerRegistryRepositoryUpdateManifestAttributesResponse = RegistryArtifactProperties;
-
-/** Optional parameters. */
-export interface ContainerRegistryRepositoryGetTagsNextOptionalParams
+export interface ContainerRegistryGetTagsNextOptionalParams
   extends coreClient.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
@@ -737,11 +897,11 @@ export interface ContainerRegistryRepositoryGetTagsNextOptionalParams
 }
 
 /** Contains response data for the getTagsNext operation. */
-export type ContainerRegistryRepositoryGetTagsNextResponse = ContainerRegistryRepositoryGetTagsNextHeaders &
+export type ContainerRegistryGetTagsNextResponse = ContainerRegistryGetTagsNextHeaders &
   TagList;
 
 /** Optional parameters. */
-export interface ContainerRegistryRepositoryGetManifestsNextOptionalParams
+export interface ContainerRegistryGetManifestsNextOptionalParams
   extends coreClient.OperationOptions {
   /** Query parameter for the last item in previous query. Result set will include values lexically after last. */
   last?: string;
@@ -752,7 +912,7 @@ export interface ContainerRegistryRepositoryGetManifestsNextOptionalParams
 }
 
 /** Contains response data for the getManifestsNext operation. */
-export type ContainerRegistryRepositoryGetManifestsNextResponse = ContainerRegistryRepositoryGetManifestsNextHeaders &
+export type ContainerRegistryGetManifestsNextResponse = ContainerRegistryGetManifestsNextHeaders &
   AcrManifests;
 
 /** Contains response data for the getBlob operation. */
@@ -840,7 +1000,7 @@ export type ContainerRegistryBlobCheckChunkExistsResponse = ContainerRegistryBlo
 /** Optional parameters. */
 export interface AuthenticationExchangeAadAccessTokenForAcrRefreshTokenOptionalParams
   extends coreClient.OperationOptions {
-  aadAccesstoken?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
+  aadAccessToken?: Paths108HwamOauth2ExchangePostRequestbodyContentApplicationXWwwFormUrlencodedSchema;
 }
 
 /** Contains response data for the exchangeAadAccessTokenForAcrRefreshToken operation. */
