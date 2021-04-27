@@ -139,11 +139,17 @@ export interface OperationRequestOptions {
    * Callback which fires upon download progress.
    */
   onDownloadProgress?: (progress: TransferProgressEvent) => void;
+
   /**
    * Whether or not the HttpOperationResponse should be deserialized. If this is undefined, then the
    * HttpOperationResponse should be deserialized.
    */
   shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
+
+  /**
+   * Set to true if the request is sent over HTTP instead of HTTPS
+   */
+  allowInsecureConnection?: boolean;
 }
 
 /**

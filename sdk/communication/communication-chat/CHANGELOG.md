@@ -1,6 +1,6 @@
 # Release History
 
-## Unreleased
+## 1.0.1 (Unreleased)
 
 - Updated to @azure/communication-signaling@1.0.0-beta.5.
 - Enabled real-time notification for React Native.

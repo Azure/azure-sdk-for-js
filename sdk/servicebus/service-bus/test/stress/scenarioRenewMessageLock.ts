@@ -1,13 +1,6 @@
 import { delay, ServiceBusClient } from "@azure/service-bus";
-import { SBStressTestsBase } from "./stressTestsBase";
+import { ServiceBusStressTester } from "./serviceBusStressTester";
 import parsedArgs from "minimist";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
-
-// Define connection string and related Service Bus entity names here
-const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
 interface ScenarioRenewMessageLockOptions {
   testDurationInMs?: number;
@@ -57,53 +50,54 @@ export async function main() {
 
   const startedAt = new Date();
 
-  const stressBase = new SBStressTestsBase({
+  const stressBase = new ServiceBusStressTester({
     testName: "renewMessageLock",
     snapshotFocus: ["send-info", "receive-info", "message-lock-renewal-info"]
   });
-  const sbClient = new ServiceBusClient(connectionString);
 
-  await stressBase.init(undefined, undefined, testOptions);
-  const sender = sbClient.createSender(stressBase.queueName);
-  const receiver = sbClient.createReceiver(stressBase.queueName, { receiveMode: "peekLock" });
+  const operation = async (sbClient: ServiceBusClient) => {
+    const sender = sbClient.createSender(stressBase.queueName);
+    const receiver = sbClient.createReceiver(stressBase.queueName, { receiveMode: "peekLock" });
 
-  async function sendMessages() {
-    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    while (
-      elapsedTime < testDurationForSendInMs &&
-      stressBase.numMessagesSent() < totalNumberOfMessagesToSend
-    ) {
-      await stressBase.sendMessages([sender], numberOfMessagesPerSend);
-      elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      await delay(delayBetweenSendsInMs);
+    async function sendMessages() {
+      let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      while (
+        elapsedTime < testDurationForSendInMs &&
+        stressBase.numMessagesSent() < totalNumberOfMessagesToSend
+      ) {
+        await stressBase.sendMessages([sender], numberOfMessagesPerSend);
+        elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        await delay(delayBetweenSendsInMs);
+      }
     }
-  }
 
-  async function receiveMessages() {
-    let elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    while (elapsedTime < testDurationInMs) {
-      const messages = await stressBase.receiveMessages(
-        receiver,
-        receiveBatchMaxMessageCount,
-        receiveBatchMaxWaitTimeInMs
-      );
-      elapsedTime = new Date().valueOf() - startedAt.valueOf();
-      messages.map((msg) =>
-        stressBase.renewMessageLockUntil(
-          msg,
+    async function receiveMessages() {
+      let elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      while (elapsedTime < testDurationInMs) {
+        const messages = await stressBase.receiveMessages(
           receiver,
-          testDurationForLockRenewalInMs - elapsedTime,
-          completeMessageAfterDuration
-        )
-      );
-      await delay(delayBetweenReceivesInMs);
+          receiveBatchMaxMessageCount,
+          receiveBatchMaxWaitTimeInMs
+        );
+        elapsedTime = new Date().valueOf() - startedAt.valueOf();
+        messages.map((msg) =>
+          stressBase.renewMessageLockUntil(
+            msg,
+            receiver,
+            testDurationForLockRenewalInMs - elapsedTime,
+            completeMessageAfterDuration
+          )
+        );
+        await delay(delayBetweenReceivesInMs);
+      }
     }
-  }
 
-  await Promise.all([sendMessages(), receiveMessages()]);
-  await sbClient.close();
+    await Promise.all([sendMessages(), receiveMessages()]);
+  };
 
-  await stressBase.end();
+  return stressBase.runStressTest(operation, {
+    additionalEventProperties: testOptions
+  });
 }
 
 main().catch((err) => {
