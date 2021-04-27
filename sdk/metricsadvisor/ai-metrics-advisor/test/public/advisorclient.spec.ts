@@ -590,7 +590,7 @@ matrix([[true, false]] as const, async (useAad) => {
           }
         });
 
-        it("retrieves Anomaly feedback", async function() {
+        it("retrieves Comment feedback", async function() {
           const actual = await client.getFeedback(createdFeedbackId);
 
           assert.ok(actual.id, "Expecting valid feedback");
