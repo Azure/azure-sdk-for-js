@@ -2,7 +2,6 @@
 
 ## 1.3.1 (Unreleased)
 
-- Added "claims" to the `GetTokenOptions`, which allows passing the OAuth 2 claims parameter to the credential's `getToken` method.
 
 ## 1.3.0 (2021-03-30)
 

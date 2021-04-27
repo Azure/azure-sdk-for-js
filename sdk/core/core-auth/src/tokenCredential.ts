@@ -26,11 +26,6 @@ export interface TokenCredential {
  */
 export interface GetTokenOptions {
   /**
-   * Additional claims to be included in the token.
-   * For more information on format and content: [the claims parameter specification](href="https://openid.net/specs/openid-connect-core-1_0-final.html#ClaimsParameter).
-   */
-  claims?: string;
-  /**
    * The signal which can be used to abort requests.
    */
   abortSignal?: AbortSignalLike;
