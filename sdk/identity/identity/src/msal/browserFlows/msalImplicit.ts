@@ -5,9 +5,9 @@ import * as msal from "msal";
 import { MsalBrowserFlowOptions, MsalBrowser } from "./browserCommon";
 import { AccessToken } from "@azure/core-http";
 import { AuthenticationRecord } from "../types";
-import { AuthenticationRequired } from "../errors";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { getAuthorityHost, serializeAuthenticationRecord, publicToMsal } from "../utils";
+import { getAuthorityHost, publicToMsal } from "../utils";
+import { AuthenticationRequiredError } from "../errors";
 
 /**
  * Uses MSAL directly for browser authentication,
@@ -43,9 +43,9 @@ export class MSALImplicit extends MsalBrowser {
     const record = {
       homeAccountId: account.homeAccountIdentifier,
       authority: getAuthorityHost(this.tenantId, account.environment),
+      clientId: this.clientId,
       tenantId: this.tenantId,
-      username: account.environment,
-      serialize: () => serializeAuthenticationRecord(record)
+      username: account.environment
     };
     return record;
   }
@@ -138,7 +138,7 @@ export class MSALImplicit extends MsalBrowser {
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequired();
+      throw new AuthenticationRequiredError(scopes, options);
     }
 
     const parameters: msal.AuthenticationParameters = {
@@ -150,7 +150,7 @@ export class MSALImplicit extends MsalBrowser {
     try {
       this.logger.info("Attempting to acquire token silently");
       const response = await this.app.acquireTokenSilent(parameters);
-      return this.handleResult(scopes, {
+      return this.handleResult(scopes, this.clientId, {
         account: {
           ...this.msalBrowserToPublicAccount(response.account),
           localAccountId: response.account.accountIdentifier
@@ -172,7 +172,7 @@ export class MSALImplicit extends MsalBrowser {
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
-      throw new AuthenticationRequired();
+      throw new AuthenticationRequiredError(scopes, options);
     }
 
     const parameters: msal.AuthenticationParameters = {
@@ -192,7 +192,7 @@ export class MSALImplicit extends MsalBrowser {
         throw new Error("Redirecting...");
       case "popup":
         response = await this.app.acquireTokenPopup(parameters);
-        return this.handleResult(scopes, {
+        return this.handleResult(scopes, this.clientId, {
           account: publicToMsal(this.msalBrowserToPublicAccount(response.account)),
           accessToken: response.accessToken,
           expiresOn: response.expiresOn
