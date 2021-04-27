@@ -46,10 +46,42 @@ export interface RenderingSessionProperties {
   readonly createdOn: Date;
 }
 
+/**
+ * In certain RenderingSession states, some properties are available and some are not.
+ */
+export interface PartialRenderingSessionProperties {
+  /**
+   * The TCP port at which the Azure Remote Rendering Inspector tool is hosted.
+   */
+  readonly arrInspectorPort?: number;
+  /**
+   * The TCP port used for the handshake when establishing a connection.
+   */
+  readonly handshakePort?: number;
+  /**
+   * Amount of time in minutes the session is or was in the 'Ready' state. Time is rounded down to a full minute.
+   */
+  readonly elapsedTimeInMinutes?: number;
+  /**
+   * The hostname under which the rendering session is reachable.
+   */
+  readonly host?: string;
+  /**
+   * The computational power of the rendering session GPU measured in teraflops.
+   */
+  readonly teraflops?: number;
+  /**
+   * The time when the rendering session was created. Date and time in ISO 8601 format.
+   */
+  readonly createdOn?: Date;
+}
+
 /** The properties of a rendering session that may not be complete */
+/*
 export type PartialRenderingSessionProperties = {
   [P in keyof RenderingSessionProperties]+?: RenderingSessionProperties[P];
 };
+*/
 
 /** The rendering session is ready for incoming connections. */
 export interface ReadyRenderingSession extends RenderingSessionBase {
