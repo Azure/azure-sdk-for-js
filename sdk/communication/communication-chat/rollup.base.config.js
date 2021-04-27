@@ -105,7 +105,7 @@ export function browserConfig(test = false) {
         namedExports: {
           chai: ["assert"],
           events: ["EventEmitter"],
-          "@azure/communication-signaling": ["CommunicationSignalingClient", "SignalingClient"],
+          '@azure/communication-signaling': ['CommunicationSignalingClient', 'SignalingClient'],
           ...openTelemetryCommonJs()
         }
       }),
