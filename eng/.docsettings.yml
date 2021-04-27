@@ -3,7 +3,6 @@ omitted_paths:
   - eng/*
   - sdk/*/arm-*
   - sdk/*/perf-tests/*
-  - sdk/appconfiguration/app-configuration/sample-react/
   - sdk/core/README.md
   - sdk/cognitiveservices/*
   - sdk/communication/*/test/README.md
