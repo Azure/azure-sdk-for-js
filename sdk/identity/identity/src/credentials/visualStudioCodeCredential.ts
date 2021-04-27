@@ -15,7 +15,7 @@ try {
   keytar = null;
 }
 
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailable } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { AzureAuthorityHosts } from "../constants";
 import { checkTenantId } from "../util/checkTenantId";
@@ -34,7 +34,7 @@ function checkUnsupportedTenant(tenantId: string): void {
   // If the Tenant ID isn't supported, we throw.
   const unsupportedTenantError = unsupportedTenantIds[tenantId];
   if (unsupportedTenantError) {
-    throw new CredentialUnavailableError(unsupportedTenantError);
+    throw new CredentialUnavailable(unsupportedTenantError);
   }
 }
 
@@ -169,10 +169,10 @@ export class VisualStudioCodeCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     _options?: GetTokenOptions
-  ): Promise<AccessToken> {
+  ): Promise<AccessToken | null> {
     await this.prepareOnce();
     if (!keytar) {
-      throw new CredentialUnavailableError(
+      throw new CredentialUnavailable(
         "Visual Studio Code credential requires the optional dependency 'keytar' to work correctly"
       );
     }
@@ -222,14 +222,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
         logger.getToken.info(formatSuccess(scopes));
         return tokenResponse.accessToken;
       } else {
-        const error = new CredentialUnavailableError(
+        const error = new CredentialUnavailable(
           "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently?"
         );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     } else {
-      const error = new CredentialUnavailableError(
+      const error = new CredentialUnavailable(
         "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension?"
       );
       logger.getToken.info(formatError(scopes, error));

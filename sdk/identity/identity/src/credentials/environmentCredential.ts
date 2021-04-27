@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http"
 import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
-import { AuthenticationError, CredentialUnavailableError } from "../client/errors";
+import { AuthenticationError, CredentialUnavailable } from "../client/errors";
 import { checkTenantId } from "../util/checkTenantId";
 import { trace } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
@@ -112,7 +112,10 @@ export class EnvironmentCredential implements TokenCredential {
    * @param scopes - The list of scopes for which the token will have access.
    * @param options - Optional parameters. See {@link GetTokenOptions}.
    */
-  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
+  async getToken(
+    scopes: string | string[],
+    options: GetTokenOptions = {}
+  ): Promise<AccessToken | null> {
     return trace("EnvironmentCredential.getToken", options, async (newOptions) => {
       if (this._credential) {
         try {
@@ -131,7 +134,7 @@ export class EnvironmentCredential implements TokenCredential {
           throw authenticationError;
         }
       }
-      throw new CredentialUnavailableError(
+      throw new CredentialUnavailable(
         "EnvironmentCredential is unavailable. No underlying credential could be used."
       );
     });

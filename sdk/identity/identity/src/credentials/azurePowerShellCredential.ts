@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailable } from "../client/errors";
 import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
 import { ensureValidScope, getScopeResource } from "../util/scopeUtils";
@@ -164,15 +164,15 @@ export class AzurePowerShellCredential implements TokenCredential {
         };
       } catch (err) {
         if (isNotInstallError(err)) {
-          const error = new CredentialUnavailableError(powerShellPublicErrorMessages.installed);
+          const error = new CredentialUnavailable(powerShellPublicErrorMessages.installed);
           logger.getToken.info(formatError(scope, error));
           throw error;
         } else if (isLoginError(err)) {
-          const error = new CredentialUnavailableError(powerShellPublicErrorMessages.login);
+          const error = new CredentialUnavailable(powerShellPublicErrorMessages.login);
           logger.getToken.info(formatError(scope, error));
           throw error;
         }
-        const error = new CredentialUnavailableError(err);
+        const error = new CredentialUnavailable(err);
         logger.getToken.info(formatError(scope, error));
         throw error;
       }

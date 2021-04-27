@@ -7,10 +7,7 @@ import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
-import { TokenCachePersistenceOptions } from "../../tokenCache/persistencePlatforms";
-import { TokenCachePersistence } from "../../tokenCache/TokenCachePersistence";
 import { resolveTenantId } from "../../util/resolveTenantId";
-import { TokenCache } from "../../tokenCache/types";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import { AuthenticationRequiredError } from "../errors";
@@ -29,7 +26,6 @@ import {
  * @internal
  */
 export interface MsalNodeOptions extends MsalFlowOptions {
-  tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
   tokenCredentialOptions: TokenCredentialOptions;
 }
 
@@ -47,7 +43,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected confidentialApp: msalNode.ConfidentialClientApplication | undefined;
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
-  protected tokenCache: TokenCache | undefined;
   protected identityClient?: IdentityClient;
   protected requiresConfidential: boolean = false;
 
@@ -55,10 +50,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.clientId = this.msalConfig.auth.clientId;
-
-    if (options.tokenCachePersistenceOptions) {
-      this.tokenCache = new TokenCachePersistence(options.tokenCachePersistenceOptions);
-    }
   }
 
   /**
@@ -102,12 +93,6 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     if (this.publicApp || this.confidentialApp) {
       return;
-    }
-
-    if (this.tokenCache) {
-      this.msalConfig.cache = {
-        cachePlugin: await this.tokenCache.register()
-      };
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);

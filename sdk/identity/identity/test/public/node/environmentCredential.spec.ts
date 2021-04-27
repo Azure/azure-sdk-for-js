@@ -8,7 +8,7 @@ import assert from "assert";
 import { isPlaybackMode } from "@azure/test-utils-recorder";
 import {
   AuthenticationError,
-  CredentialUnavailableError,
+  CredentialUnavailable,
   EnvironmentCredential,
   UsernamePasswordCredential
 } from "../../../src";
@@ -210,7 +210,7 @@ describe("EnvironmentCredential", function() {
     const credential = new EnvironmentCredential();
     await assertRejects(
       credential.getToken(scope),
-      (error: CredentialUnavailableError) =>
+      (error: CredentialUnavailable) =>
         error.message.indexOf(
           "EnvironmentCredential is unavailable. No underlying credential could be used."
         ) > -1

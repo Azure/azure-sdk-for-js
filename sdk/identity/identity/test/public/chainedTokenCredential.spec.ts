@@ -8,7 +8,7 @@ import {
   TokenCredential,
   AccessToken,
   AggregateAuthenticationError,
-  CredentialUnavailableError,
+  CredentialUnavailable,
   AuthenticationRequiredError
 } from "../../src";
 
@@ -21,7 +21,7 @@ function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCreden
 describe("ChainedTokenCredential", function() {
   it("returns the first token received from a credential", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
-      mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
+      mockCredential(Promise.reject(new CredentialUnavailable("unavailable."))),
       mockCredential(
         Promise.reject(
           new AuthenticationRequiredError(
@@ -41,8 +41,8 @@ describe("ChainedTokenCredential", function() {
 
   it("returns an AggregateAuthenticationError when no token is returned and one credential returned an error", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
-      mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
-      mockCredential(Promise.reject(new CredentialUnavailableError("unavailable.")))
+      mockCredential(Promise.reject(new CredentialUnavailable("unavailable."))),
+      mockCredential(Promise.reject(new CredentialUnavailable("unavailable.")))
     );
 
     await assertRejects(

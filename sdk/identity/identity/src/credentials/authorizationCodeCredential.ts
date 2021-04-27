@@ -3,7 +3,7 @@
 
 import qs from "qs";
 import { createSpan } from "../util/tracing";
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailable } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -134,7 +134,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   public async getToken(
     scopes: string | string[],
     options?: GetTokenOptions
-  ): Promise<AccessToken> {
+  ): Promise<AccessToken | null> {
     const { span, updatedOptions } = createSpan("AuthorizationCodeCredential-getToken", options);
     try {
       let tokenResponse: TokenResponse | null = null;
@@ -188,7 +188,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       const token = tokenResponse && tokenResponse.accessToken;
 
       if (!token) {
-        throw new CredentialUnavailableError("Failed to retrieve a valid token");
+        throw new CredentialUnavailable("Failed to retrieve a valid token");
       }
       return token;
     } catch (err) {

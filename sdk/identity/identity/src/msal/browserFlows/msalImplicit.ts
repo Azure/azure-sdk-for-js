@@ -40,14 +40,14 @@ export class MSALImplicit extends MsalBrowser {
    * @param account - The account in the shape defined by MSAL.
    */
   private msalBrowserToPublicAccount(account: msal.Account): AuthenticationRecord {
-    const record = {
+    return {
       homeAccountId: account.homeAccountIdentifier,
+      localAccountId: account.accountIdentifier,
       authority: getAuthorityHost(this.tenantId, account.environment),
-      clientId: this.clientId,
+      environment: account.environment,
       tenantId: this.tenantId,
       username: account.environment
     };
-    return record;
   }
 
   /**

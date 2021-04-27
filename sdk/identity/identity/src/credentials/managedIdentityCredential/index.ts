@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 import { IdentityClient, TokenCredentialOptions } from "../../client/identityClient";
 import { createSpan } from "../../util/tracing";
-import { AuthenticationError, CredentialUnavailableError } from "../../client/errors";
+import { AuthenticationError, CredentialUnavailable } from "../../client/errors";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { mapScopesToResource } from "./utils";
@@ -84,7 +84,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
     }
 
-    throw new CredentialUnavailableError("ManagedIdentityCredential - No MSI credential available");
+    throw new CredentialUnavailable("ManagedIdentityCredential - No MSI credential available");
   }
 
   private async authenticateManagedIdentity(
@@ -147,7 +147,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
           // It also means that the endpoint answered with either 200 or 201 (see the sendTokenRequest method),
           // yet we had no access token. For this reason, we'll throw once with a specific message:
-          const error = new CredentialUnavailableError(
+          const error = new CredentialUnavailable(
             "The managed identity endpoint was reached, yet no tokens were received."
           );
           logger.getToken.info(formatError(scopes, error));
@@ -161,7 +161,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       } else {
         // We've previously determined that the endpoint was unavailable,
         // either because it was unreachable or permanently unable to authenticate.
-        const error = new CredentialUnavailableError(
+        const error = new CredentialUnavailable(
           "The managed identity endpoint is not currently available"
         );
         logger.getToken.info(formatError(scopes, error));
@@ -191,7 +191,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If either the network is unreachable,
       // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
-        const error = new CredentialUnavailableError(
+        const error = new CredentialUnavailable(
           "ManagedIdentityCredential is unavailable. Network unreachable."
         );
 
@@ -202,7 +202,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If either the host was unreachable,
       // we can safely assume the credential is unavailable.
       if (err.code === "EHOSTUNREACH") {
-        const error = new CredentialUnavailableError(
+        const error = new CredentialUnavailable(
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
 
@@ -213,7 +213,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If err.statusCode has a value of 400, it comes from sendTokenRequest,
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
-        throw new CredentialUnavailableError(
+        throw new CredentialUnavailable(
           "The managed identity endpoint is indicating there's no available identity"
         );
       }
@@ -221,7 +221,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If the error has no status code, we can assume there was no available identity.
       // This will throw silently during any ChainedTokenCredential.
       if (err.statusCode === undefined) {
-        throw new CredentialUnavailableError(
+        throw new CredentialUnavailable(
           `ManagedIdentityCredential authentication failed. Message ${err.message}`
         );
       }

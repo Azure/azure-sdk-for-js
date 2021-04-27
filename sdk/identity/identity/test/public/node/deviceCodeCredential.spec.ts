@@ -38,10 +38,7 @@ describe("DeviceCodeCredential", function() {
     if (isLiveMode()) {
       this.skip();
     }
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID
-    });
+    const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID);
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -56,11 +53,7 @@ describe("DeviceCodeCredential", function() {
     const callback: DeviceCodePromptCallback = (info) => {
       console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
     };
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID,
-      userPromptCallback: callback
-    });
+    const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, callback);
 
     const token = await credential.getToken(scope);
     assert.ok(token?.token);
@@ -74,10 +67,7 @@ describe("DeviceCodeCredential", function() {
       this.skip();
     }
 
-    const credential = new DeviceCodeCredential({
-      tenantId: env.AZURE_TENANT_ID,
-      clientId: env.AZURE_CLIENT_ID
-    });
+    const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID);
 
     const controller = new AbortController();
     const getTokenPromise = credential.getToken(scope, {
@@ -98,30 +88,6 @@ describe("DeviceCodeCredential", function() {
     assert.ok(error?.message.match("The authentication has been aborted by the caller."));
   });
 
-  it("allows setting disableAutomaticAuthentication", async function(this: Context) {
-    // These tests should not run live because this credential requires user interaction.
-    if (isLiveMode()) {
-      this.skip();
-    }
-    const credential = new DeviceCodeCredential({
-      disableAutomaticAuthentication: true
-    });
-
-    let error: AbortError | undefined;
-    try {
-      await credential.getToken(scope);
-    } catch (e) {
-      error = e;
-    }
-    assert.equal(
-      error?.message,
-      `Automatic authentication has been disabled. You may call the authentication() method.`
-    );
-
-    const account = await credential.authenticate(scope);
-    assert.ok(account);
-  });
-
   it("supports tracing", async function(this: Context) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
@@ -129,10 +95,7 @@ describe("DeviceCodeCredential", function() {
     }
     await testTracing({
       test: async (tracingOptions) => {
-        const credential = new DeviceCodeCredential({
-          tenantId: env.AZURE_TENANT_ID,
-          clientId: env.AZURE_CLIENT_ID
-        });
+        const credential = new DeviceCodeCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID);
 
         await credential.getToken(scope, {
           tracingOptions

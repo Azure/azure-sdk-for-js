@@ -5,9 +5,12 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http"
 import { credentialLogger } from "../util/logging";
 import { MsalDeviceCode } from "../msal/nodeFlows/msalDeviceCode";
 import { MsalFlow } from "../msal/flows";
-import { AuthenticationRecord } from "../msal/types";
 import { trace } from "../util/tracing";
-import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
+import {
+  DeviceCodeCredentialOptions,
+  DeviceCodeInfo,
+  DeviceCodePromptCallback
+} from "./deviceCodeCredentialOptions";
 
 const logger = credentialLogger("DeviceCodeCredential");
 
@@ -25,7 +28,6 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
  */
 export class DeviceCodeCredential implements TokenCredential {
   private msalFlow: MsalFlow;
-  private disableAutomaticAuthentication?: boolean;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
@@ -33,14 +35,20 @@ export class DeviceCodeCredential implements TokenCredential {
    *
    * @param options - Options for configuring the client which makes the authentication requests.
    */
-  constructor(options?: DeviceCodeCredentialOptions) {
+  constructor(
+    tenantId?: string,
+    clientId?: string,
+    userPromptCallback?: DeviceCodePromptCallback,
+    options?: DeviceCodeCredentialOptions
+  ) {
     this.msalFlow = new MsalDeviceCode({
       ...options,
+      tenantId,
+      clientId,
       logger,
-      userPromptCallback: options?.userPromptCallback || defaultDeviceCodePromptCallback,
+      userPromptCallback: userPromptCallback || defaultDeviceCodePromptCallback,
       tokenCredentialOptions: options || {}
     });
-    this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
   /**
@@ -57,36 +65,13 @@ export class DeviceCodeCredential implements TokenCredential {
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, {
-        ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication
-      });
-    });
-  }
-
-  /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
-   *
-   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
-   *
-   * @param scopes - The list of scopes for which the token will have access.
-   * @param options - The options used to configure any requests this
-   *                  TokenCredential implementation might make.
-   */
-  async authenticate(
+  async getToken(
     scopes: string | string[],
     options: GetTokenOptions = {}
-  ): Promise<AuthenticationRecord | undefined> {
-    return trace(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
+  ): Promise<AccessToken | null> {
+    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      await this.msalFlow.getToken(arrayScopes, newOptions);
-      return this.msalFlow.getActiveAccount();
+      return this.msalFlow.getToken(arrayScopes, newOptions);
     });
   }
 }

@@ -57,7 +57,10 @@ export class ClientSecretCredential implements TokenCredential {
    * @param options - The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
+  async getToken(
+    scopes: string | string[],
+    options: GetTokenOptions = {}
+  ): Promise<AccessToken | null> {
     return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, newOptions);

@@ -5,14 +5,10 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http"
 import { credentialLogger, formatError } from "../util/logging";
 import { trace } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
-import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
 import { MSALImplicit } from "../msal/browserFlows/msalImplicit";
 import { MsalBrowserFlowOptions } from "../msal/browserFlows/browserCommon";
-import {
-  InteractiveBrowserCredentialBrowserOptions,
-  InteractiveBrowserCredentialOptions
-} from "./interactiveBrowserCredentialOptions";
+import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
@@ -31,7 +27,6 @@ const logger = credentialLogger("InteractiveBrowserCredential");
  */
 export class InteractiveBrowserCredential implements TokenCredential {
   private msalFlow: MsalFlow;
-  private disableAutomaticAuthentication?: boolean;
 
   /**
    * Creates an instance of the InteractiveBrowserCredential with the
@@ -40,9 +35,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    *
    * @param options - Options for configuring the client which makes the authentication request.
    */
-  constructor(
-    options: InteractiveBrowserCredentialBrowserOptions | InteractiveBrowserCredentialOptions
-  ) {
+  constructor(options: InteractiveBrowserCredentialOptions) {
     if (!options?.clientId) {
       const error = new Error(
         "The parameter `clientId` cannot be left undefined for the `InteractiveBrowserCredential`"
@@ -51,14 +44,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
       throw error;
     }
 
-    const browserOptions = options as InteractiveBrowserCredentialBrowserOptions;
-    const loginStyle = browserOptions.loginStyle || "popup";
+    const loginStyle = options.loginStyle || "popup";
     const loginStyles = ["redirect", "popup"];
 
     if (loginStyles.indexOf(loginStyle) === -1) {
       const error = new Error(
         `Invalid loginStyle: ${
-          browserOptions.loginStyle
+          options.loginStyle
         }. Should be any of the following: ${loginStyles.join(", ")}.`
       );
       logger.info(formatError("", error));
@@ -73,12 +65,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
         typeof options.redirectUri === "function" ? options.redirectUri() : options.redirectUri
     };
 
-    if (browserOptions.flow === "implicit-grant") {
+    if (options.flow === "implicit-grant") {
       this.msalFlow = new MSALImplicit(msalOptions);
     } else {
       this.msalFlow = new MSALAuthCode(msalOptions);
     }
-    this.disableAutomaticAuthentication = options?.disableAutomaticAuthentication;
   }
 
   /**
@@ -98,33 +89,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
     return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, {
-        ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication
-      });
-    });
-  }
-
-  /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
-   *
-   * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
-   *
-   * @param scopes - The list of scopes for which the token will have access.
-   * @param options - The options used to configure any requests this
-   *                  TokenCredential implementation might make.
-   */
-  async authenticate(
-    scopes: string | string[],
-    options: GetTokenOptions = {}
-  ): Promise<AuthenticationRecord | undefined> {
-    return trace(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      await this.msalFlow.getToken(arrayScopes, newOptions);
-      return this.msalFlow.getActiveAccount();
+      return this.msalFlow.getToken(arrayScopes, newOptions);
     });
   }
 }

@@ -45,15 +45,19 @@ export interface AuthenticationRecord {
   /**
    * The associated authority, if used.
    */
-  authority: string;
+  authority?: string;
+  /**
+   * The login environment, eg "login.windows.net"
+   */
+  environment: string;
   /**
    * The home account Id.
    */
   homeAccountId: string;
   /**
-   * The associated client ID.
+   * Local, tenant-specific account identifer for this account object, usually used in legacy cases
    */
-  clientId: string;
+  localAccountId: string;
   /**
    * The associated tenant ID.
    */

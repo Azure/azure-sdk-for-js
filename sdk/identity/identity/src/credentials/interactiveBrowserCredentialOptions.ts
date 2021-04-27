@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { TokenCredentialOptions } from "../client/identityClient";
-import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
 
 /**
  * (Browser-only feature)
@@ -25,59 +24,41 @@ export type InteractiveBrowserAuthenticationFlow = "implicit-grant" | "auth-code
 /**
  * Defines the common options for the InteractiveBrowserCredential class.
  */
-export type InteractiveBrowserCredentialOptions = TokenCredentialOptions &
-  InteractiveCredentialOptions & {
-    /**
-     * Gets the redirect URI of the application. This should be same as the value
-     * in the application registration portal.  Defaults to `window.location.href`.
-     */
-    redirectUri?: string | (() => string);
+export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
+  /**
+   * Gets the redirect URI of the application. This should be same as the value
+   * in the application registration portal.  Defaults to `window.location.href`.
+   */
+  redirectUri?: string | (() => string);
 
-    /**
-     * The Azure Active Directory tenant (directory) ID.
-     */
-    tenantId?: string;
+  /**
+   * Gets the URI to which the user will be redirected when logging out.
+   * Defaults to `window.location.href`.
+   */
+  postLogoutRedirectUri?: string | (() => string);
 
-    /**
-     * The client (application) ID of an App Registration in the tenant.
-     */
-    clientId?: string;
-  };
+  /**
+   * The Azure Active Directory tenant (directory) ID.
+   */
+  tenantId?: string;
 
-/**
- * Defines the common options for the InteractiveBrowserCredential class.
- */
-export type InteractiveBrowserCredentialBrowserOptions = TokenCredentialOptions &
-  InteractiveCredentialOptions & {
-    /**
-     * Gets the redirect URI of the application. This should be same as the value
-     * in the application registration portal.  Defaults to `window.location.href`.
-     */
-    redirectUri?: string | (() => string);
+  /**
+   * The client (application) ID of an App Registration in the tenant.
+   */
+  clientId?: string;
 
-    /**
-     * The Azure Active Directory tenant (directory) ID.
-     */
-    tenantId?: string;
+  /**
+   * Specifies whether a redirect or a popup window should be used to
+   * initiate the user authentication flow. Possible values are "redirect"
+   * or "popup" (default) for browser and "popup" (default) for node.
+   *
+   */
+  loginStyle?: BrowserLoginStyle;
 
-    /**
-     * The client (application) ID of an App Registration in the tenant.
-     * This parameter is required on the browser.
-     */
-    clientId: string;
-
-    /**
-     * Specifies whether a redirect or a popup window should be used to
-     * initiate the user authentication flow. Possible values are "redirect"
-     * or "popup" (default) for browser and "popup" (default) for node.
-     *
-     */
-    loginStyle?: BrowserLoginStyle;
-
-    /**
-     * Authentication flow to use.
-     * If the user specifies the implicit-grant flow, we will use MSAL 1.
-     * Otherwise, auth-code will be assumed, which uses PKCE and MSAL 2.
-     */
-    flow?: InteractiveBrowserAuthenticationFlow;
-  };
+  /**
+   * Authentication flow to use.
+   * If the user specifies the implicit-grant flow, we will use MSAL 1.
+   * Otherwise, auth-code will be assumed, which uses PKCE and MSAL 2.
+   */
+  flow?: InteractiveBrowserAuthenticationFlow;
+}

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { InteractiveCredentialOptions } from "./interactiveCredentialOptions";
+import { TokenCredentialOptions } from "../client/identityClient";
 
 /**
  * Provides the user code and verification URI where the code must be
@@ -37,19 +37,4 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 /**
  * Defines options for the InteractiveBrowserCredential class for NodeJS.
  */
-export interface DeviceCodeCredentialOptions extends InteractiveCredentialOptions {
-  /**
-   * The Azure Active Directory tenant (directory) ID.
-   */
-  tenantId?: string;
-  /**
-   * The client (application) ID of an App Registration in the tenant.
-   */
-  clientId?: string;
-  /**
-   * A callback function that will be invoked to show {@link DeviceCodeInfo} to the user.
-   * If left unassigned, we will automatically log the device code information
-   * and the authentication instructions in the console.
-   */
-  userPromptCallback?: DeviceCodePromptCallback;
-}
+export interface DeviceCodeCredentialOptions extends TokenCredentialOptions {}

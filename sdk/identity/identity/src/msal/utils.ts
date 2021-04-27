@@ -5,7 +5,7 @@ import * as msalCommon from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-http";
 import { v4 as uuidv4 } from "uuid";
 import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
-import { CredentialUnavailableError } from "../client/errors";
+import { CredentialUnavailable } from "../client/errors";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
 import { AuthenticationRequiredError } from "./errors";
@@ -158,7 +158,7 @@ export class MsalBaseUtilities {
       switch (msalError.errorCode) {
         case "endpoints_resolution_error":
           this.logger.info(formatError(scopes, error.message));
-          return new CredentialUnavailableError(error.message);
+          return new CredentialUnavailable(error.message);
         case "device_code_polling_cancelled":
           return new AbortError("The authentication has been aborted by the caller.");
         case "consent_required":
@@ -187,24 +187,20 @@ export class MsalBaseUtilities {
 // transformations.ts
 
 export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo {
-  const [environment] = account.authority.match(/([a-z]*\.[a-z]*\.[a-z]*)/) || [];
-  return {
-    ...account,
-    localAccountId: account.homeAccountId,
-    environment
-  };
+  return account;
 }
 
-export function msalToPublic(clientId: string, account: MsalAccountInfo): AuthenticationRecord {
-  const record = {
+export function msalToPublic(_clientId: string, account: MsalAccountInfo): AuthenticationRecord {
+  return {
     authority: getAuthorityHost(account.tenantId, account.environment),
+    environment: account.environment || DefaultAuthorityHost,
     homeAccountId: account.homeAccountId,
+    localAccountId: account.localAccountId,
     tenantId: account.tenantId || DefaultTenantId,
-    username: account.username,
-    clientId,
-    version: LatestAuthenticationRecordVersion
+    username: account.username
+    // We'll add this back on V2. I'm keeping it to minimize changes.
+    // clientId
   };
-  return record;
 }
 
 /**
