@@ -356,7 +356,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -382,7 +382,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.streamingEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -409,7 +409,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.streamingEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.autoStart
   ],
   headerParameters: [
@@ -446,7 +446,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.streamingEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -482,7 +482,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.streamingEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -508,7 +508,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.streamingEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -533,7 +533,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.streamingEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -558,7 +558,7 @@ const beginScaleOperationSpec: msRest.OperationSpec = {
     Parameters.streamingEndpointName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -588,7 +588,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

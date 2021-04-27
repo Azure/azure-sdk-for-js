@@ -372,7 +372,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby
@@ -401,7 +401,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.assetName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -428,7 +428,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.assetName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -464,7 +464,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.assetName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -489,7 +489,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.assetName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -522,7 +522,7 @@ const listContainerSasOperationSpec: msRest.OperationSpec = {
     Parameters.assetName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -555,7 +555,7 @@ const getEncryptionKeyOperationSpec: msRest.OperationSpec = {
     Parameters.assetName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -581,7 +581,7 @@ const listStreamingLocatorsOperationSpec: msRest.OperationSpec = {
     Parameters.assetName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -605,7 +605,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.filter,
     Parameters.top,
     Parameters.orderby

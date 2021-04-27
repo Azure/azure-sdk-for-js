@@ -166,14 +166,14 @@ export class Mediaservices {
    * @param [options] The optional parameters
    * @returns Promise<Models.MediaservicesUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, parameters: Models.MediaService, options?: msRest.RequestOptionsBase): Promise<Models.MediaservicesUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, parameters: Models.MediaServiceUpdate, options?: msRest.RequestOptionsBase): Promise<Models.MediaservicesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param parameters The request parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, parameters: Models.MediaService, callback: msRest.ServiceCallback<Models.MediaService>): void;
+  update(resourceGroupName: string, accountName: string, parameters: Models.MediaServiceUpdate, callback: msRest.ServiceCallback<Models.MediaService>): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -181,8 +181,8 @@ export class Mediaservices {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, parameters: Models.MediaService, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaService>): void;
-  update(resourceGroupName: string, accountName: string, parameters: Models.MediaService, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaService>, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, parameters: Models.MediaServiceUpdate, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaService>): void;
+  update(resourceGroupName: string, accountName: string, parameters: Models.MediaServiceUpdate, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaService>, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -295,35 +295,6 @@ export class Mediaservices {
   }
 
   /**
-   * Get the details of a Media Services account
-   * @summary Get a Media Services account
-   * @param accountName The Media Services account name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.MediaservicesGetBySubscriptionResponse>
-   */
-  getBySubscription(accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.MediaservicesGetBySubscriptionResponse>;
-  /**
-   * @param accountName The Media Services account name.
-   * @param callback The callback
-   */
-  getBySubscription(accountName: string, callback: msRest.ServiceCallback<Models.MediaService>): void;
-  /**
-   * @param accountName The Media Services account name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getBySubscription(accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MediaService>): void;
-  getBySubscription(accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MediaService>, callback?: msRest.ServiceCallback<Models.MediaService>): Promise<Models.MediaservicesGetBySubscriptionResponse> {
-    return this.client.sendOperationRequest(
-      {
-        accountName,
-        options
-      },
-      getBySubscriptionOperationSpec,
-      callback) as Promise<Models.MediaservicesGetBySubscriptionResponse>;
-  }
-
-  /**
    * List Media Services accounts in the resource group
    * @summary List Media Services accounts
    * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -392,7 +363,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -417,7 +388,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -442,7 +413,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -477,7 +448,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -501,7 +472,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -509,7 +480,7 @@ const updateOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.MediaService,
+      ...Mappers.MediaServiceUpdate,
       required: true
     }
   },
@@ -533,7 +504,7 @@ const syncStorageKeysOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -563,7 +534,7 @@ const listEdgePoliciesOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -593,7 +564,7 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -601,30 +572,6 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.MediaServiceCollection
-    },
-    default: {
-      bodyMapper: Mappers.ApiError
-    }
-  },
-  serializer
-};
-
-const getBySubscriptionOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Media/mediaservices/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.MediaService
     },
     default: {
       bodyMapper: Mappers.ApiError
@@ -641,7 +588,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -665,7 +612,7 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage

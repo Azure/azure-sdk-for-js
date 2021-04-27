@@ -523,6 +523,40 @@ export const MetricSpecification: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      enableRegionalMdmAccount: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "enableRegionalMdmAccount",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sourceMdmAccount: {
+        readOnly: true,
+        serializedName: "sourceMdmAccount",
+        type: {
+          name: "String"
+        }
+      },
+      sourceMdmNamespace: {
+        readOnly: true,
+        serializedName: "sourceMdmNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      supportedTimeGrainTypes: {
+        readOnly: true,
+        serializedName: "supportedTimeGrainTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -644,6 +678,20 @@ export const Operation: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Properties"
+        }
+      },
+      isDataAction: {
+        nullable: true,
+        serializedName: "isDataAction",
+        type: {
+          name: "Boolean"
+        }
+      },
+      actionType: {
+        nullable: true,
+        serializedName: "actionType",
+        type: {
+          name: "String"
         }
       }
     }
@@ -782,6 +830,50 @@ export const AccountEncryption: msRest.CompositeMapper = {
   }
 };
 
+export const AccessControl: msRest.CompositeMapper = {
+  serializedName: "AccessControl",
+  type: {
+    name: "Composite",
+    className: "AccessControl",
+    modelProperties: {
+      defaultAction: {
+        serializedName: "defaultAction",
+        type: {
+          name: "String"
+        }
+      },
+      ipAllowList: {
+        serializedName: "ipAllowList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KeyDelivery: msRest.CompositeMapper = {
+  serializedName: "KeyDelivery",
+  type: {
+    name: "Composite",
+    className: "KeyDelivery",
+    modelProperties: {
+      accessControl: {
+        serializedName: "accessControl",
+        type: {
+          name: "Composite",
+          className: "AccessControl"
+        }
+      }
+    }
+  }
+};
+
 export const MediaServiceIdentity: msRest.CompositeMapper = {
   serializedName: "MediaServiceIdentity",
   type: {
@@ -854,6 +946,13 @@ export const MediaService: msRest.CompositeMapper = {
           className: "AccountEncryption"
         }
       },
+      keyDelivery: {
+        serializedName: "properties.keyDelivery",
+        type: {
+          name: "Composite",
+          className: "KeyDelivery"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -867,6 +966,75 @@ export const MediaService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SystemData"
+        }
+      }
+    }
+  }
+};
+
+export const MediaServiceUpdate: msRest.CompositeMapper = {
+  serializedName: "MediaServiceUpdate",
+  type: {
+    name: "Composite",
+    className: "MediaServiceUpdate",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      mediaServiceId: {
+        nullable: false,
+        readOnly: true,
+        serializedName: "properties.mediaServiceId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      storageAccounts: {
+        serializedName: "properties.storageAccounts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageAccount"
+            }
+          }
+        }
+      },
+      storageAuthentication: {
+        nullable: true,
+        serializedName: "properties.storageAuthentication",
+        type: {
+          name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "AccountEncryption"
+        }
+      },
+      keyDelivery: {
+        serializedName: "properties.keyDelivery",
+        type: {
+          name: "Composite",
+          className: "KeyDelivery"
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "MediaServiceIdentity"
         }
       }
     }

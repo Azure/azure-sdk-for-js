@@ -395,7 +395,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -421,7 +421,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.liveEventName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -448,7 +448,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     Parameters.liveEventName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.autoStart
   ],
   headerParameters: [
@@ -485,7 +485,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.liveEventName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -521,7 +521,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.liveEventName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -547,7 +547,7 @@ const beginAllocateOperationSpec: msRest.OperationSpec = {
     Parameters.liveEventName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -572,7 +572,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.liveEventName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -597,7 +597,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.liveEventName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -629,7 +629,7 @@ const beginResetOperationSpec: msRest.OperationSpec = {
     Parameters.liveEventName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -652,7 +652,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
     Parameters.nextPageLink
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

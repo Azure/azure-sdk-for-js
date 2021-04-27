@@ -69,7 +69,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
     Parameters.locationName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
