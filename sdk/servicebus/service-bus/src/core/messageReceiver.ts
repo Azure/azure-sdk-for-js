@@ -136,6 +136,8 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    */
   protected _lockRenewer: LockRenewer | undefined;
 
+  public _settlementNotifierForSubscribe: (() => void) | undefined;
+
   constructor(
     context: ConnectionContext,
     entityPath: string,

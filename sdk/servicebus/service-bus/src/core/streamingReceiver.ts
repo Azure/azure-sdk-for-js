@@ -145,8 +145,13 @@ export class StreamingReceiver extends MessageReceiver {
       this._receiverHelper,
       this.receiveMode,
       this.entityPath,
-      this._context.config.host
+      this._context.config.host,
+      this.maxConcurrentCalls
     );
+
+    this._settlementNotifierForSubscribe = () => {
+      this._creditManager.postProcessing();
+    };
 
     this._onAmqpClose = async (context: EventContext) => {
       const receiverError = context.receiver && context.receiver.error;
@@ -465,7 +470,7 @@ export class StreamingReceiver extends MessageReceiver {
 
     this._onMessage = onMessage;
     this._onError = onError;
-    this._creditManager.addCreditsInit(this.maxConcurrentCalls);
+    this._creditManager.addCreditsInit();
   }
 
   /**
@@ -530,7 +535,7 @@ export class StreamingReceiver extends MessageReceiver {
       logger.verbose(
         `${this.logPrefix} onDetached: link has been reestablished, attempting to add credits.`
       );
-      this._creditManager.addCreditsInit(this.maxConcurrentCalls);
+      this._creditManager.addCreditsInit();
     } finally {
       this._isDetaching = false;
     }

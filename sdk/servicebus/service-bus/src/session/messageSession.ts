@@ -125,6 +125,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     return this._batchingReceiverLite.isReceivingMessages || this._isReceivingMessagesForSubscriber;
   }
 
+  public _settlementNotifierForSubscribe: (() => void) | undefined;
   private _batchingReceiverLite: BatchingReceiverLite;
   private _isReceivingMessagesForSubscriber: boolean;
 
@@ -620,8 +621,12 @@ export class MessageSession extends LinkEntity<Receiver> {
         this._receiverHelper,
         this.receiveMode,
         this.entityPath,
-        this._context.config.host
+        this._context.config.host,
+        this.maxConcurrentCalls
       );
+      this._settlementNotifierForSubscribe = () => {
+        creditManager.postProcessing();
+      };
       const onSessionMessage = async (context: EventContext): Promise<void> => {
         // If the receiver got closed in PeekLock mode, avoid processing the message as we
         // cannot settle the message.
@@ -737,7 +742,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       // setting the "message" event listener.
       this.link.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      creditManager.addCreditsInit(this.maxConcurrentCalls);
+      creditManager.addCreditsInit();
     } else {
       this._isReceivingMessagesForSubscriber = false;
       const msg =

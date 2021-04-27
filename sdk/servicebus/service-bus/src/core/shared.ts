@@ -8,7 +8,6 @@ import { ReceiveMode } from "../models";
 import { Receiver } from "rhea-promise";
 import { OnError } from "./messageReceiver";
 import { ReceiverHelper } from "./receiverHelper";
-import { delay } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -137,15 +136,16 @@ export class StreamingReceiverCreditManager {
     private receiverHelper: ReceiverHelper,
     private receiveMode: ReceiveMode,
     private entityPath: string,
-    private fullyQualifiedNamespace: string
+    private fullyQualifiedNamespace: string,
+    private maxConcurrentCalls: number
   ) {}
 
-  addCreditsInit(maxConcurrentCalls: number) {
+  addCreditsInit() {
     const emptySlots = numberOfEmptyIncomingSlots(this._getCurrentReceiver().receiver);
     this.receiverHelper.addCredit(
       this.receiveMode === "peekLock"
-        ? Math.min(maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1) // TODO: Move the -1 to numberOfEmptyIncomingSlots
-        : maxConcurrentCalls
+        ? Math.min(this.maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1) // TODO: Move the -1 to numberOfEmptyIncomingSlots
+        : this.maxConcurrentCalls
     );
     // TODO: Add log message
   }
@@ -179,37 +179,19 @@ export class StreamingReceiverCreditManager {
   }
 
   /**
-   * After processing the message, if no empty slots,
-   * - keeps checking if the link has more empty slots in a loop with a delay of 1 sec,
-   * - adds a credit if there are empty slots.
+   * Meant to be called after a message is settled with the receive link
    *
    * @internal
    */
   async postProcessing() {
     const receiver = this._getCurrentReceiver().receiver;
-    // If
-    // - receiver is open
-    // - numberOfEmptyIncomingSlots > 0
-    // - can receive messages
-    // Then
-    //     this.receiverHelper.addCredit(
-    //         this.receiveMode === "peekLock"
-    //          ? Math.min(maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1) // TODO: Move the -1 to numberOfEmptyIncomingSlots
-    //          : maxConcurrentCalls
-    //     );
-    if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(receiver) <= 1) {
-      // Wait for the user to clear the deliveries before adding more credits
-      while (receiver?.isOpen() && numberOfEmptyIncomingSlots(receiver) <= 1) {
-        // TODO: check for canReceiveMessages too to exit from the loop
-        await delay(1000); // TODO: Not have hard-coded 1000ms as delay - move it to constants maybe
-        // TODO: Add jitter
-      }
-      // TODO: Instead of adding one credit, make it maxConcurrentCalls
-      // Example:
-      //   - Suppose maxConcurrentCalls=1000 and the user is not settling the messages
-      //   - After 2048 messages, 1000 while loops are running(for all the processMessage callbacks) so that they can do their part of adding a credit
-      //   - Instead, replenish with maxConcurrentCalls with a single while loop and end the rest of the processMessage callbacks
-      this.receiverHelper.addCredit(1);
+    if (
+      this.receiveMode === "peekLock" &&
+      numberOfEmptyIncomingSlots(receiver) > 1 &&
+      receiver?.isOpen() &&
+      this.receiverHelper.canReceiveMessages()
+    ) {
+      this.addCreditsInit();
     }
   }
 }
