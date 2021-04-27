@@ -264,18 +264,12 @@ describe("RemoteRendering functional tests", () => {
     );
 
     assert.equal(sessionPoller.getOperationState().latestResponse.sessionId, sessionId);
-    assert.equal(
-      sessionPoller.getOperationState().latestResponse.size,
-      sessionSettings.size
-    );
+    assert.equal(sessionPoller.getOperationState().latestResponse.size, sessionSettings.size);
     assert.equal(
       sessionPoller.getOperationState().latestResponse.maxLeaseTimeInMinutes,
       sessionSettings.maxLeaseTimeInMinutes
     );
-    assert.notEqual(
-      sessionPoller.getOperationState().latestResponse.status,
-      "Error"
-    );
+    assert.notEqual(sessionPoller.getOperationState().latestResponse.status, "Error");
 
     let renderingSession = await client.getSession(sessionId);
     assert.equal(renderingSession.sessionId, sessionId);
@@ -283,14 +277,19 @@ describe("RemoteRendering functional tests", () => {
     let newPoller = await client.beginSession({ resumeFrom: sessionPoller.toString() });
     assert.equal(newPoller.getOperationState().latestResponse.sessionId, sessionId);
 
-    let updatedSession: RenderingSession = await client.updateSession(sessionId, { maxLeaseTimeInMinutes: 5 });
+    let updatedSession: RenderingSession = await client.updateSession(sessionId, {
+      maxLeaseTimeInMinutes: 5
+    });
     assert.equal(updatedSession.maxLeaseTimeInMinutes, 5);
 
     let readyRenderingSession: RenderingSession = await sessionPoller.pollUntilDone();
-    
+
     // beginSession does one interval of polling. If the session was ready within that time, then the poller
     // would carry the earlier maxLeastTimeInMinutes value.
-    assert.isTrue((readyRenderingSession.maxLeaseTimeInMinutes == 4) || (readyRenderingSession.maxLeaseTimeInMinutes == 5));
+    assert.isTrue(
+      readyRenderingSession.maxLeaseTimeInMinutes == 4 ||
+        readyRenderingSession.maxLeaseTimeInMinutes == 5
+    );
 
     assert.equal(readyRenderingSession.status, "Ready");
 
@@ -311,13 +310,10 @@ describe("RemoteRendering functional tests", () => {
       size: "Standard"
     };
     let sessionId: string = recorder.getUniqueName("sessionId");
-    
+
     let didThrowExpected: Boolean = false;
     try {
-      await client.beginSession(
-        sessionId,
-        sessionSettings
-      );  
+      await client.beginSession(sessionId, sessionSettings);
     } catch (e) {
       assert(e instanceof RestError);
       if (e instanceof RestError) {
