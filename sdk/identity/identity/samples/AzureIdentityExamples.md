@@ -592,10 +592,10 @@ Azure Key Vault allows users to create certificates that can be used to authenti
 
 Certificates can be created through different means. You may follow any of these approaches:
 
-- [Quickstart: Set and retrieve a certificate from Azure Key Vault using the Azure portal](https://docs.microsoft.com/en-us/azure/key-vault/certificates/quick-create-portal).
-- [Quickstart: Azure Key Vault certificate client library for JavaScript (version 4)](https://docs.microsoft.com/en-us/azure/key-vault/certificates/quick-create-node).
+- [Quickstart: Set and retrieve a certificate from Azure Key Vault using the Azure portal](https://docs.microsoft.com/azure/key-vault/certificates/quick-create-portal).
+- [Quickstart: Azure Key Vault certificate client library for JavaScript (version 4)](https://docs.microsoft.com/azure/key-vault/certificates/quick-create-node).
 
-Once you have a certificate, you may export the certificate with the Azure CLI following the steps at: [Export certificates from Azure Key Vault](https://docs.microsoft.com/en-us/azure/key-vault/certificates/how-to-export-certificate?tabs=azure-cli).
+Once you have a certificate, you may export the certificate with the Azure CLI following the steps at: [Export certificates from Azure Key Vault](https://docs.microsoft.com/azure/key-vault/certificates/how-to-export-certificate?tabs=azure-cli).
 
 You can also export your certificate through the portal by going to your Key Vault, going to a specific certificate, then downloading the certificate in PFX/PEM format.
 
