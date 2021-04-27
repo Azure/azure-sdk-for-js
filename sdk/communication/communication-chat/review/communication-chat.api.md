@@ -233,14 +233,6 @@ export interface RestListReadReceiptsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface RestUpdateMessageOptions {
-    content?: string;
-    properties?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
 export interface SendChatMessageResult {
     id: string;
 }
