@@ -162,8 +162,8 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
           } catch (error) {
             chai.assert.equal(
               error.code,
-              "ExcessUnsettledMessagesInBuffer",
-              "Something went wrong - error code should have been ExcessUnsettledMessagesInBuffer"
+              "UnsettledMessagesLimitExceeded",
+              "Something went wrong - error code should have been UnsettledMessagesLimitExceeded"
             );
           }
           await verifyMessageCount(numberOfMessagesToSend, entityName);
