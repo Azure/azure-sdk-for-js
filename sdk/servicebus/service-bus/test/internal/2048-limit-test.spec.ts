@@ -23,10 +23,10 @@ let receiver: ServiceBusReceiver;
 const numberOfMessagesToSend = 3000;
 
 const testClientTypes = [
-  TestClientType.PartitionedQueue,
-  TestClientType.PartitionedQueueWithSessions,
-  TestClientType.UnpartitionedQueue,
-  TestClientType.UnpartitionedQueueWithSessions
+  TestClientType.PartitionedQueue
+  // TestClientType.PartitionedQueueWithSessions,
+  // TestClientType.UnpartitionedQueue
+  // TestClientType.UnpartitionedQueueWithSessions
 ];
 
 async function beforeEachTest(
@@ -73,7 +73,7 @@ async function sendMessages(numberOfMessagesToSend: number) {
   return messageBodies;
 }
 
-describe.only("2048 scenarios - receiveBatch in a loop", function(): void {
+describe("2048 scenarios - receiveBatch in a loop", function(): void {
   before(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: { maxRetries: 1, retryDelayInMs: 10 }
@@ -101,7 +101,7 @@ describe.only("2048 scenarios - receiveBatch in a loop", function(): void {
     return messages;
   }
 
-  describe("receiveAndDelete", () => {
+  describe.only("receiveAndDelete", () => {
     testClientTypes.forEach((clientType) => {
       it(
         clientType + ": would be able to receive more than 2047 messages",
@@ -180,7 +180,7 @@ describe.only("2048 scenarios - receiveBatch in a loop", function(): void {
   });
 });
 
-describe.only("2048 scenarios - subscribe", function(): void {
+describe("2048 scenarios - subscribe", function(): void {
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
