@@ -80,7 +80,7 @@ We recommend the [@azure/identity][identity] package which provides a set of cre
    npm start
    ```
 
-## Caution (Important!)
+## Caution
 
 > > This sample retrieves feature flags from a client-side application, however scalability can become a problem.
 >
