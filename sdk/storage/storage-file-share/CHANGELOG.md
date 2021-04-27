@@ -44,6 +44,19 @@
 - Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
 - Bug fix - Content-Length header is no more ignored. Fixes bugs [8903](https://github.com/Azure/azure-sdk-for-js/issues/8903), [9300](https://github.com/Azure/azure-sdk-for-js/issues/9300) and [10614](https://github.com/Azure/azure-sdk-for-js/issues/10614).
 
+## 12.1.1 (2020-03-10)
+
+- Fixed unexpected hang issue when uploading empty body. Fixed bug [6904](https://github.com/Azure/azure-sdk-for-js/issues/6904).
+
+## 12.1.0 (2020-02-11)
+
+- Updated Azure Storage Service API version to 2019-07-07.
+- A new type `ShareLeaseClient` is added to manage leases.
+- New SMB parameters for file copy.
+- Force Close Handles Response now includes the number of handles that failed to close.
+- `ShareProperties` now has 4 additional properties for premium file shares.
+- Fixed a bug where the package didn't work as expected when bundling web applications. [PR #7298](https://github.com/Azure/azure-sdk-for-js/pull/7298)
+
 ## 12.2.0-preview.1 (2020.07)
 
 - Updated Azure Storage Service API version to 2019-12-12.
@@ -57,19 +70,6 @@
 - Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
 - Updated to use `@opentelemetry/api` 0.6.1 via `@azure/core-tracing`. [PR #7998](https://github.com/Azure/azure-sdk-for-js/pull/7998)
 - Updated to use `typescript` 3.8.3. [PR #8659](https://github.com/Azure/azure-sdk-for-js/pull/8659)
-
-## 12.1.1 (2020-03-10)
-
-- Fixed unexpected hang issue when uploading empty body. Fixed bug [6904](https://github.com/Azure/azure-sdk-for-js/issues/6904).
-
-## 12.1.0 (2020-02-11)
-
-- Updated Azure Storage Service API version to 2019-07-07.
-- A new type `ShareLeaseClient` is added to manage leases.
-- New SMB parameters for file copy.
-- Force Close Handles Response now includes the number of handles that failed to close.
-- `ShareProperties` now has 4 additional properties for premium file shares.
-- Fixed a bug where the package didn't work as expected when bundling web applications. [PR #7298](https://github.com/Azure/azure-sdk-for-js/pull/7298)
 
 ## 12.0.1 (2020.01)
 
@@ -171,6 +171,14 @@
   });
   ```
 
+## 10.3.0 (2019.09)
+
+- Updated Azure Storage Service API version to 2019-02-02.
+- Added a new API `ShareURL.createPermission()` which allows for the creation of a security descriptor at the Azure File share level. This descriptor can be used for files and directories in the share.
+- Added a new API `ShareURL.getPermission()` which allows for the retrieval of the security descriptor set on a share.
+- Added APIs `DirectoryURL.setProperties()` and `FileURL.setProperties()`, and updated APIs `DirectoryURL.create()` and `FileURL.create()` for setting file permission, attributes, creation time, and last write time.
+- Added a new API `FileURL.uploadRangeFromURL()` which allows range in a file to be written using a range of another file as a source. This permits synchronous server-side copies to be orchestrated for files of any size.
+
 ## 12.0.0-preview.3 (2019.08)
 
 - Updated Azure Storage Service API version to 2019-02-02.
@@ -237,14 +245,6 @@
 - `downloadToFile()` is added to `FileClient`.
 
 For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
-
-## 10.3.0 (2019.09)
-
-- Updated Azure Storage Service API version to 2019-02-02.
-- Added a new API `ShareURL.createPermission()` which allows for the creation of a security descriptor at the Azure File share level. This descriptor can be used for files and directories in the share.
-- Added a new API `ShareURL.getPermission()` which allows for the retrieval of the security descriptor set on a share.
-- Added APIs `DirectoryURL.setProperties()` and `FileURL.setProperties()`, and updated APIs `DirectoryURL.create()` and `FileURL.create()` for setting file permission, attributes, creation time, and last write time.
-- Added a new API `FileURL.uploadRangeFromURL()` which allows range in a file to be written using a range of another file as a source. This permits synchronous server-side copies to be orchestrated for files of any size.
 
 ## 10.2.0 (2019.06)
 

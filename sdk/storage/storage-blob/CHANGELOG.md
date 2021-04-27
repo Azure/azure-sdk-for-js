@@ -280,6 +280,16 @@
 - Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/@azure/storage-blob_12.0.0-preview.3/sdk/storage/storage-blob/samples/typescript/proxyAuth.ts)
 - Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
+## 10.5.0 (2019.09)
+
+- Updated Azure Storage Service API version to 2019-02-02.
+- A new API `ServiceURL.submitBatch()` supports Blob Batch operation which allows multiple requests to be sent within a single request body.
+- Added support for customer provided encryption key.
+- Added support for rehydrate priority with additional option to methods `BlobURL.startCopyFromURL()` and `BlobURL.setTier()`.
+- APIs `BlobURL.startCopyFromURL()`, `BlockBlobURL.upload()`, `BlockBlobURL.commitBlockList()` and `PageBlobURL.create()` now support set the blob tier within the API call.
+- Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
+- Exposed options to accept CRC64 as a transactional data integrity mechanism for data transfer APIs.
+
 ## 12.0.0-preview.2 (2019.08)
 
 - [Breaking] Aborter class is no longer exposed from the package. Use the package [@azure/abort-controller](https://www.npmjs.com/package/@azure/abort-controller) to pass an abort signal to any of the async operations.
@@ -290,6 +300,11 @@
   - Account connection string example - `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
   - SAS connection string example - `BlobEndpoint=https://myaccount.blob.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
   - SAS connection string is supported in both NodeJS and browser runtimes unlike the Account Connection String which is supported only in the NodeJS runtime.
+
+## 10.4.1 (2019.08)
+
+- Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
+- `expiry` and `start` in `AccessPolicy` are now optional in `ContainerURL.setAccessPolicy` and `ContainerURL.getAccessPolicy`.
 
 ## 12.0.0-preview.1 (2019.07)
 
@@ -326,21 +341,6 @@
 - Exported `HttpRequestBody` type to allow implementation of a customized HTTP client.
 
 For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
-
-## 10.5.0 (2019.09)
-
-- Updated Azure Storage Service API version to 2019-02-02.
-- A new API `ServiceURL.submitBatch()` supports Blob Batch operation which allows multiple requests to be sent within a single request body.
-- Added support for customer provided encryption key.
-- Added support for rehydrate priority with additional option to methods `BlobURL.startCopyFromURL()` and `BlobURL.setTier()`.
-- APIs `BlobURL.startCopyFromURL()`, `BlockBlobURL.upload()`, `BlockBlobURL.commitBlockList()` and `PageBlobURL.create()` now support set the blob tier within the API call.
-- Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
-- Exposed options to accept CRC64 as a transactional data integrity mechanism for data transfer APIs.
-
-## 10.4.1 (2019.08)
-
-- Added overloads of `generateBlobSASQueryParameters` functions to generate user delegation SAS.
-- `expiry` and `start` in `AccessPolicy` are now optional in `ContainerURL.setAccessPolicy` and `ContainerURL.getAccessPolicy`.
 
 ## 10.4.0 (2019.07)
 

@@ -147,6 +147,11 @@
   });
   ```
 
+## 10.3.0 (2019.09)
+
+- Updated Azure Storage Service API version to 2019-02-02.
+- Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
+
 ## 12.0.0-preview.3 (2019.08)
 
 - [Breaking] `RawTokenCredential` is dropped. TokenCredential implementations can be found in the [@azure/identity](https://www.npmjs.com/package/@azure/identity) library for authentication.
@@ -204,11 +209,6 @@
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 
 For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
-
-## 10.3.0 (2019.09)
-
-- Updated Azure Storage Service API version to 2019-02-02.
-- Responses for all APIs now return x-ms-client-request-id through `clientRequestId` that was passed in on the request from client-side.
 
 ## 10.2.0 (2019.07)
 
