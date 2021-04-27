@@ -492,6 +492,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/monitor-query",
+      "projectFolder": "sdk/monitor/monitor-query",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility"
