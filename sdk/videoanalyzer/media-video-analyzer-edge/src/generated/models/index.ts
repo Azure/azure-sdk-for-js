@@ -8,28 +8,43 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export type SourceUnion = Source | RtspSource | IotHubMessageSource;
-export type ProcessorUnion =
-  | Processor
+export type SourceNodeBaseUnion =
+  | SourceNodeBase
+  | RtspSource
+  | IotHubMessageSource;
+export type ProcessorNodeBaseUnion =
+  | ProcessorNodeBase
   | MotionDetectionProcessor
   | ObjectTrackingProcessor
   | LineCrossingProcessor
   | ExtensionProcessorBaseUnion
-  | SignalGateProcessor;
-export type SinkUnion = Sink | IotHubMessageSink | FileSink | AssetSink;
-export type EndpointUnion = Endpoint | UnsecuredEndpoint | TlsEndpoint;
-export type CredentialsUnion =
-  | Credentials
+  | SignalGateProcessor
+  | CognitiveServicesVisionProcessor;
+export type SinkNodeBaseUnion =
+  | SinkNodeBase
+  | IotHubMessageSink
+  | FileSink
+  | AssetSink
+  | VideoSink;
+export type EndpointBaseUnion = EndpointBase | UnsecuredEndpoint | TlsEndpoint;
+export type CredentialsBaseUnion =
+  | CredentialsBase
   | UsernamePasswordCredentials
   | HttpHeaderCredentials
   | SymmetricKeyCredentials;
 export type CertificateSourceUnion = CertificateSource | PemCertificateList;
-export type ImageFormatUnion =
-  | ImageFormat
+export type NamedLineBaseUnion = NamedLineBase | NamedLineString;
+export type ImageFormatPropertiesUnion =
+  | ImageFormatProperties
   | ImageFormatRaw
   | ImageFormatJpeg
   | ImageFormatBmp
   | ImageFormatPng;
+export type NamedPolygonBaseUnion = NamedPolygonBase | NamedPolygonString;
+export type SpatialAnalysisOperationBaseUnion =
+  | SpatialAnalysisOperationBase
+  | SpatialAnalysisCustomOperation
+  | SpatialAnalysisTypedOperationBaseUnion;
 export type MethodRequestUnion =
   | MethodRequest
   | PipelineTopologySetRequest
@@ -41,9 +56,14 @@ export type MethodRequestUnion =
   | LivePipelineListRequest;
 export type ExtensionProcessorBaseUnion =
   | ExtensionProcessorBase
-  | CognitiveServicesVisionExtension
   | GrpcExtension
   | HttpExtension;
+export type SpatialAnalysisTypedOperationBaseUnion =
+  | SpatialAnalysisTypedOperationBase
+  | SpatialAnalysisPersonCountOperation
+  | SpatialAnalysisPersonZoneCrossingOperation
+  | SpatialAnalysisPersonDistanceOperation
+  | SpatialAnalysisPersonLineCrossingOperation;
 export type ItemNonSetRequestBaseUnion =
   | ItemNonSetRequestBase
   | PipelineTopologyGetRequest
@@ -124,11 +144,11 @@ export interface PipelineTopologyProperties {
   /** The list of parameters defined in the pipeline topology. The value for these parameters are supplied by streams of this pipeline topology. */
   parameters?: ParameterDeclaration[];
   /** The list of source nodes in this pipeline topology. */
-  sources?: SourceUnion[];
+  sources?: SourceNodeBaseUnion[];
   /** The list of processor nodes in this pipeline topology. */
-  processors?: ProcessorUnion[];
+  processors?: ProcessorNodeBaseUnion[];
   /** The list of sink nodes in this pipeline topology. */
-  sinks?: SinkUnion[];
+  sinks?: SinkNodeBaseUnion[];
 }
 
 /** The declaration of a parameter in the pipeline topology. A topology can be authored with parameters. Then, during live pipeline creation, the value for those parameters can be specified. This allows the same pipeline topology to be used as a blueprint for multiple live pipelines with different values for the parameters. */
@@ -144,7 +164,7 @@ export interface ParameterDeclaration {
 }
 
 /** A source node in a pipeline topology. */
-export interface Source {
+export interface SourceNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.RtspSource"
@@ -154,17 +174,17 @@ export interface Source {
 }
 
 /** A node that represents the desired processing of media in a topology. Takes media and/or events as inputs, and emits media and/or event as output. */
-export interface Processor {
+export interface ProcessorNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.MotionDetectionProcessor"
     | "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor"
     | "#Microsoft.VideoAnalyzer.LineCrossingProcessor"
     | "#Microsoft.VideoAnalyzer.ExtensionProcessorBase"
-    | "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension"
     | "#Microsoft.VideoAnalyzer.GrpcExtension"
     | "#Microsoft.VideoAnalyzer.HttpExtension"
-    | "#Microsoft.VideoAnalyzer.SignalGateProcessor";
+    | "#Microsoft.VideoAnalyzer.SignalGateProcessor"
+    | "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor";
   /** The name for this processor node. */
   name: string;
   /** An array of the names of the other nodes in the topology, the outputs of which are used as input for this processor node. */
@@ -190,12 +210,13 @@ export interface OutputSelector {
 }
 
 /** Enables a pipeline topology to write media data to a destination outside of the Azure Video Analyzer IoT Edge module. */
-export interface Sink {
+export interface SinkNodeBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.IotHubMessageSink"
     | "#Microsoft.VideoAnalyzer.FileSink"
-    | "#Microsoft.VideoAnalyzer.AssetSink";
+    | "#Microsoft.VideoAnalyzer.AssetSink"
+    | "#Microsoft.VideoAnalyzer.VideoSink";
   /** The name to be used for the topology sink. */
   name: string;
   /** An array of the names of the other nodes in the pipeline topology, the outputs of which are used as input for this sink node. */
@@ -203,19 +224,19 @@ export interface Sink {
 }
 
 /** Base class for endpoints. */
-export interface Endpoint {
+export interface EndpointBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.UnsecuredEndpoint"
     | "#Microsoft.VideoAnalyzer.TlsEndpoint";
   /** Polymorphic credentials to be presented to the endpoint. */
-  credentials?: CredentialsUnion;
+  credentials?: CredentialsBaseUnion;
   /** Url for the endpoint. */
   url: string;
 }
 
 /** Credentials to present during authentication. */
-export interface Credentials {
+export interface CredentialsBase {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials"
@@ -237,36 +258,30 @@ export interface TlsValidationOptions {
   ignoreSignature?: string;
 }
 
-/** Describes the properties of a line. */
-export interface Line {
-  /** Sets the properties of the line. */
-  line: LineCoordinates;
+/** Properties which will be used only if a video is being created. */
+export interface VideoCreationProperties {
+  /** An optional title for the video. */
+  title?: string;
+  /** An optional description for the video. */
+  description?: string;
+  /** When writing media to video, wait until at least this duration of media has been accumulated on the Edge. Expressed in increments of 30 seconds, with a minimum of 30 seconds and a recommended maximum of 5 minutes. */
+  segmentLength?: string;
+}
+
+/** Describes the named line. */
+export interface NamedLineBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.NamedLineString";
   /** The name of the line. */
   name: string;
 }
 
-/** Describes the start point and end point of a line in the frame. */
-export interface LineCoordinates {
-  /** Sets the coordinates of the starting point for the line. */
-  start: Point;
-  /** Sets the coordinates of the ending point for the line. */
-  end: Point;
-}
-
-/** Describes the x and y value of a point in the frame. */
-export interface Point {
-  /** The X value of the point ranging from 0 to 1 starting from the left side of the frame. */
-  x: string;
-  /** The Y value of the point ranging from 0 to 1 starting from the upper side of the frame. */
-  y: string;
-}
-
 /** Describes the properties of an image frame. */
-export interface Image {
+export interface ImageProperties {
   /** The scaling mode for the image. */
   scale?: ImageScale;
   /** Encoding settings for an image. */
-  format?: ImageFormatUnion;
+  format?: ImageFormatPropertiesUnion;
 }
 
 /** The scaling mode for the image. */
@@ -280,7 +295,7 @@ export interface ImageScale {
 }
 
 /** Encoding settings for an image. */
-export interface ImageFormat {
+export interface ImageFormatProperties {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type":
     | "#Microsoft.VideoAnalyzer.ImageFormatRaw"
@@ -305,6 +320,62 @@ export interface GrpcExtensionDataTransfer {
   mode: GrpcExtensionDataTransferMode;
 }
 
+/** Describes the named polygon. */
+export interface NamedPolygonBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.NamedPolygonString";
+  /** The name of the polygon. */
+  name: string;
+}
+
+/** Defines the Spatial Analysis operation to be used in the Cognitive Services Vision processor. */
+export interface SpatialAnalysisOperationBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type":
+    | "#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation"
+    | "SpatialAnalysisTypedOperationBase"
+    | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation"
+    | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation"
+    | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation"
+    | "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation";
+}
+
+/** Defines a Spatial Analysis operation eventing configuration */
+export interface SpatialAnalysisOperationEventBase {
+  /** The event threshold. */
+  threshold?: string;
+  /** The operation focus type. */
+  focus?: SpatialAnalysisOperationFocus;
+}
+
+export interface SpatialAnalysisPersonCountZoneEvents {
+  /** The named zone. */
+  zone: NamedPolygonBaseUnion;
+  /** The event configuration. */
+  events?: SpatialAnalysisPersonCountEvent[];
+}
+
+export interface SpatialAnalysisPersonZoneCrossingZoneEvents {
+  /** The named zone. */
+  zone: NamedPolygonBaseUnion;
+  /** The event configuration. */
+  events?: SpatialAnalysisPersonZoneCrossingEvent[];
+}
+
+export interface SpatialAnalysisPersonDistanceZoneEvents {
+  /** The named zone. */
+  zone: NamedPolygonBaseUnion;
+  /** The event configuration. */
+  events?: SpatialAnalysisPersonDistanceEvent[];
+}
+
+export interface SpatialAnalysisPersonLineCrossingLineEvents {
+  /** The named line. */
+  line: NamedLineBaseUnion;
+  /** The event configuration. */
+  events?: SpatialAnalysisPersonLineCrossingEvent[];
+}
+
 /** Base Class for Method Requests. */
 export interface MethodRequest {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -312,7 +383,7 @@ export interface MethodRequest {
     | "pipelineTopologySet"
     | "PipelineTopologySetRequestBody"
     | "livePipelineSet"
-    | "livePipelineSetRequestBody"
+    | "LivePipelineSetRequestBody"
     | "ItemNonSetRequestBase"
     | "pipelineTopologyList"
     | "pipelineTopologyGet"
@@ -330,7 +401,7 @@ export interface MethodRequest {
 export type LivePipelineSetRequestBody = MethodRequest &
   LivePipeline & {
     /** Polymorphic discriminator, which specifies the different types this object can be */
-    methodName: "livePipelineSetRequestBody";
+    methodName: "LivePipelineSetRequestBody";
   };
 
 /** Represents the pipelineTopologySet request body. */
@@ -341,17 +412,17 @@ export type PipelineTopologySetRequestBody = MethodRequest &
   };
 
 /** Enables a pipeline topology to capture media from a RTSP server. */
-export type RtspSource = Source & {
+export type RtspSource = SourceNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.RtspSource";
   /** Underlying RTSP transport. This is used to enable or disable HTTP tunneling. */
   transport?: RtspTransport;
   /** RTSP endpoint of the stream that is being connected to. */
-  endpoint: EndpointUnion;
+  endpoint: EndpointBaseUnion;
 };
 
 /** Enables a pipeline topology to receive messages via routes declared in the IoT Edge deployment manifest. */
-export type IotHubMessageSource = Source & {
+export type IotHubMessageSource = SourceNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSource";
   /** Name of the input path where messages can be routed to (via routes declared in the IoT Edge deployment manifest). */
@@ -359,7 +430,7 @@ export type IotHubMessageSource = Source & {
 };
 
 /** A node that accepts raw video as input, and detects if there are moving objects present. If so, then it emits an event, and allows frames where motion was detected to pass through. Other frames are blocked/dropped. */
-export type MotionDetectionProcessor = Processor & {
+export type MotionDetectionProcessor = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.MotionDetectionProcessor";
   /** Enumeration that specifies the sensitivity of the motion detection processor. */
@@ -371,7 +442,7 @@ export type MotionDetectionProcessor = Processor & {
 };
 
 /** A node that accepts raw video as input, and detects objects. */
-export type ObjectTrackingProcessor = Processor & {
+export type ObjectTrackingProcessor = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ObjectTrackingProcessor";
   /** Enumeration that controls the accuracy of the tracker. */
@@ -379,27 +450,27 @@ export type ObjectTrackingProcessor = Processor & {
 };
 
 /** A node that accepts raw video as input, and detects when an object crosses a line. */
-export type LineCrossingProcessor = Processor & {
+export type LineCrossingProcessor = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.LineCrossingProcessor";
   /** An array of lines used to compute line crossing events. */
-  lines: Line[];
+  lines: NamedLineBaseUnion[];
 };
 
 /** Processor that allows for extensions outside of the Azure Video Analyzer Edge module to be integrated into the pipeline topology. It is the base class for various different kinds of extension processor types. */
-export type ExtensionProcessorBase = Processor & {
+export type ExtensionProcessorBase = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ExtensionProcessorBase";
   /** Endpoint to which this processor should connect. */
-  endpoint: EndpointUnion;
+  endpoint: EndpointBaseUnion;
   /** Describes the parameters of the image that is sent as input to the endpoint. */
-  image: Image;
+  image: ImageProperties;
   /** Describes the sampling options to be applied when forwarding samples to the extension. */
   samplingOptions?: SamplingOptions;
 };
 
 /** A signal gate determines when to block (gate) incoming media, and when to allow it through. It gathers input events over the activationEvaluationWindow, and determines whether to open or close the gate. */
-export type SignalGateProcessor = Processor & {
+export type SignalGateProcessor = ProcessorNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.SignalGateProcessor";
   /** The period of time over which the gate gathers input events before evaluating them. */
@@ -412,8 +483,22 @@ export type SignalGateProcessor = Processor & {
   maximumActivationTime?: string;
 };
 
+/** A processor that allows the pipeline topology to send video frames to a Cognitive Services Vision extension. Inference results are relayed to downstream nodes. */
+export type CognitiveServicesVisionProcessor = ProcessorNodeBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor";
+  /** Endpoint to which this processor should connect. */
+  endpoint: EndpointBaseUnion;
+  /** Describes the parameters of the image that is sent as input to the endpoint. */
+  image?: ImageProperties;
+  /** Describes the sampling options to be applied when forwarding samples to the extension. */
+  samplingOptions?: SamplingOptions;
+  /** Describes the Spatial Analysis operation to be used in the Cognitive Services Vision processor. */
+  operation: SpatialAnalysisOperationBaseUnion;
+};
+
 /** Enables a pipeline topology to publish messages that can be delivered via routes declared in the IoT Edge deployment manifest. */
-export type IotHubMessageSink = Sink & {
+export type IotHubMessageSink = SinkNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.IotHubMessageSink";
   /** Name of the output path to which the pipeline topology will publish message. These messages can then be delivered to desired destinations by declaring routes referencing the output path in the IoT Edge deployment manifest. */
@@ -421,7 +506,7 @@ export type IotHubMessageSink = Sink & {
 };
 
 /** Enables a topology to write/store media (video and audio) to a file on the Edge device. */
-export type FileSink = Sink & {
+export type FileSink = SinkNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.FileSink";
   /** Absolute directory for all outputs to the Edge device from this sink. */
@@ -433,7 +518,7 @@ export type FileSink = Sink & {
 };
 
 /** Enables a pipeline topology to record media to an Azure Media Services asset for subsequent playback. */
-export type AssetSink = Sink & {
+export type AssetSink = SinkNodeBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.AssetSink";
   /** An Azure Storage SAS Url which points to container, such as the one created for an Azure Media Services asset. */
@@ -446,14 +531,28 @@ export type AssetSink = Sink & {
   localMediaCacheMaximumSizeMiB: string;
 };
 
+/** Enables a pipeline topology to record media to an Azure Video Analyzer video for subsequent playback. */
+export type VideoSink = SinkNodeBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.VideoSink";
+  /** Name of a new or existing Video Analyzer video entity to use as media output. */
+  videoName: string;
+  /** Optional properties which will be used only if a video is being created. */
+  videoCreationProperties?: VideoCreationProperties;
+  /** Path to a local file system directory for temporary caching of media before writing to a video. This local cache will grow if the connection to Azure is not stable. */
+  localMediaCachePath: string;
+  /** Maximum amount of disk space that can be used for temporary caching of media. */
+  localMediaCacheMaximumSizeMiB: string;
+};
+
 /** An endpoint that the pipeline topology can connect to, with no encryption in transit. */
-export type UnsecuredEndpoint = Endpoint & {
+export type UnsecuredEndpoint = EndpointBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint";
 };
 
 /** A TLS endpoint for pipeline topology external connections. */
-export type TlsEndpoint = Endpoint & {
+export type TlsEndpoint = EndpointBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.TlsEndpoint";
   /** Trusted certificates when authenticating a TLS connection. Null designates that Azure Media Service's source of trust should be used. */
@@ -463,7 +562,7 @@ export type TlsEndpoint = Endpoint & {
 };
 
 /** Username/password credential pair. */
-export type UsernamePasswordCredentials = Credentials & {
+export type UsernamePasswordCredentials = CredentialsBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials";
   /** Username for a username/password pair. */
@@ -473,7 +572,7 @@ export type UsernamePasswordCredentials = Credentials & {
 };
 
 /** Http header service credentials. */
-export type HttpHeaderCredentials = Credentials & {
+export type HttpHeaderCredentials = CredentialsBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.HttpHeaderCredentials";
   /** HTTP header name. */
@@ -483,7 +582,7 @@ export type HttpHeaderCredentials = Credentials & {
 };
 
 /** Symmetric key credential. */
-export type SymmetricKeyCredentials = Credentials & {
+export type SymmetricKeyCredentials = CredentialsBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials";
   /** Symmetric key credential. */
@@ -498,8 +597,16 @@ export type PemCertificateList = CertificateSource & {
   certificates: string[];
 };
 
+/** Describes the start point and end point of a line in the frame. */
+export type NamedLineString = NamedLineBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.NamedLineString";
+  /** Sets the properties of the line. */
+  line: string;
+};
+
 /** Encoding settings for raw images. */
-export type ImageFormatRaw = ImageFormat & {
+export type ImageFormatRaw = ImageFormatProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ImageFormatRaw";
   /** The pixel format that will be used to encode images. */
@@ -507,7 +614,7 @@ export type ImageFormatRaw = ImageFormat & {
 };
 
 /** Encoding settings for Jpeg images. */
-export type ImageFormatJpeg = ImageFormat & {
+export type ImageFormatJpeg = ImageFormatProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ImageFormatJpeg";
   /** The image quality. Value must be between 0 to 100 (best quality). */
@@ -515,16 +622,75 @@ export type ImageFormatJpeg = ImageFormat & {
 };
 
 /** Encoding settings for Bmp images. */
-export type ImageFormatBmp = ImageFormat & {
+export type ImageFormatBmp = ImageFormatProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ImageFormatBmp";
 };
 
 /** Encoding settings for Png images. */
-export type ImageFormatPng = ImageFormat & {
+export type ImageFormatPng = ImageFormatProperties & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.ImageFormatPng";
 };
+
+/** Describes a closed polygon in the frame. */
+export type NamedPolygonString = NamedPolygonBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.NamedPolygonString";
+  /** Sets the properties of the polygon. */
+  polygon: string;
+};
+
+/** Defines a custom Spatial Analysis operation to be used in the Cognitive Services Vision processor. */
+export type SpatialAnalysisCustomOperation = SpatialAnalysisOperationBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation";
+  /** Custom configuration to pass to the Cognitive Services Vision processor. */
+  extensionConfiguration: string;
+};
+
+/** Defines a typed Spatial Analysis operation to be used in the Cognitive Services Vision processor. */
+export type SpatialAnalysisTypedOperationBase = SpatialAnalysisOperationBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "SpatialAnalysisTypedOperationBase";
+  /** Enables debugging for the Spatial Analysis operation. */
+  debug?: string;
+  /** Advanced camera configuration. */
+  cameraConfiguration?: string;
+  /** Advanced detector node configuration. */
+  detectorNodeConfiguration?: string;
+  /** Enables face mask detection. */
+  enableFaceMaskClassifier?: string;
+};
+
+/** Defines a Spatial Analysis Person Count operation eventing configuration */
+export type SpatialAnalysisPersonCountEvent = SpatialAnalysisOperationEventBase & {
+  /** The event trigger type. */
+  trigger?: SpatialAnalysisPersonCountEventTrigger;
+  /** The event or interval output frequency. */
+  outputFrequency?: string;
+};
+
+/** Defines a Spatial Analysis Person Crossing Zone operation eventing configuration */
+export type SpatialAnalysisPersonZoneCrossingEvent = SpatialAnalysisOperationEventBase & {
+  /** The event type. */
+  eventType?: SpatialAnalysisPersonZoneCrossingEventType;
+};
+
+/** Defines a Spatial Analysis Person Distance operation eventing configuration */
+export type SpatialAnalysisPersonDistanceEvent = SpatialAnalysisOperationEventBase & {
+  /** The event trigger type. */
+  trigger?: SpatialAnalysisPersonDistanceEventTrigger;
+  /** The event or interval output frequency. */
+  outputFrequency?: string;
+  /** The minimum distance threshold */
+  minimumDistanceThreshold?: string;
+  /** The maximum distance threshold */
+  maximumDistanceThreshold?: string;
+};
+
+/** Defines a Spatial Analysis Person Line Crossing operation eventing configuration */
+export type SpatialAnalysisPersonLineCrossingEvent = SpatialAnalysisOperationEventBase & {};
 
 /** Represents the pipelineTopologySet request. */
 export type PipelineTopologySetRequest = MethodRequest & {
@@ -561,14 +727,6 @@ export type LivePipelineListRequest = MethodRequest & {
   methodName: "livePipelineList";
 };
 
-/** A processor that allows the pipeline topology to send video frames to a Cognitive Services Vision extension. Inference results are relayed to downstream nodes. */
-export type CognitiveServicesVisionExtension = ExtensionProcessorBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  "@type": "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension";
-  /** Optional configuration to pass to the CognitiveServicesVision extension. */
-  extensionConfiguration?: string;
-};
-
 /** A processor that allows the pipeline topology to send video frames to an external inference container over a gRPC connection. This can be done using shared memory (for high frame rates), or over the network. Inference results are relayed to downstream nodes. */
 export type GrpcExtension = ExtensionProcessorBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -583,6 +741,38 @@ export type GrpcExtension = ExtensionProcessorBase & {
 export type HttpExtension = ExtensionProcessorBase & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   "@type": "#Microsoft.VideoAnalyzer.HttpExtension";
+};
+
+/** Defines a Spatial Analysis Person Count operation to be used in the Cognitive Services Vision processor. */
+export type SpatialAnalysisPersonCountOperation = SpatialAnalysisTypedOperationBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation";
+  /** The list of zones and optional events. */
+  zones: SpatialAnalysisPersonCountZoneEvents[];
+};
+
+/** Defines a Spatial Analysis Person Zone Crossing operation to be used in the Cognitive Services Vision processor. */
+export type SpatialAnalysisPersonZoneCrossingOperation = SpatialAnalysisTypedOperationBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation";
+  /** The list of zones with optional events. */
+  zones: SpatialAnalysisPersonZoneCrossingZoneEvents[];
+};
+
+/** Defines a Spatial Analysis Person Distance operation to be used in the Cognitive Services Vision processor. */
+export type SpatialAnalysisPersonDistanceOperation = SpatialAnalysisTypedOperationBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation";
+  /** The list of zones with optional events. */
+  zones: SpatialAnalysisPersonDistanceZoneEvents[];
+};
+
+/** Defines a Spatial Analysis Person Line Crossing operation to be used in the Cognitive Services Vision processor. */
+export type SpatialAnalysisPersonLineCrossingOperation = SpatialAnalysisTypedOperationBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  "@type": "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation";
+  /** The list of lines with optional events. */
+  lines: SpatialAnalysisPersonLineCrossingLineEvents[];
 };
 
 /** Represents the pipelineTopologyGet request. */
@@ -848,6 +1038,81 @@ export const enum KnownImageFormatRawPixelFormat {
  * **bgra**: Packed BGRA 8:8:8:8, 32bpp, BGRABGRA.
  */
 export type ImageFormatRawPixelFormat = string;
+
+/** Known values of {@link SpatialAnalysisOperationFocus} that the service accepts. */
+export const enum KnownSpatialAnalysisOperationFocus {
+  /** The center of the object. */
+  Center = "center",
+  /** The bottom center of the object. */
+  BottomCenter = "bottomCenter",
+  /** The footprint. */
+  Footprint = "footprint"
+}
+
+/**
+ * Defines values for SpatialAnalysisOperationFocus. \
+ * {@link KnownSpatialAnalysisOperationFocus} can be used interchangeably with SpatialAnalysisOperationFocus,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **center**: The center of the object. \
+ * **bottomCenter**: The bottom center of the object. \
+ * **footprint**: The footprint.
+ */
+export type SpatialAnalysisOperationFocus = string;
+
+/** Known values of {@link SpatialAnalysisPersonCountEventTrigger} that the service accepts. */
+export const enum KnownSpatialAnalysisPersonCountEventTrigger {
+  /** Event trigger. */
+  Event = "event",
+  /** Interval trigger. */
+  Interval = "interval"
+}
+
+/**
+ * Defines values for SpatialAnalysisPersonCountEventTrigger. \
+ * {@link KnownSpatialAnalysisPersonCountEventTrigger} can be used interchangeably with SpatialAnalysisPersonCountEventTrigger,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **event**: Event trigger. \
+ * **interval**: Interval trigger.
+ */
+export type SpatialAnalysisPersonCountEventTrigger = string;
+
+/** Known values of {@link SpatialAnalysisPersonZoneCrossingEventType} that the service accepts. */
+export const enum KnownSpatialAnalysisPersonZoneCrossingEventType {
+  /** Zone crossing event type. */
+  ZoneCrossing = "zoneCrossing",
+  /** Zone dwell time event type. */
+  ZoneDwellTime = "zoneDwellTime"
+}
+
+/**
+ * Defines values for SpatialAnalysisPersonZoneCrossingEventType. \
+ * {@link KnownSpatialAnalysisPersonZoneCrossingEventType} can be used interchangeably with SpatialAnalysisPersonZoneCrossingEventType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **zoneCrossing**: Zone crossing event type. \
+ * **zoneDwellTime**: Zone dwell time event type.
+ */
+export type SpatialAnalysisPersonZoneCrossingEventType = string;
+
+/** Known values of {@link SpatialAnalysisPersonDistanceEventTrigger} that the service accepts. */
+export const enum KnownSpatialAnalysisPersonDistanceEventTrigger {
+  /** Event trigger. */
+  Event = "event",
+  /** Interval trigger. */
+  Interval = "interval"
+}
+
+/**
+ * Defines values for SpatialAnalysisPersonDistanceEventTrigger. \
+ * {@link KnownSpatialAnalysisPersonDistanceEventTrigger} can be used interchangeably with SpatialAnalysisPersonDistanceEventTrigger,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **event**: Event trigger. \
+ * **interval**: Interval trigger.
+ */
+export type SpatialAnalysisPersonDistanceEventTrigger = string;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams

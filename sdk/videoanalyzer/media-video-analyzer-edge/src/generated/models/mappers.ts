@@ -234,7 +234,7 @@ export const PipelineTopologyProperties: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Source"
+              className: "SourceNodeBase"
             }
           }
         }
@@ -246,7 +246,7 @@ export const PipelineTopologyProperties: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Processor"
+              className: "ProcessorNodeBase"
             }
           }
         }
@@ -258,7 +258,7 @@ export const PipelineTopologyProperties: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Sink"
+              className: "SinkNodeBase"
             }
           }
         }
@@ -305,11 +305,11 @@ export const ParameterDeclaration: coreHttp.CompositeMapper = {
   }
 };
 
-export const Source: coreHttp.CompositeMapper = {
+export const SourceNodeBase: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Source",
-    uberParent: "Source",
+    className: "SourceNodeBase",
+    uberParent: "SourceNodeBase",
     polymorphicDiscriminator: {
       serializedName: "@type",
       clientName: "@type"
@@ -333,11 +333,11 @@ export const Source: coreHttp.CompositeMapper = {
   }
 };
 
-export const Processor: coreHttp.CompositeMapper = {
+export const ProcessorNodeBase: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Processor",
-    uberParent: "Processor",
+    className: "ProcessorNodeBase",
+    uberParent: "ProcessorNodeBase",
     polymorphicDiscriminator: {
       serializedName: "@type",
       clientName: "@type"
@@ -429,11 +429,11 @@ export const OutputSelector: coreHttp.CompositeMapper = {
   }
 };
 
-export const Sink: coreHttp.CompositeMapper = {
+export const SinkNodeBase: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Sink",
-    uberParent: "Sink",
+    className: "SinkNodeBase",
+    uberParent: "SinkNodeBase",
     polymorphicDiscriminator: {
       serializedName: "@type",
       clientName: "@type"
@@ -470,11 +470,11 @@ export const Sink: coreHttp.CompositeMapper = {
   }
 };
 
-export const Endpoint: coreHttp.CompositeMapper = {
+export const EndpointBase: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Endpoint",
-    uberParent: "Endpoint",
+    className: "EndpointBase",
+    uberParent: "EndpointBase",
     polymorphicDiscriminator: {
       serializedName: "@type",
       clientName: "@type"
@@ -491,7 +491,7 @@ export const Endpoint: coreHttp.CompositeMapper = {
         serializedName: "credentials",
         type: {
           name: "Composite",
-          className: "Credentials"
+          className: "CredentialsBase"
         }
       },
       url: {
@@ -505,11 +505,11 @@ export const Endpoint: coreHttp.CompositeMapper = {
   }
 };
 
-export const Credentials: coreHttp.CompositeMapper = {
+export const CredentialsBase: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Credentials",
-    uberParent: "Credentials",
+    className: "CredentialsBase",
+    uberParent: "CredentialsBase",
     polymorphicDiscriminator: {
       serializedName: "@type",
       clientName: "@type"
@@ -568,16 +568,48 @@ export const TlsValidationOptions: coreHttp.CompositeMapper = {
   }
 };
 
-export const Line: coreHttp.CompositeMapper = {
+export const VideoCreationProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Line",
+    className: "VideoCreationProperties",
     modelProperties: {
-      line: {
-        serializedName: "line",
+      title: {
+        serializedName: "title",
         type: {
-          name: "Composite",
-          className: "LineCoordinates"
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      segmentLength: {
+        serializedName: "segmentLength",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NamedLineBase: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NamedLineBase",
+    uberParent: "NamedLineBase",
+    polymorphicDiscriminator: {
+      serializedName: "@type",
+      clientName: "@type"
+    },
+    modelProperties: {
+      "@type": {
+        serializedName: "@type",
+        required: true,
+        type: {
+          name: "String"
         }
       },
       name: {
@@ -591,56 +623,10 @@ export const Line: coreHttp.CompositeMapper = {
   }
 };
 
-export const LineCoordinates: coreHttp.CompositeMapper = {
+export const ImageProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LineCoordinates",
-    modelProperties: {
-      start: {
-        serializedName: "start",
-        type: {
-          name: "Composite",
-          className: "Point"
-        }
-      },
-      end: {
-        serializedName: "end",
-        type: {
-          name: "Composite",
-          className: "Point"
-        }
-      }
-    }
-  }
-};
-
-export const Point: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Point",
-    modelProperties: {
-      x: {
-        serializedName: "x",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      y: {
-        serializedName: "y",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const Image: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "Image",
+    className: "ImageProperties",
     modelProperties: {
       scale: {
         serializedName: "scale",
@@ -653,7 +639,7 @@ export const Image: coreHttp.CompositeMapper = {
         serializedName: "format",
         type: {
           name: "Composite",
-          className: "ImageFormat"
+          className: "ImageFormatProperties"
         }
       }
     }
@@ -687,12 +673,11 @@ export const ImageScale: coreHttp.CompositeMapper = {
   }
 };
 
-export const ImageFormat: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.VideoAnalyzer.ImageFormat",
+export const ImageFormatProperties: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ImageFormat",
-    uberParent: "ImageFormat",
+    className: "ImageFormatProperties",
+    uberParent: "ImageFormatProperties",
     polymorphicDiscriminator: {
       serializedName: "@type",
       clientName: "@type"
@@ -753,6 +738,188 @@ export const GrpcExtensionDataTransfer: coreHttp.CompositeMapper = {
   }
 };
 
+export const NamedPolygonBase: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NamedPolygonBase",
+    uberParent: "NamedPolygonBase",
+    polymorphicDiscriminator: {
+      serializedName: "@type",
+      clientName: "@type"
+    },
+    modelProperties: {
+      "@type": {
+        serializedName: "@type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisOperationBase: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisOperationBase",
+    uberParent: "SpatialAnalysisOperationBase",
+    polymorphicDiscriminator: {
+      serializedName: "@type",
+      clientName: "@type"
+    },
+    modelProperties: {
+      "@type": {
+        serializedName: "@type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisOperationEventBase: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisOperationEventBase",
+    modelProperties: {
+      threshold: {
+        serializedName: "threshold",
+        type: {
+          name: "String"
+        }
+      },
+      focus: {
+        serializedName: "focus",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonCountZoneEvents: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonCountZoneEvents",
+    modelProperties: {
+      zone: {
+        serializedName: "zone",
+        type: {
+          name: "Composite",
+          className: "NamedPolygonBase"
+        }
+      },
+      events: {
+        serializedName: "events",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SpatialAnalysisPersonCountEvent"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonZoneCrossingZoneEvents: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonZoneCrossingZoneEvents",
+    modelProperties: {
+      zone: {
+        serializedName: "zone",
+        type: {
+          name: "Composite",
+          className: "NamedPolygonBase"
+        }
+      },
+      events: {
+        serializedName: "events",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SpatialAnalysisPersonZoneCrossingEvent"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonDistanceZoneEvents: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonDistanceZoneEvents",
+    modelProperties: {
+      zone: {
+        serializedName: "zone",
+        type: {
+          name: "Composite",
+          className: "NamedPolygonBase"
+        }
+      },
+      events: {
+        serializedName: "events",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SpatialAnalysisPersonDistanceEvent"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonLineCrossingLineEvents: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonLineCrossingLineEvents",
+    modelProperties: {
+      line: {
+        serializedName: "line",
+        type: {
+          name: "Composite",
+          className: "NamedLineBase"
+        }
+      },
+      events: {
+        serializedName: "events",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SpatialAnalysisPersonLineCrossingEvent"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const MethodRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -784,7 +951,7 @@ export const MethodRequest: coreHttp.CompositeMapper = {
 };
 
 export const LivePipelineSetRequestBody: coreHttp.CompositeMapper = {
-  serializedName: "livePipelineSetRequestBody",
+  serializedName: "LivePipelineSetRequestBody",
   type: {
     name: "Composite",
     className: "LivePipelineSetRequestBody",
@@ -816,10 +983,10 @@ export const RtspSource: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RtspSource",
-    uberParent: "Source",
-    polymorphicDiscriminator: Source.type.polymorphicDiscriminator,
+    uberParent: "SourceNodeBase",
+    polymorphicDiscriminator: SourceNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Source.type.modelProperties,
+      ...SourceNodeBase.type.modelProperties,
       transport: {
         serializedName: "transport",
         type: {
@@ -830,7 +997,7 @@ export const RtspSource: coreHttp.CompositeMapper = {
         serializedName: "endpoint",
         type: {
           name: "Composite",
-          className: "Endpoint"
+          className: "EndpointBase"
         }
       }
     }
@@ -842,10 +1009,10 @@ export const IotHubMessageSource: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "IotHubMessageSource",
-    uberParent: "Source",
-    polymorphicDiscriminator: Source.type.polymorphicDiscriminator,
+    uberParent: "SourceNodeBase",
+    polymorphicDiscriminator: SourceNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Source.type.modelProperties,
+      ...SourceNodeBase.type.modelProperties,
       hubInputName: {
         serializedName: "hubInputName",
         type: {
@@ -861,10 +1028,10 @@ export const MotionDetectionProcessor: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "MotionDetectionProcessor",
-    uberParent: "Processor",
-    polymorphicDiscriminator: Processor.type.polymorphicDiscriminator,
+    uberParent: "ProcessorNodeBase",
+    polymorphicDiscriminator: ProcessorNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Processor.type.modelProperties,
+      ...ProcessorNodeBase.type.modelProperties,
       sensitivity: {
         serializedName: "sensitivity",
         type: {
@@ -892,10 +1059,10 @@ export const ObjectTrackingProcessor: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ObjectTrackingProcessor",
-    uberParent: "Processor",
-    polymorphicDiscriminator: Processor.type.polymorphicDiscriminator,
+    uberParent: "ProcessorNodeBase",
+    polymorphicDiscriminator: ProcessorNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Processor.type.modelProperties,
+      ...ProcessorNodeBase.type.modelProperties,
       accuracy: {
         serializedName: "accuracy",
         type: {
@@ -911,10 +1078,10 @@ export const LineCrossingProcessor: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "LineCrossingProcessor",
-    uberParent: "Processor",
-    polymorphicDiscriminator: Processor.type.polymorphicDiscriminator,
+    uberParent: "ProcessorNodeBase",
+    polymorphicDiscriminator: ProcessorNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Processor.type.modelProperties,
+      ...ProcessorNodeBase.type.modelProperties,
       lines: {
         serializedName: "lines",
         required: true,
@@ -923,7 +1090,7 @@ export const LineCrossingProcessor: coreHttp.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Line"
+              className: "NamedLineBase"
             }
           }
         }
@@ -937,25 +1104,25 @@ export const ExtensionProcessorBase: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExtensionProcessorBase",
-    uberParent: "Processor",
+    uberParent: "ProcessorNodeBase",
     polymorphicDiscriminator: {
       serializedName: "@type",
       clientName: "@type"
     },
     modelProperties: {
-      ...Processor.type.modelProperties,
+      ...ProcessorNodeBase.type.modelProperties,
       endpoint: {
         serializedName: "endpoint",
         type: {
           name: "Composite",
-          className: "Endpoint"
+          className: "EndpointBase"
         }
       },
       image: {
         serializedName: "image",
         type: {
           name: "Composite",
-          className: "Image"
+          className: "ImageProperties"
         }
       },
       samplingOptions: {
@@ -974,10 +1141,10 @@ export const SignalGateProcessor: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SignalGateProcessor",
-    uberParent: "Processor",
-    polymorphicDiscriminator: Processor.type.polymorphicDiscriminator,
+    uberParent: "ProcessorNodeBase",
+    polymorphicDiscriminator: ProcessorNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Processor.type.modelProperties,
+      ...ProcessorNodeBase.type.modelProperties,
       activationEvaluationWindow: {
         serializedName: "activationEvaluationWindow",
         type: {
@@ -1006,15 +1173,56 @@ export const SignalGateProcessor: coreHttp.CompositeMapper = {
   }
 };
 
+export const CognitiveServicesVisionProcessor: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor",
+  type: {
+    name: "Composite",
+    className: "CognitiveServicesVisionProcessor",
+    uberParent: "ProcessorNodeBase",
+    polymorphicDiscriminator: ProcessorNodeBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ProcessorNodeBase.type.modelProperties,
+      endpoint: {
+        serializedName: "endpoint",
+        type: {
+          name: "Composite",
+          className: "EndpointBase"
+        }
+      },
+      image: {
+        serializedName: "image",
+        type: {
+          name: "Composite",
+          className: "ImageProperties"
+        }
+      },
+      samplingOptions: {
+        serializedName: "samplingOptions",
+        type: {
+          name: "Composite",
+          className: "SamplingOptions"
+        }
+      },
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "Composite",
+          className: "SpatialAnalysisOperationBase"
+        }
+      }
+    }
+  }
+};
+
 export const IotHubMessageSink: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.IotHubMessageSink",
   type: {
     name: "Composite",
     className: "IotHubMessageSink",
-    uberParent: "Sink",
-    polymorphicDiscriminator: Sink.type.polymorphicDiscriminator,
+    uberParent: "SinkNodeBase",
+    polymorphicDiscriminator: SinkNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Sink.type.modelProperties,
+      ...SinkNodeBase.type.modelProperties,
       hubOutputName: {
         serializedName: "hubOutputName",
         required: true,
@@ -1031,10 +1239,10 @@ export const FileSink: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileSink",
-    uberParent: "Sink",
-    polymorphicDiscriminator: Sink.type.polymorphicDiscriminator,
+    uberParent: "SinkNodeBase",
+    polymorphicDiscriminator: SinkNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Sink.type.modelProperties,
+      ...SinkNodeBase.type.modelProperties,
       baseDirectoryPath: {
         serializedName: "baseDirectoryPath",
         required: true,
@@ -1065,10 +1273,10 @@ export const AssetSink: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AssetSink",
-    uberParent: "Sink",
-    polymorphicDiscriminator: Sink.type.polymorphicDiscriminator,
+    uberParent: "SinkNodeBase",
+    polymorphicDiscriminator: SinkNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Sink.type.modelProperties,
+      ...SinkNodeBase.type.modelProperties,
       assetContainerSasUrl: {
         serializedName: "assetContainerSasUrl",
         required: true,
@@ -1100,15 +1308,56 @@ export const AssetSink: coreHttp.CompositeMapper = {
   }
 };
 
+export const VideoSink: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.VideoAnalyzer.VideoSink",
+  type: {
+    name: "Composite",
+    className: "VideoSink",
+    uberParent: "SinkNodeBase",
+    polymorphicDiscriminator: SinkNodeBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SinkNodeBase.type.modelProperties,
+      videoName: {
+        serializedName: "videoName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      videoCreationProperties: {
+        serializedName: "videoCreationProperties",
+        type: {
+          name: "Composite",
+          className: "VideoCreationProperties"
+        }
+      },
+      localMediaCachePath: {
+        serializedName: "localMediaCachePath",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      localMediaCacheMaximumSizeMiB: {
+        serializedName: "localMediaCacheMaximumSizeMiB",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const UnsecuredEndpoint: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.UnsecuredEndpoint",
   type: {
     name: "Composite",
     className: "UnsecuredEndpoint",
-    uberParent: "Endpoint",
-    polymorphicDiscriminator: Endpoint.type.polymorphicDiscriminator,
+    uberParent: "EndpointBase",
+    polymorphicDiscriminator: EndpointBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Endpoint.type.modelProperties
+      ...EndpointBase.type.modelProperties
     }
   }
 };
@@ -1118,10 +1367,10 @@ export const TlsEndpoint: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "TlsEndpoint",
-    uberParent: "Endpoint",
-    polymorphicDiscriminator: Endpoint.type.polymorphicDiscriminator,
+    uberParent: "EndpointBase",
+    polymorphicDiscriminator: EndpointBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Endpoint.type.modelProperties,
+      ...EndpointBase.type.modelProperties,
       trustedCertificates: {
         serializedName: "trustedCertificates",
         type: {
@@ -1145,10 +1394,10 @@ export const UsernamePasswordCredentials: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "UsernamePasswordCredentials",
-    uberParent: "Credentials",
-    polymorphicDiscriminator: Credentials.type.polymorphicDiscriminator,
+    uberParent: "CredentialsBase",
+    polymorphicDiscriminator: CredentialsBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Credentials.type.modelProperties,
+      ...CredentialsBase.type.modelProperties,
       username: {
         serializedName: "username",
         required: true,
@@ -1172,10 +1421,10 @@ export const HttpHeaderCredentials: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HttpHeaderCredentials",
-    uberParent: "Credentials",
-    polymorphicDiscriminator: Credentials.type.polymorphicDiscriminator,
+    uberParent: "CredentialsBase",
+    polymorphicDiscriminator: CredentialsBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Credentials.type.modelProperties,
+      ...CredentialsBase.type.modelProperties,
       headerName: {
         serializedName: "headerName",
         required: true,
@@ -1199,10 +1448,10 @@ export const SymmetricKeyCredentials: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SymmetricKeyCredentials",
-    uberParent: "Credentials",
-    polymorphicDiscriminator: Credentials.type.polymorphicDiscriminator,
+    uberParent: "CredentialsBase",
+    polymorphicDiscriminator: CredentialsBase.type.polymorphicDiscriminator,
     modelProperties: {
-      ...Credentials.type.modelProperties,
+      ...CredentialsBase.type.modelProperties,
       key: {
         serializedName: "key",
         required: true,
@@ -1239,15 +1488,36 @@ export const PemCertificateList: coreHttp.CompositeMapper = {
   }
 };
 
+export const NamedLineString: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.VideoAnalyzer.NamedLineString",
+  type: {
+    name: "Composite",
+    className: "NamedLineString",
+    uberParent: "NamedLineBase",
+    polymorphicDiscriminator: NamedLineBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...NamedLineBase.type.modelProperties,
+      line: {
+        serializedName: "line",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ImageFormatRaw: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.ImageFormatRaw",
   type: {
     name: "Composite",
     className: "ImageFormatRaw",
-    uberParent: "ImageFormat",
-    polymorphicDiscriminator: ImageFormat.type.polymorphicDiscriminator,
+    uberParent: "ImageFormatProperties",
+    polymorphicDiscriminator:
+      ImageFormatProperties.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ImageFormat.type.modelProperties,
+      ...ImageFormatProperties.type.modelProperties,
       pixelFormat: {
         serializedName: "pixelFormat",
         required: true,
@@ -1264,10 +1534,11 @@ export const ImageFormatJpeg: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ImageFormatJpeg",
-    uberParent: "ImageFormat",
-    polymorphicDiscriminator: ImageFormat.type.polymorphicDiscriminator,
+    uberParent: "ImageFormatProperties",
+    polymorphicDiscriminator:
+      ImageFormatProperties.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ImageFormat.type.modelProperties,
+      ...ImageFormatProperties.type.modelProperties,
       quality: {
         serializedName: "quality",
         type: {
@@ -1283,10 +1554,11 @@ export const ImageFormatBmp: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ImageFormatBmp",
-    uberParent: "ImageFormat",
-    polymorphicDiscriminator: ImageFormat.type.polymorphicDiscriminator,
+    uberParent: "ImageFormatProperties",
+    polymorphicDiscriminator:
+      ImageFormatProperties.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ImageFormat.type.modelProperties
+      ...ImageFormatProperties.type.modelProperties
     }
   }
 };
@@ -1296,10 +1568,174 @@ export const ImageFormatPng: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ImageFormatPng",
-    uberParent: "ImageFormat",
-    polymorphicDiscriminator: ImageFormat.type.polymorphicDiscriminator,
+    uberParent: "ImageFormatProperties",
+    polymorphicDiscriminator:
+      ImageFormatProperties.type.polymorphicDiscriminator,
     modelProperties: {
-      ...ImageFormat.type.modelProperties
+      ...ImageFormatProperties.type.modelProperties
+    }
+  }
+};
+
+export const NamedPolygonString: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.VideoAnalyzer.NamedPolygonString",
+  type: {
+    name: "Composite",
+    className: "NamedPolygonString",
+    uberParent: "NamedPolygonBase",
+    polymorphicDiscriminator: NamedPolygonBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...NamedPolygonBase.type.modelProperties,
+      polygon: {
+        serializedName: "polygon",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisCustomOperation: coreHttp.CompositeMapper = {
+  serializedName: "#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation",
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisCustomOperation",
+    uberParent: "SpatialAnalysisOperationBase",
+    polymorphicDiscriminator:
+      SpatialAnalysisOperationBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SpatialAnalysisOperationBase.type.modelProperties,
+      extensionConfiguration: {
+        serializedName: "extensionConfiguration",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisTypedOperationBase: coreHttp.CompositeMapper = {
+  serializedName: "SpatialAnalysisTypedOperationBase",
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisTypedOperationBase",
+    uberParent: "SpatialAnalysisOperationBase",
+    polymorphicDiscriminator: {
+      serializedName: "@type",
+      clientName: "@type"
+    },
+    modelProperties: {
+      ...SpatialAnalysisOperationBase.type.modelProperties,
+      debug: {
+        serializedName: "debug",
+        type: {
+          name: "String"
+        }
+      },
+      cameraConfiguration: {
+        serializedName: "cameraConfiguration",
+        type: {
+          name: "String"
+        }
+      },
+      detectorNodeConfiguration: {
+        serializedName: "detectorNodeConfiguration",
+        type: {
+          name: "String"
+        }
+      },
+      enableFaceMaskClassifier: {
+        serializedName: "enableFaceMaskClassifier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonCountEvent: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonCountEvent",
+    modelProperties: {
+      ...SpatialAnalysisOperationEventBase.type.modelProperties,
+      trigger: {
+        serializedName: "trigger",
+        type: {
+          name: "String"
+        }
+      },
+      outputFrequency: {
+        serializedName: "outputFrequency",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonZoneCrossingEvent: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonZoneCrossingEvent",
+    modelProperties: {
+      ...SpatialAnalysisOperationEventBase.type.modelProperties,
+      eventType: {
+        serializedName: "eventType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonDistanceEvent: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonDistanceEvent",
+    modelProperties: {
+      ...SpatialAnalysisOperationEventBase.type.modelProperties,
+      trigger: {
+        serializedName: "trigger",
+        type: {
+          name: "String"
+        }
+      },
+      outputFrequency: {
+        serializedName: "outputFrequency",
+        type: {
+          name: "String"
+        }
+      },
+      minimumDistanceThreshold: {
+        serializedName: "minimumDistanceThreshold",
+        type: {
+          name: "String"
+        }
+      },
+      maximumDistanceThreshold: {
+        serializedName: "maximumDistanceThreshold",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonLineCrossingEvent: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonLineCrossingEvent",
+    modelProperties: {
+      ...SpatialAnalysisOperationEventBase.type.modelProperties
     }
   }
 };
@@ -1393,32 +1829,13 @@ export const LivePipelineListRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const CognitiveServicesVisionExtension: coreHttp.CompositeMapper = {
-  serializedName: "#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension",
-  type: {
-    name: "Composite",
-    className: "CognitiveServicesVisionExtension",
-    uberParent: "Processor",
-    polymorphicDiscriminator: Processor.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...ExtensionProcessorBase.type.modelProperties,
-      extensionConfiguration: {
-        serializedName: "extensionConfiguration",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const GrpcExtension: coreHttp.CompositeMapper = {
   serializedName: "#Microsoft.VideoAnalyzer.GrpcExtension",
   type: {
     name: "Composite",
     className: "GrpcExtension",
-    uberParent: "Processor",
-    polymorphicDiscriminator: Processor.type.polymorphicDiscriminator,
+    uberParent: "ProcessorNodeBase",
+    polymorphicDiscriminator: ProcessorNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...ExtensionProcessorBase.type.modelProperties,
       dataTransfer: {
@@ -1443,10 +1860,122 @@ export const HttpExtension: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HttpExtension",
-    uberParent: "Processor",
-    polymorphicDiscriminator: Processor.type.polymorphicDiscriminator,
+    uberParent: "ProcessorNodeBase",
+    polymorphicDiscriminator: ProcessorNodeBase.type.polymorphicDiscriminator,
     modelProperties: {
       ...ExtensionProcessorBase.type.modelProperties
+    }
+  }
+};
+
+export const SpatialAnalysisPersonCountOperation: coreHttp.CompositeMapper = {
+  serializedName:
+    "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation",
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonCountOperation",
+    uberParent: "SpatialAnalysisOperationBase",
+    polymorphicDiscriminator:
+      SpatialAnalysisOperationBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SpatialAnalysisTypedOperationBase.type.modelProperties,
+      zones: {
+        serializedName: "zones",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SpatialAnalysisPersonCountZoneEvents"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonZoneCrossingOperation: coreHttp.CompositeMapper = {
+  serializedName:
+    "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation",
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonZoneCrossingOperation",
+    uberParent: "SpatialAnalysisOperationBase",
+    polymorphicDiscriminator:
+      SpatialAnalysisOperationBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SpatialAnalysisTypedOperationBase.type.modelProperties,
+      zones: {
+        serializedName: "zones",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SpatialAnalysisPersonZoneCrossingZoneEvents"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonDistanceOperation: coreHttp.CompositeMapper = {
+  serializedName:
+    "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation",
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonDistanceOperation",
+    uberParent: "SpatialAnalysisOperationBase",
+    polymorphicDiscriminator:
+      SpatialAnalysisOperationBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SpatialAnalysisTypedOperationBase.type.modelProperties,
+      zones: {
+        serializedName: "zones",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SpatialAnalysisPersonDistanceZoneEvents"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SpatialAnalysisPersonLineCrossingOperation: coreHttp.CompositeMapper = {
+  serializedName:
+    "#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation",
+  type: {
+    name: "Composite",
+    className: "SpatialAnalysisPersonLineCrossingOperation",
+    uberParent: "SpatialAnalysisOperationBase",
+    polymorphicDiscriminator:
+      SpatialAnalysisOperationBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SpatialAnalysisTypedOperationBase.type.modelProperties,
+      lines: {
+        serializedName: "lines",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SpatialAnalysisPersonLineCrossingLineEvents"
+            }
+          }
+        }
+      }
     }
   }
 };
@@ -1530,44 +2059,56 @@ export const LivePipelineDeleteRequest: coreHttp.CompositeMapper = {
 };
 
 export let discriminators = {
-  Source: Source,
-  Processor: Processor,
-  Sink: Sink,
-  Endpoint: Endpoint,
-  Credentials: Credentials,
+  SourceNodeBase: SourceNodeBase,
+  ProcessorNodeBase: ProcessorNodeBase,
+  SinkNodeBase: SinkNodeBase,
+  EndpointBase: EndpointBase,
+  CredentialsBase: CredentialsBase,
   CertificateSource: CertificateSource,
-  ImageFormat: ImageFormat,
+  NamedLineBase: NamedLineBase,
+  ImageFormatProperties: ImageFormatProperties,
+  NamedPolygonBase: NamedPolygonBase,
+  SpatialAnalysisOperationBase: SpatialAnalysisOperationBase,
   MethodRequest: MethodRequest,
-  "MethodRequest.livePipelineSetRequestBody": LivePipelineSetRequestBody,
+  "MethodRequest.LivePipelineSetRequestBody": LivePipelineSetRequestBody,
   "MethodRequest.PipelineTopologySetRequestBody": PipelineTopologySetRequestBody,
-  "Source.#Microsoft.VideoAnalyzer.RtspSource": RtspSource,
-  "Source.#Microsoft.VideoAnalyzer.IotHubMessageSource": IotHubMessageSource,
-  "Processor.#Microsoft.VideoAnalyzer.MotionDetectionProcessor": MotionDetectionProcessor,
-  "Processor.#Microsoft.VideoAnalyzer.ObjectTrackingProcessor": ObjectTrackingProcessor,
-  "Processor.#Microsoft.VideoAnalyzer.LineCrossingProcessor": LineCrossingProcessor,
-  "Processor.#Microsoft.VideoAnalyzer.ExtensionProcessorBase": ExtensionProcessorBase,
-  "Processor.#Microsoft.VideoAnalyzer.SignalGateProcessor": SignalGateProcessor,
-  "Sink.#Microsoft.VideoAnalyzer.IotHubMessageSink": IotHubMessageSink,
-  "Sink.#Microsoft.VideoAnalyzer.FileSink": FileSink,
-  "Sink.#Microsoft.VideoAnalyzer.AssetSink": AssetSink,
-  "Endpoint.#Microsoft.VideoAnalyzer.UnsecuredEndpoint": UnsecuredEndpoint,
-  "Endpoint.#Microsoft.VideoAnalyzer.TlsEndpoint": TlsEndpoint,
-  "Credentials.#Microsoft.VideoAnalyzer.UsernamePasswordCredentials": UsernamePasswordCredentials,
-  "Credentials.#Microsoft.VideoAnalyzer.HttpHeaderCredentials": HttpHeaderCredentials,
-  "Credentials.#Microsoft.VideoAnalyzer.SymmetricKeyCredentials": SymmetricKeyCredentials,
+  "SourceNodeBase.#Microsoft.VideoAnalyzer.RtspSource": RtspSource,
+  "SourceNodeBase.#Microsoft.VideoAnalyzer.IotHubMessageSource": IotHubMessageSource,
+  "ProcessorNodeBase.#Microsoft.VideoAnalyzer.MotionDetectionProcessor": MotionDetectionProcessor,
+  "ProcessorNodeBase.#Microsoft.VideoAnalyzer.ObjectTrackingProcessor": ObjectTrackingProcessor,
+  "ProcessorNodeBase.#Microsoft.VideoAnalyzer.LineCrossingProcessor": LineCrossingProcessor,
+  "ProcessorNodeBase.#Microsoft.VideoAnalyzer.ExtensionProcessorBase": ExtensionProcessorBase,
+  "ProcessorNodeBase.#Microsoft.VideoAnalyzer.SignalGateProcessor": SignalGateProcessor,
+  "ProcessorNodeBase.#Microsoft.VideoAnalyzer.CognitiveServicesVisionProcessor": CognitiveServicesVisionProcessor,
+  "SinkNodeBase.#Microsoft.VideoAnalyzer.IotHubMessageSink": IotHubMessageSink,
+  "SinkNodeBase.#Microsoft.VideoAnalyzer.FileSink": FileSink,
+  "SinkNodeBase.#Microsoft.VideoAnalyzer.AssetSink": AssetSink,
+  "SinkNodeBase.#Microsoft.VideoAnalyzer.VideoSink": VideoSink,
+  "EndpointBase.#Microsoft.VideoAnalyzer.UnsecuredEndpoint": UnsecuredEndpoint,
+  "EndpointBase.#Microsoft.VideoAnalyzer.TlsEndpoint": TlsEndpoint,
+  "CredentialsBase.#Microsoft.VideoAnalyzer.UsernamePasswordCredentials": UsernamePasswordCredentials,
+  "CredentialsBase.#Microsoft.VideoAnalyzer.HttpHeaderCredentials": HttpHeaderCredentials,
+  "CredentialsBase.#Microsoft.VideoAnalyzer.SymmetricKeyCredentials": SymmetricKeyCredentials,
   "CertificateSource.#Microsoft.VideoAnalyzer.PemCertificateList": PemCertificateList,
-  "ImageFormat.#Microsoft.VideoAnalyzer.ImageFormatRaw": ImageFormatRaw,
-  "ImageFormat.#Microsoft.VideoAnalyzer.ImageFormatJpeg": ImageFormatJpeg,
-  "ImageFormat.#Microsoft.VideoAnalyzer.ImageFormatBmp": ImageFormatBmp,
-  "ImageFormat.#Microsoft.VideoAnalyzer.ImageFormatPng": ImageFormatPng,
+  "NamedLineBase.#Microsoft.VideoAnalyzer.NamedLineString": NamedLineString,
+  "ImageFormatProperties.#Microsoft.VideoAnalyzer.ImageFormatRaw": ImageFormatRaw,
+  "ImageFormatProperties.#Microsoft.VideoAnalyzer.ImageFormatJpeg": ImageFormatJpeg,
+  "ImageFormatProperties.#Microsoft.VideoAnalyzer.ImageFormatBmp": ImageFormatBmp,
+  "ImageFormatProperties.#Microsoft.VideoAnalyzer.ImageFormatPng": ImageFormatPng,
+  "NamedPolygonBase.#Microsoft.VideoAnalyzer.NamedPolygonString": NamedPolygonString,
+  "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisCustomOperation": SpatialAnalysisCustomOperation,
+  "SpatialAnalysisOperationBase.SpatialAnalysisTypedOperationBase": SpatialAnalysisTypedOperationBase,
   "MethodRequest.pipelineTopologySet": PipelineTopologySetRequest,
   "MethodRequest.livePipelineSet": LivePipelineSetRequest,
   "MethodRequest.ItemNonSetRequestBase": ItemNonSetRequestBase,
   "MethodRequest.pipelineTopologyList": PipelineTopologyListRequest,
   "MethodRequest.livePipelineList": LivePipelineListRequest,
-  "Processor.#Microsoft.VideoAnalyzer.CognitiveServicesVisionExtension": CognitiveServicesVisionExtension,
-  "Processor.#Microsoft.VideoAnalyzer.GrpcExtension": GrpcExtension,
-  "Processor.#Microsoft.VideoAnalyzer.HttpExtension": HttpExtension,
+  "ProcessorNodeBase.#Microsoft.VideoAnalyzer.GrpcExtension": GrpcExtension,
+  "ProcessorNodeBase.#Microsoft.VideoAnalyzer.HttpExtension": HttpExtension,
+  "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisPersonCountOperation": SpatialAnalysisPersonCountOperation,
+  "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisPersonZoneCrossingOperation": SpatialAnalysisPersonZoneCrossingOperation,
+  "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisPersonDistanceOperation": SpatialAnalysisPersonDistanceOperation,
+  "SpatialAnalysisOperationBase.#Microsoft.VideoAnalyzer.SpatialAnalysisPersonLineCrossingOperation": SpatialAnalysisPersonLineCrossingOperation,
   "MethodRequest.pipelineTopologyGet": PipelineTopologyGetRequest,
   "MethodRequest.pipelineTopologyDelete": PipelineTopologyDeleteRequest,
   "MethodRequest.livePipelineGet": LivePipelineGetRequest,

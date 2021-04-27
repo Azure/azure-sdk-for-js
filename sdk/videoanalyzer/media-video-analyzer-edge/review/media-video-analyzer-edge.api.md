@@ -32,32 +32,34 @@ export type CognitiveServicesVisionExtension = ExtensionProcessorBase & {
 // @public (undocumented)
 export function createRequest(request: "pipelineTopologySet", payload: PipelineTopology): Request<PipelineTopology>;
 
+// Warning: (ae-forgotten-export) The symbol "NamePayload" needs to be exported by the entry point index.d.ts
+//
 // @public (undocumented)
-export function createRequest(request: "pipelineTopologyGet", payload: string): Request<string>;
+export function createRequest(request: "pipelineTopologyGet", payload: string): Request<NamePayload>;
 
 // @public (undocumented)
 export function createRequest(request: "pipelineTopologyList"): Request<{}>;
 
 // @public (undocumented)
-export function createRequest(request: "pipelineTopologyDelete", payload: string): Request<string>;
+export function createRequest(request: "pipelineTopologyDelete", payload: string): Request<NamePayload>;
 
 // @public (undocumented)
 export function createRequest(request: "livePipelineSet", payload: LivePipeline): Request<LivePipeline>;
 
 // @public (undocumented)
-export function createRequest(request: "livePipelineGet", payload: string): Request<string>;
+export function createRequest(request: "livePipelineGet", payload: string): Request<NamePayload>;
 
 // @public (undocumented)
 export function createRequest(request: "livePipelineList"): Request<{}>;
 
 // @public (undocumented)
-export function createRequest(request: "livePipelineDelete", payload: string): Request<string>;
+export function createRequest(request: "livePipelineDelete", payload: string): Request<NamePayload>;
 
 // @public (undocumented)
-export function createRequest(request: "livePipelineActivate", payload: string): Request<string>;
+export function createRequest(request: "livePipelineActivate", payload: string): Request<NamePayload>;
 
 // @public (undocumented)
-export function createRequest(request: "livePipelineDeactivate", payload: string): Request<string>;
+export function createRequest(request: "livePipelineDeactivate", payload: string): Request<NamePayload>;
 
 // @public
 export interface Credentials {
@@ -417,13 +419,6 @@ export interface ParameterDefinition {
 
 // @public
 export type ParameterType = string;
-
-// @public (undocumented)
-export type Payload = (PipelineTopology | LivePipeline | {
-    name: string;
-} | {}) & {
-    "@apiVersion": string;
-};
 
 // @public
 export type PemCertificateList = CertificateSource & {

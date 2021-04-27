@@ -89,9 +89,7 @@ export async function main() {
   const pipelineTopology = buildPipelineTopology();
   const livePipeline = buildLivePipeline(pipelineTopology.name);
 
-  //const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);
   const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);
-  //const setPipelineTopRequest = createPipelineTopologySetRequest(pipelineTopology);
   const setPipelineTopResponse = await invokeMethodHelper(pipelineTopologySetRequest);
   console.log(setPipelineTopResponse);
 
