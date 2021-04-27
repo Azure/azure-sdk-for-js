@@ -10,17 +10,6 @@ export function delay(timeInMs: number): Promise<void>;
 // @public
 export const isNode: boolean;
 
-// @public
-export type ParsedWWWAuthenticate = {
-    [Key in ValidParsedWWWAuthenticateProperties]?: string;
-};
-
-// @public
-export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
-
-// @public
-export type ValidParsedWWWAuthenticateProperties = "authorization" | "claims" | "resource" | "scope" | "service";
-
 
 // (No @packageDocumentation comment for this package)
 

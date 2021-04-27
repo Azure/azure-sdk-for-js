@@ -8,7 +8,7 @@ import {
   AuthorizeRequestOnChallengeOptions,
   ChallengeCallbacks
 } from "@azure/core-rest-pipeline";
-import { parseWWWAuthenticate } from "@azure/core-util";
+import { parseWWWAuthenticate } from "./wwwAuthenticateParser";
 import { AcrAccessToken, AcrRefreshToken, GeneratedClient } from "./generated";
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
