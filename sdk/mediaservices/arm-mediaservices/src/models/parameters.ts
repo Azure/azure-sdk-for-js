@@ -13,7 +13,7 @@ export const acceptLanguage: msRest.OperationParameter = {
   parameterPath: "acceptLanguage",
   mapper: {
     serializedName: "accept-language",
-    defaultValue: 'en-US',
+    defaultValue: "en-US",
     type: {
       name: "String"
     }
@@ -35,7 +35,7 @@ export const apiVersion0: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-05-01',
+    defaultValue: "2020-05-01",
     type: {
       name: "String"
     }
@@ -47,7 +47,7 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2021-05-01',
+    defaultValue: "2021-05-01",
     type: {
       name: "String"
     }
@@ -64,10 +64,7 @@ export const assetName: msRest.OperationURLParameter = {
   }
 };
 export const autoStart: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "autoStart"
-  ],
+  parameterPath: ["options", "autoStart"],
   mapper: {
     serializedName: "autoStart",
     type: {
@@ -86,10 +83,7 @@ export const contentKeyPolicyName: msRest.OperationURLParameter = {
   }
 };
 export const filter: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
+  parameterPath: ["options", "filter"],
   mapper: {
     serializedName: "$filter",
     type: {
@@ -179,10 +173,7 @@ export const nextPageLink: msRest.OperationURLParameter = {
   skipEncoding: true
 };
 export const orderby: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "orderby"
-  ],
+  parameterPath: ["options", "orderby"],
   mapper: {
     serializedName: "$orderby",
     type: {
@@ -246,10 +237,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: ["options", "top"],
   mapper: {
     serializedName: "$top",
     type: {

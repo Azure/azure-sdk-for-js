@@ -33,21 +33,41 @@ export class ContentKeyPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContentKeyPoliciesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: Models.ContentKeyPoliciesListOptionalParams): Promise<Models.ContentKeyPoliciesListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.ContentKeyPoliciesListOptionalParams
+  ): Promise<Models.ContentKeyPoliciesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: Models.ContentKeyPoliciesListOptionalParams, callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.ContentKeyPoliciesListOptionalParams | msRest.ServiceCallback<Models.ContentKeyPolicyCollection>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): Promise<Models.ContentKeyPoliciesListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.ContentKeyPoliciesListOptionalParams,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.ContentKeyPoliciesListOptionalParams
+      | msRest.ServiceCallback<Models.ContentKeyPolicyCollection>,
+    callback?: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>
+  ): Promise<Models.ContentKeyPoliciesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class ContentKeyPolicies {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.ContentKeyPoliciesListResponse>;
+      callback
+    ) as Promise<Models.ContentKeyPoliciesListResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class ContentKeyPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContentKeyPoliciesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContentKeyPoliciesGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContentKeyPoliciesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param contentKeyPolicyName The Content Key Policy name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, callback: msRest.ServiceCallback<Models.ContentKeyPolicy>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -82,8 +113,20 @@ export class ContentKeyPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentKeyPolicy>): void;
-  get(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicy>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>): Promise<Models.ContentKeyPoliciesGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicy>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicy>,
+    callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>
+  ): Promise<Models.ContentKeyPoliciesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +135,8 @@ export class ContentKeyPolicies {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.ContentKeyPoliciesGetResponse>;
+      callback
+    ) as Promise<Models.ContentKeyPoliciesGetResponse>;
   }
 
   /**
@@ -105,7 +149,13 @@ export class ContentKeyPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContentKeyPoliciesCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ContentKeyPoliciesCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    parameters: Models.ContentKeyPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContentKeyPoliciesCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -113,7 +163,13 @@ export class ContentKeyPolicies {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, callback: msRest.ServiceCallback<Models.ContentKeyPolicy>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    parameters: Models.ContentKeyPolicy,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -122,8 +178,22 @@ export class ContentKeyPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentKeyPolicy>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicy>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>): Promise<Models.ContentKeyPoliciesCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    parameters: Models.ContentKeyPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicy>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    parameters: Models.ContentKeyPolicy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicy>,
+    callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>
+  ): Promise<Models.ContentKeyPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +203,8 @@ export class ContentKeyPolicies {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.ContentKeyPoliciesCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.ContentKeyPoliciesCreateOrUpdateResponse>;
   }
 
   /**
@@ -145,14 +216,24 @@ export class ContentKeyPolicies {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param contentKeyPolicyName The Content Key Policy name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -160,8 +241,20 @@ export class ContentKeyPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -170,7 +263,8 @@ export class ContentKeyPolicies {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -183,7 +277,13 @@ export class ContentKeyPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContentKeyPoliciesUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options?: msRest.RequestOptionsBase): Promise<Models.ContentKeyPoliciesUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    parameters: Models.ContentKeyPolicy,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContentKeyPoliciesUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -191,7 +291,13 @@ export class ContentKeyPolicies {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, callback: msRest.ServiceCallback<Models.ContentKeyPolicy>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    parameters: Models.ContentKeyPolicy,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicy>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -200,8 +306,22 @@ export class ContentKeyPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentKeyPolicy>): void;
-  update(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, parameters: Models.ContentKeyPolicy, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicy>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>): Promise<Models.ContentKeyPoliciesUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    parameters: Models.ContentKeyPolicy,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicy>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    parameters: Models.ContentKeyPolicy,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicy>,
+    callback?: msRest.ServiceCallback<Models.ContentKeyPolicy>
+  ): Promise<Models.ContentKeyPoliciesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,7 +331,8 @@ export class ContentKeyPolicies {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.ContentKeyPoliciesUpdateResponse>;
+      callback
+    ) as Promise<Models.ContentKeyPoliciesUpdateResponse>;
   }
 
   /**
@@ -223,14 +344,24 @@ export class ContentKeyPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse>
    */
-  getPolicyPropertiesWithSecrets(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase): Promise<Models.ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse>;
+  getPolicyPropertiesWithSecrets(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param contentKeyPolicyName The Content Key Policy name.
    * @param callback The callback
    */
-  getPolicyPropertiesWithSecrets(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, callback: msRest.ServiceCallback<Models.ContentKeyPolicyProperties>): void;
+  getPolicyPropertiesWithSecrets(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicyProperties>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -238,8 +369,20 @@ export class ContentKeyPolicies {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPolicyPropertiesWithSecrets(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentKeyPolicyProperties>): void;
-  getPolicyPropertiesWithSecrets(resourceGroupName: string, accountName: string, contentKeyPolicyName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicyProperties>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicyProperties>): Promise<Models.ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse> {
+  getPolicyPropertiesWithSecrets(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicyProperties>
+  ): void;
+  getPolicyPropertiesWithSecrets(
+    resourceGroupName: string,
+    accountName: string,
+    contentKeyPolicyName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentKeyPolicyProperties>,
+    callback?: msRest.ServiceCallback<Models.ContentKeyPolicyProperties>
+  ): Promise<Models.ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -248,7 +391,8 @@ export class ContentKeyPolicies {
         options
       },
       getPolicyPropertiesWithSecretsOperationSpec,
-      callback) as Promise<Models.ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse>;
+      callback
+    ) as Promise<Models.ContentKeyPoliciesGetPolicyPropertiesWithSecretsResponse>;
   }
 
   /**
@@ -258,26 +402,43 @@ export class ContentKeyPolicies {
    * @param [options] The optional parameters
    * @returns Promise<Models.ContentKeyPoliciesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.ContentKeyPoliciesListNextOptionalParams): Promise<Models.ContentKeyPoliciesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.ContentKeyPoliciesListNextOptionalParams
+  ): Promise<Models.ContentKeyPoliciesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.ContentKeyPoliciesListNextOptionalParams, callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): void;
-  listNext(nextPageLink: string, options?: Models.ContentKeyPoliciesListNextOptionalParams | msRest.ServiceCallback<Models.ContentKeyPolicyCollection>, callback?: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>): Promise<Models.ContentKeyPoliciesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.ContentKeyPoliciesListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.ContentKeyPoliciesListNextOptionalParams
+      | msRest.ServiceCallback<Models.ContentKeyPolicyCollection>,
+    callback?: msRest.ServiceCallback<Models.ContentKeyPolicyCollection>
+  ): Promise<Models.ContentKeyPoliciesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.ContentKeyPoliciesListNextResponse>;
+      callback
+    ) as Promise<Models.ContentKeyPoliciesListNextResponse>;
   }
 }
 
@@ -285,21 +446,11 @@ export class ContentKeyPolicies {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top, Parameters.orderby],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContentKeyPolicyCollection
@@ -313,19 +464,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.contentKeyPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContentKeyPolicy
@@ -340,19 +488,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.contentKeyPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -376,19 +521,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.contentKeyPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -401,19 +543,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.contentKeyPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -434,19 +573,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const getPolicyPropertiesWithSecretsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}/getPolicyPropertiesWithSecrets",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}/getPolicyPropertiesWithSecrets",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.contentKeyPolicyName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContentKeyPolicyProperties
@@ -463,18 +599,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top, Parameters.orderby],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ContentKeyPolicyCollection

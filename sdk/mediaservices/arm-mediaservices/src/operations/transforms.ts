@@ -33,21 +33,41 @@ export class Transforms {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransformsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: Models.TransformsListOptionalParams): Promise<Models.TransformsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.TransformsListOptionalParams
+  ): Promise<Models.TransformsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.TransformCollection>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.TransformCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: Models.TransformsListOptionalParams, callback: msRest.ServiceCallback<Models.TransformCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.TransformsListOptionalParams | msRest.ServiceCallback<Models.TransformCollection>, callback?: msRest.ServiceCallback<Models.TransformCollection>): Promise<Models.TransformsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.TransformsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.TransformCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | Models.TransformsListOptionalParams
+      | msRest.ServiceCallback<Models.TransformCollection>,
+    callback?: msRest.ServiceCallback<Models.TransformCollection>
+  ): Promise<Models.TransformsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class Transforms {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.TransformsListResponse>;
+      callback
+    ) as Promise<Models.TransformsListResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class Transforms {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransformsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, transformName: string, options?: msRest.RequestOptionsBase): Promise<Models.TransformsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TransformsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param transformName The Transform name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, transformName: string, callback: msRest.ServiceCallback<Models.Transform>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    callback: msRest.ServiceCallback<Models.Transform>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -82,8 +113,20 @@ export class Transforms {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, transformName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Transform>): void;
-  get(resourceGroupName: string, accountName: string, transformName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transform>, callback?: msRest.ServiceCallback<Models.Transform>): Promise<Models.TransformsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Transform>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transform>,
+    callback?: msRest.ServiceCallback<Models.Transform>
+  ): Promise<Models.TransformsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +135,8 @@ export class Transforms {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.TransformsGetResponse>;
+      callback
+    ) as Promise<Models.TransformsGetResponse>;
   }
 
   /**
@@ -105,7 +149,13 @@ export class Transforms {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransformsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options?: msRest.RequestOptionsBase): Promise<Models.TransformsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    parameters: Models.Transform,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TransformsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -113,7 +163,13 @@ export class Transforms {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, callback: msRest.ServiceCallback<Models.Transform>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    parameters: Models.Transform,
+    callback: msRest.ServiceCallback<Models.Transform>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -122,8 +178,22 @@ export class Transforms {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Transform>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transform>, callback?: msRest.ServiceCallback<Models.Transform>): Promise<Models.TransformsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    parameters: Models.Transform,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Transform>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    parameters: Models.Transform,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transform>,
+    callback?: msRest.ServiceCallback<Models.Transform>
+  ): Promise<Models.TransformsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +203,8 @@ export class Transforms {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.TransformsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.TransformsCreateOrUpdateResponse>;
   }
 
   /**
@@ -145,14 +216,24 @@ export class Transforms {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param transformName The Transform name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -160,8 +241,20 @@ export class Transforms {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, transformName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -170,7 +263,8 @@ export class Transforms {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -183,7 +277,13 @@ export class Transforms {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransformsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options?: msRest.RequestOptionsBase): Promise<Models.TransformsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    parameters: Models.Transform,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.TransformsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -191,7 +291,13 @@ export class Transforms {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, callback: msRest.ServiceCallback<Models.Transform>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    parameters: Models.Transform,
+    callback: msRest.ServiceCallback<Models.Transform>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -200,8 +306,22 @@ export class Transforms {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Transform>): void;
-  update(resourceGroupName: string, accountName: string, transformName: string, parameters: Models.Transform, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transform>, callback?: msRest.ServiceCallback<Models.Transform>): Promise<Models.TransformsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    parameters: Models.Transform,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Transform>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    transformName: string,
+    parameters: Models.Transform,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Transform>,
+    callback?: msRest.ServiceCallback<Models.Transform>
+  ): Promise<Models.TransformsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,7 +331,8 @@ export class Transforms {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.TransformsUpdateResponse>;
+      callback
+    ) as Promise<Models.TransformsUpdateResponse>;
   }
 
   /**
@@ -221,26 +342,43 @@ export class Transforms {
    * @param [options] The optional parameters
    * @returns Promise<Models.TransformsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.TransformsListNextOptionalParams): Promise<Models.TransformsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.TransformsListNextOptionalParams
+  ): Promise<Models.TransformsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.TransformCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: msRest.ServiceCallback<Models.TransformCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.TransformsListNextOptionalParams, callback: msRest.ServiceCallback<Models.TransformCollection>): void;
-  listNext(nextPageLink: string, options?: Models.TransformsListNextOptionalParams | msRest.ServiceCallback<Models.TransformCollection>, callback?: msRest.ServiceCallback<Models.TransformCollection>): Promise<Models.TransformsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.TransformsListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.TransformCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.TransformsListNextOptionalParams
+      | msRest.ServiceCallback<Models.TransformCollection>,
+    callback?: msRest.ServiceCallback<Models.TransformCollection>
+  ): Promise<Models.TransformsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.TransformsListNextResponse>;
+      callback
+    ) as Promise<Models.TransformsListNextResponse>;
   }
 }
 
@@ -248,20 +386,11 @@ export class Transforms {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.orderby
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.orderby],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TransformCollection
@@ -275,19 +404,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.transformName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Transform
@@ -302,19 +428,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.transformName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -338,19 +461,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.transformName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -363,19 +483,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.transformName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -398,17 +515,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.orderby
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.orderby],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.TransformCollection

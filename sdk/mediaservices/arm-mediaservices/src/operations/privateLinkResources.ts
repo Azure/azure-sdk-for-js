@@ -33,21 +33,41 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>, callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>): Promise<Models.PrivateLinkResourcesListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateLinkResourceListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResourceListResult>
+  ): Promise<Models.PrivateLinkResourcesListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class PrivateLinkResources {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesListResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesListResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class PrivateLinkResources {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateLinkResourcesGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateLinkResourcesGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateLinkResourcesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -82,8 +113,20 @@ export class PrivateLinkResources {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateLinkResource>): void;
-  get(resourceGroupName: string, accountName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>, callback?: msRest.ServiceCallback<Models.PrivateLinkResource>): Promise<Models.PrivateLinkResourcesGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateLinkResource>,
+    callback?: msRest.ServiceCallback<Models.PrivateLinkResource>
+  ): Promise<Models.PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +135,8 @@ export class PrivateLinkResources {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateLinkResourcesGetResponse>;
+      callback
+    ) as Promise<Models.PrivateLinkResourcesGetResponse>;
   }
 }
 
@@ -100,18 +144,11 @@ export class PrivateLinkResources {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateLinkResources",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateLinkResources",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResourceListResult
@@ -125,19 +162,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateLinkResources/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateLinkResources/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateLinkResource

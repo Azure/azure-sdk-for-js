@@ -33,21 +33,41 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
-  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.PrivateEndpointConnectionsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>
+  ): Promise<Models.PrivateEndpointConnectionsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +75,8 @@ export class PrivateEndpointConnections {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsListResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionsListResponse>;
   }
 
   /**
@@ -67,14 +88,24 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, name: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -82,8 +113,20 @@ export class PrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  get(resourceGroupName: string, accountName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateEndpointConnectionsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): Promise<Models.PrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +135,8 @@ export class PrivateEndpointConnections {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsGetResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionsGetResponse>;
   }
 
   /**
@@ -105,7 +149,13 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, name: string, parameters: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    parameters: Models.PrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -113,7 +163,13 @@ export class PrivateEndpointConnections {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, name: string, parameters: Models.PrivateEndpointConnection, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    parameters: Models.PrivateEndpointConnection,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -122,8 +178,22 @@ export class PrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, name: string, parameters: Models.PrivateEndpointConnection, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, name: string, parameters: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    parameters: Models.PrivateEndpointConnection,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    parameters: Models.PrivateEndpointConnection,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>,
+    callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>
+  ): Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +203,8 @@ export class PrivateEndpointConnections {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.PrivateEndpointConnectionsCreateOrUpdateResponse>;
   }
 
   /**
@@ -145,14 +216,24 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, name: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param name
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, name: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -160,8 +241,20 @@ export class PrivateEndpointConnections {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    name: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -170,7 +263,8 @@ export class PrivateEndpointConnections {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 }
 
@@ -178,18 +272,11 @@ export class PrivateEndpointConnections {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateEndpointConnections",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateEndpointConnections",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnectionListResult
@@ -203,19 +290,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateEndpointConnections/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateEndpointConnections/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.PrivateEndpointConnection
@@ -229,19 +313,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateEndpointConnections/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateEndpointConnections/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -262,19 +343,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateEndpointConnections/{name}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/privateEndpointConnections/{name}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.name
   ],
-  queryParameters: [
-    Parameters.apiVersion1
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion1],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     default: {

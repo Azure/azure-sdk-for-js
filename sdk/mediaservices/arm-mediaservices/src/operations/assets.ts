@@ -33,21 +33,39 @@ export class Assets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssetsListResponse>
    */
-  list(resourceGroupName: string, accountName: string, options?: Models.AssetsListOptionalParams): Promise<Models.AssetsListResponse>;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.AssetsListOptionalParams
+  ): Promise<Models.AssetsListResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.AssetCollection>): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    callback: msRest.ServiceCallback<Models.AssetCollection>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(resourceGroupName: string, accountName: string, options: Models.AssetsListOptionalParams, callback: msRest.ServiceCallback<Models.AssetCollection>): void;
-  list(resourceGroupName: string, accountName: string, options?: Models.AssetsListOptionalParams | msRest.ServiceCallback<Models.AssetCollection>, callback?: msRest.ServiceCallback<Models.AssetCollection>): Promise<Models.AssetsListResponse> {
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options: Models.AssetsListOptionalParams,
+    callback: msRest.ServiceCallback<Models.AssetCollection>
+  ): void;
+  list(
+    resourceGroupName: string,
+    accountName: string,
+    options?: Models.AssetsListOptionalParams | msRest.ServiceCallback<Models.AssetCollection>,
+    callback?: msRest.ServiceCallback<Models.AssetCollection>
+  ): Promise<Models.AssetsListResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -55,7 +73,8 @@ export class Assets {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.AssetsListResponse>;
+      callback
+    ) as Promise<Models.AssetsListResponse>;
   }
 
   /**
@@ -67,14 +86,24 @@ export class Assets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssetsGetResponse>
    */
-  get(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssetsGetResponse>;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssetsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param assetName The Asset name.
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, assetName: string, callback: msRest.ServiceCallback<Models.Asset>): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    callback: msRest.ServiceCallback<Models.Asset>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -82,8 +111,20 @@ export class Assets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, accountName: string, assetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Asset>): void;
-  get(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Asset>, callback?: msRest.ServiceCallback<Models.Asset>): Promise<Models.AssetsGetResponse> {
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Asset>
+  ): void;
+  get(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Asset>,
+    callback?: msRest.ServiceCallback<Models.Asset>
+  ): Promise<Models.AssetsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -92,7 +133,8 @@ export class Assets {
         options
       },
       getOperationSpec,
-      callback) as Promise<Models.AssetsGetResponse>;
+      callback
+    ) as Promise<Models.AssetsGetResponse>;
   }
 
   /**
@@ -105,7 +147,13 @@ export class Assets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssetsCreateOrUpdateResponse>
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options?: msRest.RequestOptionsBase): Promise<Models.AssetsCreateOrUpdateResponse>;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.Asset,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssetsCreateOrUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -113,7 +161,13 @@ export class Assets {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, callback: msRest.ServiceCallback<Models.Asset>): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.Asset,
+    callback: msRest.ServiceCallback<Models.Asset>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -122,8 +176,22 @@ export class Assets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Asset>): void;
-  createOrUpdate(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Asset>, callback?: msRest.ServiceCallback<Models.Asset>): Promise<Models.AssetsCreateOrUpdateResponse> {
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.Asset,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Asset>
+  ): void;
+  createOrUpdate(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.Asset,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Asset>,
+    callback?: msRest.ServiceCallback<Models.Asset>
+  ): Promise<Models.AssetsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -133,7 +201,8 @@ export class Assets {
         options
       },
       createOrUpdateOperationSpec,
-      callback) as Promise<Models.AssetsCreateOrUpdateResponse>;
+      callback
+    ) as Promise<Models.AssetsCreateOrUpdateResponse>;
   }
 
   /**
@@ -145,14 +214,24 @@ export class Assets {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param assetName The Asset name.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, assetName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    callback: msRest.ServiceCallback<void>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -160,8 +239,20 @@ export class Assets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, accountName: string, assetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+    callback?: msRest.ServiceCallback<void>
+  ): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -170,7 +261,8 @@ export class Assets {
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -183,7 +275,13 @@ export class Assets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssetsUpdateResponse>
    */
-  update(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options?: msRest.RequestOptionsBase): Promise<Models.AssetsUpdateResponse>;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.Asset,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssetsUpdateResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -191,7 +289,13 @@ export class Assets {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, callback: msRest.ServiceCallback<Models.Asset>): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.Asset,
+    callback: msRest.ServiceCallback<Models.Asset>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -200,8 +304,22 @@ export class Assets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Asset>): void;
-  update(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.Asset, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Asset>, callback?: msRest.ServiceCallback<Models.Asset>): Promise<Models.AssetsUpdateResponse> {
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.Asset,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.Asset>
+  ): void;
+  update(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.Asset,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Asset>,
+    callback?: msRest.ServiceCallback<Models.Asset>
+  ): Promise<Models.AssetsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -211,7 +329,8 @@ export class Assets {
         options
       },
       updateOperationSpec,
-      callback) as Promise<Models.AssetsUpdateResponse>;
+      callback
+    ) as Promise<Models.AssetsUpdateResponse>;
   }
 
   /**
@@ -225,7 +344,13 @@ export class Assets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssetsListContainerSasResponse>
    */
-  listContainerSas(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.ListContainerSasInput, options?: msRest.RequestOptionsBase): Promise<Models.AssetsListContainerSasResponse>;
+  listContainerSas(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.ListContainerSasInput,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssetsListContainerSasResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -233,7 +358,13 @@ export class Assets {
    * @param parameters The request parameters
    * @param callback The callback
    */
-  listContainerSas(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.ListContainerSasInput, callback: msRest.ServiceCallback<Models.AssetContainerSas>): void;
+  listContainerSas(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.ListContainerSasInput,
+    callback: msRest.ServiceCallback<Models.AssetContainerSas>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -242,8 +373,22 @@ export class Assets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listContainerSas(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.ListContainerSasInput, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AssetContainerSas>): void;
-  listContainerSas(resourceGroupName: string, accountName: string, assetName: string, parameters: Models.ListContainerSasInput, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssetContainerSas>, callback?: msRest.ServiceCallback<Models.AssetContainerSas>): Promise<Models.AssetsListContainerSasResponse> {
+  listContainerSas(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.ListContainerSasInput,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.AssetContainerSas>
+  ): void;
+  listContainerSas(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    parameters: Models.ListContainerSasInput,
+    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AssetContainerSas>,
+    callback?: msRest.ServiceCallback<Models.AssetContainerSas>
+  ): Promise<Models.AssetsListContainerSasResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -253,7 +398,8 @@ export class Assets {
         options
       },
       listContainerSasOperationSpec,
-      callback) as Promise<Models.AssetsListContainerSasResponse>;
+      callback
+    ) as Promise<Models.AssetsListContainerSasResponse>;
   }
 
   /**
@@ -266,14 +412,24 @@ export class Assets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssetsGetEncryptionKeyResponse>
    */
-  getEncryptionKey(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssetsGetEncryptionKeyResponse>;
+  getEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssetsGetEncryptionKeyResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param assetName The Asset name.
    * @param callback The callback
    */
-  getEncryptionKey(resourceGroupName: string, accountName: string, assetName: string, callback: msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>): void;
+  getEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    callback: msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -281,8 +437,22 @@ export class Assets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getEncryptionKey(resourceGroupName: string, accountName: string, assetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>): void;
-  getEncryptionKey(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>, callback?: msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>): Promise<Models.AssetsGetEncryptionKeyResponse> {
+  getEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>
+  ): void;
+  getEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>,
+    callback?: msRest.ServiceCallback<Models.StorageEncryptedAssetDecryptionData>
+  ): Promise<Models.AssetsGetEncryptionKeyResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -291,7 +461,8 @@ export class Assets {
         options
       },
       getEncryptionKeyOperationSpec,
-      callback) as Promise<Models.AssetsGetEncryptionKeyResponse>;
+      callback
+    ) as Promise<Models.AssetsGetEncryptionKeyResponse>;
   }
 
   /**
@@ -303,14 +474,24 @@ export class Assets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssetsListStreamingLocatorsResponse>
    */
-  listStreamingLocators(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase): Promise<Models.AssetsListStreamingLocatorsResponse>;
+  listStreamingLocators(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options?: msRest.RequestOptionsBase
+  ): Promise<Models.AssetsListStreamingLocatorsResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
    * @param assetName The Asset name.
    * @param callback The callback
    */
-  listStreamingLocators(resourceGroupName: string, accountName: string, assetName: string, callback: msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>): void;
+  listStreamingLocators(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    callback: msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>
+  ): void;
   /**
    * @param resourceGroupName The name of the resource group within the Azure subscription.
    * @param accountName The Media Services account name.
@@ -318,8 +499,22 @@ export class Assets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listStreamingLocators(resourceGroupName: string, accountName: string, assetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>): void;
-  listStreamingLocators(resourceGroupName: string, accountName: string, assetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>, callback?: msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>): Promise<Models.AssetsListStreamingLocatorsResponse> {
+  listStreamingLocators(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options: msRest.RequestOptionsBase,
+    callback: msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>
+  ): void;
+  listStreamingLocators(
+    resourceGroupName: string,
+    accountName: string,
+    assetName: string,
+    options?:
+      | msRest.RequestOptionsBase
+      | msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>,
+    callback?: msRest.ServiceCallback<Models.ListStreamingLocatorsResponse>
+  ): Promise<Models.AssetsListStreamingLocatorsResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -328,7 +523,8 @@ export class Assets {
         options
       },
       listStreamingLocatorsOperationSpec,
-      callback) as Promise<Models.AssetsListStreamingLocatorsResponse>;
+      callback
+    ) as Promise<Models.AssetsListStreamingLocatorsResponse>;
   }
 
   /**
@@ -338,7 +534,10 @@ export class Assets {
    * @param [options] The optional parameters
    * @returns Promise<Models.AssetsListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.AssetsListNextOptionalParams): Promise<Models.AssetsListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.AssetsListNextOptionalParams
+  ): Promise<Models.AssetsListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
@@ -349,15 +548,24 @@ export class Assets {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.AssetsListNextOptionalParams, callback: msRest.ServiceCallback<Models.AssetCollection>): void;
-  listNext(nextPageLink: string, options?: Models.AssetsListNextOptionalParams | msRest.ServiceCallback<Models.AssetCollection>, callback?: msRest.ServiceCallback<Models.AssetCollection>): Promise<Models.AssetsListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.AssetsListNextOptionalParams,
+    callback: msRest.ServiceCallback<Models.AssetCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?: Models.AssetsListNextOptionalParams | msRest.ServiceCallback<Models.AssetCollection>,
+    callback?: msRest.ServiceCallback<Models.AssetCollection>
+  ): Promise<Models.AssetsListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.AssetsListNextResponse>;
+      callback
+    ) as Promise<Models.AssetsListNextResponse>;
   }
 }
 
@@ -365,21 +573,11 @@ export class Assets {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets",
+  urlParameters: [Parameters.subscriptionId, Parameters.resourceGroupName, Parameters.accountName],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top, Parameters.orderby],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AssetCollection
@@ -393,19 +591,16 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.assetName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.Asset
@@ -420,19 +615,16 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.assetName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -456,19 +648,16 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.assetName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {},
     204: {},
@@ -481,19 +670,16 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.assetName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -514,19 +700,16 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const listContainerSasOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/listContainerSas",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/listContainerSas",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.assetName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
     parameterPath: "parameters",
     mapper: {
@@ -547,19 +730,16 @@ const listContainerSasOperationSpec: msRest.OperationSpec = {
 
 const getEncryptionKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/getEncryptionKey",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/getEncryptionKey",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.assetName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.StorageEncryptedAssetDecryptionData
@@ -573,19 +753,16 @@ const getEncryptionKeyOperationSpec: msRest.OperationSpec = {
 
 const listStreamingLocatorsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/listStreamingLocators",
+  path:
+    "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/listStreamingLocators",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.assetName
   ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  queryParameters: [Parameters.apiVersion0],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.ListStreamingLocatorsResponse
@@ -601,18 +778,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://management.azure.com",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  queryParameters: [
-    Parameters.apiVersion0,
-    Parameters.filter,
-    Parameters.top,
-    Parameters.orderby
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  queryParameters: [Parameters.apiVersion0, Parameters.filter, Parameters.top, Parameters.orderby],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.AssetCollection
