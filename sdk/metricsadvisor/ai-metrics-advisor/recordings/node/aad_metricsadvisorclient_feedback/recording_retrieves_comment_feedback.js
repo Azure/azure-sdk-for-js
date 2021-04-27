@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "a8f499eec770cfb0ecbda9095b34bd28";
+module.exports.hash = "6d5f77bddbd4873fda347b16a640dc98";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,40 +22,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '6bb8cddf-8c85-4329-80b0-dd2541209900',
+  '4b8da356-d9e7-4ad0-bbe3-f579a9870301',
   'x-ms-ests-server',
-  '2.1.11654.16 - WUS2 ProdSlices',
+  '2.1.11654.16 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Al6bdrvt6wFJo3tvRWyi3zfGLH8mAQAAAPurGdgOAAAA; expires=Thu, 27-May-2021 06:53:48 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Al6bdrvt6wFJo3tvRWyi3zfGLH8mAgAAAPurGdgOAAAA; expires=Thu, 27-May-2021 06:53:59 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 27 Apr 2021 06:53:47 GMT',
+  'Tue, 27 Apr 2021 06:53:59 GMT',
   'Content-Length',
   '1331'
-]);
-
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/metricsadvisor/v1.0/feedback/metric', {"feedbackType":"Comment","metricId":"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f","dimensionFilter":{"dimension":{"city":"Cairo","category":"Home & Garden"}},"value":{"commentValue":"This is a comment"}})
-  .reply(201, "", [
-  'Content-Length',
-  '0',
-  'Location',
-  'https://endpoint/metricsadvisor/v1.0/feedback/metric/1edb0978-ee59-4ed8-9dad-9100b656ee60',
-  'x-request-id',
-  '3db4f89a-2b5c-4675-80c3-7b4b4048b796',
-  'x-envoy-upstream-service-time',
-  '5528',
-  'apim-request-id',
-  '3db4f89a-2b5c-4675-80c3-7b4b4048b796',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains; preload',
-  'x-content-type-options',
-  'nosniff',
-  'Date',
-  'Tue, 27 Apr 2021 06:53:53 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -66,15 +45,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '20778bce-f9fa-473d-925d-e8f248fe73c1',
+  '3ea2bfc8-c389-4f01-8312-3fcabc8afb73',
   'x-envoy-upstream-service-time',
-  '5269',
+  '5281',
   'apim-request-id',
-  '20778bce-f9fa-473d-925d-e8f248fe73c1',
+  '3ea2bfc8-c389-4f01-8312-3fcabc8afb73',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 27 Apr 2021 06:53:59 GMT'
+  'Tue, 27 Apr 2021 06:54:05 GMT'
 ]);
