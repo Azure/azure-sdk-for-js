@@ -33,7 +33,7 @@ describe("AzurePowerShellCredential", function() {
     }
 
     assert.ok(error);
-    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(error?.name, "CredentialUnavailable");
     assert.equal(error?.message, powerShellPublicErrorMessages.login);
 
     sandbox.restore();
@@ -56,7 +56,7 @@ describe("AzurePowerShellCredential", function() {
     }
 
     assert.ok(error);
-    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(error?.name, "CredentialUnavailable");
     assert.equal(error?.message, powerShellPublicErrorMessages.installed);
 
     sandbox.restore();
@@ -79,7 +79,7 @@ describe("AzurePowerShellCredential", function() {
     }
 
     assert.ok(error);
-    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(error?.name, "CredentialUnavailable");
     assert.equal(
       error?.message,
       `Error: Unable to execute "${pwshCommand}". Ensure that it is installed in your system.`
@@ -105,7 +105,7 @@ describe("AzurePowerShellCredential", function() {
     }
 
     assert.ok(error);
-    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(error?.name, "CredentialUnavailable");
     assert.equal(
       error?.message,
       `Error: Unable to execute "${pwshCommand}". Ensure that it is installed in your system.`
@@ -132,7 +132,7 @@ describe("AzurePowerShellCredential", function() {
     }
 
     assert.ok(error);
-    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(error?.name, "CredentialUnavailable");
     assert.equal(
       error?.message,
       `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON`

@@ -59,7 +59,7 @@ describe("InteractiveBrowserCredential (internal)", function() {
       error = e;
     }
 
-    assert.equal(error?.name, "CredentialUnavailableError");
+    assert.equal(error?.name, "CredentialUnavailable");
     assert.equal(error?.message, `Could not open a browser window. Error: ${testErrorMessage}`);
   });
 });

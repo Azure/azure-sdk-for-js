@@ -59,7 +59,7 @@ describe("IdentityClient", function() {
     await assertRejects(credential.getToken("https://test/.default"), (error) => {
       // Keep in mind that this credential has different implementations in Node and in browsers.
       if (isNode) {
-        assert.equal(error.name, "CredentialUnavailableError");
+        assert.equal(error.name, "CredentialUnavailable");
       } else {
         assert.equal(error.name, "AuthenticationError");
       }
@@ -131,7 +131,7 @@ describe("IdentityClient", function() {
     await assertRejects(credential.getToken("https://test/.default"), (error) => {
       // Keep in mind that this credential has different implementations in Node and in browsers.
       if (isNode) {
-        assert.equal(error.name, "CredentialUnavailableError");
+        assert.equal(error.name, "CredentialUnavailable");
       } else {
         assert.equal(error.name, "AuthenticationError");
       }
