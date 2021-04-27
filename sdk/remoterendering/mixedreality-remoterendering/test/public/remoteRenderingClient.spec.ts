@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 import { Recorder } from "@azure/test-utils-recorder";
+import { RestError } from "@azure/core-rest-pipeline";
 
 import {
   RemoteRenderingClient,
@@ -198,6 +199,54 @@ describe("RemoteRendering functional tests", () => {
 
     let conversionId = recorder.getUniqueName("conversionId");
 
-    assert.throws(() => client.beginConversion(conversionId, conversionSettings), "");
+    let didThrowExpected: Boolean = false;
+    try {
+      await client.beginConversion(conversionId, conversionSettings);
+    }
+    catch (e) {
+      assert(e instanceof RestError);
+      if (e instanceof RestError) {
+        assert.isTrue(e.message.toLowerCase().includes("storage"));
+        assert.isTrue(e.message.toLowerCase().includes("permission"));
+      }
+      didThrowExpected = true;
+    }
+    assert.isTrue(didThrowExpected);
+  });
+
+  it("failed conversion missing asset", async () => {
+    let storageContainerUrl =
+      "https://" +
+      getEnv("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
+      ".blob.core.windows.net/" +
+      getEnv("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
+
+    let inputSettings: AssetConversionInputSettings = {
+      storageContainerUrl,
+      storageContainerReadListSas: getEnv("REMOTERENDERING_ARR_SAS_TOKEN"),
+      relativeInputAssetPath: "boxWhichDoesNotExist.fbx",
+      blobPrefix: "Input"
+    };
+    let outputSettings: AssetConversionOutputSettings = {
+      storageContainerUrl,
+      storageContainerWriteSas: getEnv("REMOTERENDERING_ARR_SAS_TOKEN"),
+      blobPrefix: "Output"
+    };
+    let conversionSettings: AssetConversionSettings = { inputSettings, outputSettings };
+
+    let conversionId = recorder.getUniqueName("conversionId");
+
+    let conversionPoller: AssetConversionPollerLike = await client.beginConversion(
+      conversionId,
+      conversionSettings
+    );
+    let conversion: AssetConversion = await conversionPoller.pollUntilDone();
+    assert.equal(conversion.status, "Failed");
+    if (conversion.status == "Failed")
+    {
+      // Invalid input provided. Check logs in output container for details.
+      assert.isTrue(conversion.error.message.toLowerCase().includes("invalid input"));
+      assert.isTrue(conversion.error.message.toLowerCase().includes("logs"));
+    }
   });
 });
