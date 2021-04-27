@@ -73,7 +73,7 @@ async function sendMessages(numberOfMessagesToSend: number) {
   return messageBodies;
 }
 
-describe("2048 scenarios - receiveBatch in a loop", function(): void {
+describe.only("2048 scenarios - receiveBatch in a loop", function(): void {
   before(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: { maxRetries: 1, retryDelayInMs: 10 }
@@ -180,7 +180,7 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
   });
 });
 
-describe("2048 scenarios - subscribe", function(): void {
+describe.only("2048 scenarios - subscribe", function(): void {
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
