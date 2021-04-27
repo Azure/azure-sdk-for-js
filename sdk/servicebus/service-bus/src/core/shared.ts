@@ -187,6 +187,16 @@ export class StreamingReceiverCreditManager {
    */
   async postProcessing() {
     const receiver = this._getCurrentReceiver().receiver;
+    // If
+    // - receiver is open
+    // - numberOfEmptyIncomingSlots > 0
+    // - can receive messages
+    // Then
+    //     this.receiverHelper.addCredit(
+    //         this.receiveMode === "peekLock"
+    //          ? Math.min(maxConcurrentCalls, emptySlots <= 1 ? 0 : emptySlots - 1) // TODO: Move the -1 to numberOfEmptyIncomingSlots
+    //          : maxConcurrentCalls
+    //     );
     if (this.receiveMode === "peekLock" && numberOfEmptyIncomingSlots(receiver) <= 1) {
       // Wait for the user to clear the deliveries before adding more credits
       while (receiver?.isOpen() && numberOfEmptyIncomingSlots(receiver) <= 1) {
