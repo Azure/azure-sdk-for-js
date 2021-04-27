@@ -202,8 +202,7 @@ describe("RemoteRendering functional tests", () => {
     let didThrowExpected: Boolean = false;
     try {
       await client.beginConversion(conversionId, conversionSettings);
-    }
-    catch (e) {
+    } catch (e) {
       assert(e instanceof RestError);
       if (e instanceof RestError) {
         assert.isTrue(e.message.toLowerCase().includes("storage"));
@@ -242,8 +241,7 @@ describe("RemoteRendering functional tests", () => {
     );
     let conversion: AssetConversion = await conversionPoller.pollUntilDone();
     assert.equal(conversion.status, "Failed");
-    if (conversion.status == "Failed")
-    {
+    if (conversion.status == "Failed") {
       // Invalid input provided. Check logs in output container for details.
       assert.isTrue(conversion.error.message.toLowerCase().includes("invalid input"));
       assert.isTrue(conversion.error.message.toLowerCase().includes("logs"));
