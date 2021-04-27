@@ -23,9 +23,9 @@ let receiver: ServiceBusReceiver;
 const numberOfMessagesToSend = 3000;
 
 const testClientTypes = [
-  TestClientType.PartitionedQueue
+  TestClientType.PartitionedQueue,
   // TestClientType.PartitionedQueueWithSessions,
-  // TestClientType.UnpartitionedQueue
+  TestClientType.UnpartitionedQueue
   // TestClientType.UnpartitionedQueueWithSessions
 ];
 
@@ -33,6 +33,7 @@ async function beforeEachTest(
   entityType: TestClientType,
   receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
 ): Promise<void> {
+  console.log("beforeEachTest starts...");
   entityName = await serviceBusClient.test.createTestEntities(entityType);
   if (receiveMode === "receiveAndDelete") {
     receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(entityName);
@@ -91,7 +92,8 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
   async function receiveMessages(numberOfMessagesToReceive: number) {
     let messages: ServiceBusReceivedMessage[] = [];
     while (messages.length < numberOfMessagesToReceive) {
-      messages = messages.concat(await receiver.receiveMessages(50, { maxWaitTimeInMs: 3000 }));
+      messages = messages.concat(await receiver.receiveMessages(50));
+      console.log(`${messages.length} received so far!`);
     }
     chai.assert.equal(
       messages.length,
@@ -101,9 +103,9 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
     return messages;
   }
 
-  describe.only("receiveAndDelete", () => {
+  describe("receiveAndDelete", () => {
     testClientTypes.forEach((clientType) => {
-      it(
+      it.only(
         clientType + ": would be able to receive more than 2047 messages",
         async function(): Promise<void> {
           await beforeEachTest(clientType, "receiveAndDelete");
@@ -117,7 +119,7 @@ describe("2048 scenarios - receiveBatch in a loop", function(): void {
 
   describe("peekLock: can receive a max of 2047 messages when not being settled", () => {
     testClientTypes.forEach((clientType) => {
-      it(
+      it.only(
         clientType +
           ": deliveryCount will be incremented for 2047 messages if closed the receiver and received again",
         async function(): Promise<void> {
