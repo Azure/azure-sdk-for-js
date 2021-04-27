@@ -1,15 +1,10 @@
 # Release History
 
-## 1.0.4 (Unreleased)
+## 1.1.0-beta.1 (Unreleased)
 
-- A new type is exported, `ChallengeCallbackOptions`, which contains `scopes`, a string `claims` that might contain a challenge, the previous token used on a request `previousToken`, a `getToken` function, which calls to the underlying credential's `getToken` with a smart approach that minimizes unnecessary network requests, the pipeline request `request`, and a `setAuthorizationHeader` which makes it easier to set the token on the pipeline request.
-- Added a `challengeCallbacks` optional property to the `bearerTokenAuthenticationPolicy` that allows it to process authentication challenges, as follows:
-    - `authenticateRequest`, which receives `options: ChallengeCallbackOptions`, and allows customizing the policy to alter how it authenticates before sending a request.
-        - By default, this function will try to retrieve the token from the underlying credential, and if it receives one, it will cache the token and set it to the outgoing request. This was the original behavior of this policy.
-    - `authenticateRequestOnChallenge`, which gets called only if we've found a challenge. Then it receives the `challenge: string` and also `options: ChallengeCallbackOptions`. If this method returns true, the underlying request will be sent again.
-        - By default, this function tries to see if the original request received challenges through the "WWW-Authenticate" header. If so, it will try to retrieve the token with this challenge, and repeat the underlying request. If there was no challenge present, it will not repeat the underlying request.
-    - In any of these two, the `setAuthorizationHeader` parameter received through the   `ChallengeCallbackOptions` will allow developers to easily assign a token to the ongoing request.
-- Rewrote `bearerTokenAuthenticationPolicy` to use a new backend that refreshes tokens only when they're about to expire and not multiple times before. This is based on a similar fix implemented on `@azure/core-http@1.2.4` ([PR with the changes](https://github.com/Azure/azure-sdk-for-js/pull/14223)). This fixes the issue: [13369](https://github.com/Azure/azure-sdk-for-js/issues/13369).
+- Add a new `bearerTokenChallengeAuthenticationPolicy` that provides a skeleton of handling challenge-based authorization. There are two extensible points: `authorizeRequest` and `authorizeRequestOnChallenge` callbacks.
+  - `authorizeRequest` allows customizing the policy to alter how it authorizes a request before sending it. By default when no callbacks are specified, this policy has the same behavior as `bearerTokenAuthenticationPolicy`. It will retrieve the token from the underlying token credential, and if it gets one, it will cache the token and set it to the outgoing request.
+  - `authorizeRequestOnChallenge`, which gets called only if we've found a challenge in the response. This callback has access to the original request and its response and is expected to handle the challenge. If this callback returns true, the request, usually updated after handling the challenge, will be sent again. If this call back returns false, no further actions will be taken.
 
 ## 1.0.3 (2021-03-30)
 

@@ -1,0 +1,16 @@
+{
+  "name": "azurearctest",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@azure/identity": "^1.3.0",
+    "@azure/keyvault-secrets": "^4.1.0",
+    "typescript": "^4.2.4"
+  }
+}

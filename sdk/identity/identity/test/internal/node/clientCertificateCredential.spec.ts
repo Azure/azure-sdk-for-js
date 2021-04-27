@@ -14,6 +14,8 @@ import { TokenCachePersistence } from "../../../src/tokenCache/TokenCachePersist
 import { MsalNode } from "../../../src/msal/nodeFlows/nodeCommon";
 import { Context } from "mocha";
 
+const ASSET_PATH = "assets";
+
 describe("ClientCertificateCredential (internal)", function() {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
@@ -35,7 +37,7 @@ describe("ClientCertificateCredential (internal)", function() {
     await cleanup();
   });
 
-  const certificatePath = path.resolve(__dirname, "../test/assets/cert.pem");
+  const certificatePath = path.join(ASSET_PATH, "cert.pem");
   const scope = "https://vault.azure.net/.default";
 
   it("throws when given a file that doesn't contain a PEM-formatted certificate", () => {
@@ -78,7 +80,7 @@ describe("ClientCertificateCredential (internal)", function() {
   // To test this, please install @azure/msal-node-extensions and un-skip these tests.
   describe("Persistent tests", function() {
     try {
-      /* eslint-disable-next-line @typescript-eslint/no-require-imports */
+      /* eslint-disable-next-line @typescript-eslint/no-require-imports, import/no-extraneous-dependencies */
       require("@azure/msal-node-extensions");
     } catch (e) {
       return;
@@ -104,7 +106,7 @@ describe("ClientCertificateCredential (internal)", function() {
       // Emptying the token cache before we start.
       const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
       const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
+      persistence?.save("{}");
 
       const credential = new ClientCertificateCredential(
         env.AZURE_TENANT_ID,
@@ -139,7 +141,7 @@ describe("ClientCertificateCredential (internal)", function() {
       // Emptying the token cache before we start.
       const tokenCache = new TokenCachePersistence(tokenCachePersistenceOptions);
       const persistence = await tokenCache.getPersistence();
-      persistence?.save("");
+      persistence?.save("{}");
 
       const credential = new ClientCertificateCredential(
         env.AZURE_TENANT_ID,

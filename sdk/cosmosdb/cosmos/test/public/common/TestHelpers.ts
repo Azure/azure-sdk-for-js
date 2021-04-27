@@ -42,7 +42,6 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
       )
     );
   } catch (err) {
-    // TODO: remove console logging for errors and add ts-lint flag back
     console.log("An error occured", err);
     assert.fail(err);
     throw err;

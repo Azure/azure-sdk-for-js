@@ -33,7 +33,7 @@ import {
   deferMessage,
   getMessageIterator,
   wrapProcessErrorHandler
-} from "./shared";
+} from "./receiverCommon";
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
@@ -634,7 +634,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return completeMessage(msgImpl, this._context, this.entityPath);
+    return completeMessage(msgImpl, this._context, this.entityPath, this._retryOptions);
   }
 
   async abandonMessage(
@@ -644,7 +644,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return abandonMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return abandonMessage(
+      msgImpl,
+      this._context,
+      this.entityPath,
+      propertiesToModify,
+      this._retryOptions
+    );
   }
 
   async deferMessage(
@@ -654,7 +660,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deferMessage(msgImpl, this._context, this.entityPath, propertiesToModify);
+    return deferMessage(
+      msgImpl,
+      this._context,
+      this.entityPath,
+      propertiesToModify,
+      this._retryOptions
+    );
   }
 
   async deadLetterMessage(
@@ -664,7 +676,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     this._throwIfReceiverOrConnectionClosed();
     throwErrorIfInvalidOperationOnMessage(message, this.receiveMode, this._context.connectionId);
     const msgImpl = message as ServiceBusMessageImpl;
-    return deadLetterMessage(msgImpl, this._context, this.entityPath, options);
+    return deadLetterMessage(msgImpl, this._context, this.entityPath, options, this._retryOptions);
   }
 
   async renewMessageLock(message: ServiceBusReceivedMessage): Promise<Date> {

@@ -656,6 +656,12 @@ export const KeyProperties: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "KeyProperties",
     modelProperties: {
+      exportable: {
+        serializedName: "exportable",
+        type: {
+          name: "Boolean"
+        }
+      },
       keyType: {
         serializedName: "kty",
         type: {

@@ -2,11 +2,13 @@
 // Licensed under the MIT license.
 
 import { v4 as uuid } from "uuid";
-import { Constants, TokenType, defaultLock, isSasTokenProvider } from "@azure/core-amqp";
+import { Constants, TokenType, defaultCancellableLock, isSasTokenProvider } from "@azure/core-amqp";
 import { AccessToken } from "@azure/core-auth";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
 import { logger } from "./log";
+import { getRetryAttemptTimeoutInMs } from "./util/retries";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @hidden
@@ -109,10 +111,17 @@ export class LinkEntity {
   /**
    * Negotiates cbs claim for the LinkEntity.
    * @hidden
-   * @param setTokenRenewal - Set the token renewal timer. Default false.
    * @returns Promise<void>
    */
-  protected async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+  protected async _negotiateClaim({
+    abortSignal,
+    setTokenRenewal,
+    timeoutInMs
+  }: {
+    setTokenRenewal: boolean | undefined;
+    abortSignal: AbortSignalLike | undefined;
+    timeoutInMs: number;
+  }): Promise<void> {
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
@@ -126,9 +135,22 @@ export class LinkEntity {
       this.name,
       this.address
     );
-    await defaultLock.acquire(this._context.cbsSession.cbsLock, () => {
-      return this._context.cbsSession.init();
-    });
+    const startTime = Date.now();
+    if (!this._context.cbsSession.isOpen()) {
+      await defaultCancellableLock.acquire(
+        this._context.cbsSession.cbsLock,
+        () => {
+          return this._context.cbsSession.init({
+            abortSignal,
+            timeoutInMs: timeoutInMs - (Date.now() - startTime)
+          });
+        },
+        {
+          abortSignal,
+          timeoutInMs
+        }
+      );
+    }
     let tokenObject: AccessToken;
     let tokenType: TokenType;
     if (isSasTokenProvider(this._context.tokenCredential)) {
@@ -162,9 +184,21 @@ export class LinkEntity {
       this.name,
       this.address
     );
-    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
-      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject.token, tokenType);
-    });
+    await defaultCancellableLock.acquire(
+      this._context.negotiateClaimLock,
+      () => {
+        return this._context.cbsSession.negotiateClaim(
+          this.audience,
+          tokenObject.token,
+          tokenType,
+          { abortSignal, timeoutInMs: timeoutInMs - (Date.now() - startTime) }
+        );
+      },
+      {
+        abortSignal,
+        timeoutInMs: timeoutInMs - (Date.now() - startTime)
+      }
+    );
     logger.verbose(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
       this._context.connectionId,
@@ -181,7 +215,7 @@ export class LinkEntity {
    * Ensures that the token is renewed within the predefined renewal margin.
    * @hidden
    */
-  protected async _ensureTokenRenewal(): Promise<void> {
+  protected _ensureTokenRenewal(): void {
     if (!this._tokenTimeoutInMs) {
       return;
     }
@@ -193,7 +227,11 @@ export class LinkEntity {
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
-        await this._negotiateClaim(true);
+        await this._negotiateClaim({
+          setTokenRenewal: true,
+          abortSignal: undefined,
+          timeoutInMs: getRetryAttemptTimeoutInMs(undefined)
+        });
       } catch (err) {
         logger.verbose(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",

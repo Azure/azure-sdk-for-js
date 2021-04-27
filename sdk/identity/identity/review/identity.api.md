@@ -41,7 +41,7 @@ export interface AuthenticationRecord {
 }
 
 // @public
-export class AuthenticationRequiredError extends CredentialUnavailableError {
+export class AuthenticationRequiredError extends Error {
     constructor(
     scopes: string[],
     getTokenOptions?: GetTokenOptions, message?: string);
@@ -72,6 +72,17 @@ export class AzureCliCredential implements TokenCredential {
         error: Error | null;
     }>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
+}
+
+// @public
+export class AzurePowerShellCredential implements TokenCredential {
+    constructor(options?: AzurePowerShellCredentialOptions);
+    getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
+    }
+
+// @public
+export interface AzurePowerShellCredentialOptions {
+    useLegacyPowerShell?: boolean;
 }
 
 // @public
@@ -232,12 +243,12 @@ export interface TokenCredentialOptions extends PipelineOptions {
 // @public
 export class UsernamePasswordCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, username: string, password: string, options?: UsernamePasswordCredentialOptions);
-    authenticate(scopes: string | string[], options?: GetTokenOptions): Promise<AuthenticationRecord | undefined>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
     }
 
 // @public
-export interface UsernamePasswordCredentialOptions extends InteractiveCredentialOptions {
+export interface UsernamePasswordCredentialOptions extends TokenCredentialOptions {
+    tokenCachePersistenceOptions?: TokenCachePersistenceOptions;
 }
 
 // @public

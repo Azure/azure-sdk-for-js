@@ -345,7 +345,9 @@ describe("AbortSignal", () => {
     it("SessionReceiver.subscribe", async () => {
       const connectionContext = createConnectionContextForTestsWithSessionId();
 
-      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello");
+      const messageSession = await MessageSession.create(connectionContext, "entityPath", "hello", {
+        retryOptions: undefined
+      });
 
       const session = new ServiceBusSessionReceiverImpl(
         messageSession,

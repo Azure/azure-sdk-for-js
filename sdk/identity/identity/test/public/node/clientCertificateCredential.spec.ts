@@ -11,6 +11,8 @@ import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestU
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
 
+const ASSET_PATH = "assets";
+
 describe("ClientCertificateCredential", function() {
   let cleanup: MsalTestCleanup;
   beforeEach(function(this: Context) {
@@ -20,7 +22,7 @@ describe("ClientCertificateCredential", function() {
     await cleanup();
   });
 
-  const certificatePath = path.resolve(__dirname, "../test/assets/cert.pem");
+  const certificatePath = path.join(ASSET_PATH, "cert.pem");
   const scope = "https://vault.azure.net/.default";
 
   it("authenticates", async function(this: Context) {

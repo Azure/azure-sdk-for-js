@@ -13,7 +13,6 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { DataFactoryManagementClientContext } from "./dataFactoryManagementClientContext";
 
-
 class DataFactoryManagementClient extends DataFactoryManagementClientContext {
   // Operation groups
   operations: operations.Operations;
@@ -33,6 +32,9 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
   dataFlowDebugSession: operations.DataFlowDebugSession;
   managedVirtualNetworks: operations.ManagedVirtualNetworks;
   managedPrivateEndpoints: operations.ManagedPrivateEndpoints;
+  privateEndPointConnections: operations.PrivateEndPointConnections;
+  privateEndpointConnection: operations.PrivateEndpointConnection;
+  privateLinkResources: operations.PrivateLinkResources;
 
   /**
    * Initializes a new instance of the DataFactoryManagementClient class.
@@ -40,7 +42,11 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
    * @param subscriptionId The subscription identifier.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DataFactoryManagementClientOptions) {
+  constructor(
+    credentials: msRest.ServiceClientCredentials,
+    subscriptionId: string,
+    options?: Models.DataFactoryManagementClientOptions
+  ) {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.factories = new operations.Factories(this);
@@ -59,6 +65,9 @@ class DataFactoryManagementClient extends DataFactoryManagementClientContext {
     this.dataFlowDebugSession = new operations.DataFlowDebugSession(this);
     this.managedVirtualNetworks = new operations.ManagedVirtualNetworks(this);
     this.managedPrivateEndpoints = new operations.ManagedPrivateEndpoints(this);
+    this.privateEndPointConnections = new operations.PrivateEndPointConnections(this);
+    this.privateEndpointConnection = new operations.PrivateEndpointConnection(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
   }
 }
 

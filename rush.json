@@ -333,6 +333,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-document-translator",
+      "projectFolder": "sdk/documenttranslator/ai-document-translator-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-anomaly-detector",
       "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
       "versionPolicyName": "client"
@@ -400,6 +405,11 @@
     {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
+      "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure-rest/core-client",
+      "projectFolder": "sdk/core-rest/core-client",
       "versionPolicyName": "core"
     },
     {
@@ -695,6 +705,16 @@
     {
       "packageName": "@azure/iot-device-update",
       "projectFolder": "sdk/deviceupdate/iot-device-update",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/web-pubsub",
+      "projectFolder": "sdk/web-pubsub/web-pubsub",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/web-pubsub-express",
+      "projectFolder": "sdk/web-pubsub/web-pubsub-express",
       "versionPolicyName": "client"
     },
     {

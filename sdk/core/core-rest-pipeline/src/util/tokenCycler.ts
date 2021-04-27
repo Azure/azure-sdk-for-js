@@ -19,7 +19,7 @@ export type AccessTokenGetter = (
  * The response of the
  */
 export interface AccessTokenRefresher {
-  cachedToken?: AccessToken;
+  cachedToken: AccessToken | null;
   getToken: AccessTokenGetter;
 }
 
@@ -196,8 +196,8 @@ export function createTokenCycler(
   }
 
   return {
-    get cachedToken(): AccessToken | undefined {
-      return token || undefined;
+    get cachedToken(): AccessToken | null {
+      return token;
     },
     getToken: async (
       scopes: string | string[],

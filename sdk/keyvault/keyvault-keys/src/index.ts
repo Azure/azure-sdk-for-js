@@ -78,7 +78,6 @@ import {
   UnwrapResult,
   VerifyResult,
   WrapResult,
-  KeyOperationsOptions,
   EncryptResult,
   DecryptOptions,
   EncryptOptions,
@@ -106,7 +105,6 @@ import { createTraceFunction } from "../../keyvault-common/src";
 
 export {
   CryptographyClientOptions,
-  KeyOperationsOptions,
   KeyClientOptions,
   BackupKeyOptions,
   CreateEcKeyOptions,

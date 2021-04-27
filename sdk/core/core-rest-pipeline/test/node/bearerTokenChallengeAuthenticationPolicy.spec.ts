@@ -89,7 +89,7 @@ async function authorizeRequestOnChallenge(
     {
       ...options,
       claims: uint8ArrayToString(Buffer.from(parsedChallenge.claims, "base64"))
-    }
+    } as GetTokenOptions
   );
 
   if (!accessToken) {
@@ -109,7 +109,10 @@ class MockRefreshAzureCredential implements TokenCredential {
     this.getTokenResponses = getTokenResponses;
   }
 
-  public getToken(scope: string | string[], options: GetTokenOptions): Promise<AccessToken | null> {
+  public getToken(
+    scope: string | string[],
+    options: GetTokenOptions & { claims?: string }
+  ): Promise<AccessToken | null> {
     this.authCount++;
     this.scopesAndClaims.push({ scope, challengeClaims: options.claims });
     return Promise.resolve(this.getTokenResponses.shift()!);

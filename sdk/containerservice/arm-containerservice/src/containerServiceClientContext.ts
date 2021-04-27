@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-containerservice";
-const packageVersion = "13.1.0";
+const packageVersion = "13.2.0";
 
 export class ContainerServiceClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -44,7 +44,7 @@ export class ContainerServiceClientContext extends msRestAzure.AzureServiceClien
 
     super(credentials, options);
 
-    this.apiVersion = '2021-02-01';
+    this.apiVersion = '2021-03-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

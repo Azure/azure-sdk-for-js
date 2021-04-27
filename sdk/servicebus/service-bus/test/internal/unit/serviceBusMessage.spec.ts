@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
+import {
+  ServiceBusMessage,
+  ServiceBusMessageImpl,
+  toRheaMessage
+} from "../../../src/serviceBusMessage";
 import {
   Delivery,
   uuid_to_string,
@@ -10,7 +14,10 @@ import {
   Message as RheaMessage
 } from "rhea-promise";
 import chai from "chai";
-import { Constants } from "@azure/core-amqp";
+import { ConnectionConfig, Constants } from "@azure/core-amqp";
+import { defaultDataTransformer } from "../../../src/dataTransformer";
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
+import { ConnectionContext } from "../../../src/connectionContext";
 const assert = chai.assert;
 
 const fakeDelivery = {} as Delivery;
@@ -182,6 +189,130 @@ describe("ServiceBusMessageImpl unit tests", () => {
         sbMessage.replyToSessionId
       );
       assert.equal(sbMessage._rawAmqpMessage.properties?.subject, sbMessage.subject);
+    });
+  });
+
+  describe("ServiceBusMessage validations", function(): void {
+    const longString =
+      "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
+
+    const testInputs: {
+      message: ServiceBusMessage;
+      expectedErrorMessage: string;
+      title: string;
+    }[] = [
+      {
+        message: { body: "", contentType: 1 as any },
+        expectedErrorMessage: "The property 'contentType' on the message must be of type 'string'",
+        title: "contentType is of invalid type"
+      },
+      {
+        message: { body: "", subject: 1 as any },
+        expectedErrorMessage: "The property 'label' on the message must be of type 'string'",
+        title: "label is of invalid type"
+      },
+      {
+        message: { body: "", to: 1 as any },
+        expectedErrorMessage: "The property 'to' on the message must be of type 'string'",
+        title: "to is of invalid type"
+      },
+      {
+        message: { body: "", replyToSessionId: 1 as any },
+        expectedErrorMessage:
+          "The property 'replyToSessionId' on the message must be of type 'string'",
+        title: "replyToSessionId is of invalid type"
+      },
+      {
+        message: { body: "", sessionId: 1 as any },
+        expectedErrorMessage: "The property 'sessionId' on the message must be of type 'string'",
+        title: "sessionId is of invalid type"
+      },
+      {
+        message: { body: "", replyTo: 1 as any },
+        expectedErrorMessage: "The property 'replyTo' on the message must be of type 'string'",
+        title: "replyTo is of invalid type"
+      },
+      {
+        message: { body: "", timeToLive: "" as any },
+        expectedErrorMessage: "The property 'timeToLive' on the message must be of type 'number'",
+        title: "timeToLive is of invalid type"
+      },
+      {
+        message: { body: "", partitionKey: longString },
+        expectedErrorMessage:
+          "Length of 'partitionKey' property on the message cannot be greater than 128 characters.",
+        title: "partitionKey is longer than 128 characters"
+      },
+      // {
+      //   message: { body: "", viaPartitionKey: longString },
+      //   expectedErrorMessage:
+      //     "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters.",
+      //   title: "viaPartitionKey is longer than 128 characters"
+      // },
+      {
+        message: { body: "", sessionId: longString },
+        expectedErrorMessage:
+          "Length of 'sessionId' property on the message cannot be greater than 128 characters.",
+        title: "sessionId is longer than 128 characters"
+      },
+      {
+        message: { body: "", messageId: longString },
+        expectedErrorMessage:
+          "Length of 'messageId' property on the message cannot be greater than 128 characters.",
+        title: "messageId is longer than 128 characters"
+      },
+      {
+        message: { body: "", messageId: {} as any },
+        expectedErrorMessage:
+          "The property 'messageId' on the message must be of type string, number or Buffer",
+        title: "messageId is of invalid type"
+      },
+      {
+        message: { body: "", correlationId: {} as any },
+        expectedErrorMessage:
+          "The property 'correlationId' on the message must be of type string, number or Buffer",
+        title: "correlationId is of invalid type"
+      }
+    ];
+
+    describe("toRheaMessage", () => {
+      testInputs.forEach(function(testInput: {
+        message: ServiceBusMessage;
+        expectedErrorMessage: string;
+        title: string;
+      }): void {
+        it(testInput.title, async function(): Promise<void> {
+          assert.throws(
+            () => toRheaMessage(testInput.message, defaultDataTransformer),
+            testInput.expectedErrorMessage
+          );
+        });
+      });
+    });
+
+    describe("ServiceBusMessageBatch.tryAdd()", () => {
+      testInputs.forEach(function(testInput: {
+        message: ServiceBusMessage;
+        expectedErrorMessage: string;
+        title: string;
+      }): void {
+        // this test is basically the same as the above, but it's good to make sure all the code paths
+        // are properly calling through to toRheaMessage.
+        it(testInput.title, async function(): Promise<void> {
+          const fakeConnectionContext: ConnectionContext = {
+            config: {
+              entityPath: "hello"
+            } as ConnectionConfig
+          } as ConnectionContext;
+
+          const batch = new ServiceBusMessageBatchImpl(fakeConnectionContext, 2048);
+
+          assert.throws(
+            () => batch.tryAddMessage(testInput.message),
+            testInput.expectedErrorMessage
+          );
+        });
+      });
     });
   });
 });

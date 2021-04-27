@@ -1098,6 +1098,73 @@ describe("ServiceClient", function() {
     const client = new ServiceClient();
     assert.strictEqual((client as any)._httpClient, getCachedDefaultHttpClient());
   });
+
+  it("should not allow insecure connection by default", async function() {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          assert.isFalse(req.allowInsecureConnection);
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        }
+      }
+    });
+    await client.sendOperationRequest({}, operationSpec);
+  });
+
+  it("should allow insecure connection if configured via client options", async function() {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      allowInsecureConnection: true,
+      httpClient: {
+        sendRequest: (req) => {
+          assert.isTrue(req.allowInsecureConnection);
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        }
+      }
+    });
+    await client.sendOperationRequest({}, operationSpec);
+  });
+
+  it("should allow insecure connection if configured via request options", async function() {
+    const operationSpec: OperationSpec = {
+      httpMethod: "GET",
+      responses: {
+        default: {}
+      },
+      baseUrl: "http://example.com",
+      serializer: createSerializer()
+    };
+
+    const client = new ServiceClient({
+      httpClient: {
+        sendRequest: (req) => {
+          assert.isTrue(req.allowInsecureConnection);
+          return Promise.resolve({ request: req, status: 200, headers: createHttpHeaders() });
+        }
+      }
+    });
+    await client.sendOperationRequest(
+      { options: { requestOptions: { allowInsecureConnection: true } } },
+      operationSpec
+    );
+  });
 });
 
 async function testSendOperationRequest(
