@@ -149,6 +149,6 @@
     },
     "skipFolder": false,
     "disableDocsMs": false,
-    "apiRefLink": "https://docs.microsoft.com/en-us/azure/cognitive-services/metrics-advisor/quickstarts/rest-api-and-client-library?pivots=programming-language-javascript"
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/?view=azure-node-preview"
   }
 }
