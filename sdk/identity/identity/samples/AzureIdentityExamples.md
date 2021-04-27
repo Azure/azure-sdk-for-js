@@ -13,10 +13,10 @@
 - [Authenticating With Azure Stack using Azure Identity](#authenticating-with-azure-stack-using-azure-identity)
 - [Advanced Examples](#advanced-examples)
   - [Custom Credentials](#custom-credentials)
-    - [Authenticating with a pre-fetched access token](authenticating-with-a-pre-fetched-access-token).
-    - [Authenticating with MSAL directly](authenticating-with-msal-directly).
-    - [Authenticating with the Confidential Client](authenticating-with-the-confidential-client).
-  - [Authenticating with the On Behalf Flow](authenticating-with-the-on-behalf-flow).
+  - [Authenticating with a pre-fetched access token](#authenticating-with-a-pre-fetched-access-token).
+  - [Authenticating with MSAL directly](#authenticating-with-msal-directly).
+    - [Authenticating with the Confidential Client](#authenticating-with-the-confidential-client).
+    - [Authenticating with the On Behalf Flow](#authenticating-with-the-on-behalf-flow).
   - [Authenticating with Key Vault Certificates](#authenticating-with-key-vault-certificates)
   - [Rolling Certificates](#rolling-certificates)
 
@@ -26,13 +26,13 @@ Authenticating your application, users, and principals is an integral part of wo
 
 ## Requirements
 
-Many of these samples will require you to have installed the following packages:
+Many of the code samples in this document will require you to have installed the following packages:
 
 - [@azure/identity](https://www.npmjs.com/package/@azure/identity).
 - [@azure/core-http](https://www.npmjs.com/package/@azure/core-http).
 - [@azure/keyvault-secrets](https://www.npmjs.com/package/@azure/keyvault-secrets).
 
-You can install them with: `npm i @azure/identity @azure/core-http @azure/keyvault-secrets`.
+You can install them with: `npm install @azure/identity @azure/core-http @azure/keyvault-secrets`.
 
 In the cases in which other packages are necessary, we will mention which packages and how to install them.
 
@@ -439,7 +439,7 @@ else, if the Identity provider of your Azure Stack is Active Directory Federatio
 The following example demonstrates authenticating a `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] against an Azure Key Vault hosted in Azure Stack.
 
 ```ts
-function main() {
+async function main() {
   const credential = new ClientSecretCredential(
     "<YOUR_TENANT_ID>",
     "<YOUR_CLIENT_ID>",
@@ -463,16 +463,16 @@ The `@azure/identity` library covers a broad range of Azure Active Directory aut
 
 In this section we'll examine some example cases in which it might make sense to write a credential on your own.
 
-#### Authenticating with a pre-fetched access token
+### Authenticating with a pre-fetched access token
 
 Our package `@azure/core-http` exports a `TokenCredential` interface which is used by the `@azure/identity` package to define a common public API for all of the Identity credentials that we offer.
 
-The `@azure/identity` library does not contain a `TokenCredential` implementation which can be constructed directly with an `AccessToken`. This is intentionally omitted as a main line scenario as access tokens expire frequently and have constrained usage. However, there are some scenarios where authenticating a service client with a pre-fetched token is necessary.
+The `@azure/identity` library does not contain a `TokenCredential` implementation which can be constructed directly with an `AccessToken`. This is intentionally omitted as a main line scenario as access tokens expire frequently and have constrained usage. However, we understand there may be some scenarios where authenticating a service client with a pre-fetched token is necessary.
 
-In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an `AccessToken`, and simply returns that from its implementation of `getToken()`.
+In this example, `StaticTokenCredential` implements the `TokenCredential` abstraction. It takes a pre-fetched access token in its constructor as an `AccessToken` (defined on `@azure/core-http`), and simply returns that from its implementation of `getToken()`.
 
 ```ts
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential, AccessToken } from '@azure/core-http';
 
 class StaticTokenCredential implements TokenCredential {
   constructor(private accessToken: AccessToken) {
@@ -483,39 +483,45 @@ class StaticTokenCredential implements TokenCredential {
 }
 ```
 
-Once the application has defined this credential type instances of it can be used to authenticate Azure SDK clients. The following example shows an how an application already using some other mechanism for acquiring tokens (in this case the hypothetical method `getTokenForScope()`) could use the `StaticTokenCredential` to authenticate a `SecretClient` from `@azure/keyvault-secrets.
+Once the application has defined this credential, it can be used to authenticate Azure SDK clients. The following example shows how an application already using some other mechanism for acquiring tokens (in this case the hypothetical method `getTokenForScope()`) could use the `StaticTokenCredential` to authenticate a `SecretClient` from `@azure/keyvault-secrets`.
 
 ```ts
 import { SecretClient } from "@azure/keyvault-secrets";
 
-const token = getTokenForScope("https://vault.azure.net/.default");
+async function main() {
+  const token = getTokenForScope("https://vault.azure.net/.default");
 
-const credential = new StaticTokenCredential(token);
+  const credential = new StaticTokenCredential(token);
 
-const client = new SecretClient("https://myvault.vault.azure.net/", credential);
+  const client = new SecretClient("https://myvault.vault.azure.net/", credential);
+}
 ```
 
-It should be noted when using this custom credential type, it is the responsibility of the caller to ensure that the token is valid, and contains the correct claims needed to authenticate calls from the particular service client. For instance in the above case the token must have the scope "https://storage.azure.com/.default" to authorize calls to Azure Blob Storage.
+It should be noted when using this custom credential type, it is the responsibility of the caller to ensure that the token is valid, and contains the correct claims needed to authenticate calls from the particular service client. For instance in the above case the token must have the scope "https://vault.azure.net/.default" to authorize calls to Azure Blob Storage.
 
-#### Authenticating with MSAL Directly
+### Authenticating with MSAL Directly
 
-Some applications already use the MSAL library's `ConfidentialClientApplication` or `PublicClientApplication` to authenticate portions of their application. In these cases the application might want to use the same to authenticate Azure SDK clients so to take advantage of token caching the client application is doing and prevent unnecessary authentication calls or user prompting.
+Some applications already use the MSAL library's `ConfidentialClientApplication` or `PublicClientApplication` to authenticate portions of their application. In these cases, the application might want to use the same to authenticate Azure SDK clients, to take advantage of the token caching the MSAL client application is doing, and to prevent unnecessary authentication calls.
 
-#### Authenticating with the Confidential Client
+#### Authenticating with the MSAL Confidential Client
 
 In this example the `ConfidentialClientApplicationCredential` is constructed with an instance of `ConfidentialClientApplication` it then implements `getToken()` using the `acquireTokenByClientCredential()` method to acquire a token.
 
-Make sure to install `msal-node` with: `npm i @azure/msal-node`. Then you'll be able to write code similar to the following:
+Make sure to install `msal-node` with: `npm install @azure/msal-node`. Then you'll be able to write code similar to the following:
 
 ```ts
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential, AccessToken } from "@azure/core-http";
 import * as msalNode from "@azure/msal-node";
 
 class ConfidentialClientCredential implements TokenCredential {
-  constructor (private confidentialApp: msalNode.ConfidentialClientApplication) {
+  constructor(private confidentialApp: msalNode.ConfidentialClientApplication) {
   }
   async getToken(scopes: string | string[]): Promise<AccessToken> {
-    return this.confidentialApp.acquireTokenByClientCredential({ scopes: Array.isArray(scopes) ? scopes : [scopes] });
+    const result = await this.confidentialApp.acquireTokenByClientCredential({ scopes: Array.isArray(scopes) ? scopes : [scopes] });
+    return {
+      token: result.accessToken,
+      expiresOnTimestamp: result.expiresOn.getTime()
+    }
   }
 }
 ```
@@ -526,27 +532,29 @@ Users could then use the `ConfidentialClientApplicationCredential` to authentica
 import { SecretClient } from "@azure/keyvault-secrets";
 import * as msalNode from "@azure/msal-node";
 
-const confidentialClient = new msalNode.ConfidentialClientApplication({
-  // MSAL Configuration
-});
+async function main() {
+  const confidentialClient = new msalNode.ConfidentialClientApplication({
+    // MSAL Configuration
+  });
 
-const client = new SecretClient("https://myvault.vault.azure.net/", new ConfidentialClientCredential(confidentialClient));
+  const client = new SecretClient("https://myvault.vault.azure.net/", new ConfidentialClientCredential(confidentialClient));
+}
 ```
 
-### Authenticating with the On Behalf Of Flow
+#### Authenticating with the On Behalf Of Flow
 
-Currently the `@azure/identity` library doesn't provide a credential type for clients which need to authenticate via the On Behalf Of flow. While future support for this is planned, users requiring this immediately will have to implement their own `TokenCredential` class.
+Currently the `@azure/identity` library doesn't provide a credential type for clients which need to authenticate via the On Behalf Of flow. While future support for this is planned, users currently requiring this will have to implement their own `TokenCredential` class.
 
 In this example the `OnBehalfOfCredential` accepts a client Id, client secret, and a user's access token. It then creates an instance of `ConfidentialClientApplication` from MSAL to obtain an OBO token which can be used to authenticate client requests.
 
 ```ts
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential, AccessToken } from "@azure/core-http";
 import * as msalNode from "@azure/msal-node";
 
 class OnBehalfOfCredential implements TokenCredential {
   private confidentialApp: msalNode.ConfidentialClientApplication;
 
-  constructor (private clientId: string, private clientSecret: string, private userAccessToken: string) {
+  constructor(private clientId: string, private clientSecret: string, private userAccessToken: string) {
     this.confidentialApp = new msalNode.ConfidentialClientApplication({
       auth: {
         clientId,
@@ -555,10 +563,14 @@ class OnBehalfOfCredential implements TokenCredential {
     });
   }
   async getToken(scopes: string | string[]): Promise<AccessToken> {
-    return this.confidentialApp.acquireTokenOnBehalfOf({
+    const result = await this.confidentialApp.acquireTokenOnBehalfOf({
       scopes: Array.isArray(scopes) ? scopes : [scopes],
       oboAssertion: this.userAccessToken
     });
+    return {
+      token: result.accessToken,
+      expiresOnTimestamp: result.expiresOn.getTime()
+    };
   }
 }
 ```
@@ -566,15 +578,19 @@ class OnBehalfOfCredential implements TokenCredential {
 The following example shows an how the `OnBehalfOfCredential` could be used to authenticate a `SecretClient`.
 
 ```ts
-const oboCredential = new OnBehalfOfCredential(clientId, clientSecret, userAccessToken);
+import { SecretClient } from "@azure/keyvault-secrets";
 
-const client = new SecretClient("https://myvault.vault.azure.net/", oboCredential);
+async function main() {
+  const oboCredential = new OnBehalfOfCredential(clientId, clientSecret, userAccessToken);
+
+  const client = new SecretClient("https://myvault.vault.azure.net/", oboCredential);
+}
 ```
 ### Authenticating with Key Vault Certificates
 
 Azure Key Vault allows users to create certificates that can be used to authenticate Azure SDK clients.
 
-Certificates can be created through different means. You may follow any of the following approaches:
+Certificates can be created through different means. You may follow any of these approaches:
 
 - [Quickstart: Set and retrieve a certificate from Azure Key Vault using the Azure portal](https://docs.microsoft.com/en-us/azure/key-vault/certificates/quick-create-portal).
 - [Quickstart: Azure Key Vault certificate client library for JavaScript (version 4)](https://docs.microsoft.com/en-us/azure/key-vault/certificates/quick-create-node).
@@ -583,7 +599,7 @@ Once you have a certificate, you may export the certificate with the Azure CLI f
 
 You can also export your certificate through the portal by going to your Key Vault, going to a specific certificate, then downloading the certificate in PFX/PEM format.
 
-Once you have a Key Vault certificate downloaded, go to Azure Active Directory, find the Enterprise app you want to authenticate against, go to `Certificates & secrets` and then upload the certificate.
+Once you have a Key Vault certificate downloaded, go to Azure Active Directory, find the Enterprise app you want to authenticate with, go to `Certificates & secrets` and then upload the certificate.
 
 After that, you'll be able to authenticate by pointing the `@azure/identity`'s `ClientCertificateCredential` to the path where your PEM certificate is, as follows:
 
@@ -591,7 +607,7 @@ After that, you'll be able to authenticate by pointing the `@azure/identity`'s `
 const credential = new ClientCertificateCredential(
   "<your-tenant-id>",
   "<your-client-id>",
-  "<the-path-to-your-certificate>
+  "<the-path-to-your-certificate-in-PEM-format>"
 );
 ```
 
@@ -621,11 +637,11 @@ class RotatableCertificateCredential implements TokenCredential {
   }
 
   async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
-    return credential.getToken(scopes, options);
+    return this.credential.getToken(scopes, options);
   }
 
   rotateCertificate(PEMCertificatePath: string) {
-    credential = new ClientCertificateCredential(_tenantId, _clientId, PEMCertificatePath);
+    this.credential = new ClientCertificateCredential(this.tenantId, this.clientId, PEMCertificatePath);
   }
 }
 ```
@@ -639,47 +655,48 @@ Some applications might want to respond to certificate rotations which are exter
 ```ts
 import { TokenCredential, GetTokenOptions, AccessToken } from '@azure/core-http';
 import { ClientCertificateCredential } from "@azure/identity";
+import * as fs from "fs";
 
 class RotatingCertificateCredential implements TokenCredential {
-    private readonly tenantId: string;
-    private readonly clientId: string;
-    private readonly certificatePath: string;
-    private promise: Promise<void> | null = null;
-    private credential: ClientCertificateCredential;
-    private lastModified: number = 0;
+  private readonly tenantId: string;
+  private readonly clientId: string;
+  private readonly certificatePath: string;
+  private promise: Promise<void> | null = null;
+  private credential: ClientCertificateCredential;
+  private lastModified: number = 0;
 
-    constructor(tenantId: string, clientId: string, certificatePath: string) {
-        this.tenantId = tenantId;
-        this.clientId = clientId;
-        this.certificatePath = certificatePath;
+  constructor(tenantId: string, clientId: string, certificatePath: string) {
+    this.tenantId = tenantId;
+    this.clientId = clientId;
+    this.certificatePath = certificatePath;
 
-        refreshCertificate();
+    this.refreshCertificate();
+  }
+
+  async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
+    await this.refreshCertificate();
+
+    return this.credential.getToken(scopes, options);
+  }
+
+  refreshCertificate(): Promise<void> {
+    if (this.promise) {
+      return this.promise;
     }
-
-    async getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken> {
-        await refreshCertificate();
-
-        return this.credential.getToken(scopes, options);
-    }
-
-    refreshCertificate(): Promise<void> {
-      if (this.promise) {
-        return this.promise;
-      }
-      return new Promise((resolve, reject) => {
-        fs.stat(this.certificatePath, (err, stats) => {
-          if (err) {
-            reject(err);
-          } else {
-            if (this.lastModified < stats.mtime) {
-              this.lastModified = stats.mtime;
-              this.credential = new ClientCertificateCredential(this.tenantId, this.clientId, this.certificatePath);
-              this.promise = null;
-            }
+    return new Promise((resolve, reject) => {
+      fs.stat(this.certificatePath, (err, stats) => {
+        if (err) {
+          reject(err);
+        } else {
+          if (this.lastModified < stats.mtime.getTime()) {
+            this.lastModified = stats.mtime.getTime();
+            this.credential = new ClientCertificateCredential(this.tenantId, this.clientId, this.certificatePath);
+            this.promise = null;
           }
-        })
-      });
-    }
+        }
+      })
+    });
+  }
 }
 ```
 
