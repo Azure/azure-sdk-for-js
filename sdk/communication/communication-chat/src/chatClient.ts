@@ -251,7 +251,7 @@ export class ChatClient {
    */
   public async startRealtimeNotifications(): Promise<void> {
     if (this.signalingClient === undefined) {
-      throw new Error("Realtime notifications are only supported in the browser.");
+      throw new Error("Realtime notifications are not supported in node js.");
     }
 
     if (this.isRealtimeNotificationsStarted) {
@@ -269,7 +269,7 @@ export class ChatClient {
    */
   public async stopRealtimeNotifications(): Promise<void> {
     if (this.signalingClient === undefined) {
-      throw new Error("Realtime notifications are only supported in the browser.");
+      throw new Error("Realtime notifications are not supported in node js.");
     }
 
     this.isRealtimeNotificationsStarted = false;
