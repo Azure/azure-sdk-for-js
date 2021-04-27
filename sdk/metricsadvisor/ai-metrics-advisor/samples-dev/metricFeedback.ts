@@ -132,14 +132,16 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
 
   if (!result.done) {
     console.log("--first page--");
-    for (const feedback of result.value){
+    for (const feedback of result.value) {
       console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
       console.log(`      created time: ${feedback.createdOn}`);
       console.log(`      metric id: ${feedback.metricId}`);
       console.log(`      user principal: ${feedback.userPrincipal}`);
       if (feedback.feedbackType === "Anomaly") {
         console.log(`      feedback value: ${feedback.value}`);
-        console.log(`      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`);
+        console.log(
+          `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`
+        );
       } else if (feedback.feedbackType === "ChangePoint") {
         console.log(`      feedback value: ${feedback.value}`);
       } else if (feedback.feedbackType === "Period") {
@@ -152,14 +154,16 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
     const nextPage = await iterator.next();
     if (!nextPage.done) {
       console.log("--second page--");
-      for (const feedback of nextPage.value){
+      for (const feedback of nextPage.value) {
         console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
         console.log(`      created time: ${feedback.createdOn}`);
         console.log(`      metric id: ${feedback.metricId}`);
         console.log(`      user principal: ${feedback.userPrincipal}`);
         if (feedback.feedbackType === "Anomaly") {
           console.log(`      feedback value: ${feedback.value}`);
-          console.log(`      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`);
+          console.log(
+            `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`
+          );
         } else if (feedback.feedbackType === "ChangePoint") {
           console.log(`      feedback value: ${feedback.value}`);
         } else if (feedback.feedbackType === "Period") {
