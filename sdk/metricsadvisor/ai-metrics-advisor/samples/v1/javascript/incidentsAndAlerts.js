@@ -62,7 +62,9 @@ async function listAnomalyDimensionValues(client, detectionConfigId) {
   let result = await iterator.next();
   while (!result.done) {
     console.log("    -- Page --");
-    console.log(result.value);
+    for await (const dimensionValue of result.value) {
+      console.log(dimensionValue);
+    }
     result = await iterator.next();
   }
 }

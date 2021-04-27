@@ -33,7 +33,7 @@ async function main() {
 async function provideAnomalyFeedback(client, metricId) {
   console.log("Creating an anomaly feedback...");
   const anomalyFeedback = {
-    metricId: metricId,
+    metricId,
     feedbackType: "Anomaly",
     startTime: new Date("2020/08/05"),
     endTime: new Date("2020/08/07"),
@@ -123,12 +123,48 @@ async function listFeedback(client, metricId) {
   const result = await iterator.next();
 
   if (!result.done) {
-    console.log("first page");
-    console.dir(result.value);
+    console.log("--first page--");
+    for (const feedback of result.value) {
+      console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
+      console.log(`      created time: ${feedback.createdOn}`);
+      console.log(`      metric id: ${feedback.metricId}`);
+      console.log(`      user principal: ${feedback.userPrincipal}`);
+      if (feedback.feedbackType === "Anomaly") {
+        console.log(`      feedback value: ${feedback.value}`);
+        console.log(
+          `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`
+        );
+      } else if (feedback.feedbackType === "ChangePoint") {
+        console.log(`      feedback value: ${feedback.value}`);
+      } else if (feedback.feedbackType === "Period") {
+        console.log(`      period type: ${feedback.periodType}`);
+        console.log(`      period value: ${feedback.periodValue}`);
+      } else if (feedback.feedbackType === "Comment") {
+        console.log(`      feedback comment: ${feedback.comment}`);
+      }
+    }
     const nextPage = await iterator.next();
     if (!nextPage.done) {
-      console.log("second page");
-      console.dir(nextPage.value);
+      console.log("--second page--");
+      for (const feedback of nextPage.value) {
+        console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
+        console.log(`      created time: ${feedback.createdOn}`);
+        console.log(`      metric id: ${feedback.metricId}`);
+        console.log(`      user principal: ${feedback.userPrincipal}`);
+        if (feedback.feedbackType === "Anomaly") {
+          console.log(`      feedback value: ${feedback.value}`);
+          console.log(
+            `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`
+          );
+        } else if (feedback.feedbackType === "ChangePoint") {
+          console.log(`      feedback value: ${feedback.value}`);
+        } else if (feedback.feedbackType === "Period") {
+          console.log(`      period type: ${feedback.periodType}`);
+          console.log(`      period value: ${feedback.periodValue}`);
+        } else if (feedback.feedbackType === "Comment") {
+          console.log(`      feedback comment: ${feedback.comment}`);
+        }
+      }
     }
   }
 }
