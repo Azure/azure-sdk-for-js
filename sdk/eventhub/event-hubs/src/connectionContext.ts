@@ -236,17 +236,25 @@ export namespace ConnectionContext {
         try {
           if (this.connection.isOpen()) {
             // Close all the senders.
-            for (const senderName of Object.keys(this.senders)) {
-              await this.senders[senderName].close();
-            }
+            await Promise.all(
+              Object.keys(connectionContext.senders).map((name) =>
+                connectionContext.senders[name]?.close().catch(() => {
+                  /* error already logged, swallow it here */
+                })
+              )
+            );
             // Close all the receivers.
-            for (const receiverName of Object.keys(this.receivers)) {
-              await this.receivers[receiverName].close();
-            }
+            await Promise.all(
+              Object.keys(connectionContext.receivers).map((name) =>
+                connectionContext.receivers[name]?.close().catch(() => {
+                  /* error already logged, swallow it here */
+                })
+              )
+            );
             // Close the cbs session;
             await this.cbsSession.close();
             // Close the management session
-            await this.managementSession!.close();
+            await this.managementSession?.close();
             await this.connection.close();
             this.wasConnectionCloseCalled = true;
             logger.info("Closed the amqp connection '%s' on the client.", this.connectionId);
@@ -320,29 +328,39 @@ export namespace ConnectionContext {
       // connection is back up.
       connectionContext.connection.removeAllSessions();
 
-      // Close the cbs session to ensure all the event handlers are released.
-      await connectionContext.cbsSession.close().catch(() => {
-        /* error already logged, swallow it here */
-      });
-      // Close the management session to ensure all the event handlers are released.
-      await connectionContext.managementSession!.close().catch(() => {
-        /* error already logged, swallow it here */
-      });
+      try {
+        // Close the cbs session to ensure all the event handlers are released.
+        await connectionContext.cbsSession?.close().catch(() => {
+          /* error already logged, swallow it here */
+        });
+        // Close the management session to ensure all the event handlers are released.
+        await connectionContext.managementSession?.close().catch(() => {
+          /* error already logged, swallow it here */
+        });
 
-      // Close all senders and receivers to ensure clean up of timers & other resources.
-      if (state.numSenders || state.numReceivers) {
-        for (const senderName of Object.keys(connectionContext.senders)) {
-          const sender = connectionContext.senders[senderName];
-          await sender.close().catch(() => {
-            /* error already logged, swallow it here */
-          });
+        // Close all senders and receivers to ensure clean up of timers & other resources.
+        if (state.numSenders || state.numReceivers) {
+          await Promise.all(
+            Object.keys(connectionContext.senders).map((name) =>
+              connectionContext.senders[name]?.close().catch(() => {
+                /* error already logged, swallow it here */
+              })
+            )
+          );
+
+          await Promise.all(
+            Object.keys(connectionContext.receivers).map((name) =>
+              connectionContext.receivers[name]?.close().catch(() => {
+                /* error already logged, swallow it here */
+              })
+            )
+          );
         }
-        for (const receiverName of Object.keys(connectionContext.receivers)) {
-          const receiver = connectionContext.receivers[receiverName];
-          await receiver.close().catch(() => {
-            /* error already logged, swallow it here */
-          });
-        }
+      } catch (err) {
+        logger.verbose(
+          `[${connectionContext.connectionId}] An error occurred while closing the connection in 'disconnected'. %O`,
+          err
+        );
       }
 
       await refreshConnection(connectionContext);
