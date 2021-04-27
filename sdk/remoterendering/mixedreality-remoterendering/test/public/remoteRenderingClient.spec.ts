@@ -13,7 +13,10 @@ import {
   AssetConversionSettings,
   AssetConversionPollerLike,
   AssetConversion,
-  KnownAssetConversionStatus
+  KnownAssetConversionStatus,
+  RenderingSessionPollerLike,
+  RenderingSessionSettings,
+  RenderingSession
 } from "../../src";
 import {
   AccessToken,
@@ -246,5 +249,84 @@ describe("RemoteRendering functional tests", () => {
       assert.isTrue(conversion.error.message.toLowerCase().includes("invalid input"));
       assert.isTrue(conversion.error.message.toLowerCase().includes("logs"));
     }
+  });
+
+  it("successful session", async () => {
+    const sessionSettings: RenderingSessionSettings = {
+      maxLeaseTimeInMinutes: 4,
+      size: "Standard"
+    };
+    let sessionId: string = recorder.getUniqueName("sessionId");
+
+    let sessionPoller: RenderingSessionPollerLike = await client.beginSession(
+      sessionId,
+      sessionSettings
+    );
+
+    assert.equal(sessionPoller.getOperationState().latestResponse.sessionId, sessionId);
+    assert.equal(
+      sessionPoller.getOperationState().latestResponse.size,
+      sessionSettings.size
+    );
+    assert.equal(
+      sessionPoller.getOperationState().latestResponse.maxLeaseTimeInMinutes,
+      sessionSettings.maxLeaseTimeInMinutes
+    );
+    assert.notEqual(
+      sessionPoller.getOperationState().latestResponse.status,
+      "Error"
+    );
+
+    let renderingSession = await client.getSession(sessionId);
+    assert.equal(renderingSession.sessionId, sessionId);
+
+    let newPoller = await client.beginSession({ resumeFrom: sessionPoller.toString() });
+    assert.equal(newPoller.getOperationState().latestResponse.sessionId, sessionId);
+
+    let updatedSession: RenderingSession = await client.updateSession(sessionId, { maxLeaseTimeInMinutes: 5 });
+    assert.equal(updatedSession.maxLeaseTimeInMinutes, 5);
+
+    let readyRenderingSession: RenderingSession = await sessionPoller.pollUntilDone();
+    
+    // beginSession does one interval of polling. If the session was ready within that time, then the poller
+    // would carry the earlier maxLeastTimeInMinutes value.
+    assert.isTrue((readyRenderingSession.maxLeaseTimeInMinutes == 4) || (readyRenderingSession.maxLeaseTimeInMinutes == 5));
+
+    assert.equal(readyRenderingSession.status, "Ready");
+
+    let foundSession: boolean = false;
+    for await (const s of client.listSessions()) {
+      if (s.sessionId == sessionId) {
+        foundSession = true;
+      }
+    }
+    assert.isTrue(foundSession);
+
+    client.endSession(sessionId);
+  });
+
+  it("invalid session", async () => {
+    const sessionSettings: RenderingSessionSettings = {
+      maxLeaseTimeInMinutes: -4,
+      size: "Standard"
+    };
+    let sessionId: string = recorder.getUniqueName("sessionId");
+    
+    let didThrowExpected: Boolean = false;
+    try {
+      await client.beginSession(
+        sessionId,
+        sessionSettings
+      );  
+    } catch (e) {
+      assert(e instanceof RestError);
+      if (e instanceof RestError) {
+        // The maxLeaseTimeMinutes value cannot be negative
+        assert.isTrue(e.message.toLowerCase().includes("lease"));
+        assert.isTrue(e.message.toLowerCase().includes("negative"));
+      }
+      didThrowExpected = true;
+    }
+    assert.isTrue(didThrowExpected);
   });
 });
