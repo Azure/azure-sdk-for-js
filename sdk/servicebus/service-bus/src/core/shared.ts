@@ -109,7 +109,7 @@ export function createReceiverOptions(
 }
 
 export const UnsettledMessagesLimitExceededError =
-  "Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods on the receiver to receive the next message.";
+  "Failed to fetch new messages as the limit for unsettled messages is reached. Please settle received messages using settlement methods(such as `completeMessage()`) on the receiver to receive the next message.";
 
 /**
  * Returns the number of empty slots in the Circular buffer of incoming deliveries
