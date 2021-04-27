@@ -260,7 +260,7 @@ export async function settleMessageOperation(
     }
 
     await receiver!.settleMessage(message, operation, options);
-    receiver!._settlementNotifierForSubscribe?.();
+    receiver!.settlementNotifierForSubscribe?.();
   } catch (err) {
     throw translateServiceBusError(err);
   }

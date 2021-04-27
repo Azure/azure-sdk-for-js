@@ -149,7 +149,7 @@ export class StreamingReceiver extends MessageReceiver {
       this.maxConcurrentCalls
     );
 
-    this._settlementNotifierForSubscribe = () => {
+    this.settlementNotifierForSubscribe = () => {
       this._creditManager.postProcessing();
     };
 

@@ -125,7 +125,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     return this._batchingReceiverLite.isReceivingMessages || this._isReceivingMessagesForSubscriber;
   }
 
-  public _settlementNotifierForSubscribe: (() => void) | undefined;
+  public settlementNotifierForSubscribe: (() => void) | undefined;
   private _batchingReceiverLite: BatchingReceiverLite;
   private _isReceivingMessagesForSubscriber: boolean;
 
@@ -624,7 +624,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         this._context.config.host,
         this.maxConcurrentCalls
       );
-      this._settlementNotifierForSubscribe = () => {
+      this.settlementNotifierForSubscribe = () => {
         creditManager.postProcessing();
       };
       const onSessionMessage = async (context: EventContext): Promise<void> => {
