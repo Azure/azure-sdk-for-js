@@ -76,11 +76,6 @@ describe("KeyVaultBackupClient", () => {
 
   describe("beginRestore", function() {
     it("full restore completes successfully", async function() {
-      if (!isPlaybackMode()) {
-        // There is a service issue preventing backups from completing successfully.
-        // Skipped until that is resolved.
-        this.skip();
-      }
       const backupPoller = await client.beginBackup(
         blobStorageUri,
         blobSasToken,
@@ -124,11 +119,6 @@ describe("KeyVaultBackupClient", () => {
     });
 
     it("selectiveRestore completes successfully", async function() {
-      // This test can only be run in playback mode because running a backup
-      // or restore puts the instance in a bad state (tracked in IcM).
-      if (!isPlaybackMode()) {
-        this.skip();
-      }
       const keyName = "rsa1";
       await keyClient.createRsaKey(keyName);
       const backupPoller = await client.beginBackup(
